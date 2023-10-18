@@ -30,6 +30,9 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -83,7 +86,11 @@ fun DrawModeSelector(
                     .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
             ) {
                 DrawMode.entries.forEachIndexed { index, item ->
-                    val selected = drawMode == item
+                    val selected by remember(drawMode, item) {
+                        derivedStateOf {
+                            drawMode::class.isInstance(item)
+                        }
+                    }
                     val shape = SegmentedButtonDefaults.itemShape(
                         index = index,
                         count = DrawMode.entries.size
@@ -111,9 +118,9 @@ fun DrawModeSelector(
                     ) {
                         Icon(
                             imageVector = when (item) {
-                                DrawMode.Highlighter -> Icons.Rounded.Highlighter
-                                DrawMode.Neon -> Icons.Rounded.Laser
-                                DrawMode.Pen -> Icons.Rounded.Brush
+                                is DrawMode.Highlighter -> Icons.Rounded.Highlighter
+                                is DrawMode.Neon -> Icons.Rounded.Laser
+                                is DrawMode.Pen -> Icons.Rounded.Brush
                                 is DrawMode.PathEffect.PrivacyBlur -> Icons.Rounded.BlurCircular
                                 is DrawMode.PathEffect.Pixelation -> Icons.Rounded.Cube
                             },

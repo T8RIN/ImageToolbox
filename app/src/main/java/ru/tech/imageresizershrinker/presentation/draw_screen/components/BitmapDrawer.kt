@@ -215,9 +215,15 @@ fun BitmapDrawer(
                     }
                 }
 
-            var drawPath by remember(drawMode) { mutableStateOf(Path()) }
+            var drawPath by remember(
+                drawMode,
+                strokeWidth,
+                isEraserOn,
+                drawColor,
+                brushSoftness
+            ) { mutableStateOf(Path()) }
 
-            LaunchedEffect(paths, strokeWidth, isEraserOn, drawColor, brushSoftness, drawMode) {
+            LaunchedEffect(paths, drawMode, backgroundColor) {
                 invalidations++
             }
 
@@ -311,7 +317,7 @@ fun BitmapDrawer(
                             var shaderSource by remember(backgroundColor) {
                                 mutableStateOf<ImageBitmap?>(null)
                             }
-                            LaunchedEffect(shaderSource, canvasSize) {
+                            LaunchedEffect(shaderSource) {
                                 if (shaderSource == null) {
                                     shaderSource = imageManager.transform(
                                         image = drawImageBitmap.overlay(drawBitmap)
@@ -328,7 +334,7 @@ fun BitmapDrawer(
                                             color = Color.Transparent
                                             blendMode = BlendMode.Clear
                                         }
-                                    )
+                                    )?.also { invalidations++ }
                                 }
                             }
                             if (shaderSource != null) {
