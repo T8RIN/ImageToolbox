@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -127,8 +128,10 @@ fun BitmapEraser(
                     .asImageBitmap()
             }
 
-            val outputImage = remember(invalidations) {
-                erasedBitmap.recompose()
+            val outputImage by remember(invalidations) {
+                derivedStateOf {
+                    erasedBitmap.recompose()
+                }
             }
 
             LaunchedEffect(invalidations) {
@@ -156,7 +159,10 @@ fun BitmapEraser(
                 }
             }
 
-            var drawPath by remember { mutableStateOf(Path()) }
+            var drawPath by remember(
+                strokeWidth,
+                brushSoftness
+            ) { mutableStateOf(Path()) }
 
             canvas.apply {
                 val canvasSize = remember(nativeCanvas) {
