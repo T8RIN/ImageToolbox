@@ -95,6 +95,8 @@ import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidt
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.OpenColorPickerCard
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.presentation.draw_screen.viewModel.DrawViewModel
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PtSaver
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.pt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Eraser
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
@@ -272,7 +274,10 @@ fun DrawScreen(
         )
     }
 
-    var strokeWidth by rememberSaveable(viewModel.drawBehavior) { mutableFloatStateOf(20f) }
+    var strokeWidth by rememberSaveable(
+        viewModel.drawBehavior,
+        stateSaver = PtSaver
+    ) { mutableStateOf(20.pt) }
     var backgroundColor by rememberSaveable(
         stateSaver = ColorSaver,
         inputs = arrayOf(viewModel.drawBehavior)
@@ -295,8 +300,8 @@ fun DrawScreen(
     var alpha by rememberSaveable(viewModel.drawBehavior, drawMode) {
         mutableFloatStateOf(if (drawMode is DrawMode.Highlighter) 0.4f else 1f)
     }
-    var brushSoftness by rememberSaveable(viewModel.drawBehavior, drawMode) {
-        mutableFloatStateOf(if (drawMode is DrawMode.Neon) 35f else 0f)
+    var brushSoftness by rememberSaveable(viewModel.drawBehavior, drawMode, stateSaver = PtSaver) {
+        mutableStateOf(if (drawMode is DrawMode.Neon) 35.pt else 0.pt)
     }
     var drawArrowsEnabled by remember(viewModel.drawBehavior) {
         mutableStateOf(false)
@@ -315,8 +320,8 @@ fun DrawScreen(
                 end = 16.dp,
                 top = 16.dp
             ),
-            value = strokeWidth,
-            onValueChange = { strokeWidth = it }
+            value = strokeWidth.value,
+            onValueChange = { strokeWidth = it.pt }
         )
         AnimatedVisibility(
             visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PathEffect,
@@ -326,8 +331,8 @@ fun DrawScreen(
             BrushSoftnessSelector(
                 modifier = Modifier
                     .padding(top = 16.dp, end = 16.dp, start = 16.dp),
-                value = brushSoftness,
-                onValueChange = { brushSoftness = it }
+                value = brushSoftness.value,
+                onValueChange = { brushSoftness = it.pt }
             )
         }
         if (viewModel.drawBehavior is DrawBehavior.Background) {
@@ -457,6 +462,7 @@ fun DrawScreen(
                 .padding(paddingValues),
             navController = viewModel.navController,
             portrait = portrait,
+            onToggleLockOrientation = viewModel::toggleLockDrawOrientation,
             zoomEnabled = zoomEnabled,
             clearDrawing = viewModel::clearDrawing,
             onSaveRequest = saveBitmap,

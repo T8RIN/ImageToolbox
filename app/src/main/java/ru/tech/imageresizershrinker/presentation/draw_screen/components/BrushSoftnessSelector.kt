@@ -27,7 +27,7 @@ fun BrushSoftnessSelector(
         onValueChange = {
             onValueChange(it.roundToTwoDigits())
         },
-        valuePrefix = " Px",
+        valuePrefix = " Pt",
         sliderModifier = Modifier
             .padding(
                 top = 14.dp,

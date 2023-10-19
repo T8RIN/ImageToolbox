@@ -11,10 +11,12 @@ import kotlin.math.sin
 
 fun Path.scaleToFitCanvas(
     currentSize: IntegerSize,
-    oldSize: IntegerSize
+    oldSize: IntegerSize,
+    onGetScale: (Float, Float) -> Unit = { _, _ -> }
 ): Path {
     val sx = currentSize.width.toFloat() / oldSize.width
     val sy = currentSize.height.toFloat() / oldSize.height
+    onGetScale(sx, sy)
     return android.graphics.Path(this.asAndroidPath()).apply {
         transform(
             Matrix().apply {

@@ -26,6 +26,7 @@ import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleLockDrawOrientationUseCase
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBehavior
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
 import ru.tech.imageresizershrinker.presentation.root.utils.state.update
@@ -34,7 +35,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DrawViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>
+    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val toggleLockDrawOrientationUseCase: ToggleLockDrawOrientationUseCase
 ) : ViewModel() {
 
     fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
@@ -333,6 +335,12 @@ class DrawViewModel @Inject constructor(
         savingJob?.cancel()
         savingJob = null
         _isSaving.value = false
+    }
+
+    fun toggleLockDrawOrientation() {
+        viewModelScope.launch {
+            toggleLockDrawOrientationUseCase()
+        }
     }
 
 }

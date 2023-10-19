@@ -68,7 +68,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -98,7 +97,9 @@ import ru.tech.imageresizershrinker.presentation.erase_background_screen.compone
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.BitmapEraser
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.EraseModeButton
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.EraseModeCard
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PtSaver
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.TrimImageToggle
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.pt
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.viewModel.EraseBackgroundViewModel
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Transparency
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
@@ -222,8 +223,8 @@ fun EraseBackgroundScreen(
         }
     }
 
-    var strokeWidth by rememberSaveable { mutableFloatStateOf(20f) }
-    var blurRadius by rememberSaveable { mutableFloatStateOf(0f) }
+    var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(20.pt) }
+    var brushSoftness by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(0.pt) }
 
     val configuration = LocalConfiguration.current
     val sizeClass = LocalWindowSizeClass.current.widthSizeClass
@@ -297,7 +298,7 @@ fun EraseBackgroundScreen(
                     imageBitmap = imageBitmap,
                     paths = viewModel.paths,
                     strokeWidth = strokeWidth,
-                    brushSoftness = blurRadius,
+                    brushSoftness = brushSoftness,
                     onAddPath = viewModel::addPath,
                     isRecoveryOn = viewModel.isRecoveryOn,
                     modifier = Modifier
@@ -402,14 +403,14 @@ fun EraseBackgroundScreen(
             )
             LineWidthSelector(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
-                value = strokeWidth,
-                onValueChange = { strokeWidth = it }
+                value = strokeWidth.value,
+                onValueChange = { strokeWidth = it.pt }
             )
             BrushSoftnessSelector(
                 modifier = Modifier
                     .padding(top = 8.dp, end = 16.dp, start = 16.dp),
-                value = blurRadius,
-                onValueChange = { blurRadius = it }
+                value = brushSoftness.value,
+                onValueChange = { brushSoftness = it.pt }
             )
             TrimImageToggle(
                 selected = viewModel.trimImage,

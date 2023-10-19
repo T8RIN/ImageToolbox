@@ -38,7 +38,6 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -60,7 +59,9 @@ import ru.tech.imageresizershrinker.presentation.erase_background_screen.compone
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.EraseModeButton
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.EraseModeCard
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PtSaver
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.TrimImageToggle
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.pt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Transparency
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
@@ -136,9 +137,9 @@ fun EraseBackgroundEditOption(
 
         var isRecoveryOn by rememberSaveable { mutableStateOf(false) }
 
-        var strokeWidth by rememberSaveable { mutableFloatStateOf(20f) }
-        var blurRadius by rememberSaveable {
-            mutableFloatStateOf(0f)
+        var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(20.pt) }
+        var brushSoftness by rememberSaveable(stateSaver = PtSaver) {
+            mutableStateOf(0.pt)
         }
 
         var trimImage by rememberSaveable { mutableStateOf(true) }
@@ -227,14 +228,14 @@ fun EraseBackgroundEditOption(
                 )
                 LineWidthSelector(
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
-                    value = strokeWidth,
-                    onValueChange = { strokeWidth = it }
+                    value = strokeWidth.value,
+                    onValueChange = { strokeWidth = it.pt }
                 )
                 BrushSoftnessSelector(
                     modifier = Modifier
                         .padding(top = 8.dp, end = 16.dp, start = 16.dp),
-                    value = blurRadius,
-                    onValueChange = { blurRadius = it }
+                    value = brushSoftness.value,
+                    onValueChange = { brushSoftness = it.pt }
                 )
                 TrimImageToggle(
                     selected = trimImage,
@@ -312,7 +313,7 @@ fun EraseBackgroundEditOption(
                         imageBitmap = imageBitmap,
                         paths = paths,
                         strokeWidth = strokeWidth,
-                        brushSoftness = blurRadius,
+                        brushSoftness = brushSoftness,
                         onAddPath = addPath,
                         isRecoveryOn = isRecoveryOn,
                         modifier = Modifier

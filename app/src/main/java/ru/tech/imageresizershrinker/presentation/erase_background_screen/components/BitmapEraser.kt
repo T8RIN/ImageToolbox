@@ -58,9 +58,9 @@ fun BitmapEraser(
     imageBitmap: ImageBitmap,
     imageBitmapForShader: ImageBitmap?,
     paths: List<PathPaint>,
-    brushSoftness: Float,
+    brushSoftness: Pt,
     onAddPath: (PathPaint) -> Unit,
-    strokeWidth: Float,
+    strokeWidth: Pt,
     isRecoveryOn: Boolean = false,
     modifier: Modifier,
     onErased: (Bitmap) -> Unit = {},
@@ -89,7 +89,7 @@ fun BitmapEraser(
                 mutableIntStateOf(0)
             }
 
-            LaunchedEffect(paths) {
+            LaunchedEffect(paths, constraints) {
                 invalidations++
             }
 
@@ -103,7 +103,7 @@ fun BitmapEraser(
             val imageHeight = constraints.maxHeight
 
 
-            val drawImageBitmap = remember {
+            val drawImageBitmap = remember(constraints) {
                 Bitmap.createScaledBitmap(
                     imageBitmap.asAndroidBitmap(),
                     imageWidth,
@@ -112,7 +112,7 @@ fun BitmapEraser(
                 ).asImageBitmap()
             }
 
-            val shaderBitmap = remember(imageBitmapForShader) {
+            val shaderBitmap = remember(imageBitmapForShader, constraints) {
                 imageBitmapForShader?.asAndroidBitmap()?.let {
                     Bitmap.createScaledBitmap(
                         it,
@@ -123,7 +123,7 @@ fun BitmapEraser(
                 }
             }
 
-            val erasedBitmap: ImageBitmap = remember {
+            val erasedBitmap: ImageBitmap = remember(constraints) {
                 Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
                     .asImageBitmap()
             }
@@ -138,24 +138,28 @@ fun BitmapEraser(
                 onErased(outputImage.asAndroidBitmap())
             }
 
-            val canvas: Canvas = remember {
+            val canvas: Canvas = remember(constraints) {
                 Canvas(erasedBitmap)
             }
 
             val paint = remember { Paint() }
 
-            val drawPaint = remember(strokeWidth, isRecoveryOn, brushSoftness) {
+            val canvasSize = remember(canvas.nativeCanvas) {
+                IntegerSize(canvas.nativeCanvas.width, canvas.nativeCanvas.height)
+            }
+
+            val drawPaint = remember(strokeWidth, isRecoveryOn, brushSoftness, canvasSize) {
                 Paint().apply {
                     blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
                     style = PaintingStyle.Stroke
                     strokeCap = StrokeCap.Round
                     shader = if (isRecoveryOn) shaderBitmap?.let { ImageShader(it) } else shader
-                    this.strokeWidth = strokeWidth
+                    this.strokeWidth = strokeWidth.toPx(canvasSize)
                     strokeJoin = StrokeJoin.Round
                     isAntiAlias = true
                 }.asFrameworkPaint().apply {
-                    if (brushSoftness > 0f) maskFilter =
-                        BlurMaskFilter(brushSoftness, BlurMaskFilter.Blur.NORMAL)
+                    if (brushSoftness.value > 0f) maskFilter =
+                        BlurMaskFilter(brushSoftness.toPx(canvasSize), BlurMaskFilter.Blur.NORMAL)
                 }
             }
 
@@ -165,9 +169,6 @@ fun BitmapEraser(
             ) { mutableStateOf(Path()) }
 
             canvas.apply {
-                val canvasSize = remember(nativeCanvas) {
-                    IntegerSize(nativeCanvas.width, nativeCanvas.height)
-                }
 
                 when (motionEvent) {
 
@@ -231,12 +232,17 @@ fun BitmapEraser(
                                 strokeCap = StrokeCap.Round
                                 shader =
                                     if (isRecoveryOn) shaderBitmap?.let { ImageShader(it) } else shader
-                                this.strokeWidth = stroke
+                                this.strokeWidth = stroke.toPx(canvasSize)
                                 strokeJoin = StrokeJoin.Round
                                 isAntiAlias = true
                             }.asFrameworkPaint().apply {
-                                if (radius > 0f) maskFilter =
-                                    BlurMaskFilter(radius, BlurMaskFilter.Blur.NORMAL)
+                                if (radius.value > 0f) {
+                                    maskFilter =
+                                        BlurMaskFilter(
+                                            radius.toPx(canvasSize),
+                                            BlurMaskFilter.Blur.NORMAL
+                                        )
+                                }
                             }
                         )
                     }

@@ -64,6 +64,8 @@ import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidt
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.OpenColorPickerCard
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PtSaver
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.pt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Eraser
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
@@ -128,7 +130,7 @@ fun DrawEditOption(
 
         var isEraserOn by rememberSaveable { mutableStateOf(false) }
 
-        var strokeWidth by rememberSaveable { mutableFloatStateOf(20f) }
+        var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(20.pt) }
         var drawColor by rememberSaveable(
             stateSaver = ColorSaver
         ) { mutableStateOf(Color.Black) }
@@ -136,8 +138,8 @@ fun DrawEditOption(
         var alpha by rememberSaveable(drawMode) {
             mutableFloatStateOf(if (drawMode is DrawMode.Highlighter) 0.4f else 1f)
         }
-        var brushSoftness by rememberSaveable(drawMode) {
-            mutableFloatStateOf(if (drawMode is DrawMode.Neon) 35f else 0f)
+        var brushSoftness by rememberSaveable(drawMode, stateSaver = PtSaver) {
+            mutableStateOf(if (drawMode is DrawMode.Neon) 35.pt else 0.pt)
         }
         var drawArrowsEnabled by remember {
             mutableStateOf(false)
@@ -211,8 +213,8 @@ fun DrawEditOption(
                         end = 16.dp,
                         top = 16.dp
                     ),
-                    value = strokeWidth,
-                    onValueChange = { strokeWidth = it }
+                    value = strokeWidth.value,
+                    onValueChange = { strokeWidth = it.pt }
                 )
                 AnimatedVisibility(
                     visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PathEffect,
@@ -222,8 +224,8 @@ fun DrawEditOption(
                     BrushSoftnessSelector(
                         modifier = Modifier
                             .padding(top = 16.dp, end = 16.dp, start = 16.dp),
-                        value = brushSoftness,
-                        onValueChange = { brushSoftness = it }
+                        value = brushSoftness.value,
+                        onValueChange = { brushSoftness = it.pt }
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))

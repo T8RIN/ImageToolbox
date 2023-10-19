@@ -26,9 +26,11 @@ import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -42,6 +44,7 @@ import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.FormatPaint
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.Save
+import androidx.compose.material.icons.rounded.ScreenLockRotation
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -85,6 +88,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.Pt
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
@@ -93,11 +97,13 @@ import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizo
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -107,6 +113,7 @@ fun DrawHost(
     navController: NavController<DrawBehavior>,
     portrait: Boolean,
     zoomEnabled: Boolean,
+    onToggleLockOrientation: () -> Unit,
     onSaveRequest: () -> Unit,
     controls: @Composable () -> Unit,
     secondaryControls: @Composable () -> Unit,
@@ -123,10 +130,10 @@ fun DrawHost(
     backgroundColor: Color,
     drawColor: Color,
     drawAlpha: Float,
-    strokeWidth: Float,
+    strokeWidth: Pt,
     drawArrowsEnabled: Boolean,
     bitmap: Bitmap,
-    brushSoftness: Float,
+    brushSoftness: Pt,
     addPath: (PathPaint) -> Unit,
     onDraw: (Bitmap) -> Unit
 ) {
@@ -439,6 +446,33 @@ fun DrawHost(
                                 subtitle = stringResource(R.string.draw_on_background_sub),
                                 modifier = Modifier.fillMaxWidth()
                             )
+                        }
+                        item(
+                            span = StaggeredGridItemSpan.FullLine
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                PreferenceRowSwitch(
+                                    resultModifier = Modifier
+                                        .padding(
+                                            horizontal = 16.dp,
+                                            vertical = 8.dp
+                                        )
+                                        .widthIn(max = 360.dp),
+                                    modifier = Modifier.padding(top = 4.dp),
+                                    applyHorPadding = false,
+                                    onClick = { onToggleLockOrientation() },
+                                    title = stringResource(R.string.lock_draw_orientation),
+                                    subtitle = stringResource(R.string.lock_draw_orientation_sub),
+                                    checked = LocalSettingsState.current.lockDrawOrientation,
+                                    startContent = {
+                                        Icon(
+                                            imageVector = Icons.Rounded.ScreenLockRotation,
+                                            contentDescription = null,
+                                            modifier = Modifier.padding(end = 16.dp)
+                                        )
+                                    }
+                                )
+                            }
                         }
                     }
                     Row(

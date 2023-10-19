@@ -24,7 +24,7 @@ fun LineWidthSelector(
         value = value,
         icon = Icons.Rounded.LineWeight,
         title = stringResource(R.string.line_width),
-        valuePrefix = " Px",
+        valuePrefix = " Pt",
         sliderModifier = Modifier
             .padding(top = 14.dp, start = 12.dp, end = 12.dp, bottom = 10.dp),
         valueRange = 1f..100f,

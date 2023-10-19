@@ -54,6 +54,7 @@ import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Transformation
 import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.Pt
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.PixelationFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.StackBlurFilter
@@ -69,9 +70,9 @@ fun BitmapDrawer(
     imageBitmap: ImageBitmap,
     imageManager: ImageManager<Bitmap, *>,
     paths: List<PathPaint>,
-    brushSoftness: Float,
+    brushSoftness: Pt,
     onAddPath: (PathPaint) -> Unit,
-    strokeWidth: Float,
+    strokeWidth: Pt,
     isEraserOn: Boolean,
     drawMode: DrawMode,
     modifier: Modifier,
@@ -126,11 +127,6 @@ fun BitmapDrawer(
         contentAlignment = Alignment.Center
     ) {
         BoxWithConstraints(modifier) {
-
-            var invalidations by remember {
-                mutableIntStateOf(0)
-            }
-
             var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
             // This is our motion event we get from touch motion
             var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
@@ -140,8 +136,7 @@ fun BitmapDrawer(
             val imageWidth = constraints.maxWidth
             val imageHeight = constraints.maxHeight
 
-
-            val drawImageBitmap = remember {
+            val drawImageBitmap = remember(constraints) {
                 Bitmap.createScaledBitmap(
                     imageBitmap.asAndroidBitmap(),
                     imageWidth,
@@ -156,14 +151,18 @@ fun BitmapDrawer(
                 }.asImageBitmap()
             }
 
-            val drawBitmap: ImageBitmap = remember {
+            val drawBitmap: ImageBitmap = remember(constraints) {
                 Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
                     .asImageBitmap()
             }
 
-            val drawPathBitmap: ImageBitmap = remember {
+            val drawPathBitmap: ImageBitmap = remember(constraints) {
                 Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
                     .asImageBitmap()
+            }
+
+            var invalidations by remember {
+                mutableIntStateOf(0)
             }
 
             val outputImage by remember(invalidations) {
@@ -176,16 +175,20 @@ fun BitmapDrawer(
                 onDraw(outputImage.overlay(drawPathBitmap).asAndroidBitmap())
             }
 
-            val canvas: Canvas = remember {
+            val canvas: Canvas = remember(constraints) {
                 Canvas(drawBitmap)
             }
 
-            val drawPathCanvas: Canvas = remember {
+            val drawPathCanvas: Canvas = remember(constraints) {
                 Canvas(drawPathBitmap)
             }
 
+            val canvasSize = remember(canvas.nativeCanvas) {
+                IntegerSize(canvas.nativeCanvas.width, canvas.nativeCanvas.height)
+            }
+
             val drawPaint =
-                remember(strokeWidth, isEraserOn, drawColor, brushSoftness, drawMode) {
+                remember(strokeWidth, isEraserOn, drawColor, brushSoftness, drawMode, canvasSize) {
                     Paint().apply {
                         blendMode = if (!isEraserOn) blendMode else BlendMode.Clear
                         style = PaintingStyle.Stroke
@@ -195,22 +198,25 @@ fun BitmapDrawer(
                             Color.Transparent
                         } else drawColor
                         alpha = drawColor.alpha
-                        this.strokeWidth = strokeWidth
+                        this.strokeWidth = strokeWidth.toPx(canvasSize)
                         strokeJoin = StrokeJoin.Round
                         isAntiAlias = true
                     }.asFrameworkPaint().apply {
                         if (drawMode is DrawMode.Neon && !isEraserOn) {
                             this.color = Color.White.toArgb()
                             setShadowLayer(
-                                brushSoftness,
+                                brushSoftness.toPx(canvasSize),
                                 0f,
                                 0f,
                                 drawColor
                                     .copy(alpha = .8f)
                                     .toArgb()
                             )
-                        } else if (brushSoftness > 0f) {
-                            maskFilter = BlurMaskFilter(brushSoftness, BlurMaskFilter.Blur.NORMAL)
+                        } else if (brushSoftness.value > 0f) {
+                            maskFilter = BlurMaskFilter(
+                                brushSoftness.toPx(canvasSize),
+                                BlurMaskFilter.Blur.NORMAL
+                            )
                         }
                     }
                 }
@@ -223,14 +229,11 @@ fun BitmapDrawer(
                 brushSoftness
             ) { mutableStateOf(Path()) }
 
-            LaunchedEffect(paths, drawMode, backgroundColor) {
+            LaunchedEffect(paths, drawMode, backgroundColor, constraints) {
                 invalidations++
             }
 
             canvas.apply {
-                val canvasSize = remember(nativeCanvas) {
-                    IntegerSize(nativeCanvas.width, nativeCanvas.height)
-                }
                 when (motionEvent) {
 
                     MotionEvent.Down -> {
@@ -255,7 +258,7 @@ fun BitmapDrawer(
                             val preLastPoint = PathMeasure().apply {
                                 setPath(drawPath, false)
                             }.let {
-                                it.getPosition(it.length - strokeWidth * 3f)
+                                it.getPosition(it.length - strokeWidth.toPx(canvasSize) * 3f)
                             }.let { if (it.isUnspecified) Offset.Zero else it }
 
                             val lastPoint = currentPosition.let {
@@ -276,7 +279,10 @@ fun BitmapDrawer(
                                 }
                             }
 
-                            if (abs(arrowVector.x) < 3f * strokeWidth && abs(arrowVector.y) < 3f * strokeWidth && preLastPoint != Offset.Zero) {
+                            if (abs(arrowVector.x) < 3f * strokeWidth.toPx(canvasSize) && abs(
+                                    arrowVector.y
+                                ) < 3f * strokeWidth.toPx(canvasSize) && preLastPoint != Offset.Zero
+                            ) {
                                 drawArrow()
                             }
                         }
@@ -308,7 +314,8 @@ fun BitmapDrawer(
                     drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
                     drawColor(backgroundColor.toArgb())
 
-                    paths.forEach { (nonScaledPath, stroke, radius, drawColor, isErasing, effect, size) ->
+                    paths.forEach { (nonScaledPath, nonScaledStroke, radius, drawColor, isErasing, effect, size) ->
+                        val stroke = nonScaledStroke.toPx(canvasSize)
                         val path = nonScaledPath.scaleToFitCanvas(
                             currentSize = canvasSize,
                             oldSize = size
@@ -364,16 +371,19 @@ fun BitmapDrawer(
                                     if (effect is DrawMode.Neon && !isErasing) {
                                         this.color = Color.White.toArgb()
                                         setShadowLayer(
-                                            radius,
+                                            radius.toPx(canvasSize),
                                             0f,
                                             0f,
                                             drawColor
                                                 .copy(alpha = .8f)
                                                 .toArgb()
                                         )
-                                    } else if (radius > 0f) {
+                                    } else if (radius.value > 0f) {
                                         maskFilter =
-                                            BlurMaskFilter(radius, BlurMaskFilter.Blur.NORMAL)
+                                            BlurMaskFilter(
+                                                radius.toPx(canvasSize),
+                                                BlurMaskFilter.Blur.NORMAL
+                                            )
                                     }
                                 }
                             )
@@ -419,7 +429,7 @@ fun BitmapDrawer(
                         val paint = Paint().apply {
                             style = PaintingStyle.Stroke
                             strokeCap = StrokeCap.Round
-                            this.strokeWidth = strokeWidth
+                            this.strokeWidth = strokeWidth.toPx(canvasSize)
                             strokeJoin = StrokeJoin.Round
                             isAntiAlias = true
                             color = Color.Transparent
