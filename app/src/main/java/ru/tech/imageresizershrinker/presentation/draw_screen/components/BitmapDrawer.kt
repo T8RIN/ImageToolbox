@@ -52,9 +52,10 @@ import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Transformation
+import ru.tech.imageresizershrinker.domain.image.draw.DrawMode
 import ru.tech.imageresizershrinker.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.Pt
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.UiPathPaint
+import ru.tech.imageresizershrinker.domain.image.draw.Pt
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.PixelationFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.StackBlurFilter
@@ -69,9 +70,9 @@ import android.graphics.Canvas as AndroidCanvas
 fun BitmapDrawer(
     imageBitmap: ImageBitmap,
     imageManager: ImageManager<Bitmap, *>,
-    paths: List<PathPaint>,
+    paths: List<UiPathPaint>,
     brushSoftness: Pt,
-    onAddPath: (PathPaint) -> Unit,
+    onAddPath: (UiPathPaint) -> Unit,
     strokeWidth: Pt,
     isEraserOn: Boolean,
     drawMode: DrawMode,
@@ -86,7 +87,9 @@ fun BitmapDrawer(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    fun transformationsForMode(drawMode: DrawMode): List<Transformation<Bitmap>> = when (drawMode) {
+    fun transformationsForMode(
+        drawMode: DrawMode
+    ): List<Transformation<Bitmap>> = when (drawMode) {
         is DrawMode.PathEffect.PrivacyBlur -> {
             listOf(
                 StackBlurFilter(
@@ -102,6 +105,14 @@ fun BitmapDrawer(
 
         is DrawMode.PathEffect.Pixelation -> {
             listOf(
+                StackBlurFilter(
+                    context = context,
+                    value = when {
+                        drawMode.pixelSize < 10 -> 0.8f
+                        drawMode.pixelSize < 20 -> 0.5f
+                        else -> 0.3f
+                    } to 20
+                ),
                 PixelationFilter(
                     context = context,
                     value = drawMode.pixelSize
@@ -291,7 +302,7 @@ fun BitmapDrawer(
                         previousPosition = currentPosition
                         motionEvent = MotionEvent.Idle
                         onAddPath(
-                            PathPaint(
+                            UiPathPaint(
                                 path = drawPath,
                                 strokeWidth = strokeWidth,
                                 brushSoftness = brushSoftness,

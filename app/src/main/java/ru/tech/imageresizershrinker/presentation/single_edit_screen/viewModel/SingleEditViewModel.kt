@@ -31,7 +31,7 @@ import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.UiPathPaint
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
 import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import javax.inject.Inject
@@ -45,23 +45,23 @@ class SingleEditViewModel @Inject constructor(
     private val _originalSize: MutableState<IntegerSize?> = mutableStateOf(null)
     val originalSize by _originalSize
 
-    private val _erasePaths = mutableStateOf(listOf<PathPaint>())
-    val erasePaths: List<PathPaint> by _erasePaths
+    private val _erasePaths = mutableStateOf(listOf<UiPathPaint>())
+    val erasePaths: List<UiPathPaint> by _erasePaths
 
-    private val _eraseLastPaths = mutableStateOf(listOf<PathPaint>())
-    val eraseLastPaths: List<PathPaint> by _eraseLastPaths
+    private val _eraseLastPaths = mutableStateOf(listOf<UiPathPaint>())
+    val eraseLastPaths: List<UiPathPaint> by _eraseLastPaths
 
-    private val _eraseUndonePaths = mutableStateOf(listOf<PathPaint>())
-    val eraseUndonePaths: List<PathPaint> by _eraseUndonePaths
+    private val _eraseUndonePaths = mutableStateOf(listOf<UiPathPaint>())
+    val eraseUndonePaths: List<UiPathPaint> by _eraseUndonePaths
 
-    private val _drawPaths = mutableStateOf(listOf<PathPaint>())
-    val drawPaths: List<PathPaint> by _drawPaths
+    private val _drawPaths = mutableStateOf(listOf<UiPathPaint>())
+    val drawPaths: List<UiPathPaint> by _drawPaths
 
-    private val _drawLastPaths = mutableStateOf(listOf<PathPaint>())
-    val drawLastPaths: List<PathPaint> by _drawLastPaths
+    private val _drawLastPaths = mutableStateOf(listOf<UiPathPaint>())
+    val drawLastPaths: List<UiPathPaint> by _drawLastPaths
 
-    private val _drawUndonePaths = mutableStateOf(listOf<PathPaint>())
-    val drawUndonePaths: List<PathPaint> by _drawUndonePaths
+    private val _drawUndonePaths = mutableStateOf(listOf<UiPathPaint>())
+    val drawUndonePaths: List<UiPathPaint> by _drawUndonePaths
 
     private val _filterList = mutableStateOf(listOf<FilterTransformation<*>>())
     val filterList by _filterList
@@ -479,7 +479,7 @@ class SingleEditViewModel @Inject constructor(
         _drawUndonePaths.update { it - lastPath }
     }
 
-    fun addPathToDrawList(pathPaint: PathPaint) {
+    fun addPathToDrawList(pathPaint: UiPathPaint) {
         _drawPaths.update { it + pathPaint }
         _drawUndonePaths.value = listOf()
     }
@@ -515,7 +515,7 @@ class SingleEditViewModel @Inject constructor(
         _eraseUndonePaths.update { it - lastPath }
     }
 
-    fun addPathToEraseList(pathPaint: PathPaint) {
+    fun addPathToEraseList(pathPaint: UiPathPaint) {
         _erasePaths.update { it + pathPaint }
         _eraseUndonePaths.value = listOf()
     }

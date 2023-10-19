@@ -87,8 +87,10 @@ import dev.olshevski.navigation.reimagined.NavController
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.Pt
+import ru.tech.imageresizershrinker.domain.image.draw.DrawBehavior
+import ru.tech.imageresizershrinker.domain.image.draw.DrawMode
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.UiPathPaint
+import ru.tech.imageresizershrinker.domain.image.draw.Pt
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
@@ -117,7 +119,7 @@ fun DrawHost(
     onSaveRequest: () -> Unit,
     controls: @Composable () -> Unit,
     secondaryControls: @Composable () -> Unit,
-    paths: List<PathPaint>,
+    paths: List<UiPathPaint>,
     isEraserOn: Boolean,
     drawMode: DrawMode,
     clearDrawing: () -> Unit,
@@ -134,7 +136,7 @@ fun DrawHost(
     drawArrowsEnabled: Boolean,
     bitmap: Bitmap,
     brushSoftness: Pt,
-    addPath: (PathPaint) -> Unit,
+    addPath: (UiPathPaint) -> Unit,
     onDraw: (Bitmap) -> Unit
 ) {
     val showBackgroundDrawingSetup = rememberSaveable { mutableStateOf(false) }
@@ -275,6 +277,7 @@ fun DrawHost(
                                     .weight(0.7f)
                                     .clipToBounds()
                             ) {
+                                //TODO: Weird Scrolling
                                 item {
                                     secondaryControls()
                                     controls()

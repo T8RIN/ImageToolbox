@@ -1,12 +1,9 @@
-package ru.tech.imageresizershrinker.presentation.draw_screen.components
-
-import android.content.pm.ActivityInfo
-import androidx.compose.ui.graphics.Color
+package ru.tech.imageresizershrinker.domain.image.draw
 
 sealed class DrawBehavior(
     open val orientation: Int
 ) {
-    data object None : DrawBehavior(ActivityInfo.SCREEN_ORIENTATION_USER)
+    data object None : DrawBehavior(2)
 
     class Image(
         override val orientation: Int
@@ -16,6 +13,6 @@ sealed class DrawBehavior(
         override val orientation: Int,
         val width: Int,
         val height: Int,
-        val color: Color
+        val color: Int
     ) : DrawBehavior(orientation = orientation)
 }

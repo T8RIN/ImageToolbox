@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.draw_screen.components
+package ru.tech.imageresizershrinker.domain.image.draw
 
 sealed class DrawMode(open val ordinal: Int) {
     data object Neon : DrawMode(2)

@@ -7,6 +7,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.toArgb
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,16 +21,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Transformation
+import ru.tech.imageresizershrinker.domain.image.draw.DrawBehavior
+import ru.tech.imageresizershrinker.domain.image.draw.ImageDrawApplier
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleLockDrawOrientationUseCase
-import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBehavior
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.UiPathPaint
 import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import javax.inject.Inject
 
@@ -36,7 +38,8 @@ import javax.inject.Inject
 class DrawViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageManager: ImageManager<Bitmap, ExifInterface>,
-    private val toggleLockDrawOrientationUseCase: ToggleLockDrawOrientationUseCase
+    private val toggleLockDrawOrientationUseCase: ToggleLockDrawOrientationUseCase,
+    private val imageDrawApplier: ImageDrawApplier<Bitmap, Path, Color>
 ) : ViewModel() {
 
     fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
@@ -57,14 +60,14 @@ class DrawViewModel @Inject constructor(
     private val _uri = mutableStateOf(Uri.EMPTY)
     val uri: Uri by _uri
 
-    private val _paths = mutableStateOf(listOf<PathPaint>())
-    val paths: List<PathPaint> by _paths
+    private val _paths = mutableStateOf(listOf<UiPathPaint>())
+    val paths: List<UiPathPaint> by _paths
 
-    private val _lastPaths = mutableStateOf(listOf<PathPaint>())
-    val lastPaths: List<PathPaint> by _lastPaths
+    private val _lastPaths = mutableStateOf(listOf<UiPathPaint>())
+    val lastPaths: List<UiPathPaint> by _lastPaths
 
-    private val _undonePaths = mutableStateOf(listOf<PathPaint>())
-    val undonePaths: List<PathPaint> by _undonePaths
+    private val _undonePaths = mutableStateOf(listOf<UiPathPaint>())
+    val undonePaths: List<UiPathPaint> by _undonePaths
 
     val isBitmapChanged: Boolean
         get() = paths.isNotEmpty() || lastPaths.isNotEmpty() || undonePaths.isNotEmpty()
@@ -78,8 +81,6 @@ class DrawViewModel @Inject constructor(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 
-    private val _drawingBitmap: MutableState<Bitmap?> = mutableStateOf(null)
-
     private val _saveExif: MutableState<Boolean> = mutableStateOf(false)
     val saveExif: Boolean by _saveExif
 
@@ -92,6 +93,7 @@ class DrawViewModel @Inject constructor(
     fun saveBitmap(
         onComplete: (saveResult: SaveResult) -> Unit
     ) = viewModelScope.launch {
+        //TODO: IMPROVE SAVING
         withContext(Dispatchers.IO) {
             _isSaving.value = true
             getDrawingBitmap()?.let { localBitmap ->
@@ -197,30 +199,12 @@ class DrawViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getDrawingBitmap(): Bitmap? = withContext(Dispatchers.IO) {
-        _drawingBitmap.value?.let {
-            when (drawBehavior) {
-                is DrawBehavior.Background -> {
-                    imageManager.resize(
-                        image = it,
-                        width = (drawBehavior as DrawBehavior.Background).width,
-                        height = (drawBehavior as DrawBehavior.Background).height,
-                        resizeType = ResizeType.Explicit
-                    )
-                }
-
-                is DrawBehavior.Image -> {
-                    imageManager.resize(
-                        image = it,
-                        width = _bitmap.value?.width ?: 0,
-                        height = _bitmap.value?.height ?: 0,
-                        resizeType = ResizeType.Explicit
-                    )
-                }
-
-                else -> null
-            }
-        }
+    private suspend fun getDrawingBitmap(): Bitmap = withContext(Dispatchers.IO) {
+        imageDrawApplier.applyDrawToImage(
+            drawBehavior = drawBehavior,
+            pathPaints = paths,
+            imageUri = _uri.value.toString()
+        )
     }
 
     fun openColorPicker() {
@@ -233,7 +217,6 @@ class DrawViewModel @Inject constructor(
         _paths.value = listOf()
         _lastPaths.value = listOf()
         _undonePaths.value = listOf()
-        _drawingBitmap.value = null
         _bitmap.value = null
         navController.navigate(DrawBehavior.None)
         _uri.value = Uri.EMPTY
@@ -252,7 +235,7 @@ class DrawViewModel @Inject constructor(
                 },
                 width = width,
                 height = height,
-                color = color
+                color = color.toArgb()
             )
         )
     }
@@ -322,13 +305,13 @@ class DrawViewModel @Inject constructor(
         _undonePaths.update { it - lastPath }
     }
 
-    fun addPath(pathPaint: PathPaint) {
+    fun addPath(pathPaint: UiPathPaint) {
         _paths.update { it + pathPaint }
         _undonePaths.value = listOf()
     }
 
     fun updateDrawing(bitmap: Bitmap) {
-        _drawingBitmap.value = bitmap
+
     }
 
     fun cancelSaving() {

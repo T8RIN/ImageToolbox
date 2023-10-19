@@ -48,6 +48,7 @@ import com.smarttoolfactory.image.util.update
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.domain.image.draw.Pt
 import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.scaleToFitCanvas
@@ -57,9 +58,9 @@ import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparen
 fun BitmapEraser(
     imageBitmap: ImageBitmap,
     imageBitmapForShader: ImageBitmap?,
-    paths: List<PathPaint>,
+    paths: List<UiPathPaint>,
     brushSoftness: Pt,
-    onAddPath: (PathPaint) -> Unit,
+    onAddPath: (UiPathPaint) -> Unit,
     strokeWidth: Pt,
     isRecoveryOn: Boolean = false,
     modifier: Modifier,
@@ -193,7 +194,7 @@ fun BitmapEraser(
                         previousPosition = currentPosition
                         motionEvent = MotionEvent.Idle
                         onAddPath(
-                            PathPaint(
+                            UiPathPaint(
                                 path = drawPath,
                                 strokeWidth = strokeWidth,
                                 brushSoftness = brushSoftness,

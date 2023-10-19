@@ -23,7 +23,7 @@ import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.UiPathPaint
 import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import javax.inject.Inject
 
@@ -49,14 +49,14 @@ class EraseBackgroundViewModel @Inject constructor(
         mutableIntStateOf(ActivityInfo.SCREEN_ORIENTATION_USER)
     val orientation: Int by _orientation
 
-    private val _paths = mutableStateOf(listOf<PathPaint>())
-    val paths: List<PathPaint> by _paths
+    private val _paths = mutableStateOf(listOf<UiPathPaint>())
+    val paths: List<UiPathPaint> by _paths
 
-    private val _lastPaths = mutableStateOf(listOf<PathPaint>())
-    val lastPaths: List<PathPaint> by _lastPaths
+    private val _lastPaths = mutableStateOf(listOf<UiPathPaint>())
+    val lastPaths: List<UiPathPaint> by _lastPaths
 
-    private val _undonePaths = mutableStateOf(listOf<PathPaint>())
-    val undonePaths: List<PathPaint> by _undonePaths
+    private val _undonePaths = mutableStateOf(listOf<UiPathPaint>())
+    val undonePaths: List<UiPathPaint> by _undonePaths
 
     val haveChanges: Boolean
         get() = paths.isNotEmpty() || lastPaths.isNotEmpty() || undonePaths.isNotEmpty()
@@ -257,7 +257,7 @@ class EraseBackgroundViewModel @Inject constructor(
         _undonePaths.update { it - lastPath }
     }
 
-    fun addPath(pathPaint: PathPaint) {
+    fun addPath(pathPaint: UiPathPaint) {
         _paths.update { it + pathPaint }
         _undonePaths.value = listOf()
     }

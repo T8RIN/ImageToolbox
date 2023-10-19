@@ -58,12 +58,12 @@ import ru.tech.imageresizershrinker.presentation.draw_screen.components.BrushSof
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawAlphaSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawArrowsSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawColorSelector
-import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawMode
+import ru.tech.imageresizershrinker.domain.image.draw.DrawMode
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawModeSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidthSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.OpenColorPickerCard
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.UiPathPaint
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PtSaver
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.pt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Eraser
@@ -91,10 +91,10 @@ fun DrawEditOption(
     onGetBitmap: (Bitmap) -> Unit,
     undo: () -> Unit,
     redo: () -> Unit,
-    paths: List<PathPaint>,
-    lastPaths: List<PathPaint>,
-    undonePaths: List<PathPaint>,
-    addPath: (PathPaint) -> Unit,
+    paths: List<UiPathPaint>,
+    lastPaths: List<UiPathPaint>,
+    undonePaths: List<UiPathPaint>,
+    addPath: (UiPathPaint) -> Unit,
 ) {
     val settingsState = LocalSettingsState.current
     bitmap?.let {
@@ -141,7 +141,7 @@ fun DrawEditOption(
         var brushSoftness by rememberSaveable(drawMode, stateSaver = PtSaver) {
             mutableStateOf(if (drawMode is DrawMode.Neon) 35.pt else 0.pt)
         }
-        var drawArrowsEnabled by remember {
+        var drawArrowsEnabled by rememberSaveable {
             mutableStateOf(false)
         }
 

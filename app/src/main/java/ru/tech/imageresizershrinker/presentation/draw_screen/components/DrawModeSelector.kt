@@ -43,6 +43,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.image.draw.DrawMode
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Cube
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Highlighter
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Laser

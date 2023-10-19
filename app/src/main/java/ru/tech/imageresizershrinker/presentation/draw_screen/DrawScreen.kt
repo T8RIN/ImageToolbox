@@ -86,10 +86,10 @@ import ru.tech.imageresizershrinker.presentation.draw_screen.components.BrushSof
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawAlphaSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawArrowsSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBackgroundSelector
-import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBehavior
+import ru.tech.imageresizershrinker.domain.image.draw.DrawBehavior
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawColorSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawHost
-import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawMode
+import ru.tech.imageresizershrinker.domain.image.draw.DrawMode
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawModeSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidthSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.OpenColorPickerCard
@@ -101,6 +101,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.Eraser
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.theme.toColor
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
@@ -284,7 +285,7 @@ fun DrawScreen(
     ) {
         mutableStateOf(
             if (viewModel.drawBehavior is DrawBehavior.Background) {
-                (viewModel.drawBehavior as DrawBehavior.Background).color
+                (viewModel.drawBehavior as DrawBehavior.Background).color.toColor()
             } else Color.Transparent
         )
     }
@@ -303,7 +304,7 @@ fun DrawScreen(
     var brushSoftness by rememberSaveable(viewModel.drawBehavior, drawMode, stateSaver = PtSaver) {
         mutableStateOf(if (drawMode is DrawMode.Neon) 35.pt else 0.pt)
     }
-    var drawArrowsEnabled by remember(viewModel.drawBehavior) {
+    var drawArrowsEnabled by rememberSaveable(viewModel.drawBehavior) {
         mutableStateOf(false)
     }
 

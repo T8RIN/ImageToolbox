@@ -3,6 +3,8 @@ package ru.tech.imageresizershrinker.data.di
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.exifinterface.media.ExifInterface
 import coil.ImageLoader
 import coil.decode.GifDecoder
@@ -16,7 +18,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.data.image.AndroidImageManager
+import ru.tech.imageresizershrinker.data.image.draw.AndroidImageDrawApplier
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.image.draw.ImageDrawApplier
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import javax.inject.Singleton
 
@@ -34,6 +38,16 @@ object ImageModule {
         context = context,
         fileController = fileController,
         imageLoader = imageLoader
+    )
+
+    @Singleton
+    @Provides
+    fun provideImageDrawApplier(
+        @ApplicationContext context: Context,
+        imageManager: ImageManager<Bitmap, ExifInterface>
+    ): ImageDrawApplier<Bitmap, Path, Color> = AndroidImageDrawApplier(
+        context = context,
+        imageManager = imageManager
     )
 
     @Provides

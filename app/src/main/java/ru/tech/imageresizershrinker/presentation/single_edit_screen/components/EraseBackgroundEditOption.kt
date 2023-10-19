@@ -58,7 +58,7 @@ import ru.tech.imageresizershrinker.presentation.erase_background_screen.compone
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.BitmapEraser
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.EraseModeButton
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.EraseModeCard
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PathPaint
+import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.UiPathPaint
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PtSaver
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.TrimImageToggle
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.pt
@@ -87,10 +87,10 @@ fun EraseBackgroundEditOption(
     clearErasing: (Boolean) -> Unit,
     undo: () -> Unit,
     redo: () -> Unit,
-    paths: List<PathPaint>,
-    lastPaths: List<PathPaint>,
-    undonePaths: List<PathPaint>,
-    addPath: (PathPaint) -> Unit,
+    paths: List<UiPathPaint>,
+    lastPaths: List<UiPathPaint>,
+    undonePaths: List<UiPathPaint>,
+    addPath: (UiPathPaint) -> Unit,
     imageManager: ImageManager<Bitmap, *>
 ) {
     val settingsState = LocalSettingsState.current
