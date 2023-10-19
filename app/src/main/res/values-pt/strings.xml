@@ -3,7 +3,7 @@
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
-    <string name="image_too_large_preview">A imagem é muito grande para visualizar, mas tentaremos salvá-la mesmo assim</string>
+    <string name="image_too_large_preview">A imagem é muito grande para visualizar, mas salvando será uma tentativa de qualquer maneira</string>
     <string name="pick_image">Escolha a imagem para começar</string>
     <string name="width">Largura %1$s</string>
     <string name="height">Altura %1$s</string>
@@ -13,7 +13,7 @@
     <string name="explicit">Explícito</string>
     <string name="flexible">Flexível</string>
     <string name="pick_image_alt">Escolher imagem</string>
-    <string name="app_closing_sub">Você realmente deseja fechar o aplicativo?</string>
+    <string name="app_closing_sub">Você realmente quer fechar o aplicativo\?</string>
     <string name="app_closing">Fechamento de aplicativo</string>
     <string name="stay">Ficar</string>
     <string name="close">Fechar</string>
@@ -300,4 +300,14 @@
     <string name="cache_size">Tamanho da memória cache</string>
     <string name="found_s">Encontrado %1$s</string>
     <string name="invalid_password_or_not_encrypted">Senha inválida ou arquivo escolhido não está criptografado</string>
+    <string name="tg_chat">Telegram</string>
+    <string name="crop_mask">Máscara de corte</string>
+    <string name="presets_sub">Se você selecionar a predefinição 125, a imagem será salva como 125% do tamanho da original em 100% de qualidade, e se escolher a predefinição 50, então a imagem será salva como 50% do tamanho e qualidade</string>
+    <string name="tg_chat_sub">Discutir sobre o aplicativo e ter feedback de outros usuários, também aqui você pode ter atualizações beta e ideias</string>
+    <string name="aspect_ratio">Proporção</string>
+    <string name="saved_to_without_filename">Salvo na pasta %1$s</string>
+    <string name="saved_to">Salvo na pasta %1$s com o nome %2$s</string>
+    <string name="randomize_filename">Nome de arquivo aleatório</string>
+    <string name="randomize_filename_sub">Se ativado, o nome do arquivo será completamente aleatório</string>
+    <string name="presets_sub_bytes">O preset aqui determina o % do arquivo de saída, ou seja, se você selecionar 50 em uma imagem de 5mb, então a imagem depois de salva será de 2,5mb</string>
 </resources>
