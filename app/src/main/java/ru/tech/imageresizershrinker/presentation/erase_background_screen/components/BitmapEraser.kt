@@ -42,6 +42,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.BitmapCompat
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import com.smarttoolfactory.image.util.update
@@ -106,20 +107,22 @@ fun BitmapEraser(
 
 
             val drawImageBitmap = remember(constraints) {
-                Bitmap.createScaledBitmap(
+                BitmapCompat.createScaledBitmap(
                     imageBitmap.asAndroidBitmap(),
                     imageWidth,
                     imageHeight,
+                    null,
                     false
                 ).asImageBitmap()
             }
 
             val shaderBitmap = remember(imageBitmapForShader, constraints) {
                 imageBitmapForShader?.asAndroidBitmap()?.let {
-                    Bitmap.createScaledBitmap(
+                    BitmapCompat.createScaledBitmap(
                         it,
                         imageWidth,
                         imageHeight,
+                        null,
                         false
                     ).asImageBitmap()
                 }

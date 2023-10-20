@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.data.image.filters
 
 import android.graphics.Bitmap
+import androidx.core.graphics.BitmapCompat
 import coil.size.Size
 import ru.tech.imageresizershrinker.domain.image.Transformation
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
@@ -23,7 +24,7 @@ private fun Bitmap.stackBlur(scale: Float, radius: Int): Bitmap {
     var sentBitmap = this@stackBlur
     val width = (sentBitmap.width * scale).roundToInt()
     val height = (sentBitmap.height * scale).roundToInt()
-    sentBitmap = Bitmap.createScaledBitmap(sentBitmap, width, height, false)
+    sentBitmap = BitmapCompat.createScaledBitmap(sentBitmap, width, height, null, false)
     val bitmap = sentBitmap.copy(sentBitmap.config, true)
     if (radius < 1) {
         return this
@@ -237,10 +238,11 @@ private fun Bitmap.stackBlur(scale: Float, radius: Int): Bitmap {
     }
 
     bitmap.setPixels(pix, 0, w, 0, 0, w, h)
-    return Bitmap.createScaledBitmap(
+    return BitmapCompat.createScaledBitmap(
         bitmap,
         (bitmap.width / scale).toInt(),
         (bitmap.height / scale).toInt(),
+        null,
         false
     )
 }

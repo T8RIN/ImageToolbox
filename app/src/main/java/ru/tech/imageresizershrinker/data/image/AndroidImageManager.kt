@@ -16,6 +16,7 @@ import android.webkit.MimeTypeMap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.FileProvider
+import androidx.core.graphics.BitmapCompat
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import coil.ImageLoader
@@ -232,10 +233,11 @@ class AndroidImageManager @Inject constructor(
 
         return@withContext when (resizeType) {
             ResizeType.Explicit -> {
-                Bitmap.createScaledBitmap(
+                BitmapCompat.createScaledBitmap(
                     image,
                     widthInternal,
                     heightInternal,
+                    null,
                     false
                 )
             }
@@ -278,11 +280,11 @@ class AndroidImageManager @Inject constructor(
             if (image.height >= image.width) {
                 val aspectRatio = image.width.toDouble() / image.height.toDouble()
                 val targetWidth = (max * aspectRatio).toInt()
-                Bitmap.createScaledBitmap(image, targetWidth, max, false)
+                BitmapCompat.createScaledBitmap(image, targetWidth, max, null, false)
             } else {
                 val aspectRatio = image.height.toDouble() / image.width.toDouble()
                 val targetHeight = (max * aspectRatio).toInt()
-                Bitmap.createScaledBitmap(image, max, targetHeight, false)
+                BitmapCompat.createScaledBitmap(image, max, targetHeight, null, false)
             }
         }.getOrNull() ?: image
     }
@@ -1067,10 +1069,11 @@ class AndroidImageManager @Inject constructor(
                 val xScale: Float = w.toFloat() / it.width
                 val yScale: Float = h.toFloat() / it.height
                 val scale = xScale.coerceAtLeast(yScale)
-                Bitmap.createScaledBitmap(
+                BitmapCompat.createScaledBitmap(
                     it,
                     (scale * it.width).toInt(),
                     (scale * it.height).toInt(),
+                    null,
                     false
                 )
             },
@@ -1080,10 +1083,11 @@ class AndroidImageManager @Inject constructor(
                 )
             )
         )
-        val drawImage = Bitmap.createScaledBitmap(
+        val drawImage = BitmapCompat.createScaledBitmap(
             image,
             (image.width * scaleFactor).toInt(),
             (image.height * scaleFactor).toInt(),
+            null,
             false
         )
         val canvas = Bitmap.createBitmap(w, h, drawImage.config).apply { setHasAlpha(true) }
@@ -1139,7 +1143,7 @@ class AndroidImageManager @Inject constructor(
 
             lastModification = newWidth to newHeight
 
-            Bitmap.createScaledBitmap(image, newWidth, newHeight, false)
+            BitmapCompat.createScaledBitmap(image, newWidth, newHeight, null, false)
         } else image
     }
 
@@ -1184,9 +1188,21 @@ class AndroidImageManager @Inject constructor(
         size: IntegerSize
     ): Bitmap {
         return if (isHorizontal) {
-            Bitmap.createScaledBitmap(this, (size.height * aspectRatio).toInt(), size.height, false)
+            BitmapCompat.createScaledBitmap(
+                this,
+                (size.height * aspectRatio).toInt(),
+                size.height,
+                null,
+                false
+            )
         } else {
-            Bitmap.createScaledBitmap(this, size.width, (size.width / aspectRatio).toInt(), false)
+            BitmapCompat.createScaledBitmap(
+                this,
+                size.width,
+                (size.width / aspectRatio).toInt(),
+                null,
+                false
+            )
         }
     }
 }

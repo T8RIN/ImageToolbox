@@ -43,6 +43,7 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.BitmapCompat
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import com.smarttoolfactory.image.util.update
@@ -110,10 +111,11 @@ fun BitmapDrawer(
             val imageHeight = constraints.maxHeight
 
             val drawImageBitmap = remember(constraints) {
-                Bitmap.createScaledBitmap(
+                BitmapCompat.createScaledBitmap(
                     imageBitmap.asAndroidBitmap(),
                     imageWidth,
                     imageHeight,
+                    null,
                     false
                 ).apply {
                     val canvas = AndroidCanvas(this)
@@ -421,10 +423,11 @@ fun BitmapDrawer(
 
             val shaderBitmap = remember(pathEffectBitmap) {
                 pathEffectBitmap?.asAndroidBitmap()?.let {
-                    Bitmap.createScaledBitmap(
+                    BitmapCompat.createScaledBitmap(
                         it,
                         imageWidth,
                         imageHeight,
+                        null,
                         false
                     ).asImageBitmap()
                 }

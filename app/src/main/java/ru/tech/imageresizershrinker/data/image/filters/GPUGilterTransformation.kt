@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.data.image.filters
 
 import android.content.Context
 import android.graphics.Bitmap
+import androidx.core.graphics.BitmapCompat
 import coil.size.Size
 import coil.size.pxOrElse
 import coil.transform.Transformation
@@ -39,11 +40,11 @@ private fun flexibleResize(image: Bitmap, max: Int): Bitmap {
         if (image.height >= image.width) {
             val aspectRatio = image.width.toDouble() / image.height.toDouble()
             val targetWidth = (max * aspectRatio).toInt()
-            Bitmap.createScaledBitmap(image, targetWidth, max, false)
+            BitmapCompat.createScaledBitmap(image, targetWidth, max, null, false)
         } else {
             val aspectRatio = image.height.toDouble() / image.width.toDouble()
             val targetHeight = (max * aspectRatio).toInt()
-            Bitmap.createScaledBitmap(image, max, targetHeight, false)
+            BitmapCompat.createScaledBitmap(image, max, targetHeight, null, false)
         }
     }.getOrNull() ?: image
 }
