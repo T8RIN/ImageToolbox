@@ -36,12 +36,12 @@
     <string name="clear">Clear</string>
     <string name="clear_exif">Clear EXIF</string>
     <string name="cancel">Cancel</string>
-    <string name="clear_exif_sub">All EXIF data of the image will be cleared, this action can not be undone!</string>
+    <string name="clear_exif_sub">All image EXIF data will be erased. This action cannot be undone!</string>
     <string name="presets">Presets</string>
     <string name="ratio">Ratio</string>
     <string name="crop">Crop</string>
     <string name="image_not_saved">Saving</string>
-    <string name="image_not_saved_sub">All unsaved changes will be lost, if you leave now</string>
+    <string name="image_not_saved_sub">All unsaved changes will be lost, if you exit now</string>
     <string name="check_source_code">Source code</string>
     <string name="check_source_code_sub">Get the latest updates, discuss issues and more</string>
     <string name="single_edit">Single edit</string>
@@ -63,7 +63,7 @@
     <string name="update">Update</string>
     <string name="new_version">New version %1$s</string>
     <string name="unsupported_type">Unsupported type: %1$s</string>
-    <string name="no_palette">Can not generate palette for given image</string>
+    <string name="no_palette">Cannot generate palette for given image</string>
     <string name="original">Original</string>
     <string name="folder">Output folder</string>
     <string name="default_folder" translatable="false">DCIM/ResizedImages</string>
@@ -96,14 +96,14 @@
     <string name="color_blue">Blue</string>
     <string name="clipboard_paste_invalid_color_code">Paste valid aRGB-Code.</string>
     <string name="clipboard_paste_invalid_empty">Nothing to paste</string>
-    <string name="cannot_change_palette_while_dynamic_colors_applied">Can not change app color scheme while dynamic colors are turned on</string>
-    <string name="pick_accent_color">App theme will be based on color, which you will select</string>
+    <string name="cannot_change_palette_while_dynamic_colors_applied">Cannot change app color scheme while dynamic colors are turned on</string>
+    <string name="pick_accent_color">App theme will be based on selected color</string>
     <string name="about_app">About app</string>
     <string name="app_developer" translatable="false">Malik Mukhametzyanov</string>
     <string name="app_developer_nick" translatable="false">T8RIN</string>
     <string name="no_updates">No updates found</string>
     <string name="issue_tracker">Issue tracker</string>
-    <string name="issue_tracker_sub">Send here bug reports and feature requests</string>
+    <string name="issue_tracker_sub">Send bug reports and feature requests here</string>
     <string name="help_translate">Help translate</string>
     <string name="help_translate_sub">Correct translation mistakes or localize project to another languages</string>
     <string name="nothing_found_by_search">Nothing found by your query</string>
@@ -124,33 +124,33 @@
     <string name="add">Add</string>
     <string name="permission">Permission</string>
     <string name="grant">Grant</string>
-    <string name="permission_sub">App need access to your storage to save images, it is necessary, without that it can\'t work, so please grant permission on the next dialog</string>
+    <string name="permission_sub">App needs access to your storage to save images to work, it is necessary. Please grant permission in the next dialog box.</string>
     <string name="grant_permission_manual">App needs this permission to work, please grant it manually</string>
     <string name="external_storage">External storage</string>
     <string name="monet_colors">Monet colors</string>
     <string name="donation_sub">This application is completely free, but if you want to support the project development, you can click here</string>
     <string name="fab_alignment">FAB alignment</string>
     <string name="check_updates">Check for updates</string>
-    <string name="check_updates_sub">If enabled, update dialog will be shown to you after app startup</string>
+    <string name="check_updates_sub">If enabled, update dialog will be shown to you on app startup</string>
     <string name="zoom">Image zoom</string>
     <string name="share">Share</string>
     <string name="prefix">Prefix</string>
     <string name="filename">Filename</string>
     <string name="emoji">Emoji</string>
-    <string name="emoji_sub">Select which emoji will be displayed on the main screen</string>
+    <string name="emoji_sub">Select which emoji to display on the main screen</string>
     <string name="add_file_size">Add file size</string>
-    <string name="add_file_size_sub">If enabled adds width and height of saved image to the name of output file</string>
+    <string name="add_file_size_sub">If enabled, adds width and height of saved image to the name of output file</string>
     <string name="delete_exif">Delete EXIF</string>
-    <string name="delete_exif_sub">Delete EXIF metadata from any couple of images</string>
+    <string name="delete_exif_sub">Delete EXIF metadata from any set of images</string>
     <string name="image_preview">Image preview</string>
     <string name="image_preview_sub">Preview any type of images: GIF, SVG, and so on</string>
     <string name="image_source">Image source</string>
     <string name="photo_picker">Photo picker</string>
     <string name="gallery_picker">Gallery</string>
     <string name="file_explorer_picker">File explorer</string>
-    <string name="photo_picker_sub">Android modern photo picker which appears at the bottom of the screen, may work only on android 12+ and also has issues with receiving EXIF metadata</string>
-    <string name="gallery_picker_sub">Simple gallery image picker, it will work only if you have any app which provides media picking</string>
-    <string name="file_explorer_picker_sub">Use GetContent intent to pick image, works everywhere, but also can have issues with receiving picked images on some devices, that\'s not my fault</string>
+    <string name="photo_picker_sub">Android modern photo picker which appears at the bottom of the screen, may work only on android 12+. Has issues receiving EXIF metadata</string>
+    <string name="gallery_picker_sub">Simple gallery image picker. It will work only if you have an app that provides media picking</string>
+    <string name="file_explorer_picker_sub">Use GetContent intent to pick image. Works everywhere, but is known to have issues receiving picked images on some devices. That\'s not my fault.</string>
     <string name="options_arrangement">Options arrangement</string>
     <string name="edit">Edit</string>
     <string name="order">Order</string>
@@ -164,7 +164,7 @@
     <string name="replace_sequence_number_sub">If enabled replaces standard timestamp to the image sequence number if you use batch processing</string>
     <string name="filename_not_work_with_photopicker">Adding original filename doesn\'t work if photo picker image source selected</string>
     <string name="load_image_from_net">Load image from net</string>
-    <string name="load_image_from_net_sub">Load any image form internet, preview it, zoom, and also save or edit it if you want</string>
+    <string name="load_image_from_net_sub">Load any image from the internet to preview, zoom, edit and save it if you want.</string>
     <string name="no_image">No image</string>
     <string name="image_link">Image link</string>
     <string name="fill">Fill</string>
@@ -234,7 +234,7 @@
     <string name="float_array_of" translatable="false">floatArrayOf(f, f, f)</string>
     <string name="opacity">Opacity</string>
     <string name="limits_resize">Limits resize</string>
-    <string name="limits_resize_sub">Resize given images to follow given width and height limits with saving aspect ratio</string>
+    <string name="limits_resize_sub">Resize selected images to follow given width and height limits whilst saving aspect ratio</string>
     <string name="sketch">Sketch</string>
     <string name="threshold">Threshold</string>
     <string name="quantizationLevels">Quantization levels</string>
@@ -281,13 +281,14 @@
     <string name="features">Features</string>
     <string name="implementation">Implementation</string>
     <string name="compatibility">Compatibility</string>
-    <string name="features_sub">Password-based encryption of files. Proceeded files can be stored in the selected directory or shared. Decrypted files can also directly be opened.</string>
+    <string name="features_sub">Password-based encryption of files. Proceeded files can be stored in the selected directory or shared. Decrypted files can also be opened directly.</string>
     <string name="implementation_sub">AES-256, GCM mode, no padding, 12 bytes random IVs. Keys are used as SHA-3 hashes (256 bits).</string>
     <string name="file_size">File size</string>
-    <string name="file_size_sub">The maximum file size is restricted by the Android OS and the memory available, which is obviously depending on your device.\nPlease note: memory is not storage.</string>
-    <string name="compatibility_sub">Please note that compatibility to other file encryption software or services is not guaranteed. A slightly different key treatment or cipher configuration may be reasons for incompatibility.</string>
+    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependant.
+\nPlease note: memory is not storage.</string>
+    <string name="compatibility_sub">Please note that compatibility to other file encryption software or services is not guaranteed. A slightly different key treatment or cipher configuration may cause incompatibility.</string>
     <string name="invalid_password_or_not_encrypted">Invalid password or chosen file is not encrypted</string>
-    <string name="image_size_warning">Trying to save image with given width and height might cause an OOM error, do this at your own risk, and don\'t say I didn\'t warn you!</string>
+    <string name="image_size_warning">Trying to save image with given width and height might cause an OOM error. Do this at your own risk, and don\'t say I didn\'t warn you!</string>
     <string name="cache">Cache</string>
     <string name="cache_size">Cache size</string>
     <string name="found_s">Found %1$s</string>
@@ -305,35 +306,35 @@
     <string name="fallback_option">Fallback option</string>
     <string name="skip">Skip</string>
     <string name="copy">Copy</string>
-    <string name="warning_bytes">Saving in %1$s mode can be unstable, because it is lossless format</string>
-    <string name="presets_sub">If you are selected preset 125 image will be saved as 125% size of original image at 100% quality, and if you will choose preset 50 then image will be saved as 50% size and 50% quality</string>
+    <string name="warning_bytes">Saving in %1$s mode can be unstable, because it is a lossless format</string>
+    <string name="presets_sub">If you have selected preset 125, image will be saved as 125% size of the original image with 100% quality. If you choose preset 50, then image will be saved with 50% size and 50% quality.</string>
     <string name="presets_sub_bytes">Preset here determines % of output file, i.e. if you select preset 50 on 5mb image then you will get 2.5mb image after saving</string>
     <string name="randomize_filename">Randomize filename</string>
-    <string name="randomize_filename_sub">If enabled output filename would be fully random</string>
+    <string name="randomize_filename_sub">If enabled output filename will be fully random</string>
     <string name="saved_to">Saved to %1$s folder with name %2$s</string>
     <string name="saved_to_without_filename">Saved to %1$s folder</string>
     <string name="tg_chat">Telegram chat</string>
-    <string name="tg_chat_sub">Discuss the app and get feedback from other users, also here you can get beta updates and insights</string>
+    <string name="tg_chat_sub">Discuss the app and get feedback from other users. You can also get beta updates and insights here.</string>
     <string name="crop_mask">Crop mask</string>
     <string name="aspect_ratio">Aspect ratio</string>
     <string name="image_crop_mask_sub">Use this mask type to create mask from given image, notice that it SHOULD have alpha channel</string>
     <string name="backup_and_restore">Backup and restore</string>
     <string name="backup">Backup</string>
     <string name="restore">Restore</string>
-    <string name="backup_sub">Backup your app settings to the file</string>
+    <string name="backup_sub">Backup your app settings to a file</string>
     <string name="restore_sub">Restore app settings from previously generated file</string>
     <string name="corrupted_file_or_not_a_backup">Corrupted file or not a backup</string>
     <string name="settings_restored">Settings restored successfully</string>
     <string name="contact_me">Contact me</string>
-    <string name="reset_settings_sub">This will roll back your settings to the default values, notice that this cant\'be undone withoun backup file from option above</string>
+    <string name="reset_settings_sub">This will roll back your settings to the default values. Notice that this can\'t be undone without a backup file mentionned above.</string>
     <string name="delete">Delete</string>
-    <string name="delete_color_scheme_warn">You are about to delete selected color scheme, this operation cannot be undone</string>
+    <string name="delete_color_scheme_warn">You are about to delete selected color scheme. This operation cannot be undone</string>
     <string name="delete_color_scheme_title">Delete Scheme</string>
     <string name="font">Font</string>
     <string name="text">Text</string>
     <string name="font_scale">Font scale</string>
     <string name="defaultt">Default</string>
-    <string name="using_large_fonts_warn">Using large font scales may cause ui brokes which will not be fixed, use it if you want only</string>
+    <string name="using_large_fonts_warn">Using large font scales may cause UI glitches and problems, which won\'t be fixed. Use cautiously.</string>
     <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="emotions">Emotions</string>
     <string name="food_and_drink">Food and Drink</string>
@@ -346,7 +347,7 @@
     <string name="background_remover">Background remover</string>
     <string name="background_remover_sub">Remove background from image by drawing or use Auto option</string>
     <string name="trim_image">Trim image</string>
-    <string name="keep_exif_sub">Image original metadata will be kept if enabled</string>
+    <string name="keep_exif_sub">Original image metadata will be kept if enabled</string>
     <string name="trim_image_sub">Trasparent spaces around image will be trimmed</string>
     <string name="auto_erase_background">Auto erase background</string>
     <string name="restore_image">Restore image</string>
@@ -357,21 +358,21 @@
     <string name="pipette">Pipette</string>
     <string name="draw_mode">Draw mode</string>
     <string name="create_issue">Create Issue</string>
-    <string name="something_went_wrong_emphasis">Ooops… Something went wrong, write to me using options below and i\'ll try to find solution</string>
+    <string name="something_went_wrong_emphasis">Ooops… Something went wrong. You can write to me using options below and i\'ll try to find solution</string>
     <string name="resize_and_convert">Resize and Convert</string>
-    <string name="resize_and_convert_sub">Change size of given images or convert them to other formats, also there you can edit EXIF metadata if you pick single image</string>
-    <string name="max_colors_count">Max colors count</string>
+    <string name="resize_and_convert_sub">Change size of given images or convert them to other formats. EXIF metadata can also be edited here if picking a single image.</string>
+    <string name="max_colors_count">Max color count</string>
     <string name="firebase" translatable="false">Firebase</string>
     <string name="crashlytics" translatable="false">Crashlytics</string>
     <string name="crashlytics_sub">This allows app to collect crash reports manually</string>
     <string name="analytics">Analytics</string>
     <string name="analytics_sub">Allow collecting anonymous app usage statistics</string>
-    <string name="jxl_sub">JXL format not officially supported by android so something might not work, also saving will work only if you choose custom output directory, this is an experimental version, bugs here will not be fixed unless google will add JXL support, this version also can view such images</string>
-    <string name="image_exif_warning">Currently %1$s format on android allows only read exif and not to change/save it, that means output image won\'t have metadata at all</string>
+    <string name="jxl_sub">JXL format not officially supported by android so something might not work. Saving will work only if you choose custom output directory. This is an experimental version, bugs here will not be fixed unless google adds JXL support. This version can view JXL images</string>
+    <string name="image_exif_warning">Currently, %1$s format only allows reading EXIF metadata on android. Output image won\'t have metadata at all, when saved.</string>
     <string name="effort">Effort</string>
-    <string name="effort_sub">A value of %1$d means to compress quickly, resulting in a relatively large file size. %2$d means to spend more time compressing, resulting in a smaller file</string>
+    <string name="effort_sub">A value of %1$d means a fast compression, resulting in a relatively large file size. %2$d means a slower compression, resulting in a smaller file.</string>
     <string name="wait">Wait</string>
-    <string name="saving_almost_complete">Saving almost completed, if you cancel that now you will need to start saving again then</string>
+    <string name="saving_almost_complete">Saving almost complete. Cancelling now will require saving again.</string>
     <string name="updates">Updates</string>
     <string name="allow_betas">Allow betas</string>
     <string name="allow_betas_sub">Update checking will include beta app versions if enabled</string>
@@ -379,7 +380,7 @@
     <string name="draw_arrows">Draw Arrows</string>
     <string name="draw_arrows_sub">If enabled drawing path will be represented as pointing arrow</string>
     <string name="brush_softness">Brush softness</string>
-    <string name="crop_description">Pictures will be center cropped to this size if it\'s size larger than input dimensions and canvas will be expanded with given background color in other cases</string>
+    <string name="crop_description">Pictures will be center cropped to entered size. Canvas will be expanded with given background color if image is smaller than entered dimensions.</string>
     <string name="donation">Donation</string>
     <string name="bitcoin" translatable="false">Bitcoin</string>
     <string name="usdt" translatable="false">USDT</string>
@@ -413,7 +414,7 @@
     <string name="recode">Recode</string>
     <string name="pixel_size">Pixel Size</string>
     <string name="lock_draw_orientation">Lock draw orientation</string>
-    <string name="lock_draw_orientation_sub">If enabled in drawing mode screen won\'t rotate</string>
+    <string name="lock_draw_orientation_sub">If enabled in drawing mode, screen won\'t rotate</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>
