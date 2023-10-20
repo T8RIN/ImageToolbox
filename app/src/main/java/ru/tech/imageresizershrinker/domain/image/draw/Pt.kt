@@ -9,3 +9,6 @@ value class Pt(val value: Float) {
         size: IntegerSize
     ): Float = min(size.width * (value / 500), size.height * (value / 500))
 }
+
+inline val Float.pt: Pt get() = Pt(this)
+inline val Int.pt: Pt get() = Pt(this.toFloat())

@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.draw.DrawMode
+import ru.tech.imageresizershrinker.domain.image.draw.pt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Cube
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Highlighter
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Laser
@@ -176,9 +177,9 @@ fun DrawModeSelector(
         ) {
             PixelSizeSelector(
                 modifier = Modifier.padding(8.dp),
-                value = (drawMode as? DrawMode.PathEffect.Pixelation)?.pixelSize ?: 0f,
+                value = (drawMode as? DrawMode.PathEffect.Pixelation)?.pixelSize?.value ?: 0f,
                 onValueChange = {
-                    onDrawModeChange(DrawMode.PathEffect.Pixelation(it))
+                    onDrawModeChange(DrawMode.PathEffect.Pixelation(it.pt))
                 }
             )
         }

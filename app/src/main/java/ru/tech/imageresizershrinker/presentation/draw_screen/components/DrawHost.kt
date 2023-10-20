@@ -89,7 +89,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.draw.DrawBehavior
 import ru.tech.imageresizershrinker.domain.image.draw.DrawMode
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.UiPathPaint
+import ru.tech.imageresizershrinker.presentation.root.model.UiPathPaint
 import ru.tech.imageresizershrinker.domain.image.draw.Pt
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton

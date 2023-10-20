@@ -8,11 +8,11 @@ interface ImageDrawApplier<Image, Path, Color> {
         drawBehavior: DrawBehavior,
         pathPaints: List<PathPaint<Path, Color>>,
         imageUri: String
-    ): Image
+    ): Image?
 
     suspend fun applyEraseToImage(
         pathPaints: List<PathPaint<Path, Color>>,
         imageUri: String
-    ): Image
+    ): Image?
 
 }

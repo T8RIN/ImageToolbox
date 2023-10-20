@@ -23,7 +23,7 @@ import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.UiPathPaint
+import ru.tech.imageresizershrinker.presentation.root.model.UiPathPaint
 import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import javax.inject.Inject
 

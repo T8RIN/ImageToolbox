@@ -42,7 +42,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
@@ -55,7 +54,7 @@ import ru.tech.imageresizershrinker.domain.image.draw.DrawMode
 import ru.tech.imageresizershrinker.domain.image.draw.Pt
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.UiPathPaint
+import ru.tech.imageresizershrinker.presentation.root.model.UiPathPaint
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiPixelationFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiStackBlurFilter
@@ -85,40 +84,6 @@ fun BitmapDrawer(
 ) {
     val zoomState = rememberAnimatedZoomState(maxZoom = 30f)
     val scope = rememberCoroutineScope()
-    val context = LocalContext.current
-
-    fun transformationsForMode(
-        drawMode: DrawMode
-    ): List<Filter<Bitmap, *>> = when (drawMode) {
-        is DrawMode.PathEffect.PrivacyBlur -> {
-            listOf(
-                UiStackBlurFilter(
-                    value = when {
-                        drawMode.blurRadius < 10 -> 0.8f
-                        drawMode.blurRadius < 20 -> 0.5f
-                        else -> 0.3f
-                    } to drawMode.blurRadius
-                )
-            )
-        }
-
-        is DrawMode.PathEffect.Pixelation -> {
-            listOf(
-                UiStackBlurFilter(
-                    value = when {
-                        drawMode.pixelSize < 10 -> 0.8f
-                        drawMode.pixelSize < 20 -> 0.5f
-                        else -> 0.3f
-                    } to 20
-                ),
-                UiPixelationFilter(
-                    value = drawMode.pixelSize
-                )
-            )
-        }
-
-        else -> emptyList()
-    }
 
     Box(
         modifier = Modifier
@@ -193,6 +158,39 @@ fun BitmapDrawer(
 
             val canvasSize = remember(canvas.nativeCanvas) {
                 IntegerSize(canvas.nativeCanvas.width, canvas.nativeCanvas.height)
+            }
+
+            fun transformationsForMode(
+                drawMode: DrawMode
+            ): List<Filter<Bitmap, *>> = when (drawMode) {
+                is DrawMode.PathEffect.PrivacyBlur -> {
+                    listOf(
+                        UiStackBlurFilter(
+                            value = when {
+                                drawMode.blurRadius < 10 -> 0.8f
+                                drawMode.blurRadius < 20 -> 0.5f
+                                else -> 0.3f
+                            } to drawMode.blurRadius
+                        )
+                    )
+                }
+
+                is DrawMode.PathEffect.Pixelation -> {
+                    listOf(
+                        UiStackBlurFilter(
+                            value = when {
+                                drawMode.pixelSize.value < 10 -> 0.8f
+                                drawMode.pixelSize.value < 20 -> 0.5f
+                                else -> 0.3f
+                            } to 20
+                        ),
+                        UiPixelationFilter(
+                            value = drawMode.pixelSize.toPx(canvasSize)
+                        )
+                    )
+                }
+
+                else -> emptyList()
             }
 
             val drawPaint =
@@ -332,8 +330,8 @@ fun BitmapDrawer(
                             var shaderSource by remember(backgroundColor) {
                                 mutableStateOf<ImageBitmap?>(null)
                             }
-                            LaunchedEffect(shaderSource) {
-                                if (shaderSource == null) {
+                            LaunchedEffect(shaderSource, invalidations) {
+                                if (shaderSource == null || invalidations <= paths.size) {
                                     shaderSource = imageManager.filter(
                                         image = drawImageBitmap.overlay(drawBitmap)
                                             .asAndroidBitmap(),
@@ -349,7 +347,10 @@ fun BitmapDrawer(
                                             color = Color.Transparent
                                             blendMode = BlendMode.Clear
                                         }
-                                    )?.also { invalidations++ }
+                                    )?.also {
+                                        it.prepareToDraw()
+                                        invalidations++
+                                    }
                                 }
                             }
                             if (shaderSource != null) {

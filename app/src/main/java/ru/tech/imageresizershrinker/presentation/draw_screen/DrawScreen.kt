@@ -95,14 +95,13 @@ import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidt
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.OpenColorPickerCard
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.presentation.draw_screen.viewModel.DrawViewModel
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PtSaver
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.pt
+import ru.tech.imageresizershrinker.presentation.root.model.PtSaver
+import ru.tech.imageresizershrinker.domain.image.draw.pt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Eraser
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.theme.toColor
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
@@ -492,7 +491,7 @@ fun DrawScreen(
             },
             brushSoftness = brushSoftness,
             addPath = viewModel::addPath,
-            onDraw = viewModel::updateDrawing,
+            onDraw = {},
             controls = controls,
             secondaryControls = secondaryControls
         )

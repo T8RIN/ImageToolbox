@@ -97,9 +97,9 @@ import ru.tech.imageresizershrinker.presentation.erase_background_screen.compone
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.BitmapEraser
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.EraseModeButton
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.EraseModeCard
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.PtSaver
+import ru.tech.imageresizershrinker.presentation.root.model.PtSaver
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.TrimImageToggle
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.pt
+import ru.tech.imageresizershrinker.domain.image.draw.pt
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.viewModel.EraseBackgroundViewModel
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Transparency
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController

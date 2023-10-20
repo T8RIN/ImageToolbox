@@ -30,7 +30,7 @@ import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleLockDrawOrientationUseCase
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.UiPathPaint
+import ru.tech.imageresizershrinker.presentation.root.model.UiPathPaint
 import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import javax.inject.Inject
 
@@ -93,7 +93,6 @@ class DrawViewModel @Inject constructor(
     fun saveBitmap(
         onComplete: (saveResult: SaveResult) -> Unit
     ) = viewModelScope.launch {
-        //TODO: IMPROVE SAVING
         withContext(Dispatchers.IO) {
             _isSaving.value = true
             getDrawingBitmap()?.let { localBitmap ->
@@ -199,7 +198,7 @@ class DrawViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getDrawingBitmap(): Bitmap = withContext(Dispatchers.IO) {
+    private suspend fun getDrawingBitmap(): Bitmap? = withContext(Dispatchers.IO) {
         imageDrawApplier.applyDrawToImage(
             drawBehavior = drawBehavior,
             pathPaints = paths,
@@ -256,7 +255,7 @@ class DrawViewModel @Inject constructor(
                     ),
                     onComplete = onComplete
                 )
-            } ?: onComplete()
+            }
             _isSaving.value = false
         }
     }
@@ -308,10 +307,6 @@ class DrawViewModel @Inject constructor(
     fun addPath(pathPaint: UiPathPaint) {
         _paths.update { it + pathPaint }
         _undonePaths.value = listOf()
-    }
-
-    fun updateDrawing(bitmap: Bitmap) {
-
     }
 
     fun cancelSaving() {
