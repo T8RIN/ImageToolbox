@@ -21,7 +21,7 @@
     <string name="stay">Stay</string>
     <string name="close">Close</string>
     <string name="reset_image">Reset image</string>
-    <string name="reset_image_sub">Image changes will roll back to start values</string>
+    <string name="reset_image_sub">Image changes will roll back to initial values</string>
     <string name="values_reset">Values properly reset</string>
     <string name="reset">Reset</string>
     <string name="something_went_wrong">Something went wrong</string>
