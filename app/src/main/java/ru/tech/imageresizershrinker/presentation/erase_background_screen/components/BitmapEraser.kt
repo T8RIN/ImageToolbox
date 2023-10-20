@@ -112,7 +112,7 @@ fun BitmapEraser(
                     imageWidth,
                     imageHeight,
                     null,
-                    false
+                    true
                 ).asImageBitmap()
             }
 
@@ -123,7 +123,7 @@ fun BitmapEraser(
                         imageWidth,
                         imageHeight,
                         null,
-                        false
+                        true
                     ).asImageBitmap()
                 }
             }

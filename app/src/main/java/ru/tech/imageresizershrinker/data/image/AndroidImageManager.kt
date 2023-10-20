@@ -238,7 +238,7 @@ class AndroidImageManager @Inject constructor(
                     widthInternal,
                     heightInternal,
                     null,
-                    false
+                    true
                 )
             }
 
@@ -280,11 +280,11 @@ class AndroidImageManager @Inject constructor(
             if (image.height >= image.width) {
                 val aspectRatio = image.width.toDouble() / image.height.toDouble()
                 val targetWidth = (max * aspectRatio).toInt()
-                BitmapCompat.createScaledBitmap(image, targetWidth, max, null, false)
+                BitmapCompat.createScaledBitmap(image, targetWidth, max, null, true)
             } else {
                 val aspectRatio = image.height.toDouble() / image.width.toDouble()
                 val targetHeight = (max * aspectRatio).toInt()
-                BitmapCompat.createScaledBitmap(image, max, targetHeight, null, false)
+                BitmapCompat.createScaledBitmap(image, max, targetHeight, null, true)
             }
         }.getOrNull() ?: image
     }
@@ -1074,7 +1074,7 @@ class AndroidImageManager @Inject constructor(
                     (scale * it.width).toInt(),
                     (scale * it.height).toInt(),
                     null,
-                    false
+                    true
                 )
             },
             transformations = listOf(
@@ -1088,7 +1088,7 @@ class AndroidImageManager @Inject constructor(
             (image.width * scaleFactor).toInt(),
             (image.height * scaleFactor).toInt(),
             null,
-            false
+            true
         )
         val canvas = Bitmap.createBitmap(w, h, drawImage.config).apply { setHasAlpha(true) }
         Canvas(canvas).apply {
@@ -1143,7 +1143,7 @@ class AndroidImageManager @Inject constructor(
 
             lastModification = newWidth to newHeight
 
-            BitmapCompat.createScaledBitmap(image, newWidth, newHeight, null, false)
+            BitmapCompat.createScaledBitmap(image, newWidth, newHeight, null, true)
         } else image
     }
 
@@ -1193,7 +1193,7 @@ class AndroidImageManager @Inject constructor(
                 (size.height * aspectRatio).toInt(),
                 size.height,
                 null,
-                false
+                true
             )
         } else {
             BitmapCompat.createScaledBitmap(
@@ -1201,7 +1201,7 @@ class AndroidImageManager @Inject constructor(
                 size.width,
                 (size.width / aspectRatio).toInt(),
                 null,
-                false
+                true
             )
         }
     }

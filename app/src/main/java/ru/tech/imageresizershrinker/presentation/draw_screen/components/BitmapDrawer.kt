@@ -116,7 +116,7 @@ fun BitmapDrawer(
                     imageWidth,
                     imageHeight,
                     null,
-                    false
+                    true
                 ).apply {
                     val canvas = AndroidCanvas(this)
                     val paint = android.graphics.Paint().apply {
@@ -428,7 +428,7 @@ fun BitmapDrawer(
                         imageWidth,
                         imageHeight,
                         null,
-                        false
+                        true
                     ).asImageBitmap()
                 }
             }

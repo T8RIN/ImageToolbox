@@ -24,7 +24,7 @@ private fun Bitmap.stackBlur(scale: Float, radius: Int): Bitmap {
     var sentBitmap = this@stackBlur
     val width = (sentBitmap.width * scale).roundToInt()
     val height = (sentBitmap.height * scale).roundToInt()
-    sentBitmap = BitmapCompat.createScaledBitmap(sentBitmap, width, height, null, false)
+    sentBitmap = BitmapCompat.createScaledBitmap(sentBitmap, width, height, null, true)
     val bitmap = sentBitmap.copy(sentBitmap.config, true)
     if (radius < 1) {
         return this
@@ -243,6 +243,6 @@ private fun Bitmap.stackBlur(scale: Float, radius: Int): Bitmap {
         (bitmap.width / scale).toInt(),
         (bitmap.height / scale).toInt(),
         null,
-        false
+        true
     )
 }
