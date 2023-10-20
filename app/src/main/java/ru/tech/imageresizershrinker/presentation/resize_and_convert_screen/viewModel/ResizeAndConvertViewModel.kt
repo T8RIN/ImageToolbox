@@ -144,7 +144,7 @@ class ResizeAndConvertViewModel @Inject constructor(
     ): Bitmap = withContext(Dispatchers.IO) {
         return@withContext imageInfo.run {
             _showWarning.value = width * height * 4L >= 10_000 * 10_000 * 3L
-            imageManager.createPreview(
+            imageManager.createFilteredPreview(
                 image = bitmap,
                 imageInfo = this,
                 onGetByteCount = {

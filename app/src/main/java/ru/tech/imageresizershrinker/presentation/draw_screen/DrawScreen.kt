@@ -102,7 +102,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.theme.toColor
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
@@ -182,7 +182,7 @@ fun DrawScreen(
     LaunchedEffect(viewModel.uri, viewModel.paths) {
         viewModel.getBitmapFromUriWithTransformations(
             uri = viewModel.uri,
-            transformations = listOf(SaturationFilter(context, 2f))
+            transformations = listOf()
         )?.let {
             if (allowChangeColor) themeState.updateColorByImage(it)
         }

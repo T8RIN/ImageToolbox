@@ -27,9 +27,11 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.data.image.filters.DataStackBlurFilter
+import ru.tech.imageresizershrinker.data.image.filters.StackBlurFilter
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Transformation
+import ru.tech.imageresizershrinker.domain.image.filters.Filter
+import ru.tech.imageresizershrinker.domain.image.filters.provider.FilterProvider
 import ru.tech.imageresizershrinker.domain.model.CombiningParams
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
@@ -55,8 +57,11 @@ import coil.transform.Transformation as CoilTransformation
 class AndroidImageManager @Inject constructor(
     private val context: Context,
     private val fileController: FileController,
-    private val imageLoader: ImageLoader
+    private val imageLoader: ImageLoader,
+    private val filterProvider: FilterProvider<Bitmap>
 ) : ImageManager<Bitmap, ExifInterface> {
+
+    override fun getFilterProvider(): FilterProvider<Bitmap> = filterProvider
 
     private fun toCoil(transformation: Transformation<Bitmap>): CoilTransformation {
         return object : CoilTransformation {
@@ -89,6 +94,16 @@ class AndroidImageManager @Inject constructor(
         return@withContext imageLoader.execute(request).drawable?.toBitmap()
     }
 
+    override suspend fun filter(
+        image: Bitmap,
+        filters: List<Filter<Bitmap, *>>,
+        originalSize: Boolean
+    ): Bitmap? = transform(
+        image = image,
+        transformations = filters.map { filterProvider.filterToTransformation(it) },
+        originalSize = originalSize
+    )
+
     override suspend fun transform(
         image: Bitmap,
         transformations: List<Transformation<Bitmap>>,
@@ -105,6 +120,16 @@ class AndroidImageManager @Inject constructor(
 
         return@withContext imageLoader.execute(request).drawable?.toBitmap()
     }
+
+    override suspend fun filter(
+        image: Bitmap,
+        filters: List<Filter<Bitmap, *>>,
+        size: IntegerSize
+    ): Bitmap? = transform(
+        image = image,
+        transformations = filters.map { filterProvider.filterToTransformation(it) },
+        size = size
+    )
 
     override suspend fun getImage(
         uri: String,
@@ -147,6 +172,18 @@ class AndroidImageManager @Inject constructor(
                 .build()
         ).drawable?.toBitmap()
     }
+
+    override suspend fun createFilteredPreview(
+        image: Bitmap,
+        imageInfo: ImageInfo,
+        filters: List<Filter<Bitmap, *>>,
+        onGetByteCount: (Int) -> Unit
+    ): Bitmap = createPreview(
+        image = image,
+        imageInfo = imageInfo,
+        transformations = filters.map { filterProvider.filterToTransformation(it) },
+        onGetByteCount = onGetByteCount
+    )
 
     override fun getImageAsync(
         uri: String,
@@ -354,6 +391,16 @@ class AndroidImageManager @Inject constructor(
         }
     }
 
+    override suspend fun getImageWithFiltersApplied(
+        uri: String,
+        filters: List<Filter<Bitmap, *>>,
+        originalSize: Boolean
+    ): ImageData<Bitmap, ExifInterface>? = getImageWithTransformations(
+        uri = uri,
+        transformations = filters.map { filterProvider.filterToTransformation(it) },
+        originalSize = originalSize
+    )
+
     override suspend fun shareFile(
         byteArray: ByteArray,
         filename: String,
@@ -543,6 +590,7 @@ class AndroidImageManager @Inject constructor(
                     imageFormat = imageFormat,
                     quality = quality
                 ),
+                transformations = emptyList(),
                 onGetByteCount = onGetByteCount
             ) withSize imageSize
         }
@@ -1027,8 +1075,7 @@ class AndroidImageManager @Inject constructor(
                 )
             },
             transformations = listOf(
-                DataStackBlurFilter(
-                    context = context,
+                StackBlurFilter(
                     value = 0.5f to blurRadius
                 )
             )

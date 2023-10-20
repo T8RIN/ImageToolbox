@@ -57,7 +57,6 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.image_preview_screen.components.ImagePager
 import ru.tech.imageresizershrinker.presentation.image_preview_screen.viewModel.ImagePreviewViewModel
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
@@ -104,9 +103,7 @@ fun ImagePreviewScreen(
                     reqHeight = 1200
                 )
                 image?.let { it1 ->
-                    themeState.updateColorByImage(
-                        SaturationFilter(context, 2f).transform(it1, Size.ORIGINAL)
-                    )
+                    themeState.updateColorByImage(it1)
                 }
             }
         } ?: themeState.updateColorTuple(appColorTuple)

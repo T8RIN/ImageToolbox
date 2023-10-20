@@ -75,7 +75,6 @@ import ru.tech.imageresizershrinker.presentation.image_stitching_screen.componen
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ScaleSmallImagesToLargeToggle
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.SpacingSelector
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.viewModel.ImageStitchingViewModel
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
@@ -133,9 +132,7 @@ fun ImageStitchingScreen(
     LaunchedEffect(viewModel.previewBitmap) {
         viewModel.previewBitmap?.let {
             if (allowChangeColor) {
-                themeState.updateColorByImage(
-                    SaturationFilter(context, 2f).transform(it, Size(500, 500))
-                )
+                themeState.updateColorByImage(it)
             }
         }
     }

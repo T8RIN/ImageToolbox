@@ -66,7 +66,6 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.delete_exif_screen.viewModel.DeleteExifViewModel
 import ru.tech.imageresizershrinker.presentation.root.transformation.ImageInfoTransformation
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
@@ -131,9 +130,7 @@ fun DeleteExifScreen(
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let {
             if (allowChangeColor) {
-                themeState.updateColorByImage(
-                    SaturationFilter(context, 2f).transform(it, Size(500, 500))
-                )
+                themeState.updateColorByImage(it)
             }
         }
     }

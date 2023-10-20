@@ -80,7 +80,6 @@ import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.components.ImageFormatAlert
 import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.viewModel.BytesResizeViewModel
 import ru.tech.imageresizershrinker.presentation.root.transformation.ImageInfoTransformation
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
@@ -154,9 +153,7 @@ fun BytesResizeScreen(
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let {
             if (allowChangeColor) {
-                themeState.updateColorByImage(
-                    SaturationFilter(context, 2f).transform(it, Size(500, 500))
-                )
+                themeState.updateColorByImage(it)
             }
         }
     }

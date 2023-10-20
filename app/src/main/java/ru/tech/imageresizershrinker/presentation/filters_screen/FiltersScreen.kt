@@ -57,6 +57,7 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -76,7 +77,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.size.Size
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
@@ -90,7 +90,6 @@ import ru.tech.imageresizershrinker.presentation.filters_screen.viewModel.Filter
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
 import ru.tech.imageresizershrinker.presentation.root.transformation.ImageInfoTransformation
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.failedToSaveImages
@@ -161,9 +160,7 @@ fun FiltersScreen(
     LaunchedEffect(viewModel.previewBitmap) {
         viewModel.previewBitmap?.let {
             if (allowChangeColor) {
-                themeState.updateColorByImage(
-                    SaturationFilter(context, 2f).transform(it, Size(500, 500))
-                )
+                themeState.updateColorByImage(it)
             }
         }
     }
@@ -615,7 +612,7 @@ fun FiltersScreen(
                 transformations = listOf(
                     ImageInfoTransformation(
                         imageInfo = viewModel.imageInfo,
-                        transformations = filterList,
+                        filters = filterList,
                         imageManager = viewModel.getImageManager()
                     )
                 ),

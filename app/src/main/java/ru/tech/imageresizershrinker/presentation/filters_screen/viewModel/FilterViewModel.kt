@@ -23,7 +23,7 @@ import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFilter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -65,7 +65,7 @@ class FilterViewModel @Inject constructor(
     private val _imageInfo = mutableStateOf(ImageInfo())
     val imageInfo by _imageInfo
 
-    private val _filterList = mutableStateOf(listOf<FilterTransformation<*>>())
+    private val _filterList = mutableStateOf(listOf<UiFilter<*>>())
     val filterList by _filterList
 
     private val _needToApplyFilters = mutableStateOf(true)
@@ -123,7 +123,10 @@ class FilterViewModel @Inject constructor(
             _done.value = 0
             uris?.forEach { uri ->
                 runCatching {
-                    imageManager.getImageWithTransformations(uri.toString(), filterList)?.image
+                    imageManager.getImageWithFiltersApplied(
+                        uri = uri.toString(),
+                        filters = filterList
+                    )?.image
                 }.getOrNull()?.let { bitmap ->
                     val localBitmap = bitmap
 
@@ -204,13 +207,13 @@ class FilterViewModel @Inject constructor(
         _needToApplyFilters.value = true
     }
 
-    fun updateOrder(value: List<FilterTransformation<*>>) {
+    fun updateOrder(value: List<UiFilter<*>>) {
         _filterList.value = value
         filterJob?.cancel()
         _needToApplyFilters.value = true
     }
 
-    fun addFilter(filter: FilterTransformation<*>) {
+    fun addFilter(filter: UiFilter<*>) {
         _filterList.value = _filterList.value + filter
         updateCanSave()
         filterJob?.cancel()
@@ -234,7 +237,7 @@ class FilterViewModel @Inject constructor(
             imageManager.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
-                    imageManager.getImageWithTransformations(uri, filterList)
+                    imageManager.getImageWithFiltersApplied(uri, filterList)
                 },
                 onProgressChange = {
                     if (it == -1) {
@@ -267,10 +270,10 @@ class FilterViewModel @Inject constructor(
                 withContext(Dispatchers.IO) {
                     delay(200L)
                     _isImageLoading.value = true
-                    _previewBitmap.value = imageManager.createPreview(
+                    _previewBitmap.value = imageManager.createFilteredPreview(
                         image = bitmap,
                         imageInfo = imageInfo,
-                        transformations = filterList,
+                        filters = filterList,
                         onGetByteCount = { _bitmapSize.value = it.toLong() }
                     )
                     _isImageLoading.value = false

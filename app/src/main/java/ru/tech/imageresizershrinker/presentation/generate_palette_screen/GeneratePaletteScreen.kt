@@ -82,7 +82,6 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.generate_palette_screen.components.PaletteColorsCountSelector
 import ru.tech.imageresizershrinker.presentation.generate_palette_screen.viewModel.GeneratePaletteViewModel
 import ru.tech.imageresizershrinker.presentation.root.icons.material.PaletteSwatch
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
@@ -152,9 +151,7 @@ fun GeneratePaletteScreen(
         viewModel.bitmap?.let {
             if (allowChangeColor) {
                 if (color == Color.Unspecified) {
-                    themeState.updateColorByImage(
-                        SaturationFilter(context, 2f).transform(it, Size(500, 500))
-                    )
+                    themeState.updateColorByImage(it)
                 } else {
                     themeState.updateColor(color)
                 }

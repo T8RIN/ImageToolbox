@@ -51,14 +51,14 @@ import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.domain.image.ImageManager
-import ru.tech.imageresizershrinker.domain.image.Transformation
 import ru.tech.imageresizershrinker.domain.image.draw.DrawMode
+import ru.tech.imageresizershrinker.domain.image.draw.Pt
+import ru.tech.imageresizershrinker.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.UiPathPaint
-import ru.tech.imageresizershrinker.domain.image.draw.Pt
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.PixelationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.StackBlurFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiPixelationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiStackBlurFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rotateVector
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.scaleToFitCanvas
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
@@ -89,11 +89,10 @@ fun BitmapDrawer(
 
     fun transformationsForMode(
         drawMode: DrawMode
-    ): List<Transformation<Bitmap>> = when (drawMode) {
+    ): List<Filter<Bitmap, *>> = when (drawMode) {
         is DrawMode.PathEffect.PrivacyBlur -> {
             listOf(
-                StackBlurFilter(
-                    context = context,
+                UiStackBlurFilter(
                     value = when {
                         drawMode.blurRadius < 10 -> 0.8f
                         drawMode.blurRadius < 20 -> 0.5f
@@ -105,16 +104,14 @@ fun BitmapDrawer(
 
         is DrawMode.PathEffect.Pixelation -> {
             listOf(
-                StackBlurFilter(
-                    context = context,
+                UiStackBlurFilter(
                     value = when {
                         drawMode.pixelSize < 10 -> 0.8f
                         drawMode.pixelSize < 20 -> 0.5f
                         else -> 0.3f
                     } to 20
                 ),
-                PixelationFilter(
-                    context = context,
+                UiPixelationFilter(
                     value = drawMode.pixelSize
                 )
             )
@@ -337,10 +334,10 @@ fun BitmapDrawer(
                             }
                             LaunchedEffect(shaderSource) {
                                 if (shaderSource == null) {
-                                    shaderSource = imageManager.transform(
+                                    shaderSource = imageManager.filter(
                                         image = drawImageBitmap.overlay(drawBitmap)
                                             .asAndroidBitmap(),
-                                        transformations = transformationsForMode(effect)
+                                        filters = transformationsForMode(effect)
                                     )?.asImageBitmap()?.clipBitmap(
                                         path = path,
                                         paint = Paint().apply {
@@ -415,9 +412,9 @@ fun BitmapDrawer(
             }
 
             LaunchedEffect(outputImage, paths, backgroundColor, drawMode) {
-                pathEffectBitmap = imageManager.transform(
+                pathEffectBitmap = imageManager.filter(
                     image = outputImage.asAndroidBitmap(),
-                    transformations = transformationsForMode(drawMode)
+                    filters = transformationsForMode(drawMode)
                 )?.asImageBitmap()
             }
 

@@ -85,7 +85,6 @@ import ru.tech.imageresizershrinker.presentation.crop_screen.components.CropMask
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.Cropper
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.presentation.crop_screen.viewModel.CropViewModel
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
@@ -160,9 +159,7 @@ fun CropScreen(
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let {
             if (allowChangeColor) {
-                themeState.updateColorByImage(
-                    SaturationFilter(context, 2f).transform(it, Size(500, 500))
-                )
+                themeState.updateColorByImage(it)
             }
         }
     }

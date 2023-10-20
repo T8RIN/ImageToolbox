@@ -26,7 +26,7 @@ import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFilter
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
@@ -34,9 +34,9 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 
 @Composable
 fun FilterReorderSheet(
-    filterList: List<FilterTransformation<*>>,
+    filterList: List<UiFilter<*>>,
     visible: MutableState<Boolean>,
-    updateOrder: (List<FilterTransformation<*>>) -> Unit
+    updateOrder: (List<UiFilter<*>>) -> Unit
 ) {
     SimpleSheet(
         sheetContent = {

@@ -30,6 +30,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,17 +48,19 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.exifinterface.media.ExifInterface
+import coil.size.Size
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.image.Transformation
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddFiltersSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterItem
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterReorderSheet
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
@@ -80,11 +83,11 @@ fun FilterEditOption(
     bitmap: Bitmap?,
     onGetBitmap: (Bitmap) -> Unit,
     imageManager: ImageManager<Bitmap, ExifInterface>,
-    filterList: List<FilterTransformation<*>>,
+    filterList: List<UiFilter<*>>,
     updateFilter: (Any, Int, (Throwable) -> Unit) -> Unit,
     removeAt: (Int) -> Unit,
-    addFilter: (FilterTransformation<*>) -> Unit,
-    updateOrder: (List<FilterTransformation<*>>) -> Unit
+    addFilter: (UiFilter<*>) -> Unit,
+    updateOrder: (List<UiFilter<*>>) -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val toastHostState = LocalToastHost.current
@@ -228,7 +231,13 @@ fun FilterEditOption(
                 Picture(
                     model = bitmap,
                     shape = RectangleShape,
-                    transformations = filterList,
+                    transformations = remember(filterList) {
+                        derivedStateOf {
+                            filterList.map {
+                                imageManager.getFilterProvider().filterToTransformation(it).toCoil()
+                            }
+                        }
+                    }.value,
                     onSuccess = {
                         stateBitmap = it.result.drawable.toBitmap()
                     },
@@ -273,5 +282,17 @@ fun FilterEditOption(
             onColorChange = { tempColor = it },
             color = tempColor
         )
+    }
+}
+
+private fun Transformation<Bitmap>.toCoil(): coil.transform.Transformation {
+    return object : coil.transform.Transformation {
+        override val cacheKey: String
+            get() = this.cacheKey
+
+        override suspend fun transform(
+            input: Bitmap,
+            size: Size
+        ): Bitmap = this.transform(input, size)
     }
 }

@@ -214,6 +214,7 @@ dependencies {
     implementation("com.github.GIGAMOLE:ComposeShadowsPlus:1.0.3")
 
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6")
+    implementation(kotlin("reflect"))
 }
 
 

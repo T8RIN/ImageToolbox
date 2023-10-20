@@ -1,5 +1,7 @@
 package ru.tech.imageresizershrinker.domain.image
 
+import ru.tech.imageresizershrinker.domain.image.filters.Filter
+import ru.tech.imageresizershrinker.domain.image.filters.provider.FilterProvider
 import ru.tech.imageresizershrinker.domain.model.CombiningParams
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
@@ -11,15 +13,29 @@ import ru.tech.imageresizershrinker.domain.model.ResizeType
 
 interface ImageManager<I, M> {
 
+    fun getFilterProvider(): FilterProvider<I>
+
     suspend fun transform(
         image: I,
         transformations: List<Transformation<I>>,
         originalSize: Boolean = true
     ): I?
 
+    suspend fun filter(
+        image: I,
+        filters: List<Filter<I, *>>,
+        originalSize: Boolean = true
+    ): I?
+
     suspend fun transform(
         image: I,
         transformations: List<Transformation<I>>,
+        size: IntegerSize
+    ): I?
+
+    suspend fun filter(
+        image: I,
+        filters: List<Filter<I, *>>,
         size: IntegerSize
     ): I?
 
@@ -43,6 +59,13 @@ interface ImageManager<I, M> {
         image: I,
         imageInfo: ImageInfo,
         transformations: List<Transformation<I>> = emptyList(),
+        onGetByteCount: (Int) -> Unit
+    ): I
+
+    suspend fun createFilteredPreview(
+        image: I,
+        imageInfo: ImageInfo,
+        filters: List<Filter<I, *>> = emptyList(),
         onGetByteCount: (Int) -> Unit
     ): I
 
@@ -86,6 +109,12 @@ interface ImageManager<I, M> {
     suspend fun getImageWithTransformations(
         uri: String,
         transformations: List<Transformation<I>>,
+        originalSize: Boolean = true
+    ): ImageData<I, M>?
+
+    suspend fun getImageWithFiltersApplied(
+        uri: String,
+        filters: List<Filter<I, *>>,
         originalSize: Boolean = true
     ): ImageData<I, M>?
 

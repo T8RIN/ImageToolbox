@@ -85,7 +85,6 @@ import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.load_net_image_screen.viewModel.LoadNetImageViewModel
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
@@ -133,9 +132,7 @@ fun LoadNetImageScreen(
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let { image ->
             if (allowChangeColor) {
-                themeState.updateColorByImage(
-                    SaturationFilter(context, 2f).transform(image, Size.ORIGINAL)
-                )
+                themeState.updateColorByImage(image)
             }
         } ?: themeState.updateColorTuple(appColorTuple)
     }

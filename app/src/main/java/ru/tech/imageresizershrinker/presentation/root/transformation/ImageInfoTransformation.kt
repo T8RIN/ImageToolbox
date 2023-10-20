@@ -5,6 +5,7 @@ import androidx.exifinterface.media.ExifInterface
 import coil.size.Size
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Transformation
+import ru.tech.imageresizershrinker.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.model.ResizeType
@@ -16,6 +17,20 @@ class ImageInfoTransformation(
     private val imageManager: ImageManager<Bitmap, ExifInterface>,
     private val transformations: List<Transformation<Bitmap>> = emptyList()
 ) : CoilTransformation, Transformation<Bitmap> {
+
+    constructor(
+        filters: List<Filter<Bitmap, *>>,
+        imageInfo: ImageInfo,
+        preset: Preset = Preset.Numeric(100),
+        imageManager: ImageManager<Bitmap, ExifInterface>,
+    ) : this(
+        imageInfo = imageInfo,
+        preset = preset,
+        imageManager = imageManager,
+        transformations = filters.map {
+            imageManager.getFilterProvider().filterToTransformation(it)
+        }
+    )
 
     override val cacheKey: String
         get() = (imageInfo to preset to imageManager to transformations).hashCode().toString()

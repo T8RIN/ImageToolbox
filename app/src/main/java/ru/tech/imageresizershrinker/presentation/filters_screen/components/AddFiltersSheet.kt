@@ -75,66 +75,66 @@ import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Cube
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BilaterialBlurFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BlackAndWhiteFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BoxBlurFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BrightnessFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.BulgeDistortionEffect
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.CGAColorSpaceFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.CirclePixelationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ColorBalanceFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ColorFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ColorMatrixFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ContrastFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.Convolution3x3Filter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.CrosshatchFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.DiamondPixelationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.DilationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.EmbossFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.EnhancedCirclePixelationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.EnhancedDiamondPixelationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.EnhancedPixelationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ExposureFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FalseColorFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FastBlurFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.GammaFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.GaussianBlurFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.GlassSphereRefractionFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.HalftoneFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.HazeFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.HighlightsAndShadowsFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.HueFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.KuwaharaFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.LaplacianFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.LookupFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.LuminanceThresholdFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.MonochromeFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.NegativeFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.NonMaximumSuppressionFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.OpacityFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.PixelationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.PosterizeFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.RGBFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.RemoveColorFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ReplaceColorFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SaturationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SepiaFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SharpenFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SketchFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SmoothToonFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SobelEdgeDetectionFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SolarizeFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SphereRefractionFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.StackBlurFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.StrokePixelationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.SwirlDistortionEffect
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ToonFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.VibranceFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.VignetteFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.WeakPixelFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.WhiteBalanceFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.ZoomBlurFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiBilaterialBlurFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiBlackAndWhiteFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiBoxBlurFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiBrightnessFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiBulgeDistortionFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiCGAColorSpaceFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiCirclePixelationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiColorBalanceFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiColorFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiColorMatrixFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiContrastFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiConvolution3x3Filter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiCrosshatchFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiDiamondPixelationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiDilationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiEmbossFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiEnhancedCirclePixelationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiEnhancedDiamondPixelationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiEnhancedPixelationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiExposureFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFalseColorFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFastBlurFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiGammaFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiGaussianBlurFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiGlassSphereRefractionFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiHalftoneFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiHazeFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiHighlightsAndShadowsFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiHueFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiKuwaharaFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiLaplacianFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiLookupFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiLuminanceThresholdFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiMonochromeFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiNegativeFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiNonMaximumSuppressionFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiOpacityFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiPixelationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiPosterizeFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiRGBFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiRemoveColorFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiReplaceColorFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSaturationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSepiaFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSharpenFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSketchFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSmoothToonFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSobelEdgeDetectionFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSolarizeFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSphereRefractionFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiStackBlurFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiStrokePixelationFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSwirlDistortionFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiToonFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiVibranceFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiVignetteFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiWeakPixelFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiWhiteBalanceFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiZoomBlurFilter
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
@@ -151,7 +151,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageSt
 
 
 private object FilterHolder {
-    val previewSheetData: MutableState<FilterTransformation<*>?> = mutableStateOf(null)
+    val previewSheetData: MutableState<UiFilter<*>?> = mutableStateOf(null)
 }
 
 
@@ -161,8 +161,8 @@ fun AddFiltersSheet(
     visible: MutableState<Boolean>,
     previewBitmap: Bitmap?,
     imageManager: ImageManager<Bitmap, ExifInterface>,
-    onFilterPicked: (FilterTransformation<*>) -> Unit,
-    onFilterPickedWithParams: (FilterTransformation<*>) -> Unit
+    onFilterPicked: (UiFilter<*>) -> Unit,
+    onFilterPickedWithParams: (UiFilter<*>) -> Unit
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current
@@ -178,78 +178,78 @@ fun AddFiltersSheet(
         }
     }
 
-    val filters = remember(context) {
+    val filters = remember {
         listOf(
             listOf(
-                HueFilter(context),
-                ColorFilter(context),
-                SaturationFilter(context),
-                VibranceFilter(context),
-                RGBFilter(context),
-                ReplaceColorFilter(context),
-                RemoveColorFilter(context),
-                FalseColorFilter(context),
-                CGAColorSpaceFilter(context),
-                MonochromeFilter(context),
-                SepiaFilter(context),
-                NegativeFilter(context),
-                BlackAndWhiteFilter(context),
-                ColorMatrixFilter(context),
-                ColorBalanceFilter(context)
+                UiHueFilter(),
+                UiColorFilter(),
+                UiSaturationFilter(),
+                UiVibranceFilter(),
+                UiRGBFilter(),
+                UiReplaceColorFilter(),
+                UiRemoveColorFilter(),
+                UiFalseColorFilter(),
+                UiCGAColorSpaceFilter(),
+                UiMonochromeFilter(),
+                UiSepiaFilter(),
+                UiNegativeFilter(),
+                UiBlackAndWhiteFilter(),
+                UiColorMatrixFilter(),
+                UiColorBalanceFilter()
             ),
             listOf(
-                BrightnessFilter(context),
-                ContrastFilter(context),
-                ExposureFilter(context),
-                WhiteBalanceFilter(context),
-                GammaFilter(context),
-                HighlightsAndShadowsFilter(context),
-                SolarizeFilter(context),
-                HazeFilter(context)
+                UiBrightnessFilter(),
+                UiContrastFilter(),
+                UiExposureFilter(),
+                UiWhiteBalanceFilter(),
+                UiGammaFilter(),
+                UiHighlightsAndShadowsFilter(),
+                UiSolarizeFilter(),
+                UiHazeFilter()
             ),
             listOf(
-                SharpenFilter(context),
-                CrosshatchFilter(context),
-                SobelEdgeDetectionFilter(context),
-                HalftoneFilter(context),
-                EmbossFilter(context),
-                LaplacianFilter(context),
-                VignetteFilter(context),
-                KuwaharaFilter(context),
-                DilationFilter(context),
-                OpacityFilter(context),
-                ToonFilter(context),
-                SmoothToonFilter(context),
-                SketchFilter(context),
-                PosterizeFilter(context),
-                LookupFilter(context),
-                NonMaximumSuppressionFilter(context),
-                WeakPixelFilter(context),
-                Convolution3x3Filter(context),
-                LuminanceThresholdFilter(context)
+                UiSharpenFilter(),
+                UiCrosshatchFilter(),
+                UiSobelEdgeDetectionFilter(),
+                UiHalftoneFilter(),
+                UiEmbossFilter(),
+                UiLaplacianFilter(),
+                UiVignetteFilter(),
+                UiKuwaharaFilter(),
+                UiDilationFilter(),
+                UiOpacityFilter(),
+                UiToonFilter(),
+                UiSmoothToonFilter(),
+                UiSketchFilter(),
+                UiPosterizeFilter(),
+                UiLookupFilter(),
+                UiNonMaximumSuppressionFilter(),
+                UiWeakPixelFilter(),
+                UiConvolution3x3Filter(),
+                UiLuminanceThresholdFilter()
             ),
             listOf(
-                GaussianBlurFilter(context),
-                BoxBlurFilter(context),
-                BilaterialBlurFilter(context),
-                FastBlurFilter(context),
-                StackBlurFilter(context),
-                ZoomBlurFilter(context),
+                UiGaussianBlurFilter(),
+                UiBoxBlurFilter(),
+                UiBilaterialBlurFilter(),
+                UiFastBlurFilter(),
+                UiStackBlurFilter(),
+                UiZoomBlurFilter(),
             ),
             listOf(
-                PixelationFilter(context),
-                EnhancedPixelationFilter(context),
-                DiamondPixelationFilter(context),
-                EnhancedDiamondPixelationFilter(context),
-                CirclePixelationFilter(context),
-                EnhancedCirclePixelationFilter(context),
-                StrokePixelationFilter(context)
+                UiPixelationFilter(),
+                UiEnhancedPixelationFilter(),
+                UiDiamondPixelationFilter(),
+                UiEnhancedDiamondPixelationFilter(),
+                UiCirclePixelationFilter(),
+                UiEnhancedCirclePixelationFilter(),
+                UiStrokePixelationFilter()
             ),
             listOf(
-                SwirlDistortionEffect(context),
-                BulgeDistortionEffect(context),
-                SphereRefractionFilter(context),
-                GlassSphereRefractionFilter(context)
+                UiSwirlDistortionFilter(),
+                UiBulgeDistortionFilter(),
+                UiSphereRefractionFilter(),
+                UiGlassSphereRefractionFilter()
             )
         )
     }
@@ -403,9 +403,9 @@ fun AddFiltersSheet(
                 imageState = imageState.copy(position = 2)
             }
             loading = true
-            transformedBitmap = imageManager.transform(
+            transformedBitmap = imageManager.filter(
                 image = previewBitmap,
-                transformations = listOf(previewSheetData!!),
+                filters = listOf(previewSheetData!!),
                 size = IntegerSize(2000, 2000)
             )
             loading = false

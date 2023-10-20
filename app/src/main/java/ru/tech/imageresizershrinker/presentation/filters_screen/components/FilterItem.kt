@@ -42,8 +42,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.RGBFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiRGBFilter
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AlphaColorSelection
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorSelection
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
@@ -56,7 +56,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun <T> FilterItem(
-    filter: FilterTransformation<T>,
+    filter: UiFilter<T>,
     showDragHandle: Boolean,
     onRemove: () -> Unit,
     onLongPress: (() -> Unit)? = null,
@@ -152,7 +152,7 @@ fun <T> FilterItem(
                 when (filter.value) {
                     is Color -> {
                         Box(modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)) {
-                            if (filter is RGBFilter) {
+                            if (filter is UiRGBFilter) {
                                 ColorSelection(
                                     color = filter.value.toArgb(),
                                     onColorChange = { c ->

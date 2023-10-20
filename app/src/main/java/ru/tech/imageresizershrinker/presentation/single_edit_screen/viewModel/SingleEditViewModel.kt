@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.UiPathPaint
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.FilterTransformation
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import javax.inject.Inject
 
@@ -63,7 +63,7 @@ class SingleEditViewModel @Inject constructor(
     private val _drawUndonePaths = mutableStateOf(listOf<UiPathPaint>())
     val drawUndonePaths: List<UiPathPaint> by _drawUndonePaths
 
-    private val _filterList = mutableStateOf(listOf<FilterTransformation<*>>())
+    private val _filterList = mutableStateOf(listOf<UiFilter<*>>())
     val filterList by _filterList
 
     private val _cropProperties = mutableStateOf(
@@ -180,7 +180,7 @@ class SingleEditViewModel @Inject constructor(
     ): Bitmap = withContext(Dispatchers.IO) {
         return@withContext imageInfo.run {
             _showWarning.value = width * height * 4L >= 10_000 * 10_000 * 3L
-            imageManager.createPreview(
+            imageManager.createFilteredPreview(
                 image = bitmap,
                 imageInfo = this,
                 onGetByteCount = {
@@ -420,11 +420,11 @@ class SingleEditViewModel @Inject constructor(
         }
     }
 
-    fun updateOrder(value: List<FilterTransformation<*>>) {
+    fun updateOrder(value: List<UiFilter<*>>) {
         _filterList.value = value
     }
 
-    fun addFilter(filter: FilterTransformation<*>) {
+    fun addFilter(filter: UiFilter<*>) {
         _filterList.value = _filterList.value + filter
     }
 
