@@ -16,11 +16,13 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Jxl
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
 fun JxlWarning() {
+    val settingsState = LocalSettingsState.current
     var showJxlWarning by rememberSaveable { mutableStateOf(BuildConfig.FLAVOR == "jxl") }
-    if (showJxlWarning) {
+    if (showJxlWarning && settingsState.appOpenCount <= 1) {
         AlertDialog(
             modifier = Modifier.alertDialogBorder(),
             onDismissRequest = { showJxlWarning = false },

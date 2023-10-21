@@ -276,6 +276,8 @@ class MainViewModel @Inject constructor(
         installedFromMarket: Boolean,
         onNoUpdates: () -> Unit = {}
     ) {
+        if (settingsState.appOpenCount < 2) return
+
         val showDialog = settingsState.showDialogOnStartup
         if (installedFromMarket) {
             if (showDialog) {

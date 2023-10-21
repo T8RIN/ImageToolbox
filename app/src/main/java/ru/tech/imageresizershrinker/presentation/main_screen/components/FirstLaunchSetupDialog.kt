@@ -47,7 +47,7 @@ fun Context.FirstLaunchSetupDialog(
             true
         )
     }
-    if (settingsState.appOpenCount <= 5 && updateOnFirstOpen) {
+    if (settingsState.appOpenCount <= 1 && updateOnFirstOpen) {
         AlertDialog(
             modifier = Modifier.alertDialogBorder(),
             onDismissRequest = {},
