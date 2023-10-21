@@ -132,6 +132,7 @@ android {
 
     lint {
         disable += "UsingMaterialAndMaterial3Libraries"
+        disable += "ModifierParameter"
     }
 }
 

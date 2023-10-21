@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.presentation.root.widget.image
 
 import android.graphics.Bitmap
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -31,7 +32,7 @@ fun ImageContainer(
         AnimatedContent(
             modifier = modifier,
             targetState = Triple(previewBitmap, isLoading, showOriginal),
-            transitionSpec = { fadeIn() togetherWith fadeOut() }
+            transitionSpec = { fadeIn() togetherWith fadeOut() using SizeTransform(false) }
         ) { (bmp, loading, showOrig) ->
             Box(
                 contentAlignment = Alignment.Center,

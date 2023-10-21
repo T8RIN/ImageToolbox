@@ -90,8 +90,8 @@ fun EmojiItem(
                     modifier = Modifier
                         .size(size + 2.dp)
                         .clip(RoundedCornerShape(4.dp))
-                        .padding(1.dp)
-                        .shimmer(shimmering),
+                        .shimmer(shimmering)
+                        .padding(1.dp),
                     tint = Color.Unspecified
                 )
             }
