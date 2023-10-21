@@ -67,7 +67,7 @@
     <string name="language">語言</string>
     <string name="reset_image_sub">圖片變更將會被退回到初始狀態</string>
     <string name="clipboard_paste_invalid_empty">沒有任何東西可以貼上</string>
-    <string name="cannot_change_palette_while_dynamic_colors_applied">當動態顏色被啟用時，無法更改應用程式色彩方案</string>
+    <string name="cannot_change_palette_while_dynamic_colors_applied">當動態顏色被啟用時，無法變更應用程式色彩方案</string>
     <string name="no_updates">未發現更新</string>
     <string name="pick_accent_color">應用程式主題將會以選取的顏色為基礎</string>
     <string name="about_app">關於應用程式</string>
@@ -98,7 +98,7 @@
     <string name="app_closing_sub">您確定要關閉此應用程式嗎？</string>
     <string name="restart_app">重新啟動應用程式</string>
     <string name="stay">取消</string>
-    <string name="single_edit_sub">更改單一選取圖片的規格</string>
+    <string name="single_edit_sub">變更單一選取圖片的規格</string>
     <string name="values_reset">變更已重置</string>
     <string name="exception">例外</string>
     <string name="single_edit">調整單一圖片尺寸</string>
@@ -110,7 +110,7 @@
     <string name="permission_sub">應用程式需要存取您的儲存區以儲存圖片，這是必要的。請在下一個對話框中授予權限</string>
     <string name="fab_alignment">FAB 對齊</string>
     <string name="check_updates">檢查更新</string>
-    <string name="check_updates_sub">如果啟用，更新對話框將在應用程式啟動後顯示給您</string>
+    <string name="check_updates_sub">如果啟用，更新對話框將在應用程式啟動時顯示給您</string>
     <string name="values">設定值</string>
     <string name="add">加入</string>
     <string name="primary">初级</string>
@@ -139,7 +139,7 @@
     <string name="photo_picker_sub">出現在畫面底部的 Android 現代照片選擇器可能僅適用於 Adnroid 12+，並且在接收 EXIF 詮釋資料時也存在問題</string>
     <string name="options_arrangement">選項排列</string>
     <string name="edit">編輯</string>
-    <string name="order">命令</string>
+    <string name="order">順序</string>
     <string name="order_sub">確定主畫面上選項的順序</string>
     <string name="emojis_count">表情符號數量</string>
     <string name="sequence_num">序號</string>
@@ -237,7 +237,7 @@
     <string name="false_color">假色</string>
     <string name="first_color">第一種顏色</string>
     <string name="second_color">第二種顏色</string>
-    <string name="reorder">重新訂購</string>
+    <string name="reorder">重新排序</string>
     <string name="fast_blur">快速模糊</string>
     <string name="blur_size">模糊尺寸</string>
     <string name="blur_center_x">模糊中心 x</string>
@@ -248,21 +248,21 @@
     <string name="activate_files">您禁用了「檔案」應用程式，請將其啟用才能使用此功能</string>
     <string name="draw">繪畫</string>
     <string name="draw_sub">如同在素描本上一樣在圖片上繪畫，或在背景本身上繪畫</string>
-    <string name="paint_color">油漆顏色</string>
-    <string name="paint_alpha">繪製阿爾法</string>
+    <string name="paint_color">顏料色彩</string>
+    <string name="paint_alpha">顏料透明度</string>
     <string name="draw_on_image">在圖片上繪畫</string>
     <string name="draw_on_image_sub">選取一個圖片並在上面畫一些東西</string>
     <string name="draw_on_background">在背景上繪畫</string>
     <string name="encryption">加密</string>
-    <string name="implementation_sub">AES-256，GCM 模式，無填充，12 字節隨機 IV。密鑰用作 SHA-3 哈希值（256 位）。</string>
+    <string name="implementation_sub">AES-256，GCM 模式，無填充，12 位元組隨機 IV。密鑰將用作 SHA-3 雜湊值（256 位元）。</string>
     <string name="file_proceed">檔案已處裡</string>
     <string name="image_size_warning">嘗試以給定的寬度和高度儲存圖片可能會導致 OOM 錯誤，此風險將由您自行承擔，並且不要說我沒有警告您！</string>
     <string name="cache">快取</string>
     <string name="cache_size">快取大小</string>
-    <string name="found_s">找到了%1$s</string>
+    <string name="found_s">已發現 %1$s</string>
     <string name="auto_cache_clearing">自動清除快取</string>
     <string name="auto_cache_clearing_sub">如果啟用，應用程式快取將在應用程式啟動時清除</string>
-    <string name="create">創造</string>
+    <string name="create">創作</string>
     <string name="draw_on_background_sub">選擇背景顏色並在其上繪畫</string>
     <string name="background_color">背景顏色</string>
     <string name="cipher">密碼</string>
@@ -272,11 +272,11 @@
     <string name="decrypt">解密</string>
     <string name="pick_file_to_start">選擇檔案以開始</string>
     <string name="decryption">解密</string>
-    <string name="key">鑰匙</string>
+    <string name="key">密鑰</string>
     <string name="store_file_desc">將此檔案儲存在您的設備上或使用分享功能將其放在您想要的任何位置</string>
-    <string name="features">特徵</string>
+    <string name="features">功能</string>
     <string name="implementation">執行</string>
-    <string name="compatibility">兼容性</string>
+    <string name="compatibility">相容性</string>
     <string name="file_size">檔案大小</string>
     <string name="file_size_sub">最大檔案大小受限於 Android 作業系統和可用記憶體，這取決於您的裝置。
 \n請注意：記憶體不是儲存區。</string>
@@ -286,7 +286,7 @@
     <string name="tools">工具</string>
     <string name="group_options_by_type">按類型對選項進行分組</string>
     <string name="group_options_by_type_sub">在主畫面上按類型對選項進行分組，而不是自定義列表排列</string>
-    <string name="cannot_change_arrangement_while_options_grouping_enabled">啟用選項分組時無法更改排列</string>
+    <string name="cannot_change_arrangement_while_options_grouping_enabled">啟用選項分組時無法變更排列</string>
     <string name="warning_bytes">以 %1$s 模式儲存可能不穩定，因為它是無損格式</string>
     <string name="skip">略過</string>
     <string name="screenshot">螢幕截圖</string>
@@ -395,4 +395,7 @@
     <string name="blur_edges_sub">如果啟用，在原圖之下繪製模糊的邊界而不是單色，以填充其周圍的空間。</string>
     <string name="circle_pixelation">圓形像素化</string>
     <string name="enhanced_circle_pixelation">增強圓形像素化</string>
+    <string name="pixel_size">像素大小</string>
+    <string name="lock_draw_orientation">鎖定繪畫方向</string>
+    <string name="lock_draw_orientation_sub">如果啟用，在繪畫模式中畫面將不會旋轉</string>
 </resources>
