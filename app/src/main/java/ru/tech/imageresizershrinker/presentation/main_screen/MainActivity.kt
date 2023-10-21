@@ -162,8 +162,7 @@ class MainActivity : M3Activity() {
 
                     SideEffect {
                         viewModel.tryGetUpdate(
-                            installedFromMarket = isInstalledFromPlayStore(),
-                            newRequest = true
+                            installedFromMarket = isInstalledFromPlayStore()
                         )
                     }
                     JxlWarning()
