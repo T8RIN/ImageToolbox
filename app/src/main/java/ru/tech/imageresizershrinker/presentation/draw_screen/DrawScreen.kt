@@ -11,11 +11,16 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -513,87 +518,94 @@ fun DrawScreen(
     }
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val topAppBar: @Composable () -> Unit = {
-        if (viewModel.drawBehavior !is DrawBehavior.None) {
-            TopAppBar(
-                modifier = Modifier.drawHorizontalStroke(),
-                title = {
-                    Marquee(
-                        edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                    ) {
-                        Text(stringResource(R.string.draw))
-                    }
-                },
-                actions = {
-                    if (portrait) {
+        AnimatedContent(
+            targetState = viewModel.drawBehavior,
+            transitionSpec = {
+                fadeIn() togetherWith fadeOut() using SizeTransform(false)
+            }
+        ) { drawBehavior ->
+            if (drawBehavior !is DrawBehavior.None) {
+                TopAppBar(
+                    modifier = Modifier.drawHorizontalStroke(),
+                    title = {
+                        Marquee(
+                            edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                        ) {
+                            Text(stringResource(R.string.draw))
+                        }
+                    },
+                    actions = {
+                        if (portrait) {
+                            IconButton(
+                                onClick = {
+                                    scope.launch {
+                                        if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
+                                            scaffoldState.bottomSheetState.partialExpand()
+                                        } else {
+                                            scaffoldState.bottomSheetState.expand()
+                                        }
+                                    }
+                                },
+                            ) {
+                                Icon(Icons.Rounded.Tune, null)
+                            }
+                        }
+                        IconButton(
+                            onClick = { viewModel.shareBitmap { showConfetti() } },
+                            enabled = viewModel.drawBehavior !is DrawBehavior.None
+                        ) {
+                            Icon(Icons.Outlined.Share, null)
+                        }
                         IconButton(
                             onClick = {
-                                scope.launch {
-                                    if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
-                                        scaffoldState.bottomSheetState.partialExpand()
-                                    } else {
-                                        scaffoldState.bottomSheetState.expand()
-                                    }
-                                }
+                                viewModel.clearDrawing()
                             },
+                            enabled = viewModel.drawBehavior !is DrawBehavior.None && viewModel.isBitmapChanged
                         ) {
-                            Icon(Icons.Rounded.Tune, null)
+                            Icon(Icons.Outlined.Delete, null)
+                        }
+                    },
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                            3.dp
+                        )
+                    ),
+                    navigationIcon = {
+                        IconButton(
+                            onClick = onBack
+                        ) {
+                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                         }
                     }
-                    IconButton(
-                        onClick = { viewModel.shareBitmap { showConfetti() } },
-                        enabled = viewModel.drawBehavior !is DrawBehavior.None
-                    ) {
-                        Icon(Icons.Outlined.Share, null)
+                )
+            } else {
+                LargeTopAppBar(
+                    scrollBehavior = scrollBehavior,
+                    modifier = Modifier.drawHorizontalStroke(),
+                    title = {
+                        Marquee(
+                            edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                        ) {
+                            Text(stringResource(R.string.draw))
+                        }
+                    },
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                            3.dp
+                        )
+                    ),
+                    navigationIcon = {
+                        IconButton(
+                            onClick = onBack
+                        ) {
+                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                        }
+                    },
+                    actions = {
+                        TopAppBarEmoji()
                     }
-                    IconButton(
-                        onClick = {
-                            viewModel.clearDrawing()
-                        },
-                        enabled = viewModel.drawBehavior !is DrawBehavior.None && viewModel.isBitmapChanged
-                    ) {
-                        Icon(Icons.Outlined.Delete, null)
-                    }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                        3.dp
-                    )
-                ),
-                navigationIcon = {
-                    IconButton(
-                        onClick = onBack
-                    ) {
-                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
-                    }
-                }
-            )
-        } else {
-            LargeTopAppBar(
-                scrollBehavior = scrollBehavior,
-                modifier = Modifier.drawHorizontalStroke(),
-                title = {
-                    Marquee(
-                        edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                    ) {
-                        Text(stringResource(R.string.draw))
-                    }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                        3.dp
-                    )
-                ),
-                navigationIcon = {
-                    IconButton(
-                        onClick = onBack
-                    ) {
-                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
-                    }
-                },
-                actions = {
-                    TopAppBarEmoji()
-                }
-            )
+                )
+            }
         }
     }
 
@@ -629,292 +641,318 @@ fun DrawScreen(
         }
     }
 
+
+    val screenWidth = LocalConfiguration.current.screenWidthDp
+    val easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
     AnimatedContent(
-        targetState = portrait && viewModel.drawBehavior !is DrawBehavior.None
-    ) { showScaffold ->
-        if (showScaffold) {
-            BottomSheetScaffold(
-                scaffoldState = scaffoldState,
-                sheetPeekHeight = 80.dp + WindowInsets.navigationBars.asPaddingValues()
-                    .calculateBottomPadding(),
-                sheetDragHandle = null,
-                sheetShape = RectangleShape,
-                sheetContent = {
-                    Column(Modifier.fillMaxHeight(0.8f)) {
-                        BottomAppBar(
-                            modifier = Modifier.drawHorizontalStroke(true),
-                            actions = {
-                                switch()
-                                IconButton(
-                                    onClick = viewModel::undo,
-                                    enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
-                                ) {
-                                    Icon(Icons.AutoMirrored.Rounded.Undo, null)
-                                }
-                                IconButton(
-                                    onClick = viewModel::redo,
-                                    enabled = viewModel.undonePaths.isNotEmpty()
-                                ) {
-                                    Icon(Icons.AutoMirrored.Rounded.Redo, null)
-                                }
-                                EnhancedIconButton(
-                                    containerColor = animateColorAsState(
-                                        if (isEraserOn) MaterialTheme.colorScheme.mixedContainer
-                                        else Color.Transparent
-                                    ).value,
-                                    contentColor = animateColorAsState(
-                                        if (isEraserOn) MaterialTheme.colorScheme.onMixedContainer
-                                        else MaterialTheme.colorScheme.onSurface
-                                    ).value,
-                                    borderColor = animateColorAsState(
-                                        if (isEraserOn) MaterialTheme.colorScheme.outlineVariant
-                                        else Color.Transparent
-                                    ).value,
-                                    onClick = { isEraserOn = !isEraserOn }
-                                ) {
-                                    Icon(Icons.Rounded.Eraser, null)
-                                }
+        transitionSpec = {
+            if (this.targetState !is DrawBehavior.None) {
+                slideInHorizontally(
+                    animationSpec = tween(600, easing = easing),
+                    initialOffsetX = { screenWidth }) + fadeIn(
+                    tween(300, 100)
+                ) togetherWith slideOutHorizontally(
+                    animationSpec = tween(600, easing = easing),
+                    targetOffsetX = { -screenWidth }) + fadeOut(
+                    tween(300, 100)
+                )
+            } else {
+                slideInHorizontally(
+                    animationSpec = tween(600, easing = easing),
+                    initialOffsetX = { -screenWidth }) + fadeIn(
+                    tween(300, 100)
+                ) togetherWith slideOutHorizontally(
+                    animationSpec = tween(600, easing = easing),
+                    targetOffsetX = { screenWidth }) + fadeOut(
+                    tween(300, 100)
+                )
+            }
+        },
+        targetState = viewModel.drawBehavior
+    ) { drawBehavior ->
+        if (drawBehavior is DrawBehavior.None) {
+            Box(Modifier.fillMaxSize()) {
+                val showBackgroundDrawingSetup = rememberSaveable { mutableStateOf(false) }
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                ) {
+                    topAppBar()
+                    val cutout = WindowInsets.displayCutout.asPaddingValues()
+                    LazyVerticalStaggeredGrid(
+                        modifier = Modifier.weight(1f),
+                        columns = StaggeredGridCells.Adaptive(300.dp),
+                        horizontalArrangement = Arrangement.spacedBy(
+                            space = 12.dp,
+                            alignment = Alignment.CenterHorizontally
+                        ),
+                        verticalItemSpacing = 12.dp,
+                        contentPadding = PaddingValues(
+                            bottom = 12.dp + WindowInsets
+                                .navigationBars
+                                .asPaddingValues()
+                                .calculateBottomPadding(),
+                            top = 12.dp,
+                            end = 12.dp + cutout.calculateEndPadding(
+                                LocalLayoutDirection.current
+                            ),
+                            start = 12.dp + cutout.calculateStartPadding(
+                                LocalLayoutDirection.current
+                            )
+                        ),
+                    ) {
+                        item {
+                            PreferenceItem(
+                                onClick = pickImage,
+                                icon = Icons.Rounded.Image,
+                                title = stringResource(R.string.draw_on_image),
+                                subtitle = stringResource(R.string.draw_on_image_sub),
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                        item {
+                            PreferenceItem(
+                                onClick = { showBackgroundDrawingSetup.value = true },
+                                icon = Icons.Rounded.FormatPaint,
+                                title = stringResource(R.string.draw_on_background),
+                                subtitle = stringResource(R.string.draw_on_background_sub),
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                        item(
+                            span = StaggeredGridItemSpan.FullLine
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                PreferenceRowSwitch(
+                                    resultModifier = Modifier
+                                        .padding(
+                                            horizontal = 16.dp,
+                                            vertical = 8.dp
+                                        )
+                                        .widthIn(max = 360.dp),
+                                    modifier = Modifier.padding(top = 4.dp),
+                                    applyHorPadding = false,
+                                    onClick = {
+                                        viewModel.toggleLockDrawOrientation()
+                                    },
+                                    title = stringResource(R.string.lock_draw_orientation),
+                                    subtitle = stringResource(R.string.lock_draw_orientation_sub),
+                                    checked = LocalSettingsState.current.lockDrawOrientation,
+                                    startContent = {
+                                        Icon(
+                                            imageVector = Icons.Rounded.ScreenLockRotation,
+                                            contentDescription = null,
+                                            modifier = Modifier.padding(end = 16.dp)
+                                        )
+                                    }
+                                )
+                            }
+                        }
+                    }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .drawHorizontalStroke(true)
+                            .background(
+                                MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                    3.dp
+                                )
+                            ),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        ExtendedFloatingActionButton(
+                            onClick = pickImage,
+                            modifier = Modifier
+                                .navigationBarsPadding()
+                                .padding(16.dp)
+                                .containerFabBorder(),
+                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                            text = {
+                                Text(stringResource(R.string.pick_image_alt))
                             },
-                            floatingActionButton = {
-                                Row {
-                                    if (viewModel.drawBehavior is DrawBehavior.Image) {
-                                        FloatingActionButton(
-                                            onClick = pickImage,
-                                            modifier = Modifier.containerFabBorder(),
-                                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                        ) {
-                                            Icon(Icons.Rounded.AddPhotoAlternate, null)
-                                        }
-                                        Spacer(modifier = Modifier.width(8.dp))
-                                    }
-                                    FloatingActionButton(
-                                        onClick = saveBitmap,
-                                        modifier = Modifier.containerFabBorder(),
-                                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                    ) {
-                                        Icon(Icons.Rounded.Save, null)
-                                    }
-                                }
+                            icon = {
+                                Icon(Icons.Rounded.AddPhotoAlternate, null)
                             }
                         )
-                        LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
-                            item {
-                                controls()
-                            }
-                        }
-                    }
-                },
-                content = {
-                    Column(
-                        Modifier.padding(it),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        topAppBar()
-                        drawBox()
                     }
                 }
-            )
-        } else {
-            if (viewModel.drawBehavior is DrawBehavior.None) {
-                Box(Modifier.fillMaxSize()) {
-                    val showBackgroundDrawingSetup = rememberSaveable { mutableStateOf(false) }
 
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                    ) {
-                        topAppBar()
-                        val cutout = WindowInsets.displayCutout.asPaddingValues()
-                        LazyVerticalStaggeredGrid(
-                            modifier = Modifier.weight(1f),
-                            columns = StaggeredGridCells.Adaptive(300.dp),
-                            horizontalArrangement = Arrangement.spacedBy(
-                                space = 12.dp,
-                                alignment = Alignment.CenterHorizontally
-                            ),
-                            verticalItemSpacing = 12.dp,
-                            contentPadding = PaddingValues(
-                                bottom = 12.dp + WindowInsets
-                                    .navigationBars
-                                    .asPaddingValues()
-                                    .calculateBottomPadding(),
-                                top = 12.dp,
-                                end = 12.dp + cutout.calculateEndPadding(
-                                    LocalLayoutDirection.current
-                                ),
-                                start = 12.dp + cutout.calculateStartPadding(
-                                    LocalLayoutDirection.current
+                val density = LocalDensity.current
+                var height by remember(showBackgroundDrawingSetup.value, configuration) {
+                    mutableIntStateOf(with(density) { configuration.screenHeightDp.dp.roundToPx() })
+                }
+                var width by remember(showBackgroundDrawingSetup.value, configuration) {
+                    mutableIntStateOf(with(density) { configuration.screenWidthDp.dp.roundToPx() })
+                }
+                var sheetBackgroundColor by remember { mutableStateOf(Color.White) }
+                SimpleSheet(
+                    title = {
+                        TitleItem(
+                            text = stringResource(R.string.draw),
+                            icon = Icons.Rounded.Draw
+                        )
+                    },
+                    confirmButton = {
+                        EnhancedButton(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            onClick = {
+                                showBackgroundDrawingSetup.value = false
+                                viewModel.startDrawOnBackground(
+                                    width,
+                                    height,
+                                    sheetBackgroundColor
                                 )
-                            ),
+                            }
                         ) {
-                            item {
-                                PreferenceItem(
-                                    onClick = pickImage,
-                                    icon = Icons.Rounded.Image,
-                                    title = stringResource(R.string.draw_on_image),
-                                    subtitle = stringResource(R.string.draw_on_image_sub),
-                                    modifier = Modifier.fillMaxWidth()
-                                )
-                            }
-                            item {
-                                PreferenceItem(
-                                    onClick = { showBackgroundDrawingSetup.value = true },
-                                    icon = Icons.Rounded.FormatPaint,
-                                    title = stringResource(R.string.draw_on_background),
-                                    subtitle = stringResource(R.string.draw_on_background_sub),
-                                    modifier = Modifier.fillMaxWidth()
-                                )
-                            }
-                            item(
-                                span = StaggeredGridItemSpan.FullLine
-                            ) {
-                                Box(contentAlignment = Alignment.Center) {
-                                    PreferenceRowSwitch(
-                                        resultModifier = Modifier
-                                            .padding(
-                                                horizontal = 16.dp,
-                                                vertical = 8.dp
-                                            )
-                                            .widthIn(max = 360.dp),
-                                        modifier = Modifier.padding(top = 4.dp),
-                                        applyHorPadding = false,
-                                        onClick = {
-                                            viewModel.toggleLockDrawOrientation()
+                            AutoSizeText(stringResource(R.string.ok))
+                        }
+                    },
+                    sheetContent = {
+                        Box {
+                            Column(Modifier.verticalScroll(rememberScrollState())) {
+                                Row(
+                                    Modifier
+                                        .padding(16.dp)
+                                        .container(shape = RoundedCornerShape(24.dp))
+                                ) {
+                                    RoundedTextField(
+                                        value = width.takeIf { it != 0 }?.toString() ?: "",
+                                        onValueChange = {
+                                            width = it.restrict(8192).toIntOrNull() ?: 0
                                         },
-                                        title = stringResource(R.string.lock_draw_orientation),
-                                        subtitle = stringResource(R.string.lock_draw_orientation_sub),
-                                        checked = LocalSettingsState.current.lockDrawOrientation,
-                                        startContent = {
-                                            Icon(
-                                                imageVector = Icons.Rounded.ScreenLockRotation,
-                                                contentDescription = null,
-                                                modifier = Modifier.padding(end = 16.dp)
+                                        shape = RoundedCornerShape(12.dp),
+                                        keyboardOptions = KeyboardOptions(
+                                            keyboardType = KeyboardType.Number
+                                        ),
+                                        label = {
+                                            Text(stringResource(R.string.width, " "))
+                                        },
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .padding(
+                                                start = 8.dp,
+                                                top = 8.dp,
+                                                bottom = 8.dp,
+                                                end = 4.dp
                                             )
-                                        }
+                                    )
+                                    RoundedTextField(
+                                        value = height.takeIf { it != 0 }?.toString() ?: "",
+                                        onValueChange = {
+                                            height = it.restrict(8192).toIntOrNull() ?: 0
+                                        },
+                                        keyboardOptions = KeyboardOptions(
+                                            keyboardType = KeyboardType.Number
+                                        ),
+                                        shape = RoundedCornerShape(12.dp),
+                                        label = {
+                                            Text(stringResource(R.string.height, " "))
+                                        },
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .padding(
+                                                start = 4.dp,
+                                                top = 8.dp,
+                                                bottom = 8.dp,
+                                                end = 8.dp
+                                            ),
                                     )
                                 }
+                                DrawBackgroundSelector(
+                                    value = sheetBackgroundColor,
+                                    onColorChange = { sheetBackgroundColor = it }
+                                )
                             }
                         }
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .drawHorizontalStroke(true)
-                                .background(
-                                    MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                        3.dp
-                                    )
-                                ),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            ExtendedFloatingActionButton(
-                                onClick = pickImage,
-                                modifier = Modifier
-                                    .navigationBarsPadding()
-                                    .padding(16.dp)
-                                    .containerFabBorder(),
-                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                text = {
-                                    Text(stringResource(R.string.pick_image_alt))
-                                },
-                                icon = {
-                                    Icon(Icons.Rounded.AddPhotoAlternate, null)
-                                }
-                            )
-                        }
-                    }
-
-                    val density = LocalDensity.current
-                    var height by remember(showBackgroundDrawingSetup.value, configuration) {
-                        mutableIntStateOf(with(density) { configuration.screenHeightDp.dp.roundToPx() })
-                    }
-                    var width by remember(showBackgroundDrawingSetup.value, configuration) {
-                        mutableIntStateOf(with(density) { configuration.screenWidthDp.dp.roundToPx() })
-                    }
-                    var sheetBackgroundColor by remember { mutableStateOf(Color.White) }
-                    SimpleSheet(
-                        title = {
-                            TitleItem(
-                                text = stringResource(R.string.draw),
-                                icon = Icons.Rounded.Draw
-                            )
-                        },
-                        confirmButton = {
-                            EnhancedButton(
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                onClick = {
-                                    showBackgroundDrawingSetup.value = false
-                                    viewModel.startDrawOnBackground(
-                                        width,
-                                        height,
-                                        sheetBackgroundColor
-                                    )
-                                }
-                            ) {
-                                AutoSizeText(stringResource(R.string.ok))
-                            }
-                        },
-                        sheetContent = {
-                            Box {
-                                Column(Modifier.verticalScroll(rememberScrollState())) {
-                                    Row(
-                                        Modifier
-                                            .padding(16.dp)
-                                            .container(shape = RoundedCornerShape(24.dp))
+                    },
+                    visible = showBackgroundDrawingSetup
+                )
+            }
+        } else {
+            if (portrait) {
+                BottomSheetScaffold(
+                    scaffoldState = scaffoldState,
+                    sheetPeekHeight = 80.dp + WindowInsets.navigationBars.asPaddingValues()
+                        .calculateBottomPadding(),
+                    sheetDragHandle = null,
+                    sheetShape = RectangleShape,
+                    sheetContent = {
+                        Column(Modifier.fillMaxHeight(0.8f)) {
+                            BottomAppBar(
+                                modifier = Modifier.drawHorizontalStroke(true),
+                                actions = {
+                                    switch()
+                                    IconButton(
+                                        onClick = viewModel::undo,
+                                        enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
                                     ) {
-                                        RoundedTextField(
-                                            value = width.takeIf { it != 0 }?.toString() ?: "",
-                                            onValueChange = {
-                                                width = it.restrict(8192).toIntOrNull() ?: 0
-                                            },
-                                            shape = RoundedCornerShape(12.dp),
-                                            keyboardOptions = KeyboardOptions(
-                                                keyboardType = KeyboardType.Number
-                                            ),
-                                            label = {
-                                                Text(stringResource(R.string.width, " "))
-                                            },
-                                            modifier = Modifier
-                                                .weight(1f)
-                                                .padding(
-                                                    start = 8.dp,
-                                                    top = 8.dp,
-                                                    bottom = 8.dp,
-                                                    end = 4.dp
-                                                )
-                                        )
-                                        RoundedTextField(
-                                            value = height.takeIf { it != 0 }?.toString() ?: "",
-                                            onValueChange = {
-                                                height = it.restrict(8192).toIntOrNull() ?: 0
-                                            },
-                                            keyboardOptions = KeyboardOptions(
-                                                keyboardType = KeyboardType.Number
-                                            ),
-                                            shape = RoundedCornerShape(12.dp),
-                                            label = {
-                                                Text(stringResource(R.string.height, " "))
-                                            },
-                                            modifier = Modifier
-                                                .weight(1f)
-                                                .padding(
-                                                    start = 4.dp,
-                                                    top = 8.dp,
-                                                    bottom = 8.dp,
-                                                    end = 8.dp
-                                                ),
-                                        )
+                                        Icon(Icons.AutoMirrored.Rounded.Undo, null)
                                     }
-                                    DrawBackgroundSelector(
-                                        value = sheetBackgroundColor,
-                                        onColorChange = { sheetBackgroundColor = it }
-                                    )
+                                    IconButton(
+                                        onClick = viewModel::redo,
+                                        enabled = viewModel.undonePaths.isNotEmpty()
+                                    ) {
+                                        Icon(Icons.AutoMirrored.Rounded.Redo, null)
+                                    }
+                                    EnhancedIconButton(
+                                        containerColor = animateColorAsState(
+                                            if (isEraserOn) MaterialTheme.colorScheme.mixedContainer
+                                            else Color.Transparent
+                                        ).value,
+                                        contentColor = animateColorAsState(
+                                            if (isEraserOn) MaterialTheme.colorScheme.onMixedContainer
+                                            else MaterialTheme.colorScheme.onSurface
+                                        ).value,
+                                        borderColor = animateColorAsState(
+                                            if (isEraserOn) MaterialTheme.colorScheme.outlineVariant
+                                            else Color.Transparent
+                                        ).value,
+                                        onClick = { isEraserOn = !isEraserOn }
+                                    ) {
+                                        Icon(Icons.Rounded.Eraser, null)
+                                    }
+                                },
+                                floatingActionButton = {
+                                    Row {
+                                        if (drawBehavior is DrawBehavior.Image) {
+                                            FloatingActionButton(
+                                                onClick = pickImage,
+                                                modifier = Modifier.containerFabBorder(),
+                                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                            ) {
+                                                Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                            }
+                                            Spacer(modifier = Modifier.width(8.dp))
+                                        }
+                                        FloatingActionButton(
+                                            onClick = saveBitmap,
+                                            modifier = Modifier.containerFabBorder(),
+                                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                        ) {
+                                            Icon(Icons.Rounded.Save, null)
+                                        }
+                                    }
+                                }
+                            )
+                            LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
+                                item {
+                                    controls()
                                 }
                             }
-                        },
-                        visible = showBackgroundDrawingSetup
-                    )
-                }
+                        }
+                    },
+                    content = {
+                        Column(
+                            Modifier.padding(it),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            topAppBar()
+                            drawBox()
+                        }
+                    }
+                )
             } else {
                 Column {
                     topAppBar()

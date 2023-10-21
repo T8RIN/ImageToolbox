@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -77,6 +78,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -280,90 +282,126 @@ fun EraseBackgroundScreen(
     }
 
     val image: @Composable () -> Unit = @Composable {
-        viewModel.bitmap?.let { bitmap ->
-            AnimatedContent(
-                targetState = remember(bitmap) {
-                    derivedStateOf {
-                        bitmap.copy(Bitmap.Config.ARGB_8888, true).asImageBitmap()
-                    }
-                }.value,
-                transitionSpec = { fadeIn() togetherWith fadeOut() }
-            ) { imageBitmap ->
-                val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
-                BitmapEraser(
-                    imageBitmapForShader = viewModel.internalBitmap?.asImageBitmap(),
-                    imageBitmap = imageBitmap,
-                    paths = viewModel.paths,
-                    strokeWidth = strokeWidth,
-                    brushSoftness = brushSoftness,
-                    onAddPath = viewModel::addPath,
-                    isRecoveryOn = viewModel.isRecoveryOn,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .aspectRatio(aspectRatio, portrait)
-                        .fillMaxSize(),
-                    zoomEnabled = zoomEnabled,
-                    onErased = {}
-                )
-            }
-
-        } ?: ImageNotPickedWidget(
-            onPickImage = pickImage,
-            modifier = Modifier.padding(top = 20.dp, start = 20.dp, end = 20.dp)
-        )
+        AnimatedContent(
+            targetState = remember(viewModel.bitmap) {
+                derivedStateOf {
+                    viewModel.bitmap?.copy(
+                        Bitmap.Config.ARGB_8888,
+                        true
+                    )?.asImageBitmap() ?: ImageBitmap(
+                        configuration.screenWidthDp,
+                        configuration.screenHeightDp
+                    )
+                }
+            }.value,
+            transitionSpec = { fadeIn() togetherWith fadeOut() }
+        ) { imageBitmap ->
+            val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
+            BitmapEraser(
+                imageBitmapForShader = viewModel.internalBitmap?.asImageBitmap(),
+                imageBitmap = imageBitmap,
+                paths = viewModel.paths,
+                strokeWidth = strokeWidth,
+                brushSoftness = brushSoftness,
+                onAddPath = viewModel::addPath,
+                isRecoveryOn = viewModel.isRecoveryOn,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .aspectRatio(aspectRatio, portrait)
+                    .fillMaxSize(),
+                zoomEnabled = zoomEnabled,
+                onErased = {}
+            )
+        }
     }
 
     val topAppBar = @Composable {
-        TopAppBar(
-            modifier = Modifier.drawHorizontalStroke(),
-            title = {
-                Marquee(
-                    edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                ) {
-                    Text(stringResource(R.string.background_remover))
-                }
-            },
-            actions = {
-                if (portrait) {
-                    IconButton(
-                        onClick = {
-                            scope.launch {
-                                if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
-                                    scaffoldState.bottomSheetState.partialExpand()
-                                } else {
-                                    scaffoldState.bottomSheetState.expand()
-                                }
-                            }
-                        },
-                    ) {
-                        Icon(Icons.Rounded.Tune, null)
+        AnimatedContent(
+            targetState = viewModel.bitmap == null,
+            transitionSpec = {
+                fadeIn() togetherWith fadeOut() using SizeTransform(false)
+            }
+        ) { noBitmap ->
+            if (noBitmap) {
+                LargeTopAppBar(
+                    scrollBehavior = scrollBehavior,
+                    modifier = Modifier.drawHorizontalStroke(),
+                    title = {
+                        Marquee(
+                            edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                        ) {
+                            Text(stringResource(R.string.background_remover))
+                        }
+                    },
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                            3.dp
+                        )
+                    ),
+                    navigationIcon = {
+                        IconButton(
+                            onClick = onBack
+                        ) {
+                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                        }
+                    },
+                    actions = {
+                        TopAppBarEmoji()
                     }
-                }
-                IconButton(
-                    onClick = { viewModel.shareBitmap { showConfetti() } }
-                ) {
-                    Icon(Icons.Outlined.Share, null)
-                }
-                IconButton(
-                    onClick = { viewModel.clearDrawing() },
-                    enabled = viewModel.paths.isNotEmpty()
-                ) {
-                    Icon(Icons.Outlined.Delete, null)
-                }
-            },
-            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                    3.dp
                 )
-            ),
-            navigationIcon = {
-                IconButton(
-                    onClick = onBack
-                ) {
-                    Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
-                }
-            },
-        )
+            } else {
+                TopAppBar(
+                    modifier = Modifier.drawHorizontalStroke(),
+                    title = {
+                        Marquee(
+                            edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                        ) {
+                            Text(stringResource(R.string.background_remover))
+                        }
+                    },
+                    actions = {
+                        if (portrait) {
+                            IconButton(
+                                onClick = {
+                                    scope.launch {
+                                        if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
+                                            scaffoldState.bottomSheetState.partialExpand()
+                                        } else {
+                                            scaffoldState.bottomSheetState.expand()
+                                        }
+                                    }
+                                },
+                            ) {
+                                Icon(Icons.Rounded.Tune, null)
+                            }
+                        }
+                        IconButton(
+                            onClick = { viewModel.shareBitmap { showConfetti() } }
+                        ) {
+                            Icon(Icons.Outlined.Share, null)
+                        }
+                        IconButton(
+                            onClick = { viewModel.clearDrawing() },
+                            enabled = viewModel.paths.isNotEmpty()
+                        ) {
+                            Icon(Icons.Outlined.Delete, null)
+                        }
+                    },
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                            3.dp
+                        )
+                    ),
+                    navigationIcon = {
+                        IconButton(
+                            onClick = onBack
+                        ) {
+                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                        }
+                    }
+                )
+            }
+        }
     }
 
     val controls = @Composable {
@@ -434,94 +472,26 @@ fun EraseBackgroundScreen(
         }
     }
 
-    if (portrait && viewModel.bitmap != null) {
-        BottomSheetScaffold(
-            scaffoldState = scaffoldState,
-            sheetPeekHeight = 80.dp + WindowInsets.navigationBars.asPaddingValues()
-                .calculateBottomPadding(),
-            sheetDragHandle = null,
-            sheetShape = RectangleShape,
-            sheetContent = {
-                Column(Modifier.fillMaxHeight(0.8f)) {
-                    BottomAppBar(
-                        modifier = Modifier.drawHorizontalStroke(true),
-                        actions = {
-                            secondaryControls()
-                            EraseModeButton(
-                                isRecoveryOn = viewModel.isRecoveryOn,
-                                onClick = viewModel::toggleEraser
-                            )
-                        },
-                        floatingActionButton = {
-                            Row {
-                                FloatingActionButton(
-                                    onClick = pickImage,
-                                    modifier = Modifier.containerFabBorder(),
-                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                ) {
-                                    Icon(Icons.Rounded.AddPhotoAlternate, null)
-                                }
-                                Spacer(modifier = Modifier.width(8.dp))
-                                FloatingActionButton(
-                                    onClick = saveBitmap,
-                                    modifier = Modifier.containerFabBorder(),
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                ) {
-                                    Icon(Icons.Rounded.Save, null)
-                                }
-                            }
-                        }
-                    )
-                    Column(Modifier.verticalScroll(rememberScrollState())) {
-                        controls()
-                    }
-                }
-            },
-            content = {
-                Column(Modifier.padding(it), horizontalAlignment = Alignment.CenterHorizontally) {
-                    topAppBar()
-                    image()
-                }
-            }
-        )
-    } else {
-        if (viewModel.bitmap == null) {
+    AnimatedContent(
+        transitionSpec = {
+            fadeIn() togetherWith fadeOut()
+        },
+        targetState = viewModel.bitmap == null
+    ) { noBitmap ->
+        if (noBitmap) {
             Box(Modifier.fillMaxSize()) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                 ) {
-                    LargeTopAppBar(
-                        scrollBehavior = scrollBehavior,
-                        modifier = Modifier.drawHorizontalStroke(),
-                        title = {
-                            Marquee(
-                                edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                            ) {
-                                Text(stringResource(R.string.background_remover))
-                            }
-                        },
-                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                3.dp
-                            )
-                        ),
-                        navigationIcon = {
-                            IconButton(
-                                onClick = onBack
-                            ) {
-                                Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
-                            }
-                        },
-                        actions = {
-                            TopAppBarEmoji()
-                        }
-                    )
+                    topAppBar()
                     Column(
                         Modifier.verticalScroll(rememberScrollState())
                     ) {
-                        image()
+                        ImageNotPickedWidget(
+                            onPickImage = pickImage,
+                            modifier = Modifier.padding(top = 20.dp, start = 20.dp, end = 20.dp)
+                        )
                         Spacer(modifier = Modifier.height(108.dp))
                     }
                 }
@@ -542,77 +512,134 @@ fun EraseBackgroundScreen(
                 )
             }
         } else {
-            Column {
-                topAppBar()
-                Row(
-                    modifier = Modifier.navBarsPaddingOnlyIfTheyAtTheEnd(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Box(
-                        Modifier
-                            .container(
-                                shape = RectangleShape,
-                                resultPadding = 0.dp,
-                                color = MaterialTheme.colorScheme.surfaceContainer
+            if (portrait) {
+                BottomSheetScaffold(
+                    scaffoldState = scaffoldState,
+                    sheetPeekHeight = 80.dp + WindowInsets.navigationBars.asPaddingValues()
+                        .calculateBottomPadding(),
+                    sheetDragHandle = null,
+                    sheetShape = RectangleShape,
+                    sheetContent = {
+                        Column(Modifier.fillMaxHeight(0.8f)) {
+                            BottomAppBar(
+                                modifier = Modifier.drawHorizontalStroke(true),
+                                actions = {
+                                    secondaryControls()
+                                    EraseModeButton(
+                                        isRecoveryOn = viewModel.isRecoveryOn,
+                                        onClick = viewModel::toggleEraser
+                                    )
+                                },
+                                floatingActionButton = {
+                                    Row {
+                                        FloatingActionButton(
+                                            onClick = pickImage,
+                                            modifier = Modifier.containerFabBorder(),
+                                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                        ) {
+                                            Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                        }
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        FloatingActionButton(
+                                            onClick = saveBitmap,
+                                            modifier = Modifier.containerFabBorder(),
+                                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                        ) {
+                                            Icon(Icons.Rounded.Save, null)
+                                        }
+                                    }
+                                }
                             )
-                            .weight(1.2f)
-                            .clipToBounds(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        image()
-                    }
-                    LazyColumn(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        contentPadding = PaddingValues(
-                            bottom = WindowInsets
-                                .navigationBars
-                                .asPaddingValues()
-                                .calculateBottomPadding() + WindowInsets.ime
-                                .asPaddingValues()
-                                .calculateBottomPadding(),
-                        ),
-                        modifier = Modifier
-                            .weight(0.7f)
-                            .clipToBounds()
-                    ) {
-                        item {
-                            controls()
+                            Column(Modifier.verticalScroll(rememberScrollState())) {
+                                controls()
+                            }
+                        }
+                    },
+                    content = {
+                        Column(
+                            Modifier.padding(it),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            topAppBar()
+                            image()
                         }
                     }
-                    Column(
-                        Modifier
-                            .container(
-                                shape = RectangleShape,
-                                color = MaterialTheme.colorScheme.surfaceContainer
-                            )
-                            .padding(horizontal = 20.dp)
-                            .fillMaxHeight()
-                            .navigationBarsPadding(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
+                )
+            } else {
+                Column {
+                    topAppBar()
+                    Row(
+                        modifier = Modifier.navBarsPaddingOnlyIfTheyAtTheEnd(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
                     ) {
-                        FloatingActionButton(
-                            onClick = pickImage,
-                            modifier = Modifier.autoElevatedBorder(),
-                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                        Box(
+                            Modifier
+                                .container(
+                                    shape = RectangleShape,
+                                    resultPadding = 0.dp,
+                                    color = MaterialTheme.colorScheme.surfaceContainer
+                                )
+                                .weight(1.2f)
+                                .clipToBounds(),
+                            contentAlignment = Alignment.Center
                         ) {
-                            Icon(Icons.Rounded.AddPhotoAlternate, null)
+                            image()
                         }
-                        Spacer(modifier = Modifier.height(16.dp))
-                        FloatingActionButton(
-                            onClick = saveBitmap,
-                            modifier = Modifier.autoElevatedBorder(),
-                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                        LazyColumn(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            contentPadding = PaddingValues(
+                                bottom = WindowInsets
+                                    .navigationBars
+                                    .asPaddingValues()
+                                    .calculateBottomPadding() + WindowInsets.ime
+                                    .asPaddingValues()
+                                    .calculateBottomPadding(),
+                            ),
+                            modifier = Modifier
+                                .weight(0.7f)
+                                .clipToBounds()
                         ) {
-                            Icon(Icons.Rounded.Save, null)
+                            item {
+                                controls()
+                            }
+                        }
+                        Column(
+                            Modifier
+                                .container(
+                                    shape = RectangleShape,
+                                    color = MaterialTheme.colorScheme.surfaceContainer
+                                )
+                                .padding(horizontal = 20.dp)
+                                .fillMaxHeight()
+                                .navigationBarsPadding(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            FloatingActionButton(
+                                onClick = pickImage,
+                                modifier = Modifier.autoElevatedBorder(),
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                            ) {
+                                Icon(Icons.Rounded.AddPhotoAlternate, null)
+                            }
+                            Spacer(modifier = Modifier.height(16.dp))
+                            FloatingActionButton(
+                                onClick = saveBitmap,
+                                modifier = Modifier.autoElevatedBorder(),
+                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                            ) {
+                                Icon(Icons.Rounded.Save, null)
+                            }
                         }
                     }
                 }
             }
         }
     }
+
 
     if (viewModel.isSaving || viewModel.isImageLoading || viewModel.isErasingBG) {
         LoadingDialog(viewModel.isSaving) {

@@ -3,6 +3,7 @@ package ru.tech.imageresizershrinker.presentation.root.icons.emoji
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -78,16 +79,18 @@ fun EmojiItem(
                     painter = painter,
                     contentDescription = null,
                     modifier = Modifier
-                        .size(size)
-                        .offset(1.dp, 1.dp),
+                        .size(size + 2.dp)
+                        .offset(1.dp, 1.dp)
+                        .padding(1.dp),
                     tint = Color(0, 0, 0, 40)
                 )
                 Icon(
                     painter = painter,
                     contentDescription = null,
                     modifier = Modifier
-                        .size(size)
+                        .size(size + 2.dp)
                         .clip(RoundedCornerShape(4.dp))
+                        .padding(1.dp)
                         .shimmer(shimmering),
                     tint = Color.Unspecified
                 )
