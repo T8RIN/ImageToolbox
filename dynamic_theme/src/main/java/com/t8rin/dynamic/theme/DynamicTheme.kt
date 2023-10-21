@@ -5,6 +5,10 @@ import android.annotation.SuppressLint
 import android.app.WallpaperManager
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import androidx.annotation.FloatRange
@@ -66,6 +70,10 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.t8rin.dynamic.theme.hct.Hct
 import com.t8rin.dynamic.theme.palettes.TonalPalette
 import com.t8rin.dynamic.theme.scheme.Scheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * DynamicTheme allows you to dynamically change the color scheme of the content hierarchy.
@@ -451,7 +459,24 @@ class DynamicThemeState(
     }
 
     fun updateColorByImage(bitmap: Bitmap) {
-        updateColor(bitmap.extractPrimaryColor())
+        CoroutineScope(Dispatchers.Main).launch {
+            updateColor(bitmap.saturate(2f).extractPrimaryColor())
+        }
+    }
+
+    private suspend fun Bitmap.saturate(saturation: Float): Bitmap = withContext(Dispatchers.IO) {
+        val src = this@saturate
+        val w = src.width
+        val h = src.height
+        val bitmapResult = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+        val canvasResult = Canvas(bitmapResult)
+        val paint = Paint()
+        val colorMatrix = ColorMatrix()
+        colorMatrix.setSaturation(saturation)
+        val filter = ColorMatrixColorFilter(colorMatrix)
+        paint.setColorFilter(filter)
+        canvasResult.drawBitmap(src, 0f, 0f, paint)
+        return@withContext bitmapResult
     }
 }
 
