@@ -214,6 +214,8 @@ dependencies {
     implementation("com.github.GIGAMOLE:ComposeShadowsPlus:1.0.4")
 
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6")
+
+    implementation("com.github.GIGAMOLE:ComposeFadingEdges:1.0.3")
 }
 
 
