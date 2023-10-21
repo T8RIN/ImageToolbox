@@ -2,16 +2,10 @@ package ru.tech.imageresizershrinker.data.di
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.os.Build
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.exifinterface.media.ExifInterface
 import coil.ImageLoader
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
-import coil.decode.SvgDecoder
-import coil.imageLoader
-import com.github.awxkee.avifcoil.HeifDecoder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -53,10 +47,8 @@ object ImageModule {
     @Singleton
     @Provides
     fun provideImageDrawApplier(
-        @ApplicationContext context: Context,
         imageManager: ImageManager<Bitmap, ExifInterface>
     ): ImageDrawApplier<Bitmap, Path, Color> = AndroidImageDrawApplier(
-        context = context,
         imageManager = imageManager
     )
 
