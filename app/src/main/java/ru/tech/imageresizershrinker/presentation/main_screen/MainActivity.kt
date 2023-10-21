@@ -30,6 +30,7 @@ import dev.olshevski.navigation.reimagined.navigate
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import ru.tech.imageresizershrinker.presentation.main_screen.components.AppExitDialog
 import ru.tech.imageresizershrinker.presentation.main_screen.components.EditPresetsSheet
+import ru.tech.imageresizershrinker.presentation.main_screen.components.FirstLaunchSetupDialog
 import ru.tech.imageresizershrinker.presentation.main_screen.components.JxlWarning
 import ru.tech.imageresizershrinker.presentation.main_screen.components.PermissionDialog
 import ru.tech.imageresizershrinker.presentation.main_screen.components.ScreenSelector
@@ -165,10 +166,14 @@ class MainActivity : M3Activity() {
                             newRequest = true
                         )
                     }
+                    JxlWarning()
+
+                    FirstLaunchSetupDialog(
+                        toggleShowUpdateDialog = viewModel::toggleShowUpdateDialog,
+                        toggleAllowBetas = viewModel::toggleAllowBetas
+                    )
 
                     PermissionDialog()
-
-                    JxlWarning()
                 }
             }
         }

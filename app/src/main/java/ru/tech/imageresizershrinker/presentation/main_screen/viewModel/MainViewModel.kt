@@ -206,7 +206,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun toggleShowDialog() {
+    fun toggleShowUpdateDialog() {
         viewModelScope.launch {
             toggleShowDialogUseCase()
         }

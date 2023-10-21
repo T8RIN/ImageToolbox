@@ -284,7 +284,7 @@
     <string name="features_sub">Password-based encryption of files. Proceeded files can be stored in the selected directory or shared. Decrypted files can also be opened directly.</string>
     <string name="implementation_sub">AES-256, GCM mode, no padding, 12 bytes random IVs. Keys are used as SHA-3 hashes (256 bits).</string>
     <string name="file_size">File size</string>
-    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependant.
+    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent.
 \nPlease note: memory is not storage.</string>
     <string name="compatibility_sub">Please note that compatibility to other file encryption software or services is not guaranteed. A slightly different key treatment or cipher configuration may cause incompatibility.</string>
     <string name="invalid_password_or_not_encrypted">Invalid password or chosen file is not encrypted</string>
@@ -415,6 +415,7 @@
     <string name="pixel_size">Pixel Size</string>
     <string name="lock_draw_orientation">Lock draw orientation</string>
     <string name="lock_draw_orientation_sub">If enabled in drawing mode, screen won\'t rotate</string>
+    <string name="check_for_updates">Check for updates</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

@@ -557,7 +557,8 @@ fun SettingsBlock(
                                                 end = 16.dp,
                                                 start = 16.dp
                                             )
-                                            .weight(1f)
+                                            .weight(1f),
+                                        fontWeight = FontWeight.Medium
                                     )
                                     AnimatedContent(
                                         targetState = sliderValue,
@@ -641,7 +642,8 @@ fun SettingsBlock(
                                                 end = 16.dp,
                                                 start = 16.dp
                                             )
-                                            .weight(1f)
+                                            .weight(1f),
+                                        fontWeight = FontWeight.Medium
                                     )
                                     AnimatedContent(
                                         targetState = sliderValue,
@@ -759,7 +761,8 @@ fun SettingsBlock(
                                                     end = 12.dp,
                                                     start = 12.dp
                                                 ),
-                                            lineHeight = 18.sp
+                                            lineHeight = 18.sp,
+                                            fontWeight = FontWeight.Medium
                                         )
                                         AnimatedContent(
                                             targetState = sliderValue,
@@ -1593,7 +1596,7 @@ fun SettingsBlock(
                             subtitle = stringResource(R.string.check_updates_sub),
                             checked = viewModel.settingsState.showDialogOnStartup,
                             onClick = {
-                                viewModel.toggleShowDialog()
+                                viewModel.toggleShowUpdateDialog()
                             },
                             startContent = {
                                 Icon(
@@ -1651,7 +1654,7 @@ fun SettingsBlock(
                                     )
                                 }
                             ) {
-                                Text("Check for updates")
+                                Text(stringResource(R.string.check_for_updates))
                             }
                         }
 
