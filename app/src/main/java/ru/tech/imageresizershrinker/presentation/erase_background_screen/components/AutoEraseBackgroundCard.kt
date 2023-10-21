@@ -69,7 +69,8 @@ fun AutoEraseBackgroundCard(
             contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
             onClick = onReset,
             modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp)
+            shape = RoundedCornerShape(16.dp),
+            isShadowClip = true
         ) {
             Icon(Icons.Rounded.SettingsBackupRestore, null)
             Spacer(Modifier.width(8.dp))

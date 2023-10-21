@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.data.image.draw
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
 import android.graphics.Canvas
@@ -8,6 +7,7 @@ import android.graphics.Matrix
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Path
@@ -31,7 +31,6 @@ import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import javax.inject.Inject
 
 class AndroidImageDrawApplier @Inject constructor(
-    private val context: Context,
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ImageDrawApplier<Bitmap, Path, Color> {
 
@@ -153,7 +152,60 @@ class AndroidImageDrawApplier @Inject constructor(
         pathPaints: List<PathPaint<Path, Color>>,
         imageUri: String
     ): Bitmap? {
-        TODO("Not yet implemented")
+        val image = imageManager.getImage(data = imageUri)
+        return applyEraseToImage(pathPaints, image)
+    }
+
+    override suspend fun applyEraseToImage(
+        pathPaints: List<PathPaint<Path, Color>>,
+        image: Bitmap?
+    ): Bitmap? {
+        val drawImage = image?.let { it.copy(it.config, true) }
+
+        drawImage?.let {
+            val canvas = Canvas(it)
+            val canvasSize = IntegerSize(
+                canvas.width,
+                canvas.height
+            )
+            canvas.apply {
+                drawBitmap(
+                    it, 0f, 0f, android.graphics.Paint()
+                )
+
+                pathPaints.forEach { (nonScaledPath, stroke, radius, _, isRecoveryOn, _, size) ->
+                    val path = nonScaledPath.scaleToFitCanvas(
+                        currentSize = canvasSize,
+                        oldSize = size
+                    )
+                    this.drawPath(
+                        path.asAndroidPath(),
+                        Paint().apply {
+                            blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
+                            style = PaintingStyle.Stroke
+                            strokeCap = StrokeCap.Round
+                            shader = if (isRecoveryOn) {
+                                ImageShader(image.asImageBitmap())
+                            } else shader
+                            this.strokeWidth = stroke.toPx(canvasSize)
+                            strokeJoin = StrokeJoin.Round
+                            isAntiAlias = true
+                        }.asFrameworkPaint().apply {
+                            if (radius.value > 0f) {
+                                maskFilter =
+                                    BlurMaskFilter(
+                                        radius.toPx(canvasSize),
+                                        BlurMaskFilter.Blur.NORMAL
+                                    )
+                            }
+                        }
+                    )
+                }
+
+            }
+        }
+
+        return drawImage
     }
 
     private fun transformationsForMode(

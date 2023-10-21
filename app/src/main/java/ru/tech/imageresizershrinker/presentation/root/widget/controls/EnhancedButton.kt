@@ -40,7 +40,7 @@ fun EnhancedButton(
     shape: Shape = ButtonDefaults.outlinedShape,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    isShadowClip: Boolean = false,
+    isShadowClip: Boolean = containerColor.alpha != 1f,
     content: @Composable RowScope.() -> Unit
 ) {
     val settingsState = LocalSettingsState.current

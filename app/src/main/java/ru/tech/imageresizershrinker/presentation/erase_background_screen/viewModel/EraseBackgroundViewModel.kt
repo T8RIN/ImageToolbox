@@ -7,6 +7,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,10 +18,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.image.draw.ImageDrawApplier
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
@@ -30,7 +32,8 @@ import javax.inject.Inject
 @HiltViewModel
 class EraseBackgroundViewModel @Inject constructor(
     private val imageManager: ImageManager<Bitmap, ExifInterface>,
-    private val fileController: FileController
+    private val fileController: FileController,
+    private val imageDrawApplier: ImageDrawApplier<Bitmap, Path, Color>
 ) : ViewModel() {
 
     private val _internalBitmap: MutableState<Bitmap?> = mutableStateOf(null)
@@ -79,14 +82,11 @@ class EraseBackgroundViewModel @Inject constructor(
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
 
-    private val _erasedBitmap: MutableState<Bitmap?> = mutableStateOf(null)
-
     fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
             _isImageLoading.value = true
             _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
             _internalBitmap.value = _bitmap.value
-            _erasedBitmap.value = _bitmap.value
             _isImageLoading.value = false
         }
     }
@@ -181,19 +181,22 @@ class EraseBackgroundViewModel @Inject constructor(
     }
 
     private suspend fun getErasedBitmap(): Bitmap? {
-        return _erasedBitmap.value?.let {
-            imageManager.resize(
-                image = it,
-                width = _bitmap.value?.width ?: 0,
-                height = _bitmap.value?.height ?: 0,
-                resizeType = ResizeType.Explicit
+        return if (autoEraseCount == 0) {
+            imageDrawApplier.applyEraseToImage(
+                pathPaints = _paths.value,
+                imageUri = _uri.value.toString()
             )
-        }?.let { trim(it) }
+        } else {
+            imageDrawApplier.applyEraseToImage(
+                pathPaints = _paths.value,
+                image = _bitmap.value
+            )
+        }
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
         viewModelScope.launch {
-            _erasedBitmap.value?.let { trim(it) }?.let {
+            getErasedBitmap()?.let { trim(it) }?.let {
                 _isSaving.value = true
                 imageManager.shareImage(
                     ImageData(
@@ -212,19 +215,6 @@ class EraseBackgroundViewModel @Inject constructor(
             _isSaving.value = false
             savingJob?.cancel()
             savingJob = it
-        }
-    }
-
-    fun updateErasedBitmap(bitmap: Bitmap) {
-        _bitmap.value?.let {
-            viewModelScope.launch {
-                _erasedBitmap.value = imageManager.resize(
-                    image = bitmap,
-                    width = it.width,
-                    height = it.height,
-                    resizeType = ResizeType.Explicit
-                )
-            }
         }
     }
 
@@ -278,29 +268,36 @@ class EraseBackgroundViewModel @Inject constructor(
         _trimImage.value = boolean
     }
 
+    private var autoEraseCount: Int = 0
     fun autoEraseBackground(onSuccess: () -> Unit, onFailure: (Throwable) -> Unit) {
-        _erasedBitmap.value?.let {
-            _isErasingBG.value = true
-            imageManager.removeBackgroundFromImage(
-                image = it,
-                onSuccess = {
-                    _bitmap.value = it
-                    _paths.value = listOf()
-                    _lastPaths.value = listOf()
-                    _undonePaths.value = listOf()
-                    _isErasingBG.value = false
-                    onSuccess()
-                },
-                onFailure = {
-                    _isErasingBG.value = false
-                    onFailure(it)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                getErasedBitmap()?.let { bitmap1 ->
+                    _isErasingBG.value = true
+                    imageManager.removeBackgroundFromImage(
+                        image = bitmap1,
+                        onSuccess = {
+                            _bitmap.value = it
+                            _paths.value = listOf()
+                            _lastPaths.value = listOf()
+                            _undonePaths.value = listOf()
+                            _isErasingBG.value = false
+                            onSuccess()
+                            autoEraseCount++
+                        },
+                        onFailure = {
+                            _isErasingBG.value = false
+                            onFailure(it)
+                        }
+                    )
                 }
-            )
+            }
         }
     }
 
     fun resetImage() {
         viewModelScope.launch {
+            autoEraseCount = 0
             _bitmap.value = _internalBitmap.value
             _paths.value = listOf()
             _lastPaths.value = listOf()
