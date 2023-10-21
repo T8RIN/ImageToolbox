@@ -253,11 +253,13 @@ class FileControllerImpl @Inject constructor(
     private fun Context.clearCache(onComplete: (cache: String) -> Unit = {}) {
         CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.IO) {
-                cacheDir.deleteRecursively()
-                codeCacheDir.deleteRecursively()
-                externalCacheDir?.deleteRecursively()
-                externalCacheDirs.forEach {
-                    it.deleteRecursively()
+                kotlin.runCatching {
+                    cacheDir?.deleteRecursively()
+                    codeCacheDir?.deleteRecursively()
+                    externalCacheDir?.deleteRecursively()
+                    externalCacheDirs?.forEach {
+                        it.deleteRecursively()
+                    }
                 }
             }
             onComplete(cacheSize())
@@ -266,11 +268,13 @@ class FileControllerImpl @Inject constructor(
 
     private fun Context.cacheSize(): String {
         return kotlin.runCatching {
-            val cache = cacheDir.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
-            val code = codeCacheDir.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
+            val cache =
+                cacheDir?.walkTopDown()?.filter { it.isFile }?.map { it.length() }?.sum() ?: 0
+            val code =
+                codeCacheDir?.walkTopDown()?.filter { it.isFile }?.map { it.length() }?.sum() ?: 0
             var size = cache + code
-            externalCacheDirs.forEach { file ->
-                size += file.walkTopDown().filter { it.isFile }.map { it.length() }.sum()
+            externalCacheDirs?.forEach { file ->
+                size += file?.walkTopDown()?.filter { it.isFile }?.map { it.length() }?.sum() ?: 0
             }
             readableByteCount(size)
         }.getOrNull() ?: "0 B"
