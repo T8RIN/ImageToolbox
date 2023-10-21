@@ -137,7 +137,8 @@ fun LazyListScope.imageStickyHeader(
                                 },
                                 modifier = Modifier.materialShadow(
                                     shape = CircleShape,
-                                    elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.5.dp
+                                    elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.5.dp,
+                                    isClipped = true
                                 ),
                                 border = BorderStroke(
                                     width = settingsState.borderWidth,

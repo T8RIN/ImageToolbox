@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Shape
@@ -23,7 +24,8 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 fun Modifier.materialShadow(
     shape: Shape,
     elevation: Dp,
-    enabled: Boolean = LocalSettingsState.current.allowShowingShadowsInsteadOfBorders
+    enabled: Boolean = LocalSettingsState.current.allowShowingShadowsInsteadOfBorders,
+    isClipped: Boolean = true
 ) = composed {
     val isConcavePath by remember(shape) {
         derivedStateOf {
@@ -38,14 +40,22 @@ fun Modifier.materialShadow(
     }
     val elev = animateDpAsState(if (enabled) elevation else 0.dp).value
 
-    val api29Shadow = Modifier.clippedShadow(
-        shape = shape,
-        elevation = elev
-    )
+    val api29Shadow = if (isClipped) {
+        Modifier.clippedShadow(
+            shape = shape,
+            elevation = elev
+        )
+    } else {
+        Modifier.shadow(
+            shape = shape,
+            elevation = elev
+        )
+    }
 
     val api21shadow = Modifier.rsBlurShadow(
         shape = shape,
-        radius = elev
+        radius = elev,
+        isAlphaContentClip = isClipped
     )
     when {
         isConcavePath && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> api21shadow

@@ -35,6 +35,7 @@ fun Modifier.container(
     autoShadowElevation: Dp = 1.dp,
     clip: Boolean = true,
     composeColorOnTopOfBackground: Boolean = true,
+    isShadowClip: Boolean = false
 ) = composed {
     val settingsState = LocalSettingsState.current
     val colorScheme = MaterialTheme.colorScheme
@@ -84,6 +85,7 @@ fun Modifier.container(
         .materialShadow(
             shape = shape,
             elevation = animateDpAsState(if (settingsState.borderWidth > 0.dp) 0.dp else autoShadowElevation).value,
+            isClipped = isShadowClip
         )
         .then(
             if (shape is CornerBasedShape) cornerModifier

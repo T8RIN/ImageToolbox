@@ -51,7 +51,8 @@ fun ImageCounter(
                     borderColor = MaterialTheme.colorScheme.outlineVariant(
                         0.1f,
                         MaterialTheme.colorScheme.tertiaryContainer.copy(0.1f),
-                    )
+                    ),
+                    isShadowClip = true
                 ) {
                     Text(stringResource(R.string.images, imageCount ?: 0L))
                 }
@@ -62,7 +63,8 @@ fun ImageCounter(
                         MaterialTheme.colorScheme.tertiaryContainer.copy(0.1f),
                     ),
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.3f),
-                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.9f)
+                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.9f),
+                    isShadowClip = true
                 ) {
                     Icon(Icons.Rounded.ChangeCircle, null)
                 }

@@ -40,6 +40,7 @@ fun EnhancedButton(
     shape: Shape = ButtonDefaults.outlinedShape,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    isShadowClip: Boolean = false,
     content: @Composable RowScope.() -> Unit
 ) {
     val settingsState = LocalSettingsState.current
@@ -50,7 +51,8 @@ fun EnhancedButton(
             modifier = modifier
                 .materialShadow(
                     shape = shape,
-                    elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.5.dp
+                    elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.5.dp,
+                    isClipped = isShadowClip
                 ),
             shape = shape,
             colors = ButtonDefaults.buttonColors(
@@ -82,6 +84,7 @@ fun EnhancedIconButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     forceMinimumInteractiveComponentSize: Boolean = true,
     enableAutoShadowAndBorder: Boolean = true,
+    isShadowClip: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val settingsState = LocalSettingsState.current
@@ -97,6 +100,7 @@ fun EnhancedIconButton(
                 .then(
                     if (enableAutoShadowAndBorder) Modifier.materialShadow(
                         shape = shape,
+                        isClipped = isShadowClip,
                         elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.7.dp
                     ) else Modifier
                 ),
