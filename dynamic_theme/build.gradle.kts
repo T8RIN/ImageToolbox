@@ -41,10 +41,10 @@ android {
 
 dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.compose.material3:material3:1.2.0-alpha08")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha10")
     implementation("androidx.palette:palette-ktx:1.0.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
-    implementation("androidx.compose.ui:ui-text:1.6.0-alpha07")
+    implementation("androidx.compose.ui:ui-text:1.6.0-alpha08")
 
     implementation(project(":systemuicontroller"))
 }

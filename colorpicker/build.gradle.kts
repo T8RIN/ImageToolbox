@@ -52,10 +52,10 @@ dependencies {
     implementation("com.github.SmartToolFactory:Compose-Color-Detector:1.0.0")
     implementation("com.github.SmartToolFactory:Compose-Colorful-Sliders:1.2.0")
     // Jetpack Compose
-    implementation("androidx.compose.ui:ui:1.6.0-alpha07")
-    implementation("androidx.compose.ui:ui-tooling:1.6.0-alpha07")
-    implementation("androidx.compose.material:material:1.6.0-alpha06")
-    implementation("androidx.compose.runtime:runtime:1.6.0-alpha07")
-    implementation("androidx.compose.material:material-icons-extended:1.6.0-alpha06")
-    implementation("androidx.compose.material3:material3-android:1.2.0-alpha08")
+    implementation("androidx.compose.ui:ui:1.6.0-alpha08")
+    implementation("androidx.compose.ui:ui-tooling:1.6.0-alpha08")
+    implementation("androidx.compose.material:material:1.6.0-alpha08")
+    implementation("androidx.compose.runtime:runtime:1.6.0-alpha08")
+    implementation("androidx.compose.material:material-icons-extended:1.6.0-alpha08")
+    implementation("androidx.compose.material3:material3-android:1.2.0-alpha10")
 }
