@@ -110,7 +110,7 @@ fun BitmapDrawer(
             val imageWidth = constraints.maxWidth
             val imageHeight = constraints.maxHeight
 
-            val drawImageBitmap = remember(constraints) {
+            val drawImageBitmap = remember(constraints, backgroundColor) {
                 BitmapCompat.createScaledBitmap(
                     imageBitmap.asAndroidBitmap(),
                     imageWidth,

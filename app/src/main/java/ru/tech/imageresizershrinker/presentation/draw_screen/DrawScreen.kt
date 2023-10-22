@@ -142,7 +142,6 @@ import ru.tech.imageresizershrinker.presentation.root.model.PtSaver
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.theme.toColor
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
@@ -331,16 +330,7 @@ fun DrawScreen(
         viewModel.drawBehavior,
         stateSaver = PtSaver
     ) { mutableStateOf(20.pt) }
-    var backgroundColor by rememberSaveable(
-        stateSaver = ColorSaver,
-        inputs = arrayOf(viewModel.drawBehavior)
-    ) {
-        mutableStateOf(
-            if (viewModel.drawBehavior is DrawBehavior.Background) {
-                (viewModel.drawBehavior as DrawBehavior.Background).color.toColor()
-            } else Color.Transparent
-        )
-    }
+
     var drawColor by rememberSaveable(
         stateSaver = ColorSaver,
         inputs = arrayOf(viewModel.drawBehavior)
@@ -390,8 +380,8 @@ fun DrawScreen(
         }
         if (viewModel.drawBehavior is DrawBehavior.Background) {
             DrawBackgroundSelector(
-                value = backgroundColor,
-                onColorChange = { backgroundColor = it }
+                value = viewModel.backgroundColor,
+                onColorChange = viewModel::updateBackgroundColor
             )
         } else {
             Spacer(Modifier.height(16.dp))
@@ -636,7 +626,7 @@ fun DrawScreen(
                 onDraw = {},
                 imageManager = viewModel.getImageManager(),
                 drawArrowsEnabled = drawArrowsEnabled,
-                backgroundColor = backgroundColor
+                backgroundColor = viewModel.backgroundColor
             )
         }
     }
@@ -799,9 +789,9 @@ fun DrawScreen(
                             onClick = {
                                 showBackgroundDrawingSetup.value = false
                                 viewModel.startDrawOnBackground(
-                                    width,
-                                    height,
-                                    sheetBackgroundColor
+                                    reqWidth = width,
+                                    reqHeight = height,
+                                    color = sheetBackgroundColor
                                 )
                             }
                         ) {
@@ -1034,11 +1024,12 @@ fun DrawScreen(
         }
     }
 
+    var colorPickerColor by rememberSaveable(stateSaver = ColorSaver) { mutableStateOf(Color.Black) }
     PickColorFromImageSheet(
         visible = showPickColorSheet,
         bitmap = viewModel.colorPickerBitmap,
-        onColorChange = viewModel::updateColor,
-        color = viewModel.color
+        onColorChange = { colorPickerColor = it },
+        color = colorPickerColor
     )
 
     ExitWithoutSavingDialog(

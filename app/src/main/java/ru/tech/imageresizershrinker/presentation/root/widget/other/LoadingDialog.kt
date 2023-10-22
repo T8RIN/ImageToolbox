@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.input.pointer.pointerInput
@@ -29,14 +30,15 @@ fun LoadingDialog(canCancel: Boolean = true, onCancelLoading: () -> Unit) {
     var showWantDismissDialog by remember(canCancel) { mutableStateOf(false) }
     AlertDialog(onDismissRequest = { showWantDismissDialog = canCancel }) {
         Box(
-            Modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .pointerInput(Unit) {
                     detectTapGestures {
                         showWantDismissDialog = canCancel
                     }
-                }
-        ) { Loading() }
+                },
+            contentAlignment = Alignment.Center
+        ) { Loading(modifier = Modifier.size(108.dp)) }
     }
     if (showWantDismissDialog) {
         AlertDialog(

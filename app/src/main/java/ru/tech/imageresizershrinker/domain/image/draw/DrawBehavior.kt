@@ -5,11 +5,11 @@ sealed class DrawBehavior(
 ) {
     data object None : DrawBehavior(2)
 
-    class Image(
+    data class Image(
         override val orientation: Int
     ) : DrawBehavior(orientation = orientation)
 
-    class Background(
+    data class Background(
         override val orientation: Int,
         val width: Int,
         val height: Int,

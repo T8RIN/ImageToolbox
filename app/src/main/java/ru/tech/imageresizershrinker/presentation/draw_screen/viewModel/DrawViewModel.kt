@@ -47,8 +47,8 @@ class DrawViewModel @Inject constructor(
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
 
-    private val _color: MutableState<Color> = mutableStateOf(Color.Black)
-    val color by _color
+    private val _backgroundColor: MutableState<Color> = mutableStateOf(Color.White)
+    val backgroundColor by _backgroundColor
 
     private val _colorPickerBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val colorPickerBitmap by _colorPickerBitmap
@@ -200,7 +200,10 @@ class DrawViewModel @Inject constructor(
 
     private suspend fun getDrawingBitmap(): Bitmap? = withContext(Dispatchers.IO) {
         imageDrawApplier.applyDrawToImage(
-            drawBehavior = drawBehavior,
+            drawBehavior = drawBehavior.let {
+                if (it is DrawBehavior.Background) it.copy(color = backgroundColor.toArgb())
+                else it
+            },
             pathPaints = paths,
             imageUri = _uri.value.toString()
         )
@@ -237,6 +240,7 @@ class DrawViewModel @Inject constructor(
                 color = color.toArgb()
             )
         )
+        _backgroundColor.value = color
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
@@ -270,8 +274,8 @@ class DrawViewModel @Inject constructor(
         originalSize
     )?.image
 
-    fun updateColor(color: Color) {
-        _color.value = color
+    fun updateBackgroundColor(color: Color) {
+        _backgroundColor.value = color
     }
 
     fun clearDrawing() {

@@ -31,11 +31,6 @@ import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
-@Composable
-fun BoxScope.Loading() {
-    Loading(Modifier.align(Alignment.Center))
-    KeepScreenOn()
-}
 
 @Composable
 fun Loading(modifier: Modifier = Modifier) {
@@ -43,11 +38,16 @@ fun Loading(modifier: Modifier = Modifier) {
     BoxWithConstraints(
         modifier
             .then(
-                if (size != 0.dp) Modifier.heightIn(
-                    max = size
-                ) else Modifier
+                if (modifier == Modifier) {
+                    Modifier
+                        .then(
+                            if (size != 0.dp) Modifier.heightIn(
+                                max = size
+                            ) else Modifier
+                        )
+                        .fillMaxHeight()
+                } else Modifier
             )
-            .fillMaxHeight()
             .aspectRatio(1f)
             .container(
                 shape = DavidStarShape,
