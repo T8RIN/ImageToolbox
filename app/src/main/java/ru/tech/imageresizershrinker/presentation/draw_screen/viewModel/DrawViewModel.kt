@@ -47,7 +47,7 @@ class DrawViewModel @Inject constructor(
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
 
-    private val _backgroundColor: MutableState<Color> = mutableStateOf(Color.White)
+    private val _backgroundColor: MutableState<Color> = mutableStateOf(Color.Transparent)
     val backgroundColor by _backgroundColor
 
     private val _colorPickerBitmap: MutableState<Bitmap?> = mutableStateOf(null)
@@ -222,6 +222,7 @@ class DrawViewModel @Inject constructor(
         _bitmap.value = null
         navController.navigate(DrawBehavior.None)
         _uri.value = Uri.EMPTY
+        _backgroundColor.value = Color.Transparent
     }
 
     fun startDrawOnBackground(reqWidth: Int, reqHeight: Int, color: Color) {
