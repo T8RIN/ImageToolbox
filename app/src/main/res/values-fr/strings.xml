@@ -13,12 +13,12 @@
     <string name="explicit">Spécifique</string>
     <string name="flexible">Flexible</string>
     <string name="pick_image_alt">Choisir une image</string>
-    <string name="app_closing_sub">Souhaitez-vous vraiment fermer l\'application\?</string>
+    <string name="app_closing_sub">Souhaitez-vous vraiment quitter l\'application\?</string>
     <string name="app_closing">Fermeture de l\'application</string>
     <string name="stay">Rester</string>
     <string name="close">Fermer</string>
     <string name="reset_image">Réinitialiser l\'image</string>
-    <string name="reset_image_sub">Les valeurs de l\'image seront restaurés aux valeurs de départ</string>
+    <string name="reset_image_sub">Les valeurs de l\'image seront restaurées aux valeurs initiales</string>
     <string name="values_reset">Les valeurs ont été correctement réinitialisées</string>
     <string name="reset">Réinitialiser</string>
     <string name="something_went_wrong">Une erreur c\'est produite</string>
