@@ -33,7 +33,7 @@
     <string name="clear">Claro</string>
     <string name="clear_exif">Limpar EXIF</string>
     <string name="cancel">Cancelar</string>
-    <string name="clear_exif_sub">Todos os dados EXIF da imagem serão apagados, esta ação não pode ser desfeita!</string>
+    <string name="clear_exif_sub">Todos os dados EXIF da imagem serão apagados, esta ação não poderá ser desfeita!</string>
     <string name="presets">Predefinições</string>
     <string name="ratio">Razão</string>
     <string name="crop">Cortar</string>
@@ -92,12 +92,12 @@
     <string name="color_blue">Azul</string>
     <string name="clipboard_paste_invalid_color_code">Cole um código RGB válido.</string>
     <string name="clipboard_paste_invalid_empty">nada para colar</string>
-    <string name="cannot_change_palette_while_dynamic_colors_applied">Não é possível alterar o esquema de cores do aplicativo enquanto as cores dinâmicas estão ativadas</string>
-    <string name="pick_accent_color">O tema do aplicativo será baseado na cor, que você selecionará</string>
+    <string name="cannot_change_palette_while_dynamic_colors_applied">Não é possível alterar o esquema de cores do aplicativo enquanto as cores dinâmicas estiverem ativadas</string>
+    <string name="pick_accent_color">O tema do aplicativo será baseado na cor selecionada</string>
     <string name="about_app">Sobre o aplicativo</string>
     <string name="no_updates">Nenhuma atualização encontrada</string>
     <string name="issue_tracker">Rastreador de problemas</string>
-    <string name="issue_tracker_sub">Envie aqui relatórios de bugs e solicitações de recursos</string>
+    <string name="issue_tracker_sub">Enviar relatórios de bugs e solicitações de recursos aqui</string>
     <string name="help_translate">Ajude a traduzir</string>
     <string name="help_translate_sub">Corrija erros de tradução ou localize o projeto para outros idiomas</string>
     <string name="nothing_found_by_search">Nada encontrado pela sua consulta</string>
@@ -114,14 +114,14 @@
     <string name="add">Adicionar</string>
     <string name="permission">Permissão</string>
     <string name="grant">Conceder</string>
-    <string name="permission_sub">O aplicativo precisa acessar seu armazenamento para salvar imagens, é necessário, sem isso não funcionará, portanto, conceda permissão na próxima caixa de diálogo</string>
+    <string name="permission_sub">O aplicativo precisa de acesso ao seu armazenamento para salvar imagens e para funcionar, é necessário. Por favor, conceda permissão na próxima caixa de diálogo.</string>
     <string name="grant_permission_manual">O aplicativo precisa dessa permissão para funcionar, conceda-a manualmente</string>
     <string name="external_storage">Armazenamento externo</string>
     <string name="monet_colors">cores Monet</string>
     <string name="donation_sub">Esta aplicação é totalmente gratuita, mas se quiser apoiar o desenvolvimento do projeto, pode clicar aqui</string>
     <string name="fab_alignment">Alinhamento FAB</string>
     <string name="check_updates">Verifique se há atualizações</string>
-    <string name="check_updates_sub">Se ativado, a caixa de diálogo de atualização será exibida após a inicialização do aplicativo</string>
+    <string name="check_updates_sub">Se ativado, a mensagem de atualização será exibida no início do aplicativo</string>
     <string name="zoom">Zoom de imagem</string>
     <string name="share">Compartilhar</string>
     <string name="prefix">Prefixo</string>
@@ -164,7 +164,7 @@
     <string name="photo_picker">Seletor de fotos</string>
     <string name="gallery_picker">Galeria</string>
     <string name="file_explorer_picker">Explorador de arquivos</string>
-    <string name="photo_picker_sub">O seletor de fotos moderno do Android, que aparece na parte inferior da tela, pode funcionar apenas no Android 12+ e também apresenta problemas ao receber metadados EXIF</string>
+    <string name="photo_picker_sub">O selecionador de fotos moderno do Android que aparece na parte inferior da tela, pode funcionar apenas no Android 12+. Tem problemas para receber metadados EXIF</string>
     <string name="options_arrangement">Arranjo de opções</string>
     <string name="order">Ordem</string>
     <string name="replace_sequence_number">Substituir número de sequência</string>
@@ -231,7 +231,7 @@
     <string name="posterize">posterizar</string>
     <string name="weak_pixel_inclusion">Inclusão de pixel fraca</string>
     <string name="lookup">Olho para cima</string>
-    <string name="emoji_sub">Selecione qual emoji será exibido na tela principal</string>
+    <string name="emoji_sub">Selecione qual emoji exibir na tela principal</string>
     <string name="rgb_filter">filtro RGB</string>
     <string name="false_color">cor falsa</string>
     <string name="first_color">primeira cor</string>
@@ -240,9 +240,9 @@
     <string name="color_balance">Equilíbrio de cores</string>
     <string name="luminance_threshold">Limiar de luminância</string>
     <string name="delete_exif">Excluir EXIF</string>
-    <string name="delete_exif_sub">Exclua os metadados EXIF de algumas imagens</string>
-    <string name="file_explorer_picker_sub">Use a intenção GetContent para escolher a imagem, funciona em qualquer lugar, mas também pode ter problemas ao receber imagens selecionadas em alguns dispositivos, não é minha culpa</string>
-    <string name="gallery_picker_sub">Seletor de imagens de galeria simples, funcionará apenas se você tiver esse aplicativo</string>
+    <string name="delete_exif_sub">Excluir metadados EXIF de qualquer conjunto de imagens</string>
+    <string name="file_explorer_picker_sub">Use GetContent intenção para escolher imagem. Funciona em todos os lugares, mas é conhecido por ter problemas de recepção de imagens selecionadas em alguns dispositivos. Não tenho culpa.</string>
+    <string name="gallery_picker_sub">Simples selecionador de imagens de galeria. Ele só vai funcionar se você tem um aplicativo que fornece seleção de mídia</string>
     <string name="order_sub">Determina a ordem das opções na tela principal</string>
     <string name="content_scale">escala de conteúdo</string>
     <string name="emojis_count">contagem de emojis</string>
@@ -310,4 +310,5 @@
     <string name="randomize_filename">Nome de arquivo aleatório</string>
     <string name="randomize_filename_sub">Se ativado, o nome do arquivo será completamente aleatório</string>
     <string name="presets_sub_bytes">O preset aqui determina o % do arquivo de saída, ou seja, se você selecionar 50 em uma imagem de 5mb, então a imagem depois de salva será de 2,5mb</string>
+    <string name="blur_radius">Nível de desfoque</string>
 </resources>
