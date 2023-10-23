@@ -158,7 +158,9 @@ class MainActivity : M3Activity() {
                         }
                     )
 
-                    ToastHost(hostState = LocalToastHost.current)
+                    ToastHost(
+                        hostState = LocalToastHost.current
+                    )
 
                     SideEffect {
                         viewModel.tryGetUpdate(
