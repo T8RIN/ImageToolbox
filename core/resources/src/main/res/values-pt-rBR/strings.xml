@@ -286,8 +286,7 @@
     <string name="features_sub">Criptografia de arquivos baseada em senha. Os arquivos processados podem ser armazenados no diretório selecionado ou compartilhados. Os arquivos descriptografados também podem ser abertos diretamente.</string>
     <string name="implementation_sub">AES-256, modo GCM, sem preenchimento, IVs aleatórios de 12 bytes por padrão. Você pode selecionar o algoritmo necessário. As chaves são usadas como hashes SHA-3 de 256 bits</string>
     <string name="file_size">Tamanho do arquivo</string>
-    <string name="file_size_sub">O tamanho máximo do arquivo é restrito pelo sistema operacional Android e pela memória disponível, que depende do dispositivo.
-\nObserve: memória não é armazenamento.</string>
+    <string name="file_size_sub">O tamanho máximo do arquivo é restrito pelo sistema operacional Android e pela memória disponível, que depende do dispositivo. \nObserve: memória não é armazenamento.</string>
     <string name="compatibility_sub">Observe que a compatibilidade com outros softwares ou serviços de criptografia de arquivos não é garantida. Um tratamento de chave ou configuração de criptografia ligeiramente diferente pode causar incompatibilidade.</string>
     <string name="invalid_password_or_not_encrypted">Senha inválida ou arquivo escolhido não está criptografado</string>
     <string name="image_size_warning">A tentativa de salvar a imagem com a largura e a altura fornecidas pode causar um erro de falta de memória. Faça isso por sua própria conta e risco.</string>
