@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
@@ -79,9 +80,11 @@ fun BitmapEraser(
                 if (zoomEnabled) {
                     Modifier.animatedZoom(animatedZoomState = zoomState)
                 } else {
-                    Modifier.graphicsLayer {
-                        update(zoomState)
-                    }
+                    Modifier
+                        .clipToBounds()
+                        .graphicsLayer {
+                            update(zoomState)
+                        }
                 }
             ),
         contentAlignment = Alignment.Center
