@@ -173,8 +173,7 @@ fun Modifier.animatedZoom(
                 consume = false,
                 onGestureEnd = {
                     coroutineScope.launch {
-                        animatedZoomState.onGestureEnd {
-                        }
+                        animatedZoomState.onGestureEnd {}
                     }
                 },
                 onGesture = { centroid, pan, zoom, rotate, mainPointer, pointerList ->
