@@ -48,7 +48,7 @@
     <string name="clear">Effacer</string>
     <string name="clear_exif">Effacer les EXIF</string>
     <string name="cancel">Annuler</string>
-    <string name="clear_exif_sub">Toutes les données EXIF de l\'image seront effacées. Cette action ne peut pas être annulée !</string>
+    <string name="clear_exif_sub">Toutes les données EXIF de l\'image seront effacées. Cette action ne peut pas être annulée !</string>
     <string name="presets">Préconfigurations</string>
     <string name="crop">Rogner</string>
     <string name="image_not_saved">Enregistrement</string>
@@ -74,7 +74,7 @@
     <string name="new_version">Nouvelle version %1$s</string>
     <string name="update">Mise à jour</string>
     <string name="unsupported_type">Type non pris en charge: %1$s</string>
-    <string name="no_palette">Impossible de générer une palette pour l\'image donnée</string>
+    <string name="no_palette">Impossible de générer une palette pour l\'image donnée</string>
     <string name="original">Original</string>
     <string name="folder">Dossier de sortie</string>
     <string name="def">Defaut</string>
@@ -286,8 +286,7 @@
     <string name="cipher_sub">Chiffrer et déchiffrer n\'importe quel fichier (pas seulement l\'image) en fonction de divers algorithmes de chiffrement disponibles</string>
     <string name="features_sub">Chiffrement par mot de passe des fichiers. Les fichiers traités peuvent être stockés dans le répertoire sélectionné ou partagés. Les fichiers déchiffrés peuvent également être ouverts directement.</string>
     <string name="compatibility_sub">Veuillez noter que la compatibilité avec d’autres logiciels ou services de chiffrement de fichiers n’est pas garantie. Un traitement de clé ou une configuration de chiffrement légèrement différente peuvent causer une incompatibilité.</string>
-    <string name="file_size_sub">La taille maximale du fichier est limitée par le système d\'exploitation Android et la mémoire disponible, qui dépendent de votre appareil.
-\nAttention : la mémoire n\'est pas du stockage.</string>
+    <string name="file_size_sub">La taille maximale du fichier est limitée par le système d\'exploitation Android et la mémoire disponible, qui dépendent de votre appareil. \nAttention : la mémoire n\'est pas du stockage.</string>
     <string name="invalid_password_or_not_encrypted">Mot de passe invalide ou fichier choisi non chiffré</string>
     <string name="image_size_warning">Essayer d’enregistrer une image avec ces largeur et hauteur peut provoquer une erreur de mémoire insuffisante. Faites ceci à vos propres risques.</string>
     <string name="cache">Cache</string>
