@@ -278,8 +278,8 @@
     <string name="implementation">執行</string>
     <string name="compatibility">相容性</string>
     <string name="file_size">檔案大小</string>
-    <string name="file_size_sub">最大檔案大小受限於 Android 作業系統和可用記憶體，這取決於您的裝置。
-\n請注意：記憶體不是儲存區。</string>
+    <string name="file_size_sub">Android 作業系統及裝置的可用記憶體會影響檔案的最大尺寸限制。
+\n提醒您：記憶體和儲存空間不是同一回事。</string>
     <string name="compatibility_sub">請注意，不保證與其他檔案加密軟體或服務的相容性。稍有不同的密鑰處理或密碼組態可能是不相容的原因。</string>
     <string name="features_sub">基於密碼的檔案加密。處理過的檔案可以儲存在選取的目錄中或分享。解密後的檔案也可以直接開啟。</string>
     <string name="invalid_password_or_not_encrypted">密碼無效或選擇的檔案未加密</string>
@@ -352,7 +352,7 @@
     <string name="travels_and_places">旅遊與地點</string>
     <string name="updates">軟體更新</string>
     <string name="wait">請稍候</string>
-    <string name="effort_sub">值 %1$d 代表較快速的壓縮，將產生較大的檔案大小；值 %2$d 代表花更多時間壓縮，以獲得較小的檔案</string>
+    <string name="effort_sub">值 %1$d 表示快速的壓縮，會產生相對較大的檔案大小；而值 %2$d 則是較慢的壓縮，可以得到較小的檔案。</string>
     <string name="allow_betas">允許接收測試版本</string>
     <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !\?</string>
     <string name="jxl_sub">注意：Android 系統尚未正式支援 JXL 格式。因此，特定功能可能不穩定。您必須選擇自訂的輸出資料夾，才能成功儲存。這是實驗性質的版本，除非 Google 添加對 JXL 的支援，否則這裡的錯誤不會被修復。此版本可以預覽 JXL 格式的圖片</string>
@@ -365,7 +365,7 @@
     <string name="brush_softness">畫筆柔度</string>
     <string name="draw_arrows">繪製箭頭</string>
     <string name="draw_arrows_sub">若啟用，繪畫路徑將顯示為指向箭頭。</string>
-    <string name="crop_description">如果圖片尺寸超過輸入尺寸，將會以中心為基準裁切至此尺寸；在其他情況下，畫布將根據指定的背景顏色進行擴展</string>
+    <string name="crop_description">圖片會根據輸入的大小進行中心裁剪。如果圖片小於輸入的尺寸，畫布會依指定的背景顏色進行擴展。</string>
     <string name="donation">捐款</string>
     <string name="image_stitching">圖片拼接</string>
     <string name="image_stitching_sub">將選取的圖片合成為一幅大圖片</string>
@@ -398,4 +398,5 @@
     <string name="pixel_size">像素大小</string>
     <string name="lock_draw_orientation">鎖定繪畫方向</string>
     <string name="lock_draw_orientation_sub">如果啟用，在繪畫模式中畫面將不會旋轉</string>
+    <string name="check_for_updates">檢查更新</string>
 </resources>
