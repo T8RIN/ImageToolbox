@@ -65,7 +65,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.exifinterface.media.ExifInterface
@@ -75,7 +74,6 @@ import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Cube
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiBilaterialBlurFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiBlackAndWhiteFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiBoxBlurFilter
@@ -98,6 +96,7 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiEn
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiExposureFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFalseColorFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFastBlurFilter
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiGammaFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiGaussianBlurFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiGlassSphereRefractionFilter
@@ -165,7 +164,6 @@ fun AddFiltersSheet(
     onFilterPickedWithParams: (UiFilter<*>) -> Unit
 ) {
     val settingsState = LocalSettingsState.current
-    val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
     var previewSheetData by FilterHolder.previewSheetData
