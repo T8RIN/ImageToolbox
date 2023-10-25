@@ -25,14 +25,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.gigamole.composefadingedges.content.FadingEdgesContentType
-import com.gigamole.composefadingedges.content.scrollconfig.FadingEdgesScrollConfig
-import com.gigamole.composefadingedges.verticalFadingEdges
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Beta
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
@@ -62,13 +60,10 @@ fun Context.FirstLaunchSetupDialog(
                 ProvideTextStyle(value = LocalTextStyle.current.copy(textAlign = TextAlign.Left)) {
                     Column(
                         modifier = Modifier
-                            .verticalFadingEdges(
-                                contentType = FadingEdgesContentType.Dynamic.Scroll(
-                                    scrollConfig = FadingEdgesScrollConfig.Dynamic(
-                                        scrollFactor = 1.1f
-                                    ),
-                                    state = state
-                                )
+                            .fadingEdges(
+                                isVertical = true,
+                                scrollableState = state,
+                                scrollFactor = 1.1f
                             )
                             .verticalScroll(state)
                     ) {

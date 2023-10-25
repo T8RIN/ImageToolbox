@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.preferences
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,7 +26,7 @@ fun PreferenceItem(
     contentColor: Color = if (color == MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)) contentColorFor(
         backgroundColor = MaterialTheme.colorScheme.surfaceVariant
     ) else contentColorFor(backgroundColor = color),
-    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
+    modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
 ) {

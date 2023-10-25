@@ -14,9 +14,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,7 +35,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
@@ -48,6 +47,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AlphaColorSelection
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
@@ -63,8 +63,7 @@ fun DrawBackgroundSelector(
         .container(
             shape = RoundedCornerShape(24.dp),
             color = MaterialTheme.colorScheme.surfaceContainer
-        ),
-    edgesColor: Color = MaterialTheme.colorScheme.surfaceContainer
+        )
 ) {
     var customColor by remember { mutableStateOf<Color?>(null) }
     val showColorPicker = remember { mutableStateOf(false) }
@@ -87,10 +86,13 @@ fun DrawBackgroundSelector(
             )
         }
         Box {
+            val listState = rememberLazyListState()
             LazyRow(
+                state = listState,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(1.2.dp * 40 + 32.dp),
+                    .height(1.2.dp * 40 + 32.dp)
+                    .fadingEdges(listState),
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -167,30 +169,6 @@ fun DrawBackgroundSelector(
                     )
                 }
             }
-            Box(
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .width(6.dp)
-                    .height(1.3.dp * 40 + 16.dp)
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            0f to edgesColor,
-                            1f to Color.Transparent
-                        )
-                    )
-            )
-            Box(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .width(6.dp)
-                    .height(1.3.dp * 40 + 16.dp)
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            0f to Color.Transparent,
-                            1f to edgesColor
-                        )
-                    )
-            )
         }
     }
 

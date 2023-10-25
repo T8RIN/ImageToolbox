@@ -1,14 +1,12 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.animation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.*
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,7 +22,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.Prefere
 
 @Composable
 fun SourceCodePreference(
-    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
+    modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp),
     shape: Shape = RoundedCornerShape(16.dp),

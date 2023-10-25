@@ -6,15 +6,11 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -35,8 +31,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -51,6 +45,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.Laser
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.resize_group.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -80,81 +75,57 @@ fun DrawModeSelector(
                 fontWeight = FontWeight.Medium
             )
         }
-        Box {
-            SingleChoiceSegmentedButtonRow(
-                space = max(settingsState.borderWidth, 1.dp),
-                modifier = Modifier
-                    .horizontalScroll(rememberScrollState())
-                    .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
-            ) {
-                DrawMode.entries.forEachIndexed { index, item ->
-                    val selected by remember(drawMode, item) {
-                        derivedStateOf {
-                            drawMode::class.isInstance(item)
-                        }
-                    }
-                    val shape = SegmentedButtonDefaults.itemShape(
-                        index = index,
-                        count = DrawMode.entries.size
-                    )
-                    SegmentedButton(
-                        onClick = { onDrawModeChange(item) },
-                        selected = selected,
-                        icon = {},
-                        border = SegmentedButtonBorder(settingsState.borderWidth),
-                        colors = SegmentedButtonDefaults.colors(
-                            activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
-                            inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                6.dp
-                            )
-                        ),
-                        modifier = Modifier.materialShadow(
-                            shape = shape,
-                            elevation = animateDpAsState(
-                                if (settingsState.borderWidth >= 0.dp || !settingsState.allowShowingShadowsInsteadOfBorders) 0.dp
-                                else if (selected) 2.dp
-                                else 1.dp
-                            ).value
-                        ),
-                        shape = shape
-                    ) {
-                        Icon(
-                            imageVector = when (item) {
-                                is DrawMode.Highlighter -> Icons.Rounded.Highlighter
-                                is DrawMode.Neon -> Icons.Rounded.Laser
-                                is DrawMode.Pen -> Icons.Rounded.Brush
-                                is DrawMode.PathEffect.PrivacyBlur -> Icons.Rounded.BlurCircular
-                                is DrawMode.PathEffect.Pixelation -> Icons.Rounded.Cube
-                            },
-                            contentDescription = null
-                        )
+        val scrollState = rememberScrollState()
+        SingleChoiceSegmentedButtonRow(
+            space = max(settingsState.borderWidth, 1.dp),
+            modifier = Modifier
+                .horizontalScroll(scrollState)
+                .fadingEdges(scrollState)
+                .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
+        ) {
+            DrawMode.entries.forEachIndexed { index, item ->
+                val selected by remember(drawMode, item) {
+                    derivedStateOf {
+                        drawMode::class.isInstance(item)
                     }
                 }
+                val shape = SegmentedButtonDefaults.itemShape(
+                    index = index,
+                    count = DrawMode.entries.size
+                )
+                SegmentedButton(
+                    onClick = { onDrawModeChange(item) },
+                    selected = selected,
+                    icon = {},
+                    border = SegmentedButtonBorder(settingsState.borderWidth),
+                    colors = SegmentedButtonDefaults.colors(
+                        activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
+                        inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                            6.dp
+                        )
+                    ),
+                    modifier = Modifier.materialShadow(
+                        shape = shape,
+                        elevation = animateDpAsState(
+                            if (settingsState.borderWidth >= 0.dp || !settingsState.allowShowingShadowsInsteadOfBorders) 0.dp
+                            else if (selected) 2.dp
+                            else 1.dp
+                        ).value
+                    ),
+                    shape = shape
+                ) {
+                    Icon(
+                        imageVector = when (item) {
+                            is DrawMode.Highlighter -> Icons.Rounded.Highlighter
+                            is DrawMode.Neon -> Icons.Rounded.Laser
+                            is DrawMode.Pen -> Icons.Rounded.Brush
+                            is DrawMode.PathEffect.PrivacyBlur -> Icons.Rounded.BlurCircular
+                            is DrawMode.PathEffect.Pixelation -> Icons.Rounded.Cube
+                        },
+                        contentDescription = null
+                    )
+                }
             }
-            Box(
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .width(8.dp)
-                    .height(50.dp)
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            0f to MaterialTheme.colorScheme.surfaceContainer,
-                            1f to Color.Transparent
-                        )
-                    )
-            )
-            Box(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .width(8.dp)
-                    .height(50.dp)
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            0f to Color.Transparent,
-                            1f to MaterialTheme.colorScheme.surfaceContainer
-                        )
-                    )
-            )
         }
         AnimatedVisibility(
             visible = drawMode is DrawMode.PathEffect.PrivacyBlur,

@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
@@ -31,7 +32,6 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -42,7 +42,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.input.pointer.pointerInput
@@ -61,6 +60,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavC
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.presentation.root.widget.other.RevealValue
 import ru.tech.imageresizershrinker.presentation.root.widget.other.SwipeToReveal
 import ru.tech.imageresizershrinker.presentation.root.widget.other.rememberRevealState
@@ -142,7 +142,10 @@ fun PresetWidget(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.padding(bottom = 8.dp)
                 ) {
+                    val listState = rememberLazyListState()
                     LazyRow(
+                        state = listState,
+                        modifier = Modifier.fadingEdges(listState),
                         horizontalArrangement = Arrangement.spacedBy(
                             8.dp, Alignment.CenterHorizontally
                         ),
@@ -171,30 +174,6 @@ fun PresetWidget(
                             }
                         }
                     }
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .width(6.dp)
-                            .height(44.dp)
-                            .background(
-                                brush = Brush.horizontalGradient(
-                                    0f to MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-                                    1f to Color.Transparent
-                                )
-                            )
-                    )
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.CenterEnd)
-                            .width(6.dp)
-                            .height(44.dp)
-                            .background(
-                                brush = Brush.horizontalGradient(
-                                    0f to Color.Transparent,
-                                    1f to MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
-                                )
-                            )
-                    )
                 }
             }
         },

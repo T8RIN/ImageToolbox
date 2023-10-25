@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.filters_screen.components
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -62,7 +61,7 @@ fun <T> FilterItem(
     onLongPress: (() -> Unit)? = null,
     previewOnly: Boolean = false,
     onFilterChange: (value: Any) -> Unit,
-    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier,
     backgroundColor: Color = MaterialTheme
         .colorScheme
         .surfaceContainer

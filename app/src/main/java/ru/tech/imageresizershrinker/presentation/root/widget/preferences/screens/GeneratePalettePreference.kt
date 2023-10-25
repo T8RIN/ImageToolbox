@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -18,7 +17,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.Prefere
 @Composable
 fun GeneratePalettePreference(
     onClick: () -> Unit,
-    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
+    modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp),
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)

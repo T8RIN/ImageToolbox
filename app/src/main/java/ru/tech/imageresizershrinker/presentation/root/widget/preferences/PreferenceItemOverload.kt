@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.preferences
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -51,7 +50,7 @@ fun PreferenceItemOverload(
     contentColor: Color = if (color == MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)) contentColorFor(
         backgroundColor = MaterialTheme.colorScheme.surfaceVariant
     ) else contentColorFor(backgroundColor = color),
-    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
+    modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
 ) {
