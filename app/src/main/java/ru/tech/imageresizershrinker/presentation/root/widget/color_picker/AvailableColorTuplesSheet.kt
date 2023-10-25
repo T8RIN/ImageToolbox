@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.color_picker
 
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -23,8 +24,10 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.rounded.AddCircleOutline
@@ -35,6 +38,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
@@ -48,6 +52,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.ColorTuple
@@ -72,6 +77,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 
 @OptIn(
     ExperimentalFoundationApi::class,
@@ -206,151 +212,174 @@ fun AvailableColorTuplesSheet(
             }
         },
         sheetContent = {
-            LazyVerticalGrid(
-                modifier = Modifier.fillMaxWidth(),
-                columns = GridCells.Adaptive(64.dp),
-                contentPadding = PaddingValues(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally),
-                verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically)
+            val portrait =
+                LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
+
+            val palette = @Composable {
+                PaletteStyleSelection(
+                    onThemeStyleSelected = onThemeStyleSelected,
+                    shape = RoundedCornerShape(
+                        topStart = 24.dp,
+                        topEnd = 24.dp,
+                        bottomStart = 4.dp,
+                        bottomEnd = 4.dp
+                    )
+                )
+            }
+            val slider = @Composable {
+                var state by remember(settingsState.themeContrastLevel) {
+                    mutableFloatStateOf(settingsState.themeContrastLevel.toFloat())
+                }
+                EnhancedSliderItem(
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    value = state,
+                    title = stringResource(id = R.string.contrast),
+                    valueRange = -2f..2f,
+                    shape = RoundedCornerShape(
+                        topStart = 4.dp,
+                        topEnd = 4.dp,
+                        bottomStart = 24.dp,
+                        bottomEnd = 24.dp
+                    ),
+                    onValueChange = { state = (it * 10f).toInt() / 10f },
+                    steps = 36,
+                    onValueChangeFinished = updateThemeContrast,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+            }
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                item(
-                    span = {
-                        val span = if (maxLineSpan % 2 == 0) maxLineSpan / 2
-                        else maxLineSpan
-                        GridItemSpan(span)
-                    }
-                ) {
-                    PaletteStyleSelection(
-                        onThemeStyleSelected = onThemeStyleSelected,
-                        shape = RoundedCornerShape(
-                            topStart = 24.dp,
-                            topEnd = 24.dp,
-                            bottomStart = 4.dp,
-                            bottomEnd = 4.dp
-                        )
-                    )
-                }
-                item(
-                    span = {
-                        val span = if (maxLineSpan % 2 == 0) maxLineSpan / 2
-                        else maxLineSpan
-                        GridItemSpan(span)
-                    }
-                ) {
-                    var state by remember(settingsState.themeContrastLevel) {
-                        mutableFloatStateOf(settingsState.themeContrastLevel.toFloat())
-                    }
-                    EnhancedSliderItem(
-                        color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        value = state,
-                        title = stringResource(id = R.string.contrast),
-                        valueRange = -2f..2f,
-                        shape = RoundedCornerShape(
-                            topStart = 4.dp,
-                            topEnd = 4.dp,
-                            bottomStart = 24.dp,
-                            bottomEnd = 24.dp
-                        ),
-                        onValueChange = { state = (it * 10f).toInt() / 10f },
-                        steps = 36,
-                        onValueChangeFinished = updateThemeContrast,
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    )
-                }
-                items(colorTupleList) { colorTuple ->
-                    ColorTupleItem(
-                        colorTuple = remember(settingsState.themeStyle, colorTuple) {
-                            derivedStateOf {
-                                if (settingsState.themeStyle == PaletteStyle.TonalSpot) {
-                                    colorTuple
-                                } else colorTuple.run {
-                                    copy(secondary = primary, tertiary = primary)
-                                }
-                            }
-                        }.value,
-                        modifier = Modifier
-                            .aspectRatio(1f)
-                            .container(
-                                shape = DavidStarShape,
-                                color = rememberColorScheme(
-                                    isDarkTheme = settingsState.isNightMode,
-                                    amoledMode = LocalSettingsState.current.isDynamicColors,
-                                    colorTuple = colorTuple,
-                                    contrastLevel = settingsState.themeContrastLevel,
-                                    style = settingsState.themeStyle,
-                                    dynamicColor = settingsState.isDynamicColors
-                                ).surfaceVariant.copy(alpha = 0.8f),
-                                borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
-                                resultPadding = 0.dp
-                            )
-                            .combinedClickable(
-                                onClick = {
-                                    onPickTheme(colorTuple)
-                                },
-                            )
-                            .padding(3.dp),
-                        backgroundColor = Color.Transparent
+                if (!portrait) {
+                    Column(
+                        Modifier
+                            .verticalScroll(rememberScrollState())
+                            .weight(0.8f)
+                            .padding(16.dp)
                     ) {
-                        AnimatedContent(
-                            targetState = colorTuple == currentColorTuple
-                        ) { selected ->
-                            Box(
-                                contentAlignment = Alignment.Center,
-                                modifier = Modifier.fillMaxSize()
-                            ) {
-                                if (selected) {
-                                    Box(
-                                        modifier = Modifier
-                                            .size(28.dp)
-                                            .background(
-                                                animateColorAsState(
-                                                    colorTuple.primary.inverse(
-                                                        fraction = { cond ->
-                                                            if (cond) 0.8f
-                                                            else 0.5f
-                                                        },
-                                                        darkMode = colorTuple.primary.luminance() < 0.3f
-                                                    )
-                                                ).value,
-                                                CircleShape
-                                            ),
-                                    )
-                                    Icon(
-                                        imageVector = Icons.Rounded.Done,
-                                        contentDescription = null,
-                                        tint = colorTuple.primary,
-                                        modifier = Modifier.size(16.dp)
-                                    )
+                        palette()
+                        Spacer(Modifier.height(2.dp))
+                        slider()
+                    }
+                }
+                LazyVerticalGrid(
+                    modifier = Modifier.weight(1f),
+                    columns = GridCells.Adaptive(64.dp),
+                    contentPadding = PaddingValues(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        4.dp,
+                        Alignment.CenterHorizontally
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically)
+                ) {
+                    if (portrait) {
+                        item(
+                            span = { GridItemSpan(maxLineSpan) }
+                        ) {
+                            palette()
+                        }
+                        item(
+                            span = { GridItemSpan(maxLineSpan) }
+                        ) {
+                            slider()
+                        }
+                    }
+                    items(colorTupleList) { colorTuple ->
+                        ColorTupleItem(
+                            colorTuple = remember(settingsState.themeStyle, colorTuple) {
+                                derivedStateOf {
+                                    if (settingsState.themeStyle == PaletteStyle.TonalSpot) {
+                                        colorTuple
+                                    } else colorTuple.run {
+                                        copy(secondary = primary, tertiary = primary)
+                                    }
+                                }
+                            }.value,
+                            modifier = Modifier
+                                .aspectRatio(1f)
+                                .container(
+                                    shape = DavidStarShape,
+                                    color = rememberColorScheme(
+                                        isDarkTheme = settingsState.isNightMode,
+                                        amoledMode = LocalSettingsState.current.isDynamicColors,
+                                        colorTuple = colorTuple,
+                                        contrastLevel = settingsState.themeContrastLevel,
+                                        style = settingsState.themeStyle,
+                                        dynamicColor = settingsState.isDynamicColors
+                                    ).surfaceVariant.copy(alpha = 0.8f),
+                                    borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
+                                    resultPadding = 0.dp
+                                )
+                                .combinedClickable(
+                                    onClick = {
+                                        onPickTheme(colorTuple)
+                                    },
+                                )
+                                .padding(3.dp),
+                            backgroundColor = Color.Transparent
+                        ) {
+                            AnimatedContent(
+                                targetState = colorTuple == currentColorTuple
+                            ) { selected ->
+                                Box(
+                                    contentAlignment = Alignment.Center,
+                                    modifier = Modifier.fillMaxSize()
+                                ) {
+                                    if (selected) {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(28.dp)
+                                                .background(
+                                                    animateColorAsState(
+                                                        colorTuple.primary.inverse(
+                                                            fraction = { cond ->
+                                                                if (cond) 0.8f
+                                                                else 0.5f
+                                                            },
+                                                            darkMode = colorTuple.primary.luminance() < 0.3f
+                                                        )
+                                                    ).value,
+                                                    CircleShape
+                                                ),
+                                        )
+                                        Icon(
+                                            imageVector = Icons.Rounded.Done,
+                                            contentDescription = null,
+                                            tint = colorTuple.primary,
+                                            modifier = Modifier.size(16.dp)
+                                        )
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                item {
-                    ColorTupleItem(
-                        colorTuple = ColorTuple(
-                            primary = MaterialTheme.colorScheme.secondary,
-                            secondary = MaterialTheme.colorScheme.secondary,
-                            tertiary = MaterialTheme.colorScheme.secondary
-                        ),
-                        modifier = Modifier
-                            .aspectRatio(1f)
-                            .container(
-                                shape = DavidStarShape,
-                                color = MaterialTheme.colorScheme.surfaceVariant,
-                                borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
-                                resultPadding = 0.dp
+                    item {
+                        ColorTupleItem(
+                            colorTuple = ColorTuple(
+                                primary = MaterialTheme.colorScheme.secondary,
+                                secondary = MaterialTheme.colorScheme.secondary,
+                                tertiary = MaterialTheme.colorScheme.secondary
+                            ),
+                            modifier = Modifier
+                                .aspectRatio(1f)
+                                .container(
+                                    shape = DavidStarShape,
+                                    color = MaterialTheme.colorScheme.surfaceVariant,
+                                    borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
+                                    resultPadding = 0.dp
+                                )
+                                .clickable { openColorPicker() }
+                                .padding(3.dp),
+                            backgroundColor = Color.Transparent
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.AddCircleOutline,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSecondary,
+                                modifier = Modifier.size(24.dp)
                             )
-                            .clickable { openColorPicker() }
-                            .padding(3.dp),
-                        backgroundColor = Color.Transparent
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.AddCircleOutline,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSecondary,
-                            modifier = Modifier.size(24.dp)
-                        )
+                        }
                     }
                 }
             }
