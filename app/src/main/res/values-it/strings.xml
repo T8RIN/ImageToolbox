@@ -269,7 +269,7 @@
     <string name="store_file_desc">Archivia questo file sul tuo dispositivo o usa l\'azione di condivisione per metterlo dove vuoi</string>
     <string name="features">Caratteristiche</string>
     <string name="skip">Saltare</string>
-    <string name="activate_files">Hai disattivato l\'app File, attivala per utilizzare questa funzione</string>
+    <string name="activate_files">L\'app Files è disabilitata, attivala per utilizzare questa funzione</string>
     <string name="edit_screenshot">Modifica schermata</string>
     <string name="invalid_password_or_not_encrypted">Password non valida o il file scelto non è crittografato</string>
     <string name="compatibility">Compatibilità</string>
