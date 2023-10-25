@@ -376,12 +376,12 @@ fun ColorScheme.animateAllColors(animationSpec: AnimationSpec<Color>): ColorSche
     )
 }
 
-fun Bitmap.extractPrimaryColor(default: Int = 0, blendWithVibrant: Boolean = true): Color {
-    fun Int.blend(
-        color: Int,
-        @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.5f
-    ): Int = ColorUtils.blendARGB(this, color, fraction)
+private fun Int.blend(
+    color: Int,
+    @FloatRange(from = 0.0, to = 1.0) fraction: Float = 0.5f
+): Int = ColorUtils.blendARGB(this, color, fraction)
 
+fun Bitmap.extractPrimaryColor(default: Int = 0, blendWithVibrant: Boolean = true): Color {
     val palette = Palette
         .from(this)
         .generate()
@@ -431,8 +431,8 @@ val DynamicThemeStateSaver: Saver<DynamicThemeState, String> = Saver(
         val colorTuple = it.colorTuple.value
         "${colorTuple.primary.toArgb()}*${colorTuple.secondary?.toArgb()}*${colorTuple.tertiary?.toArgb()}*${colorTuple.surface?.toArgb()}"
     },
-    restore = {
-        val ar = it.split("*").map { it.toIntOrNull()?.let { Color(it) } }
+    restore = { string ->
+        val ar = string.split("*").map { s -> s.toIntOrNull()?.let { Color(it) } }
         DynamicThemeState(
             initialColorTuple = ColorTuple(
                 ar[0]!!,
@@ -497,13 +497,11 @@ fun getColorScheme(
     colorTuple: ColorTuple
 ): ColorScheme {
     return if (isDarkTheme) {
-        Scheme.darkContent(colorTuple.primary.toArgb()).toDarkThemeColorScheme(colorTuple)
+        Scheme.darkContent(colorTuple.primary.toArgb())
+            .toDarkThemeColorScheme(colorTuple)
+            .toAmoled(amoledMode)
     } else {
         Scheme.lightContent(colorTuple.primary.toArgb()).toLightThemeColorScheme(colorTuple)
-    }.let {
-        if (amoledMode && isDarkTheme) {
-            it.copy(background = Color.Black, surface = Color.Black)
-        } else it
     }.run {
         copy(
             outlineVariant = onSecondaryContainer
@@ -511,6 +509,40 @@ fun getColorScheme(
                 .compositeOver(surfaceColorAtElevation(6.dp))
         )
     }
+}
+
+private fun ColorScheme.toAmoled(amoledMode: Boolean): ColorScheme {
+    fun Color.darken(fraction: Float = 0.5f): Color =
+        Color(toArgb().blend(Color.Black.toArgb(), fraction))
+
+    return if (amoledMode) {
+        copy(
+            primary = primary.darken(0.3f),
+            onPrimary = onPrimary.darken(0.3f),
+            primaryContainer = primaryContainer.darken(0.3f),
+            onPrimaryContainer = onPrimaryContainer.darken(0.3f),
+            inversePrimary = inversePrimary.darken(0.3f),
+            secondary = secondary.darken(0.3f),
+            onSecondary = onSecondary.darken(0.3f),
+            secondaryContainer = secondaryContainer.darken(0.3f),
+            onSecondaryContainer = onSecondaryContainer.darken(0.3f),
+            tertiary = tertiary.darken(0.3f),
+            onTertiary = onTertiary.darken(0.3f),
+            tertiaryContainer = tertiaryContainer.darken(0.3f),
+            onTertiaryContainer = onTertiaryContainer.darken(0.2f),
+            background = Color.Black,
+            onBackground = onBackground.darken(0.1f),
+            surface = Color.Black,
+            onSurface = onSurface.darken(0.1f),
+            surfaceVariant = surfaceVariant,
+            onSurfaceVariant = onSurfaceVariant,
+            surfaceTint = surfaceTint,
+            inverseSurface = inverseSurface.darken(),
+            inverseOnSurface = inverseOnSurface.darken(0.2f),
+            outline = outline.darken(0.2f),
+            outlineVariant = outlineVariant.darken(0.2f)
+        )
+    } else this
 }
 
 private fun Scheme.toDarkThemeColorScheme(

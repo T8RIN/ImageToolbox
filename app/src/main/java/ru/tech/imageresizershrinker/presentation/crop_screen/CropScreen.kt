@@ -71,7 +71,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import coil.size.Size
 import com.smarttoolfactory.cropper.model.OutlineType
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
@@ -231,10 +230,11 @@ fun CropScreen(
                     .padding(vertical = 16.dp),
                 selectedIndex = aspectRatios.indexOfFirst { cr ->
                     cr.aspectRatio == viewModel.cropProperties.aspectRatio
+                },
+                onAspectRatioChange = { aspect ->
+                    viewModel.setCropAspectRatio(aspect.aspectRatio)
                 }
-            ) { aspect ->
-                viewModel.setCropAspectRatio(aspect.aspectRatio)
-            }
+            )
             HorizontalDivider()
             CropMaskSelection(
                 onCropMaskChange = { viewModel.setCropMask(it) },

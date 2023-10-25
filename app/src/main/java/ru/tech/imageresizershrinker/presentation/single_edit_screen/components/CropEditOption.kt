@@ -81,10 +81,11 @@ fun CropEditOption(
                         .padding(vertical = 16.dp),
                     selectedIndex = aspectRatios.indexOfFirst { cr ->
                         cr.aspectRatio == cropProperties.aspectRatio
+                    },
+                    onAspectRatioChange = { aspect ->
+                        setCropAspectRatio(aspect.aspectRatio)
                     }
-                ) { aspect ->
-                    setCropAspectRatio(aspect.aspectRatio)
-                }
+                )
                 HorizontalDivider()
                 CropMaskSelection(
                     onCropMaskChange = { setCropMask(it) },
