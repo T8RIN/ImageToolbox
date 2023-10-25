@@ -47,4 +47,5 @@ dependencies {
     implementation("androidx.compose.ui:ui-text:1.6.0-alpha08")
 
     implementation(project(":systemuicontroller"))
+    implementation("com.github.Kyant0:m3color:2023.10.1")
 }

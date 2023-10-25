@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.data.keys
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -36,4 +37,6 @@ object Keys {
     val ALLOW_SHADOWS_INSTEAD_OF_BORDERS = booleanPreferencesKey("ALLOW_SHADOWS_INSTEAD_OF_BORDERS")
     val APP_OPEN_COUNT = intPreferencesKey("APP_OPEN_COUNT")
     val LOCK_DRAW_ORIENTATION = booleanPreferencesKey("LOCK_DRAW_ORIENTATION")
+    val THEME_CONTRAST_LEVEL = doublePreferencesKey("THEME_CONTRAST_LEVEL")
+    val THEME_STYLE = intPreferencesKey("THEME_STYLE")
 }

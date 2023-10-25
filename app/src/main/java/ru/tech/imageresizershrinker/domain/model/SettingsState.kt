@@ -33,7 +33,9 @@ data class SettingsState(
     val allowBetas: Boolean,
     val allowShowingShadowsInsteadOfBorders: Boolean,
     val appOpenCount: Int,
-    val lockDrawOrientation: Boolean
+    val lockDrawOrientation: Boolean,
+    val themeContrastLevel: Double,
+    val themeStyle: Int
 ) : Domain {
 
     companion object {
@@ -68,7 +70,9 @@ data class SettingsState(
             allowShowingShadowsInsteadOfBorders = true,
             appOpenCount = 0,
             aspectRatios = AspectRatio.defaultList,
-            lockDrawOrientation = true
+            lockDrawOrientation = true,
+            themeContrastLevel = 0.0,
+            themeStyle = 0
         )
     }
 }

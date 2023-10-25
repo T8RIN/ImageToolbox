@@ -416,6 +416,22 @@
     <string name="lock_draw_orientation">Lock draw orientation</string>
     <string name="lock_draw_orientation_sub">If enabled in drawing mode, screen won\'t rotate</string>
     <string name="check_for_updates">Check for updates</string>
+    <string name="palette_style">Palette style</string>
+    <string name="tonal_spot">Tonal Spot</string>
+    <string name="neutral">Neutral</string>
+    <string name="vibrant">Vibrant</string>
+    <string name="expressive">Expressive</string>
+    <string name="rainbow">Rainbow</string>
+    <string name="fruit_salad">Fruit Salad</string>
+    <string name="fidelity">Fidelity</string>
+    <string name="content">Content</string>
+    <string name="tonal_spot_sub">Default palette style, it allows to customize all four colors, others allow you to set only the key color</string>
+    <string name="neutral_sub">A style that\'s slightly more chromatic than monochrome</string>
+    <string name="vibrant_sub">A loud theme, colorfulness is maximum for Primary palette, increased for others</string>
+    <string name="playful_scheme">A playful theme - the source color\'s hue does not appear in the theme</string>
+    <string name="monochrome_sub">A monochrome theme, colors are purely black / white / gray</string>
+    <string name="content_sub">A scheme that places the source color in Scheme.primaryContainer</string>
+    <string name="fidelity_sub">A scheme that is very similar to the content scheme</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

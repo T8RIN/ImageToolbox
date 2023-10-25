@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.sheets
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -28,23 +27,21 @@ fun PickFontFamilySheet(
     SimpleSheet(
         visible = visible,
         sheetContent = {
-            Box {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier
-                        .verticalScroll(
-                            rememberScrollState()
-                        )
-                        .padding(vertical = 16.dp, horizontal = 8.dp)
-                ) {
-                    UiFontFam.entries.forEach { font ->
-                        FontSelectionItem(
-                            font = font,
-                            onClick = {
-                                onFontSelected(font)
-                            }
-                        )
-                    }
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .verticalScroll(
+                        rememberScrollState()
+                    )
+                    .padding(vertical = 16.dp, horizontal = 8.dp)
+            ) {
+                UiFontFam.entries.forEach { font ->
+                    FontSelectionItem(
+                        font = font,
+                        onClick = {
+                            onFontSelected(font)
+                        }
+                    )
                 }
             }
         },

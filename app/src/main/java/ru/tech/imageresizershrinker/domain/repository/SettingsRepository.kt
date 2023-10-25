@@ -82,4 +82,8 @@ interface SettingsRepository {
     suspend fun registerAppOpen()
 
     suspend fun toggleLockDrawOrientation()
+
+    suspend fun setThemeStyle(value: Int)
+
+    suspend fun setThemeContrast(value: Double)
 }

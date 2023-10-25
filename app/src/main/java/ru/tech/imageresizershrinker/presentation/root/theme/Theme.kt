@@ -26,6 +26,8 @@ fun ImageToolboxTheme(
         dynamicColor = dynamicColor,
         amoledMode = amoledMode,
         isDarkTheme = settingsState.isNightMode,
+        contrastLevel = settingsState.themeContrastLevel,
+        style = settingsState.themeStyle,
         content = content
     )
 }

@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.ColorTuple
+import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.calculateSecondaryColor
 import com.t8rin.dynamic.theme.calculateSurfaceColor
 import com.t8rin.dynamic.theme.calculateTertiaryColor
@@ -56,6 +57,8 @@ fun ColorTuplePicker(
     title: String = stringResource(R.string.color_scheme),
     onColorChange: (ColorTuple) -> Unit
 ) {
+    val settingsState = LocalSettingsState.current
+
     var primary by rememberSaveable(colorTuple) { mutableIntStateOf(colorTuple.primary.toArgb()) }
     var secondary by rememberSaveable(colorTuple) {
         mutableIntStateOf(
@@ -75,7 +78,7 @@ fun ColorTuplePicker(
     }
 
     val appColorTuple = getAppColorTuple(
-        defaultColorTuple = LocalSettingsState.current.appColorTuple,
+        defaultColorTuple = settingsState.appColorTuple,
         dynamicColor = true,
         darkTheme = true
     )
@@ -83,7 +86,10 @@ fun ColorTuplePicker(
     val scheme = rememberColorScheme(
         amoledMode = false,
         isDarkTheme = true,
-        colorTuple = appColorTuple
+        colorTuple = appColorTuple,
+        contrastLevel = settingsState.themeContrastLevel,
+        style = settingsState.themeStyle,
+        dynamicColor = settingsState.isDynamicColors
     )
 
     LaunchedEffect(visible.value) {
@@ -138,9 +144,11 @@ fun ColorTuplePicker(
                                 onClick = {
                                     scheme.apply {
                                         primary = this.primary.toArgb()
-                                        secondary = this.secondary.toArgb()
-                                        tertiary = this.tertiary.toArgb()
-                                        surface = this.surface.toArgb()
+                                        if (settingsState.themeStyle == PaletteStyle.TonalSpot) {
+                                            secondary = this.secondary.toArgb()
+                                            tertiary = this.tertiary.toArgb()
+                                            surface = this.surface.toArgb()
+                                        }
                                     }
                                 },
                             ) {
@@ -159,7 +167,7 @@ fun ColorTuplePicker(
                             ColorSelection(
                                 color = primary,
                                 onColorChange = {
-                                    if (primary != it) {
+                                    if (primary != it && settingsState.themeStyle == PaletteStyle.TonalSpot) {
                                         secondary = Color(it).calculateSecondaryColor()
                                         tertiary = Color(it).calculateTertiaryColor()
                                         surface = Color(it).calculateSurfaceColor()
@@ -169,52 +177,54 @@ fun ColorTuplePicker(
                             )
                         }
                     }
-                    item {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .container(RoundedCornerShape(24.dp))
-                                .padding(horizontal = 20.dp)
-                        ) {
-                            TitleItem(text = stringResource(R.string.secondary))
-                            ColorSelection(
-                                color = secondary,
-                                onColorChange = {
-                                    secondary = it
-                                }
-                            )
+                    if (settingsState.themeStyle == PaletteStyle.TonalSpot) {
+                        item {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier
+                                    .container(RoundedCornerShape(24.dp))
+                                    .padding(horizontal = 20.dp)
+                            ) {
+                                TitleItem(text = stringResource(R.string.secondary))
+                                ColorSelection(
+                                    color = secondary,
+                                    onColorChange = {
+                                        secondary = it
+                                    }
+                                )
+                            }
                         }
-                    }
-                    item {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .container(RoundedCornerShape(24.dp))
-                                .padding(horizontal = 20.dp)
-                        ) {
-                            TitleItem(text = stringResource(R.string.tertiary))
-                            ColorSelection(
-                                color = tertiary,
-                                onColorChange = {
-                                    tertiary = it
-                                }
-                            )
+                        item {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier
+                                    .container(RoundedCornerShape(24.dp))
+                                    .padding(horizontal = 20.dp)
+                            ) {
+                                TitleItem(text = stringResource(R.string.tertiary))
+                                ColorSelection(
+                                    color = tertiary,
+                                    onColorChange = {
+                                        tertiary = it
+                                    }
+                                )
+                            }
                         }
-                    }
-                    item {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .container(RoundedCornerShape(24.dp))
-                                .padding(horizontal = 20.dp)
-                        ) {
-                            TitleItem(text = stringResource(R.string.surface))
-                            ColorSelection(
-                                color = surface,
-                                onColorChange = {
-                                    surface = it
-                                }
-                            )
+                        item {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier
+                                    .container(RoundedCornerShape(24.dp))
+                                    .padding(horizontal = 20.dp)
+                            ) {
+                                TitleItem(text = stringResource(R.string.surface))
+                                ColorSelection(
+                                    color = surface,
+                                    onColorChange = {
+                                        surface = it
+                                    }
+                                )
+                            }
                         }
                     }
                 }

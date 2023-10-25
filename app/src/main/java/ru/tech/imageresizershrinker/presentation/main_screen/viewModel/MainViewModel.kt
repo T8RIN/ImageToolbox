@@ -41,6 +41,8 @@ import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetBorderWidth
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetFontScaleUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetFontUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetNightModeUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetThemeContrastUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetThemeStyleUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAddFileSizeUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAddOriginalFilenameUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAddSequenceNumberUseCase
@@ -77,10 +79,11 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
+    getSettingsStateFlowUseCase: GetSettingsStateFlowUseCase,
+    val imageLoader: ImageLoader,
     private val imageManager: ImageManager<Bitmap, ExifInterface>,
     private val fileController: FileController,
     private val getSettingsStateUseCase: GetSettingsStateUseCase,
-    getSettingsStateFlowUseCase: GetSettingsStateFlowUseCase,
     private val toggleAddSequenceNumberUseCase: ToggleAddSequenceNumberUseCase,
     private val toggleAddOriginalFilenameUseCase: ToggleAddOriginalFilenameUseCase,
     private val updateEmojisCountUseCase: UpdateEmojisCountUseCase,
@@ -115,7 +118,8 @@ class MainViewModel @Inject constructor(
     private val allowShowingShadowsInsteadOfBordersUseCase: AllowShowingShadowsInsteadOfBordersUseCase,
     private val registerAppOpenUseCase: RegisterAppOpenUseCase,
     private val toggleLockDrawOrientationUseCase: ToggleLockDrawOrientationUseCase,
-    val imageLoader: ImageLoader
+    private val setThemeContrastUseCase: SetThemeContrastUseCase,
+    private val setThemeStyleUseCase: SetThemeStyleUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default())
@@ -516,6 +520,18 @@ class MainViewModel @Inject constructor(
                     }
             }
             if (settingsState.isDynamicColors) toggleDynamicColors()
+        }
+    }
+
+    fun updateThemeContrast(value: Float) {
+        viewModelScope.launch {
+            setThemeContrastUseCase(((value * 10f).toInt() / 10f).toDouble())
+        }
+    }
+
+    fun setThemeStyle(value: Int) {
+        viewModelScope.launch {
+            setThemeStyleUseCase(value)
         }
     }
 

@@ -768,6 +768,8 @@ fun MainScreen(
             dynamicColor = settingsState.isDynamicColors,
             darkTheme = settingsState.isNightMode
         ),
+        onThemeStyleSelected = { viewModel.setThemeStyle(it.ordinal) },
+        updateThemeContrast = viewModel::updateThemeContrast,
         openColorPicker = {
             showColorPicker.value = true
         },

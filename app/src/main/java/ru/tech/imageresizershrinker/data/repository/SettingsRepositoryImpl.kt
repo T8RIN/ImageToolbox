@@ -44,6 +44,8 @@ import ru.tech.imageresizershrinker.data.keys.Keys.SCREEN_ORDER
 import ru.tech.imageresizershrinker.data.keys.Keys.SELECTED_EMOJI_INDEX
 import ru.tech.imageresizershrinker.data.keys.Keys.SELECTED_FONT_INDEX
 import ru.tech.imageresizershrinker.data.keys.Keys.SHOW_UPDATE_DIALOG
+import ru.tech.imageresizershrinker.data.keys.Keys.THEME_CONTRAST_LEVEL
+import ru.tech.imageresizershrinker.data.keys.Keys.THEME_STYLE
 import ru.tech.imageresizershrinker.domain.model.AspectRatio
 import ru.tech.imageresizershrinker.domain.model.FontFam
 import ru.tech.imageresizershrinker.domain.model.NightMode
@@ -98,7 +100,9 @@ class SettingsRepositoryImpl @Inject constructor(
             allowShowingShadowsInsteadOfBorders = prefs[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] ?: true,
             appOpenCount = prefs[APP_OPEN_COUNT] ?: 0,
             aspectRatios = AspectRatio.defaultList,
-            lockDrawOrientation = prefs[LOCK_DRAW_ORIENTATION] ?: true
+            lockDrawOrientation = prefs[LOCK_DRAW_ORIENTATION] ?: true,
+            themeContrastLevel = prefs[THEME_CONTRAST_LEVEL] ?: 0.0,
+            themeStyle = prefs[THEME_STYLE] ?: 0
         )
     }
 
@@ -136,7 +140,9 @@ class SettingsRepositoryImpl @Inject constructor(
             allowShowingShadowsInsteadOfBorders = prefs[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] ?: true,
             appOpenCount = prefs[APP_OPEN_COUNT] ?: 0,
             aspectRatios = AspectRatio.defaultList,
-            lockDrawOrientation = prefs[LOCK_DRAW_ORIENTATION] ?: true
+            lockDrawOrientation = prefs[LOCK_DRAW_ORIENTATION] ?: true,
+            themeContrastLevel = prefs[THEME_CONTRAST_LEVEL] ?: 0.0,
+            themeStyle = prefs[THEME_STYLE] ?: 0
         )
     }
 
@@ -395,6 +401,18 @@ class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[LOCK_DRAW_ORIENTATION] ?: true
             it[LOCK_DRAW_ORIENTATION] = !v
+        }
+    }
+
+    override suspend fun setThemeStyle(value: Int) {
+        dataStore.edit {
+            it[THEME_STYLE] = value
+        }
+    }
+
+    override suspend fun setThemeContrast(value: Double) {
+        dataStore.edit {
+            it[THEME_CONTRAST_LEVEL] = value
         }
     }
 
