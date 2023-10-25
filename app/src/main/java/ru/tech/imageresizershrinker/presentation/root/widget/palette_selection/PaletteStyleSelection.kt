@@ -31,6 +31,8 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 @Composable
 fun PaletteStyleSelection(
     onThemeStyleSelected: (PaletteStyle) -> Unit,
+    shape: RoundedCornerShape,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val settingsState = LocalSettingsState.current
@@ -42,9 +44,9 @@ fun PaletteStyleSelection(
                 settingsState.themeStyle.getTitle(context)
             }
         }.value,
-        shape = RoundedCornerShape(24.dp),
+        shape = shape,
         color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        modifier = Modifier.padding(bottom = 8.dp),
+        modifier = modifier,
         icon = Icons.Rounded.InvertColors,
         endIcon = Icons.Rounded.CreateAlt,
         onClick = {

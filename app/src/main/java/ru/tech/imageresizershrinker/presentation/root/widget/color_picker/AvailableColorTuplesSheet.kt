@@ -220,7 +220,15 @@ fun AvailableColorTuplesSheet(
                         GridItemSpan(span)
                     }
                 ) {
-                    PaletteStyleSelection(onThemeStyleSelected = onThemeStyleSelected)
+                    PaletteStyleSelection(
+                        onThemeStyleSelected = onThemeStyleSelected,
+                        shape = RoundedCornerShape(
+                            topStart = 24.dp,
+                            topEnd = 24.dp,
+                            bottomStart = 4.dp,
+                            bottomEnd = 4.dp
+                        )
+                    )
                 }
                 item(
                     span = {
@@ -237,7 +245,12 @@ fun AvailableColorTuplesSheet(
                         value = state,
                         title = stringResource(id = R.string.contrast),
                         valueRange = -2f..2f,
-                        shape = RoundedCornerShape(24.dp),
+                        shape = RoundedCornerShape(
+                            topStart = 4.dp,
+                            topEnd = 4.dp,
+                            bottomStart = 24.dp,
+                            bottomEnd = 24.dp
+                        ),
                         onValueChange = { state = (it * 10f).toInt() / 10f },
                         steps = 36,
                         onValueChangeFinished = updateThemeContrast,
