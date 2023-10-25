@@ -145,7 +145,9 @@ fun PresetWidget(
                     val listState = rememberLazyListState()
                     LazyRow(
                         state = listState,
-                        modifier = Modifier.fadingEdges(listState),
+                        modifier = Modifier
+                            .fadingEdges(listState)
+                            .padding(vertical = 1.dp),
                         horizontalArrangement = Arrangement.spacedBy(
                             8.dp, Alignment.CenterHorizontally
                         ),

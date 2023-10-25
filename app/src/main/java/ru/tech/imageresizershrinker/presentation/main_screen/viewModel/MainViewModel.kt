@@ -509,6 +509,8 @@ class MainViewModel @Inject constructor(
                 val colorTupleS = listOf(colorTuple).asString()
                 updateColorTuple(colorTuple)
                 updateColorTuplesUseCase(settingsState.colorTupleList + "*" + colorTupleS)
+                updateThemeContrast(0f)
+                setThemeStyle(0)
             } else {
                 imageManager.getImage(data = emojiUri)
                     ?.extractPrimaryColor()
