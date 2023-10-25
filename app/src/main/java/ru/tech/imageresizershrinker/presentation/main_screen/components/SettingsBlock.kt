@@ -118,6 +118,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.dynamic.theme.ColorTupleItem
+import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.observeAsState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.BuildConfig
@@ -340,7 +341,18 @@ fun SettingsBlock(
                                                 ),
                                                 resultPadding = 5.dp
                                             ),
-                                        colorTuple = settingsState.appColorTuple,
+                                        colorTuple = remember(
+                                            settingsState.themeStyle,
+                                            settingsState.appColorTuple
+                                        ) {
+                                            derivedStateOf {
+                                                if (settingsState.themeStyle == PaletteStyle.TonalSpot) {
+                                                    settingsState.appColorTuple
+                                                } else settingsState.appColorTuple.run {
+                                                    copy(secondary = primary, tertiary = primary)
+                                                }
+                                            }
+                                        }.value,
                                         backgroundColor = Color.Transparent
                                     ) {
                                         Box(
