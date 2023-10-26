@@ -409,4 +409,15 @@
     <string name="fruit_salad">Фруктовый салат</string>
     <string name="fidelity_sub">Схема, которая очень похожа на схему содержимого</string>
     <string name="content">Содержание</string>
+    <string name="playful_scheme">Игривая тема: оттенок исходного цвета не отображается в теме</string>
+    <string name="vibrant_sub">Яркая тема, красочность максимальна для Основной палитры и повышена для остальных</string>
+    <string name="neutral_sub">Стиль немного более хроматический, чем монохромный</string>
+    <string name="tonal_spot">Тональное пятно</string>
+    <string name="monochrome_sub">Монохромная тема, цвета чисто чёрный/белый/серый.</string>
+    <string name="check_for_updates">Проверить наличие обновлений</string>
+    <string name="expressive">Выразительный</string>
+    <string name="neutral">Нейтральный</string>
+    <string name="tonal_spot_sub">Стиль палитры по умолчанию, позволяет настроить все четыре цвета, другие позволяют установить только ключевой цвет</string>
+    <string name="palette_style">Стиль палитры</string>
+    <string name="vibrant">Яркий</string>
 </resources>
