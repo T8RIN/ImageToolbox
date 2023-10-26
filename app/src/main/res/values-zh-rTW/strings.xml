@@ -265,7 +265,7 @@
     <string name="create">創作</string>
     <string name="draw_on_background_sub">選擇背景顏色並在其上繪畫</string>
     <string name="background_color">背景顏色</string>
-    <string name="cipher">密碼</string>
+    <string name="cipher">加密</string>
     <string name="cipher_sub">基於 AES 加密演算法進行加密與解密任何檔案（不僅是圖片）</string>
     <string name="pick_file">選擇檔案</string>
     <string name="encrypt">加密</string>
