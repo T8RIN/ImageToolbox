@@ -87,7 +87,7 @@ class AndroidImageDrawApplier @Inject constructor(
                     if (effect is DrawMode.PathEffect && !isErasing) {
                         val shaderSource = imageManager.transform(
                             image = image.overlay(it),
-                            transformations = transformationsForMode(effect, canvasSize)
+                            transformations = transformationsForMode(effect)
                         )?.asImageBitmap()?.clipBitmap(
                             path = path,
                             paint = Paint().apply {
@@ -209,8 +209,7 @@ class AndroidImageDrawApplier @Inject constructor(
     }
 
     private fun transformationsForMode(
-        drawMode: DrawMode,
-        canvasSize: IntegerSize
+        drawMode: DrawMode
     ): List<Transformation<Bitmap>> = when (drawMode) {
         is DrawMode.PathEffect.PrivacyBlur -> {
             listOf(
@@ -228,13 +227,13 @@ class AndroidImageDrawApplier @Inject constructor(
             listOf(
                 StackBlurFilter(
                     value = when {
-                        drawMode.pixelSize.value < 10 -> 0.8f
-                        drawMode.pixelSize.value < 20 -> 0.5f
+                        drawMode.pixelSize < 10 -> 0.8f
+                        drawMode.pixelSize < 20 -> 0.5f
                         else -> 0.3f
                     } to 20
                 ),
                 PixelationFilter(
-                    value = drawMode.pixelSize.toPx(canvasSize)
+                    value = drawMode.pixelSize
                 )
             )
         }
