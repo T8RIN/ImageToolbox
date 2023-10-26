@@ -11,7 +11,7 @@ sealed class DrawMode(open val ordinal: Int) {
         ) : PathEffect(1)
 
         data class Pixelation(
-            val pixelSize: Pt = 35.pt
+            val pixelSize: Float = 35f
         ) : PathEffect(4)
     }
 

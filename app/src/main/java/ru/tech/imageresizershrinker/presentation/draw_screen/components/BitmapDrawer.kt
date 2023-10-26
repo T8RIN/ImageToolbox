@@ -184,13 +184,13 @@ fun BitmapDrawer(
                     listOf(
                         UiStackBlurFilter(
                             value = when {
-                                drawMode.pixelSize.value < 10 -> 0.8f
-                                drawMode.pixelSize.value < 20 -> 0.5f
+                                drawMode.pixelSize < 10 -> 0.8f
+                                drawMode.pixelSize < 20 -> 0.5f
                                 else -> 0.3f
                             } to 20
                         ),
                         UiPixelationFilter(
-                            value = drawMode.pixelSize.toPx(canvasSize)
+                            value = drawMode.pixelSize
                         )
                     )
                 }

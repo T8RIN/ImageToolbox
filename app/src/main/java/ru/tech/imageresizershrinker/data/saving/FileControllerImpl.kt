@@ -1,5 +1,3 @@
-@file:Suppress("LocalVariableName")
-
 package ru.tech.imageresizershrinker.data.saving
 
 import android.Manifest
@@ -137,7 +135,7 @@ class FileControllerImpl @Inject constructor(
         kotlin.runCatching {
             var initialExif: ExifInterface? = null
 
-            val _saveTarget = if (saveTarget is ImageSaveTarget<*>) {
+            val newSaveTarget = if (saveTarget is ImageSaveTarget<*>) {
                 initialExif = saveTarget.metadata as ExifInterface?
 
                 saveTarget.copy(
@@ -145,11 +143,11 @@ class FileControllerImpl @Inject constructor(
                 )
             } else saveTarget
 
-            filename = _saveTarget.filename ?: ""
+            filename = newSaveTarget.filename ?: ""
 
             val savingFolder = context.getSavingFolder(
                 treeUri = fileParams.treeUri?.takeIf { it.isNotEmpty() }?.toUri(),
-                saveTarget = _saveTarget
+                saveTarget = newSaveTarget
             )
 
             savingFolder.outputStream?.use {
@@ -229,20 +227,14 @@ class FileControllerImpl @Inject constructor(
             "yyyy-MM-dd_HH-mm-ss",
             Locale.getDefault()
         ).format(Date()) + "_${Random(Random.nextInt()).hashCode().toString().take(4)}"
+
         return "${prefix}_${
             if (fileParams.addSequenceNumber && saveTarget.sequenceNumber != null) {
                 SimpleDateFormat(
                     "yyyy-MM-dd_HH-mm-ss",
                     Locale.getDefault()
                 ).format(Date()) + "_" + saveTarget.sequenceNumber
-            } else if (saveTarget.originalUri.toUri() == Uri.EMPTY && fileParams.addSequenceNumber) {
-                SimpleDateFormat(
-                    "yyyy-MM-dd_HH-mm-ss",
-                    Locale.getDefault()
-                ).format(Date()) + "_" + context.getString(R.string.sequence_num)
-            } else {
-                timeStamp
-            }
+            } else timeStamp
         }.$extension"
     }
 
