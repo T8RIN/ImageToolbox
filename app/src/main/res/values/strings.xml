@@ -432,6 +432,8 @@
     <string name="monochrome_sub">A monochrome theme, colors are purely black / white / gray</string>
     <string name="content_sub">A scheme that places the source color in Scheme.primaryContainer</string>
     <string name="fidelity_sub">A scheme that is very similar to the content scheme</string>
+    <string name="foss_update_checker_warning">This update checker will connect to GitHub in reason of checking if there is a new update available</string>
+    <string name="attention">Attention</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

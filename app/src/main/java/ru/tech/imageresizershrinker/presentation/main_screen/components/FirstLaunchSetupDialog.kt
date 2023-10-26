@@ -11,12 +11,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.NewReleases
 import androidx.compose.material.icons.rounded.SystemSecurityUpdate
+import androidx.compose.material.icons.rounded.Webhook
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -25,15 +28,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Beta
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.fadingEdges
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
+@Suppress("KotlinConstantConditions")
 @Composable
 fun Context.FirstLaunchSetupDialog(
     toggleAllowBetas: (Boolean) -> Unit,
@@ -44,6 +50,11 @@ fun Context.FirstLaunchSetupDialog(
         mutableStateOf(
             true
         )
+    }
+    LaunchedEffect(Unit) {
+        if (settingsState.showDialogOnStartup && BuildConfig.FLAVOR == "foss") {
+            toggleShowUpdateDialog()
+        }
     }
     if (settingsState.appOpenCount <= 1 && updateOnFirstOpen) {
         AlertDialog(
@@ -67,6 +78,16 @@ fun Context.FirstLaunchSetupDialog(
                             )
                             .verticalScroll(state)
                     ) {
+                        if (BuildConfig.FLAVOR == "foss") {
+                            PreferenceItem(
+                                title = stringResource(id = R.string.attention),
+                                subtitle = stringResource(R.string.foss_update_checker_warning),
+                                icon = Icons.Rounded.Webhook,
+                                shape = RoundedCornerShape(16.dp),
+                                modifier = Modifier.padding(bottom = 8.dp),
+                                color = MaterialTheme.colorScheme.surfaceContainerHighest
+                            )
+                        }
                         PreferenceRowSwitch(
                             shape = if (!isInstalledFromPlayStore()) {
                                 RoundedCornerShape(
@@ -76,7 +97,7 @@ fun Context.FirstLaunchSetupDialog(
                                     bottomEnd = 6.dp
                                 )
                             } else RoundedCornerShape(16.dp),
-                            modifier = Modifier.padding(horizontal = 8.dp),
+                            modifier = Modifier,
                             applyHorPadding = false,
                             resultModifier = Modifier.padding(
                                 horizontal = 16.dp,
@@ -99,7 +120,7 @@ fun Context.FirstLaunchSetupDialog(
                         if (!isInstalledFromPlayStore()) {
                             Spacer(Modifier.height(4.dp))
                             PreferenceRowSwitch(
-                                modifier = Modifier.padding(horizontal = 8.dp),
+                                modifier = Modifier,
                                 applyHorPadding = false,
                                 resultModifier = Modifier.padding(
                                     horizontal = 16.dp,

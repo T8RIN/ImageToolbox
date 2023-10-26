@@ -125,6 +125,7 @@ import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.AUTHOR_AVATAR
 import ru.tech.imageresizershrinker.core.CHAT_LINK
+import ru.tech.imageresizershrinker.core.FOSS_LINK
 import ru.tech.imageresizershrinker.core.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.core.WEBLATE_LINK
 import ru.tech.imageresizershrinker.domain.model.NightMode
@@ -253,7 +254,9 @@ fun SettingsBlock(
                                 shape = topShape,
                                 startContent = {
                                     Picture(
-                                        model = AUTHOR_AVATAR,
+                                        model = if (BuildConfig.FLAVOR == "foss") {
+                                            FOSS_LINK
+                                        } else AUTHOR_AVATAR,
                                         modifier = Modifier
                                             .padding(horizontal = 8.dp)
                                             .size(48.dp)
@@ -261,6 +264,7 @@ fun SettingsBlock(
                                                 shape = CloverShape,
                                                 resultPadding = 0.dp
                                             ),
+                                        showTransparencyChecker = false,
                                         shape = RectangleShape
                                     )
                                 },
