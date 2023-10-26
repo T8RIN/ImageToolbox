@@ -55,6 +55,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.PaletteStyle
@@ -234,16 +235,18 @@ fun AvailableColorTuplesSheet(
                     color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     value = state,
                     title = stringResource(id = R.string.contrast),
-                    valueRange = -2f..2f,
+                    valueRange = -1f..1f,
                     shape = RoundedCornerShape(
                         topStart = 4.dp,
                         topEnd = 4.dp,
                         bottomStart = 24.dp,
                         bottomEnd = 24.dp
                     ),
-                    onValueChange = { state = (it * 10f).toInt() / 10f },
-                    steps = 36,
-                    onValueChangeFinished = updateThemeContrast,
+                    onValueChange = { state = it.roundToTwoDigits() },
+                    steps = 198,
+                    onValueChangeFinished = {
+                        updateThemeContrast(state)
+                    },
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
             }
@@ -259,7 +262,7 @@ fun AvailableColorTuplesSheet(
                             .padding(16.dp)
                     ) {
                         palette()
-                        Spacer(Modifier.height(2.dp))
+                        Spacer(Modifier.height(4.dp))
                         slider()
                     }
                 }

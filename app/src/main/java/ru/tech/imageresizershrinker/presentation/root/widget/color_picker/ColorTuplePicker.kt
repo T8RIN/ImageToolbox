@@ -156,7 +156,14 @@ fun ColorTuplePicker(
                             }
                         }
                     }
-                    item {
+                    item(
+                        span = {
+                            if (settingsState.themeStyle == PaletteStyle.TonalSpot) GridItemSpan(
+                                maxCurrentLineSpan
+                            )
+                            else GridItemSpan(1)
+                        }
+                    ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier

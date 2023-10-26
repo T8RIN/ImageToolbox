@@ -5,7 +5,6 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.RadioButtonChecked
@@ -46,7 +45,6 @@ fun FontSelectionItem(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp)
                 .border(
                     width = settingsState.borderWidth,
                     color = animateColorAsState(

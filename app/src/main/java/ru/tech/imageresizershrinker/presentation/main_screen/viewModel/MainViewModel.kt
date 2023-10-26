@@ -527,7 +527,7 @@ class MainViewModel @Inject constructor(
 
     fun updateThemeContrast(value: Float) {
         viewModelScope.launch {
-            setThemeContrastUseCase(((value * 10f).toInt() / 10f).toDouble())
+            setThemeContrastUseCase(value.toDouble())
         }
     }
 

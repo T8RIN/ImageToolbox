@@ -1,11 +1,11 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.palette_selection
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.InvertColors
 import androidx.compose.material3.MaterialTheme
@@ -15,6 +15,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -70,15 +71,13 @@ fun PaletteStyleSelection(
             }
         },
         sheetContent = {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .verticalScroll(
-                        rememberScrollState()
-                    )
-                    .padding(vertical = 16.dp, horizontal = 8.dp)
+            LazyVerticalStaggeredGrid(
+                columns = StaggeredGridCells.Adaptive(250.dp),
+                contentPadding = PaddingValues(16.dp),
+                verticalItemSpacing = 8.dp,
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
             ) {
-                PaletteStyle.entries.forEach { style ->
+                items(PaletteStyle.entries) { style ->
                     PaletteStyleSelectionItem(
                         style = style,
                         onClick = {
