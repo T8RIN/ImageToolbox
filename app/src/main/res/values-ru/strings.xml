@@ -403,4 +403,10 @@
     <string name="pixel_size">Размер пикселя</string>
     <string name="lock_draw_orientation">Блокировка ориентации рисования</string>
     <string name="lock_draw_orientation_sub">Если включено в режиме рисования, экран не будет вращаться</string>
+    <string name="fidelity">Точность</string>
+    <string name="rainbow">Радуга</string>
+    <string name="content_sub">Схема, которая помещает исходный цвет в Scheme.primaryContainer</string>
+    <string name="fruit_salad">Фруктовый салат</string>
+    <string name="fidelity_sub">Схема, которая очень похожа на схему содержимого</string>
+    <string name="content">Содержание</string>
 </resources>
