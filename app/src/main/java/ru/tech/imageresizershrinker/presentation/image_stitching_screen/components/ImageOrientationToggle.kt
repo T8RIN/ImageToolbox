@@ -32,7 +32,7 @@ fun ImageOrientationToggle(
     onCheckedChange: (Boolean) -> Unit
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .container(shape = RoundedCornerShape(24.dp))
     ) {
         ToggleGroupButton(

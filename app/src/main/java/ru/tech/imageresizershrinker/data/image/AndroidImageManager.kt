@@ -28,6 +28,8 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.data.image.filters.FadeSide
+import ru.tech.imageresizershrinker.data.image.filters.SideFadeFilter
 import ru.tech.imageresizershrinker.data.image.filters.StackBlurFilter
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Transformation
@@ -51,9 +53,11 @@ import java.io.FileOutputStream
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.abs
+import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.roundToInt
 import coil.transform.Transformation as CoilTransformation
+
 
 class AndroidImageManager @Inject constructor(
     private val context: Context,
@@ -459,24 +463,48 @@ class AndroidImageManager @Inject constructor(
 
             var pos = 0
             for (i in imageUris.indices) {
+                var bmp = bitmaps[i]
+
+                combiningParams.spacing.takeIf { it < 0 && combiningParams.fadingEdgesMode != null }
+                    ?.let {
+                        val space = spacing.absoluteValue
+                        val bottomFilter =
+                            SideFadeFilter((if (isHorizontal) FadeSide.End else FadeSide.Bottom) to space)
+                        val topFilter =
+                            SideFadeFilter((if (isHorizontal) FadeSide.Start else FadeSide.Top) to space)
+                        val filters = if (combiningParams.fadingEdgesMode == 0) {
+                            when (i) {
+                                0 -> listOf()
+                                else -> listOf(topFilter)
+                            }
+                        } else {
+                            when (i) {
+                                0 -> listOf(bottomFilter)
+                                imageUris.lastIndex -> listOf(topFilter)
+                                else -> listOf(topFilter, bottomFilter)
+                            }
+                        }
+                        bmp = transform(bmp, filters)!!
+                    }
+
                 if (isHorizontal) {
                     canvas.drawBitmap(
-                        bitmaps[i],
+                        bmp,
                         pos.toFloat(),
                         0f,
                         null
                     )
                 } else {
                     canvas.drawBitmap(
-                        bitmaps[i],
+                        bmp,
                         0f,
                         pos.toFloat(),
                         null
                     )
                 }
                 pos += if (isHorizontal) {
-                    bitmaps[i].width + spacing
-                } else bitmaps[i].height + spacing
+                    bmp.width + spacing
+                } else bmp.height + spacing
             }
 
             ImageData(

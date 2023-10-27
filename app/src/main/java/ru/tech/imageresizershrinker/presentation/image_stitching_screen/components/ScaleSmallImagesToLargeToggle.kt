@@ -47,7 +47,8 @@ fun ScaleSmallImagesToLargeToggle(
         ) {
             Text(
                 text = stringResource(R.string.scale_small_images_to_large),
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
+                lineHeight = 16.sp
             )
             Text(
                 text = stringResource(R.string.scale_small_images_to_large_sub),

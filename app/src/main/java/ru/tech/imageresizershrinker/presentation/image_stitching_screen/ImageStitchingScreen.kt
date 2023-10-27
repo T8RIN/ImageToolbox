@@ -5,10 +5,12 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -68,6 +70,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBackgroundSelector
+import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageFadingEdgesSelector
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageOrientationToggle
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageReorderCarousel
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageScaleSelector
@@ -393,6 +396,16 @@ fun ImageStitchingScreen(
                                             value = viewModel.combiningParams.spacing,
                                             onValueChange = viewModel::updateImageSpacing
                                         )
+                                        AnimatedVisibility(
+                                            visible = viewModel.combiningParams.spacing < 0,
+                                            enter = fadeIn() + expandVertically(),
+                                            exit = fadeOut() + shrinkVertically()
+                                        ) {
+                                            ImageFadingEdgesSelector(
+                                                value = viewModel.combiningParams.fadingEdgesMode,
+                                                onValueChange = viewModel::setFadingEdgesMode
+                                            )
+                                        }
                                         ScaleSmallImagesToLargeToggle(
                                             selected = viewModel.combiningParams.scaleSmallImagesToLarge,
                                             onCheckedChange = viewModel::toggleScaleSmallImagesToLarge

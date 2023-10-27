@@ -185,7 +185,13 @@ class ImageStitchingViewModel @Inject constructor(
             it.copy(isHorizontal = checked)
         }
         calculatePreview()
+    }
 
+    fun setFadingEdgesMode(mode: Int?) {
+        _combiningParams.update {
+            it.copy(fadingEdgesMode = mode)
+        }
+        calculatePreview()
     }
 
     fun updateImageSpacing(spacing: Int) {

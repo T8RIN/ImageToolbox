@@ -434,6 +434,9 @@
     <string name="fidelity_sub">A scheme that is very similar to the content scheme</string>
     <string name="foss_update_checker_warning">This update checker will connect to GitHub in reason of checking if there is a new update available</string>
     <string name="attention">Attention</string>
+    <string name="fading_edges">Fading Edges</string>
+    <string name="disabled">Disabled</string>
+    <string name="both">Both</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

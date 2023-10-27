@@ -22,7 +22,7 @@ fun SpacingSelector(
         modifier = modifier,
         value = value,
         title = stringResource(R.string.spacing),
-        valueRange = 0f..128f,
+        valueRange = -256f..256f,
         onValueChange = {
             onValueChange(it.roundToInt())
         },

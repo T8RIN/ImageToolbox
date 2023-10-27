@@ -1,5 +1,7 @@
 package ru.tech.imageresizershrinker.domain.image.filters
 
+import ru.tech.imageresizershrinker.data.image.filters.FadeSide
+
 interface Filter<Image, Value> {
     val value: Value
 
@@ -62,4 +64,5 @@ interface Filter<Image, Value> {
     interface EnhancedDiamondPixelation<Image> : Filter<Image, Float>
     interface ReplaceColor<Image, Color> : Filter<Image, Triple<Float, Color, Color>>
     interface RemoveColor<Image, Color> : Filter<Image, Pair<Float, Color>>
+    interface SideFade<Image> : Filter<Image, Pair<FadeSide, Int>>
 }

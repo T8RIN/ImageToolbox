@@ -91,7 +91,8 @@ fun AlphaColorSelection(
                     resultPadding = 0.dp,
                     color = Color.Transparent,
                     composeColorOnTopOfBackground = false,
-                    clip = false
+                    clip = false,
+                    isShadowClip = true
                 )
                 .padding(horizontal = 10.dp),
             onValueChange = {

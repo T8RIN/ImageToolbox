@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.image_stitching_screen.components
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,6 +28,7 @@ import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
@@ -50,13 +54,12 @@ import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedBu
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.fadingEdges
 
 @Composable
 fun ImageReorderCarousel(
     images: List<Uri>?,
     onReorder: (List<Uri>?) -> Unit,
-    modifier: Modifier = Modifier
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
         .container(RoundedCornerShape(24.dp)),
     onNeedToAddImage: () -> Unit,
     onNeedToRemoveImageAt: (Int) -> Unit
@@ -114,80 +117,109 @@ fun ImageReorderCarousel(
                 )
             }
         }
-        LazyRow(
-            state = listState,
-            modifier = Modifier
-                .reorderable(state)
-                .detectReorderAfterLongPress(state)
-                .animateContentSize()
-                .fadingEdges(listState),
-            contentPadding = PaddingValues(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            itemsIndexed(data.value, key = { _, uri -> uri.hashCode() }) { index, uri ->
-                ReorderableItem(
-                    reorderableState = state,
-                    key = uri.hashCode()
-                ) { isDragging ->
-                    val elevation by animateDpAsState(if (isDragging) 4.dp else 0.dp)
-                    val alpha by animateFloatAsState(if (isDragging) 0.3f else 0.6f)
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Box(
-                            Modifier
-                                .size(120.dp)
-                                .shadow(elevation, RoundedCornerShape(16.dp))
-                                .container(
-                                    shape = RoundedCornerShape(16.dp),
-                                    color = Color.Transparent,
-                                    resultPadding = 0.dp
-                                )
+        Box {
+            LazyRow(
+                state = listState,
+                modifier = Modifier
+                    .reorderable(state)
+                    .detectReorderAfterLongPress(state)
+                    .animateContentSize(),
+                contentPadding = PaddingValues(12.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                itemsIndexed(data.value, key = { _, uri -> uri.hashCode() }) { index, uri ->
+                    ReorderableItem(
+                        reorderableState = state,
+                        key = uri.hashCode()
+                    ) { isDragging ->
+                        val elevation by animateDpAsState(if (isDragging) 4.dp else 0.dp)
+                        val alpha by animateFloatAsState(if (isDragging) 0.3f else 0.6f)
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Picture(
-                                model = uri,
-                                modifier = Modifier.fillMaxSize(),
-                                shape = RectangleShape,
-                                contentScale = ContentScale.Fit
-                            )
                             Box(
                                 Modifier
                                     .size(120.dp)
-                                    .background(
-                                        color = MaterialTheme.colorScheme.surfaceContainer.copy(
-                                            alpha = alpha
-                                        ),
-                                        shape = RoundedCornerShape(16.dp)
-                                    ),
-                                contentAlignment = Alignment.Center
+                                    .shadow(elevation, RoundedCornerShape(16.dp))
+                                    .container(
+                                        shape = RoundedCornerShape(16.dp),
+                                        color = Color.Transparent,
+                                        resultPadding = 0.dp
+                                    )
                             ) {
-                                Text(
-                                    text = "${index + 1}",
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold
+                                Picture(
+                                    model = uri,
+                                    modifier = Modifier.fillMaxSize(),
+                                    shape = RectangleShape,
+                                    contentScale = ContentScale.Fit
                                 )
+                                Box(
+                                    Modifier
+                                        .size(120.dp)
+                                        .background(
+                                            color = MaterialTheme.colorScheme.surfaceContainer.copy(
+                                                alpha = alpha
+                                            ),
+                                            shape = RoundedCornerShape(16.dp)
+                                        ),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = "${index + 1}",
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
                             }
-                        }
-                        androidx.compose.animation.AnimatedVisibility(
-                            visible = (images?.size ?: 0) > 2 && state.draggingItemKey == null,
-                            enter = scaleIn() + fadeIn(),
-                            exit = scaleOut() + fadeOut()
-                        ) {
-                            EnhancedButton(
-                                contentPadding = PaddingValues(),
-                                onClick = { onNeedToRemoveImageAt(index) },
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                modifier = Modifier
-                                    .padding(top = 8.dp)
-                                    .height(30.dp)
+                            androidx.compose.animation.AnimatedVisibility(
+                                visible = (images?.size ?: 0) > 2 && state.draggingItemKey == null,
+                                enter = scaleIn() + fadeIn(),
+                                exit = scaleOut() + fadeOut()
                             ) {
-                                Text(stringResource(R.string.remove), fontSize = 11.sp)
+                                EnhancedButton(
+                                    contentPadding = PaddingValues(),
+                                    onClick = { onNeedToRemoveImageAt(index) },
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                    modifier = Modifier
+                                        .padding(top = 8.dp)
+                                        .height(30.dp)
+                                ) {
+                                    Text(stringResource(R.string.remove), fontSize = 11.sp)
+                                }
                             }
                         }
                     }
                 }
             }
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .width(12.dp)
+                    .height(170.dp)
+                    .background(
+                        brush = Brush.Companion.horizontalGradient(
+                            0f to MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                1.dp
+                            ),
+                            1f to Color.Transparent
+                        )
+                    )
+            )
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .width(12.dp)
+                    .height(170.dp)
+                    .background(
+                        brush = Brush.Companion.horizontalGradient(
+                            0f to Color.Transparent,
+                            1f to MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                1.dp
+                            )
+                        )
+                    )
+            )
         }
     }
 }
