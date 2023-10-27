@@ -425,4 +425,6 @@
     <string name="foss_update_checker_warning">Проверка обновлений будет подключаться к GitHub для проверки доступности новых версий</string>
     <string name="disabled">Выключено</string>
     <string name="attention">Внимание</string>
+    <string name="invert_colors_sub">Заменяет цвета темы на негативные, если включено</string>
+    <string name="invert_colors">Инвертировать Цвета</string>
 </resources>
