@@ -513,6 +513,7 @@ class MainViewModel @Inject constructor(
                 updateColorTuplesUseCase(settingsState.colorTupleList + "*" + colorTupleS)
                 updateThemeContrast(0f)
                 setThemeStyle(0)
+                if (settingsState.isInvertThemeColors) toggleInvertColors()
             } else {
                 imageManager.getImage(data = emojiUri)
                     ?.extractPrimaryColor()
@@ -539,7 +540,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun onToggleInvertColors() {
+    fun toggleInvertColors() {
         viewModelScope.launch {
             toggleInvertColorsUseCase()
         }
