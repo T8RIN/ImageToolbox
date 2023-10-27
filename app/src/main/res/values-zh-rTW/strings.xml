@@ -265,7 +265,7 @@
     <string name="create">創作</string>
     <string name="draw_on_background_sub">選擇背景顏色並在其上繪畫</string>
     <string name="background_color">背景顏色</string>
-    <string name="cipher">密碼</string>
+    <string name="cipher">加密</string>
     <string name="cipher_sub">基於 AES 加密演算法進行加密與解密任何檔案（不僅是圖片）</string>
     <string name="pick_file">選擇檔案</string>
     <string name="encrypt">加密</string>
@@ -399,4 +399,20 @@
     <string name="lock_draw_orientation">鎖定繪畫方向</string>
     <string name="lock_draw_orientation_sub">如果啟用，在繪畫模式中畫面將不會旋轉</string>
     <string name="check_for_updates">檢查更新</string>
+    <string name="fidelity">忠實</string>
+    <string name="rainbow">彩虹</string>
+    <string name="playful_scheme">趣味主題 - 主題中不包含源顏色的色調</string>
+    <string name="vibrant_sub">色彩豐富的主題，主要調色盤最為鮮艷，其他調色盤色彩也較為增加</string>
+    <string name="neutral_sub">略帶彩色的單色風格</string>
+    <string name="content_sub">將來源顏色置於 Scheme.primaryContainer 的配色方案</string>
+    <string name="tonal_spot">色調點綴</string>
+    <string name="monochrome_sub">純單色主題，顏色僅為黑/白/灰</string>
+    <string name="fruit_salad">水果沙拉</string>
+    <string name="fidelity_sub">與主題內容方案高度相似的方案</string>
+    <string name="content">內容</string>
+    <string name="expressive">富有表現力</string>
+    <string name="neutral">中性</string>
+    <string name="tonal_spot_sub">預設的調色盤風格，它允許自定義所有四個顏色，其他的只允許設定主要的顏色</string>
+    <string name="palette_style">調色盤風格</string>
+    <string name="vibrant">鮮豔</string>
 </resources>

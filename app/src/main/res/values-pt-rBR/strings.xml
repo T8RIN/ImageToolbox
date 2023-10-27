@@ -373,14 +373,14 @@
     <string name="tolerance">Tolerância</string>
     <string name="images_order">Ordem das imagens</string>
     <string name="brush_softness">Suavidade do pincel</string>
-    <string name="blur_edges">Bordas desfocadas</string>
+    <string name="blur_edges">Desfoque de bordas</string>
     <string name="image_stitching">Juntar Imagens</string>
     <string name="pixelation">Pixelização</string>
     <string name="enhanced_pixelation">Pixelização aprimorada</string>
     <string name="target_color">Cor alvo</string>
     <string name="pick_at_least_two_images">Escolha pelo menos 2 imagens</string>
     <string name="pixel_size">Tamanho do Pixel</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !\?</string>
+    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !\? Çç Áá Àà Ãã Ââ Éé Êê Íí Óó Òò Ôô Õõ Úú</string>
     <string name="replace_color">Substituir cor</string>
     <string name="diamond_pixelation">Pixelização de diamante</string>
     <string name="blur_edges_sub">Desenha bordas desfocadas envolta da imagem original para preencher espaços ao redor dela em vez de uma cor única, se ativado</string>

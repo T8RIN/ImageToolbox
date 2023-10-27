@@ -403,4 +403,26 @@
     <string name="pixel_size">Размер пикселя</string>
     <string name="lock_draw_orientation">Блокировка ориентации рисования</string>
     <string name="lock_draw_orientation_sub">Если включено в режиме рисования, экран не будет вращаться</string>
+    <string name="fidelity">Точность</string>
+    <string name="rainbow">Радуга</string>
+    <string name="content_sub">Схема, которая помещает исходный цвет в Scheme.primaryContainer</string>
+    <string name="fruit_salad">Фруктовый салат</string>
+    <string name="fidelity_sub">Схема, которая очень похожа на схему содержимого</string>
+    <string name="content">Содержание</string>
+    <string name="playful_scheme">Игривая тема: оттенок исходного цвета не отображается в теме</string>
+    <string name="vibrant_sub">Яркая тема, красочность максимальна для Основной палитры и повышена для остальных</string>
+    <string name="neutral_sub">Стиль немного более хроматический, чем монохромный</string>
+    <string name="tonal_spot">Тональное пятно</string>
+    <string name="monochrome_sub">Монохромная тема, цвета чисто чёрный/белый/серый.</string>
+    <string name="check_for_updates">Проверить наличие обновлений</string>
+    <string name="expressive">Выразительный</string>
+    <string name="neutral">Нейтральный</string>
+    <string name="tonal_spot_sub">Стиль палитры по умолчанию, позволяет настроить все четыре цвета, другие позволяют установить только ключевой цвет</string>
+    <string name="palette_style">Стиль палитры</string>
+    <string name="vibrant">Яркий</string>
+    <string name="both">Обе</string>
+    <string name="fading_edges">Исчезающие края</string>
+    <string name="foss_update_checker_warning">Проверка обновлений будет подключаться к GitHub для проверки доступности новых версий</string>
+    <string name="disabled">Выключено</string>
+    <string name="attention">Внимание</string>
 </resources>
