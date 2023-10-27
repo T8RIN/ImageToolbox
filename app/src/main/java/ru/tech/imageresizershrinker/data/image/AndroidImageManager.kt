@@ -503,8 +503,8 @@ class AndroidImageManager @Inject constructor(
                     )
                 }
                 pos += if (isHorizontal) {
-                    bmp.width + spacing
-                } else bmp.height + spacing
+                    (bmp.width + spacing).coerceAtLeast(1)
+                } else (bmp.height + spacing).coerceAtLeast(1)
             }
 
             ImageData(
@@ -574,15 +574,15 @@ class AndroidImageManager @Inject constructor(
                         targetHeight = (targetWidth / image.aspectRatio).toInt()
                     }
                     if (isHorizontal) {
-                        w += targetWidth + spacing
+                        w += (targetWidth + spacing).coerceAtLeast(1)
                     } else {
-                        h += targetHeight + spacing
+                        h += (targetHeight + spacing).coerceAtLeast(1)
                     }
                 } else {
                     if (isHorizontal) {
-                        w += width + spacing
+                        w += (width + spacing).coerceAtLeast(1)
                     } else {
-                        h += height + spacing
+                        h += (height + spacing).coerceAtLeast(1)
                     }
                 }
             }
