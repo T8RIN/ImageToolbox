@@ -1,6 +1,8 @@
 package ru.tech.imageresizershrinker.domain.model
 
-sealed class FontFam(val ordinal: Int) {
+import ru.tech.imageresizershrinker.domain.Domain
+
+sealed class FontFam(val ordinal: Int) : Domain {
     data object Montserrat : FontFam(1)
     data object Caveat : FontFam(2)
     data object Comfortaa : FontFam(3)
@@ -12,6 +14,9 @@ sealed class FontFam(val ordinal: Int) {
     data object DejaVu : FontFam(9)
     data object BadScript : FontFam(10)
     data object RuslanDisplay : FontFam(11)
+    data object Catterdale : FontFam(12)
+    data object FRM32 : FontFam(13)
+    data object TokeelyBrookings : FontFam(14)
     data object System : FontFam(0)
 
     companion object {
@@ -28,6 +33,9 @@ sealed class FontFam(val ordinal: Int) {
             9 -> DejaVu
             10 -> BadScript
             11 -> RuslanDisplay
+            12 -> Catterdale
+            13 -> FRM32
+            14 -> TokeelyBrookings
             else -> System
         }
     }

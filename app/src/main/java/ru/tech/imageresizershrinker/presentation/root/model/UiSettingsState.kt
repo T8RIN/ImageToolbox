@@ -114,6 +114,9 @@ private fun FontFam.toUiFont(): UiFontFam {
         FontFam.DejaVu -> UiFontFam.DejaVu
         FontFam.BadScript -> UiFontFam.BadScript
         FontFam.RuslanDisplay -> UiFontFam.RuslanDisplay
+        FontFam.Catterdale -> UiFontFam.Catterdale
+        FontFam.FRM32 -> UiFontFam.FRM32
+        FontFam.TokeelyBrookings -> UiFontFam.TokeelyBrookings
     }
 }
 

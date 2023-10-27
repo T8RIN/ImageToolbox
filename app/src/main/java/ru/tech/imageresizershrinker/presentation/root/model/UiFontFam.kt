@@ -58,7 +58,7 @@ sealed class UiFontFam(
 
     data object YsabeauSC : UiFontFam(
         fontFamily = fontFamilyResource(R.font.ysabeau_sc_variable),
-        name = "YsabeauSC",
+        name = "Ysabeau SC",
         variable = true
     )
 
@@ -82,19 +82,37 @@ sealed class UiFontFam(
 
     data object DejaVu : UiFontFam(
         fontFamily = fontFamilyResource(R.font.dejavu_regular),
-        name = "DejaVu",
+        name = "Deja Vu",
         variable = false
     )
 
     data object BadScript : UiFontFam(
         fontFamily = fontFamilyResource(R.font.bad_script_regular),
-        name = "BadScript",
+        name = "Bad Script",
         variable = false
     )
 
     data object RuslanDisplay : UiFontFam(
         fontFamily = fontFamilyResource(R.font.ruslan_display_regular),
-        name = "RuslanDisplay",
+        name = "Ruslan Display",
+        variable = false
+    )
+
+    data object Catterdale : UiFontFam(
+        fontFamily = fontFamilyResource(R.font.cattedrale_regular),
+        name = "Catterdale",
+        variable = false
+    )
+
+    data object FRM32 : UiFontFam(
+        fontFamily = fontFamilyResource(R.font.frm32_regular),
+        name = "FRM32",
+        variable = false
+    )
+
+    data object TokeelyBrookings : UiFontFam(
+        fontFamily = fontFamilyResource(R.font.tokeely_brookings_regular),
+        name = "Tokeely Brookings",
         variable = false
     )
 
@@ -112,6 +130,9 @@ sealed class UiFontFam(
             DejaVu -> FontFam.DejaVu
             BadScript -> FontFam.BadScript
             RuslanDisplay -> FontFam.RuslanDisplay
+            Catterdale -> FontFam.Catterdale
+            FRM32 -> FontFam.FRM32
+            TokeelyBrookings -> FontFam.TokeelyBrookings
         }
     }
 
@@ -129,6 +150,9 @@ sealed class UiFontFam(
                 DejaVu,
                 BadScript,
                 RuslanDisplay,
+                Catterdale,
+                FRM32,
+                TokeelyBrookings,
                 System
             )
         }
