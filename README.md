@@ -44,9 +44,9 @@
   </a>
 </p>
 
-<h4 align="center">Image toolbox is the app which based on modern tech stack using Clean
-Architecture. It has features like filters applying, cropping, EXIF editing, quality and output
-image type picking and tons of another options</h4>
+<h4 align="center">Image toolbox is the app based on a modern tech stack using Clean
+Architecture. It has features like filter applying, cropping, EXIF editing, quality and output
+image type picking and tons of another option </h4>
 
 <p align="middle">
     <img src="./fastlane/metadata/android/en-US/images/banner/banner1.png" width="99%" />
@@ -74,12 +74,12 @@ image type picking and tons of another options</h4>
 
   </br>
   </br>
-  Join our chat where you can discuss anything you want and also look into CI channel where i will post betas and announcements
+  Join our chat where you can discuss anything you want and also look into CI channel where I will post betas and announcements
   </br>
 
 # ☕ Buy me a coffee
 
-This application is completely free, but if you want to support the project development, you can send a donation to crypto wallets below
+This application is completely free, but if you want to support the project development, you can send a donation to the crypto wallets below
 
 
 | </br> ![Bitcoin](https://img.shields.io/badge/Bitcoin-EAB300?style=for-the-badge&logo=Bitcoin%20SV&logoColor=white) <br/> <br/> ->  ```17Pk1RurnkJxLV9V7mc6Y7dLyHFb9rvQDq```  <- <br/> <br/> | </br> ![Tether](https://img.shields.io/badge/USDT-168363?style=for-the-badge&logo=tether&logoColor=white) <br/> <br/> ->  ```TMPAu7a54NvQNEKnNWh3naXu3oYijqP3U7```  <- <br/> <br/> |
@@ -308,7 +308,7 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
     Material 3 powerful UI components.
 
   - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) - Manages
-    UI-related data holder and lifecycle aware. Allows data to survive configuration changes such
+    UI-related data holder and lifecycle awareness. Allows data to survive configuration changes such
     as screen rotations.
 
   - [Data Store](https://developer.android.com/jetpack/androidx/releases/datastore) - Store data
