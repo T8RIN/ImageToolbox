@@ -399,4 +399,20 @@
     <string name="lock_draw_orientation">Verrouiller l\'orientation du dessin</string>
     <string name="check_for_updates">Vérifier les mises à jour</string>
     <string name="lock_draw_orientation_sub">Si activé en mode dessin, l\'écran ne rotationnera pas</string>
+    <string name="fidelity">Fidélité</string>
+    <string name="rainbow">Arc-en-ciel</string>
+    <string name="playful_scheme">Un thème ludique - la teinte de la couleur source n\'apparaît pas dans le thème</string>
+    <string name="vibrant_sub">Un thème fort, la couleur est maximale pour la palette primaire, augmentée pour les autres</string>
+    <string name="neutral_sub">Un style légèrement plus chromatique que monochrome</string>
+    <string name="content_sub">Un schéma qui place la couleur source dans Scheme.primaryContainer</string>
+    <string name="tonal_spot">Accent tonique</string>
+    <string name="monochrome_sub">Un thème monochrome, les couleurs sont purement noir/blanc/gris</string>
+    <string name="fruit_salad">Salade de fruits</string>
+    <string name="fidelity_sub">Un schéma très similaire au schéma de contenu</string>
+    <string name="content">Contenu</string>
+    <string name="expressive">Expression</string>
+    <string name="neutral">Neutre</string>
+    <string name="tonal_spot_sub">Style de palette par défaut, il permet de personnaliser les quatre couleurs, d\'autres vous permettent de définir uniquement la couleur clé</string>
+    <string name="palette_style">Style de palette</string>
+    <string name="vibrant">Vive</string>
 </resources>
