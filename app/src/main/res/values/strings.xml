@@ -437,6 +437,8 @@
     <string name="fading_edges">Fading Edges</string>
     <string name="disabled">Disabled</string>
     <string name="both">Both</string>
+    <string name="invert_colors">Invert Colors</string>
+    <string name="invert_colors_sub">Replaces theme colors to negative ones if enabled</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

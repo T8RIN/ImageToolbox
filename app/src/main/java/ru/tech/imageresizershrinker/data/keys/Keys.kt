@@ -39,4 +39,5 @@ object Keys {
     val LOCK_DRAW_ORIENTATION = booleanPreferencesKey("LOCK_DRAW_ORIENTATION")
     val THEME_CONTRAST_LEVEL = doublePreferencesKey("THEME_CONTRAST_LEVEL")
     val THEME_STYLE = intPreferencesKey("THEME_STYLE")
+    val INVERT_THEME = booleanPreferencesKey("INVERT_THEME")
 }

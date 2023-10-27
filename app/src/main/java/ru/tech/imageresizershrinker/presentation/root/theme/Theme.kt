@@ -28,6 +28,7 @@ fun ImageToolboxTheme(
         isDarkTheme = settingsState.isNightMode,
         contrastLevel = settingsState.themeContrastLevel,
         style = settingsState.themeStyle,
+        isInvertColors = settingsState.isInvertThemeColors,
         content = content
     )
 }

@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.PaletteStyle
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Swatch
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
@@ -48,7 +49,7 @@ fun PaletteStyleSelection(
         shape = shape,
         color = MaterialTheme.colorScheme.surfaceContainerHigh,
         modifier = modifier,
-        icon = Icons.Rounded.InvertColors,
+        icon = Icons.Rounded.Swatch,
         endIcon = Icons.Rounded.CreateAlt,
         onClick = {
             showPaletteStyleSelectionSheet.value = true

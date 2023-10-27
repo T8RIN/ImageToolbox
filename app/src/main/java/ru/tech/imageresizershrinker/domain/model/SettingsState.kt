@@ -35,7 +35,8 @@ data class SettingsState(
     val appOpenCount: Int,
     val lockDrawOrientation: Boolean,
     val themeContrastLevel: Double,
-    val themeStyle: Int
+    val themeStyle: Int,
+    val isInvertThemeColors: Boolean
 ) : Domain {
 
     companion object {
@@ -72,7 +73,8 @@ data class SettingsState(
             aspectRatios = AspectRatio.defaultList,
             lockDrawOrientation = true,
             themeContrastLevel = 0.0,
-            themeStyle = 0
+            themeStyle = 0,
+            isInvertThemeColors = true
         )
     }
 }

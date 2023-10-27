@@ -86,4 +86,6 @@ interface SettingsRepository {
     suspend fun setThemeStyle(value: Int)
 
     suspend fun setThemeContrast(value: Double)
+
+    suspend fun toggleInvertColors()
 }

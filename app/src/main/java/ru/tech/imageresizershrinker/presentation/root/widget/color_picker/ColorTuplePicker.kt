@@ -89,7 +89,8 @@ fun ColorTuplePicker(
         colorTuple = appColorTuple,
         contrastLevel = settingsState.themeContrastLevel,
         style = settingsState.themeStyle,
-        dynamicColor = settingsState.isDynamicColors
+        dynamicColor = settingsState.isDynamicColors,
+        isInvertColors = settingsState.isInvertThemeColors
     )
 
     LaunchedEffect(visible.value) {

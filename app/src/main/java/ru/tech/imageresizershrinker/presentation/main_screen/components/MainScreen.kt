@@ -768,6 +768,7 @@ fun MainScreen(
             dynamicColor = settingsState.isDynamicColors,
             darkTheme = settingsState.isNightMode
         ),
+        onToggleInvertColors = viewModel::onToggleInvertColors,
         onThemeStyleSelected = { viewModel.setThemeStyle(it.ordinal) },
         updateThemeContrast = viewModel::updateThemeContrast,
         openColorPicker = {

@@ -54,6 +54,7 @@ import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAmoledMo
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleClearCacheOnLaunchUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleDynamicColorsUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleGroupOptionsByTypesUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleInvertColorsUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleLockDrawOrientationUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleRandomizeFilenameUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleShowDialogUseCase
@@ -119,7 +120,8 @@ class MainViewModel @Inject constructor(
     private val registerAppOpenUseCase: RegisterAppOpenUseCase,
     private val toggleLockDrawOrientationUseCase: ToggleLockDrawOrientationUseCase,
     private val setThemeContrastUseCase: SetThemeContrastUseCase,
-    private val setThemeStyleUseCase: SetThemeStyleUseCase
+    private val setThemeStyleUseCase: SetThemeStyleUseCase,
+    private val toggleInvertColorsUseCase: ToggleInvertColorsUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default())
@@ -534,6 +536,12 @@ class MainViewModel @Inject constructor(
     fun setThemeStyle(value: Int) {
         viewModelScope.launch {
             setThemeStyleUseCase(value)
+        }
+    }
+
+    fun onToggleInvertColors() {
+        viewModelScope.launch {
+            toggleInvertColorsUseCase()
         }
     }
 

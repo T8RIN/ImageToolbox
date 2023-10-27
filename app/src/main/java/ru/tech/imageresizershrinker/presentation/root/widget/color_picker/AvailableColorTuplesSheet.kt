@@ -31,8 +31,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.rounded.AddCircleOutline
+import androidx.compose.material.icons.rounded.Contrast
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Done
+import androidx.compose.material.icons.rounded.InvertColors
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -73,6 +75,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSl
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.palette_selection.PaletteStyleSelection
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleDragHandle
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
@@ -94,6 +97,7 @@ fun AvailableColorTuplesSheet(
     onPickTheme: (ColorTuple) -> Unit,
     updateThemeContrast: (Float) -> Unit,
     onThemeStyleSelected: (PaletteStyle) -> Unit,
+    onToggleInvertColors: () -> Unit,
     onUpdateColorTuples: (List<ColorTuple>) -> Unit,
 ) {
     val showEditColorPicker = rememberSaveable { mutableStateOf(false) }
@@ -174,7 +178,8 @@ fun AvailableColorTuplesSheet(
                                             colorTuple = currentColorTuple,
                                             contrastLevel = settingsState.themeContrastLevel,
                                             style = settingsState.themeStyle,
-                                            dynamicColor = settingsState.isDynamicColors
+                                            dynamicColor = settingsState.isDynamicColors,
+                                            isInvertColors = settingsState.isInvertThemeColors
                                         ).surfaceVariant.copy(alpha = 0.8f),
                                         borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
                                         resultPadding = 0.dp
@@ -227,6 +232,26 @@ fun AvailableColorTuplesSheet(
                     )
                 )
             }
+            val switch = @Composable {
+                PreferenceRowSwitch(
+                    title = stringResource(R.string.invert_colors),
+                    subtitle = stringResource(R.string.invert_colors_sub),
+                    checked = settingsState.isInvertThemeColors,
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    modifier = Modifier,
+                    resultModifier = Modifier.padding(end = 16.dp, top = 8.dp, bottom = 8.dp),
+                    startContent = {
+                        Icon(
+                            imageVector = Icons.Rounded.InvertColors,
+                            contentDescription = null,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+                    },
+                    applyHorPadding = false,
+                    shape = RoundedCornerShape(4.dp),
+                    onClick = { onToggleInvertColors() }
+                )
+            }
             val slider = @Composable {
                 var state by remember(settingsState.themeContrastLevel) {
                     mutableFloatStateOf(settingsState.themeContrastLevel.toFloat())
@@ -234,6 +259,7 @@ fun AvailableColorTuplesSheet(
                 EnhancedSliderItem(
                     color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     value = state,
+                    icon = Icons.Rounded.Contrast,
                     title = stringResource(id = R.string.contrast),
                     valueRange = -1f..1f,
                     shape = RoundedCornerShape(
@@ -263,6 +289,8 @@ fun AvailableColorTuplesSheet(
                     ) {
                         palette()
                         Spacer(Modifier.height(4.dp))
+                        switch()
+                        Spacer(Modifier.height(4.dp))
                         slider()
                     }
                 }
@@ -281,6 +309,11 @@ fun AvailableColorTuplesSheet(
                             span = { GridItemSpan(maxLineSpan) }
                         ) {
                             palette()
+                        }
+                        item(
+                            span = { GridItemSpan(maxLineSpan) }
+                        ) {
+                            switch()
                         }
                         item(
                             span = { GridItemSpan(maxLineSpan) }
@@ -305,11 +338,12 @@ fun AvailableColorTuplesSheet(
                                     shape = DavidStarShape,
                                     color = rememberColorScheme(
                                         isDarkTheme = settingsState.isNightMode,
-                                        amoledMode = LocalSettingsState.current.isDynamicColors,
+                                        amoledMode = settingsState.isDynamicColors,
                                         colorTuple = colorTuple,
                                         contrastLevel = settingsState.themeContrastLevel,
                                         style = settingsState.themeStyle,
-                                        dynamicColor = settingsState.isDynamicColors
+                                        dynamicColor = settingsState.isDynamicColors,
+                                        isInvertColors = settingsState.isInvertThemeColors
                                     ).surfaceVariant.copy(alpha = 0.8f),
                                     borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
                                     resultPadding = 0.dp

@@ -82,6 +82,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+
 /**
  * DynamicTheme allows you to dynamically change the color scheme of the content hierarchy.
  * To do this you just need to update [DynamicThemeState].
@@ -98,6 +99,7 @@ fun DynamicTheme(
     isDarkTheme: Boolean,
     style: PaletteStyle,
     contrastLevel: Double,
+    isInvertColors: Boolean,
     content: @Composable () -> Unit,
 ) {
     val colorTuple = getAppColorTuple(
@@ -127,7 +129,8 @@ fun DynamicTheme(
         colorTuple = state.colorTuple.value,
         style = style,
         contrastLevel = contrastLevel,
-        dynamicColor = dynamicColor
+        dynamicColor = dynamicColor,
+        isInvertColors = isInvertColors
     ).animateAllColors(tween(150))
 
     CompositionLocalProvider(
@@ -385,6 +388,15 @@ fun ColorScheme.animateAllColors(animationSpec: AnimationSpec<Color>): ColorSche
         errorContainer = errorContainer.animateColor(),
         onErrorContainer = onErrorContainer.animateColor(),
         outline = outline.animateColor(),
+        outlineVariant = outlineVariant.animateColor(),
+        scrim = scrim.animateColor(),
+        surfaceBright = surfaceBright.animateColor(),
+        surfaceDim = surfaceDim.animateColor(),
+        surfaceContainer = surfaceContainer.animateColor(),
+        surfaceContainerHigh = surfaceContainerHigh.animateColor(),
+        surfaceContainerHighest = surfaceContainerHighest.animateColor(),
+        surfaceContainerLow = surfaceContainerLow.animateColor(),
+        surfaceContainerLowest = surfaceContainerLowest.animateColor()
     )
 }
 
@@ -499,16 +511,26 @@ fun rememberColorScheme(
     colorTuple: ColorTuple,
     style: PaletteStyle,
     contrastLevel: Double,
-    dynamicColor: Boolean
+    dynamicColor: Boolean,
+    isInvertColors: Boolean
 ): ColorScheme {
-    return remember(colorTuple, isDarkTheme, amoledMode, contrastLevel, dynamicColor, style) {
+    return remember(
+        colorTuple,
+        isDarkTheme,
+        amoledMode,
+        contrastLevel,
+        dynamicColor,
+        style,
+        isInvertColors
+    ) {
         getColorScheme(
             isDarkTheme = isDarkTheme,
             amoledMode = amoledMode,
             colorTuple = colorTuple,
             style = style,
             contrastLevel = contrastLevel,
-            dynamicColor = dynamicColor
+            dynamicColor = dynamicColor,
+            isInvertColors = isInvertColors
         )
     }
 }
@@ -519,7 +541,8 @@ fun getColorScheme(
     colorTuple: ColorTuple,
     style: PaletteStyle,
     contrastLevel: Double,
-    dynamicColor: Boolean
+    dynamicColor: Boolean,
+    isInvertColors: Boolean
 ): ColorScheme {
     val hct = Hct.fromInt(colorTuple.primary.toArgb())
     val hue = hct.hue
@@ -580,13 +603,60 @@ fun getColorScheme(
             .toAmoled(amoledMode)
     } else {
         scheme.toColorScheme()
-    }.run {
+    }.invertColors(isInvertColors).run {
         copy(
             outlineVariant = onSecondaryContainer
                 .copy(alpha = 0.2f)
                 .compositeOver(surfaceColorAtElevation(6.dp))
         )
     }
+}
+
+private fun ColorScheme.invertColors(
+    enabled: Boolean
+): ColorScheme {
+
+    fun Color.invertColor(): Color = if (enabled) {
+        Color(this.toArgb() xor 0x00ffffff)
+    } else this
+
+    return this.copy(
+        primary = primary.invertColor(),
+        onPrimary = onPrimary.invertColor(),
+        primaryContainer = primaryContainer.invertColor(),
+        onPrimaryContainer = onPrimaryContainer.invertColor(),
+        inversePrimary = inversePrimary.invertColor(),
+        secondary = secondary.invertColor(),
+        onSecondary = onSecondary.invertColor(),
+        secondaryContainer = secondaryContainer.invertColor(),
+        onSecondaryContainer = onSecondaryContainer.invertColor(),
+        tertiary = tertiary.invertColor(),
+        onTertiary = onTertiary.invertColor(),
+        tertiaryContainer = tertiaryContainer.invertColor(),
+        onTertiaryContainer = onTertiaryContainer.invertColor(),
+        background = background.invertColor(),
+        onBackground = onBackground.invertColor(),
+        surface = surface.invertColor(),
+        onSurface = onSurface.invertColor(),
+        surfaceVariant = surfaceVariant.invertColor(),
+        onSurfaceVariant = onSurfaceVariant.invertColor(),
+        surfaceTint = surfaceTint.invertColor(),
+        inverseSurface = inverseSurface.invertColor(),
+        inverseOnSurface = inverseOnSurface.invertColor(),
+        error = error.invertColor(),
+        onError = onError.invertColor(),
+        errorContainer = errorContainer.invertColor(),
+        onErrorContainer = onErrorContainer.invertColor(),
+        outline = outline.invertColor(),
+        outlineVariant = outlineVariant.invertColor(),
+        surfaceBright = surfaceBright.invertColor(),
+        surfaceDim = surfaceDim.invertColor(),
+        surfaceContainer = surfaceContainer.invertColor(),
+        surfaceContainerHigh = surfaceContainerHigh.invertColor(),
+        surfaceContainerHighest = surfaceContainerHighest.invertColor(),
+        surfaceContainerLow = surfaceContainerLow.invertColor(),
+        surfaceContainerLowest = surfaceContainerLowest.invertColor()
+    )
 }
 
 private fun DynamicScheme.toColorScheme(): ColorScheme {

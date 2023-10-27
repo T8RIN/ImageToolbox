@@ -35,6 +35,7 @@ import ru.tech.imageresizershrinker.data.keys.Keys.FILENAME_PREFIX
 import ru.tech.imageresizershrinker.data.keys.Keys.FONT_SCALE
 import ru.tech.imageresizershrinker.data.keys.Keys.GROUP_OPTIONS_BY_TYPE
 import ru.tech.imageresizershrinker.data.keys.Keys.IMAGE_PICKER_MODE
+import ru.tech.imageresizershrinker.data.keys.Keys.INVERT_THEME
 import ru.tech.imageresizershrinker.data.keys.Keys.LOCK_DRAW_ORIENTATION
 import ru.tech.imageresizershrinker.data.keys.Keys.NIGHT_MODE
 import ru.tech.imageresizershrinker.data.keys.Keys.PRESETS
@@ -46,7 +47,6 @@ import ru.tech.imageresizershrinker.data.keys.Keys.SELECTED_FONT_INDEX
 import ru.tech.imageresizershrinker.data.keys.Keys.SHOW_UPDATE_DIALOG
 import ru.tech.imageresizershrinker.data.keys.Keys.THEME_CONTRAST_LEVEL
 import ru.tech.imageresizershrinker.data.keys.Keys.THEME_STYLE
-import ru.tech.imageresizershrinker.domain.model.AspectRatio
 import ru.tech.imageresizershrinker.domain.model.FontFam
 import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.domain.model.Preset
@@ -67,82 +67,89 @@ class SettingsRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : SettingsRepository {
 
+    private val default = SettingsState.Default()
+
     override suspend fun getSettingsState(): SettingsState {
         val prefs = dataStore.data.first()
         return SettingsState(
             nightMode = NightMode.fromOrdinal(prefs[NIGHT_MODE]),
-            isDynamicColors = prefs[DYNAMIC_COLORS] ?: true,
-            isAmoledMode = prefs[AMOLED_MODE] ?: false,
-            appColorTuple = prefs[APP_COLOR_TUPLE] ?: "",
-            borderWidth = prefs[BORDER_WIDTH] ?: -1f,
-            showDialogOnStartup = prefs[SHOW_UPDATE_DIALOG] ?: true,
-            selectedEmoji = prefs[SELECTED_EMOJI_INDEX] ?: 0,
-            screenList = emptyList(),
-            emojisCount = prefs[EMOJI_COUNT] ?: 1,
-            clearCacheOnLaunch = prefs[AUTO_CACHE_CLEAR] ?: false,
-            groupOptionsByTypes = prefs[GROUP_OPTIONS_BY_TYPE] ?: true,
-            allowChangeColorByImage = true,
-            presets = emptyList(),
-            fabAlignment = 1,
-            imagePickerModeInt = 0,
-            colorTupleList = "",
-            addSequenceNumber = true,
-            saveFolderUri = null,
-            filenamePrefix = "",
-            addSizeInFilename = false,
-            addOriginalFilename = false,
-            randomizeFilename = prefs[RANDOMIZE_FILENAME] ?: false,
+            isDynamicColors = prefs[DYNAMIC_COLORS] ?: default.isDynamicColors,
+            isAmoledMode = prefs[AMOLED_MODE] ?: default.isAmoledMode,
+            appColorTuple = prefs[APP_COLOR_TUPLE] ?: default.appColorTuple,
+            borderWidth = prefs[BORDER_WIDTH] ?: default.borderWidth,
+            showDialogOnStartup = prefs[SHOW_UPDATE_DIALOG] ?: default.showDialogOnStartup,
+            selectedEmoji = prefs[SELECTED_EMOJI_INDEX] ?: default.selectedEmoji,
+            screenList = default.screenList,
+            emojisCount = prefs[EMOJI_COUNT] ?: default.emojisCount,
+            clearCacheOnLaunch = prefs[AUTO_CACHE_CLEAR] ?: default.clearCacheOnLaunch,
+            groupOptionsByTypes = prefs[GROUP_OPTIONS_BY_TYPE] ?: default.groupOptionsByTypes,
+            allowChangeColorByImage = default.allowChangeColorByImage,
+            presets = default.presets,
+            fabAlignment = default.fabAlignment,
+            imagePickerModeInt = default.imagePickerModeInt,
+            colorTupleList = default.colorTupleList,
+            addSequenceNumber = default.addSequenceNumber,
+            saveFolderUri = default.saveFolderUri,
+            filenamePrefix = default.filenamePrefix,
+            addSizeInFilename = default.addSizeInFilename,
+            addOriginalFilename = default.addOriginalFilename,
+            randomizeFilename = default.randomizeFilename,
             font = FontFam.fromOrdinal(prefs[SELECTED_FONT_INDEX]),
             fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f },
-            allowCollectCrashlytics = prefs[ALLOW_CRASHLYTICS] ?: true,
-            allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: true,
-            allowBetas = prefs[ALLOW_BETAS] ?: true,
-            allowShowingShadowsInsteadOfBorders = prefs[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] ?: true,
-            appOpenCount = prefs[APP_OPEN_COUNT] ?: 0,
-            aspectRatios = AspectRatio.defaultList,
-            lockDrawOrientation = prefs[LOCK_DRAW_ORIENTATION] ?: true,
-            themeContrastLevel = prefs[THEME_CONTRAST_LEVEL] ?: 0.0,
-            themeStyle = prefs[THEME_STYLE] ?: 0
+            allowCollectCrashlytics = prefs[ALLOW_CRASHLYTICS] ?: default.allowCollectCrashlytics,
+            allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: default.allowCollectAnalytics,
+            allowBetas = prefs[ALLOW_BETAS] ?: default.allowBetas,
+            allowShowingShadowsInsteadOfBorders = prefs[ALLOW_SHADOWS_INSTEAD_OF_BORDERS]
+                ?: default.allowShowingShadowsInsteadOfBorders,
+            appOpenCount = prefs[APP_OPEN_COUNT] ?: default.appOpenCount,
+            aspectRatios = default.aspectRatios,
+            lockDrawOrientation = prefs[LOCK_DRAW_ORIENTATION] ?: default.lockDrawOrientation,
+            themeContrastLevel = prefs[THEME_CONTRAST_LEVEL] ?: default.themeContrastLevel,
+            themeStyle = prefs[THEME_STYLE] ?: default.themeStyle,
+            isInvertThemeColors = prefs[INVERT_THEME] ?: default.isInvertThemeColors
         )
     }
 
     override fun getSettingsStateFlow(): Flow<SettingsState> = dataStore.data.map { prefs ->
         SettingsState(
             nightMode = NightMode.fromOrdinal(prefs[NIGHT_MODE]),
-            isDynamicColors = prefs[DYNAMIC_COLORS] ?: true,
-            isAmoledMode = prefs[AMOLED_MODE] ?: false,
-            appColorTuple = prefs[APP_COLOR_TUPLE] ?: "",
-            borderWidth = prefs[BORDER_WIDTH] ?: -1f,
-            showDialogOnStartup = prefs[SHOW_UPDATE_DIALOG] ?: true,
-            selectedEmoji = prefs[SELECTED_EMOJI_INDEX] ?: 0,
+            isDynamicColors = prefs[DYNAMIC_COLORS] ?: default.isDynamicColors,
+            isAmoledMode = prefs[AMOLED_MODE] ?: default.isAmoledMode,
+            appColorTuple = prefs[APP_COLOR_TUPLE] ?: default.appColorTuple,
+            borderWidth = prefs[BORDER_WIDTH] ?: default.borderWidth,
+            showDialogOnStartup = prefs[SHOW_UPDATE_DIALOG] ?: default.showDialogOnStartup,
+            selectedEmoji = prefs[SELECTED_EMOJI_INDEX] ?: default.selectedEmoji,
             screenList = prefs[SCREEN_ORDER]?.split("/")?.map {
                 it.toInt()
-            } ?: emptyList(),
-            emojisCount = prefs[EMOJI_COUNT] ?: 1,
-            clearCacheOnLaunch = prefs[AUTO_CACHE_CLEAR] ?: false,
-            groupOptionsByTypes = prefs[GROUP_OPTIONS_BY_TYPE] ?: true,
-            addSequenceNumber = prefs[ADD_SEQ_NUM_TO_FILENAME] ?: true,
+            } ?: default.screenList,
+            emojisCount = prefs[EMOJI_COUNT] ?: default.emojisCount,
+            clearCacheOnLaunch = prefs[AUTO_CACHE_CLEAR] ?: default.clearCacheOnLaunch,
+            groupOptionsByTypes = prefs[GROUP_OPTIONS_BY_TYPE] ?: default.groupOptionsByTypes,
+            addSequenceNumber = prefs[ADD_SEQ_NUM_TO_FILENAME] ?: default.addSequenceNumber,
             saveFolderUri = prefs[SAVE_FOLDER_URI],
             presets = Preset.createListFromInts(prefs[PRESETS]),
             colorTupleList = prefs[COLOR_TUPLES],
-            allowChangeColorByImage = prefs[ALLOW_IMAGE_MONET] ?: true,
-            imagePickerModeInt = prefs[IMAGE_PICKER_MODE] ?: 0,
-            fabAlignment = prefs[FAB_ALIGNMENT] ?: 1,
-            filenamePrefix = prefs[FILENAME_PREFIX] ?: "",
-            addSizeInFilename = prefs[ADD_SIZE_TO_FILENAME] ?: false,
-            addOriginalFilename = prefs[ADD_ORIGINAL_NAME_TO_FILENAME] ?: false,
-            randomizeFilename = prefs[RANDOMIZE_FILENAME] ?: false,
+            allowChangeColorByImage = prefs[ALLOW_IMAGE_MONET] ?: default.allowChangeColorByImage,
+            imagePickerModeInt = prefs[IMAGE_PICKER_MODE] ?: default.imagePickerModeInt,
+            fabAlignment = prefs[FAB_ALIGNMENT] ?: default.fabAlignment,
+            filenamePrefix = prefs[FILENAME_PREFIX] ?: default.filenamePrefix,
+            addSizeInFilename = prefs[ADD_SIZE_TO_FILENAME] ?: default.addSizeInFilename,
+            addOriginalFilename = prefs[ADD_ORIGINAL_NAME_TO_FILENAME]
+                ?: default.addOriginalFilename,
+            randomizeFilename = prefs[RANDOMIZE_FILENAME] ?: default.randomizeFilename,
             font = FontFam.fromOrdinal(prefs[SELECTED_FONT_INDEX]),
             fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f },
-            allowCollectCrashlytics = prefs[ALLOW_CRASHLYTICS] ?: true,
-            allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: true,
-            allowBetas = prefs[ALLOW_BETAS] ?: true,
-            allowShowingShadowsInsteadOfBorders = prefs[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] ?: true,
-            appOpenCount = prefs[APP_OPEN_COUNT] ?: 0,
-            aspectRatios = AspectRatio.defaultList,
-            lockDrawOrientation = prefs[LOCK_DRAW_ORIENTATION] ?: true,
-            themeContrastLevel = prefs[THEME_CONTRAST_LEVEL] ?: 0.0,
-            themeStyle = prefs[THEME_STYLE] ?: 0
+            allowCollectCrashlytics = prefs[ALLOW_CRASHLYTICS] ?: default.allowCollectCrashlytics,
+            allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: default.allowCollectAnalytics,
+            allowBetas = prefs[ALLOW_BETAS] ?: default.allowBetas,
+            allowShowingShadowsInsteadOfBorders = prefs[ALLOW_SHADOWS_INSTEAD_OF_BORDERS]
+                ?: default.allowShowingShadowsInsteadOfBorders,
+            appOpenCount = prefs[APP_OPEN_COUNT] ?: default.appOpenCount,
+            aspectRatios = default.aspectRatios,
+            lockDrawOrientation = prefs[LOCK_DRAW_ORIENTATION] ?: default.lockDrawOrientation,
+            themeContrastLevel = prefs[THEME_CONTRAST_LEVEL] ?: default.themeContrastLevel,
+            themeStyle = prefs[THEME_STYLE] ?: default.themeStyle,
+            isInvertThemeColors = prefs[INVERT_THEME] ?: default.isInvertThemeColors
         )
     }
 
@@ -413,6 +420,13 @@ class SettingsRepositoryImpl @Inject constructor(
     override suspend fun setThemeContrast(value: Double) {
         dataStore.edit {
             it[THEME_CONTRAST_LEVEL] = value
+        }
+    }
+
+    override suspend fun toggleInvertColors() {
+        dataStore.edit {
+            val v = it[INVERT_THEME] ?: false
+            it[INVERT_THEME] = !v
         }
     }
 
