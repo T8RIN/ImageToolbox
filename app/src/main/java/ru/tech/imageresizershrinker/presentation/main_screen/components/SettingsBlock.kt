@@ -171,7 +171,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.Prefere
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.SourceCodePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.PickFontFamilySheet
-import ru.tech.imageresizershrinker.presentation.root.widget.sheets.PickFontScaleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
@@ -904,7 +903,6 @@ fun SettingsBlock(
                 item {
                     // Font
                     val showFontSheet = rememberSaveable { mutableStateOf(false) }
-                    val showFontScaleSheet = rememberSaveable { mutableStateOf(false) }
                     SettingItem(
                         icon = Icons.Rounded.TextFormat,
                         text = stringResource(R.string.text),
@@ -932,37 +930,93 @@ fun SettingsBlock(
                                 .padding(horizontal = 8.dp)
                         )
                         Spacer(Modifier.height(4.dp))
-                        PreferenceItem(
-                            shape = bottomShape,
-                            onClick = { showFontScaleSheet.value = true },
-                            title = stringResource(R.string.font_scale),
-                            subtitle = settingsState.fontScale?.takeIf { it > 0 }?.toString()
-                                ?: stringResource(
-                                    R.string.defaultt
-                                ),
-                            color = MaterialTheme
-                                .colorScheme
-                                .secondaryContainer
-                                .copy(alpha = 0.2f),
-                            endIcon = Icons.Rounded.TextFields,
-                            modifier = Modifier
-                                .fillMaxWidth()
+                        Column(
+                            Modifier
                                 .padding(horizontal = 8.dp)
-                        )
+                                .container(
+                                    shape = bottomShape,
+                                    color = MaterialTheme
+                                        .colorScheme
+                                        .secondaryContainer
+                                        .copy(alpha = 0.2f)
+                                )
+                                .animateContentSize()
+                        ) {
+                            val derivedValue by remember(viewModel.settingsState) {
+                                derivedStateOf {
+                                    viewModel.settingsState.fontScale ?: 0f
+                                }
+                            }
+                            var sliderValue by remember(derivedValue) {
+                                mutableFloatStateOf(derivedValue)
+                            }
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.TextFields,
+                                    contentDescription = null,
+                                    modifier = Modifier.padding(
+                                        top = 16.dp,
+                                        start = 12.dp
+                                    )
+                                )
+                                Text(
+                                    text = stringResource(R.string.font_scale),
+                                    modifier = Modifier
+                                        .padding(
+                                            top = 16.dp,
+                                            end = 16.dp,
+                                            start = 16.dp
+                                        )
+                                        .weight(1f),
+                                    fontWeight = FontWeight.Medium
+                                )
+                                AnimatedContent(
+                                    targetState = sliderValue,
+                                    transitionSpec = {
+                                        fadeIn() togetherWith fadeOut()
+                                    }
+                                ) { value ->
+                                    Text(
+                                        text = value.takeIf { it > 0 }?.toString()
+                                            ?: stringResource(R.string.defaultt),
+                                        color = MaterialTheme.colorScheme.onSurface.copy(
+                                            alpha = 0.5f
+                                        ),
+                                        modifier = Modifier.padding(top = 16.dp, end = 16.dp),
+                                        lineHeight = 18.sp
+                                    )
+                                }
+                            }
+                            EnhancedSlider(
+                                modifier = Modifier
+                                    .padding(
+                                        top = 16.dp,
+                                        start = 12.dp,
+                                        end = 12.dp,
+                                        bottom = 8.dp
+                                    )
+                                    .offset(y = (-2).dp),
+                                value = sliderValue,
+                                onValueChange = {
+                                    sliderValue = if (it == 0.45f) 0f
+                                    else it.roundToTwoDigits()
+                                },
+                                onValueChangeFinished = {
+                                    viewModel.onUpdateFontScale(sliderValue)
+                                    (context as? Activity)?.recreate()
+                                },
+                                valueRange = 0.45f..1.5f,
+                                steps = 20
+                            )
+                        }
                     }
 
                     PickFontFamilySheet(
                         visible = showFontSheet,
                         onFontSelected = { font ->
                             viewModel.setFont(font.asDomain())
-                            (context as? Activity)?.recreate()
-                        }
-                    )
-
-                    PickFontScaleSheet(
-                        visible = showFontScaleSheet,
-                        onFontScaleChange = { scale ->
-                            viewModel.onUpdateFontScale(scale)
                             (context as? Activity)?.recreate()
                         }
                     )
