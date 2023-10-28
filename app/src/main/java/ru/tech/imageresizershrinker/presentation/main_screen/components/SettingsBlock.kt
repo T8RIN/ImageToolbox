@@ -42,18 +42,23 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BorderStyle
+import androidx.compose.material.icons.outlined.Brightness4
+import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.material.icons.outlined.BurstMode
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.EmojiEmotions
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.FolderSpecial
+import androidx.compose.material.icons.outlined.FontDownload
+import androidx.compose.material.icons.outlined.FormatColorFill
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.outlined.LightMode
+import androidx.compose.material.icons.outlined.NewReleases
 import androidx.compose.material.icons.outlined.SettingsSuggest
+import androidx.compose.material.icons.outlined.WaterDrop
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Block
-import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Cached
 import androidx.compose.material.icons.rounded.DeleteOutline
 import androidx.compose.material.icons.rounded.Draw
@@ -61,10 +66,8 @@ import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.FolderOpen
 import androidx.compose.material.icons.rounded.FolderSpecial
-import androidx.compose.material.icons.rounded.FontDownload
 import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
-import androidx.compose.material.icons.rounded.NewReleases
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.Payments
 import androidx.compose.material.icons.rounded.PersonSearch
@@ -82,7 +85,6 @@ import androidx.compose.material.icons.rounded.TextFields
 import androidx.compose.material.icons.rounded.TextFormat
 import androidx.compose.material.icons.rounded.Translate
 import androidx.compose.material.icons.rounded.UploadFile
-import androidx.compose.material.icons.rounded.WaterDrop
 import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
@@ -391,6 +393,18 @@ fun SettingsBlock(
                                 ),
                                 shape = centerShape,
                                 applyHorPadding = false,
+                                startContent = {
+                                    Icon(
+                                        imageVector = Icons.Outlined.FormatColorFill,
+                                        contentDescription = null,
+                                        modifier = Modifier.padding(horizontal = 16.dp)
+                                    )
+                                },
+                                resultModifier = Modifier.padding(
+                                    end = 16.dp,
+                                    top = 8.dp,
+                                    bottom = 8.dp
+                                ),
                                 title = stringResource(R.string.dynamic_colors),
                                 subtitle = stringResource(R.string.dynamic_colors_sub),
                                 checked = settingsState.isDynamicColors,
@@ -403,6 +417,18 @@ fun SettingsBlock(
                                     bottom = 4.dp
                                 ),
                                 shape = centerShape,
+                                startContent = {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Brightness4,
+                                        contentDescription = null,
+                                        modifier = Modifier.padding(horizontal = 16.dp)
+                                    )
+                                },
+                                resultModifier = Modifier.padding(
+                                    end = 16.dp,
+                                    top = 8.dp,
+                                    bottom = 8.dp
+                                ),
                                 applyHorPadding = false,
                                 title = stringResource(R.string.amoled_mode),
                                 subtitle = stringResource(R.string.amoled_mode_sub),
@@ -527,7 +553,7 @@ fun SettingsBlock(
                                 onClick = { viewModel.toggleAllowImageMonet() },
                                 startContent = {
                                     Icon(
-                                        Icons.Rounded.WaterDrop,
+                                        Icons.Outlined.WaterDrop,
                                         null,
                                         modifier = Modifier.padding(end = 16.dp)
                                     )
@@ -924,7 +950,7 @@ fun SettingsBlock(
                                 .colorScheme
                                 .secondaryContainer
                                 .copy(alpha = 0.2f),
-                            endIcon = Icons.Rounded.FontDownload,
+                            endIcon = Icons.Outlined.FontDownload,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 8.dp)
@@ -1670,7 +1696,7 @@ fun SettingsBlock(
                             },
                             startContent = {
                                 Icon(
-                                    Icons.Rounded.NewReleases,
+                                    Icons.Outlined.NewReleases,
                                     null,
                                     modifier = Modifier.padding(end = 16.dp)
                                 )
@@ -1826,7 +1852,7 @@ fun SettingsBlock(
                                 title = stringResource(R.string.issue_tracker),
                                 subtitle = stringResource(R.string.issue_tracker_sub),
                                 endContent = {
-                                    Icon(Icons.Rounded.BugReport, null)
+                                    Icon(Icons.Outlined.BugReport, null)
                                 },
                                 onClick = {
                                     context.startActivity(

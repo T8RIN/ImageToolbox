@@ -192,11 +192,16 @@ fun ImageReorderCarousel(
                     }
                 }
             }
+            val edgeHeight by animateDpAsState(
+                120.dp + if (state.draggingItemKey == null && (images?.size
+                        ?: 0) > 2
+                ) 50.dp else 0.dp
+            )
             Box(
                 modifier = Modifier
                     .align(Alignment.CenterStart)
                     .width(12.dp)
-                    .height(170.dp)
+                    .height(edgeHeight)
                     .background(
                         brush = Brush.Companion.horizontalGradient(
                             0f to MaterialTheme.colorScheme.surfaceColorAtElevation(
@@ -210,7 +215,7 @@ fun ImageReorderCarousel(
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
                     .width(12.dp)
-                    .height(170.dp)
+                    .height(edgeHeight)
                     .background(
                         brush = Brush.Companion.horizontalGradient(
                             0f to Color.Transparent,
