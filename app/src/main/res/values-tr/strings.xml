@@ -62,7 +62,7 @@
     <string name="exception">İstisna</string>
     <string name="check_source_code_sub">En son güncellemeleri alın, sorunları tartışın ve daha fazlasını yapın</string>
     <string name="no_exif">EXIF verisi bulunamadı</string>
-    <string name="clear_exif_sub">Görüntünün tüm EXIF verileri silinecektir, bu işlem geri alınamaz!</string>
+    <string name="clear_exif_sub">Tüm görüntü EXIF verileri silinecektir. Bu işlem geri alınamaz!</string>
     <string name="add_tag">Etiket ekle</string>
     <string name="presets">Ön Ayarlar</string>
     <string name="image_not_saved_sub">Şimdi ayrılırsanız, kaydedilmemiş tüm değişiklikler kaybolacaktır</string>
