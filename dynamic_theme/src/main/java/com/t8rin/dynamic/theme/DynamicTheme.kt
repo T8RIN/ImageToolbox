@@ -113,7 +113,7 @@ fun DynamicTheme(
     }
 
     val systemUiController = rememberSystemUiController()
-    val useDarkIcons = !isDarkTheme
+    val useDarkIcons = (isDarkTheme && isInvertColors) || !isDarkTheme
 
     SideEffect {
         systemUiController.setSystemBarsColor(

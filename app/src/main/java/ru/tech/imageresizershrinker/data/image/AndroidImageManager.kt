@@ -854,26 +854,23 @@ class AndroidImageManager @Inject constructor(
     override suspend fun scaleUntilCanShow(image: Bitmap?): Bitmap? = withContext(Dispatchers.IO) {
         if (image == null) return@withContext null
 
-        var bmp = if (!canShow(image)) {
-            resize(
-                image = image,
-                height = (image.height * 0.95f).toInt(),
-                width = (image.width * 0.95f).toInt(),
-                resizeType = ResizeType.Flexible
-            )
-        } else image
+        var (height, width) = image.run { height to width }
 
-        if (bmp == null) return@withContext null
-
-        while (!canShow(bmp!!)) {
-            bmp = resize(
-                image = bmp,
-                height = (bmp.height * 0.95f).toInt(),
-                width = (bmp.width * 0.95f).toInt(),
-                resizeType = ResizeType.Flexible
-            )
+        var iterations = 0
+        while (height * width * 5L >= 3096 * 3096 * 4L) {
+            height = (height * 0.7f).roundToInt()
+            width = (width * 0.7f).roundToInt()
+            iterations++
         }
-        return@withContext bmp
+        if (height * width * 5L >= 3096 * 3096 * 4L) cancel()
+
+        return@withContext if (iterations == 0) image
+        else resize(
+            image = image,
+            height = height,
+            width = width,
+            resizeType = ResizeType.Flexible
+        )
     }
 
     override suspend fun calculateImageSize(imageData: ImageData<Bitmap, ExifInterface>): Long {
@@ -998,12 +995,12 @@ class AndroidImageManager @Inject constructor(
         }
 
         var scaleFactor = 1f
-        while (height * width * 4L >= 3096 * 3096 * 5L) {
+        while (height * width * 5L >= 3096 * 3096 * 4L) {
             scaleFactor *= 0.7f
             height = (height * 0.7f).roundToInt()
             width = (width * 0.7f).roundToInt()
         }
-        if (height * width * 4L >= 3096 * 3096 * 5L) cancel()
+        if (height * width * 5L >= 3096 * 3096 * 4L) cancel()
 
 
         ByteArrayOutputStream().use { byteArrayOutputStream ->
