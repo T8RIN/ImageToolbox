@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -48,6 +47,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 fun ColorSelectionRow(
     defaultColors: List<Color> = ColorSelectionRowDefaults.colorList,
     allowAlpha: Boolean = false,
+    allowScroll: Boolean = true,
     value: Color,
     onValueChange: (Color) -> Unit
 ) {
@@ -67,7 +67,7 @@ fun ColorSelectionRow(
             .fillMaxWidth()
             .height(1.2.dp * 40 + 32.dp)
             .fadingEdges(listState),
-        contentPadding = PaddingValues(horizontal = 16.dp),
+        userScrollEnabled = allowScroll,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

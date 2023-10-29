@@ -33,7 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -43,8 +42,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiRGBFilter
-import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AlphaColorSelection
-import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorSelection
+import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorSelectionRow
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
@@ -151,30 +149,14 @@ fun <T> FilterItem(
                 when (filter.value) {
                     is Color -> {
                         Box(modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)) {
-                            if (filter is UiRGBFilter) {
-                                ColorSelection(
-                                    color = filter.value.toArgb(),
-                                    onColorChange = { c ->
-                                        onFilterChange(Color(c))
-                                    }
-                                )
-                            } else {
-                                AlphaColorSelection(
-                                    color = (filter.value as Color).toArgb(),
-                                    onColorChange = { c ->
-                                        onFilterChange(Color(c))
-                                    }
-                                )
-                            }
-                            if (previewOnly) {
-                                Box(
-                                    Modifier
-                                        .matchParentSize()
-                                        .pointerInput(Unit) {
-                                            detectTapGestures { }
-                                        }
-                                )
-                            }
+                            ColorSelectionRow(
+                                value = filter.value as Color,
+                                allowAlpha = filter !is UiRGBFilter,
+                                allowScroll = !previewOnly,
+                                onValueChange = { color ->
+                                    onFilterChange(color)
+                                }
+                            )
                         }
                     }
 
@@ -365,10 +347,11 @@ fun <T> FilterItem(
                                                 end = 16.dp,
                                             )
                                     )
-                                    ColorSelection(
-                                        color = color1.toArgb(),
-                                        onColorChange = { c ->
-                                            color1 = Color(c)
+                                    ColorSelectionRow(
+                                        value = color1,
+                                        allowScroll = !previewOnly,
+                                        onValueChange = { color ->
+                                            color1 = color
                                             onFilterChange(color1 to color2)
                                         }
                                     )
@@ -383,21 +366,13 @@ fun <T> FilterItem(
                                                 end = 16.dp
                                             )
                                     )
-                                    ColorSelection(
-                                        color = color2.toArgb(),
-                                        onColorChange = { c ->
-                                            color2 = Color(c)
+                                    ColorSelectionRow(
+                                        value = color2,
+                                        allowScroll = !previewOnly,
+                                        onValueChange = { color ->
+                                            color2 = color
                                             onFilterChange(color1 to color2)
                                         }
-                                    )
-                                }
-                                if (previewOnly) {
-                                    Box(
-                                        Modifier
-                                            .matchParentSize()
-                                            .pointerInput(Unit) {
-                                                detectTapGestures { }
-                                            }
                                     )
                                 }
                             }
@@ -469,21 +444,14 @@ fun <T> FilterItem(
                                                 end = 16.dp,
                                             )
                                     )
-                                    AlphaColorSelection(
-                                        color = color1.toArgb(),
-                                        onColorChange = { c ->
-                                            color1 = Color(c)
+                                    ColorSelectionRow(
+                                        value = color1,
+                                        allowScroll = !previewOnly,
+                                        allowAlpha = true,
+                                        onValueChange = { color ->
+                                            color1 = color
                                             onFilterChange(sliderState1 to color1)
                                         }
-                                    )
-                                }
-                                if (previewOnly) {
-                                    Box(
-                                        Modifier
-                                            .matchParentSize()
-                                            .pointerInput(Unit) {
-                                                detectTapGestures { }
-                                            }
                                     )
                                 }
                             }
@@ -732,10 +700,12 @@ fun <T> FilterItem(
                                                 end = 16.dp,
                                             )
                                     )
-                                    AlphaColorSelection(
-                                        color = color1.toArgb(),
-                                        onColorChange = { c ->
-                                            color1 = Color(c)
+                                    ColorSelectionRow(
+                                        value = color1,
+                                        allowScroll = !previewOnly,
+                                        allowAlpha = true,
+                                        onValueChange = { color ->
+                                            color1 = color
                                             onFilterChange(Triple(sliderState1, color1, color2))
                                         }
                                     )
@@ -750,10 +720,12 @@ fun <T> FilterItem(
                                                 end = 16.dp
                                             )
                                     )
-                                    AlphaColorSelection(
-                                        color = color2.toArgb(),
-                                        onColorChange = { c ->
-                                            color2 = Color(c)
+                                    ColorSelectionRow(
+                                        value = color2,
+                                        allowScroll = !previewOnly,
+                                        allowAlpha = true,
+                                        onValueChange = { color ->
+                                            color2 = color
                                             onFilterChange(Triple(sliderState1, color1, color2))
                                         }
                                     )
