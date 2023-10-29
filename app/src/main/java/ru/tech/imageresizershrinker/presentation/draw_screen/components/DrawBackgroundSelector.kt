@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.presentation.draw_screen.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -48,6 +49,7 @@ fun DrawBackgroundSelector(
         ColorSelectionRow(
             defaultColors = defaultColorList,
             allowAlpha = true,
+            contentPadding = PaddingValues(16.dp),
             value = value,
             onValueChange = onColorChange
         )

@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -48,6 +49,7 @@ fun ColorSelectionRow(
     defaultColors: List<Color> = ColorSelectionRowDefaults.colorList,
     allowAlpha: Boolean = false,
     allowScroll: Boolean = true,
+    contentPadding: PaddingValues = PaddingValues(),
     value: Color,
     onValueChange: (Color) -> Unit
 ) {
@@ -68,6 +70,7 @@ fun ColorSelectionRow(
             .height(1.2.dp * 40 + 32.dp)
             .fadingEdges(listState),
         userScrollEnabled = allowScroll,
+        contentPadding = contentPadding,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
