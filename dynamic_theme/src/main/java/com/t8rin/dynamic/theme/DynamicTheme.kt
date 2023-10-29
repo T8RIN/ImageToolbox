@@ -112,9 +112,15 @@ fun DynamicTheme(
         state.updateColorTuple(colorTuple)
     }
 
+    val lightTheme = !isDarkTheme
     val systemUiController = rememberSystemUiController()
-    val useDarkIcons =
-        (dynamicColor && !isDarkTheme) || (isDarkTheme && isInvertColors) || !isDarkTheme && !isInvertColors
+    val useDarkIcons = if (dynamicColor) {
+        lightTheme
+    } else if (isInvertColors) {
+        isDarkTheme
+    } else {
+        lightTheme
+    }
 
     SideEffect {
         systemUiController.setSystemBarsColor(

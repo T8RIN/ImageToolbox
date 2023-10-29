@@ -74,7 +74,7 @@ data class SettingsState(
             lockDrawOrientation = true,
             themeContrastLevel = 0.0,
             themeStyle = 0,
-            isInvertThemeColors = true
+            isInvertThemeColors = false
         )
     }
 }
