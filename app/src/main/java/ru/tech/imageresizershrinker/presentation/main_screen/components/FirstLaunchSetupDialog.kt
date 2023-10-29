@@ -77,6 +77,7 @@ fun Context.FirstLaunchSetupDialog(
                                 scrollFactor = 1.1f
                             )
                             .verticalScroll(state)
+                            .padding(2.dp)
                     ) {
                         if (BuildConfig.FLAVOR == "foss") {
                             PreferenceItem(
