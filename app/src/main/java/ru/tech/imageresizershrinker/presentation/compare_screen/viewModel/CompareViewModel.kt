@@ -1,12 +1,12 @@
 package ru.tech.imageresizershrinker.presentation.compare_screen.viewModel
 
 import android.graphics.Bitmap
-import android.graphics.Matrix
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.graphics.BitmapCompat
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -202,10 +202,9 @@ class CompareViewModel @Inject constructor(
     }
 
     private fun Bitmap.overlay(overlay: Bitmap, percent: Float): Bitmap {
-        val image = this
-        val finalBitmap = Bitmap.createBitmap(image.width, image.height, image.config)
+        val finalBitmap = overlay.copy(overlay.config, true).apply { setHasAlpha(true) }
         val canvas = android.graphics.Canvas(finalBitmap)
-        canvas.drawBitmap(overlay, Matrix(), null)
+        val image = BitmapCompat.createScaledBitmap(this, canvas.width, canvas.height, null, true)
         kotlin.runCatching {
             canvas.drawBitmap(
                 Bitmap.createBitmap(
