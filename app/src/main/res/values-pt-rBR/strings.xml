@@ -290,7 +290,6 @@
     <string name="store_file_desc">Armazene este arquivo em seu dispositivo ou use a ação de compartilhamento para colocá-lo onde quiser</string>
     <string name="implementation_sub">AES-256, modo GCM, sem padding, IVs aleatórios de 12 bytes. As chaves são usadas como hashes SHA-3 (256 bits).</string>
     <string name="file_size_sub">O tamanho máximo do arquivo é restrito pelo sistema Android e pela memória disponível, que é dependente do dispositivo.
-\n
 \nPor favor, note que: a memória não é armazenamento.</string>
     <string name="group_options_by_type_sub">Opções de grupos na tela principal de seu tipo em vez de organização de lista personalizada</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Não é possível alterar o arranjo enquanto o agrupamento de opções está ativado</string>
@@ -309,7 +308,7 @@
     <string name="max_colors_count">Contagem máxima de cor</string>
     <string name="activities">Atividades</string>
     <string name="wait">Esperar</string>
-    <string name="image_exif_warning">Atualmente, o formato %1$s só permite a leitura de metadados EXIF no Android. A imagem de saída não terá metadados quando salva.</string>
+    <string name="image_exif_warning">Atualmente, o formato %1$s só permite a leitura de metadados EXIF no Android. A imagem de saída não terá metadados em tudo quando salva.</string>
     <string name="food_and_drink">Comida e Bebida</string>
     <string name="contact_me">Entre em contato comigo</string>
     <string name="effort_sub">Um valor %1$d significa uma compactação rápida, resultando em um tamanho de arquivo relativamente grande. %2$d significa uma compactação mais lenta, resultando em um arquivo menor.</string>
@@ -341,7 +340,7 @@
     <string name="backup">Backup</string>
     <string name="auto_erase_background">Apagar fundo automaticamente</string>
     <string name="crashlytics_sub">Isso permite que o app colete relatórios de erros manualmente</string>
-    <string name="saving_almost_complete">Salvando quase completo. Cancelar agora exigirá salvar novamente.</string>
+    <string name="saving_almost_complete">Salvamento quase completo. Cancelar agora exigirá salvar novamente.</string>
     <string name="create_issue">Informar um problema</string>
     <string name="pipette">Conta-gotas</string>
     <string name="saved_to">Salvo na pasta %1$s com o nome %2$s</string>
@@ -404,4 +403,27 @@
     <string name="regular">Regular</string>
     <string name="enhanced_circle_pixelation">Aprimoramento de Pixelização de Circulo</string>
     <string name="scale_small_images_to_large">Dimensione imagens pequenas para grandes</string>
+    <string name="both">Ambos</string>
+    <string name="invert_colors_sub">Substitui as cores do tema para as negativas, se ativados</string>
+    <string name="fidelity">Fidelidade</string>
+    <string name="rainbow">Arco-íris</string>
+    <string name="playful_scheme">Um tema lúdico - a cor da fonte não aparece no tema</string>
+    <string name="fading_edges">Desbotamento das bordas</string>
+    <string name="vibrant_sub">Um tema alto, a coloração é máxima para a paleta primária, aumentada para outros</string>
+    <string name="neutral_sub">Um estilo um pouco mais cromático do que monocromático</string>
+    <string name="foss_update_checker_warning">Este verificador de atualização se conectará ao GitHub para verificar se há uma nova atualização disponível</string>
+    <string name="content_sub">Um esquema que coloca a cor de origem em Scheme.primaryContainer</string>
+    <string name="monochrome_sub">Um tema monocromático, as cores são puramente preto / branco / cinza</string>
+    <string name="fruit_salad">Salada de frutas</string>
+    <string name="fidelity_sub">Um esquema que é muito semelhante ao esquema de conteúdo</string>
+    <string name="check_for_updates">Verificar se há atualizações</string>
+    <string name="content">Conteúdo</string>
+    <string name="disabled">Desativado</string>
+    <string name="expressive">Expressivo</string>
+    <string name="neutral">Neutro</string>
+    <string name="tonal_spot_sub">Estilo de paleta padrão, permite personalizar todas as quatro cores, outros permitem que você defina apenas a cor chave</string>
+    <string name="palette_style">Estilo de paleta</string>
+    <string name="invert_colors">Inverter cores</string>
+    <string name="vibrant">Vibrante</string>
+    <string name="attention">Atenção</string>
 </resources>
