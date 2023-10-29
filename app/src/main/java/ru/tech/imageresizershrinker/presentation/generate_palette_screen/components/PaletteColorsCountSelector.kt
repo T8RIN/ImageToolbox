@@ -5,6 +5,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -18,12 +22,15 @@ fun PaletteColorsCountSelector(
     value: Int,
     onValueChange: (Int) -> Unit
 ) {
+    var slider by remember(value) { mutableIntStateOf(value) }
     EnhancedSliderItem(
         modifier = modifier.padding(horizontal = 16.dp),
-        value = value,
+        value = slider,
         icon = Icons.Rounded.Palette,
         title = stringResource(R.string.max_colors_count),
-        onValueChange = {},
+        onValueChange = {
+            slider = it.roundToInt()
+        },
         onValueChangeFinished = {
             onValueChange(it.roundToInt())
         },
