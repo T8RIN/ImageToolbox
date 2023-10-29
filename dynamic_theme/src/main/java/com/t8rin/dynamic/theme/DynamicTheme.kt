@@ -113,7 +113,8 @@ fun DynamicTheme(
     }
 
     val systemUiController = rememberSystemUiController()
-    val useDarkIcons = (isDarkTheme && isInvertColors) || !isDarkTheme
+    val useDarkIcons =
+        (dynamicColor && !isDarkTheme) || (isDarkTheme && isInvertColors) || !isDarkTheme && !isInvertColors
 
     SideEffect {
         systemUiController.setSystemBarsColor(
@@ -603,7 +604,7 @@ fun getColorScheme(
             .toAmoled(amoledMode)
     } else {
         scheme.toColorScheme()
-    }.invertColors(isInvertColors).run {
+    }.invertColors(isInvertColors && !dynamicColor).run {
         copy(
             outlineVariant = onSecondaryContainer
                 .copy(alpha = 0.2f)
