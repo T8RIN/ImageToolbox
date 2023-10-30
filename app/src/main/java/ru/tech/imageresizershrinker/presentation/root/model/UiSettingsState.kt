@@ -55,7 +55,8 @@ data class UiSettingsState(
     val lockDrawOrientation: Boolean,
     val themeContrastLevel: Double,
     val themeStyle: PaletteStyle,
-    val isInvertThemeColors: Boolean
+    val isInvertThemeColors: Boolean,
+    val screensSearchEnabled: Boolean
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -99,7 +100,8 @@ fun SettingsState.toUiState() = UiSettingsState(
     lockDrawOrientation = lockDrawOrientation,
     themeContrastLevel = themeContrastLevel,
     themeStyle = PaletteStyle.entries[themeStyle],
-    isInvertThemeColors = isInvertThemeColors
+    isInvertThemeColors = isInvertThemeColors,
+    screensSearchEnabled = screensSearchEnabled
 )
 
 private fun FontFam.toUiFont(): UiFontFam {

@@ -14,7 +14,10 @@ import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -39,6 +42,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
@@ -49,14 +53,19 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.MenuOpen
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileDownloadOff
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.TableRows
 import androidx.compose.material3.AlertDialog
@@ -75,6 +84,7 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -103,10 +113,12 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
 import com.t8rin.dynamic.theme.getAppColorTuple
@@ -150,6 +162,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.Prefere
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
+import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalEditPresetsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -366,6 +379,26 @@ fun MainScreen(
     val content = @Composable {
         CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
             Box {
+                val canSearch = settingsState.screensSearchEnabled
+                var showSearch by rememberSaveable(canSearch) { mutableStateOf(false) }
+                var searchValue by rememberSaveable(canSearch) { mutableStateOf("") }
+                val currentList by remember(settingsState.groupOptionsByTypes, searchValue) {
+                    derivedStateOf {
+                        if (settingsState.groupOptionsByTypes && (searchValue.isEmpty() && !showSearch)) {
+                            Screen.typedEntries[currentPage].first
+                        } else {
+                            screenList
+                        }.let { screens ->
+                            if (searchValue.isNotEmpty() && canSearch) {
+                                screens.filter {
+                                    val string =
+                                        context.getString(it.title) + " " + context.getString(it.subtitle)
+                                    string.contains(other = searchValue, ignoreCase = true)
+                                }
+                            } else screens
+                        }
+                    }
+                }
                 Column(
                     Modifier
                         .fillMaxSize()
@@ -422,6 +455,20 @@ fun MainScreen(
                                 .surfaceColorAtElevation(3.dp)
                         ),
                         actions = {
+                            AnimatedVisibility(
+                                visible = !showSearch && canSearch,
+                                enter = fadeIn() + scaleIn(),
+                                exit = fadeOut() + scaleOut()
+                            ) {
+                                IconButton(
+                                    onClick = { showSearch = true && canSearch }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Search,
+                                        contentDescription = null
+                                    )
+                                }
+                            }
                             if (isSheetSlideable) {
                                 IconButton(
                                     onClick = {
@@ -449,7 +496,7 @@ fun MainScreen(
 
                     Row(Modifier.weight(1f)) {
                         AnimatedVisibility(
-                            visible = !isSheetSlideable && settingsState.groupOptionsByTypes && !sheetExpanded,
+                            visible = !isSheetSlideable && settingsState.groupOptionsByTypes && searchValue.isEmpty() && !sheetExpanded,
                             enter = fadeIn() + expandHorizontally(),
                             exit = fadeOut() + shrinkHorizontally()
                         ) {
@@ -528,74 +575,115 @@ fun MainScreen(
                             }
                         }
 
-                        val cutout = if (!settingsState.groupOptionsByTypes) {
-                            WindowInsets.displayCutout.asPaddingValues()
-                        } else PaddingValues()
+                        val cutout =
+                            if (!settingsState.groupOptionsByTypes || searchValue.isNotEmpty()) {
+                                WindowInsets.displayCutout.asPaddingValues()
+                            } else PaddingValues()
 
-                        LazyVerticalStaggeredGrid(
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .weight(1f),
-                            columns = StaggeredGridCells.Adaptive(220.dp),
-                            verticalItemSpacing = 12.dp,
-                            horizontalArrangement = Arrangement.spacedBy(
-                                12.dp,
-                                Alignment.CenterHorizontally
-                            ),
-                            contentPadding = PaddingValues(
-                                bottom = 12.dp + if (isGrid) {
-                                    WindowInsets
-                                        .navigationBars
-                                        .asPaddingValues()
-                                        .calculateBottomPadding() + if (!compactHeight) {
-                                        128.dp
-                                    } else 0.dp
-                                } else 0.dp,
-                                top = 12.dp,
-                                end = 12.dp + cutout.calculateEndPadding(LocalLayoutDirection.current),
-                                start = 12.dp + cutout.calculateStartPadding(
-                                    LocalLayoutDirection.current
-                                )
-                            ),
-                            content = {
-                                items(
-                                    if (settingsState.groupOptionsByTypes) {
-                                        Screen.typedEntries[currentPage].first
-                                    } else screenList
-                                ) { screen ->
-                                    PreferenceItemOverload(
-                                        onClick = {
-                                            navController.popUpTo { it == Screen.Main }
-                                            navController.navigate(screen)
-                                        },
-                                        onLongClick = {
-                                            showArrangementSheet.value =
-                                                !settingsState.groupOptionsByTypes
-                                        },
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .animateItemPlacement(),
-                                        title = stringResource(screen.title),
-                                        subtitle = stringResource(screen.subtitle),
-                                        icon = {
-                                            Icon(screen.icon!!, null)
+                        AnimatedContent(
+                            targetState = currentList.isNotEmpty(),
+                            transitionSpec = {
+                                fadeIn() togetherWith fadeOut()
+                            }
+                        ) { hasScreens ->
+                            if (hasScreens) {
+                                LazyVerticalStaggeredGrid(
+                                    reverseLayout = showSearch && searchValue.isNotEmpty() && canSearch,
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .weight(1f),
+                                    columns = StaggeredGridCells.Adaptive(220.dp),
+                                    verticalItemSpacing = 12.dp,
+                                    horizontalArrangement = Arrangement.spacedBy(
+                                        12.dp,
+                                        Alignment.CenterHorizontally
+                                    ),
+                                    contentPadding = PaddingValues(
+                                        bottom = 12.dp + if (isGrid) {
+                                            WindowInsets
+                                                .navigationBars
+                                                .asPaddingValues()
+                                                .calculateBottomPadding() + if (!compactHeight) {
+                                                128.dp
+                                            } else 0.dp
+                                        } else 0.dp,
+                                        top = 12.dp,
+                                        end = 12.dp + cutout.calculateEndPadding(
+                                            LocalLayoutDirection.current
+                                        ),
+                                        start = 12.dp + cutout.calculateStartPadding(
+                                            LocalLayoutDirection.current
+                                        )
+                                    ),
+                                    content = {
+                                        if (currentList.isNotEmpty()) {
+                                            items(currentList) { screen ->
+                                                PreferenceItemOverload(
+                                                    onClick = {
+                                                        navController.popUpTo { it == Screen.Main }
+                                                        navController.navigate(screen)
+                                                    },
+                                                    onLongClick = {
+                                                        showArrangementSheet.value =
+                                                            !settingsState.groupOptionsByTypes
+                                                    },
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .animateItemPlacement(),
+                                                    title = stringResource(screen.title),
+                                                    subtitle = stringResource(screen.subtitle),
+                                                    icon = {
+                                                        Icon(screen.icon!!, null)
+                                                    }
+                                                )
+                                            }
                                         }
+                                    }
+                                )
+                            } else {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .weight(1f),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Spacer(Modifier.weight(1f))
+                                    Text(
+                                        text = stringResource(R.string.nothing_found_by_search),
+                                        fontSize = 18.sp,
+                                        textAlign = TextAlign.Center,
+                                        modifier = Modifier.padding(
+                                            start = 24.dp,
+                                            end = 24.dp,
+                                            top = 8.dp,
+                                            bottom = 8.dp
+                                        )
                                     )
+                                    Icon(
+                                        imageVector = Icons.Rounded.SearchOff,
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .weight(2f)
+                                            .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
+                                            .fillMaxSize()
+                                    )
+                                    Spacer(Modifier.weight(1f))
                                 }
                             }
-                        )
+                        }
                     }
 
                     AnimatedVisibility(
-                        visible = isSheetSlideable || sheetExpanded,
+                        visible = isSheetSlideable || sheetExpanded || (showSearch && canSearch),
                         enter = fadeIn() + expandVertically(),
-                        exit = fadeOut() + shrinkHorizontally()
+                        exit = fadeOut() + shrinkVertically()
                     ) {
                         AnimatedContent(
-                            targetState = settingsState.groupOptionsByTypes,
+                            targetState = settingsState.groupOptionsByTypes to (showSearch && canSearch),
                             transitionSpec = { fadeIn() togetherWith fadeOut() }
-                        ) { groupOptionsByTypes ->
-                            if (groupOptionsByTypes) {
+                        ) { (groupOptionsByTypes, searching) ->
+                            if (groupOptionsByTypes && !searching) {
                                 NavigationBar(
                                     modifier = Modifier
                                         .drawHorizontalStroke(top = true)
@@ -627,81 +715,140 @@ fun MainScreen(
                                 BottomAppBar(
                                     modifier = Modifier.drawHorizontalStroke(top = true),
                                     actions = {
-                                        EnhancedButton(
-                                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                                alpha = 0.5f
-                                            ),
-                                            borderColor = MaterialTheme.colorScheme.outlineVariant(
-                                                onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                                            ),
-                                            modifier = Modifier
-                                                .padding(horizontal = 16.dp)
-                                                .pulsate(enabled = viewModel.updateAvailable),
-                                            onClick = {
-                                                viewModel.tryGetUpdate(
-                                                    newRequest = true,
-                                                    installedFromMarket = context.isInstalledFromPlayStore(),
-                                                    onNoUpdates = {
-                                                        scope.launch {
-                                                            toastHost.showToast(
-                                                                icon = Icons.Rounded.FileDownloadOff,
-                                                                message = context.getString(R.string.no_updates)
-                                                            )
+                                        if (!searching) {
+                                            EnhancedButton(
+                                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                                    alpha = 0.5f
+                                                ),
+                                                borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                                    onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                                                ),
+                                                modifier = Modifier
+                                                    .padding(horizontal = 16.dp)
+                                                    .pulsate(enabled = viewModel.updateAvailable),
+                                                onClick = {
+                                                    viewModel.tryGetUpdate(
+                                                        newRequest = true,
+                                                        installedFromMarket = context.isInstalledFromPlayStore(),
+                                                        onNoUpdates = {
+                                                            scope.launch {
+                                                                toastHost.showToast(
+                                                                    icon = Icons.Rounded.FileDownloadOff,
+                                                                    message = context.getString(R.string.no_updates)
+                                                                )
+                                                            }
                                                         }
-                                                    }
+                                                    )
+                                                }
+                                            ) {
+                                                Text(
+                                                    stringResource(R.string.version) + " ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
                                                 )
                                             }
-                                        ) {
-                                            Text(
-                                                stringResource(R.string.version) + " ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
-                                            )
+                                        } else {
+                                            if (searching) {
+                                                BackHandler {
+                                                    searchValue = ""
+                                                    showSearch = false
+                                                }
+                                                ProvideTextStyle(value = MaterialTheme.typography.bodyLarge) {
+                                                    RoundedTextField(
+                                                        maxLines = 1,
+                                                        hint = { Text(stringResource(id = R.string.search_here)) },
+                                                        modifier = Modifier
+                                                            .padding(start = 6.dp)
+                                                            .offset(2.dp, (-2).dp),
+                                                        keyboardOptions = KeyboardOptions.Default.copy(
+                                                            imeAction = ImeAction.Search
+                                                        ),
+                                                        value = searchValue,
+                                                        onValueChange = { searchValue = it },
+                                                        startIcon = {
+                                                            IconButton(
+                                                                onClick = {
+                                                                    searchValue = ""
+                                                                    showSearch = false
+                                                                },
+                                                                modifier = Modifier.padding(start = 4.dp)
+                                                            ) {
+                                                                Icon(
+                                                                    Icons.AutoMirrored.Rounded.ArrowBack,
+                                                                    null
+                                                                )
+                                                            }
+                                                        },
+                                                        endIcon = {
+                                                            AnimatedVisibility(
+                                                                visible = searchValue.isNotEmpty(),
+                                                                enter = fadeIn() + scaleIn(),
+                                                                exit = fadeOut() + scaleOut()
+                                                            ) {
+                                                                IconButton(
+                                                                    onClick = {
+                                                                        searchValue = ""
+                                                                    },
+                                                                    modifier = Modifier.padding(end = 4.dp)
+                                                                ) {
+                                                                    Icon(Icons.Rounded.Close, null)
+                                                                }
+                                                            }
+                                                        },
+                                                        shape = CircleShape
+                                                    )
+                                                }
+                                            } else {
+                                                searchValue = ""
+                                                showSearch = false
+                                            }
                                         }
                                     },
                                     floatingActionButton = {
-                                        FloatingActionButton(
-                                            onClick = {
-                                                if (context.isInstalledFromPlayStore()) {
-                                                    try {
-                                                        context.startActivity(
-                                                            Intent(
-                                                                Intent.ACTION_VIEW,
-                                                                Uri.parse("market://details?id=${context.packageName}")
+                                        if (!searching) {
+                                            FloatingActionButton(
+                                                onClick = {
+                                                    if (context.isInstalledFromPlayStore()) {
+                                                        try {
+                                                            context.startActivity(
+                                                                Intent(
+                                                                    Intent.ACTION_VIEW,
+                                                                    Uri.parse("market://details?id=${context.packageName}")
+                                                                )
                                                             )
-                                                        )
-                                                    } catch (e: ActivityNotFoundException) {
+                                                        } catch (e: ActivityNotFoundException) {
+                                                            context.startActivity(
+                                                                Intent(
+                                                                    Intent.ACTION_VIEW,
+                                                                    Uri.parse("https://play.google.com/store/apps/details?id=${context.packageName}")
+                                                                )
+                                                            )
+                                                        }
+                                                    } else {
                                                         context.startActivity(
                                                             Intent(
                                                                 Intent.ACTION_VIEW,
-                                                                Uri.parse("https://play.google.com/store/apps/details?id=${context.packageName}")
+                                                                Uri.parse(APP_LINK)
                                                             )
                                                         )
                                                     }
-                                                } else {
-                                                    context.startActivity(
-                                                        Intent(
-                                                            Intent.ACTION_VIEW,
-                                                            Uri.parse(APP_LINK)
+                                                },
+                                                modifier = Modifier
+                                                    .autoElevatedBorder()
+                                                    .requiredSize(size = 56.dp),
+                                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                                content = {
+                                                    if (context.isInstalledFromPlayStore()) {
+                                                        Icon(
+                                                            Icons.Rounded.GooglePlay,
+                                                            null,
+                                                            modifier = Modifier.offset(1.5.dp)
                                                         )
-                                                    )
+                                                    } else {
+                                                        Icon(Icons.Rounded.Github, null)
+                                                    }
                                                 }
-                                            },
-                                            modifier = Modifier
-                                                .autoElevatedBorder()
-                                                .requiredSize(size = 56.dp),
-                                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                            content = {
-                                                if (context.isInstalledFromPlayStore()) {
-                                                    Icon(
-                                                        Icons.Rounded.GooglePlay,
-                                                        null,
-                                                        modifier = Modifier.offset(1.5.dp)
-                                                    )
-                                                } else {
-                                                    Icon(Icons.Rounded.Github, null)
-                                                }
-                                            }
-                                        )
+                                            )
+                                        }
                                     }
                                 )
                             }

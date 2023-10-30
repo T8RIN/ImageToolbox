@@ -57,6 +57,7 @@ import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleGroupOpt
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleInvertColorsUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleLockDrawOrientationUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleRandomizeFilenameUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleScreensSearchEnabledUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleShowDialogUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateColorTupleUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateColorTuplesUseCase
@@ -121,7 +122,8 @@ class MainViewModel @Inject constructor(
     private val toggleLockDrawOrientationUseCase: ToggleLockDrawOrientationUseCase,
     private val setThemeContrastUseCase: SetThemeContrastUseCase,
     private val setThemeStyleUseCase: SetThemeStyleUseCase,
-    private val toggleInvertColorsUseCase: ToggleInvertColorsUseCase
+    private val toggleInvertColorsUseCase: ToggleInvertColorsUseCase,
+    private val toggleScreensSearchEnabledUseCase: ToggleScreensSearchEnabledUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default())
@@ -543,6 +545,12 @@ class MainViewModel @Inject constructor(
     fun toggleInvertColors() {
         viewModelScope.launch {
             toggleInvertColorsUseCase()
+        }
+    }
+
+    fun toggleScreenSearchEnabled() {
+        viewModelScope.launch {
+            toggleScreensSearchEnabledUseCase()
         }
     }
 

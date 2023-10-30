@@ -36,7 +36,8 @@ data class SettingsState(
     val lockDrawOrientation: Boolean,
     val themeContrastLevel: Double,
     val themeStyle: Int,
-    val isInvertThemeColors: Boolean
+    val isInvertThemeColors: Boolean,
+    val screensSearchEnabled: Boolean
 ) : Domain {
 
     companion object {
@@ -74,7 +75,8 @@ data class SettingsState(
             lockDrawOrientation = true,
             themeContrastLevel = 0.0,
             themeStyle = 0,
-            isInvertThemeColors = false
+            isInvertThemeColors = false,
+            screensSearchEnabled = false
         )
     }
 }

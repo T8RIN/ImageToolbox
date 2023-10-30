@@ -28,7 +28,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import coil.imageLoader
 import coil.memory.MemoryCache
 import coil.request.ImageRequest
 import kotlinx.coroutines.Dispatchers
@@ -36,6 +35,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalImageLoader
 import kotlin.math.sqrt
 
 @Composable
@@ -64,7 +64,7 @@ fun PdfViewer(
         }
     }
 
-    val imageLoader = context.imageLoader
+    val imageLoader = LocalImageLoader.current
     val imageLoadingScope = rememberCoroutineScope()
     BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
         val width = with(LocalDensity.current) { maxWidth.toPx() }.toInt()

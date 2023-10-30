@@ -40,4 +40,5 @@ object Keys {
     val THEME_CONTRAST_LEVEL = doublePreferencesKey("THEME_CONTRAST_LEVEL")
     val THEME_STYLE = intPreferencesKey("THEME_STYLE")
     val INVERT_THEME = booleanPreferencesKey("INVERT_THEME")
+    val SCREEN_SEARCH_ENABLED = booleanPreferencesKey("SCREEN_SEARCH_ENABLED")
 }

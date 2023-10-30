@@ -1084,6 +1084,17 @@ fun SettingsBlock(
                             endIcon = Icons.Rounded.CreateAlt,
                         )
                         PreferenceRowSwitch(
+                            shape = centerShape,
+                            modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 4.dp),
+                            applyHorPadding = false,
+                            title = stringResource(R.string.search_option),
+                            subtitle = stringResource(R.string.search_option_sub),
+                            checked = settingsState.screensSearchEnabled,
+                            onClick = {
+                                viewModel.toggleScreenSearchEnabled()
+                            }
+                        )
+                        PreferenceRowSwitch(
                             shape = bottomShape,
                             modifier = Modifier.padding(horizontal = 8.dp),
                             applyHorPadding = false,

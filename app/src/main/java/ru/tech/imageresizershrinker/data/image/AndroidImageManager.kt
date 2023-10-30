@@ -11,6 +11,7 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.pdf.PdfDocument
 import android.net.Uri
 import android.webkit.MimeTypeMap
 import androidx.compose.ui.graphics.Color
@@ -995,7 +996,7 @@ class AndroidImageManager @Inject constructor(
         }
 
         var scaleFactor = 1f
-        while (height * width * 5L >= 3096 * 3096 * 4L) {
+        while (height * width * 4L >= 3096 * 3096 * 4L) {
             scaleFactor *= 0.7f
             height = (height * 0.7f).roundToInt()
             width = (width * 0.7f).roundToInt()
@@ -1042,6 +1043,54 @@ class AndroidImageManager @Inject constructor(
             ).drawable?.toBitmap()
             return@withContext bitmap!!
         }
+    }
+
+    override suspend fun convertImagesToPdf(
+        imageUris: List<String>,
+        scaleSmallImagesToLarge: Boolean
+    ): ByteArray = withContext(Dispatchers.IO) {
+        val pdfDocument = PdfDocument()
+
+        val (size, images) = calculateCombinedImageDimensionsAndBitmaps(
+            imageUris = imageUris,
+            combiningParams = CombiningParams(
+                scaleSmallImagesToLarge = scaleSmallImagesToLarge,
+                isHorizontal = false
+            )
+        )
+
+        val bitmaps = images.map { image ->
+            if (scaleSmallImagesToLarge && image.shouldUpscale(false, size)) {
+                image.upscale(false, size)
+            } else image
+        }
+
+        bitmaps.forEachIndexed { index, imageBitmap ->
+            val pageInfo = PdfDocument.PageInfo.Builder(
+                imageBitmap.width,
+                imageBitmap.height,
+                index
+            ).create()
+            val page = pdfDocument.startPage(pageInfo)
+            val canvas = page.canvas
+            canvas.drawBitmap(
+                imageBitmap,
+                0f, 0f,
+                Paint().apply {
+                    isAntiAlias = true
+                }
+            )
+            pdfDocument.finishPage(page)
+        }
+
+        return@withContext ByteArrayOutputStream().use {
+            pdfDocument.writeTo(it)
+            it.toByteArray()
+        }
+    }
+
+    override suspend fun convertPdfToImages(pdfFile: ByteArray): List<String> {
+        TODO("Not yet implemented")
     }
 
     private fun Drawable.toBitmap(): Bitmap? {

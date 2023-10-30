@@ -42,6 +42,7 @@ import ru.tech.imageresizershrinker.data.keys.Keys.PRESETS
 import ru.tech.imageresizershrinker.data.keys.Keys.RANDOMIZE_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER_URI
 import ru.tech.imageresizershrinker.data.keys.Keys.SCREEN_ORDER
+import ru.tech.imageresizershrinker.data.keys.Keys.SCREEN_SEARCH_ENABLED
 import ru.tech.imageresizershrinker.data.keys.Keys.SELECTED_EMOJI_INDEX
 import ru.tech.imageresizershrinker.data.keys.Keys.SELECTED_FONT_INDEX
 import ru.tech.imageresizershrinker.data.keys.Keys.SHOW_UPDATE_DIALOG
@@ -106,7 +107,8 @@ class SettingsRepositoryImpl @Inject constructor(
             lockDrawOrientation = prefs[LOCK_DRAW_ORIENTATION] ?: default.lockDrawOrientation,
             themeContrastLevel = prefs[THEME_CONTRAST_LEVEL] ?: default.themeContrastLevel,
             themeStyle = prefs[THEME_STYLE] ?: default.themeStyle,
-            isInvertThemeColors = prefs[INVERT_THEME] ?: default.isInvertThemeColors
+            isInvertThemeColors = prefs[INVERT_THEME] ?: default.isInvertThemeColors,
+            screensSearchEnabled = prefs[SCREEN_SEARCH_ENABLED] ?: default.screensSearchEnabled
         )
     }
 
@@ -149,7 +151,8 @@ class SettingsRepositoryImpl @Inject constructor(
             lockDrawOrientation = prefs[LOCK_DRAW_ORIENTATION] ?: default.lockDrawOrientation,
             themeContrastLevel = prefs[THEME_CONTRAST_LEVEL] ?: default.themeContrastLevel,
             themeStyle = prefs[THEME_STYLE] ?: default.themeStyle,
-            isInvertThemeColors = prefs[INVERT_THEME] ?: default.isInvertThemeColors
+            isInvertThemeColors = prefs[INVERT_THEME] ?: default.isInvertThemeColors,
+            screensSearchEnabled = prefs[SCREEN_SEARCH_ENABLED] ?: default.screensSearchEnabled
         )
     }
 
@@ -427,6 +430,13 @@ class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[INVERT_THEME] ?: false
             it[INVERT_THEME] = !v
+        }
+    }
+
+    override suspend fun toggleScreensSearchEnabled() {
+        dataStore.edit {
+            val v = it[SCREEN_SEARCH_ENABLED] ?: false
+            it[SCREEN_SEARCH_ENABLED] = !v
         }
     }
 

@@ -88,4 +88,6 @@ interface SettingsRepository {
     suspend fun setThemeContrast(value: Double)
 
     suspend fun toggleInvertColors()
+
+    suspend fun toggleScreensSearchEnabled()
 }
