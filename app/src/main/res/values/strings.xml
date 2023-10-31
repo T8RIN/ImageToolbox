@@ -441,7 +441,7 @@
     <string name="invert_colors_sub">Replaces theme colors to negative ones if enabled</string>
     <string name="search_option">Search</string>
     <string name="search_option_sub">Enables ability to search through all available options on the main screen</string>
-    <string name="pdf_tools">Pdf Tools</string>
+    <string name="pdf_tools">PDF Tools</string>
     <string name="pdf_tools_sub">Operate with PDF files: Preview, Convert to batch of images or create one from given pictures</string>
     <string name="preview_pdf">Preview PDF</string>
     <string name="pdf_to_images">PDF to Images</string>
