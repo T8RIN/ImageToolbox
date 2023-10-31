@@ -38,6 +38,9 @@ class PdfToolsViewModel @Inject constructor(
     private val _imagesToPdfState: MutableState<List<Uri>?> = mutableStateOf(null)
     val imagesToPdfState by _imagesToPdfState
 
+    private val _pdfPreviewUri: MutableState<Uri?> = mutableStateOf(null)
+    val pdfPreviewUri by _pdfPreviewUri
+
     private val _pdfType: MutableState<Screen.PdfTools.Type?> = mutableStateOf(null)
     val pdfType: Screen.PdfTools.Type? by _pdfType
 
@@ -102,30 +105,41 @@ class PdfToolsViewModel @Inject constructor(
 
     fun setPdfPreview(uri: Uri?) {
         _pdfType.update {
-            Screen.PdfTools.Type.Preview(uri)
+            if (it !is Screen.PdfTools.Type.Preview) {
+                Screen.PdfTools.Type.Preview(uri)
+            } else it
         }
+        _pdfPreviewUri.update { uri }
         _imagesToPdfState.update { null }
         resetCalculatedData()
     }
 
     fun setImagesToPdf(uris: List<Uri>?) {
         _pdfType.update {
-            Screen.PdfTools.Type.ImagesToPdf(uris)
+            if (it !is Screen.PdfTools.Type.ImagesToPdf) {
+                Screen.PdfTools.Type.ImagesToPdf(uris)
+            } else it
         }
         _imagesToPdfState.update { uris }
+        _pdfPreviewUri.update { null }
         resetCalculatedData()
     }
 
     fun setPdfToImagesUri(newUri: Uri?) {
         _pdfType.update {
-            Screen.PdfTools.Type.PdfToImages(newUri)
+            if (it !is Screen.PdfTools.Type.PdfToImages) {
+                Screen.PdfTools.Type.PdfToImages(newUri)
+            } else it
         }
         _imagesToPdfState.update { null }
+        _pdfPreviewUri.update { null }
         resetCalculatedData()
     }
 
     fun clearType() {
         _pdfType.update { null }
+        _pdfPreviewUri.update { null }
+        _imagesToPdfState.update { null }
         resetCalculatedData()
     }
 
@@ -201,7 +215,9 @@ class PdfToolsViewModel @Inject constructor(
     fun preformSharing(
         onComplete: () -> Unit
     ) {
-        viewModelScope.launch {
+        savingJob?.cancel()
+        _isSaving.value = false
+        savingJob = viewModelScope.launch {
             _isSaving.value = true
             when (val type = _pdfType.value) {
                 is Screen.PdfTools.Type.ImagesToPdf -> {
@@ -233,10 +249,7 @@ class PdfToolsViewModel @Inject constructor(
 
                 null -> Unit
             }
-        }.also {
             _isSaving.value = false
-            savingJob?.cancel()
-            savingJob = it
         }
     }
 
@@ -258,7 +271,7 @@ class PdfToolsViewModel @Inject constructor(
         _imagesToPdfState.update { uris }
     }
 
-    fun toggleScaleSmallImagesToLarge(b: Boolean) {
+    fun toggleScaleSmallImagesToLarge() {
         _scaleSmallImagesToLarge.update { !it }
     }
 

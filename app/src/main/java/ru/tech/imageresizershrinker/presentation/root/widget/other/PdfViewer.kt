@@ -7,17 +7,20 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,12 +33,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.BitmapCompat
-import coil.compose.rememberAsyncImagePainter
 import coil.memory.MemoryCache
 import coil.request.ImageRequest
 import com.smarttoolfactory.image.zoom.animatedZoom
@@ -46,6 +50,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import my.nanihadesuka.compose.LazyColumnScrollbar
+import my.nanihadesuka.compose.ScrollbarSelectionMode
+import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalImageLoader
@@ -85,17 +91,28 @@ fun PdfViewer(
             val imageLoader = LocalImageLoader.current
             val imageLoadingScope = rememberCoroutineScope()
             BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
-                val width = with(LocalDensity.current) { maxWidth.toPx() }.toInt()
+                val density = LocalDensity.current
+                val width = with(density) { maxWidth.toPx() }.toInt()
                 val height = (width * sqrt(2f)).toInt()
                 val pageCount by remember(renderer) { derivedStateOf { renderer?.pageCount ?: 0 } }
                 LazyColumnScrollbar(
                     listState = listState,
                     thumbColor = MaterialTheme.colorScheme.primary,
                     thumbSelectedColor = MaterialTheme.colorScheme.primary,
+                    padding = 0.dp,
+                    thickness = 10.dp,
+                    selectionMode = ScrollbarSelectionMode.Full,
+                    thumbShape = RoundedCornerShape(
+                        topStartPercent = 100,
+                        bottomStartPercent = 100
+                    ),
                     indicatorContent = { index, _ ->
                         val text by remember(index, pageCount, listState) {
                             derivedStateOf {
-                                if (listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index == pageCount - 1) index + 2
+                                val last = listState.layoutInfo.visibleItemsInfo.lastOrNull()
+                                if ((last?.offset
+                                        ?: 0) < constraints.maxWidth / 2 && last?.index == pageCount - 1 || index == pageCount
+                                ) pageCount
                                 else index + 1
                             }
                         }
@@ -118,12 +135,16 @@ fun PdfViewer(
                             .background(MaterialTheme.colorScheme.surfaceVariant)
                             .animatedZoom(animatedZoomState = rememberAnimatedZoomState()),
                         verticalArrangement = verticalArrangement,
-                        contentPadding = PaddingValues(16.dp)
+                        contentPadding = PaddingValues(start = 20.dp, end = 20.dp)
                     ) {
                         items(
                             count = pageCount,
                             key = { index -> "$uri-$index" }
                         ) { index ->
+                            if (index == 0) {
+                                Spacer(Modifier.height(16.dp))
+                            }
+
                             val cacheKey = MemoryCache.Key("$uri-$index")
                             val cacheValue: Bitmap? = imageLoader.memoryCache?.get(cacheKey)?.bitmap
 
@@ -148,7 +169,7 @@ fun PdfViewer(
                                                             destinationBitmap,
                                                             null,
                                                             null,
-                                                            PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY
+                                                            PdfRenderer.Page.RENDER_MODE_FOR_PRINT
                                                         )
                                                         bitmap = destinationBitmap
                                                     }
@@ -163,19 +184,29 @@ fun PdfViewer(
                                         job.cancel()
                                     }
                                 }
-                            } else {
-                                val request = ImageRequest.Builder(context)
-                                    .size(width, height)
-                                    .memoryCacheKey(cacheKey)
-                                    .data(bitmap)
-                                    .build()
+                            }
 
-                                Image(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    contentScale = ContentScale.Fit,
-                                    painter = rememberAsyncImagePainter(request),
-                                    contentDescription = null
-                                )
+                            val request = ImageRequest.Builder(context)
+                                .size(width, height)
+                                .memoryCacheKey(cacheKey)
+                                .data(bitmap)
+                                .build()
+
+                            Picture(
+                                modifier = Modifier
+                                    .size(
+                                        width = with(density) { width.toDp() },
+                                        height = with(density) { height.toDp() }
+                                    )
+                                    .background(Color.White),
+                                shape = RectangleShape,
+                                showTransparencyChecker = false,
+                                contentScale = ContentScale.Fit,
+                                manualImageRequest = request,
+                                model = bitmap
+                            )
+                            if (index == pageCount - 1) {
+                                Spacer(Modifier.height(16.dp))
                             }
                         }
                     }

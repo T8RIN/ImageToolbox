@@ -8,6 +8,7 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -21,6 +22,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -93,6 +95,7 @@ import ru.tech.imageresizershrinker.presentation.image_stitching_screen.componen
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ScaleSmallImagesToLargeToggle
 import ru.tech.imageresizershrinker.presentation.pdf_tools_screen.viewModel.PdfToolsViewModel
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.getFileName
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
@@ -111,10 +114,8 @@ import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
-import java.io.DataInputStream
-import java.io.InputStream
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun PdfToolsScreen(
     type: Screen.PdfTools.Type?,
@@ -321,7 +322,9 @@ fun PdfToolsScreen(
                 Spacer(Modifier.height(8.dp))
                 ScaleSmallImagesToLargeToggle(
                     selected = viewModel.scaleSmallImagesToLarge,
-                    onCheckedChange = viewModel::toggleScaleSmallImagesToLarge
+                    onCheckedChange = {
+                        viewModel.toggleScaleSmallImagesToLarge()
+                    }
                 )
             }
         }
@@ -344,41 +347,50 @@ fun PdfToolsScreen(
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
             ) {
                 Column(Modifier.fillMaxSize()) {
+                    val modifier = Modifier.drawHorizontalStroke()
+                    val title = @Composable {
+                        Marquee(
+                            edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                        ) {
+                            AnimatedContent(
+                                targetState = viewModel.pdfType to viewModel.pdfPreviewUri,
+                                transitionSpec = { fadeIn() togetherWith fadeOut() }
+                            ) { (pdfType, previewUri) ->
+                                Text(
+                                    text = previewUri?.let {
+                                        context.getFileName(it)
+                                    } ?: stringResource(pdfType?.title ?: R.string.pdf_tools),
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                        }
+                    }
+                    val colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                            3.dp
+                        )
+                    )
+                    val navigationIcon = @Composable {
+                        IconButton(onClick = onBack) {
+                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                        }
+                    }
+                    val actions: @Composable RowScope.() -> Unit = {
+                        if (!portrait) {
+                            shareButton(viewModel.pdfType)
+                        }
+                        TopAppBarEmoji()
+                    }
+
                     LargeTopAppBar(
                         scrollBehavior = scrollBehavior,
-                        modifier = Modifier.drawHorizontalStroke(),
-                        title = {
-                            Marquee(
-                                edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                            ) {
-                                AnimatedContent(
-                                    targetState = viewModel.pdfType,
-                                    transitionSpec = { fadeIn() togetherWith fadeOut() }
-                                ) { pdfType ->
-                                    Text(
-                                        text = stringResource(pdfType?.title ?: R.string.pdf_tools),
-                                        textAlign = TextAlign.Center
-                                    )
-                                }
-                            }
-                        },
-                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                3.dp
-                            )
-                        ),
-                        navigationIcon = {
-                            IconButton(onClick = onBack) {
-                                Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
-                            }
-                        },
-                        actions = {
-                            if (!portrait) {
-                                shareButton(viewModel.pdfType)
-                            }
-                            TopAppBarEmoji()
-                        }
+                        modifier = modifier,
+                        title = title,
+                        colors = colors,
+                        navigationIcon = navigationIcon,
+                        actions = actions
                     )
+
                     val screenWidth = LocalConfiguration.current.screenWidthDp
                     val easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
                     AnimatedContent(
@@ -489,7 +501,7 @@ fun PdfToolsScreen(
                                                     .clipToBounds(),
                                                 contentAlignment = Alignment.Center
                                             ) {
-                                                PdfViewer(uriState = pdfType.pdfUri)
+                                                PdfViewer(uriState = viewModel.pdfPreviewUri)
                                             }
                                         }
                                         if (pdfType !is Screen.PdfTools.Type.Preview) {
@@ -583,11 +595,4 @@ private class CreateDocument : ActivityResultContracts.CreateDocument("*/*") {
             input = input.split("#")[0]
         ).putExtra(Intent.EXTRA_TITLE, input.split("#")[1])
     }
-}
-
-private fun InputStream.toByteArray(): ByteArray {
-    val bytes = ByteArray(this.available())
-    val dis = DataInputStream(this)
-    dis.readFully(bytes)
-    return bytes
 }
