@@ -427,4 +427,6 @@
     <string name="attention">Внимание</string>
     <string name="invert_colors_sub">Заменяет цвета темы на негативные, если включено</string>
     <string name="invert_colors">Инвертировать Цвета</string>
+    <string name="search_option">Поиск</string>
+    <string name="search_option_sub">Включает возможность поиска по всем возможным опциям на главном экране</string>
 </resources>
