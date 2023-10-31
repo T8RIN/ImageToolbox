@@ -415,4 +415,11 @@
     <string name="tonal_spot_sub">預設的調色盤風格，它允許自定義所有四個顏色，其他的只允許設定主要的顏色</string>
     <string name="palette_style">調色盤風格</string>
     <string name="vibrant">鮮豔</string>
+    <string name="both">兩者</string>
+    <string name="invert_colors_sub">若啟用，將會將主題顏色更換為相反顏色</string>
+    <string name="fading_edges">邊緣淡化</string>
+    <string name="foss_update_checker_warning">這個更新檢查功能會連線至 GitHub，以檢查是否有新版本的更新可供下載。</string>
+    <string name="disabled">已停用</string>
+    <string name="invert_colors">顏色反轉</string>
+    <string name="attention">提醒</string>
 </resources>
