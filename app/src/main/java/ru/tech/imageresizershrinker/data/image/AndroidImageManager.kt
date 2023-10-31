@@ -12,7 +12,9 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.pdf.PdfDocument
+import android.graphics.pdf.PdfRenderer
 import android.net.Uri
+import android.os.ParcelFileDescriptor
 import android.webkit.MimeTypeMap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -428,7 +430,7 @@ class AndroidImageManager @Inject constructor(
         }.getOrNull()
         uri?.let {
             shareUri(
-                uri = it,
+                uri = it.toString(),
                 type = MimeTypeMap.getSingleton()
                     .getMimeTypeFromExtension(
                         getExtension(uri.toString())
@@ -713,7 +715,7 @@ class AndroidImageManager @Inject constructor(
             imageInfo = imageData.imageInfo
         )?.let {
             shareUri(
-                uri = it.toUri(),
+                uri = it,
                 type = imageData.imageInfo.imageFormat.type
             )
         }
@@ -1083,14 +1085,47 @@ class AndroidImageManager @Inject constructor(
             pdfDocument.finishPage(page)
         }
 
-        return@withContext ByteArrayOutputStream().use {
-            pdfDocument.writeTo(it)
-            it.toByteArray()
+        val out = ByteArrayOutputStream()
+        pdfDocument.writeTo(out)
+
+        return@withContext out.toByteArray().also {
+            out.flush()
+            out.close()
         }
     }
 
-    override suspend fun convertPdfToImages(pdfFile: ByteArray): List<String> {
-        TODO("Not yet implemented")
+    override suspend fun convertPdfToImages(
+        pdfFile: ByteArray,
+        imageInfo: ImageInfo
+    ): List<String> {
+        val imageUris = mutableListOf<String?>()
+
+        runCatching {
+            val tempPdfFile = File(context.cacheDir, "temp.pdf")
+            FileOutputStream(tempPdfFile).use { outputStream ->
+                outputStream.write(pdfFile)
+            }
+
+            val parcelFileDescriptor =
+                ParcelFileDescriptor.open(tempPdfFile, ParcelFileDescriptor.MODE_READ_ONLY)
+            val pdfRenderer = PdfRenderer(parcelFileDescriptor)
+
+            for (pageIndex in 0 until pdfRenderer.pageCount) {
+                val page = pdfRenderer.openPage(pageIndex)
+                val bitmap = Bitmap.createBitmap(page.width, page.height, Bitmap.Config.ARGB_8888)
+                page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
+                page.close()
+
+                imageUris.add(
+                    cacheImage(image = bitmap, imageInfo = imageInfo, name = "image_$pageIndex")
+                )
+            }
+
+            pdfRenderer.close()
+            parcelFileDescriptor.close()
+        }
+
+        return imageUris.filterNotNull()
     }
 
     private fun Drawable.toBitmap(): Bitmap? {
@@ -1225,12 +1260,15 @@ class AndroidImageManager @Inject constructor(
         return width * height * (if (config == Bitmap.Config.RGB_565) 2 else 4)
     }
 
-    private fun shareUri(uri: Uri, type: String) {
+    override suspend fun shareUri(uri: String, type: String?) {
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
-            putExtra(Intent.EXTRA_STREAM, uri)
+            putExtra(Intent.EXTRA_STREAM, uri.toUri())
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            this.type = type
+            this.type = type ?: MimeTypeMap.getSingleton()
+                .getMimeTypeFromExtension(
+                    getExtension(uri)
+                ) ?: "*/*"
         }
         val shareIntent = Intent.createChooser(sendIntent, context.getString(R.string.share))
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

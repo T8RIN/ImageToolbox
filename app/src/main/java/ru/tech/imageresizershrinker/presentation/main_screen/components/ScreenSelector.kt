@@ -30,6 +30,7 @@ import ru.tech.imageresizershrinker.presentation.image_stitching_screen.ImageSti
 import ru.tech.imageresizershrinker.presentation.limits_resize_screen.LimitsResizeScreen
 import ru.tech.imageresizershrinker.presentation.load_net_image_screen.LoadNetImageScreen
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
+import ru.tech.imageresizershrinker.presentation.pdf_tools_screen.PdfToolsScreen
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.PickColorFromImageScreen
 import ru.tech.imageresizershrinker.presentation.resize_and_convert_screen.ResizeAndConvertScreen
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
@@ -206,6 +207,13 @@ fun ScreenSelector(
             is Screen.ImageStitching -> {
                 ImageStitchingScreen(
                     uriState = screen.uris,
+                    onGoBack = onGoBack
+                )
+            }
+
+            is Screen.PdfTools -> {
+                PdfToolsScreen(
+                    type = screen.type,
                     onGoBack = onGoBack
                 )
             }

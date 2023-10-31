@@ -15,6 +15,7 @@ import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Photo
 import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.PhotoSizeSelectLarge
+import androidx.compose.material.icons.rounded.PictureAsPdf
 import androidx.compose.material.icons.rounded.Public
 import androidx.compose.material.icons.rounded.Security
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -32,7 +33,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.Transparenc
 
 @Parcelize
 sealed class Screen(
-    val id: Int,
+    open val id: Int,
     val icon: @RawValue ImageVector?,
     @StringRes val title: Int,
     @StringRes val subtitle: Int
@@ -151,6 +152,42 @@ sealed class Screen(
         subtitle = R.string.limits_resize_sub
     )
 
+    class PdfTools(
+        val type: Type? = null
+    ) : Screen(
+        id = 17,
+        icon = Icons.Rounded.PictureAsPdf,
+        title = R.string.pdf_tools,
+        subtitle = R.string.pdf_tools_sub
+    ) {
+        @Parcelize
+        sealed class Type(
+            @StringRes val title: Int,
+            @StringRes val subtitle: Int
+        ) : Parcelable {
+            class Preview(
+                val pdfUri: Uri? = null
+            ) : Type(
+                title = R.string.preview_pdf,
+                subtitle = R.string.preview_pdf_sub
+            )
+
+            class PdfToImages(
+                val pdfUri: Uri? = null
+            ) : Type(
+                title = R.string.pdf_to_images,
+                subtitle = R.string.pdf_to_images_sub
+            )
+
+            class ImagesToPdf(
+                val imageUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.images_to_pdf,
+                subtitle = R.string.images_to_pdf_sub
+            )
+        }
+    }
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -179,6 +216,7 @@ sealed class Screen(
                 listOf(
                     PickColorFromImage(),
                     Compare(),
+                    PdfTools(),
                     ImagePreview(),
                     LoadNetImage(),
                     GeneratePalette(),
@@ -200,8 +238,9 @@ sealed class Screen(
                 Draw(),
                 Cipher(),
                 EraseBackground(),
-                ImagePreview(),
                 ImageStitching(),
+                PdfTools(),
+                ImagePreview(),
                 LoadNetImage(),
                 PickColorFromImage(),
                 GeneratePalette(),

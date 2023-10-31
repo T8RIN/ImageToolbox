@@ -197,14 +197,14 @@ dependencies {
     "marketImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.5.0") {
         exclude("androidx.datastore", "datastore-preferences")
     }
-    "marketImplementation"("com.google.firebase:firebase-analytics-ktx:21.4.0")
+    "marketImplementation"("com.google.firebase:firebase-analytics-ktx:21.5.0")
     "marketImplementation"("com.google.android.play:review-ktx:2.0.1")
 
     "jxlImplementation"("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
     "jxlImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.5.0") {
         exclude("androidx.datastore", "datastore-preferences")
     }
-    "jxlImplementation"("com.google.firebase:firebase-analytics-ktx:21.4.0")
+    "jxlImplementation"("com.google.firebase:firebase-analytics-ktx:21.5.0")
     "jxlImplementation"("com.google.android.play:review-ktx:2.0.1")
     "jxlImplementation"("com.github.awxkee:jxl-coder:1.5.2")
     "jxlImplementation"(project(":jxlcoder-coil"))
@@ -217,6 +217,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6")
 
     implementation("com.github.GIGAMOLE:ComposeFadingEdges:1.0.3")
+    implementation("com.github.nanihadesuka:LazyColumnScrollbar:1.8.0")
 }
 
 

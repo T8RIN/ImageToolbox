@@ -49,7 +49,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -710,9 +709,7 @@ fun DrawScreen(
                                 modifier = Modifier.fillMaxWidth()
                             )
                         }
-                        item(
-                            span = StaggeredGridItemSpan.FullLine
-                        ) {
+                        item {
                             Box(contentAlignment = Alignment.Center) {
                                 PreferenceRowSwitch(
                                     resultModifier = Modifier

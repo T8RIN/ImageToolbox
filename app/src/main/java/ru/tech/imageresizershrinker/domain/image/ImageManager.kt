@@ -172,4 +172,16 @@ interface ImageManager<I, M> {
         onGetByteCount: (Int) -> Unit
     ): ImageWithSize<I>
 
+    suspend fun convertImagesToPdf(
+        imageUris: List<String>,
+        scaleSmallImagesToLarge: Boolean
+    ): ByteArray
+
+    suspend fun convertPdfToImages(
+        pdfFile: ByteArray,
+        imageInfo: ImageInfo
+    ): List<String>
+
+    suspend fun shareUri(uri: String, type: String?)
+
 }
