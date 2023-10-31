@@ -429,4 +429,12 @@
     <string name="invert_colors">Инвертировать Цвета</string>
     <string name="search_option">Поиск</string>
     <string name="search_option_sub">Включает возможность поиска по всем возможным опциям на главном экране</string>
+    <string name="pdf_tools">PDF инструменты</string>
+    <string name="images_to_pdf">Изображения в PDF</string>
+    <string name="preview_pdf">Предпросмотр PDF</string>
+    <string name="pdf_to_images">PDF в изображения</string>
+    <string name="images_to_pdf_sub">Упакуйте набор изображений в PDF файл</string>
+    <string name="preview_pdf_sub">Простой просмотрщик PDF</string>
+    <string name="pdf_tools_sub">Совершайте операции с PDF файлами: просмотрите, конвертируйте в набор изображений или создайте новый файл</string>
+    <string name="pdf_to_images_sub">Конвертируйте PDF в изображения в заданном формате</string>
 </resources>
