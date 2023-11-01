@@ -422,4 +422,14 @@
     <string name="regular">常规的</string>
     <string name="enhanced_circle_pixelation">增强圆形像素化</string>
     <string name="attention">注意力</string>
+    <string name="pdf_tools">PDF 工具</string>
+    <string name="search_option">搜索</string>
+    <string name="images_to_pdf">图片转 PDF</string>
+    <string name="preview_pdf">预览 PDF</string>
+    <string name="search_option_sub">能够在主屏幕中搜索所有可用选项</string>
+    <string name="pdf_to_images">PDF 转图片</string>
+    <string name="images_to_pdf_sub">打包所选图像输出为 PDF 文件</string>
+    <string name="preview_pdf_sub">简单 PDF 预览</string>
+    <string name="pdf_tools_sub">操作 PDF 文件：预览、转换成一系列图片或使用所选图片创建 PDF 文件</string>
+    <string name="pdf_to_images_sub">设定输出格式的 PDF 转图像</string>
 </resources>
