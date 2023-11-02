@@ -21,6 +21,7 @@ import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.presentation.pdf_tools_screen.components.PdfToImageState
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import java.io.OutputStream
@@ -32,7 +33,7 @@ class PdfToolsViewModel @Inject constructor(
     private val fileController: FileController
 ) : ViewModel() {
 
-    private val _pdfToImageState: MutableState<List<Uri>?> = mutableStateOf(null)
+    private val _pdfToImageState: MutableState<PdfToImageState?> = mutableStateOf(null)
     val pdfToImageState by _pdfToImageState
 
     private val _imagesToPdfState: MutableState<List<Uri>?> = mutableStateOf(null)
@@ -45,7 +46,6 @@ class PdfToolsViewModel @Inject constructor(
     val pdfType: Screen.PdfTools.Type? by _pdfType
 
     private val _byteArray = mutableStateOf<ByteArray?>(null)
-    val byteArray by _byteArray
 
     private val _imageInfo = mutableStateOf(ImageInfo())
     val imageInfo by _imageInfo
@@ -53,7 +53,7 @@ class PdfToolsViewModel @Inject constructor(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
 
-    private val _presetSelected: MutableState<Preset> = mutableStateOf(Preset.None)
+    private val _presetSelected: MutableState<Preset> = mutableStateOf(Preset.Numeric(100))
     val presetSelected by _presetSelected
 
     private val _scaleSmallImagesToLarge: MutableState<Boolean> = mutableStateOf(false)
@@ -61,27 +61,27 @@ class PdfToolsViewModel @Inject constructor(
 
     private var savingJob: Job? = null
 
-    fun resetCalculatedData() {
+    private fun resetCalculatedData() {
         _byteArray.value = null
     }
 
     fun savePdfTo(
         outputStream: OutputStream?,
         onComplete: (Throwable?) -> Unit
-    ) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            _isSaving.value = true
-            kotlin.runCatching {
-                outputStream?.use {
-                    it.write(_byteArray.value)
-                }
-            }.exceptionOrNull().let(onComplete)
-            _isSaving.value = false
-        }
-    }.also {
+    ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = it
+        savingJob = viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _isSaving.value = true
+                kotlin.runCatching {
+                    outputStream?.use {
+                        it.write(_byteArray.value)
+                    }
+                }.exceptionOrNull().let(onComplete)
+                _isSaving.value = false
+            }
+        }
     }
 
     fun cancelSaving() {
@@ -111,6 +111,7 @@ class PdfToolsViewModel @Inject constructor(
         }
         _pdfPreviewUri.update { uri }
         _imagesToPdfState.update { null }
+        _pdfToImageState.update { null }
         resetCalculatedData()
     }
 
@@ -122,15 +123,26 @@ class PdfToolsViewModel @Inject constructor(
         }
         _imagesToPdfState.update { uris }
         _pdfPreviewUri.update { null }
+        _pdfToImageState.update { null }
         resetCalculatedData()
     }
 
     fun setPdfToImagesUri(newUri: Uri?) {
+        _pdfToImageState.update { null }
         _pdfType.update {
             if (it !is Screen.PdfTools.Type.PdfToImages) {
                 Screen.PdfTools.Type.PdfToImages(newUri)
             } else it
         }
+        viewModelScope.launch {
+            if (newUri != null) {
+                val pages = imageManager.getPdfPages(newUri.toString())
+                _pdfToImageState.update {
+                    PdfToImageState(newUri, pages)
+                }
+            }
+        }
+
         _imagesToPdfState.update { null }
         _pdfPreviewUri.update { null }
         resetCalculatedData()
@@ -140,21 +152,30 @@ class PdfToolsViewModel @Inject constructor(
         _pdfType.update { null }
         _pdfPreviewUri.update { null }
         _imagesToPdfState.update { null }
+        _pdfToImageState.update { null }
+        _presetSelected.update { Preset.Numeric(100) }
         resetCalculatedData()
     }
 
     private val _done: MutableState<Int> = mutableIntStateOf(0)
     val done by _done
 
+    private val _left: MutableState<Int> = mutableIntStateOf(1)
+    val left by _left
+
     fun savePdfToImage(
         onComplete: (path: String) -> Unit
-    ) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            _isSaving.value = true
-            _done.value = 0
-            pdfToImageState?.forEach { uri ->
+    ) {
+        savingJob?.cancel()
+        _done.value = 0
+        _left.value = 1
+        _isSaving.value = false
+        savingJob = imageManager.convertPdfToImages(
+            pdfUri = _pdfToImageState.value?.uri.toString(),
+            pages = _pdfToImageState.value?.pages,
+            onProgressChange = { _, uri ->
                 runCatching {
-                    imageManager.getImage(uri.toString())?.image
+                    imageManager.getImage(uri)?.image
                 }.getOrNull()?.let { bitmap ->
                     imageInfo.let {
                         imageManager.applyPresetBy(
@@ -167,7 +188,7 @@ class PdfToolsViewModel @Inject constructor(
                             ImageSaveTarget(
                                 imageInfo = this,
                                 metadata = null,
-                                originalUri = uri.toString(),
+                                originalUri = uri,
                                 sequenceNumber = _done.value + 1,
                                 data = imageManager.compress(
                                     ImageData(
@@ -179,19 +200,22 @@ class PdfToolsViewModel @Inject constructor(
                             ), false
                         )
                         if (result is SaveResult.Error.MissingPermissions) {
-                            return@withContext onComplete("")
+                            savingJob?.cancel()
+                            return@convertPdfToImages onComplete("")
                         }
                     }
                 }
                 _done.value += 1
+            },
+            onGetPagesCount = { size ->
+                _left.update { size }
+                _isSaving.value = true
+            },
+            onComplete = {
+                _isSaving.value = false
+                onComplete(fileController.savingPath)
             }
-            onComplete(fileController.savingPath)
-            _isSaving.value = false
-        }
-    }.also {
-        _isSaving.value = false
-        savingJob?.cancel()
-        savingJob = it
+        )
     }
 
     fun convertImagesToPdf(onComplete: () -> Unit) {
@@ -234,7 +258,7 @@ class PdfToolsViewModel @Inject constructor(
                 }
 
                 is Screen.PdfTools.Type.PdfToImages -> {
-
+                    TODO()
                 }
 
                 is Screen.PdfTools.Type.Preview -> {
@@ -273,6 +297,16 @@ class PdfToolsViewModel @Inject constructor(
 
     fun toggleScaleSmallImagesToLarge() {
         _scaleSmallImagesToLarge.update { !it }
+    }
+
+    fun selectPreset(preset: Preset) {
+        _presetSelected.update { preset }
+    }
+
+    fun updatePdfToImageSelection(ints: List<Int>) {
+        _pdfToImageState.update {
+            it?.copy(pages = ints)
+        }
     }
 
 }

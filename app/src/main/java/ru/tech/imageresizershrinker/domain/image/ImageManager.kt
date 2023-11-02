@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.domain.image
 
+import kotlinx.coroutines.Job
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.domain.image.filters.provider.FilterProvider
 import ru.tech.imageresizershrinker.domain.model.CombiningParams
@@ -177,11 +178,16 @@ interface ImageManager<I, M> {
         scaleSmallImagesToLarge: Boolean
     ): ByteArray
 
-    suspend fun convertPdfToImages(
-        pdfFile: ByteArray,
-        imageInfo: ImageInfo
-    ): List<String>
+    fun convertPdfToImages(
+        pdfUri: String,
+        pages: List<Int>?,
+        onGetPagesCount: (Int) -> Unit,
+        onProgressChange: suspend (Int, String) -> Unit,
+        onComplete: () -> Unit = {}
+    ): Job
 
     suspend fun shareUri(uri: String, type: String?)
+
+    suspend fun getPdfPages(uri: String): List<Int>
 
 }

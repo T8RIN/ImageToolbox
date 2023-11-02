@@ -14,7 +14,6 @@ import android.graphics.drawable.Drawable
 import android.graphics.pdf.PdfDocument
 import android.graphics.pdf.PdfRenderer
 import android.net.Uri
-import android.os.ParcelFileDescriptor
 import android.webkit.MimeTypeMap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -1094,38 +1093,62 @@ class AndroidImageManager @Inject constructor(
         }
     }
 
-    override suspend fun convertPdfToImages(
-        pdfFile: ByteArray,
-        imageInfo: ImageInfo
-    ): List<String> {
-        val imageUris = mutableListOf<String?>()
+    override fun convertPdfToImages(
+        pdfUri: String,
+        pages: List<Int>?,
+        onGetPagesCount: (Int) -> Unit,
+        onProgressChange: suspend (Int, String) -> Unit,
+        onComplete: () -> Unit
+    ) = CoroutineScope(Dispatchers.Main).launch {
+        withContext(Dispatchers.IO) {
+            context.contentResolver.openFileDescriptor(
+                pdfUri.toUri(),
+                "r"
+            )?.use { fileDescriptor ->
+                val pdfRenderer = PdfRenderer(fileDescriptor)
 
-        runCatching {
-            val tempPdfFile = File(context.cacheDir, "temp.pdf")
-            FileOutputStream(tempPdfFile).use { outputStream ->
-                outputStream.write(pdfFile)
+                onGetPagesCount(pages?.size ?: pdfRenderer.pageCount)
+
+                for (pageIndex in 0 until pdfRenderer.pageCount) {
+                    if (pages == null || pages.contains(pageIndex)) {
+
+                        val page = pdfRenderer.openPage(pageIndex)
+                        val bitmap = scaleUntilCanShow(
+                            Bitmap.createBitmap(
+                                page.width * 2,
+                                page.height * 2,
+                                Bitmap.Config.ARGB_8888
+                            )
+                        )!!
+                        page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
+                        page.close()
+
+                        val renderedBitmap =
+                            Bitmap.createBitmap(
+                                bitmap.width,
+                                bitmap.height,
+                                Bitmap.Config.ARGB_8888
+                            )
+                        Canvas(renderedBitmap).apply {
+                            drawColor(Color.White.toArgb())
+                            drawBitmap(bitmap, 0f, 0f, Paint().apply { isAntiAlias = true })
+                        }
+
+                        cacheImage(
+                            image = renderedBitmap,
+                            imageInfo = ImageInfo(
+                                width = renderedBitmap.width,
+                                height = renderedBitmap.height,
+                                imageFormat = ImageFormat.Heic
+                            ),
+                            name = "image_$pageIndex"
+                        )?.let { onProgressChange(pageIndex, it) }
+                    }
+                }
+                onComplete()
+                pdfRenderer.close()
             }
-
-            val parcelFileDescriptor =
-                ParcelFileDescriptor.open(tempPdfFile, ParcelFileDescriptor.MODE_READ_ONLY)
-            val pdfRenderer = PdfRenderer(parcelFileDescriptor)
-
-            for (pageIndex in 0 until pdfRenderer.pageCount) {
-                val page = pdfRenderer.openPage(pageIndex)
-                val bitmap = Bitmap.createBitmap(page.width, page.height, Bitmap.Config.ARGB_8888)
-                page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
-                page.close()
-
-                imageUris.add(
-                    cacheImage(image = bitmap, imageInfo = imageInfo, name = "image_$pageIndex")
-                )
-            }
-
-            pdfRenderer.close()
-            parcelFileDescriptor.close()
         }
-
-        return imageUris.filterNotNull()
     }
 
     private fun Drawable.toBitmap(): Bitmap? {
@@ -1273,6 +1296,17 @@ class AndroidImageManager @Inject constructor(
         val shareIntent = Intent.createChooser(sendIntent, context.getString(R.string.share))
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(shareIntent)
+    }
+
+    override suspend fun getPdfPages(uri: String): List<Int> {
+        return withContext(Dispatchers.IO) {
+            context.contentResolver.openFileDescriptor(
+                uri.toUri(),
+                "r"
+            )?.use { fileDescriptor ->
+                List(PdfRenderer(fileDescriptor).pageCount) { it }
+            } ?: emptyList()
+        }
     }
 
     private fun shareImageUris(uris: List<Uri>) {

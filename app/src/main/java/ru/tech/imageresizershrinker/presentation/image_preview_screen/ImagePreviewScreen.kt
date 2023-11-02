@@ -2,21 +2,15 @@ package ru.tech.imageresizershrinker.presentation.image_preview_screen
 
 import android.net.Uri
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -36,31 +30,21 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import com.t8rin.dynamic.theme.getAppColorTuple
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.image_preview_screen.components.ImagePager
 import ru.tech.imageresizershrinker.presentation.image_preview_screen.viewModel.ImagePreviewViewModel
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
-import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
+import ru.tech.imageresizershrinker.presentation.root.widget.image.LazyImagesGrid
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
@@ -74,62 +58,25 @@ fun ImagePreviewScreen(
     onGoBack: () -> Unit,
     viewModel: ImagePreviewViewModel = hiltViewModel()
 ) {
-    val themeState = LocalDynamicThemeState.current
     val settingsState = LocalSettingsState.current
-    val allowChangeColor = settingsState.allowChangeColorByImage
-
-    val appColorTuple = getAppColorTuple(
-        defaultColorTuple = settingsState.appColorTuple,
-        dynamicColor = settingsState.isDynamicColors,
-        darkTheme = settingsState.isNightMode
-    )
-
     LaunchedEffect(uriState) {
-        uriState?.takeIf { it.isNotEmpty() && it != listOf(viewModel.selectedUri) }?.let { uris ->
+        uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
             viewModel.updateUris(uris)
         }
     }
 
-    LaunchedEffect(viewModel.selectedUri) {
-        viewModel.selectedUri?.let {
-            if (allowChangeColor) {
-                val image = viewModel.decodeSampledBitmapFromUri(
-                    uri = it,
-                    reqWidth = 1200,
-                    reqHeight = 1200
-                )
-                image?.let { it1 ->
-                    themeState.updateColorByImage(it1)
-                }
-            }
-        } ?: themeState.updateColorTuple(appColorTuple)
-    }
-
-    var addImages by remember { mutableStateOf(false) }
     val pickImageLauncher =
         rememberImagePicker(
-            mode = localImagePickerMode(Picker.Multiple),
-            onFailure = { addImages = false }
+            mode = localImagePickerMode(Picker.Multiple)
         ) { list ->
             list.takeIf { it.isNotEmpty() }?.let {
-                if (!addImages) {
-                    viewModel.updateUris(list)
-                } else {
-                    val uris = (viewModel.uris ?: emptyList()).toMutableList()
-                    list.forEach {
-                        if (it !in uris) uris.add(it)
-                    }
-                    viewModel.updateUris(uris)
-                }
+                viewModel.updateUris(list)
             }
-            addImages = false
         }
 
     val pickImage = {
         pickImageLauncher.pickImage()
     }
-
-    var showImagePreviewDialog by rememberSaveable { mutableStateOf(false) }
 
     val gridState = rememberLazyStaggeredGridState()
 
@@ -193,70 +140,12 @@ fun ImagePreviewScreen(
                         )
                     }
                 } else {
-                    LazyVerticalStaggeredGrid(
-                        columns = StaggeredGridCells.Adaptive(150.dp),
+                    LazyImagesGrid(
+                        data = viewModel.uris,
+                        onAddImages = viewModel::updateUris,
                         modifier = Modifier.fillMaxSize(),
-                        verticalItemSpacing = 12.dp,
-                        horizontalArrangement = Arrangement.spacedBy(
-                            12.dp,
-                            Alignment.CenterHorizontally
-                        ),
-                        state = gridState,
-                        contentPadding = PaddingValues(
-                            bottom = 88.dp + WindowInsets
-                                .navigationBars
-                                .asPaddingValues()
-                                .calculateBottomPadding(),
-                            top = 12.dp,
-                            end = 12.dp,
-                            start = 12.dp
-                        )
-                    ) {
-                        viewModel.uris?.forEach {
-                            item {
-                                Picture(
-                                    model = it,
-                                    contentScale = ContentScale.Fit,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .container(
-                                            shape = MaterialTheme.shapes.large,
-                                            resultPadding = 0.dp
-                                        )
-                                        .clickable {
-                                            showImagePreviewDialog = true
-                                            viewModel.selectUri(it)
-                                        },
-                                    shape = MaterialTheme.shapes.large
-                                )
-                            }
-                        }
-                        if (!viewModel.uris.isNullOrEmpty()) {
-                            item {
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .aspectRatio(2f)
-                                        .container(
-                                            shape = MaterialTheme.shapes.large,
-                                            resultPadding = 0.dp,
-                                            color = MaterialTheme.colorScheme.secondaryContainer
-                                        )
-                                        .clickable {
-                                            addImages = true
-                                            pickImageLauncher.pickImage()
-                                        },
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.AddPhotoAlternate,
-                                        contentDescription = null,
-                                        modifier = Modifier.fillMaxSize(0.5f)
-                                    )
-                                }
-                            }
-                        }
-                    }
+                        state = gridState
+                    )
                 }
             }
 
@@ -280,12 +169,4 @@ fun ImagePreviewScreen(
             BackHandler { onGoBack() }
         }
     }
-
-    ImagePager(
-        visible = showImagePreviewDialog && !viewModel.uris.isNullOrEmpty(),
-        selectedUri = viewModel.selectedUri,
-        uris = viewModel.uris,
-        onUriSelected = viewModel::selectUri,
-        onDismiss = { showImagePreviewDialog = false }
-    )
 }
