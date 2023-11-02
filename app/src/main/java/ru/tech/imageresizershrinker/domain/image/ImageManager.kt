@@ -181,12 +181,14 @@ interface ImageManager<I, M> {
     fun convertPdfToImages(
         pdfUri: String,
         pages: List<Int>?,
-        onGetPagesCount: (Int) -> Unit,
+        onGetPagesCount: suspend (Int) -> Unit,
         onProgressChange: suspend (Int, String) -> Unit,
-        onComplete: () -> Unit = {}
+        onComplete: suspend () -> Unit = {}
     ): Job
 
     suspend fun shareUri(uri: String, type: String?)
+
+    suspend fun shareImageUris(uris: List<String>)
 
     suspend fun getPdfPages(uri: String): List<Int>
 

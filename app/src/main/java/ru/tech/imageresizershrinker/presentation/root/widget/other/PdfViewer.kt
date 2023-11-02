@@ -46,7 +46,6 @@ import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -125,9 +124,7 @@ fun PdfViewer(
     spacing: Dp = 8.dp,
     orientation: PdfViewerOrientation = PdfViewerOrientation.Vertical
 ) {
-    val showError: (Throwable) -> Unit = {
-
-    }
+    val showError: (Throwable) -> Unit = {}
 
     AnimatedContent(
         targetState = uriState,
@@ -215,10 +212,7 @@ fun PdfViewer(
                             val text by remember(index, pageCount, listState) {
                                 derivedStateOf {
                                     val last = listState.layoutInfo.visibleItemsInfo.lastOrNull()
-                                    if ((last?.offset
-                                            ?: 0) < constraints.maxWidth / 2 && last?.index == pageCount - 1 || index == pageCount
-                                    ) pageCount
-                                    else index + 1
+                                    (last?.index ?: index) + 1
                                 }
                             }
                             Text(
@@ -234,12 +228,15 @@ fun PdfViewer(
                             )
                         }
                     ) {
-                        val zoomState = rememberAnimatedZoomState(minZoom = 0.4f)
+                        val zoomState = rememberAnimatedZoomState(
+                            maxZoom = 10f
+                        )
+
                         LazyColumn(
                             state = listState,
                             modifier = Modifier
                                 .fillMaxSize()
-                                .background(MaterialTheme.colorScheme.surfaceVariant)
+                                .background(MaterialTheme.colorScheme.surfaceContainerLow)
                                 .animatedZoom(animatedZoomState = zoomState),
                             contentPadding = PaddingValues(start = 20.dp, end = 20.dp),
                             horizontalAlignment = Alignment.CenterHorizontally,
@@ -252,14 +249,14 @@ fun PdfViewer(
                                     Spacer(Modifier.height(16.dp))
                                 } else Spacer(Modifier.height(spacing))
 
-                                val cacheKey = MemoryCache.Key("$uri-${pagesSize[index]}-$index")
+                                val cacheKey =
+                                    MemoryCache.Key("$uri-${pagesSize[index]}-$index")
                                 val selected by remember(selectedItems.value) {
                                     derivedStateOf {
                                         selectedItems.value.contains(index)
                                     }
                                 }
-                                val w = pagesSize[index].width
-                                val h = pagesSize[index].height
+
                                 PdfPage(
                                     selected = selected,
                                     selectionEnabled = enableSelection,
@@ -281,8 +278,8 @@ fun PdfViewer(
                                                 )
                                             } else Modifier
                                         ),
-                                    width = w,
-                                    height = h,
+                                    renderWidth = pagesSize[index].width,
+                                    renderHeight = pagesSize[index].height,
                                     index = index,
                                     mutex = mutex,
                                     renderer = renderer,
@@ -361,8 +358,8 @@ fun PdfViewer(
                                         .fillMaxSize()
                                         .aspectRatio(1f),
                                     index = index,
-                                    width = with(density) { 120.dp.roundToPx() },
-                                    height = with(density) { 120.dp.roundToPx() },
+                                    renderWidth = with(density) { 120.dp.roundToPx() },
+                                    renderHeight = with(density) { 120.dp.roundToPx() },
                                     mutex = mutex,
                                     renderer = renderer,
                                     cacheKey = cacheKey
@@ -414,8 +411,8 @@ fun PdfViewer(
                                         .fillMaxSize()
                                         .aspectRatio(1f),
                                     index = index,
-                                    width = with(density) { 120.dp.roundToPx() },
-                                    height = with(density) { 120.dp.roundToPx() },
+                                    renderWidth = with(density) { 120.dp.roundToPx() },
+                                    renderHeight = with(density) { 120.dp.roundToPx() },
                                     mutex = mutex,
                                     renderer = renderer,
                                     cacheKey = cacheKey
@@ -448,8 +445,9 @@ private fun PdfPage(
     contentScale: ContentScale = ContentScale.Crop,
     modifier: Modifier,
     index: Int,
-    width: Int,
-    height: Int,
+    renderWidth: Int,
+    renderHeight: Int,
+    zoom: Float = 1f,
     mutex: Mutex,
     renderer: PdfRenderer?,
     cacheKey: MemoryCache.Key,
@@ -472,7 +470,7 @@ private fun PdfPage(
                                 val size = IntegerSize(
                                     width = page.width,
                                     height = page.height
-                                ).flexibleResize(max(width, height))
+                                ).flexibleResize(max(renderWidth, renderHeight))
                                 val destinationBitmap = Bitmap.createBitmap(
                                     size.width,
                                     size.height,
@@ -500,7 +498,7 @@ private fun PdfPage(
     }
 
     val request = ImageRequest.Builder(context)
-        .size(width, height)
+        .size(renderWidth, renderHeight)
         .memoryCacheKey(cacheKey)
         .data(bitmap)
         .build()
@@ -512,7 +510,7 @@ private fun PdfPage(
     val corners by transition.animateDp { s ->
         if (s) 16.dp else 0.dp
     }
-    val bgColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+    val bgColor = MaterialTheme.colorScheme.secondaryContainer
 
     val density = LocalDensity.current
     Box(
@@ -527,9 +525,9 @@ private fun PdfPage(
                     else Modifier
                 )
                 .width(
-                    with(density) { width.toDp() }
+                    with(density) { renderWidth.toDp() * zoom }
                 )
-                .aspectRatio(width / height.toFloat())
+                .aspectRatio(renderWidth / renderHeight.toFloat())
                 .padding(padding)
                 .clip(RoundedCornerShape(corners))
                 .background(Color.White),

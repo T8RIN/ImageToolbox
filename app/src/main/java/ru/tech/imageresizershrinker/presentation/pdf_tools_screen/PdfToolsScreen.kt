@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandHorizontally
@@ -39,12 +40,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.rememberScrollState
@@ -99,6 +98,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.observeAsState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageReorderCarousel
@@ -111,7 +111,9 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePic
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.showReview
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.PresetWidget
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.containerFabBorder
@@ -241,20 +243,37 @@ fun PdfToolsScreen(
     val focus = LocalFocusManager.current
 
     val topAppBarState = rememberTopAppBarState()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(state = topAppBarState)
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+        state = topAppBarState,
+        canScroll = { (viewModel.pdfType !is Screen.PdfTools.Type.Preview && portrait) || viewModel.pdfType == null }
+    )
+
+    LaunchedEffect(viewModel.pdfType) {
+        while (viewModel.pdfType is Screen.PdfTools.Type.Preview || (viewModel.pdfType != null && !portrait)) {
+            topAppBarState.apply {
+                heightOffset = (heightOffset - 10).coerceAtLeast(heightOffsetLimit)
+            }
+            delay(10)
+        }
+    }
 
     val selectAllToggle = remember { mutableStateOf(false) }
     val deselectAllToggle = remember { mutableStateOf(false) }
 
     val actionButtons: @Composable RowScope.(pdfType: Screen.PdfTools.Type?) -> Unit = {
         val pdfType = it
-        IconButton(
-            onClick = {
-                viewModel.preformSharing(showConfetti)
-            },
-            enabled = pdfType != null
+        AnimatedVisibility(
+            visible = pdfType != null,
+            enter = fadeIn() + scaleIn() + expandHorizontally(),
+            exit = fadeOut() + scaleOut() + shrinkHorizontally()
         ) {
-            Icon(Icons.Outlined.Share, null)
+            IconButton(
+                onClick = {
+                    viewModel.preformSharing(showConfetti)
+                }
+            ) {
+                Icon(Icons.Outlined.Share, null)
+            }
         }
         val visible by remember(viewModel.pdfToImageState?.pages, pdfType) {
             derivedStateOf {
@@ -376,50 +395,54 @@ fun PdfToolsScreen(
     val controls: @Composable (pdfType: Screen.PdfTools.Type?) -> Unit = {
         val pdfType = it
         if (pdfType is Screen.PdfTools.Type.ImagesToPdf) {
-            LazyColumn(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                contentPadding = PaddingValues(
-                    bottom = if (!portrait) {
-                        WindowInsets
-                            .navigationBars
-                            .asPaddingValues()
-                            .calculateBottomPadding() + WindowInsets.ime
-                            .asPaddingValues()
-                            .calculateBottomPadding()
-                    } else 0.dp,
-                ),
-                modifier = Modifier.fillMaxSize()
+            Column(
+                modifier = Modifier.padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                item {
-                    Column(
-                        modifier = Modifier.padding(20.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        ImageReorderCarousel(
-                            images = viewModel.imagesToPdfState,
-                            onReorder = viewModel::reorderImagesToPdf,
-                            onNeedToAddImage = { addImagesToPdfPicker.pickImage() },
-                            onNeedToRemoveImageAt = viewModel::removeImageToPdfAt
-                        )
-                        Spacer(Modifier.height(8.dp))
-                        ScaleSmallImagesToLargeToggle(
-                            selected = viewModel.scaleSmallImagesToLarge,
-                            onCheckedChange = {
-                                viewModel.toggleScaleSmallImagesToLarge()
-                            }
-                        )
+                ImageReorderCarousel(
+                    images = viewModel.imagesToPdfState,
+                    onReorder = viewModel::reorderImagesToPdf,
+                    onNeedToAddImage = { addImagesToPdfPicker.pickImage() },
+                    onNeedToRemoveImageAt = viewModel::removeImageToPdfAt
+                )
+                Spacer(Modifier.height(8.dp))
+                ScaleSmallImagesToLargeToggle(
+                    selected = viewModel.scaleSmallImagesToLarge,
+                    onCheckedChange = {
+                        viewModel.toggleScaleSmallImagesToLarge()
                     }
-                }
+                )
             }
         } else if (pdfType is Screen.PdfTools.Type.PdfToImages) {
             Column(
-                modifier = Modifier.padding(20.dp),
+                modifier = Modifier
+                    .padding(20.dp)
+                    .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 PresetWidget(
                     selectedPreset = viewModel.presetSelected,
                     includeTelegramOption = false,
                     onPresetSelected = viewModel::selectPreset
+                )
+                if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) {
+                    Spacer(
+                        Modifier.height(8.dp)
+                    )
+                }
+                QualityWidget(
+                    imageFormat = viewModel.imageInfo.imageFormat,
+                    enabled = true,
+                    quality = viewModel.imageInfo.quality.coerceIn(0f, 100f),
+                    onQualityChange = viewModel::setQuality
+                )
+                Spacer(
+                    Modifier.height(8.dp)
+                )
+                ExtensionGroup(
+                    enabled = true,
+                    imageFormat = viewModel.imageInfo.imageFormat,
+                    onFormatChange = viewModel::updateImageFormat
                 )
             }
         }
@@ -512,7 +535,7 @@ fun PdfToolsScreen(
                                     targetOffsetX = { screenWidth }) + fadeOut(
                                     tween(300, 100)
                                 )
-                            }
+                            } using SizeTransform(false)
                         },
                         targetState = viewModel.pdfType
                     ) { pdfType ->
@@ -643,7 +666,13 @@ fun PdfToolsScreen(
                                                     .fillMaxHeight()
                                                     .clipToBounds()
                                             ) {
-                                                controls(pdfType)
+                                                Column(
+                                                    modifier = Modifier.verticalScroll(
+                                                        rememberScrollState()
+                                                    )
+                                                ) {
+                                                    controls(pdfType)
+                                                }
                                             }
                                         }
                                         if (!portrait) {

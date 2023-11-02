@@ -3,7 +3,7 @@ package com.smarttoolfactory.image.zoom
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.IntSize
 
-open class AnimatedZoomState constructor(
+open class AnimatedZoomState(
     private val contentSize: IntSize = IntSize.Zero,
     initialZoom: Float = 1f,
     minZoom: Float = .5f,
@@ -13,7 +13,8 @@ open class AnimatedZoomState constructor(
     zoomable: Boolean = true,
     pannable: Boolean = true,
     rotatable: Boolean = false,
-    limitPan: Boolean = false
+    limitPan: Boolean = false,
+    onChange: (zoom: Float, pan: Offset, rotation: Float) -> Unit = { _, _, _ -> }
 ) : BaseEnhancedZoomState(
     initialZoom = initialZoom,
     minZoom = minZoom,
@@ -23,7 +24,8 @@ open class AnimatedZoomState constructor(
     zoomable = zoomable,
     pannable = pannable,
     rotatable = rotatable,
-    limitPan = limitPan
+    limitPan = limitPan,
+    onChange = onChange
 ) {
 
     override fun getBounds(size: IntSize): Offset {

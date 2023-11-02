@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.ImageData
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.domain.saving.FileController
@@ -25,7 +26,11 @@ import ru.tech.imageresizershrinker.presentation.pdf_tools_screen.components.Pdf
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import java.io.OutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class PdfToolsViewModel @Inject constructor(
@@ -223,6 +228,7 @@ class PdfToolsViewModel @Inject constructor(
         _isSaving.value = false
         savingJob = viewModelScope.launch {
             _isSaving.value = true
+            //TODO: Improve loading and scale small to large
             _byteArray.value = imageManager.convertImagesToPdf(
                 imageUris = imagesToPdfState?.map { it.toString() } ?: emptyList(),
                 scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value
@@ -233,7 +239,11 @@ class PdfToolsViewModel @Inject constructor(
     }
 
     fun generatePdfFilename(): String {
-        return "TEST"
+        val timeStamp = SimpleDateFormat(
+            "yyyy-MM-dd_HH-mm-ss",
+            Locale.getDefault()
+        ).format(Date()) + "_${Random(Random.nextInt()).hashCode().toString().take(4)}"
+        return "PDF_$timeStamp"
     }
 
     fun preformSharing(
@@ -258,7 +268,45 @@ class PdfToolsViewModel @Inject constructor(
                 }
 
                 is Screen.PdfTools.Type.PdfToImages -> {
-                    TODO()
+                    savingJob?.cancel()
+                    _done.value = 0
+                    _left.value = 1
+                    _isSaving.value = false
+                    val uris: MutableList<String?> = mutableListOf()
+                    savingJob = imageManager.convertPdfToImages(
+                        pdfUri = _pdfToImageState.value?.uri.toString(),
+                        pages = _pdfToImageState.value?.pages,
+                        onProgressChange = { _, uri ->
+                            runCatching {
+                                imageManager.getImage(uri)?.image
+                            }.getOrNull()?.let { bitmap ->
+                                imageInfo.let {
+                                    imageManager.applyPresetBy(
+                                        image = bitmap,
+                                        preset = _presetSelected.value,
+                                        currentInfo = it
+                                    )
+                                }.apply {
+                                    uris.add(
+                                        imageManager.cacheImage(
+                                            imageInfo = this,
+                                            image = bitmap
+                                        )
+                                    )
+                                }
+                            }
+                            _done.value += 1
+                        },
+                        onGetPagesCount = { size ->
+                            _left.update { size }
+                            _isSaving.value = true
+                        },
+                        onComplete = {
+                            _isSaving.value = false
+                            imageManager.shareImageUris(uris.filterNotNull())
+                            onComplete()
+                        }
+                    )
                 }
 
                 is Screen.PdfTools.Type.Preview -> {
@@ -306,6 +354,18 @@ class PdfToolsViewModel @Inject constructor(
     fun updatePdfToImageSelection(ints: List<Int>) {
         _pdfToImageState.update {
             it?.copy(pages = ints)
+        }
+    }
+
+    fun updateImageFormat(imageFormat: ImageFormat) {
+        _imageInfo.update {
+            it.copy(imageFormat = imageFormat)
+        }
+    }
+
+    fun setQuality(value: Float) {
+        _imageInfo.update {
+            it.copy(quality = value)
         }
     }
 

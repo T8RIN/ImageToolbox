@@ -237,6 +237,100 @@ fun Modifier.animatedZoom(
     }
 )
 
+fun Modifier.animatedZoom(
+    key: Any? = Unit,
+    clip: Boolean = true,
+    animatedZoomState: AnimatedZoomState,
+    enabled: (Float, Offset, Float) -> Boolean = DefaultEnabled,
+    zoomOnDoubleTap: (ZoomLevel) -> Float = animatedZoomState.DefaultOnDoubleTap,
+    applyZoom: Boolean = true
+) = composed(
+
+    factory = {
+
+        val coroutineScope = rememberCoroutineScope()
+
+        // Current Zoom level
+        var zoomLevel by remember { mutableStateOf(ZoomLevel.Min) }
+
+        // Whether panning should be limited to bounds of gesture area or not
+        val boundPan = animatedZoomState.limitPan && !animatedZoomState.rotatable
+
+        // If we bound to touch area or clip is true Modifier.clipToBounds is used
+        val clipToBounds = (clip || boundPan)
+
+        val transformModifier = Modifier.pointerInput(key) {
+            // Pass size of this Composable this Modifier is attached for constraining operations
+            // inside this bounds
+            animatedZoomState.size = this.size
+            detectTransformGestures(
+                consume = false,
+                onGestureEnd = {
+                    coroutineScope.launch {
+                        animatedZoomState.onGestureEnd {}
+                    }
+                },
+                onGesture = { centroid, pan, zoom, rotate, mainPointer, pointerList ->
+
+                    val currentZoom = animatedZoomState.zoom
+                    val currentPan = animatedZoomState.pan
+                    val currentRotation = animatedZoomState.rotation
+                    val gestureEnabled = enabled(currentZoom, currentPan, currentRotation)
+
+                    coroutineScope.launch {
+                        animatedZoomState.onGesture(
+                            centroid = centroid,
+                            pan = if (gestureEnabled) pan else Offset.Zero,
+                            zoom = zoom,
+                            rotation = rotate,
+                            mainPointer = mainPointer,
+                            changes = pointerList
+                        )
+                    }
+
+                    if (gestureEnabled) {
+                        mainPointer.consume()
+                    }
+                }
+            )
+        }
+
+        val tapModifier = Modifier.pointerInput(key) {
+            // Pass size of this Composable this Modifier is attached for constraining operations
+            // inside this bounds
+            animatedZoomState.size = this.size
+            detectTapGestures(
+                onDoubleTap = {
+                    coroutineScope.launch {
+                        zoomLevel = getNextZoomLevel(zoomLevel)
+                        val newZoom = zoomOnDoubleTap(zoomLevel)
+                        animatedZoomState.onDoubleTap(zoom = newZoom) {}
+                    }
+                }
+            )
+        }
+
+        val graphicsModifier = Modifier.graphicsLayer {
+            this.update(animatedZoomState, applyZoom)
+        }
+
+        this.then(
+            (if (clipToBounds) Modifier.clipToBounds() else Modifier)
+                .then(tapModifier)
+                .then(transformModifier)
+                .then(graphicsModifier)
+        )
+    },
+    inspectorInfo = debugInspectorInfo {
+        name = "animatedZoomState"
+        properties["key"] = key
+        properties["clip"] = clip
+        properties["animatedZoomState"] = animatedZoomState
+        properties["enabled"] = enabled
+        properties["zoomOnDoubleTap"] = zoomOnDoubleTap
+    }
+)
+
 /**
  * Modifier that zooms in or out of Composable set to. This zoom modifier has option
  * to move back to bounds with an animation or option to have fling gesture when user removes

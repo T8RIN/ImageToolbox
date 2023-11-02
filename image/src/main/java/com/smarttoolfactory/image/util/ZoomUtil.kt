@@ -53,12 +53,14 @@ internal fun getNextZoomLevel(zoomLevel: ZoomLevel): ZoomLevel = when (zoomLevel
 /**
  * Update graphic layer with [zoomState]
  */
-fun GraphicsLayerScope.update(zoomState: ZoomState) {
+fun GraphicsLayerScope.update(zoomState: ZoomState, applyZoom: Boolean = true) {
 
     // Set zoom
-    val zoom = zoomState.zoom
-    this.scaleX = zoom
-    this.scaleY = zoom
+    if (applyZoom) {
+        val zoom = zoomState.zoom
+        this.scaleX = zoom
+        this.scaleY = zoom
+    }
 
     // Set pan
     val pan = zoomState.pan

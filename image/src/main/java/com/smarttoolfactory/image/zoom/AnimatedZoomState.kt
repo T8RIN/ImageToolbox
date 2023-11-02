@@ -3,6 +3,7 @@ package com.smarttoolfactory.image.zoom
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntSize
@@ -46,7 +47,8 @@ fun rememberAnimatedZoomState(
     pannable: Boolean = true,
     rotatable: Boolean = false,
     limitPan: Boolean = true,
-    key1: Any? = Unit
+    key1: Any? = Unit,
+    onChange: (zoom: Float, pan: Offset, rotation: Float) -> Unit = { _, _, _ -> }
 ): AnimatedZoomState {
 
     val density = LocalDensity.current
@@ -71,7 +73,8 @@ fun rememberAnimatedZoomState(
             zoomable = zoomable,
             pannable = pannable,
             rotatable = rotatable,
-            limitPan = limitPan
+            limitPan = limitPan,
+            onChange = onChange
         )
     }
 }

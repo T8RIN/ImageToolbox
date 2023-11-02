@@ -42,7 +42,7 @@ import kotlinx.coroutines.launch
  * @param limitPan limits pan to bounds of parent Composable. Using this flag prevents creating
  * empty space on sides or edges of parent
  */
-open class EnhancedZoomState constructor(
+open class EnhancedZoomState(
     val imageSize: IntSize,
     initialZoom: Float = 1f,
     minZoom: Float = .5f,
@@ -114,7 +114,7 @@ open class EnhancedZoomState constructor(
     }
 }
 
-open class BaseEnhancedZoomState constructor(
+open class BaseEnhancedZoomState(
     initialZoom: Float = 1f,
     minZoom: Float = .5f,
     maxZoom: Float = 5f,
@@ -123,7 +123,8 @@ open class BaseEnhancedZoomState constructor(
     zoomable: Boolean = true,
     pannable: Boolean = true,
     rotatable: Boolean = false,
-    limitPan: Boolean = false
+    limitPan: Boolean = false,
+    private val onChange: (zoom: Float, pan: Offset, rotation: Float) -> Unit = { _, _, _ -> }
 ) : ZoomState(
     initialZoom = initialZoom,
     initialRotation = 0f,
@@ -148,6 +149,8 @@ open class BaseEnhancedZoomState constructor(
     ) = coroutineScope {
 
         doubleTapped = false
+
+        onChange(zoom, pan, rotation)
 
         updateZoomState(
             centroid = centroid,

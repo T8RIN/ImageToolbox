@@ -1096,9 +1096,9 @@ class AndroidImageManager @Inject constructor(
     override fun convertPdfToImages(
         pdfUri: String,
         pages: List<Int>?,
-        onGetPagesCount: (Int) -> Unit,
+        onGetPagesCount: suspend (Int) -> Unit,
         onProgressChange: suspend (Int, String) -> Unit,
-        onComplete: () -> Unit
+        onComplete: suspend () -> Unit
     ) = CoroutineScope(Dispatchers.Main).launch {
         withContext(Dispatchers.IO) {
             context.contentResolver.openFileDescriptor(
@@ -1297,6 +1297,10 @@ class AndroidImageManager @Inject constructor(
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(shareIntent)
     }
+
+    override suspend fun shareImageUris(
+        uris: List<String>
+    ) = shareImageUris(uris.map { it.toUri() })
 
     override suspend fun getPdfPages(uri: String): List<Int> {
         return withContext(Dispatchers.IO) {
