@@ -420,4 +420,8 @@
     <string name="enhanced_circle_pixelation">Pixelare circular îmbunătățită</string>
     <string name="attention">Atenție</string>
     <string name="scale_small_images_to_large">Scalați imaginile mici la mari</string>
+    <string name="invert_colors_sub">Va înlocui tema culorii cu cele negative dacă este activat</string>
+    <string name="search_option">Căutați</string>
+    <string name="search_option_sub">Oferă abilitarea de-a căuta prin toate opțiunile disponibile pe ecranul principal</string>
+    <string name="invert_colors">Inversați culorile</string>
 </resources>

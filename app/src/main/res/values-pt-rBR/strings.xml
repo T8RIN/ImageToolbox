@@ -426,4 +426,7 @@
     <string name="invert_colors">Inverter cores</string>
     <string name="vibrant">Vibrante</string>
     <string name="attention">Atenção</string>
+    <string name="tonal_spot">Detectar tonalidade</string>
+    <string name="search_option">Pesquisar</string>
+    <string name="search_option_sub">Permite a capacidade de pesquisar todas as opções disponíveis na tela principal</string>
 </resources>

@@ -3,7 +3,7 @@
     <string name="smth_went_wrong">Qualcosa non ha funzionato: %1$s</string>
     <string name="size">Dimensione %1$s</string>
     <string name="loading">Caricamento…</string>
-    <string name="image_too_large_preview">Immagine troppo grande per mostrarne un\'anteprima, ma verrà tentato comunque il salvataggio</string>
+    <string name="image_too_large_preview">L\'immagine è troppo grande per mostrarne un\'anteprima, ma verrà tentato comunque il salvataggio</string>
     <string name="pick_image">Scegli un\'immagine per iniziare</string>
     <string name="width">Larghezza %1$s</string>
     <string name="height">Altezza %1$s</string>
@@ -33,12 +33,12 @@
     <string name="clear">Pulisci</string>
     <string name="clear_exif">Cancella EXIF</string>
     <string name="cancel">Cancella</string>
-    <string name="clear_exif_sub">Tutti i dati EXIF dell\'immagine verranno rimossi, questa azione è irreversibile!</string>
+    <string name="clear_exif_sub">Tutti i dati EXIF dell\'immagine verranno rimossi. Questa azione è irreversibile!</string>
     <string name="presets">Preconfigurazioni</string>
     <string name="ratio">Rapporto</string>
     <string name="crop">Ritaglia</string>
     <string name="image_not_saved">Salvataggio</string>
-    <string name="image_not_saved_sub">Immagine non salvata, tutte le modifiche andranno perse se abbandoni adesso.</string>
+    <string name="image_not_saved_sub">Tutte le modifiche andranno perse se abbandoni adesso.</string>
     <string name="check_source_code">Consulta il codice sorgente</string>
     <string name="check_source_code_sub">Ricevi gli ultimi aggiornamenti, discuti dei problemi e altro.</string>
     <string name="single_edit">Ridimensionamento singolo</string>
@@ -294,4 +294,5 @@
     <string name="key">Chiave</string>
     <string name="implementation_sub">AES-256, modalità GCM, nessuna spaziatura interna, IV casuali a 12 byte. Le chiavi vengono utilizzate come hash SHA-3 (256 bit).</string>
     <string name="file_size">Dimensione del file</string>
+    <string name="presets_sub">Se è stata selezionata la preset 125, l\'immagine verrà salvata con una dimensione del 125% dell\'immagine originale con una qualità del 100%. Se si sceglie il preset 50, l\'immagine verrà salvata con il 50% di dimensione e il 50% di qualità.</string>
 </resources>
