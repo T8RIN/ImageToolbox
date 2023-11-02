@@ -29,7 +29,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
@@ -55,6 +55,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
@@ -69,6 +70,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.hapticfeedback.HapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -80,7 +82,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.round
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toIntRect
-import androidx.core.graphics.BitmapCompat
 import coil.memory.MemoryCache
 import coil.request.ImageRequest
 import com.smarttoolfactory.image.zoom.animatedZoom
@@ -94,6 +95,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import my.nanihadesuka.compose.LazyColumnScrollbar
 import my.nanihadesuka.compose.ScrollbarSelectionMode
+import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
@@ -132,32 +134,48 @@ fun PdfViewer(
         transitionSpec = { fadeIn() togetherWith fadeOut() }
     ) { uri ->
         if (uri != null) {
-            val context = LocalContext.current
-            val rendererScope = rememberCoroutineScope()
-            val mutex = remember { Mutex() }
-            val renderer by produceState<PdfRenderer?>(null, uri) {
-                rendererScope.launch(Dispatchers.IO) {
-                    runCatching {
-                        val input = context.contentResolver.openFileDescriptor(uri, "r")
-                        value = input?.let { PdfRenderer(it) }
-                    }.exceptionOrNull()?.let(showError)
-                }
-                awaitDispose {
-                    val currentRenderer = value
-                    rendererScope.launch(Dispatchers.IO) {
-                        mutex.withLock {
-                            currentRenderer?.close()
-                        }
-                    }
-                }
-            }
-            val pageCount by remember(renderer) { derivedStateOf { renderer?.pageCount ?: 0 } }
-
             val listState = rememberLazyListState()
             BoxWithConstraints(modifier = modifier) {
                 val density = LocalDensity.current
                 val width = with(density) { maxWidth.toPx() }.toInt()
                 val height = (width * sqrt(2f)).toInt()
+
+                val context = LocalContext.current
+                val rendererScope = rememberCoroutineScope()
+                val mutex = remember { Mutex() }
+                val pagesSize = remember { mutableStateListOf<IntegerSize>() }
+                val renderer by produceState<PdfRenderer?>(null, uri) {
+                    rendererScope.launch(Dispatchers.IO) {
+                        runCatching {
+                            val input = context.contentResolver.openFileDescriptor(uri, "r")
+                            pagesSize.clear()
+                            val renderer = input?.let {
+                                PdfRenderer(it)
+                            }?.also {
+                                repeat(it.pageCount) { index ->
+                                    it.openPage(index)?.use { page ->
+                                        val size = IntegerSize(
+                                            width = page.width,
+                                            height = page.height
+                                        ).flexibleResize(max(width, height))
+
+                                        pagesSize.add(size)
+                                    }
+                                }
+                            }
+                            value = renderer
+                        }.exceptionOrNull()?.let(showError)
+                    }
+                    awaitDispose {
+                        val currentRenderer = value
+                        rendererScope.launch(Dispatchers.IO) {
+                            mutex.withLock {
+                                currentRenderer?.close()
+                            }
+                        }
+                    }
+                }
+                val pageCount by remember(renderer) { derivedStateOf { renderer?.pageCount ?: 0 } }
 
                 val selectedItems = remember(uriState) {
                     mutableStateOf(selectedPages.toSet())
@@ -192,6 +210,7 @@ fun PdfViewer(
                             topStartPercent = 100,
                             bottomStartPercent = 100
                         ),
+                        hideDelayMillis = 1500,
                         indicatorContent = { index, _ ->
                             val text by remember(index, pageCount, listState) {
                                 derivedStateOf {
@@ -215,13 +234,15 @@ fun PdfViewer(
                             )
                         }
                     ) {
+                        val zoomState = rememberAnimatedZoomState(minZoom = 0.4f)
                         LazyColumn(
                             state = listState,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .background(MaterialTheme.colorScheme.surfaceVariant)
-                                .animatedZoom(animatedZoomState = rememberAnimatedZoomState()),
-                            contentPadding = PaddingValues(start = 20.dp, end = 20.dp)
+                                .animatedZoom(animatedZoomState = zoomState),
+                            contentPadding = PaddingValues(start = 20.dp, end = 20.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
                             items(
                                 count = pageCount,
@@ -231,35 +252,38 @@ fun PdfViewer(
                                     Spacer(Modifier.height(16.dp))
                                 } else Spacer(Modifier.height(spacing))
 
-                                val cacheKey = MemoryCache.Key("$uri-$index")
+                                val cacheKey = MemoryCache.Key("$uri-${pagesSize[index]}-$index")
                                 val selected by remember(selectedItems.value) {
                                     derivedStateOf {
                                         selectedItems.value.contains(index)
                                     }
                                 }
+                                val w = pagesSize[index].width
+                                val h = pagesSize[index].height
                                 PdfPage(
                                     selected = selected,
                                     selectionEnabled = enableSelection,
+                                    contentScale = ContentScale.Fit,
                                     modifier = Modifier
-                                        .toggleable(
-                                            value = selected,
-                                            interactionSource = remember { MutableInteractionSource() },
-                                            indication = null,
-                                            onValueChange = {
-                                                if (it) {
-                                                    selectedItems.update { it - index }
-                                                } else {
-                                                    selectedItems.update { it + index }
-                                                }
-                                            }
-                                        )
-                                        .size(
-                                            width = with(density) { width.toDp() },
-                                            height = with(density) { height.toDp() }
+                                        .then(
+                                            if (enableSelection) {
+                                                Modifier.toggleable(
+                                                    value = selected,
+                                                    interactionSource = remember { MutableInteractionSource() },
+                                                    indication = null,
+                                                    onValueChange = { value ->
+                                                        if (value) {
+                                                            selectedItems.update { it - index }
+                                                        } else {
+                                                            selectedItems.update { it + index }
+                                                        }
+                                                    }
+                                                )
+                                            } else Modifier
                                         ),
+                                    width = w,
+                                    height = h,
                                     index = index,
-                                    width = width,
-                                    height = height,
                                     mutex = mutex,
                                     renderer = renderer,
                                     cacheKey = cacheKey
@@ -301,7 +325,7 @@ fun PdfViewer(
                                 .photoGridDragHandler(
                                     key = uriState,
                                     lazyGridState = state,
-                                    isVertical = landscape,
+                                    isVertical = true,
                                     haptics = LocalHapticFeedback.current,
                                     selectedItems = selectedItems,
                                     autoScrollSpeed = autoScrollSpeed,
@@ -322,7 +346,7 @@ fun PdfViewer(
                                 key = { index -> "$uri-$index" }
                             ) { index ->
 
-                                val cacheKey = MemoryCache.Key("$uri-$index")
+                                val cacheKey = MemoryCache.Key("$uri-120-$index")
                                 val selected by remember(selectedItems.value) {
                                     derivedStateOf {
                                         selectedItems.value.contains(index).also {
@@ -354,7 +378,7 @@ fun PdfViewer(
                                 .photoGridDragHandler(
                                     key = uriState,
                                     lazyGridState = state,
-                                    isVertical = landscape,
+                                    isVertical = false,
                                     haptics = LocalHapticFeedback.current,
                                     selectedItems = selectedItems,
                                     autoScrollSpeed = autoScrollSpeed,
@@ -375,7 +399,7 @@ fun PdfViewer(
                                 key = { index -> "$uri-$index" }
                             ) { index ->
 
-                                val cacheKey = MemoryCache.Key("$uri-$index")
+                                val cacheKey = MemoryCache.Key("$uri-120-$index")
                                 val selected by remember(selectedItems.value) {
                                     derivedStateOf {
                                         selectedItems.value.contains(index).also {
@@ -400,6 +424,14 @@ fun PdfViewer(
                         }
                     }
                 }
+                if (pageCount == 0) {
+                    Box(
+                        modifier = Modifier.matchParentSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Loading()
+                    }
+                }
             }
         } else {
             Box(
@@ -413,6 +445,7 @@ fun PdfViewer(
 private fun PdfPage(
     selected: Boolean,
     selectionEnabled: Boolean,
+    contentScale: ContentScale = ContentScale.Crop,
     modifier: Modifier,
     index: Int,
     width: Int,
@@ -436,19 +469,20 @@ private fun PdfPage(
                     try {
                         renderer?.let {
                             it.openPage(index).use { page ->
-                                val destinationBitmap = flexibleResize(
-                                    Bitmap.createBitmap(
-                                        page.width,
-                                        page.height,
-                                        Bitmap.Config.ARGB_8888
-                                    ),
-                                    max(width, height)
+                                val size = IntegerSize(
+                                    width = page.width,
+                                    height = page.height
+                                ).flexibleResize(max(width, height))
+                                val destinationBitmap = Bitmap.createBitmap(
+                                    size.width,
+                                    size.height,
+                                    Bitmap.Config.ARGB_8888
                                 )
                                 page.render(
                                     destinationBitmap,
                                     null,
                                     null,
-                                    PdfRenderer.Page.RENDER_MODE_FOR_PRINT
+                                    PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY
                                 )
                                 bitmap = destinationBitmap
                             }
@@ -480,6 +514,7 @@ private fun PdfPage(
     }
     val bgColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
 
+    val density = LocalDensity.current
     Box(
         modifier
             .clip(RoundedCornerShape(4.dp))
@@ -487,11 +522,19 @@ private fun PdfPage(
     ) {
         Picture(
             modifier = Modifier
-                .matchParentSize()
+                .then(
+                    if (contentScale == ContentScale.Crop) Modifier.matchParentSize()
+                    else Modifier
+                )
+                .width(
+                    with(density) { width.toDp() }
+                )
+                .aspectRatio(width / height.toFloat())
                 .padding(padding)
                 .clip(RoundedCornerShape(corners))
                 .background(Color.White),
             shape = RectangleShape,
+            contentScale = contentScale,
             showTransparencyChecker = false,
             manualImageRequest = request,
             model = bitmap
@@ -547,15 +590,6 @@ private fun PdfPage(
 
 }
 
-private fun LazyGridState.gridItemKeyAtPosition(hitPoint: Offset): Int? {
-    val find = layoutInfo.visibleItemsInfo.find { itemInfo ->
-        itemInfo.size.toIntRect().contains(hitPoint.round() - itemInfo.offset)
-    }
-    val key = find?.key
-    return key?.toString()?.takeLastWhile { it != '-' }?.toIntOrNull()
-}
-
-
 private fun Modifier.photoGridDragHandler(
     key: Any?,
     isVertical: Boolean,
@@ -564,79 +598,89 @@ private fun Modifier.photoGridDragHandler(
     selectedItems: MutableState<Set<Int>>,
     autoScrollSpeed: MutableState<Float>,
     autoScrollThreshold: Float
-) = pointerInput(key) {
-    detectTapGestures { offset ->
-        lazyGridState.gridItemKeyAtPosition(offset)?.let { key ->
-            if (selectedItems.value.contains(key)) {
-                selectedItems.update { it - key }
-            } else {
-                selectedItems.update { it + key }
-            }
+): Modifier {
+    fun LazyGridState.gridItemKeyAtPosition(hitPoint: Offset): Int? {
+        val find = layoutInfo.visibleItemsInfo.find { itemInfo ->
+            itemInfo.size.toIntRect().contains(hitPoint.round() - itemInfo.offset)
         }
+        val itemKey = find?.key
+        return itemKey?.toString()?.takeLastWhile { it != '-' }?.toIntOrNull()
     }
-}.pointerInput(key) {
-    var initialKey: Int? = null
-    var currentKey: Int? = null
-    detectDragGesturesAfterLongPress(
-        onDragStart = { offset ->
+
+    return pointerInput(key) {
+        detectTapGestures { offset ->
             lazyGridState.gridItemKeyAtPosition(offset)?.let { key ->
-                if (!selectedItems.value.contains(key)) {
-                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-                    initialKey = key
-                    currentKey = key
+                if (selectedItems.value.contains(key)) {
+                    selectedItems.update { it - key }
+                } else {
                     selectedItems.update { it + key }
                 }
             }
-        },
-        onDragCancel = {
-            initialKey = null
-            autoScrollSpeed.value = 0f
-        },
-        onDragEnd = {
-            initialKey = null
-            autoScrollSpeed.value = 0f
-        },
-        onDrag = { change, _ ->
-            if (initialKey != null) {
-                val distFromBottom = if (isVertical) {
-                    lazyGridState.layoutInfo.viewportSize.height - change.position.y
-                } else lazyGridState.layoutInfo.viewportSize.width - change.position.x
-                val distFromTop = if (isVertical) {
-                    change.position.y
-                } else change.position.x
-                autoScrollSpeed.value = when {
-                    distFromBottom < autoScrollThreshold -> autoScrollThreshold - distFromBottom
-                    distFromTop < autoScrollThreshold -> -(autoScrollThreshold - distFromTop)
-                    else -> 0f
-                }
-
-                lazyGridState.gridItemKeyAtPosition(change.position)?.let { key ->
-                    if (currentKey != key) {
-                        selectedItems.update {
-                            it
-                                .minus(initialKey!!..currentKey!!)
-                                .minus(currentKey!!..initialKey!!)
-                                .plus(initialKey!!..key)
-                                .plus(key..initialKey!!)
-                        }
+        }
+    }.pointerInput(key) {
+        var initialKey: Int? = null
+        var currentKey: Int? = null
+        detectDragGesturesAfterLongPress(
+            onDragStart = { offset ->
+                lazyGridState.gridItemKeyAtPosition(offset)?.let { key ->
+                    if (!selectedItems.value.contains(key)) {
+                        haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                        initialKey = key
                         currentKey = key
+                        selectedItems.update { it + key }
+                    }
+                }
+            },
+            onDragCancel = {
+                initialKey = null
+                autoScrollSpeed.value = 0f
+            },
+            onDragEnd = {
+                initialKey = null
+                autoScrollSpeed.value = 0f
+            },
+            onDrag = { change, _ ->
+                if (initialKey != null) {
+                    val distFromBottom = if (isVertical) {
+                        lazyGridState.layoutInfo.viewportSize.height - change.position.y
+                    } else lazyGridState.layoutInfo.viewportSize.width - change.position.x
+                    val distFromTop = if (isVertical) {
+                        change.position.y
+                    } else change.position.x
+                    autoScrollSpeed.value = when {
+                        distFromBottom < autoScrollThreshold -> autoScrollThreshold - distFromBottom
+                        distFromTop < autoScrollThreshold -> -(autoScrollThreshold - distFromTop)
+                        else -> 0f
+                    }
+
+                    lazyGridState.gridItemKeyAtPosition(change.position)?.let { key ->
+                        if (currentKey != key) {
+                            selectedItems.update {
+                                it
+                                    .minus(initialKey!!..currentKey!!)
+                                    .minus(currentKey!!..initialKey!!)
+                                    .plus(initialKey!!..key)
+                                    .plus(key..initialKey!!)
+                            }
+                            currentKey = key
+                        }
                     }
                 }
             }
-        }
-    )
+        )
+    }
 }
 
-private fun flexibleResize(image: Bitmap, max: Int): Bitmap {
+private fun IntegerSize.flexibleResize(max: Int): IntegerSize {
     return runCatching {
-        if (image.height >= image.width) {
-            val aspectRatio = image.width.toDouble() / image.height.toDouble()
+        if (height >= width) {
+            val aspectRatio = width.toDouble() / height.toDouble()
             val targetWidth = (max * aspectRatio).toInt()
-            BitmapCompat.createScaledBitmap(image, targetWidth, max, null, true)
+            IntegerSize(targetWidth, max)
         } else {
-            val aspectRatio = image.height.toDouble() / image.width.toDouble()
+            val aspectRatio = height.toDouble() / width.toDouble()
             val targetHeight = (max * aspectRatio).toInt()
-            BitmapCompat.createScaledBitmap(image, max, targetHeight, null, true)
+            IntegerSize(max, targetHeight)
         }
-    }.getOrNull() ?: image
+    }.getOrNull() ?: this
 }
