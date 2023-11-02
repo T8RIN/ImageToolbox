@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,6 +23,7 @@ import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -61,6 +63,7 @@ import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -111,6 +114,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePic
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.showReview
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.PresetWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.QualityWidget
@@ -126,7 +130,9 @@ import ru.tech.imageresizershrinker.presentation.root.widget.other.PdfViewerOrie
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
+import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 
 @OptIn(
@@ -221,6 +227,76 @@ fun PdfToolsScreen(
             uri?.let {
                 viewModel.setPdfPreview(it)
             }
+        }
+    )
+
+    var tempSelectionUri by rememberSaveable { mutableStateOf<Uri?>(null) }
+    val showSelectionPdfPicker = rememberSaveable { mutableStateOf(false) }
+    LaunchedEffect(showSelectionPdfPicker.value) {
+        if (!showSelectionPdfPicker.value) tempSelectionUri = null
+    }
+    val selectionPdfPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument(),
+        onResult = { uri ->
+            uri?.let {
+                tempSelectionUri = it
+                showSelectionPdfPicker.value = true
+            }
+        }
+    )
+
+    SimpleSheet(
+        visible = showSelectionPdfPicker,
+        confirmButton = {
+            EnhancedButton(
+                onClick = {
+                    showSelectionPdfPicker.value = false
+                },
+                containerColor = MaterialTheme.colorScheme.secondaryContainer
+            ) {
+                Text(stringResource(id = R.string.close))
+            }
+        },
+        sheetContent = {
+            if (tempSelectionUri == null) showSelectionPdfPicker.value = false
+
+            LazyVerticalStaggeredGrid(
+                columns = StaggeredGridCells.Adaptive(250.dp),
+                horizontalArrangement = Arrangement.spacedBy(
+                    space = 12.dp,
+                    alignment = Alignment.CenterHorizontally
+                ),
+                verticalItemSpacing = 12.dp,
+                contentPadding = PaddingValues(12.dp),
+            ) {
+                item {
+                    PreferenceItem(
+                        onClick = {
+                            viewModel.setPdfPreview(tempSelectionUri)
+                            showSelectionPdfPicker.value = false
+                        },
+                        icon = Icons.Rounded.Preview,
+                        title = stringResource(R.string.preview_pdf),
+                        subtitle = stringResource(R.string.preview_pdf_sub),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+                item {
+                    PreferenceItem(
+                        onClick = {
+                            viewModel.setPdfToImagesUri(tempSelectionUri)
+                            showSelectionPdfPicker.value = false
+                        },
+                        icon = Icons.Rounded.Collections,
+                        title = stringResource(R.string.pdf_to_images),
+                        subtitle = stringResource(R.string.pdf_to_images_sub),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+        },
+        title = {
+            TitleItem(text = stringResource(id = R.string.pick_file), icon = Icons.Rounded.FileOpen)
         }
     )
 
@@ -541,60 +617,90 @@ fun PdfToolsScreen(
                     ) { pdfType ->
                         when (pdfType) {
                             null -> {
-                                val cutout = WindowInsets.displayCutout.asPaddingValues()
-                                LazyVerticalStaggeredGrid(
-                                    modifier = Modifier.weight(1f),
-                                    columns = StaggeredGridCells.Adaptive(300.dp),
-                                    horizontalArrangement = Arrangement.spacedBy(
-                                        space = 12.dp,
-                                        alignment = Alignment.CenterHorizontally
-                                    ),
-                                    verticalItemSpacing = 12.dp,
-                                    contentPadding = PaddingValues(
-                                        bottom = 12.dp + WindowInsets
-                                            .navigationBars
-                                            .asPaddingValues()
-                                            .calculateBottomPadding(),
-                                        top = 12.dp,
-                                        end = 12.dp + cutout.calculateEndPadding(
-                                            LocalLayoutDirection.current
+                                Column {
+                                    val cutout = WindowInsets.displayCutout.asPaddingValues()
+                                    LazyVerticalStaggeredGrid(
+                                        modifier = Modifier.weight(1f),
+                                        columns = StaggeredGridCells.Adaptive(300.dp),
+                                        horizontalArrangement = Arrangement.spacedBy(
+                                            space = 12.dp,
+                                            alignment = Alignment.CenterHorizontally
                                         ),
-                                        start = 12.dp + cutout.calculateStartPadding(
-                                            LocalLayoutDirection.current
-                                        )
-                                    ),
-                                ) {
-                                    item {
-                                        PreferenceItem(
-                                            onClick = {
-                                                pdfPreviewPicker.launch(arrayOf("application/pdf"))
-                                            },
-                                            icon = Icons.Rounded.Preview,
-                                            title = stringResource(R.string.preview_pdf),
-                                            subtitle = stringResource(R.string.preview_pdf_sub),
-                                            modifier = Modifier.fillMaxWidth()
-                                        )
+                                        verticalItemSpacing = 12.dp,
+                                        contentPadding = PaddingValues(
+                                            bottom = 12.dp + WindowInsets
+                                                .navigationBars
+                                                .asPaddingValues()
+                                                .calculateBottomPadding(),
+                                            top = 12.dp,
+                                            end = 12.dp + cutout.calculateEndPadding(
+                                                LocalLayoutDirection.current
+                                            ),
+                                            start = 12.dp + cutout.calculateStartPadding(
+                                                LocalLayoutDirection.current
+                                            )
+                                        ),
+                                    ) {
+                                        item {
+                                            PreferenceItem(
+                                                onClick = {
+                                                    pdfPreviewPicker.launch(arrayOf("application/pdf"))
+                                                },
+                                                icon = Icons.Rounded.Preview,
+                                                title = stringResource(R.string.preview_pdf),
+                                                subtitle = stringResource(R.string.preview_pdf_sub),
+                                                modifier = Modifier.fillMaxWidth()
+                                            )
+                                        }
+                                        item {
+                                            PreferenceItem(
+                                                onClick = {
+                                                    pdfToImagesPicker.launch(arrayOf("application/pdf"))
+                                                },
+                                                icon = Icons.Rounded.Collections,
+                                                title = stringResource(R.string.pdf_to_images),
+                                                subtitle = stringResource(R.string.pdf_to_images_sub),
+                                                modifier = Modifier.fillMaxWidth()
+                                            )
+                                        }
+                                        item {
+                                            PreferenceItem(
+                                                onClick = {
+                                                    imagesToPdfPicker.pickImage()
+                                                },
+                                                icon = Icons.Rounded.PictureAsPdf,
+                                                title = stringResource(R.string.images_to_pdf),
+                                                subtitle = stringResource(R.string.images_to_pdf_sub),
+                                                modifier = Modifier.fillMaxWidth()
+                                            )
+                                        }
                                     }
-                                    item {
-                                        PreferenceItem(
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .drawHorizontalStroke(true)
+                                            .background(
+                                                MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                    3.dp
+                                                )
+                                            ),
+                                        horizontalArrangement = Arrangement.Center
+                                    ) {
+                                        ExtendedFloatingActionButton(
                                             onClick = {
-                                                pdfToImagesPicker.launch(arrayOf("application/pdf"))
+                                                selectionPdfPicker.launch(arrayOf("application/pdf"))
                                             },
-                                            icon = Icons.Rounded.Collections,
-                                            title = stringResource(R.string.pdf_to_images),
-                                            subtitle = stringResource(R.string.pdf_to_images_sub),
-                                            modifier = Modifier.fillMaxWidth()
-                                        )
-                                    }
-                                    item {
-                                        PreferenceItem(
-                                            onClick = {
-                                                imagesToPdfPicker.pickImage()
+                                            modifier = Modifier
+                                                .navigationBarsPadding()
+                                                .padding(16.dp)
+                                                .containerFabBorder(),
+                                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                            text = {
+                                                Text(stringResource(R.string.pick_file))
                                             },
-                                            icon = Icons.Rounded.PictureAsPdf,
-                                            title = stringResource(R.string.images_to_pdf),
-                                            subtitle = stringResource(R.string.images_to_pdf_sub),
-                                            modifier = Modifier.fillMaxWidth()
+                                            icon = {
+                                                Icon(Icons.Rounded.FileOpen, null)
+                                            }
                                         )
                                     }
                                 }

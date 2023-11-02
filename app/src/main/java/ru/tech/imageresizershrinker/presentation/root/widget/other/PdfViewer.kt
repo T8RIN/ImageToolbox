@@ -154,7 +154,7 @@ fun PdfViewer(
                                         val size = IntegerSize(
                                             width = page.width,
                                             height = page.height
-                                        ).flexibleResize(max(width, height))
+                                        ).flexibleResize(width, height)
 
                                         pagesSize.add(size)
                                     }
@@ -470,7 +470,7 @@ private fun PdfPage(
                                 val size = IntegerSize(
                                     width = page.width,
                                     height = page.height
-                                ).flexibleResize(max(renderWidth, renderHeight))
+                                ).flexibleResize(renderWidth, renderHeight)
                                 val destinationBitmap = Bitmap.createBitmap(
                                     size.width,
                                     size.height,
@@ -669,8 +669,15 @@ private fun Modifier.photoGridDragHandler(
     }
 }
 
-private fun IntegerSize.flexibleResize(max: Int): IntegerSize {
+private fun IntegerSize.flexibleResize(w: Int, h: Int): IntegerSize {
+    val max = max(w, h)
     return runCatching {
+        if (width > w) {
+            val aspectRatio = width.toDouble() / height.toDouble()
+            val targetHeight = w / aspectRatio
+            return@runCatching IntegerSize(w, targetHeight.toInt())
+        }
+
         if (height >= width) {
             val aspectRatio = width.toDouble() / height.toDouble()
             val targetWidth = (max * aspectRatio).toInt()
