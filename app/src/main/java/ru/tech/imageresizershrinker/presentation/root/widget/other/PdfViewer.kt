@@ -118,6 +118,7 @@ fun PdfViewer(
     deselectAllToggle: MutableState<Boolean> = remember {
         mutableStateOf(false)
     },
+    onGetPagesCount: (Int) -> Unit = {},
     enableSelection: Boolean = false,
     selectedPages: List<Int> = emptyList(),
     updateSelectedPages: (List<Int>) -> Unit = {},
@@ -149,6 +150,7 @@ fun PdfViewer(
                             val renderer = input?.let {
                                 PdfRenderer(it)
                             }?.also {
+                                onGetPagesCount(it.pageCount)
                                 repeat(it.pageCount) { index ->
                                     it.openPage(index)?.use { page ->
                                         val size = IntegerSize(
@@ -342,7 +344,6 @@ fun PdfViewer(
                                 count = pageCount,
                                 key = { index -> "$uri-$index" }
                             ) { index ->
-
                                 val cacheKey = MemoryCache.Key("$uri-120-$index")
                                 val selected by remember(selectedItems.value) {
                                     derivedStateOf {
@@ -351,6 +352,8 @@ fun PdfViewer(
                                         }
                                     }
                                 }
+
+                                val size = 120.dp
                                 PdfPage(
                                     selected = selected,
                                     selectionEnabled = enableSelection,
@@ -358,8 +361,8 @@ fun PdfViewer(
                                         .fillMaxSize()
                                         .aspectRatio(1f),
                                     index = index,
-                                    renderWidth = with(density) { 120.dp.roundToPx() },
-                                    renderHeight = with(density) { 120.dp.roundToPx() },
+                                    renderWidth = with(density) { size.roundToPx() },
+                                    renderHeight = with(density) { size.roundToPx() },
                                     mutex = mutex,
                                     renderer = renderer,
                                     cacheKey = cacheKey

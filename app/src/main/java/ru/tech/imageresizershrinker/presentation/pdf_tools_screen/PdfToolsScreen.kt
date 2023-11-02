@@ -80,6 +80,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -741,12 +742,22 @@ fun PdfToolsScreen(
                                                                 .verticalScroll(rememberScrollState())
                                                         } else Modifier
                                                     ) {
+                                                        var pagesCount by remember {
+                                                            mutableIntStateOf(
+                                                                1
+                                                            )
+                                                        }
                                                         PdfViewer(
                                                             modifier = if (portrait) {
                                                                 Modifier
-                                                                    .height(configuration.screenHeightDp.dp * (4 / 7f))
+                                                                    .height(
+                                                                        (130.dp * pagesCount).coerceAtMost(
+                                                                            420.dp
+                                                                        )
+                                                                    )
                                                                     .fillMaxWidth()
                                                             } else Modifier.fillMaxWidth(),
+                                                            onGetPagesCount = { pagesCount = it },
                                                             uriState = viewModel.pdfToImageState?.uri,
                                                             orientation = PdfViewerOrientation.Grid,
                                                             enableSelection = true,
