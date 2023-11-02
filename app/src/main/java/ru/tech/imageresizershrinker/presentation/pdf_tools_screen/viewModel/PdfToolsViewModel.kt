@@ -226,11 +226,16 @@ class PdfToolsViewModel @Inject constructor(
     fun convertImagesToPdf(onComplete: () -> Unit) {
         savingJob?.cancel()
         _isSaving.value = false
+        _done.value = 0
+        _left.value = 0
         savingJob = viewModelScope.launch {
             _isSaving.value = true
-            //TODO: Improve loading and scale small to large
+            _left.value = imagesToPdfState?.size ?: 0
             _byteArray.value = imageManager.convertImagesToPdf(
                 imageUris = imagesToPdfState?.map { it.toString() } ?: emptyList(),
+                onProgressChange = {
+                    _done.value = it
+                },
                 scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value
             )
             onComplete()
@@ -255,8 +260,13 @@ class PdfToolsViewModel @Inject constructor(
             _isSaving.value = true
             when (val type = _pdfType.value) {
                 is Screen.PdfTools.Type.ImagesToPdf -> {
+                    _isSaving.value = true
+                    _left.value = imagesToPdfState?.size ?: 0
                     imageManager.convertImagesToPdf(
                         imageUris = imagesToPdfState?.map { it.toString() } ?: emptyList(),
+                        onProgressChange = {
+                            _done.value = it
+                        },
                         scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value
                     ).let {
                         imageManager.shareFile(
@@ -265,6 +275,7 @@ class PdfToolsViewModel @Inject constructor(
                             onComplete = onComplete
                         )
                     }
+                    onComplete()
                 }
 
                 is Screen.PdfTools.Type.PdfToImages -> {

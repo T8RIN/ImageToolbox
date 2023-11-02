@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -40,6 +41,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.fadingEdges
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -85,6 +87,8 @@ fun ColorSelectionRow(
                             )
                         ).value
                     )
+                    .aspectRatio(1f)
+                    .transparencyChecker()
                     .container(
                         shape = CircleShape,
                         color = background,
@@ -120,6 +124,7 @@ fun ColorSelectionRow(
                             )
                         ).value
                     )
+                    .aspectRatio(1f)
                     .container(
                         shape = CircleShape,
                         color = color,

@@ -1048,6 +1048,7 @@ class AndroidImageManager @Inject constructor(
 
     override suspend fun convertImagesToPdf(
         imageUris: List<String>,
+        onProgressChange: suspend (Int) -> Unit,
         scaleSmallImagesToLarge: Boolean
     ): ByteArray = withContext(Dispatchers.IO) {
         val pdfDocument = PdfDocument()
@@ -1082,6 +1083,7 @@ class AndroidImageManager @Inject constructor(
                 }
             )
             pdfDocument.finishPage(page)
+            onProgressChange(index)
         }
 
         val out = ByteArrayOutputStream()

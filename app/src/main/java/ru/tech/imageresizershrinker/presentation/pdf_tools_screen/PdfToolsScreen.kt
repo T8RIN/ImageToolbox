@@ -711,7 +711,7 @@ fun PdfToolsScreen(
                 }
 
                 if (viewModel.isSaving) {
-                    if (viewModel.pdfType is Screen.PdfTools.Type.PdfToImages) {
+                    if (viewModel.left != 0) {
                         LoadingDialog(viewModel.done, viewModel.left) {
                             viewModel.cancelSaving()
                         }

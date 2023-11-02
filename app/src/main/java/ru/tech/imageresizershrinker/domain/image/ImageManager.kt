@@ -175,6 +175,7 @@ interface ImageManager<I, M> {
 
     suspend fun convertImagesToPdf(
         imageUris: List<String>,
+        onProgressChange: suspend (Int) -> Unit,
         scaleSmallImagesToLarge: Boolean
     ): ByteArray
 
