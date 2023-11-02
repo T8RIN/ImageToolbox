@@ -50,8 +50,11 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.GeneratePalettePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.ImagePreviewPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.ImageStitchingPreference
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.ImagesToPdfPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.LimitsPreference
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.PdfToImagesPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.PickColorPreference
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.PreviewPdfPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.ResizeAndConvertPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.SingleEditPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
@@ -60,6 +63,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 @Composable
 fun ProcessImagesPreferenceSheet(
     uris: List<Uri>,
+    hasPdf: Boolean = true,
     visible: MutableState<Boolean>,
     navController: NavController<Screen> = LocalNavController.current,
     navigate: (Screen) -> Unit = { screen ->
@@ -140,29 +144,69 @@ fun ProcessImagesPreferenceSheet(
                                     }
                                 }
                             }
-                        if (uris.size in 1..2) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                repeat(uris.size) {
-                                    pic(uris.getOrNull(it), 100.dp, 0)
+                        if (!hasPdf) {
+                            if (uris.size in 1..2) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    repeat(uris.size) {
+                                        pic(uris.getOrNull(it), 100.dp, 0)
+                                    }
                                 }
-                            }
-                        } else if (uris.size >= 3) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                pic(uris.getOrNull(0), 100.dp, 0)
-                                Column {
-                                    pic(uris.getOrNull(1), 60.dp, 0)
-                                    pic(uris.getOrNull(2), 60.dp, uris.size - 3)
+                            } else if (uris.size >= 3) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    pic(uris.getOrNull(0), 100.dp, 0)
+                                    Column {
+                                        pic(uris.getOrNull(1), 60.dp, 0)
+                                        pic(uris.getOrNull(2), 60.dp, uris.size - 3)
+                                    }
                                 }
                             }
                         }
                     }
-                    if (uris.size <= 1) {
+                    if (hasPdf) {
+                        item {
+                            CipherPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { navigate(Screen.Cipher(uris.firstOrNull())) },
+                                color = color
+                            )
+                        }
+                        item {
+                            PreviewPdfPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = {
+                                    navigate(
+                                        Screen.PdfTools(
+                                            Screen.PdfTools.Type.Preview(
+                                                uris.firstOrNull()
+                                            )
+                                        )
+                                    )
+                                },
+                                color = color
+                            )
+                        }
+                        item {
+                            PdfToImagesPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = {
+                                    navigate(
+                                        Screen.PdfTools(
+                                            Screen.PdfTools.Type.PdfToImages(
+                                                uris.firstOrNull()
+                                            )
+                                        )
+                                    )
+                                },
+                                color = color
+                            )
+                        }
+                    } else if (uris.size <= 1) {
                         item {
                             SingleEditPreference(
                                 modifier = Modifier.fillMaxWidth(),
@@ -221,6 +265,21 @@ fun ProcessImagesPreferenceSheet(
                             BackgroundRemoverPreference(
                                 modifier = Modifier.fillMaxWidth(),
                                 onClick = { navigate(Screen.EraseBackground(uris.firstOrNull())) },
+                                color = color
+                            )
+                        }
+                        item {
+                            ImagesToPdfPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = {
+                                    navigate(
+                                        Screen.PdfTools(
+                                            Screen.PdfTools.Type.ImagesToPdf(
+                                                uris
+                                            )
+                                        )
+                                    )
+                                },
                                 color = color
                             )
                         }
@@ -320,6 +379,21 @@ fun ProcessImagesPreferenceSheet(
                                     color = color
                                 )
                             }
+                        }
+                        item {
+                            ImagesToPdfPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = {
+                                    navigate(
+                                        Screen.PdfTools(
+                                            Screen.PdfTools.Type.ImagesToPdf(
+                                                uris
+                                            )
+                                        )
+                                    )
+                                },
+                                color = color
+                            )
                         }
                         if (uris.size == 2) {
                             item {

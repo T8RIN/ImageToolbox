@@ -123,6 +123,7 @@ object ContextUtils {
         showToast: (message: String, icon: ImageVector) -> Unit,
         navigate: (Screen) -> Unit,
         onGetUris: (List<Uri>) -> Unit,
+        onHasPdfUri: (Uri) -> Unit,
         notHasUris: Boolean
     ) {
         fun ClipData.clipList() = List(
@@ -171,14 +172,21 @@ object ContextUtils {
                     }
                 }
             } else if (intent?.type != null) {
-                intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-                    navigate(Screen.LoadNetImage(it))
-                } ?: intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
-                    navigate(Screen.Cipher(it))
-                } ?: showToast(
-                    getString(R.string.unsupported_type, intent.type),
-                    Icons.Rounded.ErrorOutline
-                )
+                if (
+                    intent.type?.contains("pdf") == true
+                ) {
+                    intent.data?.let(onHasPdfUri) ?: intent.parcelable<Uri>(Intent.EXTRA_STREAM)
+                        ?.let(onHasPdfUri)
+                } else {
+                    intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
+                        navigate(Screen.LoadNetImage(it))
+                    } ?: intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
+                        navigate(Screen.Cipher(it))
+                    } ?: showToast(
+                        getString(R.string.unsupported_type, intent.type),
+                        Icons.Rounded.ErrorOutline
+                    )
+                }
             } else Unit
         }.getOrNull() ?: showToast(
             getString(R.string.something_went_wrong),

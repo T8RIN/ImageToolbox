@@ -134,6 +134,9 @@ class MainViewModel @Inject constructor(
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
 
+    private val _hasPdfUri = mutableStateOf<Uri?>(null)
+    val hasPdfUri by _hasPdfUri
+
     private val _showSelectDialog = mutableStateOf(false)
     val showSelectDialog by _showSelectDialog
 
@@ -364,6 +367,12 @@ class MainViewModel @Inject constructor(
         _uris.value = uris
 
         if (uris != null) _showSelectDialog.value = true
+    }
+
+    fun updateHasPdfUri(uri: Uri?) {
+        _hasPdfUri.value = uri
+
+        if (uri != null) _showSelectDialog.value = true
     }
 
     fun showToast(
