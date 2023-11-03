@@ -5,6 +5,7 @@ package ru.tech.imageresizershrinker.data.image.filters.provider
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
+import ru.tech.imageresizershrinker.data.image.filters.BilaterialBlurFilter
 import ru.tech.imageresizershrinker.data.image.filters.BlackAndWhiteFilter
 import ru.tech.imageresizershrinker.data.image.filters.BoxBlurFilter
 import ru.tech.imageresizershrinker.data.image.filters.BrightnessFilter
@@ -75,6 +76,7 @@ class AndroidFilterProvider @Inject constructor(
     override fun filterToTransformation(filter: Filter<Bitmap, *>): Transformation<Bitmap> {
         filter.run {
             return when (this) {
+                is Filter.BilaterialBlur -> BilaterialBlurFilter(context, value)
                 is Filter.BlackAndWhite -> BlackAndWhiteFilter(context)
                 is Filter.BoxBlur -> BoxBlurFilter(context, value)
                 is Filter.Brightness -> BrightnessFilter(context, value)
