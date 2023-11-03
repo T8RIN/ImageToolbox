@@ -14,7 +14,6 @@ sealed class UiFilter<T>(
     override val value: T
 ) : Filter<Bitmap, T> {
 
-    //TODO: Add SideFadeFilter
     constructor(
         @StringRes title: Int,
         valueRange: ClosedFloatingPointRange<Float>,
