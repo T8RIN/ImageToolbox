@@ -424,4 +424,12 @@
     <string name="attention">提醒</string>
     <string name="search_option">搜尋</string>
     <string name="search_option_sub">允許在主畫面上搜尋所有可用的選項</string>
+    <string name="pdf_tools">PDF 工具</string>
+    <string name="images_to_pdf">圖像轉 PDF</string>
+    <string name="preview_pdf">預覽 PDF</string>
+    <string name="pdf_to_images">PDF 轉圖像</string>
+    <string name="images_to_pdf_sub">將指定圖像打包成輸出 PDF 檔案</string>
+    <string name="preview_pdf_sub">簡易 PDF 預覽</string>
+    <string name="pdf_tools_sub">操作 PDF 檔案：預覽、轉換為一組圖像或從給定圖片中建立</string>
+    <string name="pdf_to_images_sub">將 PDF 轉換為指定輸出格式的圖像</string>
 </resources>
