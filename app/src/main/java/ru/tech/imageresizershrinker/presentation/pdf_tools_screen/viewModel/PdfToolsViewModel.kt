@@ -338,7 +338,7 @@ class PdfToolsViewModel @Inject constructor(
 
     fun addImagesToPdf(uris: List<Uri>) {
         _imagesToPdfState.update {
-            it?.plus(uris)
+            it?.plus(uris)?.toSet()?.toList()
         }
     }
 

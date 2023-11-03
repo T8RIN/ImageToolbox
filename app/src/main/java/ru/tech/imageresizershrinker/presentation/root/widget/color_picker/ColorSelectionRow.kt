@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.color_picker
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -88,12 +89,13 @@ fun ColorSelectionRow(
                         ).value
                     )
                     .aspectRatio(1f)
-                    .transparencyChecker()
                     .container(
                         shape = CircleShape,
                         color = background,
                         resultPadding = 0.dp
                     )
+                    .transparencyChecker()
+                    .background(background, CircleShape)
                     .clickable {
                         showColorPicker.value = true
                     },
@@ -108,7 +110,14 @@ fun ColorSelectionRow(
                             else 0.5f
                         },
                         darkMode = background.luminance() < 0.3f
-                    )
+                    ),
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(
+                            color = background.copy(alpha = 1f),
+                            shape = CircleShape
+                        )
+                        .padding(4.dp)
                 )
             }
         }
