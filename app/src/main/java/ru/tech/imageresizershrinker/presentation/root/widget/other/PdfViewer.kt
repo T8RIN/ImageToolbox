@@ -321,7 +321,7 @@ fun PdfViewer(
                             state = state,
                             modifier = Modifier
                                 .fillMaxSize()
-                                .photoGridDragHandler(
+                                .dragHandler(
                                     key = uriState,
                                     lazyGridState = state,
                                     isVertical = true,
@@ -375,7 +375,7 @@ fun PdfViewer(
                             state = state,
                             modifier = Modifier
                                 .fillMaxSize()
-                                .photoGridDragHandler(
+                                .dragHandler(
                                     key = uriState,
                                     lazyGridState = state,
                                     isVertical = false,
@@ -591,7 +591,7 @@ private fun PdfPage(
 
 }
 
-private fun Modifier.photoGridDragHandler(
+private fun Modifier.dragHandler(
     key: Any?,
     isVertical: Boolean,
     lazyGridState: LazyGridState,
