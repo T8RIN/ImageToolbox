@@ -65,6 +65,7 @@ fun Loading(modifier: Modifier = Modifier) {
                 )
                 .size(minHeight / 2),
             strokeCap = StrokeCap.Round,
+            trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
             color = MaterialTheme.colorScheme.onSecondaryContainer
         )
     }
