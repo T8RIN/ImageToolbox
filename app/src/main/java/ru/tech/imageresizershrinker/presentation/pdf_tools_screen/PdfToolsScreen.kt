@@ -15,11 +15,13 @@ import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.animation.shrinkOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
@@ -49,13 +51,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.outlined.Deselect
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Collections
 import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.PictureAsPdf
@@ -98,8 +101,10 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.t8rin.dynamic.theme.observeAsState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
@@ -352,11 +357,6 @@ fun PdfToolsScreen(
                 Icon(Icons.Outlined.Share, null)
             }
         }
-        val visible by remember(viewModel.pdfToImageState?.pages, pdfType) {
-            derivedStateOf {
-                (viewModel.pdfToImageState?.pages?.size != 0 && pdfType is Screen.PdfTools.Type.PdfToImages)
-            }
-        }
         AnimatedVisibility(
             visible = pdfType is Screen.PdfTools.Type.PdfToImages,
             enter = fadeIn() + scaleIn() + expandHorizontally(),
@@ -371,20 +371,7 @@ fun PdfToolsScreen(
                 Icon(Icons.Outlined.SelectAll, null)
             }
         }
-        AnimatedVisibility(
-            visible = visible,
-            enter = fadeIn() + scaleIn() + expandHorizontally(),
-            exit = fadeOut() + scaleOut() + shrinkHorizontally()
-        ) {
-            IconButton(
-                onClick = {
-                    deselectAllToggle.value = true
-                },
-                enabled = pdfType != null
-            ) {
-                Icon(Icons.Outlined.Deselect, null)
-            }
-        }
+
     }
 
     val buttons: @Composable (pdfType: Screen.PdfTools.Type?) -> Unit = {
@@ -433,8 +420,8 @@ fun PdfToolsScreen(
 
             AnimatedVisibility(
                 visible = visible,
-                enter = fadeIn() + scaleIn() + expandHorizontally(),
-                exit = fadeOut() + scaleOut() + shrinkHorizontally()
+                enter = fadeIn() + scaleIn() + expandIn(),
+                exit = fadeOut() + scaleOut() + shrinkOut()
             ) {
                 FloatingActionButton(
                     onClick = {
@@ -577,6 +564,48 @@ fun PdfToolsScreen(
                         }
                         if (viewModel.pdfType == null) {
                             TopAppBarEmoji()
+                        } else {
+                            val pagesSize = viewModel.pdfToImageState?.pages?.size
+                            val visible by remember(
+                                viewModel.pdfToImageState?.pages,
+                                viewModel.pdfType
+                            ) {
+                                derivedStateOf {
+                                    (pagesSize != 0 && viewModel.pdfType is Screen.PdfTools.Type.PdfToImages)
+                                }
+                            }
+                            AnimatedVisibility(
+                                modifier = Modifier
+                                    .padding(4.dp)
+                                    .container(
+                                        shape = CircleShape,
+                                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp),
+                                        resultPadding = 0.dp
+                                    ),
+                                visible = visible
+                            ) {
+                                Row(
+                                    modifier = Modifier.padding(start = 8.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    pagesSize?.takeIf { it != 0 }?.let {
+                                        Spacer(Modifier.width(8.dp))
+                                        Text(
+                                            text = pagesSize.toString(),
+                                            fontSize = 20.sp,
+                                            fontWeight = FontWeight.Medium
+                                        )
+                                    }
+                                    IconButton(
+                                        onClick = {
+                                            deselectAllToggle.value = true
+                                        }
+                                    ) {
+                                        Icon(Icons.Rounded.Close, null)
+                                    }
+                                }
+                            }
                         }
                     }
 
