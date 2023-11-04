@@ -7,23 +7,24 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.gigamole.composeshadowsplus.rsblur.rsBlurShadow
 import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 
@@ -97,22 +98,31 @@ fun BoxScope.Loading(done: Int, left: Int) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(Modifier.height(8.dp))
-        if (left == 1 || done == 0) {
+        BoxWithConstraints(
+            modifier = Modifier.size(56.dp),
+            contentAlignment = Alignment.Center
+        ) {
             CircularProgressIndicator(
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                modifier = Modifier.size(maxWidth),
+                color = MaterialTheme.colorScheme.tertiary.copy(0.5f),
+                trackColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                 strokeCap = StrokeCap.Round,
             )
-        } else {
             val progress by animateFloatAsState(targetValue = done / left.toFloat())
             CircularProgressIndicator(
+                modifier = Modifier.size(maxWidth),
                 progress = { progress },
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
                 strokeCap = StrokeCap.Round,
             )
+            AutoSizeText(
+                text = "$done / $left",
+                maxLines = 1,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.width(maxWidth * 0.8f),
+                textAlign = TextAlign.Center
+            )
         }
-        Spacer(Modifier.height(8.dp))
-        Text("$done / $left")
     }
     KeepScreenOn()
 }

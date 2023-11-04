@@ -576,7 +576,7 @@ fun PdfToolsScreen(
                             }
                             AnimatedVisibility(
                                 modifier = Modifier
-                                    .padding(4.dp)
+                                    .padding(8.dp)
                                     .container(
                                         shape = CircleShape,
                                         color = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp),
@@ -585,7 +585,7 @@ fun PdfToolsScreen(
                                 visible = visible
                             ) {
                                 Row(
-                                    modifier = Modifier.padding(start = 8.dp),
+                                    modifier = Modifier.padding(start = 12.dp),
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.Center
                                 ) {
