@@ -1,6 +1,8 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.other
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -19,12 +21,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
+import com.gigamole.composeshadowsplus.rsblur.rsBlurShadow
 import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 
 @Composable
 fun Loading(modifier: Modifier = Modifier) {
+    val borderWidth = LocalSettingsState.current.borderWidth
+
     BoxWithConstraints(
         modifier
             .then(
@@ -33,11 +39,22 @@ fun Loading(modifier: Modifier = Modifier) {
                 } else Modifier
             )
             .aspectRatio(1f)
-            .container(
-                shape = DavidStarShape,
-                autoShadowElevation = 0.dp,
+            .then(
+                if (borderWidth <= 0.dp) {
+                    Modifier.rsBlurShadow(radius = 2.dp, shape = DavidStarShape)
+                } else Modifier
+            )
+            .background(
                 color = MaterialTheme.colorScheme.secondaryContainer,
-                resultPadding = 0.dp
+                shape = DavidStarShape
+            )
+            .border(
+                width = borderWidth,
+                color = MaterialTheme.colorScheme.outlineVariant(
+                    0.1f,
+                    MaterialTheme.colorScheme.secondaryContainer
+                ),
+                shape = DavidStarShape
             )
     ) {
         CircularProgressIndicator(
@@ -55,14 +72,26 @@ fun Loading(modifier: Modifier = Modifier) {
 
 @Composable
 fun BoxScope.Loading(done: Int, left: Int) {
+    val borderWidth = LocalSettingsState.current.borderWidth
     Column(
         modifier = Modifier
             .size(108.dp)
-            .container(
-                autoShadowElevation = 0.dp,
-                shape = DavidStarShape,
+            .then(
+                if (borderWidth <= 0.dp) {
+                    Modifier.rsBlurShadow(radius = 2.dp, shape = DavidStarShape)
+                } else Modifier
+            )
+            .background(
                 color = MaterialTheme.colorScheme.secondaryContainer,
-                resultPadding = 0.dp
+                shape = DavidStarShape
+            )
+            .border(
+                width = borderWidth,
+                color = MaterialTheme.colorScheme.outlineVariant(
+                    0.1f,
+                    MaterialTheme.colorScheme.secondaryContainer
+                ),
+                shape = DavidStarShape
             )
             .align(Alignment.Center),
         verticalArrangement = Arrangement.Center,
