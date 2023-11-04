@@ -64,6 +64,9 @@ class PdfToolsViewModel @Inject constructor(
     private val _scaleSmallImagesToLarge: MutableState<Boolean> = mutableStateOf(false)
     val scaleSmallImagesToLarge by _scaleSmallImagesToLarge
 
+    private val _showOOMWarning: MutableState<Boolean> = mutableStateOf(false)
+    val showOOMWarning by _showOOMWarning
+
     private var savingJob: Job? = null
 
     private fun resetCalculatedData() {
@@ -140,11 +143,12 @@ class PdfToolsViewModel @Inject constructor(
             } else it
         }
         viewModelScope.launch {
-            if (newUri != null) {
+            newUri?.let {
                 val pages = imageManager.getPdfPages(newUri.toString())
                 _pdfToImageState.update {
                     PdfToImageState(newUri, pages)
                 }
+                checkForOOM()
             }
         }
 
@@ -159,6 +163,8 @@ class PdfToolsViewModel @Inject constructor(
         _imagesToPdfState.update { null }
         _pdfToImageState.update { null }
         _presetSelected.update { Preset.Numeric(100) }
+        _showOOMWarning.value = false
+        _imageInfo.value = ImageInfo()
         resetCalculatedData()
     }
 
@@ -198,7 +204,7 @@ class PdfToolsViewModel @Inject constructor(
                                 data = imageManager.compress(
                                     ImageData(
                                         image = bitmap,
-                                        imageInfo = imageInfo,
+                                        imageInfo = this,
                                         metadata = null
                                     )
                                 )
@@ -358,14 +364,41 @@ class PdfToolsViewModel @Inject constructor(
         _scaleSmallImagesToLarge.update { !it }
     }
 
+    private var presetSelectionJob: Job? = null
+
+    private fun checkForOOM() {
+        val preset = _presetSelected.value
+        if (preset is Preset.Numeric) {
+            presetSelectionJob?.cancel()
+            presetSelectionJob = viewModelScope.launch {
+                runCatching {
+                    _pdfToImageState.value?.let { (uri, pages) ->
+                        val pagesSize = imageManager.getPdfPageSizes(uri.toString())
+                            .filterIndexed { index, _ -> index in pages }
+                        _showOOMWarning.update {
+                            pagesSize.maxOf { size ->
+                                size.width * (preset.value / 100f) * size.height * (preset.value / 100f) * 4
+                            } >= 10_000 * 10_000 * 3
+                        }
+                    }
+                }.getOrNull() ?: _showOOMWarning.update { false }
+            }
+        }
+    }
+
     fun selectPreset(preset: Preset) {
         _presetSelected.update { preset }
+        preset.value()?.takeIf { it <= 100f }?.let { quality ->
+            _imageInfo.update { it.copy(quality = quality.toFloat()) }
+        }
+        checkForOOM()
     }
 
     fun updatePdfToImageSelection(ints: List<Int>) {
         _pdfToImageState.update {
             it?.copy(pages = ints)
         }
+        checkForOOM()
     }
 
     fun updateImageFormat(imageFormat: ImageFormat) {

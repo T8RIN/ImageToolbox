@@ -368,7 +368,7 @@ class AndroidImageManager @Inject constructor(
                 height = image.height().calc(preset.value),
             )
 
-            else -> currentInfo
+            is Preset.None -> currentInfo
         }
     }
 
@@ -919,6 +919,7 @@ class AndroidImageManager @Inject constructor(
     }
 
     override fun rotate(image: Bitmap, degrees: Float): Bitmap {
+        //TODO: Add free rotation( maybe :) )
         val matrix = Matrix().apply { postRotate(degrees) }
         return Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)
     }
@@ -1312,6 +1313,32 @@ class AndroidImageManager @Inject constructor(
             )?.use { fileDescriptor ->
                 List(PdfRenderer(fileDescriptor).pageCount) { it }
             } ?: emptyList()
+        }
+    }
+
+    private val pagesBuf = hashMapOf<String, List<IntegerSize>>()
+    override suspend fun getPdfPageSizes(uri: String): List<IntegerSize> {
+        return withContext(Dispatchers.IO) {
+            if (!pagesBuf[uri].isNullOrEmpty()) {
+                pagesBuf[uri]!!
+            } else {
+                context.contentResolver.openFileDescriptor(
+                    uri.toUri(),
+                    "r"
+                )?.use { fileDescriptor ->
+                    val r = PdfRenderer(fileDescriptor)
+                    List(r.pageCount) {
+                        val page = r.openPage(it)
+                        page?.run {
+                            IntegerSize(width, height)
+                        }.also {
+                            page.close()
+                        }
+                    }.filterNotNull().also {
+                        pagesBuf[uri] = it
+                    }
+                } ?: emptyList()
+            }
         }
     }
 

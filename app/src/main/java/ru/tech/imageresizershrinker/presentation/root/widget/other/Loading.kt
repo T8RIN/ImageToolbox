@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.other
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxScope
@@ -22,7 +21,6 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 
 @Composable
@@ -37,7 +35,7 @@ fun Loading(modifier: Modifier = Modifier) {
             .aspectRatio(1f)
             .container(
                 shape = DavidStarShape,
-                autoShadowElevation = 6.dp,
+                autoShadowElevation = 0.dp,
                 color = MaterialTheme.colorScheme.secondaryContainer,
                 resultPadding = 0.dp
             )
@@ -57,12 +55,11 @@ fun Loading(modifier: Modifier = Modifier) {
 
 @Composable
 fun BoxScope.Loading(done: Int, left: Int) {
-    val settingsState = LocalSettingsState.current
     Column(
         modifier = Modifier
             .size(108.dp)
             .container(
-                autoShadowElevation = animateDpAsState(if (settingsState.borderWidth > 0.dp) 1.dp else 10.dp).value,
+                autoShadowElevation = 0.dp,
                 shape = DavidStarShape,
                 color = MaterialTheme.colorScheme.secondaryContainer,
                 resultPadding = 0.dp

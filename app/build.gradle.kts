@@ -183,6 +183,7 @@ dependencies {
     implementation(project(":screenshot"))
     implementation(project(":systemuicontroller"))
     implementation(project(":placeholder"))
+    implementation(project(":logger"))
 
     implementation(project(":colorpicker")) {
         exclude("com.github.SmartToolFactory", "Compose-Color-Detector")

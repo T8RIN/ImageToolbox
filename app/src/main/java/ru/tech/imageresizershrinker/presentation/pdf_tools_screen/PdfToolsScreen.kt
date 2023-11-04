@@ -500,7 +500,8 @@ fun PdfToolsScreen(
                 PresetWidget(
                     selectedPreset = viewModel.presetSelected,
                     includeTelegramOption = false,
-                    onPresetSelected = viewModel::selectPreset
+                    onPresetSelected = viewModel::selectPreset,
+                    showWarning = viewModel.showOOMWarning
                 )
                 if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) {
                     Spacer(

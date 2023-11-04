@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":logger")
+
+
 include(":jxlcoder-coil")
 
 

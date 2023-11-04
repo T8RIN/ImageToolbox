@@ -193,4 +193,6 @@ interface ImageManager<I, M> {
 
     suspend fun getPdfPages(uri: String): List<Int>
 
+    suspend fun getPdfPageSizes(uri: String): List<IntegerSize>
+
 }

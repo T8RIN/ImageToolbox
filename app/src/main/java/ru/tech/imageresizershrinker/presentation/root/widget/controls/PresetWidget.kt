@@ -73,6 +73,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 fun PresetWidget(
     selectedPreset: Preset,
     includeTelegramOption: Boolean,
+    showWarning: Boolean = false,
     onPresetSelected: (Preset) -> Unit
 ) {
     val settingsState = LocalSettingsState.current
@@ -86,7 +87,6 @@ fun PresetWidget(
 
     var showPresetInfoDialog by remember { mutableStateOf(false) }
 
-    // TODO: Add aspect ratios and fix weird image previewing and preset losing when selecting from PickImageFromUrisSheet
     SwipeToReveal(
         maxRevealDp = 88.dp,
         state = state,
@@ -177,6 +177,8 @@ fun PresetWidget(
                         }
                     }
                 }
+
+                OOMWarning(visible = showWarning)
             }
         },
         revealedContentStart = {
