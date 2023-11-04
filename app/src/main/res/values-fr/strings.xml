@@ -415,4 +415,21 @@
     <string name="tonal_spot_sub">Style de palette par défaut, il permet de personnaliser les quatre couleurs, d\'autres vous permettent de définir uniquement la couleur clé</string>
     <string name="palette_style">Style de palette</string>
     <string name="vibrant">Vive</string>
+    <string name="both">Les deux</string>
+    <string name="invert_colors_sub">Remplace les couleurs du thème par des couleurs négatives si elles sont activées</string>
+    <string name="fading_edges">Bords décolorés</string>
+    <string name="pdf_tools">Outils PDF</string>
+    <string name="foss_update_checker_warning">Ce vérificateur de mise à jour se connectera à GitHub pour vérifier si une nouvelle mise à jour est disponible</string>
+    <string name="search_option">Chercher</string>
+    <string name="images_to_pdf">Images en PDF</string>
+    <string name="preview_pdf">Aperçu du PDF</string>
+    <string name="search_option_sub">Permet de rechercher parmi toutes les options disponibles sur l\'écran principal</string>
+    <string name="disabled">Désactiver</string>
+    <string name="pdf_to_images">PDF en images</string>
+    <string name="images_to_pdf_sub">Emballer les images données dans le fichier PDF de sortie</string>
+    <string name="preview_pdf_sub">Aperçu PDF simple</string>
+    <string name="invert_colors">Inverser les couleurs</string>
+    <string name="pdf_tools_sub">Fonctionner avec des fichiers PDF : prévisualiser, convertir en lot d\'images ou en créer une à partir d\'images données</string>
+    <string name="attention">Precison</string>
+    <string name="pdf_to_images_sub">Convertir un PDF en images dans un format de sortie donné</string>
 </resources>
