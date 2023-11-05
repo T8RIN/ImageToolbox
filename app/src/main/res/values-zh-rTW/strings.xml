@@ -313,7 +313,7 @@
     <string name="saved_to_without_filename">已儲存至 %1$s 資料夾</string>
     <string name="tg_chat">Telegram 聊天</string>
     <string name="tg_chat_sub">討論此應用程式與從其他使用者獲取意見回饋，您也可以在此獲得 beta 更新與見解</string>
-    <string name="reset_settings_sub">這將會恢復您的設定至預設值，請注意，如果沒有備份檔案，則無法撤銷</string>
+    <string name="reset_settings_sub">這將會恢復您的設定至預設值，請注意，如果沒有備份檔案，則無法復原動作。</string>
     <string name="something_went_wrong_emphasis">哎呀… 發生了一些錯誤，您可以使用以下的選項寫信給我，我將會嘗試尋找解決方案</string>
     <string name="nature_and_animals">自然與動物</string>
     <string name="max_colors_count">最大色彩數量</string>
@@ -331,7 +331,7 @@
     <string name="background_remover">去除背景</string>
     <string name="trim_image">修剪圖片</string>
     <string name="background_remover_sub">通過繪圖或自動選項從圖片去除背景</string>
-    <string name="delete_color_scheme_warn">您即將刪除選取的色彩方案，此操作無法被撤銷</string>
+    <string name="delete_color_scheme_warn">您即將刪除選取的色彩方案，此動作無法被復原。</string>
     <string name="auto_erase_background">自動擦除背景</string>
     <string name="crashlytics_sub">這允許應用程式手動地收集崩潰報告</string>
     <string name="create_issue">建立問題</string>
@@ -345,7 +345,7 @@
     <string name="delete_color_scheme_title">刪除方案</string>
     <string name="restore_background">還原背景</string>
     <string name="font">字型</string>
-    <string name="resize_and_convert_sub">變更選取的圖片尺寸或轉換它們至其他格式。如果您選取的單一圖片，也可以在此編輯其 EXIF 詮釋資料</string>
+    <string name="resize_and_convert_sub">變更選取的圖片尺寸或轉換它們至其他格式。如果您選取了單一圖片，也可以在此編輯其 EXIF 詮釋資料</string>
     <string name="using_large_fonts_warn">使用大字型也許會導致 UI 故障與一些問題，這無法修復，請謹慎使用。</string>
     <string name="keep_exif_sub">如果啟用，圖片原始的詮釋資料將會被保留</string>
     <string name="erase_mode">擦除模式</string>
