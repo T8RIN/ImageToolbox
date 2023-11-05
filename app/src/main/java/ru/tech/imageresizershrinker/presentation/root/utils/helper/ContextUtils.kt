@@ -175,8 +175,12 @@ object ContextUtils {
                 if (
                     intent.type?.contains("pdf") == true
                 ) {
-                    intent.data?.let(onHasPdfUri) ?: intent.parcelable<Uri>(Intent.EXTRA_STREAM)
-                        ?.let(onHasPdfUri)
+                    val uri = intent.data ?: intent.parcelable<Uri>(Intent.EXTRA_STREAM)
+                    uri?.let {
+                        if (intent.action == Intent.ACTION_VIEW) {
+                            navigate(Screen.PdfTools(Screen.PdfTools.Type.Preview(it)))
+                        } else onHasPdfUri(uri)
+                    }
                 } else {
                     intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
                         navigate(Screen.LoadNetImage(it))
