@@ -19,6 +19,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -38,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import org.xmlpull.v1.XmlPullParser
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRow
@@ -59,10 +61,18 @@ fun ChangeLanguagePreference(
             modifier = modifier,
             applyHorPadding = false,
             title = stringResource(R.string.language),
+            resultModifier = Modifier.padding(top = 16.dp, bottom = 16.dp, end = 16.dp),
             subtitle = context.getCurrentLocaleString(),
+            startContent = {
+                Icon(
+                    imageVector = Icons.Outlined.Language,
+                    contentDescription = null,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            },
             endContent = {
                 Icon(
-                    imageVector = Icons.Rounded.Language,
+                    imageVector = Icons.Rounded.CreateAlt,
                     contentDescription = null,
                 )
             },

@@ -110,8 +110,12 @@ fun ColorTuplePicker(
 
     SimpleSheet(
         visible = visible,
-        title = { TitleItem(text = title, icon = Icons.Outlined.Palette, modifier = Modifier) },
-        endConfirmButtonPadding = 0.dp,
+        title = {
+            TitleItem(
+                text = title,
+                icon = Icons.Outlined.Palette
+            )
+        },
         sheetContent = {
             Box {
                 LazyVerticalGrid(

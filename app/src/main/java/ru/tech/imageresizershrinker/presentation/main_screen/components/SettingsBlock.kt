@@ -41,20 +41,28 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AutoDelete
 import androidx.compose.material.icons.outlined.BorderStyle
 import androidx.compose.material.icons.outlined.Brightness4
 import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.material.icons.outlined.BurstMode
 import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.DataArray
+import androidx.compose.material.icons.outlined.Difference
 import androidx.compose.material.icons.outlined.EmojiEmotions
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.FolderSpecial
 import androidx.compose.material.icons.outlined.FontDownload
 import androidx.compose.material.icons.outlined.FormatColorFill
+import androidx.compose.material.icons.outlined.Hexagon
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.outlined.LightMode
+import androidx.compose.material.icons.outlined.Memory
 import androidx.compose.material.icons.outlined.NewReleases
+import androidx.compose.material.icons.outlined.Numbers
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.SettingsInputComposite
 import androidx.compose.material.icons.outlined.SettingsSuggest
 import androidx.compose.material.icons.outlined.WaterDrop
 import androidx.compose.material.icons.rounded.AddCircleOutline
@@ -137,6 +145,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.emoji.EmojiItem
 import ru.tech.imageresizershrinker.presentation.root.icons.emoji.allIcons
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Analytics
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Beta
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Cool
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Crashlytics
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.DownloadFile
@@ -147,6 +156,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.Prefix
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Shadow
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Symbol
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Theme
 import ru.tech.imageresizershrinker.presentation.root.model.isFirstLaunch
 import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
 import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
@@ -320,6 +330,13 @@ fun SettingsBlock(
                                     .padding(start = 8.dp, end = 8.dp, bottom = 4.dp),
                                 shape = topShape,
                                 title = stringResource(R.string.color_scheme),
+                                startContent = {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Theme,
+                                        contentDescription = null,
+                                        modifier = Modifier.padding(horizontal = 16.dp)
+                                    )
+                                },
                                 subtitle = stringResource(R.string.pick_accent_color),
                                 onClick = {
                                     if (enabled) onEditColorScheme()
@@ -333,8 +350,8 @@ fun SettingsBlock(
                                 endContent = {
                                     ColorTupleItem(
                                         modifier = Modifier
+                                            .padding(end = 8.dp)
                                             .size(72.dp)
-                                            .offset(7.dp)
                                             .container(
                                                 shape = DavidStarShape,
                                                 color = MaterialTheme
@@ -444,12 +461,19 @@ fun SettingsBlock(
                                 title = stringResource(R.string.emoji),
                                 subtitle = stringResource(R.string.emoji_sub),
                                 onClick = onEditEmoji,
+                                startContent = {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Cool,
+                                        contentDescription = null,
+                                        modifier = Modifier.padding(horizontal = 16.dp)
+                                    )
+                                },
                                 endContent = {
                                     val emoji = LocalSettingsState.current.selectedEmoji
                                     Box(
                                         modifier = Modifier
+                                            .padding(end = 8.dp)
                                             .size(64.dp)
-                                            .offset(x = 7.dp)
                                             .container(
                                                 shape = CloverShape,
                                                 color = MaterialTheme
@@ -950,7 +974,8 @@ fun SettingsBlock(
                                 .colorScheme
                                 .secondaryContainer
                                 .copy(alpha = 0.2f),
-                            endIcon = Icons.Outlined.FontDownload,
+                            icon = Icons.Outlined.FontDownload,
+                            endIcon = Icons.Rounded.CreateAlt,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 8.dp)
@@ -1048,7 +1073,7 @@ fun SettingsBlock(
                     )
                 }
                 item {
-                    // Arrangement
+                    // Options Arrangement
                     SettingItem(
                         icon = Icons.Rounded.TableRows,
                         text = stringResource(R.string.options_arrangement),
@@ -1075,6 +1100,7 @@ fun SettingsBlock(
                                     )
                                 }
                             },
+                            icon = Icons.Outlined.DataArray,
                             title = stringResource(R.string.order),
                             subtitle = stringResource(R.string.order_sub),
                             color = MaterialTheme
@@ -1087,7 +1113,19 @@ fun SettingsBlock(
                             shape = centerShape,
                             modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 4.dp),
                             applyHorPadding = false,
+                            resultModifier = Modifier.padding(
+                                end = 16.dp,
+                                top = 8.dp,
+                                bottom = 8.dp
+                            ),
                             title = stringResource(R.string.search_option),
+                            startContent = {
+                                Icon(
+                                    imageVector = Icons.Outlined.Search,
+                                    contentDescription = null,
+                                    modifier = Modifier.padding(horizontal = 16.dp)
+                                )
+                            },
                             subtitle = stringResource(R.string.search_option_sub),
                             checked = settingsState.screensSearchEnabled,
                             onClick = {
@@ -1098,6 +1136,18 @@ fun SettingsBlock(
                             shape = bottomShape,
                             modifier = Modifier.padding(horizontal = 8.dp),
                             applyHorPadding = false,
+                            resultModifier = Modifier.padding(
+                                end = 16.dp,
+                                top = 8.dp,
+                                bottom = 8.dp
+                            ),
+                            startContent = {
+                                Icon(
+                                    imageVector = Icons.Outlined.SettingsInputComposite,
+                                    contentDescription = null,
+                                    modifier = Modifier.padding(horizontal = 16.dp)
+                                )
+                            },
                             title = stringResource(R.string.group_options_by_type),
                             subtitle = stringResource(R.string.group_options_by_type_sub),
                             checked = settingsState.groupOptionsByTypes,
@@ -1122,6 +1172,7 @@ fun SettingsBlock(
                                 .colorScheme
                                 .secondaryContainer
                                 .copy(alpha = 0.2f),
+                            icon = Icons.Outlined.Numbers,
                             endIcon = Icons.Rounded.CreateAlt,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -1283,6 +1334,17 @@ fun SettingsBlock(
                                         end = 8.dp,
                                         bottom = 4.dp
                                     ),
+                                    resultModifier = Modifier.padding(
+                                        horizontal = 16.dp,
+                                        vertical = 8.dp
+                                    ),
+                                    startContent = {
+                                        Icon(
+                                            imageVector = Icons.Outlined.Hexagon,
+                                            contentDescription = null,
+                                            modifier = Modifier.padding(end = 16.dp)
+                                        )
+                                    },
                                     applyHorPadding = false,
                                     onClick = { viewModel.toggleAddFileSize() },
                                     title = stringResource(R.string.add_file_size),
@@ -1301,6 +1363,17 @@ fun SettingsBlock(
                                             ).value
                                         )
                                         .padding(start = 8.dp, end = 8.dp, bottom = 4.dp),
+                                    resultModifier = Modifier.padding(
+                                        horizontal = 16.dp,
+                                        vertical = 8.dp
+                                    ),
+                                    startContent = {
+                                        Icon(
+                                            imageVector = Icons.Outlined.Difference,
+                                            contentDescription = null,
+                                            modifier = Modifier.padding(end = 16.dp)
+                                        )
+                                    },
                                     onClick = {
                                         if (enabled) viewModel.toggleAddOriginalFilename()
                                         else scope.launch {
@@ -1316,10 +1389,6 @@ fun SettingsBlock(
                                 )
                                 PreferenceRowSwitch(
                                     shape = centerShape,
-                                    resultModifier = Modifier.padding(
-                                        horizontal = 16.dp,
-                                        vertical = 8.dp
-                                    ),
                                     modifier = Modifier.padding(
                                         start = 8.dp,
                                         end = 8.dp,
@@ -1330,10 +1399,14 @@ fun SettingsBlock(
                                     title = stringResource(R.string.replace_sequence_number),
                                     subtitle = stringResource(R.string.replace_sequence_number_sub),
                                     checked = settingsState.addSequenceNumber,
+                                    resultModifier = Modifier.padding(
+                                        horizontal = 16.dp,
+                                        vertical = 8.dp
+                                    ),
                                     startContent = {
                                         Icon(
-                                            Icons.Filled.Numeric,
-                                            null,
+                                            imageVector = Icons.Filled.Numeric,
+                                            contentDescription = null,
                                             modifier = Modifier.padding(end = 16.dp)
                                         )
                                     }
@@ -1390,16 +1463,29 @@ fun SettingsBlock(
                                 .copy(alpha = 0.2f),
                             title = stringResource(R.string.cache_size),
                             subtitle = stringResource(R.string.found_s, cache),
-                            endIcon = Icons.Rounded.DeleteOutline
+                            endIcon = Icons.Rounded.DeleteOutline,
+                            icon = Icons.Outlined.Memory
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         PreferenceRowSwitch(
                             shape = bottomShape,
                             modifier = Modifier.padding(horizontal = 8.dp),
+                            resultModifier = Modifier.padding(
+                                top = 8.dp,
+                                bottom = 8.dp,
+                                end = 16.dp
+                            ),
                             applyHorPadding = false,
                             title = stringResource(R.string.auto_cache_clearing),
                             subtitle = stringResource(R.string.auto_cache_clearing_sub),
                             checked = settingsState.clearCacheOnLaunch,
+                            startContent = {
+                                Icon(
+                                    imageVector = Icons.Outlined.AutoDelete,
+                                    contentDescription = null,
+                                    modifier = Modifier.padding(horizontal = 16.dp)
+                                )
+                            },
                             onClick = {
                                 viewModel.updateClearCacheOnLaunch()
                             }
@@ -1653,7 +1739,9 @@ fun SettingsBlock(
                                     Icon(
                                         Icons.Rounded.Crashlytics,
                                         null,
-                                        modifier = Modifier.padding(end = 16.dp)
+                                        modifier = Modifier
+                                            .padding(end = 16.dp)
+                                            .size(20.dp)
                                     )
                                 },
                                 checked = settingsState.allowCollectCrashlytics,
@@ -1676,7 +1764,9 @@ fun SettingsBlock(
                                     Icon(
                                         imageVector = Icons.Rounded.Analytics,
                                         contentDescription = null,
-                                        modifier = Modifier.padding(end = 16.dp)
+                                        modifier = Modifier
+                                            .padding(end = 16.dp)
+                                            .size(20.dp)
                                     )
                                 },
                                 checked = settingsState.allowCollectAnalytics,
@@ -1838,15 +1928,12 @@ fun SettingsBlock(
                                     )
                                 }
                             )
-                            PreferenceRow(
+                            PreferenceItem(
                                 shape = centerShape,
                                 modifier = Modifier.padding(horizontal = 8.dp),
-                                applyHorPadding = false,
                                 title = stringResource(R.string.help_translate),
                                 subtitle = stringResource(R.string.help_translate_sub),
-                                endContent = {
-                                    Icon(Icons.Rounded.Translate, null)
-                                },
+                                icon = Icons.Rounded.Translate,
                                 onClick = {
                                     context.startActivity(
                                         Intent(
@@ -1856,15 +1943,12 @@ fun SettingsBlock(
                                     )
                                 }
                             )
-                            PreferenceRow(
+                            PreferenceItem(
                                 shape = centerShape,
                                 modifier = Modifier.padding(horizontal = 8.dp),
-                                applyHorPadding = false,
                                 title = stringResource(R.string.issue_tracker),
                                 subtitle = stringResource(R.string.issue_tracker_sub),
-                                endContent = {
-                                    Icon(Icons.Outlined.BugReport, null)
-                                },
+                                icon = Icons.Outlined.BugReport,
                                 onClick = {
                                     context.startActivity(
                                         Intent(

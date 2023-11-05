@@ -64,7 +64,7 @@ import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.rememberColorScheme
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
-import ru.tech.imageresizershrinker.presentation.root.icons.material.PaletteSwatch
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Theme
 import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
 import ru.tech.imageresizershrinker.presentation.root.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
@@ -115,7 +115,7 @@ fun AvailableColorTuplesSheet(
                 ) {
                     TitleItem(
                         text = stringResource(R.string.color_scheme),
-                        icon = Icons.Rounded.PaletteSwatch
+                        icon = Icons.Outlined.Theme
                     )
                 }
             }
