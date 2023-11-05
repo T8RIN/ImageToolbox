@@ -99,7 +99,7 @@ fun BottomButtonsBlock(
                     .fillMaxHeight()
                     .container(
                         shape = RectangleShape,
-                        color = MaterialTheme.colorScheme.surfaceContainer
+                        color = MaterialTheme.colorScheme.surfaceContainerLow
                     )
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = 16.dp)

@@ -24,6 +24,8 @@ import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.BasicFilterState
+import ru.tech.imageresizershrinker.presentation.filters_screen.components.MaskingFilterState
+import ru.tech.imageresizershrinker.presentation.filters_screen.components.UiFilterMask
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.utils.state.update
@@ -45,6 +47,10 @@ class FilterViewModel @Inject constructor(
         mutableStateOf(BasicFilterState())
     val basicFilterState by _basicFilterState
 
+    private val _maskingFilterState: MutableState<MaskingFilterState> =
+        mutableStateOf(MaskingFilterState())
+    val maskingFilterState by _maskingFilterState
+
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
 
@@ -63,6 +69,9 @@ class FilterViewModel @Inject constructor(
     private val _done: MutableState<Int> = mutableIntStateOf(0)
     val done by _done
 
+    private val _left: MutableState<Int> = mutableIntStateOf(1)
+    val left by _left
+
     private val _imageInfo = mutableStateOf(ImageInfo())
     val imageInfo by _imageInfo
 
@@ -72,12 +81,17 @@ class FilterViewModel @Inject constructor(
     private val _filterType: MutableState<Screen.Filter.Type?> = mutableStateOf(null)
     val filterType: Screen.Filter.Type? by _filterType
 
-    fun setMime(imageFormat: ImageFormat) {
+    fun setImageFormat(imageFormat: ImageFormat) {
         _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
         updatePreview()
     }
 
-    fun updateUris(uris: List<Uri>?) {
+    fun setBasicFilter(uris: List<Uri>?) {
+        _filterType.update {
+            if (it !is Screen.Filter.Type.Basic) {
+                Screen.Filter.Type.Basic(uris)
+            } else it
+        }
         _basicFilterState.value = BasicFilterState(
             uris = uris,
             selectedUri = uris?.firstOrNull()?.also(::setBitmap)
@@ -130,6 +144,7 @@ class FilterViewModel @Inject constructor(
             _isSaving.value = true
             var failed = 0
             _done.value = 0
+            _left.value = _basicFilterState.value.uris?.size ?: 1
             _basicFilterState.value.uris?.forEach { uri ->
                 runCatching {
                     imageManager.getImageWithFiltersApplied(
@@ -196,7 +211,8 @@ class FilterViewModel @Inject constructor(
 
 
     private fun updateCanSave() {
-        _canSave.value = _bitmap.value != null && _basicFilterState.value.filters.isNotEmpty()
+        _canSave.value =
+            _bitmap.value != null && ((_filterType.value is Screen.Filter.Type.Basic && _basicFilterState.value.filters.isNotEmpty()) || (_filterType.value is Screen.Filter.Type.Masking && _maskingFilterState.value.masks.isNotEmpty()))
     }
 
     private var filterJob: Job? = null
@@ -222,7 +238,7 @@ class FilterViewModel @Inject constructor(
         _needToApplyFilters.value = true
     }
 
-    fun updateOrder(value: List<UiFilter<*>>) {
+    fun updateFiltersOrder(value: List<UiFilter<*>>) {
         _basicFilterState.update {
             it.copy(filters = value)
         }
@@ -254,9 +270,11 @@ class FilterViewModel @Inject constructor(
 
     fun canShow(): Boolean = bitmap?.let { imageManager.canShow(it) } ?: false
 
-    fun shareBitmaps(onComplete: () -> Unit) {
+    fun performSharing(onComplete: () -> Unit) {
         viewModelScope.launch {
             _isSaving.value = true
+            _done.value = 0
+            _left.value = _basicFilterState.value.uris?.size ?: 1
             imageManager.shareImages(
                 uris = _basicFilterState.value.uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
@@ -313,7 +331,51 @@ class FilterViewModel @Inject constructor(
     }
 
     fun setType(type: Screen.Filter.Type) {
-        _filterType.update { type }
+        when (type) {
+            is Screen.Filter.Type.Basic -> setBasicFilter(type.uris)
+            is Screen.Filter.Type.Masking -> setMaskFilter(type.uri)
+        }
+    }
+
+    fun setMaskFilter(uri: Uri?) {
+        _filterType.update {
+            if (it !is Screen.Filter.Type.Basic) {
+                Screen.Filter.Type.Masking(uri)
+            } else it
+        }
+        uri?.let { setBitmap(it) }
+        _maskingFilterState.value = MaskingFilterState(uri)
+    }
+
+    fun clearType() {
+        _filterType.update { null }
+        _basicFilterState.update { BasicFilterState() }
+        _maskingFilterState.update { MaskingFilterState() }
+        _bitmap.value = null
+        _previewBitmap.value = null
+        _imageInfo.update { ImageInfo() }
+    }
+
+    fun saveMaskedBitmap() {
+        TODO("Not yet implemented")
+    }
+
+    fun updateMasksOrder(uiFilterMasks: List<UiFilterMask>) {
+        _maskingFilterState.update {
+            it.copy(masks = uiFilterMasks)
+        }
+    }
+
+    fun updateMask(value: UiFilterMask, index: Int, showError: (Throwable) -> Unit) {
+        TODO("Not yet implemented")
+    }
+
+    fun removeMaskAtIndex(index: Int) {
+        TODO("Not yet implemented")
+    }
+
+    fun addMask(uiFilterMask: UiFilterMask) {
+        TODO("Not yet implemented")
     }
 
 }
