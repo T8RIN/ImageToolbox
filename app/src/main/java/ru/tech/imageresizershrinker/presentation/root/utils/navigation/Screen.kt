@@ -20,6 +20,7 @@ import androidx.compose.material.icons.rounded.PictureAsPdf
 import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Public
 import androidx.compose.material.icons.rounded.Security
+import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
@@ -71,12 +72,45 @@ sealed class Screen(
         subtitle = R.string.crop_sub
     )
 
-    class Filter(val uris: List<Uri>? = null) : Screen(
+    class Filter(val type: Type? = null) : Screen(
         id = 4,
         icon = Icons.Rounded.PhotoFilter,
         title = R.string.filter,
         subtitle = R.string.filter_sub
-    )
+    ) {
+        @Parcelize
+        sealed class Type(
+            @StringRes val title: Int,
+            @StringRes val subtitle: Int,
+            @IgnoredOnParcel val icon: ImageVector? = null
+        ) : Parcelable {
+
+            class Masking(
+                val uri: Uri? = null
+            ) : Type(
+                title = R.string.mask_filter,
+                subtitle = R.string.mask_filter_sub,
+                icon = Icons.Rounded.Texture
+            )
+
+            class Basic(
+                val uris: List<Uri>? = null
+            ) : Type(
+                title = R.string.filter,
+                subtitle = R.string.filter_sub,
+                icon = Icons.Rounded.PhotoFilter
+            )
+
+            companion object {
+                val entries by lazy {
+                    listOf(
+                        Basic(),
+                        Masking()
+                    )
+                }
+            }
+        }
+    }
 
     class Draw(val uri: Uri? = null) : Screen(
         id = 5,

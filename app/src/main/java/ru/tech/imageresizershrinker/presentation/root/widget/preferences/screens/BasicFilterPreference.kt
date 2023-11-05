@@ -15,7 +15,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 
 @Composable
-fun FilterPreference(
+fun BasicFilterPreference(
     onClick: () -> Unit,
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
     modifier: Modifier = Modifier

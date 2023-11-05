@@ -178,7 +178,7 @@ fun ScreenSelector(
 
             is Screen.Filter -> {
                 FiltersScreen(
-                    uriState = screen.uris,
+                    type = screen.type,
                     onGoBack = onGoBack
                 )
             }

@@ -288,11 +288,11 @@ fun FilterEditOption(
 private fun Transformation<Bitmap>.toCoil(): coil.transform.Transformation {
     return object : coil.transform.Transformation {
         override val cacheKey: String
-            get() = this.cacheKey
+            get() = this@toCoil.cacheKey
 
         override suspend fun transform(
             input: Bitmap,
             size: Size
-        ): Bitmap = this.transform(input, size)
+        ): Bitmap = this@toCoil.transform(input, size)
     }
 }

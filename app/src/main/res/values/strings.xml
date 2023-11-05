@@ -449,6 +449,8 @@
     <string name="preview_pdf_sub">Simple PDF preview</string>
     <string name="pdf_to_images_sub">Convert PDF to Images in given output format</string>
     <string name="images_to_pdf_sub">Pack given Images into output PDF file</string>
+    <string name="mask_filter">Mask Filter</string>
+    <string name="mask_filter_sub">Apply filter chains on given masked areas, each mask area can determine it\'s own set of filters</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

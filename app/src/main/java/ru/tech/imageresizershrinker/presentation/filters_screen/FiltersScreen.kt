@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.filters_screen
 
 import android.content.res.Configuration
-import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
@@ -94,6 +93,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.failedToSaveImages
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
@@ -126,7 +126,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageSt
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FiltersScreen(
-    uriState: List<Uri>?,
+    type: Screen.Filter.Type?,
     onGoBack: () -> Unit,
     viewModel: FilterViewModel = hiltViewModel()
 ) {
@@ -145,7 +145,7 @@ fun FiltersScreen(
         }
     }
 
-    val filterList = viewModel.filterList
+    val filterList = viewModel.basicFilterState.filters
 
     LaunchedEffect(filterList) {
         if (viewModel.needToApplyFilters) {
@@ -153,9 +153,10 @@ fun FiltersScreen(
         }
     }
 
-    LaunchedEffect(uriState) {
-        uriState?.takeIf { it.isNotEmpty() }?.let(viewModel::updateUris)
+    LaunchedEffect(type) {
+        type?.let { viewModel.setType(it) }
     }
+
     LaunchedEffect(viewModel.previewBitmap) {
         viewModel.previewBitmap?.let {
             if (allowChangeColor) {
@@ -323,7 +324,7 @@ fun FiltersScreen(
 
     val buttons = @Composable {
         BottomButtonsBlock(
-            targetState = (viewModel.uris.isNullOrEmpty()) to imageInside,
+            targetState = (viewModel.basicFilterState.uris.isNullOrEmpty()) to imageInside,
             onPickImage = pickImage,
             onSaveBitmap = saveBitmaps,
             canSave = viewModel.canSave,
@@ -442,7 +443,7 @@ fun FiltersScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {
-                    if (!imageInside && !viewModel.uris.isNullOrEmpty()) {
+                    if (!imageInside && !viewModel.basicFilterState.uris.isNullOrEmpty()) {
                         Box(
                             Modifier
                                 .container(
@@ -492,7 +493,7 @@ fun FiltersScreen(
                                 if (imageInside && viewModel.bitmap == null) imageBlock()
                                 if (viewModel.bitmap != null) {
                                     ImageCounter(
-                                        imageCount = viewModel.uris?.size?.takeIf { it > 1 },
+                                        imageCount = viewModel.basicFilterState.uris?.size?.takeIf { it > 1 },
                                         onRepick = {
                                             showPickImageFromUrisDialog = true
                                         }
@@ -601,7 +602,7 @@ fun FiltersScreen(
             if (viewModel.isSaving) {
                 LoadingDialog(
                     done = viewModel.done,
-                    left = viewModel.uris?.size ?: 1
+                    left = viewModel.basicFilterState.uris?.size ?: 1
                 ) {
                     viewModel.cancelSaving()
                 }
@@ -616,8 +617,8 @@ fun FiltersScreen(
                     )
                 ),
                 visible = showPickImageFromUrisDialog,
-                uris = viewModel.uris,
-                selectedUri = viewModel.selectedUri,
+                uris = viewModel.basicFilterState.uris,
+                selectedUri = viewModel.basicFilterState.selectedUri,
                 onDismiss = {
                     showPickImageFromUrisDialog = false
                 },

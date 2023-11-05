@@ -715,7 +715,7 @@ fun DrawScreen(
                                     resultModifier = Modifier
                                         .padding(
                                             horizontal = 16.dp,
-                                            vertical = 8.dp
+                                            vertical = 16.dp
                                         )
                                         .widthIn(max = 360.dp),
                                     modifier = Modifier.padding(top = 4.dp),

@@ -40,13 +40,13 @@ import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedBu
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BackgroundRemoverPreference
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BasicFilterPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BytesResizePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.CipherPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.ComparePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.CropPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.DeleteExifPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.DrawPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.FilterPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.GeneratePalettePreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.ImagePreviewPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.ImageStitchingPreference
@@ -248,9 +248,15 @@ fun ProcessImagesPreferenceSheet(
                             )
                         }
                         item {
-                            FilterPreference(
+                            BasicFilterPreference(
                                 modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.Filter(uris)) },
+                                onClick = {
+                                    navigate(
+                                        Screen.Filter(
+                                            type = Screen.Filter.Type.Basic(uris)
+                                        )
+                                    )
+                                },
                                 color = color
                             )
                         }
@@ -361,10 +367,14 @@ fun ProcessImagesPreferenceSheet(
                             )
                         }
                         item {
-                            FilterPreference(
+                            BasicFilterPreference(
                                 modifier = Modifier.fillMaxWidth(),
                                 onClick = {
-                                    navigate(Screen.Filter(uris))
+                                    navigate(
+                                        Screen.Filter(
+                                            type = Screen.Filter.Type.Basic(uris)
+                                        )
+                                    )
                                 },
                                 color = color
                             )
