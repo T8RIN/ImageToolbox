@@ -41,6 +41,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material.icons.outlined.AutoDelete
 import androidx.compose.material.icons.outlined.BorderStyle
 import androidx.compose.material.icons.outlined.Brightness4
@@ -64,6 +65,7 @@ import androidx.compose.material.icons.outlined.Numbers
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.SettingsInputComposite
 import androidx.compose.material.icons.outlined.SettingsSuggest
+import androidx.compose.material.icons.outlined.Verified
 import androidx.compose.material.icons.outlined.WaterDrop
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Block
@@ -277,6 +279,13 @@ fun SettingsBlock(
                                             ),
                                         showTransparencyChecker = false,
                                         shape = RectangleShape
+                                    )
+                                },
+                                endContent = {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Outlined.OpenInNew,
+                                        contentDescription = null,
+                                        modifier = Modifier.padding(end = 16.dp)
                                     )
                                 },
                                 onClick = { showAuthorSheet.value = true }
@@ -1878,6 +1887,13 @@ fun SettingsBlock(
                                 subtitle = remember {
                                     "${BuildConfig.VERSION_NAME}${if (BuildConfig.FLAVOR == "foss") "-foss" else ""} (${BuildConfig.VERSION_CODE})"
                                 },
+                                startContent = {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Verified,
+                                        contentDescription = null,
+                                        modifier = Modifier.padding(horizontal = 16.dp)
+                                    )
+                                },
                                 endContent = {
                                     Icon(
                                         painter = painterResource(R.drawable.ic_launcher_monochrome),
@@ -1892,9 +1908,8 @@ fun SettingsBlock(
                                             }
                                         ).value,
                                         modifier = Modifier
-                                            .padding(start = 8.dp)
+                                            .padding(start = 8.dp, end = 8.dp)
                                             .size(64.dp)
-                                            .offset(7.dp)
                                             .container(
                                                 resultPadding = 0.dp,
                                                 color = animateColorAsState(
