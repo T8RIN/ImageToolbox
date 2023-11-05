@@ -10,6 +10,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.getAppColorTuple
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
@@ -33,6 +34,7 @@ import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewM
 import ru.tech.imageresizershrinker.presentation.pdf_tools_screen.PdfToolsScreen
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.PickColorFromImageScreen
 import ru.tech.imageresizershrinker.presentation.resize_and_convert_screen.ResizeAndConvertScreen
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.findActivity
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.SingleEditScreen
@@ -41,6 +43,7 @@ import ru.tech.imageresizershrinker.presentation.single_edit_screen.SingleEditSc
 fun ScreenSelector(
     viewModel: MainViewModel
 ) {
+    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val navController = viewModel.navController
     val settingsState = LocalSettingsState.current
@@ -142,7 +145,11 @@ fun ScreenSelector(
             is Screen.ImagePreview -> {
                 ImagePreviewScreen(
                     uriState = screen.uris,
-                    onGoBack = onGoBack
+                    onGoBack = {
+                        if (screen.uris != null) {
+                            context.findActivity()?.finishAffinity()
+                        } else onGoBack()
+                    }
                 )
             }
 
@@ -214,7 +221,11 @@ fun ScreenSelector(
             is Screen.PdfTools -> {
                 PdfToolsScreen(
                     type = screen.type,
-                    onGoBack = onGoBack
+                    onGoBack = {
+                        if (screen.type != null) {
+                            context.findActivity()?.finishAffinity()
+                        } else onGoBack()
+                    }
                 )
             }
         }

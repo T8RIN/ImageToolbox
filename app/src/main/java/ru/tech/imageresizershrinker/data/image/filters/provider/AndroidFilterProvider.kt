@@ -136,7 +136,7 @@ class AndroidFilterProvider @Inject constructor(
                 is Filter.WhiteBalance -> WhiteBalanceFilter(context, value)
                 is Filter.ZoomBlur -> ZoomBlurFilter(context, value)
 
-                else -> throw NotImplementedError()
+                else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }
         }
     }

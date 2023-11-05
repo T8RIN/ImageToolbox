@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Margin
 import androidx.compose.material.icons.outlined.PhotoSizeSelectSmall
+import androidx.compose.material.icons.rounded.Collections
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Crop
@@ -16,9 +17,11 @@ import androidx.compose.material.icons.rounded.Photo
 import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.PhotoSizeSelectLarge
 import androidx.compose.material.icons.rounded.PictureAsPdf
+import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Public
 import androidx.compose.material.icons.rounded.Security
 import androidx.compose.ui.graphics.vector.ImageVector
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.R
@@ -163,28 +166,42 @@ sealed class Screen(
         @Parcelize
         sealed class Type(
             @StringRes val title: Int,
-            @StringRes val subtitle: Int
+            @StringRes val subtitle: Int,
+            @IgnoredOnParcel val icon: ImageVector? = null
         ) : Parcelable {
             class Preview(
                 val pdfUri: Uri? = null
             ) : Type(
                 title = R.string.preview_pdf,
-                subtitle = R.string.preview_pdf_sub
+                subtitle = R.string.preview_pdf_sub,
+                icon = Icons.Rounded.Preview
             )
 
             class PdfToImages(
                 val pdfUri: Uri? = null
             ) : Type(
                 title = R.string.pdf_to_images,
-                subtitle = R.string.pdf_to_images_sub
+                subtitle = R.string.pdf_to_images_sub,
+                icon = Icons.Rounded.Collections
             )
 
             class ImagesToPdf(
                 val imageUris: List<Uri>? = null
             ) : Type(
                 title = R.string.images_to_pdf,
-                subtitle = R.string.images_to_pdf_sub
+                subtitle = R.string.images_to_pdf_sub,
+                icon = Icons.Rounded.PictureAsPdf
             )
+
+            companion object {
+                val entries by lazy {
+                    listOf(
+                        Preview(),
+                        PdfToImages(),
+                        ImagesToPdf()
+                    )
+                }
+            }
         }
     }
 

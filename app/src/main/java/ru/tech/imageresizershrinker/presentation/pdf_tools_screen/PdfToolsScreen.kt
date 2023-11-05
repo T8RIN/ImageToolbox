@@ -10,7 +10,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
@@ -30,7 +29,6 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -59,10 +57,7 @@ import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Collections
 import androidx.compose.material.icons.rounded.FileOpen
-import androidx.compose.material.icons.rounded.PictureAsPdf
-import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -136,14 +131,15 @@ import ru.tech.imageresizershrinker.presentation.root.widget.other.PdfViewerOrie
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.PdfToImagesPreference
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.PreviewPdfPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 
 @OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class,
-    ExperimentalLayoutApi::class
+    ExperimentalMaterial3Api::class
 )
 @Composable
 fun PdfToolsScreen(
@@ -175,10 +171,13 @@ fun PdfToolsScreen(
     }
 
     val onBack = {
-        if (!viewModel.canGoBack()) showExitDialog = true
-        else if (viewModel.pdfType != null) {
-            viewModel.clearType()
-        } else onGoBack()
+        if (type is Screen.PdfTools.Type.Preview) onGoBack()
+        else {
+            if (!viewModel.canGoBack()) showExitDialog = true
+            else if (viewModel.pdfType != null) {
+                viewModel.clearType()
+            } else onGoBack()
+        }
     }
 
     val showConfetti: () -> Unit = {
@@ -276,26 +275,20 @@ fun PdfToolsScreen(
                 contentPadding = PaddingValues(12.dp),
             ) {
                 item {
-                    PreferenceItem(
+                    PreviewPdfPreference(
                         onClick = {
                             viewModel.setPdfPreview(tempSelectionUri)
                             showSelectionPdfPicker.value = false
                         },
-                        icon = Icons.Rounded.Preview,
-                        title = stringResource(R.string.preview_pdf),
-                        subtitle = stringResource(R.string.preview_pdf_sub),
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
                 item {
-                    PreferenceItem(
+                    PdfToImagesPreference(
                         onClick = {
                             viewModel.setPdfToImagesUri(tempSelectionUri)
                             showSelectionPdfPicker.value = false
                         },
-                        icon = Icons.Rounded.Collections,
-                        title = stringResource(R.string.pdf_to_images),
-                        subtitle = stringResource(R.string.pdf_to_images_sub),
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -672,38 +665,30 @@ fun PdfToolsScreen(
                                             )
                                         ),
                                     ) {
-                                        item {
-                                            PreferenceItem(
-                                                onClick = {
-                                                    pdfPreviewPicker.launch(arrayOf("application/pdf"))
-                                                },
-                                                icon = Icons.Rounded.Preview,
-                                                title = stringResource(R.string.preview_pdf),
-                                                subtitle = stringResource(R.string.preview_pdf_sub),
-                                                modifier = Modifier.fillMaxWidth()
-                                            )
-                                        }
-                                        item {
-                                            PreferenceItem(
-                                                onClick = {
-                                                    pdfToImagesPicker.launch(arrayOf("application/pdf"))
-                                                },
-                                                icon = Icons.Rounded.Collections,
-                                                title = stringResource(R.string.pdf_to_images),
-                                                subtitle = stringResource(R.string.pdf_to_images_sub),
-                                                modifier = Modifier.fillMaxWidth()
-                                            )
-                                        }
-                                        item {
-                                            PreferenceItem(
-                                                onClick = {
-                                                    imagesToPdfPicker.pickImage()
-                                                },
-                                                icon = Icons.Rounded.PictureAsPdf,
-                                                title = stringResource(R.string.images_to_pdf),
-                                                subtitle = stringResource(R.string.images_to_pdf_sub),
-                                                modifier = Modifier.fillMaxWidth()
-                                            )
+                                        Screen.PdfTools.Type.entries.forEach {
+                                            item {
+                                                PreferenceItem(
+                                                    onClick = {
+                                                        when (it) {
+                                                            is Screen.PdfTools.Type.ImagesToPdf -> {
+                                                                imagesToPdfPicker.pickImage()
+                                                            }
+
+                                                            is Screen.PdfTools.Type.PdfToImages -> {
+                                                                pdfToImagesPicker.launch(arrayOf("application/pdf"))
+                                                            }
+
+                                                            is Screen.PdfTools.Type.Preview -> {
+                                                                pdfPreviewPicker.launch(arrayOf("application/pdf"))
+                                                            }
+                                                        }
+                                                    },
+                                                    icon = it.icon,
+                                                    title = stringResource(it.title),
+                                                    subtitle = stringResource(it.subtitle),
+                                                    modifier = Modifier.fillMaxWidth()
+                                                )
+                                            }
                                         }
                                     }
                                     Row(
