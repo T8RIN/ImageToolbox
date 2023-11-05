@@ -38,7 +38,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -95,7 +94,8 @@ fun EditExifSheet(
             Row {
                 if (exifMap?.isEmpty() == false) {
                     EnhancedButton(
-                        containerColor = Color.Transparent,
+                        containerColor = MaterialTheme.colorScheme.errorContainer.copy(0.2f),
+                        contentColor = MaterialTheme.colorScheme.onErrorContainer.copy(0.7f),
                         onClick = {
                             showClearExifDialog = true
                         }
