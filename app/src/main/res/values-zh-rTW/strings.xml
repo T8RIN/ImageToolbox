@@ -25,7 +25,7 @@
     <string name="cancel">取消</string>
     <string name="presets">預設集</string>
     <string name="crop">裁切</string>
-    <string name="clear_exif_sub">所有圖片的 EXIF 資料將會被清除，此動作無法被撤消！</string>
+    <string name="clear_exif_sub">所有圖片的 EXIF 資料將會被清除，此動作無法被復原！</string>
     <string name="ratio">比例</string>
     <string name="image_not_saved_sub">如果您現在離開，將會遺失所有未儲存的變更</string>
     <string name="image_not_saved">儲存</string>
