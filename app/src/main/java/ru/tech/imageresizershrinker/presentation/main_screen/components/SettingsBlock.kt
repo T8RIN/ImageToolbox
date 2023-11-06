@@ -1946,6 +1946,10 @@ fun SettingsBlock(
                             PreferenceItem(
                                 shape = centerShape,
                                 modifier = Modifier.padding(horizontal = 8.dp),
+                                color = MaterialTheme
+                                    .colorScheme
+                                    .secondaryContainer
+                                    .copy(alpha = 0.2f),
                                 title = stringResource(R.string.help_translate),
                                 subtitle = stringResource(R.string.help_translate_sub),
                                 icon = Icons.Rounded.Translate,
@@ -1961,6 +1965,10 @@ fun SettingsBlock(
                             PreferenceItem(
                                 shape = centerShape,
                                 modifier = Modifier.padding(horizontal = 8.dp),
+                                color = MaterialTheme
+                                    .colorScheme
+                                    .secondaryContainer
+                                    .copy(alpha = 0.2f),
                                 title = stringResource(R.string.issue_tracker),
                                 subtitle = stringResource(R.string.issue_tracker_sub),
                                 icon = Icons.Outlined.BugReport,

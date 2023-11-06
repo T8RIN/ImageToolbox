@@ -580,6 +580,10 @@ fun FiltersScreen(
                                             imageUri = viewModel.maskingFilterState.uri,
                                             previousMasks = maskList.take(index),
                                             mask = mask,
+                                            titleText = stringResource(
+                                                R.string.mask_indexed,
+                                                index + 1
+                                            ),
                                             onMaskChange = {
                                                 viewModel.updateMask(
                                                     value = it,
