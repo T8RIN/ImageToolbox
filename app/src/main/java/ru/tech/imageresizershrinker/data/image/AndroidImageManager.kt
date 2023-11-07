@@ -26,7 +26,6 @@ import coil.request.ImageRequest
 import coil.size.Size
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.R
@@ -850,7 +849,11 @@ class AndroidImageManager @Inject constructor(
     }
 
     override fun canShow(image: Bitmap): Boolean {
-        return image.size() < 4096 * 4096 * 5
+        return canShow(image.size())
+    }
+
+    private fun canShow(size: Int): Boolean {
+        return size < 3096 * 3096 * 3
     }
 
     override suspend fun scaleUntilCanShow(
@@ -861,12 +864,11 @@ class AndroidImageManager @Inject constructor(
         var (height, width) = image.run { height to width }
 
         var iterations = 0
-        while (height * width * 5L >= 3096 * 3096 * 4L) {
-            height = (height * 0.7f).roundToInt()
-            width = (width * 0.7f).roundToInt()
+        while (!canShow(size = height * width * 4)) {
+            height = (height * 0.85f).roundToInt()
+            width = (width * 0.85f).roundToInt()
             iterations++
         }
-        if (height * width * 5L >= 3096 * 3096 * 4L) cancel()
 
         return@withContext if (iterations == 0) image
         else resize(
@@ -968,85 +970,69 @@ class AndroidImageManager @Inject constructor(
         var height = imageInfo.height
 
         launch {
-            ByteArrayOutputStream().use { byteArrayOutputStream ->
-                if (imageInfo.resizeType !is ResizeType.CenterCrop) {
-                    byteArrayOutputStream.write(
-                        compress(
-                            imageData = ImageData(
-                                image = image,
-                                imageInfo = imageInfo
-                            ),
-                            onImageReadyToCompressInterceptor = {
-                                transform(image = it, transformations = transformations)!!
-                            }
-                        )
+            if (imageInfo.resizeType !is ResizeType.CenterCrop) {
+                compress(
+                    imageData = ImageData(
+                        image = image,
+                        imageInfo = imageInfo
+                    ),
+                    onImageReadyToCompressInterceptor = {
+                        transform(image = it, transformations = transformations)!!
+                    }
+                )
+            } else {
+                compressCenterCrop(
+                    scaleFactor = 1f,
+                    onImageReadyToCompressInterceptor = {
+                        transform(image = it, transformations = transformations)!!
+                    },
+                    imageData = ImageData(
+                        image = image,
+                        imageInfo = imageInfo
                     )
-                } else {
-                    byteArrayOutputStream.write(
-                        compressCenterCrop(
-                            scaleFactor = 1f,
-                            onImageReadyToCompressInterceptor = {
-                                transform(image = it, transformations = transformations)!!
-                            },
-                            imageData = ImageData(
-                                image = image,
-                                imageInfo = imageInfo
-                            )
-                        )
-                    )
-                }
-                onGetByteCount(byteArrayOutputStream.toByteArray().size)
-            }
+                )
+            }.let { onGetByteCount(it.size) }
         }
 
         var scaleFactor = 1f
-        while (height * width * 4L >= 3096 * 3096 * 4L) {
-            scaleFactor *= 0.7f
-            height = (height * 0.7f).roundToInt()
-            width = (width * 0.7f).roundToInt()
+        while (!canShow(size = height * width * 4)) {
+            height = (height * 0.85f).roundToInt()
+            width = (width * 0.85f).roundToInt()
+            scaleFactor *= 0.85f
         }
-        if (height * width * 5L >= 3096 * 3096 * 4L) cancel()
 
-
-        ByteArrayOutputStream().use { byteArrayOutputStream ->
-            if (imageInfo.resizeType !is ResizeType.CenterCrop) {
-                byteArrayOutputStream.write(
-                    compress(
-                        imageData = ImageData(
-                            image = image,
-                            imageInfo = imageInfo.copy(
-                                width = width,
-                                height = height
-                            )
-                        ),
-                        onImageReadyToCompressInterceptor = {
-                            transform(image = it, transformations = transformations)!!
-                        }
+        val bytes = if (imageInfo.resizeType !is ResizeType.CenterCrop) {
+            compress(
+                imageData = ImageData(
+                    image = image,
+                    imageInfo = imageInfo.copy(
+                        width = width,
+                        height = height
+                    )
+                ),
+                onImageReadyToCompressInterceptor = {
+                    transform(image = it, transformations = transformations)!!
+                }
+            )
+        } else {
+            compressCenterCrop(
+                scaleFactor = scaleFactor,
+                onImageReadyToCompressInterceptor = {
+                    transform(image = it, transformations = transformations)!!
+                },
+                imageData = ImageData(
+                    image = image,
+                    imageInfo = imageInfo.copy(
+                        width = width,
+                        height = height
                     )
                 )
-            } else {
-                byteArrayOutputStream.write(
-                    compressCenterCrop(
-                        scaleFactor = scaleFactor,
-                        onImageReadyToCompressInterceptor = {
-                            transform(image = it, transformations = transformations)!!
-                        },
-                        imageData = ImageData(
-                            image = image,
-                            imageInfo = imageInfo.copy(
-                                width = width,
-                                height = height
-                            )
-                        )
-                    )
-                )
-            }
-            val bytes = byteArrayOutputStream.toByteArray()
-            val bitmap = imageLoader.execute(
-                ImageRequest.Builder(context).data(bytes).build()
-            ).drawable?.toBitmap()
-            return@withContext bitmap!!
+            )
         }
+        val bitmap = imageLoader.execute(
+            ImageRequest.Builder(context).data(bytes).build()
+        ).drawable?.toBitmap()
+        return@withContext bitmap!!
     }
 
     override suspend fun convertImagesToPdf(

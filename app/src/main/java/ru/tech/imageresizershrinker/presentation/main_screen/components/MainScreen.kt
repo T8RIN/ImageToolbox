@@ -616,27 +616,27 @@ fun MainScreen(
                                         )
                                     ),
                                     content = {
-                                        if (currentList.isNotEmpty()) {
-                                            items(currentList) { screen ->
-                                                PreferenceItemOverload(
-                                                    onClick = {
-                                                        navController.popUpTo { it == Screen.Main }
-                                                        navController.navigate(screen)
-                                                    },
-                                                    onLongClick = {
-                                                        showArrangementSheet.value =
-                                                            !settingsState.groupOptionsByTypes
-                                                    },
-                                                    modifier = Modifier
-                                                        .fillMaxWidth()
-                                                        .animateItemPlacement(),
-                                                    title = stringResource(screen.title),
-                                                    subtitle = stringResource(screen.subtitle),
-                                                    icon = {
-                                                        Icon(screen.icon!!, null)
-                                                    }
-                                                )
-                                            }
+                                        items(currentList) { screen ->
+                                            PreferenceItemOverload(
+                                                onClick = {
+                                                    navController.popUpTo { it == Screen.Main }
+                                                    navController.navigate(screen)
+                                                },
+                                                color = MaterialTheme.colorScheme.surfaceContainerLow,
+                                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                onLongClick = {
+                                                    showArrangementSheet.value =
+                                                        !settingsState.groupOptionsByTypes
+                                                },
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .animateItemPlacement(),
+                                                title = stringResource(screen.title),
+                                                subtitle = stringResource(screen.subtitle),
+                                                icon = {
+                                                    Icon(screen.icon!!, null)
+                                                }
+                                            )
                                         }
                                     }
                                 )
