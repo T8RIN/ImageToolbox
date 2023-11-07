@@ -211,7 +211,9 @@ fun ResizeAndConvertScreen(
     val focus = LocalFocusManager.current
     var showResetDialog by rememberSaveable { mutableStateOf(false) }
     var showOriginal by rememberSaveable { mutableStateOf(false) }
-    var showPickImageFromUrisDialog by rememberSaveable { mutableStateOf(false) }
+
+    val showPickImageFromUrisSheet = rememberSaveable { mutableStateOf(false) }
+
     val showEditExifDialog = rememberSaveable { mutableStateOf(false) }
 
     val bitmapInfo = viewModel.imageInfo
@@ -245,7 +247,7 @@ fun ResizeAndConvertScreen(
         ImageContainer(
             modifier = Modifier.pointerInput(Unit) {
                 detectTapGestures(
-                    onTap = { showPickImageFromUrisDialog = true }
+                    onTap = { showPickImageFromUrisSheet.value = true }
                 )
             },
             imageInside = imageInside,
@@ -379,7 +381,7 @@ fun ResizeAndConvertScreen(
         ImageCounter(
             imageCount = viewModel.uris?.size?.takeIf { it > 1 },
             onRepick = {
-                showPickImageFromUrisDialog = true
+                showPickImageFromUrisSheet.value = true
             }
         )
         AnimatedContent(
@@ -590,12 +592,9 @@ fun ResizeAndConvertScreen(
                         imageManager = viewModel.getImageManager()
                     )
                 ),
-                visible = showPickImageFromUrisDialog,
+                visible = showPickImageFromUrisSheet,
                 uris = viewModel.uris,
                 selectedUri = viewModel.selectedUri,
-                onDismiss = {
-                    showPickImageFromUrisDialog = false
-                },
                 onUriPicked = { uri ->
                     try {
                         viewModel.setBitmap(uri = uri)

@@ -258,7 +258,7 @@ fun FiltersScreen(
     val interactionSource = remember { MutableInteractionSource() }
 
     val focus = LocalFocusManager.current
-    var showPickImageFromUrisDialog by rememberSaveable { mutableStateOf(false) }
+    val showPickImageFromUrisSheet = rememberSaveable { mutableStateOf(false) }
 
     var showOriginal by remember { mutableStateOf(false) }
     var imageState by remember { mutableStateOf(middleImageState()) }
@@ -329,7 +329,7 @@ fun FiltersScreen(
         ImageContainer(
             modifier = Modifier.pointerInput(Unit) {
                 detectTapGestures(
-                    onTap = { showPickImageFromUrisDialog = true }
+                    onTap = { showPickImageFromUrisSheet.value = true }
                 )
             },
             imageInside = imageInside,
@@ -453,7 +453,7 @@ fun FiltersScreen(
                         ImageCounter(
                             imageCount = viewModel.basicFilterState.uris?.size?.takeIf { it > 1 },
                             onRepick = {
-                                showPickImageFromUrisDialog = true
+                                showPickImageFromUrisSheet.value = true
                             }
                         )
                         if (filterList.isNotEmpty()) {
@@ -1035,12 +1035,9 @@ fun FiltersScreen(
                                                 imageManager = viewModel.getImageManager()
                                             )
                                         ),
-                                        visible = showPickImageFromUrisDialog,
+                                        visible = showPickImageFromUrisSheet,
                                         uris = viewModel.basicFilterState.uris,
                                         selectedUri = viewModel.basicFilterState.selectedUri,
-                                        onDismiss = {
-                                            showPickImageFromUrisDialog = false
-                                        },
                                         onUriPicked = { uri ->
                                             try {
                                                 viewModel.setBitmap(uri = uri)

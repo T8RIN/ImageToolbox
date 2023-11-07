@@ -42,7 +42,11 @@ fun Loading(modifier: Modifier = Modifier) {
             .aspectRatio(1f)
             .then(
                 if (borderWidth <= 0.dp) {
-                    Modifier.rsBlurShadow(radius = 2.dp, shape = DavidStarShape)
+                    Modifier.rsBlurShadow(
+                        radius = 2.dp,
+                        shape = DavidStarShape,
+                        isAlphaContentClip = true
+                    )
                 } else Modifier
             )
             .background(

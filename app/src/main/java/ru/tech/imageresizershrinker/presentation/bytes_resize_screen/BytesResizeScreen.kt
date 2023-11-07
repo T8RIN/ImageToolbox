@@ -204,7 +204,7 @@ fun BytesResizeScreen(
     }
 
     val focus = LocalFocusManager.current
-    var showPickImageFromUrisDialog by rememberSaveable { mutableStateOf(false) }
+    val showPickImageFromUrisSheet = rememberSaveable { mutableStateOf(false) }
 
     val imageInside =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
@@ -251,7 +251,7 @@ fun BytesResizeScreen(
         ImageContainer(
             modifier = Modifier.pointerInput(Unit) {
                 detectTapGestures(
-                    onTap = { showPickImageFromUrisDialog = true }
+                    onTap = { showPickImageFromUrisSheet.value = true }
                 )
             },
             imageInside = imageInside,
@@ -410,7 +410,7 @@ fun BytesResizeScreen(
                                     ImageCounter(
                                         imageCount = viewModel.uris?.size?.takeIf { it > 1 },
                                         onRepick = {
-                                            showPickImageFromUrisDialog = true
+                                            showPickImageFromUrisSheet.value = true
                                         }
                                     )
                                     AnimatedContent(
@@ -502,12 +502,9 @@ fun BytesResizeScreen(
                         imageManager = viewModel.getImageManager()
                     )
                 ),
-                visible = showPickImageFromUrisDialog,
+                visible = showPickImageFromUrisSheet,
                 uris = viewModel.uris,
                 selectedUri = viewModel.selectedUri,
-                onDismiss = {
-                    showPickImageFromUrisDialog = false
-                },
                 onUriPicked = { uri ->
                     try {
                         viewModel.setBitmap(uri = uri)

@@ -312,6 +312,7 @@ class ResizeAndConvertViewModel @Inject constructor(
     }
 
     fun setBitmap(uri: Uri) {
+        //TODO: PRESET BAD PREVIEW
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val bitmap = imageManager.getImage(

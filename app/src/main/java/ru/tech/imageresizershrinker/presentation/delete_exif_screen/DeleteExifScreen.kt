@@ -175,7 +175,7 @@ fun DeleteExifScreen(
     }
 
     val focus = LocalFocusManager.current
-    var showPickImageFromUrisDialog by rememberSaveable { mutableStateOf(false) }
+    val showPickImageFromUrisSheet = rememberSaveable { mutableStateOf(false) }
 
     val state = rememberLazyListState()
 
@@ -189,7 +189,7 @@ fun DeleteExifScreen(
                     detectTapGestures(
                         onTap = {
                             if ((viewModel.uris?.size ?: 0) > 1) {
-                                showPickImageFromUrisDialog = true
+                                showPickImageFromUrisSheet.value = true
                             }
                         }
                     )
@@ -205,7 +205,7 @@ fun DeleteExifScreen(
             ImageCounter(
                 imageCount = viewModel.uris?.size?.takeIf { it > 1 },
                 onRepick = {
-                    showPickImageFromUrisDialog = true
+                    showPickImageFromUrisSheet.value = true
                 }
             )
         }
@@ -387,12 +387,9 @@ fun DeleteExifScreen(
                         imageManager = viewModel.getImageManager()
                     )
                 ),
-                visible = showPickImageFromUrisDialog,
+                visible = showPickImageFromUrisSheet,
                 uris = viewModel.uris,
                 selectedUri = viewModel.selectedUri,
-                onDismiss = {
-                    showPickImageFromUrisDialog = false
-                },
                 onUriPicked = { uri ->
                     try {
                         viewModel.setBitmap(uri = uri)
