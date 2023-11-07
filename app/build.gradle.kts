@@ -144,7 +144,7 @@ dependencies {
     implementation("androidx.exifinterface:exifinterface:1.3.6")
     implementation("androidx.appcompat:appcompat:1.7.0-alpha03")
     implementation("androidx.documentfile:documentfile:1.0.1")
-    implementation("androidx.datastore:datastore-preferences-android:1.1.0-alpha05")
+    implementation("androidx.datastore:datastore-preferences-android:1.1.0-alpha06")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 
     //Navigation
@@ -179,7 +179,6 @@ dependencies {
     implementation(project(":modalsheet"))
     implementation(project(":gpuimage"))
     implementation(project(":gesture"))
-    implementation("com.github.awxkee:avif-coder:1.5.1")
     implementation(project(":screenshot"))
     implementation(project(":systemuicontroller"))
     implementation(project(":placeholder"))
@@ -192,7 +191,15 @@ dependencies {
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 
     implementation("com.github.zed-alpha.shadow-gadgets:compose:2.1.0")
+    implementation("com.github.GIGAMOLE:ComposeShadowsPlus:1.0.4")
 
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6")
+
+    implementation("com.github.GIGAMOLE:ComposeFadingEdges:1.0.3")
+    implementation("com.github.nanihadesuka:LazyColumnScrollbar:1.8.0")
+
+
+    implementation("com.github.awxkee:avif-coder:1.5.5")
 
     "marketImplementation"("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
     "marketImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.5.0") {
@@ -207,18 +214,11 @@ dependencies {
     }
     "jxlImplementation"("com.google.firebase:firebase-analytics-ktx:21.5.0")
     "jxlImplementation"("com.google.android.play:review-ktx:2.0.1")
-    "jxlImplementation"("com.github.awxkee:jxl-coder:1.5.2")
-    "jxlImplementation"(project(":jxlcoder-coil"))
+    "jxlImplementation"("com.github.awxkee:jxl-coder-coil:1.5.5")
 
     "marketImplementation"("com.google.android.play:app-update:2.1.0")
     "marketImplementation"("com.google.android.play:app-update-ktx:2.1.0")
 
-    implementation("com.github.GIGAMOLE:ComposeShadowsPlus:1.0.4")
-
-    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6")
-
-    implementation("com.github.GIGAMOLE:ComposeFadingEdges:1.0.3")
-    implementation("com.github.nanihadesuka:LazyColumnScrollbar:1.8.0")
 }
 
 

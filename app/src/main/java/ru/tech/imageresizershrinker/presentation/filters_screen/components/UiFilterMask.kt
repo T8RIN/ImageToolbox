@@ -1,13 +1,13 @@
 package ru.tech.imageresizershrinker.presentation.filters_screen.components
 
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import ru.tech.imageresizershrinker.domain.image.draw.PathPaint
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.domain.model.FilterMask
 
 data class UiFilterMask(
-    override val path: Path,
-    override val paint: Paint,
-    override val filters: List<Filter<Bitmap, *>>
-) : FilterMask<Bitmap, Path, Paint>
+    override val filters: List<Filter<Bitmap, *>>,
+    override val maskPaints: List<PathPaint<Path, Color>>
+) : FilterMask<Bitmap, Path, Color>

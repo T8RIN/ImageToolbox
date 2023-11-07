@@ -7,8 +7,8 @@ import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import coil.imageLoader
+import com.awxkee.jxlcoder.coil.JxlDecoder
 import com.github.awxkee.avifcoil.HeifDecoder
-import com.t8rin.jxlcoder_coil.JxlDecoder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

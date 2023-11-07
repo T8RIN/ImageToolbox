@@ -18,12 +18,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorSelectionRow
+import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorSelectionRowDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 
 @Composable
 fun DrawColorSelector(
     drawColor: Color,
-    onColorChange: (Color) -> Unit
+    onColorChange: (Color) -> Unit,
+    titleText: String = stringResource(R.string.paint_color),
+    defaultColors: List<Color> = ColorSelectionRowDefaults.colorList,
 ) {
     Column(
         modifier = Modifier
@@ -39,7 +42,7 @@ fun DrawColorSelector(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = stringResource(R.string.paint_color),
+                text = titleText,
                 modifier = Modifier.padding(top = 16.dp),
                 fontSize = 18.sp
             )

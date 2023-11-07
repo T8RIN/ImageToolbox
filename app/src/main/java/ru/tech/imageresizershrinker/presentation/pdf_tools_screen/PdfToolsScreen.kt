@@ -105,6 +105,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.model.Preset
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageReorderCarousel
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ScaleSmallImagesToLargeToggle
 import ru.tech.imageresizershrinker.presentation.pdf_tools_screen.viewModel.PdfToolsViewModel
@@ -449,8 +450,7 @@ fun PdfToolsScreen(
         }
     }
 
-    val controls: @Composable (pdfType: Screen.PdfTools.Type?) -> Unit = {
-        val pdfType = it
+    val controls: @Composable (pdfType: Screen.PdfTools.Type?) -> Unit = { pdfType ->
         if (pdfType is Screen.PdfTools.Type.ImagesToPdf) {
             Column(
                 modifier = Modifier.padding(20.dp),
@@ -480,7 +480,11 @@ fun PdfToolsScreen(
                 PresetWidget(
                     selectedPreset = viewModel.presetSelected,
                     includeTelegramOption = false,
-                    onPresetSelected = viewModel::selectPreset,
+                    onPresetSelected = {
+                        if (it is Preset.Numeric) {
+                            viewModel.selectPreset(it)
+                        }
+                    },
                     showWarning = viewModel.showOOMWarning
                 )
                 if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) {

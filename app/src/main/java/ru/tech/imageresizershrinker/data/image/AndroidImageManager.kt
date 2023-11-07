@@ -853,7 +853,9 @@ class AndroidImageManager @Inject constructor(
         return image.size() < 4096 * 4096 * 5
     }
 
-    override suspend fun scaleUntilCanShow(image: Bitmap?): Bitmap? = withContext(Dispatchers.IO) {
+    override suspend fun scaleUntilCanShow(
+        image: Bitmap?
+    ): Bitmap? = withContext(Dispatchers.IO) {
         if (image == null) return@withContext null
 
         var (height, width) = image.run { height to width }
@@ -1099,6 +1101,7 @@ class AndroidImageManager @Inject constructor(
     override fun convertPdfToImages(
         pdfUri: String,
         pages: List<Int>?,
+        preset: Preset.Numeric,
         onGetPagesCount: suspend (Int) -> Unit,
         onProgressChange: suspend (Int, String) -> Unit,
         onComplete: suspend () -> Unit
@@ -1118,8 +1121,8 @@ class AndroidImageManager @Inject constructor(
                         val page = pdfRenderer.openPage(pageIndex)
                         val bitmap = scaleUntilCanShow(
                             Bitmap.createBitmap(
-                                page.width * 2,
-                                page.height * 2,
+                                (page.width * (preset.value / 100f)).roundToInt(),
+                                (page.height * (preset.value / 100f)).roundToInt(),
                                 Bitmap.Config.ARGB_8888
                             )
                         )!!

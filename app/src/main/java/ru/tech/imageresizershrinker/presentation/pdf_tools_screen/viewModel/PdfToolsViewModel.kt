@@ -58,7 +58,7 @@ class PdfToolsViewModel @Inject constructor(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
 
-    private val _presetSelected: MutableState<Preset> = mutableStateOf(Preset.Numeric(100))
+    private val _presetSelected: MutableState<Preset.Numeric> = mutableStateOf(Preset.Numeric(100))
     val presetSelected by _presetSelected
 
     private val _scaleSmallImagesToLarge: MutableState<Boolean> = mutableStateOf(false)
@@ -184,6 +184,7 @@ class PdfToolsViewModel @Inject constructor(
         savingJob = imageManager.convertPdfToImages(
             pdfUri = _pdfToImageState.value?.uri.toString(),
             pages = _pdfToImageState.value?.pages,
+            preset = presetSelected,
             onProgressChange = { _, uri ->
                 runCatching {
                     imageManager.getImage(uri)?.image
@@ -314,6 +315,7 @@ class PdfToolsViewModel @Inject constructor(
                             }
                             _done.value += 1
                         },
+                        preset = presetSelected,
                         onGetPagesCount = { size ->
                             _left.update { size }
                             _isSaving.value = true
@@ -368,25 +370,23 @@ class PdfToolsViewModel @Inject constructor(
 
     private fun checkForOOM() {
         val preset = _presetSelected.value
-        if (preset is Preset.Numeric) {
-            presetSelectionJob?.cancel()
-            presetSelectionJob = viewModelScope.launch {
-                runCatching {
-                    _pdfToImageState.value?.let { (uri, pages) ->
-                        val pagesSize = imageManager.getPdfPageSizes(uri.toString())
-                            .filterIndexed { index, _ -> index in pages }
-                        _showOOMWarning.update {
-                            pagesSize.maxOf { size ->
-                                size.width * (preset.value / 100f) * size.height * (preset.value / 100f) * 4
-                            } >= 10_000 * 10_000 * 3
-                        }
+        presetSelectionJob?.cancel()
+        presetSelectionJob = viewModelScope.launch {
+            runCatching {
+                _pdfToImageState.value?.let { (uri, pages) ->
+                    val pagesSize = imageManager.getPdfPageSizes(uri.toString())
+                        .filterIndexed { index, _ -> index in pages }
+                    _showOOMWarning.update {
+                        pagesSize.maxOf { size ->
+                            size.width * (preset.value / 100f) * size.height * (preset.value / 100f) * 4
+                        } >= 10_000 * 10_000 * 3
                     }
-                }.getOrNull() ?: _showOOMWarning.update { false }
-            }
+                }
+            }.getOrNull() ?: _showOOMWarning.update { false }
         }
     }
 
-    fun selectPreset(preset: Preset) {
+    fun selectPreset(preset: Preset.Numeric) {
         _presetSelected.update { preset }
         preset.value()?.takeIf { it <= 100f }?.let { quality ->
             _imageInfo.update { it.copy(quality = quality.toFloat()) }

@@ -49,7 +49,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Colorize
@@ -106,6 +108,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawColorSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddFiltersSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterItem
@@ -144,6 +147,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BasicFilterPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.MaskFilterPreference
+import ru.tech.imageresizershrinker.presentation.root.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.CompareSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
@@ -629,7 +633,7 @@ fun FiltersScreen(
                             EnhancedButton(
                                 containerColor = MaterialTheme.colorScheme.mixedContainer,
                                 onClick = {
-                                    showAddFilterSheet.value = true
+                                    showAddMaskSheet.value = true
                                 },
                                 modifier = Modifier.padding(
                                     horizontal = 16.dp
@@ -1122,5 +1126,46 @@ fun AddMaskSheet(
     onMaskPicked: (UiFilterMask) -> Unit,
     imageManager: ImageManager<Bitmap, ExifInterface>
 ) {
-    TODO("Not yet implemented")
+    SimpleSheet(
+        visible = visible,
+        title = {
+            TitleItem(
+                text = stringResource(id = R.string.add_mask),
+                icon = Icons.Rounded.Texture
+            )
+        },
+        confirmButton = {
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                onClick = { visible.value = false }
+            ) {
+                Text(stringResource(id = R.string.close))
+            }
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .verticalScroll(
+                    state = rememberScrollState()
+                )
+        ) {
+            var maskColor by rememberSaveable(stateSaver = ColorSaver) { mutableStateOf(Color.Red) }
+            DrawColorSelector(
+                defaultColors = remember {
+                    listOf(
+                        Color.Red,
+                        Color.Green,
+                        Color.Blue,
+                        Color.Yellow,
+                        Color.Cyan,
+                        Color.Magenta
+                    )
+                },
+                drawColor = maskColor,
+                onColorChange = {
+                    maskColor = it
+                }
+            )
+        }
+    }
 }

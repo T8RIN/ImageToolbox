@@ -41,9 +41,9 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 @Composable
 fun SimpleSheet(
     nestedScrollEnabled: Boolean = false,
-    sheetContent: @Composable ColumnScope.() -> Unit,
     dragHandle: @Composable ColumnScope.() -> Unit = { SimpleDragHandle() },
-    visible: MutableState<Boolean>
+    visible: MutableState<Boolean>,
+    sheetContent: @Composable ColumnScope.() -> Unit,
 ) {
     val settingsState = LocalSettingsState.current
     var showSheet by visible
@@ -91,12 +91,12 @@ fun SimpleSheet(
 @Composable
 fun SimpleSheet(
     nestedScrollEnabled: Boolean = false,
-    sheetContent: @Composable ColumnScope.() -> Unit,
     confirmButton: @Composable RowScope.() -> Unit,
     dragHandle: @Composable ColumnScope.() -> Unit = { SimpleDragHandle() },
     title: @Composable () -> Unit,
     endConfirmButtonPadding: Dp = 16.dp,
-    visible: MutableState<Boolean>
+    visible: MutableState<Boolean>,
+    sheetContent: @Composable ColumnScope.() -> Unit,
 ) {
     val settingsState = LocalSettingsState.current
     var showSheet by visible
@@ -162,12 +162,12 @@ fun SimpleSheet(
 @Composable
 fun SimpleSheet(
     nestedScrollEnabled: Boolean = false,
-    sheetContent: @Composable ColumnScope.() -> Unit,
     confirmButton: (@Composable RowScope.() -> Unit)? = null,
     dragHandle: @Composable ColumnScope.() -> Unit = { SimpleDragHandle() },
     title: (@Composable () -> Unit)? = null,
     visible: Boolean,
-    onDismiss: (Boolean) -> Unit
+    onDismiss: (Boolean) -> Unit,
+    sheetContent: @Composable ColumnScope.() -> Unit,
 ) {
     val settingsState = LocalSettingsState.current
     ModalSheet(

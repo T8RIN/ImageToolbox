@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.toUiFilter
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
@@ -110,6 +112,28 @@ fun MaskItem(
                     ) {
                         Icon(Icons.Rounded.CreateAlt, null)
                     }
+                }
+            }
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                mask.filters.forEachIndexed { index, filter ->
+                    FilterItem(
+                        filter = filter.toUiFilter(),
+                        showDragHandle = false,
+                        onRemove = {
+                            onMaskChange(
+                                mask.copy(filters = mask.filters - filter)
+                            )
+                        },
+                        onFilterChange = { value ->
+                            onMaskChange(
+                                mask.copy(
+                                    filters = mask.filters.toMutableList().apply {
+                                        this[index] = filter.toUiFilter().copy(value)
+                                    }
+                                )
+                            )
+                        }
+                    )
                 }
             }
         }

@@ -182,6 +182,7 @@ interface ImageManager<I, M> {
     fun convertPdfToImages(
         pdfUri: String,
         pages: List<Int>?,
+        preset: Preset.Numeric,
         onGetPagesCount: suspend (Int) -> Unit,
         onProgressChange: suspend (Int, String) -> Unit,
         onComplete: suspend () -> Unit = {}
