@@ -154,14 +154,14 @@ class ResizeAndConvertViewModel @Inject constructor(
         }
     }
 
-    private fun setBitmapInfo(newInfo: ImageInfo) {
+    private fun setBitmapInfo(newInfo: ImageInfo, resetTelegram: Boolean = true) {
         if (_imageInfo.value != newInfo || _imageInfo.value.quality == 100f) {
             _imageInfo.value = newInfo.let {
                 if (it.quality != imageInfo.quality) {
                     it.copy(quality = imageInfo.quality)
                 } else it
             }
-            checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
+            checkBitmapAndUpdate(resetPreset = false, resetTelegram = resetTelegram)
         }
     }
 
@@ -311,8 +311,7 @@ class ResizeAndConvertViewModel @Inject constructor(
         savingJob = it
     }
 
-    fun setBitmap(uri: Uri) {
-        //TODO: PRESET BAD PREVIEW
+    fun setBitmap(uri: Uri, resetTelegram: Boolean = true) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val bitmap = imageManager.getImage(
@@ -327,13 +326,14 @@ class ResizeAndConvertViewModel @Inject constructor(
                     height = size?.second ?: 0
                 )
                 setBitmapInfo(
-                    imageManager.applyPresetBy(
+                    newInfo = imageManager.applyPresetBy(
                         image = _bitmap.value,
                         preset = _presetSelected.value,
                         currentInfo = _imageInfo.value
-                    )
+                    ),
+                    resetTelegram = resetTelegram
                 )
-                checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
+                checkBitmapAndUpdate(resetPreset = false, resetTelegram = resetTelegram)
                 _selectedUri.value = uri
             }
         }

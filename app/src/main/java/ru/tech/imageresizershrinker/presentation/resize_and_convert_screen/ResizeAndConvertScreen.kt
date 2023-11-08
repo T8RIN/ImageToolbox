@@ -597,7 +597,7 @@ fun ResizeAndConvertScreen(
                 selectedUri = viewModel.selectedUri,
                 onUriPicked = { uri ->
                     try {
-                        viewModel.setBitmap(uri = uri)
+                        viewModel.setBitmap(uri = uri, resetTelegram = false)
                     } catch (e: Exception) {
                         scope.launch {
                             toastHostState.showError(context, e)
