@@ -432,4 +432,9 @@
     <string name="preview_pdf_sub">簡易 PDF 預覽</string>
     <string name="pdf_tools_sub">操作 PDF 檔案：預覽、轉換為一組圖像或從給定圖片中建立</string>
     <string name="pdf_to_images_sub">將 PDF 轉換為指定輸出格式的圖像</string>
+    <string name="mask_filter">遮罩濾鏡</string>
+    <string name="mask_filter_sub">在指定的遮罩區域應用濾鏡鏈，每個遮罩區域都可以確定其自己的濾鏡集</string>
+    <string name="masks">遮罩</string>
+    <string name="add_mask">新增遮罩</string>
+    <string name="mask_indexed">遮罩 %d</string>
 </resources>
