@@ -429,4 +429,17 @@
     <string name="tonal_spot">Detectar tonalidade</string>
     <string name="search_option">Pesquisar</string>
     <string name="search_option_sub">Permite a capacidade de pesquisar todas as opções disponíveis na tela principal</string>
+    <string name="pdf_tools">Ferramentas PDF</string>
+    <string name="mask_filter">Máscara de filtro</string>
+    <string name="images_to_pdf">Imagens para PDF</string>
+    <string name="mask_filter_sub">Aplique cadeias de filtros em determinadas áreas mascaradas, cada área de máscara pode determinar seu próprio conjunto de filtros</string>
+    <string name="masks">Máscaras</string>
+    <string name="preview_pdf">Visualizar PDF</string>
+    <string name="pdf_to_images">PDF para Imagens</string>
+    <string name="images_to_pdf_sub">Empacote as imagens fornecidas no arquivo PDF de saída</string>
+    <string name="preview_pdf_sub">Pré-visualização simples de PDF</string>
+    <string name="add_mask">Adicionar máscara</string>
+    <string name="pdf_tools_sub">Opere com arquivos PDF: visualize, converta em lote de imagens ou crie um a partir de determinadas imagens</string>
+    <string name="mask_indexed">Máscara %d</string>
+    <string name="pdf_to_images_sub">Converta PDF em imagens em determinado formato de saída</string>
 </resources>
