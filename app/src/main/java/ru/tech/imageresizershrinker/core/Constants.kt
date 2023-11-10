@@ -10,5 +10,7 @@ const val CHAT_LINK = "https://t.me/t8rin_imagetoolbox"
 const val AUTHOR_TG = "http://t.me/T8RIN"
 const val BitcoinWallet = "17Pk1RurnkJxLV9V7mc6Y7dLyHFb9rvQDq"
 const val USDTWallet = "TMPAu7a54NvQNEKnNWh3naXu3oYijqP3U7"
+const val TONSpaceWallet = "UQDMePBU-FaxwaIME8p7h2spRITeRxvtCPegtKefeV5v-sN1"
+const val TONWallet = "UQB44LtN0zArKGcWTbNxU7zAkGYunVs1rkn_VsLq71G4bdmK"
 const val FOSS_LINK =
     "https://f-droid.org/repo/ru.tech.imageresizershrinker/ru/icon_-9n8vowl_QLljJDENvZaSlNplpt8PF-LrCkGnGshnUg=.png"

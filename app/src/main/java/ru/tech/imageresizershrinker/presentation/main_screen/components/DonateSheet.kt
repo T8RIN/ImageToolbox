@@ -5,12 +5,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.Payments
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,6 +21,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -29,10 +32,15 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.BitcoinWallet
+import ru.tech.imageresizershrinker.core.TONSpaceWallet
+import ru.tech.imageresizershrinker.core.TONWallet
 import ru.tech.imageresizershrinker.core.USDTWallet
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Bitcoin
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Ton
 import ru.tech.imageresizershrinker.presentation.root.icons.material.USDT
 import ru.tech.imageresizershrinker.presentation.root.theme.BitcoinColor
+import ru.tech.imageresizershrinker.presentation.root.theme.TONColor
+import ru.tech.imageresizershrinker.presentation.root.theme.TONSpaceColor
 import ru.tech.imageresizershrinker.presentation.root.theme.USDTColor
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyToClipboard
@@ -40,6 +48,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedBu
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
@@ -52,6 +61,8 @@ private val topShape = RoundedCornerShape(
     bottomStart = 6.dp,
     bottomEnd = 6.dp
 )
+
+private val centerShape = RoundedCornerShape(6.dp)
 
 private val bottomShape = RoundedCornerShape(
     topStart = 6.dp,
@@ -104,13 +115,87 @@ fun DonateSheet(
                             color = LocalContentColor.current.copy(alpha = 0.5f)
                         )
                     }
+                    PreferenceItemOverload(
+                        color = TONSpaceColor,
+                        contentColor = TONSpaceColor.inverse(
+                            fraction = { 1f },
+                            darkMode = true
+                        ),
+                        shape = topShape,
+                        onClick = {
+                            context.apply {
+                                copyToClipboard(
+                                    label = getString(R.string.ton_space),
+                                    value = TONSpaceWallet
+                                )
+                                scope.launch {
+                                    toastHostState.showToast(
+                                        icon = Icons.Rounded.ContentCopy,
+                                        message = getString(R.string.copied),
+                                    )
+                                }
+                            }
+                        },
+                        endIcon = {
+                            Icon(imageVector = Icons.Rounded.ContentCopy, contentDescription = null)
+                        },
+                        title = stringResource(R.string.ton_space),
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Rounded.Ton,
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .scale(1.5f)
+                            )
+                        },
+                        subtitle = TONSpaceWallet
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    PreferenceItemOverload(
+                        color = TONColor,
+                        contentColor = TONColor.inverse(
+                            fraction = { 1f },
+                            darkMode = darkMode
+                        ),
+                        shape = centerShape,
+                        onClick = {
+                            context.apply {
+                                copyToClipboard(
+                                    label = getString(R.string.ton),
+                                    value = TONWallet
+                                )
+                                scope.launch {
+                                    toastHostState.showToast(
+                                        icon = Icons.Rounded.ContentCopy,
+                                        message = getString(R.string.copied),
+                                    )
+                                }
+                            }
+                        },
+                        endIcon = {
+                            Icon(imageVector = Icons.Rounded.ContentCopy, contentDescription = null)
+                        },
+                        title = stringResource(R.string.ton),
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Rounded.Ton,
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .scale(1.5f)
+                            )
+                        },
+                        subtitle = TONWallet
+                    )
+                    Spacer(Modifier.height(4.dp))
                     PreferenceItem(
                         color = BitcoinColor,
                         contentColor = BitcoinColor.inverse(
                             fraction = { 1f },
                             darkMode = darkMode
                         ),
-                        shape = topShape,
+                        shape = centerShape,
                         onClick = {
                             context.apply {
                                 copyToClipboard(

@@ -101,3 +101,9 @@ inline val BitcoinColor: Color
 
 inline val USDTColor: Color
     @Composable get() = Color(0xFF50AF95).harmonizeWithPrimary(0.2f)
+
+inline val TONSpaceColor: Color
+    @Composable get() = Color(0xFF232328).harmonizeWithPrimary(0.2f)
+
+inline val TONColor: Color
+    @Composable get() = Color(0xFF0098EA).harmonizeWithPrimary(0.2f)
