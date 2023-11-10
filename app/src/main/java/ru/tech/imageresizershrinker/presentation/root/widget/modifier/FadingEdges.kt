@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.unit.Dp
@@ -27,7 +28,7 @@ fun Modifier.fadingEdges(
     scrollFactor: Float = 1.25f,
     enabled: Boolean = true,
     length: Dp = 16.dp
-) = then(
+) = composed {
     if (!enabled) Modifier
     else {
         val fillType = if (color.isSpecified) {
@@ -45,7 +46,7 @@ fun Modifier.fadingEdges(
         when (scrollableState) {
             is ScrollState -> {
                 if (isVertical) {
-                    verticalFadingEdges(
+                    Modifier.verticalFadingEdges(
                         contentType = FadingEdgesContentType.Dynamic.Scroll(
                             scrollConfig = scrollConfig,
                             state = scrollableState
@@ -54,7 +55,7 @@ fun Modifier.fadingEdges(
                         length = length
                     )
                 } else {
-                    horizontalFadingEdges(
+                    Modifier.horizontalFadingEdges(
                         contentType = FadingEdgesContentType.Dynamic.Scroll(
                             scrollConfig = scrollConfig,
                             state = scrollableState
@@ -67,7 +68,7 @@ fun Modifier.fadingEdges(
 
             is LazyListState -> {
                 if (isVertical) {
-                    verticalFadingEdges(
+                    Modifier.verticalFadingEdges(
                         contentType = FadingEdgesContentType.Dynamic.Lazy.List(
                             scrollConfig = scrollConfig,
                             state = scrollableState
@@ -76,7 +77,7 @@ fun Modifier.fadingEdges(
                         length = length
                     )
                 } else {
-                    horizontalFadingEdges(
+                    Modifier.horizontalFadingEdges(
                         contentType = FadingEdgesContentType.Dynamic.Lazy.List(
                             scrollConfig = scrollConfig,
                             state = scrollableState
@@ -90,7 +91,7 @@ fun Modifier.fadingEdges(
             is LazyGridState -> {
                 require(spanCount != null)
                 if (isVertical) {
-                    verticalFadingEdges(
+                    Modifier.verticalFadingEdges(
                         contentType = FadingEdgesContentType.Dynamic.Lazy.Grid(
                             scrollConfig = scrollConfig,
                             state = scrollableState,
@@ -100,7 +101,7 @@ fun Modifier.fadingEdges(
                         length = length
                     )
                 } else {
-                    horizontalFadingEdges(
+                    Modifier.horizontalFadingEdges(
                         contentType = FadingEdgesContentType.Dynamic.Lazy.Grid(
                             scrollConfig = scrollConfig,
                             state = scrollableState,
@@ -115,7 +116,7 @@ fun Modifier.fadingEdges(
             is LazyStaggeredGridState -> {
                 require(spanCount != null)
                 if (isVertical) {
-                    verticalFadingEdges(
+                    Modifier.verticalFadingEdges(
                         contentType = FadingEdgesContentType.Dynamic.Lazy.StaggeredGrid(
                             scrollConfig = scrollConfig,
                             state = scrollableState,
@@ -125,7 +126,7 @@ fun Modifier.fadingEdges(
                         length = length
                     )
                 } else {
-                    horizontalFadingEdges(
+                    Modifier.horizontalFadingEdges(
                         contentType = FadingEdgesContentType.Dynamic.Lazy.StaggeredGrid(
                             scrollConfig = scrollConfig,
                             state = scrollableState,
@@ -139,13 +140,13 @@ fun Modifier.fadingEdges(
 
             else -> {
                 if (isVertical) {
-                    verticalFadingEdges(
+                    Modifier.verticalFadingEdges(
                         contentType = FadingEdgesContentType.Static,
                         fillType = fillType,
                         length = length
                     )
                 } else {
-                    horizontalFadingEdges(
+                    Modifier.horizontalFadingEdges(
                         contentType = FadingEdgesContentType.Static,
                         fillType = fillType,
                         length = length
@@ -154,4 +155,4 @@ fun Modifier.fadingEdges(
             }
         }
     }
-)
+}

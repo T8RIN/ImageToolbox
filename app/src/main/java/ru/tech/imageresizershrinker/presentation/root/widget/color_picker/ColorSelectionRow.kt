@@ -7,12 +7,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -33,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
@@ -42,7 +43,6 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
@@ -147,12 +147,32 @@ fun ColorSelectionRow(
                 )
             }
         }
-        Spacer(
+        Box(
             modifier = Modifier
-                .matchParentSize()
-                .fadingEdges(listState)
+                .align(Alignment.CenterStart)
+                .width(8.dp)
+                .height(1.2.dp * 40 + 32.dp)
+                .background(
+                    brush = Brush.horizontalGradient(
+                        0f to MaterialTheme.colorScheme.surfaceContainer,
+                        1f to Color.Transparent
+                    )
+                )
+        )
+        Box(
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .width(8.dp)
+                .height(1.2.dp * 40 + 32.dp)
+                .background(
+                    brush = Brush.horizontalGradient(
+                        0f to Color.Transparent,
+                        1f to MaterialTheme.colorScheme.surfaceContainer
+                    )
+                )
         )
     }
+
     var tempColor by remember(showColorPicker.value) {
         mutableIntStateOf(customColor?.toArgb() ?: 0)
     }
