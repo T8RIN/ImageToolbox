@@ -311,7 +311,10 @@ class ResizeAndConvertViewModel @Inject constructor(
         savingJob = it
     }
 
-    fun setBitmap(uri: Uri, resetTelegram: Boolean = true) {
+    fun setBitmap(
+        uri: Uri,
+        resetTelegram: Boolean = true
+    ) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val bitmap = imageManager.getImage(

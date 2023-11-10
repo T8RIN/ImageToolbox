@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.filters_screen
 
 import android.content.res.Configuration
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -49,9 +48,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Colorize
@@ -80,7 +77,6 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -101,21 +97,19 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.exifinterface.media.ExifInterface
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.image.ImageManager
-import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawColorSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
+import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddFilterButton
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddFiltersSheet
+import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddMaskSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterItem
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterReorderSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.MaskItem
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.MaskReorderSheet
-import ru.tech.imageresizershrinker.presentation.filters_screen.components.UiFilterMask
 import ru.tech.imageresizershrinker.presentation.filters_screen.viewModel.FilterViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
@@ -147,7 +141,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.BasicFilterPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.MaskFilterPreference
-import ru.tech.imageresizershrinker.presentation.root.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.CompareSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
@@ -495,42 +488,25 @@ fun FiltersScreen(
                                             }
                                         )
                                     }
-                                    EnhancedButton(
-                                        containerColor = MaterialTheme.colorScheme.mixedContainer,
+                                    AddFilterButton(
                                         onClick = {
-                                            showAddFilterSheet.value =
-                                                true
+                                            showAddFilterSheet.value = true
                                         },
                                         modifier = Modifier.padding(
                                             horizontal = 16.dp
                                         )
-                                    ) {
-                                        Icon(
-                                            Icons.Rounded.PhotoFilter,
-                                            null
-                                        )
-                                        Spacer(Modifier.width(8.dp))
-                                        Text(stringResource(id = R.string.add_filter))
-                                    }
+                                    )
                                 }
                             }
                         } else {
-                            EnhancedButton(
-                                containerColor = MaterialTheme.colorScheme.mixedContainer,
+                            AddFilterButton(
                                 onClick = {
                                     showAddFilterSheet.value = true
                                 },
                                 modifier = Modifier.padding(
                                     horizontal = 16.dp
                                 )
-                            ) {
-                                Icon(
-                                    Icons.Rounded.PhotoFilter,
-                                    null
-                                )
-                                Spacer(Modifier.width(8.dp))
-                                Text(stringResource(id = R.string.add_filter))
-                            }
+                            )
                         }
                         Spacer(Modifier.size(8.dp))
                         SaveExifWidget(
@@ -1112,57 +1088,6 @@ fun FiltersScreen(
             )
 
             BackHandler(onBack = onBack)
-        }
-    }
-}
-
-@Composable
-fun AddMaskSheet(
-    visible: MutableState<Boolean>,
-    previewBitmap: Bitmap?,
-    onMaskPicked: (UiFilterMask) -> Unit,
-    imageManager: ImageManager<Bitmap, ExifInterface>
-) {
-    SimpleSheet(
-        visible = visible,
-        title = {
-            TitleItem(
-                text = stringResource(id = R.string.add_mask),
-                icon = Icons.Rounded.Texture
-            )
-        },
-        confirmButton = {
-            EnhancedButton(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                onClick = { visible.value = false }
-            ) {
-                Text(stringResource(id = R.string.close))
-            }
-        }
-    ) {
-        Column(
-            modifier = Modifier
-                .verticalScroll(
-                    state = rememberScrollState()
-                )
-        ) {
-            var maskColor by rememberSaveable(stateSaver = ColorSaver) { mutableStateOf(Color.Red) }
-            DrawColorSelector(
-                defaultColors = remember {
-                    listOf(
-                        Color.Red,
-                        Color.Green,
-                        Color.Blue,
-                        Color.Yellow,
-                        Color.Cyan,
-                        Color.Magenta
-                    )
-                },
-                drawColor = maskColor,
-                onColorChange = {
-                    maskColor = it
-                }
-            )
         }
     }
 }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -66,85 +67,91 @@ fun ColorSelectionRow(
         }
     }
 
-    LazyRow(
-        state = listState,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(1.2.dp * 40 + 32.dp)
-            .fadingEdges(listState),
-        userScrollEnabled = allowScroll,
-        contentPadding = contentPadding,
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        item {
-            val background = customColor ?: MaterialTheme.colorScheme.primary
-            Box(
-                Modifier
-                    .size(
-                        animateDpAsState(
-                            40.dp.times(
-                                if (customColor != null) 1.3f else 1f
-                            )
-                        ).value
-                    )
-                    .aspectRatio(1f)
-                    .container(
-                        shape = CircleShape,
-                        color = background,
-                        resultPadding = 0.dp
-                    )
-                    .transparencyChecker()
-                    .background(background, CircleShape)
-                    .clickable {
-                        showColorPicker.value = true
-                    },
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Palette,
-                    contentDescription = null,
-                    tint = background.inverse(
-                        fraction = {
-                            if (it) 0.8f
-                            else 0.5f
-                        },
-                        darkMode = background.luminance() < 0.3f
-                    ),
-                    modifier = Modifier
-                        .size(32.dp)
-                        .background(
-                            color = background.copy(alpha = 1f),
-                            shape = CircleShape
+    Box {
+        LazyRow(
+            state = listState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.2.dp * 40 + 32.dp),
+            userScrollEnabled = allowScroll,
+            contentPadding = contentPadding,
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            item {
+                val background = customColor ?: MaterialTheme.colorScheme.primary
+                Box(
+                    Modifier
+                        .size(
+                            animateDpAsState(
+                                40.dp.times(
+                                    if (customColor != null) 1.3f else 1f
+                                )
+                            ).value
                         )
-                        .padding(4.dp)
+                        .aspectRatio(1f)
+                        .container(
+                            shape = CircleShape,
+                            color = background,
+                            resultPadding = 0.dp
+                        )
+                        .transparencyChecker()
+                        .background(background, CircleShape)
+                        .clickable {
+                            showColorPicker.value = true
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Palette,
+                        contentDescription = null,
+                        tint = background.inverse(
+                            fraction = {
+                                if (it) 0.8f
+                                else 0.5f
+                            },
+                            darkMode = background.luminance() < 0.3f
+                        ),
+                        modifier = Modifier
+                            .size(32.dp)
+                            .background(
+                                color = background.copy(alpha = 1f),
+                                shape = CircleShape
+                            )
+                            .padding(4.dp)
+                    )
+                }
+            }
+            items(defaultColors) { color ->
+                Box(
+                    Modifier
+                        .size(
+                            animateDpAsState(
+                                40.dp.times(
+                                    if (value == color && customColor == null) {
+                                        1.3f
+                                    } else 1f
+                                )
+                            ).value
+                        )
+                        .aspectRatio(1f)
+                        .container(
+                            shape = CircleShape,
+                            color = color,
+                            resultPadding = 0.dp
+                        )
+                        .clickable {
+                            onValueChange(color)
+                            customColor = null
+                        }
                 )
             }
         }
-        items(defaultColors) { color ->
-            Box(
-                Modifier
-                    .size(
-                        animateDpAsState(
-                            40.dp.times(
-                                if (value == color && customColor == null) {
-                                    1.3f
-                                } else 1f
-                            )
-                        ).value
-                    )
-                    .aspectRatio(1f)
-                    .container(
-                        shape = CircleShape,
-                        color = color,
-                        resultPadding = 0.dp
-                    )
-                    .clickable {
-                        onValueChange(color)
-                        customColor = null
-                    }
-            )
-        }
+        Spacer(
+            modifier = Modifier
+                .matchParentSize()
+                .fadingEdges(listState)
+        )
     }
     var tempColor by remember(showColorPicker.value) {
         mutableIntStateOf(customColor?.toArgb() ?: 0)

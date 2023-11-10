@@ -23,14 +23,15 @@ import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 
 @Composable
 fun DrawColorSelector(
+    modifier: Modifier = Modifier
+        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
     drawColor: Color,
     onColorChange: (Color) -> Unit,
     titleText: String = stringResource(R.string.paint_color),
     defaultColors: List<Color> = ColorSelectionRowDefaults.colorList,
 ) {
     Column(
-        modifier = Modifier
-            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+        modifier = modifier
             .container(
                 shape = RoundedCornerShape(24.dp),
                 color = MaterialTheme.colorScheme.surfaceContainer
@@ -48,6 +49,7 @@ fun DrawColorSelector(
             )
         }
         ColorSelectionRow(
+            defaultColors = defaultColors,
             value = drawColor,
             contentPadding = PaddingValues(horizontal = 16.dp),
             onValueChange = onColorChange

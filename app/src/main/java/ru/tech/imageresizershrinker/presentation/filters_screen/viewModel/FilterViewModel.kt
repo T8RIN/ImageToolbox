@@ -367,15 +367,31 @@ class FilterViewModel @Inject constructor(
     }
 
     fun updateMask(value: UiFilterMask, index: Int, showError: (Throwable) -> Unit) {
-        TODO("Not yet implemented")
+        _maskingFilterState.update {
+            it.copy(
+                masks = it.masks.toMutableList().apply {
+                    this[index] = value
+                }
+            )
+        }
     }
 
     fun removeMaskAtIndex(index: Int) {
-        TODO("Not yet implemented")
+        _maskingFilterState.update {
+            it.copy(
+                masks = it.masks.toMutableList().apply {
+                    removeAt(index)
+                }
+            )
+        }
     }
 
-    fun addMask(uiFilterMask: UiFilterMask) {
-        TODO("Not yet implemented")
+    fun addMask(value: UiFilterMask) {
+        _maskingFilterState.update {
+            it.copy(
+                masks = it.masks + value
+            )
+        }
     }
 
 }

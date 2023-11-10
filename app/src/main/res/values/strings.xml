@@ -454,6 +454,7 @@
     <string name="masks">Masks</string>
     <string name="add_mask">Add Mask</string>
     <string name="mask_indexed">Mask %d</string>
+    <string name="mask_color">Mask Color</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>
