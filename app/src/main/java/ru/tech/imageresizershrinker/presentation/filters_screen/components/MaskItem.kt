@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.presentation.filters_screen.components
 
 import android.graphics.Bitmap
 import android.net.Uri
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
@@ -28,13 +30,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.presentation.main_screen.components.ExpandableItem
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.toUiFilter
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
@@ -115,27 +121,42 @@ fun MaskItem(
                     }
                 }
             }
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                mask.filters.forEachIndexed { index, filter ->
-                    FilterItem(
-                        filter = filter.toUiFilter(),
-                        showDragHandle = false,
-                        onRemove = {
-                            onMaskChange(
-                                mask.copy(filters = mask.filters - filter)
-                            )
-                        },
-                        onFilterChange = { value ->
-                            onMaskChange(
-                                mask.copy(
-                                    filters = mask.filters.toMutableList().apply {
-                                        this[index] = filter.toUiFilter().copy(value)
+
+            AnimatedVisibility(mask.filters.isNotEmpty()) {
+                ExpandableItem(
+                    modifier = Modifier.padding(8.dp),
+                    visibleContent = {
+                        TitleItem(text = stringResource(id = R.string.filters) + " (${mask.filters.size})")
+                    },
+                    expandableContent = {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.padding(horizontal = 8.dp)
+                        ) {
+                            mask.filters.forEachIndexed { index, filter ->
+                                FilterItem(
+                                    shape = RoundedCornerShape(16.dp),
+                                    filter = filter.toUiFilter(),
+                                    showDragHandle = false,
+                                    onRemove = {
+                                        onMaskChange(
+                                            mask.copy(filters = mask.filters - filter)
+                                        )
+                                    },
+                                    onFilterChange = { value ->
+                                        onMaskChange(
+                                            mask.copy(
+                                                filters = mask.filters.toMutableList().apply {
+                                                    this[index] = filter.toUiFilter().copy(value)
+                                                }
+                                            )
+                                        )
                                     }
                                 )
-                            )
+                            }
                         }
-                    )
-                }
+                    }
+                )
             }
         }
     }

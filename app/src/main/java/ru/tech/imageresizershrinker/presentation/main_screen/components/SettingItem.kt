@@ -6,7 +6,10 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,9 +24,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
@@ -36,42 +41,67 @@ fun SettingItem(
     initialState: Boolean = false,
     content: @Composable ColumnScope.() -> Unit
 ) {
+    ExpandableItem(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 4.dp),
+        visibleContent = {
+            TitleItem(
+                modifier = Modifier.padding(start = 8.dp),
+                icon = icon,
+                text = text
+            )
+        },
+        expandableContent = { content() },
+        initialState = initialState
+    )
+}
+
+@Composable
+fun ExpandableItem(
+    modifier: Modifier = Modifier,
+    visibleContent: @Composable RowScope.(Boolean) -> Unit,
+    expandableContent: @Composable ColumnScope.(Boolean) -> Unit,
+    initialState: Boolean = false,
+    shape: RoundedCornerShape = RoundedCornerShape(20.dp),
+    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
+) {
     Column(
         Modifier
             .animateContentSize()
-            .padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 4.dp)
+            .then(modifier)
             .container(
-                color = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
+                color = color,
                 resultPadding = 0.dp,
-                shape = RoundedCornerShape(20.dp)
+                shape = shape
             )
     ) {
         var expanded by rememberSaveable { mutableStateOf(initialState) }
         val rotation by animateFloatAsState(if (expanded) 180f else 0f)
-        TitleItem(
+        Row(
             modifier = Modifier
-                .clip(RoundedCornerShape(20.dp))
+                .clip(shape)
                 .clickable { expanded = !expanded }
-                .padding(8.dp)
-                .padding(start = 8.dp),
-            icon = icon,
-            text = text,
-            endContent = {
-                IconButton(
-                    onClick = { expanded = !expanded }
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.KeyboardArrowDown,
-                        contentDescription = null,
-                        modifier = Modifier.rotate(rotation)
-                    )
-                }
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row(Modifier.weight(1f)) {
+                visibleContent(expanded)
             }
-        )
+            IconButton(
+                onClick = { expanded = !expanded }
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.KeyboardArrowDown,
+                    contentDescription = null,
+                    modifier = Modifier.rotate(rotation)
+                )
+            }
+        }
         AnimatedVisibility(expanded) {
             Column {
                 Spacer(modifier = Modifier.height(8.dp))
-                content()
+                expandableContent(expanded)
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }

@@ -129,6 +129,7 @@ fun AddEditMaskSheet(
                     },
                     confirmButton = {
                         EnhancedButton(
+                            enabled = viewModel.paths.isNotEmpty() && viewModel.filterList.isNotEmpty(),
                             containerColor = MaterialTheme.colorScheme.secondaryContainer,
                             onClick = {
                                 onMaskPicked(

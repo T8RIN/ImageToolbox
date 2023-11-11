@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -62,12 +63,13 @@ fun <T> FilterItem(
     modifier: Modifier = Modifier,
     backgroundColor: Color = MaterialTheme
         .colorScheme
-        .surfaceContainer
+        .surfaceContainer,
+    shape: Shape = MaterialTheme.shapes.extraLarge
 ) {
     val settingsState = LocalSettingsState.current
     Row(
         modifier = modifier
-            .container(color = backgroundColor, shape = MaterialTheme.shapes.extraLarge)
+            .container(color = backgroundColor, shape = shape)
             .animateContentSize()
             .then(
                 onLongPress?.let {
