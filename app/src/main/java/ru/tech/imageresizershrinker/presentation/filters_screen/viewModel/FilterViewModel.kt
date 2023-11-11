@@ -7,6 +7,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,6 +19,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.image.filters.FilterMaskApplier
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
@@ -34,7 +37,8 @@ import javax.inject.Inject
 @HiltViewModel
 class FilterViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>
+    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val filterMaskApplier: FilterMaskApplier<Bitmap, Path, Color>
 ) : ViewModel() {
 
     private val _bitmapSize = mutableStateOf<Long?>(null)
@@ -311,12 +315,31 @@ class FilterViewModel @Inject constructor(
                 withContext(Dispatchers.IO) {
                     delay(200L)
                     _isImageLoading.value = true
-                    _previewBitmap.value = imageManager.createFilteredPreview(
-                        image = bitmap,
-                        imageInfo = imageInfo,
-                        filters = _basicFilterState.value.filters,
-                        onGetByteCount = { _bitmapSize.value = it.toLong() }
-                    )
+                    when (filterType) {
+                        is Screen.Filter.Type.Basic -> {
+                            _previewBitmap.value = imageManager.createFilteredPreview(
+                                image = bitmap,
+                                imageInfo = imageInfo,
+                                filters = _basicFilterState.value.filters,
+                                onGetByteCount = { _bitmapSize.value = it.toLong() }
+                            )
+                        }
+
+                        is Screen.Filter.Type.Masking -> {
+                            _previewBitmap.value = filterMaskApplier.filterByMasks(
+                                filterMasks = _maskingFilterState.value.masks,
+                                image = bitmap
+                            )?.let {
+                                imageManager.createPreview(
+                                    image = it,
+                                    imageInfo = imageInfo,
+                                    onGetByteCount = { _bitmapSize.value = it.toLong() }
+                                )
+                            }
+                        }
+
+                        null -> Unit
+                    }
                     _isImageLoading.value = false
                     _needToApplyFilters.value = false
                 }
@@ -345,6 +368,7 @@ class FilterViewModel @Inject constructor(
         }
         uri?.let { setBitmap(it) }
         _maskingFilterState.value = MaskingFilterState(uri)
+        _needToApplyFilters.value = true
     }
 
     fun clearType() {
@@ -364,6 +388,7 @@ class FilterViewModel @Inject constructor(
         _maskingFilterState.update {
             it.copy(masks = uiFilterMasks)
         }
+        _needToApplyFilters.value = true
     }
 
     fun updateMask(value: UiFilterMask, index: Int, showError: (Throwable) -> Unit) {
@@ -374,6 +399,7 @@ class FilterViewModel @Inject constructor(
                 }
             )
         }
+        _needToApplyFilters.value = true
     }
 
     fun removeMaskAtIndex(index: Int) {
@@ -384,6 +410,7 @@ class FilterViewModel @Inject constructor(
                 }
             )
         }
+        _needToApplyFilters.value = true
     }
 
     fun addMask(value: UiFilterMask) {
@@ -392,6 +419,7 @@ class FilterViewModel @Inject constructor(
                 masks = it.masks + value
             )
         }
+        _needToApplyFilters.value = true
     }
 
 }

@@ -164,13 +164,13 @@ fun AddEditMaskSheet(
                                 isEraserOn = isEraserOn,
                                 drawMode = DrawMode.Pen,
                                 modifier = Modifier
-                                    .padding(16.dp)
                                     .then(
                                         if (portrait) {
                                             Modifier.height(this@BoxWithConstraints.maxHeight * (2 / 3f))
                                         } else Modifier.fillMaxHeight()
                                     )
-                                    .aspectRatio(aspectRatio, portrait),
+                                    .aspectRatio(aspectRatio, portrait)
+                                    .padding(16.dp),
                                 zoomEnabled = zoomEnabled,
                                 onDraw = {},
                                 imageManager = viewModel.getImageManager(),

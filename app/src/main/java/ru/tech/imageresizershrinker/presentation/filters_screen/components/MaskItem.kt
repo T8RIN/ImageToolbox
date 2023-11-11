@@ -60,6 +60,7 @@ fun MaskItem(
     imageUri: Uri? = null,
     previousMasks: List<UiFilterMask> = emptyList()
 ) {
+    val showAddFilterSheet = rememberSaveable { mutableStateOf(false) }
     val showEditMaskSheet = rememberSaveable { mutableStateOf(false) }
     val settingsState = LocalSettingsState.current
     Row(
@@ -131,6 +132,7 @@ fun MaskItem(
                     expandableContent = {
                         Column(
                             verticalArrangement = Arrangement.spacedBy(8.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier.padding(horizontal = 8.dp)
                         ) {
                             mask.filters.forEachIndexed { index, filter ->
@@ -154,6 +156,11 @@ fun MaskItem(
                                     }
                                 )
                             }
+                            AddFilterButton(
+                                onClick = {
+                                    showAddFilterSheet.value = true
+                                }
+                            )
                         }
                     }
                 )

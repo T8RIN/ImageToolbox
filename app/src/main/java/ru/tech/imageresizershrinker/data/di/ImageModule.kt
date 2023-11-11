@@ -13,9 +13,11 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.data.image.AndroidImageManager
 import ru.tech.imageresizershrinker.data.image.draw.AndroidImageDrawApplier
+import ru.tech.imageresizershrinker.data.image.filters.applier.AndroidFilterMaskApplier
 import ru.tech.imageresizershrinker.data.image.filters.provider.AndroidFilterProvider
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.draw.ImageDrawApplier
+import ru.tech.imageresizershrinker.domain.image.filters.FilterMaskApplier
 import ru.tech.imageresizershrinker.domain.image.filters.provider.FilterProvider
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import javax.inject.Singleton
@@ -49,6 +51,14 @@ object ImageModule {
     fun provideImageDrawApplier(
         imageManager: ImageManager<Bitmap, ExifInterface>
     ): ImageDrawApplier<Bitmap, Path, Color> = AndroidImageDrawApplier(
+        imageManager = imageManager
+    )
+
+    @Singleton
+    @Provides
+    fun provideFilterMaskApplier(
+        imageManager: ImageManager<Bitmap, ExifInterface>
+    ): FilterMaskApplier<Bitmap, Path, Color> = AndroidFilterMaskApplier(
         imageManager = imageManager
     )
 

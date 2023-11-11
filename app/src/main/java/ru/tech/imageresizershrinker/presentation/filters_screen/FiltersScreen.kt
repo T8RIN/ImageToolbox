@@ -551,7 +551,7 @@ fun FiltersScreen(
                                 Column(
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     verticalArrangement = Arrangement.spacedBy(
-                                        8.dp
+                                        4.dp
                                     ),
                                     modifier = Modifier.padding(8.dp)
                                 ) {
@@ -595,7 +595,9 @@ fun FiltersScreen(
                                             showAddMaskSheet.value = true
                                         },
                                         modifier = Modifier.padding(
-                                            horizontal = 16.dp
+                                            start = 16.dp,
+                                            end = 16.dp,
+                                            top = 4.dp
                                         )
                                     ) {
                                         Icon(
@@ -1045,6 +1047,11 @@ fun FiltersScreen(
                                         updateOrder = viewModel::updateFiltersOrder
                                     )
                                 } else if (filterType is Screen.Filter.Type.Masking) {
+                                    LaunchedEffect(viewModel.maskingFilterState.masks) {
+                                        if (viewModel.needToApplyFilters) {
+                                            viewModel.updatePreview()
+                                        }
+                                    }
 
                                     content(filterType)
 
