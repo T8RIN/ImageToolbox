@@ -7,6 +7,7 @@ import androidx.compose.material.icons.rounded.LineWeight
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
@@ -17,11 +18,13 @@ import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSl
 fun LineWidthSelector(
     modifier: Modifier,
     value: Float,
+    color: Color = MaterialTheme.colorScheme.surfaceContainer,
     onValueChange: (Float) -> Unit
 ) {
     EnhancedSliderItem(
         modifier = modifier,
         value = value,
+        color = color,
         icon = Icons.Rounded.LineWeight,
         title = stringResource(R.string.line_width),
         valuePrefix = " Pt",
@@ -32,6 +35,5 @@ fun LineWidthSelector(
             onValueChange(it.roundToTwoDigits())
         },
         shape = RoundedCornerShape(24.dp),
-        color = MaterialTheme.colorScheme.surfaceContainer
     )
 }

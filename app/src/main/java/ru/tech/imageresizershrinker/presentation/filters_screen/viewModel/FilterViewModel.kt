@@ -392,14 +392,16 @@ class FilterViewModel @Inject constructor(
     }
 
     fun updateMask(value: UiFilterMask, index: Int, showError: (Throwable) -> Unit) {
-        _maskingFilterState.update {
-            it.copy(
-                masks = it.masks.toMutableList().apply {
-                    this[index] = value
-                }
-            )
-        }
-        _needToApplyFilters.value = true
+        runCatching {
+            _maskingFilterState.update {
+                it.copy(
+                    masks = it.masks.toMutableList().apply {
+                        this[index] = value
+                    }
+                )
+            }
+            _needToApplyFilters.value = true
+        }.exceptionOrNull()?.let(showError)
     }
 
     fun removeMaskAtIndex(index: Int) {

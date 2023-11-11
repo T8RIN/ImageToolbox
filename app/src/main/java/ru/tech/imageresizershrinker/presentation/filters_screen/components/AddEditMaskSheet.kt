@@ -269,6 +269,7 @@ fun AddEditMaskSheet(
                             }
 
                             DrawColorSelector(
+                                color = Color.Unspecified,
                                 titleText = stringResource(id = R.string.mask_color),
                                 defaultColors = remember {
                                     listOf(
@@ -294,12 +295,14 @@ fun AddEditMaskSheet(
                                     end = 16.dp,
                                     top = 16.dp
                                 ),
+                                color = Color.Unspecified,
                                 value = strokeWidth.value,
                                 onValueChange = { strokeWidth = it.pt }
                             )
                             BrushSoftnessSelector(
                                 modifier = Modifier
                                     .padding(top = 16.dp, end = 16.dp, start = 16.dp),
+                                color = Color.Unspecified,
                                 value = brushSoftness.value,
                                 onValueChange = { brushSoftness = it.pt }
                             )

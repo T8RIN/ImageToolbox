@@ -27,6 +27,7 @@ fun DrawColorSelector(
         .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
     drawColor: Color,
     onColorChange: (Color) -> Unit,
+    color: Color = MaterialTheme.colorScheme.surfaceContainer,
     titleText: String = stringResource(R.string.paint_color),
     defaultColors: List<Color> = ColorSelectionRowDefaults.colorList,
 ) {
@@ -34,7 +35,7 @@ fun DrawColorSelector(
         modifier = modifier
             .container(
                 shape = RoundedCornerShape(24.dp),
-                color = MaterialTheme.colorScheme.surfaceContainer
+                color = color
             )
     ) {
         Row(
