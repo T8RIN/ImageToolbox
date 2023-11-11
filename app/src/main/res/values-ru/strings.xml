@@ -437,4 +437,9 @@
     <string name="preview_pdf_sub">Простой просмотрщик PDF</string>
     <string name="pdf_tools_sub">Совершайте операции с PDF файлами: просмотрите, конвертируйте в набор изображений или создайте новый файл</string>
     <string name="pdf_to_images_sub">Конвертируйте PDF в изображения в заданном формате</string>
+    <string name="mask_filter">Маска-фильтр</string>
+    <string name="mask_filter_sub">Применяйте цепочки фильтров к заданным замаскированным областям, каждая область маски может определять свой собственный набор фильтров</string>
+    <string name="masks">Маски</string>
+    <string name="add_mask">Добавить маску</string>
+    <string name="mask_indexed">Маска %d</string>
 </resources>
