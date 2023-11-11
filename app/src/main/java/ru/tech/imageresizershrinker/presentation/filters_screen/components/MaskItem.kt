@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.filters_screen.components
 
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
@@ -29,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.toUiFilter
@@ -38,6 +40,8 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 @Composable
 fun MaskItem(
     mask: UiFilterMask,
+    previewBitmap: Bitmap? = null,
+    imageManager: ImageManager<Bitmap, *>? = null,
     modifier: Modifier = Modifier,
     titleText: String,
     onMaskChange: (UiFilterMask) -> Unit,
@@ -90,8 +94,7 @@ fun MaskItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     IconButton(
-                        onClick = onRemove,
-                        modifier = Modifier.padding(start = 16.dp)
+                        onClick = onRemove
                     ) {
                         Icon(Icons.Rounded.RemoveCircleOutline, null)
                     }
@@ -100,15 +103,13 @@ fun MaskItem(
                         fontWeight = FontWeight.SemiBold,
                         modifier = Modifier
                             .padding(
-                                top = 8.dp,
-                                end = 8.dp,
+                                end = 16.dp,
                                 start = 16.dp
                             )
                             .weight(1f)
                     )
                     IconButton(
-                        onClick = { showEditMaskSheet.value = true },
-                        modifier = Modifier.padding(end = 16.dp)
+                        onClick = { showEditMaskSheet.value = true }
                     ) {
                         Icon(Icons.Rounded.CreateAlt, null)
                     }
@@ -137,5 +138,15 @@ fun MaskItem(
                 }
             }
         }
+    }
+
+    imageManager?.let {
+        AddEditMaskSheet(
+            mask = mask,
+            visible = showEditMaskSheet,
+            previewBitmap = previewBitmap,
+            onMaskPicked = onMaskChange,
+            imageManager = it
+        )
     }
 }

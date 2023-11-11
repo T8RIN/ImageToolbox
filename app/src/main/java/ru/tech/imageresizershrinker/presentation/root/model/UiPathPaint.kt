@@ -19,6 +19,17 @@ data class UiPathPaint(
     override val canvasSize: IntegerSize
 ) : PathPaint<Path, Color>
 
+
+fun PathPaint<Path, Color>.toUiPathPaint() = UiPathPaint(
+    path = path,
+    strokeWidth = strokeWidth,
+    brushSoftness = brushSoftness,
+    drawColor = drawColor,
+    isErasing = isErasing,
+    drawMode = drawMode,
+    canvasSize = canvasSize
+)
+
 val PtSaver: Saver<Pt, Float> = Saver(
     save = {
         it.value

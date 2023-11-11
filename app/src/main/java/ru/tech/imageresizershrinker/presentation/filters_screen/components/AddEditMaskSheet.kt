@@ -36,7 +36,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -56,10 +56,6 @@ import androidx.compose.ui.unit.dp
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.olshevski.navigation.reimagined.NavHost
-import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
-import dev.olshevski.navigation.reimagined.navigate
-import dev.olshevski.navigation.reimagined.rememberNavController
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
@@ -72,11 +68,12 @@ import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Eraser
 import ru.tech.imageresizershrinker.presentation.root.model.PtSaver
 import ru.tech.imageresizershrinker.presentation.root.model.UiPathPaint
+import ru.tech.imageresizershrinker.presentation.root.model.toUiPathPaint
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.findActivity
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.toUiFilter
 import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
@@ -86,18 +83,24 @@ import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.ScopedViewModelContainer
 import javax.inject.Inject
 
 @Composable
-fun AddMaskSheet(
+fun AddEditMaskSheet(
+    mask: UiFilterMask? = null,
     visible: MutableState<Boolean>,
     previewBitmap: Bitmap?,
     onMaskPicked: (UiFilterMask) -> Unit,
-    imageManager: ImageManager<Bitmap, ExifInterface>
+    imageManager: ImageManager<Bitmap, *>
 ) {
-    val navController = rememberNavController(startDestination = 0)
-    NavHost(navController) { nav ->
-        val viewModel = hiltViewModel<AddMaskSheetViewModel>()
+    ScopedViewModelContainer<AddMaskSheetViewModel> { disposable ->
+        val viewModel = this
+        LaunchedEffect(mask) {
+            mask?.let {
+                viewModel.setMask(mask)
+            }
+        }
         val portrait =
             LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
@@ -138,13 +141,7 @@ fun AddMaskSheet(
                         }
                     }
                 ) {
-                    DisposableEffect(Unit) {
-                        onDispose {
-                            if (context.findActivity()?.isChangingConfigurations == false) {
-                                navController.navigate(nav + 1)
-                            }
-                        }
-                    }
+                    disposable()
                     val drawPreview: @Composable () -> Unit = {
                         AnimatedContent(
                             targetState = remember(previewBitmap) {
@@ -463,6 +460,11 @@ class AddMaskSheetViewModel @Inject constructor(
                 it.copy(drawColor = color)
             }
         }
+    }
+
+    fun setMask(mask: UiFilterMask) {
+        _paths.update { mask.maskPaints.map { it.toUiPathPaint() } }
+        _filterList.update { mask.filters.map { it.toUiFilter() } }
     }
 
     private val _maskColor = mutableStateOf(Color.Red)

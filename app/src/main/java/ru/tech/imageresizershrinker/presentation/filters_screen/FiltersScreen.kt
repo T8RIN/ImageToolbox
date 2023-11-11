@@ -103,9 +103,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
+import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddEditMaskSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddFilterButton
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddFiltersSheet
-import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddMaskSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterItem
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterReorderSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.MaskItem
@@ -559,6 +559,8 @@ fun FiltersScreen(
                                         MaskItem(
                                             imageUri = viewModel.maskingFilterState.uri,
                                             previousMasks = maskList.take(index),
+                                            imageManager = viewModel.getImageManager(),
+                                            previewBitmap = viewModel.previewBitmap,
                                             mask = mask,
                                             titleText = stringResource(
                                                 R.string.mask_indexed,
@@ -1054,7 +1056,7 @@ fun FiltersScreen(
                                         }
                                     }
 
-                                    AddMaskSheet(
+                                    AddEditMaskSheet(
                                         visible = showAddMaskSheet,
                                         previewBitmap = viewModel.previewBitmap,
                                         onMaskPicked = viewModel::addMask,
