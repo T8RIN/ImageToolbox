@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -33,7 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
@@ -43,6 +41,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
@@ -67,112 +66,86 @@ fun ColorSelectionRow(
         }
     }
 
-    Box {
-        LazyRow(
-            state = listState,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(1.2.dp * 40 + 32.dp),
-            userScrollEnabled = allowScroll,
-            contentPadding = contentPadding,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            item {
-                val background = customColor ?: MaterialTheme.colorScheme.primary
-                Box(
-                    Modifier
-                        .size(
-                            animateDpAsState(
-                                40.dp.times(
-                                    if (customColor != null) 1.3f else 1f
-                                )
-                            ).value
-                        )
-                        .aspectRatio(1f)
-                        .container(
-                            shape = CircleShape,
-                            color = background,
-                            resultPadding = 0.dp
-                        )
-                        .transparencyChecker()
-                        .background(background, CircleShape)
-                        .clickable {
-                            showColorPicker.value = true
-                        },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Palette,
-                        contentDescription = null,
-                        tint = background.inverse(
-                            fraction = {
-                                if (it) 0.8f
-                                else 0.5f
-                            },
-                            darkMode = background.luminance() < 0.3f
-                        ),
-                        modifier = Modifier
-                            .size(32.dp)
-                            .background(
-                                color = background.copy(alpha = 1f),
-                                shape = CircleShape
+    LazyRow(
+        state = listState,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(1.2.dp * 40 + 32.dp)
+            .fadingEdges(listState),
+        userScrollEnabled = allowScroll,
+        contentPadding = contentPadding,
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        item {
+            val background = customColor ?: MaterialTheme.colorScheme.primary
+            Box(
+                Modifier
+                    .size(
+                        animateDpAsState(
+                            40.dp.times(
+                                if (customColor != null) 1.3f else 1f
                             )
-                            .padding(4.dp)
+                        ).value
                     )
-                }
-            }
-            items(defaultColors) { color ->
-                Box(
-                    Modifier
-                        .size(
-                            animateDpAsState(
-                                40.dp.times(
-                                    if (value == color && customColor == null) {
-                                        1.3f
-                                    } else 1f
-                                )
-                            ).value
+                    .aspectRatio(1f)
+                    .container(
+                        shape = CircleShape,
+                        color = background,
+                        resultPadding = 0.dp
+                    )
+                    .transparencyChecker()
+                    .background(background, CircleShape)
+                    .clickable {
+                        showColorPicker.value = true
+                    },
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Palette,
+                    contentDescription = null,
+                    tint = background.inverse(
+                        fraction = {
+                            if (it) 0.8f
+                            else 0.5f
+                        },
+                        darkMode = background.luminance() < 0.3f
+                    ),
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(
+                            color = background.copy(alpha = 1f),
+                            shape = CircleShape
                         )
-                        .aspectRatio(1f)
-                        .container(
-                            shape = CircleShape,
-                            color = color,
-                            resultPadding = 0.dp
-                        )
-                        .clickable {
-                            onValueChange(color)
-                            customColor = null
-                        }
+                        .padding(4.dp)
                 )
             }
         }
-        Box(
-            modifier = Modifier
-                .align(Alignment.CenterStart)
-                .width(8.dp)
-                .height(1.2.dp * 40 + 32.dp)
-                .background(
-                    brush = Brush.horizontalGradient(
-                        0f to MaterialTheme.colorScheme.surfaceContainer,
-                        1f to Color.Transparent
+        items(defaultColors) { color ->
+            Box(
+                Modifier
+                    .size(
+                        animateDpAsState(
+                            40.dp.times(
+                                if (value == color && customColor == null) {
+                                    1.3f
+                                } else 1f
+                            )
+                        ).value
                     )
-                )
-        )
-        Box(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .width(8.dp)
-                .height(1.2.dp * 40 + 32.dp)
-                .background(
-                    brush = Brush.horizontalGradient(
-                        0f to Color.Transparent,
-                        1f to MaterialTheme.colorScheme.surfaceContainer
+                    .aspectRatio(1f)
+                    .container(
+                        shape = CircleShape,
+                        color = color,
+                        resultPadding = 0.dp
                     )
-                )
-        )
+                    .clickable {
+                        onValueChange(color)
+                        customColor = null
+                    }
+            )
+        }
     }
-
     var tempColor by remember(showColorPicker.value) {
         mutableIntStateOf(customColor?.toArgb() ?: 0)
     }

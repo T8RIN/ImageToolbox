@@ -94,6 +94,7 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.toUi
 import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageHeaderState
 import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
@@ -105,7 +106,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.ScopedViewModelContainer
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageState
 import javax.inject.Inject
 
 @Composable
@@ -176,7 +176,9 @@ fun AddEditMaskSheet(
                         }.value, viewModel.maskPreviewModeEnabled, viewModel.previewLoading
                     ),
                     transitionSpec = { fadeIn() togetherWith fadeOut() },
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
                 ) { (imageBitmap, preview, loading) ->
                     if (loading || imageBitmap == null) {
                         Box(
@@ -199,7 +201,6 @@ fun AddEditMaskSheet(
                                 isEraserOn = isEraserOn,
                                 drawMode = DrawMode.Pen,
                                 modifier = Modifier
-                                    .padding(16.dp)
                                     .fillMaxSize()
                                     .aspectRatio(aspectRatio, portrait),
                                 zoomEnabled = zoomEnabled,
@@ -228,7 +229,6 @@ fun AddEditMaskSheet(
                                 Image(
                                     bitmap = imageBitmap,
                                     modifier = Modifier
-                                        .padding(16.dp)
                                         .fillMaxSize()
                                         .aspectRatio(aspectRatio, portrait)
                                         .clip(RoundedCornerShape(2.dp))
@@ -253,10 +253,11 @@ fun AddEditMaskSheet(
                     VerticalDivider()
                 }
 
-                var imageState by remember { mutableStateOf(middleImageState()) }
+                var imageState by remember { mutableStateOf(ImageHeaderState(3)) }
 
                 val colorScheme = MaterialTheme.colorScheme
                 val switch = @Composable {
+                    val checked = !zoomEnabled && !maskPreviewModeEnabled
                     Switch(
                         modifier = Modifier.padding(start = 8.dp),
                         colors = SwitchDefaults.colors(
@@ -265,10 +266,10 @@ fun AddEditMaskSheet(
                             uncheckedTrackColor = MaterialTheme.colorScheme.primary,
                             uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         ),
-                        checked = !zoomEnabled && !maskPreviewModeEnabled,
+                        checked = checked,
                         onCheckedChange = { zoomEnabled = !zoomEnabled },
                         thumbContent = {
-                            AnimatedContent(zoomEnabled) { zoom ->
+                            AnimatedContent(!checked) { zoom ->
                                 Icon(
                                     if (!zoom) Icons.Rounded.Draw else Icons.Rounded.ZoomIn,
                                     null,
