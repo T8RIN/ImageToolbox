@@ -6,6 +6,7 @@ import android.graphics.pdf.PdfRenderer
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
@@ -98,7 +99,6 @@ import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalImageLoader
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 import kotlin.math.max
@@ -128,12 +128,11 @@ fun PdfViewer(
     val showError: (Throwable) -> Unit = {}
 
     AnimatedContent(
-        targetState = uriState,
-        transitionSpec = { fadeIn() togetherWith fadeOut() }
+        targetState = uriState
     ) { uri ->
         if (uri != null) {
             val listState = rememberLazyListState()
-            BoxWithConstraints(modifier = modifier) {
+            BoxWithConstraints(modifier = modifier.animateContentSize()) {
                 val density = LocalDensity.current
                 val width = with(density) { maxWidth.toPx() }.toInt()
                 val height = (width * sqrt(2f)).toInt()
@@ -176,7 +175,7 @@ fun PdfViewer(
                 }
                 val pageCount by remember(renderer) { derivedStateOf { renderer?.pageCount ?: 0 } }
 
-                val selectedItems = remember(uriState) {
+                val selectedItems = remember(uri) {
                     mutableStateOf(selectedPages.toSet())
                 }
                 LaunchedEffect(selectedItems.value) {
@@ -322,7 +321,7 @@ fun PdfViewer(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .dragHandler(
-                                    key = uriState,
+                                    key = uri,
                                     lazyGridState = state,
                                     isVertical = true,
                                     haptics = LocalHapticFeedback.current,
@@ -376,7 +375,7 @@ fun PdfViewer(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .dragHandler(
-                                    key = uriState,
+                                    key = uri,
                                     lazyGridState = state,
                                     isVertical = false,
                                     haptics = LocalHapticFeedback.current,
@@ -435,8 +434,11 @@ fun PdfViewer(
             }
         } else {
             Box(
-                modifier = modifier.shimmer(true)
-            )
+                modifier = modifier.animateContentSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Loading()
+            }
         }
     }
 }
