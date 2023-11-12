@@ -48,6 +48,7 @@ import androidx.core.graphics.BitmapCompat
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import com.smarttoolfactory.image.util.update
+import com.smarttoolfactory.image.zoom.AnimatedZoomState
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
@@ -73,6 +74,7 @@ fun BitmapDrawer(
     imageManager: ImageManager<Bitmap, *>,
     paths: List<UiPathPaint>,
     brushSoftness: Pt,
+    zoomState: AnimatedZoomState = rememberAnimatedZoomState(maxZoom = 30f),
     onAddPath: (UiPathPaint) -> Unit,
     strokeWidth: Pt,
     isEraserOn: Boolean,
@@ -84,7 +86,6 @@ fun BitmapDrawer(
     zoomEnabled: Boolean,
     drawColor: Color
 ) {
-    val zoomState = rememberAnimatedZoomState(maxZoom = 30f)
     val scope = rememberCoroutineScope()
 
     Box(

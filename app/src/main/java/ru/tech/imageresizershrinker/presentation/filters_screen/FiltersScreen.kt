@@ -1108,7 +1108,11 @@ fun FiltersScreen(
             }
 
             ExitWithoutSavingDialog(
-                onExit = onGoBack,
+                onExit = {
+                    if (viewModel.filterType != null) {
+                        viewModel.clearType()
+                    } else onGoBack()
+                },
                 onDismiss = { showExitDialog = false },
                 visible = showExitDialog
             )

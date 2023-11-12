@@ -13,6 +13,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,7 +21,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -58,16 +58,24 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.smarttoolfactory.image.util.update
+import com.smarttoolfactory.image.zoom.animatedZoom
+import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
@@ -92,6 +100,8 @@ import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
+import ru.tech.imageresizershrinker.presentation.root.widget.other.Loading
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
@@ -112,13 +122,11 @@ fun AddEditMaskSheet(
     ScopedViewModelContainer<AddMaskSheetViewModel> { disposable ->
         val viewModel = this
         val imageManager = viewModel.getImageManager()
-        val filterMaskApplier = viewModel.getFilterMaskApplier()
 
-        LaunchedEffect(mask) {
-            mask?.let {
-                viewModel.setMask(mask)
-            }
+        LaunchedEffect(mask, masks, targetBitmapUri) {
+            viewModel.setMask(mask = mask, bitmapUri = targetBitmapUri, masks = masks)
         }
+
         val portrait =
             LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
@@ -134,38 +142,6 @@ fun AddEditMaskSheet(
         var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(20.pt) }
         var brushSoftness by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(20.pt) }
         var zoomEnabled by rememberSaveable { mutableStateOf(false) }
-
-        var transformedBitmap by rememberSaveable { mutableStateOf<Bitmap?>(null) }
-        var maskPreviewModeEnabled by rememberSaveable { mutableStateOf(false) }
-        LaunchedEffect(
-            targetBitmapUri,
-            mask,
-            masks,
-            maskPreviewModeEnabled,
-            viewModel.paths,
-            viewModel.filterList
-        ) {
-            val bmp = imageManager.getImage(data = targetBitmapUri.toString(), false)
-            if (targetBitmapUri != null && bmp != null) {
-                transformedBitmap = filterMaskApplier.filterByMasks(
-                    filterMasks = masks.takeWhile { it != mask },
-                    image = bmp
-                )?.let {
-                    if (maskPreviewModeEnabled) {
-                        filterMaskApplier.filterByMask(
-                            filterMask = viewModel.getUiMask(),
-                            image = it
-                        )
-                    } else it
-                }?.let {
-                    imageManager.createPreview(
-                        image = it,
-                        imageInfo = ImageInfo(width = it.width, height = it.height),
-                        onGetByteCount = {}
-                    )
-                }
-            }
-        }
 
         val canSave = viewModel.paths.isNotEmpty() && viewModel.filterList.isNotEmpty()
         SimpleSheet(
@@ -192,17 +168,24 @@ fun AddEditMaskSheet(
             }
         ) {
             disposable()
-            val maxHeight = LocalConfiguration.current.screenHeightDp.dp.minus(
+            val height = LocalConfiguration.current.run {
+                if (orientation == Configuration.ORIENTATION_PORTRAIT) screenHeightDp
+                else screenWidthDp
+            }
+            val maxHeight = height.dp.minus(
                 WindowInsets.systemBars.asPaddingValues()
                     .run { calculateBottomPadding() + calculateTopPadding() }
             ).minus(88.dp + 56.dp)
             val drawPreview: @Composable () -> Unit = {
+                val zoomState = rememberAnimatedZoomState(maxZoom = 30f)
                 AnimatedContent(
-                    targetState = remember(transformedBitmap) {
-                        derivedStateOf {
-                            transformedBitmap?.asImageBitmap()
-                        }
-                    }.value to maskPreviewModeEnabled,
+                    targetState = Triple(
+                        remember(viewModel.previewBitmap) {
+                            derivedStateOf {
+                                viewModel.previewBitmap?.asImageBitmap()
+                            }
+                        }.value, viewModel.maskPreviewModeEnabled, viewModel.previewLoading
+                    ),
                     transitionSpec = { fadeIn() togetherWith fadeOut() },
                     modifier = Modifier.then(
                         if (portrait) {
@@ -211,11 +194,19 @@ fun AddEditMaskSheet(
                                 .fillMaxWidth()
                         } else Modifier.fillMaxSize()
                     )
-                ) { (imageBitmap, preview) ->
-                    if (imageBitmap != null) {
+                ) { (imageBitmap, preview, loading) ->
+                    if (loading || imageBitmap == null) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Loading()
+                        }
+                    } else {
                         val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
                         if (!preview) {
                             BitmapDrawer(
+                                zoomState = zoomState,
                                 imageBitmap = imageBitmap,
                                 paths = viewModel.paths,
                                 strokeWidth = strokeWidth,
@@ -226,11 +217,7 @@ fun AddEditMaskSheet(
                                 drawMode = DrawMode.Pen,
                                 modifier = Modifier
                                     .padding(16.dp)
-                                    .then(
-                                        if (portrait) {
-                                            Modifier.height(maxHeight * (2 / 3f))
-                                        } else Modifier.fillMaxHeight()
-                                    )
+                                    .fillMaxSize()
                                     .aspectRatio(aspectRatio, portrait),
                                 zoomEnabled = zoomEnabled,
                                 onDraw = {},
@@ -239,18 +226,38 @@ fun AddEditMaskSheet(
                                 backgroundColor = Color.Transparent
                             )
                         } else {
-                            Image(
-                                bitmap = imageBitmap,
+                            Box(
                                 modifier = Modifier
-                                    .padding(16.dp)
+                                    .fillMaxSize()
                                     .then(
-                                        if (portrait) {
-                                            Modifier.height(maxHeight * (2 / 3f))
-                                        } else Modifier.fillMaxHeight()
-                                    )
-                                    .aspectRatio(aspectRatio, portrait),
-                                contentDescription = null
-                            )
+                                        if (zoomEnabled) {
+                                            Modifier.animatedZoom(animatedZoomState = zoomState)
+                                        } else {
+                                            Modifier
+                                                .clipToBounds()
+                                                .graphicsLayer {
+                                                    update(zoomState)
+                                                }
+                                        }
+                                    ),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Image(
+                                    bitmap = imageBitmap,
+                                    modifier = Modifier
+                                        .padding(16.dp)
+                                        .fillMaxSize()
+                                        .aspectRatio(aspectRatio, portrait)
+                                        .clip(RoundedCornerShape(2.dp))
+                                        .transparencyChecker()
+                                        .border(
+                                            width = 1.dp,
+                                            color = MaterialTheme.colorScheme.outlineVariant(),
+                                            RoundedCornerShape(2.dp)
+                                        ),
+                                    contentDescription = null
+                                )
+                            }
                         }
                     }
                 }
@@ -280,7 +287,7 @@ fun AddEditMaskSheet(
                                 uncheckedTrackColor = MaterialTheme.colorScheme.primary,
                                 uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
                             ),
-                            checked = !zoomEnabled,
+                            checked = !zoomEnabled && !maskPreviewModeEnabled,
                             onCheckedChange = { zoomEnabled = !zoomEnabled },
                             thumbContent = {
                                 AnimatedContent(zoomEnabled) { zoom ->
@@ -365,7 +372,7 @@ fun AddEditMaskSheet(
                                 else MaterialTheme.colorScheme.onSurface
                             ).value,
                             onClick = {
-                                maskPreviewModeEnabled = !maskPreviewModeEnabled
+                                viewModel.togglePreviewMode()
                             },
                             checked = maskPreviewModeEnabled,
                             startContent = {
@@ -511,9 +518,56 @@ class AddMaskSheetViewModel @Inject constructor(
     private val imageManager: ImageManager<Bitmap, ExifInterface>,
     private val filterMaskApplier: FilterMaskApplier<Bitmap, Path, Color>
 ) : ViewModel() {
-    fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
 
-    fun getFilterMaskApplier(): FilterMaskApplier<Bitmap, Path, Color> = filterMaskApplier
+    private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
+    val previewBitmap by _previewBitmap
+
+    private val _previewLoading: MutableState<Boolean> = mutableStateOf(false)
+    val previewLoading by _previewLoading
+
+    private val _maskPreviewModeEnabled: MutableState<Boolean> = mutableStateOf(false)
+    val maskPreviewModeEnabled by _maskPreviewModeEnabled
+
+    private var bitmapUri: Uri? by mutableStateOf(null)
+
+    private var initialMasks: List<UiFilterMask> by mutableStateOf(emptyList())
+
+    private var initialMask: UiFilterMask? by mutableStateOf(null)
+
+    private fun updatePreview() {
+        if (filterList.isEmpty() || paths.isEmpty()) {
+            _maskPreviewModeEnabled.update { false }
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            _previewLoading.value = true
+            imageManager.getImage(
+                data = bitmapUri.toString(),
+                originalSize = false
+            )?.let { bmp ->
+                _previewBitmap.value = filterMaskApplier.filterByMasks(
+                    filterMasks = initialMasks.takeWhile { it != initialMask }.let {
+                        if (maskPreviewModeEnabled) it + getUiMask()
+                        else it
+                    },
+                    image = bmp
+                )?.let {
+                    imageManager.createPreview(
+                        image = it,
+                        imageInfo = ImageInfo(width = it.width, height = it.height),
+                        onGetByteCount = {}
+                    )
+                }
+            }
+            _previewLoading.value = false
+        }
+    }
+
+    fun togglePreviewMode() {
+        _maskPreviewModeEnabled.update { !it }
+        updatePreview()
+    }
+
+    fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
 
     fun removeFilterAtIndex(index: Int) {
         _filterList.update {
@@ -521,6 +575,7 @@ class AddMaskSheetViewModel @Inject constructor(
                 removeAt(index)
             }
         }
+        updatePreview()
     }
 
     fun <T : Any> updateFilter(
@@ -537,6 +592,7 @@ class AddMaskSheetViewModel @Inject constructor(
             list[index] = list[index].newInstance()
             _filterList.update { list }
         }
+        updatePreview()
     }
 
     fun updateFiltersOrder(uiFilters: List<UiFilter<*>>) {
@@ -547,6 +603,7 @@ class AddMaskSheetViewModel @Inject constructor(
         _filterList.update {
             it + filter
         }
+        updatePreview()
     }
 
     fun getUiMask(): UiFilterMask = UiFilterMask(
@@ -557,6 +614,7 @@ class AddMaskSheetViewModel @Inject constructor(
     fun addPath(pathPaint: UiPathPaint) {
         _paths.update { it + pathPaint }
         _undonePaths.value = listOf()
+        if (maskPreviewModeEnabled) updatePreview()
     }
 
     fun undo() {
@@ -571,6 +629,7 @@ class AddMaskSheetViewModel @Inject constructor(
 
         _paths.update { it - lastPath }
         _undonePaths.update { it + lastPath }
+        if (maskPreviewModeEnabled) updatePreview()
     }
 
     fun redo() {
@@ -579,6 +638,7 @@ class AddMaskSheetViewModel @Inject constructor(
         val lastPath = undonePaths.last()
         _paths.update { it + lastPath }
         _undonePaths.update { it - lastPath }
+        if (maskPreviewModeEnabled) updatePreview()
     }
 
     fun updateMaskColor(color: Color) {
@@ -590,9 +650,15 @@ class AddMaskSheetViewModel @Inject constructor(
         }
     }
 
-    fun setMask(mask: UiFilterMask) {
-        _paths.update { mask.maskPaints.map { it.toUiPathPaint() } }
-        _filterList.update { mask.filters.map { it.toUiFilter() } }
+    fun setMask(mask: UiFilterMask?, bitmapUri: Uri?, masks: List<UiFilterMask>) {
+        mask?.let {
+            _paths.update { mask.maskPaints.map { it.toUiPathPaint() } }
+            _filterList.update { mask.filters.map { it.toUiFilter() } }
+        }
+        this.initialMask = mask
+        this.bitmapUri = bitmapUri
+        this.initialMasks = masks
+        updatePreview()
     }
 
     private val _maskColor = mutableStateOf(Color.Red)
