@@ -622,8 +622,6 @@ fun MainScreen(
                                                     navController.popUpTo { it == Screen.Main }
                                                     navController.navigate(screen)
                                                 },
-                                                color = MaterialTheme.colorScheme.surfaceContainerLow,
-                                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                                                 onLongClick = {
                                                     showArrangementSheet.value =
                                                         !settingsState.groupOptionsByTypes

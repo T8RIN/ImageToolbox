@@ -130,11 +130,14 @@ class AndroidFilterMaskApplier @Inject constructor(
     override suspend fun filterByMasks(
         filterMasks: List<FilterMask<Bitmap, Path, Color>>,
         image: Bitmap
-    ): Bitmap? {
-        var bitmap: Bitmap? = image
-        filterMasks.forEach {
-            bitmap = bitmap?.let { bmp -> filterByMask(it, bmp) }
+    ): Bitmap? = filterMasks.fold<FilterMask<Bitmap, Path, Color>, Bitmap?>(
+        initial = image,
+        operation = { bmp, mask ->
+            bmp?.let {
+                filterByMask(
+                    filterMask = mask, image = bmp
+                )
+            }
         }
-        return bitmap
-    }
+    )
 }

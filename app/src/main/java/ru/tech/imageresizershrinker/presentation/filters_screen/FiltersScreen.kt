@@ -120,6 +120,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfet
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.failedToSaveImages
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
@@ -339,7 +340,7 @@ fun FiltersScreen(
 
     val buttons: @Composable (filterType: Screen.Filter.Type) -> Unit = { filterType ->
         BottomButtonsBlock(
-            targetState = false to imageInside,
+            targetState = (viewModel.basicFilterState.uris.isNullOrEmpty() && viewModel.maskingFilterState.uri == null) to imageInside,
             onPickImage = {
                 when (filterType) {
                     is Screen.Filter.Type.Basic -> pickImagesLauncher.pickImage()
@@ -362,7 +363,15 @@ fun FiltersScreen(
                     }
 
                     is Screen.Filter.Type.Masking -> {
-                        viewModel.saveMaskedBitmap()
+                        viewModel.saveMaskedBitmap { saveResult ->
+                            parseSaveResult(
+                                saveResult = saveResult,
+                                onSuccess = showConfetti,
+                                toastHostState = toastHostState,
+                                scope = scope,
+                                context = context
+                            )
+                        }
                     }
                 }
             },

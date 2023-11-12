@@ -263,7 +263,7 @@ fun AddFiltersSheet(
     var imageState by remember { mutableStateOf(middleImageState()) }
     var loading by remember { mutableStateOf(false) }
     LaunchedEffect(previewSheetData) {
-        showPreviewState.value = previewSheetData != null
+        showPreviewState.value = previewSheetData != null && previewBitmap != null
         if (previewBitmap != null && previewSheetData != null) {
             if (previewSheetData?.value is Unit) {
                 imageState = imageState.copy(position = 2)

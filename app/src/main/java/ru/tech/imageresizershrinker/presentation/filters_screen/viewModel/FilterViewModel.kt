@@ -239,6 +239,7 @@ class FilterViewModel @Inject constructor(
                 it.copy(filters = list)
             }
         }
+        updateCanSave()
         _needToApplyFilters.value = true
     }
 
@@ -247,6 +248,7 @@ class FilterViewModel @Inject constructor(
             it.copy(filters = value)
         }
         filterJob?.cancel()
+        updateCanSave()
         _needToApplyFilters.value = true
     }
 
@@ -275,29 +277,65 @@ class FilterViewModel @Inject constructor(
     fun canShow(): Boolean = bitmap?.let { imageManager.canShow(it) } ?: false
 
     fun performSharing(onComplete: () -> Unit) {
-        viewModelScope.launch {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
             _isSaving.value = true
             _done.value = 0
-            _left.value = _basicFilterState.value.uris?.size ?: 1
-            imageManager.shareImages(
-                uris = _basicFilterState.value.uris?.map { it.toString() } ?: emptyList(),
-                imageLoader = { uri ->
-                    imageManager.getImageWithFiltersApplied(uri, _basicFilterState.value.filters)
-                },
-                onProgressChange = {
-                    if (it == -1) {
-                        onComplete()
-                        _isSaving.value = false
-                        _done.value = 0
-                    } else {
-                        _done.value = it
+            when (filterType) {
+                is Screen.Filter.Type.Basic -> {
+                    _left.value = _basicFilterState.value.uris?.size ?: 1
+                    imageManager.shareImages(
+                        uris = _basicFilterState.value.uris?.map { it.toString() } ?: emptyList(),
+                        imageLoader = { uri ->
+                            imageManager.getImageWithFiltersApplied(
+                                uri,
+                                _basicFilterState.value.filters
+                            )
+                        },
+                        onProgressChange = {
+                            if (it == -1) {
+                                onComplete()
+                                _isSaving.value = false
+                                _done.value = 0
+                            } else {
+                                _done.value = it
+                            }
+                        }
+                    )
+                }
+
+                is Screen.Filter.Type.Masking -> {
+                    _left.value = maskingFilterState.masks.size
+                    maskingFilterState.uri?.toString()?.let {
+                        imageManager.getImage(uri = it)
+                    }?.let {
+                        maskingFilterState.masks.fold<UiFilterMask, Bitmap?>(
+                            initial = it.image,
+                            operation = { bmp, mask ->
+                                bmp?.let {
+                                    filterMaskApplier.filterByMask(
+                                        filterMask = mask, image = bmp
+                                    )
+                                }?.also { _done.value++ }
+                            }
+                        )?.let { bitmap ->
+                            imageManager.shareImage(
+                                imageData = it.copy(
+                                    image = bitmap,
+                                    imageInfo = imageInfo.copy(
+                                        width = bitmap.width,
+                                        height = bitmap.height
+                                    )
+                                ),
+                                onComplete = onComplete
+                            )
+                        }
                     }
                 }
-            )
-        }.also {
-            _isSaving.value = false
-            savingJob?.cancel()
-            savingJob = it
+
+                null -> Unit
+            }
         }
     }
 
@@ -329,9 +367,9 @@ class FilterViewModel @Inject constructor(
                             _previewBitmap.value = filterMaskApplier.filterByMasks(
                                 filterMasks = _maskingFilterState.value.masks,
                                 image = bitmap
-                            )?.let {
+                            )?.let { bmp ->
                                 imageManager.createPreview(
-                                    image = it,
+                                    image = bmp,
                                     imageInfo = imageInfo,
                                     onGetByteCount = { _bitmapSize.value = it.toLong() }
                                 )
@@ -369,6 +407,7 @@ class FilterViewModel @Inject constructor(
         uri?.let { setBitmap(it) }
         _maskingFilterState.value = MaskingFilterState(uri)
         _needToApplyFilters.value = true
+        updateCanSave()
     }
 
     fun clearType() {
@@ -380,8 +419,55 @@ class FilterViewModel @Inject constructor(
         _imageInfo.update { ImageInfo() }
     }
 
-    fun saveMaskedBitmap() {
-        TODO("Not yet implemented")
+    fun saveMaskedBitmap(
+        onComplete: (saveResult: SaveResult) -> Unit
+    ) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _isSaving.value = true
+                _done.value = 0
+                _left.value = maskingFilterState.masks.size
+                maskingFilterState.uri?.toString()?.let {
+                    imageManager.getImage(uri = it)
+                }?.let {
+                    maskingFilterState.masks.fold<UiFilterMask, Bitmap?>(
+                        initial = it.image,
+                        operation = { bmp, mask ->
+                            bmp?.let {
+                                filterMaskApplier.filterByMask(
+                                    filterMask = mask, image = bmp
+                                )
+                            }?.also { _done.value++ }
+                        }
+                    )?.let { localBitmap ->
+                        onComplete(
+                            fileController.save(
+                                saveTarget = ImageSaveTarget<ExifInterface>(
+                                    imageInfo = imageInfo.copy(
+                                        width = localBitmap.width,
+                                        height = localBitmap.height
+                                    ),
+                                    originalUri = maskingFilterState.uri.toString(),
+                                    sequenceNumber = null,
+                                    data = imageManager.compress(
+                                        ImageData(
+                                            image = localBitmap,
+                                            imageInfo = imageInfo.copy(
+                                                width = localBitmap.width,
+                                                height = localBitmap.height
+                                            )
+                                        )
+                                    )
+                                ), keepMetadata = keepExif
+                            )
+                        )
+                    }
+                }
+                _isSaving.value = false
+            }
+        }
     }
 
     fun updateMasksOrder(uiFilterMasks: List<UiFilterMask>) {
@@ -389,6 +475,7 @@ class FilterViewModel @Inject constructor(
             it.copy(masks = uiFilterMasks)
         }
         _needToApplyFilters.value = true
+        updateCanSave()
     }
 
     fun updateMask(value: UiFilterMask, index: Int, showError: (Throwable) -> Unit) {
@@ -401,6 +488,7 @@ class FilterViewModel @Inject constructor(
                 )
             }
             _needToApplyFilters.value = true
+            updateCanSave()
         }.exceptionOrNull()?.let(showError)
     }
 
@@ -413,6 +501,7 @@ class FilterViewModel @Inject constructor(
             )
         }
         _needToApplyFilters.value = true
+        updateCanSave()
     }
 
     fun addMask(value: UiFilterMask) {
@@ -422,6 +511,7 @@ class FilterViewModel @Inject constructor(
             )
         }
         _needToApplyFilters.value = true
+        updateCanSave()
     }
 
 }
