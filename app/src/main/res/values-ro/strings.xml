@@ -424,4 +424,16 @@
     <string name="search_option">Căutați</string>
     <string name="search_option_sub">Oferă abilitarea de-a căuta prin toate opțiunile disponibile pe ecranul principal</string>
     <string name="invert_colors">Inversați culorile</string>
+    <string name="pdf_tools">Instrumente PDF</string>
+    <string name="mask_filter">Filtru mască</string>
+    <string name="images_to_pdf">Imagini în PDF</string>
+    <string name="masks">Măști</string>
+    <string name="preview_pdf">Previzualizați PDF</string>
+    <string name="pdf_to_images">PDF în Imagini</string>
+    <string name="images_to_pdf_sub">Împachetați imaginile date într-un fișier PDF</string>
+    <string name="preview_pdf_sub">Previzualizare PDF Simplu</string>
+    <string name="add_mask">Adaugă mască</string>
+    <string name="pdf_tools_sub">Operează cu fișiere PDF: Previzualizați, Convertiți într-un lot de imagini sau creați unul din pozele date</string>
+    <string name="mask_indexed">Masca %d</string>
+    <string name="pdf_to_images_sub">Convertiți PDF în Imagini din formatul de ieșire dată</string>
 </resources>
