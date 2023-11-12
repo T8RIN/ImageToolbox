@@ -30,12 +30,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.materialShadow
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
@@ -52,6 +52,8 @@ fun LazyListScope.imageStickyHeader(
     imageState: ImageHeaderState,
     onStateChange: (ImageHeaderState) -> Unit,
     backgroundColor: Color = Color.Unspecified,
+    padding: Dp = 20.dp,
+    imageModifier: Modifier = Modifier,
     imageBlock: @Composable () -> Unit,
 ) {
     if (visible) {
@@ -85,13 +87,15 @@ fun LazyListScope.imageStickyHeader(
                             rememberAvailableHeight(expanded = expanded, imageState = imageState)
                         )
                         .background(color)
-                        .clip(MaterialTheme.shapes.medium)
-                        .padding(20.dp)
+                        .padding(padding)
                         .animateItemPlacement(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Box(Modifier.weight(1f, false)) {
+                    Box(
+                        Modifier
+                            .weight(1f, false)
+                            .then(imageModifier)) {
                         imageBlock()
                     }
                     Spacer(Modifier.height(36.dp))

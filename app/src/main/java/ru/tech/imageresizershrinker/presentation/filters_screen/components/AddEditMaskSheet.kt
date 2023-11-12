@@ -7,30 +7,26 @@ import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
@@ -38,7 +34,6 @@ import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.material.icons.rounded.ZoomIn
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -99,6 +94,7 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.toUi
 import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.widget.other.Loading
@@ -109,6 +105,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.ScopedViewModelContainer
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageState
 import javax.inject.Inject
 
 @Composable
@@ -168,14 +165,6 @@ fun AddEditMaskSheet(
             }
         ) {
             disposable()
-            val height = LocalConfiguration.current.run {
-                if (orientation == Configuration.ORIENTATION_PORTRAIT) screenHeightDp
-                else screenWidthDp
-            }
-            val maxHeight = height.dp.minus(
-                WindowInsets.systemBars.asPaddingValues()
-                    .run { calculateBottomPadding() + calculateTopPadding() }
-            ).minus(88.dp + 56.dp)
             val drawPreview: @Composable () -> Unit = {
                 val zoomState = rememberAnimatedZoomState(maxZoom = 30f)
                 AnimatedContent(
@@ -187,13 +176,7 @@ fun AddEditMaskSheet(
                         }.value, viewModel.maskPreviewModeEnabled, viewModel.previewLoading
                     ),
                     transitionSpec = { fadeIn() togetherWith fadeOut() },
-                    modifier = Modifier.then(
-                        if (portrait) {
-                            Modifier
-                                .height(maxHeight * (2 / 3f))
-                                .fillMaxWidth()
-                        } else Modifier.fillMaxSize()
-                    )
+                    modifier = Modifier.fillMaxSize()
                 ) { (imageBitmap, preview, loading) ->
                     if (loading || imageBitmap == null) {
                         Box(
@@ -270,228 +253,242 @@ fun AddEditMaskSheet(
                     VerticalDivider()
                 }
 
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .verticalScroll(
-                            state = rememberScrollState()
+                var imageState by remember { mutableStateOf(middleImageState()) }
+
+                val colorScheme = MaterialTheme.colorScheme
+                val switch = @Composable {
+                    Switch(
+                        modifier = Modifier.padding(start = 8.dp),
+                        colors = SwitchDefaults.colors(
+                            uncheckedBorderColor = MaterialTheme.colorScheme.primary,
+                            uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                            uncheckedTrackColor = MaterialTheme.colorScheme.primary,
+                            uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         ),
+                        checked = !zoomEnabled && !maskPreviewModeEnabled,
+                        onCheckedChange = { zoomEnabled = !zoomEnabled },
+                        thumbContent = {
+                            AnimatedContent(zoomEnabled) { zoom ->
+                                Icon(
+                                    if (!zoom) Icons.Rounded.Draw else Icons.Rounded.ZoomIn,
+                                    null,
+                                    Modifier.size(SwitchDefaults.IconSize)
+                                )
+                            }
+                        }
+                    )
+                }
+                LazyColumn(
+                    modifier = Modifier
+                        .weight(1f),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    val switch = @Composable {
-                        Switch(
-                            modifier = Modifier.padding(start = 8.dp),
-                            colors = SwitchDefaults.colors(
-                                uncheckedBorderColor = MaterialTheme.colorScheme.primary,
-                                uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                                uncheckedTrackColor = MaterialTheme.colorScheme.primary,
-                                uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                            ),
-                            checked = !zoomEnabled && !maskPreviewModeEnabled,
-                            onCheckedChange = { zoomEnabled = !zoomEnabled },
-                            thumbContent = {
-                                AnimatedContent(zoomEnabled) { zoom ->
-                                    Icon(
-                                        if (!zoom) Icons.Rounded.Draw else Icons.Rounded.ZoomIn,
-                                        null,
-                                        Modifier.size(SwitchDefaults.IconSize)
+                    imageStickyHeader(
+                        visible = portrait,
+                        expanded = false,
+                        padding = 0.dp,
+                        imageState = imageState,
+                        onStateChange = { imageState = it },
+                        imageBlock = drawPreview,
+                        imageModifier = Modifier
+                            .padding(bottom = 24.dp)
+                            .clip(RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
+                            .background(colorScheme.secondaryContainer.copy(0.3f))
+                    )
+
+                    item {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.animateContentSize()
+                        ) {
+                            Row(
+                                Modifier
+                                    .padding(16.dp)
+                                    .container(shape = CircleShape)
+                            ) {
+                                switch()
+                                EnhancedIconButton(
+                                    containerColor = Color.Transparent,
+                                    borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                        luminance = 0.1f
+                                    ),
+                                    onClick = viewModel::undo,
+                                    enabled = (viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()) && !maskPreviewModeEnabled
+                                ) {
+                                    Icon(Icons.AutoMirrored.Rounded.Undo, null)
+                                }
+                                EnhancedIconButton(
+                                    containerColor = Color.Transparent,
+                                    borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                        luminance = 0.1f
+                                    ),
+                                    onClick = viewModel::redo,
+                                    enabled = viewModel.undonePaths.isNotEmpty() && !maskPreviewModeEnabled
+                                ) {
+                                    Icon(Icons.AutoMirrored.Rounded.Redo, null)
+                                }
+                                EnhancedIconButton(
+                                    borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                        luminance = 0.1f
+                                    ),
+                                    containerColor = animateColorAsState(
+                                        if (isEraserOn) MaterialTheme.colorScheme.mixedContainer
+                                        else Color.Transparent
+                                    ).value,
+                                    contentColor = animateColorAsState(
+                                        if (isEraserOn) MaterialTheme.colorScheme.onMixedContainer
+                                        else MaterialTheme.colorScheme.onSurface
+                                    ).value,
+                                    enabled = !maskPreviewModeEnabled,
+                                    onClick = {
+                                        isEraserOn = !isEraserOn
+                                    }
+                                ) {
+                                    Icon(Icons.Rounded.Eraser, null)
+                                }
+                            }
+
+                            AnimatedVisibility(visible = canSave) {
+                                PreferenceRowSwitch(
+                                    title = stringResource(id = R.string.mask_preview),
+                                    subtitle = stringResource(id = R.string.mask_preview_sub),
+                                    color = animateColorAsState(
+                                        if (maskPreviewModeEnabled) MaterialTheme.colorScheme.primaryContainer
+                                        else Color.Unspecified,
+                                    ).value,
+                                    shape = RoundedCornerShape(24.dp),
+                                    resultModifier = Modifier.padding(
+                                        top = 16.dp,
+                                        bottom = 16.dp,
+                                        end = 16.dp
+                                    ),
+                                    contentColor = animateColorAsState(
+                                        if (maskPreviewModeEnabled) MaterialTheme.colorScheme.onPrimaryContainer
+                                        else MaterialTheme.colorScheme.onSurface
+                                    ).value,
+                                    onClick = {
+                                        viewModel.togglePreviewMode()
+                                    },
+                                    checked = maskPreviewModeEnabled,
+                                    startContent = {
+                                        Icon(
+                                            Icons.Rounded.Preview,
+                                            null,
+                                            Modifier.padding(horizontal = 16.dp)
+                                        )
+                                    }
+                                )
+                            }
+
+                            AnimatedVisibility(!maskPreviewModeEnabled) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    DrawColorSelector(
+                                        color = Color.Unspecified,
+                                        titleText = stringResource(id = R.string.mask_color),
+                                        defaultColors = remember {
+                                            listOf(
+                                                Color.Red,
+                                                Color.Green,
+                                                Color.Blue,
+                                                Color.Yellow,
+                                                Color.Cyan,
+                                                Color.Magenta
+                                            )
+                                        },
+                                        drawColor = viewModel.maskColor,
+                                        onColorChange = viewModel::updateMaskColor,
+                                        modifier = Modifier.padding(
+                                            start = 16.dp,
+                                            end = 16.dp,
+                                            top = 16.dp
+                                        )
+                                    )
+                                    LineWidthSelector(
+                                        modifier = Modifier.padding(
+                                            start = 16.dp,
+                                            end = 16.dp,
+                                            top = 16.dp
+                                        ),
+                                        color = Color.Unspecified,
+                                        value = strokeWidth.value,
+                                        onValueChange = { strokeWidth = it.pt }
+                                    )
+                                    BrushSoftnessSelector(
+                                        modifier = Modifier
+                                            .padding(top = 16.dp, end = 16.dp, start = 16.dp),
+                                        color = Color.Unspecified,
+                                        value = brushSoftness.value,
+                                        onValueChange = { brushSoftness = it.pt }
                                     )
                                 }
                             }
-                        )
-                    }
-
-                    if (portrait) {
-                        drawPreview()
-                        HorizontalDivider()
-                    }
-
-                    Row(
-                        Modifier
-                            .padding(16.dp)
-                            .container(shape = CircleShape)
-                    ) {
-                        switch()
-                        EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            borderColor = MaterialTheme.colorScheme.outlineVariant(
-                                luminance = 0.1f
-                            ),
-                            onClick = viewModel::undo,
-                            enabled = (viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()) && !maskPreviewModeEnabled
-                        ) {
-                            Icon(Icons.AutoMirrored.Rounded.Undo, null)
-                        }
-                        EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            borderColor = MaterialTheme.colorScheme.outlineVariant(
-                                luminance = 0.1f
-                            ),
-                            onClick = viewModel::redo,
-                            enabled = viewModel.undonePaths.isNotEmpty() && !maskPreviewModeEnabled
-                        ) {
-                            Icon(Icons.AutoMirrored.Rounded.Redo, null)
-                        }
-                        EnhancedIconButton(
-                            borderColor = MaterialTheme.colorScheme.outlineVariant(
-                                luminance = 0.1f
-                            ),
-                            containerColor = animateColorAsState(
-                                if (isEraserOn) MaterialTheme.colorScheme.mixedContainer
-                                else Color.Transparent
-                            ).value,
-                            contentColor = animateColorAsState(
-                                if (isEraserOn) MaterialTheme.colorScheme.onMixedContainer
-                                else MaterialTheme.colorScheme.onSurface
-                            ).value,
-                            enabled = !maskPreviewModeEnabled,
-                            onClick = {
-                                isEraserOn = !isEraserOn
-                            }
-                        ) {
-                            Icon(Icons.Rounded.Eraser, null)
-                        }
-                    }
-
-                    AnimatedVisibility(visible = canSave) {
-                        PreferenceRowSwitch(
-                            title = stringResource(id = R.string.mask_preview),
-                            subtitle = stringResource(id = R.string.mask_preview_sub),
-                            color = animateColorAsState(
-                                if (maskPreviewModeEnabled) MaterialTheme.colorScheme.primaryContainer
-                                else Color.Unspecified,
-                            ).value,
-                            shape = RoundedCornerShape(24.dp),
-                            resultModifier = Modifier.padding(
-                                top = 16.dp,
-                                bottom = 16.dp,
-                                end = 16.dp
-                            ),
-                            contentColor = animateColorAsState(
-                                if (maskPreviewModeEnabled) MaterialTheme.colorScheme.onPrimaryContainer
-                                else MaterialTheme.colorScheme.onSurface
-                            ).value,
-                            onClick = {
-                                viewModel.togglePreviewMode()
-                            },
-                            checked = maskPreviewModeEnabled,
-                            startContent = {
-                                Icon(
-                                    Icons.Rounded.Preview,
-                                    null,
-                                    Modifier.padding(horizontal = 16.dp)
-                                )
-                            }
-                        )
-                    }
-
-                    AnimatedVisibility(!maskPreviewModeEnabled) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            DrawColorSelector(
-                                color = Color.Unspecified,
-                                titleText = stringResource(id = R.string.mask_color),
-                                defaultColors = remember {
-                                    listOf(
-                                        Color.Red,
-                                        Color.Green,
-                                        Color.Blue,
-                                        Color.Yellow,
-                                        Color.Cyan,
-                                        Color.Magenta
-                                    )
-                                },
-                                drawColor = viewModel.maskColor,
-                                onColorChange = viewModel::updateMaskColor,
-                                modifier = Modifier.padding(
-                                    start = 16.dp,
-                                    end = 16.dp,
-                                    top = 16.dp
-                                )
-                            )
-                            LineWidthSelector(
-                                modifier = Modifier.padding(
-                                    start = 16.dp,
-                                    end = 16.dp,
-                                    top = 16.dp
-                                ),
-                                color = Color.Unspecified,
-                                value = strokeWidth.value,
-                                onValueChange = { strokeWidth = it.pt }
-                            )
-                            BrushSoftnessSelector(
-                                modifier = Modifier
-                                    .padding(top = 16.dp, end = 16.dp, start = 16.dp),
-                                color = Color.Unspecified,
-                                value = brushSoftness.value,
-                                onValueChange = { brushSoftness = it.pt }
-                            )
-                        }
-                    }
-                    AnimatedContent(
-                        targetState = viewModel.filterList.isNotEmpty(),
-                        transitionSpec = {
-                            fadeIn() + expandVertically() togetherWith fadeOut() + shrinkVertically()
-                        }
-                    ) { notEmpty ->
-                        if (notEmpty) {
-                            Column(
-                                Modifier
-                                    .padding(16.dp)
-                                    .container(MaterialTheme.shapes.extraLarge)
-                            ) {
-                                TitleItem(text = stringResource(R.string.filters))
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                                    modifier = Modifier.padding(8.dp)
-                                ) {
-                                    viewModel.filterList.forEachIndexed { index, filter ->
-                                        FilterItem(
-                                            filter = filter,
-                                            onFilterChange = {
-                                                viewModel.updateFilter(
-                                                    value = it,
-                                                    index = index,
-                                                    showError = {
-                                                        scope.launch {
-                                                            toastHostState.showError(
-                                                                context = context,
-                                                                error = it
-                                                            )
-                                                        }
+                            AnimatedContent(
+                                targetState = viewModel.filterList.isNotEmpty(),
+                                transitionSpec = {
+                                    fadeIn() + expandVertically() togetherWith fadeOut() + shrinkVertically()
+                                }
+                            ) { notEmpty ->
+                                if (notEmpty) {
+                                    Column(
+                                        Modifier
+                                            .padding(16.dp)
+                                            .container(MaterialTheme.shapes.extraLarge)
+                                    ) {
+                                        TitleItem(text = stringResource(R.string.filters))
+                                        Column(
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                                            modifier = Modifier.padding(8.dp)
+                                        ) {
+                                            viewModel.filterList.forEachIndexed { index, filter ->
+                                                FilterItem(
+                                                    filter = filter,
+                                                    onFilterChange = {
+                                                        viewModel.updateFilter(
+                                                            value = it,
+                                                            index = index,
+                                                            showError = {
+                                                                scope.launch {
+                                                                    toastHostState.showError(
+                                                                        context = context,
+                                                                        error = it
+                                                                    )
+                                                                }
+                                                            }
+                                                        )
+                                                    },
+                                                    onLongPress = {
+                                                        showReorderSheet.value = true
+                                                    },
+                                                    showDragHandle = false,
+                                                    onRemove = {
+                                                        viewModel.removeFilterAtIndex(
+                                                            index
+                                                        )
                                                     }
                                                 )
-                                            },
-                                            onLongPress = {
-                                                showReorderSheet.value = true
-                                            },
-                                            showDragHandle = false,
-                                            onRemove = {
-                                                viewModel.removeFilterAtIndex(
-                                                    index
-                                                )
                                             }
-                                        )
+                                            AddFilterButton(
+                                                onClick = {
+                                                    showAddFilterSheet.value = true
+                                                },
+                                                modifier = Modifier.padding(
+                                                    horizontal = 16.dp
+                                                )
+                                            )
+                                        }
                                     }
+                                } else {
                                     AddFilterButton(
                                         onClick = {
                                             showAddFilterSheet.value = true
                                         },
-                                        modifier = Modifier.padding(
-                                            horizontal = 16.dp
-                                        )
+                                        modifier = Modifier.padding(16.dp)
                                     )
                                 }
                             }
-                        } else {
-                            AddFilterButton(
-                                onClick = {
-                                    showAddFilterSheet.value = true
-                                },
-                                modifier = Modifier.padding(16.dp)
-                            )
                         }
                     }
                 }
@@ -519,6 +516,21 @@ class AddMaskSheetViewModel @Inject constructor(
     private val filterMaskApplier: FilterMaskApplier<Bitmap, Path, Color>
 ) : ViewModel() {
 
+    private val _maskColor = mutableStateOf(Color.Red)
+    val maskColor by _maskColor
+
+    private val _paths: MutableState<List<UiPathPaint>> = mutableStateOf(emptyList())
+    val paths by _paths
+
+    private val _lastPaths = mutableStateOf(listOf<UiPathPaint>())
+    val lastPaths: List<UiPathPaint> by _lastPaths
+
+    private val _undonePaths = mutableStateOf(listOf<UiPathPaint>())
+    val undonePaths: List<UiPathPaint> by _undonePaths
+
+    private val _filterList: MutableState<List<UiFilter<*>>> = mutableStateOf(emptyList())
+    val filterList by _filterList
+
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap by _previewBitmap
 
@@ -535,30 +547,35 @@ class AddMaskSheetViewModel @Inject constructor(
     private var initialMask: UiFilterMask? by mutableStateOf(null)
 
     private fun updatePreview() {
-        if (filterList.isEmpty() || paths.isEmpty()) {
-            _maskPreviewModeEnabled.update { false }
-        }
         viewModelScope.launch(Dispatchers.IO) {
-            _previewLoading.value = true
-            imageManager.getImage(
+            if (filterList.isEmpty() || paths.isEmpty()) {
+                _maskPreviewModeEnabled.update { false }
+            }
+            if (maskPreviewModeEnabled) {
+                _previewLoading.value = true
+                imageManager.getImage(
+                    data = bitmapUri.toString(),
+                    originalSize = false
+                )?.let { bmp ->
+                    _previewBitmap.value = filterMaskApplier.filterByMasks(
+                        filterMasks = initialMasks.takeWhile { it != initialMask }.let {
+                            if (maskPreviewModeEnabled) it + getUiMask()
+                            else it
+                        },
+                        image = bmp
+                    )?.let {
+                        imageManager.createPreview(
+                            image = it,
+                            imageInfo = ImageInfo(width = it.width, height = it.height),
+                            onGetByteCount = {}
+                        )
+                    }
+                }
+                _previewLoading.value = false
+            } else _previewBitmap.value = imageManager.getImage(
                 data = bitmapUri.toString(),
                 originalSize = false
-            )?.let { bmp ->
-                _previewBitmap.value = filterMaskApplier.filterByMasks(
-                    filterMasks = initialMasks.takeWhile { it != initialMask }.let {
-                        if (maskPreviewModeEnabled) it + getUiMask()
-                        else it
-                    },
-                    image = bmp
-                )?.let {
-                    imageManager.createPreview(
-                        image = it,
-                        imageInfo = ImageInfo(width = it.width, height = it.height),
-                        onGetByteCount = {}
-                    )
-                }
-            }
-            _previewLoading.value = false
+            )
         }
     }
 
@@ -614,7 +631,7 @@ class AddMaskSheetViewModel @Inject constructor(
     fun addPath(pathPaint: UiPathPaint) {
         _paths.update { it + pathPaint }
         _undonePaths.value = listOf()
-        if (maskPreviewModeEnabled) updatePreview()
+        updatePreview()
     }
 
     fun undo() {
@@ -629,7 +646,7 @@ class AddMaskSheetViewModel @Inject constructor(
 
         _paths.update { it - lastPath }
         _undonePaths.update { it + lastPath }
-        if (maskPreviewModeEnabled) updatePreview()
+        updatePreview()
     }
 
     fun redo() {
@@ -638,7 +655,7 @@ class AddMaskSheetViewModel @Inject constructor(
         val lastPath = undonePaths.last()
         _paths.update { it + lastPath }
         _undonePaths.update { it - lastPath }
-        if (maskPreviewModeEnabled) updatePreview()
+        updatePreview()
     }
 
     fun updateMaskColor(color: Color) {
@@ -660,20 +677,5 @@ class AddMaskSheetViewModel @Inject constructor(
         this.initialMasks = masks
         updatePreview()
     }
-
-    private val _maskColor = mutableStateOf(Color.Red)
-    val maskColor by _maskColor
-
-    private val _paths: MutableState<List<UiPathPaint>> = mutableStateOf(emptyList())
-    val paths by _paths
-
-    private val _lastPaths = mutableStateOf(listOf<UiPathPaint>())
-    val lastPaths: List<UiPathPaint> by _lastPaths
-
-    private val _undonePaths = mutableStateOf(listOf<UiPathPaint>())
-    val undonePaths: List<UiPathPaint> by _undonePaths
-
-    private val _filterList: MutableState<List<UiFilter<*>>> = mutableStateOf(emptyList())
-    val filterList by _filterList
 
 }
