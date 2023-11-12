@@ -26,6 +26,7 @@ fun PreferenceRowSwitch(
     color: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
         alpha = 0.2f
     ),
+    contentColor: Color? = null,
     shape: Shape = RoundedCornerShape(16.dp),
     startContent: (@Composable () -> Unit)? = null,
     resultModifier: Modifier = Modifier.padding(
@@ -39,6 +40,7 @@ fun PreferenceRowSwitch(
         resultModifier = resultModifier,
         applyHorPadding = applyHorPadding,
         title = title,
+        contentColor = contentColor,
         shape = shape,
         color = color,
         subtitle = subtitle,

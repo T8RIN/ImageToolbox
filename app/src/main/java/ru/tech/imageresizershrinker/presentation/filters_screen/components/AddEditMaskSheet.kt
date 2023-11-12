@@ -5,12 +5,14 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +21,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,11 +29,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.rounded.Draw
+import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.HorizontalDivider
@@ -87,9 +92,9 @@ import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.other.Loading
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
@@ -131,14 +136,28 @@ fun AddEditMaskSheet(
         var zoomEnabled by rememberSaveable { mutableStateOf(false) }
 
         var transformedBitmap by rememberSaveable { mutableStateOf<Bitmap?>(null) }
-
-        LaunchedEffect(targetBitmapUri, mask, masks) {
+        var maskPreviewModeEnabled by rememberSaveable { mutableStateOf(false) }
+        LaunchedEffect(
+            targetBitmapUri,
+            mask,
+            masks,
+            maskPreviewModeEnabled,
+            viewModel.paths,
+            viewModel.filterList
+        ) {
             val bmp = imageManager.getImage(data = targetBitmapUri.toString(), false)
             if (targetBitmapUri != null && bmp != null) {
                 transformedBitmap = filterMaskApplier.filterByMasks(
                     filterMasks = masks.takeWhile { it != mask },
                     image = bmp
                 )?.let {
+                    if (maskPreviewModeEnabled) {
+                        filterMaskApplier.filterByMask(
+                            filterMask = viewModel.getUiMask(),
+                            image = it
+                        )
+                    } else it
+                }?.let {
                     imageManager.createPreview(
                         image = it,
                         imageInfo = ImageInfo(width = it.width, height = it.height),
@@ -148,6 +167,7 @@ fun AddEditMaskSheet(
             }
         }
 
+        val canSave = viewModel.paths.isNotEmpty() && viewModel.filterList.isNotEmpty()
         SimpleSheet(
             visible = visible,
             title = {
@@ -158,7 +178,7 @@ fun AddEditMaskSheet(
             },
             confirmButton = {
                 EnhancedButton(
-                    enabled = viewModel.paths.isNotEmpty() && viewModel.filterList.isNotEmpty(),
+                    enabled = canSave,
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     onClick = {
                         onMaskPicked(
@@ -172,58 +192,65 @@ fun AddEditMaskSheet(
             }
         ) {
             disposable()
+            val maxHeight = LocalConfiguration.current.screenHeightDp.dp.minus(
+                WindowInsets.systemBars.asPaddingValues()
+                    .run { calculateBottomPadding() + calculateTopPadding() }
+            ).minus(88.dp + 56.dp)
             val drawPreview: @Composable () -> Unit = {
                 AnimatedContent(
                     targetState = remember(transformedBitmap) {
                         derivedStateOf {
                             transformedBitmap?.asImageBitmap()
                         }
-                    }.value,
-                    transitionSpec = { fadeIn() togetherWith fadeOut() }
-                ) { imageBitmap ->
-                    val maxHeight = LocalConfiguration.current.screenHeightDp.dp.minus(
-                        WindowInsets.systemBars.asPaddingValues()
-                            .run { calculateBottomPadding() + calculateTopPadding() }
-                    ).minus(88.dp + 56.dp)
+                    }.value to maskPreviewModeEnabled,
+                    transitionSpec = { fadeIn() togetherWith fadeOut() },
+                    modifier = Modifier.then(
+                        if (portrait) {
+                            Modifier
+                                .height(maxHeight * (2 / 3f))
+                                .fillMaxWidth()
+                        } else Modifier.fillMaxSize()
+                    )
+                ) { (imageBitmap, preview) ->
                     if (imageBitmap != null) {
                         val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
-                        BitmapDrawer(
-                            imageBitmap = imageBitmap,
-                            paths = viewModel.paths,
-                            strokeWidth = strokeWidth,
-                            brushSoftness = brushSoftness,
-                            drawColor = viewModel.maskColor,
-                            onAddPath = viewModel::addPath,
-                            isEraserOn = isEraserOn,
-                            drawMode = DrawMode.Pen,
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .then(
-                                    if (portrait) {
-                                        Modifier.height(maxHeight * (2 / 3f))
-                                    } else Modifier.fillMaxHeight()
-                                )
-                                .aspectRatio(aspectRatio, portrait),
-                            zoomEnabled = zoomEnabled,
-                            onDraw = {},
-                            imageManager = imageManager,
-                            drawArrowsEnabled = false,
-                            backgroundColor = Color.Transparent
-                        )
-                    } else {
-                        Box(
-                            modifier = Modifier.then(
-                                if (portrait) {
-                                    Modifier
-                                        .height(maxHeight * (2 / 3f))
-                                        .fillMaxWidth()
-                                } else Modifier
-                                    .fillMaxHeight()
-                                    .fillMaxWidth()
-                            ),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Loading()
+                        if (!preview) {
+                            BitmapDrawer(
+                                imageBitmap = imageBitmap,
+                                paths = viewModel.paths,
+                                strokeWidth = strokeWidth,
+                                brushSoftness = brushSoftness,
+                                drawColor = viewModel.maskColor,
+                                onAddPath = viewModel::addPath,
+                                isEraserOn = isEraserOn,
+                                drawMode = DrawMode.Pen,
+                                modifier = Modifier
+                                    .padding(16.dp)
+                                    .then(
+                                        if (portrait) {
+                                            Modifier.height(maxHeight * (2 / 3f))
+                                        } else Modifier.fillMaxHeight()
+                                    )
+                                    .aspectRatio(aspectRatio, portrait),
+                                zoomEnabled = zoomEnabled,
+                                onDraw = {},
+                                imageManager = imageManager,
+                                drawArrowsEnabled = false,
+                                backgroundColor = Color.Transparent
+                            )
+                        } else {
+                            Image(
+                                bitmap = imageBitmap,
+                                modifier = Modifier
+                                    .padding(16.dp)
+                                    .then(
+                                        if (portrait) {
+                                            Modifier.height(maxHeight * (2 / 3f))
+                                        } else Modifier.fillMaxHeight()
+                                    )
+                                    .aspectRatio(aspectRatio, portrait),
+                                contentDescription = null
+                            )
                         }
                     }
                 }
@@ -235,6 +262,7 @@ fun AddEditMaskSheet(
                     }
                     VerticalDivider()
                 }
+
                 Column(
                     modifier = Modifier
                         .weight(1f)
@@ -283,7 +311,7 @@ fun AddEditMaskSheet(
                                 luminance = 0.1f
                             ),
                             onClick = viewModel::undo,
-                            enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
+                            enabled = (viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()) && !maskPreviewModeEnabled
                         ) {
                             Icon(Icons.AutoMirrored.Rounded.Undo, null)
                         }
@@ -293,7 +321,7 @@ fun AddEditMaskSheet(
                                 luminance = 0.1f
                             ),
                             onClick = viewModel::redo,
-                            enabled = viewModel.undonePaths.isNotEmpty()
+                            enabled = viewModel.undonePaths.isNotEmpty() && !maskPreviewModeEnabled
                         ) {
                             Icon(Icons.AutoMirrored.Rounded.Redo, null)
                         }
@@ -309,6 +337,7 @@ fun AddEditMaskSheet(
                                 if (isEraserOn) MaterialTheme.colorScheme.onMixedContainer
                                 else MaterialTheme.colorScheme.onSurface
                             ).value,
+                            enabled = !maskPreviewModeEnabled,
                             onClick = {
                                 isEraserOn = !isEraserOn
                             }
@@ -317,44 +346,82 @@ fun AddEditMaskSheet(
                         }
                     }
 
-                    DrawColorSelector(
-                        color = Color.Unspecified,
-                        titleText = stringResource(id = R.string.mask_color),
-                        defaultColors = remember {
-                            listOf(
-                                Color.Red,
-                                Color.Green,
-                                Color.Blue,
-                                Color.Yellow,
-                                Color.Cyan,
-                                Color.Magenta
-                            )
-                        },
-                        drawColor = viewModel.maskColor,
-                        onColorChange = viewModel::updateMaskColor,
-                        modifier = Modifier.padding(
-                            start = 16.dp,
-                            end = 16.dp,
-                            top = 16.dp
+                    AnimatedVisibility(visible = canSave) {
+                        PreferenceRowSwitch(
+                            title = stringResource(id = R.string.mask_preview),
+                            subtitle = stringResource(id = R.string.mask_preview_sub),
+                            color = animateColorAsState(
+                                if (maskPreviewModeEnabled) MaterialTheme.colorScheme.primaryContainer
+                                else Color.Unspecified,
+                            ).value,
+                            shape = RoundedCornerShape(24.dp),
+                            resultModifier = Modifier.padding(
+                                top = 16.dp,
+                                bottom = 16.dp,
+                                end = 16.dp
+                            ),
+                            contentColor = animateColorAsState(
+                                if (maskPreviewModeEnabled) MaterialTheme.colorScheme.onPrimaryContainer
+                                else MaterialTheme.colorScheme.onSurface
+                            ).value,
+                            onClick = {
+                                maskPreviewModeEnabled = !maskPreviewModeEnabled
+                            },
+                            checked = maskPreviewModeEnabled,
+                            startContent = {
+                                Icon(
+                                    Icons.Rounded.Preview,
+                                    null,
+                                    Modifier.padding(horizontal = 16.dp)
+                                )
+                            }
                         )
-                    )
-                    LineWidthSelector(
-                        modifier = Modifier.padding(
-                            start = 16.dp,
-                            end = 16.dp,
-                            top = 16.dp
-                        ),
-                        color = Color.Unspecified,
-                        value = strokeWidth.value,
-                        onValueChange = { strokeWidth = it.pt }
-                    )
-                    BrushSoftnessSelector(
-                        modifier = Modifier
-                            .padding(top = 16.dp, end = 16.dp, start = 16.dp),
-                        color = Color.Unspecified,
-                        value = brushSoftness.value,
-                        onValueChange = { brushSoftness = it.pt }
-                    )
+                    }
+
+                    AnimatedVisibility(!maskPreviewModeEnabled) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            DrawColorSelector(
+                                color = Color.Unspecified,
+                                titleText = stringResource(id = R.string.mask_color),
+                                defaultColors = remember {
+                                    listOf(
+                                        Color.Red,
+                                        Color.Green,
+                                        Color.Blue,
+                                        Color.Yellow,
+                                        Color.Cyan,
+                                        Color.Magenta
+                                    )
+                                },
+                                drawColor = viewModel.maskColor,
+                                onColorChange = viewModel::updateMaskColor,
+                                modifier = Modifier.padding(
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    top = 16.dp
+                                )
+                            )
+                            LineWidthSelector(
+                                modifier = Modifier.padding(
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    top = 16.dp
+                                ),
+                                color = Color.Unspecified,
+                                value = strokeWidth.value,
+                                onValueChange = { strokeWidth = it.pt }
+                            )
+                            BrushSoftnessSelector(
+                                modifier = Modifier
+                                    .padding(top = 16.dp, end = 16.dp, start = 16.dp),
+                                color = Color.Unspecified,
+                                value = brushSoftness.value,
+                                onValueChange = { brushSoftness = it.pt }
+                            )
+                        }
+                    }
                     AnimatedContent(
                         targetState = viewModel.filterList.isNotEmpty(),
                         transitionSpec = {

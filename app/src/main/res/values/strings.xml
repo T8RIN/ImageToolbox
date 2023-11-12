@@ -457,6 +457,8 @@
     <string name="mask_color">Mask Color</string>
     <string name="ton_space" translatable="false">TON Space</string>
     <string name="ton" translatable="false">TON</string>
+    <string name="mask_preview">Mask Preview</string>
+    <string name="mask_preview_sub">Drawn filter mask will be rendered to show you the approximate result</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>
