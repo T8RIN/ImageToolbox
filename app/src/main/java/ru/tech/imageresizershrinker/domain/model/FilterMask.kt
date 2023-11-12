@@ -6,4 +6,5 @@ import ru.tech.imageresizershrinker.domain.image.filters.Filter
 interface FilterMask<Image, Path, Color> {
     val maskPaints: List<PathPaint<Path, Color>>
     val filters: List<Filter<Image, *>>
+    val isInverseFillType: Boolean
 }

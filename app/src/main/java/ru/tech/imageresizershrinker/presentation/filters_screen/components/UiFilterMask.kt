@@ -9,5 +9,6 @@ import ru.tech.imageresizershrinker.domain.model.FilterMask
 
 data class UiFilterMask(
     override val filters: List<Filter<Bitmap, *>>,
-    override val maskPaints: List<PathPaint<Path, Color>>
+    override val maskPaints: List<PathPaint<Path, Color>>,
+    override val isInverseFillType: Boolean
 ) : FilterMask<Bitmap, Path, Color>

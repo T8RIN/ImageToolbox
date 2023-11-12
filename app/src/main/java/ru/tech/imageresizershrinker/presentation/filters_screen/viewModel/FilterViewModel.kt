@@ -420,6 +420,7 @@ class FilterViewModel @Inject constructor(
         _bitmap.value = null
         _previewBitmap.value = null
         _imageInfo.update { ImageInfo() }
+        updateCanSave()
     }
 
     fun saveMaskedBitmap(

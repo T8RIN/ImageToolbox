@@ -77,6 +77,7 @@ import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.draw.DrawMode
 import ru.tech.imageresizershrinker.domain.image.draw.pt
 import ru.tech.imageresizershrinker.domain.image.filters.FilterMaskApplier
+import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BitmapDrawer
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BrushSoftnessSelector
@@ -253,7 +254,7 @@ fun AddEditMaskSheet(
                     VerticalDivider()
                 }
 
-                var imageState by remember { mutableStateOf(ImageHeaderState(3)) }
+                var imageState by remember { mutableStateOf(ImageHeaderState(2)) }
 
                 val colorScheme = MaterialTheme.colorScheme
                 val switch = @Composable {
@@ -354,7 +355,7 @@ fun AddEditMaskSheet(
                                     title = stringResource(id = R.string.mask_preview),
                                     subtitle = stringResource(id = R.string.mask_preview_sub),
                                     color = animateColorAsState(
-                                        if (maskPreviewModeEnabled) MaterialTheme.colorScheme.primaryContainer
+                                        if (maskPreviewModeEnabled) MaterialTheme.colorScheme.onPrimary
                                         else Color.Unspecified,
                                     ).value,
                                     shape = RoundedCornerShape(24.dp),
@@ -364,7 +365,7 @@ fun AddEditMaskSheet(
                                         end = 16.dp
                                     ),
                                     contentColor = animateColorAsState(
-                                        if (maskPreviewModeEnabled) MaterialTheme.colorScheme.onPrimaryContainer
+                                        if (maskPreviewModeEnabled) MaterialTheme.colorScheme.primary
                                         else MaterialTheme.colorScheme.onSurface
                                     ).value,
                                     onClick = {
@@ -425,6 +426,22 @@ fun AddEditMaskSheet(
                                     )
                                 }
                             }
+                            PreferenceRowSwitch(
+                                title = stringResource(id = R.string.inverse_fill_type),
+                                subtitle = stringResource(id = R.string.inverse_fill_type_sub),
+                                checked = viewModel.isInverseFillType,
+                                modifier = Modifier.padding(
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    top = 16.dp
+                                ),
+                                resultModifier = Modifier.padding(16.dp),
+                                applyHorPadding = false,
+                                shape = RoundedCornerShape(24.dp),
+                                onClick = {
+                                    viewModel.toggleIsInverseFillType()
+                                }
+                            )
                             AnimatedContent(
                                 targetState = viewModel.filterList.isNotEmpty(),
                                 transitionSpec = {
@@ -541,6 +558,9 @@ class AddMaskSheetViewModel @Inject constructor(
     private val _maskPreviewModeEnabled: MutableState<Boolean> = mutableStateOf(false)
     val maskPreviewModeEnabled by _maskPreviewModeEnabled
 
+    private val _isInverseFillType: MutableState<Boolean> = mutableStateOf(false)
+    val isInverseFillType by _isInverseFillType
+
     private var bitmapUri: Uri? by mutableStateOf(null)
 
     private var initialMasks: List<UiFilterMask> by mutableStateOf(emptyList())
@@ -567,7 +587,11 @@ class AddMaskSheetViewModel @Inject constructor(
                     )?.let {
                         imageManager.createPreview(
                             image = it,
-                            imageInfo = ImageInfo(width = it.width, height = it.height),
+                            imageInfo = ImageInfo(
+                                width = it.width,
+                                height = it.height,
+                                imageFormat = ImageFormat.Png
+                            ),
                             onGetByteCount = {}
                         )
                     }
@@ -626,7 +650,8 @@ class AddMaskSheetViewModel @Inject constructor(
 
     fun getUiMask(): UiFilterMask = UiFilterMask(
         filters = filterList,
-        maskPaints = paths
+        maskPaints = paths,
+        isInverseFillType = isInverseFillType
     )
 
     fun addPath(pathPaint: UiPathPaint) {
@@ -672,10 +697,17 @@ class AddMaskSheetViewModel @Inject constructor(
         mask?.let {
             _paths.update { mask.maskPaints.map { it.toUiPathPaint() } }
             _filterList.update { mask.filters.map { it.toUiFilter() } }
+            _maskColor.update { mask.maskPaints.map { it.drawColor }.toSet().first() }
+            _isInverseFillType.update { mask.isInverseFillType }
         }
         this.initialMask = mask
         this.bitmapUri = bitmapUri
         this.initialMasks = masks
+        updatePreview()
+    }
+
+    fun toggleIsInverseFillType() {
+        _isInverseFillType.update { !it }
         updatePreview()
     }
 

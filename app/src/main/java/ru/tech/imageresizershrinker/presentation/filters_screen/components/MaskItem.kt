@@ -174,6 +174,28 @@ fun MaskItem(
         }
     }
 
+    if (imageManager != null) {
+        AddFiltersSheet(
+            visible = showAddFilterSheet,
+            previewBitmap = null,
+            imageManager = imageManager,
+            onFilterPicked = { filter ->
+                onMaskChange(
+                    mask.copy(
+                        filters = mask.filters + filter.newInstance()
+                    )
+                )
+            },
+            onFilterPickedWithParams = { filter ->
+                onMaskChange(
+                    mask.copy(
+                        filters = mask.filters + filter
+                    )
+                )
+            }
+        )
+    }
+
     AddEditMaskSheet(
         mask = mask,
         visible = showEditMaskSheet,

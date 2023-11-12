@@ -39,15 +39,25 @@ class AndroidFilterMaskApplier @Inject constructor(
     ): Bitmap? {
         if (filterMask.filters.isEmpty()) return image
 
+        //TODO: Looks weird
         val filteredBitmap = imageManager.filter(
             image = image,
             filters = filterMask.filters
-        )?.clipBitmap(filterMask.maskPaints)
-        return filteredBitmap?.let { image.overlay(it) }
+        )?.clipBitmap(
+            pathPaints = filterMask.maskPaints,
+            inverse = filterMask.isInverseFillType
+        )
+        return filteredBitmap?.let {
+            image.clipBitmap(
+                pathPaints = filterMask.maskPaints,
+                inverse = !filterMask.isInverseFillType
+            ).overlay(it)
+        }
     }
 
     private fun Bitmap.clipBitmap(
-        pathPaints: List<PathPaint<Path, Color>>
+        pathPaints: List<PathPaint<Path, Color>>,
+        inverse: Boolean
     ): Bitmap {
         val bitmap = Bitmap.createBitmap(this.width, this.height, this.config)
             .apply { setHasAlpha(true) }
@@ -59,7 +69,9 @@ class AndroidFilterMaskApplier @Inject constructor(
                     oldSize = it.canvasSize
                 )
                 drawPath(
-                    path,
+                    path.apply {
+                        if (inverse) fillType = android.graphics.Path.FillType.INVERSE_WINDING
+                    },
                     Paint().apply {
                         style = PaintingStyle.Stroke
                         strokeCap = StrokeCap.Round
