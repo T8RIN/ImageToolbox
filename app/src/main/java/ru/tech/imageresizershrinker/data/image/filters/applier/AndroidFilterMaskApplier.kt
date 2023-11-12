@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.asAndroidPath
 import androidx.exifinterface.media.ExifInterface
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.draw.PathPaint
+import ru.tech.imageresizershrinker.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.domain.image.filters.FilterMaskApplier
 import ru.tech.imageresizershrinker.domain.model.FilterMask
 import ru.tech.imageresizershrinker.domain.model.IntegerSize
@@ -48,10 +49,14 @@ class AndroidFilterMaskApplier @Inject constructor(
             inverse = filterMask.isInverseFillType
         )
         return filteredBitmap?.let {
-            image.clipBitmap(
-                pathPaints = filterMask.maskPaints,
-                inverse = !filterMask.isInverseFillType
-            ).overlay(it)
+            image.let { bitmap ->
+                if (filterMask.filters.any { it is Filter.RemoveColor<*, *> }) {
+                    bitmap.clipBitmap(
+                        pathPaints = filterMask.maskPaints,
+                        inverse = !filterMask.isInverseFillType
+                    )
+                } else bitmap
+            }.overlay(filteredBitmap)
         }
     }
 
