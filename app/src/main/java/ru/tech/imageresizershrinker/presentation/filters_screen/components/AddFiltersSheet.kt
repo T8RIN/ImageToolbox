@@ -74,66 +74,7 @@ import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Cube
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiBilaterialBlurFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiBlackAndWhiteFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiBoxBlurFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiBrightnessFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiBulgeDistortionFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiCGAColorSpaceFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiCirclePixelationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiColorBalanceFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiColorFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiColorMatrixFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiContrastFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiConvolution3x3Filter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiCrosshatchFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiDiamondPixelationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiDilationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiEmbossFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiEnhancedCirclePixelationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiEnhancedDiamondPixelationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiEnhancedPixelationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiExposureFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFalseColorFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFastBlurFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiGammaFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiGaussianBlurFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiGlassSphereRefractionFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiHalftoneFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiHazeFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiHighlightsAndShadowsFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiHueFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiKuwaharaFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiLaplacianFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiLookupFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiLuminanceThresholdFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiMonochromeFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiNegativeFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiNonMaximumSuppressionFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiOpacityFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiPixelationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiPosterizeFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiRGBFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiRemoveColorFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiReplaceColorFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSaturationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSepiaFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSharpenFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSketchFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSmoothToonFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSobelEdgeDetectionFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSolarizeFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSphereRefractionFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiStackBlurFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiStrokePixelationFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiSwirlDistortionFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiToonFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiVibranceFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiVignetteFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiWeakPixelFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiWhiteBalanceFilter
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiZoomBlurFilter
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
@@ -171,86 +112,11 @@ fun AddFiltersSheet(
 
     LaunchedEffect(previewBitmap) {
         if (previewBitmap == null) {
-            visible.value = false
             previewSheetData = null
         }
     }
 
-    val filters = remember {
-        listOf(
-            listOf(
-                UiHueFilter(),
-                UiColorFilter(),
-                UiSaturationFilter(),
-                UiVibranceFilter(),
-                UiRGBFilter(),
-                UiReplaceColorFilter(),
-                UiRemoveColorFilter(),
-                UiFalseColorFilter(),
-                UiCGAColorSpaceFilter(),
-                UiMonochromeFilter(),
-                UiSepiaFilter(),
-                UiNegativeFilter(),
-                UiBlackAndWhiteFilter(),
-                UiColorMatrixFilter(),
-                UiColorBalanceFilter()
-            ),
-            listOf(
-                UiBrightnessFilter(),
-                UiContrastFilter(),
-                UiExposureFilter(),
-                UiWhiteBalanceFilter(),
-                UiGammaFilter(),
-                UiHighlightsAndShadowsFilter(),
-                UiSolarizeFilter(),
-                UiHazeFilter()
-            ),
-            listOf(
-                UiSharpenFilter(),
-                UiCrosshatchFilter(),
-                UiSobelEdgeDetectionFilter(),
-                UiHalftoneFilter(),
-                UiEmbossFilter(),
-                UiLaplacianFilter(),
-                UiVignetteFilter(),
-                UiKuwaharaFilter(),
-                UiDilationFilter(),
-                UiOpacityFilter(),
-                UiToonFilter(),
-                UiSmoothToonFilter(),
-                UiSketchFilter(),
-                UiPosterizeFilter(),
-                UiLookupFilter(),
-                UiNonMaximumSuppressionFilter(),
-                UiWeakPixelFilter(),
-                UiConvolution3x3Filter(),
-                UiLuminanceThresholdFilter()
-            ),
-            listOf(
-                UiGaussianBlurFilter(),
-                UiBoxBlurFilter(),
-                UiBilaterialBlurFilter(),
-                UiFastBlurFilter(),
-                UiStackBlurFilter(),
-                UiZoomBlurFilter(),
-            ),
-            listOf(
-                UiPixelationFilter(),
-                UiEnhancedPixelationFilter(),
-                UiDiamondPixelationFilter(),
-                UiEnhancedDiamondPixelationFilter(),
-                UiCirclePixelationFilter(),
-                UiEnhancedCirclePixelationFilter(),
-                UiStrokePixelationFilter()
-            ),
-            listOf(
-                UiSwirlDistortionFilter(),
-                UiBulgeDistortionFilter(),
-                UiSphereRefractionFilter(),
-                UiGlassSphereRefractionFilter()
-            )
-        )
-    }
+    val filters = UiFilter.groupedEntries
 
     val pagerState = rememberPagerState(pageCount = { filters.size })
 
@@ -326,34 +192,36 @@ fun AddFiltersSheet(
                             filters[page].forEach { filter ->
                                 PreferenceItemOverload(
                                     title = stringResource(filter.title),
-                                    icon = {
-                                        Row(verticalAlignment = Alignment.CenterVertically) {
-                                            Box(
-                                                Modifier
-                                                    .size(36.dp)
-                                                    .clip(CircleShape)
-                                                    .clickable {
-                                                        previewSheetData = filter
-                                                        showPreviewState.value = true
-                                                    },
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                Icon(Icons.Rounded.Slideshow, null)
-                                            }
-                                            Spacer(Modifier.width(16.dp))
-                                            Box(
-                                                Modifier
-                                                    .height(36.dp)
-                                                    .width(
-                                                        settingsState.borderWidth.coerceAtLeast(
-                                                            0.25.dp
+                                    icon = if (previewBitmap != null) {
+                                        {
+                                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                                Box(
+                                                    Modifier
+                                                        .size(36.dp)
+                                                        .clip(CircleShape)
+                                                        .clickable {
+                                                            previewSheetData = filter
+                                                            showPreviewState.value = true
+                                                        },
+                                                    contentAlignment = Alignment.Center
+                                                ) {
+                                                    Icon(Icons.Rounded.Slideshow, null)
+                                                }
+                                                Spacer(Modifier.width(16.dp))
+                                                Box(
+                                                    Modifier
+                                                        .height(36.dp)
+                                                        .width(
+                                                            settingsState.borderWidth.coerceAtLeast(
+                                                                0.25.dp
+                                                            )
                                                         )
-                                                    )
-                                                    .background(MaterialTheme.colorScheme.outlineVariant())
+                                                        .background(MaterialTheme.colorScheme.outlineVariant())
 
-                                            )
+                                                )
+                                            }
                                         }
-                                    },
+                                    } else null,
                                     endIcon = {
                                         Icon(Icons.Rounded.AddCircleOutline, null)
                                     },

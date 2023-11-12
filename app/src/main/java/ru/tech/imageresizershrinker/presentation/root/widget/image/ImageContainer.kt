@@ -67,7 +67,7 @@ fun ImageContainer(
         AnimatedContent(
             modifier = modifier,
             targetState = isLoading to showOriginal,
-            transitionSpec = { fadeIn() togetherWith fadeOut() }
+            transitionSpec = { fadeIn() togetherWith fadeOut() using SizeTransform(false) }
         ) { (loading, showOrig) ->
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Box(

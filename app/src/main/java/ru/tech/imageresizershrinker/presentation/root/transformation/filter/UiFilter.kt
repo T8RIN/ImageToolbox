@@ -156,6 +156,84 @@ sealed class UiFilter<T>(
         }
     }
 
+    companion object {
+        val groupedEntries by lazy {
+            listOf(
+                listOf(
+                    UiHueFilter(),
+                    UiColorFilter(),
+                    UiSaturationFilter(),
+                    UiVibranceFilter(),
+                    UiRGBFilter(),
+                    UiReplaceColorFilter(),
+                    UiRemoveColorFilter(),
+                    UiFalseColorFilter(),
+                    UiCGAColorSpaceFilter(),
+                    UiMonochromeFilter(),
+                    UiSepiaFilter(),
+                    UiNegativeFilter(),
+                    UiBlackAndWhiteFilter(),
+                    UiColorMatrixFilter(),
+                    UiColorBalanceFilter()
+                ),
+                listOf(
+                    UiBrightnessFilter(),
+                    UiContrastFilter(),
+                    UiExposureFilter(),
+                    UiWhiteBalanceFilter(),
+                    UiGammaFilter(),
+                    UiHighlightsAndShadowsFilter(),
+                    UiSolarizeFilter(),
+                    UiHazeFilter()
+                ),
+                listOf(
+                    UiSharpenFilter(),
+                    UiCrosshatchFilter(),
+                    UiSobelEdgeDetectionFilter(),
+                    UiHalftoneFilter(),
+                    UiEmbossFilter(),
+                    UiLaplacianFilter(),
+                    UiVignetteFilter(),
+                    UiKuwaharaFilter(),
+                    UiDilationFilter(),
+                    UiOpacityFilter(),
+                    UiToonFilter(),
+                    UiSmoothToonFilter(),
+                    UiSketchFilter(),
+                    UiPosterizeFilter(),
+                    UiLookupFilter(),
+                    UiNonMaximumSuppressionFilter(),
+                    UiWeakPixelFilter(),
+                    UiConvolution3x3Filter(),
+                    UiLuminanceThresholdFilter()
+                ),
+                listOf(
+                    UiGaussianBlurFilter(),
+                    UiBoxBlurFilter(),
+                    UiBilaterialBlurFilter(),
+                    UiFastBlurFilter(),
+                    UiStackBlurFilter(),
+                    UiZoomBlurFilter(),
+                ),
+                listOf(
+                    UiPixelationFilter(),
+                    UiEnhancedPixelationFilter(),
+                    UiDiamondPixelationFilter(),
+                    UiEnhancedDiamondPixelationFilter(),
+                    UiCirclePixelationFilter(),
+                    UiEnhancedCirclePixelationFilter(),
+                    UiStrokePixelationFilter()
+                ),
+                listOf(
+                    UiSwirlDistortionFilter(),
+                    UiBulgeDistortionFilter(),
+                    UiSphereRefractionFilter(),
+                    UiGlassSphereRefractionFilter()
+                )
+            )
+        }
+    }
+
 }
 
 fun Filter<Bitmap, *>.toUiFilter(): UiFilter<*> = when (this) {

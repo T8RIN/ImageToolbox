@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
@@ -65,7 +66,10 @@ class AndroidFilterMaskApplier @Inject constructor(
                         this.strokeWidth = it.strokeWidth.toPx(canvasSize)
                         strokeJoin = StrokeJoin.Round
                         isAntiAlias = true
-                        color = Color.Black
+                        color = it.drawColor
+                        if (it.isErasing) {
+                            blendMode = BlendMode.Clear
+                        }
                     }.asFrameworkPaint().apply {
                         if (it.brushSoftness.value > 0f) {
                             maskFilter =

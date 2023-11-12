@@ -362,7 +362,7 @@ class FilterViewModel @Inject constructor(
 
     fun setMaskFilter(uri: Uri?) {
         _filterType.update {
-            if (it !is Screen.Filter.Type.Basic) {
+            if (it !is Screen.Filter.Type.Masking) {
                 Screen.Filter.Type.Masking(uri)
             } else it
         }

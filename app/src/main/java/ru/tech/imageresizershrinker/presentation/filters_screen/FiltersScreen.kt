@@ -9,10 +9,12 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
@@ -449,64 +451,71 @@ fun FiltersScreen(
                                 showPickImageFromUrisSheet.value = true
                             }
                         )
-                        if (filterList.isNotEmpty()) {
-                            Column(Modifier.container(MaterialTheme.shapes.extraLarge)) {
-                                TitleItem(text = stringResource(R.string.filters))
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.spacedBy(
-                                        8.dp
-                                    ),
-                                    modifier = Modifier.padding(8.dp)
-                                ) {
-                                    filterList.forEachIndexed { index, filter ->
-                                        FilterItem(
-                                            filter = filter,
-                                            onFilterChange = {
-                                                viewModel.updateFilter(
-                                                    value = it,
-                                                    index = index,
-                                                    showError = {
-                                                        scope.launch {
-                                                            toastHostState.showError(
-                                                                context,
-                                                                it
-                                                            )
+                        AnimatedContent(
+                            targetState = filterList.isNotEmpty(),
+                            transitionSpec = {
+                                fadeIn() + expandVertically() togetherWith fadeOut() + shrinkVertically()
+                            }
+                        ) { notEmpty ->
+                            if (notEmpty) {
+                                Column(Modifier.container(MaterialTheme.shapes.extraLarge)) {
+                                    TitleItem(text = stringResource(R.string.filters))
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(
+                                            8.dp
+                                        ),
+                                        modifier = Modifier.padding(8.dp)
+                                    ) {
+                                        filterList.forEachIndexed { index, filter ->
+                                            FilterItem(
+                                                filter = filter,
+                                                onFilterChange = {
+                                                    viewModel.updateFilter(
+                                                        value = it,
+                                                        index = index,
+                                                        showError = {
+                                                            scope.launch {
+                                                                toastHostState.showError(
+                                                                    context,
+                                                                    it
+                                                                )
+                                                            }
                                                         }
-                                                    }
-                                                )
+                                                    )
+                                                },
+                                                onLongPress = {
+                                                    showReorderSheet.value =
+                                                        true
+                                                },
+                                                showDragHandle = false,
+                                                onRemove = {
+                                                    viewModel.removeFilterAtIndex(
+                                                        index
+                                                    )
+                                                }
+                                            )
+                                        }
+                                        AddFilterButton(
+                                            onClick = {
+                                                showAddFilterSheet.value = true
                                             },
-                                            onLongPress = {
-                                                showReorderSheet.value =
-                                                    true
-                                            },
-                                            showDragHandle = false,
-                                            onRemove = {
-                                                viewModel.removeFilterAtIndex(
-                                                    index
-                                                )
-                                            }
+                                            modifier = Modifier.padding(
+                                                horizontal = 16.dp
+                                            )
                                         )
                                     }
-                                    AddFilterButton(
-                                        onClick = {
-                                            showAddFilterSheet.value = true
-                                        },
-                                        modifier = Modifier.padding(
-                                            horizontal = 16.dp
-                                        )
-                                    )
                                 }
-                            }
-                        } else {
-                            AddFilterButton(
-                                onClick = {
-                                    showAddFilterSheet.value = true
-                                },
-                                modifier = Modifier.padding(
-                                    horizontal = 16.dp
+                            } else {
+                                AddFilterButton(
+                                    onClick = {
+                                        showAddFilterSheet.value = true
+                                    },
+                                    modifier = Modifier.padding(
+                                        horizontal = 16.dp
+                                    )
                                 )
-                            )
+                            }
                         }
                         Spacer(Modifier.size(8.dp))
                         SaveExifWidget(
@@ -560,7 +569,6 @@ fun FiltersScreen(
                                             imageUri = viewModel.maskingFilterState.uri,
                                             previousMasks = maskList.take(index),
                                             imageManager = viewModel.getImageManager(),
-                                            previewBitmap = viewModel.previewBitmap,
                                             mask = mask,
                                             titleText = stringResource(
                                                 R.string.mask_indexed,
@@ -1065,9 +1073,9 @@ fun FiltersScreen(
 
                                     AddEditMaskSheet(
                                         visible = showAddMaskSheet,
-                                        previewBitmap = viewModel.previewBitmap,
+                                        targetBitmapUri = viewModel.maskingFilterState.uri,
                                         onMaskPicked = viewModel::addMask,
-                                        imageManager = viewModel.getImageManager()
+                                        masks = viewModel.maskingFilterState.masks
                                     )
 
                                     MaskReorderSheet(

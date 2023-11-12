@@ -1,7 +1,10 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.minimumInteractiveComponentSize
@@ -13,6 +16,7 @@ import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -46,28 +50,42 @@ fun EnhancedButton(
     val settingsState = LocalSettingsState.current
 
     CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
-        OutlinedButton(
-            onClick = onClick,
-            modifier = modifier
-                .materialShadow(
-                    shape = shape,
-                    elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.5.dp,
-                    isClipped = isShadowClip
+        Box {
+            OutlinedButton(
+                onClick = onClick,
+                modifier = modifier
+                    .materialShadow(
+                        shape = shape,
+                        elevation = animateDpAsState(
+                            if (settingsState.borderWidth > 0.dp || !enabled) 0.dp else 0.5.dp
+                        ).value,
+                        isClipped = isShadowClip
+                    ),
+                shape = shape,
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = animateColorAsState(
+                        if (enabled) contentColor
+                        else MaterialTheme.colorScheme.onSurface.copy(0.38f)
+                    ).value,
+                    containerColor = animateColorAsState(
+                        if (enabled) containerColor
+                        else MaterialTheme.colorScheme.onSurface.copy(0.12f)
+                    ).value
                 ),
-            shape = shape,
-            colors = ButtonDefaults.buttonColors(
-                contentColor = contentColor,
-                containerColor = containerColor
-            ),
-            enabled = enabled,
-            border = BorderStroke(
-                width = settingsState.borderWidth,
-                color = borderColor
-            ),
-            contentPadding = contentPadding,
-            interactionSource = interactionSource,
-            content = content
-        )
+                enabled = true,
+                border = BorderStroke(
+                    width = settingsState.borderWidth,
+                    color = borderColor
+                ),
+                contentPadding = contentPadding,
+                interactionSource = interactionSource,
+                content = content
+            )
+
+            if (!enabled) {
+                Surface(color = Color.Transparent, modifier = Modifier.matchParentSize()) {}
+            }
+        }
     }
 }
 
