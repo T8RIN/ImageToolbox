@@ -328,7 +328,10 @@ class FilterViewModel @Inject constructor(
                                         height = bitmap.height
                                     )
                                 ),
-                                onComplete = onComplete
+                                onComplete = {
+                                    _isSaving.value = true
+                                    onComplete()
+                                }
                             )
                         }
                     }
