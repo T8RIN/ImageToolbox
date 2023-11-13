@@ -102,7 +102,7 @@ fun EnhancedIconButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     forceMinimumInteractiveComponentSize: Boolean = true,
     enableAutoShadowAndBorder: Boolean = true,
-    isShadowClip: Boolean = containerColor.alpha != 1f,
+    isShadowClip: Boolean = containerColor.alpha != 1f || !enabled,
     content: @Composable () -> Unit
 ) {
     val settingsState = LocalSettingsState.current

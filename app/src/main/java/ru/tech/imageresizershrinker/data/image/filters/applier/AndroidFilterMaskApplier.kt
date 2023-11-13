@@ -40,7 +40,6 @@ class AndroidFilterMaskApplier @Inject constructor(
     ): Bitmap? {
         if (filterMask.filters.isEmpty()) return image
 
-        //TODO: Looks weird
         val filteredBitmap = imageManager.filter(
             image = image,
             filters = filterMask.filters
