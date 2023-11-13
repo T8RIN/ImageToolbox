@@ -432,4 +432,12 @@
     <string name="pdf_tools_sub">Fonctionner avec des fichiers PDF : prévisualiser, convertir en lot d\'images ou en créer une à partir d\'images données</string>
     <string name="attention">Precison</string>
     <string name="pdf_to_images_sub">Convertir un PDF en images dans un format de sortie donné</string>
+    <string name="mask_filter">Filtre de masque</string>
+    <string name="mask_filter_sub">Appliquez des chaînes de filtres sur des zones masquées données, chaque zone de masque peut déterminer son propre ensemble de filtres</string>
+    <string name="mask_preview">Aperçu du masque</string>
+    <string name="masks">Masques</string>
+    <string name="mask_color">Couleur du masque</string>
+    <string name="add_mask">Ajouter un masque</string>
+    <string name="mask_preview_sub">Le masque de filtre dessiné sera rendu pour vous montrer le résultat approximatif</string>
+    <string name="mask_indexed">Masque %d</string>
 </resources>

@@ -437,4 +437,7 @@
     <string name="masks">遮罩</string>
     <string name="add_mask">新增遮罩</string>
     <string name="mask_indexed">遮罩 %d</string>
+    <string name="mask_preview">遮罩預覽</string>
+    <string name="mask_color">遮罩顏色</string>
+    <string name="mask_preview_sub">所繪製的濾鏡遮罩會被渲染，以展示預期的效果大概是什麼樣子</string>
 </resources>
