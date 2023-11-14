@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DragHandle
+import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -172,12 +173,12 @@ fun MaskItem(
                                 )
                         )
                         //TODO: RemoveMaskDialog with button
-//                        IconButton(
-//                            onClick = onRemove
-//                        ) {
-//                            Icon(Icons.Rounded.RemoveCircleOutline, null)
-//                        }
                         Spacer(Modifier.weight(1f))
+                        IconButton(
+                            onClick = onRemove
+                        ) {
+                            Icon(Icons.Rounded.RemoveCircleOutline, null)
+                        }
                         IconButton(
                             onClick = { showEditMaskSheet.value = true }
                         ) {
