@@ -642,7 +642,7 @@ class AddMaskSheetViewModel @Inject constructor(
     fun addPath(pathPaint: UiPathPaint) {
         _paths.update { it + pathPaint }
         _undonePaths.value = listOf()
-        updatePreview()
+        if (maskPreviewModeEnabled) updatePreview()
     }
 
     fun undo() {
@@ -657,7 +657,7 @@ class AddMaskSheetViewModel @Inject constructor(
 
         _paths.update { it - lastPath }
         _undonePaths.update { it + lastPath }
-        updatePreview()
+        if (maskPreviewModeEnabled) updatePreview()
     }
 
     fun redo() {
@@ -666,7 +666,7 @@ class AddMaskSheetViewModel @Inject constructor(
         val lastPath = undonePaths.last()
         _paths.update { it + lastPath }
         _undonePaths.update { it - lastPath }
-        updatePreview()
+        if (maskPreviewModeEnabled) updatePreview()
     }
 
     fun updateMaskColor(color: Color) {
