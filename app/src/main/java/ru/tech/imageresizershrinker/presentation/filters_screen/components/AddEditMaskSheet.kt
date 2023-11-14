@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
@@ -149,9 +150,6 @@ fun AddEditMaskSheet(
         val canSave = viewModel.paths.isNotEmpty() && viewModel.filterList.isNotEmpty()
         SimpleSheet(
             visible = visible,
-            onVisibleChange = {
-                //TODO
-            },
             title = {
                 TitleItem(
                     text = stringResource(id = R.string.add_mask),
@@ -171,9 +169,16 @@ fun AddEditMaskSheet(
                 ) {
                     Text(stringResource(id = R.string.save))
                 }
-            }
+            },
+            enableBackHandler = false
         ) {
             disposable()
+            if (visible.value) {
+                BackHandler {
+                    if (!canSave) visible.value = false
+                    else showExitDialog = true
+                }
+            }
             val drawPreview: @Composable () -> Unit = {
                 val zoomState = rememberAnimatedZoomState(maxZoom = 30f)
                 AnimatedContent(
@@ -211,8 +216,8 @@ fun AddEditMaskSheet(
                                 isEraserOn = isEraserOn,
                                 drawMode = DrawMode.Pen,
                                 modifier = Modifier
-                                    .fillMaxSize()
                                     .padding(16.dp)
+                                    .fillMaxSize()
                                     .aspectRatio(aspectRatio, portrait),
                                 zoomEnabled = zoomEnabled,
                                 onDraw = {},
@@ -224,7 +229,6 @@ fun AddEditMaskSheet(
                             Box(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .padding(16.dp)
                                     .then(
                                         if (zoomEnabled) {
                                             Modifier.animatedZoom(animatedZoomState = zoomState)
@@ -241,8 +245,8 @@ fun AddEditMaskSheet(
                                 Image(
                                     bitmap = imageBitmap,
                                     modifier = Modifier
-                                        .fillMaxSize()
                                         .padding(16.dp)
+                                        .fillMaxSize()
                                         .aspectRatio(aspectRatio, portrait)
                                         .clip(RoundedCornerShape(2.dp))
                                         .transparencyChecker()

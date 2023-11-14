@@ -3,6 +3,7 @@ package com.t8rin.modalsheet
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.zIndex
 
 
 /**
@@ -176,7 +178,11 @@ fun ModalSheet(
                 sheetContainerColor = containerColor,
                 sheetContentColor = contentColor,
                 scrimColor = scrimColor,
-                sheetContent = content,
+                sheetContent = {
+                    Column(Modifier.zIndex(-100f)) {
+                        content()
+                    }
+                },
                 content = {}
             )
         }

@@ -96,11 +96,11 @@ fun SimpleSheet(
     title: @Composable () -> Unit,
     endConfirmButtonPadding: Dp = 16.dp,
     visible: MutableState<Boolean>,
-    onVisibleChange: (Boolean) -> Unit = { visible.value = it },
+    enableBackHandler: Boolean = true,
     sheetContent: @Composable ColumnScope.() -> Unit,
 ) {
     val settingsState = LocalSettingsState.current
-    val showSheet by visible
+    var showSheet by visible
 
     ModalSheet(
         nestedScrollEnabled = nestedScrollEnabled,
@@ -133,9 +133,9 @@ fun SimpleSheet(
             .animateContentSize(),
         elevation = 0.dp,
         visible = showSheet,
-        onVisibleChange = onVisibleChange,
+        onVisibleChange = { showSheet = it },
         content = {
-            if (showSheet) BackHandler { onVisibleChange(false) }
+            if (showSheet && enableBackHandler) BackHandler { showSheet = false }
             Column(
                 modifier = Modifier.weight(1f, false),
                 horizontalAlignment = Alignment.CenterHorizontally,
