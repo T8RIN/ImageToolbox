@@ -96,6 +96,10 @@ fun ImageContainer(
                                 visible = true
                             )
                         }
+                    }.let {
+                        if (it == null) {
+                            if (loading) Loading()
+                        }
                     }
                 }
             }
