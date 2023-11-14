@@ -442,4 +442,9 @@
     <string name="masks">Маски</string>
     <string name="add_mask">Добавить маску</string>
     <string name="mask_indexed">Маска %d</string>
+    <string name="inverse_fill_type">Обратное заполнение</string>
+    <string name="mask_preview">Предпросмотр Маски</string>
+    <string name="inverse_fill_type_sub">Если включено, то все фильтры будут наложены на все незамаскированные области</string>
+    <string name="mask_color">Цвет маски</string>
+    <string name="mask_preview_sub">Нарисованная маска будет отрисована чтобы вы смогли увидеть примерный результат</string>
 </resources>
