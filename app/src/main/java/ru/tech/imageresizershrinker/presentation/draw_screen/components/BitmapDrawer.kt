@@ -81,7 +81,9 @@ fun BitmapDrawer(
     drawMode: DrawMode,
     modifier: Modifier,
     drawArrowsEnabled: Boolean,
-    onDraw: (Bitmap) -> Unit,
+    onDrawStart: (Bitmap) -> Unit = {},
+    onDraw: (Bitmap) -> Unit = {},
+    onDrawFinish: (Bitmap) -> Unit = {},
     backgroundColor: Color,
     zoomEnabled: Boolean,
     drawColor: Color
@@ -249,6 +251,7 @@ fun BitmapDrawer(
                 when (motionEvent) {
 
                     MotionEvent.Down -> {
+                        onDrawStart(outputImage.overlay(drawPathBitmap).asAndroidBitmap())
                         drawPath.moveTo(currentPosition.x, currentPosition.y)
                         previousPosition = currentPosition
                     }
@@ -317,6 +320,7 @@ fun BitmapDrawer(
                             if (drawMode is DrawMode.PathEffect && !isEraserOn) Unit
                             else drawPath = Path()
                         }
+                        onDrawFinish(outputImage.overlay(drawPathBitmap).asAndroidBitmap())
                     }
 
                     else -> Unit

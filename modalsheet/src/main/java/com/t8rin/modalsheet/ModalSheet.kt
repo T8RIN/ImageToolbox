@@ -170,7 +170,11 @@ fun ModalSheet(
             ModalSheetLayout(
                 nestedScrollEnabled = nestedScrollEnabled,
                 sheetModifier = sheetModifier,
-                dragHandle = dragHandle,
+                dragHandle = {
+                    Column(Modifier.zIndex(100f)) {
+                        dragHandle()
+                    }
+                },
                 modifier = modifier.align(Alignment.BottomCenter),
                 sheetState = sheetState,
                 sheetShape = shape,
