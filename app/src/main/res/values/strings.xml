@@ -297,7 +297,7 @@
     <string name="create">Create</string>
     <string name="tools">Tools</string>
     <string name="group_options_by_type">Group options by type</string>
-    <string name="group_options_by_type_sub">Groups options on the main screen of their type instead of custom list arrangement</string>
+    <string name="group_options_by_type_sub">Groups options on the main screen by their type instead of a custom list arrangement</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Cannot change arrangement while option grouping is enabled</string>
     <string name="default_prefix" translatable="false">ResizedImage</string>
     <string name="edit_screenshot">Edit screenshot</string>
