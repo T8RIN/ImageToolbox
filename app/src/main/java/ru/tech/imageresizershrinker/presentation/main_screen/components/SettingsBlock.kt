@@ -22,7 +22,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -227,9 +226,6 @@ fun SettingsBlock(
     val context = LocalContext.current
     val layoutDirection = LocalLayoutDirection.current
 
-    @Composable
-    fun ColumnScope.item(content: @Composable ColumnScope.() -> Unit) = content()
-
     LazyColumn(
         contentPadding = WindowInsets.navigationBars
             .asPaddingValues()
@@ -244,797 +240,595 @@ fun SettingsBlock(
                     }
             )
     ) {
+        item { Spacer(Modifier.height(8.dp)) }
         item {
-            Column {
-                item { Spacer(Modifier.height(8.dp)) }
-                item {
-                    // Contact me
-                    SettingItem(
-                        icon = Icons.Rounded.PersonSearch,
-                        text = stringResource(R.string.contact_me),
-                        initialState = settingsState.isFirstLaunch()
-                    ) {
-                        val showDonateSheet = rememberSaveable { mutableStateOf(false) }
-                        val showAuthorSheet = rememberSaveable { mutableStateOf(false) }
-                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            PreferenceRow(
-                                modifier = Modifier.padding(horizontal = 8.dp),
-                                applyHorPadding = false,
-                                color = MaterialTheme.colorScheme.secondaryContainer,
-                                title = stringResource(R.string.app_developer),
-                                subtitle = stringResource(R.string.app_developer_nick),
-                                shape = topShape,
-                                startContent = {
-                                    Picture(
-                                        model = if (BuildConfig.FLAVOR == "foss") {
-                                            FOSS_LINK
-                                        } else AUTHOR_AVATAR,
-                                        modifier = Modifier
-                                            .padding(horizontal = 8.dp)
-                                            .size(48.dp)
-                                            .container(
-                                                shape = CloverShape,
-                                                resultPadding = 0.dp
-                                            ),
-                                        showTransparencyChecker = false,
-                                        shape = RectangleShape
-                                    )
-                                },
-                                endContent = {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Outlined.OpenInNew,
-                                        contentDescription = null,
-                                        modifier = Modifier.padding(end = 16.dp)
-                                    )
-                                },
-                                onClick = { showAuthorSheet.value = true }
-                            )
-                            PreferenceRow(
+            // Contact me
+            SettingItem(
+                icon = Icons.Rounded.PersonSearch,
+                text = stringResource(R.string.contact_me),
+                initialState = settingsState.isFirstLaunch()
+            ) {
+                val showDonateSheet = rememberSaveable { mutableStateOf(false) }
+                val showAuthorSheet = rememberSaveable { mutableStateOf(false) }
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    PreferenceRow(
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        applyHorPadding = false,
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        title = stringResource(R.string.app_developer),
+                        subtitle = stringResource(R.string.app_developer_nick),
+                        shape = topShape,
+                        startContent = {
+                            Picture(
+                                model = if (BuildConfig.FLAVOR == "foss") {
+                                    FOSS_LINK
+                                } else AUTHOR_AVATAR,
                                 modifier = Modifier
-                                    .pulsate(
-                                        range = 0.98f..1.02f,
-                                        enabled = settingsState.isFirstLaunch()
-                                    )
-                                    .padding(horizontal = 8.dp),
-                                shape = bottomShape,
-                                applyHorPadding = false,
-                                color = MaterialTheme.colorScheme.tertiaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                                title = stringResource(R.string.donation),
-                                subtitle = stringResource(R.string.donation_sub),
-                                endContent = {
-                                    Icon(Icons.Rounded.Payments, null)
-                                },
-                                onClick = {
-                                    showDonateSheet.value = true
-                                }
+                                    .padding(horizontal = 8.dp)
+                                    .size(48.dp)
+                                    .container(
+                                        shape = CloverShape,
+                                        resultPadding = 0.dp
+                                    ),
+                                showTransparencyChecker = false,
+                                shape = RectangleShape
                             )
+                        },
+                        endContent = {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Outlined.OpenInNew,
+                                contentDescription = null,
+                                modifier = Modifier.padding(end = 16.dp)
+                            )
+                        },
+                        onClick = { showAuthorSheet.value = true }
+                    )
+                    PreferenceRow(
+                        modifier = Modifier
+                            .pulsate(
+                                range = 0.98f..1.02f,
+                                enabled = settingsState.isFirstLaunch()
+                            )
+                            .padding(horizontal = 8.dp),
+                        shape = bottomShape,
+                        applyHorPadding = false,
+                        color = MaterialTheme.colorScheme.tertiaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                        title = stringResource(R.string.donation),
+                        subtitle = stringResource(R.string.donation_sub),
+                        endContent = {
+                            Icon(Icons.Rounded.Payments, null)
+                        },
+                        onClick = {
+                            showDonateSheet.value = true
                         }
-
-                        AuthorLinksSheet(showAuthorSheet)
-
-                        DonateSheet(showDonateSheet)
-                    }
+                    )
                 }
-                item {
-                    // Primary Customization
-                    SettingItem(
-                        icon = Icons.Rounded.Palette,
-                        text = stringResource(R.string.customization),
-                        initialState = true
-                    ) {
-                        var showShoeDescriptionDialog by rememberSaveable { mutableStateOf("") }
-                        Column {
-                            val enabled = !settingsState.isDynamicColors
-                            PreferenceRow(
-                                applyHorPadding = false,
+
+                AuthorLinksSheet(showAuthorSheet)
+
+                DonateSheet(showDonateSheet)
+            }
+        }
+        item {
+            // Primary Customization
+            SettingItem(
+                icon = Icons.Rounded.Palette,
+                text = stringResource(R.string.customization),
+                initialState = true
+            ) {
+                var showShoeDescriptionDialog by rememberSaveable { mutableStateOf("") }
+                Column {
+                    val enabled = !settingsState.isDynamicColors
+                    PreferenceRow(
+                        applyHorPadding = false,
+                        modifier = Modifier
+                            .alpha(
+                                animateFloatAsState(
+                                    if (enabled) 1f
+                                    else 0.5f
+                                ).value
+                            )
+                            .padding(start = 8.dp, end = 8.dp, bottom = 4.dp),
+                        shape = topShape,
+                        title = stringResource(R.string.color_scheme),
+                        startContent = {
+                            Icon(
+                                imageVector = Icons.Outlined.Theme,
+                                contentDescription = null,
+                                modifier = Modifier.padding(horizontal = 16.dp)
+                            )
+                        },
+                        subtitle = stringResource(R.string.pick_accent_color),
+                        onClick = {
+                            if (enabled) onEditColorScheme()
+                            else scope.launch {
+                                toastHostState.showToast(
+                                    icon = Icons.Rounded.Palette,
+                                    message = context.getString(R.string.cannot_change_palette_while_dynamic_colors_applied)
+                                )
+                            }
+                        },
+                        endContent = {
+                            ColorTupleItem(
                                 modifier = Modifier
-                                    .alpha(
-                                        animateFloatAsState(
-                                            if (enabled) 1f
-                                            else 0.5f
-                                        ).value
-                                    )
-                                    .padding(start = 8.dp, end = 8.dp, bottom = 4.dp),
-                                shape = topShape,
-                                title = stringResource(R.string.color_scheme),
-                                startContent = {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Theme,
-                                        contentDescription = null,
-                                        modifier = Modifier.padding(horizontal = 16.dp)
-                                    )
-                                },
-                                subtitle = stringResource(R.string.pick_accent_color),
-                                onClick = {
-                                    if (enabled) onEditColorScheme()
-                                    else scope.launch {
-                                        toastHostState.showToast(
-                                            icon = Icons.Rounded.Palette,
-                                            message = context.getString(R.string.cannot_change_palette_while_dynamic_colors_applied)
-                                        )
-                                    }
-                                },
-                                endContent = {
-                                    ColorTupleItem(
-                                        modifier = Modifier
-                                            .padding(end = 8.dp)
-                                            .size(72.dp)
-                                            .container(
-                                                shape = DavidStarShape,
-                                                color = MaterialTheme
-                                                    .colorScheme
-                                                    .surfaceVariant
-                                                    .copy(alpha = 0.5f),
-                                                borderColor = MaterialTheme.colorScheme.outlineVariant(
-                                                    0.2f
-                                                ),
-                                                resultPadding = 5.dp
-                                            ),
-                                        colorTuple = remember(
-                                            settingsState.themeStyle,
+                                    .padding(end = 8.dp)
+                                    .size(72.dp)
+                                    .container(
+                                        shape = DavidStarShape,
+                                        color = MaterialTheme
+                                            .colorScheme
+                                            .surfaceVariant
+                                            .copy(alpha = 0.5f),
+                                        borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                            0.2f
+                                        ),
+                                        resultPadding = 5.dp
+                                    ),
+                                colorTuple = remember(
+                                    settingsState.themeStyle,
+                                    settingsState.appColorTuple
+                                ) {
+                                    derivedStateOf {
+                                        if (settingsState.themeStyle == PaletteStyle.TonalSpot) {
                                             settingsState.appColorTuple
-                                        ) {
-                                            derivedStateOf {
-                                                if (settingsState.themeStyle == PaletteStyle.TonalSpot) {
-                                                    settingsState.appColorTuple
-                                                } else settingsState.appColorTuple.run {
-                                                    copy(secondary = primary, tertiary = primary)
-                                                }
-                                            }
-                                        }.value,
-                                        backgroundColor = Color.Transparent
-                                    ) {
-                                        Box(
-                                            modifier = Modifier
-                                                .size(28.dp)
-                                                .background(
-                                                    animateColorAsState(
-                                                        settingsState.appColorTuple.primary.inverse(
-                                                            fraction = {
-                                                                if (it) 0.8f
-                                                                else 0.5f
-                                                            },
-                                                            darkMode = settingsState.appColorTuple.primary.luminance() < 0.3f
-                                                        )
-                                                    ).value,
-                                                    CircleShape
-                                                )
-                                        )
-                                        Icon(
-                                            imageVector = Icons.Rounded.CreateAlt,
-                                            contentDescription = null,
-                                            tint = settingsState.appColorTuple.primary,
-                                            modifier = Modifier.size(14.dp)
-                                        )
+                                        } else settingsState.appColorTuple.run {
+                                            copy(secondary = primary, tertiary = primary)
+                                        }
                                     }
-                                }
-                            )
-                            PreferenceRowSwitch(
-                                modifier = Modifier.padding(
-                                    start = 8.dp,
-                                    end = 8.dp,
-                                    bottom = 4.dp
-                                ),
-                                shape = centerShape,
-                                applyHorPadding = false,
-                                startContent = {
-                                    Icon(
-                                        imageVector = Icons.Outlined.FormatColorFill,
-                                        contentDescription = null,
-                                        modifier = Modifier.padding(horizontal = 16.dp)
-                                    )
-                                },
-                                resultModifier = Modifier.padding(
-                                    end = 16.dp,
-                                    top = 8.dp,
-                                    bottom = 8.dp
-                                ),
-                                title = stringResource(R.string.dynamic_colors),
-                                subtitle = stringResource(R.string.dynamic_colors_sub),
-                                checked = settingsState.isDynamicColors,
-                                onClick = { viewModel.toggleDynamicColors() }
-                            )
-                            PreferenceRowSwitch(
-                                modifier = Modifier.padding(
-                                    start = 8.dp,
-                                    end = 8.dp,
-                                    bottom = 4.dp
-                                ),
-                                shape = centerShape,
-                                startContent = {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Brightness4,
-                                        contentDescription = null,
-                                        modifier = Modifier.padding(horizontal = 16.dp)
-                                    )
-                                },
-                                resultModifier = Modifier.padding(
-                                    end = 16.dp,
-                                    top = 8.dp,
-                                    bottom = 8.dp
-                                ),
-                                applyHorPadding = false,
-                                title = stringResource(R.string.amoled_mode),
-                                subtitle = stringResource(R.string.amoled_mode_sub),
-                                checked = settingsState.isAmoledMode,
-                                onClick = {
-                                    viewModel.toggleAmoledMode()
-                                }
-                            )
-                            PreferenceRow(
-                                modifier = Modifier.padding(start = 8.dp, end = 8.dp),
-                                applyHorPadding = false,
-                                shape = bottomShape,
-                                title = stringResource(R.string.emoji),
-                                subtitle = stringResource(R.string.emoji_sub),
-                                onClick = onEditEmoji,
-                                startContent = {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Cool,
-                                        contentDescription = null,
-                                        modifier = Modifier.padding(horizontal = 16.dp)
-                                    )
-                                },
-                                endContent = {
-                                    val emoji = LocalSettingsState.current.selectedEmoji
-                                    Box(
-                                        modifier = Modifier
-                                            .padding(end = 8.dp)
-                                            .size(64.dp)
-                                            .container(
-                                                shape = CloverShape,
-                                                color = MaterialTheme
-                                                    .colorScheme
-                                                    .surfaceVariant
-                                                    .copy(alpha = 0.5f),
-                                                borderColor = MaterialTheme.colorScheme.outlineVariant(
-                                                    0.2f
-                                                )
-                                            ),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        val emojis = Emoji.allIcons()
-                                        EmojiItem(
-                                            emoji = emoji.toString(),
-                                            modifier = Modifier.then(
-                                                if (emoji != null) {
-                                                    Modifier.scaleOnTap(
-                                                        onRelease = { time ->
-                                                            if (time > 500) {
-                                                                viewModel.addColorTupleFromEmoji(
-                                                                    getEmoji = { index ->
-                                                                        index?.let {
-                                                                            emojis[it].toString()
-                                                                        } ?: ""
-                                                                    },
-                                                                    showShoeDescription = {
-                                                                        showShoeDescriptionDialog =
-                                                                            it
-                                                                    }
-                                                                )
-                                                            }
-                                                        }
-                                                    )
-                                                } else Modifier
-                                            ),
-                                            fontScale = 1f,
-                                            fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-                                            onNoEmoji = { size ->
-                                                Icon(
-                                                    imageVector = Icons.Rounded.Block,
-                                                    contentDescription = null,
-                                                    modifier = Modifier.size(size)
-                                                )
-                                            }
-                                        )
-                                    }
-                                }
-                            )
-                        }
-                        if (showShoeDescriptionDialog.isNotEmpty()) {
-                            AlertDialog(
-                                icon = {
-                                    EmojiItem(
-                                        emoji = showShoeDescriptionDialog,
-                                        fontScale = 1f,
-                                        fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-                                    )
-                                },
-                                title = {
-                                    Text(text = "Shoe")
-                                },
-                                text = {
-                                    Text(text = "15.07.1981 - Shoe, (ShoeUnited since 1998)")
-                                },
-                                confirmButton = {
-                                    EnhancedButton(
-                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                        onClick = { showShoeDescriptionDialog = "" }
-                                    ) {
-                                        Text(stringResource(R.string.close))
-                                    }
-                                },
-                                onDismissRequest = {
-                                    showShoeDescriptionDialog = ""
-                                },
-                                modifier = Modifier.alertDialogBorder()
-                            )
-                        }
-                    }
-                }
-                item {
-                    // Secondary Customization
-                    SettingItem(
-                        icon = Icons.TwoTone.Palette,
-                        text = stringResource(R.string.secondary_customization),
-                        initialState = false
-                    ) {
-                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            PreferenceRowSwitch(
-                                modifier = Modifier.padding(horizontal = 8.dp),
-                                applyHorPadding = false,
-                                resultModifier = Modifier.padding(
-                                    horizontal = 16.dp,
-                                    vertical = 8.dp
-                                ),
-                                shape = topShape,
-                                title = stringResource(R.string.allow_image_monet),
-                                subtitle = stringResource(R.string.allow_image_monet_sub),
-                                checked = settingsState.allowChangeColorByImage,
-                                onClick = { viewModel.toggleAllowImageMonet() },
-                                startContent = {
-                                    Icon(
-                                        Icons.Outlined.WaterDrop,
-                                        null,
-                                        modifier = Modifier.padding(end = 16.dp)
-                                    )
-                                }
-                            )
-                            Column(
-                                Modifier
-                                    .padding(horizontal = 8.dp)
-                                    .container(
-                                        shape = centerShape,
-                                        color = MaterialTheme
-                                            .colorScheme
-                                            .secondaryContainer
-                                            .copy(alpha = 0.2f)
-                                    )
-                                    .animateContentSize()
+                                }.value,
+                                backgroundColor = Color.Transparent
                             ) {
-                                val derivedValue by remember(settingsState) {
-                                    derivedStateOf {
-                                        settingsState.emojisCount.coerceAtLeast(1)
-                                    }
-                                }
-                                var sliderValue by remember(derivedValue) {
-                                    mutableIntStateOf(derivedValue)
-                                }
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.EmojiEmotions,
-                                        contentDescription = null,
-                                        modifier = Modifier.padding(
-                                            top = 16.dp,
-                                            start = 12.dp
-                                        )
-                                    )
-                                    Text(
-                                        text = stringResource(R.string.emojis_count),
-                                        modifier = Modifier
-                                            .padding(
-                                                top = 16.dp,
-                                                end = 16.dp,
-                                                start = 16.dp
-                                            )
-                                            .weight(1f),
-                                        fontWeight = FontWeight.Medium
-                                    )
-                                    AnimatedContent(
-                                        targetState = sliderValue,
-                                        transitionSpec = {
-                                            fadeIn() togetherWith fadeOut()
-                                        }
-                                    ) { value ->
-                                        Text(
-                                            text = "$value",
-                                            color = MaterialTheme.colorScheme.onSurface.copy(
-                                                alpha = 0.5f
-                                            ),
-                                            modifier = Modifier.padding(top = 16.dp),
-                                            lineHeight = 18.sp
-                                        )
-                                    }
-                                    Spacer(
-                                        modifier = Modifier.padding(
-                                            start = 4.dp,
-                                            top = 16.dp,
-                                            end = 20.dp
-                                        )
-                                    )
-                                }
-                                EnhancedSlider(
+                                Box(
                                     modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            start = 12.dp,
-                                            end = 12.dp,
-                                            bottom = 8.dp
-                                        )
-                                        .offset(y = (-2).dp),
-                                    value = sliderValue.toFloat(),
-                                    onValueChange = {
-                                        sliderValue = it.toInt()
-                                    },
-                                    onValueChangeFinished = {
-                                        viewModel.updateEmojisCount(sliderValue)
-                                    },
-                                    valueRange = 1f..5f,
-                                    steps = 3
-                                )
-                            }
-                            Column(
-                                Modifier
-                                    .padding(horizontal = 8.dp)
-                                    .container(
-                                        shape = centerShape,
-                                        color = MaterialTheme
-                                            .colorScheme
-                                            .secondaryContainer
-                                            .copy(alpha = 0.2f)
-                                    )
-                                    .animateContentSize()
-                            ) {
-                                val derivedValue by remember(viewModel.settingsState) {
-                                    derivedStateOf {
-                                        viewModel.settingsState.borderWidth.coerceAtLeast(0f)
-                                    }
-                                }
-                                var sliderValue by remember(derivedValue) {
-                                    mutableFloatStateOf(derivedValue)
-                                }
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.BorderStyle,
-                                        contentDescription = null,
-                                        modifier = Modifier.padding(
-                                            top = 16.dp,
-                                            start = 12.dp
-                                        )
-                                    )
-                                    Text(
-                                        text = stringResource(R.string.border_thickness),
-                                        modifier = Modifier
-                                            .padding(
-                                                top = 16.dp,
-                                                end = 16.dp,
-                                                start = 16.dp
-                                            )
-                                            .weight(1f),
-                                        fontWeight = FontWeight.Medium
-                                    )
-                                    AnimatedContent(
-                                        targetState = sliderValue,
-                                        transitionSpec = {
-                                            fadeIn() togetherWith fadeOut()
-                                        }
-                                    ) { value ->
-                                        Text(
-                                            text = "$value",
-                                            color = MaterialTheme.colorScheme.onSurface.copy(
-                                                alpha = 0.5f
-                                            ),
-                                            modifier = Modifier.padding(top = 16.dp),
-                                            lineHeight = 18.sp
-                                        )
-                                    }
-                                    Text(
-                                        maxLines = 1,
-                                        text = "Dp",
-                                        color = MaterialTheme.colorScheme.onSurface.copy(
-                                            alpha = 0.5f
-                                        ),
-                                        modifier = Modifier.padding(
-                                            start = 4.dp,
-                                            top = 16.dp,
-                                            end = 16.dp
-                                        )
-                                    )
-                                }
-                                EnhancedSlider(
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            start = 12.dp,
-                                            end = 12.dp,
-                                            bottom = 8.dp
-                                        )
-                                        .offset(y = (-2).dp),
-                                    value = sliderValue,
-                                    onValueChange = {
-                                        sliderValue = it.roundToTwoDigits()
-                                    },
-                                    onValueChangeFinished = {
-                                        viewModel.setBorderWidth(sliderValue)
-                                    },
-                                    valueRange = 0f..1.5f,
-                                    steps = 14
-                                )
-                            }
-                            AnimatedVisibility(visible = settingsState.borderWidth <= 0.dp) {
-                                PreferenceRowSwitch(
-                                    modifier = Modifier.padding(horizontal = 8.dp),
-                                    applyHorPadding = false,
-                                    resultModifier = Modifier.padding(
-                                        horizontal = 16.dp,
-                                        vertical = 8.dp
-                                    ),
-                                    shape = centerShape,
-                                    title = stringResource(R.string.shadows),
-                                    subtitle = stringResource(R.string.shadows_setting_sub),
-                                    checked = viewModel.settingsState.allowShowingShadowsInsteadOfBorders,
-                                    onClick = {
-                                        viewModel.toggleAllowShowingShadowsInsteadOfBorders()
-                                    },
-                                    startContent = {
-                                        Icon(
-                                            Icons.Filled.Shadow,
-                                            null,
-                                            modifier = Modifier.padding(end = 16.dp)
-                                        )
-                                    }
-                                )
-                            }
-                            Box(
-                                Modifier
-                                    .padding(horizontal = 8.dp)
-                                    .container(
-                                        shape = bottomShape,
-                                        color = MaterialTheme
-                                            .colorScheme
-                                            .secondaryContainer
-                                            .copy(alpha = 0.2f)
-                                    )
-                                    .animateContentSize()
-                            ) {
-                                Row(
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .padding(
-                                            start = 4.dp,
-                                            top = 4.dp,
-                                            bottom = 4.dp,
-                                            end = 8.dp
-                                        ),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    val derivedValue by remember(viewModel.settingsState) {
-                                        derivedStateOf {
-                                            viewModel.settingsState.fabAlignment.toFloat()
-                                        }
-                                    }
-                                    var sliderValue by remember(derivedValue) {
-                                        mutableFloatStateOf(derivedValue)
-                                    }
-                                    Column(
-                                        Modifier
-                                            .weight(1f)
-                                            .height(136.dp)
-                                    ) {
-                                        Text(
-                                            text = stringResource(R.string.fab_alignment),
-                                            modifier = Modifier
-                                                .padding(
-                                                    top = 12.dp,
-                                                    end = 12.dp,
-                                                    start = 12.dp
-                                                ),
-                                            lineHeight = 18.sp,
-                                            fontWeight = FontWeight.Medium
-                                        )
-                                        AnimatedContent(
-                                            targetState = sliderValue,
-                                            transitionSpec = {
-                                                fadeIn() togetherWith fadeOut()
-                                            }
-                                        ) { value ->
-                                            Text(
-                                                text = stringResource(
-                                                    when (value.roundToInt()) {
-                                                        0 -> R.string.start_position
-                                                        1 -> R.string.center_position
-                                                        else -> R.string.end_position
-                                                    }
-                                                ),
-                                                color = MaterialTheme.colorScheme.onSurface.copy(
-                                                    alpha = 0.5f
-                                                ),
-                                                modifier = Modifier.padding(
-                                                    top = 8.dp,
-                                                    start = 12.dp,
-                                                    bottom = 8.dp,
-                                                    end = 12.dp
-                                                ),
-                                                fontSize = 12.sp,
-                                                fontWeight = FontWeight.Normal,
-                                                lineHeight = 14.sp,
-                                            )
-                                        }
-                                        Spacer(modifier = Modifier.weight(1f))
-                                        EnhancedSlider(
-                                            modifier = Modifier
-                                                .padding(
-                                                    start = 12.dp,
-                                                    end = 12.dp,
-                                                    bottom = 4.dp,
-                                                    top = 4.dp
+                                        .size(28.dp)
+                                        .background(
+                                            animateColorAsState(
+                                                settingsState.appColorTuple.primary.inverse(
+                                                    fraction = {
+                                                        if (it) 0.8f
+                                                        else 0.5f
+                                                    },
+                                                    darkMode = settingsState.appColorTuple.primary.luminance() < 0.3f
                                                 )
-                                                .offset(y = (-2).dp),
-                                            value = sliderValue,
-                                            onValueChange = {
-                                                sliderValue = it
-                                                viewModel.setAlignment(sliderValue)
-                                            },
-                                            colors = SliderDefaults.colors(
-                                                activeTickColor = MaterialTheme.colorScheme.inverseSurface,
-                                                inactiveTickColor = MaterialTheme.colorScheme.inverseSurface,
-                                                activeTrackColor = Color.Transparent,
-                                                inactiveTrackColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(
-                                                    0.15f
-                                                ),
-                                                thumbColor = MaterialTheme.colorScheme.onPrimaryContainer
-                                            ),
-                                            valueRange = 0f..2f,
-                                            steps = 1
-                                        )
-                                    }
-                                    FabPreview(
-                                        alignment = settingsState.fabAlignment,
-                                        modifier = Modifier.width(74.dp)
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-                item {
-                    // Night mode
-                    SettingItem(
-                        icon = Icons.Rounded.ShieldMoon,
-                        text = stringResource(R.string.night_mode),
-                        initialState = false
-                    ) {
-                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            listOf(
-                                Triple(
-                                    stringResource(R.string.dark),
-                                    Icons.Outlined.DarkMode,
-                                    NightMode.Dark
-                                ),
-                                Triple(
-                                    stringResource(R.string.light),
-                                    Icons.Outlined.LightMode,
-                                    NightMode.Light
-                                ),
-                                Triple(
-                                    stringResource(R.string.system),
-                                    Icons.Outlined.SettingsSuggest,
-                                    NightMode.System
-                                ),
-                            ).forEachIndexed { index, (title, icon, nightMode) ->
-                                val selected = nightMode == viewModel.settingsState.nightMode
-                                val shape = when (index) {
-                                    0 -> topShape
-                                    1 -> centerShape
-                                    else -> bottomShape
-                                }
-                                PreferenceItem(
-                                    onClick = { viewModel.setNightMode(nightMode) },
-                                    title = title,
-                                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                        alpha = animateFloatAsState(
-                                            if (selected) 0.7f
-                                            else 0.2f
-                                        ).value
-                                    ),
-                                    shape = shape,
-                                    icon = icon,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = 8.dp)
-                                        .border(
-                                            width = settingsState.borderWidth,
-                                            color = animateColorAsState(
-                                                if (selected) MaterialTheme
-                                                    .colorScheme
-                                                    .onSecondaryContainer
-                                                    .copy(alpha = 0.5f)
-                                                else Color.Transparent
                                             ).value,
-                                            shape = shape
-                                        ),
-                                    endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
+                                            CircleShape
+                                        )
+                                )
+                                Icon(
+                                    imageVector = Icons.Rounded.CreateAlt,
+                                    contentDescription = null,
+                                    tint = settingsState.appColorTuple.primary,
+                                    modifier = Modifier.size(14.dp)
                                 )
                             }
                         }
-                    }
-                }
-                item {
-                    // Font
-                    val showFontSheet = rememberSaveable { mutableStateOf(false) }
-                    SettingItem(
-                        icon = Icons.Rounded.TextFormat,
-                        text = stringResource(R.string.text),
-                    ) {
-                        ChangeLanguagePreference(
-                            modifier = Modifier.padding(
-                                bottom = 4.dp,
-                                start = 8.dp,
-                                end = 8.dp
-                            ),
-                            shape = topShape
-                        )
-                        PreferenceItem(
-                            shape = centerShape,
-                            onClick = { showFontSheet.value = true },
-                            title = stringResource(R.string.font),
-                            subtitle = settingsState.font.name ?: stringResource(R.string.system),
-                            color = MaterialTheme
-                                .colorScheme
-                                .secondaryContainer
-                                .copy(alpha = 0.2f),
-                            icon = Icons.Outlined.FontDownload,
-                            endIcon = Icons.Rounded.CreateAlt,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 8.dp)
-                        )
-                        Spacer(Modifier.height(4.dp))
-                        Column(
-                            Modifier
-                                .padding(horizontal = 8.dp)
-                                .container(
-                                    shape = bottomShape,
-                                    color = MaterialTheme
-                                        .colorScheme
-                                        .secondaryContainer
-                                        .copy(alpha = 0.2f)
+                    )
+                    PreferenceRowSwitch(
+                        modifier = Modifier.padding(
+                            start = 8.dp,
+                            end = 8.dp,
+                            bottom = 4.dp
+                        ),
+                        shape = centerShape,
+                        applyHorPadding = false,
+                        startContent = {
+                            Icon(
+                                imageVector = Icons.Outlined.FormatColorFill,
+                                contentDescription = null,
+                                modifier = Modifier.padding(horizontal = 16.dp)
+                            )
+                        },
+                        resultModifier = Modifier.padding(
+                            end = 16.dp,
+                            top = 8.dp,
+                            bottom = 8.dp
+                        ),
+                        title = stringResource(R.string.dynamic_colors),
+                        subtitle = stringResource(R.string.dynamic_colors_sub),
+                        checked = settingsState.isDynamicColors,
+                        onClick = { viewModel.toggleDynamicColors() }
+                    )
+                    PreferenceRowSwitch(
+                        modifier = Modifier.padding(
+                            start = 8.dp,
+                            end = 8.dp,
+                            bottom = 4.dp
+                        ),
+                        shape = centerShape,
+                        startContent = {
+                            Icon(
+                                imageVector = Icons.Outlined.Brightness4,
+                                contentDescription = null,
+                                modifier = Modifier.padding(horizontal = 16.dp)
+                            )
+                        },
+                        resultModifier = Modifier.padding(
+                            end = 16.dp,
+                            top = 8.dp,
+                            bottom = 8.dp
+                        ),
+                        applyHorPadding = false,
+                        title = stringResource(R.string.amoled_mode),
+                        subtitle = stringResource(R.string.amoled_mode_sub),
+                        checked = settingsState.isAmoledMode,
+                        onClick = {
+                            viewModel.toggleAmoledMode()
+                        }
+                    )
+                    PreferenceRow(
+                        modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+                        applyHorPadding = false,
+                        shape = bottomShape,
+                        title = stringResource(R.string.emoji),
+                        subtitle = stringResource(R.string.emoji_sub),
+                        onClick = onEditEmoji,
+                        startContent = {
+                            Icon(
+                                imageVector = Icons.Outlined.Cool,
+                                contentDescription = null,
+                                modifier = Modifier.padding(horizontal = 16.dp)
+                            )
+                        },
+                        endContent = {
+                            val emoji = LocalSettingsState.current.selectedEmoji
+                            Box(
+                                modifier = Modifier
+                                    .padding(end = 8.dp)
+                                    .size(64.dp)
+                                    .container(
+                                        shape = CloverShape,
+                                        color = MaterialTheme
+                                            .colorScheme
+                                            .surfaceVariant
+                                            .copy(alpha = 0.5f),
+                                        borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                            0.2f
+                                        )
+                                    ),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                val emojis = Emoji.allIcons()
+                                EmojiItem(
+                                    emoji = emoji.toString(),
+                                    modifier = Modifier.then(
+                                        if (emoji != null) {
+                                            Modifier.scaleOnTap(
+                                                onRelease = { time ->
+                                                    if (time > 500) {
+                                                        viewModel.addColorTupleFromEmoji(
+                                                            getEmoji = { index ->
+                                                                index?.let {
+                                                                    emojis[it].toString()
+                                                                } ?: ""
+                                                            },
+                                                            showShoeDescription = {
+                                                                showShoeDescriptionDialog =
+                                                                    it
+                                                            }
+                                                        )
+                                                    }
+                                                }
+                                            )
+                                        } else Modifier
+                                    ),
+                                    fontScale = 1f,
+                                    fontSize = MaterialTheme.typography.headlineLarge.fontSize,
+                                    onNoEmoji = { size ->
+                                        Icon(
+                                            imageVector = Icons.Rounded.Block,
+                                            contentDescription = null,
+                                            modifier = Modifier.size(size)
+                                        )
+                                    }
                                 )
-                                .animateContentSize()
+                            }
+                        }
+                    )
+                }
+                if (showShoeDescriptionDialog.isNotEmpty()) {
+                    AlertDialog(
+                        icon = {
+                            EmojiItem(
+                                emoji = showShoeDescriptionDialog,
+                                fontScale = 1f,
+                                fontSize = MaterialTheme.typography.headlineLarge.fontSize,
+                            )
+                        },
+                        title = {
+                            Text(text = "Shoe")
+                        },
+                        text = {
+                            Text(text = "15.07.1981 - Shoe, (ShoeUnited since 1998)")
+                        },
+                        confirmButton = {
+                            EnhancedButton(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                onClick = { showShoeDescriptionDialog = "" }
+                            ) {
+                                Text(stringResource(R.string.close))
+                            }
+                        },
+                        onDismissRequest = {
+                            showShoeDescriptionDialog = ""
+                        },
+                        modifier = Modifier.alertDialogBorder()
+                    )
+                }
+            }
+        }
+        item {
+            // Secondary Customization
+            SettingItem(
+                icon = Icons.TwoTone.Palette,
+                text = stringResource(R.string.secondary_customization),
+                initialState = false
+            ) {
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    PreferenceRowSwitch(
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        applyHorPadding = false,
+                        resultModifier = Modifier.padding(
+                            horizontal = 16.dp,
+                            vertical = 8.dp
+                        ),
+                        shape = topShape,
+                        title = stringResource(R.string.allow_image_monet),
+                        subtitle = stringResource(R.string.allow_image_monet_sub),
+                        checked = settingsState.allowChangeColorByImage,
+                        onClick = { viewModel.toggleAllowImageMonet() },
+                        startContent = {
+                            Icon(
+                                Icons.Outlined.WaterDrop,
+                                null,
+                                modifier = Modifier.padding(end = 16.dp)
+                            )
+                        }
+                    )
+                    Column(
+                        Modifier
+                            .padding(horizontal = 8.dp)
+                            .container(
+                                shape = centerShape,
+                                color = MaterialTheme
+                                    .colorScheme
+                                    .secondaryContainer
+                                    .copy(alpha = 0.2f)
+                            )
+                            .animateContentSize()
+                    ) {
+                        val derivedValue by remember(settingsState) {
+                            derivedStateOf {
+                                settingsState.emojisCount.coerceAtLeast(1)
+                            }
+                        }
+                        var sliderValue by remember(derivedValue) {
+                            mutableIntStateOf(derivedValue)
+                        }
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.EmojiEmotions,
+                                contentDescription = null,
+                                modifier = Modifier.padding(
+                                    top = 16.dp,
+                                    start = 12.dp
+                                )
+                            )
+                            Text(
+                                text = stringResource(R.string.emojis_count),
+                                modifier = Modifier
+                                    .padding(
+                                        top = 16.dp,
+                                        end = 16.dp,
+                                        start = 16.dp
+                                    )
+                                    .weight(1f),
+                                fontWeight = FontWeight.Medium
+                            )
+                            AnimatedContent(
+                                targetState = sliderValue,
+                                transitionSpec = {
+                                    fadeIn() togetherWith fadeOut()
+                                }
+                            ) { value ->
+                                Text(
+                                    text = "$value",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                            }
+                            Spacer(
+                                modifier = Modifier.padding(
+                                    start = 4.dp,
+                                    top = 16.dp,
+                                    end = 20.dp
+                                )
+                            )
+                        }
+                        EnhancedSlider(
+                            modifier = Modifier
+                                .padding(
+                                    top = 16.dp,
+                                    start = 12.dp,
+                                    end = 12.dp,
+                                    bottom = 8.dp
+                                )
+                                .offset(y = (-2).dp),
+                            value = sliderValue.toFloat(),
+                            onValueChange = {
+                                sliderValue = it.toInt()
+                            },
+                            onValueChangeFinished = {
+                                viewModel.updateEmojisCount(sliderValue)
+                            },
+                            valueRange = 1f..5f,
+                            steps = 3
+                        )
+                    }
+                    Column(
+                        Modifier
+                            .padding(horizontal = 8.dp)
+                            .container(
+                                shape = centerShape,
+                                color = MaterialTheme
+                                    .colorScheme
+                                    .secondaryContainer
+                                    .copy(alpha = 0.2f)
+                            )
+                            .animateContentSize()
+                    ) {
+                        val derivedValue by remember(viewModel.settingsState) {
+                            derivedStateOf {
+                                viewModel.settingsState.borderWidth.coerceAtLeast(0f)
+                            }
+                        }
+                        var sliderValue by remember(derivedValue) {
+                            mutableFloatStateOf(derivedValue)
+                        }
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.BorderStyle,
+                                contentDescription = null,
+                                modifier = Modifier.padding(
+                                    top = 16.dp,
+                                    start = 12.dp
+                                )
+                            )
+                            Text(
+                                text = stringResource(R.string.border_thickness),
+                                modifier = Modifier
+                                    .padding(
+                                        top = 16.dp,
+                                        end = 16.dp,
+                                        start = 16.dp
+                                    )
+                                    .weight(1f),
+                                fontWeight = FontWeight.Medium
+                            )
+                            AnimatedContent(
+                                targetState = sliderValue,
+                                transitionSpec = {
+                                    fadeIn() togetherWith fadeOut()
+                                }
+                            ) { value ->
+                                Text(
+                                    text = "$value",
+                                    color = MaterialTheme.colorScheme.onSurface.copy(
+                                        alpha = 0.5f
+                                    ),
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    lineHeight = 18.sp
+                                )
+                            }
+                            Text(
+                                maxLines = 1,
+                                text = "Dp",
+                                color = MaterialTheme.colorScheme.onSurface.copy(
+                                    alpha = 0.5f
+                                ),
+                                modifier = Modifier.padding(
+                                    start = 4.dp,
+                                    top = 16.dp,
+                                    end = 16.dp
+                                )
+                            )
+                        }
+                        EnhancedSlider(
+                            modifier = Modifier
+                                .padding(
+                                    top = 16.dp,
+                                    start = 12.dp,
+                                    end = 12.dp,
+                                    bottom = 8.dp
+                                )
+                                .offset(y = (-2).dp),
+                            value = sliderValue,
+                            onValueChange = {
+                                sliderValue = it.roundToTwoDigits()
+                            },
+                            onValueChangeFinished = {
+                                viewModel.setBorderWidth(sliderValue)
+                            },
+                            valueRange = 0f..1.5f,
+                            steps = 14
+                        )
+                    }
+                    AnimatedVisibility(visible = settingsState.borderWidth <= 0.dp) {
+                        PreferenceRowSwitch(
+                            modifier = Modifier.padding(horizontal = 8.dp),
+                            applyHorPadding = false,
+                            resultModifier = Modifier.padding(
+                                horizontal = 16.dp,
+                                vertical = 8.dp
+                            ),
+                            shape = centerShape,
+                            title = stringResource(R.string.shadows),
+                            subtitle = stringResource(R.string.shadows_setting_sub),
+                            checked = viewModel.settingsState.allowShowingShadowsInsteadOfBorders,
+                            onClick = {
+                                viewModel.toggleAllowShowingShadowsInsteadOfBorders()
+                            },
+                            startContent = {
+                                Icon(
+                                    Icons.Filled.Shadow,
+                                    null,
+                                    modifier = Modifier.padding(end = 16.dp)
+                                )
+                            }
+                        )
+                    }
+                    Box(
+                        Modifier
+                            .padding(horizontal = 8.dp)
+                            .container(
+                                shape = bottomShape,
+                                color = MaterialTheme
+                                    .colorScheme
+                                    .secondaryContainer
+                                    .copy(alpha = 0.2f)
+                            )
+                            .animateContentSize()
+                    ) {
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    start = 4.dp,
+                                    top = 4.dp,
+                                    bottom = 4.dp,
+                                    end = 8.dp
+                                ),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
                             val derivedValue by remember(viewModel.settingsState) {
                                 derivedStateOf {
-                                    viewModel.settingsState.fontScale ?: 0f
+                                    viewModel.settingsState.fabAlignment.toFloat()
                                 }
                             }
                             var sliderValue by remember(derivedValue) {
                                 mutableFloatStateOf(derivedValue)
                             }
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
+                            Column(
+                                Modifier
+                                    .weight(1f)
+                                    .height(136.dp)
                             ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.TextFields,
-                                    contentDescription = null,
-                                    modifier = Modifier.padding(
-                                        top = 16.dp,
-                                        start = 12.dp
-                                    )
-                                )
                                 Text(
-                                    text = stringResource(R.string.font_scale),
+                                    text = stringResource(R.string.fab_alignment),
                                     modifier = Modifier
                                         .padding(
-                                            top = 16.dp,
-                                            end = 16.dp,
-                                            start = 16.dp
-                                        )
-                                        .weight(1f),
+                                            top = 12.dp,
+                                            end = 12.dp,
+                                            start = 12.dp
+                                        ),
+                                    lineHeight = 18.sp,
                                     fontWeight = FontWeight.Medium
                                 )
                                 AnimatedContent(
@@ -1044,59 +838,532 @@ fun SettingsBlock(
                                     }
                                 ) { value ->
                                     Text(
-                                        text = value.takeIf { it > 0 }?.toString()
-                                            ?: stringResource(R.string.defaultt),
+                                        text = stringResource(
+                                            when (value.roundToInt()) {
+                                                0 -> R.string.start_position
+                                                1 -> R.string.center_position
+                                                else -> R.string.end_position
+                                            }
+                                        ),
                                         color = MaterialTheme.colorScheme.onSurface.copy(
                                             alpha = 0.5f
                                         ),
-                                        modifier = Modifier.padding(top = 16.dp, end = 16.dp),
-                                        lineHeight = 18.sp
+                                        modifier = Modifier.padding(
+                                            top = 8.dp,
+                                            start = 12.dp,
+                                            bottom = 8.dp,
+                                            end = 12.dp
+                                        ),
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Normal,
+                                        lineHeight = 14.sp,
                                     )
                                 }
+                                Spacer(modifier = Modifier.weight(1f))
+                                EnhancedSlider(
+                                    modifier = Modifier
+                                        .padding(
+                                            start = 12.dp,
+                                            end = 12.dp,
+                                            bottom = 4.dp,
+                                            top = 4.dp
+                                        )
+                                        .offset(y = (-2).dp),
+                                    value = sliderValue,
+                                    onValueChange = {
+                                        sliderValue = it
+                                        viewModel.setAlignment(sliderValue)
+                                    },
+                                    colors = SliderDefaults.colors(
+                                        activeTickColor = MaterialTheme.colorScheme.inverseSurface,
+                                        inactiveTickColor = MaterialTheme.colorScheme.inverseSurface,
+                                        activeTrackColor = Color.Transparent,
+                                        inactiveTrackColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                                            0.15f
+                                        ),
+                                        thumbColor = MaterialTheme.colorScheme.onPrimaryContainer
+                                    ),
+                                    valueRange = 0f..2f,
+                                    steps = 1
+                                )
                             }
-                            EnhancedSlider(
-                                modifier = Modifier
-                                    .padding(
-                                        top = 16.dp,
-                                        start = 12.dp,
-                                        end = 12.dp,
-                                        bottom = 8.dp
-                                    )
-                                    .offset(y = (-2).dp),
-                                value = sliderValue,
-                                onValueChange = {
-                                    sliderValue = if (it == 0.45f) 0f
-                                    else it.roundToTwoDigits()
-                                },
-                                onValueChangeFinished = {
-                                    viewModel.onUpdateFontScale(sliderValue)
-                                    (context as? Activity)?.recreate()
-                                },
-                                valueRange = 0.45f..1.5f,
-                                steps = 20
+                            FabPreview(
+                                alignment = settingsState.fabAlignment,
+                                modifier = Modifier.width(74.dp)
                             )
                         }
                     }
-
-                    PickFontFamilySheet(
-                        visible = showFontSheet,
-                        onFontSelected = { font ->
-                            viewModel.setFont(font.asDomain())
-                            (context as? Activity)?.recreate()
-                        }
-                    )
                 }
-                item {
-                    // Options Arrangement
-                    SettingItem(
-                        icon = Icons.Rounded.TableRows,
-                        text = stringResource(R.string.options_arrangement),
-                    ) {
-                        val enabled = !settingsState.groupOptionsByTypes
+            }
+        }
+        item {
+            // Night mode
+            SettingItem(
+                icon = Icons.Rounded.ShieldMoon,
+                text = stringResource(R.string.night_mode),
+                initialState = false
+            ) {
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    listOf(
+                        Triple(
+                            stringResource(R.string.dark),
+                            Icons.Outlined.DarkMode,
+                            NightMode.Dark
+                        ),
+                        Triple(
+                            stringResource(R.string.light),
+                            Icons.Outlined.LightMode,
+                            NightMode.Light
+                        ),
+                        Triple(
+                            stringResource(R.string.system),
+                            Icons.Outlined.SettingsSuggest,
+                            NightMode.System
+                        ),
+                    ).forEachIndexed { index, (title, icon, nightMode) ->
+                        val selected = nightMode == viewModel.settingsState.nightMode
+                        val shape = when (index) {
+                            0 -> topShape
+                            1 -> centerShape
+                            else -> bottomShape
+                        }
                         PreferenceItem(
-                            shape = topShape,
+                            onClick = { viewModel.setNightMode(nightMode) },
+                            title = title,
+                            color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                                alpha = animateFloatAsState(
+                                    if (selected) 0.7f
+                                    else 0.2f
+                                ).value
+                            ),
+                            shape = shape,
+                            icon = icon,
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .padding(horizontal = 8.dp)
+                                .border(
+                                    width = settingsState.borderWidth,
+                                    color = animateColorAsState(
+                                        if (selected) MaterialTheme
+                                            .colorScheme
+                                            .onSecondaryContainer
+                                            .copy(alpha = 0.5f)
+                                        else Color.Transparent
+                                    ).value,
+                                    shape = shape
+                                ),
+                            endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
+                        )
+                    }
+                }
+            }
+        }
+        item {
+            // Font
+            val showFontSheet = rememberSaveable { mutableStateOf(false) }
+            SettingItem(
+                icon = Icons.Rounded.TextFormat,
+                text = stringResource(R.string.text),
+            ) {
+                ChangeLanguagePreference(
+                    modifier = Modifier.padding(
+                        bottom = 4.dp,
+                        start = 8.dp,
+                        end = 8.dp
+                    ),
+                    shape = topShape
+                )
+                PreferenceItem(
+                    shape = centerShape,
+                    onClick = { showFontSheet.value = true },
+                    title = stringResource(R.string.font),
+                    subtitle = settingsState.font.name ?: stringResource(R.string.system),
+                    color = MaterialTheme
+                        .colorScheme
+                        .secondaryContainer
+                        .copy(alpha = 0.2f),
+                    icon = Icons.Outlined.FontDownload,
+                    endIcon = Icons.Rounded.CreateAlt,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                )
+                Spacer(Modifier.height(4.dp))
+                Column(
+                    Modifier
+                        .padding(horizontal = 8.dp)
+                        .container(
+                            shape = bottomShape,
+                            color = MaterialTheme
+                                .colorScheme
+                                .secondaryContainer
+                                .copy(alpha = 0.2f)
+                        )
+                        .animateContentSize()
+                ) {
+                    val derivedValue by remember(viewModel.settingsState) {
+                        derivedStateOf {
+                            viewModel.settingsState.fontScale ?: 0f
+                        }
+                    }
+                    var sliderValue by remember(derivedValue) {
+                        mutableFloatStateOf(derivedValue)
+                    }
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.TextFields,
+                            contentDescription = null,
+                            modifier = Modifier.padding(
+                                top = 16.dp,
+                                start = 12.dp
+                            )
+                        )
+                        Text(
+                            text = stringResource(R.string.font_scale),
+                            modifier = Modifier
+                                .padding(
+                                    top = 16.dp,
+                                    end = 16.dp,
+                                    start = 16.dp
+                                )
+                                .weight(1f),
+                            fontWeight = FontWeight.Medium
+                        )
+                        AnimatedContent(
+                            targetState = sliderValue,
+                            transitionSpec = {
+                                fadeIn() togetherWith fadeOut()
+                            }
+                        ) { value ->
+                            Text(
+                                text = value.takeIf { it > 0 }?.toString()
+                                    ?: stringResource(R.string.defaultt),
+                                color = MaterialTheme.colorScheme.onSurface.copy(
+                                    alpha = 0.5f
+                                ),
+                                modifier = Modifier.padding(top = 16.dp, end = 16.dp),
+                                lineHeight = 18.sp
+                            )
+                        }
+                    }
+                    EnhancedSlider(
+                        modifier = Modifier
+                            .padding(
+                                top = 16.dp,
+                                start = 12.dp,
+                                end = 12.dp,
+                                bottom = 8.dp
+                            )
+                            .offset(y = (-2).dp),
+                        value = sliderValue,
+                        onValueChange = {
+                            sliderValue = if (it == 0.45f) 0f
+                            else it.roundToTwoDigits()
+                        },
+                        onValueChangeFinished = {
+                            viewModel.onUpdateFontScale(sliderValue)
+                            (context as? Activity)?.recreate()
+                        },
+                        valueRange = 0.45f..1.5f,
+                        steps = 20
+                    )
+                }
+            }
+
+            PickFontFamilySheet(
+                visible = showFontSheet,
+                onFontSelected = { font ->
+                    viewModel.setFont(font.asDomain())
+                    (context as? Activity)?.recreate()
+                }
+            )
+        }
+        item {
+            // Options Arrangement
+            SettingItem(
+                icon = Icons.Rounded.TableRows,
+                text = stringResource(R.string.options_arrangement),
+            ) {
+                val enabled = !settingsState.groupOptionsByTypes
+                PreferenceItem(
+                    shape = topShape,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .alpha(
+                            animateFloatAsState(
+                                if (enabled) 1f
+                                else 0.5f
+                            ).value
+                        )
+                        .padding(start = 8.dp, end = 8.dp, bottom = 4.dp),
+                    onClick = {
+                        if (enabled) {
+                            onEditArrangement()
+                        } else scope.launch {
+                            toastHostState.showToast(
+                                icon = Icons.Rounded.TableRows,
+                                message = context.getString(R.string.cannot_change_arrangement_while_options_grouping_enabled)
+                            )
+                        }
+                    },
+                    icon = Icons.Outlined.DataArray,
+                    title = stringResource(R.string.order),
+                    subtitle = stringResource(R.string.order_sub),
+                    color = MaterialTheme
+                        .colorScheme
+                        .secondaryContainer
+                        .copy(alpha = 0.2f),
+                    endIcon = Icons.Rounded.CreateAlt,
+                )
+                PreferenceRowSwitch(
+                    shape = centerShape,
+                    modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 4.dp),
+                    applyHorPadding = false,
+                    resultModifier = Modifier.padding(
+                        end = 16.dp,
+                        top = 8.dp,
+                        bottom = 8.dp
+                    ),
+                    title = stringResource(R.string.search_option),
+                    startContent = {
+                        Icon(
+                            imageVector = Icons.Outlined.Search,
+                            contentDescription = null,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+                    },
+                    subtitle = stringResource(R.string.search_option_sub),
+                    checked = settingsState.screensSearchEnabled,
+                    onClick = {
+                        viewModel.toggleScreenSearchEnabled()
+                    }
+                )
+                PreferenceRowSwitch(
+                    shape = bottomShape,
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    applyHorPadding = false,
+                    resultModifier = Modifier.padding(
+                        end = 16.dp,
+                        top = 8.dp,
+                        bottom = 8.dp
+                    ),
+                    startContent = {
+                        Icon(
+                            imageVector = Icons.Outlined.SettingsInputComposite,
+                            contentDescription = null,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+                    },
+                    title = stringResource(R.string.group_options_by_type),
+                    subtitle = stringResource(R.string.group_options_by_type_sub),
+                    checked = settingsState.groupOptionsByTypes,
+                    onClick = {
+                        viewModel.updateGroupOptionsByTypes()
+                    }
+                )
+            }
+        }
+        item {
+            // Presets
+            SettingItem(
+                icon = Icons.Rounded.PhotoSizeSelectSmall,
+                text = stringResource(R.string.presets),
+            ) {
+                PreferenceItem(
+                    shape = defaultShape,
+                    onClick = onEditPresets,
+                    title = stringResource(R.string.values),
+                    subtitle = settingsState.presets.joinToString(", "),
+                    color = MaterialTheme
+                        .colorScheme
+                        .secondaryContainer
+                        .copy(alpha = 0.2f),
+                    icon = Icons.Outlined.Numbers,
+                    endIcon = Icons.Rounded.CreateAlt,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                )
+            }
+        }
+        item {
+            SettingItem(
+                icon = Icons.Rounded.Draw,
+                text = stringResource(R.string.draw),
+            ) {
+                PreferenceRowSwitch(
+                    shape = defaultShape,
+                    resultModifier = Modifier.padding(
+                        horizontal = 16.dp,
+                        vertical = 8.dp
+                    ),
+                    modifier = Modifier.padding(
+                        start = 8.dp,
+                        end = 8.dp
+                    ),
+                    applyHorPadding = false,
+                    onClick = {
+                        viewModel.toggleLockDrawOrientation()
+                    },
+                    title = stringResource(R.string.lock_draw_orientation),
+                    subtitle = stringResource(R.string.lock_draw_orientation_sub),
+                    checked = settingsState.lockDrawOrientation,
+                    startContent = {
+                        Icon(
+                            imageVector = Icons.Rounded.ScreenLockRotation,
+                            contentDescription = null,
+                            modifier = Modifier.padding(end = 16.dp)
+                        )
+                    }
+                )
+            }
+        }
+        item {
+            // Folder
+            SettingItem(
+                icon = Icons.Rounded.Folder,
+                text = stringResource(R.string.folder),
+            ) {
+                val currentFolderUri = settingsState.saveFolderUri
+                val launcher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.OpenDocumentTree(),
+                    onResult = { uri ->
+                        uri?.let {
+                            viewModel.updateSaveFolderUri(it)
+                            context.contentResolver.takePersistableUriPermission(
+                                it,
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                            )
+                        }
+                    }
+                )
+                PreferenceItem(
+                    shape = topShape,
+                    onClick = { viewModel.updateSaveFolderUri(null) },
+                    title = stringResource(R.string.def),
+                    subtitle = stringResource(R.string.default_folder),
+                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                        alpha = animateFloatAsState(
+                            if (currentFolderUri == null) 0.7f
+                            else 0.2f
+                        ).value
+                    ),
+                    endIcon = if (currentFolderUri != null) Icons.Outlined.FolderSpecial else Icons.Rounded.FolderSpecial,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                        .border(
+                            width = settingsState.borderWidth,
+                            color = animateColorAsState(
+                                if (currentFolderUri == null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                    alpha = 0.5f
+                                )
+                                else Color.Transparent
+                            ).value,
+                            shape = topShape
+                        )
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                PreferenceItem(
+                    shape = bottomShape,
+                    onClick = {
+                        kotlin.runCatching {
+                            launcher.launch(currentFolderUri)
+                        }.getOrNull() ?: scope.launch {
+                            toastHostState.showToast(
+                                context.getString(R.string.activate_files),
+                                icon = Icons.Outlined.FolderOff,
+                                duration = ToastDuration.Long
+                            )
+                        }
+                    },
+                    title = stringResource(R.string.custom),
+                    subtitle = currentFolderUri.toUiPath(
+                        context = LocalContext.current,
+                        default = stringResource(R.string.unspecified)
+                    ),
+                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                        alpha = animateFloatAsState(
+                            if (currentFolderUri != null) 0.7f
+                            else 0.2f
+                        ).value
+                    ),
+                    endIcon = if (currentFolderUri != null) Icons.Rounded.CreateAlt else Icons.Rounded.AddCircleOutline,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                        .border(
+                            width = settingsState.borderWidth,
+                            color = animateColorAsState(
+                                if (currentFolderUri != null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                    alpha = 0.5f
+                                )
+                                else Color.Transparent
+                            ).value,
+                            shape = bottomShape
+                        )
+                )
+            }
+        }
+        item {
+            // File
+            SettingItem(
+                icon = Icons.Rounded.FileSettings,
+                text = stringResource(R.string.filename),
+            ) {
+                Box {
+                    Column(
+                        modifier = Modifier
+                            .alpha(animateFloatAsState(if (!settingsState.randomizeFilename) 1f else 0.5f).value)
+                    ) {
+                        PreferenceItem(
+                            shape = topShape,
+                            onClick = { onEditFilename() },
+                            title = stringResource(R.string.prefix),
+                            subtitle = (settingsState.filenamePrefix.takeIf { it.isNotEmpty() }
+                                ?: stringResource(R.string.default_prefix)),
+                            color = MaterialTheme
+                                .colorScheme
+                                .secondaryContainer
+                                .copy(alpha = 0.2f),
+                            endIcon = Icons.Rounded.CreateAlt,
+                            icon = Icons.Filled.Prefix,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 8.dp, end = 8.dp, bottom = 4.dp)
+                        )
+                        PreferenceRowSwitch(
+                            shape = centerShape,
+                            modifier = Modifier.padding(
+                                start = 8.dp,
+                                end = 8.dp,
+                                bottom = 4.dp
+                            ),
+                            resultModifier = Modifier.padding(
+                                horizontal = 16.dp,
+                                vertical = 8.dp
+                            ),
+                            startContent = {
+                                Icon(
+                                    imageVector = Icons.Outlined.Hexagon,
+                                    contentDescription = null,
+                                    modifier = Modifier.padding(end = 16.dp)
+                                )
+                            },
+                            applyHorPadding = false,
+                            onClick = { viewModel.toggleAddFileSize() },
+                            title = stringResource(R.string.add_file_size),
+                            subtitle = stringResource(R.string.add_file_size_sub),
+                            checked = settingsState.addSizeInFilename
+                        )
+                        val enabled = settingsState.imagePickerModeInt != 0
+                        PreferenceRowSwitch(
+                            shape = centerShape,
+                            applyHorPadding = false,
+                            modifier = Modifier
                                 .alpha(
                                     animateFloatAsState(
                                         if (enabled) 1f
@@ -1104,927 +1371,652 @@ fun SettingsBlock(
                                     ).value
                                 )
                                 .padding(start = 8.dp, end = 8.dp, bottom = 4.dp),
-                            onClick = {
-                                if (enabled) {
-                                    onEditArrangement()
-                                } else scope.launch {
-                                    toastHostState.showToast(
-                                        icon = Icons.Rounded.TableRows,
-                                        message = context.getString(R.string.cannot_change_arrangement_while_options_grouping_enabled)
-                                    )
-                                }
-                            },
-                            icon = Icons.Outlined.DataArray,
-                            title = stringResource(R.string.order),
-                            subtitle = stringResource(R.string.order_sub),
-                            color = MaterialTheme
-                                .colorScheme
-                                .secondaryContainer
-                                .copy(alpha = 0.2f),
-                            endIcon = Icons.Rounded.CreateAlt,
-                        )
-                        PreferenceRowSwitch(
-                            shape = centerShape,
-                            modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 4.dp),
-                            applyHorPadding = false,
-                            resultModifier = Modifier.padding(
-                                end = 16.dp,
-                                top = 8.dp,
-                                bottom = 8.dp
-                            ),
-                            title = stringResource(R.string.search_option),
-                            startContent = {
-                                Icon(
-                                    imageVector = Icons.Outlined.Search,
-                                    contentDescription = null,
-                                    modifier = Modifier.padding(horizontal = 16.dp)
-                                )
-                            },
-                            subtitle = stringResource(R.string.search_option_sub),
-                            checked = settingsState.screensSearchEnabled,
-                            onClick = {
-                                viewModel.toggleScreenSearchEnabled()
-                            }
-                        )
-                        PreferenceRowSwitch(
-                            shape = bottomShape,
-                            modifier = Modifier.padding(horizontal = 8.dp),
-                            applyHorPadding = false,
-                            resultModifier = Modifier.padding(
-                                end = 16.dp,
-                                top = 8.dp,
-                                bottom = 8.dp
-                            ),
-                            startContent = {
-                                Icon(
-                                    imageVector = Icons.Outlined.SettingsInputComposite,
-                                    contentDescription = null,
-                                    modifier = Modifier.padding(horizontal = 16.dp)
-                                )
-                            },
-                            title = stringResource(R.string.group_options_by_type),
-                            subtitle = stringResource(R.string.group_options_by_type_sub),
-                            checked = settingsState.groupOptionsByTypes,
-                            onClick = {
-                                viewModel.updateGroupOptionsByTypes()
-                            }
-                        )
-                    }
-                }
-                item {
-                    // Presets
-                    SettingItem(
-                        icon = Icons.Rounded.PhotoSizeSelectSmall,
-                        text = stringResource(R.string.presets),
-                    ) {
-                        PreferenceItem(
-                            shape = defaultShape,
-                            onClick = onEditPresets,
-                            title = stringResource(R.string.values),
-                            subtitle = settingsState.presets.joinToString(", "),
-                            color = MaterialTheme
-                                .colorScheme
-                                .secondaryContainer
-                                .copy(alpha = 0.2f),
-                            icon = Icons.Outlined.Numbers,
-                            endIcon = Icons.Rounded.CreateAlt,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 8.dp)
-                        )
-                    }
-                }
-                item {
-                    SettingItem(
-                        icon = Icons.Rounded.Draw,
-                        text = stringResource(R.string.draw),
-                    ) {
-                        PreferenceRowSwitch(
-                            shape = defaultShape,
                             resultModifier = Modifier.padding(
                                 horizontal = 16.dp,
                                 vertical = 8.dp
                             ),
+                            startContent = {
+                                Icon(
+                                    imageVector = Icons.Outlined.Difference,
+                                    contentDescription = null,
+                                    modifier = Modifier.padding(end = 16.dp)
+                                )
+                            },
+                            onClick = {
+                                if (enabled) viewModel.toggleAddOriginalFilename()
+                                else scope.launch {
+                                    toastHostState.showToast(
+                                        message = context.getString(R.string.filename_not_work_with_photopicker),
+                                        icon = Icons.Outlined.ErrorOutline
+                                    )
+                                }
+                            },
+                            title = stringResource(R.string.add_original_filename),
+                            subtitle = stringResource(R.string.add_original_filename_sub),
+                            checked = settingsState.addOriginalFilename && enabled
+                        )
+                        PreferenceRowSwitch(
+                            shape = centerShape,
                             modifier = Modifier.padding(
                                 start = 8.dp,
-                                end = 8.dp
+                                end = 8.dp,
+                                bottom = 4.dp
                             ),
                             applyHorPadding = false,
-                            onClick = {
-                                viewModel.toggleLockDrawOrientation()
-                            },
-                            title = stringResource(R.string.lock_draw_orientation),
-                            subtitle = stringResource(R.string.lock_draw_orientation_sub),
-                            checked = settingsState.lockDrawOrientation,
+                            onClick = { viewModel.toggleAddSequenceNumber() },
+                            title = stringResource(R.string.replace_sequence_number),
+                            subtitle = stringResource(R.string.replace_sequence_number_sub),
+                            checked = settingsState.addSequenceNumber,
+                            resultModifier = Modifier.padding(
+                                horizontal = 16.dp,
+                                vertical = 8.dp
+                            ),
                             startContent = {
                                 Icon(
-                                    imageVector = Icons.Rounded.ScreenLockRotation,
+                                    imageVector = Icons.Filled.Numeric,
                                     contentDescription = null,
                                     modifier = Modifier.padding(end = 16.dp)
                                 )
                             }
                         )
                     }
-                }
-                item {
-                    // Folder
-                    SettingItem(
-                        icon = Icons.Rounded.Folder,
-                        text = stringResource(R.string.folder),
-                    ) {
-                        val currentFolderUri = settingsState.saveFolderUri
-                        val launcher = rememberLauncherForActivityResult(
-                            contract = ActivityResultContracts.OpenDocumentTree(),
-                            onResult = { uri ->
-                                uri?.let {
-                                    viewModel.updateSaveFolderUri(it)
-                                    context.contentResolver.takePersistableUriPermission(
-                                        it,
-                                        Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                                                Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                                    )
-                                }
-                            }
-                        )
-                        PreferenceItem(
-                            shape = topShape,
-                            onClick = { viewModel.updateSaveFolderUri(null) },
-                            title = stringResource(R.string.def),
-                            subtitle = stringResource(R.string.default_folder),
-                            color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                alpha = animateFloatAsState(
-                                    if (currentFolderUri == null) 0.7f
-                                    else 0.2f
-                                ).value
-                            ),
-                            endIcon = if (currentFolderUri != null) Icons.Outlined.FolderSpecial else Icons.Rounded.FolderSpecial,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 8.dp)
-                                .border(
-                                    width = settingsState.borderWidth,
-                                    color = animateColorAsState(
-                                        if (currentFolderUri == null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                            alpha = 0.5f
-                                        )
-                                        else Color.Transparent
-                                    ).value,
-                                    shape = topShape
-                                )
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        PreferenceItem(
-                            shape = bottomShape,
-                            onClick = {
-                                kotlin.runCatching {
-                                    launcher.launch(currentFolderUri)
-                                }.getOrNull() ?: scope.launch {
-                                    toastHostState.showToast(
-                                        context.getString(R.string.activate_files),
-                                        icon = Icons.Outlined.FolderOff,
-                                        duration = ToastDuration.Long
-                                    )
-                                }
-                            },
-                            title = stringResource(R.string.custom),
-                            subtitle = currentFolderUri.toUiPath(
-                                context = LocalContext.current,
-                                default = stringResource(R.string.unspecified)
-                            ),
-                            color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                alpha = animateFloatAsState(
-                                    if (currentFolderUri != null) 0.7f
-                                    else 0.2f
-                                ).value
-                            ),
-                            endIcon = if (currentFolderUri != null) Icons.Rounded.CreateAlt else Icons.Rounded.AddCircleOutline,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 8.dp)
-                                .border(
-                                    width = settingsState.borderWidth,
-                                    color = animateColorAsState(
-                                        if (currentFolderUri != null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                            alpha = 0.5f
-                                        )
-                                        else Color.Transparent
-                                    ).value,
-                                    shape = bottomShape
-                                )
-                        )
+                    if (settingsState.randomizeFilename) {
+                        Surface(
+                            modifier = Modifier.matchParentSize(),
+                            color = Color.Transparent
+                        ) {}
                     }
                 }
-                item {
-                    // File
-                    SettingItem(
-                        icon = Icons.Rounded.FileSettings,
-                        text = stringResource(R.string.filename),
-                    ) {
-                        Box {
-                            Column(
-                                modifier = Modifier
-                                    .alpha(animateFloatAsState(if (!settingsState.randomizeFilename) 1f else 0.5f).value)
+                PreferenceRowSwitch(
+                    shape = bottomShape,
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    applyHorPadding = false,
+                    resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    onClick = { viewModel.toggleRandomizeFilename() },
+                    title = stringResource(R.string.randomize_filename),
+                    subtitle = stringResource(R.string.randomize_filename_sub),
+                    checked = settingsState.randomizeFilename,
+                    startContent = {
+                        Icon(
+                            Icons.Rounded.Symbol,
+                            null,
+                            modifier = Modifier.padding(end = 16.dp)
+                        )
+                    }
+                )
+            }
+        }
+        item {
+            // Cache
+            SettingItem(
+                icon = Icons.Rounded.Cached,
+                text = stringResource(R.string.cache),
+            ) {
+                var cache by remember(
+                    context,
+                    LocalLifecycleOwner.current.lifecycle.observeAsState().value
+                ) { mutableStateOf(viewModel.getReadableCacheSize()) }
+
+                PreferenceItem(
+                    shape = topShape,
+                    onClick = {
+                        viewModel.clearCache { cache = it }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    color = MaterialTheme
+                        .colorScheme
+                        .secondaryContainer
+                        .copy(alpha = 0.2f),
+                    title = stringResource(R.string.cache_size),
+                    subtitle = stringResource(R.string.found_s, cache),
+                    endIcon = Icons.Rounded.DeleteOutline,
+                    icon = Icons.Outlined.Memory
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                PreferenceRowSwitch(
+                    shape = bottomShape,
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    resultModifier = Modifier.padding(
+                        top = 8.dp,
+                        bottom = 8.dp,
+                        end = 16.dp
+                    ),
+                    applyHorPadding = false,
+                    title = stringResource(R.string.auto_cache_clearing),
+                    subtitle = stringResource(R.string.auto_cache_clearing_sub),
+                    checked = settingsState.clearCacheOnLaunch,
+                    startContent = {
+                        Icon(
+                            imageVector = Icons.Outlined.AutoDelete,
+                            contentDescription = null,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+                    },
+                    onClick = {
+                        viewModel.updateClearCacheOnLaunch()
+                    }
+                )
+            }
+        }
+        item {
+            // Source
+            SettingItem(
+                icon = Icons.Rounded.ImageSearch,
+                text = stringResource(R.string.image_source),
+            ) {
+                PreferenceItem(
+                    shape = topShape,
+                    onClick = { viewModel.updateImagePickerMode(0) },
+                    title = stringResource(R.string.photo_picker),
+                    icon = Icons.Outlined.BurstMode,
+                    subtitle = stringResource(R.string.photo_picker_sub),
+                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                        alpha = animateFloatAsState(
+                            if (settingsState.imagePickerModeInt == 0) 0.7f
+                            else 0.2f
+                        ).value
+                    ),
+                    endIcon = if (settingsState.imagePickerModeInt == 0) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                        .border(
+                            width = settingsState.borderWidth,
+                            color = animateColorAsState(
+                                if (settingsState.imagePickerModeInt == 0) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                    alpha = 0.5f
+                                )
+                                else Color.Transparent
+                            ).value,
+                            shape = topShape
+                        )
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                PreferenceItem(
+                    shape = centerShape,
+                    onClick = { viewModel.updateImagePickerMode(1) },
+                    title = stringResource(R.string.gallery_picker),
+                    icon = Icons.Outlined.Image,
+                    subtitle = stringResource(R.string.gallery_picker_sub),
+                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                        alpha = animateFloatAsState(
+                            if (settingsState.imagePickerModeInt == 1) 0.7f
+                            else 0.2f
+                        ).value
+                    ),
+                    endIcon = if (settingsState.imagePickerModeInt == 1) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                        .border(
+                            width = settingsState.borderWidth,
+                            color = animateColorAsState(
+                                if (settingsState.imagePickerModeInt == 1) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                    alpha = 0.5f
+                                )
+                                else Color.Transparent
+                            ).value,
+                            shape = centerShape
+                        )
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                PreferenceItem(
+                    shape = bottomShape,
+                    onClick = { viewModel.updateImagePickerMode(2) },
+                    title = stringResource(R.string.file_explorer_picker),
+                    subtitle = stringResource(R.string.file_explorer_picker_sub),
+                    icon = Icons.Rounded.FolderOpen,
+                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                        alpha = animateFloatAsState(
+                            if (settingsState.imagePickerModeInt == 2) 0.7f
+                            else 0.2f
+                        ).value
+                    ),
+                    endIcon = if (settingsState.imagePickerModeInt == 2) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
+                        .border(
+                            width = settingsState.borderWidth,
+                            color = animateColorAsState(
+                                if (settingsState.imagePickerModeInt == 2) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                                    alpha = 0.5f
+                                )
+                                else Color.Transparent
+                            ).value,
+                            shape = bottomShape
+                        )
+                )
+            }
+        }
+        item {
+            // Backup and restore
+
+            var showResetDialog by remember { mutableStateOf(false) }
+            SettingItem(
+                icon = Icons.Rounded.SettingsBackupRestore,
+                text = stringResource(R.string.backup_and_restore),
+                initialState = false
+            ) {
+                val confettiController = LocalConfettiController.current
+                val backupSavingLauncher = rememberLauncherForActivityResult(
+                    contract = object : ActivityResultContracts.CreateDocument("*/*") {
+                        override fun createIntent(context: Context, input: String): Intent {
+                            return super.createIntent(
+                                context = context,
+                                input = input.split("#")[0]
+                            ).putExtra(Intent.EXTRA_TITLE, input.split("#")[1])
+                        }
+                    },
+                    onResult = {
+                        it?.let { uri ->
+                            viewModel.createBackup(
+                                context.contentResolver.openOutputStream(
+                                    uri,
+                                    "rw"
+                                )
                             ) {
-                                PreferenceItem(
-                                    shape = topShape,
-                                    onClick = { onEditFilename() },
-                                    title = stringResource(R.string.prefix),
-                                    subtitle = (settingsState.filenamePrefix.takeIf { it.isNotEmpty() }
-                                        ?: stringResource(R.string.default_prefix)),
-                                    color = MaterialTheme
-                                        .colorScheme
-                                        .secondaryContainer
-                                        .copy(alpha = 0.2f),
-                                    endIcon = Icons.Rounded.CreateAlt,
-                                    icon = Icons.Filled.Prefix,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(start = 8.dp, end = 8.dp, bottom = 4.dp)
-                                )
-                                PreferenceRowSwitch(
-                                    shape = centerShape,
-                                    modifier = Modifier.padding(
-                                        start = 8.dp,
-                                        end = 8.dp,
-                                        bottom = 4.dp
-                                    ),
-                                    resultModifier = Modifier.padding(
-                                        horizontal = 16.dp,
-                                        vertical = 8.dp
-                                    ),
-                                    startContent = {
-                                        Icon(
-                                            imageVector = Icons.Outlined.Hexagon,
-                                            contentDescription = null,
-                                            modifier = Modifier.padding(end = 16.dp)
-                                        )
-                                    },
-                                    applyHorPadding = false,
-                                    onClick = { viewModel.toggleAddFileSize() },
-                                    title = stringResource(R.string.add_file_size),
-                                    subtitle = stringResource(R.string.add_file_size_sub),
-                                    checked = settingsState.addSizeInFilename
-                                )
-                                val enabled = settingsState.imagePickerModeInt != 0
-                                PreferenceRowSwitch(
-                                    shape = centerShape,
-                                    applyHorPadding = false,
-                                    modifier = Modifier
-                                        .alpha(
-                                            animateFloatAsState(
-                                                if (enabled) 1f
-                                                else 0.5f
-                                            ).value
-                                        )
-                                        .padding(start = 8.dp, end = 8.dp, bottom = 4.dp),
-                                    resultModifier = Modifier.padding(
-                                        horizontal = 16.dp,
-                                        vertical = 8.dp
-                                    ),
-                                    startContent = {
-                                        Icon(
-                                            imageVector = Icons.Outlined.Difference,
-                                            contentDescription = null,
-                                            modifier = Modifier.padding(end = 16.dp)
-                                        )
-                                    },
-                                    onClick = {
-                                        if (enabled) viewModel.toggleAddOriginalFilename()
-                                        else scope.launch {
-                                            toastHostState.showToast(
-                                                message = context.getString(R.string.filename_not_work_with_photopicker),
-                                                icon = Icons.Outlined.ErrorOutline
-                                            )
-                                        }
-                                    },
-                                    title = stringResource(R.string.add_original_filename),
-                                    subtitle = stringResource(R.string.add_original_filename_sub),
-                                    checked = settingsState.addOriginalFilename && enabled
-                                )
-                                PreferenceRowSwitch(
-                                    shape = centerShape,
-                                    modifier = Modifier.padding(
-                                        start = 8.dp,
-                                        end = 8.dp,
-                                        bottom = 4.dp
-                                    ),
-                                    applyHorPadding = false,
-                                    onClick = { viewModel.toggleAddSequenceNumber() },
-                                    title = stringResource(R.string.replace_sequence_number),
-                                    subtitle = stringResource(R.string.replace_sequence_number_sub),
-                                    checked = settingsState.addSequenceNumber,
-                                    resultModifier = Modifier.padding(
-                                        horizontal = 16.dp,
-                                        vertical = 8.dp
-                                    ),
-                                    startContent = {
-                                        Icon(
-                                            imageVector = Icons.Filled.Numeric,
-                                            contentDescription = null,
-                                            modifier = Modifier.padding(end = 16.dp)
-                                        )
-                                    }
-                                )
-                            }
-                            if (settingsState.randomizeFilename) {
-                                Surface(
-                                    modifier = Modifier.matchParentSize(),
-                                    color = Color.Transparent
-                                ) {}
+                                scope.launch {
+                                    confettiController.showEmpty()
+                                }
+                                scope.launch {
+                                    toastHostState.showToast(
+                                        context.getString(
+                                            R.string.saved_to_without_filename,
+                                            ""
+                                        ),
+                                        Icons.Rounded.Save
+                                    )
+                                }
                             }
                         }
-                        PreferenceRowSwitch(
-                            shape = bottomShape,
-                            modifier = Modifier.padding(horizontal = 8.dp),
-                            applyHorPadding = false,
-                            resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                            onClick = { viewModel.toggleRandomizeFilename() },
-                            title = stringResource(R.string.randomize_filename),
-                            subtitle = stringResource(R.string.randomize_filename_sub),
-                            checked = settingsState.randomizeFilename,
-                            startContent = {
-                                Icon(
-                                    Icons.Rounded.Symbol,
-                                    null,
-                                    modifier = Modifier.padding(end = 16.dp)
-                                )
-                            }
-                        )
                     }
-                }
-                item {
-                    // Cache
-                    SettingItem(
-                        icon = Icons.Rounded.Cached,
-                        text = stringResource(R.string.cache),
-                    ) {
-                        var cache by remember(
-                            context,
-                            LocalLifecycleOwner.current.lifecycle.observeAsState().value
-                        ) { mutableStateOf(viewModel.getReadableCacheSize()) }
-
-                        PreferenceItem(
-                            shape = topShape,
-                            onClick = {
-                                viewModel.clearCache { cache = it }
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 8.dp),
-                            color = MaterialTheme
-                                .colorScheme
-                                .secondaryContainer
-                                .copy(alpha = 0.2f),
-                            title = stringResource(R.string.cache_size),
-                            subtitle = stringResource(R.string.found_s, cache),
-                            endIcon = Icons.Rounded.DeleteOutline,
-                            icon = Icons.Outlined.Memory
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        PreferenceRowSwitch(
-                            shape = bottomShape,
-                            modifier = Modifier.padding(horizontal = 8.dp),
-                            resultModifier = Modifier.padding(
-                                top = 8.dp,
-                                bottom = 8.dp,
-                                end = 16.dp
-                            ),
-                            applyHorPadding = false,
-                            title = stringResource(R.string.auto_cache_clearing),
-                            subtitle = stringResource(R.string.auto_cache_clearing_sub),
-                            checked = settingsState.clearCacheOnLaunch,
-                            startContent = {
-                                Icon(
-                                    imageVector = Icons.Outlined.AutoDelete,
-                                    contentDescription = null,
-                                    modifier = Modifier.padding(horizontal = 16.dp)
-                                )
-                            },
-                            onClick = {
-                                viewModel.updateClearCacheOnLaunch()
-                            }
-                        )
-                    }
-                }
-                item {
-                    // Source
-                    SettingItem(
-                        icon = Icons.Rounded.ImageSearch,
-                        text = stringResource(R.string.image_source),
-                    ) {
-                        PreferenceItem(
-                            shape = topShape,
-                            onClick = { viewModel.updateImagePickerMode(0) },
-                            title = stringResource(R.string.photo_picker),
-                            icon = Icons.Outlined.BurstMode,
-                            subtitle = stringResource(R.string.photo_picker_sub),
-                            color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                alpha = animateFloatAsState(
-                                    if (settingsState.imagePickerModeInt == 0) 0.7f
-                                    else 0.2f
-                                ).value
-                            ),
-                            endIcon = if (settingsState.imagePickerModeInt == 0) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 8.dp)
-                                .border(
-                                    width = settingsState.borderWidth,
-                                    color = animateColorAsState(
-                                        if (settingsState.imagePickerModeInt == 0) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                            alpha = 0.5f
+                )
+                val filePicker = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.GetContent(),
+                    onResult = { uri ->
+                        uri?.let {
+                            viewModel.restoreBackupFrom(
+                                uri = it,
+                                onSuccess = {
+                                    scope.launch {
+                                        confettiController.showEmpty()
+                                    }
+                                    scope.launch {
+                                        toastHostState.showToast(
+                                            context.getString(R.string.settings_restored),
+                                            Icons.Rounded.Save
                                         )
-                                        else Color.Transparent
-                                    ).value,
-                                    shape = topShape
-                                )
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        PreferenceItem(
-                            shape = centerShape,
-                            onClick = { viewModel.updateImagePickerMode(1) },
-                            title = stringResource(R.string.gallery_picker),
-                            icon = Icons.Outlined.Image,
-                            subtitle = stringResource(R.string.gallery_picker_sub),
-                            color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                alpha = animateFloatAsState(
-                                    if (settingsState.imagePickerModeInt == 1) 0.7f
-                                    else 0.2f
-                                ).value
-                            ),
-                            endIcon = if (settingsState.imagePickerModeInt == 1) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 8.dp)
-                                .border(
-                                    width = settingsState.borderWidth,
-                                    color = animateColorAsState(
-                                        if (settingsState.imagePickerModeInt == 1) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                            alpha = 0.5f
-                                        )
-                                        else Color.Transparent
-                                    ).value,
-                                    shape = centerShape
-                                )
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        PreferenceItem(
-                            shape = bottomShape,
-                            onClick = { viewModel.updateImagePickerMode(2) },
-                            title = stringResource(R.string.file_explorer_picker),
-                            subtitle = stringResource(R.string.file_explorer_picker_sub),
-                            icon = Icons.Rounded.FolderOpen,
-                            color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                alpha = animateFloatAsState(
-                                    if (settingsState.imagePickerModeInt == 2) 0.7f
-                                    else 0.2f
-                                ).value
-                            ),
-                            endIcon = if (settingsState.imagePickerModeInt == 2) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 8.dp)
-                                .border(
-                                    width = settingsState.borderWidth,
-                                    color = animateColorAsState(
-                                        if (settingsState.imagePickerModeInt == 2) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                            alpha = 0.5f
-                                        )
-                                        else Color.Transparent
-                                    ).value,
-                                    shape = bottomShape
-                                )
-                        )
-                    }
-                }
-                item {
-                    // Backup and restore
-
-                    var showResetDialog by remember { mutableStateOf(false) }
-                    SettingItem(
-                        icon = Icons.Rounded.SettingsBackupRestore,
-                        text = stringResource(R.string.backup_and_restore),
-                        initialState = false
-                    ) {
-                        val confettiController = LocalConfettiController.current
-                        val backupSavingLauncher = rememberLauncherForActivityResult(
-                            contract = object : ActivityResultContracts.CreateDocument("*/*") {
-                                override fun createIntent(context: Context, input: String): Intent {
-                                    return super.createIntent(
-                                        context = context,
-                                        input = input.split("#")[0]
-                                    ).putExtra(Intent.EXTRA_TITLE, input.split("#")[1])
-                                }
-                            },
-                            onResult = {
-                                it?.let { uri ->
-                                    viewModel.createBackup(
-                                        context.contentResolver.openOutputStream(
-                                            uri,
-                                            "rw"
-                                        )
-                                    ) {
-                                        scope.launch {
-                                            confettiController.showEmpty()
-                                        }
-                                        scope.launch {
-                                            toastHostState.showToast(
-                                                context.getString(
-                                                    R.string.saved_to_without_filename,
-                                                    ""
-                                                ),
-                                                Icons.Rounded.Save
-                                            )
-                                        }
+                                    }
+                                },
+                                onFailure = {
+                                    scope.launch {
+                                        toastHostState.showError(context, it)
                                     }
                                 }
-                            }
-                        )
-                        val filePicker = rememberLauncherForActivityResult(
-                            contract = ActivityResultContracts.GetContent(),
-                            onResult = { uri ->
-                                uri?.let {
-                                    viewModel.restoreBackupFrom(
-                                        uri = it,
-                                        onSuccess = {
-                                            scope.launch {
-                                                confettiController.showEmpty()
-                                            }
-                                            scope.launch {
-                                                toastHostState.showToast(
-                                                    context.getString(R.string.settings_restored),
-                                                    Icons.Rounded.Save
-                                                )
-                                            }
-                                        },
-                                        onFailure = {
-                                            scope.launch {
-                                                toastHostState.showError(context, it)
-                                            }
-                                        }
-                                    )
-                                }
-                            }
-                        )
-                        PreferenceItem(
-                            onClick = {
-                                backupSavingLauncher.launch("*/*#${viewModel.createBackupFilename()}")
-                            },
-                            shape = topShape,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 8.dp),
-                            color = MaterialTheme
-                                .colorScheme
-                                .secondaryContainer
-                                .copy(alpha = 0.2f),
-                            title = stringResource(R.string.backup),
-                            subtitle = stringResource(R.string.backup_sub),
-                            endIcon = Icons.Rounded.UploadFile
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        PreferenceItem(
-                            onClick = {
-                                filePicker.launch("*/*")
-                            },
-                            shape = centerShape,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 8.dp),
-                            color = MaterialTheme
-                                .colorScheme
-                                .secondaryContainer
-                                .copy(alpha = 0.2f),
-                            title = stringResource(R.string.restore),
-                            subtitle = stringResource(R.string.restore_sub),
-                            endIcon = Icons.Rounded.DownloadFile
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        PreferenceItem(
-                            onClick = {
-                                showResetDialog = true
-                            },
-                            shape = bottomShape,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 8.dp),
-                            color = MaterialTheme
-                                .colorScheme
-                                .errorContainer
-                                .copy(alpha = 0.8f),
-                            title = stringResource(R.string.reset),
-                            subtitle = stringResource(R.string.reset_settings_sub),
-                            endIcon = Icons.Rounded.RestartAlt
-                        )
+                            )
+                        }
                     }
+                )
+                PreferenceItem(
+                    onClick = {
+                        backupSavingLauncher.launch("*/*#${viewModel.createBackupFilename()}")
+                    },
+                    shape = topShape,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    color = MaterialTheme
+                        .colorScheme
+                        .secondaryContainer
+                        .copy(alpha = 0.2f),
+                    title = stringResource(R.string.backup),
+                    subtitle = stringResource(R.string.backup_sub),
+                    endIcon = Icons.Rounded.UploadFile
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                PreferenceItem(
+                    onClick = {
+                        filePicker.launch("*/*")
+                    },
+                    shape = centerShape,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    color = MaterialTheme
+                        .colorScheme
+                        .secondaryContainer
+                        .copy(alpha = 0.2f),
+                    title = stringResource(R.string.restore),
+                    subtitle = stringResource(R.string.restore_sub),
+                    endIcon = Icons.Rounded.DownloadFile
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                PreferenceItem(
+                    onClick = {
+                        showResetDialog = true
+                    },
+                    shape = bottomShape,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    color = MaterialTheme
+                        .colorScheme
+                        .errorContainer
+                        .copy(alpha = 0.8f),
+                    title = stringResource(R.string.reset),
+                    subtitle = stringResource(R.string.reset_settings_sub),
+                    endIcon = Icons.Rounded.RestartAlt
+                )
+            }
 
-                    ResetDialog(
-                        visible = showResetDialog,
-                        onDismiss = {
-                            showResetDialog = false
+            ResetDialog(
+                visible = showResetDialog,
+                onDismiss = {
+                    showResetDialog = false
+                },
+                onReset = {
+                    showResetDialog = false
+                    viewModel.resetSettings()
+                },
+                title = stringResource(R.string.reset),
+                text = stringResource(R.string.reset_settings_sub)
+            )
+        }
+        if (BuildConfig.FLAVOR != "foss") {
+            item {
+                // Firebase
+                SettingItem(
+                    icon = Icons.Rounded.Firebase,
+                    text = stringResource(R.string.firebase),
+                    initialState = false
+                ) {
+                    PreferenceRowSwitch(
+                        shape = topShape,
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        applyHorPadding = false,
+                        resultModifier = Modifier.padding(
+                            horizontal = 16.dp,
+                            vertical = 8.dp
+                        ),
+                        title = stringResource(R.string.crashlytics),
+                        subtitle = stringResource(id = R.string.crashlytics_sub),
+                        startContent = {
+                            Icon(
+                                Icons.Rounded.Crashlytics,
+                                null,
+                                modifier = Modifier
+                                    .padding(end = 16.dp)
+                                    .size(20.dp)
+                            )
                         },
-                        onReset = {
-                            showResetDialog = false
-                            viewModel.resetSettings()
+                        checked = settingsState.allowCollectCrashlytics,
+                        onClick = {
+                            viewModel.toggleAllowCollectCrashlytics()
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    PreferenceRowSwitch(
+                        shape = bottomShape,
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        applyHorPadding = false,
+                        resultModifier = Modifier.padding(
+                            horizontal = 16.dp,
+                            vertical = 8.dp
+                        ),
+                        title = stringResource(R.string.analytics),
+                        subtitle = stringResource(id = R.string.analytics_sub),
+                        startContent = {
+                            Icon(
+                                imageVector = Icons.Rounded.Analytics,
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .padding(end = 16.dp)
+                                    .size(20.dp)
+                            )
                         },
-                        title = stringResource(R.string.reset),
-                        text = stringResource(R.string.reset_settings_sub)
+                        checked = settingsState.allowCollectAnalytics,
+                        onClick = {
+                            viewModel.toggleAllowCollectAnalytics()
+                        }
                     )
                 }
-                if (BuildConfig.FLAVOR != "foss") {
-                    item {
-                        // Firebase
-                        SettingItem(
-                            icon = Icons.Rounded.Firebase,
-                            text = stringResource(R.string.firebase),
-                            initialState = false
-                        ) {
-                            PreferenceRowSwitch(
-                                shape = topShape,
-                                modifier = Modifier.padding(horizontal = 8.dp),
-                                applyHorPadding = false,
-                                resultModifier = Modifier.padding(
-                                    horizontal = 16.dp,
-                                    vertical = 8.dp
-                                ),
-                                title = stringResource(R.string.crashlytics),
-                                subtitle = stringResource(id = R.string.crashlytics_sub),
-                                startContent = {
-                                    Icon(
-                                        Icons.Rounded.Crashlytics,
-                                        null,
-                                        modifier = Modifier
-                                            .padding(end = 16.dp)
-                                            .size(20.dp)
-                                    )
-                                },
-                                checked = settingsState.allowCollectCrashlytics,
-                                onClick = {
-                                    viewModel.toggleAllowCollectCrashlytics()
-                                }
-                            )
-                            Spacer(modifier = Modifier.height(4.dp))
-                            PreferenceRowSwitch(
-                                shape = bottomShape,
-                                modifier = Modifier.padding(horizontal = 8.dp),
-                                applyHorPadding = false,
-                                resultModifier = Modifier.padding(
-                                    horizontal = 16.dp,
-                                    vertical = 8.dp
-                                ),
-                                title = stringResource(R.string.analytics),
-                                subtitle = stringResource(id = R.string.analytics_sub),
-                                startContent = {
-                                    Icon(
-                                        imageVector = Icons.Rounded.Analytics,
-                                        contentDescription = null,
-                                        modifier = Modifier
-                                            .padding(end = 16.dp)
-                                            .size(20.dp)
-                                    )
-                                },
-                                checked = settingsState.allowCollectAnalytics,
-                                onClick = {
-                                    viewModel.toggleAllowCollectAnalytics()
-                                }
-                            )
-                        }
-                    }
-                }
-                item {
-                    // Updates
-                    SettingItem(
-                        icon = Icons.Rounded.SystemSecurityUpdate,
-                        text = stringResource(R.string.updates),
-                        initialState = false
-                    ) {
-                        PreferenceRowSwitch(
-                            shape = if (!context.isInstalledFromPlayStore()) topShape else defaultShape,
-                            modifier = Modifier.padding(horizontal = 8.dp),
-                            applyHorPadding = false,
-                            resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                            title = stringResource(R.string.check_updates),
-                            subtitle = stringResource(R.string.check_updates_sub),
-                            checked = viewModel.settingsState.showDialogOnStartup,
-                            onClick = {
-                                viewModel.toggleShowUpdateDialog()
-                            },
-                            startContent = {
-                                Icon(
-                                    Icons.Outlined.NewReleases,
-                                    null,
-                                    modifier = Modifier.padding(end = 16.dp)
-                                )
-                            }
+            }
+        }
+        item {
+            // Updates
+            SettingItem(
+                icon = Icons.Rounded.SystemSecurityUpdate,
+                text = stringResource(R.string.updates),
+                initialState = false
+            ) {
+                PreferenceRowSwitch(
+                    shape = if (!context.isInstalledFromPlayStore()) topShape else defaultShape,
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    applyHorPadding = false,
+                    resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    title = stringResource(R.string.check_updates),
+                    subtitle = stringResource(R.string.check_updates_sub),
+                    checked = viewModel.settingsState.showDialogOnStartup,
+                    onClick = {
+                        viewModel.toggleShowUpdateDialog()
+                    },
+                    startContent = {
+                        Icon(
+                            Icons.Outlined.NewReleases,
+                            null,
+                            modifier = Modifier.padding(end = 16.dp)
                         )
-                        if (!context.isInstalledFromPlayStore()) {
-                            Spacer(Modifier.height(4.dp))
-                            PreferenceRowSwitch(
-                                modifier = Modifier.padding(horizontal = 8.dp),
-                                applyHorPadding = false,
-                                resultModifier = Modifier.padding(
-                                    horizontal = 16.dp,
-                                    vertical = 8.dp
-                                ),
-                                shape = bottomShape,
-                                title = stringResource(R.string.allow_betas),
-                                subtitle = stringResource(R.string.allow_betas_sub),
-                                checked = settingsState.allowBetas,
-                                onClick = {
-                                    viewModel.toggleAllowBetas(context.isInstalledFromPlayStore())
-                                },
-                                startContent = {
-                                    Icon(
-                                        Icons.Rounded.Beta,
-                                        null,
-                                        modifier = Modifier.padding(end = 16.dp)
-                                    )
+                    }
+                )
+                if (!context.isInstalledFromPlayStore()) {
+                    Spacer(Modifier.height(4.dp))
+                    PreferenceRowSwitch(
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        applyHorPadding = false,
+                        resultModifier = Modifier.padding(
+                            horizontal = 16.dp,
+                            vertical = 8.dp
+                        ),
+                        shape = bottomShape,
+                        title = stringResource(R.string.allow_betas),
+                        subtitle = stringResource(R.string.allow_betas_sub),
+                        checked = settingsState.allowBetas,
+                        onClick = {
+                            viewModel.toggleAllowBetas(context.isInstalledFromPlayStore())
+                        },
+                        startContent = {
+                            Icon(
+                                Icons.Rounded.Beta,
+                                null,
+                                modifier = Modifier.padding(end = 16.dp)
+                            )
+                        }
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    EnhancedButton(
+                        containerColor = MaterialTheme.colorScheme.tertiary,
+                        onClick = {
+                            viewModel.tryGetUpdate(
+                                newRequest = true,
+                                installedFromMarket = context.isInstalledFromPlayStore(),
+                                onNoUpdates = {
+                                    scope.launch {
+                                        toastHostState.showToast(
+                                            icon = Icons.Rounded.FileDownloadOff,
+                                            message = context.getString(R.string.no_updates)
+                                        )
+                                    }
                                 }
                             )
                         }
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            EnhancedButton(
-                                containerColor = MaterialTheme.colorScheme.tertiary,
-                                onClick = {
-                                    viewModel.tryGetUpdate(
-                                        newRequest = true,
-                                        installedFromMarket = context.isInstalledFromPlayStore(),
-                                        onNoUpdates = {
-                                            scope.launch {
-                                                toastHostState.showToast(
-                                                    icon = Icons.Rounded.FileDownloadOff,
-                                                    message = context.getString(R.string.no_updates)
-                                                )
-                                            }
-                                        }
-                                    )
-                                }
-                            ) {
-                                Text(stringResource(R.string.check_for_updates))
-                            }
-                        }
-
+                    ) {
+                        Text(stringResource(R.string.check_for_updates))
                     }
                 }
-                item {
-                    // About app
-                    SettingItem(
-                        icon = Icons.Rounded.Info,
-                        text = stringResource(R.string.about_app),
-                        initialState = true
-                    ) {
-                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            PreferenceRow(
-                                applyHorPadding = false,
-                                shape = topShape,
+
+            }
+        }
+        item {
+            // About app
+            SettingItem(
+                icon = Icons.Rounded.Info,
+                text = stringResource(R.string.about_app),
+                initialState = true
+            ) {
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    PreferenceRow(
+                        applyHorPadding = false,
+                        shape = topShape,
+                        modifier = Modifier
+                            .pulsate(
+                                enabled = viewModel.updateAvailable,
+                                range = 0.98f..1.02f
+                            )
+                            .padding(horizontal = 8.dp),
+                        title = stringResource(R.string.version),
+                        subtitle = remember {
+                            "${BuildConfig.VERSION_NAME}${if (BuildConfig.FLAVOR == "foss") "-foss" else ""} (${BuildConfig.VERSION_CODE})"
+                        },
+                        startContent = {
+                            Icon(
+                                imageVector = Icons.Outlined.Verified,
+                                contentDescription = null,
+                                modifier = Modifier.padding(horizontal = 16.dp)
+                            )
+                        },
+                        endContent = {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_launcher_monochrome),
+                                contentDescription = null,
+                                tint = animateColorAsState(
+                                    if (settingsState.isNightMode) {
+                                        MaterialTheme.colorScheme.primary
+                                    } else {
+                                        MaterialTheme.colorScheme.onPrimaryContainer.blend(
+                                            Color.White
+                                        )
+                                    }
+                                ).value,
                                 modifier = Modifier
-                                    .pulsate(
-                                        enabled = viewModel.updateAvailable,
-                                        range = 0.98f..1.02f
-                                    )
-                                    .padding(horizontal = 8.dp),
-                                title = stringResource(R.string.version),
-                                subtitle = remember {
-                                    "${BuildConfig.VERSION_NAME}${if (BuildConfig.FLAVOR == "foss") "-foss" else ""} (${BuildConfig.VERSION_CODE})"
-                                },
-                                startContent = {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Verified,
-                                        contentDescription = null,
-                                        modifier = Modifier.padding(horizontal = 16.dp)
-                                    )
-                                },
-                                endContent = {
-                                    Icon(
-                                        painter = painterResource(R.drawable.ic_launcher_monochrome),
-                                        contentDescription = null,
-                                        tint = animateColorAsState(
+                                    .padding(start = 8.dp, end = 8.dp)
+                                    .size(64.dp)
+                                    .container(
+                                        resultPadding = 0.dp,
+                                        color = animateColorAsState(
                                             if (settingsState.isNightMode) {
-                                                MaterialTheme.colorScheme.primary
-                                            } else {
-                                                MaterialTheme.colorScheme.onPrimaryContainer.blend(
-                                                    Color.White
+                                                MaterialTheme.colorScheme.background.blend(
+                                                    Color.White,
+                                                    0.1f
                                                 )
+                                            } else {
+                                                MaterialTheme.colorScheme.primaryContainer
                                             }
                                         ).value,
-                                        modifier = Modifier
-                                            .padding(start = 8.dp, end = 8.dp)
-                                            .size(64.dp)
-                                            .container(
-                                                resultPadding = 0.dp,
-                                                color = animateColorAsState(
-                                                    if (settingsState.isNightMode) {
-                                                        MaterialTheme.colorScheme.background.blend(
-                                                            Color.White,
-                                                            0.1f
-                                                        )
-                                                    } else {
-                                                        MaterialTheme.colorScheme.primaryContainer
-                                                    }
-                                                ).value,
-                                                borderColor = MaterialTheme.colorScheme.outlineVariant(),
-                                                shape = DavidStarShape
-                                            )
-                                            .scale(1.25f)
+                                        borderColor = MaterialTheme.colorScheme.outlineVariant(),
+                                        shape = DavidStarShape
                                     )
-                                },
-                                onClick = {
-                                    viewModel.tryGetUpdate(
-                                        newRequest = true,
-                                        installedFromMarket = context.isInstalledFromPlayStore(),
-                                        onNoUpdates = {
-                                            scope.launch {
-                                                toastHostState.showToast(
-                                                    icon = Icons.Rounded.FileDownloadOff,
-                                                    message = context.getString(R.string.no_updates)
-                                                )
-                                            }
-                                        }
-                                    )
-                                }
+                                    .scale(1.25f)
                             )
-                            PreferenceItem(
-                                shape = centerShape,
-                                modifier = Modifier.padding(horizontal = 8.dp),
-                                color = MaterialTheme
-                                    .colorScheme
-                                    .secondaryContainer
-                                    .copy(alpha = 0.2f),
-                                title = stringResource(R.string.help_translate),
-                                subtitle = stringResource(R.string.help_translate_sub),
-                                icon = Icons.Rounded.Translate,
-                                onClick = {
-                                    context.startActivity(
-                                        Intent(
-                                            Intent.ACTION_VIEW,
-                                            Uri.parse(WEBLATE_LINK)
+                        },
+                        onClick = {
+                            viewModel.tryGetUpdate(
+                                newRequest = true,
+                                installedFromMarket = context.isInstalledFromPlayStore(),
+                                onNoUpdates = {
+                                    scope.launch {
+                                        toastHostState.showToast(
+                                            icon = Icons.Rounded.FileDownloadOff,
+                                            message = context.getString(R.string.no_updates)
                                         )
-                                    )
+                                    }
                                 }
-                            )
-                            PreferenceItem(
-                                shape = centerShape,
-                                modifier = Modifier.padding(horizontal = 8.dp),
-                                color = MaterialTheme
-                                    .colorScheme
-                                    .secondaryContainer
-                                    .copy(alpha = 0.2f),
-                                title = stringResource(R.string.issue_tracker),
-                                subtitle = stringResource(R.string.issue_tracker_sub),
-                                icon = Icons.Outlined.BugReport,
-                                onClick = {
-                                    context.startActivity(
-                                        Intent(
-                                            Intent.ACTION_VIEW,
-                                            Uri.parse(ISSUE_TRACKER)
-                                        )
-                                    )
-                                }
-                            )
-                            PreferenceRow(
-                                shape = centerShape,
-                                applyHorPadding = false,
-                                onClick = {
-                                    context.startActivity(
-                                        Intent(
-                                            Intent.ACTION_VIEW,
-                                            Uri.parse(CHAT_LINK)
-                                        )
-                                    )
-                                },
-                                startContent = {
-                                    Icon(
-                                        Icons.Rounded.Telegram,
-                                        null,
-                                        modifier = Modifier.padding(horizontal = 14.dp)
-                                    )
-                                },
-                                title = stringResource(R.string.tg_chat),
-                                subtitle = stringResource(R.string.tg_chat_sub),
-                                color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f),
-                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                    alpha = 0.9f
-                                ),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 8.dp),
-                            )
-                            SourceCodePreference(
-                                shape = bottomShape,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 8.dp)
                             )
                         }
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
+                    )
+                    PreferenceItem(
+                        shape = centerShape,
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        color = MaterialTheme
+                            .colorScheme
+                            .secondaryContainer
+                            .copy(alpha = 0.2f),
+                        title = stringResource(R.string.help_translate),
+                        subtitle = stringResource(R.string.help_translate_sub),
+                        icon = Icons.Rounded.Translate,
+                        onClick = {
+                            context.startActivity(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse(WEBLATE_LINK)
+                                )
+                            )
+                        }
+                    )
+                    PreferenceItem(
+                        shape = centerShape,
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        color = MaterialTheme
+                            .colorScheme
+                            .secondaryContainer
+                            .copy(alpha = 0.2f),
+                        title = stringResource(R.string.issue_tracker),
+                        subtitle = stringResource(R.string.issue_tracker_sub),
+                        icon = Icons.Outlined.BugReport,
+                        onClick = {
+                            context.startActivity(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse(ISSUE_TRACKER)
+                                )
+                            )
+                        }
+                    )
+                    PreferenceRow(
+                        shape = centerShape,
+                        applyHorPadding = false,
+                        onClick = {
+                            context.startActivity(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse(CHAT_LINK)
+                                )
+                            )
+                        },
+                        startContent = {
+                            Icon(
+                                Icons.Rounded.Telegram,
+                                null,
+                                modifier = Modifier.padding(horizontal = 14.dp)
+                            )
+                        },
+                        title = stringResource(R.string.tg_chat),
+                        subtitle = stringResource(R.string.tg_chat_sub),
+                        color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f),
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                            alpha = 0.9f
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp),
+                    )
+                    SourceCodePreference(
+                        shape = bottomShape,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp)
+                    )
                 }
             }
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
