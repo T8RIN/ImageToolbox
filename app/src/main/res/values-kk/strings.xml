@@ -109,4 +109,9 @@
     <string name="crop">Қиып алу</string>
     <string name="edit_exif">EXIF өңдеу</string>
     <string name="color">Түс</string>
+    <string name="size">Өлшем %1$s</string>
+    <string name="extension">Кеңейтім</string>
+    <string name="smth_went_wrong">Бірдеңе дұрыс болмады: %1$s</string>
+    <string name="quality">Сапасы</string>
+    <string name="image_too_large_preview">Кескін алдын ала қарау үшін тым үлкен, бірақ оны бәрібір сақтауға тырысады</string>
 </resources>
