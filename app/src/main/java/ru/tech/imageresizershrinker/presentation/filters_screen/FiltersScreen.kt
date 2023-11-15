@@ -563,87 +563,95 @@ fun FiltersScreen(
                     val maskList = viewModel.maskingFilterState.masks
                     if (imageInside && viewModel.bitmap == null) imageBlock()
                     if (viewModel.bitmap != null) {
-                        if (maskList.isNotEmpty()) {
-                            Column(Modifier.container(MaterialTheme.shapes.extraLarge)) {
-                                TitleItem(text = stringResource(R.string.masks))
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.spacedBy(
-                                        4.dp
-                                    ),
-                                    modifier = Modifier.padding(8.dp)
-                                ) {
-                                    maskList.forEachIndexed { index, mask ->
-                                        MaskItem(
-                                            imageUri = viewModel.maskingFilterState.uri,
-                                            previousMasks = maskList.take(index),
-                                            imageManager = viewModel.getImageManager(),
-                                            mask = mask,
-                                            titleText = stringResource(
-                                                R.string.mask_indexed,
-                                                index + 1
-                                            ),
-                                            onMaskChange = {
-                                                viewModel.updateMask(
-                                                    value = it,
-                                                    index = index,
-                                                    showError = {
-                                                        scope.launch {
-                                                            toastHostState.showError(
-                                                                context,
-                                                                it
-                                                            )
-                                                        }
-                                                    }
-                                                )
-                                            },
-                                            onLongPress = {
-                                                showReorderSheet.value = true
-                                            },
-                                            showDragHandle = false,
-                                            onRemove = {
-                                                viewModel.removeMaskAtIndex(index)
-                                            }
-                                        )
-                                    }
-                                    EnhancedButton(
-                                        containerColor = MaterialTheme.colorScheme.mixedContainer,
-                                        onClick = {
-                                            showAddMaskSheet.value = true
-                                        },
-                                        modifier = Modifier.padding(
-                                            start = 16.dp,
-                                            end = 16.dp,
-                                            top = 4.dp
-                                        )
+                        AnimatedContent(
+                            targetState = maskList.isNotEmpty(),
+                            transitionSpec = {
+                                fadeIn() + expandVertically() togetherWith fadeOut() + shrinkVertically()
+                            }
+                        ) { notEmpty ->
+                            if (notEmpty) {
+                                Column(Modifier.container(MaterialTheme.shapes.extraLarge)) {
+                                    TitleItem(text = stringResource(R.string.masks))
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(
+                                            4.dp
+                                        ),
+                                        modifier = Modifier.padding(8.dp)
                                     ) {
-                                        Icon(
-                                            imageVector = Icons.Rounded.Texture,
-                                            contentDescription = null
-                                        )
-                                        Spacer(Modifier.width(8.dp))
-                                        Text(stringResource(id = R.string.add_mask))
+                                        maskList.forEachIndexed { index, mask ->
+                                            MaskItem(
+                                                imageUri = viewModel.maskingFilterState.uri,
+                                                previousMasks = maskList.take(index),
+                                                imageManager = viewModel.getImageManager(),
+                                                mask = mask,
+                                                titleText = stringResource(
+                                                    R.string.mask_indexed,
+                                                    index + 1
+                                                ),
+                                                onMaskChange = {
+                                                    viewModel.updateMask(
+                                                        value = it,
+                                                        index = index,
+                                                        showError = {
+                                                            scope.launch {
+                                                                toastHostState.showError(
+                                                                    context,
+                                                                    it
+                                                                )
+                                                            }
+                                                        }
+                                                    )
+                                                },
+                                                onLongPress = {
+                                                    showReorderSheet.value = true
+                                                },
+                                                showDragHandle = false,
+                                                onRemove = {
+                                                    viewModel.removeMaskAtIndex(index)
+                                                }
+                                            )
+                                        }
+                                        EnhancedButton(
+                                            containerColor = MaterialTheme.colorScheme.mixedContainer,
+                                            onClick = {
+                                                showAddMaskSheet.value = true
+                                            },
+                                            modifier = Modifier.padding(
+                                                start = 16.dp,
+                                                end = 16.dp,
+                                                top = 4.dp
+                                            )
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.Texture,
+                                                contentDescription = null
+                                            )
+                                            Spacer(Modifier.width(8.dp))
+                                            Text(stringResource(id = R.string.add_mask))
+                                        }
                                     }
                                 }
-                            }
-                        } else {
-                            EnhancedButton(
-                                containerColor = MaterialTheme.colorScheme.mixedContainer,
-                                onClick = {
-                                    showAddMaskSheet.value = true
-                                },
-                                modifier = Modifier.padding(
-                                    horizontal = 16.dp
-                                )
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Texture,
-                                    contentDescription = null
-                                )
-                                Spacer(Modifier.width(8.dp))
-                                Text(stringResource(id = R.string.add_mask))
+                            } else {
+                                EnhancedButton(
+                                    containerColor = MaterialTheme.colorScheme.mixedContainer,
+                                    onClick = {
+                                        showAddMaskSheet.value = true
+                                    },
+                                    modifier = Modifier.padding(
+                                        horizontal = 16.dp
+                                    )
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Texture,
+                                        contentDescription = null
+                                    )
+                                    Spacer(Modifier.width(8.dp))
+                                    Text(stringResource(id = R.string.add_mask))
+                                }
                             }
                         }
+
                         Spacer(Modifier.size(8.dp))
                         SaveExifWidget(
                             imageFormat = viewModel.imageInfo.imageFormat,

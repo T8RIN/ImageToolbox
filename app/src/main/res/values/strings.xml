@@ -461,6 +461,8 @@
     <string name="mask_preview_sub">Drawn filter mask will be rendered to show you the approximate result</string>
     <string name="inverse_fill_type">Inverse Fill Type</string>
     <string name="inverse_fill_type_sub">If enabled all of the non masked areas will be filtered instead of default behavior</string>
+    <string name="delete_mask_warn">You are about to delete selected filter mask. This operation cannot be undone</string>
+    <string name="delete_mask">Delete Mask</string>
     <string-array name="fab_alignment_sub">
         <item>Start</item>
         <item>Center</item>

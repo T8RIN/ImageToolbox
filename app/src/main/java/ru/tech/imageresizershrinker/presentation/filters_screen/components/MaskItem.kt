@@ -5,55 +5,49 @@ import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
-import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
-import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.toUiFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.scaleToFitCanvas
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ExpandableItem
+import ru.tech.imageresizershrinker.presentation.root.widget.other.PathPaintPreview
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
@@ -73,6 +67,7 @@ fun MaskItem(
     imageUri: Uri? = null,
     previousMasks: List<UiFilterMask> = emptyList()
 ) {
+    var showMaskRemoveDialog by rememberSaveable { mutableStateOf(false) }
     val showAddFilterSheet = rememberSaveable { mutableStateOf(false) }
     val showEditMaskSheet = rememberSaveable { mutableStateOf(false) }
     val settingsState = LocalSettingsState.current
@@ -114,55 +109,12 @@ fun MaskItem(
                         modifier = Modifier.weight(1f),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        val firstMask = mask.maskPaints.firstOrNull()
-                        firstMask?.let { first ->
-                            val color = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.6f)
-                            Box(
-                                modifier = Modifier
-                                    .padding(start = 12.dp)
-                                    .height(30.dp)
-                                    .aspectRatio(
-                                        first.canvasSize.run {
-                                            width.toFloat() / height
-                                        }
-                                    )
-                                    .border(
-                                        width = 1.dp,
-                                        color = MaterialTheme.colorScheme.outlineVariant(),
-                                        shape = RoundedCornerShape(4.dp)
-                                    )
-                                    .clip(RoundedCornerShape(4.dp))
-                                    .transparencyChecker(
-                                        checkerHeight = 1.dp,
-                                        checkerWidth = 1.dp
-                                    )
-                                    .drawBehind {
-                                        val currentSize = IntegerSize(
-                                            size.width.toInt(),
-                                            size.height.toInt()
-                                        )
-                                        mask.maskPaints.forEach { pathPaint ->
-                                            drawPath(
-                                                path = pathPaint.path.scaleToFitCanvas(
-                                                    currentSize = currentSize,
-                                                    oldSize = pathPaint.canvasSize
-                                                ),
-                                                color = color.blend(pathPaint.drawColor, 0.5f),
-                                                style = Stroke(
-                                                    width = pathPaint.strokeWidth.toPx(
-                                                        currentSize
-                                                    ),
-                                                    cap = StrokeCap.Round,
-                                                    join = StrokeJoin.Round
-                                                ),
-                                                blendMode = if (pathPaint.isErasing) {
-                                                    BlendMode.Clear
-                                                } else DrawScope.DefaultBlendMode
-                                            )
-                                        }
-                                    }
-                            )
-                        }
+                        PathPaintPreview(
+                            modifier = Modifier
+                                .padding(start = 12.dp)
+                                .height(30.dp),
+                            pathPaints = mask.maskPaints
+                        )
                         Text(
                             text = titleText,
                             fontWeight = FontWeight.SemiBold,
@@ -172,10 +124,11 @@ fun MaskItem(
                                     start = 16.dp
                                 )
                         )
-                        //TODO: RemoveMaskDialog with button
                         Spacer(Modifier.weight(1f))
                         IconButton(
-                            onClick = onRemove
+                            onClick = {
+                                showMaskRemoveDialog = true
+                            }
                         ) {
                             Icon(Icons.Rounded.RemoveCircleOutline, null)
                         }
@@ -184,6 +137,52 @@ fun MaskItem(
                         ) {
                             Icon(Icons.Rounded.CreateAlt, null)
                         }
+                    }
+                    if (showMaskRemoveDialog) {
+                        AlertDialog(
+                            modifier = Modifier.alertDialogBorder(),
+                            onDismissRequest = { showMaskRemoveDialog = false },
+                            confirmButton = {
+                                EnhancedButton(
+                                    onClick = { showMaskRemoveDialog = false }
+                                ) {
+                                    Text(stringResource(R.string.cancel))
+                                }
+                            },
+                            dismissButton = {
+                                EnhancedButton(
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                    onClick = {
+                                        showMaskRemoveDialog = false
+                                        onRemove()
+                                    }
+                                ) {
+                                    Text(stringResource(R.string.delete))
+                                }
+                            },
+                            title = {
+                                Text(stringResource(R.string.delete_mask))
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.Delete,
+                                    contentDescription = null
+                                )
+                            },
+                            text = {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    PathPaintPreview(
+                                        pathPaints = mask.maskPaints,
+                                        modifier = Modifier.height(64.dp)
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(stringResource(R.string.delete_mask_warn))
+                                }
+                            }
+                        )
                     }
                 }
 
