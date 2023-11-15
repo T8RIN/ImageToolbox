@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.other
 
+import android.graphics.BlurMaskFilter
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
@@ -12,11 +13,14 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.asAndroidPath
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -56,24 +60,42 @@ fun PathPaintPreview(
                         size.width.toInt(),
                         size.height.toInt()
                     )
-                    pathPaints.forEach { pathPaint ->
-                        drawPath(
-                            path = pathPaint.path.scaleToFitCanvas(
-                                currentSize = currentSize,
-                                oldSize = pathPaint.canvasSize
-                            ),
-                            color = color.blend(pathPaint.drawColor, 0.5f),
-                            style = Stroke(
-                                width = pathPaint.strokeWidth.toPx(
-                                    currentSize
-                                ),
-                                cap = StrokeCap.Round,
-                                join = StrokeJoin.Round
-                            ),
-                            blendMode = if (pathPaint.isErasing) {
-                                BlendMode.Clear
-                            } else DrawScope.DefaultBlendMode
-                        )
+                    drawIntoCanvas {
+                        val canvas = it.nativeCanvas
+                        pathPaints.forEach { pathPaint ->
+                            canvas.drawPath(
+                                pathPaint.path
+                                    .scaleToFitCanvas(
+                                        currentSize = currentSize,
+                                        oldSize = pathPaint.canvasSize
+                                    )
+                                    .asAndroidPath(),
+                                Paint()
+                                    .apply {
+                                        isAntiAlias = true
+                                        this.color = color.blend(pathPaint.drawColor, 0.5f)
+                                        if (pathPaint.isErasing) {
+                                            blendMode = BlendMode.Clear
+                                        }
+                                        style = PaintingStyle.Stroke
+                                        strokeWidth = pathPaint.strokeWidth.toPx(
+                                            currentSize
+                                        )
+                                        strokeCap = StrokeCap.Round
+                                        strokeJoin = StrokeJoin.Round
+                                    }
+                                    .asFrameworkPaint()
+                                    .apply {
+                                        if (pathPaint.brushSoftness.value > 0f) {
+                                            maskFilter =
+                                                BlurMaskFilter(
+                                                    pathPaint.brushSoftness.toPx(currentSize),
+                                                    BlurMaskFilter.Blur.NORMAL
+                                                )
+                                        }
+                                    }
+                            )
+                        }
                     }
                 }
         )
