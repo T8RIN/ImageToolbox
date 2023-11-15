@@ -464,7 +464,7 @@
     <string name="delete_mask_warn">You are about to delete selected filter mask. This operation cannot be undone</string>
     <string name="delete_mask">Delete Mask</string>
     <string name="full_filter">Full Filter</string>
-    <string name="full_filter_sub">Apply any filter chain to given images, it will be applied one by one continiously</string>
+    <string name="full_filter_sub">Apply any filter chains to given images or single image</string>
     <string name="start_position">Start</string>
     <string name="center_position">Center</string>
     <string name="end_position">End</string>
