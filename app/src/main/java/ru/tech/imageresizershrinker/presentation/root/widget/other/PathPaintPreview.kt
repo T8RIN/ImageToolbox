@@ -50,8 +50,8 @@ fun PathPaintPreview(
                 )
                 .clip(RoundedCornerShape(4.dp))
                 .transparencyChecker(
-                    checkerHeight = 1.dp,
-                    checkerWidth = 1.dp
+                    checkerHeight = 2.dp,
+                    checkerWidth = 2.dp
                 )
                 .drawBehind {
                     val currentSize = IntegerSize(

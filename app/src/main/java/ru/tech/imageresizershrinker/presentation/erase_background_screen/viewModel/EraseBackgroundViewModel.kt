@@ -93,6 +93,7 @@ class EraseBackgroundViewModel @Inject constructor(
 
     fun setUri(uri: Uri) {
         _uri.value = uri
+        autoEraseCount = 0
         viewModelScope.launch {
             _orientation.value = calculateScreenOrientationBasedOnUri(uri)
             _paths.value = listOf()
@@ -189,7 +190,8 @@ class EraseBackgroundViewModel @Inject constructor(
         } else {
             imageDrawApplier.applyEraseToImage(
                 pathPaints = _paths.value,
-                image = _bitmap.value
+                image = _bitmap.value,
+                shaderSourceUri = _uri.value.toString()
             )
         }
     }

@@ -15,7 +15,8 @@ interface ImageDrawApplier<Image, Path, Color> {
 
     suspend fun applyEraseToImage(
         pathPaints: List<PathPaint<Path, Color>>,
-        image: Image?
+        image: Image?,
+        shaderSourceUri: String
     ): Image?
 
 }

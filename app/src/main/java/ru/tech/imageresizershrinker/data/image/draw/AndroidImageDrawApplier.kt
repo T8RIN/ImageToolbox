@@ -151,14 +151,16 @@ class AndroidImageDrawApplier @Inject constructor(
     override suspend fun applyEraseToImage(
         pathPaints: List<PathPaint<Path, Color>>,
         imageUri: String
-    ): Bitmap? {
-        val image = imageManager.getImage(data = imageUri)
-        return applyEraseToImage(pathPaints, image)
-    }
+    ): Bitmap? = applyEraseToImage(
+        pathPaints = pathPaints,
+        image = imageManager.getImage(data = imageUri),
+        shaderSourceUri = imageUri
+    )
 
     override suspend fun applyEraseToImage(
         pathPaints: List<PathPaint<Path, Color>>,
-        image: Bitmap?
+        image: Bitmap?,
+        shaderSourceUri: String
     ): Bitmap? {
         val drawImage = image?.let { it.copy(it.config, true) }
 
@@ -173,6 +175,10 @@ class AndroidImageDrawApplier @Inject constructor(
                     it, 0f, 0f, android.graphics.Paint()
                 )
 
+                val recoveryShader = imageManager.getImage(
+                    data = shaderSourceUri
+                )?.asImageBitmap()?.let { bmp -> ImageShader(bmp) }
+
                 pathPaints.forEach { (nonScaledPath, stroke, radius, _, isRecoveryOn, _, size) ->
                     val path = nonScaledPath.scaleToFitCanvas(
                         currentSize = canvasSize,
@@ -181,12 +187,13 @@ class AndroidImageDrawApplier @Inject constructor(
                     this.drawPath(
                         path.asAndroidPath(),
                         Paint().apply {
-                            blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
+                            if (isRecoveryOn) {
+                                shader = recoveryShader
+                            } else {
+                                blendMode = BlendMode.Clear
+                            }
                             style = PaintingStyle.Stroke
                             strokeCap = StrokeCap.Round
-                            shader = if (isRecoveryOn) {
-                                ImageShader(image.asImageBitmap())
-                            } else shader
                             this.strokeWidth = stroke.toPx(canvasSize)
                             strokeJoin = StrokeJoin.Round
                             isAntiAlias = true
