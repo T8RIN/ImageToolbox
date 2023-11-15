@@ -126,11 +126,6 @@
     <string name="share">Partilhar</string>
     <string name="prefix">Prefixo</string>
     <string name="filename">Nome do ficheiro</string>
-    <string-array name="fab_alignment_sub">
-        <item>Começar</item>
-        <item>Centro</item>
-        <item>Fim</item>
-    </string-array>
     <string name="white_balance">balanço de branco</string>
     <string name="temperature">Temperatura</string>
     <string name="tint">Matiz</string>

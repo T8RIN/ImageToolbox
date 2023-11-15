@@ -96,8 +96,8 @@ sealed class Screen(
             class Basic(
                 val uris: List<Uri>? = null
             ) : Type(
-                title = R.string.filter,
-                subtitle = R.string.filter_sub,
+                title = R.string.full_filter,
+                subtitle = R.string.full_filter_sub,
                 icon = Icons.Rounded.PhotoFilter
             )
 

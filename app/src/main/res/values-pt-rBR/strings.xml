@@ -125,11 +125,6 @@
     <string name="share">Compartilhar</string>
     <string name="external_storage">Armazenamento externo</string>
     <string name="monet_colors">Cores de Monet</string>
-    <string-array name="fab_alignment_sub">
-        <item>Começar</item>
-        <item>Centro</item>
-        <item>Fim</item>
-    </string-array>
     <string name="ratio_description">Redimensiona imagens para imagens com um lado de largura ou altura editado pela última vez, mostra o tamanho final da imagem em tempo real - mantém a proporção</string>
     <string name="effect">Efeito</string>
     <string name="distance">Distância</string>
@@ -401,7 +396,7 @@
     <string name="lock_draw_orientation_sub">Se ativado no modo de desenho, a tela não vira</string>
     <string name="stroke_pixelation">Pincel Pixelado</string>
     <string name="regular">Regular</string>
-    <string name="enhanced_circle_pixelation">Aprimoramento de Pixelização de Circulo</string>
+    <string name="enhanced_circle_pixelation">Aprimoramento de Pixelização de Círculo</string>
     <string name="scale_small_images_to_large">Dimensione imagens pequenas para grandes</string>
     <string name="both">Ambos</string>
     <string name="invert_colors_sub">Substitui as cores do tema para as negativas, se ativados</string>

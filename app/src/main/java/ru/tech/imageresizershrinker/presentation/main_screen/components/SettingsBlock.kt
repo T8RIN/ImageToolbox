@@ -123,7 +123,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -845,7 +844,13 @@ fun SettingsBlock(
                                             }
                                         ) { value ->
                                             Text(
-                                                text = stringArrayResource(R.array.fab_alignment_sub)[value.roundToInt()],
+                                                text = stringResource(
+                                                    when (value.roundToInt()) {
+                                                        0 -> R.string.start_position
+                                                        1 -> R.string.center_position
+                                                        else -> R.string.end_position
+                                                    }
+                                                ),
                                                 color = MaterialTheme.colorScheme.onSurface.copy(
                                                     alpha = 0.5f
                                                 ),

@@ -463,9 +463,9 @@
     <string name="inverse_fill_type_sub">If enabled all of the non masked areas will be filtered instead of default behavior</string>
     <string name="delete_mask_warn">You are about to delete selected filter mask. This operation cannot be undone</string>
     <string name="delete_mask">Delete Mask</string>
-    <string-array name="fab_alignment_sub">
-        <item>Start</item>
-        <item>Center</item>
-        <item>End</item>
-    </string-array>
+    <string name="full_filter">Full Filter</string>
+    <string name="full_filter_sub">Apply any filter chain to given images, it will be applied one by one continiously</string>
+    <string name="start_position">Start</string>
+    <string name="center_position">Center</string>
+    <string name="end_position">End</string>
 </resources>
