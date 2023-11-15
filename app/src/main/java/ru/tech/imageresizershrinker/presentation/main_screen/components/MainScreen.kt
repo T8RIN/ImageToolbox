@@ -382,7 +382,11 @@ fun MainScreen(
                 val canSearch = settingsState.screensSearchEnabled
                 var showSearch by rememberSaveable(canSearch) { mutableStateOf(false) }
                 var searchValue by rememberSaveable(canSearch) { mutableStateOf("") }
-                val currentList by remember(settingsState.groupOptionsByTypes, searchValue) {
+                val currentList by remember(
+                    settingsState.groupOptionsByTypes,
+                    searchValue,
+                    screenList
+                ) {
                     derivedStateOf {
                         if (settingsState.groupOptionsByTypes && (searchValue.isEmpty() && !showSearch)) {
                             Screen.typedEntries[currentPage].first

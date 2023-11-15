@@ -34,25 +34,25 @@ fun PathPaintPreview(
     pathPaints: List<PathPaint<Path, Color>>
 ) {
     val color = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.6f)
+    val visuals = Modifier
+        .border(
+            width = 1.dp,
+            color = MaterialTheme.colorScheme.outlineVariant(),
+            shape = RoundedCornerShape(4.dp)
+        )
+        .clip(RoundedCornerShape(4.dp))
+        .transparencyChecker(
+            checkerHeight = 2.dp,
+            checkerWidth = 2.dp
+        )
     val first = pathPaints.firstOrNull()
     if (first != null) {
         Box(
             modifier = modifier
                 .aspectRatio(
-                    first.canvasSize.run {
-                        width.toFloat() / height
-                    }
+                    first.canvasSize.aspectRatio
                 )
-                .border(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.outlineVariant(),
-                    shape = RoundedCornerShape(4.dp)
-                )
-                .clip(RoundedCornerShape(4.dp))
-                .transparencyChecker(
-                    checkerHeight = 2.dp,
-                    checkerWidth = 2.dp
-                )
+                .then(visuals)
                 .drawBehind {
                     val currentSize = IntegerSize(
                         size.width.toInt(),
@@ -84,16 +84,7 @@ fun PathPaintPreview(
         Box(
             modifier = modifier
                 .aspectRatio(1f)
-                .border(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.outlineVariant(),
-                    shape = RoundedCornerShape(4.dp)
-                )
-                .clip(RoundedCornerShape(4.dp))
-                .transparencyChecker(
-                    checkerHeight = 1.dp,
-                    checkerWidth = 1.dp
-                )
+                .then(visuals)
                 .drawBehind {
                     drawText(
                         textMeasurer = textMeasurer,

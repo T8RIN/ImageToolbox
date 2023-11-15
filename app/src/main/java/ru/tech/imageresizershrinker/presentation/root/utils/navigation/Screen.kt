@@ -192,7 +192,7 @@ sealed class Screen(
     class PdfTools(
         val type: Type? = null
     ) : Screen(
-        id = 17,
+        id = 16,
         icon = Icons.Rounded.PictureAsPdf,
         title = R.string.pdf_tools,
         subtitle = R.string.pdf_tools_sub
@@ -298,7 +298,7 @@ sealed class Screen(
                 DeleteExif(),
                 Compare(),
                 LimitResize()
-            )
+            ).sortedBy { it.id }
         }
     }
 }

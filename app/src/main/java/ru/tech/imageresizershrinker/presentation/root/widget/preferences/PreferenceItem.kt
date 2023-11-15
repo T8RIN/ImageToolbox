@@ -4,7 +4,6 @@ package ru.tech.imageresizershrinker.presentation.root.widget.preferences
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -34,10 +33,10 @@ fun PreferenceItem(
         .padding(horizontal = 12.dp)
 ) {
     val _icon: (@Composable () -> Unit)? = if (icon == null) null else {
-        { Icon(imageVector = icon, contentDescription = null, modifier = Modifier.size(24.dp)) }
+        { Icon(imageVector = icon, contentDescription = null) }
     }
     val _icon2: (@Composable () -> Unit)? = if (endIcon == null) null else {
-        { Icon(imageVector = endIcon, contentDescription = null, modifier = Modifier.size(24.dp)) }
+        { Icon(imageVector = endIcon, contentDescription = null) }
     }
     PreferenceItemOverload(
         contentColor = contentColor,

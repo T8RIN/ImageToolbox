@@ -4,6 +4,8 @@ data class IntegerSize(
     val width: Int,
     val height: Int
 ) {
+    val aspectRatio: Float get() = width.toFloat() / height
+
     operator fun times(i: Float): IntegerSize = IntegerSize(
         width = (width * i).toInt(),
         height = (height * i).toInt()
