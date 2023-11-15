@@ -444,4 +444,9 @@
     <string name="mask_preview_sub">Нарисованная маска будет отрисована чтобы вы смогли увидеть примерный результат</string>
     <string name="delete_mask">Удаление Маски</string>
     <string name="delete_mask_warn">Вы собираетесь удалить выбранную маску фильтрации. Эта операция не может быть отменена</string>
+    <string name="full_filter_sub">Примените любые цепочки фильтров к заданным изображениям или одному изображению</string>
+    <string name="start_position">Начало</string>
+    <string name="full_filter">Полный фильтр</string>
+    <string name="end_position">Конец</string>
+    <string name="center_position">Центр</string>
 </resources>
