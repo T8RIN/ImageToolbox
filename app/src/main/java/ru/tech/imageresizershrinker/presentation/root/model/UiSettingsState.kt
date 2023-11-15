@@ -73,49 +73,61 @@ fun SettingsState.toUiState(): UiSettingsState {
     val uiBorderWidth = animateDpAsState(borderWidth.dp).value
     val allIcons = Emoji.allIcons()
 
-    return remember(this, uiIsNightMode, uiBorderWidth) {
-        derivedStateOf {
-            UiSettingsState(
-                isNightMode = uiIsNightMode,
-                isDynamicColors = isDynamicColors,
-                allowChangeColorByImage = allowChangeColorByImage,
-                emojisCount = emojisCount,
-                isAmoledMode = isAmoledMode,
-                appColorTuple = appColorTuple.asColorTuple(),
-                borderWidth = uiBorderWidth,
-                presets = presets.mapNotNull { it.value() },
-                fabAlignment = fabAlignment.toAlignment(),
-                showDialogOnStartup = showDialogOnStartup,
-                selectedEmoji = selectedEmoji?.takeIf { it != -1 }?.let { allIcons[it] },
-                imagePickerModeInt = imagePickerModeInt,
-                clearCacheOnLaunch = clearCacheOnLaunch,
-                groupOptionsByTypes = groupOptionsByTypes,
-                screenList = screenList.mapNotNull {
+    return UiSettingsState(
+        isNightMode = uiIsNightMode,
+        isDynamicColors = isDynamicColors,
+        allowChangeColorByImage = allowChangeColorByImage,
+        emojisCount = emojisCount,
+        isAmoledMode = isAmoledMode,
+        appColorTuple = appColorTuple.asColorTuple(),
+        borderWidth = uiBorderWidth,
+        presets = remember(presets) {
+            derivedStateOf {
+                presets.mapNotNull { it.value() }
+            }
+        }.value,
+        fabAlignment = fabAlignment.toAlignment(),
+        showDialogOnStartup = showDialogOnStartup,
+        selectedEmoji = remember(selectedEmoji, allIcons) {
+            derivedStateOf {
+                selectedEmoji?.takeIf { it != -1 }?.let { allIcons[it] }
+            }
+        }.value,
+        imagePickerModeInt = imagePickerModeInt,
+        clearCacheOnLaunch = clearCacheOnLaunch,
+        groupOptionsByTypes = groupOptionsByTypes,
+        screenList = remember(screenList) {
+            derivedStateOf {
+                screenList.mapNotNull {
                     Screen.entries.find { s -> s.id == it }
-                }.takeIf { it.isNotEmpty() } ?: Screen.entries,
-                colorTupleList = colorTupleList.toColorTupleList(),
-                addSequenceNumber = addSequenceNumber,
-                saveFolderUri = saveFolderUri?.toUri()?.takeIf { it != Uri.EMPTY },
-                filenamePrefix = filenamePrefix,
-                addSizeInFilename = addSizeInFilename,
-                addOriginalFilename = addOriginalFilename,
-                randomizeFilename = randomizeFilename,
-                font = font.toUiFont(),
-                fontScale = fontScale?.takeIf { it > 0 },
-                allowCollectCrashlytics = allowCollectCrashlytics,
-                allowCollectAnalytics = allowCollectAnalytics,
-                allowBetas = allowBetas,
-                allowShowingShadowsInsteadOfBorders = allowShowingShadowsInsteadOfBorders,
-                appOpenCount = appOpenCount,
-                aspectRatios = aspectRatios,
-                lockDrawOrientation = lockDrawOrientation,
-                themeContrastLevel = themeContrastLevel,
-                themeStyle = PaletteStyle.entries[themeStyle],
-                isInvertThemeColors = isInvertThemeColors,
-                screensSearchEnabled = screensSearchEnabled
-            )
-        }
-    }.value
+                }.takeIf { it.isNotEmpty() } ?: Screen.entries
+            }
+        }.value,
+        colorTupleList = colorTupleList.toColorTupleList(),
+        addSequenceNumber = addSequenceNumber,
+        saveFolderUri = remember(saveFolderUri) {
+            derivedStateOf {
+                saveFolderUri?.toUri()?.takeIf { it != Uri.EMPTY }
+            }
+        }.value,
+        filenamePrefix = filenamePrefix,
+        addSizeInFilename = addSizeInFilename,
+        addOriginalFilename = addOriginalFilename,
+        randomizeFilename = randomizeFilename,
+        font = font.toUiFont(),
+        fontScale = fontScale?.takeIf { it > 0 },
+        allowCollectCrashlytics = allowCollectCrashlytics,
+        allowCollectAnalytics = allowCollectAnalytics,
+        allowBetas = allowBetas,
+        allowShowingShadowsInsteadOfBorders = allowShowingShadowsInsteadOfBorders,
+        appOpenCount = appOpenCount,
+        aspectRatios = aspectRatios,
+        lockDrawOrientation = lockDrawOrientation,
+        themeContrastLevel = themeContrastLevel,
+        themeStyle = PaletteStyle.entries[themeStyle],
+        isInvertThemeColors = isInvertThemeColors,
+        screensSearchEnabled = screensSearchEnabled
+    )
 }
 
 private fun FontFam.toUiFont(): UiFontFam {

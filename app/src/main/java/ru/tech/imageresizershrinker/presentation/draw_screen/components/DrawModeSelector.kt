@@ -6,6 +6,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +25,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonBorder
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
@@ -100,7 +100,10 @@ fun DrawModeSelector(
                         onClick = { onDrawModeChange(item) },
                         selected = selected,
                         icon = {},
-                        border = SegmentedButtonBorder(settingsState.borderWidth),
+                        border = BorderStroke(
+                            width = settingsState.borderWidth,
+                            color = MaterialTheme.colorScheme.outlineVariant()
+                        ),
                         colors = SegmentedButtonDefaults.colors(
                             activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
                             inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(

@@ -139,7 +139,7 @@ android {
 dependencies {
 
     //AndroidX
-    implementation("androidx.activity:activity-compose:1.8.0")
+    implementation("androidx.activity:activity-compose:1.8.1")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.exifinterface:exifinterface:1.3.6")
     implementation("androidx.appcompat:appcompat:1.7.0-alpha03")
@@ -155,10 +155,10 @@ dependencies {
     implementation("nl.dionsegijn:konfetti-compose:2.0.3")
 
     //Compose
-    implementation("androidx.compose.material3:material3:1.2.0-alpha10")
-    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha10")
-    implementation("androidx.compose.material:material-icons-extended:1.6.0-alpha08")
-    implementation("androidx.compose.material:material:1.6.0-alpha08")
+    implementation("androidx.compose.material3:material3:1.2.0-alpha11")
+    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha11")
+    implementation("androidx.compose.material:material-icons-extended:1.6.0-beta01")
+    implementation("androidx.compose.material:material:1.6.0-beta01")
 
     //Di
     implementation("com.google.dagger:hilt-android:2.48.1")
@@ -202,14 +202,14 @@ dependencies {
     implementation("com.github.awxkee:avif-coder:1.5.5")
 
     "marketImplementation"("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
-    "marketImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.5.0") {
+    "marketImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.5.1") {
         exclude("androidx.datastore", "datastore-preferences")
     }
     "marketImplementation"("com.google.firebase:firebase-analytics-ktx:21.5.0")
     "marketImplementation"("com.google.android.play:review-ktx:2.0.1")
 
     "jxlImplementation"("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
-    "jxlImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.5.0") {
+    "jxlImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.5.1") {
         exclude("androidx.datastore", "datastore-preferences")
     }
     "jxlImplementation"("com.google.firebase:firebase-analytics-ktx:21.5.0")

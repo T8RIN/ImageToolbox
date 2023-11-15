@@ -64,7 +64,6 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonBorder
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Surface
@@ -335,7 +334,10 @@ fun FileCipherScreen(
                                                         index == if (viewModel.isEncrypt) 0 else 1
                                                     SegmentedButton(
                                                         onClick = { viewModel.setIsEncrypt(index == 0) },
-                                                        border = SegmentedButtonBorder(settingsState.borderWidth),
+                                                        border = BorderStroke(
+                                                            width = settingsState.borderWidth,
+                                                            color = MaterialTheme.colorScheme.outlineVariant()
+                                                        ),
                                                         selected = selected,
                                                         colors = SegmentedButtonDefaults.colors(
                                                             activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),

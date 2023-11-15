@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.presentation.root.widget.buttons
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
@@ -86,7 +87,10 @@ fun ToggleGroupButton(
                         SegmentedButton(
                             enabled = enabled,
                             onClick = { indexChanged(index) },
-                            border = SegmentedButtonBorder(settingsState.borderWidth),
+                            border = BorderStroke(
+                                width = settingsState.borderWidth,
+                                color = MaterialTheme.colorScheme.outlineVariant()
+                            ),
                             selected = index == selectedIndex,
                             colors = SegmentedButtonDefaults.colors(
                                 activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
