@@ -417,7 +417,7 @@ fun MainScreen(
                                         .surfaceColorAtElevation(3.dp)
                                 ) {
                                     val titleText = remember {
-                                        "${Screen.entries.size}".plus(
+                                        "${Screen.featuresCount}".plus(
                                             if (BuildConfig.FLAVOR == "market") {
                                                 getVersionPreRelease()
                                             } else {
@@ -442,6 +442,8 @@ fun MainScreen(
                                                     text = titleText
                                                 )
                                             },
+                                            containerColor = MaterialTheme.colorScheme.tertiary,
+                                            contentColor = MaterialTheme.colorScheme.onTertiary,
                                             modifier = Modifier
                                                 .padding(horizontal = 2.dp)
                                                 .padding(bottom = 12.dp)

@@ -1,3 +1,5 @@
+@file:Suppress("SameParameterValue")
+
 package ru.tech.imageresizershrinker.domain.model
 
 data class IntegerSize(

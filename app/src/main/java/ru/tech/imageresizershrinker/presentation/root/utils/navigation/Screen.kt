@@ -298,7 +298,8 @@ sealed class Screen(
                 DeleteExif(),
                 Compare(),
                 LimitResize()
-            ).sortedBy { it.id }
+            )
         }
+        const val featuresCount = 20
     }
 }

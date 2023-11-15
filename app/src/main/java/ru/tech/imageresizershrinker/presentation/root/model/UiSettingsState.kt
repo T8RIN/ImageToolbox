@@ -90,8 +90,9 @@ fun SettingsState.toUiState(): UiSettingsState {
                 imagePickerModeInt = imagePickerModeInt,
                 clearCacheOnLaunch = clearCacheOnLaunch,
                 groupOptionsByTypes = groupOptionsByTypes,
-                screenList = screenList.map { Screen.entries[it] }.takeIf { it.isNotEmpty() }
-                    ?: Screen.entries,
+                screenList = screenList.mapNotNull {
+                    Screen.entries.find { s -> s.id == it }
+                }.takeIf { it.isNotEmpty() } ?: Screen.entries,
                 colorTupleList = colorTupleList.toColorTupleList(),
                 addSequenceNumber = addSequenceNumber,
                 saveFolderUri = saveFolderUri?.toUri()?.takeIf { it != Uri.EMPTY },

@@ -49,9 +49,7 @@ fun PathPaintPreview(
     if (first != null) {
         Box(
             modifier = modifier
-                .aspectRatio(
-                    first.canvasSize.aspectRatio
-                )
+                .aspectRatio(first.canvasSize.aspectRatio)
                 .then(visuals)
                 .drawBehind {
                     val currentSize = IntegerSize(
