@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
@@ -27,7 +28,6 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.domain.image.draw.PathPaint
 import ru.tech.imageresizershrinker.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.scaleToFitCanvas
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
@@ -37,7 +37,6 @@ fun PathPaintPreview(
     modifier: Modifier = Modifier,
     pathPaints: List<PathPaint<Path, Color>>
 ) {
-    val color = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.6f)
     val visuals = Modifier
         .border(
             width = 1.dp,
@@ -55,6 +54,7 @@ fun PathPaintPreview(
             modifier = modifier
                 .aspectRatio(first.canvasSize.aspectRatio)
                 .then(visuals)
+                .alpha(0.99f)
                 .drawBehind {
                     val currentSize = IntegerSize(
                         size.width.toInt(),
@@ -73,14 +73,15 @@ fun PathPaintPreview(
                                 Paint()
                                     .apply {
                                         isAntiAlias = true
-                                        this.color = color.blend(pathPaint.drawColor, 0.5f)
                                         if (pathPaint.isErasing) {
                                             blendMode = BlendMode.Clear
+                                        } else {
+                                            color = pathPaint.drawColor
                                         }
                                         style = PaintingStyle.Stroke
-                                        strokeWidth = pathPaint.strokeWidth.toPx(
-                                            currentSize
-                                        )
+                                        strokeWidth = pathPaint
+                                            .strokeWidth
+                                            .toPx(currentSize)
                                         strokeCap = StrokeCap.Round
                                         strokeJoin = StrokeJoin.Round
                                     }
@@ -100,6 +101,7 @@ fun PathPaintPreview(
                 }
         )
     } else {
+        val color = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.6f)
         val textMeasurer = rememberTextMeasurer()
         Box(
             modifier = modifier

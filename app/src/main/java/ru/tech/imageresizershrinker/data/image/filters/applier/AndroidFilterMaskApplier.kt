@@ -73,9 +73,7 @@ class AndroidFilterMaskApplier @Inject constructor(
                     oldSize = it.canvasSize
                 )
                 drawPath(
-                    path.apply {
-                        if (inverse) fillType = android.graphics.Path.FillType.INVERSE_WINDING
-                    },
+                    path,
                     Paint().apply {
                         style = PaintingStyle.Stroke
                         strokeCap = StrokeCap.Round
@@ -103,7 +101,11 @@ class AndroidFilterMaskApplier @Inject constructor(
                 0f,
                 android.graphics.Paint()
                     .apply {
-                        xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+                        xfermode = if (!inverse) {
+                            PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+                        } else {
+                            PorterDuffXfermode(PorterDuff.Mode.SRC_OUT)
+                        }
                     }
             )
         }

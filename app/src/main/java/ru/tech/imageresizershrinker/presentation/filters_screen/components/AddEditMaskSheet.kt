@@ -649,6 +649,7 @@ class AddMaskSheetViewModel @Inject constructor(
         if (paths.isEmpty() && lastPaths.isNotEmpty()) {
             _paths.value = lastPaths
             _lastPaths.value = listOf()
+            if (maskPreviewModeEnabled) updatePreview()
             return
         }
         if (paths.isEmpty()) return
@@ -657,7 +658,7 @@ class AddMaskSheetViewModel @Inject constructor(
 
         _paths.update { it - lastPath }
         _undonePaths.update { it + lastPath }
-        if (maskPreviewModeEnabled) updatePreview()
+        if (maskPreviewModeEnabled || paths.isEmpty()) updatePreview()
     }
 
     fun redo() {
