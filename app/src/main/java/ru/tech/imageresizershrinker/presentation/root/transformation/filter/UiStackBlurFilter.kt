@@ -12,7 +12,7 @@ class UiStackBlurFilter(
     title = R.string.stack_blur,
     value = value,
     paramsInfo = listOf(
-        FilterParam(R.string.scale, 0.01f..1f, 2),
+        FilterParam(R.string.scale, 0.1f..1f, 2),
         FilterParam(R.string.radius, 0f..100f, 0)
     )
 ), Filter.StackBlur<Bitmap>

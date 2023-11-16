@@ -977,14 +977,20 @@ class AndroidImageManager @Inject constructor(
                         imageInfo = imageInfo
                     ),
                     onImageReadyToCompressInterceptor = {
-                        transform(image = it, transformations = transformations)!!
+                        transform(
+                            image = it,
+                            transformations = transformations
+                        ) ?: it
                     }
                 )
             } else {
                 compressCenterCrop(
                     scaleFactor = 1f,
                     onImageReadyToCompressInterceptor = {
-                        transform(image = it, transformations = transformations)!!
+                        transform(
+                            image = it,
+                            transformations = transformations
+                        ) ?: it
                     },
                     imageData = ImageData(
                         image = image,
@@ -1011,7 +1017,10 @@ class AndroidImageManager @Inject constructor(
                     )
                 ),
                 onImageReadyToCompressInterceptor = {
-                    transform(image = it, transformations = transformations)!!
+                    transform(
+                        image = it,
+                        transformations = transformations
+                    ) ?: it
                 }
             )
         } else {
