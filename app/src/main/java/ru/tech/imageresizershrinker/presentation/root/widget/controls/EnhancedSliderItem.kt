@@ -46,7 +46,8 @@ fun EnhancedSliderItem(
     onValueChangeFinished: ((Float) -> Unit)? = null,
     steps: Int = 0,
     topContentPadding: Dp = 8.dp,
-    valuePrefix: String = "",
+    valueSuffix: String = "",
+    internalStateTransformation: (Float) -> Number = { it },
     visible: Boolean = true,
     color: Color = Color.Unspecified,
     contentColor: Color? = null,
@@ -100,8 +101,8 @@ fun EnhancedSliderItem(
                         fontWeight = FontWeight.Medium
                     )
                     ValueText(
-                        value = value,
-                        valuePrefix = valuePrefix,
+                        value = internalStateTransformation(internalState.toFloat()),
+                        valueSuffix = valueSuffix,
                         modifier = Modifier.padding(
                             top = topContentPadding,
                             end = 8.dp
@@ -115,7 +116,7 @@ fun EnhancedSliderItem(
                     modifier = sliderModifier,
                     value = animateFloatAsState(internalState.toFloat()).value,
                     onValueChange = {
-                        internalState = it
+                        internalState = internalStateTransformation(it)
                         onValueChange(it)
                     },
                     onValueChangeFinished = onValueChangeFinished?.let {

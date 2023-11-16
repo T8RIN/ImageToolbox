@@ -93,7 +93,7 @@ fun QualityWidget(
                         ValueText(
                             modifier = Modifier,
                             value = quality.roundToInt().coerceIn(imageFormat.compressionRange),
-                            valuePrefix = literal,
+                            valueSuffix = literal,
                             onClick = {
                                 showValueDialog = true
                             }

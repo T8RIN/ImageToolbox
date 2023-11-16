@@ -47,7 +47,7 @@ fun TopAppBarEmoji() {
                     EmojiItem(
                         fontScale = LocalSettingsState.current.fontScale
                             ?: LocalDensity.current.fontScale,
-                        emoji = settingsState.selectedEmoji.toString(),
+                        emoji = settingsState.selectedEmoji?.toString(),
                         fontSize = MaterialTheme.typography.headlineMedium.fontSize
                     )
                 }

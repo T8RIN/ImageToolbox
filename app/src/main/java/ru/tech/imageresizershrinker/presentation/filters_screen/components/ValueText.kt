@@ -20,11 +20,11 @@ fun ValueText(
         end = 8.dp
     ),
     value: Number,
-    valuePrefix: String = "",
+    valueSuffix: String = "",
     onClick: () -> Unit
 ) {
     Text(
-        text = "$value$valuePrefix",
+        text = "$value$valueSuffix",
         color = LocalContentColor.current.copy(0.5f),
         modifier = modifier
             .clip(CircleShape)

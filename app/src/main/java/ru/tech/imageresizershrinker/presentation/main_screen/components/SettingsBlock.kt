@@ -105,7 +105,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -169,6 +168,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.plus
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
@@ -490,7 +490,7 @@ fun SettingsBlock(
                             ) {
                                 val emojis = Emoji.allIcons()
                                 EmojiItem(
-                                    emoji = emoji.toString(),
+                                    emoji = emoji?.toString(),
                                     modifier = Modifier.then(
                                         if (emoji != null) {
                                             Modifier.scaleOnTap(
@@ -585,181 +585,49 @@ fun SettingsBlock(
                             )
                         }
                     )
-                    Column(
-                        Modifier
-                            .padding(horizontal = 8.dp)
-                            .container(
-                                shape = centerShape,
-                                color = MaterialTheme
-                                    .colorScheme
-                                    .secondaryContainer
-                                    .copy(alpha = 0.2f)
-                            )
-                            .animateContentSize()
-                    ) {
-                        val derivedValue by remember(settingsState) {
-                            derivedStateOf {
-                                settingsState.emojisCount.coerceAtLeast(1)
-                            }
+                    EnhancedSliderItem(
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp),
+                        shape = centerShape,
+                        color = MaterialTheme
+                            .colorScheme
+                            .secondaryContainer
+                            .copy(alpha = 0.2f),
+                        value = settingsState.emojisCount.coerceAtLeast(1),
+                        title = stringResource(R.string.emojis_count),
+                        icon = Icons.Outlined.EmojiEmotions,
+                        valueRange = 1f..5f,
+                        steps = 3,
+                        onValueChange = {},
+                        internalStateTransformation = {
+                            it.toInt()
+                        },
+                        onValueChangeFinished = {
+                            viewModel.updateEmojisCount(it.toInt())
                         }
-                        var sliderValue by remember(derivedValue) {
-                            mutableIntStateOf(derivedValue)
-                        }
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.EmojiEmotions,
-                                contentDescription = null,
-                                modifier = Modifier.padding(
-                                    top = 16.dp,
-                                    start = 12.dp
-                                )
-                            )
-                            Text(
-                                text = stringResource(R.string.emojis_count),
-                                modifier = Modifier
-                                    .padding(
-                                        top = 16.dp,
-                                        end = 16.dp,
-                                        start = 16.dp
-                                    )
-                                    .weight(1f),
-                                fontWeight = FontWeight.Medium
-                            )
-                            AnimatedContent(
-                                targetState = sliderValue,
-                                transitionSpec = {
-                                    fadeIn() togetherWith fadeOut()
-                                }
-                            ) { value ->
-                                Text(
-                                    text = "$value",
-                                    color = MaterialTheme.colorScheme.onSurface.copy(
-                                        alpha = 0.5f
-                                    ),
-                                    modifier = Modifier.padding(top = 16.dp),
-                                    lineHeight = 18.sp
-                                )
-                            }
-                            Spacer(
-                                modifier = Modifier.padding(
-                                    start = 4.dp,
-                                    top = 16.dp,
-                                    end = 20.dp
-                                )
-                            )
-                        }
-                        EnhancedSlider(
-                            modifier = Modifier
-                                .padding(
-                                    top = 16.dp,
-                                    start = 12.dp,
-                                    end = 12.dp,
-                                    bottom = 8.dp
-                                )
-                                .offset(y = (-2).dp),
-                            value = sliderValue.toFloat(),
-                            onValueChange = {
-                                sliderValue = it.toInt()
-                            },
-                            onValueChangeFinished = {
-                                viewModel.updateEmojisCount(sliderValue)
-                            },
-                            valueRange = 1f..5f,
-                            steps = 3
-                        )
-                    }
-                    Column(
-                        Modifier
-                            .padding(horizontal = 8.dp)
-                            .container(
-                                shape = centerShape,
-                                color = MaterialTheme
-                                    .colorScheme
-                                    .secondaryContainer
-                                    .copy(alpha = 0.2f)
-                            )
-                            .animateContentSize()
-                    ) {
-                        val derivedValue by remember(viewModel.settingsState) {
-                            derivedStateOf {
-                                viewModel.settingsState.borderWidth.coerceAtLeast(0f)
-                            }
-                        }
-                        var sliderValue by remember(derivedValue) {
-                            mutableFloatStateOf(derivedValue)
-                        }
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.BorderStyle,
-                                contentDescription = null,
-                                modifier = Modifier.padding(
-                                    top = 16.dp,
-                                    start = 12.dp
-                                )
-                            )
-                            Text(
-                                text = stringResource(R.string.border_thickness),
-                                modifier = Modifier
-                                    .padding(
-                                        top = 16.dp,
-                                        end = 16.dp,
-                                        start = 16.dp
-                                    )
-                                    .weight(1f),
-                                fontWeight = FontWeight.Medium
-                            )
-                            AnimatedContent(
-                                targetState = sliderValue,
-                                transitionSpec = {
-                                    fadeIn() togetherWith fadeOut()
-                                }
-                            ) { value ->
-                                Text(
-                                    text = "$value",
-                                    color = MaterialTheme.colorScheme.onSurface.copy(
-                                        alpha = 0.5f
-                                    ),
-                                    modifier = Modifier.padding(top = 16.dp),
-                                    lineHeight = 18.sp
-                                )
-                            }
-                            Text(
-                                maxLines = 1,
-                                text = "Dp",
-                                color = MaterialTheme.colorScheme.onSurface.copy(
-                                    alpha = 0.5f
-                                ),
-                                modifier = Modifier.padding(
-                                    start = 4.dp,
-                                    top = 16.dp,
-                                    end = 16.dp
-                                )
-                            )
-                        }
-                        EnhancedSlider(
-                            modifier = Modifier
-                                .padding(
-                                    top = 16.dp,
-                                    start = 12.dp,
-                                    end = 12.dp,
-                                    bottom = 8.dp
-                                )
-                                .offset(y = (-2).dp),
-                            value = sliderValue,
-                            onValueChange = {
-                                sliderValue = it.roundToTwoDigits()
-                            },
-                            onValueChangeFinished = {
-                                viewModel.setBorderWidth(sliderValue)
-                            },
-                            valueRange = 0f..1.5f,
-                            steps = 14
-                        )
-                    }
+                    )
+                    EnhancedSliderItem(
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp),
+                        shape = centerShape,
+                        color = MaterialTheme
+                            .colorScheme
+                            .secondaryContainer
+                            .copy(alpha = 0.2f),
+                        valueSuffix = " Dp",
+                        value = viewModel.settingsState.borderWidth.coerceAtLeast(0f),
+                        title = stringResource(R.string.border_thickness),
+                        icon = Icons.Outlined.BorderStyle,
+                        onValueChange = {},
+                        internalStateTransformation = {
+                            it.roundToTwoDigits()
+                        },
+                        onValueChangeFinished = {
+                            viewModel.setBorderWidth(it.roundToTwoDigits())
+                        },
+                        valueRange = 0f..1.5f,
+                        steps = 14
+                    )
                     AnimatedVisibility(visible = settingsState.borderWidth <= 0.dp) {
                         PreferenceRowSwitch(
                             modifier = Modifier.padding(horizontal = 8.dp),
