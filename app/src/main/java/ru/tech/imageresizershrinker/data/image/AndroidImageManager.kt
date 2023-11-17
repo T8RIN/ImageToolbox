@@ -485,7 +485,7 @@ class AndroidImageManager @Inject constructor(
                                 else -> listOf(topFilter, bottomFilter)
                             }
                         }
-                        bmp = transform(bmp, filters)!!
+                        transform(bmp, filters)?.let { bmp = it }
                     }
 
                 if (isHorizontal) {
@@ -1027,7 +1027,10 @@ class AndroidImageManager @Inject constructor(
             compressCenterCrop(
                 scaleFactor = scaleFactor,
                 onImageReadyToCompressInterceptor = {
-                    transform(image = it, transformations = transformations)!!
+                    transform(
+                        image = it,
+                        transformations = transformations
+                    ) ?: it
                 },
                 imageData = ImageData(
                     image = image,
@@ -1041,7 +1044,7 @@ class AndroidImageManager @Inject constructor(
         val bitmap = imageLoader.execute(
             ImageRequest.Builder(context).data(bytes).build()
         ).drawable?.toBitmap()
-        return@withContext bitmap!!
+        return@withContext bitmap ?: image
     }
 
     override suspend fun convertImagesToPdf(

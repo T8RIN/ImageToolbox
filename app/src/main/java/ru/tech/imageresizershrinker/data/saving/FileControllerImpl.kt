@@ -309,7 +309,7 @@ class FileControllerImpl @Inject constructor(
                 )
 
                 SavingFolder(
-                    outputStream = contentResolver.openOutputStream(imageUri!!),
+                    outputStream = imageUri?.let { contentResolver.openOutputStream(it) },
                     fileUri = imageUri
                 )
             } else {
@@ -320,8 +320,10 @@ class FileControllerImpl @Inject constructor(
                 )
                 if (!imagesDir.exists()) imagesDir.mkdir()
                 SavingFolder(
-                    outputStream = FileOutputStream(File(imagesDir, saveTarget.filename!!)),
-                    fileUri = File(imagesDir, saveTarget.filename!!).toUri()
+                    outputStream = saveTarget.filename?.let {
+                        FileOutputStream(File(imagesDir, it))
+                    },
+                    fileUri = saveTarget.filename?.let { File(imagesDir, it).toUri() }
                 )
             }
         } else {
