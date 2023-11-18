@@ -119,7 +119,6 @@ fun AddEditMaskSheet(
     ScopedViewModelContainer<AddMaskSheetViewModel> { disposable ->
         val viewModel = this
         val imageManager = viewModel.getImageManager()
-        val zoomState = rememberAnimatedZoomState(maxZoom = 30f)
 
         LaunchedEffect(mask, masks, targetBitmapUri) {
             viewModel.setMask(mask = mask, bitmapUri = targetBitmapUri, masks = masks)
@@ -168,6 +167,9 @@ fun AddEditMaskSheet(
             },
             enableBackHandler = false
         ) {
+            var imageState by remember { mutableStateOf(ImageHeaderState(2)) }
+            val zoomState = rememberAnimatedZoomState(key1 = imageState.position, maxZoom = 30f)
+
             disposable()
             if (visible.value) {
                 BackHandler {
@@ -261,7 +263,6 @@ fun AddEditMaskSheet(
             Row {
                 val backgroundColor =
                     MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp).copy(0.8f)
-                var imageState by remember { mutableStateOf(ImageHeaderState(2)) }
                 if (!portrait) {
                     Box(modifier = Modifier.weight(1.3f)) {
                         drawPreview()
@@ -277,11 +278,6 @@ fun AddEditMaskSheet(
                         expanded = false,
                         imageState = imageState,
                         onStateChange = {
-                            if (it.position != imageState.position) {
-                                scope.launch {
-                                    zoomState.setZoom(1f)
-                                }
-                            }
                             imageState = it
                         },
                         padding = 0.dp,
