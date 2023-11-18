@@ -13,7 +13,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -56,6 +55,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.asImageBitmap
@@ -107,7 +107,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSi
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.ScopedViewModelContainer
 import javax.inject.Inject
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AddEditMaskSheet(
     mask: UiFilterMask? = null,
@@ -168,8 +167,11 @@ fun AddEditMaskSheet(
             enableBackHandler = false
         ) {
             var imageState by remember { mutableStateOf(ImageHeaderState(2)) }
-            val zoomState = rememberAnimatedZoomState(key1 = imageState.position, maxZoom = 30f)
-
+            val zoomState = rememberAnimatedZoomState(maxZoom = 30f)
+            LaunchedEffect(imageState) {
+                zoomState.setZoom(1f)
+                zoomState.setPan(Offset.Zero)
+            }
             disposable()
             if (visible.value) {
                 BackHandler {
@@ -244,8 +246,8 @@ fun AddEditMaskSheet(
                             drawMode = DrawMode.Pen,
                             modifier = Modifier
                                 .padding(16.dp)
-                                .fillMaxSize()
-                                .aspectRatio(aspectRatio, portrait),
+                                .aspectRatio(aspectRatio, portrait)
+                                .fillMaxSize(),
                             zoomEnabled = zoomEnabled,
                             onDrawStart = {
                                 drawing = true

@@ -79,6 +79,11 @@ open class ZoomState(
         animatablePanY.updateBounds(lowerBound?.y, upperBound?.y)
     }
 
+    suspend fun setPan(offset: Offset) {
+        animatablePanX.animateTo(offset.x)
+        animatablePanY.animateTo(offset.y)
+    }
+
     /**
      * Get bounds of Composables that can be panned based on zoom level
      * @param size is size of Composable that this modifier is applied to.

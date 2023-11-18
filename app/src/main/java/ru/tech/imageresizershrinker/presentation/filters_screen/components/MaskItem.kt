@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -112,7 +113,7 @@ fun MaskItem(
                         PathPaintPreview(
                             modifier = Modifier
                                 .padding(start = 12.dp)
-                                .height(30.dp),
+                                .sizeIn(maxHeight = 30.dp, maxWidth = 30.dp),
                             pathPaints = mask.maskPaints
                         )
                         Text(
@@ -176,7 +177,10 @@ fun MaskItem(
                                 ) {
                                     PathPaintPreview(
                                         pathPaints = mask.maskPaints,
-                                        modifier = Modifier.height(64.dp)
+                                        modifier = Modifier.sizeIn(
+                                            maxHeight = 80.dp,
+                                            maxWidth = 80.dp
+                                        )
                                     )
                                     Spacer(modifier = Modifier.height(8.dp))
                                     Text(stringResource(R.string.delete_mask_warn))
