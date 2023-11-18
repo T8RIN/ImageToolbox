@@ -378,4 +378,5 @@
     <string name="vertical">खड़ा</string>
     <string name="output_image_scale">आउटपुट छवि स्केल</string>
     <string name="scale_small_images_to_large">छोटी छवियों को बड़े आकार में स्केल करें</string>
+    <string name="regular">नियमित</string>
 </resources>
