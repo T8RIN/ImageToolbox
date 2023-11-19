@@ -27,6 +27,7 @@ fun EnableShadowsSettingItem(
             horizontal = 16.dp,
             vertical = 8.dp
         ),
+        enabled = settingsState.borderWidth <= 0.dp,
         shape = shape,
         title = stringResource(R.string.shadows),
         subtitle = stringResource(R.string.shadows_setting_sub),

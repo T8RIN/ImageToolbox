@@ -167,6 +167,10 @@ fun MainScreen(
     val isSheetSlideable = !isGrid
     val layoutDirection = LocalLayoutDirection.current
 
+    var searchKeyword by rememberSaveable {
+        mutableStateOf("")
+    }
+
     val updateButtonOnClick = {
         if (viewModel.updateAvailable) {
             viewModel.tryGetUpdate(
@@ -263,6 +267,7 @@ fun MainScreen(
                         )
                     ),
                     title = {
+                        //TODO: Search bar create and fix screen search buttons not visible
                         Marquee(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
                                 6.dp
@@ -329,7 +334,10 @@ fun MainScreen(
                         }
                     }
                 )
-                SettingsBlock(viewModel)
+                SettingsBlock(
+                    searchKeyword = searchKeyword,
+                    viewModel = viewModel
+                )
             }
         }
     }
@@ -713,6 +721,7 @@ fun MainScreen(
                                                     showSearch = false
                                                 }
                                                 ProvideTextStyle(value = MaterialTheme.typography.bodyLarge) {
+                                                    //TODO: FIX
                                                     RoundedTextField(
                                                         maxLines = 1,
                                                         hint = { Text(stringResource(id = R.string.search_here)) },

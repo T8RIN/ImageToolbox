@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.materialShadow
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalContainerShape
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 fun Modifier.container(
@@ -37,6 +38,8 @@ fun Modifier.container(
     composeColorOnTopOfBackground: Boolean = true,
     isShadowClip: Boolean = false
 ) = composed {
+    val localContainerShape = LocalContainerShape.current
+    val resultShape = localContainerShape ?: shape
     val settingsState = LocalSettingsState.current
     val colorScheme = MaterialTheme.colorScheme
     val color1 = if (color.isUnspecified) {
@@ -49,7 +52,7 @@ fun Modifier.container(
     val density = LocalDensity.current
 
     val genericModifier = Modifier.drawWithCache {
-        val outline = shape.createOutline(
+        val outline = resultShape.createOutline(
             size,
             layoutDirection,
             density
@@ -73,17 +76,17 @@ fun Modifier.container(
     val cornerModifier = Modifier
         .background(
             color = color1,
-            shape = shape
+            shape = resultShape
         )
         .border(
             width = LocalSettingsState.current.borderWidth,
             color = borderColor ?: colorScheme.outlineVariant(0.1f, color1),
-            shape = shape
+            shape = resultShape
         )
 
     this
         .materialShadow(
-            shape = shape,
+            shape = resultShape,
             elevation = animateDpAsState(
                 if (settingsState.borderWidth > 0.dp) {
                     0.dp
@@ -92,9 +95,9 @@ fun Modifier.container(
             isClipped = isShadowClip
         )
         .then(
-            if (shape is CornerBasedShape) cornerModifier
+            if (resultShape is CornerBasedShape) cornerModifier
             else genericModifier
         )
-        .then(if (clip) Modifier.clip(shape) else Modifier)
+        .then(if (clip) Modifier.clip(resultShape) else Modifier)
         .then(if (resultPadding > 0.dp) Modifier.padding(resultPadding) else Modifier)
 }

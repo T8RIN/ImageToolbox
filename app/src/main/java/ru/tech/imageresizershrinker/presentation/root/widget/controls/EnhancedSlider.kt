@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.hoverable
@@ -30,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.materialShadow
 import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -79,19 +80,21 @@ fun EnhancedSlider(
         )
     }
 
+    val settingsState = LocalSettingsState.current
     CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
         Slider(
             interactionSource = interactionSource,
             thumb = thumb,
             enabled = enabled,
             modifier = modifier
-                .container(
+                .materialShadow(
                     shape = CircleShape,
-                    resultPadding = 0.dp,
-                    color = Color.Transparent,
-                    composeColorOnTopOfBackground = false,
-                    clip = false,
-                    isShadowClip = true
+                    elevation = animateDpAsState(
+                        if (settingsState.borderWidth > 0.dp) {
+                            0.dp
+                        } else 1.dp
+                    ).value,
+                    isClipped = true
                 )
                 .padding(horizontal = 6.dp),
             colors = colors,

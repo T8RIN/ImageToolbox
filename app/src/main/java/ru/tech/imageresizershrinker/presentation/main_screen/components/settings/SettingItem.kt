@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.main_screen.components.settings
 
 import android.app.Activity
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,15 +24,16 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
-fun SettingItem(setting: SettingItem, viewModel: MainViewModel) {
+fun SettingItem(
+    setting: SettingItem,
+    viewModel: MainViewModel
+) {
     val context = LocalContext.current
     val toastHostState = LocalToastHost.current
     val scope = rememberCoroutineScope()
     val confettiController = LocalConfettiController.current
-    val settingsState = LocalSettingsState.current
 
     when (setting) {
         SettingItem.AddFileSize -> {
@@ -202,9 +202,7 @@ fun SettingItem(setting: SettingItem, viewModel: MainViewModel) {
         }
 
         SettingItem.EnableShadows -> {
-            AnimatedVisibility(visible = settingsState.borderWidth <= 0.dp) {
-                EnableShadowsSettingItem(onClick = { viewModel.toggleAllowShowingShadowsInsteadOfBorders() })
-            }
+            EnableShadowsSettingItem(onClick = { viewModel.toggleAllowShowingShadowsInsteadOfBorders() })
         }
 
         SettingItem.FabAlignment -> {

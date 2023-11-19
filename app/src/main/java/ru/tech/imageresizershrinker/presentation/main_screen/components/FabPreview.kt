@@ -39,7 +39,6 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
@@ -63,7 +62,8 @@ fun FabPreview(
             modifier = Modifier
                 .padding(horizontal = 8.dp, vertical = 8.dp)
                 .autoElevatedBorder(shape = shapes.small, autoElevation = elevation)
-                .container(shape = shapes.small)
+                .clip(shapes.small)
+                .background(colorScheme.surfaceColorAtElevation(1.dp))
                 .fillMaxWidth(1f),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
