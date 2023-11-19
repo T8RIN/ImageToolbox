@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 
 val Icons.Rounded.Highlighter: ImageVector by lazy {
     Builder(
-        name = "Highlighter", defaultWidth = 48.0.dp, defaultHeight =
-        48.0.dp, viewportWidth = 960.0f, viewportHeight = 960.0f
+        name = "Highlighter", defaultWidth = 24.0.dp, defaultHeight =
+        24.0.dp, viewportWidth = 960.0f, viewportHeight = 960.0f
     ).apply {
         path(
             fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
