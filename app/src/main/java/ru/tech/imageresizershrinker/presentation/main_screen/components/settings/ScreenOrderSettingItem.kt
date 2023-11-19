@@ -70,6 +70,7 @@ fun ScreenOrderSettingItem(
                     else 0.5f
                 ).value
             ),
+        autoShadowElevation = if (enabled) 1.dp else 0.dp,
         onClick = {
             if (enabled) {
                 showArrangementSheet.value = true

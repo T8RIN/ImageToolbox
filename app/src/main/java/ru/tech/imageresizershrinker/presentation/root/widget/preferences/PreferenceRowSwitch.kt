@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 
@@ -20,7 +21,9 @@ import ru.tech.imageresizershrinker.presentation.root.theme.blend
 fun PreferenceRowSwitch(
     modifier: Modifier = Modifier,
     title: String,
+    enabled: Boolean = true,
     subtitle: String? = null,
+    autoShadowElevation: Dp = 1.dp,
     applyHorPadding: Boolean = true,
     checked: Boolean,
     color: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
@@ -36,6 +39,8 @@ fun PreferenceRowSwitch(
     onClick: (Boolean) -> Unit
 ) {
     PreferenceRow(
+        autoShadowElevation = autoShadowElevation,
+        enabled = enabled,
         modifier = modifier,
         resultModifier = resultModifier,
         applyHorPadding = applyHorPadding,

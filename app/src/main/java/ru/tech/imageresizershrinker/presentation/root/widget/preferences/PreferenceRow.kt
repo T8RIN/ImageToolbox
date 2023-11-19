@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.preferences
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,10 +19,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
@@ -34,6 +37,7 @@ fun PreferenceRow(
     color: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
         alpha = 0.2f
     ),
+    enabled: Boolean = true,
     shape: Shape = RoundedCornerShape(16.dp),
     contentColor: Color? = null,
     applyHorPadding: Boolean = true,
@@ -45,6 +49,7 @@ fun PreferenceRow(
         horizontal = if (startContent != null) 0.dp else 16.dp,
         vertical = 8.dp
     ),
+    autoShadowElevation: Dp = 1.dp,
     onClick: (() -> Unit)?
 ) {
     val internalColor = contentColor
@@ -59,13 +64,21 @@ fun PreferenceRow(
                         Modifier.padding(horizontal = 16.dp)
                     } else Modifier
                 )
-                .container(color = color, shape = shape, resultPadding = 0.dp)
-                .then(
-                    onClick?.let {
-                        Modifier.clickable { onClick() }
-                    } ?: Modifier
+                .container(
+                    color = color,
+                    shape = shape,
+                    resultPadding = 0.dp,
+                    autoShadowElevation = if (enabled) autoShadowElevation else 0.dp
                 )
-                .then(resultModifier),
+                .then(
+                    onClick
+                        ?.takeIf { enabled }
+                        ?.let {
+                            Modifier.clickable { onClick() }
+                        } ?: Modifier
+                )
+                .then(resultModifier)
+                .alpha(animateFloatAsState(targetValue = if (enabled) 1f else 0.5f).value),
             verticalAlignment = Alignment.CenterVertically
         ) {
             startContent?.invoke()

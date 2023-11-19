@@ -27,6 +27,7 @@ fun AddFileSizeSettingItem(
             horizontal = 16.dp,
             vertical = 8.dp
         ),
+        enabled = !settingsState.randomizeFilename,
         startContent = {
             Icon(
                 imageVector = Icons.Outlined.Hexagon,

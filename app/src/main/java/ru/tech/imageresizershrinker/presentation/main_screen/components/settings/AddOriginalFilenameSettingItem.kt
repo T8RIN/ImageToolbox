@@ -33,6 +33,7 @@ fun AddOriginalFilenameSettingItem(
     val enabled = settingsState.imagePickerModeInt != 0
     PreferenceRowSwitch(
         shape = shape,
+        enabled = !settingsState.randomizeFilename,
         applyHorPadding = false,
         modifier = modifier
             .alpha(
@@ -45,6 +46,7 @@ fun AddOriginalFilenameSettingItem(
             horizontal = 16.dp,
             vertical = 8.dp
         ),
+        autoShadowElevation = if (enabled) 1.dp else 0.dp,
         startContent = {
             Icon(
                 imageVector = Icons.Outlined.Difference,

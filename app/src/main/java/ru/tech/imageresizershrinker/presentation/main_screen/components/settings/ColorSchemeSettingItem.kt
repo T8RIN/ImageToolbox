@@ -71,6 +71,7 @@ fun ColorSchemeSettingItem(
                     else 0.5f
                 ).value
             ),
+        autoShadowElevation = if (enabled) 1.dp else 0.dp,
         shape = shape,
         title = stringResource(R.string.color_scheme),
         startContent = {

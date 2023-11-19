@@ -82,14 +82,14 @@ fun Modifier.container(
         )
 
     this
-        .then(
-            if (autoShadowElevation > 0.dp) {
-                Modifier.materialShadow(
-                    shape = shape,
-                    elevation = animateDpAsState(if (settingsState.borderWidth > 0.dp) 0.dp else autoShadowElevation).value,
-                    isClipped = isShadowClip
-                )
-            } else Modifier
+        .materialShadow(
+            shape = shape,
+            elevation = animateDpAsState(
+                if (settingsState.borderWidth > 0.dp) {
+                    0.dp
+                } else autoShadowElevation.coerceAtLeast(0.dp)
+            ).value,
+            isClipped = isShadowClip
         )
         .then(
             if (shape is CornerBasedShape) cornerModifier

@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.preferences
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -28,10 +29,12 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
@@ -42,7 +45,9 @@ fun PreferenceItemOverload(
     onClick: (() -> Unit)? = null,
     onLongClick: (() -> Unit)? = null,
     title: String,
+    enabled: Boolean = true,
     subtitle: String? = null,
+    autoShadowElevation: Dp = 1.dp,
     icon: (@Composable () -> Unit)? = null,
     endIcon: (@Composable () -> Unit)? = null,
     shape: Shape = RoundedCornerShape(16.dp),
@@ -58,12 +63,20 @@ fun PreferenceItemOverload(
         Card(
             shape = shape,
             modifier = modifier
-                .container(shape = shape, resultPadding = 0.dp, color = color)
+                .container(
+                    shape = shape,
+                    resultPadding = 0.dp,
+                    color = color,
+                    autoShadowElevation = if (enabled) autoShadowElevation else 0.dp
+                )
                 .then(
-                    if (onClick != null) {
-                        Modifier.combinedClickable(onClick = onClick, onLongClick = onLongClick)
-                    } else Modifier
-                ),
+                    onClick
+                        ?.takeIf { enabled }
+                        ?.let {
+                            Modifier.combinedClickable(onClick = onClick, onLongClick = onLongClick)
+                        } ?: Modifier
+                )
+                .alpha(animateFloatAsState(targetValue = if (enabled) 1f else 0.5f).value),
             colors = CardDefaults.cardColors(
                 containerColor = Color.Transparent,
                 contentColor = contentColor

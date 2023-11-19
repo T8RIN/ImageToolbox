@@ -14,15 +14,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun PreferenceItem(
     onClick: (() -> Unit)? = null,
     title: String,
+    enabled: Boolean = true,
     subtitle: String? = null,
     icon: ImageVector? = null,
     endIcon: ImageVector? = null,
+    autoShadowElevation: Dp = 1.dp,
     shape: Shape = RoundedCornerShape(16.dp),
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
     contentColor: Color = if (color == MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)) contentColorFor(
@@ -39,8 +42,10 @@ fun PreferenceItem(
         { Icon(imageVector = endIcon, contentDescription = null) }
     }
     PreferenceItemOverload(
+        autoShadowElevation = autoShadowElevation,
         contentColor = contentColor,
         onClick = onClick,
+        enabled = enabled,
         title = title,
         subtitle = subtitle,
         icon = _icon,

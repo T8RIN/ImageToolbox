@@ -58,7 +58,7 @@ fun ChangeLanguageSettingItem(
     Column(Modifier.animateContentSize()) {
         PreferenceRow(
             shape = shape,
-            modifier = modifier,
+            modifier = modifier.padding(bottom = 1.dp),
             applyHorPadding = false,
             title = stringResource(R.string.language),
             resultModifier = Modifier.padding(top = 16.dp, bottom = 16.dp, end = 16.dp),

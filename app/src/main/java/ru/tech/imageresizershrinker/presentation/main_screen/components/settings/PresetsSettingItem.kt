@@ -12,18 +12,21 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalEditPresetsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
 fun PresetsSettingItem(
-    onClick: () -> Unit,
     shape: Shape = SettingsShapeDefaults.defaultShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
+    val editPresetsState = LocalEditPresetsState.current
     val settingsState = LocalSettingsState.current
     PreferenceItem(
         shape = shape,
-        onClick = onClick,
+        onClick = {
+            editPresetsState.value = true
+        },
         title = stringResource(R.string.values),
         subtitle = settingsState.presets.joinToString(", "),
         color = MaterialTheme.colorScheme
