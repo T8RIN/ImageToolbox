@@ -52,6 +52,7 @@ fun EnhancedSliderItem(
     color: Color = Color.Unspecified,
     contentColor: Color? = null,
     shape: Shape = RoundedCornerShape(16.dp),
+    valueTextTapEnabled: Boolean = true,
     additionalContent: (@Composable () -> Unit)? = null
 ) {
     val internalColor = contentColor
@@ -101,6 +102,7 @@ fun EnhancedSliderItem(
                         fontWeight = FontWeight.Medium
                     )
                     ValueText(
+                        enabled = valueTextTapEnabled,
                         value = internalStateTransformation(internalState.toFloat()),
                         valueSuffix = valueSuffix,
                         modifier = Modifier.padding(

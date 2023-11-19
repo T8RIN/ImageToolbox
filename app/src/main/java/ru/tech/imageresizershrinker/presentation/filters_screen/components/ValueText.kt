@@ -20,6 +20,7 @@ fun ValueText(
         end = 8.dp
     ),
     value: Number,
+    enabled: Boolean = true,
     valueSuffix: String = "",
     onClick: () -> Unit
 ) {
@@ -28,9 +29,7 @@ fun ValueText(
         color = LocalContentColor.current.copy(0.5f),
         modifier = modifier
             .clip(CircleShape)
-            .clickable {
-                onClick()
-            }
+            .clickable(enabled = enabled, onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 6.dp),
         lineHeight = 18.sp
     )

@@ -125,6 +125,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.smarttoolfactory.colordetector.util.ColorUtil.round
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.PaletteStyle
@@ -620,10 +621,10 @@ fun SettingsBlock(
                         icon = Icons.Outlined.BorderStyle,
                         onValueChange = {},
                         internalStateTransformation = {
-                            it.roundToTwoDigits()
+                            (it * 10).round() / 10f
                         },
                         onValueChangeFinished = {
-                            viewModel.setBorderWidth(it.roundToTwoDigits())
+                            viewModel.setBorderWidth((it * 10).round() / 10f)
                         },
                         valueRange = 0f..1.5f,
                         steps = 14
