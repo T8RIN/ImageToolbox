@@ -61,6 +61,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.SegmentedButton
@@ -71,6 +72,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -325,37 +327,42 @@ fun FileCipherScreen(
                                                     .weight(1f)
                                                     .padding(end = 8.dp, start = 2.dp)
                                             ) {
-                                                items.forEachIndexed { index, item ->
-                                                    val shape = SegmentedButtonDefaults.itemShape(
-                                                        index,
-                                                        items.size
-                                                    )
-                                                    val selected =
-                                                        index == if (viewModel.isEncrypt) 0 else 1
-                                                    SegmentedButton(
-                                                        onClick = { viewModel.setIsEncrypt(index == 0) },
-                                                        border = BorderStroke(
-                                                            width = settingsState.borderWidth,
-                                                            color = MaterialTheme.colorScheme.outlineVariant()
-                                                        ),
-                                                        selected = selected,
-                                                        colors = SegmentedButtonDefaults.colors(
-                                                            activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
-                                                            inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                                6.dp
+                                                CompositionLocalProvider(
+                                                    LocalMinimumInteractiveComponentEnforcement provides false
+                                                ) {
+                                                    items.forEachIndexed { index, item ->
+                                                        val shape =
+                                                            SegmentedButtonDefaults.itemShape(
+                                                                index,
+                                                                items.size
                                                             )
-                                                        ),
-                                                        modifier = Modifier.materialShadow(
-                                                            shape = shape,
-                                                            elevation = animateDpAsState(
-                                                                if (settingsState.borderWidth >= 0.dp || !settingsState.allowShowingShadowsInsteadOfBorders) 0.dp
-                                                                else if (selected) 2.dp
-                                                                else 1.dp
-                                                            ).value
-                                                        ),
-                                                        shape = shape
-                                                    ) {
-                                                        Text(text = item, fontSize = 12.sp)
+                                                        val selected =
+                                                            index == if (viewModel.isEncrypt) 0 else 1
+                                                        SegmentedButton(
+                                                            onClick = { viewModel.setIsEncrypt(index == 0) },
+                                                            border = BorderStroke(
+                                                                width = settingsState.borderWidth,
+                                                                color = MaterialTheme.colorScheme.outlineVariant()
+                                                            ),
+                                                            selected = selected,
+                                                            colors = SegmentedButtonDefaults.colors(
+                                                                activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
+                                                                inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                                    6.dp
+                                                                )
+                                                            ),
+                                                            modifier = Modifier.materialShadow(
+                                                                shape = shape,
+                                                                elevation = animateDpAsState(
+                                                                    if (settingsState.borderWidth >= 0.dp || !settingsState.allowShowingShadowsInsteadOfBorders) 0.dp
+                                                                    else if (selected) 2.dp
+                                                                    else 1.dp
+                                                                ).value
+                                                            ),
+                                                            shape = shape
+                                                        ) {
+                                                            Text(text = item, fontSize = 12.sp)
+                                                        }
                                                     }
                                                 }
                                             }

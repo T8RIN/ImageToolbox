@@ -23,6 +23,7 @@ import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material.icons.rounded.Brush
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -30,6 +31,7 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -86,50 +88,54 @@ fun DrawModeSelector(
                     .horizontalScroll(rememberScrollState())
                     .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
             ) {
-                DrawMode.entries.forEachIndexed { index, item ->
-                    val selected by remember(drawMode, item) {
-                        derivedStateOf {
-                            drawMode::class.isInstance(item)
+                CompositionLocalProvider(
+                    LocalMinimumInteractiveComponentEnforcement provides false
+                ) {
+                    DrawMode.entries.forEachIndexed { index, item ->
+                        val selected by remember(drawMode, item) {
+                            derivedStateOf {
+                                drawMode::class.isInstance(item)
+                            }
                         }
-                    }
-                    val shape = SegmentedButtonDefaults.itemShape(
-                        index = index,
-                        count = DrawMode.entries.size
-                    )
-                    SegmentedButton(
-                        onClick = { onDrawModeChange(item) },
-                        selected = selected,
-                        icon = {},
-                        border = BorderStroke(
-                            width = settingsState.borderWidth,
-                            color = MaterialTheme.colorScheme.outlineVariant()
-                        ),
-                        colors = SegmentedButtonDefaults.colors(
-                            activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
-                            inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                6.dp
-                            )
-                        ),
-                        modifier = Modifier.materialShadow(
-                            shape = shape,
-                            elevation = animateDpAsState(
-                                if (settingsState.borderWidth >= 0.dp || !settingsState.allowShowingShadowsInsteadOfBorders) 0.dp
-                                else if (selected) 2.dp
-                                else 1.dp
-                            ).value
-                        ),
-                        shape = shape
-                    ) {
-                        Icon(
-                            imageVector = when (item) {
-                                is DrawMode.Highlighter -> Icons.Rounded.Highlighter
-                                is DrawMode.Neon -> Icons.Rounded.Laser
-                                is DrawMode.Pen -> Icons.Rounded.Brush
-                                is DrawMode.PathEffect.PrivacyBlur -> Icons.Rounded.BlurCircular
-                                is DrawMode.PathEffect.Pixelation -> Icons.Rounded.Cube
-                            },
-                            contentDescription = null
+                        val shape = SegmentedButtonDefaults.itemShape(
+                            index = index,
+                            count = DrawMode.entries.size
                         )
+                        SegmentedButton(
+                            onClick = { onDrawModeChange(item) },
+                            selected = selected,
+                            icon = {},
+                            border = BorderStroke(
+                                width = settingsState.borderWidth,
+                                color = MaterialTheme.colorScheme.outlineVariant()
+                            ),
+                            colors = SegmentedButtonDefaults.colors(
+                                activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
+                                inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                    6.dp
+                                )
+                            ),
+                            modifier = Modifier.materialShadow(
+                                shape = shape,
+                                elevation = animateDpAsState(
+                                    if (settingsState.borderWidth >= 0.dp || !settingsState.allowShowingShadowsInsteadOfBorders) 0.dp
+                                    else if (selected) 2.dp
+                                    else 1.dp
+                                ).value
+                            ),
+                            shape = shape
+                        ) {
+                            Icon(
+                                imageVector = when (item) {
+                                    is DrawMode.Highlighter -> Icons.Rounded.Highlighter
+                                    is DrawMode.Neon -> Icons.Rounded.Laser
+                                    is DrawMode.Pen -> Icons.Rounded.Brush
+                                    is DrawMode.PathEffect.PrivacyBlur -> Icons.Rounded.BlurCircular
+                                    is DrawMode.PathEffect.Pixelation -> Icons.Rounded.Cube
+                                },
+                                contentDescription = null
+                            )
+                        }
                     }
                 }
             }

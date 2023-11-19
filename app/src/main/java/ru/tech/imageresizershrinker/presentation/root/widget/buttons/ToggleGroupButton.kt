@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -82,39 +83,43 @@ fun ToggleGroupButton(
                         .horizontalScroll(rememberScrollState())
                         .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
                 ) {
-                    items.forEachIndexed { index, item ->
-                        val shape = SegmentedButtonDefaults.itemShape(index, items.size)
-                        SegmentedButton(
-                            enabled = enabled,
-                            onClick = { indexChanged(index) },
-                            border = BorderStroke(
-                                width = settingsState.borderWidth,
-                                color = MaterialTheme.colorScheme.outlineVariant()
-                            ),
-                            selected = index == selectedIndex,
-                            colors = SegmentedButtonDefaults.colors(
-                                activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
-                                inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                    6.dp
+                    CompositionLocalProvider(
+                        LocalMinimumInteractiveComponentEnforcement provides false
+                    ) {
+                        items.forEachIndexed { index, item ->
+                            val shape = SegmentedButtonDefaults.itemShape(index, items.size)
+                            SegmentedButton(
+                                enabled = enabled,
+                                onClick = { indexChanged(index) },
+                                border = BorderStroke(
+                                    width = settingsState.borderWidth,
+                                    color = MaterialTheme.colorScheme.outlineVariant()
                                 ),
-                                activeContainerColor = if (enabled) {
-                                    MaterialTheme.colorScheme.secondary
-                                } else {
-                                    MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
-                                },
-                                activeContentColor = MaterialTheme.colorScheme.onSecondary
-                            ),
-                            modifier = Modifier.materialShadow(
-                                shape = shape,
-                                elevation = animateDpAsState(
-                                    if (settingsState.borderWidth >= 0.dp || !settingsState.allowShowingShadowsInsteadOfBorders) 0.dp
-                                    else if (selectedIndex == index) 2.dp
-                                    else 1.dp
-                                ).value
-                            ),
-                            shape = shape
-                        ) {
-                            Text(text = item, fontSize = 13.sp)
+                                selected = index == selectedIndex,
+                                colors = SegmentedButtonDefaults.colors(
+                                    activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
+                                    inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                        6.dp
+                                    ),
+                                    activeContainerColor = if (enabled) {
+                                        MaterialTheme.colorScheme.secondary
+                                    } else {
+                                        MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
+                                    },
+                                    activeContentColor = MaterialTheme.colorScheme.onSecondary
+                                ),
+                                modifier = Modifier.materialShadow(
+                                    shape = shape,
+                                    elevation = animateDpAsState(
+                                        if (settingsState.borderWidth >= 0.dp || !settingsState.allowShowingShadowsInsteadOfBorders) 0.dp
+                                        else if (selectedIndex == index) 2.dp
+                                        else 1.dp
+                                    ).value
+                                ),
+                                shape = shape
+                            ) {
+                                Text(text = item, fontSize = 13.sp)
+                            }
                         }
                     }
                 }

@@ -45,6 +45,16 @@ fun EnhancedButton(
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     isShadowClip: Boolean = containerColor.alpha != 1f,
+    shadowModifier: @Composable () -> Modifier = {
+        val settingsState = LocalSettingsState.current
+        Modifier.materialShadow(
+            shape = shape,
+            elevation = animateDpAsState(
+                if (settingsState.borderWidth > 0.dp || !enabled) 0.dp else 0.5.dp
+            ).value,
+            isClipped = isShadowClip
+        )
+    },
     content: @Composable RowScope.() -> Unit
 ) {
     val settingsState = LocalSettingsState.current
@@ -54,13 +64,7 @@ fun EnhancedButton(
             OutlinedButton(
                 onClick = onClick,
                 modifier = modifier
-                    .materialShadow(
-                        shape = shape,
-                        elevation = animateDpAsState(
-                            if (settingsState.borderWidth > 0.dp || !enabled) 0.dp else 0.5.dp
-                        ).value,
-                        isClipped = isShadowClip
-                    ),
+                    .then(shadowModifier()),
                 shape = shape,
                 colors = ButtonDefaults.buttonColors(
                     contentColor = animateColorAsState(
