@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -37,6 +38,7 @@ fun ExpandableItem(
     visibleContent: @Composable RowScope.(Boolean) -> Unit,
     expandableContent: @Composable ColumnScope.(Boolean) -> Unit,
     initialState: Boolean = false,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     shape: RoundedCornerShape = RoundedCornerShape(20.dp),
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
 ) {
@@ -73,7 +75,7 @@ fun ExpandableItem(
             }
         }
         AnimatedVisibility(expanded) {
-            Column {
+            Column(verticalArrangement = verticalArrangement) {
                 Spacer(modifier = Modifier.height(8.dp))
                 expandableContent(expanded)
                 Spacer(modifier = Modifier.height(8.dp))

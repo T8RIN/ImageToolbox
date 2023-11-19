@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.main_screen.components
+package ru.tech.imageresizershrinker.presentation.main_screen.components.settings
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth

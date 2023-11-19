@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens
+package ru.tech.imageresizershrinker.presentation.main_screen.components.settings
 
 import android.content.Intent
 import android.net.Uri
@@ -21,7 +21,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.Prefere
 
 
 @Composable
-fun SourceCodePreference(
+fun SourceCodeSettingItem(
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp),

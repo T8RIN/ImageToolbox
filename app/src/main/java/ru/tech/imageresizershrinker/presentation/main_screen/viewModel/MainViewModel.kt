@@ -418,13 +418,13 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun updateClearCacheOnLaunch() {
+    fun toggleClearCacheOnLaunch() {
         viewModelScope.launch {
             toggleClearCacheOnLaunchUseCase()
         }
     }
 
-    fun updateGroupOptionsByTypes() {
+    fun toggleGroupOptionsByType() {
         viewModelScope.launch {
             toggleGroupOptionsByTypesUseCase()
         }

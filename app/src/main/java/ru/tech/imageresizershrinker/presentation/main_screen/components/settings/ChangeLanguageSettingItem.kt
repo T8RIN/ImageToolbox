@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.main_screen.components
+package ru.tech.imageresizershrinker.presentation.main_screen.components.settings
 
 import android.content.Context
 import android.content.Intent
@@ -49,7 +49,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import java.util.Locale
 
 @Composable
-fun ChangeLanguagePreference(
+fun ChangeLanguageSettingItem(
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(16.dp)
 ) {

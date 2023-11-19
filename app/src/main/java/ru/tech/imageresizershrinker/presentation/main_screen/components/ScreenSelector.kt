@@ -94,10 +94,7 @@ fun ScreenSelector(
     ) { screen ->
         when (screen) {
             is Screen.Main -> {
-                MainScreen(
-                    viewModel = viewModel,
-                    screenList = settingsState.screenList
-                )
+                MainScreen(viewModel = viewModel)
             }
 
             is Screen.SingleEdit -> {

@@ -45,7 +45,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -65,7 +64,6 @@ import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.FormatPaint
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.Save
-import androidx.compose.material.icons.rounded.ScreenLockRotation
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.BottomAppBar
@@ -136,6 +134,7 @@ import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidt
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.OpenColorPickerCard
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.presentation.draw_screen.viewModel.DrawViewModel
+import ru.tech.imageresizershrinker.presentation.main_screen.components.settings.LockDrawOrientationSettingItem
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Eraser
 import ru.tech.imageresizershrinker.presentation.root.model.PtSaver
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
@@ -163,7 +162,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHos
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.presentation.root.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.presentation.root.widget.saver.DrawModeSaver
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
@@ -710,31 +708,10 @@ fun DrawScreen(
                             )
                         }
                         item {
-                            Box(contentAlignment = Alignment.Center) {
-                                PreferenceRowSwitch(
-                                    resultModifier = Modifier
-                                        .padding(
-                                            horizontal = 16.dp,
-                                            vertical = 16.dp
-                                        )
-                                        .widthIn(max = 360.dp),
-                                    modifier = Modifier.padding(top = 4.dp),
-                                    applyHorPadding = false,
-                                    onClick = {
-                                        viewModel.toggleLockDrawOrientation()
-                                    },
-                                    title = stringResource(R.string.lock_draw_orientation),
-                                    subtitle = stringResource(R.string.lock_draw_orientation_sub),
-                                    checked = LocalSettingsState.current.lockDrawOrientation,
-                                    startContent = {
-                                        Icon(
-                                            imageVector = Icons.Rounded.ScreenLockRotation,
-                                            contentDescription = null,
-                                            modifier = Modifier.padding(end = 16.dp)
-                                        )
-                                    }
-                                )
-                            }
+                            LockDrawOrientationSettingItem(
+                                modifier = Modifier,
+                                onClick = { viewModel.toggleLockDrawOrientation() }
+                            )
                         }
                     }
                     Row(

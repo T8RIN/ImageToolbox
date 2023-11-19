@@ -47,28 +47,22 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.MenuOpen
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Settings
-import androidx.compose.material.icons.rounded.TableRows
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.DrawerDefaults
@@ -83,7 +77,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -105,8 +98,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
@@ -119,24 +110,15 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
-import com.t8rin.dynamic.theme.getAppColorTuple
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.launch
-import org.burnoutcrew.reorderable.ReorderableItem
-import org.burnoutcrew.reorderable.detectReorderAfterLongPress
-import org.burnoutcrew.reorderable.rememberReorderableLazyListState
-import org.burnoutcrew.reorderable.reorderable
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.APP_LINK
+import ru.tech.imageresizershrinker.presentation.main_screen.components.settings.SettingsBlock
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.presentation.root.icons.emoji.Emoji
-import ru.tech.imageresizershrinker.presentation.root.icons.emoji.allIcons
-import ru.tech.imageresizershrinker.presentation.root.icons.emoji.allIconsCategorized
-import ru.tech.imageresizershrinker.presentation.root.icons.material.FileSettings
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Github
 import ru.tech.imageresizershrinker.presentation.root.icons.material.GooglePlay
 import ru.tech.imageresizershrinker.presentation.root.model.isFirstLaunch
@@ -144,11 +126,8 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
-import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AvailableColorTuplesSheet
-import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorTuplePicker
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
@@ -157,14 +136,9 @@ import ru.tech.imageresizershrinker.presentation.root.widget.modifier.rotateAnim
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItemOverload
-import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
-import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalEditPresetsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 
@@ -174,23 +148,16 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSi
 )
 @Composable
 fun MainScreen(
-    screenList: List<Screen>,
     viewModel: MainViewModel
 ) {
     val navController = LocalNavController.current
     val settingsState = LocalSettingsState.current
-    val editPresetsState = LocalEditPresetsState.current
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
+    val screenList = settingsState.screenList
 
     val scope = rememberCoroutineScope()
-
-    val showPickColorDialog = rememberSaveable { mutableStateOf(false) }
-    val showEmojiDialog = rememberSaveable { mutableStateOf(false) }
-    val showArrangementSheet = rememberSaveable { mutableStateOf(false) }
-
-    var showChangeFilenameDialog by rememberSaveable { mutableStateOf(false) }
 
     val sideSheetState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val toastHost = LocalToastHost.current
@@ -362,14 +329,7 @@ fun MainScreen(
                         }
                     }
                 )
-                SettingsBlock(
-                    onEditPresets = { editPresetsState.value = true },
-                    onEditArrangement = { showArrangementSheet.value = true },
-                    onEditFilename = { showChangeFilenameDialog = true },
-                    onEditEmoji = { showEmojiDialog.value = true },
-                    onEditColorScheme = { showPickColorDialog.value = true },
-                    viewModel = viewModel
-                )
+                SettingsBlock(viewModel)
             }
         }
     }
@@ -627,10 +587,6 @@ fun MainScreen(
                                                 onClick = {
                                                     navController.popUpTo { it == Screen.Main }
                                                     navController.navigate(screen)
-                                                },
-                                                onLongClick = {
-                                                    showArrangementSheet.value =
-                                                        !settingsState.groupOptionsByTypes
                                                 },
                                                 modifier = Modifier
                                                     .fillMaxWidth()
@@ -909,174 +865,6 @@ fun MainScreen(
             }
         }
     }
-
-    val showColorPicker = rememberSaveable { mutableStateOf(false) }
-    AvailableColorTuplesSheet(
-        visible = showPickColorDialog,
-        colorTupleList = settingsState.colorTupleList,
-        currentColorTuple = getAppColorTuple(
-            defaultColorTuple = settingsState.appColorTuple,
-            dynamicColor = settingsState.isDynamicColors,
-            darkTheme = settingsState.isNightMode
-        ),
-        onToggleInvertColors = viewModel::toggleInvertColors,
-        onThemeStyleSelected = { viewModel.setThemeStyle(it.ordinal) },
-        updateThemeContrast = viewModel::updateThemeContrast,
-        openColorPicker = {
-            showColorPicker.value = true
-        },
-        colorPicker = { onUpdateColorTuples ->
-            ColorTuplePicker(
-                visible = showColorPicker,
-                colorTuple = settingsState.appColorTuple,
-                onColorChange = {
-                    viewModel.updateColorTuple(it)
-                    onUpdateColorTuples(settingsState.colorTupleList + it)
-                }
-            )
-        },
-        onUpdateColorTuples = {
-            viewModel.updateColorTuples(it)
-        },
-        onPickTheme = { viewModel.updateColorTuple(it) }
-    )
-
-    if (showChangeFilenameDialog) {
-        var value by remember {
-            mutableStateOf(
-                settingsState
-                    .filenamePrefix
-                    .takeIf {
-                        it.isNotEmpty()
-                    } ?: context.getString(R.string.default_prefix)
-            )
-        }
-        AlertDialog(
-            modifier = Modifier
-                .width(340.dp)
-                .padding(16.dp)
-                .alertDialogBorder(),
-            properties = DialogProperties(usePlatformDefaultWidth = false),
-            onDismissRequest = { showChangeFilenameDialog = false },
-            icon = {
-                Icon(Icons.Rounded.FileSettings, null)
-            },
-            title = {
-                Text(stringResource(R.string.prefix))
-            },
-            text = {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    OutlinedTextField(
-                        placeholder = {
-                            Text(
-                                text = stringResource(R.string.default_prefix),
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        },
-                        shape = RoundedCornerShape(16.dp),
-                        value = value,
-                        textStyle = MaterialTheme.typography.titleMedium.copy(
-                            textAlign = TextAlign.Center
-                        ),
-                        onValueChange = {
-                            value = it
-                        }
-                    )
-                }
-            },
-            confirmButton = {
-                EnhancedButton(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                        alpha = if (settingsState.isNightMode) 0.5f
-                        else 1f
-                    ),
-                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                    onClick = {
-                        viewModel.updateFilename(value.trim())
-                        showChangeFilenameDialog = false
-                    },
-                    borderColor = MaterialTheme.colorScheme.outlineVariant(
-                        onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                    ),
-                ) {
-                    Text(stringResource(R.string.ok))
-                }
-            }
-        )
-    }
-
-    EmojiSheet(
-        selectedEmojiIndex = viewModel.settingsState.selectedEmoji ?: 0,
-        emojiWithCategories = Emoji.allIconsCategorized(),
-        allEmojis = Emoji.allIcons(),
-        onEmojiPicked = viewModel::updateEmoji,
-        visible = showEmojiDialog
-    )
-
-    SimpleSheet(
-        visible = showArrangementSheet,
-        title = {
-            TitleItem(
-                text = stringResource(R.string.order),
-                icon = Icons.Rounded.TableRows
-            )
-        },
-        confirmButton = {
-            EnhancedButton(
-                containerColor = Color.Transparent,
-                onClick = { showArrangementSheet.value = false }
-            ) {
-                AutoSizeText(stringResource(R.string.close))
-            }
-        },
-        sheetContent = {
-            Box {
-                val data = remember { mutableStateOf(screenList) }
-                val state = rememberReorderableLazyListState(
-                    onMove = { from, to ->
-                        data.value = data.value.toMutableList().apply {
-                            add(to.index, removeAt(from.index))
-                        }
-                    },
-                    onDragEnd = { _, _ ->
-                        viewModel.updateOrder(data.value)
-                    }
-                )
-                LazyColumn(
-                    state = state.listState,
-                    modifier = Modifier
-                        .reorderable(state)
-                        .detectReorderAfterLongPress(state),
-                    contentPadding = PaddingValues(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(data.value, key = { it }) { screen ->
-                        ReorderableItem(state, key = screen) { isDragging ->
-                            val elevation by animateDpAsState(if (isDragging) 16.dp else 0.dp)
-                            val tonalElevation by animateDpAsState(if (isDragging) 16.dp else 1.dp)
-                            PreferenceItem(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .shadow(elevation, RoundedCornerShape(16.dp)),
-                                title = stringResource(screen.title),
-                                subtitle = stringResource(screen.subtitle),
-                                icon = screen.icon,
-                                endIcon = Icons.Rounded.DragHandle,
-                                color = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                    tonalElevation
-                                )
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    )
 }
 
 private fun getVersionPreRelease(): String {
