@@ -5,6 +5,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -37,7 +38,7 @@ fun TopAppBarEmoji() {
                 }
             )
     ) {
-        Row {
+        Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
             repeat(5) {
                 AnimatedVisibility(
                     visible = settingsState.emojisCount > it,

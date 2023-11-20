@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,13 +27,14 @@ fun SearchableSettingItem(
     modifier: Modifier = Modifier,
     group: SettingsGroup,
     setting: SettingItem,
+    shape: Shape,
     viewModel: MainViewModel
 ) {
     Column(
-        modifier = modifier.container(resultPadding = 0.dp)
+        modifier = modifier.container(resultPadding = 0.dp, shape = shape)
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+            modifier = Modifier.padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -43,8 +45,13 @@ fun SearchableSettingItem(
             Spacer(Modifier.width(8.dp))
             Text(text = stringResource(id = group.titleId), fontSize = 12.sp)
         }
+        val itemShape = when (setting) {
+            is SettingItem.ImagePickerMode -> null
+            is SettingItem.NightMode -> null
+            else -> RoundedCornerShape(12.dp)
+        }
         CompositionLocalProvider(
-            LocalContainerShape provides RoundedCornerShape(12.dp)
+            LocalContainerShape provides itemShape
         ) {
             SettingItem(
                 setting = setting,

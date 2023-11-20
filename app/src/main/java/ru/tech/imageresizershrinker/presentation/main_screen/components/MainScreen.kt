@@ -58,7 +58,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.MenuOpen
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
@@ -87,6 +86,7 @@ import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -102,6 +102,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -127,7 +128,6 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
@@ -135,6 +135,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.modifier.pulsate
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.rotateAnimation
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.presentation.root.widget.other.SearchBar
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
@@ -166,50 +167,6 @@ fun MainScreen(
         LocalWindowSizeClass.current.heightSizeClass == WindowHeightSizeClass.Compact
     val isSheetSlideable = !isGrid
     val layoutDirection = LocalLayoutDirection.current
-
-    var searchKeyword by rememberSaveable {
-        mutableStateOf("")
-    }
-
-    val updateButtonOnClick = {
-        if (viewModel.updateAvailable) {
-            viewModel.tryGetUpdate(
-                newRequest = true,
-                installedFromMarket = context.isInstalledFromPlayStore(),
-                onNoUpdates = {
-                    scope.launch {
-                        toastHost.showToast(
-                            icon = Icons.Rounded.FileDownloadOff,
-                            message = context.getString(R.string.no_updates)
-                        )
-                    }
-                }
-            )
-        } else if (context.isInstalledFromPlayStore()) {
-            try {
-                context.startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("market://details?id=${context.packageName}")
-                    )
-                )
-            } catch (e: ActivityNotFoundException) {
-                context.startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("https://play.google.com/store/apps/details?id=${context.packageName}")
-                    )
-                )
-            }
-        } else {
-            context.startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(APP_LINK)
-                )
-            )
-        }
-    }
 
     var sheetExpanded by rememberSaveable { mutableStateOf(false) }
     val drawerContent = @Composable {
@@ -259,6 +216,20 @@ fun MainScreen(
             drawerShape = if (isSheetSlideable) DrawerDefaults.shape else RectangleShape,
             windowInsets = WindowInsets(0)
         ) {
+            var settingsSearchKeyword by rememberSaveable {
+                mutableStateOf("")
+            }
+            var showSettingsSearch by rememberSaveable { mutableStateOf(false) }
+
+            val focus = LocalFocusManager.current
+            LaunchedEffect(sideSheetState.isClosed) {
+                if (sideSheetState.isClosed) {
+                    focus.clearFocus()
+                    showSettingsSearch = false
+                    settingsSearchKeyword = ""
+                }
+            }
+
             CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
                 TopAppBar(
                     colors = TopAppBarDefaults.topAppBarColors(
@@ -267,16 +238,32 @@ fun MainScreen(
                         )
                     ),
                     title = {
-                        //TODO: Search bar create and fix screen search buttons not visible
-                        Marquee(
-                            edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                6.dp
-                            )
-                        ) {
-                            Text(
-                                stringResource(R.string.settings),
-                                style = MaterialTheme.typography.titleLarge
-                            )
+                        AnimatedContent(
+                            targetState = showSettingsSearch
+                        ) { searching ->
+                            if (!searching) {
+                                Marquee(
+                                    edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                        6.dp
+                                    )
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.settings),
+                                        style = MaterialTheme.typography.titleLarge
+                                    )
+                                }
+                            } else {
+                                BackHandler {
+                                    settingsSearchKeyword = ""
+                                    showSettingsSearch = false
+                                }
+                                SearchBar(
+                                    searchString = settingsSearchKeyword,
+                                    onValueChange = {
+                                        settingsSearchKeyword = it
+                                    }
+                                )
+                            }
                         }
                     },
                     modifier = Modifier
@@ -284,58 +271,64 @@ fun MainScreen(
                         .background(MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp))
                         .drawHorizontalStroke(),
                     actions = {
-                        if (isSheetSlideable) {
-                            IconButton(
-                                onClick = {
-                                    scope.launch {
-                                        sideSheetState.close()
-                                    }
+                        IconButton(
+                            onClick = {
+                                if (!showSettingsSearch) {
+                                    showSettingsSearch = true
+                                } else {
+                                    settingsSearchKeyword = ""
                                 }
-                            ) {
-                                Icon(Icons.Rounded.Close, null)
                             }
-                        }
-                        if (!isSheetSlideable) {
-                            EnhancedIconButton(
-                                onClick = updateButtonOnClick,
-                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                modifier = Modifier.pulsate(enabled = viewModel.updateAvailable),
-                                content = {
-                                    if (viewModel.updateAvailable) {
-                                        Icon(Icons.Rounded.FileDownload, null)
-                                    } else if (context.isInstalledFromPlayStore()) {
-                                        Icon(
-                                            Icons.Rounded.GooglePlay,
-                                            null,
-                                            modifier = Modifier.offset(1.5.dp)
-                                        )
-                                    } else {
-                                        Icon(Icons.Rounded.Github, null)
-                                    }
+                        ) {
+                            AnimatedContent(
+                                targetState = showSettingsSearch,
+                                transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
+                            ) {
+                                if (it) {
+                                    Icon(Icons.Rounded.Close, null)
+                                } else {
+                                    Icon(Icons.Rounded.Search, null)
                                 }
-                            )
+                            }
                         }
                     },
                     navigationIcon = {
-                        if (!isSheetSlideable) {
-                            IconButton(
-                                onClick = {
-                                    sheetExpanded = !sheetExpanded
-                                }
-                            ) {
-                                Icon(
-                                    Icons.AutoMirrored.Rounded.MenuOpen,
-                                    null,
-                                    modifier = Modifier.rotate(
-                                        animateFloatAsState(if (!sheetExpanded) 0f else 180f).value
+                        AnimatedContent(
+                            targetState = !isSheetSlideable to showSettingsSearch,
+                            transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
+                        ) { (expanded, searching) ->
+                            if (searching) {
+                                IconButton(
+                                    onClick = {
+                                        showSettingsSearch = false
+                                        settingsSearchKeyword = ""
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                        contentDescription = null
                                     )
-                                )
+                                }
+                            } else if (expanded) {
+                                IconButton(
+                                    onClick = {
+                                        sheetExpanded = !sheetExpanded
+                                    }
+                                ) {
+                                    Icon(
+                                        Icons.AutoMirrored.Rounded.MenuOpen,
+                                        null,
+                                        modifier = Modifier.rotate(
+                                            animateFloatAsState(if (!sheetExpanded) 0f else 180f).value
+                                        )
+                                    )
+                                }
                             }
                         }
                     }
                 )
                 SettingsBlock(
-                    searchKeyword = searchKeyword,
+                    searchKeyword = settingsSearchKeyword,
                     viewModel = viewModel
                 )
             }
@@ -347,25 +340,25 @@ fun MainScreen(
     val content = @Composable {
         CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
             Box {
-                val canSearch = settingsState.screensSearchEnabled
-                var showSearch by rememberSaveable(canSearch) { mutableStateOf(false) }
-                var searchValue by rememberSaveable(canSearch) { mutableStateOf("") }
-                val currentList by remember(
+                val canSearchScreens = settingsState.screensSearchEnabled
+                var showScreenSearch by rememberSaveable(canSearchScreens) { mutableStateOf(false) }
+                var screenSearchKeyword by rememberSaveable(canSearchScreens) { mutableStateOf("") }
+                val currentScreenList by remember(
                     settingsState.groupOptionsByTypes,
-                    searchValue,
+                    screenSearchKeyword,
                     screenList
                 ) {
                     derivedStateOf {
-                        if (settingsState.groupOptionsByTypes && (searchValue.isEmpty() && !showSearch)) {
+                        if (settingsState.groupOptionsByTypes && (screenSearchKeyword.isEmpty() && !showScreenSearch)) {
                             Screen.typedEntries[currentPage].first
                         } else {
                             screenList
                         }.let { screens ->
-                            if (searchValue.isNotEmpty() && canSearch) {
+                            if (screenSearchKeyword.isNotEmpty() && canSearchScreens) {
                                 screens.filter {
                                     val string =
                                         context.getString(it.title) + " " + context.getString(it.subtitle)
-                                    string.contains(other = searchValue, ignoreCase = true)
+                                    string.contains(other = screenSearchKeyword, ignoreCase = true)
                                 }
                             } else screens
                         }
@@ -430,12 +423,12 @@ fun MainScreen(
                         ),
                         actions = {
                             AnimatedVisibility(
-                                visible = !showSearch && canSearch,
+                                visible = !showScreenSearch && canSearchScreens,
                                 enter = fadeIn() + scaleIn(),
                                 exit = fadeOut() + scaleOut()
                             ) {
                                 IconButton(
-                                    onClick = { showSearch = true && canSearch }
+                                    onClick = { showScreenSearch = true && canSearchScreens }
                                 ) {
                                     Icon(
                                         imageVector = Icons.Rounded.Search,
@@ -470,7 +463,7 @@ fun MainScreen(
 
                     Row(Modifier.weight(1f)) {
                         AnimatedVisibility(
-                            visible = !isSheetSlideable && settingsState.groupOptionsByTypes && searchValue.isEmpty() && !sheetExpanded,
+                            visible = !isSheetSlideable && settingsState.groupOptionsByTypes && screenSearchKeyword.isEmpty() && !sheetExpanded,
                             enter = fadeIn() + expandHorizontally(),
                             exit = fadeOut() + shrinkHorizontally()
                         ) {
@@ -550,19 +543,19 @@ fun MainScreen(
                         }
 
                         val cutout =
-                            if (!settingsState.groupOptionsByTypes || searchValue.isNotEmpty()) {
+                            if (!settingsState.groupOptionsByTypes || screenSearchKeyword.isNotEmpty()) {
                                 WindowInsets.displayCutout.asPaddingValues()
                             } else PaddingValues()
 
                         AnimatedContent(
-                            targetState = currentList.isNotEmpty(),
+                            targetState = currentScreenList.isNotEmpty(),
                             transitionSpec = {
                                 fadeIn() togetherWith fadeOut()
                             }
                         ) { hasScreens ->
                             if (hasScreens) {
                                 LazyVerticalStaggeredGrid(
-                                    reverseLayout = showSearch && searchValue.isNotEmpty() && canSearch,
+                                    reverseLayout = showScreenSearch && screenSearchKeyword.isNotEmpty() && canSearchScreens,
                                     modifier = Modifier
                                         .fillMaxHeight()
                                         .weight(1f),
@@ -590,7 +583,7 @@ fun MainScreen(
                                         )
                                     ),
                                     content = {
-                                        items(currentList) { screen ->
+                                        items(currentScreenList) { screen ->
                                             PreferenceItemOverload(
                                                 onClick = {
                                                     navController.popUpTo { it == Screen.Main }
@@ -643,12 +636,12 @@ fun MainScreen(
                     }
 
                     AnimatedVisibility(
-                        visible = isSheetSlideable || sheetExpanded || (showSearch && canSearch),
+                        visible = isSheetSlideable || sheetExpanded || (showScreenSearch && canSearchScreens),
                         enter = fadeIn() + expandVertically(),
                         exit = fadeOut() + shrinkVertically()
                     ) {
                         AnimatedContent(
-                            targetState = settingsState.groupOptionsByTypes to (showSearch && canSearch),
+                            targetState = settingsState.groupOptionsByTypes to (showScreenSearch && canSearchScreens),
                             transitionSpec = { fadeIn() togetherWith fadeOut() }
                         ) { (groupOptionsByTypes, searching) ->
                             if (groupOptionsByTypes && !searching) {
@@ -717,8 +710,8 @@ fun MainScreen(
                                         } else {
                                             if (searching) {
                                                 BackHandler {
-                                                    searchValue = ""
-                                                    showSearch = false
+                                                    screenSearchKeyword = ""
+                                                    showScreenSearch = false
                                                 }
                                                 ProvideTextStyle(value = MaterialTheme.typography.bodyLarge) {
                                                     //TODO: FIX
@@ -731,35 +724,42 @@ fun MainScreen(
                                                         keyboardOptions = KeyboardOptions.Default.copy(
                                                             imeAction = ImeAction.Search
                                                         ),
-                                                        value = searchValue,
-                                                        onValueChange = { searchValue = it },
+                                                        value = screenSearchKeyword,
+                                                        onValueChange = {
+                                                            screenSearchKeyword = it
+                                                        },
                                                         startIcon = {
                                                             IconButton(
                                                                 onClick = {
-                                                                    searchValue = ""
-                                                                    showSearch = false
+                                                                    screenSearchKeyword = ""
+                                                                    showScreenSearch = false
                                                                 },
                                                                 modifier = Modifier.padding(start = 4.dp)
                                                             ) {
                                                                 Icon(
-                                                                    Icons.AutoMirrored.Rounded.ArrowBack,
-                                                                    null
+                                                                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                                                    contentDescription = null,
+                                                                    tint = MaterialTheme.colorScheme.onSurface
                                                                 )
                                                             }
                                                         },
                                                         endIcon = {
                                                             AnimatedVisibility(
-                                                                visible = searchValue.isNotEmpty(),
+                                                                visible = screenSearchKeyword.isNotEmpty(),
                                                                 enter = fadeIn() + scaleIn(),
                                                                 exit = fadeOut() + scaleOut()
                                                             ) {
                                                                 IconButton(
                                                                     onClick = {
-                                                                        searchValue = ""
+                                                                        screenSearchKeyword = ""
                                                                     },
                                                                     modifier = Modifier.padding(end = 4.dp)
                                                                 ) {
-                                                                    Icon(Icons.Rounded.Close, null)
+                                                                    Icon(
+                                                                        imageVector = Icons.Rounded.Close,
+                                                                        contentDescription = null,
+                                                                        tint = MaterialTheme.colorScheme.onSurface
+                                                                    )
                                                                 }
                                                             }
                                                         },
@@ -767,8 +767,8 @@ fun MainScreen(
                                                     )
                                                 }
                                             } else {
-                                                searchValue = ""
-                                                showSearch = false
+                                                screenSearchKeyword = ""
+                                                showScreenSearch = false
                                             }
                                         }
                                     },

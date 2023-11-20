@@ -72,6 +72,7 @@ fun PreferenceRowSwitch(
                     ),
                     uncheckedTrackColor = MaterialTheme.colorScheme.secondaryContainer
                 ),
+                enabled = enabled,
                 checked = checked,
                 onCheckedChange = {
                     onClick(it)
