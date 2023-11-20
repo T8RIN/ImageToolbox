@@ -285,7 +285,7 @@
     <string name="invalid_password_or_not_encrypted">密碼無效或選擇的檔案未加密</string>
     <string name="tools">工具</string>
     <string name="group_options_by_type">按類型對選項進行分組</string>
-    <string name="group_options_by_type_sub">在主畫面上按類型對選項進行分組，而不是自定義列表排列</string>
+    <string name="group_options_by_type_sub">將主螢幕上的選項按類型分組，而不是自定義列表排列</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">啟用選項分組時無法變更排列</string>
     <string name="warning_bytes">以 %1$s 模式儲存可能不穩定，因為它是無損格式</string>
     <string name="skip">略過</string>
@@ -440,4 +440,13 @@
     <string name="mask_preview">遮罩預覽</string>
     <string name="mask_color">遮罩顏色</string>
     <string name="mask_preview_sub">所繪製的濾鏡遮罩會被渲染，以展示預期的效果大概是什麼樣子</string>
+    <string name="delete_mask">刪除遮罩</string>
+    <string name="inverse_fill_type">反向填充類型</string>
+    <string name="delete_mask_warn">您即將刪除所選濾鏡遮罩。此操作無法撤銷</string>
+    <string name="full_filter_sub">對給定的圖像或單張圖像應用任何濾鏡鏈</string>
+    <string name="inverse_fill_type_sub">如果啟用，所有非遮罩區域將進行濾鏡處理，而不是預設行為</string>
+    <string name="start_position">開始</string>
+    <string name="full_filter">全濾鏡</string>
+    <string name="end_position">結束</string>
+    <string name="center_position">中心</string>
 </resources>
