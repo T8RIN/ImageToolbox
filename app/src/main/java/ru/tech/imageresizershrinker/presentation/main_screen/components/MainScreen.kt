@@ -603,9 +603,7 @@ fun MainScreen(
                                 )
                             } else {
                                 Column(
-                                    modifier = Modifier
-                                        .fillMaxHeight()
-                                        .weight(1f),
+                                    modifier = Modifier.fillMaxSize(),
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     verticalArrangement = Arrangement.Center
                                 ) {

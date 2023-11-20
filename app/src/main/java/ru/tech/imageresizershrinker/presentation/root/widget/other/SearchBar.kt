@@ -1,9 +1,7 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.other
 
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
@@ -13,22 +11,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.fadingEdges
+import ru.tech.imageresizershrinker.presentation.root.widget.text.KeyboardFocusHandler
 
 @Composable
 fun SearchBar(
@@ -40,11 +35,8 @@ fun SearchBar(
     val localFocusManager = LocalFocusManager.current
     val state = rememberScrollState()
 
-    val isKeyboardVisible by isKeyboardVisibleAsState()
-
-    LaunchedEffect(isKeyboardVisible) {
-        if (!isKeyboardVisible) localFocusManager.clearFocus()
-    }
+    //TODO: Remove when library will be fixed
+    KeyboardFocusHandler()
 
     LaunchedEffect(windowInfo) {
         snapshotFlow {
@@ -85,10 +77,4 @@ fun SearchBar(
             )
         )
     }
-}
-
-@Composable
-private fun isKeyboardVisibleAsState(): State<Boolean> {
-    val isImeVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
-    return rememberUpdatedState(isImeVisible)
 }
