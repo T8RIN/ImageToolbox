@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.other
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.fadingEdges
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SearchBar(
     searchString: String,

@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.single_edit_screen.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -58,7 +57,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun EditExifSheet(
     visible: MutableState<Boolean>,
