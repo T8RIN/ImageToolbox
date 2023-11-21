@@ -3,9 +3,13 @@
 package ru.tech.imageresizershrinker.presentation.main_screen.components.settings
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,6 +29,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -67,7 +72,7 @@ fun SettingsBlock(
     var loading by remember { mutableStateOf(false) }
     LaunchedEffect(searchKeyword) {
         delay(150)
-        loading = true
+        loading = searchKeyword.isNotEmpty()
         settings = searchKeyword.takeIf { it.trim().isNotEmpty() }?.let {
             val newList = mutableListOf<Pair<SettingsGroup, SettingItem>>()
             initialSettingGroups.forEach { group ->
@@ -108,80 +113,30 @@ fun SettingsBlock(
         )
 
     val focus = LocalFocusManager.current
-    Column(
-        Modifier
-            .then(
-                if (settings?.isEmpty() == true || loading) Modifier.fillMaxSize()
-                else Modifier.verticalScroll(rememberScrollState())
-            )
-            .pointerInput(Unit) {
-                detectTapGestures { focus.clearFocus() }
-            }
-            .padding(padding)
-    ) {
+
+    Box {
         AnimatedContent(
-            targetState = settings to loading,
-            modifier = Modifier.fillMaxSize(),
+            targetState = (settings == null) to (settings?.isNotEmpty() == true),
+            modifier = Modifier
+                .fillMaxSize()
+                .pointerInput(Unit) {
+                    detectTapGestures { focus.clearFocus() }
+                },
             transitionSpec = {
-                fadeIn() togetherWith fadeOut()
+                fadeIn() + scaleIn(initialScale = 0.95f) togetherWith fadeOut() + scaleOut(
+                    targetScale = 0.8f
+                )
             }
-        ) { (settingsAnimated, isLoading) ->
-            if (isLoading) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+        ) { (settingsIsNull, settingsIsNotEmpty) ->
+            if (settingsIsNull) {
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(
+                            rememberScrollState()
+                        )
+                        .padding(padding)
                 ) {
-                    Loading()
-                }
-            } else {
-                Column {
-                    settingsAnimated?.let {
-                        settingsAnimated
-                            .takeIf { it.isNotEmpty() }
-                            ?.forEachIndexed { index, (group, setting) ->
-                                SearchableSettingItem(
-                                    shape = when {
-                                        settingsAnimated.size == 1 -> SettingsShapeDefaults.defaultShape
-                                        index == 0 -> SettingsShapeDefaults.topShape
-                                        index == settingsAnimated.lastIndex -> SettingsShapeDefaults.bottomShape
-                                        else -> SettingsShapeDefaults.centerShape
-                                    },
-                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-                                    group = group,
-                                    setting = setting,
-                                    viewModel = viewModel
-                                )
-                            }
-                        if (settingsAnimated.isEmpty()) {
-                            Column(
-                                modifier = Modifier.fillMaxSize(),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                Spacer(Modifier.weight(1f))
-                                Text(
-                                    text = stringResource(R.string.nothing_found_by_search),
-                                    fontSize = 18.sp,
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier.padding(
-                                        start = 24.dp,
-                                        end = 24.dp,
-                                        top = 8.dp,
-                                        bottom = 8.dp
-                                    )
-                                )
-                                Icon(
-                                    imageVector = Icons.Rounded.SearchOff,
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .weight(2f)
-                                        .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
-                                        .fillMaxSize()
-                                )
-                                Spacer(Modifier.weight(1f))
-                            }
-                        }
-                    } ?: initialSettingGroups.forEach { group ->
+                    initialSettingGroups.forEach { group ->
                         SettingGroupItem(
                             icon = group.icon,
                             text = stringResource(group.titleId),
@@ -200,6 +155,78 @@ fun SettingsBlock(
                         }
                     }
                 }
+            } else if (settingsIsNotEmpty) {
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(
+                            rememberScrollState()
+                        )
+                        .padding(padding)
+                ) {
+                    settings?.forEachIndexed { index, (group, setting) ->
+                        SearchableSettingItem(
+                            shape = when {
+                                settings?.size == 1 -> SettingsShapeDefaults.defaultShape
+                                index == 0 -> SettingsShapeDefaults.topShape
+                                index == settings?.lastIndex -> SettingsShapeDefaults.bottomShape
+                                else -> SettingsShapeDefaults.centerShape
+                            },
+                            modifier = Modifier
+                                .padding(
+                                    horizontal = 8.dp,
+                                    vertical = 2.dp
+                                ),
+                            group = group,
+                            setting = setting,
+                            viewModel = viewModel
+                        )
+                    }
+                }
+            } else {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Spacer(Modifier.weight(1f))
+                    Text(
+                        text = stringResource(R.string.nothing_found_by_search),
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(
+                            start = 24.dp,
+                            end = 24.dp,
+                            top = 8.dp,
+                            bottom = 8.dp
+                        )
+                    )
+                    Icon(
+                        imageVector = Icons.Rounded.SearchOff,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .weight(2f)
+                            .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
+                            .fillMaxSize()
+                    )
+                    Spacer(Modifier.weight(1f))
+                }
+            }
+        }
+        AnimatedVisibility(
+            visible = loading,
+            modifier = Modifier.fillMaxSize(),
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        MaterialTheme.colorScheme.surfaceDim.copy(0.7f)
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Loading()
             }
         }
     }
