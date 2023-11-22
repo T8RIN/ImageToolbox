@@ -32,7 +32,6 @@
     <string name="cancel">Cancelar</string>
     <string name="clear_exif_sub">Se borrarán todos los datos EXIF de la imagen, ¡esta acción no se puede deshacer!</string>
     <string name="presets">Preajustes</string>
-    <string name="ratio">Ratio</string>
     <string name="crop">Recortar</string>
     <string name="image_not_saved">Guardar</string>
     <string name="image_not_saved_sub">Todos los cambios no guardados se perderán si sales ahora</string>
@@ -187,7 +186,6 @@
     <string name="fill">Llenar</string>
     <string name="fit">Adaptar</string>
     <string name="flexible_description">Cambia el tamaño de las imágenes a imágenes con un lado largo dado por el parámetro Ancho o Alto, todos los cálculos de tamaño se realizarán después de guardar - mantiene la relación de aspecto</string>
-    <string name="ratio_description">Cambia el tamaño de las imágenes a imágenes con un lado ancho o alto editado por última vez, muestra el tamaño final de la imagen en tiempo real, mantiene la relación de aspecto</string>
     <string name="hue">Matiz</string>
     <string name="filter">Filtrar</string>
     <string name="color_filter">Filtro de color</string>

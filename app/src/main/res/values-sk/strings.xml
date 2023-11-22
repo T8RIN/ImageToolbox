@@ -36,7 +36,6 @@
     <string name="cancel">Zrušiť</string>
     <string name="clear_exif_sub">Všetky údaje EXIF obrázka sa vymažú, túto akciu nemožno vrátiť späť!</string>
     <string name="presets">Prednastavenia</string>
-    <string name="ratio">Pomer</string>
     <string name="crop">Plodiny</string>
     <string name="image_not_saved">Ukladanie</string>
     <string name="image_not_saved_sub">Ak teraz odídete, všetky neuložené zmeny sa stratia.</string>
@@ -187,7 +186,6 @@
     <string name="fill">Vyplňte</string>
     <string name="fit">Fit</string>
     <string name="flexible_description">Zmení veľkosť obrázkov na obrázky s dlhou stranou danou parametrom Width alebo Height, všetky výpočty veľkosti sa vykonajú po uložení - zachováva pomer strán</string>
-    <string name="ratio_description">Zmení veľkosť obrázkov na obrázky s naposledy upravenou stranou so šírkou alebo výškou, zobrazí konečnú veľkosť obrázka v reálnom čase - zachováva pomer strán</string>
     <string name="contrast">Kontrast</string>
     <string name="hue">Hue</string>
     <string name="saturation">Sýtosť</string>

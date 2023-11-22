@@ -27,7 +27,6 @@
     <string name="no_exif">Nenhum EXIF encontrado</string>
     <string name="add_tag">Adicionar tag</string>
     <string name="clear_exif">Limpar EXIF</string>
-    <string name="ratio">Proporção</string>
     <string name="image_not_saved">Salvando</string>
     <string name="crop">Cortar</string>
     <string name="color">Cor</string>
@@ -125,7 +124,6 @@
     <string name="share">Compartilhar</string>
     <string name="external_storage">Armazenamento externo</string>
     <string name="monet_colors">Cores de Monet</string>
-    <string name="ratio_description">Redimensiona imagens para imagens com um lado de largura ou altura editado pela última vez, mostra o tamanho final da imagem em tempo real - mantém a proporção</string>
     <string name="effect">Efeito</string>
     <string name="distance">Distância</string>
     <string name="slope">Declive</string>

@@ -77,11 +77,8 @@ fun SettingsBlock(
             val newList = mutableListOf<Pair<SettingsGroup, SettingItem>>()
             initialSettingGroups.forEach { group ->
                 group.settingsList.forEach { setting ->
-                    val title = context.getString(group.titleId)
-                    val icon = group.icon.name
                     val keywords = mutableListOf<String>()
-                    keywords.add(title)
-                    keywords.add(icon)
+                    keywords.add(context.getString(group.titleId))
                     keywords.add(setting.getTitle(context))
                     keywords.add(setting.getSubtitle(context))
                     if (
@@ -116,7 +113,7 @@ fun SettingsBlock(
 
     Box {
         AnimatedContent(
-            targetState = (settings == null) to (settings?.isNotEmpty() == true),
+            targetState = settings,
             modifier = Modifier
                 .fillMaxSize()
                 .pointerInput(Unit) {
@@ -127,8 +124,8 @@ fun SettingsBlock(
                     targetScale = 0.8f
                 )
             }
-        ) { (settingsIsNull, settingsIsNotEmpty) ->
-            if (settingsIsNull) {
+        ) { settingsAnimated ->
+            if (settingsAnimated == null) {
                 Column(
                     modifier = Modifier
                         .verticalScroll(
@@ -155,7 +152,7 @@ fun SettingsBlock(
                         }
                     }
                 }
-            } else if (settingsIsNotEmpty) {
+            } else if (settingsAnimated.isNotEmpty()) {
                 Column(
                     modifier = Modifier
                         .verticalScroll(
@@ -163,12 +160,12 @@ fun SettingsBlock(
                         )
                         .padding(padding)
                 ) {
-                    settings?.forEachIndexed { index, (group, setting) ->
+                    settingsAnimated.forEachIndexed { index, (group, setting) ->
                         SearchableSettingItem(
                             shape = when {
-                                settings?.size == 1 -> SettingsShapeDefaults.defaultShape
+                                settingsAnimated.size == 1 -> SettingsShapeDefaults.defaultShape
                                 index == 0 -> SettingsShapeDefaults.topShape
-                                index == settings?.lastIndex -> SettingsShapeDefaults.bottomShape
+                                index == settingsAnimated.lastIndex -> SettingsShapeDefaults.bottomShape
                                 else -> SettingsShapeDefaults.centerShape
                             },
                             modifier = Modifier

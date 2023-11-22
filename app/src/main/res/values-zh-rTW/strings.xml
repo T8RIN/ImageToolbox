@@ -26,7 +26,6 @@
     <string name="presets">預設集</string>
     <string name="crop">裁切</string>
     <string name="clear_exif_sub">所有圖片的 EXIF 資料將會被清除，此動作無法被復原！</string>
-    <string name="ratio">比例</string>
     <string name="image_not_saved_sub">如果您現在離開，將會遺失所有未儲存的變更</string>
     <string name="image_not_saved">儲存</string>
     <string name="check_source_code_sub">取得最新的更新，討論問題等</string>
@@ -176,7 +175,6 @@
     <string name="flexible_description">使用長邊為準由指定的寬度或高度調整圖片尺寸，所有的尺寸計算將在儲存之後完成 - 維持寬高比例</string>
     <string name="no_image">沒有圖片</string>
     <string name="fill">填滿</string>
-    <string name="ratio_description">重新調整圖片尺寸至最後編輯的寬度或高度，並即時顯示最後的圖片尺寸 - 維持寬高比例</string>
     <string name="contrast">對比</string>
     <string name="vibrance">自然飽和度</string>
     <string name="vignette">暈影</string>

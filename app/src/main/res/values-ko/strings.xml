@@ -26,7 +26,6 @@
     <string name="check_source_code">소스 코드</string>
     <string name="image_not_saved">저장중</string>
     <string name="check_source_code_sub">최신 업데이트 받기, 문제 논의 등</string>
-    <string name="ratio">비율</string>
     <string name="color">색상</string>
     <string name="image">이미지</string>
     <string name="color_copied">색상이 복사되었습니다</string>
@@ -152,7 +151,6 @@
     <string name="order_sub">기본 화면에서 옵션의 순서를 결정합니다.</string>
     <string name="replace_sequence_number_sub">활성화된 경우 일괄 처리를 사용하는 경우 표준 타임스탬프를 이미지 시퀀스 번호로 바꿉니다.</string>
     <string name="filename_not_work_with_photopicker">사진 선택기 이미지 소스를 선택한 경우 원본 파일 이름 추가가 작동하지 않음</string>
-    <string name="ratio_description">마지막으로 편집한 너비 또는 높이 측면으로 사진 크기를 조정하고 최종 이미지 크기를 실시간으로 표시 - 종횡비 유지</string>
     <string name="highlights">하이라이트</string>
     <string name="shadows">그림자</string>
     <string name="vibrance">생동감</string>

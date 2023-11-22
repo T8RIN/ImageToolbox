@@ -25,7 +25,6 @@
     <string name="clear_exif">Curăță EXIF</string>
     <string name="clear_exif_sub">Toate datele EXIF al imaginii vor fi șterse. Această acțiune nu poate fi anulată!</string>
     <string name="presets">Presetări</string>
-    <string name="ratio">Raport</string>
     <string name="crop">Decupează</string>
     <string name="image_not_saved">Se salvează</string>
     <string name="image_not_saved_sub">Toate modificările nesalvate vor fi pierdute, dacă ieși acum</string>
@@ -162,7 +161,6 @@
     <string name="stack_blur">Stiva estompare</string>
     <string name="blur_center_y">Încețoșează centrul y</string>
     <string name="zoom_blur">Încețoșare zoom</string>
-    <string name="ratio_description">Redimensionează imaginile la imagini cu ultima latură editată pentru Lățime sau Înălțime, arată dimensiunea finală a imaginii în timp real - păstrează raportul de aspect</string>
     <string name="add_file_size">Adăugați dimensiunea fișierului</string>
     <string name="add_file_size_sub">Dacă este activat, acesta va adăuga lățimea și înălțimea imaginii salvate la numele fișierului de ieșire</string>
     <string name="image_preview">Previzualizare imagine</string>

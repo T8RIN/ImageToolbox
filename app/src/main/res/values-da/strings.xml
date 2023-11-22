@@ -37,7 +37,6 @@
     <string name="cancel">Annuller</string>
     <string name="clear_exif_sub">Alle EXIF-data for billedet bliver slettet, og denne handling kan ikke fortrydes!</string>
     <string name="presets">Forudindstillinger</string>
-    <string name="ratio">Forhold</string>
     <string name="image_not_saved">Gemmer</string>
     <string name="image_not_saved_sub">Alle ikke gemte ændringer vil gå tabt, hvis du forlader stedet nu</string>
     <string name="check_source_code_sub">Få de seneste opdateringer, diskutere spørgsmål og meget mere</string>
@@ -236,7 +235,6 @@
     <string name="load_image_from_net">Indlæs billede fra nettet</string>
     <string name="load_image_from_net_sub">Indlæs et hvilket som helst billede fra internettet, se et eksempel på det, zoom og gem eller rediger det, hvis du vil</string>
     <string name="content_scale">Indholdsskala</string>
-    <string name="ratio_description">Ændrer størrelsen på billeder til billeder med en sidst redigerede bredde- eller højdeside, viser den endelige billedstørrelse i realtid - bevarer billedformatet</string>
     <string name="emojis_count">Emojis tæller</string>
     <string name="sequence_num">sekvensNum</string>
     <string name="original_filename">originalt filnavn</string>

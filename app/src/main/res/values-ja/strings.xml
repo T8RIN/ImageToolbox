@@ -39,7 +39,6 @@
     <string name="cancel">キャンセル</string>
     <string name="clear_exif_sub">画像のEXIFデータはすべてクリアされ、この操作は元に戻せません！</string>
     <string name="presets">プリセット</string>
-    <string name="ratio">比率</string>
     <string name="crop">切り抜き</string>
     <string name="image_not_saved">セービング</string>
     <string name="image_not_saved_sub">保存していない変更はすべて失われます。</string>
@@ -178,7 +177,6 @@
     <string name="fit">フィット</string>
     <string name="explicit_description">すべての画像を幅と高さのパラメータで指定された画像に強制します - アスペクト比が変更される場合があります</string>
     <string name="flexible_description">幅または高さパラメータで指定された長辺を持つ画像に画像のサイズを変更します。すべてのサイズ計算は保存後に行われます - アスペクト比を維持します</string>
-    <string name="ratio_description">最後に編集した幅または高さの辺を使用して画像のサイズを変更し、最終的な画像サイズをリアルタイムで表示します - アスペクト比を維持します</string>
     <string name="brightness">輝度</string>
     <string name="contrast">対比</string>
     <string name="hue">色相</string>

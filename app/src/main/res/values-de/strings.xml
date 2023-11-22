@@ -51,7 +51,6 @@
     <string name="ok">OK</string>
     <string name="crop">Zuschneiden</string>
     <string name="single_edit_sub">Ändere die Eigenschaften eines einzelnen Bildes</string>
-    <string name="ratio">Seitenverhältnis</string>
     <string name="exception">Ausnahme</string>
     <string name="edit_exif">EXIF bearbeiten</string>
     <string name="no_exif">Keine EXIF Daten gefunden</string>
@@ -158,7 +157,6 @@
     <string name="fit">Einpassen</string>
     <string name="sequence_num">FolgeNum</string>
     <string name="fill">Füllen</string>
-    <string name="ratio_description">Bewahrt das Seitenverhältnis und skaliert das Bild entsprechend des jew. zuletzt bei Höhe oder Breite eingegebenen Werts. Zeigt das Endergebnis in Echtzeit an.</string>
     <string name="content_scale">Inhaltsskalierung</string>
     <string name="flexible_description">Bewahrt das Seitenverhältnis und passt die längere Seite des Bildes in das durch deine eigenen Werte vorgegebene Format ein. Die Größenberechnung erfolgt nach dem Sichern.</string>
     <string name="explicit_description">Zwingt jedes Bild in das durch die Werte für Breite und Höhe vorgegebene Format (Verzerrung möglich)</string>

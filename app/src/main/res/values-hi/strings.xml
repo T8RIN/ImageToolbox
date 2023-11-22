@@ -40,7 +40,6 @@
     <string name="cancel">रद्द करना</string>
     <string name="clear_exif_sub">छवि का सभी EXIF डेटा साफ़ कर दिया जाएगा, यह क्रिया पूर्ववत नहीं की जा सकती!</string>
     <string name="presets">प्रीसेट</string>
-    <string name="ratio">अनुपात</string>
     <string name="crop">काटना</string>
     <string name="image_not_saved">सहेजा जा रहा है</string>
     <string name="image_not_saved_sub">यदि आप अभी छोड़ते हैं, तो सहेजे न गए सभी परिवर्तन खो जाएंगे</string>
@@ -169,7 +168,6 @@
     <string name="load_image_from_net_sub">किसी भी छवि को इंटरनेट से लोड करें, उसका पूर्वावलोकन करें, ज़ूम करें, और यदि आप चाहें तो उसे सहेज या संपादित भी कर सकते हैं</string>
     <string name="no_image">चित्र उपलब्द नहीं है</string>
     <string name="fit">उपयुक्त</string>
-    <string name="ratio_description">अंतिम संपादित चौड़ाई या ऊंचाई पक्ष के साथ छवियों का आकार बदलता है, वास्तविक समय में अंतिम छवि आकार दिखाता है - पहलू अनुपात रखता है</string>
     <string name="contrast">अंतर</string>
     <string name="hue">रंग</string>
     <string name="saturation">परिपूर्णता</string>

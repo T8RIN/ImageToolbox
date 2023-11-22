@@ -35,7 +35,6 @@
     <string name="cancel">Cancella</string>
     <string name="clear_exif_sub">Tutti i dati EXIF dell\'immagine verranno rimossi. Questa azione è irreversibile!</string>
     <string name="presets">Preconfigurazioni</string>
-    <string name="ratio">Rapporto</string>
     <string name="crop">Ritaglia</string>
     <string name="image_not_saved">Salvataggio</string>
     <string name="image_not_saved_sub">Tutte le modifiche andranno perse se abbandoni adesso.</string>
@@ -172,7 +171,6 @@
     <string name="fit">Adatto</string>
     <string name="explicit_description">Forza ogni immagine in un\'immagine data dal parametro Larghezza e Altezza - può cambiare le proporzioni</string>
     <string name="flexible_description">Ridimensiona le immagini in immagini con un lato lungo dato dal parametro Larghezza o Altezza, tutti i calcoli delle dimensioni verranno eseguiti dopo il salvataggio - mantiene le proporzioni</string>
-    <string name="ratio_description">Ridimensiona le immagini in immagini con l\'ultima larghezza o altezza modificata, mostra le dimensioni finali dell\'immagine in tempo reale - mantiene le proporzioni</string>
     <string name="brightness">Luminosità</string>
     <string name="contrast">Contrasto</string>
     <string name="hue">Tinta</string>
@@ -296,7 +294,7 @@
     <string name="file_size">Dimensione del file</string>
     <string name="presets_sub">Se è stata selezionata la preset 125, l\'immagine verrà salvata con una dimensione del 125% dell\'immagine originale con una qualità del 100%. Se si sceglie il preset 50, l\'immagine verrà salvata con il 50% di dimensione e il 50% di qualità.</string>
     <string name="reset_settings_sub">In questo modo verranno ripristinate le impostazioni ai valori predefiniti. Si noti che questa operazione non può essere annullata senza un file di backup menzionato sopra.</string>
-    <string name="something_went_wrong_emphasis">"Ooops...Qualcosa è andato storto.  Puoi scrivermi utilizzando le opzioni di seguito e cercherò di trovare una soluzione"</string>
+    <string name="something_went_wrong_emphasis">"Ooops… Qualcosa è andato storto.  Puoi scrivermi utilizzando le opzioni di seguito e cercherò di trovare una soluzione"</string>
     <string name="tg_chat">Chat Telegram</string>
     <string name="nature_and_animals">Natura e animali</string>
     <string name="activities">Attività</string>

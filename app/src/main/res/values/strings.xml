@@ -38,7 +38,6 @@
     <string name="cancel">Cancel</string>
     <string name="clear_exif_sub">All image EXIF data will be erased. This action cannot be undone!</string>
     <string name="presets">Presets</string>
-    <string name="ratio">Ratio</string>
     <string name="crop">Crop</string>
     <string name="image_not_saved">Saving</string>
     <string name="image_not_saved_sub">All unsaved changes will be lost, if you exit now</string>
@@ -172,7 +171,6 @@
     <string name="content_scale">Content scale</string>
     <string name="explicit_description">Forces every picture into an image given by the Width and Height parameter - may change aspect ratio</string>
     <string name="flexible_description">Resizes pictures to images with a long side given by the Width or Height parameter, all size calculations will be done after saving - keeps aspect ratio</string>
-    <string name="ratio_description">Resizes pictures to images with a last edited Width or Height side, shows final image size in realtime - keeps aspect ratio</string>
     <string name="brightness">Brightness</string>
     <string name="contrast">Contrast</string>
     <string name="hue">Hue</string>

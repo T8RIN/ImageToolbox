@@ -41,7 +41,6 @@
     <string name="cancel">לְבַטֵל</string>
     <string name="clear_exif_sub">כל נתוני ה-EXIF של התמונה יימחקו, פעולה זו לא ניתנת לביטול!</string>
     <string name="presets">הגדרות קבועות מראש</string>
-    <string name="ratio">יַחַס</string>
     <string name="crop">יְבוּל</string>
     <string name="image_not_saved">חִסָכוֹן</string>
     <string name="image_not_saved_sub">כל השינויים שלא נשמרו יאבדו אם תעזוב עכשיו</string>
@@ -187,7 +186,6 @@
     <string name="fit">לְהַתְאִים</string>
     <string name="explicit_description">מכריח כל תמונה לתמונה הניתנת על ידי הפרמטר Width ו-Height - עשוי לשנות את יחס הגובה</string>
     <string name="flexible_description">משנה את גודל התמונות לתמונות עם צד ארוך נתון על ידי הפרמטר Width או Height, כל חישובי הגודל יבוצעו לאחר השמירה - שומר על יחס רוחב-גובה</string>
-    <string name="ratio_description">משנה את גודל התמונות לתמונות עם צד רוחב או גובה ערוך אחרון, מציג את גודל התמונה הסופי בזמן אמת - שומר על יחס רוחב-גובה</string>
     <string name="brightness">בְּהִירוּת</string>
     <string name="contrast">בניגוד</string>
     <string name="hue">צֶבַע</string>

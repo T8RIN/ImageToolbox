@@ -35,7 +35,6 @@
     <string name="cancel">Отмена</string>
     <string name="clear_exif_sub">Все данные EXIF будут удалены, это действие нельзя отменить!</string>
     <string name="presets">Предустановки</string>
-    <string name="ratio">Аспект</string>
     <string name="crop">Обрезать</string>
     <string name="image_not_saved">Сохранение</string>
     <string name="image_not_saved_sub">Все несохраненные изменения будут отменены, если вы выйдете сейчас</string>
@@ -160,7 +159,6 @@
     <string name="fit">Как есть</string>
     <string name="content_scale">Масштаб контента</string>
     <string name="explicit_description">Принудительно превращает каждую картинку в изображение, заданное параметрами ширины и высоты - может изменить соотношение сторон</string>
-    <string name="ratio_description">Изменение размеров фотографий в изображения с последней отредактированной стороной ширины или высоты - сохраняет соотношение сторон</string>
     <string name="flexible_description">Изменяет размер картинок до изображений с длинной стороной, заданной параметром ширины - сохраняет соотношения сторон</string>
     <string name="brightness">Яркость</string>
     <string name="contrast">Контраст</string>

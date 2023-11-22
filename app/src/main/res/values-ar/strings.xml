@@ -46,7 +46,6 @@
     <string name="cancel">يلغي</string>
     <string name="clear_exif_sub">سيتم مسح جميع بيانات EXIF للصورة ، لا يمكن التراجع عن هذا الإجراء!</string>
     <string name="presets">الإعدادات المسبقة</string>
-    <string name="ratio">نسبة</string>
     <string name="crop">اقتصاص</string>
     <string name="image_not_saved">إنقاذ</string>
     <string name="image_not_saved_sub">ستفقد جميع التغييرات غير المحفوظة ، إذا غادرت الآن</string>
@@ -173,7 +172,6 @@
     <string name="fit">ملائم</string>
     <string name="explicit_description">يجبر كل صورة على صورة معطاة بواسطة معلمة العرض والارتفاع - قد يغير نسبة العرض إلى الارتفاع</string>
     <string name="flexible_description">يغير حجم الصور إلى صور ذات جانب طويل محدد بواسطة معلمة العرض أو الارتفاع ، وسيتم إجراء جميع حسابات الحجم بعد الحفظ - يحافظ على نسبة العرض إلى الارتفاع</string>
-    <string name="ratio_description">يغير حجم الصور إلى صور ذات جانب عرض أو ارتفاع آخر تم تعديله ، ويظهر الحجم النهائي للصورة في الوقت الفعلي - يحافظ على نسبة العرض إلى الارتفاع</string>
     <string name="saturation">التشبع</string>
     <string name="add_filter">أضف عامل تصفية</string>
     <string name="filter">منقي</string>

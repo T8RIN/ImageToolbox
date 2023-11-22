@@ -28,7 +28,6 @@
     <string name="clear">Temizle</string>
     <string name="clear_exif">EXIF\'i Temizle</string>
     <string name="cancel">İptal</string>
-    <string name="ratio">Oran</string>
     <string name="crop">Kırp</string>
     <string name="image_not_saved">Kaydediliyor</string>
     <string name="check_source_code">Kaynak kodu</string>
@@ -179,7 +178,6 @@
     <string name="fit">Yerleştirmek</string>
     <string name="explicit_description">Her resmi, Genişlik ve Yükseklik parametresi tarafından verilen bir görüntüye zorlar - en boy oranını değiştirebilir</string>
     <string name="flexible_description">Resimleri Genişlik veya Yükseklik parametresi tarafından verilen uzun kenarlı resimlere yeniden boyutlandırır, tüm boyut hesaplamaları kaydettikten sonra yapılır - en boy oranını korur</string>
-    <string name="ratio_description">Resimleri son düzenlenmiş Genişlik veya Yükseklik tarafına sahip resimlere göre yeniden boyutlandırır, nihai resim boyutunu gerçek zamanlı olarak gösterir - en boy oranını korur</string>
     <string name="brightness">Parlaklık</string>
     <string name="contrast">Zıtlık</string>
     <string name="add_filter">Filtre ekle</string>

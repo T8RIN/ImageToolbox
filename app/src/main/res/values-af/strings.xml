@@ -35,7 +35,6 @@
     <string name="cancel">Kanselleer</string>
     <string name="clear_exif_sub">Alle EXIF-data van die beeld sal uitgevee word, hierdie aksie kan nie ongedaan gemaak word nie!</string>
     <string name="presets">Voorinstellings</string>
-    <string name="ratio">Verhouding</string>
     <string name="crop">Gewas</string>
     <string name="image_not_saved">Stoor</string>
     <string name="image_not_saved_sub">Alle ongestoorde veranderinge sal verlore gaan as jy nou weggaan</string>
@@ -184,7 +183,6 @@
     <string name="no_image">Geen beeld nie</string>
     <string name="image_link">Beeld skakel</string>
     <string name="fit">Gepas</string>
-    <string name="ratio_description">Verander die grootte van prente na prente met \'n laaste gewysigde breedte- of hoogtekant, wys finale prentgrootte intyds - hou aspekverhouding</string>
     <string name="contrast">Kontras</string>
     <string name="hue">Tint</string>
     <string name="filter_sub">Pas enige filterketting toe op gegewe beelde</string>

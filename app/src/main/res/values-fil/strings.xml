@@ -35,7 +35,6 @@
     <string name="clear_exif">Burahin ang EXIF</string>
     <string name="clear_exif_sub">Mawawala ang lahat ng EXIF na datos sa larawan, wala nang bawian!</string>
     <string name="presets">Mga Preset</string>
-    <string name="ratio">Ratio</string>
     <string name="crop">Putulan</string>
     <string name="image_not_saved">Pagse-save</string>
     <string name="image_not_saved_sub">Mawawala ang lahat ng mga pagbabagong hindi pa nase-save kung aalis ka</string>
@@ -177,7 +176,6 @@
     <string name="false_color">Maling kulay</string>
     <string name="first_color">Unang kulay</string>
     <string name="luminance_threshold">Luminance threshold</string>
-    <string name="ratio_description">Binabago ang laki ng mga larawan sa mga larawang may huling na-edit na Lapad o Taas na bahagi, nagpapakita ng panghuling laki ng larawan sa realtime - pinapanatili ang aspect ratio</string>
     <string name="replace_sequence_number_sub">Kung pinagana, papalitan ang strandard timestamp sa numero ng pagkakasunud-sunod ng imahe kung gumagamit ka ng batch processing</string>
     <string name="load_image_from_net">Mag-load ng larawan mula sa net</string>
     <string name="image_link">Link ng larawan</string>

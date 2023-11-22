@@ -11,8 +11,6 @@ sealed class ResizeType : Domain {
         val blurRadius: Int = 35
     ) : ResizeType()
 
-    data object Ratio : ResizeType()
-
     sealed class Limits : ResizeType() {
         data object Skip : Limits()
         data object Recode : Limits()
@@ -20,17 +18,19 @@ sealed class ResizeType : Domain {
     }
 
     companion object {
-        val entries
-            get() = listOf(
+        val entries by lazy {
+            listOf(
                 Explicit,
                 Flexible,
-                Ratio
+                CenterCrop()
             )
-        val limitsEntries
-            get() = listOf(
+        }
+        val limitsEntries by lazy {
+            listOf(
                 Limits.Skip,
                 Limits.Recode,
                 Limits.Zoom
             )
+        }
     }
 }

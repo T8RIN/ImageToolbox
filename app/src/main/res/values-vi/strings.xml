@@ -53,7 +53,6 @@
     <string name="cancel">Hủy bỏ</string>
     <string name="clear_exif_sub">Tất cả dữ liệu EXIF của hình ảnh sẽ bị xóa, hành động này không thể hoàn tác được!</string>
     <string name="presets">cài đặt trước</string>
-    <string name="ratio">Tỉ lệ</string>
     <string name="crop">Mùa vụ</string>
     <string name="image_not_saved">Tiết kiệm</string>
     <string name="image_not_saved_sub">Tất cả các thay đổi chưa được lưu sẽ bị mất nếu bạn thoát ngay bây giờ</string>
@@ -179,7 +178,6 @@
     <string name="image_link">Đường kết nối tới hình ảnh</string>
     <string name="fit">Phù hợp</string>
     <string name="explicit_description">Buộc mọi hình ảnh thành một hình ảnh được cung cấp bởi tham số Chiều rộng và Chiều cao - có thể thay đổi tỷ lệ khung hình</string>
-    <string name="ratio_description">Thay đổi kích thước hình ảnh thành hình ảnh có chiều rộng hoặc chiều cao được chỉnh sửa lần cuối, hiển thị kích thước hình ảnh cuối cùng trong thời gian thực - giữ nguyên tỷ lệ khung hình</string>
     <string name="brightness">độ sáng</string>
     <string name="contrast">Sự tương phản</string>
     <string name="add_filter">Thêm bộ lọc</string>

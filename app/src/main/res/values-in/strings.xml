@@ -49,7 +49,6 @@
     <string name="clear_exif">Hapus EXIF</string>
     <string name="clear_exif_sub">Semua data EXIF gambar akan dihapus, tindakan ini tidak dapat dibatalkan!</string>
     <string name="presets">Preset</string>
-    <string name="ratio">Rasio</string>
     <string name="crop">Pangkas</string>
     <string name="image_not_saved">Menabung</string>
     <string name="image_not_saved_sub">Semua perubahan yang belum disimpan akan hilang, jika Anda keluar sekarang</string>
@@ -178,7 +177,6 @@
     <string name="content_scale">Skala konten</string>
     <string name="explicit_description">Memaksa setiap gambar menjadi gambar yang ditentukan oleh parameter Lebar dan Tinggi - dapat mengubah rasio aspek</string>
     <string name="flexible_description">Mengubah ukuran gambar menjadi gambar dengan sisi panjang yang ditentukan oleh parameter Lebar atau Tinggi, semua penghitungan ukuran akan dilakukan setelah menyimpan - mempertahankan rasio aspek</string>
-    <string name="ratio_description">Mengubah ukuran gambar menjadi gambar dengan sisi Lebar atau Tinggi yang terakhir diedit, menampilkan ukuran gambar akhir dalam waktu nyata - menjaga rasio aspek</string>
     <string name="brightness">Kecerahan</string>
     <string name="contrast">Kontras</string>
     <string name="hue">Warna</string>

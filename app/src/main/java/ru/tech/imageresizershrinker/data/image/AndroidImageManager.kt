@@ -254,14 +254,6 @@ class AndroidImageManager @Inject constructor(
                 )
             }
 
-            ResizeType.Ratio -> {
-                resizeWithAspectRatio(
-                    image = image,
-                    w = widthInternal,
-                    h = heightInternal
-                )
-            }
-
             is ResizeType.Limits -> {
                 resizeType.resizeWithLimits(
                     image = image,
@@ -1247,40 +1239,6 @@ class AndroidImageManager @Inject constructor(
             )
         }
         return canvas
-    }
-
-    private var lastModification: Pair<Int, Int> = 0 to 0
-
-    private fun resizeWithAspectRatio(image: Bitmap, w: Int, h: Int): Bitmap {
-        return if (w > 0 && h > 0) {
-            val (originalWidth, originalHeight) = image.width to image.height
-            var (newWidth, newHeight) = w to h
-
-            fun updateByHeight() {
-                val ratio = originalWidth.toFloat() / originalHeight.toFloat()
-                newWidth = (newHeight * ratio).toInt()
-            }
-
-            fun updateByWidth() {
-                val ratio = originalHeight.toFloat() / originalWidth.toFloat()
-                newHeight = (newWidth * ratio).toInt()
-            }
-
-            if (originalHeight > originalWidth) {
-                if (h != lastModification.second) updateByHeight()
-                else updateByWidth()
-            } else if (originalWidth > originalHeight) {
-                if (w != lastModification.first) updateByWidth()
-                else updateByHeight()
-            } else {
-                if (w != lastModification.first) newHeight = w
-                else newWidth = h
-            }
-
-            lastModification = newWidth to newHeight
-
-            BitmapCompat.createScaledBitmap(image, newWidth, newHeight, null, true)
-        } else image
     }
 
     private fun Bitmap.size(): Int {

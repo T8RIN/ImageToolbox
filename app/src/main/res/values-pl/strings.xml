@@ -42,7 +42,6 @@
     <string name="cancel">Anuluj</string>
     <string name="clear_exif_sub">Wszystkie dane EXIF obrazu zostaną wyczyszczone, tej czynności nie można cofnąć!</string>
     <string name="presets">Presety</string>
-    <string name="ratio">Stosunek</string>
     <string name="crop">Przytnij</string>
     <string name="image_not_saved">Zapisywanie</string>
     <string name="image_not_saved_sub">Jeśli teraz opuścisz, wszystkie niezapisane zmiany zostaną utracone</string>
@@ -167,7 +166,6 @@
     <string name="fit">Pasować</string>
     <string name="explicit_description">Wymusza każdy obraz na obraz określony przez parametr Szerokość i Wysokość - może zmienić proporcje</string>
     <string name="flexible_description">Zmienia rozmiar obrazków na obrazy o dłuższym boku określonym parametrem Szerokość lub Wysokość, wszystkie obliczenia rozmiaru zostaną wykonane po zapisaniu - zachowuje proporcje</string>
-    <string name="ratio_description">Zmienia rozmiar obrazów na obrazy z ostatnio edytowaną stroną Szerokość lub Wysokość, pokazuje ostateczny rozmiar obrazu w czasie rzeczywistym - zachowuje proporcje</string>
     <string name="contrast">Kontrast</string>
     <string name="hue">Odcień</string>
     <string name="saturation">Nasycenie</string>

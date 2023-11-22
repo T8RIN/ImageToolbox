@@ -48,7 +48,6 @@
     <string name="cancel">ยกเลิก</string>
     <string name="clear_exif_sub">ข้อมูล EXIF ทั้งหมดของรูปภาพจะถูกล้าง การดำเนินการนี้ไม่สามารถยกเลิกได้!</string>
     <string name="presets">ค่าที่ตั้งไว้ล่วงหน้า</string>
-    <string name="ratio">อัตราส่วน</string>
     <string name="crop">ครอบตัด</string>
     <string name="image_not_saved">ประหยัด</string>
     <string name="image_not_saved_sub">การเปลี่ยนแปลงที่ไม่ได้บันทึกทั้งหมดจะหายไป หากคุณออกตอนนี้</string>
@@ -173,7 +172,6 @@
     <string name="fit">พอดี</string>
     <string name="explicit_description">บังคับให้ทุกภาพเป็นภาพที่กำหนดโดยพารามิเตอร์ความกว้างและความสูง - อาจเปลี่ยนอัตราส่วนกว้างยาว</string>
     <string name="flexible_description">ปรับขนาดรูปภาพเป็นภาพที่มีด้านยาวที่กำหนดโดยพารามิเตอร์ความกว้างหรือความสูง การคำนวณขนาดทั้งหมดจะทำหลังจากบันทึก - คงอัตราส่วนไว้</string>
-    <string name="ratio_description">ปรับขนาดภาพเป็นภาพที่มีด้านความกว้างหรือความสูงที่แก้ไขล่าสุด แสดงขนาดภาพสุดท้ายแบบเรียลไทม์ - รักษาอัตราส่วนภาพ</string>
     <string name="brightness">ความสว่าง</string>
     <string name="contrast">ตัดกัน</string>
     <string name="hue">เว้</string>

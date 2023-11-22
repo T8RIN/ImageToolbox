@@ -35,7 +35,6 @@
     <string name="cancel">Cancelar</string>
     <string name="clear_exif_sub">Todos os dados EXIF serão apagados. Esta ação não pode ser revertida!</string>
     <string name="presets">Predefinições</string>
-    <string name="ratio">Proporção</string>
     <string name="crop">Recortar</string>
     <string name="image_not_saved">A guardar</string>
     <string name="image_not_saved_sub">Se sair agora, perderá todas as alterações não guardadas</string>
@@ -172,7 +171,6 @@
     <string name="fit">Ajustar</string>
     <string name="explicit_description">Impõe que as imagens sejam abertas com os valores definidos nos parâmetros Altura e Largura</string>
     <string name="flexible_description">Redimensiona imagens para imagens com um lado longo dado pelo parâmetro Largura ou Altura, todos os cálculos de tamanho serão feitos após salvar - mantém a proporção</string>
-    <string name="ratio_description">Redimensiona imagens para imagens com um lado de largura ou altura editado pela última vez, mostra o tamanho final da imagem em tempo real - mantém a proporção</string>
     <string name="brightness">Brilho</string>
     <string name="contrast">Contraste</string>
     <string name="hue">Matiz</string>

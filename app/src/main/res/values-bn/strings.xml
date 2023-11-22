@@ -51,7 +51,6 @@
     <string name="cancel">বাতিল করুন</string>
     <string name="clear_exif_sub">ছবির সমস্ত EXIF ডেটা সাফ করা হবে, এই ক্রিয়াটি পূর্বাবস্থায় ফেরানো যাবে না!</string>
     <string name="presets">প্রিসেট</string>
-    <string name="ratio">অনুপাত</string>
     <string name="crop">ফসল</string>
     <string name="image_not_saved">সংরক্ষণ</string>
     <string name="image_not_saved_sub">আপনি এখন ছেড়ে গেলে সমস্ত অসংরক্ষিত পরিবর্তনগুলি হারিয়ে যাবে৷</string>
@@ -178,7 +177,6 @@
     <string name="fill">ভরাট</string>
     <string name="fit">ফিট</string>
     <string name="flexible_description">প্রস্থ বা উচ্চতা পরামিতি দ্বারা প্রদত্ত দীর্ঘ সাইড সহ ছবিগুলির আকার পরিবর্তন করে, সমস্ত আকারের গণনা সংরক্ষণের পরে করা হবে - আকৃতির অনুপাত বজায় রাখে</string>
-    <string name="ratio_description">শেষ সম্পাদিত প্রস্থ বা উচ্চতার দিক দিয়ে ছবিগুলির আকার পরিবর্তন করে, রিয়েলটাইমে চূড়ান্ত চিত্রের আকার দেখায় - আকৃতির অনুপাত বজায় রাখে</string>
     <string name="saturation">স্যাচুরেশন</string>
     <string name="add_filter">ফিল্টার যোগ করুন</string>
     <string name="filter">ছাঁকনি</string>

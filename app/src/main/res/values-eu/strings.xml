@@ -39,7 +39,6 @@
     <string name="check_source_code_sub">Jaso azken eguneraketak, eztabaidatu arazoak eta gehiago</string>
     <string name="single_edit">Tamaina-aldaketa bakarra</string>
     <string name="presets">Aurredoikuntzak</string>
-    <string name="ratio">Ratioa</string>
     <string name="check_source_code">Iturburu-kodea</string>
     <string name="crop">Moztu</string>
     <string name="single_edit_sub">Aldatu emandako irudi bakarraren zehaztapenak</string>
@@ -172,7 +171,6 @@
     <string name="fit">Egokitu</string>
     <string name="explicit_description">Irudi bakoitza Zabalera eta Altuera parametroak emandako irudi batera behartzen du; baliteke aspektu-erlazioa aldatzea</string>
     <string name="flexible_description">Irudiak tamaina aldatzen du Zabalera edo Altuera parametroak emandako alde luzea duten irudietara, tamaina kalkulu guztiak gorde ondoren egingo dira - aspektu-erlazioa mantentzen du</string>
-    <string name="ratio_description">Irudiak tamainaz aldatzen ditu azken editatutako Zabalera edo Altuera duten irudietara, azken irudiaren tamaina erakusten du denbora errealean - aspektu-erlazioa mantentzen du</string>
     <string name="brightness">Distira</string>
     <string name="contrast">Kontrastatu</string>
     <string name="hue">Hue</string>

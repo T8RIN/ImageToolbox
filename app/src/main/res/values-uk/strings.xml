@@ -53,7 +53,6 @@
     <string name="clear">Очистити</string>
     <string name="save">Зберегти</string>
     <string name="clear_exif_sub">Всі EXIF-дані зображення будуть очищені, цю дію неможливо скасувати!</string>
-    <string name="ratio">Співвідношення</string>
     <string name="image_not_saved">Збереження</string>
     <string name="check_source_code_sub">Отримуйте останні оновлення, обговорюйте проблеми та багато іншого</string>
     <string name="single_edit">Одиночний розмір</string>
@@ -175,7 +174,6 @@
     <string name="sobel_edge">Кромка Собель</string>
     <string name="flexible_description">Змінює розміри зображень до зображень з довгою стороною, заданим параметром Ширини або Висота, всі розрахунки розмірів будуть виконані після збереження - зберігає співвідношення сторін</string>
     <string name="filters">Фільтри</string>
-    <string name="ratio_description">Змінює розмір зображень на зображення з останньою відредагованою стороною Ширини або Висоти, показує остаточний розмір зображення в реальному часі - зберігає співвідношення сторін</string>
     <string name="filter">Фільтр</string>
     <string name="filter_sub">Застосувати будь-який ланцюжок фільтрів до заданих зображень</string>
     <string name="light_aka_illumination">Світлий</string>

@@ -19,7 +19,6 @@
     <string name="cancel">Ukidati</string>
     <string name="clear_exif_sub">All EXIF podatak of image volja biti raščišćavati, this mjera limenka ne biti undo!</string>
     <string name="presets">Presets</string>
-    <string name="ratio">Proporcija</string>
     <string name="crop">Urod</string>
     <string name="image_not_saved">Saving</string>
     <string name="image_not_saved_sub">All unsaved mijena volja biti izgubljen, li free leave sad</string>
@@ -174,7 +173,6 @@
     <string name="fit">Фит</string>
     <string name="explicit_description">Присилно претвара сваку слику у слику дату параметром ширине и висине - може променити однос ширине и висине</string>
     <string name="flexible_description">Промена величине слика на слике са дугачком страном датом параметром ширине или висине, сви прорачуни величине ће се обавити након чувања - задржава однос ширине и висине</string>
-    <string name="ratio_description">Промењује величину слика на слике са последње уређеном страном ширине или висине, приказује коначну величину слике у реалном времену - задржава однос ширина/висина</string>
     <string name="brightness">Осветљеност</string>
     <string name="contrast">Контраст</string>
     <string name="hue">Нијанса</string>

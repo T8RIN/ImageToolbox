@@ -151,7 +151,6 @@
     <string name="values_reset">Мәндер дұрыс қалпына келтірілді</string>
     <string name="single_edit_sub">Берілген бір кескіннің сипаттамаларын өзгерту</string>
     <string name="dark">Қараңғы</string>
-    <string name="ratio">Арақатынас</string>
     <string name="no_updates">Жаңартулар табылмады</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">Динамикалық түстер қосулы кезде қолданбаның түс схемасын өзгерту мүмкін емес</string>
     <string name="nothing_found_by_search">Сұрауыңыз бойынша ештеңе табылмады</string>

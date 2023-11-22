@@ -92,7 +92,8 @@ fun ResizeGroup(
     }
     Column(
         modifier = Modifier
-            .container(shape = RoundedCornerShape(24.dp))
+            .container(shape = RoundedCornerShape(24.dp)),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ToggleGroupButton(
             modifier = Modifier.padding(start = 3.dp, end = 2.dp),
@@ -134,14 +135,12 @@ fun ResizeGroup(
             items = listOf(
                 stringResource(R.string.explicit),
                 stringResource(R.string.flexible),
-                stringResource(R.string.crop),
-                stringResource(R.string.ratio)
+                stringResource(R.string.crop)
             ),
             selectedIndex = when (resizeType) {
                 ResizeType.Explicit -> 0
                 ResizeType.Flexible -> 1
                 is ResizeType.CenterCrop -> 2
-                ResizeType.Ratio -> 3
                 else -> throw IllegalStateException()
             },
             indexChanged = {
@@ -150,7 +149,6 @@ fun ResizeGroup(
                         0 -> ResizeType.Explicit
                         1 -> ResizeType.Flexible
                         2 -> modifiedResizeType
-                        3 -> ResizeType.Ratio
                         else -> throw IllegalStateException()
                     }
                 )
@@ -229,15 +227,6 @@ fun ResizeGroup(
                     TitleItem(text = stringResource(R.string.crop))
                     Text(
                         text = stringResource(id = R.string.crop_description),
-                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-                        fontSize = 14.sp,
-                        lineHeight = 18.sp
-                    )
-                    HorizontalDivider()
-
-                    TitleItem(text = stringResource(R.string.ratio))
-                    Text(
-                        text = stringResource(id = R.string.ratio_description),
                         modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                         fontSize = 14.sp,
                         lineHeight = 18.sp

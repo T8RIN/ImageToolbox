@@ -129,13 +129,6 @@ class SingleEditViewModel @Inject constructor(
                 _previewBitmap.value = null
                 _shouldShowPreview.value = imageManager.canShow(preview)
                 if (shouldShowPreview) _previewBitmap.value = preview
-
-                _imageInfo.value = _imageInfo.value.run {
-                    if (resizeType is ResizeType.Ratio) copy(
-                        height = preview.height,
-                        width = preview.width
-                    ) else this
-                }
             }
             _isImageLoading.value = false
         }
@@ -298,11 +291,10 @@ class SingleEditViewModel @Inject constructor(
     fun setResizeType(type: ResizeType) {
         if (_imageInfo.value.resizeType != type) {
             _imageInfo.value = _imageInfo.value.copy(resizeType = type)
-            if (type != ResizeType.Ratio) checkBitmapAndUpdate(
+            checkBitmapAndUpdate(
                 resetPreset = false,
                 resetTelegram = false
             )
-            else checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
         }
     }
 
