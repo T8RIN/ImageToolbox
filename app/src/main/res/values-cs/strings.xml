@@ -292,4 +292,6 @@
     <string name="group_options_by_type">Seskupit možnosti podle typu</string>
     <string name="group_options_by_type_sub">Seskupí možnosti na hlavní obrazovce svého typu namísto vlastního uspořádání seznamu</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Nelze změnit uspořádání, když je povoleno seskupování možností</string>
+    <string name="saved_to_without_filename">Uloženo do složky %1$s</string>
+    <string name="saved_to">Uloženo do složky %1$s pod názvem %2$s</string>
 </resources>
