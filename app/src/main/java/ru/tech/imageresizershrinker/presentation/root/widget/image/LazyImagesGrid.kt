@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import coil.request.ImageRequest
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import com.t8rin.dynamic.theme.getAppColorTuple
+import com.t8rin.dynamic.theme.rememberAppColorTuple
 import com.t8rin.modalsheet.FullscreenPopup
 import ru.tech.imageresizershrinker.presentation.image_preview_screen.components.ImagePager
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.toBitmap
@@ -161,7 +161,7 @@ fun LazyImagesGrid(
     val settingsState = LocalSettingsState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
-    val appColorTuple = getAppColorTuple(
+    val appColorTuple = rememberAppColorTuple(
         defaultColorTuple = settingsState.appColorTuple,
         dynamicColor = settingsState.isDynamicColors,
         darkTheme = settingsState.isNightMode

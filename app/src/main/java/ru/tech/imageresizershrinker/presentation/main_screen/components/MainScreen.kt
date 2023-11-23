@@ -108,6 +108,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
@@ -134,6 +135,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizo
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.pulsate
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.rotateAnimation
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.scaleOnTap
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.withModifier
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.SearchBar
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
@@ -192,7 +194,7 @@ fun MainScreen(
                         configuration.screenWidthDp.dp * 0.4f,
                         270.dp
                     )
-                }
+                }.coerceAtLeast(0.dp)
             }
         }
 
@@ -838,9 +840,9 @@ fun MainScreen(
         }
     } else {
         Row {
-            Box(Modifier.weight(1f)) {
-                content()
-            }
+            content.withModifier(
+                Modifier.weight(1f)
+            )
             if (settingsState.borderWidth > 0.dp) {
                 Spacer(
                     Modifier
@@ -854,7 +856,7 @@ fun MainScreen(
                         )
                 )
             }
-            Box(
+            drawerContent.withModifier(
                 Modifier.container(
                     shape = RectangleShape,
                     color = MaterialTheme.colorScheme.surfaceColorAtElevation(
@@ -867,9 +869,7 @@ fun MainScreen(
                     autoShadowElevation = 2.dp,
                     resultPadding = 0.dp
                 )
-            ) {
-                drawerContent()
-            }
+            )
         }
     }
 }

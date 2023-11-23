@@ -43,16 +43,19 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -102,14 +105,18 @@ fun DynamicTheme(
     isInvertColors: Boolean,
     content: @Composable () -> Unit,
 ) {
-    val colorTuple = getAppColorTuple(
+    val colorTuple = rememberAppColorTuple(
         defaultColorTuple = defaultColorTuple,
         dynamicColor = dynamicColor,
         darkTheme = isDarkTheme
     )
+    val configuration = LocalConfiguration.current
+    var prevOrientation by rememberSaveable { mutableStateOf(configuration.orientation) }
 
-    LaunchedEffect(colorTuple) {
-        state.updateColorTuple(colorTuple)
+    LaunchedEffect(colorTuple, prevOrientation) {
+        if (prevOrientation == configuration.orientation) {
+            state.updateColorTuple(colorTuple)
+        } else prevOrientation = configuration.orientation
     }
 
     val lightTheme = !isDarkTheme
@@ -130,16 +137,6 @@ fun DynamicTheme(
         )
     }
 
-    val scheme = rememberColorScheme(
-        amoledMode = amoledMode,
-        isDarkTheme = isDarkTheme,
-        colorTuple = state.colorTuple.value,
-        style = style,
-        contrastLevel = contrastLevel,
-        dynamicColor = dynamicColor,
-        isInvertColors = isInvertColors
-    ).animateAllColors(tween(150))
-
     CompositionLocalProvider(
         values = arrayOf(
             LocalDynamicThemeState provides state,
@@ -148,7 +145,15 @@ fun DynamicTheme(
         content = {
             MaterialTheme(
                 typography = typography,
-                colorScheme = scheme,
+                colorScheme = rememberColorScheme(
+                    amoledMode = amoledMode,
+                    isDarkTheme = isDarkTheme,
+                    colorTuple = state.colorTuple.value,
+                    style = style,
+                    contrastLevel = contrastLevel,
+                    dynamicColor = dynamicColor,
+                    isInvertColors = isInvertColors
+                ).animateAllColors(tween(300)),
                 content = content
             )
         }
@@ -272,7 +277,7 @@ fun Color.calculateSurfaceColor(): Int {
 
 @SuppressLint("MissingPermission")
 @Composable
-fun getAppColorTuple(
+fun rememberAppColorTuple(
     defaultColorTuple: ColorTuple,
     dynamicColor: Boolean,
     darkTheme: Boolean

@@ -74,7 +74,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import com.t8rin.dynamic.theme.getAppColorTuple
+import com.t8rin.dynamic.theme.rememberAppColorTuple
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
@@ -122,7 +122,7 @@ fun LoadNetImageScreen(
 
     val scope = rememberCoroutineScope()
 
-    val appColorTuple = getAppColorTuple(
+    val appColorTuple = rememberAppColorTuple(
         defaultColorTuple = settingsState.appColorTuple,
         dynamicColor = settingsState.isDynamicColors,
         darkTheme = settingsState.isNightMode

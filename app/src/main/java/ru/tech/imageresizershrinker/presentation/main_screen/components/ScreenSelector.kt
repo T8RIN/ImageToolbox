@@ -12,7 +12,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import com.t8rin.dynamic.theme.getAppColorTuple
+import com.t8rin.dynamic.theme.rememberAppColorTuple
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.pop
@@ -48,7 +48,7 @@ fun ScreenSelector(
     val navController = viewModel.navController
     val settingsState = LocalSettingsState.current
     val themeState = LocalDynamicThemeState.current
-    val appColorTuple = getAppColorTuple(
+    val appColorTuple = rememberAppColorTuple(
         defaultColorTuple = settingsState.appColorTuple,
         dynamicColor = settingsState.isDynamicColors,
         darkTheme = settingsState.isNightMode

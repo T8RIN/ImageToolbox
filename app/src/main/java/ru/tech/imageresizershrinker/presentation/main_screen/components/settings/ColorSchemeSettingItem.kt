@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.PaletteStyle
-import com.t8rin.dynamic.theme.getAppColorTuple
+import com.t8rin.dynamic.theme.rememberAppColorTuple
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
@@ -149,7 +149,7 @@ fun ColorSchemeSettingItem(
     AvailableColorTuplesSheet(
         visible = showPickColorSheet,
         colorTupleList = settingsState.colorTupleList,
-        currentColorTuple = getAppColorTuple(
+        currentColorTuple = rememberAppColorTuple(
             defaultColorTuple = settingsState.appColorTuple,
             dynamicColor = settingsState.isDynamicColors,
             darkTheme = settingsState.isNightMode

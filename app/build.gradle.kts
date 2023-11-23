@@ -199,7 +199,7 @@ dependencies {
     implementation("com.github.nanihadesuka:LazyColumnScrollbar:1.8.0")
 
 
-    implementation("com.github.awxkee:avif-coder:1.5.5")
+    implementation("com.github.awxkee:avif-coder:1.5.7")
 
     "marketImplementation"("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
     "marketImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.5.1") {
@@ -214,7 +214,7 @@ dependencies {
     }
     "jxlImplementation"("com.google.firebase:firebase-analytics-ktx:21.5.0")
     "jxlImplementation"("com.google.android.play:review-ktx:2.0.1")
-    "jxlImplementation"("com.github.awxkee:jxl-coder-coil:1.5.5")
+    "jxlImplementation"("com.github.awxkee:jxl-coder-coil:1.5.7")
 
     "marketImplementation"("com.google.android.play:app-update:2.1.0")
     "marketImplementation"("com.google.android.play:app-update-ktx:2.1.0")

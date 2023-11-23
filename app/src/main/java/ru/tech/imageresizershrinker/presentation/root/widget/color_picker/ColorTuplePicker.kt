@@ -37,7 +37,7 @@ import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.calculateSecondaryColor
 import com.t8rin.dynamic.theme.calculateSurfaceColor
 import com.t8rin.dynamic.theme.calculateTertiaryColor
-import com.t8rin.dynamic.theme.getAppColorTuple
+import com.t8rin.dynamic.theme.rememberAppColorTuple
 import com.t8rin.dynamic.theme.rememberColorScheme
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.R
@@ -77,7 +77,7 @@ fun ColorTuplePicker(
         )
     }
 
-    val appColorTuple = getAppColorTuple(
+    val appColorTuple = rememberAppColorTuple(
         defaultColorTuple = settingsState.appColorTuple,
         dynamicColor = true,
         darkTheme = true
