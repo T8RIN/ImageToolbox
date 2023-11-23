@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.isSpecified
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
@@ -32,6 +33,7 @@ import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathMeasure
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asAndroidBitmap
@@ -176,89 +178,97 @@ fun BitmapEraser(
                 brushSoftness
             ) { mutableStateOf(Path()) }
 
-            canvas.apply {
+            runCatching {
+                canvas.apply {
+                    when (motionEvent) {
 
-                when (motionEvent) {
-
-                    MotionEvent.Down -> {
-                        drawPath.moveTo(currentPosition.x, currentPosition.y)
-                        previousPosition = currentPosition
-                    }
-
-                    MotionEvent.Move -> {
-                        drawPath.quadraticBezierTo(
-                            previousPosition.x,
-                            previousPosition.y,
-                            (previousPosition.x + currentPosition.x) / 2,
-                            (previousPosition.y + currentPosition.y) / 2
-                        )
-                        previousPosition = currentPosition
-                    }
-
-                    MotionEvent.Up -> {
-                        drawPath.lineTo(currentPosition.x, currentPosition.y)
-                        currentPosition = Offset.Unspecified
-                        previousPosition = currentPosition
-                        motionEvent = MotionEvent.Idle
-                        onAddPath(
-                            UiPathPaint(
-                                path = drawPath,
-                                strokeWidth = strokeWidth,
-                                brushSoftness = brushSoftness,
-                                isErasing = isRecoveryOn,
-                                canvasSize = canvasSize
-                            )
-                        )
-                        scope.launch {
-                            drawPath = Path()
+                        MotionEvent.Down -> {
+                            drawPath.moveTo(currentPosition.x, currentPosition.y)
+                            previousPosition = currentPosition
                         }
-                    }
 
-                    else -> Unit
-                }
+                        MotionEvent.Move -> {
+                            drawPath.quadraticBezierTo(
+                                previousPosition.x,
+                                previousPosition.y,
+                                (previousPosition.x + currentPosition.x) / 2,
+                                (previousPosition.y + currentPosition.y) / 2
+                            )
+                            previousPosition = currentPosition
+                        }
 
-                with(canvas.nativeCanvas) {
-                    drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
-
-
-                    drawImageRect(
-                        image = drawImageBitmap,
-                        dstSize = IntSize(canvasSize.width, canvasSize.height),
-                        paint = paint
-                    )
-
-                    paths.forEach { (nonScaledPath, stroke, radius, _, isRecoveryOn, _, size) ->
-                        val path = nonScaledPath.scaleToFitCanvas(
-                            currentSize = canvasSize,
-                            oldSize = size
-                        )
-                        this.drawPath(
-                            path.asAndroidPath(),
-                            Paint().apply {
-                                blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
-                                style = PaintingStyle.Stroke
-                                strokeCap = StrokeCap.Round
-                                shader =
-                                    if (isRecoveryOn) shaderBitmap?.let { ImageShader(it) } else shader
-                                this.strokeWidth = stroke.toPx(canvasSize)
-                                strokeJoin = StrokeJoin.Round
-                                isAntiAlias = true
-                            }.asFrameworkPaint().apply {
-                                if (radius.value > 0f) {
-                                    maskFilter =
-                                        BlurMaskFilter(
-                                            radius.toPx(canvasSize),
-                                            BlurMaskFilter.Blur.NORMAL
-                                        )
-                                }
+                        MotionEvent.Up -> {
+                            PathMeasure().apply {
+                                setPath(drawPath, false)
+                            }.let {
+                                it.getPosition(it.length)
+                            }.takeIf { it.isSpecified }?.let { lastPoint ->
+                                drawPath.moveTo(lastPoint.x, lastPoint.y)
+                                drawPath.lineTo(currentPosition.x, currentPosition.y)
+                                currentPosition = Offset.Unspecified
+                                previousPosition = Offset.Unspecified
+                                motionEvent = MotionEvent.Idle
+                                onAddPath(
+                                    UiPathPaint(
+                                        path = drawPath,
+                                        strokeWidth = strokeWidth,
+                                        brushSoftness = brushSoftness,
+                                        isErasing = isRecoveryOn,
+                                        canvasSize = canvasSize
+                                    )
+                                )
                             }
-                        )
+                            scope.launch {
+                                drawPath = Path()
+                            }
+                        }
+
+                        else -> Unit
                     }
 
-                    drawPath(
-                        drawPath.asAndroidPath(),
-                        drawPaint
-                    )
+                    with(canvas.nativeCanvas) {
+                        drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
+
+
+                        drawImageRect(
+                            image = drawImageBitmap,
+                            dstSize = IntSize(canvasSize.width, canvasSize.height),
+                            paint = paint
+                        )
+
+                        paths.forEach { (nonScaledPath, stroke, radius, _, isRecoveryOn, _, size) ->
+                            val path = nonScaledPath.scaleToFitCanvas(
+                                currentSize = canvasSize,
+                                oldSize = size
+                            )
+                            this.drawPath(
+                                path.asAndroidPath(),
+                                Paint().apply {
+                                    blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
+                                    style = PaintingStyle.Stroke
+                                    strokeCap = StrokeCap.Round
+                                    shader =
+                                        if (isRecoveryOn) shaderBitmap?.let { ImageShader(it) } else shader
+                                    this.strokeWidth = stroke.toPx(canvasSize)
+                                    strokeJoin = StrokeJoin.Round
+                                    isAntiAlias = true
+                                }.asFrameworkPaint().apply {
+                                    if (radius.value > 0f) {
+                                        maskFilter =
+                                            BlurMaskFilter(
+                                                radius.toPx(canvasSize),
+                                                BlurMaskFilter.Blur.NORMAL
+                                            )
+                                    }
+                                }
+                            )
+                        }
+
+                        drawPath(
+                            drawPath.asAndroidPath(),
+                            drawPaint
+                        )
+                    }
                 }
             }
 

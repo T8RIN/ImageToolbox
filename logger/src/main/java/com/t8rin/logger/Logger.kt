@@ -54,10 +54,12 @@ data object Logger {
 
 inline fun <reified T> T.makeLog(
     tag: String = "Logger" + (T::class.simpleName?.let { "_$it" } ?: ""),
-    level: Logger.Level = Logger.Level.Debug
+    level: Logger.Level = Logger.Level.Debug,
+    dataBlock: (T) -> Any? = { it }
 ): T = also {
     Logger.makeLog(
         tag = tag,
         level = level,
-    ) { it }
+        dataBlock = { dataBlock(it) }
+    )
 }
