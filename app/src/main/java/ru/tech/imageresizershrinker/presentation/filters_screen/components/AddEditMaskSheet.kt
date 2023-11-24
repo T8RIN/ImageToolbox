@@ -105,6 +105,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.ScopedViewModelContainer
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.rememberAvailableHeight
 import javax.inject.Inject
 
 @Composable
@@ -271,13 +272,14 @@ fun AddEditMaskSheet(
                     }
                     VerticalDivider()
                 }
+                val internalHeight = rememberAvailableHeight(imageState = imageState)
                 LazyColumn(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.weight(1f)
                 ) {
                     imageStickyHeader(
                         visible = portrait,
-                        expanded = false,
+                        internalHeight = internalHeight,
                         imageState = imageState,
                         onStateChange = {
                             imageState = it

@@ -105,6 +105,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageState
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.CropEditOption
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.DrawEditOption
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.EditExifSheet
@@ -490,6 +491,10 @@ fun SingleEditScreen(
                             }
                         }
                     }
+                    val internalHeight = rememberAvailableHeight(
+                        imageState = imageState,
+                        expanded = showOriginal
+                    )
                     LazyColumn(
                         contentPadding = PaddingValues(
                             bottom = WindowInsets
@@ -508,7 +513,7 @@ fun SingleEditScreen(
                     ) {
                         imageStickyHeader(
                             visible = imageInside && viewModel.bitmap != null,
-                            expanded = showOriginal,
+                            internalHeight = internalHeight,
                             imageState = imageState,
                             onStateChange = { imageState = it },
                             imageBlock = imageBlock

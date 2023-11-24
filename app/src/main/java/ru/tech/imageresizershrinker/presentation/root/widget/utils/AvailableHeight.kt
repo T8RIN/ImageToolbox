@@ -11,7 +11,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,8 +27,8 @@ import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageHeaderSt
 
 @Composable
 fun rememberAvailableHeight(
-    expanded: Boolean,
-    imageState: ImageHeaderState
+    imageState: ImageHeaderState,
+    expanded: Boolean = false
 ): Dp {
     val fullHeight = rememberFullHeight()
 
@@ -48,13 +48,14 @@ fun rememberAvailableHeight(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun rememberFullHeight(): Dp {
-    var fullHeight by remember(
+    var fullHeight by rememberSaveable(
         LocalConfiguration.current,
         LocalLifecycleOwner.current.lifecycle.observeAsState().value
-    ) { mutableStateOf(0.dp) }
+    ) { mutableStateOf(0f) }
+
     val density = LocalDensity.current
 
-    if (fullHeight == 0.dp) {
+    if (fullHeight == 0f) {
         FullscreenPopup {
             Column {
                 TopAppBar(
@@ -66,7 +67,7 @@ fun rememberFullHeight(): Dp {
                         .weight(1f)
                         .onSizeChanged {
                             with(density) {
-                                fullHeight = it.height.toDp()
+                                fullHeight = it.height.toDp().value
                             }
                         }
                 )
@@ -79,7 +80,7 @@ fun rememberFullHeight(): Dp {
         }
     }
 
-    return fullHeight
+    return fullHeight.dp
 }
 
 fun ImageHeaderState.isExpanded() = this.position == 4 && isBlocked

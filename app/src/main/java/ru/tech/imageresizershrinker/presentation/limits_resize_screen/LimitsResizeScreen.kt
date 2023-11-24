@@ -98,6 +98,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageState
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.rememberAvailableHeight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -336,6 +337,7 @@ fun LimitsResizeScreen(
                         }
                     }
 
+                    val internalHeight = rememberAvailableHeight(imageState = imageState)
                     LazyColumn(
                         contentPadding = PaddingValues(
                             bottom = WindowInsets
@@ -356,6 +358,7 @@ fun LimitsResizeScreen(
                             visible = imageInside && viewModel.bitmap != null,
                             imageState = imageState,
                             onStateChange = { imageState = it },
+                            internalHeight = internalHeight,
                             imageBlock = imageBlock
                         )
                         item {

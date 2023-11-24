@@ -101,6 +101,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageState
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.rememberAvailableHeight
 import kotlin.math.roundToLong
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -340,6 +341,7 @@ fun ImageStitchingScreen(
                         }
                     }
 
+                    val internalHeight = rememberAvailableHeight(imageState = imageState)
                     LazyColumn(
                         contentPadding = PaddingValues(
                             bottom = WindowInsets
@@ -359,6 +361,7 @@ fun ImageStitchingScreen(
                         imageStickyHeader(
                             visible = imageInside && !viewModel.uris.isNullOrEmpty(),
                             imageState = imageState,
+                            internalHeight = internalHeight,
                             onStateChange = { imageState = it },
                             imageBlock = imageBlock
                         )

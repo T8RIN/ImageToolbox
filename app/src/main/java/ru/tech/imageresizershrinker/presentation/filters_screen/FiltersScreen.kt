@@ -154,6 +154,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageState
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.rememberAvailableHeight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -410,6 +411,7 @@ fun FiltersScreen(
     val controls: @Composable (filterType: Screen.Filter.Type) -> Unit = { filterType ->
         val baseControls: @Composable (wrapped: @Composable () -> Unit) -> Unit = { wrapped ->
             if (viewModel.bitmap != null) {
+                val internalHeight = rememberAvailableHeight(imageState, showOriginal)
                 LazyColumn(
                     contentPadding = PaddingValues(
                         bottom = WindowInsets
@@ -428,7 +430,7 @@ fun FiltersScreen(
                 ) {
                     imageStickyHeader(
                         visible = imageInside && viewModel.bitmap != null,
-                        expanded = showOriginal,
+                        internalHeight = internalHeight,
                         imageState = imageState,
                         onStateChange = { imageState = it },
                         imageBlock = imageBlock

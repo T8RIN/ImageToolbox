@@ -466,4 +466,5 @@
     <string name="start_position">Start</string>
     <string name="center_position">Center</string>
     <string name="end_position">End</string>
+    <string name="simple_variants">Simple Variants</string>
 </resources>

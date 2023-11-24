@@ -112,6 +112,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageState
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.EditExifSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -525,6 +526,10 @@ fun ResizeAndConvertScreen(
                             }
                         }
                     }
+                    val internalHeight = rememberAvailableHeight(
+                        imageState = imageState,
+                        expanded = showOriginal
+                    )
                     LazyColumn(
                         contentPadding = PaddingValues(
                             bottom = WindowInsets
@@ -543,7 +548,7 @@ fun ResizeAndConvertScreen(
                     ) {
                         imageStickyHeader(
                             visible = imageInside && viewModel.bitmap != null,
-                            expanded = showOriginal,
+                            internalHeight = internalHeight,
                             imageState = imageState,
                             onStateChange = { imageState = it },
                             imageBlock = imageBlock

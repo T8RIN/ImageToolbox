@@ -87,6 +87,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.middleImageState
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.rememberAvailableHeight
 
 
 private object FilterHolder {
@@ -357,6 +358,7 @@ fun AddFiltersSheet(
                         }
                     }
 
+                    val internalHeight = rememberAvailableHeight(imageState = imageState)
                     LazyColumn(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
@@ -369,6 +371,7 @@ fun AddFiltersSheet(
                         imageStickyHeader(
                             visible = imageInside,
                             imageState = imageState,
+                            internalHeight = internalHeight,
                             onStateChange = { imageState = it },
                             imageBlock = imageBlock,
                             backgroundColor = backgroundColor

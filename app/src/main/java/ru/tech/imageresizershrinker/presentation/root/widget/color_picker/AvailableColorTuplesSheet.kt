@@ -1,31 +1,27 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.color_picker
 
 import android.content.res.Configuration
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -33,7 +29,6 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Contrast
 import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.InvertColors
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -43,7 +38,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,27 +46,29 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.rememberColorScheme
+import com.t8rin.logger.makeLog
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Theme
 import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
 import ru.tech.imageresizershrinker.presentation.root.theme.defaultColorTuple
-import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ListUtils.nearestFor
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.presentation.root.widget.palette_selection.PaletteStyleSelection
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleDragHandle
@@ -83,7 +79,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
 
 @OptIn(
-    ExperimentalFoundationApi::class,
     ExperimentalMaterial3Api::class
 )
 @Composable
@@ -99,6 +94,7 @@ fun AvailableColorTuplesSheet(
     onToggleInvertColors: () -> Unit,
     onUpdateColorTuples: (List<ColorTuple>) -> Unit,
 ) {
+    visible.value.makeLog()
     val showEditColorPicker = rememberSaveable { mutableStateOf(false) }
 
     val settingsState = LocalSettingsState.current
@@ -193,19 +189,23 @@ fun AvailableColorTuplesSheet(
                 )
             }
             Row {
-                EnhancedButton(
-                    containerColor = MaterialTheme.colorScheme.errorContainer,
-                    contentColor = MaterialTheme.colorScheme.onErrorContainer,
-                    onClick = {
-                        showConfirmDeleteDialog = true
-                    },
-                    borderColor = MaterialTheme.colorScheme.outlineVariant(
-                        onTopOf = MaterialTheme.colorScheme.errorContainer
-                    )
-                ) {
-                    Icon(Icons.Rounded.Delete, null)
+                AnimatedVisibility(visible = currentColorTuple !in ColorTupleDefaults.defaultColorTuples) {
+                    Row {
+                        EnhancedButton(
+                            containerColor = MaterialTheme.colorScheme.errorContainer,
+                            contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                            onClick = {
+                                showConfirmDeleteDialog = true
+                            },
+                            borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                onTopOf = MaterialTheme.colorScheme.errorContainer
+                            )
+                        ) {
+                            Icon(Icons.Rounded.Delete, null)
+                        }
+                        Spacer(Modifier.width(8.dp))
+                    }
                 }
-                Spacer(Modifier.width(8.dp))
                 EnhancedButton(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     onClick = {
@@ -254,7 +254,7 @@ fun AvailableColorTuplesSheet(
             val slider = @Composable {
                 EnhancedSliderItem(
                     color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    value = settingsState.themeContrastLevel,
+                    value = settingsState.themeContrastLevel.toFloat().roundToTwoDigits(),
                     icon = Icons.Rounded.Contrast,
                     title = stringResource(id = R.string.contrast),
                     valueRange = -1f..1f,
@@ -272,8 +272,49 @@ fun AvailableColorTuplesSheet(
                     onValueChangeFinished = {
                         updateThemeContrast(it)
                     },
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    modifier = Modifier.padding(bottom = 4.dp)
                 )
+            }
+            val defaultValues = @Composable {
+                val listState = rememberLazyListState()
+                Column(
+                    modifier = Modifier
+                        .padding(bottom = 16.dp)
+                        .container(
+                            shape = RoundedCornerShape(24.dp),
+                            color = MaterialTheme.colorScheme.surfaceContainerHigh
+                        )
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            fontWeight = FontWeight.Medium,
+                            text = stringResource(R.string.simple_variants),
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.padding(top = 16.dp),
+                            fontSize = 18.sp
+                        )
+                    }
+                    LazyRow(
+                        state = listState,
+                        contentPadding = PaddingValues(16.dp),
+                        modifier = Modifier.fadingEdges(listState),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        items(ColorTupleDefaults.defaultColorTuples) { colorTuple ->
+                            ColorTuplePreview(
+                                isDefaultItem = true,
+                                modifier = Modifier.size(60.dp),
+                                colorTuple = colorTuple,
+                                appColorTuple = currentColorTuple,
+                                onClick = { onPickTheme(colorTuple) }
+                            )
+                        }
+                    }
+                }
             }
             Row(
                 horizontalArrangement = Arrangement.Center,
@@ -298,8 +339,8 @@ fun AvailableColorTuplesSheet(
                     columns = GridCells.Adaptive(64.dp),
                     contentPadding = PaddingValues(16.dp),
                     horizontalArrangement = Arrangement.spacedBy(
-                        4.dp,
-                        Alignment.CenterHorizontally
+                        space = 4.dp,
+                        alignment = Alignment.CenterHorizontally
                     ),
                     verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically)
                 ) {
@@ -320,75 +361,17 @@ fun AvailableColorTuplesSheet(
                             slider()
                         }
                     }
+                    item(
+                        span = { GridItemSpan(maxLineSpan) }
+                    ) {
+                        defaultValues()
+                    }
                     items(colorTupleList) { colorTuple ->
-                        ColorTupleItem(
-                            colorTuple = remember(settingsState.themeStyle, colorTuple) {
-                                derivedStateOf {
-                                    if (settingsState.themeStyle == PaletteStyle.TonalSpot) {
-                                        colorTuple
-                                    } else colorTuple.run {
-                                        copy(secondary = primary, tertiary = primary)
-                                    }
-                                }
-                            }.value,
-                            modifier = Modifier
-                                .aspectRatio(1f)
-                                .container(
-                                    shape = DavidStarShape,
-                                    color = rememberColorScheme(
-                                        isDarkTheme = settingsState.isNightMode,
-                                        amoledMode = settingsState.isDynamicColors,
-                                        colorTuple = colorTuple,
-                                        contrastLevel = settingsState.themeContrastLevel,
-                                        style = settingsState.themeStyle,
-                                        dynamicColor = settingsState.isDynamicColors,
-                                        isInvertColors = settingsState.isInvertThemeColors
-                                    ).surfaceVariant.copy(alpha = 0.8f),
-                                    borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
-                                    resultPadding = 0.dp
-                                )
-                                .combinedClickable(
-                                    onClick = {
-                                        onPickTheme(colorTuple)
-                                    },
-                                )
-                                .padding(3.dp),
-                            backgroundColor = Color.Transparent
-                        ) {
-                            AnimatedContent(
-                                targetState = colorTuple == currentColorTuple
-                            ) { selected ->
-                                Box(
-                                    contentAlignment = Alignment.Center,
-                                    modifier = Modifier.fillMaxSize()
-                                ) {
-                                    if (selected) {
-                                        Box(
-                                            modifier = Modifier
-                                                .size(28.dp)
-                                                .background(
-                                                    animateColorAsState(
-                                                        colorTuple.primary.inverse(
-                                                            fraction = { cond ->
-                                                                if (cond) 0.8f
-                                                                else 0.5f
-                                                            },
-                                                            darkMode = colorTuple.primary.luminance() < 0.3f
-                                                        )
-                                                    ).value,
-                                                    CircleShape
-                                                ),
-                                        )
-                                        Icon(
-                                            imageVector = Icons.Rounded.Done,
-                                            contentDescription = null,
-                                            tint = colorTuple.primary,
-                                            modifier = Modifier.size(16.dp)
-                                        )
-                                    }
-                                }
-                            }
-                        }
+                        ColorTuplePreview(
+                            colorTuple = colorTuple,
+                            appColorTuple = currentColorTuple,
+                            onClick = { onPickTheme(colorTuple) }
+                        )
                     }
                     item {
                         ColorTupleItem(

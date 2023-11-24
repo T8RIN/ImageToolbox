@@ -90,6 +90,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -172,6 +173,19 @@ fun MainScreen(
     val layoutDirection = LocalLayoutDirection.current
 
     var sheetExpanded by rememberSaveable { mutableStateOf(false) }
+
+    var settingsSearchKeyword by rememberSaveable {
+        mutableStateOf("")
+    }
+    var showSettingsSearch by rememberSaveable { mutableStateOf(false) }
+    val settingsBlock = remember {
+        movableContentOf {
+            SettingsBlock(
+                searchKeyword = settingsSearchKeyword,
+                viewModel = viewModel
+            )
+        }
+    }
     val drawerContent = @Composable {
         if (sideSheetState.isOpen && isSheetSlideable) {
             BackHandler {
@@ -219,11 +233,6 @@ fun MainScreen(
             drawerShape = if (isSheetSlideable) DrawerDefaults.shape else RectangleShape,
             windowInsets = WindowInsets(0)
         ) {
-            var settingsSearchKeyword by rememberSaveable {
-                mutableStateOf("")
-            }
-            var showSettingsSearch by rememberSaveable { mutableStateOf(false) }
-
             val focus = LocalFocusManager.current
             LaunchedEffect(sideSheetState.isClosed) {
                 if (sideSheetState.isClosed) {
@@ -331,10 +340,7 @@ fun MainScreen(
                         }
                     }
                 )
-                SettingsBlock(
-                    searchKeyword = settingsSearchKeyword,
-                    viewModel = viewModel
-                )
+                settingsBlock()
             }
         }
     }
