@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalContaine
 fun SearchableSettingItem(
     modifier: Modifier = Modifier,
     group: SettingsGroup,
-    setting: SettingItem,
+    setting: Setting,
     shape: Shape,
     viewModel: MainViewModel
 ) {
@@ -46,8 +46,8 @@ fun SearchableSettingItem(
             Text(text = stringResource(id = group.titleId), fontSize = 12.sp)
         }
         val itemShape = when (setting) {
-            is SettingItem.ImagePickerMode -> null
-            is SettingItem.NightMode -> null
+            is Setting.ImagePickerMode -> null
+            is Setting.NightMode -> null
             else -> RoundedCornerShape(12.dp)
         }
         CompositionLocalProvider(

@@ -68,23 +68,36 @@ fun SettingsBlock(
     }
 
     val context = LocalContext.current
-    var settings: List<Pair<SettingsGroup, SettingItem>>? by remember { mutableStateOf(null) }
+    var settings: List<Pair<SettingsGroup, Setting>>? by remember { mutableStateOf(null) }
     var loading by remember { mutableStateOf(false) }
     LaunchedEffect(searchKeyword) {
         delay(150)
         loading = searchKeyword.isNotEmpty()
         settings = searchKeyword.takeIf { it.trim().isNotEmpty() }?.let {
-            val newList = mutableListOf<Pair<SettingsGroup, SettingItem>>()
+            val newList = mutableListOf<Pair<SettingsGroup, Setting>>()
             initialSettingGroups.forEach { group ->
                 group.settingsList.forEach { setting ->
                     val keywords = mutableListOf<String>()
                     keywords.add(context.getString(group.titleId))
-                    keywords.add(setting.getTitle(context))
-                    keywords.add(setting.getSubtitle(context))
+                    keywords.add(context.getString(setting.title))
+                    setting.subtitle?.let {
+                        keywords.add(context.getString(it))
+                    }
+
                     if (
-                        keywords.any {
-                            it.contains(searchKeyword, ignoreCase = true)
-                        } && setting !is SettingItem.CheckUpdatesButton
+                        keywords
+                            .joinToString()
+                            .let {
+                                it.contains(
+                                    other = searchKeyword,
+                                    ignoreCase = true
+                                ).or(
+                                    it.contains(
+                                        other = searchKeyword.trim(),
+                                        ignoreCase = true
+                                    )
+                                )
+                            }
                     ) {
                         newList.add(group to setting)
                     }

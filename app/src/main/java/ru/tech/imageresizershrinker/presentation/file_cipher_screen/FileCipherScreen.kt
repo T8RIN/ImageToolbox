@@ -632,13 +632,18 @@ fun FileCipherScreen(
                                                         }
                                                     )
 
-                                                    Row(Modifier.padding(top = 24.dp)) {
+                                                    Row(
+                                                        modifier = Modifier
+                                                            .padding(top = 24.dp)
+                                                            .fillMaxWidth()
+                                                    ) {
                                                         EnhancedButton(
                                                             onClick = {
                                                                 saveLauncher.launch("*/*#$name")
                                                             },
                                                             modifier = Modifier
-                                                                .weight(1f)
+                                                                .padding(end = 8.dp)
+                                                                .fillMaxWidth(0.5f)
                                                                 .height(50.dp),
                                                             containerColor = MaterialTheme.colorScheme.secondaryContainer
                                                         ) {
@@ -657,7 +662,6 @@ fun FileCipherScreen(
                                                                 )
                                                             }
                                                         }
-                                                        Spacer(Modifier.width(16.dp))
                                                         EnhancedButton(
                                                             onClick = {
                                                                 viewModel.byteArray?.let {
@@ -672,7 +676,8 @@ fun FileCipherScreen(
                                                                 }
                                                             },
                                                             modifier = Modifier
-                                                                .weight(1f)
+                                                                .padding(start = 8.dp)
+                                                                .fillMaxWidth()
                                                                 .height(50.dp),
                                                             containerColor = MaterialTheme.colorScheme.secondaryContainer
                                                         ) {

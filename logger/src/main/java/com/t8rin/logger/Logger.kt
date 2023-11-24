@@ -63,3 +63,7 @@ inline fun <reified T> T.makeLog(
         dataBlock = { dataBlock(it) }
     )
 }
+
+inline infix fun <reified T> T.makeInfixLog(
+    tag: String
+): T = makeLog(tag) { this }

@@ -42,6 +42,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.systemBars
@@ -280,15 +281,16 @@ fun MainScreen(
                                 } else {
                                     settingsSearchKeyword = ""
                                 }
-                            }
+                            },
+                            modifier = Modifier.size(48.dp)
                         ) {
                             AnimatedContent(
-                                targetState = showSettingsSearch,
+                                targetState = showSettingsSearch to settingsSearchKeyword.isNotEmpty(),
                                 transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
-                            ) {
-                                if (it) {
+                            ) { (searching, hasSearchKey) ->
+                                if (searching && hasSearchKey) {
                                     Icon(Icons.Rounded.Close, null)
-                                } else {
+                                } else if (!searching) {
                                     Icon(Icons.Rounded.Search, null)
                                 }
                             }
