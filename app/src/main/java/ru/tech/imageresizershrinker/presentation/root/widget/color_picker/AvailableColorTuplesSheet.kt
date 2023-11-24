@@ -45,7 +45,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -253,12 +252,9 @@ fun AvailableColorTuplesSheet(
                 )
             }
             val slider = @Composable {
-                var state by remember(settingsState.themeContrastLevel) {
-                    mutableFloatStateOf(settingsState.themeContrastLevel.toFloat())
-                }
                 EnhancedSliderItem(
                     color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    value = state,
+                    value = settingsState.themeContrastLevel,
                     icon = Icons.Rounded.Contrast,
                     title = stringResource(id = R.string.contrast),
                     valueRange = -1f..1f,
@@ -268,10 +264,13 @@ fun AvailableColorTuplesSheet(
                         bottomStart = 24.dp,
                         bottomEnd = 24.dp
                     ),
-                    onValueChange = { state = it.roundToTwoDigits() },
+                    onValueChange = { },
+                    internalStateTransformation = {
+                        it.roundToTwoDigits()
+                    },
                     steps = 198,
                     onValueChangeFinished = {
-                        updateThemeContrast(state)
+                        updateThemeContrast(it)
                     },
                     modifier = Modifier.padding(bottom = 16.dp)
                 )

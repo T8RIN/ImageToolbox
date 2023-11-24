@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
@@ -25,6 +24,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalImageLoader
 
@@ -79,19 +79,19 @@ fun EmojiItem(
                     painter = painter,
                     contentDescription = null,
                     modifier = Modifier
-                        .size(size + 2.dp)
+                        .size(size + 4.dp)
                         .offset(1.dp, 1.dp)
-                        .padding(1.dp),
+                        .padding(2.dp),
                     tint = Color(0, 0, 0, 40)
                 )
                 Icon(
                     painter = painter,
                     contentDescription = null,
                     modifier = Modifier
-                        .size(size + 2.dp)
-                        .clip(RoundedCornerShape(4.dp))
+                        .size(size + 4.dp)
+                        .clip(CloverShape)
                         .shimmer(shimmering)
-                        .padding(1.dp),
+                        .padding(2.dp),
                     tint = Color.Unspecified
                 )
             }
