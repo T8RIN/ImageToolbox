@@ -11,7 +11,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -20,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalContainerShape
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.ProvideContainerShape
 
 @Composable
 fun SearchableSettingItem(
@@ -50,9 +49,7 @@ fun SearchableSettingItem(
             is Setting.NightMode -> null
             else -> RoundedCornerShape(12.dp)
         }
-        CompositionLocalProvider(
-            LocalContainerShape provides itemShape
-        ) {
+        ProvideContainerShape(itemShape) {
             SettingItem(
                 setting = setting,
                 viewModel = viewModel

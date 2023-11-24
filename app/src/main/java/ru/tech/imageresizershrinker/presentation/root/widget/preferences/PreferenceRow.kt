@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.ProvideContainerShape
 
 @Composable
 fun PreferenceRow(
@@ -81,7 +82,9 @@ fun PreferenceRow(
                 .alpha(animateFloatAsState(targetValue = if (enabled) 1f else 0.5f).value),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            startContent?.invoke()
+            ProvideContainerShape(null) {
+                startContent?.invoke()
+            }
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = title,
@@ -101,7 +104,9 @@ fun PreferenceRow(
                 }
             }
             Spacer(Modifier.width(8.dp))
-            endContent?.invoke()
+            ProvideContainerShape(null) {
+                endContent?.invoke()
+            }
         }
     }
 }

@@ -74,7 +74,7 @@ fun SettingsBlock(
         delay(150)
         loading = searchKeyword.isNotEmpty()
         settings = searchKeyword.takeIf { it.trim().isNotEmpty() }?.let {
-            val newList = mutableListOf<Pair<SettingsGroup, Setting>>()
+            val newList = mutableListOf<Pair<Pair<SettingsGroup, Setting>, Int>>()
             initialSettingGroups.forEach { group ->
                 group.settingsList.forEach { setting ->
                     val keywords = mutableListOf<String>()
@@ -84,26 +84,19 @@ fun SettingsBlock(
                         keywords.add(context.getString(it))
                     }
 
-                    if (
-                        keywords
-                            .joinToString()
-                            .let {
-                                it.contains(
-                                    other = searchKeyword,
-                                    ignoreCase = true
-                                ).or(
-                                    it.contains(
-                                        other = searchKeyword.trim(),
-                                        ignoreCase = true
-                                    )
-                                )
-                            }
-                    ) {
-                        newList.add(group to setting)
+                    val substringStart = keywords
+                        .joinToString()
+                        .indexOf(
+                            string = searchKeyword,
+                            ignoreCase = true
+                        ).takeIf { it != -1 }
+
+                    substringStart?.plus(searchKeyword.length)?.let { substringEnd ->
+                        newList.add(group to setting to (substringEnd - substringStart))
                     }
                 }
             }
-            newList
+            newList.sortedBy { it.second }.map { it.first }
         }
         loading = false
     }

@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.ProvideContainerShape
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -91,9 +92,11 @@ fun PreferenceItemOverload(
                     transitionSpec = { fadeIn() togetherWith fadeOut() }
                 ) { icon ->
                     icon?.let {
-                        Row {
-                            it()
-                            Spacer(modifier = Modifier.width(16.dp))
+                        ProvideContainerShape(null) {
+                            Row {
+                                it()
+                                Spacer(modifier = Modifier.width(16.dp))
+                            }
                         }
                     }
                 }
@@ -131,12 +134,14 @@ fun PreferenceItemOverload(
                         }
                     }
                 }
-                AnimatedContent(
-                    targetState = endIcon,
-                    transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
-                ) { icon ->
-                    icon?.let {
-                        it()
+                ProvideContainerShape(null) {
+                    AnimatedContent(
+                        targetState = endIcon,
+                        transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
+                    ) { icon ->
+                        icon?.let {
+                            it()
+                        }
                     }
                 }
             }

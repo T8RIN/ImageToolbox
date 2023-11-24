@@ -36,6 +36,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.ProvideContainerShape
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,43 +49,45 @@ fun SimpleSheet(
     val settingsState = LocalSettingsState.current
     var showSheet by visible
 
-    ModalSheet(
-        nestedScrollEnabled = nestedScrollEnabled,
-        animationSpec = tween(
-            durationMillis = 600,
-            easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
-        ),
-        dragHandle = dragHandle,
-        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
-        sheetModifier = Modifier
-            .statusBarsPadding()
-            .offset(y = (settingsState.borderWidth + 1.dp))
-            .border(
-                width = settingsState.borderWidth,
-                color = MaterialTheme.colorScheme.outlineVariant(
-                    luminance = 0.3f,
-                    onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
-                ),
-                shape = BottomSheetDefaults.ExpandedShape
-            )
-            .autoElevatedBorder(
-                shape = BottomSheetDefaults.ExpandedShape,
-                autoElevation = 16.dp
-            )
-            .autoElevatedBorder(
-                height = 0.dp,
-                shape = BottomSheetDefaults.ExpandedShape,
-                autoElevation = 16.dp
-            )
-            .animateContentSize(),
-        elevation = 0.dp,
-        visible = showSheet,
-        onVisibleChange = { showSheet = it },
-        content = {
-            if (showSheet) BackHandler { showSheet = false }
-            sheetContent()
-        }
-    )
+    ProvideContainerShape(null) {
+        ModalSheet(
+            nestedScrollEnabled = nestedScrollEnabled,
+            animationSpec = tween(
+                durationMillis = 600,
+                easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
+            ),
+            dragHandle = dragHandle,
+            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
+            sheetModifier = Modifier
+                .statusBarsPadding()
+                .offset(y = (settingsState.borderWidth + 1.dp))
+                .border(
+                    width = settingsState.borderWidth,
+                    color = MaterialTheme.colorScheme.outlineVariant(
+                        luminance = 0.3f,
+                        onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
+                    ),
+                    shape = BottomSheetDefaults.ExpandedShape
+                )
+                .autoElevatedBorder(
+                    shape = BottomSheetDefaults.ExpandedShape,
+                    autoElevation = 16.dp
+                )
+                .autoElevatedBorder(
+                    height = 0.dp,
+                    shape = BottomSheetDefaults.ExpandedShape,
+                    autoElevation = 16.dp
+                )
+                .animateContentSize(),
+            elevation = 0.dp,
+            visible = showSheet,
+            onVisibleChange = { showSheet = it },
+            content = {
+                if (showSheet) BackHandler { showSheet = false }
+                sheetContent()
+            }
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -102,61 +105,63 @@ fun SimpleSheet(
     val settingsState = LocalSettingsState.current
     var showSheet by visible
 
-    ModalSheet(
-        nestedScrollEnabled = nestedScrollEnabled,
-        animationSpec = tween(
-            durationMillis = 600,
-            easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
-        ),
-        dragHandle = dragHandle,
-        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
-        sheetModifier = Modifier
-            .statusBarsPadding()
-            .offset(y = (settingsState.borderWidth + 1.dp))
-            .border(
-                width = settingsState.borderWidth,
-                color = MaterialTheme.colorScheme.outlineVariant(
-                    luminance = 0.3f,
-                    onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
-                ),
-                shape = BottomSheetDefaults.ExpandedShape
-            )
-            .autoElevatedBorder(
-                shape = BottomSheetDefaults.ExpandedShape,
-                autoElevation = 16.dp
-            )
-            .autoElevatedBorder(
-                height = 0.dp,
-                shape = BottomSheetDefaults.ExpandedShape,
-                autoElevation = 16.dp
-            )
-            .animateContentSize(),
-        elevation = 0.dp,
-        visible = showSheet,
-        onVisibleChange = { showSheet = it },
-        content = {
-            if (showSheet && enableBackHandler) BackHandler { showSheet = false }
-            Column(
-                modifier = Modifier.weight(1f, false),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                content = sheetContent
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .drawHorizontalStroke(true, autoElevation = 6.dp)
-                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
-                    .padding(16.dp)
-                    .navigationBarsPadding()
-                    .padding(end = endConfirmButtonPadding),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                title()
-                Spacer(modifier = Modifier.weight(1f))
-                confirmButton()
+    ProvideContainerShape(null) {
+        ModalSheet(
+            nestedScrollEnabled = nestedScrollEnabled,
+            animationSpec = tween(
+                durationMillis = 600,
+                easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
+            ),
+            dragHandle = dragHandle,
+            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
+            sheetModifier = Modifier
+                .statusBarsPadding()
+                .offset(y = (settingsState.borderWidth + 1.dp))
+                .border(
+                    width = settingsState.borderWidth,
+                    color = MaterialTheme.colorScheme.outlineVariant(
+                        luminance = 0.3f,
+                        onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
+                    ),
+                    shape = BottomSheetDefaults.ExpandedShape
+                )
+                .autoElevatedBorder(
+                    shape = BottomSheetDefaults.ExpandedShape,
+                    autoElevation = 16.dp
+                )
+                .autoElevatedBorder(
+                    height = 0.dp,
+                    shape = BottomSheetDefaults.ExpandedShape,
+                    autoElevation = 16.dp
+                )
+                .animateContentSize(),
+            elevation = 0.dp,
+            visible = showSheet,
+            onVisibleChange = { showSheet = it },
+            content = {
+                if (showSheet && enableBackHandler) BackHandler { showSheet = false }
+                Column(
+                    modifier = Modifier.weight(1f, false),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    content = sheetContent
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .drawHorizontalStroke(true, autoElevation = 6.dp)
+                        .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
+                        .padding(16.dp)
+                        .navigationBarsPadding()
+                        .padding(end = endConfirmButtonPadding),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    title()
+                    Spacer(modifier = Modifier.weight(1f))
+                    confirmButton()
+                }
             }
-        }
-    )
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -171,63 +176,66 @@ fun SimpleSheet(
     sheetContent: @Composable ColumnScope.() -> Unit,
 ) {
     val settingsState = LocalSettingsState.current
-    ModalSheet(
-        nestedScrollEnabled = nestedScrollEnabled,
-        animationSpec = tween(
-            durationMillis = 600,
-            easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
-        ),
-        dragHandle = dragHandle,
-        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
-        sheetModifier = Modifier
-            .statusBarsPadding()
-            .offset(y = (settingsState.borderWidth + 1.dp))
-            .border(
-                width = settingsState.borderWidth,
-                color = MaterialTheme.colorScheme.outlineVariant(
-                    luminance = 0.3f,
-                    onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
-                ),
-                shape = BottomSheetDefaults.ExpandedShape
-            )
-            .autoElevatedBorder(
-                shape = BottomSheetDefaults.ExpandedShape,
-                autoElevation = 16.dp
-            )
-            .autoElevatedBorder(
-                height = 0.dp,
-                shape = BottomSheetDefaults.ExpandedShape,
-                autoElevation = 16.dp
-            )
-            .animateContentSize(),
-        elevation = 0.dp,
-        visible = visible,
-        onVisibleChange = onDismiss,
-        content = {
-            if (visible) BackHandler { onDismiss(false) }
-            Column(
-                modifier = Modifier.weight(1f, false),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                content = sheetContent
-            )
-            if (confirmButton != null && title != null) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .drawHorizontalStroke(true, autoElevation = 6.dp)
-                        .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
-                        .navigationBarsPadding()
-                        .padding(16.dp)
-                        .padding(end = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    title()
-                    Spacer(modifier = Modifier.weight(1f))
-                    confirmButton()
+
+    ProvideContainerShape(null) {
+        ModalSheet(
+            nestedScrollEnabled = nestedScrollEnabled,
+            animationSpec = tween(
+                durationMillis = 600,
+                easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
+            ),
+            dragHandle = dragHandle,
+            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
+            sheetModifier = Modifier
+                .statusBarsPadding()
+                .offset(y = (settingsState.borderWidth + 1.dp))
+                .border(
+                    width = settingsState.borderWidth,
+                    color = MaterialTheme.colorScheme.outlineVariant(
+                        luminance = 0.3f,
+                        onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
+                    ),
+                    shape = BottomSheetDefaults.ExpandedShape
+                )
+                .autoElevatedBorder(
+                    shape = BottomSheetDefaults.ExpandedShape,
+                    autoElevation = 16.dp
+                )
+                .autoElevatedBorder(
+                    height = 0.dp,
+                    shape = BottomSheetDefaults.ExpandedShape,
+                    autoElevation = 16.dp
+                )
+                .animateContentSize(),
+            elevation = 0.dp,
+            visible = visible,
+            onVisibleChange = onDismiss,
+            content = {
+                if (visible) BackHandler { onDismiss(false) }
+                Column(
+                    modifier = Modifier.weight(1f, false),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    content = sheetContent
+                )
+                if (confirmButton != null && title != null) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .drawHorizontalStroke(true, autoElevation = 6.dp)
+                            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
+                            .navigationBarsPadding()
+                            .padding(16.dp)
+                            .padding(end = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        title()
+                        Spacer(modifier = Modifier.weight(1f))
+                        confirmButton()
+                    }
                 }
             }
-        }
-    )
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
