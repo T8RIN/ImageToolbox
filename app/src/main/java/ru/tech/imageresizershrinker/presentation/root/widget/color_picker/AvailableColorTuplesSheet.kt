@@ -37,6 +37,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -277,6 +278,12 @@ fun AvailableColorTuplesSheet(
             }
             val defaultValues = @Composable {
                 val listState = rememberLazyListState()
+                val defList = ColorTupleDefaults.defaultColorTuples
+                LaunchedEffect(visible.value) {
+                    if (currentColorTuple in defList) {
+                        listState.animateScrollToItem(defList.indexOf(currentColorTuple))
+                    }
+                }
                 Column(
                     modifier = Modifier
                         .padding(bottom = 16.dp)
@@ -304,7 +311,7 @@ fun AvailableColorTuplesSheet(
                         modifier = Modifier.fadingEdges(listState),
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        items(ColorTupleDefaults.defaultColorTuples) { colorTuple ->
+                        items(defList) { colorTuple ->
                             ColorTuplePreview(
                                 isDefaultItem = true,
                                 modifier = Modifier.size(60.dp),
