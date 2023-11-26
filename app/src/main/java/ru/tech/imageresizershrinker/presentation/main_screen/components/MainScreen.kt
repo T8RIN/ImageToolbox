@@ -835,6 +835,7 @@ fun MainScreen(
             }
         }
     }
+
     if (isSheetSlideable) {
         CompositionLocalProvider(
             LocalLayoutDirection provides if (layoutDirection == LayoutDirection.Ltr) LayoutDirection.Rtl
