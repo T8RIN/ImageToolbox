@@ -1,13 +1,10 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.preferences
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,6 +13,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitch
 
 @Composable
 fun PreferenceRowSwitch(
@@ -52,31 +50,21 @@ fun PreferenceRowSwitch(
         startContent = startContent,
         onClick = { onClick(!checked) },
         endContent = {
-            val thumbIcon: (@Composable () -> Unit)? = if (checked) {
-                {
-                    Icon(
-                        imageVector = Icons.Rounded.Check,
-                        contentDescription = null,
-                        modifier = Modifier.size(SwitchDefaults.IconSize)
-                    )
-                }
-            } else null
-            Switch(
-                thumbContent = thumbIcon,
+            EnhancedSwitch(
+                thumbIcon = if (checked) Icons.Rounded.Check else null,
                 colors = SwitchDefaults.colors(
                     uncheckedBorderColor = MaterialTheme.colorScheme.outline.blend(
-                        MaterialTheme.colorScheme.secondaryContainer, 0.3f
+                        color, 0.3f
                     ),
                     uncheckedThumbColor = MaterialTheme.colorScheme.outline.blend(
-                        MaterialTheme.colorScheme.secondaryContainer, 0.2f
+                        color, 0.3f
                     ),
-                    uncheckedTrackColor = MaterialTheme.colorScheme.secondaryContainer
+                    uncheckedTrackColor = color,
+                    checkedIconColor = MaterialTheme.colorScheme.primary
                 ),
                 enabled = enabled,
                 checked = checked,
-                onCheckedChange = {
-                    onClick(it)
-                }
+                onCheckedChange = onClick
             )
         }
     )

@@ -43,8 +43,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.surfaceColorAtElevation
@@ -86,6 +84,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.failedToSaveI
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitch
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.PresetWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.SaveExifWidget
@@ -226,25 +225,13 @@ fun BytesResizeScreen(
     }
 
     val switch = @Composable {
-        Switch(
+        EnhancedSwitch(
             modifier = Modifier.padding(horizontal = 16.dp),
-            colors = SwitchDefaults.colors(
-                uncheckedBorderColor = MaterialTheme.colorScheme.primary,
-                uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                uncheckedTrackColor = MaterialTheme.colorScheme.primary,
-                uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            ),
             checked = viewModel.handMode,
             onCheckedChange = { viewModel.updateHandMode() },
-            thumbContent = {
-                AnimatedContent(viewModel.handMode) { handMode ->
-                    Icon(
-                        if (handMode) Icons.Rounded.FrontHand else Icons.Rounded.PhotoSizeSelectSmall,
-                        null,
-                        Modifier.size(SwitchDefaults.IconSize)
-                    )
-                }
-            }
+            thumbIcon = if (viewModel.handMode) {
+                Icons.Rounded.FrontHand
+            } else Icons.Rounded.PhotoSizeSelectSmall
         )
     }
 

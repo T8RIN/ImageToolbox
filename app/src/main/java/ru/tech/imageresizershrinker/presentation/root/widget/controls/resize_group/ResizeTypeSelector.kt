@@ -62,10 +62,10 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 
 
 @Composable
-fun ResizeGroup(
+fun ResizeTypeSelector(
     enabled: Boolean,
-    resizeType: ResizeType,
-    onResizeChange: (ResizeType) -> Unit
+    value: ResizeType,
+    onValueChange: (ResizeType) -> Unit
 ) {
     val state = rememberSaveable { mutableStateOf(false) }
     var canvasColor by rememberSaveable(stateSaver = ColorSaver) {
@@ -88,7 +88,7 @@ fun ResizeGroup(
         }
     }
     val updateResizeType = {
-        onResizeChange(modifiedResizeType)
+        onValueChange(modifiedResizeType)
     }
     Column(
         modifier = Modifier
@@ -113,6 +113,7 @@ fun ResizeGroup(
                     Icon(
                         imageVector = Icons.Outlined.Info,
                         contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer,
                         modifier = Modifier
                             .background(
                                 MaterialTheme.colorScheme.secondaryContainer,
@@ -137,14 +138,14 @@ fun ResizeGroup(
                 stringResource(R.string.flexible),
                 stringResource(R.string.crop)
             ),
-            selectedIndex = when (resizeType) {
+            selectedIndex = when (value) {
                 ResizeType.Explicit -> 0
                 ResizeType.Flexible -> 1
                 is ResizeType.CenterCrop -> 2
                 else -> throw IllegalStateException()
             },
             indexChanged = {
-                onResizeChange(
+                onValueChange(
                     when (it) {
                         0 -> ResizeType.Explicit
                         1 -> ResizeType.Flexible
@@ -155,7 +156,7 @@ fun ResizeGroup(
             }
         )
         AnimatedVisibility(
-            visible = resizeType is ResizeType.CenterCrop,
+            visible = value is ResizeType.CenterCrop,
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {
@@ -169,7 +170,7 @@ fun ResizeGroup(
             )
         }
         AnimatedVisibility(
-            visible = resizeType is ResizeType.CenterCrop,
+            visible = value is ResizeType.CenterCrop,
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {

@@ -119,6 +119,7 @@ fun PresetWidget(
                     Icon(
                         imageVector = Icons.Outlined.Info,
                         contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer,
                         modifier = Modifier
                             .background(
                                 MaterialTheme.colorScheme.secondaryContainer,

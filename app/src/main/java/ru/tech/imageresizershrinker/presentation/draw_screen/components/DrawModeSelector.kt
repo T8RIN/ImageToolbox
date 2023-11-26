@@ -8,22 +8,30 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material.icons.rounded.Brush
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -34,24 +42,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
+import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.draw.DrawMode
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Cube
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Highlighter
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Laser
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.resize_group.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
+import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,6 +79,8 @@ fun DrawModeSelector(
     drawMode: DrawMode,
     onDrawModeChange: (DrawMode) -> Unit
 ) {
+    val state = rememberSaveable { mutableStateOf(false) }
+
     val settingsState = LocalSettingsState.current
     Column(
         modifier = modifier
@@ -79,6 +99,27 @@ fun DrawModeSelector(
                 text = stringResource(R.string.draw_mode),
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Medium
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Icon(
+                imageVector = Icons.Outlined.Info,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                modifier = Modifier
+                    .background(
+                        MaterialTheme.colorScheme.secondaryContainer,
+                        CircleShape
+                    )
+                    .clip(CircleShape)
+                    .clickable {
+                        state.value = true
+                    }
+                    .padding(1.dp)
+                    .size(
+                        with(LocalDensity.current) {
+                            LocalTextStyle.current.fontSize.toDp()
+                        }
+                    )
             )
         }
         Box {
@@ -126,13 +167,7 @@ fun DrawModeSelector(
                             shape = shape
                         ) {
                             Icon(
-                                imageVector = when (item) {
-                                    is DrawMode.Highlighter -> Icons.Rounded.Highlighter
-                                    is DrawMode.Neon -> Icons.Rounded.Laser
-                                    is DrawMode.Pen -> Icons.Rounded.Brush
-                                    is DrawMode.PathEffect.PrivacyBlur -> Icons.Rounded.BlurCircular
-                                    is DrawMode.PathEffect.Pixelation -> Icons.Rounded.Cube
-                                },
+                                imageVector = item.getIcon(),
                                 contentDescription = null
                             )
                         }
@@ -192,4 +227,59 @@ fun DrawModeSelector(
             )
         }
     }
+    SimpleSheet(
+        sheetContent = {
+            Box {
+                //Improve shapes and add container to all info sheets TODO (maybe also create info sheet)
+                Column(Modifier.verticalScroll(rememberScrollState())) {
+                    DrawMode.entries.forEachIndexed { index, item ->
+                        TitleItem(text = stringResource(item.getTitle()), icon = item.getIcon())
+                        Text(
+                            text = stringResource(item.getSubtitle()),
+                            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                            fontSize = 14.sp,
+                            lineHeight = 18.sp
+                        )
+                        if (index != DrawMode.entries.lastIndex) HorizontalDivider()
+                    }
+                }
+            }
+        },
+        visible = state,
+        title = {
+            TitleItem(text = stringResource(R.string.draw_mode))
+        },
+        confirmButton = {
+            EnhancedButton(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                onClick = { state.value = false }
+            ) {
+                AutoSizeText(stringResource(R.string.close))
+            }
+        }
+    )
+}
+
+private fun DrawMode.getSubtitle(): Int = when (this) {
+    is DrawMode.Highlighter -> R.string.highlighter_sub
+    is DrawMode.Neon -> R.string.neon_sub
+    is DrawMode.Pen -> R.string.pen_sub
+    is DrawMode.PathEffect.PrivacyBlur -> R.string.privacy_blur_sub
+    is DrawMode.PathEffect.Pixelation -> R.string.pixelation_sub
+}
+
+private fun DrawMode.getTitle(): Int = when (this) {
+    is DrawMode.Highlighter -> R.string.highlighter
+    is DrawMode.Neon -> R.string.neon
+    is DrawMode.Pen -> R.string.pen
+    is DrawMode.PathEffect.PrivacyBlur -> R.string.privacy_blur
+    is DrawMode.PathEffect.Pixelation -> R.string.pixelation
+}
+
+private fun DrawMode.getIcon(): ImageVector = when (this) {
+    is DrawMode.Highlighter -> Icons.Rounded.Highlighter
+    is DrawMode.Neon -> Icons.Rounded.Laser
+    is DrawMode.Pen -> Icons.Rounded.Brush
+    is DrawMode.PathEffect.PrivacyBlur -> Icons.Rounded.BlurCircular
+    is DrawMode.PathEffect.Pixelation -> Icons.Rounded.Cube
 }

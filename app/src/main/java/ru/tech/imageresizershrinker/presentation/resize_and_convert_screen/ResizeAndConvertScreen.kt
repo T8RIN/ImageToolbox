@@ -90,7 +90,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.controls.PresetWidg
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.SaveExifWidget
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.resize_group.ResizeGroup
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.resize_group.ResizeTypeSelector
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageContainer
@@ -454,10 +454,10 @@ fun ResizeAndConvertScreen(
             onFormatChange = viewModel::setMime
         )
         Spacer(Modifier.height(8.dp))
-        ResizeGroup(
+        ResizeTypeSelector(
             enabled = viewModel.bitmap != null,
-            resizeType = bitmapInfo.resizeType,
-            onResizeChange = viewModel::setResizeType
+            value = bitmapInfo.resizeType,
+            onValueChange = viewModel::setResizeType
         )
     }
 
