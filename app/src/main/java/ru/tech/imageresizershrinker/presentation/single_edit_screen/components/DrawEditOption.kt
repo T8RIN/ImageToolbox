@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.single_edit_screen.components
 
 import android.graphics.Bitmap
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.expandVertically
@@ -18,7 +17,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -32,8 +30,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
@@ -71,6 +67,8 @@ import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitch
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitchDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.other.DrawLockScreenOrientation
@@ -101,28 +99,17 @@ fun DrawEditOption(
         var zoomEnabled by rememberSaveable { mutableStateOf(false) }
 
         val switch = @Composable {
-            Switch(
+            EnhancedSwitch(
                 modifier = Modifier.then(
                     if (!useScaffold) Modifier.padding(start = 8.dp)
                     else Modifier
                 ),
-                colors = SwitchDefaults.colors(
-                    uncheckedBorderColor = MaterialTheme.colorScheme.primary,
-                    uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                    uncheckedTrackColor = MaterialTheme.colorScheme.primary,
-                    uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                ),
+                colors = EnhancedSwitchDefaults.uncheckableColors(),
                 checked = !zoomEnabled,
                 onCheckedChange = { zoomEnabled = !zoomEnabled },
-                thumbContent = {
-                    AnimatedContent(zoomEnabled) { zoom ->
-                        Icon(
-                            if (!zoom) Icons.Rounded.Draw else Icons.Rounded.ZoomIn,
-                            null,
-                            Modifier.size(SwitchDefaults.IconSize)
-                        )
-                    }
-                }
+                thumbIcon = if (!zoomEnabled) {
+                    Icons.Rounded.Draw
+                } else Icons.Rounded.ZoomIn,
             )
         }
 
