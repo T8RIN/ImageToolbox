@@ -12,12 +12,13 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.round
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSliderItem
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
 fun BorderThicknessSettingItem(
     updateBorderWidth: (Float) -> Unit,
-    shape: Shape = SettingsShapeDefaults.centerShape,
+    shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier
         .padding(horizontal = 8.dp)
 ) {

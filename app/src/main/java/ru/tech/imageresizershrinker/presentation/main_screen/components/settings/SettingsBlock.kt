@@ -52,6 +52,7 @@ import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.plus
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.other.Loading
 
 
@@ -168,12 +169,10 @@ fun SettingsBlock(
                 ) {
                     settingsAnimated.forEachIndexed { index, (group, setting) ->
                         SearchableSettingItem(
-                            shape = when {
-                                settingsAnimated.size == 1 -> SettingsShapeDefaults.defaultShape
-                                index == 0 -> SettingsShapeDefaults.topShape
-                                index == settingsAnimated.lastIndex -> SettingsShapeDefaults.bottomShape
-                                else -> SettingsShapeDefaults.centerShape
-                            },
+                            shape = ContainerShapeDefaults.shapeForIndex(
+                                index = index,
+                                size = settingsAnimated.size
+                            ),
                             modifier = Modifier
                                 .padding(
                                     horizontal = 8.dp,

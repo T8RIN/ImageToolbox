@@ -15,12 +15,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ResetDialog
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 
 @Composable
 fun ResetSettingsSettingItem(
     onReset: () -> Unit,
-    shape: Shape = SettingsShapeDefaults.bottomShape,
+    shape: Shape = ContainerShapeDefaults.bottomShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
     var showResetDialog by remember { mutableStateOf(false) }

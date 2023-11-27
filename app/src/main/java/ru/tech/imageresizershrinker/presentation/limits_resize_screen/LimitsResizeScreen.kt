@@ -386,7 +386,7 @@ fun LimitsResizeScreen(
                                     Spacer(Modifier.size(8.dp))
                                     SaveExifWidget(
                                         imageFormat = viewModel.imageInfo.imageFormat,
-                                        selected = viewModel.keepExif,
+                                        checked = viewModel.keepExif,
                                         onCheckedChange = { viewModel.setKeepExif(!viewModel.keepExif) }
                                     )
                                     if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) Spacer(

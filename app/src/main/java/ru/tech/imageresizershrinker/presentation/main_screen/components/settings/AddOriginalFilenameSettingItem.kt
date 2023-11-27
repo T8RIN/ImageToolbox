@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -23,7 +24,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 @Composable
 fun AddOriginalFilenameSettingItem(
     onClick: (Boolean) -> Unit,
-    shape: Shape = SettingsShapeDefaults.centerShape,
+    shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
     val scope = rememberCoroutineScope()

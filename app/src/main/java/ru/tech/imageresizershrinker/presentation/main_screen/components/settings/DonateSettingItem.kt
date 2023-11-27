@@ -15,13 +15,14 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.main_screen.components.DonateSheet
 import ru.tech.imageresizershrinker.presentation.root.model.isFirstLaunch
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.pulsate
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
 fun DonateSettingItem(
-    shape: Shape = SettingsShapeDefaults.bottomShape
+    shape: Shape = ContainerShapeDefaults.bottomShape
 ) {
     val settingsState = LocalSettingsState.current
     val showDonateSheet = rememberSaveable { mutableStateOf(false) }

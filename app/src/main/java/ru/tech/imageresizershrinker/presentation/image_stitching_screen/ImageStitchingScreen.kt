@@ -410,7 +410,7 @@ fun ImageStitchingScreen(
                                             )
                                         }
                                         ScaleSmallImagesToLargeToggle(
-                                            selected = viewModel.combiningParams.scaleSmallImagesToLarge,
+                                            checked = viewModel.combiningParams.scaleSmallImagesToLarge,
                                             onCheckedChange = viewModel::toggleScaleSmallImagesToLarge
                                         )
                                         DrawBackgroundSelector(

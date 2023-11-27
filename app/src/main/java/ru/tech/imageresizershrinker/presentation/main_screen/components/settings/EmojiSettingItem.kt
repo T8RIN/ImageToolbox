@@ -29,6 +29,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.Cool
 import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.scaleOnTap
@@ -41,7 +42,7 @@ fun EmojiSettingItem(
     addColorTupleFromEmoji: (getEmoji: (Int?) -> String, showShoeDescription: (String) -> Unit) -> Unit,
     updateEmoji: (Int) -> Unit,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp),
-    shape: Shape = SettingsShapeDefaults.bottomShape
+    shape: Shape = ContainerShapeDefaults.bottomShape
 ) {
     var showShoeDescriptionDialog by rememberSaveable { mutableStateOf("") }
     val showEmojiDialog = rememberSaveable { mutableStateOf(false) }

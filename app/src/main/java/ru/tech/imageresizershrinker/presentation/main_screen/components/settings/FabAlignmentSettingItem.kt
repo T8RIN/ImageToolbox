@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.main_screen.components.FabPreview
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
@@ -43,7 +44,7 @@ fun FabAlignmentSettingItem(
     updateAlignment: (Float) -> Unit,
     modifier: Modifier = Modifier
         .padding(horizontal = 8.dp),
-    shape: Shape = SettingsShapeDefaults.bottomShape
+    shape: Shape = ContainerShapeDefaults.bottomShape
 ) {
     val settingsState = LocalSettingsState.current
     Box(

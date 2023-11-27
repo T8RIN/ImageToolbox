@@ -9,10 +9,10 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,7 +23,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -54,6 +53,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.buttons.ToggleGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.resize_group.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.resize_group.components.UseBlurredBackgroundToggle
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
@@ -162,7 +162,7 @@ fun ResizeTypeSelector(
         ) {
             UseBlurredBackgroundToggle(
                 modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 8.dp),
-                selected = useBlurredBgInsteadOfColor,
+                checked = useBlurredBgInsteadOfColor,
                 onCheckedChange = {
                     useBlurredBgInsteadOfColor = it
                     updateResizeType()
@@ -205,33 +205,36 @@ fun ResizeTypeSelector(
 
     SimpleSheet(
         sheetContent = {
-            Box {
-                Column(Modifier.verticalScroll(rememberScrollState())) {
-                    TitleItem(text = stringResource(R.string.explicit))
-                    Text(
-                        text = stringResource(R.string.explicit_description),
-                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-                        fontSize = 14.sp,
-                        lineHeight = 18.sp
-                    )
-                    HorizontalDivider()
-
-                    TitleItem(text = stringResource(R.string.flexible))
-                    Text(
-                        text = stringResource(R.string.flexible_description),
-                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-                        fontSize = 14.sp,
-                        lineHeight = 18.sp
-                    )
-                    HorizontalDivider()
-
-                    TitleItem(text = stringResource(R.string.crop))
-                    Text(
-                        text = stringResource(id = R.string.crop_description),
-                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-                        fontSize = 14.sp,
-                        lineHeight = 18.sp
-                    )
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .padding(8.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                ResizeType.entries.forEachIndexed { index, item ->
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .container(
+                                shape = ContainerShapeDefaults.shapeForIndex(
+                                    index = index,
+                                    size = ResizeType.entries.size
+                                ),
+                                resultPadding = 0.dp
+                            )
+                    ) {
+                        TitleItem(text = stringResource(item.getTitle()))
+                        Text(
+                            text = stringResource(item.getSubtitle()),
+                            modifier = Modifier.padding(
+                                start = 16.dp,
+                                end = 16.dp,
+                                bottom = 16.dp
+                            ),
+                            fontSize = 14.sp,
+                            lineHeight = 18.sp
+                        )
+                    }
                 }
             }
         },
@@ -248,4 +251,18 @@ fun ResizeTypeSelector(
             }
         }
     )
+}
+
+private fun ResizeType.getTitle(): Int = when (this) {
+    is ResizeType.CenterCrop -> R.string.crop
+    is ResizeType.Explicit -> R.string.explicit
+    is ResizeType.Flexible -> R.string.flexible
+    else -> 0
+}
+
+private fun ResizeType.getSubtitle(): Int = when (this) {
+    is ResizeType.CenterCrop -> R.string.crop_description
+    is ResizeType.Explicit -> R.string.explicit_description
+    is ResizeType.Flexible -> R.string.flexible_description
+    else -> 0
 }

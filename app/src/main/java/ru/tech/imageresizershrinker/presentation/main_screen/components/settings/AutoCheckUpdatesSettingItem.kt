@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
@@ -19,8 +20,8 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 fun AutoCheckUpdatesSettingItem(
     onClick: (Boolean) -> Unit,
     shape: Shape = if (!LocalContext.current.isInstalledFromPlayStore()) {
-        SettingsShapeDefaults.topShape
-    } else SettingsShapeDefaults.defaultShape,
+        ContainerShapeDefaults.topShape
+    } else ContainerShapeDefaults.defaultShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current

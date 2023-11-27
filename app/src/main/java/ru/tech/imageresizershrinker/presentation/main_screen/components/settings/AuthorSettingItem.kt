@@ -23,12 +23,13 @@ import ru.tech.imageresizershrinker.core.FOSS_LINK
 import ru.tech.imageresizershrinker.presentation.main_screen.components.AuthorLinksSheet
 import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRow
 
 @Composable
 fun AuthorSettingItem(
-    shape: Shape = SettingsShapeDefaults.topShape
+    shape: Shape = ContainerShapeDefaults.topShape
 ) {
     val showAuthorSheet = rememberSaveable { mutableStateOf(false) }
     PreferenceRow(

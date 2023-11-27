@@ -39,6 +39,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
@@ -49,7 +50,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 @Composable
 fun ScreenOrderSettingItem(
     updateOrder: (List<Screen>) -> Unit,
-    shape: Shape = SettingsShapeDefaults.topShape,
+    shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current

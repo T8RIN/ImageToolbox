@@ -1,9 +1,21 @@
-package ru.tech.imageresizershrinker.presentation.main_screen.components.settings
+package ru.tech.imageresizershrinker.presentation.root.widget.modifier
 
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 
-object SettingsShapeDefaults {
+object ContainerShapeDefaults {
+
+    fun shapeForIndex(
+        index: Int,
+        size: Int
+    ): Shape = when {
+        index == -1 || size == 1 -> defaultShape
+        index == 0 && size > 1 -> topShape
+        index == size - 1 -> bottomShape
+        else -> centerShape
+    }
+
     val topShape = RoundedCornerShape(
         topStart = 16.dp,
         topEnd = 16.dp,

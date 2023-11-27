@@ -464,7 +464,7 @@ fun PdfToolsScreen(
                 )
                 Spacer(Modifier.height(8.dp))
                 ScaleSmallImagesToLargeToggle(
-                    selected = viewModel.scaleSmallImagesToLarge,
+                    checked = viewModel.scaleSmallImagesToLarge,
                     onCheckedChange = {
                         viewModel.toggleScaleSmallImagesToLarge()
                     }

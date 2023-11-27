@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
@@ -32,7 +33,7 @@ fun ImagePickerModeSettingItemGroup(
     val settingsState = LocalSettingsState.current
     Column(modifier) {
         PreferenceItem(
-            shape = SettingsShapeDefaults.topShape,
+            shape = ContainerShapeDefaults.topShape,
             onClick = { updateImagePickerMode(0) },
             title = stringResource(R.string.photo_picker),
             icon = Icons.Outlined.BurstMode,
@@ -55,12 +56,12 @@ fun ImagePickerModeSettingItemGroup(
                         )
                         else Color.Transparent
                     ).value,
-                    shape = SettingsShapeDefaults.topShape
+                    shape = ContainerShapeDefaults.topShape
                 )
         )
         Spacer(modifier = Modifier.height(4.dp))
         PreferenceItem(
-            shape = SettingsShapeDefaults.centerShape,
+            shape = ContainerShapeDefaults.centerShape,
             onClick = { updateImagePickerMode(1) },
             title = stringResource(R.string.gallery_picker),
             icon = Icons.Outlined.Image,
@@ -83,12 +84,12 @@ fun ImagePickerModeSettingItemGroup(
                         )
                         else Color.Transparent
                     ).value,
-                    shape = SettingsShapeDefaults.centerShape
+                    shape = ContainerShapeDefaults.centerShape
                 )
         )
         Spacer(modifier = Modifier.height(4.dp))
         PreferenceItem(
-            shape = SettingsShapeDefaults.bottomShape,
+            shape = ContainerShapeDefaults.bottomShape,
             onClick = { updateImagePickerMode(2) },
             title = stringResource(R.string.file_explorer_picker),
             subtitle = stringResource(R.string.file_explorer_picker_sub),
@@ -111,7 +112,7 @@ fun ImagePickerModeSettingItemGroup(
                         )
                         else Color.Transparent
                     ).value,
-                    shape = SettingsShapeDefaults.bottomShape
+                    shape = ContainerShapeDefaults.bottomShape
                 )
         )
     }

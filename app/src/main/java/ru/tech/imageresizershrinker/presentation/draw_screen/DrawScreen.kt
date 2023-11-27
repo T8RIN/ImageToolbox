@@ -43,7 +43,6 @@ import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
@@ -77,8 +76,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -148,6 +145,8 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResu
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitch
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitchDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
@@ -301,25 +300,14 @@ fun DrawScreen(
     var zoomEnabled by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(false) }
 
     val switch = @Composable {
-        Switch(
+        EnhancedSwitch(
             modifier = Modifier.padding(horizontal = if (!portrait) 8.dp else 16.dp),
-            colors = SwitchDefaults.colors(
-                uncheckedBorderColor = MaterialTheme.colorScheme.primary,
-                uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                uncheckedTrackColor = MaterialTheme.colorScheme.primary,
-                uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            ),
             checked = !zoomEnabled,
+            colors = EnhancedSwitchDefaults.uncheckableColors(),
             onCheckedChange = { zoomEnabled = !zoomEnabled },
-            thumbContent = {
-                AnimatedContent(zoomEnabled) { zoom ->
-                    Icon(
-                        if (!zoom) Icons.Rounded.Draw else Icons.Rounded.ZoomIn,
-                        null,
-                        Modifier.size(SwitchDefaults.IconSize)
-                    )
-                }
-            }
+            thumbIcon = if (!zoomEnabled) {
+                Icons.Rounded.Draw
+            } else Icons.Rounded.ZoomIn
         )
     }
 
@@ -429,7 +417,7 @@ fun DrawScreen(
         }
         SaveExifWidget(
             modifier = Modifier.padding(horizontal = 16.dp),
-            selected = viewModel.saveExif,
+            checked = viewModel.saveExif,
             imageFormat = viewModel.imageFormat,
             onCheckedChange = viewModel::setSaveExif,
             backgroundColor = MaterialTheme.colorScheme.surfaceContainer

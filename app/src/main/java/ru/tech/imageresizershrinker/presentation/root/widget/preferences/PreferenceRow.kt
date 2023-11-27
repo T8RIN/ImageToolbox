@@ -1,6 +1,10 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.preferences
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -50,6 +54,7 @@ fun PreferenceRow(
         horizontal = if (startContent != null) 0.dp else 16.dp,
         vertical = 8.dp
     ),
+    changeAlphaWhenDisabled: Boolean = true,
     autoShadowElevation: Dp = 1.dp,
     onClick: (() -> Unit)?
 ) {
@@ -79,28 +84,45 @@ fun PreferenceRow(
                         } ?: Modifier
                 )
                 .then(resultModifier)
-                .alpha(animateFloatAsState(targetValue = if (enabled) 1f else 0.5f).value),
+                .then(
+                    if (changeAlphaWhenDisabled) Modifier.alpha(animateFloatAsState(targetValue = if (enabled) 1f else 0.5f).value)
+                    else Modifier
+                ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             ProvideContainerShape(null) {
                 startContent?.invoke()
             }
             Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = title,
-                    maxLines = maxLines,
-                    style = titleFontStyle,
-                    fontWeight = FontWeight.Medium
-                )
-                Spacer(modifier = Modifier.height(2.dp))
-                subtitle?.let {
+                AnimatedContent(
+                    targetState = title,
+                    transitionSpec = {
+                        fadeIn().togetherWith(fadeOut())
+                    }
+                ) {
                     Text(
                         text = it,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Normal,
-                        lineHeight = 14.sp,
-                        color = LocalContentColor.current.copy(alpha = 0.5f)
+                        maxLines = maxLines,
+                        style = titleFontStyle,
+                        fontWeight = FontWeight.Medium
                     )
+                }
+                Spacer(modifier = Modifier.height(2.dp))
+                AnimatedContent(
+                    targetState = subtitle,
+                    transitionSpec = {
+                        fadeIn().togetherWith(fadeOut())
+                    }
+                ) {
+                    it?.let {
+                        Text(
+                            text = it,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Normal,
+                            lineHeight = 14.sp,
+                            color = LocalContentColor.current.copy(alpha = 0.5f)
+                        )
+                    }
                 }
             }
             Spacer(Modifier.width(8.dp))

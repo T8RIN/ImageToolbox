@@ -21,6 +21,7 @@ import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewM
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
@@ -132,7 +133,7 @@ fun SettingItem(
         Setting.ChangeLanguage -> {
             ChangeLanguageSettingItem(
                 modifier = Modifier.padding(horizontal = 8.dp),
-                shape = SettingsShapeDefaults.topShape
+                shape = ContainerShapeDefaults.topShape
             )
         }
 
@@ -321,7 +322,7 @@ fun SettingItem(
 
         Setting.SourceCode -> {
             SourceCodeSettingItem(
-                shape = SettingsShapeDefaults.bottomShape,
+                shape = ContainerShapeDefaults.bottomShape,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp)

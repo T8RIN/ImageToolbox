@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.NightMode
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
@@ -53,11 +54,7 @@ fun NightModeSettingItemGroup(
             ),
         ).forEachIndexed { index, (title, icon, nightMode) ->
             val selected = nightMode == value
-            val shape = when (index) {
-                0 -> SettingsShapeDefaults.topShape
-                1 -> SettingsShapeDefaults.centerShape
-                else -> SettingsShapeDefaults.bottomShape
-            }
+            val shape = ContainerShapeDefaults.shapeForIndex(index, 3)
             PreferenceItem(
                 onClick = { onValueChange(nightMode) },
                 title = title,

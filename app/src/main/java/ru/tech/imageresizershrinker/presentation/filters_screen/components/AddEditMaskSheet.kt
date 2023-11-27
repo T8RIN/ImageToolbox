@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -36,8 +35,6 @@ import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.surfaceColorAtElevation
@@ -93,6 +90,8 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.toUi
 import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitch
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitchDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageHeaderState
 import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
@@ -183,25 +182,14 @@ fun AddEditMaskSheet(
             }
             val switch = @Composable {
                 val checked = !zoomEnabled
-                Switch(
+                EnhancedSwitch(
                     modifier = Modifier.padding(start = 8.dp),
-                    colors = SwitchDefaults.colors(
-                        uncheckedBorderColor = MaterialTheme.colorScheme.primary,
-                        uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                        uncheckedTrackColor = MaterialTheme.colorScheme.primary,
-                        uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    ),
+                    colors = EnhancedSwitchDefaults.uncheckableColors(),
                     checked = checked,
                     onCheckedChange = { zoomEnabled = !zoomEnabled },
-                    thumbContent = {
-                        AnimatedContent(!checked) { zoom ->
-                            Icon(
-                                if (!zoom) Icons.Rounded.Draw else Icons.Rounded.ZoomIn,
-                                null,
-                                Modifier.size(SwitchDefaults.IconSize)
-                            )
-                        }
-                    }
+                    thumbIcon = if (!zoomEnabled) {
+                        Icons.Rounded.Draw
+                    } else Icons.Rounded.ZoomIn,
                 )
             }
             val drawPreview: @Composable () -> Unit = {

@@ -15,11 +15,12 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.CHAT_LINK
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Telegram
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRow
 
 @Composable
 fun TelegramSettingItem(
-    shape: Shape = SettingsShapeDefaults.centerShape,
+    shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val context = LocalContext.current

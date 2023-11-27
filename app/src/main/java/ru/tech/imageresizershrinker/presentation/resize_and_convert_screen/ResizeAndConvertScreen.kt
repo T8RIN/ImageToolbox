@@ -425,7 +425,7 @@ fun ResizeAndConvertScreen(
             Column {
                 SaveExifWidget(
                     imageFormat = viewModel.imageInfo.imageFormat,
-                    selected = viewModel.keepExif,
+                    checked = viewModel.keepExif,
                     onCheckedChange = { viewModel.setKeepExif(!viewModel.keepExif) }
                 )
                 Spacer(Modifier.size(8.dp))

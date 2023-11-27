@@ -39,6 +39,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AvailableColorTuplesSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorTuplePicker
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRow
@@ -52,7 +53,7 @@ fun ColorSchemeSettingItem(
     updateThemeContrast: (Float) -> Unit,
     updateColorTuple: (ColorTuple) -> Unit,
     updateColorTuples: (List<ColorTuple>) -> Unit,
-    shape: Shape = SettingsShapeDefaults.topShape,
+    shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp),
 ) {
     val toastHostState = LocalToastHost.current

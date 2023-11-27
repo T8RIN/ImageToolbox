@@ -11,6 +11,7 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.vector.ImageVector
 
 @Composable
@@ -24,16 +25,15 @@ fun EnhancedSwitch(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
     val switchColors = colors ?: SwitchDefaults.colors(
-        uncheckedBorderColor = MaterialTheme.colorScheme.primary,
-        uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
-        uncheckedTrackColor = MaterialTheme.colorScheme.primary,
-        uncheckedIconColor = MaterialTheme.colorScheme.primary,
-        checkedIconColor = MaterialTheme.colorScheme.primary
+        disabledUncheckedThumbColor = MaterialTheme.colorScheme.onSurface
+            .copy(alpha = 0.12f)
+            .compositeOver(MaterialTheme.colorScheme.surface)
     )
     Switch(
         modifier = modifier,
         colors = switchColors,
         checked = checked,
+        enabled = enabled,
         onCheckedChange = onCheckedChange,
         interactionSource = interactionSource,
         thumbContent = thumbIcon?.let {

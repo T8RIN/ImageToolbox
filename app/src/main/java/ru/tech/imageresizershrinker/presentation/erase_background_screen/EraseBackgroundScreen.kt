@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
@@ -56,8 +55,6 @@ import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.SheetValue
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -109,6 +106,8 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitch
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitchDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
@@ -241,25 +240,14 @@ fun EraseBackgroundScreen(
     var zoomEnabled by rememberSaveable { mutableStateOf(false) }
 
     val secondaryControls = @Composable {
-        Switch(
+        EnhancedSwitch(
             modifier = Modifier.padding(horizontal = if (!portrait) 8.dp else 16.dp),
-            colors = SwitchDefaults.colors(
-                uncheckedBorderColor = MaterialTheme.colorScheme.primary,
-                uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                uncheckedTrackColor = MaterialTheme.colorScheme.primary,
-                uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            ),
+            colors = EnhancedSwitchDefaults.uncheckableColors(),
             checked = !zoomEnabled,
             onCheckedChange = { zoomEnabled = !zoomEnabled },
-            thumbContent = {
-                AnimatedContent(zoomEnabled) { zoom ->
-                    Icon(
-                        if (!zoom) Icons.Filled.Transparency else Icons.Rounded.ZoomIn,
-                        null,
-                        Modifier.size(SwitchDefaults.IconSize)
-                    )
-                }
-            }
+            thumbIcon = if (!zoomEnabled) {
+                Icons.Filled.Transparency
+            } else Icons.Rounded.ZoomIn,
         )
         OutlinedIconButton(
             border = if (portrait) {
@@ -448,13 +436,13 @@ fun EraseBackgroundScreen(
                 onValueChange = { brushSoftness = it.pt }
             )
             TrimImageToggle(
-                selected = viewModel.trimImage,
+                checked = viewModel.trimImage,
                 onCheckedChange = { viewModel.setTrimImage(it) },
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
             )
             SaveExifWidget(
                 imageFormat = viewModel.imageFormat,
-                selected = viewModel.saveExif,
+                checked = viewModel.saveExif,
                 onCheckedChange = { viewModel.setSaveExif(it) },
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
             )

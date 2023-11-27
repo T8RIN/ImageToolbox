@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -28,7 +29,6 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material.icons.rounded.Brush
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.LocalTextStyle
@@ -66,6 +66,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.Laser
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.resize_group.components.BlurRadiusSelector
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
@@ -87,8 +88,7 @@ fun DrawModeSelector(
             .container(
                 shape = RoundedCornerShape(24.dp),
                 color = MaterialTheme.colorScheme.surfaceContainer
-            )
-            .padding(start = 3.dp, end = 2.dp),
+            ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
@@ -229,18 +229,35 @@ fun DrawModeSelector(
     }
     SimpleSheet(
         sheetContent = {
-            Box {
-                //Improve shapes and add container to all info sheets TODO (maybe also create info sheet)
-                Column(Modifier.verticalScroll(rememberScrollState())) {
-                    DrawMode.entries.forEachIndexed { index, item ->
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .padding(8.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                DrawMode.entries.forEachIndexed { index, item ->
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .container(
+                                shape = ContainerShapeDefaults.shapeForIndex(
+                                    index,
+                                    DrawMode.entries.size
+                                ),
+                                resultPadding = 0.dp
+                            )
+                    ) {
                         TitleItem(text = stringResource(item.getTitle()), icon = item.getIcon())
                         Text(
                             text = stringResource(item.getSubtitle()),
-                            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                            modifier = Modifier.padding(
+                                start = 16.dp,
+                                end = 16.dp,
+                                bottom = 16.dp
+                            ),
                             fontSize = 14.sp,
                             lineHeight = 18.sp
                         )
-                        if (index != DrawMode.entries.lastIndex) HorizontalDivider()
                     }
                 }
             }

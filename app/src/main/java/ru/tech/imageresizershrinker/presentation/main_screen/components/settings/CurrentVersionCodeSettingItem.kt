@@ -23,6 +23,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.pulsate
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRow
@@ -32,7 +33,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 fun CurrentVersionCodeSettingItem(
     updateAvailable: Boolean,
     onTryGetUpdate: () -> Unit,
-    shape: Shape = SettingsShapeDefaults.topShape,
+    shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current

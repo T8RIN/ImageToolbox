@@ -29,6 +29,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toUiPath
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
@@ -59,7 +60,7 @@ fun SavingFolderSettingItemGroup(
             }
         )
         PreferenceItem(
-            shape = SettingsShapeDefaults.topShape,
+            shape = ContainerShapeDefaults.topShape,
             onClick = { updateSaveFolderUri(null) },
             title = stringResource(R.string.def),
             subtitle = stringResource(R.string.default_folder),
@@ -81,12 +82,12 @@ fun SavingFolderSettingItemGroup(
                         )
                         else Color.Transparent
                     ).value,
-                    shape = SettingsShapeDefaults.topShape
+                    shape = ContainerShapeDefaults.topShape
                 )
         )
         Spacer(modifier = Modifier.height(4.dp))
         PreferenceItem(
-            shape = SettingsShapeDefaults.bottomShape,
+            shape = ContainerShapeDefaults.bottomShape,
             onClick = {
                 kotlin.runCatching {
                     launcher.launch(currentFolderUri)
@@ -121,7 +122,7 @@ fun SavingFolderSettingItemGroup(
                         )
                         else Color.Transparent
                     ).value,
-                    shape = SettingsShapeDefaults.bottomShape
+                    shape = ContainerShapeDefaults.bottomShape
                 )
         )
     }

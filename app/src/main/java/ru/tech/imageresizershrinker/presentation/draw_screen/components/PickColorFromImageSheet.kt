@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.draw_screen.components
 
 import android.graphics.Bitmap
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -17,11 +16,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.ZoomIn
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
@@ -46,6 +42,8 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toHex
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitch
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitchDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
@@ -67,25 +65,14 @@ fun PickColorFromImageSheet(
 
     var canZoom by rememberSaveable { mutableStateOf(false) }
     val switch = @Composable {
-        Switch(
+        EnhancedSwitch(
             modifier = Modifier.padding(start = 16.dp),
-            colors = SwitchDefaults.colors(
-                uncheckedBorderColor = MaterialTheme.colorScheme.primary,
-                uncheckedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                uncheckedTrackColor = MaterialTheme.colorScheme.primary,
-                uncheckedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            ),
+            colors = EnhancedSwitchDefaults.uncheckableColors(),
             checked = !canZoom,
             onCheckedChange = { canZoom = !canZoom },
-            thumbContent = {
-                AnimatedContent(canZoom) { zoom ->
-                    Icon(
-                        if (!zoom) Icons.Rounded.Colorize else Icons.Rounded.ZoomIn,
-                        null,
-                        Modifier.size(SwitchDefaults.IconSize)
-                    )
-                }
-            }
+            thumbIcon = if (!canZoom) {
+                Icons.Rounded.Colorize
+            } else Icons.Rounded.ZoomIn,
         )
     }
 

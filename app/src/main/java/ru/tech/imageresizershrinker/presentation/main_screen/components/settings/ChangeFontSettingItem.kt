@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.model.UiFontFam
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.PickFontFamilySheet
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -22,7 +23,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 @Composable
 fun ChangeFontSettingItem(
     onFontSelected: (UiFontFam) -> Unit,
-    shape: Shape = SettingsShapeDefaults.centerShape,
+    shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 8.dp)
