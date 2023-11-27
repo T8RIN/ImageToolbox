@@ -36,8 +36,6 @@ import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -88,8 +86,8 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImage
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.toHex
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
@@ -418,14 +416,12 @@ fun GeneratePaletteScreen(
             }
         }
 
-        FloatingActionButton(
+        EnhancedFloatingActionButton(
             onClick = pickImage,
             modifier = Modifier
                 .navigationBarsPadding()
                 .padding(12.dp)
                 .align(if (!landscape || viewModel.bitmap == null) settingsState.fabAlignment else Alignment.BottomEnd)
-                .autoElevatedBorder(),
-            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
         ) {
             val expanded =
                 scrollState.isScrollingUp(settingsState.fabAlignment != Alignment.BottomCenter || landscape)
@@ -434,7 +430,7 @@ fun GeneratePaletteScreen(
                 modifier = Modifier.padding(horizontal = horizontalPadding),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(Icons.Rounded.AddPhotoAlternate, null)
+                Icon(imageVector = Icons.Rounded.AddPhotoAlternate, contentDescription = null)
                 AnimatedVisibility(visible = expanded) {
                     Row {
                         Spacer(Modifier.width(8.dp))

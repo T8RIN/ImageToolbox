@@ -361,7 +361,6 @@
     <string name="keep_exif_sub">Los metadatos originales de la imagen se mantendrán si está habilitado</string>
     <string name="restore_sub">Restaura las configuraciones de la app desde un archivo previamente generado</string>
     <string name="presets_sub_bytes">El preajuste aquí determina el % del archivo resultante, i.e. si seleccionas el preajuste 50 en una imagen de 5mb entonces tendrás una imagen de 2.5mb después de guardar</string>
-    <string name="shadows_setting_sub">Habilita el dibujo de sombras detrás de contenedores y botones si los bordes están desactivados</string>
     <string name="erase_mode">Modo de borrado</string>
     <string name="allow_betas_sub">La búsqueda de actualizaciones incluirá versiones beta de la app si está habilitado</string>
     <string name="travels_and_places">Viajes y Lugares</string>

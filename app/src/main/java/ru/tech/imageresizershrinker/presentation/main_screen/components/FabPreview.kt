@@ -39,6 +39,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
@@ -46,8 +47,8 @@ fun FabPreview(
     modifier: Modifier = Modifier,
     alignment: Alignment,
 ) {
-    val shadowEnabled = LocalSettingsState.current.allowShowingShadowsInsteadOfBorders
-    val elevation by animateDpAsState(if (shadowEnabled) 4.dp else 0.dp)
+    val shadowEnabled = LocalSettingsState.current.drawContainerShadows
+    val elevation by animateDpAsState(if (shadowEnabled) 2.dp else 0.dp)
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -102,6 +103,7 @@ fun FabPreview(
             }
         )
 
+        val settingsState = LocalSettingsState.current
         CompositionLocalProvider(LocalContentColor provides colorScheme.onPrimaryContainer) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -111,7 +113,13 @@ fun FabPreview(
                     modifier = Modifier
                         .padding(8.dp)
                         .size(22.dp)
-                        .autoElevatedBorder(shape = RoundedCornerShape(7.dp), autoElevation = 4.dp)
+                        .containerFabBorder(
+                            shape = RoundedCornerShape(7.dp),
+                            autoElevation = animateDpAsState(
+                                if (settingsState.drawFabShadows) 3.dp
+                                else 0.dp
+                            ).value
+                        )
                         .background(
                             color = colorScheme.primaryContainer,
                             shape = RoundedCornerShape(7.dp),

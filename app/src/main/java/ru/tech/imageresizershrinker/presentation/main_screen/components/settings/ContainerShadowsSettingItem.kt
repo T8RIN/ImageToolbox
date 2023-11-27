@@ -2,7 +2,7 @@ package ru.tech.imageresizershrinker.presentation.main_screen.components.setting
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ScreenLockRotation
+import androidx.compose.material.icons.filled.ViewCompactAlt
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -14,19 +14,20 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.Prefere
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
-fun LockDrawOrientationSettingItem(
+fun ContainerShadowsSettingItem(
     onClick: (Boolean) -> Unit,
-    shape: Shape = ContainerShapeDefaults.defaultShape,
-    modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+    shape: Shape = ContainerShapeDefaults.topShape,
+    modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
     PreferenceRowSwitch(
-        shape = shape,
         modifier = modifier,
+        enabled = settingsState.borderWidth <= 0.dp,
+        shape = shape,
+        title = stringResource(R.string.container_shadow),
+        subtitle = stringResource(R.string.container_shadow_sub),
+        checked = settingsState.drawContainerShadows,
         onClick = onClick,
-        title = stringResource(R.string.lock_draw_orientation),
-        subtitle = stringResource(R.string.lock_draw_orientation_sub),
-        checked = settingsState.lockDrawOrientation,
-        startIcon = Icons.Rounded.ScreenLockRotation
+        startIcon = Icons.Filled.ViewCompactAlt
     )
 }

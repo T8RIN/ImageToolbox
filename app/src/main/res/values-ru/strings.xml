@@ -358,7 +358,6 @@
     <string name="allow_betas">Разрешить обновления до бета-версий</string>
     <string name="saving_almost_complete">Сохранение почти завершено. Отмена сейчас потребует повторного сохранения.</string>
     <string name="effort">Усилие</string>
-    <string name="shadows_setting_sub">Позволяет рисовать тени под контейнерами и кнопками, если окантовка отключена</string>
     <string name="allow_betas_sub">Проверка обновлений будет включать бета-версии приложения, если она включена</string>
     <string name="brush_softness">Мягкость кисти</string>
     <string name="draw_arrows">Рисовать стрелки</string>
@@ -367,7 +366,7 @@
     <string name="donation">Пожертвование</string>
     <string name="image_stitching">Объединение изображений</string>
     <string name="image_stitching_sub">Объединить входные изображения в одно большое</string>
-    <string name="value_in_range">Значение в диапозоне %1$d..%2$d</string>
+    <string name="value_in_range">Значение в диапозоне %1$f..%2$f</string>
     <string name="horizontal">Горизонтальная</string>
     <string name="images_order">Порядок изображений</string>
     <string name="pick_at_least_two_images">Выберите минимум 2 изображения</string>

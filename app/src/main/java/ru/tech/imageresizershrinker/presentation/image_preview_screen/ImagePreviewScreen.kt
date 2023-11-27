@@ -5,12 +5,14 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -18,8 +20,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -42,14 +42,13 @@ import ru.tech.imageresizershrinker.presentation.image_preview_screen.viewModel.
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.image.LazyImagesGrid
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.isScrollingUp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -149,20 +148,18 @@ fun ImagePreviewScreen(
                 }
             }
 
-            ExtendedFloatingActionButton(
+            EnhancedFloatingActionButton(
                 onClick = pickImage,
                 modifier = Modifier
                     .navigationBarsPadding()
                     .padding(16.dp)
-                    .autoElevatedBorder()
                     .align(settingsState.fabAlignment),
-                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                expanded = if (settingsState.fabAlignment == Alignment.BottomCenter) true else gridState.isScrollingUp(),
-                text = {
-                    Text(stringResource(R.string.pick_image_alt))
-                },
-                icon = {
+                content = {
+                    Spacer(Modifier.width(16.dp))
                     Icon(Icons.Rounded.AddPhotoAlternate, null)
+                    Spacer(Modifier.width(16.dp))
+                    Text(stringResource(R.string.pick_image_alt))
+                    Spacer(Modifier.width(16.dp))
                 }
             )
 

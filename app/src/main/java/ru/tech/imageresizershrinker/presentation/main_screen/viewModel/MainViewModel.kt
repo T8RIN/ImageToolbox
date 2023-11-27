@@ -34,7 +34,6 @@ import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.CreateBackupFileUseCase
 import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.CreateBackupFilenameUseCase
 import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.RestoreFromBackupFileUseCase
-import ru.tech.imageresizershrinker.domain.use_case.edit_settings.AllowShowingShadowsInsteadOfBordersUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.RegisterAppOpenUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetAlignmentUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetBorderWidthUseCase
@@ -52,6 +51,11 @@ import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAllowCol
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAllowImageMonetUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAmoledModeUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleClearCacheOnLaunchUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleDrawButtonShadowsUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleDrawContainerShadowsUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleDrawFabShadowsUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleDrawSliderShadowsUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleDrawSwitchShadowsUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleDynamicColorsUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleGroupOptionsByTypesUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleInvertColorsUseCase
@@ -117,7 +121,11 @@ class MainViewModel @Inject constructor(
     private val toggleAllowCollectCrashlyticsUseCase: ToggleAllowCollectCrashlyticsUseCase,
     private val toggleAllowCollectAnalyticsUseCase: ToggleAllowCollectAnalyticsUseCase,
     private val toggleAllowBetasUseCase: ToggleAllowBetasUseCase,
-    private val allowShowingShadowsInsteadOfBordersUseCase: AllowShowingShadowsInsteadOfBordersUseCase,
+    private val toggleDrawContainerShadowsUseCase: ToggleDrawContainerShadowsUseCase,
+    private val toggleDrawButtonShadowsUseCase: ToggleDrawButtonShadowsUseCase,
+    private val toggleDrawFabShadowsUseCase: ToggleDrawFabShadowsUseCase,
+    private val toggleDrawSliderShadowsUseCase: ToggleDrawSliderShadowsUseCase,
+    private val toggleDrawSwitchShadowsUseCase: ToggleDrawSwitchShadowsUseCase,
     private val registerAppOpenUseCase: RegisterAppOpenUseCase,
     private val toggleLockDrawOrientationUseCase: ToggleLockDrawOrientationUseCase,
     private val setThemeContrastUseCase: SetThemeContrastUseCase,
@@ -501,9 +509,33 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun toggleAllowShowingShadowsInsteadOfBorders() {
+    fun toggleDrawContainerShadows() {
         viewModelScope.launch {
-            allowShowingShadowsInsteadOfBordersUseCase()
+            toggleDrawContainerShadowsUseCase()
+        }
+    }
+
+    fun toggleDrawSwitchShadows() {
+        viewModelScope.launch {
+            toggleDrawSwitchShadowsUseCase()
+        }
+    }
+
+    fun toggleDrawSliderShadows() {
+        viewModelScope.launch {
+            toggleDrawSliderShadowsUseCase()
+        }
+    }
+
+    fun toggleDrawButtonShadows() {
+        viewModelScope.launch {
+            toggleDrawButtonShadowsUseCase()
+        }
+    }
+
+    fun toggleDrawFabShadows() {
+        viewModelScope.launch {
+            toggleDrawFabShadowsUseCase()
         }
     }
 

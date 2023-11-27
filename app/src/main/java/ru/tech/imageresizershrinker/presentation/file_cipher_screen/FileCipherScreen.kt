@@ -55,8 +55,6 @@ import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material.icons.twotone.FileOpen
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -110,9 +108,9 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.showReview
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
@@ -354,7 +352,7 @@ fun FileCipherScreen(
                                                             modifier = Modifier.materialShadow(
                                                                 shape = shape,
                                                                 elevation = animateDpAsState(
-                                                                    if (settingsState.borderWidth >= 0.dp || !settingsState.allowShowingShadowsInsteadOfBorders) 0.dp
+                                                                    if (settingsState.borderWidth >= 0.dp || !settingsState.drawContainerShadows) 0.dp
                                                                     else if (selected) 2.dp
                                                                     else 1.dp
                                                                 ).value
@@ -712,7 +710,7 @@ fun FileCipherScreen(
 
 
         if (viewModel.uri == null) {
-            FloatingActionButton(
+            EnhancedFloatingActionButton(
                 onClick = {
                     filePicker.launch(arrayOf("*/*"))
                 },
@@ -720,8 +718,6 @@ fun FileCipherScreen(
                     .navigationBarsPadding()
                     .padding(12.dp)
                     .align(settingsState.fabAlignment)
-                    .autoElevatedBorder(),
-                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
             ) {
                 val expanded =
                     if (settingsState.fabAlignment != Alignment.BottomCenter) state.isScrollingUp() else true
@@ -731,7 +727,7 @@ fun FileCipherScreen(
                     modifier = Modifier.padding(horizontal = horizontalPadding),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(Icons.Rounded.FileOpen, null)
+                    Icon(imageVector = Icons.Rounded.FileOpen, contentDescription = null)
                     AnimatedVisibility(visible = expanded) {
                         Row {
                             Spacer(Modifier.width(8.dp))

@@ -63,7 +63,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 @Composable
 fun ProcessImagesPreferenceSheet(
     uris: List<Uri>,
-    hasPdf: Boolean = true,
+    hasPdf: Boolean = false,
     visible: MutableState<Boolean>,
     navController: NavController<Screen> = LocalNavController.current,
     navigate: (Screen) -> Unit = { screen ->
@@ -144,6 +144,7 @@ fun ProcessImagesPreferenceSheet(
                                     }
                                 }
                             }
+                        //TODO: DIX FOR NET IMAGE
                         if (!hasPdf) {
                             if (uris.size in 1..2) {
                                 Row(

@@ -40,8 +40,6 @@ import androidx.compose.material.icons.rounded.BrokenImage
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -89,8 +87,8 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.to
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.navBarsLandscapePadding
@@ -251,8 +249,8 @@ fun LoadNetImageScreen(
     }
 
     val buttons = @Composable {
-        val b = @Composable {
-            FloatingActionButton(
+        val fab = @Composable {
+            EnhancedFloatingActionButton(
                 onClick = {
                     viewModel.bitmap?.let { bitmap ->
                         viewModel.cacheImage(
@@ -265,19 +263,14 @@ fun LoadNetImageScreen(
                         wantToEdit.value = true
                     }
                 },
-                modifier = Modifier.autoElevatedBorder(),
-                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer
             ) {
-                Icon(Icons.Rounded.CreateAlt, null)
+                Icon(imageVector = Icons.Rounded.CreateAlt, contentDescription = null)
             }
-            FloatingActionButton(
-                onClick = { saveBitmap() },
-                modifier = Modifier.autoElevatedBorder(),
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+            EnhancedFloatingActionButton(
+                onClick = saveBitmap
             ) {
-                Icon(Icons.Rounded.Save, null)
+                Icon(imageVector = Icons.Rounded.Save, contentDescription = null)
             }
         }
         if (landscape) {
@@ -287,14 +280,14 @@ fun LoadNetImageScreen(
                     .padding(16.dp)
                     .navigationBarsPadding()
             ) {
-                b()
+                fab()
             }
         } else {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.padding(16.dp)
             ) {
-                b()
+                fab()
             }
         }
     }

@@ -64,9 +64,6 @@ import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -114,7 +111,6 @@ import ru.tech.imageresizershrinker.presentation.filters_screen.components.MaskI
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.MaskReorderSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.viewModel.FilterViewModel
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
-import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
 import ru.tech.imageresizershrinker.presentation.root.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
@@ -125,6 +121,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImage
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.QualityWidget
@@ -134,7 +131,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageContaine
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
@@ -378,25 +374,22 @@ fun FiltersScreen(
             },
             canSave = viewModel.canSave,
             columnarFab = {
-                FloatingActionButton(
+                EnhancedFloatingActionButton(
                     onClick = {
                         when (filterType) {
                             is Screen.Filter.Type.Basic -> showAddFilterSheet.value = true
                             is Screen.Filter.Type.Masking -> showAddMaskSheet.value = true
                         }
                     },
-                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                    modifier = Modifier.containerFabBorder(),
-                    containerColor = MaterialTheme.colorScheme.mixedContainer,
-                    contentColor = MaterialTheme.colorScheme.onMixedContainer
+                    containerColor = MaterialTheme.colorScheme.mixedContainer
                 ) {
                     when (filterType) {
                         is Screen.Filter.Type.Basic -> {
-                            Icon(Icons.Rounded.PhotoFilter, null)
+                            Icon(imageVector = Icons.Rounded.PhotoFilter, contentDescription = null)
                         }
 
                         is Screen.Filter.Type.Masking -> {
-                            Icon(Icons.Rounded.Texture, null)
+                            Icon(imageVector = Icons.Rounded.Texture, contentDescription = null)
                         }
                     }
                 }
@@ -941,20 +934,19 @@ fun FiltersScreen(
                                         ),
                                     horizontalArrangement = Arrangement.Center
                                 ) {
-                                    ExtendedFloatingActionButton(
+                                    EnhancedFloatingActionButton(
                                         onClick = {
                                             selectionFilterPicker.pickImage()
                                         },
                                         modifier = Modifier
                                             .navigationBarsPadding()
-                                            .padding(16.dp)
-                                            .containerFabBorder(),
-                                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                        text = {
-                                            Text(stringResource(R.string.pick_image_alt))
-                                        },
-                                        icon = {
+                                            .padding(16.dp),
+                                        content = {
+                                            Spacer(Modifier.width(16.dp))
                                             Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                            Spacer(Modifier.width(16.dp))
+                                            Text(stringResource(R.string.pick_image_alt))
+                                            Spacer(Modifier.width(16.dp))
                                         }
                                     )
                                 }

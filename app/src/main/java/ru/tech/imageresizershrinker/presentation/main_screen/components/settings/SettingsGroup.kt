@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.FileSettings
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Firebase
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Shadow
 
 sealed class SettingsGroup(
     val titleId: Int,
@@ -55,7 +56,6 @@ sealed class SettingsGroup(
             Setting.AllowImageMonet,
             Setting.EmojisCount,
             Setting.BorderThickness,
-            Setting.EnableShadows,
             Setting.FabAlignment
         ),
         initialState = false
@@ -66,6 +66,19 @@ sealed class SettingsGroup(
         titleId = R.string.night_mode,
         settingsList = listOf(
             Setting.NightMode
+        ),
+        initialState = false
+    )
+
+    data object Shadows : SettingsGroup(
+        icon = Icons.Filled.Shadow,
+        titleId = R.string.shadows,
+        settingsList = listOf(
+            Setting.ContainerShadows,
+            Setting.ButtonShadows,
+            Setting.FABShadows,
+            Setting.SwitchShadows,
+            Setting.SliderShadows
         ),
         initialState = false
     )
@@ -203,6 +216,7 @@ sealed class SettingsGroup(
                 PrimaryCustomization,
                 SecondaryCustomization,
                 NightMode,
+                Shadows,
                 Font,
                 OptionsArrangement,
                 Presets,

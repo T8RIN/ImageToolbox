@@ -77,7 +77,15 @@ interface SettingsRepository {
 
     suspend fun toggleAllowBetas()
 
-    suspend fun toggleAllowShowingShadowsInsteadOfBorders()
+    suspend fun toggleDrawContainerShadows()
+
+    suspend fun toggleDrawButtonShadows()
+
+    suspend fun toggleDrawSliderShadows()
+
+    suspend fun toggleDrawSwitchShadows()
+
+    suspend fun toggleDrawFabShadows()
 
     suspend fun registerAppOpen()
 

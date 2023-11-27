@@ -52,6 +52,7 @@ fun EnhancedButton(
             elevation = animateDpAsState(
                 if (settingsState.borderWidth > 0.dp || !enabled) 0.dp else 0.5.dp
             ).value,
+            enabled = LocalSettingsState.current.drawButtonShadows,
             isClipped = isShadowClip
         )
     },
@@ -123,6 +124,7 @@ fun EnhancedIconButton(
                     if (enableAutoShadowAndBorder) Modifier.materialShadow(
                         shape = shape,
                         isClipped = isShadowClip,
+                        enabled = LocalSettingsState.current.drawButtonShadows,
                         elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.7.dp
                     ) else Modifier
                 ),

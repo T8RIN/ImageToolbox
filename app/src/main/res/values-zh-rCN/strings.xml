@@ -358,7 +358,6 @@
     <string name="saving_almost_complete">保存快要完成了。现在取消将需要重新开始保存</string>
     <string name="analytics">分析</string>
     <string name="effort">成就</string>
-    <string name="shadows_setting_sub">如果边框被禁用，则启用在容器和按钮后面绘制阴影</string>
     <string name="allow_betas_sub">如果启用，更新检查将包括 beta 应用程序版本</string>
     <string name="horizontal">横向</string>
     <string name="recode">重新编码</string>

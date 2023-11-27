@@ -116,9 +116,29 @@ sealed class Setting(
         subtitle = null
     )
 
-    data object EnableShadows : Setting(
-        title = R.string.shadows,
-        subtitle = R.string.shadows_setting_sub
+    data object ContainerShadows : Setting(
+        title = R.string.container_shadow,
+        subtitle = R.string.container_shadow_sub
+    )
+
+    data object SliderShadows : Setting(
+        title = R.string.slider_shadow,
+        subtitle = R.string.slider_shadow_sub
+    )
+
+    data object SwitchShadows : Setting(
+        title = R.string.switch_shadow,
+        subtitle = R.string.switch_shadow_sub
+    )
+
+    data object FABShadows : Setting(
+        title = R.string.fab_shadow,
+        subtitle = R.string.fab_shadow_sub
+    )
+
+    data object ButtonShadows : Setting(
+        title = R.string.button_shadow,
+        subtitle = R.string.button_shadow_sub
     )
 
     data object FabAlignment : Setting(

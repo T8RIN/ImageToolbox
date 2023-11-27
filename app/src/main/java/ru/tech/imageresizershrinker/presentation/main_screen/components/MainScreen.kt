@@ -68,8 +68,6 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.DrawerDefaults
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -131,7 +129,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.pulsate
@@ -782,7 +780,7 @@ fun MainScreen(
                                     },
                                     floatingActionButton = {
                                         if (!searching) {
-                                            FloatingActionButton(
+                                            EnhancedFloatingActionButton(
                                                 onClick = {
                                                     if (context.isInstalledFromPlayStore()) {
                                                         try {
@@ -810,18 +808,19 @@ fun MainScreen(
                                                     }
                                                 },
                                                 modifier = Modifier
-                                                    .autoElevatedBorder()
                                                     .requiredSize(size = 56.dp),
-                                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                                 content = {
                                                     if (context.isInstalledFromPlayStore()) {
                                                         Icon(
-                                                            Icons.Rounded.GooglePlay,
-                                                            null,
+                                                            imageVector = Icons.Rounded.GooglePlay,
+                                                            contentDescription = null,
                                                             modifier = Modifier.offset(1.5.dp)
                                                         )
                                                     } else {
-                                                        Icon(Icons.Rounded.Github, null)
+                                                        Icon(
+                                                            imageVector = Icons.Rounded.Github,
+                                                            contentDescription = null
+                                                        )
                                                     }
                                                 }
                                             )

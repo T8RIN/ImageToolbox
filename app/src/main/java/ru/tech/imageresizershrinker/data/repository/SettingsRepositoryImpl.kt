@@ -21,13 +21,17 @@ import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_ANALYTICS
 import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_BETAS
 import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_CRASHLYTICS
 import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_IMAGE_MONET
-import ru.tech.imageresizershrinker.data.keys.Keys.ALLOW_SHADOWS_INSTEAD_OF_BORDERS
 import ru.tech.imageresizershrinker.data.keys.Keys.AMOLED_MODE
 import ru.tech.imageresizershrinker.data.keys.Keys.APP_COLOR_TUPLE
 import ru.tech.imageresizershrinker.data.keys.Keys.APP_OPEN_COUNT
 import ru.tech.imageresizershrinker.data.keys.Keys.AUTO_CACHE_CLEAR
 import ru.tech.imageresizershrinker.data.keys.Keys.BORDER_WIDTH
 import ru.tech.imageresizershrinker.data.keys.Keys.COLOR_TUPLES
+import ru.tech.imageresizershrinker.data.keys.Keys.DRAW_BUTTON_SHADOWS
+import ru.tech.imageresizershrinker.data.keys.Keys.DRAW_CONTAINER_SHADOWS
+import ru.tech.imageresizershrinker.data.keys.Keys.DRAW_FAB_SHADOWS
+import ru.tech.imageresizershrinker.data.keys.Keys.DRAW_SLIDER_SHADOWS
+import ru.tech.imageresizershrinker.data.keys.Keys.DRAW_SWITCH_SHADOWS
 import ru.tech.imageresizershrinker.data.keys.Keys.DYNAMIC_COLORS
 import ru.tech.imageresizershrinker.data.keys.Keys.EMOJI_COUNT
 import ru.tech.imageresizershrinker.data.keys.Keys.FAB_ALIGNMENT
@@ -100,8 +104,16 @@ class SettingsRepositoryImpl @Inject constructor(
             allowCollectCrashlytics = prefs[ALLOW_CRASHLYTICS] ?: default.allowCollectCrashlytics,
             allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: default.allowCollectAnalytics,
             allowBetas = prefs[ALLOW_BETAS] ?: default.allowBetas,
-            allowShowingShadowsInsteadOfBorders = prefs[ALLOW_SHADOWS_INSTEAD_OF_BORDERS]
-                ?: default.allowShowingShadowsInsteadOfBorders,
+            drawContainerShadows = prefs[DRAW_CONTAINER_SHADOWS]
+                ?: default.drawContainerShadows,
+            drawFabShadows = prefs[DRAW_FAB_SHADOWS]
+                ?: default.drawFabShadows,
+            drawSwitchShadows = prefs[DRAW_SWITCH_SHADOWS]
+                ?: default.drawSwitchShadows,
+            drawSliderShadows = prefs[DRAW_SLIDER_SHADOWS]
+                ?: default.drawSliderShadows,
+            drawButtonShadows = prefs[DRAW_BUTTON_SHADOWS]
+                ?: default.drawButtonShadows,
             appOpenCount = prefs[APP_OPEN_COUNT] ?: default.appOpenCount,
             aspectRatios = default.aspectRatios,
             lockDrawOrientation = prefs[LOCK_DRAW_ORIENTATION] ?: default.lockDrawOrientation,
@@ -144,8 +156,16 @@ class SettingsRepositoryImpl @Inject constructor(
             allowCollectCrashlytics = prefs[ALLOW_CRASHLYTICS] ?: default.allowCollectCrashlytics,
             allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: default.allowCollectAnalytics,
             allowBetas = prefs[ALLOW_BETAS] ?: default.allowBetas,
-            allowShowingShadowsInsteadOfBorders = prefs[ALLOW_SHADOWS_INSTEAD_OF_BORDERS]
-                ?: default.allowShowingShadowsInsteadOfBorders,
+            drawContainerShadows = prefs[DRAW_CONTAINER_SHADOWS]
+                ?: default.drawContainerShadows,
+            drawFabShadows = prefs[DRAW_FAB_SHADOWS]
+                ?: default.drawFabShadows,
+            drawSwitchShadows = prefs[DRAW_SWITCH_SHADOWS]
+                ?: default.drawSwitchShadows,
+            drawSliderShadows = prefs[DRAW_SLIDER_SHADOWS]
+                ?: default.drawSliderShadows,
+            drawButtonShadows = prefs[DRAW_BUTTON_SHADOWS]
+                ?: default.drawButtonShadows,
             appOpenCount = prefs[APP_OPEN_COUNT] ?: default.appOpenCount,
             aspectRatios = default.aspectRatios,
             lockDrawOrientation = prefs[LOCK_DRAW_ORIENTATION] ?: default.lockDrawOrientation,
@@ -393,10 +413,38 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun toggleAllowShowingShadowsInsteadOfBorders() {
+    override suspend fun toggleDrawContainerShadows() {
         dataStore.edit {
-            val v = it[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] ?: true
-            it[ALLOW_SHADOWS_INSTEAD_OF_BORDERS] = !v
+            val v = it[DRAW_CONTAINER_SHADOWS] ?: true
+            it[DRAW_CONTAINER_SHADOWS] = !v
+        }
+    }
+
+    override suspend fun toggleDrawButtonShadows() {
+        dataStore.edit {
+            val v = it[DRAW_BUTTON_SHADOWS] ?: true
+            it[DRAW_BUTTON_SHADOWS] = !v
+        }
+    }
+
+    override suspend fun toggleDrawSliderShadows() {
+        dataStore.edit {
+            val v = it[DRAW_SLIDER_SHADOWS] ?: true
+            it[DRAW_SLIDER_SHADOWS] = !v
+        }
+    }
+
+    override suspend fun toggleDrawSwitchShadows() {
+        dataStore.edit {
+            val v = it[DRAW_SWITCH_SHADOWS] ?: true
+            it[DRAW_SWITCH_SHADOWS] = !v
+        }
+    }
+
+    override suspend fun toggleDrawFabShadows() {
+        dataStore.edit {
+            val v = it[DRAW_FAB_SHADOWS] ?: true
+            it[DRAW_FAB_SHADOWS] = !v
         }
     }
 

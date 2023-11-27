@@ -358,7 +358,6 @@
     <string name="effort">Travail</string>
     <string name="updates">Mises à jour</string>
     <string name="allow_betas">Autoriser les versions bêta</string>
-    <string name="shadows_setting_sub">Permet de dessiner des ombres derrière les conteneurs et les boutons si les bordures sont désactivées</string>
     <string name="allow_betas_sub">La vérification des mises à jour inclura les versions bêta de l\'application si activé</string>
     <string name="brush_softness">Douceur du pinceau</string>
     <string name="draw_arrows">Dessiner des flèches</string>

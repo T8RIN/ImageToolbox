@@ -202,8 +202,8 @@ fun SettingItem(
             EmojisCountSettingItem(updateEmojisCount = viewModel::updateEmojisCount)
         }
 
-        Setting.EnableShadows -> {
-            EnableShadowsSettingItem(onClick = { viewModel.toggleAllowShowingShadowsInsteadOfBorders() })
+        Setting.ContainerShadows -> {
+            ContainerShadowsSettingItem(onClick = { viewModel.toggleDrawContainerShadows() })
         }
 
         Setting.FabAlignment -> {
@@ -218,7 +218,10 @@ fun SettingItem(
 
         Setting.FontScale -> {
             FontScaleSettingItem(
-                onValueChange = viewModel::onUpdateFontScale
+                onValueChange = {
+                    viewModel.onUpdateFontScale(it)
+                    (context as Activity).recreate()
+                }
             )
         }
 
@@ -361,6 +364,22 @@ fun SettingItem(
                     AutoSizeText(text = stringResource(R.string.check_for_updates), maxLines = 1)
                 }
             }
+        }
+
+        Setting.ButtonShadows -> {
+            ButtonShadowsSettingItem(onClick = { viewModel.toggleDrawButtonShadows() })
+        }
+
+        Setting.FABShadows -> {
+            FabShadowsSettingItem(onClick = { viewModel.toggleDrawFabShadows() })
+        }
+
+        Setting.SliderShadows -> {
+            SliderShadowsSettingItem(onClick = { viewModel.toggleDrawSliderShadows() })
+        }
+
+        Setting.SwitchShadows -> {
+            SwitchShadowsSettingItem(onClick = { viewModel.toggleDrawSwitchShadows() })
         }
     }
 }

@@ -68,9 +68,6 @@ import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -144,15 +141,14 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePic
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitch
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitchDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.presentation.root.widget.other.DrawLockScreenOrientation
@@ -713,18 +709,17 @@ fun DrawScreen(
                             ),
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        ExtendedFloatingActionButton(
+                        EnhancedFloatingActionButton(
                             onClick = pickImage,
                             modifier = Modifier
                                 .navigationBarsPadding()
-                                .padding(16.dp)
-                                .containerFabBorder(),
-                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                            text = {
-                                Text(stringResource(R.string.pick_image_alt))
-                            },
-                            icon = {
+                                .padding(16.dp),
+                            content = {
+                                Spacer(Modifier.width(16.dp))
                                 Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                Spacer(Modifier.width(16.dp))
+                                Text(stringResource(R.string.pick_image_alt))
+                                Spacer(Modifier.width(16.dp))
                             }
                         )
                     }
@@ -868,20 +863,19 @@ fun DrawScreen(
                                 floatingActionButton = {
                                     Row {
                                         if (drawBehavior is DrawBehavior.Image) {
-                                            FloatingActionButton(
+                                            EnhancedFloatingActionButton(
                                                 onClick = pickImage,
-                                                modifier = Modifier.containerFabBorder(),
-                                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                                containerColor = MaterialTheme.colorScheme.tertiaryContainer
                                             ) {
-                                                Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                                Icon(
+                                                    imageVector = Icons.Rounded.AddPhotoAlternate,
+                                                    contentDescription = null
+                                                )
                                             }
                                             Spacer(modifier = Modifier.width(8.dp))
                                         }
-                                        FloatingActionButton(
-                                            onClick = saveBitmap,
-                                            modifier = Modifier.containerFabBorder(),
-                                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                        EnhancedFloatingActionButton(
+                                            onClick = saveBitmap
                                         ) {
                                             Icon(Icons.Rounded.Save, null)
                                         }
@@ -957,21 +951,20 @@ fun DrawScreen(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
-                            FloatingActionButton(
+                            EnhancedFloatingActionButton(
                                 onClick = pickImage,
-                                modifier = Modifier.autoElevatedBorder(),
-                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer
                             ) {
-                                Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                Icon(
+                                    imageVector = Icons.Rounded.AddPhotoAlternate,
+                                    contentDescription = null
+                                )
                             }
                             Spacer(modifier = Modifier.height(16.dp))
-                            FloatingActionButton(
-                                onClick = saveBitmap,
-                                modifier = Modifier.autoElevatedBorder(),
-                                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                            EnhancedFloatingActionButton(
+                                onClick = saveBitmap
                             ) {
-                                Icon(Icons.Rounded.Save, null)
+                                Icon(imageVector = Icons.Rounded.Save, contentDescription = null)
                             }
                         }
                     }

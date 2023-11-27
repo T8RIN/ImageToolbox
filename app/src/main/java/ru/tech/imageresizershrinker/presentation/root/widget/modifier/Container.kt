@@ -36,7 +36,8 @@ fun Modifier.container(
     autoShadowElevation: Dp = 1.dp,
     clip: Boolean = true,
     composeColorOnTopOfBackground: Boolean = true,
-    isShadowClip: Boolean = false
+    isShadowClip: Boolean = false,
+    isStandaloneContainer: Boolean = true
 ) = composed {
     val localContainerShape = LocalContainerShape.current
     val resultShape = localContainerShape ?: shape
@@ -92,6 +93,9 @@ fun Modifier.container(
                     0.dp
                 } else autoShadowElevation.coerceAtLeast(0.dp)
             ).value,
+            enabled = if (isStandaloneContainer) {
+                LocalSettingsState.current.drawContainerShadows
+            } else true,
             isClipped = isShadowClip
         )
         .then(

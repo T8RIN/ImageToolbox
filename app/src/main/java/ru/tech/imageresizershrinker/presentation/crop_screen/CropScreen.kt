@@ -37,9 +37,6 @@ import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -90,12 +87,11 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePic
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
@@ -425,18 +421,19 @@ fun CropScreen(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
                             ) {
-                                FloatingActionButton(
+                                EnhancedFloatingActionButton(
                                     onClick = pickImage,
-                                    modifier = Modifier.containerFabBorder(),
                                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                                     content = {
-                                        Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                        Icon(
+                                            imageVector = Icons.Rounded.AddPhotoAlternate,
+                                            contentDescription = null
+                                        )
                                     }
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 var job by remember { mutableStateOf<Job?>(null) }
-                                FloatingActionButton(
+                                EnhancedFloatingActionButton(
                                     onClick = {
                                         job?.cancel()
                                         job = scope.launch {
@@ -444,23 +441,25 @@ fun CropScreen(
                                             crop = true
                                         }
                                     },
-                                    modifier = Modifier.containerFabBorder(),
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer
                                 ) {
-                                    Icon(Icons.Rounded.Crop, null)
+                                    Icon(
+                                        imageVector = Icons.Rounded.Crop,
+                                        contentDescription = null
+                                    )
                                 }
                                 AnimatedVisibility(viewModel.isBitmapChanged) {
                                     Column {
                                         Spacer(modifier = Modifier.height(8.dp))
-                                        FloatingActionButton(
+                                        EnhancedFloatingActionButton(
                                             onClick = {
                                                 viewModel.bitmap?.let(saveBitmap)
-                                            },
-                                            modifier = Modifier.containerFabBorder(),
-                                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                            }
                                         ) {
-                                            Icon(Icons.Rounded.Save, null)
+                                            Icon(
+                                                imageVector = Icons.Rounded.Save,
+                                                contentDescription = null
+                                            )
                                         }
                                     }
                                 }
@@ -484,15 +483,14 @@ fun CropScreen(
                         .navigationBarsPadding()
                         .align(settingsState.fabAlignment)
                 ) {
-                    ExtendedFloatingActionButton(
+                    EnhancedFloatingActionButton(
                         onClick = pickImage,
-                        modifier = Modifier.autoElevatedBorder(),
-                        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                        text = {
-                            Text(stringResource(R.string.pick_image_alt))
-                        },
-                        icon = {
+                        content = {
+                            Spacer(Modifier.width(16.dp))
                             Icon(Icons.Rounded.AddPhotoAlternate, null)
+                            Spacer(Modifier.width(16.dp))
+                            Text(stringResource(R.string.pick_image_alt))
+                            Spacer(Modifier.width(16.dp))
                         }
                     )
                 }
@@ -529,11 +527,9 @@ fun CropScreen(
                         },
                         floatingActionButton = {
                             Row {
-                                FloatingActionButton(
+                                EnhancedFloatingActionButton(
                                     onClick = pickImage,
-                                    modifier = Modifier.autoElevatedBorder(),
-                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
                                 ) {
                                     val expanded =
                                         scrollState.isScrollingUp() && viewModel.bitmap == null
@@ -542,7 +538,10 @@ fun CropScreen(
                                         modifier = Modifier.padding(horizontal = horizontalPadding),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                        Icon(
+                                            imageVector = Icons.Rounded.AddPhotoAlternate,
+                                            contentDescription = null
+                                        )
                                         AnimatedVisibility(visible = expanded) {
                                             Row {
                                                 Spacer(Modifier.width(8.dp))
@@ -554,14 +553,15 @@ fun CropScreen(
                                 AnimatedVisibility(viewModel.isBitmapChanged) {
                                     Row {
                                         Spacer(modifier = Modifier.width(8.dp))
-                                        FloatingActionButton(
+                                        EnhancedFloatingActionButton(
                                             onClick = {
                                                 viewModel.bitmap?.let(saveBitmap)
-                                            },
-                                            modifier = Modifier.autoElevatedBorder(),
-                                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                            }
                                         ) {
-                                            Icon(Icons.Rounded.Save, null)
+                                            Icon(
+                                                imageVector = Icons.Rounded.Save,
+                                                contentDescription = null
+                                            )
                                         }
                                     }
                                 }

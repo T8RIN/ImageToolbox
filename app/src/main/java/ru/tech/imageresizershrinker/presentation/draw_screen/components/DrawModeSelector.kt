@@ -159,7 +159,7 @@ fun DrawModeSelector(
                             modifier = Modifier.materialShadow(
                                 shape = shape,
                                 elevation = animateDpAsState(
-                                    if (settingsState.borderWidth >= 0.dp || !settingsState.allowShowingShadowsInsteadOfBorders) 0.dp
+                                    if (settingsState.borderWidth >= 0.dp || !settingsState.drawContainerShadows) 0.dp
                                     else if (selected) 2.dp
                                     else 1.dp
                                 ).value

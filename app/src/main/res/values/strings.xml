@@ -374,7 +374,6 @@
     <string name="updates">Updates</string>
     <string name="allow_betas">Allow betas</string>
     <string name="allow_betas_sub">Update checking will include beta app versions if enabled</string>
-    <string name="shadows_setting_sub">Enables drawing shadows behind containers and buttons if borders are disabled</string>
     <string name="draw_arrows">Draw Arrows</string>
     <string name="draw_arrows_sub">If enabled drawing path will be represented as pointing arrow</string>
     <string name="brush_softness">Brush softness</string>
@@ -382,7 +381,7 @@
     <string name="donation">Donation</string>
     <string name="bitcoin" translatable="false">Bitcoin</string>
     <string name="usdt" translatable="false">USDT</string>
-    <string name="value_in_range">Value in range %1$d..%2$d</string>
+    <string name="value_in_range">Value in range %1$f..%2$f</string>
     <string name="image_stitching">Image Stitching</string>
     <string name="image_stitching_sub">Combine the given images to get one big one</string>
     <string name="pick_at_least_two_images">Pick at least 2 images</string>
@@ -476,4 +475,14 @@
     <string name="pen_sub">Default one, simplest - just the color</string>
     <string name="privacy_blur_sub">Blurs image under the drawed path to secure anything you want to hide</string>
     <string name="pixelation_sub">Similar to privacy blur, but pixelates instead of bluring</string>
+    <string name="container_shadow">Container Shadow</string>
+    <string name="container_shadow_sub">Enables shadow drawing behind containers</string>
+    <string name="slider_shadow">Slider Shadow</string>
+    <string name="switch_shadow">Switch Shadow</string>
+    <string name="fab_shadow">FAB Shadow</string>
+    <string name="button_shadow">Button Shadow</string>
+    <string name="slider_shadow_sub">Enables shadow drawing behind sliders</string>
+    <string name="switch_shadow_sub">Enables shadow drawing behind swithces</string>
+    <string name="fab_shadow_sub">Enables shadow drawing behind floating action buttons</string>
+    <string name="button_shadow_sub">Enables shadow drawing behind default buttons</string>
 </resources>

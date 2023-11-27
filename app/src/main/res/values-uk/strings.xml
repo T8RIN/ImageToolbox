@@ -358,7 +358,6 @@
     <string name="alphabet_and_numbers">А а, Б б, В в, Г г, Ґ ґ, Д д, Е е, Є є, Ж ж, З з, И и, І і, Ї ї, Й й, К к, Л л, М м, Н н, О о, П п, Р р, С с, Т т, У у, Ф ф, Х х, Ц ц, Ч ч, Ш ш, Щ щ, Ь ь, Ю ю, Я я 0123456789 !\?</string>
     <string name="saving_almost_complete">Збереження майже завершено, якщо ви скасуєте, що тепер вам потрібно буде почати збереження знову</string>
     <string name="effort">Зусилля</string>
-    <string name="shadows_setting_sub">Вмикає малювання тіней за контейнерами та кнопками, якщо вимкнені межі</string>
     <string name="allow_betas_sub">Перевірка оновлень включатиме бета-версії застосунків, якщо ввімкнено</string>
     <string name="horizontal">Горизонтальна</string>
     <string name="recode">Перекодування</string>

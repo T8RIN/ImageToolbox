@@ -61,9 +61,6 @@ import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
@@ -117,12 +114,12 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImage
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.showReview
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.PresetWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LoadingDialog
@@ -370,7 +367,7 @@ fun PdfToolsScreen(
 
     val buttons: @Composable (pdfType: Screen.PdfTools.Type?) -> Unit = {
         val pdfType = it
-        FloatingActionButton(
+        EnhancedFloatingActionButton(
             onClick = {
                 when (pdfType) {
                     is Screen.PdfTools.Type.ImagesToPdf -> {
@@ -386,9 +383,7 @@ fun PdfToolsScreen(
                     }
                 }
             },
-            modifier = Modifier.containerFabBorder(),
-            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer
         ) {
             Icon(
                 imageVector = when (pdfType) {
@@ -417,7 +412,7 @@ fun PdfToolsScreen(
                 enter = fadeIn() + scaleIn() + expandIn(),
                 exit = fadeOut() + scaleOut() + shrinkOut()
             ) {
-                FloatingActionButton(
+                EnhancedFloatingActionButton(
                     onClick = {
                         if (pdfType is Screen.PdfTools.Type.ImagesToPdf && viewModel.imagesToPdfState != null) {
                             val name = viewModel.generatePdfFilename()
@@ -440,11 +435,9 @@ fun PdfToolsScreen(
                                 }
                             }
                         }
-                    },
-                    modifier = Modifier.containerFabBorder(),
-                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                    }
                 ) {
-                    Icon(Icons.Rounded.Save, null)
+                    Icon(imageVector = Icons.Rounded.Save, contentDescription = null)
                 }
             }
         }
@@ -706,20 +699,19 @@ fun PdfToolsScreen(
                                             ),
                                         horizontalArrangement = Arrangement.Center
                                     ) {
-                                        ExtendedFloatingActionButton(
+                                        EnhancedFloatingActionButton(
                                             onClick = {
                                                 selectionPdfPicker.launch(arrayOf("application/pdf"))
                                             },
                                             modifier = Modifier
                                                 .navigationBarsPadding()
-                                                .padding(16.dp)
-                                                .containerFabBorder(),
-                                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                            text = {
-                                                Text(stringResource(R.string.pick_file))
-                                            },
-                                            icon = {
+                                                .padding(16.dp),
+                                            content = {
+                                                Spacer(Modifier.width(16.dp))
                                                 Icon(Icons.Rounded.FileOpen, null)
+                                                Spacer(Modifier.width(16.dp))
+                                                Text(stringResource(R.string.pick_file))
+                                                Spacer(Modifier.width(16.dp))
                                             }
                                         )
                                     }

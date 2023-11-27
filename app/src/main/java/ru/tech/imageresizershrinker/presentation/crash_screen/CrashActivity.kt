@@ -34,9 +34,6 @@ import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -80,7 +77,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.exception.CrashHandler
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.rememberToastHostState
@@ -287,10 +284,8 @@ class CrashActivity : CrashHandler() {
                                     .navigationBarsPadding()
                                     .align(Alignment.BottomCenter)
                             ) {
-                                ExtendedFloatingActionButton(
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                                EnhancedFloatingActionButton(
                                     modifier = Modifier
-                                        .autoElevatedBorder()
                                         .weight(1f, false),
                                     onClick = {
                                         startActivity(
@@ -300,29 +295,31 @@ class CrashActivity : CrashHandler() {
                                             )
                                         )
                                     },
-                                    text = {
-                                        AutoSizeText(
-                                            text = stringResource(R.string.restart_app),
-                                            maxLines = 1
-                                        )
-                                    },
-                                    icon = {
+                                    content = {
+                                        Spacer(Modifier.width(16.dp))
                                         Icon(
                                             imageVector = Icons.Rounded.RestartAlt,
                                             contentDescription = null
                                         )
+                                        Spacer(Modifier.width(16.dp))
+                                        AutoSizeText(
+                                            text = stringResource(R.string.restart_app),
+                                            maxLines = 1
+                                        )
+                                        Spacer(Modifier.width(16.dp))
                                     }
                                 )
                                 Spacer(Modifier.width(8.dp))
-                                FloatingActionButton(
+                                EnhancedFloatingActionButton(
                                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                    modifier = Modifier.autoElevatedBorder(),
                                     onClick = {
                                         newClip(title + "\n\n" + body)
                                     }
                                 ) {
-                                    Icon(Icons.Rounded.ContentCopy, null)
+                                    Icon(
+                                        imageVector = Icons.Rounded.ContentCopy,
+                                        contentDescription = null
+                                    )
                                 }
                             }
                         }

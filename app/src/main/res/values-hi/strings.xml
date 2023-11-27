@@ -356,7 +356,6 @@
     <string name="keep_exif_sub">सक्रिय होने पर छवि का मूल मेटाडेटा रखा जाएगा</string>
     <string name="restore_sub">पहले से जेनरेट की गई फ़ाइल से ऐप सेटिंग्स रिस्टोर करें</string>
     <string name="presets_sub_bytes">प्रीसेट यहाँ प्राप्त होने वाली फोटो का % निर्धारित करता है,जैसे कि अगर आपने प्रीसेट में 50 चुना हैं तो आपको 5mb की फोटो सेव होने के बाद 2.5mb की प्राप्त होगी</string>
-    <string name="shadows_setting_sub">यदि बॉर्डर अक्षम हैं तो कंटेनर और बटन के पीछे छाया खींचने में सक्षम बनाता है</string>
     <string name="erase_mode">मिटाएँ मोड</string>
     <string name="allow_betas_sub">सक्षम होने पर अपडेट जाँच में बीटा ऐप संस्करण शामिल होंगे</string>
     <string name="travels_and_places">यात्राएँ और स्थान</string>

@@ -18,13 +18,12 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.gigamole.composeshadowsplus.rsblur.rsBlurShadow
 import com.zedalpha.shadowgadgets.compose.clippedShadow
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
 fun Modifier.materialShadow(
     shape: Shape,
     elevation: Dp,
-    enabled: Boolean = LocalSettingsState.current.allowShowingShadowsInsteadOfBorders,
+    enabled: Boolean = true,
     isClipped: Boolean = true
 ) = composed {
     val isConcavePath by remember(shape) {

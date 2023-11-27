@@ -75,7 +75,11 @@ fun EnhancedSlider(
                     )
                 )
                 .hoverable(interactionSource = interactionSource)
-                .materialShadow(shape = thumbShape, elevation = elevation)
+                .materialShadow(
+                    shape = thumbShape,
+                    elevation = elevation,
+                    enabled = LocalSettingsState.current.drawSliderShadows
+                )
                 .background(thumbColor, thumbShape)
         )
     }
@@ -94,6 +98,7 @@ fun EnhancedSlider(
                             0.dp
                         } else 1.dp
                     ).value,
+                    enabled = LocalSettingsState.current.drawSliderShadows,
                     isClipped = true
                 )
                 .padding(horizontal = 6.dp),

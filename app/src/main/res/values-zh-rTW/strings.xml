@@ -358,7 +358,6 @@
     <string name="saving_almost_complete">儲存幾乎完成了。若您現在取消，將需要從頭開始儲存</string>
     <string name="enable_emoji">點擊以啟用表情符號</string>
     <string name="effort">壓縮選項</string>
-    <string name="shadows_setting_sub">當邊框停用時，容器和按鈕將會自動繪製陰影效果</string>
     <string name="allow_betas_sub">若您選擇啟用，則在檢查更新時會包括測試版。</string>
     <string name="brush_softness">畫筆柔度</string>
     <string name="draw_arrows">繪製箭頭</string>

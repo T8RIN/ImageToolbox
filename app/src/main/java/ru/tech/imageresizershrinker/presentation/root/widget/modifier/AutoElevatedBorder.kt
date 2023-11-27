@@ -28,7 +28,7 @@ fun Modifier.autoElevatedBorder(
         LocalSettingsState.current.borderWidth.takeIf { it > 0.dp }
     } else null
 
-    val szape = shape ?: FloatingActionButtonDefaults.shape
+    val shape1 = shape ?: FloatingActionButtonDefaults.shape
 
     if (h == null) {
         Modifier
@@ -42,12 +42,18 @@ fun Modifier.autoElevatedBorder(
                     onTopOf = MaterialTheme.colorScheme.suggestContainerColorBy(LocalContentColor.current)
                 )
             },
-            shape = szape
+            shape = shape1
         )
     }.materialShadow(
         elevation = animateDpAsState(if (h == null) autoElevation else 0.dp).value,
-        shape = szape
+        shape = shape1
     )
 }
 
-fun Modifier.containerFabBorder() = autoElevatedBorder(autoElevation = 1.5.dp)
+fun Modifier.containerFabBorder(
+    autoElevation: Dp = 1.5.dp,
+    shape: Shape? = null
+) = autoElevatedBorder(
+    autoElevation = autoElevation,
+    shape = shape
+)

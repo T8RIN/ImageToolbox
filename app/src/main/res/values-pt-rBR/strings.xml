@@ -356,7 +356,6 @@
     <string name="keep_exif_sub">Os metadados da imagem original serão mantidos se ativados</string>
     <string name="restore_sub">Restaure as configurações do app salvas no arquivo</string>
     <string name="presets_sub_bytes">Aqui, a predefinição determina o % (porcento) do arquivo final. Se você selecionar a predefinição 50 em uma imagem de 5mb, você terá o arquivo salvo com 2,5mb de tamanho.</string>
-    <string name="shadows_setting_sub">Permite ter sombras atrás de objetos e botões se as bordas estiverem desativadas</string>
     <string name="erase_mode">Modo de apagar</string>
     <string name="allow_betas_sub">A verificação de atualização incluirá versões betas do aplicativo, se ativadas</string>
     <string name="travels_and_places">Viagens e lugares</string>

@@ -19,9 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,9 +29,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
 
 @Composable
@@ -50,18 +46,17 @@ fun BottomButtonsBlock(
         targetState = targetState
     ) { (isNull, inside) ->
         if (isNull) {
-            ExtendedFloatingActionButton(
+            EnhancedFloatingActionButton(
                 onClick = onPickImage,
                 modifier = Modifier
                     .navigationBarsPadding()
-                    .padding(16.dp)
-                    .autoElevatedBorder(),
-                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                text = {
-                    Text(stringResource(R.string.pick_image_alt))
-                },
-                icon = {
+                    .padding(16.dp),
+                content = {
+                    Spacer(Modifier.width(16.dp))
                     Icon(Icons.Rounded.AddPhotoAlternate, null)
+                    Spacer(Modifier.width(16.dp))
+                    Text(stringResource(R.string.pick_image_alt))
+                    Spacer(Modifier.width(16.dp))
                 }
             )
         } else if (inside) {
@@ -70,23 +65,25 @@ fun BottomButtonsBlock(
                 actions = actions,
                 floatingActionButton = {
                     Row {
-                        FloatingActionButton(
+                        EnhancedFloatingActionButton(
                             onClick = onPickImage,
-                            modifier = Modifier.containerFabBorder(),
-                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer
                         ) {
-                            Icon(Icons.Rounded.AddPhotoAlternate, null)
+                            Icon(
+                                imageVector = Icons.Rounded.AddPhotoAlternate,
+                                contentDescription = null
+                            )
                         }
                         AnimatedVisibility(visible = canSave) {
                             Row {
                                 Spacer(Modifier.width(8.dp))
-                                FloatingActionButton(
-                                    onClick = onSaveBitmap,
-                                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                                    modifier = Modifier.containerFabBorder(),
+                                EnhancedFloatingActionButton(
+                                    onClick = onSaveBitmap
                                 ) {
-                                    Icon(Icons.Rounded.Save, null)
+                                    Icon(
+                                        imageVector = Icons.Rounded.Save,
+                                        contentDescription = null
+                                    )
                                 }
                             }
                         }
@@ -109,13 +106,11 @@ fun BottomButtonsBlock(
             ) {
                 Row { actions() }
                 Spacer(Modifier.height(8.dp))
-                FloatingActionButton(
+                EnhancedFloatingActionButton(
                     onClick = onPickImage,
-                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                    modifier = Modifier.containerFabBorder(),
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
                 ) {
-                    Icon(Icons.Rounded.AddPhotoAlternate, null)
+                    Icon(imageVector = Icons.Rounded.AddPhotoAlternate, contentDescription = null)
                 }
                 columnarFab?.let {
                     Spacer(Modifier.height(8.dp))
@@ -124,12 +119,10 @@ fun BottomButtonsBlock(
                 AnimatedVisibility(visible = canSave) {
                     Column {
                         Spacer(Modifier.height(8.dp))
-                        FloatingActionButton(
-                            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-                            modifier = Modifier.containerFabBorder(),
+                        EnhancedFloatingActionButton(
                             onClick = onSaveBitmap
                         ) {
-                            Icon(Icons.Rounded.Save, null)
+                            Icon(imageVector = Icons.Rounded.Save, contentDescription = null)
                         }
                     }
                 }
