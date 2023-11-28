@@ -445,4 +445,17 @@
     <string name="full_filter">Полный фильтр</string>
     <string name="end_position">Конец</string>
     <string name="center_position">Центр</string>
+    <string name="neon_sub">Добавьте эффект свечения к вашему рисунку</string>
+    <string name="neon">Неон</string>
+    <string name="container_shadow_sub">Включает тени под контейнерами</string>
+    <string name="pen">Ручка</string>
+    <string name="privacy_blur_sub">Размывает изображение под вашим пальцем чтобы защитить все что вы хотите спрятать</string>
+    <string name="pen_sub">Изначальный режим, самый простой - только цвет</string>
+    <string name="slider_shadow">Слайдер</string>
+    <string name="highlighter_sub">Выделите что либо полупрозрачной заливкой</string>
+    <string name="highlighter">Выделитель</string>
+    <string name="simple_variants">Простые Варианты</string>
+    <string name="pixelation_sub">Такой же режим как и приватное размытие, но использует пикселизацию</string>
+    <string name="privacy_blur">Приватное Размытие</string>
+    <string name="container_shadow">Контейнеры</string>
 </resources>
