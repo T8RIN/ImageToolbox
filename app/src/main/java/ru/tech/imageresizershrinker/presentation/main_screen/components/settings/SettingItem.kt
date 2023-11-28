@@ -202,10 +202,6 @@ fun SettingItem(
             EmojisCountSettingItem(updateEmojisCount = viewModel::updateEmojisCount)
         }
 
-        Setting.ContainerShadows -> {
-            ContainerShadowsSettingItem(onClick = { viewModel.toggleDrawContainerShadows() })
-        }
-
         Setting.FabAlignment -> {
             FabAlignmentSettingItem(updateAlignment = viewModel::setAlignment)
         }
@@ -364,6 +360,10 @@ fun SettingItem(
                     AutoSizeText(text = stringResource(R.string.check_for_updates), maxLines = 1)
                 }
             }
+        }
+
+        Setting.ContainerShadows -> {
+            ContainerShadowsSettingItem(onClick = { viewModel.toggleDrawContainerShadows() })
         }
 
         Setting.ButtonShadows -> {

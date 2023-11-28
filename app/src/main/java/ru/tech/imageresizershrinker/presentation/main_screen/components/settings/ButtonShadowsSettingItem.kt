@@ -2,7 +2,7 @@ package ru.tech.imageresizershrinker.presentation.main_screen.components.setting
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.SmartButton
+import androidx.compose.material.icons.outlined.Gamepad
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -28,6 +28,6 @@ fun ButtonShadowsSettingItem(
         subtitle = stringResource(R.string.button_shadow_sub),
         checked = settingsState.drawButtonShadows,
         onClick = onClick,
-        startIcon = Icons.Filled.SmartButton
+        startIcon = Icons.Outlined.Gamepad
     )
 }

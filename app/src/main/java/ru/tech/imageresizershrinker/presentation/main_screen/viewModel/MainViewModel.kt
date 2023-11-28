@@ -15,6 +15,7 @@ import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olshevski.navigation.reimagined.navController
 import kotlinx.coroutines.Dispatchers
@@ -343,7 +344,12 @@ class MainViewModel @Inject constructor(
 
     private fun isNeedUpdate(nameFrom: String, nameTo: String): Boolean {
         fun String.toVersionCode(): Int {
-            return replace("-", "")
+            return replace(
+                regex = Regex("0\\d"),
+                transform = {
+                    it.value.replace("0", "")
+                }
+            ).replace("-", "")
                 .replace(".", "")
                 .replace("_", "")
                 .replace("alpha", "1")
@@ -355,11 +361,11 @@ class MainViewModel @Inject constructor(
         }
 
         val betaList = listOf(
-            "beta", "alpha", "rc"
+            "alpha", "beta", "rc"
         )
 
-        val tagVC = nameTo.toVersionCode()
-        val buildVC = nameFrom.toVersionCode()
+        val tagVC = nameTo.toVersionCode().makeLog()
+        val buildVC = nameFrom.toVersionCode().makeLog()
         return if (betaList.all { it !in nameTo }) {
             tagVC > buildVC
         } else {

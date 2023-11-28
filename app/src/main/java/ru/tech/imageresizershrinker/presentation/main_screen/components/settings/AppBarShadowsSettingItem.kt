@@ -2,13 +2,13 @@ package ru.tech.imageresizershrinker.presentation.main_screen.components.setting
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.HorizontalSplit
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.icons.material.TopAppBar
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -28,6 +28,6 @@ fun AppBarShadowsSettingItem(
         subtitle = stringResource(R.string.app_bar_shadow_sub),
         checked = settingsState.drawAppBarShadows,
         onClick = onClick,
-        startIcon = Icons.Rounded.TopAppBar
+        startIcon = Icons.Outlined.HorizontalSplit
     )
 }

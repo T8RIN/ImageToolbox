@@ -2,7 +2,7 @@ package ru.tech.imageresizershrinker.presentation.main_screen.components.setting
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ToggleOn
+import androidx.compose.material.icons.outlined.ToggleOff
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -28,6 +28,6 @@ fun SwitchShadowsSettingItem(
         subtitle = stringResource(R.string.switch_shadow_sub),
         checked = settingsState.drawSwitchShadows,
         onClick = onClick,
-        startIcon = Icons.Filled.ToggleOn
+        startIcon = Icons.Outlined.ToggleOff
     )
 }

@@ -2,7 +2,7 @@ package ru.tech.imageresizershrinker.presentation.main_screen.components.setting
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ViewCompactAlt
+import androidx.compose.material.icons.outlined.Dashboard
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -28,6 +28,6 @@ fun ContainerShadowsSettingItem(
         subtitle = stringResource(R.string.container_shadow_sub),
         checked = settingsState.drawContainerShadows,
         onClick = onClick,
-        startIcon = Icons.Filled.ViewCompactAlt
+        startIcon = Icons.Outlined.Dashboard
     )
 }
