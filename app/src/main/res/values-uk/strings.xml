@@ -413,7 +413,6 @@
     <string name="tonal_spot_sub">Стиль типової палітри дозволяє налаштувати всі чотири кольори, інші дозволяють встановити лише ключовий колір</string>
     <string name="color_to_replace">Колір для заміни</string>
     <string name="images_to_pdf_sub">Пакування заданих зображень у файл PDF</string>
-    <string name="value_in_range">Значення в діапазоні %1$d..%2$d</string>
     <string name="crop_description">Зображення будуть обрізані по центру до введеного розміру. Полотно буде розширене із заданим кольором фону, якщо зображення менше введених розмірів.</string>
     <string name="donation">Пожертвування</string>
     <string name="preview_pdf_sub">Простий переглядач PDF</string>

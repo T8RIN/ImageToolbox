@@ -287,34 +287,41 @@ class BytesResizeViewModel @Inject constructor(
         }
     }
 
+    private var job: Job? = null
+
+    private fun setImageData(imageData: ImageData<Bitmap, ExifInterface>) {
+        job?.cancel()
+        _isImageLoading.value = false
+        job = viewModelScope.launch {
+            _isImageLoading.value = true
+            imageManager.scaleUntilCanShow(imageData.image)?.let {
+                _bitmap.value = imageData.image
+                _previewBitmap.value = it
+                _imageFormat.value = imageData.imageInfo.imageFormat
+                _imageSize.value = imageManager.calculateImageSize(
+                    imageData = ImageData(
+                        image = imageData.image,
+                        imageInfo = ImageInfo(imageFormat = imageFormat)
+                    )
+                )
+            }
+            _isImageLoading.value = false
+        }
+    }
+
     fun decodeBitmapByUri(
         uri: Uri,
-        originalSize: Boolean,
-        onGetMimeType: (ImageFormat) -> Unit,
-        onGetMetadata: (ExifInterface?) -> Unit,
-        onGetImage: (Bitmap?) -> Unit,
         onError: (Throwable) -> Unit
     ) {
+        _isImageLoading.value = true
         imageManager.getImageAsync(
             uri = uri.toString(),
-            originalSize = originalSize,
-            onGetImage = {
-                onGetImage(it.image)
-                onGetMetadata(it.metadata)
-                onGetMimeType(it.imageInfo.imageFormat)
-                viewModelScope.launch {
-                    _isImageLoading.value = true
-                    _imageSize.value = imageManager.calculateImageSize(
-                        imageData = ImageData(
-                            image = it.image,
-                            imageInfo = it.imageInfo,
-                            metadata = it.metadata
-                        )
-                    )
-                    _isImageLoading.value = false
-                }
-            },
-            onError = onError
+            originalSize = true,
+            onGetImage = ::setImageData,
+            onError = {
+                _isImageLoading.value = false
+                onError(it)
+            }
         )
     }
 

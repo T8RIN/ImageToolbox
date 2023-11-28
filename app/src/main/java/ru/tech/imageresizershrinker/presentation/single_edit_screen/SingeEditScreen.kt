@@ -139,9 +139,6 @@ fun SingleEditScreen(
             viewModel.setUri(it)
             viewModel.decodeBitmapByUri(
                 uri = it,
-                onGetMimeType = viewModel::setMime,
-                onGetExif = viewModel::updateExif,
-                onGetBitmap = viewModel::updateBitmap,
                 onError = {
                     scope.launch {
                         toastHostState.showError(context, it)
@@ -174,9 +171,6 @@ fun SingleEditScreen(
                 viewModel.setUri(it)
                 viewModel.decodeBitmapByUri(
                     uri = it,
-                    onGetMimeType = viewModel::setMime,
-                    onGetExif = viewModel::updateExif,
-                    onGetBitmap = viewModel::updateBitmap,
                     onError = {
                         scope.launch {
                             toastHostState.showError(context, it)
@@ -284,7 +278,7 @@ fun SingleEditScreen(
 
     val buttons = @Composable {
         BottomButtonsBlock(
-            targetState = (viewModel.bitmap == null) to imageInside,
+            targetState = (viewModel.uri == Uri.EMPTY) to imageInside,
             onPickImage = pickImage,
             onSaveBitmap = saveBitmap,
             actions = {
@@ -366,9 +360,9 @@ fun SingleEditScreen(
         ImageTransformBar(
             onEditExif = { showEditExifDialog.value = true },
             imageFormat = viewModel.imageInfo.imageFormat,
-            onRotateLeft = viewModel::rotateLeft,
-            onFlip = viewModel::flip,
-            onRotateRight = viewModel::rotateRight
+            onRotateLeft = viewModel::rotateBitmapLeft,
+            onFlip = viewModel::flipImage,
+            onRotateRight = viewModel::rotateBitmapRight
         )
         Spacer(Modifier.size(8.dp))
         ImageExtraTransformBar(

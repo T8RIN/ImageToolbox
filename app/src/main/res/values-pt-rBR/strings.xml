@@ -386,7 +386,6 @@
     <string name="vertical">Vertical</string>
     <string name="color_to_remove">Cor para remover</string>
     <string name="color_to_replace">Cor para substituir</string>
-    <string name="value_in_range">Valor no intervalo %1$d..%2$d</string>
     <string name="crop_description">As imagens serão cortadas no centro no tamanho inserido. A tela será expandida com determinada cor de fundo se a imagem for menor que as dimensões inseridas.</string>
     <string name="donation">Contribuição</string>
     <string name="output_image_scale">Escala da imagem de final</string>

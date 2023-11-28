@@ -137,10 +137,6 @@ fun BytesResizeScreen(
             viewModel.updateUris(uris)
             viewModel.decodeBitmapByUri(
                 uri = uris[0],
-                originalSize = false,
-                onGetMimeType = viewModel::setMime,
-                onGetMetadata = {},
-                onGetImage = viewModel::updateBitmap,
                 onError = {
                     scope.launch {
                         toastHostState.showError(context, it)
@@ -165,10 +161,6 @@ fun BytesResizeScreen(
                 viewModel.updateUris(list)
                 viewModel.decodeBitmapByUri(
                     uri = uris[0],
-                    originalSize = false,
-                    onGetMimeType = viewModel::setMime,
-                    onGetMetadata = {},
-                    onGetImage = viewModel::updateBitmap,
                     onError = {
                         scope.launch {
                             toastHostState.showError(context, it)

@@ -3,9 +3,7 @@ package ru.tech.imageresizershrinker.presentation.root.widget.controls
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -57,17 +55,10 @@ fun ImageTransformBar(
             ) {
                 Row {
                     Spacer(Modifier.width(4.dp))
-                    Box(
-                        modifier = Modifier
-                            .height(40.dp)
-                            .container(
-                                shape = CircleShape,
-                                color = MaterialTheme.colorScheme.secondaryContainer,
-                                resultPadding = 0.dp,
-                                autoShadowElevation = 0.5.dp
-                            )
-                            .clickable(onClick = onEditExif),
-                        contentAlignment = Alignment.Center
+                    EnhancedButton(
+                        modifier = Modifier.height(40.dp),
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        onClick = onEditExif
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,

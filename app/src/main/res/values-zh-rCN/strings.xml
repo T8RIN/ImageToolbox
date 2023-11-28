@@ -382,7 +382,6 @@
     <string name="vertical">纵向</string>
     <string name="color_to_remove">要去除的颜色</string>
     <string name="color_to_replace">要更换的颜色</string>
-    <string name="value_in_range">%1$d..%2$d 范围内的值</string>
     <string name="crop_description">图片将被中间裁剪到输入的大小。如果图像小于输入的尺寸，画布将以给定的背景颜色展开。</string>
     <string name="donation">捐赠</string>
     <string name="output_image_scale">输出图像缩放</string>

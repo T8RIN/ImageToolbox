@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.tech.imageresizershrinker.core.utils.trimTrailingZero
 
 @Composable
 fun ValueText(
@@ -31,7 +32,7 @@ fun ValueText(
         transitionSpec = { fadeIn() togetherWith fadeOut() }
     ) {
         Text(
-            text = "$it$valueSuffix",
+            text = "${it.toString().trimTrailingZero()}$valueSuffix",
             color = LocalContentColor.current.copy(0.5f),
             modifier = modifier
                 .clip(CircleShape)

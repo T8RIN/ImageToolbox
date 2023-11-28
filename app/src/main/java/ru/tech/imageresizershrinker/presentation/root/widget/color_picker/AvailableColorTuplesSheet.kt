@@ -57,7 +57,6 @@ import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.rememberColorScheme
-import com.t8rin.logger.makeLog
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Theme
@@ -95,7 +94,6 @@ fun AvailableColorTuplesSheet(
     onToggleInvertColors: () -> Unit,
     onUpdateColorTuples: (List<ColorTuple>) -> Unit,
 ) {
-    visible.value.makeLog()
     val showEditColorPicker = rememberSaveable { mutableStateOf(false) }
 
     val settingsState = LocalSettingsState.current

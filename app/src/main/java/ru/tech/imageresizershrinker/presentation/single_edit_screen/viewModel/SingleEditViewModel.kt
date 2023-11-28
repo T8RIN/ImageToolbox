@@ -115,22 +115,31 @@ class SingleEditViewModel @Inject constructor(
 
     private var job: Job? = null
 
-    private fun checkBitmapAndUpdate(resetPreset: Boolean, resetTelegram: Boolean) {
+    private suspend fun checkBitmapAndUpdate(resetPreset: Boolean, resetTelegram: Boolean) {
         if (resetPreset || resetTelegram) {
             _presetSelected.value = Preset.None
         }
+        _bitmap.value?.let { bmp ->
+            val preview = updatePreview(bmp)
+            _previewBitmap.value = null
+            _shouldShowPreview.value = imageManager.canShow(preview)
+            if (shouldShowPreview) _previewBitmap.value = preview
+        }
+    }
+
+    private fun debouncedImageCalculation(
+        onFinish: suspend () -> Unit = {},
+        delay: Long = 600L,
+        action: suspend () -> Unit
+    ) {
         job?.cancel()
         _isImageLoading.value = false
         job = viewModelScope.launch {
             _isImageLoading.value = true
-            delay(600)
-            _bitmap.value?.let { bmp ->
-                val preview = updatePreview(bmp)
-                _previewBitmap.value = null
-                _shouldShowPreview.value = imageManager.canShow(preview)
-                if (shouldShowPreview) _previewBitmap.value = preview
-            }
+            delay(delay)
+            action()
             _isImageLoading.value = false
+            onFinish()
         }
     }
 
@@ -186,7 +195,12 @@ class SingleEditViewModel @Inject constructor(
     private fun setBitmapInfo(newInfo: ImageInfo) {
         if (_imageInfo.value != newInfo || _imageInfo.value.quality == 100f) {
             _imageInfo.value = newInfo
-            checkBitmapAndUpdate(resetPreset = false, resetTelegram = true)
+            debouncedImageCalculation {
+                checkBitmapAndUpdate(
+                    resetPreset = false,
+                    resetTelegram = true
+                )
+            }
         }
     }
 
@@ -199,19 +213,10 @@ class SingleEditViewModel @Inject constructor(
         if (newBitmapComes) {
             _bitmap.value = _internalBitmap.value
         }
-        checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
-    }
-
-    fun updateBitmap(bitmap: Bitmap?) {
-        viewModelScope.launch {
-            val size = bitmap?.let { bitmap.width to bitmap.height }
-            _originalSize.value = size?.run { IntegerSize(width = first, height = second) }
-            _bitmap.value =
-                imageManager.scaleUntilCanShow(bitmap).also { _internalBitmap.value = it }
-            resetValues(true)
-            _imageInfo.value = _imageInfo.value.copy(
-                width = size?.first ?: 0,
-                height = size?.second ?: 0
+        debouncedImageCalculation {
+            checkBitmapAndUpdate(
+                resetPreset = true,
+                resetTelegram = true
             )
         }
     }
@@ -229,7 +234,7 @@ class SingleEditViewModel @Inject constructor(
         }
     }
 
-    fun rotateLeft() {
+    fun rotateBitmapLeft() {
         _imageInfo.value = _imageInfo.value.run {
             copy(
                 rotationDegrees = _imageInfo.value.rotationDegrees - 90f,
@@ -237,10 +242,15 @@ class SingleEditViewModel @Inject constructor(
                 width = height
             )
         }
-        checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
+        debouncedImageCalculation {
+            checkBitmapAndUpdate(
+                resetPreset = false,
+                resetTelegram = false
+            )
+        }
     }
 
-    fun rotateRight() {
+    fun rotateBitmapRight() {
         _imageInfo.value = _imageInfo.value.run {
             copy(
                 rotationDegrees = _imageInfo.value.rotationDegrees + 90f,
@@ -248,53 +258,81 @@ class SingleEditViewModel @Inject constructor(
                 width = height
             )
         }
-        checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
+        debouncedImageCalculation {
+            checkBitmapAndUpdate(
+                resetPreset = false,
+                resetTelegram = false
+            )
+        }
     }
 
-    fun flip() {
+    fun flipImage() {
         _imageInfo.value = _imageInfo.value.copy(isFlipped = !_imageInfo.value.isFlipped)
-        checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
+        debouncedImageCalculation {
+            checkBitmapAndUpdate(
+                resetPreset = false,
+                resetTelegram = false
+            )
+        }
     }
 
     fun updateWidth(width: Int) {
         if (_imageInfo.value.width != width) {
             _imageInfo.value = _imageInfo.value.copy(width = width)
-            checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
+            debouncedImageCalculation {
+                checkBitmapAndUpdate(
+                    resetPreset = true,
+                    resetTelegram = true
+                )
+            }
         }
     }
 
     fun updateHeight(height: Int) {
         if (_imageInfo.value.height != height) {
             _imageInfo.value = _imageInfo.value.copy(height = height)
-            checkBitmapAndUpdate(resetPreset = true, resetTelegram = true)
+            debouncedImageCalculation {
+                checkBitmapAndUpdate(
+                    resetPreset = true,
+                    resetTelegram = true
+                )
+            }
         }
     }
 
     fun setQuality(quality: Float) {
         if (_imageInfo.value.quality != quality) {
             _imageInfo.value = _imageInfo.value.copy(quality = quality.coerceIn(0f, 100f))
-            checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
+            debouncedImageCalculation {
+                checkBitmapAndUpdate(
+                    resetPreset = false,
+                    resetTelegram = false
+                )
+            }
         }
     }
 
     fun setMime(imageFormat: ImageFormat) {
         if (_imageInfo.value.imageFormat != imageFormat) {
             _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
-            if (imageFormat != ImageFormat.Png) checkBitmapAndUpdate(
-                resetPreset = false,
-                resetTelegram = true
-            )
-            else checkBitmapAndUpdate(resetPreset = false, resetTelegram = false)
+            debouncedImageCalculation {
+                checkBitmapAndUpdate(
+                    resetPreset = false,
+                    resetTelegram = imageFormat != ImageFormat.Png
+                )
+            }
         }
     }
 
     fun setResizeType(type: ResizeType) {
         if (_imageInfo.value.resizeType != type) {
             _imageInfo.value = _imageInfo.value.copy(resizeType = type)
-            checkBitmapAndUpdate(
-                resetPreset = false,
-                resetTelegram = false
-            )
+            debouncedImageCalculation {
+                checkBitmapAndUpdate(
+                    resetPreset = false,
+                    resetTelegram = false
+                )
+            }
         }
     }
 
@@ -304,22 +342,42 @@ class SingleEditViewModel @Inject constructor(
 
     fun decodeBitmapByUri(
         uri: Uri,
-        originalSize: Boolean = true,
-        onGetMimeType: (ImageFormat) -> Unit,
-        onGetExif: (ExifInterface?) -> Unit,
-        onGetBitmap: (Bitmap) -> Unit,
         onError: (Throwable) -> Unit
     ) {
+        _isImageLoading.value = true
         imageManager.getImageAsync(
             uri = uri.toString(),
-            originalSize = originalSize,
-            onGetImage = {
-                onGetBitmap(it.image)
-                onGetExif(it.metadata)
-                onGetMimeType(it.imageInfo.imageFormat)
-            },
-            onError = onError
+            originalSize = true,
+            onGetImage = ::setImageData,
+            onError = {
+                _isImageLoading.value = false
+                onError(it)
+            }
         )
+    }
+
+    private fun setImageData(imageData: ImageData<Bitmap, ExifInterface>) {
+        job?.cancel()
+        _isImageLoading.value = false
+        job = viewModelScope.launch {
+            _isImageLoading.value = true
+            updateExif(imageData.metadata)
+            val bitmap = imageData.image
+            val size = bitmap.width to bitmap.height
+            _originalSize.value = size.run { IntegerSize(width = first, height = second) }
+            _bitmap.value =
+                imageManager.scaleUntilCanShow(bitmap).also { _internalBitmap.value = it }
+            resetValues(true)
+            _imageInfo.value = imageData.imageInfo.copy(
+                width = size.first,
+                height = size.second
+            )
+            checkBitmapAndUpdate(
+                resetPreset = false,
+                resetTelegram = imageData.imageInfo.imageFormat != ImageFormat.Png
+            )
+            _isImageLoading.value = false
+        }
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
@@ -364,7 +422,7 @@ class SingleEditViewModel @Inject constructor(
         _exif.value = t
     }
 
-    fun updateExif(exifInterface: ExifInterface?) {
+    private fun updateExif(exifInterface: ExifInterface?) {
         _exif.value = exifInterface
     }
 

@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.core.utils.trimTrailingZero
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
 import kotlin.math.pow
@@ -50,8 +51,8 @@ fun ValueDialog(
                 Text(
                     stringResource(
                         R.string.value_in_range,
-                        valueRange.start.toInt(),
-                        valueRange.endInclusive.toInt()
+                        valueRange.start.toString().trimTrailingZero(),
+                        valueRange.endInclusive.toString().trimTrailingZero()
                     )
                 )
             },

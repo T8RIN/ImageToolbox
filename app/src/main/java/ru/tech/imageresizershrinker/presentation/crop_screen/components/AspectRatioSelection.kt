@@ -34,6 +34,7 @@ import com.smarttoolfactory.cropper.model.CropAspectRatio
 import com.smarttoolfactory.cropper.util.createRectShape
 import com.smarttoolfactory.cropper.widget.AspectRatioSelectionCard
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.core.utils.trimTrailingZero
 import ru.tech.imageresizershrinker.domain.model.AspectRatio.Numeric
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
@@ -167,17 +168,4 @@ fun DomainAspectRatio.toCropAspectRatio(
         shape = createRectShape(AspectRatio(value)),
         aspectRatio = AspectRatio(value)
     )
-}
-
-private fun String.trimTrailingZero(): String {
-    val value = this
-    return if (value.isNotEmpty()) {
-        if (value.indexOf(".") < 0) {
-            value
-        } else {
-            value.replace("0*$".toRegex(), "").replace("\\.$".toRegex(), "")
-        }
-    } else {
-        value
-    }
 }

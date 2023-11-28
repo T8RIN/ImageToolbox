@@ -366,7 +366,6 @@
     <string name="donation">Don</string>
     <string name="image_stitching">Assemblage d\'images</string>
     <string name="image_stitching_sub">Combinez les images choisies pour en obtenir une grande</string>
-    <string name="value_in_range">Valeur dans l\'intervalle %1$d..%2$d</string>
     <string name="horizontal">horizontale</string>
     <string name="images_order">Ordre des images</string>
     <string name="pick_at_least_two_images">Choisissez au moins 2 images</string>

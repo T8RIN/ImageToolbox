@@ -407,7 +407,6 @@
     <string name="color_to_remove">Culoare pentru ștergere</string>
     <string name="tonal_spot_sub">Stilul implicit al paletei, permite personalizarea tuturor celor patru culori, altele vă permit să setați doar culoarea cheie</string>
     <string name="color_to_replace">Culoarea pentru a fi schimbată</string>
-    <string name="value_in_range">Valoare în intervalul %1$d..%2$d</string>
     <string name="output_image_scale">Scara imaginii de ieșire</string>
     <string name="lock_draw_orientation_sub">Dacă este activat în modul desen, ecranul nu se va roti</string>
     <string name="palette_style">Stilul paletului</string>

@@ -403,41 +403,39 @@ fun FiltersScreen(
 
     val controls: @Composable (filterType: Screen.Filter.Type) -> Unit = { filterType ->
         val baseControls: @Composable (wrapped: @Composable () -> Unit) -> Unit = { wrapped ->
-            if (viewModel.bitmap != null) {
-                val internalHeight = rememberAvailableHeight(imageState, showOriginal)
-                LazyColumn(
-                    contentPadding = PaddingValues(
-                        bottom = WindowInsets
-                            .navigationBars
-                            .asPaddingValues()
-                            .calculateBottomPadding() + WindowInsets.ime
-                            .asPaddingValues()
-                            .calculateBottomPadding() + (if (!imageInside && viewModel.bitmap != null) 20.dp else 100.dp),
-                        top = if (viewModel.bitmap == null || !imageInside) 20.dp else 0.dp,
-                        start = 20.dp,
-                        end = 20.dp
-                    ),
-                    modifier = Modifier
-                        .fillMaxHeight(1f)
-                        .clipToBounds()
-                ) {
-                    imageStickyHeader(
-                        visible = imageInside && viewModel.bitmap != null,
-                        internalHeight = internalHeight,
-                        imageState = imageState,
-                        onStateChange = { imageState = it },
-                        imageBlock = imageBlock
-                    )
-                    item {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .navBarsLandscapePadding(viewModel.bitmap == null),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            wrapped()
-                        }
+            val internalHeight = rememberAvailableHeight(imageState, showOriginal)
+            LazyColumn(
+                contentPadding = PaddingValues(
+                    bottom = WindowInsets
+                        .navigationBars
+                        .asPaddingValues()
+                        .calculateBottomPadding() + WindowInsets.ime
+                        .asPaddingValues()
+                        .calculateBottomPadding() + (if (!imageInside && viewModel.bitmap != null) 20.dp else 100.dp),
+                    top = if (viewModel.bitmap == null || !imageInside) 20.dp else 0.dp,
+                    start = 20.dp,
+                    end = 20.dp
+                ),
+                modifier = Modifier
+                    .fillMaxHeight(1f)
+                    .clipToBounds()
+            ) {
+                imageStickyHeader(
+                    visible = imageInside && viewModel.bitmap != null,
+                    internalHeight = internalHeight,
+                    imageState = imageState,
+                    onStateChange = { imageState = it },
+                    imageBlock = imageBlock
+                )
+                item {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .navBarsLandscapePadding(viewModel.bitmap == null),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        wrapped()
                     }
                 }
             }
