@@ -24,7 +24,8 @@ fun Modifier.drawHorizontalStroke(
     height: Dp = Dp.Unspecified,
     autoElevation: Dp = 6.dp,
 ) = composed {
-    val borderWidth = LocalSettingsState.current.borderWidth
+    val settingsState = LocalSettingsState.current
+    val borderWidth = settingsState.borderWidth
     val h = if (height.isUnspecified) {
         borderWidth.takeIf { it > 0.dp }
     } else height
@@ -35,11 +36,24 @@ fun Modifier.drawHorizontalStroke(
     )
 
 
+    val shadow = Modifier
+        .shadowsPlus(
+            type = ShadowsPlusType.SoftLayer,
+            spread = (-2).dp,
+            shape = RectangleShape,
+            radius = animateDpAsState(
+                if (h == null && settingsState.drawAppBarShadows) {
+                    autoElevation
+                } else 0.dp
+            ).value
+        )
+        .zIndex(100f)
+
     if (h == null) {
-        Modifier
+        shadow
     } else {
         val heightPx = with(LocalDensity.current) { h.toPx() }
-        zIndex(20f)
+        zIndex(100f)
             .drawWithContent {
                 drawContent()
                 drawRect(
@@ -48,12 +62,6 @@ fun Modifier.drawHorizontalStroke(
                     size = Size(this.size.width, heightPx)
                 )
             }
+            .then(shadow)
     }
-        .shadowsPlus(
-            type = ShadowsPlusType.SoftLayer,
-            spread = (-2).dp,
-            shape = RectangleShape,
-            radius = animateDpAsState(if (h == null) autoElevation else 0.dp).value
-        )
-        .zIndex(20f)
 }

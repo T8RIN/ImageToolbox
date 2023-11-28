@@ -45,4 +45,5 @@ object Keys {
     val DRAW_FAB_SHADOWS = booleanPreferencesKey("DRAW_FAB_SHADOWS")
     val DRAW_SWITCH_SHADOWS = booleanPreferencesKey("DRAW_SWITCH_SHADOWS")
     val DRAW_SLIDER_SHADOWS = booleanPreferencesKey("DRAW_SLIDER_SHADOWS")
+    val DRAW_APPBAR_SHADOWS = booleanPreferencesKey("DRAW_APPBAR_SHADOWS")
 }

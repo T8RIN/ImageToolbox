@@ -98,4 +98,6 @@ interface SettingsRepository {
     suspend fun toggleInvertColors()
 
     suspend fun toggleScreensSearchEnabled()
+
+    suspend fun toggleDrawAppBarShadows()
 }

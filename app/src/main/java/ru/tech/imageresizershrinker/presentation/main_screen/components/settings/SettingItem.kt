@@ -381,5 +381,9 @@ fun SettingItem(
         Setting.SwitchShadows -> {
             SwitchShadowsSettingItem(onClick = { viewModel.toggleDrawSwitchShadows() })
         }
+
+        Setting.AppBarShadows -> {
+            AppBarShadowsSettingItem(onClick = { viewModel.toggleDrawAppBarShadows() })
+        }
     }
 }

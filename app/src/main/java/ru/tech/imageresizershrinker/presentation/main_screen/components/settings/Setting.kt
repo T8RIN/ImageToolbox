@@ -121,6 +121,11 @@ sealed class Setting(
         subtitle = R.string.container_shadow_sub
     )
 
+    data object AppBarShadows : Setting(
+        title = R.string.app_bar_shadow,
+        subtitle = R.string.app_bar_shadow_sub
+    )
+
     data object SliderShadows : Setting(
         title = R.string.slider_shadow,
         subtitle = R.string.slider_shadow_sub

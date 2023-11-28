@@ -27,6 +27,7 @@ import ru.tech.imageresizershrinker.data.keys.Keys.APP_OPEN_COUNT
 import ru.tech.imageresizershrinker.data.keys.Keys.AUTO_CACHE_CLEAR
 import ru.tech.imageresizershrinker.data.keys.Keys.BORDER_WIDTH
 import ru.tech.imageresizershrinker.data.keys.Keys.COLOR_TUPLES
+import ru.tech.imageresizershrinker.data.keys.Keys.DRAW_APPBAR_SHADOWS
 import ru.tech.imageresizershrinker.data.keys.Keys.DRAW_BUTTON_SHADOWS
 import ru.tech.imageresizershrinker.data.keys.Keys.DRAW_CONTAINER_SHADOWS
 import ru.tech.imageresizershrinker.data.keys.Keys.DRAW_FAB_SHADOWS
@@ -114,6 +115,8 @@ class SettingsRepositoryImpl @Inject constructor(
                 ?: default.drawSliderShadows,
             drawButtonShadows = prefs[DRAW_BUTTON_SHADOWS]
                 ?: default.drawButtonShadows,
+            drawAppBarShadows = prefs[DRAW_APPBAR_SHADOWS]
+                ?: default.drawAppBarShadows,
             appOpenCount = prefs[APP_OPEN_COUNT] ?: default.appOpenCount,
             aspectRatios = default.aspectRatios,
             lockDrawOrientation = prefs[LOCK_DRAW_ORIENTATION] ?: default.lockDrawOrientation,
@@ -166,6 +169,8 @@ class SettingsRepositoryImpl @Inject constructor(
                 ?: default.drawSliderShadows,
             drawButtonShadows = prefs[DRAW_BUTTON_SHADOWS]
                 ?: default.drawButtonShadows,
+            drawAppBarShadows = prefs[DRAW_APPBAR_SHADOWS]
+                ?: default.drawAppBarShadows,
             appOpenCount = prefs[APP_OPEN_COUNT] ?: default.appOpenCount,
             aspectRatios = default.aspectRatios,
             lockDrawOrientation = prefs[LOCK_DRAW_ORIENTATION] ?: default.lockDrawOrientation,
@@ -485,6 +490,13 @@ class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[SCREEN_SEARCH_ENABLED] ?: false
             it[SCREEN_SEARCH_ENABLED] = !v
+        }
+    }
+
+    override suspend fun toggleDrawAppBarShadows() {
+        dataStore.edit {
+            val v = it[DRAW_APPBAR_SHADOWS] ?: true
+            it[DRAW_APPBAR_SHADOWS] = !v
         }
     }
 

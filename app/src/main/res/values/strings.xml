@@ -485,4 +485,6 @@
     <string name="switch_shadow_sub">Enables shadow drawing behind swithces</string>
     <string name="fab_shadow_sub">Enables shadow drawing behind floating action buttons</string>
     <string name="button_shadow_sub">Enables shadow drawing behind default buttons</string>
+    <string name="app_bar_shadow">App Bar Shadow</string>
+    <string name="app_bar_shadow_sub">Enables shadow drawing behind app bars</string>
 </resources>

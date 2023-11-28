@@ -54,6 +54,7 @@ import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewM
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.plus
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.other.Loading
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 
 @Composable
@@ -140,20 +141,27 @@ fun SettingsBlock(
                         )
                         .padding(padding)
                 ) {
+                    val settingsState = LocalSettingsState.current
                     initialSettingGroups.forEach { group ->
-                        SettingGroupItem(
-                            icon = group.icon,
-                            text = stringResource(group.titleId),
-                            initialState = group.initialState
+                        AnimatedVisibility(
+                            visible = if (group is SettingsGroup.Shadows) {
+                                settingsState.borderWidth <= 0.dp
+                            } else true
                         ) {
-                            Column(
-                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                            SettingGroupItem(
+                                icon = group.icon,
+                                text = stringResource(group.titleId),
+                                initialState = group.initialState
                             ) {
-                                group.settingsList.forEach { setting ->
-                                    SettingItem(
-                                        setting = setting,
-                                        viewModel = viewModel
-                                    )
+                                Column(
+                                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+                                    group.settingsList.forEach { setting ->
+                                        SettingItem(
+                                            setting = setting,
+                                            viewModel = viewModel
+                                        )
+                                    }
                                 }
                             }
                         }

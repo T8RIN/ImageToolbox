@@ -75,6 +75,7 @@ sealed class SettingsGroup(
         titleId = R.string.shadows,
         settingsList = listOf(
             Setting.ContainerShadows,
+            Setting.AppBarShadows,
             Setting.ButtonShadows,
             Setting.FABShadows,
             Setting.SwitchShadows,
