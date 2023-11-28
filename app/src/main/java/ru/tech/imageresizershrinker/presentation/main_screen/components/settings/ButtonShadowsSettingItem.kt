@@ -24,8 +24,8 @@ fun ButtonShadowsSettingItem(
         modifier = modifier,
         enabled = settingsState.borderWidth <= 0.dp,
         shape = shape,
-        title = stringResource(R.string.button_shadow),
-        subtitle = stringResource(R.string.button_shadow_sub),
+        title = stringResource(R.string.buttons_shadow),
+        subtitle = stringResource(R.string.buttons_shadow_sub),
         checked = settingsState.drawButtonShadows,
         onClick = onClick,
         startIcon = Icons.Outlined.Gamepad

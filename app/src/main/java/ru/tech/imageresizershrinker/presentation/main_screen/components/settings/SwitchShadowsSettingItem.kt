@@ -24,8 +24,8 @@ fun SwitchShadowsSettingItem(
         modifier = modifier,
         enabled = settingsState.borderWidth <= 0.dp,
         shape = shape,
-        title = stringResource(R.string.switch_shadow),
-        subtitle = stringResource(R.string.switch_shadow_sub),
+        title = stringResource(R.string.switches_shadow),
+        subtitle = stringResource(R.string.switches_shadow_sub),
         checked = settingsState.drawSwitchShadows,
         onClick = onClick,
         startIcon = Icons.Outlined.ToggleOff

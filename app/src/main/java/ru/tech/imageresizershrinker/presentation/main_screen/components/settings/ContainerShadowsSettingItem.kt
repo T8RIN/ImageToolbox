@@ -24,8 +24,8 @@ fun ContainerShadowsSettingItem(
         modifier = modifier,
         enabled = settingsState.borderWidth <= 0.dp,
         shape = shape,
-        title = stringResource(R.string.container_shadow),
-        subtitle = stringResource(R.string.container_shadow_sub),
+        title = stringResource(R.string.containers_shadow),
+        subtitle = stringResource(R.string.containers_shadow_sub),
         checked = settingsState.drawContainerShadows,
         onClick = onClick,
         startIcon = Icons.Outlined.Dashboard

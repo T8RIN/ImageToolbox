@@ -24,8 +24,8 @@ fun AppBarShadowsSettingItem(
         modifier = modifier,
         enabled = settingsState.borderWidth <= 0.dp,
         shape = shape,
-        title = stringResource(R.string.app_bar_shadow),
-        subtitle = stringResource(R.string.app_bar_shadow_sub),
+        title = stringResource(R.string.app_bars_shadow),
+        subtitle = stringResource(R.string.app_bars_shadow_sub),
         checked = settingsState.drawAppBarShadows,
         onClick = onClick,
         startIcon = Icons.Outlined.HorizontalSplit

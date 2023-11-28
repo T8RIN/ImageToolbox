@@ -24,8 +24,8 @@ fun SliderShadowsSettingItem(
         modifier = modifier,
         enabled = settingsState.borderWidth <= 0.dp,
         shape = shape,
-        title = stringResource(R.string.slider_shadow),
-        subtitle = stringResource(R.string.slider_shadow_sub),
+        title = stringResource(R.string.sliders_shadow),
+        subtitle = stringResource(R.string.sliders_shadow_sub),
         checked = settingsState.drawSliderShadows,
         onClick = onClick,
         startIcon = Icons.Rounded.Slider

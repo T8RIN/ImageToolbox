@@ -24,8 +24,8 @@ fun FabShadowsSettingItem(
         modifier = modifier,
         enabled = settingsState.borderWidth <= 0.dp,
         shape = shape,
-        title = stringResource(R.string.fab_shadow),
-        subtitle = stringResource(R.string.fab_shadow_sub),
+        title = stringResource(R.string.fabs_shadow),
+        subtitle = stringResource(R.string.fabs_shadow_sub),
         checked = settingsState.drawFabShadows,
         onClick = onClick,
         startIcon = Icons.Rounded.FloatingActionButton
