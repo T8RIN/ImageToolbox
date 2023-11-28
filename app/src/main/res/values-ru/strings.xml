@@ -451,7 +451,7 @@
     <string name="pen">Ручка</string>
     <string name="privacy_blur_sub">Размывает изображение под вашим пальцем чтобы защитить все что вы хотите спрятать</string>
     <string name="pen_sub">Изначальный режим, самый простой - только цвет</string>
-    <string name="sliders_shadow">Слайдер</string>
+    <string name="sliders_shadow">Слайдеры</string>
     <string name="highlighter_sub">Выделите что либо полупрозрачной заливкой</string>
     <string name="highlighter">Выделитель</string>
     <string name="simple_variants">Простые Варианты</string>
@@ -459,10 +459,10 @@
     <string name="privacy_blur">Приватное Размытие</string>
     <string name="containers_shadow">Контейнеры</string>
     <string name="auto_rotate_limits">Авто поворот</string>
-    <string name="buttons_shadow">Кнопка</string>
-    <string name="fabs_shadow">Левитирующая кнопка</string>
+    <string name="buttons_shadow">Кнопки</string>
+    <string name="fabs_shadow">Левитирующие кнопки</string>
     <string name="fabs_shadow_sub">Включает тени под левитирующими кнопками</string>
-    <string name="switches_shadow">Переключатель</string>
+    <string name="switches_shadow">Переключатели</string>
     <string name="auto_rotate_limits_sub">Позволяет лимитным размерам адаптироваться под ориентацию изображения</string>
     <string name="sliders_shadow_sub">Включает тени под слайдерами</string>
     <string name="app_bars_shadow_sub">Включает тени под панелями действий</string>
