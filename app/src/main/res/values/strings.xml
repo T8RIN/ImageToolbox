@@ -474,12 +474,12 @@
     <string name="pen_sub">Default one, simplest - just the color</string>
     <string name="privacy_blur_sub">Blurs image under the drawed path to secure anything you want to hide</string>
     <string name="pixelation_sub">Similar to privacy blur, but pixelates instead of bluring</string>
-    <string name="container_shadow">Container Shadow</string>
+    <string name="container_shadow">Container</string>
     <string name="container_shadow_sub">Enables shadow drawing behind containers</string>
-    <string name="slider_shadow">Slider Shadow</string>
-    <string name="switch_shadow">Switch Shadow</string>
-    <string name="fab_shadow">FAB Shadow</string>
-    <string name="button_shadow">Button Shadow</string>
+    <string name="slider_shadow">Slider</string>
+    <string name="switch_shadow">Switch</string>
+    <string name="fab_shadow">FAB</string>
+    <string name="button_shadow">Button</string>
     <string name="slider_shadow_sub">Enables shadow drawing behind sliders</string>
     <string name="switch_shadow_sub">Enables shadow drawing behind swithces</string>
     <string name="fab_shadow_sub">Enables shadow drawing behind floating action buttons</string>
