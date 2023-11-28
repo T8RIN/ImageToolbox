@@ -1,5 +1,6 @@
 package com.smarttoolfactory.beforeafter
 
+import android.graphics.Bitmap
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -40,7 +41,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.IntSize
-import androidx.core.graphics.BitmapCompat
 import com.smarttoolfactory.beforeafter.util.getParentSize
 import com.smarttoolfactory.beforeafter.util.getScaledBitmapRect
 import com.smarttoolfactory.beforeafter.util.scale
@@ -444,11 +444,11 @@ private fun ImageBitmap.scaleTo(
         if (this.height >= this.width) {
             val aspectRatio = this.width.toDouble() / this.height.toDouble()
             val targetWidth = (max * aspectRatio).toInt()
-            BitmapCompat.createScaledBitmap(this.asAndroidBitmap(), targetWidth, max, null, false)
+            Bitmap.createScaledBitmap(this.asAndroidBitmap(), targetWidth, max, true)
         } else {
             val aspectRatio = this.height.toDouble() / this.width.toDouble()
             val targetHeight = (max * aspectRatio).toInt()
-            BitmapCompat.createScaledBitmap(this.asAndroidBitmap(), max, targetHeight, null, false)
+            Bitmap.createScaledBitmap(this.asAndroidBitmap(), max, targetHeight, true)
         }
     }.getOrNull()?.asImageBitmap() ?: this
 }

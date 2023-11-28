@@ -238,12 +238,9 @@ class AndroidImageManager @Inject constructor(
 
         return@withContext when (resizeType) {
             ResizeType.Explicit -> {
-                BitmapCompat.createScaledBitmap(
-                    image,
-                    widthInternal,
-                    heightInternal,
-                    null,
-                    true
+                image.createScaledBitmap(
+                    width = widthInternal,
+                    height = heightInternal
                 )
             }
 
@@ -277,11 +274,11 @@ class AndroidImageManager @Inject constructor(
             if (image.height >= image.width) {
                 val aspectRatio = image.width.toDouble() / image.height.toDouble()
                 val targetWidth = (max * aspectRatio).toInt()
-                BitmapCompat.createScaledBitmap(image, targetWidth, max, null, true)
+                image.createScaledBitmap(targetWidth, max)
             } else {
                 val aspectRatio = image.height.toDouble() / image.width.toDouble()
                 val targetHeight = (max * aspectRatio).toInt()
-                BitmapCompat.createScaledBitmap(image, max, targetHeight, null, true)
+                image.createScaledBitmap(max, targetHeight)
             }
         }.getOrNull() ?: image
     }
@@ -1209,12 +1206,9 @@ class AndroidImageManager @Inject constructor(
                 val xScale: Float = w.toFloat() / it.width
                 val yScale: Float = h.toFloat() / it.height
                 val scale = xScale.coerceAtLeast(yScale)
-                BitmapCompat.createScaledBitmap(
-                    it,
-                    (scale * it.width).toInt(),
-                    (scale * it.height).toInt(),
-                    null,
-                    true
+                it.createScaledBitmap(
+                    width = (scale * it.width).toInt(),
+                    height = (scale * it.height).toInt()
                 )
             },
             transformations = listOf(
@@ -1223,12 +1217,9 @@ class AndroidImageManager @Inject constructor(
                 )
             )
         )
-        val drawImage = BitmapCompat.createScaledBitmap(
-            image,
-            (image.width * scaleFactor).toInt(),
-            (image.height * scaleFactor).toInt(),
-            null,
-            true
+        val drawImage = image.createScaledBitmap(
+            width = (image.width * scaleFactor).toInt(),
+            height = (image.height * scaleFactor).toInt()
         )
         val canvas = Bitmap.createBitmap(w, h, drawImage.config).apply { setHasAlpha(true) }
         Canvas(canvas).apply {
@@ -1338,20 +1329,35 @@ class AndroidImageManager @Inject constructor(
         size: IntegerSize
     ): Bitmap {
         return if (isHorizontal) {
+            createScaledBitmap(
+                width = (size.height * aspectRatio).toInt(),
+                height = size.height
+            )
+        } else {
+            createScaledBitmap(
+                width = size.width,
+                height = (size.width / aspectRatio).toInt()
+            )
+        }
+    }
+
+    private fun Bitmap.createScaledBitmap(
+        width: Int,
+        height: Int
+    ): Bitmap {
+        if (width == this.width && height == this.height) return this
+
+        return if (width < this.width && height < this.height) {
             BitmapCompat.createScaledBitmap(
                 this,
-                (size.height * aspectRatio).toInt(),
-                size.height,
+                width,
+                height,
                 null,
                 true
             )
         } else {
-            BitmapCompat.createScaledBitmap(
-                this,
-                size.width,
-                (size.width / aspectRatio).toInt(),
-                null,
-                true
+            Bitmap.createScaledBitmap(
+                this, width, height, true
             )
         }
     }

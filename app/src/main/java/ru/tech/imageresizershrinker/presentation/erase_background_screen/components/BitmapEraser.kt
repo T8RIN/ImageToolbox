@@ -45,7 +45,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.BitmapCompat
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import com.smarttoolfactory.image.util.update
@@ -56,6 +55,7 @@ import ru.tech.imageresizershrinker.domain.image.draw.Pt
 import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.presentation.root.model.UiPathPaint
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.createScaledBitmap
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.scaleToFitCanvas
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
 
@@ -112,25 +112,23 @@ fun BitmapEraser(
 
 
             val drawImageBitmap = remember(constraints) {
-                BitmapCompat.createScaledBitmap(
-                    imageBitmap.asAndroidBitmap(),
-                    imageWidth,
-                    imageHeight,
-                    null,
-                    true
-                ).asImageBitmap()
+                imageBitmap
+                    .asAndroidBitmap()
+                    .createScaledBitmap(
+                        width = imageWidth,
+                        height = imageHeight
+                    )
+                    .asImageBitmap()
             }
 
             val shaderBitmap = remember(imageBitmapForShader, constraints) {
-                imageBitmapForShader?.asAndroidBitmap()?.let {
-                    BitmapCompat.createScaledBitmap(
-                        it,
+                imageBitmapForShader
+                    ?.asAndroidBitmap()
+                    ?.createScaledBitmap(
                         imageWidth,
-                        imageHeight,
-                        null,
-                        true
-                    ).asImageBitmap()
-                }
+                        imageHeight
+                    )
+                    ?.asImageBitmap()
             }
 
             val erasedBitmap: ImageBitmap = remember(constraints) {

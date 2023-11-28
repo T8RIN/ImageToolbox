@@ -16,7 +16,6 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toComposeRect
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
-import androidx.core.graphics.BitmapCompat
 import com.smarttoolfactory.cropper.model.CropImageMask
 import com.smarttoolfactory.cropper.model.CropOutline
 import com.smarttoolfactory.cropper.model.CropPath
@@ -130,12 +129,11 @@ class CropAgent {
 
             is CropImageMask -> {
 
-                val imageMask = BitmapCompat.createScaledBitmap(
+                val imageMask = Bitmap.createScaledBitmap(
                     cropOutline.image.asAndroidBitmap(),
                     cropRect.width.toInt(),
                     cropRect.height.toInt(),
-                    null,
-                    false
+                    true
                 ).asImageBitmap()
 
                 Canvas(image = imageToCrop).run {

@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.OpenableColumns
+import androidx.core.graphics.BitmapCompat
 import androidx.core.text.isDigitsOnly
 import androidx.exifinterface.media.ExifInterface
 import ru.tech.imageresizershrinker.domain.image.Metadata
@@ -70,6 +71,27 @@ object ImageUtils {
         else if (this.isDigitsOnly() && (this.toIntOrNull() ?: 0) == 0) ""
         else this.trim().filter {
             !listOf('-', '.', ',', ' ', "\n").contains(it)
+        }
+    }
+
+    fun Bitmap.createScaledBitmap(
+        width: Int,
+        height: Int
+    ): Bitmap {
+        if (width == this.width && height == this.height) return this
+
+        return if (width < this.width && height < this.height) {
+            BitmapCompat.createScaledBitmap(
+                this,
+                width,
+                height,
+                null,
+                true
+            )
+        } else {
+            Bitmap.createScaledBitmap(
+                this, width, height, true
+            )
         }
     }
 

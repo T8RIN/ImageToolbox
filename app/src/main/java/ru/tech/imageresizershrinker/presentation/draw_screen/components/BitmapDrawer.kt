@@ -44,7 +44,6 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.BitmapCompat
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import com.smarttoolfactory.image.util.update
@@ -61,6 +60,7 @@ import ru.tech.imageresizershrinker.presentation.root.model.UiPathPaint
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiPixelationFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiStackBlurFilter
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.createScaledBitmap
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rotateVector
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.scaleToFitCanvas
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
@@ -117,12 +117,9 @@ fun BitmapDrawer(
             val imageHeight = constraints.maxHeight
 
             val drawImageBitmap = remember(constraints, backgroundColor) {
-                BitmapCompat.createScaledBitmap(
-                    imageBitmap.asAndroidBitmap(),
-                    imageWidth,
-                    imageHeight,
-                    null,
-                    true
+                imageBitmap.asAndroidBitmap().createScaledBitmap(
+                    width = imageWidth,
+                    height = imageHeight
                 ).apply {
                     val canvas = AndroidCanvas(this)
                     val paint = android.graphics.Paint().apply {
@@ -432,15 +429,10 @@ fun BitmapDrawer(
             }
 
             val shaderBitmap = remember(pathEffectBitmap) {
-                pathEffectBitmap?.asAndroidBitmap()?.let {
-                    BitmapCompat.createScaledBitmap(
-                        it,
-                        imageWidth,
-                        imageHeight,
-                        null,
-                        true
-                    ).asImageBitmap()
-                }
+                pathEffectBitmap?.asAndroidBitmap()?.createScaledBitmap(
+                    width = imageWidth,
+                    height = imageHeight
+                )?.asImageBitmap()
             }
 
             if (drawMode is DrawMode.PathEffect && shaderBitmap != null && !isEraserOn) {

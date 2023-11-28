@@ -6,7 +6,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.core.graphics.BitmapCompat
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,6 +22,7 @@ import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.createScaledBitmap
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -204,7 +204,7 @@ class CompareViewModel @Inject constructor(
     private fun Bitmap.overlay(overlay: Bitmap, percent: Float): Bitmap {
         val finalBitmap = overlay.copy(overlay.config, true).apply { setHasAlpha(true) }
         val canvas = android.graphics.Canvas(finalBitmap)
-        val image = BitmapCompat.createScaledBitmap(this, canvas.width, canvas.height, null, true)
+        val image = createScaledBitmap(canvas.width, canvas.height)
         kotlin.runCatching {
             canvas.drawBitmap(
                 Bitmap.createBitmap(
