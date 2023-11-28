@@ -469,10 +469,10 @@
     <string name="neon">Neon</string>
     <string name="pen">Pen</string>
     <string name="privacy_blur">Privacy Blur</string>
-    <string name="highlighter_sub">Draw semi-transparent sharpened highligher paths</string>
+    <string name="highlighter_sub">Draw semi-transparent sharpened highlighter paths</string>
     <string name="neon_sub">Add some glowing effect to your drawings</string>
     <string name="pen_sub">Default one, simplest - just the color</string>
-    <string name="privacy_blur_sub">Blurs image under the drawed path to secure anything you want to hide</string>
+    <string name="privacy_blur_sub">Blurs image under the drawn path to secure anything you want to hide</string>
     <string name="pixelation_sub">Similar to privacy blur, but pixelates instead of bluring</string>
     <string name="container_shadow">Container</string>
     <string name="container_shadow_sub">Enables shadow drawing behind containers</string>
@@ -481,7 +481,7 @@
     <string name="fab_shadow">FAB</string>
     <string name="button_shadow">Button</string>
     <string name="slider_shadow_sub">Enables shadow drawing behind sliders</string>
-    <string name="switch_shadow_sub">Enables shadow drawing behind swithces</string>
+    <string name="switch_shadow_sub">Enables shadow drawing behind switches</string>
     <string name="fab_shadow_sub">Enables shadow drawing behind floating action buttons</string>
     <string name="button_shadow_sub">Enables shadow drawing behind default buttons</string>
     <string name="app_bar_shadow">App Bar Shadow</string>
