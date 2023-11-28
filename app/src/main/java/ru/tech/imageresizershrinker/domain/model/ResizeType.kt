@@ -11,10 +11,25 @@ sealed class ResizeType : Domain {
         val blurRadius: Int = 35
     ) : ResizeType()
 
-    sealed class Limits : ResizeType() {
-        data object Skip : Limits()
-        data object Recode : Limits()
-        data object Zoom : Limits()
+    sealed class Limits(val autoRotateLimitBox: Boolean) : ResizeType() {
+
+        fun copy(autoRotateLimitBox: Boolean) = when (this) {
+            is Recode -> Recode(autoRotateLimitBox)
+            is Skip -> Skip(autoRotateLimitBox)
+            is Zoom -> Zoom(autoRotateLimitBox)
+        }
+
+        class Skip(
+            autoRotateLimitBox: Boolean = false
+        ) : Limits(autoRotateLimitBox)
+
+        class Recode(
+            autoRotateLimitBox: Boolean = false
+        ) : Limits(autoRotateLimitBox)
+
+        class Zoom(
+            autoRotateLimitBox: Boolean = false
+        ) : Limits(autoRotateLimitBox)
     }
 
     companion object {
@@ -27,9 +42,9 @@ sealed class ResizeType : Domain {
         }
         val limitsEntries by lazy {
             listOf(
-                Limits.Skip,
-                Limits.Recode,
-                Limits.Zoom
+                Limits.Skip(),
+                Limits.Recode(),
+                Limits.Zoom()
             )
         }
     }

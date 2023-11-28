@@ -291,41 +291,53 @@ class AndroidImageManager @Inject constructor(
         width: Int,
         height: Int
     ): Bitmap? {
-        if (image.height > height || image.width > width) {
-            if (image.aspectRatio > width / height.toFloat()) {
+        val limitWidth: Int
+        val limitHeight: Int
+
+        if (autoRotateLimitBox && image.aspectRatio < 1f) {
+            limitWidth = height
+            limitHeight = width
+        } else {
+            limitWidth = width
+            limitHeight = height
+        }
+        val limitAspectRatio = limitWidth / limitHeight.toFloat()
+
+        if (image.height > limitHeight || image.width > limitWidth) {
+            if (image.aspectRatio > limitAspectRatio) {
                 return resize(
                     image = image,
-                    width = width,
-                    height = width,
+                    width = limitWidth,
+                    height = limitWidth,
                     resizeType = ResizeType.Flexible
                 )
-            } else if (image.aspectRatio < width / height.toFloat()) {
+            } else if (image.aspectRatio < limitAspectRatio) {
                 return resize(
                     image = image,
-                    width = height,
-                    height = height,
+                    width = limitHeight,
+                    height = limitHeight,
                     resizeType = ResizeType.Flexible
                 )
             } else {
                 return resize(
                     image = image,
-                    width = width,
-                    height = height,
+                    width = limitWidth,
+                    height = limitHeight,
                     resizeType = ResizeType.Flexible
                 )
             }
         } else {
             return when (this) {
-                ResizeType.Limits.Recode -> image
+                is ResizeType.Limits.Recode -> image
 
-                ResizeType.Limits.Zoom -> resize(
+                is ResizeType.Limits.Zoom -> resize(
                     image = image,
-                    width = width,
-                    height = height,
+                    width = limitWidth,
+                    height = limitHeight,
                     resizeType = ResizeType.Flexible
                 )
 
-                ResizeType.Limits.Skip -> null
+                is ResizeType.Limits.Skip -> null
             }
         }
     }

@@ -24,6 +24,7 @@ import ru.tech.imageresizershrinker.domain.model.ResizeType
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,16 +36,16 @@ class LimitsResizeViewModel @Inject constructor(
     private val _originalSize: MutableState<IntegerSize?> = mutableStateOf(null)
     val originalSize by _originalSize
 
-    private val _canSave = mutableStateOf(false)
+    private val _canSave: MutableState<Boolean> = mutableStateOf(false)
     val canSave by _canSave
 
-    private val _uris = mutableStateOf<List<Uri>?>(null)
+    private val _uris: MutableState<List<Uri>?> = mutableStateOf(null)
     val uris by _uris
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
 
-    private val _keepExif = mutableStateOf(false)
+    private val _keepExif: MutableState<Boolean> = mutableStateOf(false)
     val keepExif by _keepExif
 
     private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
@@ -62,8 +63,12 @@ class LimitsResizeViewModel @Inject constructor(
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
 
-    private val _imageInfo = mutableStateOf(ImageInfo(resizeType = ResizeType.Limits.Recode))
+    private val _imageInfo: MutableState<ImageInfo> = mutableStateOf(ImageInfo())
     val imageInfo by _imageInfo
+
+    private val _resizeType: MutableState<ResizeType.Limits> =
+        mutableStateOf(ResizeType.Limits.Recode())
+    val resizeType by _resizeType
 
     fun setMime(imageFormat: ImageFormat) {
         _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
@@ -133,14 +138,15 @@ class LimitsResizeViewModel @Inject constructor(
                         image = bitmap,
                         width = imageInfo.width,
                         height = imageInfo.height,
-                        resizeType = imageInfo.resizeType
+                        resizeType = resizeType
                     )
                 }?.let { localBitmap ->
                     val result = fileController.save(
                         ImageSaveTarget<ExifInterface>(
                             imageInfo = imageInfo.copy(
                                 width = localBitmap.width,
-                                height = localBitmap.height
+                                height = localBitmap.height,
+                                resizeType = resizeType
                             ),
                             originalUri = uri.toString(),
                             sequenceNumber = _done.value + 1,
@@ -149,7 +155,8 @@ class LimitsResizeViewModel @Inject constructor(
                                     image = localBitmap,
                                     imageInfo = imageInfo.copy(
                                         width = localBitmap.width,
-                                        height = localBitmap.height
+                                        height = localBitmap.height,
+                                        resizeType = resizeType
                                     )
                                 )
                             )
@@ -210,16 +217,18 @@ class LimitsResizeViewModel @Inject constructor(
                 imageLoader = { uri ->
                     imageManager.getImage(uri)?.image?.let { bitmap: Bitmap ->
                         imageManager.resize(
-                            bitmap,
-                            imageInfo.width,
-                            imageInfo.height,
-                            imageInfo.resizeType
+                            image = bitmap,
+                            width = imageInfo.width,
+                            height = imageInfo.height,
+                            resizeType = resizeType
                         )
                     }?.let {
                         ImageData(
-                            it, imageInfo.copy(
+                            image = it,
+                            imageInfo = imageInfo.copy(
                                 width = it.width,
-                                height = it.height
+                                height = it.height,
+                                resizeType = resizeType
                             )
                         )
                     }
@@ -260,14 +269,18 @@ class LimitsResizeViewModel @Inject constructor(
         _imageInfo.value = _imageInfo.value.copy(quality = fl.coerceIn(0f, 100f))
     }
 
-    fun setResizeType(resizeType: ResizeType) {
-        _imageInfo.value = _imageInfo.value.copy(resizeType = resizeType)
+    fun setResizeType(resizeType: ResizeType.Limits) {
+        _resizeType.value = resizeType
     }
 
     fun cancelSaving() {
         savingJob?.cancel()
         savingJob = null
         _isSaving.value = false
+    }
+
+    fun toggleAutoRotateLimitBox() {
+        _resizeType.update { it.copy(!it.autoRotateLimitBox) }
     }
 
 }

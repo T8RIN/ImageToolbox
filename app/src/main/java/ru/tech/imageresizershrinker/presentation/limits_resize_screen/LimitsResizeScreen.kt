@@ -65,6 +65,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.presentation.limits_resize_screen.components.AutoRotateLimitBoxToggle
 import ru.tech.imageresizershrinker.presentation.limits_resize_screen.components.LimitsResizeGroup
 import ru.tech.imageresizershrinker.presentation.limits_resize_screen.viewModel.LimitsResizeViewModel
 import ru.tech.imageresizershrinker.presentation.root.transformation.ImageInfoTransformation
@@ -405,9 +406,14 @@ fun LimitsResizeScreen(
                                         onFormatChange = viewModel::setMime
                                     )
                                     Spacer(Modifier.size(8.dp))
+                                    AutoRotateLimitBoxToggle(
+                                        value = viewModel.resizeType.autoRotateLimitBox,
+                                        onClick = viewModel::toggleAutoRotateLimitBox
+                                    )
+                                    Spacer(Modifier.size(8.dp))
                                     LimitsResizeGroup(
                                         enabled = viewModel.bitmap != null,
-                                        resizeType = viewModel.imageInfo.resizeType,
+                                        resizeType = viewModel.resizeType,
                                         onResizeChange = viewModel::setResizeType
                                     )
                                 } else if (!viewModel.isImageLoading) {
