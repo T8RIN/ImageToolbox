@@ -18,7 +18,11 @@ sealed class DrawMode(open val ordinal: Int) {
     companion object {
         val entries by lazy {
             listOf(
-                Pen, PathEffect.PrivacyBlur(), Neon, Highlighter, PathEffect.Pixelation()
+                Pen,
+                PathEffect.PrivacyBlur(),
+                Neon,
+                Highlighter,
+                PathEffect.Pixelation()
             )
         }
 

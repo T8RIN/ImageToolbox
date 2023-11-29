@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.isUnspecified
+import androidx.compose.ui.geometry.takeOrElse
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asAndroidPath
+import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
@@ -53,6 +54,7 @@ import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.draw.DrawMode
+import ru.tech.imageresizershrinker.domain.image.draw.DrawPathMode
 import ru.tech.imageresizershrinker.domain.image.draw.Pt
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.domain.model.IntegerSize
@@ -80,7 +82,7 @@ fun BitmapDrawer(
     isEraserOn: Boolean,
     drawMode: DrawMode,
     modifier: Modifier,
-    drawArrowsEnabled: Boolean,
+    drawPathMode: DrawPathMode = DrawPathMode.Free,
     onDrawStart: (Bitmap) -> Unit = {},
     onDraw: (Bitmap) -> Unit = {},
     onDrawFinish: (Bitmap) -> Unit = {},
@@ -108,10 +110,9 @@ fun BitmapDrawer(
     ) {
         BoxWithConstraints(modifier) {
             var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
-            // This is our motion event we get from touch motion
             var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
-            // This is previous motion event before next touch is saved into this current position
             var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
+            var downPosition by remember { mutableStateOf(Offset.Unspecified) }
 
             val imageWidth = constraints.maxWidth
             val imageHeight = constraints.maxHeight
@@ -240,6 +241,14 @@ fun BitmapDrawer(
                 brushSoftness
             ) { mutableStateOf(Path()) }
 
+            var pathWithoutTransformations by remember(
+                drawMode,
+                strokeWidth,
+                isEraserOn,
+                drawColor,
+                brushSoftness
+            ) { mutableStateOf(Path()) }
+
             LaunchedEffect(paths, drawMode, backgroundColor, constraints) {
                 invalidations++
             }
@@ -252,52 +261,91 @@ fun BitmapDrawer(
                             onDrawStart(outputImage.overlay(drawPathBitmap).asAndroidBitmap())
                             drawPath.moveTo(currentPosition.x, currentPosition.y)
                             previousPosition = currentPosition
+                            pathWithoutTransformations = drawPath
                         }
 
                         MotionEvent.Move -> {
-                            drawPath.quadraticBezierTo(
-                                previousPosition.x,
-                                previousPosition.y,
-                                (previousPosition.x + currentPosition.x) / 2,
-                                (previousPosition.y + currentPosition.y) / 2
-                            )
-                            previousPosition = currentPosition
+                            when (drawPathMode) {
+                                DrawPathMode.DoubleLinePointingArrow,
+                                DrawPathMode.Line,
+                                DrawPathMode.LinePointingArrow -> {
+                                    val newPath = Path().apply {
+                                        moveTo(downPosition.x, downPosition.y)
+                                        lineTo(currentPosition.x, currentPosition.y)
+                                    }
+                                    drawPathMode.drawSpecificPartsIfNeeded(
+                                        drawPath = newPath,
+                                        strokeWidth = strokeWidth,
+                                        canvasSize = canvasSize
+                                    )
+                                    drawPath = newPath
+                                }
+
+                                DrawPathMode.PointingArrow,
+                                DrawPathMode.DoublePointingArrow -> {
+                                    drawPath = pathWithoutTransformations
+                                    drawPath.quadraticBezierTo(
+                                        previousPosition.x,
+                                        previousPosition.y,
+                                        (previousPosition.x + currentPosition.x) / 2,
+                                        (previousPosition.y + currentPosition.y) / 2
+                                    )
+                                    previousPosition = currentPosition
+
+                                    pathWithoutTransformations = drawPath.copy()
+
+                                    drawPathMode.drawSpecificPartsIfNeeded(
+                                        drawPath = drawPath,
+                                        strokeWidth = strokeWidth,
+                                        canvasSize = canvasSize
+                                    )
+                                }
+
+                                else -> {
+                                    drawPath.quadraticBezierTo(
+                                        previousPosition.x,
+                                        previousPosition.y,
+                                        (previousPosition.x + currentPosition.x) / 2,
+                                        (previousPosition.y + currentPosition.y) / 2
+                                    )
+                                    previousPosition = currentPosition
+                                }
+                            }
                         }
 
                         MotionEvent.Up -> {
-                            drawPath.lineTo(currentPosition.x, currentPosition.y)
-
-                            if (drawArrowsEnabled && !isEraserOn) {
-                                val preLastPoint = PathMeasure().apply {
-                                    setPath(drawPath, false)
-                                }.let {
-                                    it.getPosition(it.length - strokeWidth.toPx(canvasSize) * 3f)
-                                }.let { if (it.isUnspecified) Offset.Zero else it }
-
-                                val lastPoint = currentPosition.let {
-                                    if (it.isUnspecified) Offset.Zero else it
-                                }
-
-                                val arrowVector = lastPoint - preLastPoint
-                                fun drawArrow() {
-
-                                    val (rx1, ry1) = arrowVector.rotateVector(150.0)
-                                    val (rx2, ry2) = arrowVector.rotateVector(210.0)
-
-
-                                    drawPath.apply {
-                                        relativeLineTo(rx1, ry1)
-                                        moveTo(lastPoint.x, lastPoint.y)
-                                        relativeLineTo(rx2, ry2)
+                            when (drawPathMode) {
+                                DrawPathMode.DoubleLinePointingArrow,
+                                DrawPathMode.Line,
+                                DrawPathMode.LinePointingArrow -> {
+                                    drawPath = Path().apply {
+                                        moveTo(downPosition.x, downPosition.y)
+                                        lineTo(currentPosition.x, currentPosition.y)
+                                    }
+                                    if (!isEraserOn) {
+                                        drawPathMode.drawSpecificPartsIfNeeded(
+                                            drawPath = drawPath,
+                                            strokeWidth = strokeWidth,
+                                            canvasSize = canvasSize
+                                        )
                                     }
                                 }
 
-                                if (abs(arrowVector.x) < 3f * strokeWidth.toPx(canvasSize) && abs(
-                                        arrowVector.y
-                                    ) < 3f * strokeWidth.toPx(canvasSize) && preLastPoint != Offset.Zero
-                                ) {
-                                    drawArrow()
+                                DrawPathMode.PointingArrow,
+                                DrawPathMode.DoublePointingArrow -> {
+                                    drawPath = pathWithoutTransformations
+                                    drawPath.lineTo(currentPosition.x, currentPosition.y)
+
+                                    if (!isEraserOn) {
+                                        drawPathMode.drawSpecificPartsIfNeeded(
+                                            drawPath = drawPath,
+                                            strokeWidth = strokeWidth,
+                                            canvasSize = canvasSize
+                                        )
+                                    }
                                 }
+
+                                else -> drawPath.lineTo(currentPosition.x, currentPosition.y)
                             }
 
                             currentPosition = Offset.Unspecified
@@ -317,6 +365,8 @@ fun BitmapDrawer(
                             scope.launch {
                                 if (drawMode is DrawMode.PathEffect && !isEraserOn) Unit
                                 else drawPath = Path()
+
+                                pathWithoutTransformations = Path()
                             }
                             onDrawFinish(outputImage.overlay(drawPathBitmap).asAndroidBitmap())
                         }
@@ -468,6 +518,7 @@ fun BitmapDrawer(
                 onDown = { pointerInputChange ->
                     motionEvent = MotionEvent.Down
                     currentPosition = pointerInputChange.position
+                    downPosition = pointerInputChange.position
                     pointerInputChange.consume()
                     invalidations++
                 },
@@ -511,6 +562,43 @@ fun BitmapDrawer(
     }
 }
 
+private fun Path.copy(): Path = android.graphics.Path(this.asAndroidPath()).asComposePath()
+
+private fun DrawPathMode.drawSpecificPartsIfNeeded(
+    drawPath: Path,
+    strokeWidth: Pt,
+    canvasSize: IntegerSize
+) {
+    when (this) {
+        DrawPathMode.DoublePointingArrow,
+        DrawPathMode.DoubleLinePointingArrow -> {
+
+            drawEndArrow(
+                drawPath = drawPath,
+                strokeWidth = strokeWidth,
+                canvasSize = canvasSize
+            )
+
+            drawStartArrow(
+                drawPath = drawPath,
+                strokeWidth = strokeWidth,
+                canvasSize = canvasSize
+            )
+        }
+
+        DrawPathMode.PointingArrow,
+        DrawPathMode.LinePointingArrow -> {
+            drawEndArrow(
+                drawPath = drawPath,
+                strokeWidth = strokeWidth,
+                canvasSize = canvasSize
+            )
+        }
+
+        else -> Unit
+    }
+}
+
 private fun ImageBitmap.clipBitmap(
     path: Path,
     paint: Paint,
@@ -535,4 +623,78 @@ private fun ImageBitmap.overlay(overlay: ImageBitmap): ImageBitmap {
     canvas.drawBitmap(image, Matrix(), null)
     canvas.drawBitmap(overlay.asAndroidBitmap(), 0f, 0f, null)
     return finalBitmap.asImageBitmap()
+}
+
+private fun drawEndArrow(
+    drawPath: Path,
+    strokeWidth: Pt,
+    canvasSize: IntegerSize
+) {
+    val (preLastPoint, lastPoint) = PathMeasure().apply {
+        setPath(drawPath, false)
+    }.let {
+        Pair(
+            it.getPosition(it.length - strokeWidth.toPx(canvasSize) * 3f)
+                .takeOrElse { Offset.Zero },
+            it.getPosition(it.length).takeOrElse { Offset.Zero }
+        )
+    }
+
+    val arrowVector = lastPoint - preLastPoint
+    fun drawArrow() {
+
+        val (rx1, ry1) = arrowVector.rotateVector(150.0)
+        val (rx2, ry2) = arrowVector.rotateVector(210.0)
+
+
+        drawPath.apply {
+            relativeLineTo(rx1, ry1)
+            moveTo(lastPoint.x, lastPoint.y)
+            relativeLineTo(rx2, ry2)
+        }
+    }
+
+    if (abs(arrowVector.x) < 3f * strokeWidth.toPx(canvasSize) && abs(
+            arrowVector.y
+        ) < 3f * strokeWidth.toPx(canvasSize) && preLastPoint != Offset.Zero
+    ) {
+        drawArrow()
+    }
+}
+
+private fun drawStartArrow(
+    drawPath: Path,
+    strokeWidth: Pt,
+    canvasSize: IntegerSize
+) {
+    val (firstPoint, secondPoint) = PathMeasure().apply {
+        setPath(drawPath, false)
+    }.let {
+        Pair(
+            it.getPosition(0f).takeOrElse { Offset.Zero },
+            it.getPosition(strokeWidth.toPx(canvasSize) * 3f).takeOrElse { Offset.Zero }
+        )
+    }
+
+    val arrowVector = firstPoint - secondPoint
+    fun drawArrow() {
+
+        val (rx1, ry1) = arrowVector.rotateVector(150.0)
+        val (rx2, ry2) = arrowVector.rotateVector(210.0)
+
+
+        drawPath.apply {
+            moveTo(firstPoint.x, firstPoint.y)
+            relativeLineTo(rx1, ry1)
+            moveTo(firstPoint.x, firstPoint.y)
+            relativeLineTo(rx2, ry2)
+        }
+    }
+
+    if (abs(arrowVector.x) < 3f * strokeWidth.toPx(canvasSize) && abs(
+            arrowVector.y
+        ) < 3f * strokeWidth.toPx(canvasSize) && secondPoint != Offset.Zero
+    ) {
+        drawArrow()
+    }
 }

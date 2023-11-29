@@ -245,7 +245,7 @@ fun AddEditMaskSheet(
                                 drawing = false
                             },
                             imageManager = imageManager,
-                            drawArrowsEnabled = false,
+                            //TODO add circle and square drawpathmodes
                             backgroundColor = Color.Transparent
                         )
                     }

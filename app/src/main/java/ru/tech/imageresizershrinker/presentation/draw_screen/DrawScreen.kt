@@ -116,14 +116,15 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.draw.DrawBehavior
 import ru.tech.imageresizershrinker.domain.image.draw.DrawMode
+import ru.tech.imageresizershrinker.domain.image.draw.DrawPathMode
 import ru.tech.imageresizershrinker.domain.image.draw.pt
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BitmapDrawer
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawAlphaSelector
-import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawArrowsSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBackgroundSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawColorSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawModeSelector
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawPathModeSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidthSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.OpenColorPickerCard
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
@@ -159,6 +160,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.presentation.root.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.presentation.root.widget.saver.DrawModeSaver
+import ru.tech.imageresizershrinker.presentation.root.widget.saver.DrawPathModeSaver
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
@@ -327,8 +329,8 @@ fun DrawScreen(
     var brushSoftness by rememberSaveable(viewModel.drawBehavior, drawMode, stateSaver = PtSaver) {
         mutableStateOf(if (drawMode is DrawMode.Neon) 35.pt else 0.pt)
     }
-    var drawArrowsEnabled by rememberSaveable(viewModel.drawBehavior) {
-        mutableStateOf(false)
+    var drawPathMode by rememberSaveable(viewModel.drawBehavior, stateSaver = DrawPathModeSaver) {
+        mutableStateOf(DrawPathMode.Free)
     }
 
     val controls = @Composable {
@@ -393,22 +395,22 @@ fun DrawScreen(
                 end = 16.dp,
                 bottom = 16.dp
             ),
-            drawMode = drawMode,
-            onDrawModeChange = { drawMode = it }
+            value = drawMode,
+            onValueChange = { drawMode = it }
         )
         AnimatedVisibility(
             visible = !isEraserOn,
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {
-            DrawArrowsSelector(
+            DrawPathModeSelector(
                 modifier = Modifier.padding(
                     start = 16.dp,
                     end = 16.dp,
                     bottom = 16.dp
                 ),
-                checked = drawArrowsEnabled,
-                onCheckedChange = { drawArrowsEnabled = it }
+                value = drawPathMode,
+                onValueChange = { drawPathMode = it }
             )
         }
         SaveExifWidget(
@@ -606,7 +608,7 @@ fun DrawScreen(
                 zoomEnabled = zoomEnabled,
                 onDraw = {},
                 imageManager = viewModel.getImageManager(),
-                drawArrowsEnabled = drawArrowsEnabled,
+                drawPathMode = drawPathMode,
                 backgroundColor = viewModel.backgroundColor
             )
         }
