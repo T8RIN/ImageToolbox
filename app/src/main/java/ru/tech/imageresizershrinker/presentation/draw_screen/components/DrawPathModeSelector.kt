@@ -21,6 +21,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
+import androidx.compose.material.icons.rounded.Circle
+import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
@@ -53,12 +56,13 @@ import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.draw.DrawPathMode
-import ru.tech.imageresizershrinker.presentation.root.icons.icons.rounded.FreeArrow
-import ru.tech.imageresizershrinker.presentation.root.icons.icons.rounded.FreeDoubleArrow
-import ru.tech.imageresizershrinker.presentation.root.icons.icons.rounded.FreeDraw
-import ru.tech.imageresizershrinker.presentation.root.icons.icons.rounded.Line
-import ru.tech.imageresizershrinker.presentation.root.icons.icons.rounded.LineArrow
-import ru.tech.imageresizershrinker.presentation.root.icons.icons.rounded.LineDoubleArrow
+import ru.tech.imageresizershrinker.presentation.root.icons.material.FreeArrow
+import ru.tech.imageresizershrinker.presentation.root.icons.material.FreeDoubleArrow
+import ru.tech.imageresizershrinker.presentation.root.icons.material.FreeDraw
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Line
+import ru.tech.imageresizershrinker.presentation.root.icons.material.LineArrow
+import ru.tech.imageresizershrinker.presentation.root.icons.material.LineDoubleArrow
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Square
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
@@ -256,6 +260,10 @@ private fun DrawPathMode.getSubtitle(): Int = when (this) {
     DrawPathMode.Line -> R.string.line_sub
     DrawPathMode.LinePointingArrow -> R.string.line_arrow_sub
     DrawPathMode.PointingArrow -> R.string.arrow_sub
+    DrawPathMode.OutlinedOval -> R.string.outlined_oval_sub
+    DrawPathMode.OutlinedRect -> R.string.outlined_rect_sub
+    DrawPathMode.Oval -> R.string.oval_sub
+    DrawPathMode.Rect -> R.string.rect_sub
 }
 
 private fun DrawPathMode.getTitle(): Int = when (this) {
@@ -265,6 +273,10 @@ private fun DrawPathMode.getTitle(): Int = when (this) {
     DrawPathMode.Line -> R.string.line
     DrawPathMode.LinePointingArrow -> R.string.line_arrow
     DrawPathMode.PointingArrow -> R.string.arrow
+    DrawPathMode.OutlinedOval -> R.string.outlined_oval
+    DrawPathMode.OutlinedRect -> R.string.outlined_rect
+    DrawPathMode.Oval -> R.string.oval
+    DrawPathMode.Rect -> R.string.rect
 }
 
 private fun DrawPathMode.getIcon(): ImageVector = when (this) {
@@ -274,4 +286,8 @@ private fun DrawPathMode.getIcon(): ImageVector = when (this) {
     DrawPathMode.Line -> Icons.Rounded.Line
     DrawPathMode.LinePointingArrow -> Icons.Rounded.LineArrow
     DrawPathMode.PointingArrow -> Icons.Rounded.FreeArrow
+    DrawPathMode.OutlinedOval -> Icons.Rounded.RadioButtonUnchecked
+    DrawPathMode.OutlinedRect -> Icons.Rounded.CheckBoxOutlineBlank
+    DrawPathMode.Oval -> Icons.Rounded.Circle
+    DrawPathMode.Rect -> Icons.Rounded.Square
 }

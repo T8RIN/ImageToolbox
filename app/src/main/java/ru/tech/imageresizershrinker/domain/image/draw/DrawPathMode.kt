@@ -8,6 +8,10 @@ sealed class DrawPathMode(open val ordinal: Int) {
     data object DoublePointingArrow : DrawPathMode(2)
     data object LinePointingArrow : DrawPathMode(3)
     data object DoubleLinePointingArrow : DrawPathMode(4)
+    data object OutlinedRect : DrawPathMode(5)
+    data object OutlinedOval : DrawPathMode(6)
+    data object Rect : DrawPathMode(7)
+    data object Oval : DrawPathMode(8)
 
     //TODO data object DoubleLinePointingArrowWithText: DrawPathMode(5)
 
@@ -19,18 +23,16 @@ sealed class DrawPathMode(open val ordinal: Int) {
                 PointingArrow,
                 DoublePointingArrow,
                 LinePointingArrow,
-                DoubleLinePointingArrow
+                DoubleLinePointingArrow,
+                OutlinedRect,
+                OutlinedOval,
+                Rect,
+                Oval
             )
         }
 
-        operator fun invoke(ordinal: Int) = when (ordinal) {
-            -1 -> Free
-            0 -> Line
-            1 -> PointingArrow
-            2 -> DoublePointingArrow
-            3 -> LinePointingArrow
-            4 -> DoubleLinePointingArrow
-            else -> Line
-        }
+        operator fun invoke(ordinal: Int) = entries.find {
+            it.ordinal == ordinal
+        } ?: Free
     }
 }

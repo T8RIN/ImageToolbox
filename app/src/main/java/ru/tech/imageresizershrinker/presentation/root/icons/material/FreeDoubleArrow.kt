@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.root.icons.icons.rounded
+package ru.tech.imageresizershrinker.presentation.root.icons.material
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.ui.graphics.Color
