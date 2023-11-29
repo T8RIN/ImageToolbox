@@ -240,7 +240,7 @@ fun DrawPathModeSelector(
         },
         visible = state,
         title = {
-            TitleItem(text = stringResource(R.string.draw_mode))
+            TitleItem(text = stringResource(R.string.draw_path_mode))
         },
         confirmButton = {
             EnhancedButton(
