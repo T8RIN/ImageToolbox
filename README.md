@@ -267,6 +267,9 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
   - DejaVu
   - BadScript
   - RuslanDisplay
+  - Catterdale
+  - FRM32
+  - Tokeely Brookings
 - In app font scale changing
 
 (Yes, app supports dynamic coloring based on wallpapers for every android version)
