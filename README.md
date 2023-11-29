@@ -191,6 +191,14 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
   - Privacy Blur
   - Pixelation Paint
   - Pointing Arrow Mode
+  - Line Mode
+  - Double Pointing Arrow Mode
+  - Line Pointing Arrow Mode
+  - Double Line Pointing Arrow Mode
+  - Outlined Rect Mode
+  - Outlined Oval Mode
+  - Rect Mode
+  - Oval Mode
 - Image Resizing
   - Width changing
   - Height changing
