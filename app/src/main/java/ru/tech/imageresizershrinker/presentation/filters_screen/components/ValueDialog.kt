@@ -27,6 +27,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.utils.trimTrailingZero
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.text.KeyboardFocusHandler
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
@@ -62,6 +63,8 @@ fun ValueDialog(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
+                    //TODO: Remove when library will be fixed
+                    KeyboardFocusHandler()
                     OutlinedTextField(
                         shape = RoundedCornerShape(16.dp),
                         value = value,
