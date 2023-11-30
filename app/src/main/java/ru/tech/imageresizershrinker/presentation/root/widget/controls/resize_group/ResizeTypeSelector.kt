@@ -63,6 +63,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 
 @Composable
 fun ResizeTypeSelector(
+    modifier: Modifier = Modifier,
     enabled: Boolean,
     value: ResizeType,
     onValueChange: (ResizeType) -> Unit
@@ -91,7 +92,7 @@ fun ResizeTypeSelector(
         onValueChange(modifiedResizeType)
     }
     Column(
-        modifier = Modifier
+        modifier = modifier
             .container(shape = RoundedCornerShape(24.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

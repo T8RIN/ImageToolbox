@@ -21,10 +21,10 @@ import ru.tech.imageresizershrinker.presentation.root.widget.buttons.ToggleGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 
 @Composable
-fun LimitsResizeGroup(
+fun LimitsResizeSelector(
     enabled: Boolean,
-    resizeType: ResizeType.Limits,
-    onResizeChange: (ResizeType.Limits) -> Unit
+    value: ResizeType.Limits,
+    onValueChange: (ResizeType.Limits) -> Unit
 ) {
     ToggleGroupButton(
         modifier = Modifier
@@ -52,17 +52,17 @@ fun LimitsResizeGroup(
             stringResource(R.string.recode),
             stringResource(R.string.zoom)
         ),
-        selectedIndex = when (resizeType) {
+        selectedIndex = when (value) {
             is ResizeType.Limits.Skip -> 0
             is ResizeType.Limits.Recode -> 1
             is ResizeType.Limits.Zoom -> 2
         },
         indexChanged = {
-            onResizeChange(
+            onValueChange(
                 when (it) {
-                    0 -> ResizeType.Limits.Skip(resizeType.autoRotateLimitBox)
-                    1 -> ResizeType.Limits.Recode(resizeType.autoRotateLimitBox)
-                    else -> ResizeType.Limits.Zoom(resizeType.autoRotateLimitBox)
+                    0 -> ResizeType.Limits.Skip(value.autoRotateLimitBox)
+                    1 -> ResizeType.Limits.Recode(value.autoRotateLimitBox)
+                    else -> ResizeType.Limits.Zoom(value.autoRotateLimitBox)
                 }
             )
         }

@@ -66,7 +66,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.limits_resize_screen.components.AutoRotateLimitBoxToggle
-import ru.tech.imageresizershrinker.presentation.limits_resize_screen.components.LimitsResizeGroup
+import ru.tech.imageresizershrinker.presentation.limits_resize_screen.components.LimitsResizeSelector
 import ru.tech.imageresizershrinker.presentation.limits_resize_screen.viewModel.LimitsResizeViewModel
 import ru.tech.imageresizershrinker.presentation.root.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
@@ -411,10 +411,10 @@ fun LimitsResizeScreen(
                                         onClick = viewModel::toggleAutoRotateLimitBox
                                     )
                                     Spacer(Modifier.size(8.dp))
-                                    LimitsResizeGroup(
+                                    LimitsResizeSelector(
                                         enabled = viewModel.bitmap != null,
-                                        resizeType = viewModel.resizeType,
-                                        onResizeChange = viewModel::setResizeType
+                                        value = viewModel.resizeType,
+                                        onValueChange = viewModel::setResizeType
                                     )
                                 } else if (!viewModel.isImageLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)
