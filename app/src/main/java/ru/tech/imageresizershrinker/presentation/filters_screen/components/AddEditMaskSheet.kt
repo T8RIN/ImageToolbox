@@ -717,7 +717,10 @@ class AddMaskSheetViewModel @Inject constructor(
         mask?.let {
             _paths.update { mask.maskPaints.map { it.toUiPathPaint() } }
             _filterList.update { mask.filters.map { it.toUiFilter() } }
-            _maskColor.update { mask.maskPaints.map { it.drawColor }.toSet().first() }
+            _maskColor.update { initial ->
+                val color = mask.maskPaints.map { it.drawColor }.toSet().firstOrNull()
+                color ?: initial
+            }
             _isInverseFillType.update { mask.isInverseFillType }
         }
         this.initialMask = mask

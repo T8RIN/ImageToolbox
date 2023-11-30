@@ -95,7 +95,9 @@ fun SettingsState.toUiState(): UiSettingsState {
         showDialogOnStartup = showDialogOnStartup,
         selectedEmoji = remember(selectedEmoji, allIcons) {
             derivedStateOf {
-                selectedEmoji?.takeIf { it != -1 }?.let { allIcons[it] }
+                selectedEmoji?.takeIf { it != -1 }?.let {
+                    allIcons.getOrNull(it)
+                }
             }
         }.value,
         imagePickerModeInt = imagePickerModeInt,
@@ -134,7 +136,9 @@ fun SettingsState.toUiState(): UiSettingsState {
         aspectRatios = aspectRatios,
         lockDrawOrientation = lockDrawOrientation,
         themeContrastLevel = themeContrastLevel,
-        themeStyle = PaletteStyle.entries[themeStyle],
+        themeStyle = PaletteStyle
+            .entries
+            .getOrNull(themeStyle) ?: PaletteStyle.TonalSpot,
         isInvertThemeColors = isInvertThemeColors,
         screensSearchEnabled = screensSearchEnabled
     )
