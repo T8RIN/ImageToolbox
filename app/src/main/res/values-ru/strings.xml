@@ -470,4 +470,27 @@
     <string name="app_bars_shadow">Панели действий</string>
     <string name="switches_shadow_sub">Включает тени под переключателями</string>
     <string name="value_in_range">Значение в диапазоне %1$s - %2$s</string>
+    <string name="double_line_arrow">Двойная линейная стрелка</string>
+    <string name="double_line_arrow_sub">Рисует двойную указательную стрелку от начальной точки до конечной точки в виде линии</string>
+    <string name="arrow_sub">Рисует указывающую стрелку на заданном пути</string>
+    <string name="free_drawing">Свободное рисование</string>
+    <string name="outlined_oval">Очерченный овал</string>
+    <string name="line">Линия</string>
+    <string name="oval">Овал</string>
+    <string name="rect">Прямоугольник</string>
+    <string name="outlined_rect_sub">Рисует очерченный прямоугольник от начальной точки до конечной</string>
+    <string name="lasso">Лассо</string>
+    <string name="line_arrow">Линейная стрелка</string>
+    <string name="line_sub">Рисует путь от начальной точки до конечной в виде линии</string>
+    <string name="outlined_oval_sub">Рисует очерченный овал от начальной точки до конечной</string>
+    <string name="lasso_sub">Рисует замкнутый заполненный контур по заданному пути</string>
+    <string name="double_arrow">Двойная стрелка</string>
+    <string name="arrow">Стрелка</string>
+    <string name="free_drawing_sub">Draws path as input value</string>
+    <string name="rect_sub">Рисует прямую линию от начальной точки до конечной</string>
+    <string name="line_arrow_sub">Рисует указывающую стрелку от начальной точки до конечной точки в виде линии</string>
+    <string name="double_arrow_sub">Рисует двойную стрелку, указывающую на заданный путь</string>
+    <string name="outlined_rect">Очерченный прямоугольник</string>
+    <string name="oval_sub">Рисует овал от начальной точки до конечной</string>
+    <string name="draw_path_mode">Режим рисования контура</string>
 </resources>
