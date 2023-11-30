@@ -216,11 +216,15 @@ fun BitmapDrawer(
                         DrawPathMode.OutlinedRect,
                         DrawPathMode.OutlinedOval,
                         DrawPathMode.Rect,
-                        DrawPathMode.Oval
+                        DrawPathMode.Oval,
+                        DrawPathMode.Lasso
                     ).any { drawPathMode::class.isInstance(it) }
 
-                    val isFilled =
-                        drawPathMode is DrawPathMode.Rect || drawPathMode is DrawPathMode.Oval
+                    val isFilled = listOf(
+                        DrawPathMode.Rect,
+                        DrawPathMode.Oval,
+                        DrawPathMode.Lasso
+                    ).any { drawPathMode::class.isInstance(it) }
 
                     Paint().apply {
                         blendMode = if (!isEraserOn) blendMode else BlendMode.Clear
@@ -504,11 +508,15 @@ fun BitmapDrawer(
                                 DrawPathMode.OutlinedRect,
                                 DrawPathMode.OutlinedOval,
                                 DrawPathMode.Rect,
-                                DrawPathMode.Oval
+                                DrawPathMode.Oval,
+                                DrawPathMode.Lasso
                             ).any { pathMode::class.isInstance(it) }
 
-                            val isFilled =
-                                pathMode is DrawPathMode.Rect || pathMode is DrawPathMode.Oval
+                            val isFilled = listOf(
+                                DrawPathMode.Rect,
+                                DrawPathMode.Oval,
+                                DrawPathMode.Lasso
+                            ).any { pathMode::class.isInstance(it) }
 
                             if (effect is DrawMode.PathEffect && !isErasing) {
                                 var shaderSource by remember(backgroundColor) {
@@ -641,11 +649,15 @@ fun BitmapDrawer(
                             DrawPathMode.OutlinedRect,
                             DrawPathMode.OutlinedOval,
                             DrawPathMode.Rect,
-                            DrawPathMode.Oval
+                            DrawPathMode.Oval,
+                            DrawPathMode.Lasso
                         ).any { drawPathMode::class.isInstance(it) }
 
-                        val isFilled =
-                            drawPathMode is DrawPathMode.Rect || drawPathMode is DrawPathMode.Oval
+                        val isFilled = listOf(
+                            DrawPathMode.Rect,
+                            DrawPathMode.Oval,
+                            DrawPathMode.Lasso
+                        ).any { drawPathMode::class.isInstance(it) }
 
                         val paint = Paint().apply {
                             if (isFilled) {

@@ -78,10 +78,15 @@ class AndroidFilterMaskApplier @Inject constructor(
                     DrawPathMode.OutlinedRect,
                     DrawPathMode.OutlinedOval,
                     DrawPathMode.Rect,
-                    DrawPathMode.Oval
+                    DrawPathMode.Oval,
+                    DrawPathMode.Lasso
                 ).any { pathMode::class.isInstance(it) }
 
-                val isFilled = pathMode is DrawPathMode.Rect || pathMode is DrawPathMode.Oval
+                val isFilled = listOf(
+                    DrawPathMode.Rect,
+                    DrawPathMode.Oval,
+                    DrawPathMode.Lasso
+                ).any { pathMode::class.isInstance(it) }
 
                 drawPath(
                     path,

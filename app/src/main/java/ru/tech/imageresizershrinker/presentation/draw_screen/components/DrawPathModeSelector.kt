@@ -59,6 +59,7 @@ import ru.tech.imageresizershrinker.domain.image.draw.DrawPathMode
 import ru.tech.imageresizershrinker.presentation.root.icons.material.FreeArrow
 import ru.tech.imageresizershrinker.presentation.root.icons.material.FreeDoubleArrow
 import ru.tech.imageresizershrinker.presentation.root.icons.material.FreeDraw
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Lasso
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Line
 import ru.tech.imageresizershrinker.presentation.root.icons.material.LineArrow
 import ru.tech.imageresizershrinker.presentation.root.icons.material.LineDoubleArrow
@@ -264,6 +265,7 @@ private fun DrawPathMode.getSubtitle(): Int = when (this) {
     DrawPathMode.OutlinedRect -> R.string.outlined_rect_sub
     DrawPathMode.Oval -> R.string.oval_sub
     DrawPathMode.Rect -> R.string.rect_sub
+    DrawPathMode.Lasso -> R.string.lasso_sub
 }
 
 private fun DrawPathMode.getTitle(): Int = when (this) {
@@ -277,6 +279,7 @@ private fun DrawPathMode.getTitle(): Int = when (this) {
     DrawPathMode.OutlinedRect -> R.string.outlined_rect
     DrawPathMode.Oval -> R.string.oval
     DrawPathMode.Rect -> R.string.rect
+    DrawPathMode.Lasso -> R.string.lasso
 }
 
 private fun DrawPathMode.getIcon(): ImageVector = when (this) {
@@ -290,4 +293,5 @@ private fun DrawPathMode.getIcon(): ImageVector = when (this) {
     DrawPathMode.OutlinedRect -> Icons.Rounded.CheckBoxOutlineBlank
     DrawPathMode.Oval -> Icons.Rounded.Circle
     DrawPathMode.Rect -> Icons.Rounded.Square
+    DrawPathMode.Lasso -> Icons.Rounded.Lasso
 }

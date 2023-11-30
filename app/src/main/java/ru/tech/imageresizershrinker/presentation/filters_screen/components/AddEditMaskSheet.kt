@@ -395,30 +395,25 @@ fun AddEditMaskSheet(
                                     top = 16.dp
                                 )
                             )
-                            AnimatedVisibility(
-                                visible = !isEraserOn,
-                                enter = fadeIn() + expandVertically(),
-                                exit = fadeOut() + shrinkVertically()
-                            ) {
-                                DrawPathModeSelector(
-                                    modifier = Modifier.padding(
-                                        start = 16.dp,
-                                        end = 16.dp,
-                                        top = 16.dp
-                                    ),
-                                    values = remember {
-                                        listOf(
-                                            DrawPathMode.Free,
-                                            DrawPathMode.OutlinedRect,
-                                            DrawPathMode.OutlinedOval,
-                                            DrawPathMode.Rect,
-                                            DrawPathMode.Oval
-                                        )
-                                    },
-                                    value = drawPathMode,
-                                    onValueChange = { drawPathMode = it }
-                                )
-                            }
+                            DrawPathModeSelector(
+                                modifier = Modifier.padding(
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    top = 16.dp
+                                ),
+                                values = remember {
+                                    listOf(
+                                        DrawPathMode.Free,
+                                        DrawPathMode.Lasso,
+                                        DrawPathMode.OutlinedRect,
+                                        DrawPathMode.OutlinedOval,
+                                        DrawPathMode.Rect,
+                                        DrawPathMode.Oval
+                                    )
+                                },
+                                value = drawPathMode,
+                                onValueChange = { drawPathMode = it }
+                            )
                             LineWidthSelector(
                                 modifier = Modifier.padding(
                                     start = 16.dp,

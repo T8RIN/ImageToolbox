@@ -510,4 +510,6 @@
     <string name="oval_sub">Draws oval from start point to end point</string>
     <string name="outlined_oval_sub">Draws outlined oval from start point to end point</string>
     <string name="outlined_rect_sub">Draws outlined rect from start point to end point</string>
+    <string name="lasso">Lasso</string>
+    <string name="lasso_sub">Draws closed filled path by given path</string>
 </resources>

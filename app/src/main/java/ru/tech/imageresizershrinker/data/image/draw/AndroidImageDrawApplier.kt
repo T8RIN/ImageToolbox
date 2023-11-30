@@ -92,7 +92,11 @@ class AndroidImageDrawApplier @Inject constructor(
                         DrawPathMode.Oval
                     ).any { pathMode::class.isInstance(it) }
 
-                    val isFilled = pathMode is DrawPathMode.Rect || pathMode is DrawPathMode.Oval
+                    val isFilled = listOf(
+                        DrawPathMode.Rect,
+                        DrawPathMode.Oval,
+                        DrawPathMode.Lasso
+                    ).any { pathMode::class.isInstance(it) }
 
                     if (effect is DrawMode.PathEffect && !isErasing) {
                         val shaderSource = imageManager.transform(

@@ -398,21 +398,15 @@ fun DrawScreen(
             value = drawMode,
             onValueChange = { drawMode = it }
         )
-        AnimatedVisibility(
-            visible = !isEraserOn,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
-        ) {
-            DrawPathModeSelector(
-                modifier = Modifier.padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                    bottom = 16.dp
-                ),
-                value = drawPathMode,
-                onValueChange = { drawPathMode = it }
-            )
-        }
+        DrawPathModeSelector(
+            modifier = Modifier.padding(
+                start = 16.dp,
+                end = 16.dp,
+                bottom = 16.dp
+            ),
+            value = drawPathMode,
+            onValueChange = { drawPathMode = it }
+        )
         SaveExifWidget(
             modifier = Modifier.padding(horizontal = 16.dp),
             checked = viewModel.saveExif,

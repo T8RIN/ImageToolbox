@@ -8,10 +8,11 @@ sealed class DrawPathMode(open val ordinal: Int) {
     data object DoublePointingArrow : DrawPathMode(2)
     data object LinePointingArrow : DrawPathMode(3)
     data object DoubleLinePointingArrow : DrawPathMode(4)
-    data object OutlinedRect : DrawPathMode(5)
-    data object OutlinedOval : DrawPathMode(6)
-    data object Rect : DrawPathMode(7)
-    data object Oval : DrawPathMode(8)
+    data object Lasso : DrawPathMode(5)
+    data object OutlinedRect : DrawPathMode(6)
+    data object OutlinedOval : DrawPathMode(7)
+    data object Rect : DrawPathMode(8)
+    data object Oval : DrawPathMode(9)
 
     //TODO data object DoubleLinePointingArrowWithText: DrawPathMode(5)
 
@@ -24,6 +25,7 @@ sealed class DrawPathMode(open val ordinal: Int) {
                 DoublePointingArrow,
                 LinePointingArrow,
                 DoubleLinePointingArrow,
+                Lasso,
                 OutlinedRect,
                 OutlinedOval,
                 Rect,
