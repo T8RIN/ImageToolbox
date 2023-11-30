@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.minimumInteractiveComponentSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
@@ -42,17 +43,19 @@ fun EnhancedSwitch(
     val settingsState = LocalSettingsState.current
     CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
         Switch(
-            modifier = modifier.container(
-                shape = CircleShape,
-                resultPadding = 0.dp,
-                autoShadowElevation = animateDpAsState(
-                    if (settingsState.drawSwitchShadows) 1.dp
-                    else 0.dp
-                ).value,
-                isShadowClip = true,
-                isStandaloneContainer = false,
-                color = Color.Transparent
-            ),
+            modifier = modifier
+                .minimumInteractiveComponentSize()
+                .container(
+                    shape = CircleShape,
+                    resultPadding = 0.dp,
+                    autoShadowElevation = animateDpAsState(
+                        if (settingsState.drawSwitchShadows) 1.dp
+                        else 0.dp
+                    ).value,
+                    isShadowClip = true,
+                    isStandaloneContainer = false,
+                    color = Color.Transparent
+                ),
             colors = switchColors,
             checked = checked,
             enabled = enabled,

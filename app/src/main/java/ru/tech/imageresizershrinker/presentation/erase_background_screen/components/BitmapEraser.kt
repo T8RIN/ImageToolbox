@@ -183,6 +183,7 @@ fun BitmapEraser(
                         MotionEvent.Down -> {
                             drawPath.moveTo(currentPosition.x, currentPosition.y)
                             previousPosition = currentPosition
+                            motionEvent = MotionEvent.Idle
                         }
 
                         MotionEvent.Move -> {
@@ -193,6 +194,7 @@ fun BitmapEraser(
                                 (previousPosition.y + currentPosition.y) / 2
                             )
                             previousPosition = currentPosition
+                            motionEvent = MotionEvent.Idle
                         }
 
                         MotionEvent.Up -> {

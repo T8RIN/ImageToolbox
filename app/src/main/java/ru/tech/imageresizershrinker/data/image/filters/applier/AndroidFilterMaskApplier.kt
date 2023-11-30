@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.exifinterface.media.ExifInterface
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.image.draw.DrawPathMode
 import ru.tech.imageresizershrinker.domain.image.draw.PathPaint
 import ru.tech.imageresizershrinker.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.domain.image.filters.FilterMaskApplier
@@ -67,28 +68,52 @@ class AndroidFilterMaskApplier @Inject constructor(
             .apply { setHasAlpha(true) }
         val canvasSize = bitmap.run { IntegerSize(width, height) }
         Canvas(bitmap).apply {
-            pathPaints.forEach {
-                val path = it.path.scaleToFitCanvas(
+            pathPaints.forEach { pathPaint ->
+                val path = pathPaint.path.scaleToFitCanvas(
                     currentSize = canvasSize,
-                    oldSize = it.canvasSize
+                    oldSize = pathPaint.canvasSize
                 )
+                val pathMode = pathPaint.drawPathMode
+                val isRect = listOf(
+                    DrawPathMode.OutlinedRect,
+                    DrawPathMode.OutlinedOval,
+                    DrawPathMode.Rect,
+                    DrawPathMode.Oval
+                ).any { pathMode::class.isInstance(it) }
+
+                val isFilled = pathMode is DrawPathMode.Rect || pathMode is DrawPathMode.Oval
+
                 drawPath(
                     path,
                     Paint().apply {
-                        style = PaintingStyle.Stroke
-                        strokeCap = StrokeCap.Round
-                        this.strokeWidth = it.strokeWidth.toPx(canvasSize)
-                        strokeJoin = StrokeJoin.Round
-                        isAntiAlias = true
-                        color = it.drawColor
-                        if (it.isErasing) {
+                        if (pathPaint.isErasing) {
+                            style = PaintingStyle.Stroke
+                            this.strokeWidth = pathPaint.strokeWidth.toPx(canvasSize)
+                            strokeCap = StrokeCap.Round
+                            strokeJoin = StrokeJoin.Round
+                        } else {
+                            if (isFilled) {
+                                style = PaintingStyle.Fill
+                            } else {
+                                style = PaintingStyle.Stroke
+                                if (isRect) {
+                                    strokeCap = StrokeCap.Square
+                                } else {
+                                    strokeCap = StrokeCap.Round
+                                    strokeJoin = StrokeJoin.Round
+                                }
+                                this.strokeWidth = pathPaint.strokeWidth.toPx(canvasSize)
+                            }
+                        }
+                        color = pathPaint.drawColor
+                        if (pathPaint.isErasing) {
                             blendMode = BlendMode.Clear
                         }
                     }.asFrameworkPaint().apply {
-                        if (it.brushSoftness.value > 0f) {
+                        if (pathPaint.brushSoftness.value > 0f) {
                             maskFilter =
                                 BlurMaskFilter(
-                                    it.brushSoftness.toPx(canvasSize),
+                                    pathPaint.brushSoftness.toPx(canvasSize),
                                     BlurMaskFilter.Blur.NORMAL
                                 )
                         }

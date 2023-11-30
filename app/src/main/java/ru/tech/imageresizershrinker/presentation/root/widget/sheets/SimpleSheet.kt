@@ -6,7 +6,6 @@ import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -27,10 +26,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import com.t8rin.modalsheet.ModalSheet
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
@@ -42,6 +39,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.ProvideContai
 @Composable
 fun SimpleSheet(
     nestedScrollEnabled: Boolean = false,
+    cancelable: Boolean = true,
     dragHandle: @Composable ColumnScope.() -> Unit = { SimpleDragHandle() },
     visible: MutableState<Boolean>,
     sheetContent: @Composable ColumnScope.() -> Unit,
@@ -51,6 +49,7 @@ fun SimpleSheet(
 
     ProvideContainerShape(null) {
         ModalSheet(
+            cancelable = cancelable,
             nestedScrollEnabled = nestedScrollEnabled,
             animationSpec = tween(
                 durationMillis = 600,
@@ -94,6 +93,7 @@ fun SimpleSheet(
 @Composable
 fun SimpleSheet(
     nestedScrollEnabled: Boolean = false,
+    cancelable: Boolean = true,
     confirmButton: @Composable RowScope.() -> Unit,
     dragHandle: @Composable ColumnScope.() -> Unit = { SimpleDragHandle() },
     title: @Composable () -> Unit,
@@ -107,6 +107,7 @@ fun SimpleSheet(
 
     ProvideContainerShape(null) {
         ModalSheet(
+            cancelable = cancelable,
             nestedScrollEnabled = nestedScrollEnabled,
             animationSpec = tween(
                 durationMillis = 600,
@@ -168,6 +169,7 @@ fun SimpleSheet(
 @Composable
 fun SimpleSheet(
     nestedScrollEnabled: Boolean = false,
+    cancelable: Boolean = true,
     confirmButton: (@Composable RowScope.() -> Unit)? = null,
     dragHandle: @Composable ColumnScope.() -> Unit = { SimpleDragHandle() },
     title: (@Composable () -> Unit)? = null,
@@ -179,6 +181,7 @@ fun SimpleSheet(
 
     ProvideContainerShape(null) {
         ModalSheet(
+            cancelable = cancelable,
             nestedScrollEnabled = nestedScrollEnabled,
             animationSpec = tween(
                 durationMillis = 600,
@@ -235,35 +238,5 @@ fun SimpleSheet(
                 }
             }
         )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SimpleDragHandle(
-    modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp),
-    drawStroke: Boolean = true,
-    content: @Composable ColumnScope.() -> Unit = {},
-) {
-    Column(
-        modifier
-            .then(
-                if (drawStroke) {
-                    Modifier
-                        .drawHorizontalStroke(autoElevation = 3.dp)
-                        .zIndex(Float.MAX_VALUE)
-                } else Modifier
-            )
-            .background(color),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            BottomSheetDefaults.DragHandle()
-        }
-        content()
     }
 }

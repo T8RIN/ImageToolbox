@@ -489,4 +489,25 @@
     <string name="value_in_range">Value in range %1$s - %2$s</string>
     <string name="auto_rotate_limits">Auto Rotate</string>
     <string name="auto_rotate_limits_sub">Allows limit box to be adopted for image orientation</string>
+    <string name="draw_path_mode">Draw Path Mode</string>
+    <string name="double_line_arrow">Double Line Arrow</string>
+    <string name="free_drawing">Free Drawing</string>
+    <string name="double_arrow">Double Arrow</string>
+    <string name="line_arrow">Line Arrow</string>
+    <string name="arrow">Arrow</string>
+    <string name="line">Line</string>
+    <string name="free_drawing_sub">Draws path as input value</string>
+    <string name="line_sub">Draws path from start point to end point as a line</string>
+    <string name="line_arrow_sub">Draws pointing arrow from start point to end point as a line</string>
+    <string name="arrow_sub">Draws pointing arrow from a given path</string>
+    <string name="double_line_arrow_sub">Draws double pointing arrow from start point to end point as a line</string>
+    <string name="double_arrow_sub">Draws double pointing arrow from a given path</string>
+    <string name="outlined_oval">Outlined Oval</string>
+    <string name="outlined_rect">Outlined Rect</string>
+    <string name="oval">Oval</string>
+    <string name="rect">Rect</string>
+    <string name="rect_sub">Draws rect from start point to end point</string>
+    <string name="oval_sub">Draws oval from start point to end point</string>
+    <string name="outlined_oval_sub">Draws outlined oval from start point to end point</string>
+    <string name="outlined_rect_sub">Draws outlined rect from start point to end point</string>
 </resources>

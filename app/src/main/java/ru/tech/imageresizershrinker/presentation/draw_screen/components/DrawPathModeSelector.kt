@@ -1,11 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.draw_screen.components
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,8 +21,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.rounded.BlurCircular
-import androidx.compose.material.icons.rounded.Brush
+import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
+import androidx.compose.material.icons.rounded.Circle
+import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
@@ -59,13 +55,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.image.draw.DrawMode
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Cube
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Highlighter
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Laser
+import ru.tech.imageresizershrinker.domain.image.draw.DrawPathMode
+import ru.tech.imageresizershrinker.presentation.root.icons.material.FreeArrow
+import ru.tech.imageresizershrinker.presentation.root.icons.material.FreeDoubleArrow
+import ru.tech.imageresizershrinker.presentation.root.icons.material.FreeDraw
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Line
+import ru.tech.imageresizershrinker.presentation.root.icons.material.LineArrow
+import ru.tech.imageresizershrinker.presentation.root.icons.material.LineDoubleArrow
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Square
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.resize_group.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
@@ -75,10 +74,11 @@ import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DrawModeSelector(
+fun DrawPathModeSelector(
     modifier: Modifier,
-    value: DrawMode,
-    onValueChange: (DrawMode) -> Unit
+    values: List<DrawPathMode> = DrawPathMode.entries,
+    value: DrawPathMode,
+    onValueChange: (DrawPathMode) -> Unit
 ) {
     val state = rememberSaveable { mutableStateOf(false) }
 
@@ -96,7 +96,7 @@ fun DrawModeSelector(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = stringResource(R.string.draw_mode),
+                text = stringResource(R.string.draw_path_mode),
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Medium
             )
@@ -132,7 +132,7 @@ fun DrawModeSelector(
                 CompositionLocalProvider(
                     LocalMinimumInteractiveComponentEnforcement provides false
                 ) {
-                    DrawMode.entries.forEachIndexed { index, item ->
+                    values.forEachIndexed { index, item ->
                         val selected by remember(value, item) {
                             derivedStateOf {
                                 value::class.isInstance(item)
@@ -140,7 +140,7 @@ fun DrawModeSelector(
                         }
                         val shape = SegmentedButtonDefaults.itemShape(
                             index = index,
-                            count = DrawMode.entries.size
+                            count = values.size
                         )
                         SegmentedButton(
                             onClick = { onValueChange(item) },
@@ -153,7 +153,10 @@ fun DrawModeSelector(
                             colors = SegmentedButtonDefaults.colors(
                                 activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
                                 inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                    6.dp
+                                    1.dp
+                                ),
+                                activeContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                    3.dp
                                 )
                             ),
                             modifier = Modifier.materialShadow(
@@ -199,33 +202,6 @@ fun DrawModeSelector(
                     )
             )
         }
-        AnimatedVisibility(
-            visible = value is DrawMode.PathEffect.PrivacyBlur,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
-        ) {
-            BlurRadiusSelector(
-                modifier = Modifier.padding(8.dp),
-                value = (value as? DrawMode.PathEffect.PrivacyBlur)?.blurRadius ?: 0,
-                valueRange = 5f..50f,
-                onValueChange = {
-                    onValueChange(DrawMode.PathEffect.PrivacyBlur(it))
-                }
-            )
-        }
-        AnimatedVisibility(
-            visible = value is DrawMode.PathEffect.Pixelation,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically()
-        ) {
-            PixelSizeSelector(
-                modifier = Modifier.padding(8.dp),
-                value = (value as? DrawMode.PathEffect.Pixelation)?.pixelSize ?: 0f,
-                onValueChange = {
-                    onValueChange(DrawMode.PathEffect.Pixelation(it))
-                }
-            )
-        }
     }
     SimpleSheet(
         sheetContent = {
@@ -235,14 +211,14 @@ fun DrawModeSelector(
                     .padding(8.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                DrawMode.entries.forEachIndexed { index, item ->
+                values.forEachIndexed { index, item ->
                     Column(
                         Modifier
                             .fillMaxWidth()
                             .container(
                                 shape = ContainerShapeDefaults.shapeForIndex(
-                                    index,
-                                    DrawMode.entries.size
+                                    index = index,
+                                    size = values.size
                                 ),
                                 resultPadding = 0.dp
                             )
@@ -264,7 +240,7 @@ fun DrawModeSelector(
         },
         visible = state,
         title = {
-            TitleItem(text = stringResource(R.string.draw_mode))
+            TitleItem(text = stringResource(R.string.draw_path_mode))
         },
         confirmButton = {
             EnhancedButton(
@@ -277,26 +253,41 @@ fun DrawModeSelector(
     )
 }
 
-private fun DrawMode.getSubtitle(): Int = when (this) {
-    is DrawMode.Highlighter -> R.string.highlighter_sub
-    is DrawMode.Neon -> R.string.neon_sub
-    is DrawMode.Pen -> R.string.pen_sub
-    is DrawMode.PathEffect.PrivacyBlur -> R.string.privacy_blur_sub
-    is DrawMode.PathEffect.Pixelation -> R.string.pixelation_sub
+private fun DrawPathMode.getSubtitle(): Int = when (this) {
+    DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow_sub
+    DrawPathMode.DoublePointingArrow -> R.string.double_arrow_sub
+    DrawPathMode.Free -> R.string.free_drawing_sub
+    DrawPathMode.Line -> R.string.line_sub
+    DrawPathMode.LinePointingArrow -> R.string.line_arrow_sub
+    DrawPathMode.PointingArrow -> R.string.arrow_sub
+    DrawPathMode.OutlinedOval -> R.string.outlined_oval_sub
+    DrawPathMode.OutlinedRect -> R.string.outlined_rect_sub
+    DrawPathMode.Oval -> R.string.oval_sub
+    DrawPathMode.Rect -> R.string.rect_sub
 }
 
-private fun DrawMode.getTitle(): Int = when (this) {
-    is DrawMode.Highlighter -> R.string.highlighter
-    is DrawMode.Neon -> R.string.neon
-    is DrawMode.Pen -> R.string.pen
-    is DrawMode.PathEffect.PrivacyBlur -> R.string.privacy_blur
-    is DrawMode.PathEffect.Pixelation -> R.string.pixelation
+private fun DrawPathMode.getTitle(): Int = when (this) {
+    DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow
+    DrawPathMode.DoublePointingArrow -> R.string.double_arrow
+    DrawPathMode.Free -> R.string.free_drawing
+    DrawPathMode.Line -> R.string.line
+    DrawPathMode.LinePointingArrow -> R.string.line_arrow
+    DrawPathMode.PointingArrow -> R.string.arrow
+    DrawPathMode.OutlinedOval -> R.string.outlined_oval
+    DrawPathMode.OutlinedRect -> R.string.outlined_rect
+    DrawPathMode.Oval -> R.string.oval
+    DrawPathMode.Rect -> R.string.rect
 }
 
-private fun DrawMode.getIcon(): ImageVector = when (this) {
-    is DrawMode.Highlighter -> Icons.Rounded.Highlighter
-    is DrawMode.Neon -> Icons.Rounded.Laser
-    is DrawMode.Pen -> Icons.Rounded.Brush
-    is DrawMode.PathEffect.PrivacyBlur -> Icons.Rounded.BlurCircular
-    is DrawMode.PathEffect.Pixelation -> Icons.Rounded.Cube
+private fun DrawPathMode.getIcon(): ImageVector = when (this) {
+    DrawPathMode.DoubleLinePointingArrow -> Icons.Rounded.LineDoubleArrow
+    DrawPathMode.DoublePointingArrow -> Icons.Rounded.FreeDoubleArrow
+    DrawPathMode.Free -> Icons.Rounded.FreeDraw
+    DrawPathMode.Line -> Icons.Rounded.Line
+    DrawPathMode.LinePointingArrow -> Icons.Rounded.LineArrow
+    DrawPathMode.PointingArrow -> Icons.Rounded.FreeArrow
+    DrawPathMode.OutlinedOval -> Icons.Rounded.RadioButtonUnchecked
+    DrawPathMode.OutlinedRect -> Icons.Rounded.CheckBoxOutlineBlank
+    DrawPathMode.Oval -> Icons.Rounded.Circle
+    DrawPathMode.Rect -> Icons.Rounded.Square
 }

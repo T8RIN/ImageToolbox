@@ -25,6 +25,7 @@ import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.Transformation
 import ru.tech.imageresizershrinker.domain.image.draw.DrawBehavior
 import ru.tech.imageresizershrinker.domain.image.draw.DrawMode
+import ru.tech.imageresizershrinker.domain.image.draw.DrawPathMode
 import ru.tech.imageresizershrinker.domain.image.draw.ImageDrawApplier
 import ru.tech.imageresizershrinker.domain.image.draw.PathPaint
 import ru.tech.imageresizershrinker.domain.model.IntegerSize
@@ -69,8 +70,8 @@ class AndroidImageDrawApplier @Inject constructor(
 
         val drawImage = image?.let { image.copy(image.config, true) }
 
-        drawImage?.let {
-            val canvas = Canvas(it)
+        drawImage?.let { bitmap ->
+            val canvas = Canvas(bitmap)
             val canvasSize = IntegerSize(
                 canvas.width,
                 canvas.height
@@ -78,24 +79,41 @@ class AndroidImageDrawApplier @Inject constructor(
             canvas.apply {
                 (drawBehavior as? DrawBehavior.Background)?.apply { drawColor(color) }
 
-                pathPaints.forEach { (nonScaledPath, nonScaledStroke, radius, drawColor, isErasing, effect, size) ->
+                pathPaints.forEach { (nonScaledPath, nonScaledStroke, radius, drawColor, isErasing, effect, size, pathMode) ->
                     val stroke = nonScaledStroke.toPx(canvasSize)
                     val path = nonScaledPath.scaleToFitCanvas(
                         currentSize = canvasSize,
                         oldSize = size
                     )
+                    val isRect = listOf(
+                        DrawPathMode.OutlinedRect,
+                        DrawPathMode.OutlinedOval,
+                        DrawPathMode.Rect,
+                        DrawPathMode.Oval
+                    ).any { pathMode::class.isInstance(it) }
+
+                    val isFilled = pathMode is DrawPathMode.Rect || pathMode is DrawPathMode.Oval
+
                     if (effect is DrawMode.PathEffect && !isErasing) {
                         val shaderSource = imageManager.transform(
-                            image = image.overlay(it),
+                            image = image.overlay(bitmap),
                             transformations = transformationsForMode(effect)
                         )?.asImageBitmap()?.clipBitmap(
                             path = path,
                             paint = Paint().apply {
-                                style = PaintingStyle.Stroke
-                                strokeCap = StrokeCap.Round
-                                this.strokeWidth = stroke
-                                strokeJoin = StrokeJoin.Round
-                                isAntiAlias = true
+                                if (isFilled) {
+                                    style = PaintingStyle.Fill
+                                } else {
+                                    style = PaintingStyle.Stroke
+                                    this.strokeWidth = stroke
+                                    if (isRect) {
+                                        strokeCap = StrokeCap.Square
+                                    } else {
+                                        strokeCap = StrokeCap.Round
+                                        strokeJoin = StrokeJoin.Round
+                                    }
+                                }
+
                                 color = Color.Transparent
                                 blendMode = BlendMode.Clear
                             }
@@ -113,12 +131,26 @@ class AndroidImageDrawApplier @Inject constructor(
                             path.asAndroidPath(),
                             Paint().apply {
                                 blendMode = if (!isErasing) blendMode else BlendMode.Clear
-                                style = PaintingStyle.Stroke
-                                strokeCap =
-                                    if (effect is DrawMode.Highlighter) StrokeCap.Square else StrokeCap.Round
-                                this.strokeWidth = stroke
-                                strokeJoin = StrokeJoin.Round
-                                isAntiAlias = true
+                                if (isErasing) {
+                                    style = PaintingStyle.Stroke
+                                    this.strokeWidth = stroke
+                                    strokeCap = StrokeCap.Round
+                                    strokeJoin = StrokeJoin.Round
+                                } else {
+                                    if (isFilled) {
+                                        style = PaintingStyle.Fill
+                                    } else {
+                                        style = PaintingStyle.Stroke
+                                        if (effect is DrawMode.Highlighter || isRect) {
+                                            strokeCap = StrokeCap.Square
+                                        } else {
+                                            strokeCap = StrokeCap.Round
+                                            strokeJoin = StrokeJoin.Round
+                                        }
+                                        this.strokeWidth = stroke
+                                    }
+                                }
+
                                 color = drawColor
                                 alpha = drawColor.alpha
                             }.asFrameworkPaint().apply {
@@ -196,7 +228,7 @@ class AndroidImageDrawApplier @Inject constructor(
                             strokeCap = StrokeCap.Round
                             this.strokeWidth = stroke.toPx(canvasSize)
                             strokeJoin = StrokeJoin.Round
-                            isAntiAlias = true
+
                         }.asFrameworkPaint().apply {
                             if (radius.value > 0f) {
                                 maskFilter =

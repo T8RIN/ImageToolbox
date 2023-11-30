@@ -11,6 +11,7 @@ interface PathPaint<Path, Color> : Domain {
     operator fun component5() = isErasing
     operator fun component6() = drawMode
     operator fun component7() = canvasSize
+    operator fun component8() = drawPathMode
 
 
     val path: Path
@@ -20,4 +21,5 @@ interface PathPaint<Path, Color> : Domain {
     val isErasing: Boolean
     val drawMode: DrawMode
     val canvasSize: IntegerSize
+    val drawPathMode: DrawPathMode
 }

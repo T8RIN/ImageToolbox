@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.filters_screen.components
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +20,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -27,6 +30,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.utils.trimTrailingZero
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.presentation.root.widget.text.KeyboardFocusHandler
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
@@ -39,10 +43,17 @@ fun ValueDialog(
     onDismiss: () -> Unit,
     onValueUpdate: (Float) -> Unit
 ) {
+    val focus = LocalFocusManager.current
     if (expanded) {
         var value by remember(valueState) { mutableStateOf(valueState) }
         AlertDialog(
-            modifier = Modifier.alertDialogBorder(),
+            modifier = Modifier
+                .alertDialogBorder()
+                .pointerInput(Unit) {
+                    detectTapGestures {
+                        focus.clearFocus()
+                    }
+                },
             onDismissRequest = onDismiss,
             icon = {
                 Icon(Icons.Outlined.ViewArray, null)
@@ -62,6 +73,8 @@ fun ValueDialog(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
+                    //TODO: Remove when library will be fixed
+                    KeyboardFocusHandler()
                     OutlinedTextField(
                         shape = RoundedCornerShape(16.dp),
                         value = value,

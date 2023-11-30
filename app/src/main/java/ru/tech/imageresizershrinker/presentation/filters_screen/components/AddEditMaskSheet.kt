@@ -70,6 +70,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.domain.image.ImageManager
 import ru.tech.imageresizershrinker.domain.image.draw.DrawMode
+import ru.tech.imageresizershrinker.domain.image.draw.DrawPathMode
 import ru.tech.imageresizershrinker.domain.image.draw.pt
 import ru.tech.imageresizershrinker.domain.image.filters.FilterMaskApplier
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
@@ -77,6 +78,7 @@ import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BitmapDrawer
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawColorSelector
+import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawPathModeSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidthSelector
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Eraser
 import ru.tech.imageresizershrinker.presentation.root.model.PtSaver
@@ -100,6 +102,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.other.Loading
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
+import ru.tech.imageresizershrinker.presentation.root.widget.saver.DrawPathModeSaver
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalWindowSizeClass
@@ -140,10 +143,14 @@ fun AddEditMaskSheet(
         var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(20.pt) }
         var brushSoftness by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(20.pt) }
         var zoomEnabled by rememberSaveable { mutableStateOf(false) }
+        var drawPathMode by rememberSaveable(stateSaver = DrawPathModeSaver) {
+            mutableStateOf(DrawPathMode.Free)
+        }
 
         val canSave = viewModel.paths.isNotEmpty() && viewModel.filterList.isNotEmpty()
         SimpleSheet(
             visible = visible,
+            cancelable = false,
             title = {
                 TitleItem(
                     text = stringResource(id = R.string.add_mask),
@@ -245,7 +252,7 @@ fun AddEditMaskSheet(
                                 drawing = false
                             },
                             imageManager = imageManager,
-                            drawArrowsEnabled = false,
+                            drawPathMode = drawPathMode,
                             backgroundColor = Color.Transparent
                         )
                     }
@@ -388,6 +395,30 @@ fun AddEditMaskSheet(
                                     top = 16.dp
                                 )
                             )
+                            AnimatedVisibility(
+                                visible = !isEraserOn,
+                                enter = fadeIn() + expandVertically(),
+                                exit = fadeOut() + shrinkVertically()
+                            ) {
+                                DrawPathModeSelector(
+                                    modifier = Modifier.padding(
+                                        start = 16.dp,
+                                        end = 16.dp,
+                                        top = 16.dp
+                                    ),
+                                    values = remember {
+                                        listOf(
+                                            DrawPathMode.Free,
+                                            DrawPathMode.OutlinedRect,
+                                            DrawPathMode.OutlinedOval,
+                                            DrawPathMode.Rect,
+                                            DrawPathMode.Oval
+                                        )
+                                    },
+                                    value = drawPathMode,
+                                    onValueChange = { drawPathMode = it }
+                                )
+                            }
                             LineWidthSelector(
                                 modifier = Modifier.padding(
                                     start = 16.dp,

@@ -15,7 +15,6 @@ import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
-import com.t8rin.logger.makeLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olshevski.navigation.reimagined.navController
 import kotlinx.coroutines.Dispatchers
@@ -364,8 +363,8 @@ class MainViewModel @Inject constructor(
             "alpha", "beta", "rc"
         )
 
-        val tagVC = nameTo.toVersionCode().makeLog()
-        val buildVC = nameFrom.toVersionCode().makeLog()
+        val tagVC = nameTo.toVersionCode()
+        val buildVC = nameFrom.toVersionCode()
         return if (betaList.all { it !in nameTo }) {
             tagVC > buildVC
         } else {

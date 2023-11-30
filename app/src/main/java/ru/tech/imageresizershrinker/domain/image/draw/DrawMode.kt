@@ -18,17 +18,16 @@ sealed class DrawMode(open val ordinal: Int) {
     companion object {
         val entries by lazy {
             listOf(
-                Pen, PathEffect.PrivacyBlur(), Neon, Highlighter, PathEffect.Pixelation()
+                Pen,
+                PathEffect.PrivacyBlur(),
+                Neon,
+                Highlighter,
+                PathEffect.Pixelation()
             )
         }
 
-        operator fun invoke(ordinal: Int) = when (ordinal) {
-            0 -> Pen
-            1 -> PathEffect.PrivacyBlur()
-            2 -> Neon
-            3 -> Highlighter
-            4 -> PathEffect.Pixelation()
-            else -> Pen
-        }
+        operator fun invoke(ordinal: Int) = entries.find {
+            it.ordinal == ordinal
+        } ?: Pen
     }
 }
