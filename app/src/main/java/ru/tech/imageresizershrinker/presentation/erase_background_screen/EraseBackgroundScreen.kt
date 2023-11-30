@@ -399,7 +399,7 @@ fun EraseBackgroundScreen(
                     secondaryControls()
                 }
             }
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             EraseModeCard(
                 isRecoveryOn = viewModel.isRecoveryOn,
                 onClick = viewModel::toggleEraser
