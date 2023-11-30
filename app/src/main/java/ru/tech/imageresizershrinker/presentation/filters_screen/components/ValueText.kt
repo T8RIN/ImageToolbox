@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.presentation.filters_screen.components
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -29,7 +30,7 @@ fun ValueText(
 ) {
     AnimatedContent(
         targetState = value,
-        transitionSpec = { fadeIn() togetherWith fadeOut() }
+        transitionSpec = { fadeIn(tween(100)) togetherWith fadeOut(tween(100)) }
     ) {
         Text(
             text = "${it.toString().trimTrailingZero()}$valueSuffix",
