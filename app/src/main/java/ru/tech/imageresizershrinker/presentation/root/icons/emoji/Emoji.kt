@@ -33,17 +33,21 @@ private var Events: List<Uri>? = null
 private var Transportation: List<Uri>? = null
 private var Symbols: List<Uri>? = null
 
-private fun Context.listAssetFiles(path: String): List<String> {
-    return assets.list(path)?.toMutableList() ?: emptyList()
-}
+private fun Context.listAssetFiles(
+    path: String
+): List<String> = assets
+    .list(path)
+    ?.toMutableList() ?: emptyList()
 
 /**
  * Generates Uri of the assets path.
  * @see coil.map.FileUriMapper
  * @see coil.fetch.AssetUriFetcher
  */
-private fun getFileFromAssets(cat: String, filename: String): Uri =
-    "file:///android_asset/svg/%s/%s".format(cat, filename).toUri()
+private fun getFileFromAssets(
+    cat: String,
+    filename: String
+): Uri = "file:///android_asset/svg/$cat/$filename".toUri()
 
 @Composable
 fun Emoji.allIcons(
