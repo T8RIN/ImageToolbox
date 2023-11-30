@@ -50,69 +50,77 @@ class ScreenshotService : Service() {
     lateinit var fileController: FileController
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val mediaProjectionManager =
-            getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
 
-        val resultCode = intent?.getIntExtra("resultCode", RESULT_CANCELED) ?: RESULT_CANCELED
-        val data = intent?.parcelable<Intent>("data")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(
-                NotificationChannel(
-                    "1",
-                    "screenshot",
-                    NotificationManager.IMPORTANCE_DEFAULT
+        runCatching {
+            val mediaProjectionManager =
+                getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+
+            val resultCode = intent?.getIntExtra("resultCode", RESULT_CANCELED) ?: RESULT_CANCELED
+            val data = intent?.parcelable<Intent>("data")
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val notificationManager =
+                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager.createNotificationChannel(
+                    NotificationChannel(
+                        "1",
+                        "screenshot",
+                        NotificationManager.IMPORTANCE_DEFAULT
+                    )
                 )
-            )
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                startForeground(
-                    1,
-                    Notification.Builder(applicationContext, "1")
-                        .setSmallIcon(R.drawable.ic_launcher_monochrome)
-                        .build(),
-                    ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
-                )
-            } else {
-                startForeground(
-                    1,
-                    Notification.Builder(applicationContext, "1")
-                        .setSmallIcon(R.drawable.ic_launcher_monochrome)
-                        .build()
-                )
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    startForeground(
+                        1,
+                        Notification.Builder(applicationContext, "1")
+                            .setSmallIcon(R.drawable.ic_launcher_monochrome)
+                            .build(),
+                        ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
+                    )
+                } else {
+                    startForeground(
+                        1,
+                        Notification.Builder(applicationContext, "1")
+                            .setSmallIcon(R.drawable.ic_launcher_monochrome)
+                            .build()
+                    )
+                }
             }
+            startCapture(
+                getMediaProjection = {
+                    mediaProjectionManager.getMediaProjection(resultCode, data!!)
+                },
+                intent = intent
+            )
         }
-        startCapture(mediaProjectionManager.getMediaProjection(resultCode, data!!), intent)
 
         return START_REDELIVER_INTENT
     }
 
-    private fun startCapture(mediaProjection: MediaProjection, intent: Intent?) {
-        val callback = object : MediaProjection.Callback() {}
-
-        mediaProjection.registerCallback(callback, null)
-        val displayMetrics = applicationContext.resources.displayMetrics
-        val imageReader = ImageReader.newInstance(
-            displayMetrics.widthPixels,
-            displayMetrics.heightPixels,
-            PixelFormat.RGBA_8888, 2
-        )
-
-        val virtualDisplay = mediaProjection.createVirtualDisplay(
-            "screenshot",
-            displayMetrics.widthPixels,
-            displayMetrics.heightPixels,
-            displayMetrics.densityDpi,
-            DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
-            imageReader.surface,
-            null, null
-        )
-
-
+    private fun startCapture(getMediaProjection: () -> MediaProjection, intent: Intent?) {
         Handler(
             Looper.getMainLooper()
         ).postDelayed(
             {
+                val callback = object : MediaProjection.Callback() {}
+
+                val mediaProjection = getMediaProjection()
+                mediaProjection.registerCallback(callback, null)
+                val displayMetrics = applicationContext.resources.displayMetrics
+                val imageReader = ImageReader.newInstance(
+                    displayMetrics.widthPixels,
+                    displayMetrics.heightPixels,
+                    PixelFormat.RGBA_8888, 2
+                )
+
+                val virtualDisplay = mediaProjection.createVirtualDisplay(
+                    "screenshot",
+                    displayMetrics.widthPixels,
+                    displayMetrics.heightPixels,
+                    displayMetrics.densityDpi,
+                    DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                    imageReader.surface,
+                    null, null
+                )
+
                 val image: Image? = imageReader.acquireLatestImage()
 
                 image?.planes?.let { planes ->

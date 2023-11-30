@@ -160,7 +160,7 @@
         </service>
 
         <service
-            android:name=".presentation.pick_color_from_image_screen.components.CaptureTile"
+            android:name=".presentation.pick_color_from_image_screen.components.EditScreenshotTile"
             android:exported="true"
             android:icon="@drawable/outline_app_registration_24"
             android:label="@string/edit_screenshot"

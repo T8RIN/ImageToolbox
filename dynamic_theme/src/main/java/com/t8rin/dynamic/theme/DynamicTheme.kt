@@ -290,49 +290,51 @@ fun rememberAppColorTuple(
         defaultColorTuple
     ) {
         derivedStateOf {
-            var colorTuple: ColorTuple
-            val wallpaperManager = WallpaperManager.getInstance(context)
-            val wallColors =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-                    wallpaperManager
-                        .getWallpaperColors(WallpaperManager.FLAG_SYSTEM)
-                } else null
+            var colorTuple: ColorTuple = defaultColorTuple
+            runCatching {
+                val wallpaperManager = WallpaperManager.getInstance(context)
+                val wallColors =
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                        wallpaperManager
+                            .getWallpaperColors(WallpaperManager.FLAG_SYSTEM)
+                    } else null
 
-            when {
-                dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-                    if (darkTheme) {
-                        dynamicDarkColorScheme(context)
-                    } else {
-                        dynamicLightColorScheme(context)
-                    }.run {
+                when {
+                    dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                        if (darkTheme) {
+                            dynamicDarkColorScheme(context)
+                        } else {
+                            dynamicLightColorScheme(context)
+                        }.run {
+                            colorTuple = ColorTuple(
+                                primary = primary,
+                                secondary = secondary,
+                                tertiary = tertiary,
+                                surface = surface
+                            )
+                        }
+                    }
+
+                    dynamicColor && wallColors != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 -> {
                         colorTuple = ColorTuple(
-                            primary = primary,
-                            secondary = secondary,
-                            tertiary = tertiary,
-                            surface = surface
+                            primary = Color(wallColors.primaryColor.toArgb()),
+                            secondary = wallColors.secondaryColor?.toArgb()?.let { Color(it) },
+                            tertiary = wallColors.tertiaryColor?.toArgb()?.let { Color(it) }
                         )
                     }
-                }
 
-                dynamicColor && wallColors != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 -> {
-                    colorTuple = ColorTuple(
-                        primary = Color(wallColors.primaryColor.toArgb()),
-                        secondary = wallColors.secondaryColor?.toArgb()?.let { Color(it) },
-                        tertiary = wallColors.tertiaryColor?.toArgb()?.let { Color(it) }
-                    )
-                }
+                    dynamicColor && ActivityCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) == PackageManager.PERMISSION_GRANTED -> {
+                        colorTuple = ColorTuple(
+                            primary = (wallpaperManager.drawable as BitmapDrawable).bitmap.extractPrimaryColor()
+                        )
+                    }
 
-                dynamicColor && ActivityCompat.checkSelfPermission(
-                    context,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                ) == PackageManager.PERMISSION_GRANTED -> {
-                    colorTuple = ColorTuple(
-                        primary = (wallpaperManager.drawable as BitmapDrawable).bitmap.extractPrimaryColor()
-                    )
-                }
-
-                else -> {
-                    colorTuple = defaultColorTuple
+                    else -> {
+                        colorTuple = defaultColorTuple
+                    }
                 }
             }
             colorTuple

@@ -51,16 +51,18 @@ object ImageUtils {
     }
 
     fun Uri.fileSize(context: Context): Long? {
-        context.contentResolver
-            .query(this, null, null, null, null, null)
-            .use { cursor ->
-                if (cursor != null && cursor.moveToFirst()) {
-                    val sizeIndex: Int = cursor.getColumnIndex(OpenableColumns.SIZE)
-                    if (!cursor.isNull(sizeIndex)) {
-                        return cursor.getLong(sizeIndex)
+        runCatching {
+            context.contentResolver
+                .query(this, null, null, null, null, null)
+                .use { cursor ->
+                    if (cursor != null && cursor.moveToFirst()) {
+                        val sizeIndex: Int = cursor.getColumnIndex(OpenableColumns.SIZE)
+                        if (!cursor.isNull(sizeIndex)) {
+                            return cursor.getLong(sizeIndex)
+                        }
                     }
                 }
-            }
+        }
         return null
     }
 

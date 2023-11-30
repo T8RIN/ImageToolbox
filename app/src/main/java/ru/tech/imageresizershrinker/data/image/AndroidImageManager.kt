@@ -168,15 +168,17 @@ class AndroidImageManager @Inject constructor(
     }
 
     override suspend fun getImage(data: Any, originalSize: Boolean): Bitmap? {
-        return imageLoader.execute(
-            ImageRequest
-                .Builder(context)
-                .data(data)
-                .apply {
-                    if (originalSize) size(Size.ORIGINAL)
-                }
-                .build()
-        ).drawable?.toBitmap()
+        return runCatching {
+            imageLoader.execute(
+                ImageRequest
+                    .Builder(context)
+                    .data(data)
+                    .apply {
+                        if (originalSize) size(Size.ORIGINAL)
+                    }
+                    .build()
+            ).drawable?.toBitmap()
+        }.getOrNull()
     }
 
     override suspend fun createFilteredPreview(
@@ -736,20 +738,22 @@ class AndroidImageManager @Inject constructor(
                 if (originalSize) size(Size.ORIGINAL)
             }
             .build()
-        return@withContext imageLoader.execute(request).drawable?.toBitmap()?.let { bitmap ->
-            val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
-            val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
-            fd?.close()
-            ImageData(
-                image = bitmap,
-                imageInfo = ImageInfo(
-                    width = bitmap.width,
-                    height = bitmap.height,
-                    imageFormat = ImageFormat[getExtension(uri)]
-                ),
-                metadata = exif
-            )
-        }
+        return@withContext runCatching {
+            imageLoader.execute(request).drawable?.toBitmap()?.let { bitmap ->
+                val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
+                val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
+                fd?.close()
+                ImageData(
+                    image = bitmap,
+                    imageInfo = ImageInfo(
+                        width = bitmap.width,
+                        height = bitmap.height,
+                        imageFormat = ImageFormat[getExtension(uri)]
+                    ),
+                    metadata = exif
+                )
+            }
+        }.getOrNull()
     }
 
     override suspend fun scaleByMaxBytes(
@@ -909,11 +913,13 @@ class AndroidImageManager @Inject constructor(
             } ?: return@withContext ByteArray(0)
         } else currentImage = onImageReadyToCompressInterceptor(imageData.image)
 
-        return@withContext ImageCompressor.compress(
-            image = currentImage,
-            imageFormat = imageData.imageInfo.imageFormat,
-            quality = imageData.imageInfo.quality
-        )
+        return@withContext runCatching {
+            ImageCompressor.compress(
+                image = currentImage,
+                imageFormat = imageData.imageInfo.imageFormat,
+                quality = imageData.imageInfo.quality
+            )
+        }.getOrNull() ?: ByteArray(0)
     }
 
     override fun flip(image: Bitmap, isFlipped: Boolean): Bitmap {
@@ -953,11 +959,13 @@ class AndroidImageManager @Inject constructor(
                 onImageReadyToCompressInterceptor(it)
             } ?: return@withContext ByteArray(0)
 
-        return@withContext ImageCompressor.compress(
-            image = currentImage,
-            imageFormat = imageData.imageInfo.imageFormat,
-            quality = imageData.imageInfo.quality
-        )
+        return@withContext runCatching {
+            ImageCompressor.compress(
+                image = currentImage,
+                imageFormat = imageData.imageInfo.imageFormat,
+                quality = imageData.imageInfo.quality
+            )
+        }.getOrNull() ?: ByteArray(0)
     }
 
     override suspend fun createPreview(
@@ -1269,12 +1277,14 @@ class AndroidImageManager @Inject constructor(
 
     override suspend fun getPdfPages(uri: String): List<Int> {
         return withContext(Dispatchers.IO) {
-            context.contentResolver.openFileDescriptor(
-                uri.toUri(),
-                "r"
-            )?.use { fileDescriptor ->
-                List(PdfRenderer(fileDescriptor).pageCount) { it }
-            } ?: emptyList()
+            runCatching {
+                context.contentResolver.openFileDescriptor(
+                    uri.toUri(),
+                    "r"
+                )?.use { fileDescriptor ->
+                    List(PdfRenderer(fileDescriptor).pageCount) { it }
+                }
+            }.getOrNull() ?: emptyList()
         }
     }
 
@@ -1284,22 +1294,24 @@ class AndroidImageManager @Inject constructor(
             if (!pagesBuf[uri].isNullOrEmpty()) {
                 pagesBuf[uri]!!
             } else {
-                context.contentResolver.openFileDescriptor(
-                    uri.toUri(),
-                    "r"
-                )?.use { fileDescriptor ->
-                    val r = PdfRenderer(fileDescriptor)
-                    List(r.pageCount) {
-                        val page = r.openPage(it)
-                        page?.run {
-                            IntegerSize(width, height)
-                        }.also {
-                            page.close()
+                runCatching {
+                    context.contentResolver.openFileDescriptor(
+                        uri.toUri(),
+                        "r"
+                    )?.use { fileDescriptor ->
+                        val r = PdfRenderer(fileDescriptor)
+                        List(r.pageCount) {
+                            val page = r.openPage(it)
+                            page?.run {
+                                IntegerSize(width, height)
+                            }.also {
+                                page.close()
+                            }
+                        }.filterNotNull().also {
+                            pagesBuf[uri] = it
                         }
-                    }.filterNotNull().also {
-                        pagesBuf[uri] = it
                     }
-                } ?: emptyList()
+                }.getOrNull() ?: emptyList()
             }
         }
     }

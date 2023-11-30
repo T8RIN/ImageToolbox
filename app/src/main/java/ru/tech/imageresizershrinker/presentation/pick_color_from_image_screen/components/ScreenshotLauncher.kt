@@ -30,27 +30,31 @@ class ScreenshotLauncher : AppCompatActivity() {
         val captureIntent = projectionManager.createScreenCaptureIntent()
 
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            val resultCode = it.resultCode
-            val data = it.data
-            if (resultCode == RESULT_OK) {
-                val serviceIntent = Intent(this, ScreenshotService::class.java).apply {
-                    putExtra("data", data)
-                    putExtra("resultCode", resultCode)
-                    putExtra("screen", intent.getStringExtra("screen"))
-                }
+            runCatching {
+                val resultCode = it.resultCode
+                val data = it.data
+                if (resultCode == RESULT_OK) {
+                    val serviceIntent = Intent(this, ScreenshotService::class.java).apply {
+                        putExtra("data", data)
+                        putExtra("resultCode", resultCode)
+                        putExtra("screen", intent.getStringExtra("screen"))
+                    }
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    startForegroundService(serviceIntent)
-                } else {
-                    startService(serviceIntent)
-                }
-
-            } else Toast.makeText(
-                applicationContext,
-                R.string.something_went_wrong,
-                Toast.LENGTH_LONG
-            ).show()
-            finish()
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startForegroundService(serviceIntent)
+                    } else {
+                        startService(serviceIntent)
+                    }
+                    finish()
+                } else throw SecurityException()
+            }.onFailure {
+                Toast.makeText(
+                    applicationContext,
+                    R.string.something_went_wrong,
+                    Toast.LENGTH_LONG
+                ).show()
+                finish()
+            }
         }.launch(captureIntent)
     }
 }

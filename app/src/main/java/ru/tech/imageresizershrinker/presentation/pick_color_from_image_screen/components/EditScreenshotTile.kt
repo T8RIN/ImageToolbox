@@ -10,7 +10,7 @@ import androidx.annotation.RequiresApi
 import ru.tech.imageresizershrinker.R
 
 @RequiresApi(Build.VERSION_CODES.N)
-class TakeScreenshotTile : TileService() {
+class EditScreenshotTile : TileService() {
 
     @SuppressLint("StartActivityAndCollapseDeprecated")
     override fun onClick() {
@@ -18,7 +18,6 @@ class TakeScreenshotTile : TileService() {
         runCatching {
             val intent = Intent(applicationContext, ScreenshotLauncher::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            intent.putExtra("screen", "shot")
 
             val pendingIntent =
                 PendingIntent.getActivity(
@@ -39,8 +38,8 @@ class TakeScreenshotTile : TileService() {
 
     override fun onStartListening() {
         val tile = qsTile
-        tile.label = getString(R.string.screenshot)
-        tile.icon = Icon.createWithResource(this, R.drawable.outline_screenshot_24)
+        tile.label = getString(R.string.edit_screenshot)
+        tile.icon = Icon.createWithResource(this, R.drawable.outline_app_registration_24)
         tile.updateTile()
     }
 
