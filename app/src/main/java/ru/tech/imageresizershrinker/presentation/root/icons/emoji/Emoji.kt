@@ -21,7 +21,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import ru.tech.imageresizershrinker.R
-import java.io.File
 
 
 object Emoji
@@ -38,17 +37,13 @@ private fun Context.listAssetFiles(path: String): List<String> {
     return assets.list(path)?.toMutableList() ?: emptyList()
 }
 
-private fun Context.getFileFromAssets(cat: String, filename: String): Uri =
-    File(getDir(cat, Context.MODE_PRIVATE), filename)
-        .also {
-            if (!it.exists()) {
-                it.outputStream().use { cache ->
-                    assets.open("svg/$cat/$filename").use { inputStream ->
-                        inputStream.copyTo(cache)
-                    }
-                }
-            }
-        }.toUri()
+/**
+ * Generates Uri of the assets path.
+ * @see coil.map.FileUriMapper
+ * @see coil.fetch.AssetUriFetcher
+ */
+private fun getFileFromAssets(cat: String, filename: String): Uri =
+    "file:///android_asset/svg/%s/%s".format(cat, filename).toUri()
 
 @Composable
 fun Emoji.allIcons(
@@ -75,31 +70,31 @@ private fun initializeEmojis(context: Context) {
         Emotions = context
             .listAssetFiles("svg/emotions")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
-            .map { context.getFileFromAssets("emotions", it) }
+            .map { getFileFromAssets("emotions", it) }
         Food = context
             .listAssetFiles("svg/food")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
-            .map { context.getFileFromAssets("food", it) }
+            .map { getFileFromAssets("food", it) }
         Nature = context
             .listAssetFiles("svg/nature")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
-            .map { context.getFileFromAssets("nature", it) }
+            .map { getFileFromAssets("nature", it) }
         Objects = context
             .listAssetFiles("svg/objects")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
-            .map { context.getFileFromAssets("objects", it) }
+            .map { getFileFromAssets("objects", it) }
         Events = context
             .listAssetFiles("svg/events")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
-            .map { context.getFileFromAssets("events", it) }
+            .map { getFileFromAssets("events", it) }
         Transportation = context
             .listAssetFiles("svg/transportation")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
-            .map { context.getFileFromAssets("transportation", it) }
+            .map { getFileFromAssets("transportation", it) }
         Symbols = context
             .listAssetFiles("svg/symbols")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
-            .map { context.getFileFromAssets("symbols", it) }
+            .map { getFileFromAssets("symbols", it) }
     }
 }
 
