@@ -598,6 +598,7 @@ fun MainScreen(
                                                     navController.navigate(screen)
                                                 },
                                                 modifier = Modifier
+                                                    .widthIn(min = 1.dp)
                                                     .fillMaxWidth()
                                                     .animateItemPlacement(),
                                                 title = stringResource(screen.title),
