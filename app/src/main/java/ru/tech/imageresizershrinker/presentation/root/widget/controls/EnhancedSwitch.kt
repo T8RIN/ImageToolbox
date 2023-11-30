@@ -52,6 +52,7 @@ fun EnhancedSwitch(
                         if (settingsState.drawSwitchShadows) 1.dp
                         else 0.dp
                     ).value,
+                    borderColor = Color.Transparent,
                     isShadowClip = true,
                     isStandaloneContainer = false,
                     color = Color.Transparent
