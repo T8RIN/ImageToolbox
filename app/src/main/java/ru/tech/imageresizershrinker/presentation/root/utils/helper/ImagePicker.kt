@@ -24,51 +24,56 @@ class ImagePicker(
     private val photoPickerMultiple: ManagedActivityResultLauncher<PickVisualMediaRequest, List<Uri>>,
     private val getContent: ManagedActivityResultLauncher<Intent, ActivityResult>,
 ) {
-    fun pickImage() = runCatching {
-        when (mode) {
-            ImagePickerMode.PhotoPickerSingle -> photoPickerSingle.launch(
-                PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.ImageOnly
-                )
-            )
-
-            ImagePickerMode.PhotoPickerMultiple -> photoPickerMultiple.launch(
-                PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.ImageOnly
-                )
-            )
-
-            ImagePickerMode.GallerySingle, ImagePickerMode.GalleryMultiple -> {
-                val intent =
-                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
-                        type = "image/*"
-                        if (mode == ImagePickerMode.GalleryMultiple) {
-                            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                        }
-                    }
-                getContent.launch(
-                    Intent.createChooser(
-                        intent,
-                        context.getString(R.string.pick_image)
+    fun pickImage() {
+        runCatching {
+            when (mode) {
+                ImagePickerMode.PhotoPickerSingle -> photoPickerSingle.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly
                     )
                 )
-            }
 
-            ImagePickerMode.GetContentSingle, ImagePickerMode.GetContentMultiple -> {
-                val intent = Intent().apply {
-                    type = "image/*"
-                    action = Intent.ACTION_OPEN_DOCUMENT
-                    putExtra(
-                        Intent.EXTRA_ALLOW_MULTIPLE,
-                        mode == ImagePickerMode.GetContentMultiple
+                ImagePickerMode.PhotoPickerMultiple -> photoPickerMultiple.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                    )
+                )
+
+                ImagePickerMode.GallerySingle, ImagePickerMode.GalleryMultiple -> {
+                    val intent =
+                        Intent(
+                            Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                        ).apply {
+                            type = "image/*"
+                            if (mode == ImagePickerMode.GalleryMultiple) {
+                                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                            }
+                        }
+                    getContent.launch(
+                        Intent.createChooser(
+                            intent,
+                            context.getString(R.string.pick_image)
+                        )
                     )
                 }
-                getContent.launch(
-                    Intent.createChooser(
-                        intent,
-                        context.getString(R.string.pick_image)
+
+                ImagePickerMode.GetContentSingle, ImagePickerMode.GetContentMultiple -> {
+                    val intent = Intent().apply {
+                        type = "image/*"
+                        action = Intent.ACTION_OPEN_DOCUMENT
+                        putExtra(
+                            Intent.EXTRA_ALLOW_MULTIPLE,
+                            mode == ImagePickerMode.GetContentMultiple
+                        )
+                    }
+                    getContent.launch(
+                        Intent.createChooser(
+                            intent,
+                            context.getString(R.string.pick_image)
+                        )
                     )
-                )
+                }
             }
         }
     }
