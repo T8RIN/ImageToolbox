@@ -161,7 +161,7 @@ dependencies {
     implementation("androidx.compose.material:material:1.6.0-beta02")
 
     //Di
-    implementation("com.google.dagger:hilt-android:2.48.1")
+    implementation("com.google.dagger:hilt-android:2.49")
     kapt("com.google.dagger:hilt-compiler:2.48.1")
 
     //Coil
