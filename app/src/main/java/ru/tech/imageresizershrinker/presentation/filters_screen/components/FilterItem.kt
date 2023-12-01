@@ -23,6 +23,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -41,9 +42,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiColorFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFilter
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiRGBFilter
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorSelectionRow
+import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorSelectionRowDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
@@ -153,6 +156,14 @@ fun <T> FilterItem(
                         Box(modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)) {
                             ColorSelectionRow(
                                 value = filter.value as Color,
+                                defaultColors = remember(filter) {
+                                    derivedStateOf {
+                                        ColorSelectionRowDefaults.colorList.map {
+                                            if (filter is UiColorFilter) it.copy(0.5f)
+                                            else it
+                                        }
+                                    }
+                                }.value,
                                 allowAlpha = filter !is UiRGBFilter,
                                 allowScroll = !previewOnly,
                                 onValueChange = { color ->

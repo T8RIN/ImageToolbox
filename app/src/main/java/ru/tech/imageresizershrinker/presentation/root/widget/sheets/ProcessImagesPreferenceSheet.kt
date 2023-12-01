@@ -52,6 +52,7 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.ImageStitchingPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.ImagesToPdfPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.LimitsPreference
+import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.MaskFilterPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.PdfToImagesPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.PickColorPreference
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.screens.PreviewPdfPreference
@@ -144,7 +145,6 @@ fun ProcessImagesPreferenceSheet(
                                     }
                                 }
                             }
-                        //TODO: DIX FOR NET IMAGE
                         if (!hasPdf) {
                             if (uris.size in 1..2) {
                                 Row(
@@ -272,6 +272,19 @@ fun ProcessImagesPreferenceSheet(
                             BackgroundRemoverPreference(
                                 modifier = Modifier.fillMaxWidth(),
                                 onClick = { navigate(Screen.EraseBackground(uris.firstOrNull())) },
+                                color = color
+                            )
+                        }
+                        item {
+                            MaskFilterPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = {
+                                    navigate(
+                                        Screen.Filter(
+                                            type = Screen.Filter.Type.Masking(uris.firstOrNull())
+                                        )
+                                    )
+                                },
                                 color = color
                             )
                         }

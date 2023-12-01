@@ -139,6 +139,8 @@ fun ColorSelectionRow(
                         color = color,
                         resultPadding = 0.dp
                     )
+                    .transparencyChecker()
+                    .background(color, CircleShape)
                     .clickable {
                         onValueChange(color)
                         customColor = null
