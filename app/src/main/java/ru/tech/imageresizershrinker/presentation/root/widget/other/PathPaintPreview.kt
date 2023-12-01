@@ -26,6 +26,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.domain.image.draw.DrawPathMode
 import ru.tech.imageresizershrinker.domain.image.draw.PathPaint
 import ru.tech.imageresizershrinker.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
@@ -60,9 +61,27 @@ fun PathPaintPreview(
                         size.width.toInt(),
                         size.height.toInt()
                     )
-                    drawIntoCanvas {
-                        val canvas = it.nativeCanvas
+                    drawIntoCanvas { composeCanvas ->
+                        val canvas = composeCanvas.nativeCanvas
                         pathPaints.forEach { pathPaint ->
+                            val stroke = pathPaint
+                                .strokeWidth
+                                .toPx(currentSize)
+
+                            val isRect = listOf(
+                                DrawPathMode.OutlinedRect,
+                                DrawPathMode.OutlinedOval,
+                                DrawPathMode.Rect,
+                                DrawPathMode.Oval,
+                                DrawPathMode.Lasso
+                            ).any { pathPaint.drawPathMode::class.isInstance(it) }
+
+                            val isFilled = listOf(
+                                DrawPathMode.Rect,
+                                DrawPathMode.Oval,
+                                DrawPathMode.Lasso
+                            ).any { pathPaint.drawPathMode::class.isInstance(it) }
+
                             canvas.drawPath(
                                 pathPaint.path
                                     .scaleToFitCanvas(
@@ -72,18 +91,28 @@ fun PathPaintPreview(
                                     .asAndroidPath(),
                                 Paint()
                                     .apply {
-                                        isAntiAlias = true
                                         if (pathPaint.isErasing) {
                                             blendMode = BlendMode.Clear
+                                            style = PaintingStyle.Stroke
+                                            strokeWidth = stroke
+                                            strokeCap = StrokeCap.Round
+                                            strokeJoin = StrokeJoin.Round
                                         } else {
                                             color = pathPaint.drawColor
+                                            if (isFilled) {
+                                                style = PaintingStyle.Fill
+                                            } else {
+                                                style = PaintingStyle.Stroke
+                                                strokeWidth = stroke
+                                                if (isRect) {
+                                                    style = PaintingStyle.Stroke
+                                                    strokeWidth = stroke
+                                                } else {
+                                                    strokeCap = StrokeCap.Round
+                                                    strokeJoin = StrokeJoin.Round
+                                                }
+                                            }
                                         }
-                                        style = PaintingStyle.Stroke
-                                        strokeWidth = pathPaint
-                                            .strokeWidth
-                                            .toPx(currentSize)
-                                        strokeCap = StrokeCap.Round
-                                        strokeJoin = StrokeJoin.Round
                                     }
                                     .asFrameworkPaint()
                                     .apply {
