@@ -204,9 +204,11 @@ fun ImageReorderCarousel(
                     .height(edgeHeight)
                     .background(
                         brush = Brush.Companion.horizontalGradient(
-                            0f to MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                1.dp
-                            ),
+                            0f to MaterialTheme
+                                .colorScheme
+                                .surfaceColorAtElevation(
+                                    1.dp
+                                ),
                             1f to Color.Transparent
                         )
                     )
@@ -219,9 +221,11 @@ fun ImageReorderCarousel(
                     .background(
                         brush = Brush.Companion.horizontalGradient(
                             0f to Color.Transparent,
-                            1f to MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                1.dp
-                            )
+                            1f to MaterialTheme
+                                .colorScheme
+                                .surfaceColorAtElevation(
+                                    1.dp
+                                )
                         )
                     )
             )
