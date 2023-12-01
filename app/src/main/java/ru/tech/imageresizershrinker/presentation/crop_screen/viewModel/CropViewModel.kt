@@ -19,12 +19,14 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.presentation.root.utils.state.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,6 +34,10 @@ class CropViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
+
+    private val _selectedAspectRatio: MutableState<DomainAspectRatio> =
+        mutableStateOf(DomainAspectRatio.Free)
+    val selectedAspectRatio by _selectedAspectRatio
 
     private val _cropProperties = mutableStateOf(
         CropDefaults.properties(
@@ -129,11 +135,19 @@ class CropViewModel @Inject constructor(
         savingJob = it
     }
 
-    fun setCropAspectRatio(aspectRatio: AspectRatio) {
+    fun setCropAspectRatio(
+        domainAspectRatio: DomainAspectRatio,
+        aspectRatio: AspectRatio
+    ) {
         _cropProperties.value = _cropProperties.value.copy(
-            aspectRatio = aspectRatio,
-            fixedAspectRatio = aspectRatio != AspectRatio.Original
+            aspectRatio = aspectRatio.takeIf {
+                it != AspectRatio.Original
+            } ?: _bitmap.value?.let {
+                AspectRatio(it.width.toFloat() / it.height)
+            } ?: aspectRatio,
+            fixedAspectRatio = domainAspectRatio != DomainAspectRatio.Free
         )
+        _selectedAspectRatio.update { domainAspectRatio }
     }
 
     fun setCropMask(cropOutlineProperty: CropOutlineProperty) {

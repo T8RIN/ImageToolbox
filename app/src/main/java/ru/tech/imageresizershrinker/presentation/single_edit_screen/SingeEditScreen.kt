@@ -573,6 +573,7 @@ fun SingleEditScreen(
         cropProperties = viewModel.cropProperties,
         setCropAspectRatio = viewModel::setCropAspectRatio,
         setCropMask = viewModel::setCropMask,
+        selectedAspectRatio = viewModel.selectedAspectRatio,
         loadImage = viewModel::loadImage
     )
 

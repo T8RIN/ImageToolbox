@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -16,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CropFree
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -35,17 +37,15 @@ import com.smarttoolfactory.cropper.util.createRectShape
 import com.smarttoolfactory.cropper.widget.AspectRatioSelectionCard
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.utils.trimTrailingZero
-import ru.tech.imageresizershrinker.domain.model.AspectRatio.Numeric
+import ru.tech.imageresizershrinker.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.fadingEdges
-import kotlin.math.roundToInt
-import ru.tech.imageresizershrinker.domain.model.AspectRatio as DomainAspectRatio
 
 @Composable
 fun AspectRatioSelection(
     modifier: Modifier = Modifier,
-    selectedIndex: Int = 2,
+    selectedAspectRatio: DomainAspectRatio = DomainAspectRatio.Free,
     unselectedCardColor: Color = MaterialTheme.colorScheme.surfaceContainerLowest,
     contentPadding: PaddingValues = PaddingValues(
         start = 16.dp,
@@ -57,7 +57,7 @@ fun AspectRatioSelection(
             .calculateEndPadding(LocalLayoutDirection.current)
     ),
     enableFadingEdges: Boolean = false,
-    onAspectRatioChange: (CropAspectRatio) -> Unit
+    onAspectRatioChange: (DomainAspectRatio, AspectRatio) -> Unit
 ) {
     val aspectRatios = aspectRatios()
 
@@ -83,8 +83,12 @@ fun AspectRatioSelection(
             )
         ) {
             itemsIndexed(aspectRatios) { index, item ->
-                if (item.aspectRatio != AspectRatio.Original) {
-                    val selected = selectedIndex == index
+                val selected = item == selectedAspectRatio
+                val cropAspectRatio = item.toCropAspectRatio(
+                    original = stringResource(R.string.original),
+                    free = stringResource(R.string.free)
+                )
+                if (item != DomainAspectRatio.Original && item != DomainAspectRatio.Free) {
                     AspectRatioSelectionCard(
                         modifier = Modifier
                             .width(90.dp)
@@ -100,16 +104,21 @@ fun AspectRatioSelection(
                                 )
                                 else MaterialTheme.colorScheme.outlineVariant()
                             )
-                            .clickable { onAspectRatioChange(aspectRatios[index]) }
+                            .clickable {
+                                onAspectRatioChange(
+                                    aspectRatios[index],
+                                    cropAspectRatio.aspectRatio
+                                )
+                            }
                             .padding(start = 12.dp, top = 12.dp, end = 12.dp, bottom = 2.dp),
                         contentColor = Color.Transparent,
                         color = MaterialTheme.colorScheme.onSurface,
-                        cropAspectRatio = item
+                        cropAspectRatio = cropAspectRatio
                     )
                 } else {
-                    val selected = selectedIndex == index
                     Box(
                         modifier = Modifier
+                            .height(106.dp)
                             .container(
                                 resultPadding = 0.dp,
                                 color = animateColorAsState(
@@ -122,17 +131,33 @@ fun AspectRatioSelection(
                                 )
                                 else MaterialTheme.colorScheme.outlineVariant()
                             )
-                            .clickable { onAspectRatioChange(aspectRatios[index]) }
-                            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+                            .clickable {
+                                onAspectRatioChange(
+                                    aspectRatios[index],
+                                    cropAspectRatio.aspectRatio
+                                )
+                            }
+                            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
+                        contentAlignment = Alignment.Center
                     ) {
                         Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.padding(vertical = 12.dp)
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Icon(Icons.Outlined.Image, null)
+                            if (item is DomainAspectRatio.Original) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Image,
+                                    contentDescription = null
+                                )
+                            } else {
+                                Icon(
+                                    imageVector = Icons.Outlined.CropFree,
+                                    contentDescription = null
+                                )
+                            }
                             Text(
-                                text = item.title,
-                                fontSize = 14.sp
+                                text = cropAspectRatio.title,
+                                fontSize = 14.sp,
+                                lineHeight = 14.sp
                             )
                         }
                     }
@@ -142,30 +167,33 @@ fun AspectRatioSelection(
     }
 }
 
-fun CropAspectRatio.toDomainAspect(): DomainAspectRatio =
-    if (this.aspectRatio == AspectRatio.Original) {
-        DomainAspectRatio.Original
-    } else title.split(":").let {
-        Numeric(
-            widthProportion = it[0].toFloat().run { (this * 100.0f).roundToInt() / 100.0f },
-            heightProportion = it[1].toFloat().run { (this * 100.0f).roundToInt() / 100.0f }
+fun DomainAspectRatio.toCropAspectRatio(
+    original: String,
+    free: String
+): CropAspectRatio = when (this) {
+    is DomainAspectRatio.Original -> {
+        CropAspectRatio(
+            title = original,
+            shape = createRectShape(AspectRatio.Original),
+            aspectRatio = AspectRatio.Original
         )
     }
 
-fun DomainAspectRatio.toCropAspectRatio(
-    original: String
-): CropAspectRatio = if (this is DomainAspectRatio.Original) {
-    CropAspectRatio(
-        title = original,
-        shape = createRectShape(AspectRatio.Original),
-        aspectRatio = AspectRatio.Original
-    )
-} else {
-    val width = widthProportion.toString().trimTrailingZero()
-    val height = heightProportion.toString().trimTrailingZero()
-    CropAspectRatio(
-        title = "$width:$height",
-        shape = createRectShape(AspectRatio(value)),
-        aspectRatio = AspectRatio(value)
-    )
+    is DomainAspectRatio.Free -> {
+        CropAspectRatio(
+            title = free,
+            shape = createRectShape(AspectRatio.Original),
+            aspectRatio = AspectRatio.Original
+        )
+    }
+
+    else -> {
+        val width = widthProportion.toString().trimTrailingZero()
+        val height = heightProportion.toString().trimTrailingZero()
+        CropAspectRatio(
+            title = "$width:$height",
+            shape = createRectShape(AspectRatio(value)),
+            aspectRatio = AspectRatio(value)
+        )
+    }
 }

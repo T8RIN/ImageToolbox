@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.PaletteStyle
-import ru.tech.imageresizershrinker.domain.model.AspectRatio
+import ru.tech.imageresizershrinker.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.domain.model.FontFam
 import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.domain.model.SettingsState
@@ -58,7 +58,7 @@ data class UiSettingsState(
     val drawFabShadows: Boolean,
     val drawAppBarShadows: Boolean,
     val appOpenCount: Int,
-    val aspectRatios: List<AspectRatio>,
+    val aspectRatios: List<DomainAspectRatio>,
     val lockDrawOrientation: Boolean,
     val themeContrastLevel: Double,
     val themeStyle: PaletteStyle,

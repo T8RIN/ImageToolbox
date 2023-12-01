@@ -79,7 +79,6 @@ import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.AspectRatioSelection
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.CropMaskSelection
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.Cropper
-import ru.tech.imageresizershrinker.presentation.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.presentation.crop_screen.viewModel.CropViewModel
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
@@ -217,18 +216,15 @@ fun CropScreen(
         )
     )
 
-    val aspectRatios = aspectRatios()
     val controls: @Composable () -> Unit = {
         Column(Modifier.verticalScroll(rememberScrollState())) {
             AspectRatioSelection(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 16.dp),
-                selectedIndex = aspectRatios.indexOfFirst { cr ->
-                    cr.aspectRatio == viewModel.cropProperties.aspectRatio
-                },
-                onAspectRatioChange = { aspect ->
-                    viewModel.setCropAspectRatio(aspect.aspectRatio)
+                selectedAspectRatio = viewModel.selectedAspectRatio,
+                onAspectRatioChange = { domainAspect, aspect ->
+                    viewModel.setCropAspectRatio(domainAspect, aspect)
                 }
             )
             HorizontalDivider()

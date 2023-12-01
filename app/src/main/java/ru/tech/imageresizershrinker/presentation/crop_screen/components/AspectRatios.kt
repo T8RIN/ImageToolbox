@@ -3,15 +3,11 @@ package ru.tech.imageresizershrinker.presentation.crop_screen.components
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.res.stringResource
-import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.model.AspectRatio
+import ru.tech.imageresizershrinker.domain.model.DomainAspectRatio
 
 @Composable
-fun aspectRatios(
-    original: String = stringResource(R.string.original)
-) = remember(original) {
+fun aspectRatios() = remember {
     derivedStateOf {
-        AspectRatio.defaultList.map { it.toCropAspectRatio(original) }
+        DomainAspectRatio.defaultList
     }
 }.value

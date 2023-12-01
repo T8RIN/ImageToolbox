@@ -41,10 +41,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.AspectRatioSelection
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.CropMaskSelection
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.Cropper
-import ru.tech.imageresizershrinker.presentation.crop_screen.components.aspectRatios
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
@@ -60,7 +60,8 @@ fun CropEditOption(
     bitmap: Bitmap?,
     onGetBitmap: (Bitmap) -> Unit,
     cropProperties: CropProperties,
-    setCropAspectRatio: (AspectRatio) -> Unit,
+    selectedAspectRatio: DomainAspectRatio,
+    setCropAspectRatio: (DomainAspectRatio, AspectRatio) -> Unit,
     setCropMask: (CropOutlineProperty) -> Unit,
     loadImage: suspend (Uri) -> Bitmap?
 ) {
@@ -74,17 +75,12 @@ fun CropEditOption(
             onDismiss = onDismiss,
             useScaffold = useScaffold,
             controls = {
-                val aspectRatios = aspectRatios()
                 AspectRatioSelection(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 16.dp),
-                    selectedIndex = aspectRatios.indexOfFirst { cr ->
-                        cr.aspectRatio == cropProperties.aspectRatio
-                    },
-                    onAspectRatioChange = { aspect ->
-                        setCropAspectRatio(aspect.aspectRatio)
-                    }
+                    selectedAspectRatio = selectedAspectRatio,
+                    onAspectRatioChange = setCropAspectRatio
                 )
                 HorizontalDivider()
                 CropMaskSelection(
