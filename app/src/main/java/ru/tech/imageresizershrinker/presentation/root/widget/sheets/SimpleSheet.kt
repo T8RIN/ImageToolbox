@@ -3,9 +3,9 @@ package ru.tech.imageresizershrinker.presentation.root.widget.sheets
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -29,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.modalsheet.ModalSheet
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -47,6 +46,10 @@ fun SimpleSheet(
     val settingsState = LocalSettingsState.current
     var showSheet by visible
 
+    val autoElevation by animateDpAsState(
+        if (settingsState.drawContainerShadows) 16.dp
+        else 0.dp
+    )
     ProvideContainerShape(null) {
         ModalSheet(
             cancelable = cancelable,
@@ -60,22 +63,14 @@ fun SimpleSheet(
             sheetModifier = Modifier
                 .statusBarsPadding()
                 .offset(y = (settingsState.borderWidth + 1.dp))
-                .border(
-                    width = settingsState.borderWidth,
-                    color = MaterialTheme.colorScheme.outlineVariant(
-                        luminance = 0.3f,
-                        onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
-                    ),
-                    shape = BottomSheetDefaults.ExpandedShape
-                )
                 .autoElevatedBorder(
                     shape = BottomSheetDefaults.ExpandedShape,
-                    autoElevation = 16.dp
+                    autoElevation = autoElevation
                 )
                 .autoElevatedBorder(
                     height = 0.dp,
                     shape = BottomSheetDefaults.ExpandedShape,
-                    autoElevation = 16.dp
+                    autoElevation = autoElevation
                 )
                 .animateContentSize(),
             elevation = 0.dp,
@@ -105,6 +100,11 @@ fun SimpleSheet(
     val settingsState = LocalSettingsState.current
     var showSheet by visible
 
+    val autoElevation by animateDpAsState(
+        if (settingsState.drawContainerShadows) 16.dp
+        else 0.dp
+    )
+
     ProvideContainerShape(null) {
         ModalSheet(
             cancelable = cancelable,
@@ -118,22 +118,14 @@ fun SimpleSheet(
             sheetModifier = Modifier
                 .statusBarsPadding()
                 .offset(y = (settingsState.borderWidth + 1.dp))
-                .border(
-                    width = settingsState.borderWidth,
-                    color = MaterialTheme.colorScheme.outlineVariant(
-                        luminance = 0.3f,
-                        onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
-                    ),
-                    shape = BottomSheetDefaults.ExpandedShape
-                )
                 .autoElevatedBorder(
                     shape = BottomSheetDefaults.ExpandedShape,
-                    autoElevation = 16.dp
+                    autoElevation = autoElevation
                 )
                 .autoElevatedBorder(
                     height = 0.dp,
                     shape = BottomSheetDefaults.ExpandedShape,
-                    autoElevation = 16.dp
+                    autoElevation = autoElevation
                 )
                 .animateContentSize(),
             elevation = 0.dp,
@@ -178,6 +170,10 @@ fun SimpleSheet(
     sheetContent: @Composable ColumnScope.() -> Unit,
 ) {
     val settingsState = LocalSettingsState.current
+    val autoElevation by animateDpAsState(
+        if (settingsState.drawContainerShadows) 16.dp
+        else 0.dp
+    )
 
     ProvideContainerShape(null) {
         ModalSheet(
@@ -192,22 +188,14 @@ fun SimpleSheet(
             sheetModifier = Modifier
                 .statusBarsPadding()
                 .offset(y = (settingsState.borderWidth + 1.dp))
-                .border(
-                    width = settingsState.borderWidth,
-                    color = MaterialTheme.colorScheme.outlineVariant(
-                        luminance = 0.3f,
-                        onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
-                    ),
-                    shape = BottomSheetDefaults.ExpandedShape
-                )
                 .autoElevatedBorder(
                     shape = BottomSheetDefaults.ExpandedShape,
-                    autoElevation = 16.dp
+                    autoElevation = autoElevation
                 )
                 .autoElevatedBorder(
                     height = 0.dp,
                     shape = BottomSheetDefaults.ExpandedShape,
-                    autoElevation = 16.dp
+                    autoElevation = autoElevation
                 )
                 .animateContentSize(),
             elevation = 0.dp,

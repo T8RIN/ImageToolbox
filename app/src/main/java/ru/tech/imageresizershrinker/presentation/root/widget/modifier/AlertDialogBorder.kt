@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.modifier
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -10,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 fun Modifier.alertDialogBorder() = composed {
     navigationBarsPadding()
@@ -21,6 +23,9 @@ fun Modifier.alertDialogBorder() = composed {
                 onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
             ),
             shape = AlertDialogDefaults.shape,
-            autoElevation = 16.dp
+            autoElevation = animateDpAsState(
+                if (LocalSettingsState.current.drawContainerShadows) 16.dp
+                else 0.dp
+            ).value
         )
 }

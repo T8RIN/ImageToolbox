@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -12,7 +13,6 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -61,6 +61,7 @@ import kotlinx.coroutines.sync.withLock
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.theme.harmonizeWithPrimary
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 import kotlin.coroutines.resume
 
@@ -124,12 +125,15 @@ fun Toast(
                 )
                 .imePadding()
                 .systemBarsPadding()
-                .border(
-                    width = LocalSettingsState.current.borderWidth,
+                .autoElevatedBorder(
                     color = MaterialTheme.colorScheme
                         .outlineVariant(0.3f, contentColor)
                         .copy(alpha = 0.95f),
-                    shape = shape
+                    shape = shape,
+                    autoElevation = animateDpAsState(
+                        if (LocalSettingsState.current.drawContainerShadows) 6.dp
+                        else 0.dp
+                    ).value
                 )
                 .alpha(0.95f),
         shape = shape
