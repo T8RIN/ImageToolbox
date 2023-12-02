@@ -112,7 +112,7 @@
     <string name="add">Додати</string>
     <string name="permission">Дозвіл</string>
     <string name="grant">Дозволити</string>
-    <string name="permission_sub">Застосунку потрібен доступ до вашого сховища для збереження зображень, це необхідно, без цього він не зможе працювати, тому, будь ласка, надайте дозвіл у наступному діалоговому вікні</string>
+    <string name="permission_sub">Застосунку потрібен доступ до вашого сховища для збереження зображень. Будь ласка, надайте дозвіл у наступному діалоговому вікні</string>
     <string name="grant_permission_manual">Застосунку потрібен цей дозвіл для роботи, будь ласка, надайте його вручну</string>
     <string name="external_storage">Зовнішня пам\'ять</string>
     <string name="monet_colors">Кольори Monet</string>
@@ -129,7 +129,7 @@
     <string name="add_file_size">Додати розмір файлу</string>
     <string name="delete_exif">Видалити EXIF</string>
     <string name="delete_exif_sub">Видалення метаданих EXIF з будь-якої пари зображень</string>
-    <string name="add_file_size_sub">Якщо ввімкнено, додає ширину та висоту збереженого зображення до назви вихідного файлу</string>
+    <string name="add_file_size_sub">Якщо увімкнено, додає ширину та висоту збереженого зображення до назви вихідного файлу</string>
     <string name="image_preview">Попередній перегляд зображень</string>
     <string name="image_preview_sub">Переглядайте будь-які типи зображень: GIF, SVG тощо</string>
     <string name="image_source">Джерело зображення</string>
