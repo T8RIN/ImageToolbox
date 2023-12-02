@@ -24,8 +24,8 @@ android {
         applicationId = "ru.tech.imageresizershrinker"
         minSdk = 21
         targetSdk = 34
-        versionCode = 103
-        versionName = "2.5.0-rc02"
+        versionCode = 104
+        versionName = "2.5.0"
         resourceConfigurations += setOf(
             "en",
             "ar",
@@ -144,7 +144,7 @@ dependencies {
     implementation("androidx.exifinterface:exifinterface:1.3.6")
     implementation("androidx.appcompat:appcompat:1.7.0-alpha03")
     implementation("androidx.documentfile:documentfile:1.0.1")
-    implementation("androidx.datastore:datastore-preferences-android:1.1.0-alpha06")
+    implementation("androidx.datastore:datastore-preferences-android:1.1.0-alpha07")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 
     //Navigation
