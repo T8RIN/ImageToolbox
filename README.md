@@ -6,7 +6,6 @@
 
 <h1 align="center">Image Toolbox</h1>
 
-
 </br>
 
 <p align="center">
