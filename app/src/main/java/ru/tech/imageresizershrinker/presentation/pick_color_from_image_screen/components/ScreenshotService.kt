@@ -84,10 +84,12 @@ class ScreenshotService : Service() {
                     )
                 }
             }
+            val callback = object : MediaProjection.Callback() {}
+
+            val mediaProjection = mediaProjectionManager.getMediaProjection(resultCode, data!!)
+            mediaProjection.registerCallback(callback, null)
             startCapture(
-                getMediaProjection = {
-                    mediaProjectionManager.getMediaProjection(resultCode, data!!)
-                },
+                mediaProjection = mediaProjection,
                 intent = intent
             )
         }
@@ -95,15 +97,11 @@ class ScreenshotService : Service() {
         return START_REDELIVER_INTENT
     }
 
-    private fun startCapture(getMediaProjection: () -> MediaProjection, intent: Intent?) {
+    private fun startCapture(mediaProjection: MediaProjection, intent: Intent?) {
         Handler(
             Looper.getMainLooper()
         ).postDelayed(
             {
-                val callback = object : MediaProjection.Callback() {}
-
-                val mediaProjection = getMediaProjection()
-                mediaProjection.registerCallback(callback, null)
                 val displayMetrics = applicationContext.resources.displayMetrics
                 val imageReader = ImageReader.newInstance(
                     displayMetrics.widthPixels,
