@@ -326,7 +326,11 @@ class MainViewModel @Inject constructor(
                                 }
                             }
 
-                            if (isNeedUpdate(nameFrom = BuildConfig.VERSION_NAME, nameTo = tag)) {
+                            if (isNeedUpdate(
+                                    currentName = BuildConfig.VERSION_NAME,
+                                    updateName = tag
+                                )
+                            ) {
                                 _updateAvailable.value = true
                                 if (showDialog) {
                                     _showUpdateDialog.value = true
@@ -341,7 +345,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun isNeedUpdate(nameFrom: String, nameTo: String): Boolean {
+    private fun isNeedUpdate(currentName: String, updateName: String): Boolean {
         fun String.toVersionCode(): Int {
             return replace(
                 regex = Regex("0\\d"),
@@ -363,15 +367,17 @@ class MainViewModel @Inject constructor(
             "alpha", "beta", "rc"
         )
 
-        val tagVC = nameTo.toVersionCode()
-        val buildVC = nameFrom.toVersionCode()
-        return if (betaList.all { it !in nameTo }) {
-            tagVC > buildVC
-        } else {
-            if (settingsState.allowBetas || betaList.any { it in nameFrom }) {
-                tagVC > buildVC
-            } else false
-        }
+        val updateVersionCode = updateName.toVersionCode()
+        val currentVersionCode = currentName.toVersionCode()
+        return if (!updateName.startsWith(currentName)) {
+            if (betaList.all { it !in updateName }) {
+                updateVersionCode > currentVersionCode
+            } else {
+                if (settingsState.allowBetas || betaList.any { it in currentName }) {
+                    updateVersionCode > currentVersionCode
+                } else false
+            }
+        } else false
     }
 
     fun hideSelectDialog() {

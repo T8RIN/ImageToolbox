@@ -108,7 +108,11 @@ fun UpdateSheet(changelog: String, tag: String, visible: MutableState<Boolean>) 
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Column(Modifier.verticalScroll(rememberScrollState())) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .verticalScroll(rememberScrollState())
+                            ) {
                                 HtmlText(
                                     html = changelog.trimIndent(),
                                     modifier = Modifier.padding(
