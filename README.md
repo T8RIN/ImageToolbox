@@ -6,7 +6,6 @@
 
 <h1 align="center">Image Toolbox</h1>
 
-
 </br>
 
 <p align="center">
@@ -43,9 +42,9 @@
   </a>
 </p>
 
-<h4 align="center">Image toolbox is the app based on a modern tech stack using Clean
+<h4 align="center">Image Toolbox is an app based on a modern tech stack using Clean
 Architecture. It has features like filter applying, cropping, EXIF editing, quality and output
-image type picking and tons of another option </h4>
+image type picking, and tons of other options </h4>
 
 <p align="middle">
     <img src="./fastlane/metadata/android/en-US/images/banner/banner1.png" width="99%" />
@@ -73,7 +72,7 @@ image type picking and tons of another option </h4>
 
   </br>
   </br>
-  Join our chat where you can discuss anything you want and also look into CI channel where I will post betas and announcements
+  Join our chat where you can discuss anything you want and also look into the CI channel where I will post betas and announcements
   </br>
 
 # ☕ Buy me a coffee
@@ -86,8 +85,8 @@ This application is completely free, but if you want to support the project deve
 
 # ⬇️ Download
 
-Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and download latest apk
-or click badges below.
+Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and the download latest apk
+or click one of the badges below.
 
 [<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
 align="center"
@@ -181,9 +180,9 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
 - EXIF metadata editing/deleting
 - Loading images from internet
 - Image Stitching
-- Background Removing
+- Background Removal
   - By drawing
-  - Automatical
+  - Automatic
 - Drawing on Image/Background
   - Pen
   - Neon
@@ -281,7 +280,7 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
   - Tokeely Brookings
 - In app font scale changing
 
-(Yes, app supports dynamic coloring based on wallpapers for every android version)
+(Yes, the app supports dynamic coloring based on wallpapers for every android version)
 
 # 📚 Tech stack & Open-source libraries
 
@@ -309,7 +308,7 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
 - [Compose Navigation Reimagined](https://github.com/olshevski/compose-navigation-reimagined) - High
   intelligence navigation library for Jetpack Compose.
 
-- [Konfetti](https://github.com/DanielMartinus/Konfetti) to establish beatyful particle system.
+- [Konfetti](https://github.com/DanielMartinus/Konfetti) to establish beautiful particle system.
 
 - Jetpack
   - [Compose](https://developer.android.com/jetpack/compose) - Modern Declarative UI style
