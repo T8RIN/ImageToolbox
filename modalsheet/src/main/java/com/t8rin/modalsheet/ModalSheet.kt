@@ -44,8 +44,7 @@ import androidx.compose.ui.zIndex
  * when visible.
  * @param content The content of the bottom sheet.
  */
-@OptIn(ExperimentalMaterialApi::class)
-@ExperimentalMaterial3Api
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ModalSheet(
     visible: Boolean,
@@ -76,22 +75,29 @@ fun ModalSheet(
         animationSpec = animationSpec,
         initialValue = ModalBottomSheetValue.Hidden,
         confirmValueChange = {
-            // Intercept and disallow hide gesture / action
             if (it == ModalBottomSheetValue.Hidden && !cancelable) {
                 return@rememberModalBottomSheetState false
             }
 
-            onVisibleChange(it == ModalBottomSheetValue.Expanded)
-
             true
-        },
+        }
     )
+
 
     LaunchedEffect(visible) {
         if (visible) {
             sheetState.show()
         } else {
             sheetState.hide()
+        }
+    }
+
+    LaunchedEffect(sheetState.currentValue, sheetState.targetValue, sheetState.progress) {
+        if (sheetState.progress == 1f && sheetState.currentValue == sheetState.targetValue) {
+            val newVisible = sheetState.isVisible
+            if (newVisible != visible) {
+                onVisibleChange(newVisible)
+            }
         }
     }
 

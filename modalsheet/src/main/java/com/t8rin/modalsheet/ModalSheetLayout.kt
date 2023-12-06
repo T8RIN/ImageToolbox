@@ -95,7 +95,7 @@ enum class ModalBottomSheetValue {
  */
 @ExperimentalMaterial3Api
 @OptIn(ExperimentalMaterialApi::class)
-class ModalSheetState constructor(
+class ModalSheetState(
     initialValue: ModalBottomSheetValue,
     animationSpec: AnimationSpec<Float> = SwipeableV2Defaults.AnimationSpec,
     confirmValueChange: (ModalBottomSheetValue) -> Boolean = { true },
@@ -115,6 +115,9 @@ class ModalSheetState constructor(
 
     val targetValue: ModalBottomSheetValue
         get() = swipeableState.targetValue
+
+    val progress: Float
+        get() = swipeableState.progress
 
     /**
      * Whether the bottom sheet is visible.
