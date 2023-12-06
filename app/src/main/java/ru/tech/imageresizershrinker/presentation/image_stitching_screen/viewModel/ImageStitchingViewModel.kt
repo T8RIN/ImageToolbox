@@ -21,6 +21,7 @@ import ru.tech.imageresizershrinker.domain.model.ImageData
 import ru.tech.imageresizershrinker.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.domain.model.StitchMode
 import ru.tech.imageresizershrinker.domain.saving.FileController
 import ru.tech.imageresizershrinker.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
@@ -180,9 +181,12 @@ class ImageStitchingViewModel @Inject constructor(
         _imageScale.value = newScale
     }
 
-    fun toggleIsHorizontal(checked: Boolean) {
+    fun setStitchMode(value: StitchMode) {
         _combiningParams.update {
-            it.copy(isHorizontal = checked)
+            it.copy(
+                stitchMode = value,
+                scaleSmallImagesToLarge = false
+            )
         }
         calculatePreview()
     }

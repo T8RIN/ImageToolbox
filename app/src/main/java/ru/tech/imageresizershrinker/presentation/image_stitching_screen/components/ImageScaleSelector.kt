@@ -56,9 +56,12 @@ fun ImageScaleSelector(
     }
     EnhancedSliderItem(
         modifier = modifier,
-        value = value,
+        value = value.roundToTwoDigits(),
         title = stringResource(R.string.output_image_scale),
         valueRange = 0.1f..1f,
+        internalStateTransformation = {
+            it.roundToTwoDigits()
+        },
         onValueChange = {
             onValueChange(it.roundToTwoDigits())
         },

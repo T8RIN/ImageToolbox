@@ -71,11 +71,11 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawBackgroundSelector
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageFadingEdgesSelector
-import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageOrientationToggle
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageReorderCarousel
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageScaleSelector
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ScaleSmallImagesToLargeToggle
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.SpacingSelector
+import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.StitchModeSelector
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.viewModel.ImageStitchingViewModel
 import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
@@ -391,9 +391,9 @@ fun ImageStitchingScreen(
                                             onValueChange = viewModel::updateImageScale,
                                             approximateImageSize = viewModel.imageSize
                                         )
-                                        ImageOrientationToggle(
-                                            selected = viewModel.combiningParams.isHorizontal,
-                                            onCheckedChange = viewModel::toggleIsHorizontal
+                                        StitchModeSelector(
+                                            value = viewModel.combiningParams.stitchMode,
+                                            onValueChange = viewModel::setStitchMode
                                         )
                                         SpacingSelector(
                                             value = viewModel.combiningParams.spacing,

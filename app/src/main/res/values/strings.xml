@@ -513,4 +513,9 @@
     <string name="lasso">Lasso</string>
     <string name="lasso_sub">Draws closed filled path by given path</string>
     <string name="free">Free</string>
+    <string name="horizontal_grid">Horizontal Grid</string>
+    <string name="vertical_grid">Vertical Grid</string>
+    <string name="stitch_mode">Stitch Mode</string>
+    <string name="rows_count">Rows Count</string>
+    <string name="columns_count">Columns Count</string>
 </resources>
