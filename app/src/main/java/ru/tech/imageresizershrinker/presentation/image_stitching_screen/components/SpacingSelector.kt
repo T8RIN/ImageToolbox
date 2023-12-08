@@ -23,6 +23,9 @@ fun SpacingSelector(
         value = value,
         title = stringResource(R.string.spacing),
         valueRange = -256f..256f,
+        internalStateTransformation = {
+            it.roundToInt()
+        },
         onValueChange = {
             onValueChange(it.roundToInt())
         },

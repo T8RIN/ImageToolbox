@@ -17,6 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.takeOrElse
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
@@ -37,9 +39,15 @@ fun EnhancedFloatingActionButton(
 ) {
     val settingsState = LocalSettingsState.current
     val size by animateDpAsState(type.size)
+    val haptics = LocalHapticFeedback.current
 
     FloatingActionButton(
-        onClick = onClick,
+        onClick = {
+            onClick()
+            haptics.performHapticFeedback(
+                HapticFeedbackType.LongPress
+            )
+        },
         modifier = modifier
             .sizeIn(minWidth = size, minHeight = size)
             .containerFabBorder(

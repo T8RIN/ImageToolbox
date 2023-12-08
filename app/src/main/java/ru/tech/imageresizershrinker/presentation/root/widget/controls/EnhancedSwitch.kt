@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -41,6 +43,8 @@ fun EnhancedSwitch(
             .compositeOver(MaterialTheme.colorScheme.surface)
     )
     val settingsState = LocalSettingsState.current
+    val haptics = LocalHapticFeedback.current
+
     CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
         Switch(
             modifier = modifier
@@ -60,7 +64,14 @@ fun EnhancedSwitch(
             colors = switchColors,
             checked = checked,
             enabled = enabled,
-            onCheckedChange = onCheckedChange,
+            onCheckedChange = onCheckedChange?.let {
+                {
+                    onCheckedChange(it)
+                    haptics.performHapticFeedback(
+                        HapticFeedbackType.LongPress
+                    )
+                }
+            },
             interactionSource = interactionSource,
             thumbContent = thumbIcon?.let {
                 {

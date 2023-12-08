@@ -50,7 +50,6 @@ class ScreenshotService : Service() {
     lateinit var fileController: FileController
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
         runCatching {
             val mediaProjectionManager =
                 getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
@@ -97,107 +96,111 @@ class ScreenshotService : Service() {
         return START_REDELIVER_INTENT
     }
 
+    private var imageReader: ImageReader? = null
+
     private fun startCapture(mediaProjection: MediaProjection, intent: Intent?) {
         Handler(
             Looper.getMainLooper()
         ).postDelayed(
             {
                 val displayMetrics = applicationContext.resources.displayMetrics
-                val imageReader = ImageReader.newInstance(
+                imageReader = ImageReader.newInstance(
                     displayMetrics.widthPixels,
                     displayMetrics.heightPixels,
                     PixelFormat.RGBA_8888, 2
                 )
-
-                val virtualDisplay = mediaProjection.createVirtualDisplay(
-                    "screenshot",
-                    displayMetrics.widthPixels,
-                    displayMetrics.heightPixels,
-                    displayMetrics.densityDpi,
-                    DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
-                    imageReader.surface,
-                    null, null
-                )
-
-                val image: Image? = imageReader.acquireLatestImage()
-
-                image?.planes?.let { planes ->
-                    val buffer = planes[0].buffer
-                    val pixelStride = planes[0].pixelStride
-                    val rowStride = planes[0].rowStride
-                    val rowPadding = rowStride - pixelStride * displayMetrics.widthPixels
-
-                    val bitmap = Bitmap.createBitmap(
-                        displayMetrics.widthPixels + rowPadding / pixelStride,
-                        displayMetrics.heightPixels, Bitmap.Config.ARGB_8888
+                imageReader?.use {
+                    val virtualDisplay = mediaProjection.createVirtualDisplay(
+                        "screenshot",
+                        displayMetrics.widthPixels,
+                        displayMetrics.heightPixels,
+                        displayMetrics.densityDpi,
+                        DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                        it.surface,
+                        null, null
                     )
-                    bitmap.copyPixelsFromBuffer(buffer)
+                    val image: Image? = it.acquireLatestImage()
 
+                    image?.planes?.let { planes ->
+                        val buffer = planes[0].buffer
+                        val pixelStride = planes[0].pixelStride
+                        val rowStride = planes[0].rowStride
+                        val rowPadding = rowStride - pixelStride * displayMetrics.widthPixels
 
-                    val uri: Uri? = runBlocking {
-                        imageManager.cacheImage(
-                            image = bitmap,
-                            imageInfo = ImageInfo(
-                                width = bitmap.width,
-                                height = bitmap.height,
-                                imageFormat = ImageFormat.Jpg
-                            ),
-                            name = "screenshot"
-                        )?.toUri()
-                    }
-
-                    if (intent?.getStringExtra("screen") != "shot") {
-                        applicationContext.startActivity(
-                            Intent(applicationContext, MainActivity::class.java).apply {
-                                putExtra("screen", intent?.getStringExtra("screen"))
-                                type = "image/jpg"
-                                putExtra(Intent.EXTRA_STREAM, uri)
-                                action = Intent.ACTION_SEND
-                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            }
+                        val bitmap = Bitmap.createBitmap(
+                            displayMetrics.widthPixels + rowPadding / pixelStride,
+                            displayMetrics.heightPixels, Bitmap.Config.ARGB_8888
                         )
-                    } else {
-                        runBlocking {
-                            val timeStamp = SimpleDateFormat(
-                                "yyyy-MM-dd_HH-mm-ss",
-                                Locale.getDefault()
-                            ).format(Date())
-                            fileController.save(
-                                FileSaveTarget(
-                                    filename = "screenshot-$timeStamp.jpg",
-                                    originalUri = "screenshot",
-                                    imageFormat = ImageFormat["jpg"],
-                                    data = imageManager.compress(
-                                        ImageData(
-                                            bitmap, ImageInfo(
-                                                width = bitmap.width,
-                                                height = bitmap.height,
-                                                imageFormat = ImageFormat.Jpg
+                        bitmap.copyPixelsFromBuffer(buffer)
+                        image.close()
+                        virtualDisplay?.release()
+                        mediaProjection.stop()
+
+                        val uri: Uri? = runBlocking {
+                            imageManager.cacheImage(
+                                image = bitmap,
+                                imageInfo = ImageInfo(
+                                    width = bitmap.width,
+                                    height = bitmap.height,
+                                    imageFormat = ImageFormat.Jpg
+                                ),
+                                name = "screenshot"
+                            )?.toUri()
+                        }
+
+                        if (intent?.getStringExtra("screen") != "shot") {
+                            applicationContext.startActivity(
+                                Intent(applicationContext, MainActivity::class.java).apply {
+                                    putExtra("screen", intent?.getStringExtra("screen"))
+                                    type = "image/jpg"
+                                    putExtra(Intent.EXTRA_STREAM, uri)
+                                    action = Intent.ACTION_SEND
+                                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                }
+                            )
+                        } else {
+                            runBlocking {
+                                val timeStamp = SimpleDateFormat(
+                                    "yyyy-MM-dd_HH-mm-ss",
+                                    Locale.getDefault()
+                                ).format(Date())
+                                fileController.save(
+                                    FileSaveTarget(
+                                        filename = "screenshot-$timeStamp.jpg",
+                                        originalUri = "screenshot",
+                                        imageFormat = ImageFormat["jpg"],
+                                        data = imageManager.compress(
+                                            ImageData(
+                                                bitmap, ImageInfo(
+                                                    width = bitmap.width,
+                                                    height = bitmap.height,
+                                                    imageFormat = ImageFormat.Jpg
+                                                )
                                             )
                                         )
-                                    )
-                                ),
-                                true
-                            )
-                            Toast.makeText(
-                                this@ScreenshotService,
-                                this@ScreenshotService.getString(
-                                    R.string.saved_to_without_filename,
-                                    fileController.savingPath
-                                ),
-                                Toast.LENGTH_SHORT
-                            ).show()
+                                    ),
+                                    true
+                                )
+                                Toast.makeText(
+                                    this@ScreenshotService,
+                                    this@ScreenshotService.getString(
+                                        R.string.saved_to_without_filename,
+                                        fileController.savingPath
+                                    ),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
-
-
-                    image.close()
-                    imageReader.close()
-                    virtualDisplay?.release()
-                    mediaProjection.stop()
                 }
             }, 1000
         )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        imageReader?.close()
+        imageReader = null
     }
 
     override fun onBind(intent: Intent): IBinder = Binder()

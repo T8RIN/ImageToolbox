@@ -9,7 +9,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalHapticFeedback
 import kotlinx.coroutines.delay
 
 fun Modifier.scaleOnTap(
@@ -21,6 +23,7 @@ fun Modifier.scaleOnTap(
 ) = composed {
     var scaleState by remember(initial) { mutableFloatStateOf(initial) }
     val scale by animateFloatAsState(scaleState)
+    val haptics = LocalHapticFeedback.current
 
     scale(scale)
         .pointerInput(Unit) {
@@ -28,10 +31,16 @@ fun Modifier.scaleOnTap(
                 onPress = {
                     val time = System.currentTimeMillis()
                     scaleState = max
+                    haptics.performHapticFeedback(
+                        HapticFeedbackType.LongPress
+                    )
                     onHold()
                     delay(200)
                     tryAwaitRelease()
                     onRelease(System.currentTimeMillis() - time)
+                    haptics.performHapticFeedback(
+                        HapticFeedbackType.LongPress
+                    )
                     scaleState = min
                     delay(200)
                     scaleState = initial

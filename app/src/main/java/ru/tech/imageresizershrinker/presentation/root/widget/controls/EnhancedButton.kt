@@ -25,6 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.takeOrElse
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.materialShadow
 import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
@@ -59,11 +61,17 @@ fun EnhancedButton(
     content: @Composable RowScope.() -> Unit
 ) {
     val settingsState = LocalSettingsState.current
+    val haptics = LocalHapticFeedback.current
 
     CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
         Box {
             OutlinedButton(
-                onClick = onClick,
+                onClick = {
+                    onClick()
+                    haptics.performHapticFeedback(
+                        HapticFeedbackType.LongPress
+                    )
+                },
                 modifier = modifier
                     .then(shadowModifier()),
                 shape = shape,
@@ -111,10 +119,16 @@ fun EnhancedIconButton(
     content: @Composable () -> Unit
 ) {
     val settingsState = LocalSettingsState.current
+    val haptics = LocalHapticFeedback.current
 
     CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
         OutlinedIconButton(
-            onClick = onClick,
+            onClick = {
+                onClick()
+                haptics.performHapticFeedback(
+                    HapticFeedbackType.LongPress
+                )
+            },
             modifier = modifier
                 .then(
                     if (forceMinimumInteractiveComponentSize) Modifier.minimumInteractiveComponentSize()
