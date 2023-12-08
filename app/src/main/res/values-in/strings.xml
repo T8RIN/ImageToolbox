@@ -29,12 +29,12 @@
     <string name="explicit">Eksplisit</string>
     <string name="flexible">Fleksibel</string>
     <string name="pick_image_alt">Pilih Gambar</string>
-    <string name="app_closing_sub">Apakah Anda benar-benar ingin menutup aplikasi\?</string>
+    <string name="app_closing_sub">Apakah Anda ingin menutup aplikasi?</string>
     <string name="app_closing">Penutupan aplikasi</string>
     <string name="stay">Tinggal</string>
     <string name="close">Tutup</string>
     <string name="reset_image">Mengatur ulang gambar</string>
-    <string name="reset_image_sub">Perubahan gambar akan dikembalikan ke nilai awal</string>
+    <string name="reset_image_sub">Perubahan gambar akan dikembalikan ke semula</string>
     <string name="values_reset">Nilai diatur ulang dengan benar</string>
     <string name="reset">Atur ulang</string>
     <string name="something_went_wrong">Ada yang tidak beres</string>
@@ -95,10 +95,10 @@
     <string name="clipboard_paste_invalid_color_code">Rekatkan Kode aRGB yang valid.</string>
     <string name="clipboard_paste_invalid_empty">Tidak ada yang bisa ditempelkan</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">Tidak dapat mengubah skema warna aplikasi saat warna dinamis diaktifkan</string>
-    <string name="pick_accent_color">Tema aplikasi akan didasarkan pada warna, yang akan Anda pilih</string>
+    <string name="pick_accent_color">Tema aplikasi akan didasarkan pada warna yang dipilih</string>
     <string name="no_updates">Tidak ada pembaruan yang ditemukan</string>
     <string name="issue_tracker">Pelacak masalah</string>
-    <string name="issue_tracker_sub">Kirim ke sini laporan bug dan permintaan fitur</string>
+    <string name="issue_tracker_sub">Kirim laporan bug dan permintaan fitur di sini</string>
     <string name="help_translate">Bantu menerjemahkan</string>
     <string name="help_translate_sub">Memperbaiki kesalahan terjemahan atau melokalkan proyek ke bahasa lain</string>
     <string name="search_here">Cari di sini</string>
@@ -112,7 +112,7 @@
     <string name="values">Nilai-nilai</string>
     <string name="permission">Izin</string>
     <string name="grant">Hibah</string>
-    <string name="permission_sub">Aplikasi memerlukan akses ke penyimpanan Anda untuk menyimpan gambar, ini perlu, tanpa itu aplikasi tidak dapat bekerja, jadi harap berikan izin pada dialog berikutnya</string>
+    <string name="permission_sub">Aplikasi perlu akses ke penyimpanan Anda untuk menyimpan gambar untuk bekerja, Harap berikan izin di kotak dialog berikutnya.</string>
     <string name="grant_permission_manual">Aplikasi membutuhkan izin ini untuk bekerja, mohon berikan secara manual</string>
     <string name="external_storage">Penyimpanan eksternal</string>
     <string name="monet_colors">Warna monet</string>
@@ -300,4 +300,5 @@
     <string name="saved_to_without_filename">Disimpan ke folder %1$s</string>
     <string name="tg_chat">Obrolan Telegram</string>
     <string name="tg_chat_sub">Diskusikan aplikasi dan dapatkan tanggapan dari pengguna lain, di sini Anda bisa mendapatkan pembaruan dan wawasan beta</string>
+    <string name="columns_count">Hitungan Kolom</string>
 </resources>
