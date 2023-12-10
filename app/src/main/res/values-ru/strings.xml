@@ -494,4 +494,9 @@
     <string name="oval_sub">Рисует овал от начальной точки до конечной</string>
     <string name="draw_path_mode">Режим рисования пути</string>
     <string name="free">Свободно</string>
+    <string name="rows_count">Количество строк</string>
+    <string name="stitch_mode">Режим строчки</string>
+    <string name="horizontal_grid">Горизонтальная сетка</string>
+    <string name="vertical_grid">Вертикальная сетка</string>
+    <string name="columns_count">Количество столбцов</string>
 </resources>
