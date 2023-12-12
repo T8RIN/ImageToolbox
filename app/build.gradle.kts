@@ -152,7 +152,7 @@ dependencies {
     implementation("dev.olshevski.navigation:reimagined-hilt:1.5.0")
 
     //Konfetti
-    implementation("nl.dionsegijn:konfetti-compose:2.0.3")
+    implementation("nl.dionsegijn:konfetti-compose:2.0.4")
 
     //Compose
     implementation("androidx.compose.material3:material3:1.2.0-alpha12")
