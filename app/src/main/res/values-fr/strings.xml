@@ -436,4 +436,16 @@
     <string name="add_mask">Ajouter un masque</string>
     <string name="mask_preview_sub">Le masque de filtre dessiné sera rendu pour vous montrer le résultat approximatif</string>
     <string name="mask_indexed">Masque %d</string>
+    <string name="neon">Néon</string>
+    <string name="delete_mask">Supprimer le Masque</string>
+    <string name="inverse_fill_type">Type de Remplissage Inverse</string>
+    <string name="delete_mask_warn">Vous êtes sur le point de supprimer le masque filtre sélectionné. Cette opération est irréversible</string>
+    <string name="full_filter_sub">Application de toute chaîne de filtres aux images sélectionnées ou individuellement</string>
+    <string name="inverse_fill_type_sub">Si activé toutes les zones non-masquées seront filtrées au lieu du comportement par défaut</string>
+    <string name="start_position">Début</string>
+    <string name="highlighter">Surligneur</string>
+    <string name="simple_variants">Variantes Simples</string>
+    <string name="full_filter">Filtre Complet</string>
+    <string name="end_position">Fin</string>
+    <string name="center_position">Centre</string>
 </resources>
