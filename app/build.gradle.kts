@@ -193,7 +193,7 @@ dependencies {
     implementation("com.github.zed-alpha.shadow-gadgets:compose:2.1.0")
     implementation("com.github.GIGAMOLE:ComposeShadowsPlus:1.0.4")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6")
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
 
     implementation("com.github.GIGAMOLE:ComposeFadingEdges:1.0.3")
     implementation("com.github.nanihadesuka:LazyColumnScrollbar:1.8.0")
