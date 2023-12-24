@@ -161,8 +161,8 @@ dependencies {
     implementation("androidx.compose.material:material:1.6.0-beta03")
 
     //Di
-    implementation("com.google.dagger:hilt-android:2.49")
-    kapt("com.google.dagger:hilt-compiler:2.49")
+    implementation("com.google.dagger:hilt-android:2.50")
+    kapt("com.google.dagger:hilt-compiler:2.50")
 
     //Coil
     implementation("io.coil-kt:coil:2.5.0")
@@ -193,7 +193,7 @@ dependencies {
     implementation("com.github.zed-alpha.shadow-gadgets:compose:2.1.0")
     implementation("com.github.GIGAMOLE:ComposeShadowsPlus:1.0.4")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.6")
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
 
     implementation("com.github.GIGAMOLE:ComposeFadingEdges:1.0.3")
     implementation("com.github.nanihadesuka:LazyColumnScrollbar:1.8.0")
