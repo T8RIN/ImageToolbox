@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.documentfile.provider.DocumentFile
 import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.CoroutineScope
@@ -60,14 +61,14 @@ class FileControllerImpl @Inject constructor(
 
     init {
         CoroutineScope(Dispatchers.IO).launch {
-            dataStore.data.collect {
+            dataStore.data.collect { preferences ->
                 fileParams = fileParams.copy(
-                    treeUri = it[SAVE_FOLDER_URI],
-                    filenamePrefix = it[FILENAME_PREFIX] ?: "",
-                    addSizeInFilename = it[ADD_SIZE_TO_FILENAME] ?: false,
-                    addOriginalFilename = it[ADD_ORIGINAL_NAME_TO_FILENAME] ?: false,
-                    addSequenceNumber = it[ADD_SEQ_NUM_TO_FILENAME] ?: true,
-                    randomizeFilename = it[RANDOMIZE_FILENAME] ?: false
+                    treeUri = preferences[SAVE_FOLDER_URI]?.takeIf { it.isNotEmpty() },
+                    filenamePrefix = preferences[FILENAME_PREFIX] ?: "",
+                    addSizeInFilename = preferences[ADD_SIZE_TO_FILENAME] ?: false,
+                    addOriginalFilename = preferences[ADD_ORIGINAL_NAME_TO_FILENAME] ?: false,
+                    addSequenceNumber = preferences[ADD_SEQ_NUM_TO_FILENAME] ?: true,
+                    randomizeFilename = preferences[RANDOMIZE_FILENAME] ?: false
                 )
             }
         }
@@ -128,6 +129,28 @@ class FileControllerImpl @Inject constructor(
     ): SaveResult {
         if (!context.isExternalStorageWritable()) {
             return SaveResult.Error.MissingPermissions
+        }
+
+        fileParams.treeUri.takeIf {
+            it != null
+        }?.let { treeUri ->
+            val hasDir: Boolean = treeUri.toUri().let {
+                DocumentFile.fromTreeUri(context, it)
+            }?.exists() == true
+
+            if (!hasDir) {
+                dataStore.edit {
+                    it[SAVE_FOLDER_URI] = ""
+                }
+                return SaveResult.Error.Exception(
+                    Exception(
+                        context.getString(
+                            R.string.no_such_directory,
+                            treeUri.toUri().toUiPath(context, defaultPrefix())
+                        )
+                    )
+                )
+            }
         }
 
         var filename = ""

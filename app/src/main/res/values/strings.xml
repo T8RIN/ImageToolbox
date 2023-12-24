@@ -518,4 +518,5 @@
     <string name="stitch_mode">Stitch Mode</string>
     <string name="rows_count">Rows Count</string>
     <string name="columns_count">Columns Count</string>
+    <string name="no_such_directory">No \"%1$s\" directory found, we switched it to default one, please save the file again</string>
 </resources>
