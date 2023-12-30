@@ -57,13 +57,15 @@ fun EnhancedSlider(
         thumbColor = thumbColor
     )
 ) {
-    val haptics = LocalHapticFeedback.current
-    val updatedValue by rememberUpdatedState(newValue = value)
+    if (steps != 0) {
+        val haptics = LocalHapticFeedback.current
+        val updatedValue by rememberUpdatedState(newValue = value)
 
-    LaunchedEffect(updatedValue) {
-        haptics.performHapticFeedback(
-            HapticFeedbackType.TextHandleMove
-        )
+        LaunchedEffect(updatedValue) {
+            haptics.performHapticFeedback(
+                HapticFeedbackType.TextHandleMove
+            )
+        }
     }
 
     val interactionSource = remember { MutableInteractionSource() }
