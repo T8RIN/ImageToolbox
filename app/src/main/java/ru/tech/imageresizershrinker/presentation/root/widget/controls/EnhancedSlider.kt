@@ -21,12 +21,16 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.SliderState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.materialShadow
@@ -53,6 +57,15 @@ fun EnhancedSlider(
         thumbColor = thumbColor
     )
 ) {
+    val haptics = LocalHapticFeedback.current
+    val updatedValue by rememberUpdatedState(newValue = value)
+
+    LaunchedEffect(updatedValue) {
+        haptics.performHapticFeedback(
+            HapticFeedbackType.TextHandleMove
+        )
+    }
+
     val interactionSource = remember { MutableInteractionSource() }
     val thumb: @Composable (SliderState) -> Unit = {
         val interaction by interactionSource.interactions.collectAsState(initial = null)
