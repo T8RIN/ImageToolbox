@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAllowCol
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAllowCollectCrashlyticsUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAllowImageMonetUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAmoledModeUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAutoPinClipboardUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleClearCacheOnLaunchUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleDrawAppBarShadowsUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleDrawButtonShadowsUseCase
@@ -133,7 +134,8 @@ class MainViewModel @Inject constructor(
     private val setThemeStyleUseCase: SetThemeStyleUseCase,
     private val toggleInvertColorsUseCase: ToggleInvertColorsUseCase,
     private val toggleScreensSearchEnabledUseCase: ToggleScreensSearchEnabledUseCase,
-    private val toggleDrawAppBarShadowsUseCase: ToggleDrawAppBarShadowsUseCase
+    private val toggleDrawAppBarShadowsUseCase: ToggleDrawAppBarShadowsUseCase,
+    private val toggleAutoPinClipboardUseCase: ToggleAutoPinClipboardUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default())
@@ -611,6 +613,12 @@ class MainViewModel @Inject constructor(
     fun toggleDrawAppBarShadows() {
         viewModelScope.launch {
             toggleDrawAppBarShadowsUseCase()
+        }
+    }
+
+    fun toggleAutoPinClipboard() {
+        viewModelScope.launch {
+            toggleAutoPinClipboardUseCase()
         }
     }
 

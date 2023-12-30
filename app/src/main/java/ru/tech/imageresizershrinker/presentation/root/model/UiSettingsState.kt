@@ -63,7 +63,8 @@ data class UiSettingsState(
     val themeContrastLevel: Double,
     val themeStyle: PaletteStyle,
     val isInvertThemeColors: Boolean,
-    val screensSearchEnabled: Boolean
+    val screensSearchEnabled: Boolean,
+    val autoCopyToClipBoard: Boolean
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -140,7 +141,8 @@ fun SettingsState.toUiState(): UiSettingsState {
             .entries
             .getOrNull(themeStyle) ?: PaletteStyle.TonalSpot,
         isInvertThemeColors = isInvertThemeColors,
-        screensSearchEnabled = screensSearchEnabled
+        screensSearchEnabled = screensSearchEnabled,
+        autoCopyToClipBoard = autoCopyToClipBoard
     )
 }
 

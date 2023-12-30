@@ -27,6 +27,7 @@ import ru.tech.imageresizershrinker.data.keys.Keys.APP_OPEN_COUNT
 import ru.tech.imageresizershrinker.data.keys.Keys.AUTO_CACHE_CLEAR
 import ru.tech.imageresizershrinker.data.keys.Keys.BORDER_WIDTH
 import ru.tech.imageresizershrinker.data.keys.Keys.COLOR_TUPLES
+import ru.tech.imageresizershrinker.data.keys.Keys.COPY_TO_CLIPBOARD
 import ru.tech.imageresizershrinker.data.keys.Keys.DRAW_APPBAR_SHADOWS
 import ru.tech.imageresizershrinker.data.keys.Keys.DRAW_BUTTON_SHADOWS
 import ru.tech.imageresizershrinker.data.keys.Keys.DRAW_CONTAINER_SHADOWS
@@ -123,7 +124,8 @@ class SettingsRepositoryImpl @Inject constructor(
             themeContrastLevel = prefs[THEME_CONTRAST_LEVEL] ?: default.themeContrastLevel,
             themeStyle = prefs[THEME_STYLE] ?: default.themeStyle,
             isInvertThemeColors = prefs[INVERT_THEME] ?: default.isInvertThemeColors,
-            screensSearchEnabled = prefs[SCREEN_SEARCH_ENABLED] ?: default.screensSearchEnabled
+            screensSearchEnabled = prefs[SCREEN_SEARCH_ENABLED] ?: default.screensSearchEnabled,
+            autoCopyToClipBoard = prefs[COPY_TO_CLIPBOARD] ?: default.autoCopyToClipBoard
         )
     }
 
@@ -177,7 +179,8 @@ class SettingsRepositoryImpl @Inject constructor(
             themeContrastLevel = prefs[THEME_CONTRAST_LEVEL] ?: default.themeContrastLevel,
             themeStyle = prefs[THEME_STYLE] ?: default.themeStyle,
             isInvertThemeColors = prefs[INVERT_THEME] ?: default.isInvertThemeColors,
-            screensSearchEnabled = prefs[SCREEN_SEARCH_ENABLED] ?: default.screensSearchEnabled
+            screensSearchEnabled = prefs[SCREEN_SEARCH_ENABLED] ?: default.screensSearchEnabled,
+            autoCopyToClipBoard = prefs[COPY_TO_CLIPBOARD] ?: default.autoCopyToClipBoard
         )
     }
 
@@ -497,6 +500,13 @@ class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[DRAW_APPBAR_SHADOWS] ?: true
             it[DRAW_APPBAR_SHADOWS] = !v
+        }
+    }
+
+    override suspend fun toggleAutoPinClipboard() {
+        dataStore.edit {
+            val v = it[COPY_TO_CLIPBOARD] ?: true
+            it[COPY_TO_CLIPBOARD] = !v
         }
     }
 

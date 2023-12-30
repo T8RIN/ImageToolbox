@@ -240,4 +240,9 @@ sealed class Setting(
         title = R.string.tg_chat,
         subtitle = R.string.tg_chat_sub
     )
+
+    data object AutoPinClipboard : Setting(
+        title = R.string.auto_pin,
+        subtitle = R.string.auto_pin_sub
+    )
 }

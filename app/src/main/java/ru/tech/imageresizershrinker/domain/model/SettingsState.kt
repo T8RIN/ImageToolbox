@@ -42,7 +42,8 @@ data class SettingsState(
     val themeContrastLevel: Double,
     val themeStyle: Int,
     val isInvertThemeColors: Boolean,
-    val screensSearchEnabled: Boolean
+    val screensSearchEnabled: Boolean,
+    val autoCopyToClipBoard: Boolean
 ) : Domain {
 
     companion object {
@@ -86,7 +87,8 @@ data class SettingsState(
             themeContrastLevel = 0.0,
             themeStyle = 0,
             isInvertThemeColors = false,
-            screensSearchEnabled = false
+            screensSearchEnabled = false,
+            autoCopyToClipBoard = false
         )
     }
 }

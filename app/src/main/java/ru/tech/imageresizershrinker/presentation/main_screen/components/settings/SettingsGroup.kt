@@ -6,6 +6,7 @@ import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.IntegrationInstructions
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.PersonSearch
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
@@ -210,6 +211,15 @@ sealed class SettingsGroup(
         initialState = true
     )
 
+    data object Clipboard : SettingsGroup(
+        icon = Icons.Rounded.IntegrationInstructions,
+        titleId = R.string.clipboard,
+        settingsList = listOf(
+            Setting.AutoPinClipboard
+        ),
+        initialState = false
+    )
+
     companion object {
         val entries: List<SettingsGroup> by lazy {
             listOf(
@@ -224,6 +234,7 @@ sealed class SettingsGroup(
                 Draw,
                 Folder,
                 Filename,
+                Clipboard,
                 Cache,
                 ImageSource,
                 BackupRestore,

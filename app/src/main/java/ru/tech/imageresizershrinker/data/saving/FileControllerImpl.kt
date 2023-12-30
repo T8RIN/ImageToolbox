@@ -1,8 +1,11 @@
 package ru.tech.imageresizershrinker.data.saving
 
 import android.Manifest
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -10,6 +13,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -25,6 +29,7 @@ import ru.tech.imageresizershrinker.core.utils.readableByteCount
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_ORIGINAL_NAME_TO_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SEQ_NUM_TO_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SIZE_TO_FILENAME
+import ru.tech.imageresizershrinker.data.keys.Keys.COPY_TO_CLIPBOARD
 import ru.tech.imageresizershrinker.data.keys.Keys.FILENAME_PREFIX
 import ru.tech.imageresizershrinker.data.keys.Keys.RANDOMIZE_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER_URI
@@ -44,6 +49,7 @@ import java.util.Locale
 import javax.inject.Inject
 import kotlin.random.Random
 
+
 class FileControllerImpl @Inject constructor(
     private val context: Context,
     private val dataStore: DataStore<Preferences>,
@@ -56,7 +62,8 @@ class FileControllerImpl @Inject constructor(
         addSizeInFilename = false,
         addOriginalFilename = false,
         addSequenceNumber = false,
-        randomizeFilename = false
+        randomizeFilename = false,
+        copyToClipBoard = false
     )
 
     init {
@@ -68,7 +75,8 @@ class FileControllerImpl @Inject constructor(
                     addSizeInFilename = preferences[ADD_SIZE_TO_FILENAME] ?: false,
                     addOriginalFilename = preferences[ADD_ORIGINAL_NAME_TO_FILENAME] ?: false,
                     addSequenceNumber = preferences[ADD_SEQ_NUM_TO_FILENAME] ?: true,
-                    randomizeFilename = preferences[RANDOMIZE_FILENAME] ?: false
+                    randomizeFilename = preferences[RANDOMIZE_FILENAME] ?: false,
+                    copyToClipBoard = preferences[COPY_TO_CLIPBOARD] ?: false,
                 )
             }
         }
@@ -168,6 +176,24 @@ class FileControllerImpl @Inject constructor(
 
             filename = newSaveTarget.filename ?: ""
 
+            val clipboardManager = ContextCompat.getSystemService(
+                context,
+                ClipboardManager::class.java
+            )
+
+            if (fileParams.copyToClipBoard) {
+                cacheImage(saveTarget)?.toUri()?.let { uri ->
+                    clipboardManager?.setPrimaryClip(
+                        ClipData.newUri(
+                            context.contentResolver,
+                            "IMAGE",
+                            uri
+                        )
+                    )
+                }
+            }
+
+
             val savingFolder = context.getSavingFolder(
                 treeUri = fileParams.treeUri?.takeIf { it.isNotEmpty() }?.toUri(),
                 saveTarget = newSaveTarget
@@ -185,7 +211,6 @@ class FileControllerImpl @Inject constructor(
                         ex.saveAttributes()
                     }
                 } else if (keepMetadata) {
-                    //TODO create ability to save exif for heic and others
                     val exif = context
                         .contentResolver
                         .openFileDescriptor(saveTarget.originalUri.toUri(), "r")
@@ -205,6 +230,31 @@ class FileControllerImpl @Inject constructor(
                 return SaveResult.Success(filename = filename, savingPath = savingPath)
             }
         }
+    }
+
+    private suspend fun cacheImage(
+        saveTarget: SaveTarget
+    ): String? = withContext(Dispatchers.IO) {
+        val imagesFolder = File(context.cacheDir, "images")
+        return@withContext kotlin.runCatching {
+            imagesFolder.mkdirs()
+
+            val file = File(
+                imagesFolder,
+                "${cipherRepository.generateRandomString(32)}.${saveTarget.imageFormat.extension}"
+            )
+            FileOutputStream(file).use {
+                it.write(saveTarget.data)
+            }
+            FileProvider.getUriForFile(context, context.getString(R.string.file_provider), file)
+                .also {
+                    context.grantUriPermission(
+                        context.packageName,
+                        it,
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                }
+        }.getOrNull()?.toString()
     }
 
     private infix fun ExifInterface.copyTo(newExif: ExifInterface) {

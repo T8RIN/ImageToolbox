@@ -385,5 +385,9 @@ fun SettingItem(
         Setting.AppBarShadows -> {
             AppBarShadowsSettingItem(onClick = { viewModel.toggleDrawAppBarShadows() })
         }
+
+        Setting.AutoPinClipboard -> {
+            AutoPinClipboardSettingItem(onClick = { viewModel.toggleAutoPinClipboard() })
+        }
     }
 }

@@ -519,4 +519,7 @@
     <string name="rows_count">Rows Count</string>
     <string name="columns_count">Columns Count</string>
     <string name="no_such_directory">No \"%1$s\" directory found, we switched it to default one, please save the file again</string>
+    <string name="clipboard">Clipboard</string>
+    <string name="auto_pin">Auto pin</string>
+    <string name="auto_pin_sub">Automatically adds saved image to clipboard if enabled</string>
 </resources>

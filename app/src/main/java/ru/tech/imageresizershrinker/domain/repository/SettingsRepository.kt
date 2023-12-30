@@ -100,4 +100,6 @@ interface SettingsRepository {
     suspend fun toggleScreensSearchEnabled()
 
     suspend fun toggleDrawAppBarShadows()
+
+    suspend fun toggleAutoPinClipboard()
 }
