@@ -40,8 +40,8 @@ import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
@@ -60,6 +60,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
@@ -79,6 +80,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePic
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ImageExtraTransformBar
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ImageTransformBar
@@ -211,7 +213,10 @@ fun SingleEditScreen(
     }
 
     val actions: @Composable RowScope.() -> Unit = {
-        IconButton(
+        EnhancedIconButton(
+            containerColor = Color.Transparent,
+            contentColor = LocalContentColor.current,
+            enableAutoShadowAndBorder = false,
             onClick = {
                 viewModel.shareBitmap(
                     onComplete = showConfetti
@@ -223,7 +228,10 @@ fun SingleEditScreen(
         }
 
         val interactionSource = remember { MutableInteractionSource() }
-        IconButton(
+        EnhancedIconButton(
+            containerColor = Color.Transparent,
+            contentColor = LocalContentColor.current,
+            enableAutoShadowAndBorder = false,
             enabled = viewModel.bitmap != null,
             onClick = { showResetDialog = true }
         ) {
@@ -269,7 +277,10 @@ fun SingleEditScreen(
                 )
             }
         } else {
-            IconButton(
+            EnhancedIconButton(
+                containerColor = Color.Transparent,
+                contentColor = LocalContentColor.current,
+                enableAutoShadowAndBorder = false,
                 enabled = false,
                 onClick = {}
             ) { Icon(Icons.Rounded.History, null) }
@@ -308,7 +319,10 @@ fun SingleEditScreen(
             enter = fadeIn() + scaleIn(),
             exit = fadeOut() + scaleOut()
         ) {
-            IconButton(
+            EnhancedIconButton(
+                containerColor = Color.Transparent,
+                contentColor = LocalContentColor.current,
+                enableAutoShadowAndBorder = false,
                 onClick = {
                     showSheet.value = true
                 }
@@ -325,7 +339,10 @@ fun SingleEditScreen(
             enter = fadeIn() + scaleIn(),
             exit = fadeOut() + scaleOut()
         ) {
-            IconButton(
+            EnhancedIconButton(
+                containerColor = Color.Transparent,
+                contentColor = LocalContentColor.current,
+                enableAutoShadowAndBorder = false,
                 onClick = {
                     showCompareSheet.value = true
                 }
@@ -451,7 +468,10 @@ fun SingleEditScreen(
                         )
                     ),
                     navigationIcon = {
-                        IconButton(
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
                             onClick = onBack
                         ) {
                             Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)

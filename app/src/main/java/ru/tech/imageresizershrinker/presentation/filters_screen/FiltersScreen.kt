@@ -65,8 +65,8 @@ import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -218,7 +218,10 @@ fun FiltersScreen(
             enter = fadeIn() + scaleIn(),
             exit = fadeOut() + scaleOut()
         ) {
-            IconButton(
+            EnhancedIconButton(
+                containerColor = Color.Transparent,
+                contentColor = LocalContentColor.current,
+                enableAutoShadowAndBorder = false,
                 onClick = {
                     showSheet.value = true
                 }
@@ -235,7 +238,10 @@ fun FiltersScreen(
             enter = fadeIn() + scaleIn(),
             exit = fadeOut() + scaleOut()
         ) {
-            IconButton(
+            EnhancedIconButton(
+                containerColor = Color.Transparent,
+                contentColor = LocalContentColor.current,
+                enableAutoShadowAndBorder = false,
                 onClick = {
                     showCompareSheet.value = true
                 }
@@ -312,7 +318,12 @@ fun FiltersScreen(
         compareButton()
         zoomButton()
         if (viewModel.bitmap != null && (viewModel.basicFilterState.filters.size >= 2 || viewModel.maskingFilterState.masks.size >= 2)) {
-            IconButton(onClick = { showReorderSheet.value = true }) {
+            EnhancedIconButton(
+                containerColor = Color.Transparent,
+                contentColor = LocalContentColor.current,
+                enableAutoShadowAndBorder = false,
+                onClick = { showReorderSheet.value = true }
+            ) {
                 Icon(Icons.Rounded.Tune, null)
             }
         }
@@ -776,7 +787,10 @@ fun FiltersScreen(
                         )
                     ),
                     navigationIcon = {
-                        IconButton(
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
                             onClick = onBack
                         ) {
                             Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
@@ -784,7 +798,10 @@ fun FiltersScreen(
                     },
                     actions = {
                         if (viewModel.previewBitmap != null) {
-                            IconButton(
+                            EnhancedIconButton(
+                                containerColor = Color.Transparent,
+                                contentColor = LocalContentColor.current,
+                                enableAutoShadowAndBorder = false,
                                 onClick = {
                                     showColorPicker.value = true
                                 },
@@ -792,7 +809,10 @@ fun FiltersScreen(
                             ) {
                                 Icon(Icons.Outlined.Colorize, null)
                             }
-                            IconButton(
+                            EnhancedIconButton(
+                                containerColor = Color.Transparent,
+                                contentColor = LocalContentColor.current,
+                                enableAutoShadowAndBorder = false,
                                 onClick = {
                                     viewModel.performSharing { showConfetti() }
                                 },

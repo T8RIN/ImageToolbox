@@ -15,6 +15,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -28,6 +30,7 @@ fun ImageNotPickedWidget(
     onPickImage: () -> Unit,
     text: String = stringResource(R.string.pick_image),
 ) {
+    val haptics = LocalHapticFeedback.current
     Column(
         modifier = modifier.container(),
         verticalArrangement = Arrangement.Center,
@@ -44,7 +47,12 @@ fun ImageNotPickedWidget(
                     resultPadding = 0.dp,
                     color = MaterialTheme.colorScheme.secondaryContainer
                 )
-                .clickable { onPickImage() }
+                .clickable {
+                    onPickImage()
+                    haptics.performHapticFeedback(
+                        HapticFeedbackType.LongPress
+                    )
+                }
                 .padding(12.dp),
             tint = MaterialTheme.colorScheme.onSecondaryContainer
         )

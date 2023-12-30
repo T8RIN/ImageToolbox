@@ -22,7 +22,7 @@ import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -45,6 +45,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.toUiFilter
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ExpandableItem
@@ -126,14 +127,20 @@ fun MaskItem(
                                 )
                         )
                         Spacer(Modifier.weight(1f))
-                        IconButton(
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
                             onClick = {
                                 showMaskRemoveDialog = true
                             }
                         ) {
                             Icon(Icons.Rounded.RemoveCircleOutline, null)
                         }
-                        IconButton(
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
                             onClick = { showEditMaskSheet.value = true }
                         ) {
                             Icon(Icons.Rounded.CreateAlt, null)

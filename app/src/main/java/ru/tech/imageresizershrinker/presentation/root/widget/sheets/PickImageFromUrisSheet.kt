@@ -53,6 +53,7 @@ fun PickImageFromUrisSheet(
     columns: Int,
     onUriPicked: (Uri) -> Unit
 ) {
+    val hasUris = (uris?.size ?: 0) > 1
     SimpleSheet(
         sheetContent = {
             val gridState = rememberLazyGridState()
@@ -113,6 +114,7 @@ fun PickImageFromUrisSheet(
                                     containerColor = MaterialTheme.colorScheme.surfaceContainer.copy(
                                         0.7f
                                     ),
+                                    enabled = hasUris,
                                     contentColor = MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier
                                         .padding(8.dp)
@@ -149,5 +151,5 @@ fun PickImageFromUrisSheet(
         visible = visible
     )
 
-    if (!((uris?.size ?: 0) > 1 && visible.value)) visible.value = false
+    if (!(hasUris && visible.value)) visible.value = false
 }

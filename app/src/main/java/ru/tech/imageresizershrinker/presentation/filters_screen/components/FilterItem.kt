@@ -19,7 +19,7 @@ import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,6 +47,7 @@ import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFi
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiRGBFilter
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorSelectionRow
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorSelectionRowDefaults
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
@@ -124,7 +125,12 @@ fun <T> FilterItem(
                             .weight(1f)
                     )
                     if (filter.value.toString().contains("Color") && !previewOnly) {
-                        IconButton(onClick = onRemove) {
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
+                            onClick = onRemove
+                        ) {
                             Icon(Icons.Rounded.RemoveCircleOutline, null)
                         }
                     }
@@ -205,7 +211,10 @@ fun <T> FilterItem(
                                 this
                             },
                             startIcon = {
-                                IconButton(
+                                EnhancedIconButton(
+                                    containerColor = Color.Transparent,
+                                    contentColor = LocalContentColor.current,
+                                    enableAutoShadowAndBorder = false,
                                     onClick = {
                                         val matrix = filter.newInstance().value as FloatArray
                                         text.split(", ").mapIndexed { index, num ->
@@ -766,7 +775,12 @@ fun <T> FilterItem(
                     .background(MaterialTheme.colorScheme.outlineVariant())
                     .padding(start = 20.dp)
             )
-            IconButton(onClick = onRemove) {
+            EnhancedIconButton(
+                containerColor = Color.Transparent,
+                contentColor = LocalContentColor.current,
+                enableAutoShadowAndBorder = false,
+                onClick = onRemove
+            ) {
                 Icon(Icons.Rounded.RemoveCircleOutline, null)
             }
         }

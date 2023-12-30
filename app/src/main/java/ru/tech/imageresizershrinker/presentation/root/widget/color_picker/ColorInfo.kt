@@ -24,7 +24,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -51,6 +51,7 @@ import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.pasteColorFromClipboard
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
@@ -101,7 +102,10 @@ fun ColorInfo(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                IconButton(
+                EnhancedIconButton(
+                    containerColor = Color.Transparent,
+                    contentColor = LocalContentColor.current,
+                    enableAutoShadowAndBorder = false,
                     onClick = {
                         onColorChange(
                             Color(Random.nextInt()).copy(alpha = Color(color).alpha).toArgb()
@@ -175,10 +179,20 @@ fun ColorInfo(
                             )
                         }
                         Row(Modifier.width(80.dp)) {
-                            IconButton(onClick = onCopyCustomColor) {
+                            EnhancedIconButton(
+                                containerColor = Color.Transparent,
+                                contentColor = LocalContentColor.current,
+                                enableAutoShadowAndBorder = false,
+                                onClick = onCopyCustomColor
+                            ) {
                                 Icon(Icons.Rounded.ContentCopy, null)
                             }
-                            IconButton(onClick = onPasteCustomColor) {
+                            EnhancedIconButton(
+                                containerColor = Color.Transparent,
+                                contentColor = LocalContentColor.current,
+                                enableAutoShadowAndBorder = false,
+                                onClick = onPasteCustomColor
+                            ) {
                                 Icon(Icons.Rounded.ContentPaste, null)
                             }
                         }

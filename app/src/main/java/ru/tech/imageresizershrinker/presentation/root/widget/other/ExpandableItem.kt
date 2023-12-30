@@ -16,7 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
@@ -30,6 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 
 @Composable
@@ -64,7 +65,10 @@ fun ExpandableItem(
             Row(Modifier.weight(1f)) {
                 visibleContent(expanded)
             }
-            IconButton(
+            EnhancedIconButton(
+                containerColor = Color.Transparent,
+                contentColor = LocalContentColor.current,
+                enableAutoShadowAndBorder = false,
                 onClick = { expanded = !expanded }
             ) {
                 Icon(

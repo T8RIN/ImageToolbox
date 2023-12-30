@@ -26,7 +26,7 @@ import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Surface
@@ -40,10 +40,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
@@ -84,7 +86,12 @@ fun FullscreenEditOption(
                     BottomSheetScaffold(
                         topBar = {
                             topAppBar {
-                                IconButton(onClick = internalOnDismiss) {
+                                EnhancedIconButton(
+                                    containerColor = Color.Transparent,
+                                    contentColor = LocalContentColor.current,
+                                    enableAutoShadowAndBorder = false,
+                                    onClick = internalOnDismiss
+                                ) {
                                     Icon(Icons.Rounded.Close, null)
                                 }
                             }
@@ -107,7 +114,10 @@ fun FullscreenEditOption(
                                     actions = {
                                         actions()
                                         if (showControls) {
-                                            IconButton(
+                                            EnhancedIconButton(
+                                                containerColor = Color.Transparent,
+                                                contentColor = LocalContentColor.current,
+                                                enableAutoShadowAndBorder = false,
                                                 onClick = {
                                                     scope.launch {
                                                         if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
@@ -156,7 +166,12 @@ fun FullscreenEditOption(
                     )
                 } else {
                     topAppBar {
-                        IconButton(onClick = internalOnDismiss) {
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
+                            onClick = internalOnDismiss
+                        ) {
                             Icon(Icons.Rounded.Close, null)
                         }
                     }

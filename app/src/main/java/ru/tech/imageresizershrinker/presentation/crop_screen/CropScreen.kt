@@ -39,8 +39,8 @@ import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
@@ -60,6 +60,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -87,6 +88,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResu
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
@@ -278,7 +280,10 @@ fun CropScreen(
                             )
                         ),
                         navigationIcon = {
-                            IconButton(
+                            EnhancedIconButton(
+                                containerColor = Color.Transparent,
+                                contentColor = LocalContentColor.current,
+                                enableAutoShadowAndBorder = false,
                                 onClick = onBack
                             ) {
                                 Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
@@ -304,7 +309,10 @@ fun CropScreen(
                             )
                         ),
                         navigationIcon = {
-                            IconButton(
+                            EnhancedIconButton(
+                                containerColor = Color.Transparent,
+                                contentColor = LocalContentColor.current,
+                                enableAutoShadowAndBorder = false,
                                 onClick = onBack
                             ) {
                                 Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
@@ -312,7 +320,10 @@ fun CropScreen(
                         },
                         actions = {
                             if (portrait) {
-                                IconButton(
+                                EnhancedIconButton(
+                                    containerColor = Color.Transparent,
+                                    contentColor = LocalContentColor.current,
+                                    enableAutoShadowAndBorder = false,
                                     onClick = {
                                         scope.launch {
                                             if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
@@ -326,7 +337,10 @@ fun CropScreen(
                                     Icon(Icons.Rounded.Tune, null)
                                 }
                             }
-                            IconButton(
+                            EnhancedIconButton(
+                                containerColor = Color.Transparent,
+                                contentColor = LocalContentColor.current,
+                                enableAutoShadowAndBorder = false,
                                 onClick = {
                                     viewModel.resetBitmap()
                                 },
@@ -334,7 +348,10 @@ fun CropScreen(
                             ) {
                                 Icon(Icons.Outlined.RestartAlt, null)
                             }
-                            IconButton(
+                            EnhancedIconButton(
+                                containerColor = Color.Transparent,
+                                contentColor = LocalContentColor.current,
+                                enableAutoShadowAndBorder = false,
                                 onClick = {
                                     viewModel.shareBitmap(
                                         onComplete = showConfetti

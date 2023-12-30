@@ -34,8 +34,8 @@ import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
@@ -51,6 +51,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
@@ -72,6 +73,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.failedToSaveI
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageCounter
@@ -218,7 +220,10 @@ fun DeleteExifScreen(
             enter = scaleIn() + fadeIn(),
             exit = scaleOut() + fadeOut()
         ) {
-            IconButton(
+            EnhancedIconButton(
+                containerColor = Color.Transparent,
+                contentColor = LocalContentColor.current,
+                enableAutoShadowAndBorder = false,
                 onClick = {
                     showSheet.value = true
                 }
@@ -230,7 +235,10 @@ fun DeleteExifScreen(
 
     val actions: @Composable RowScope.() -> Unit = {
         if (viewModel.previewBitmap != null) {
-            IconButton(
+            EnhancedIconButton(
+                containerColor = Color.Transparent,
+                contentColor = LocalContentColor.current,
+                enableAutoShadowAndBorder = false,
                 onClick = {
                     viewModel.shareBitmaps { showConfetti() }
                 }
@@ -293,7 +301,10 @@ fun DeleteExifScreen(
                         )
                     ),
                     navigationIcon = {
-                        IconButton(
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
                             onClick = {
                                 if (viewModel.uris?.isNotEmpty() == true) showExitDialog = true
                                 else onGoBack()

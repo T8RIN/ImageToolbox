@@ -41,8 +41,8 @@ import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -61,6 +61,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -88,6 +89,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResu
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
@@ -215,7 +217,10 @@ fun LoadNetImageScreen(
             enter = fadeIn() + scaleIn(),
             exit = fadeOut() + scaleOut()
         ) {
-            IconButton(
+            EnhancedIconButton(
+                containerColor = Color.Transparent,
+                contentColor = LocalContentColor.current,
+                enableAutoShadowAndBorder = false,
                 onClick = {
                     showSheet.value = true
                 }
@@ -328,7 +333,12 @@ fun LoadNetImageScreen(
                         )
                     ),
                     navigationIcon = {
-                        IconButton(onClick = onGoBack) {
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
+                            onClick = onGoBack
+                        ) {
                             Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                         }
                     },
@@ -336,7 +346,10 @@ fun LoadNetImageScreen(
                         if (viewModel.bitmap == null) {
                             TopAppBarEmoji()
                         } else {
-                            IconButton(
+                            EnhancedIconButton(
+                                containerColor = Color.Transparent,
+                                contentColor = LocalContentColor.current,
+                                enableAutoShadowAndBorder = false,
                                 onClick = {
                                     viewModel.bitmap?.let { bitmap ->
                                         viewModel.shareBitmap(
@@ -440,7 +453,10 @@ fun LoadNetImageScreen(
                                     },
                                     endIcon = {
                                         AnimatedVisibility(link.isNotBlank()) {
-                                            IconButton(
+                                            EnhancedIconButton(
+                                                containerColor = Color.Transparent,
+                                                contentColor = LocalContentColor.current,
+                                                enableAutoShadowAndBorder = false,
                                                 onClick = { link = "" },
                                                 modifier = Modifier.padding(end = 4.dp)
                                             ) {

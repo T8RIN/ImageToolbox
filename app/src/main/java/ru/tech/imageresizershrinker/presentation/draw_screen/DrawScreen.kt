@@ -69,8 +69,8 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
@@ -503,7 +503,10 @@ fun DrawScreen(
                     },
                     actions = {
                         if (portrait) {
-                            IconButton(
+                            EnhancedIconButton(
+                                containerColor = Color.Transparent,
+                                contentColor = LocalContentColor.current,
+                                enableAutoShadowAndBorder = false,
                                 onClick = {
                                     scope.launch {
                                         if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
@@ -517,13 +520,19 @@ fun DrawScreen(
                                 Icon(Icons.Rounded.Tune, null)
                             }
                         }
-                        IconButton(
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
                             onClick = { viewModel.shareBitmap { showConfetti() } },
                             enabled = viewModel.drawBehavior !is DrawBehavior.None
                         ) {
                             Icon(Icons.Outlined.Share, null)
                         }
-                        IconButton(
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
                             onClick = {
                                 viewModel.clearDrawing()
                             },
@@ -538,7 +547,10 @@ fun DrawScreen(
                         )
                     ),
                     navigationIcon = {
-                        IconButton(
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
                             onClick = onBack
                         ) {
                             Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
@@ -562,7 +574,10 @@ fun DrawScreen(
                         )
                     ),
                     navigationIcon = {
-                        IconButton(
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
                             onClick = onBack
                         ) {
                             Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
@@ -826,13 +841,19 @@ fun DrawScreen(
                                 modifier = Modifier.drawHorizontalStroke(true),
                                 actions = {
                                     switch()
-                                    IconButton(
+                                    EnhancedIconButton(
+                                        containerColor = Color.Transparent,
+                                        contentColor = LocalContentColor.current,
+                                        enableAutoShadowAndBorder = false,
                                         onClick = viewModel::undo,
                                         enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
                                     ) {
                                         Icon(Icons.AutoMirrored.Rounded.Undo, null)
                                     }
-                                    IconButton(
+                                    EnhancedIconButton(
+                                        containerColor = Color.Transparent,
+                                        contentColor = LocalContentColor.current,
+                                        enableAutoShadowAndBorder = false,
                                         onClick = viewModel::redo,
                                         enabled = viewModel.undonePaths.isNotEmpty()
                                     ) {

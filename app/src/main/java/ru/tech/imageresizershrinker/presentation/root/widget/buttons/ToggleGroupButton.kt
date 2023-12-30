@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -60,6 +62,7 @@ fun ToggleGroupButton(
     indexChanged: (Int) -> Unit
 ) {
     val settingsState = LocalSettingsState.current
+    val haptics = LocalHapticFeedback.current
 
     val disColor = MaterialTheme.colorScheme.onSurface
         .copy(alpha = 0.38f)
@@ -90,7 +93,12 @@ fun ToggleGroupButton(
                             val shape = SegmentedButtonDefaults.itemShape(index, items.size)
                             SegmentedButton(
                                 enabled = enabled,
-                                onClick = { indexChanged(index) },
+                                onClick = {
+                                    haptics.performHapticFeedback(
+                                        HapticFeedbackType.LongPress
+                                    )
+                                    indexChanged(index)
+                                },
                                 border = BorderStroke(
                                     width = settingsState.borderWidth,
                                     color = MaterialTheme.colorScheme.outlineVariant()

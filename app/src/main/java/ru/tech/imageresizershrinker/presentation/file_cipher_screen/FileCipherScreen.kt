@@ -56,7 +56,6 @@ import androidx.compose.material.icons.twotone.FileOpen
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
@@ -250,7 +249,12 @@ fun FileCipherScreen(
                             )
                         ),
                         navigationIcon = {
-                            IconButton(onClick = onGoBack) {
+                            EnhancedIconButton(
+                                containerColor = Color.Transparent,
+                                contentColor = LocalContentColor.current,
+                                enableAutoShadowAndBorder = false,
+                                onClick = onGoBack
+                            ) {
                                 Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                             }
                         },
@@ -431,7 +435,10 @@ fun FileCipherScreen(
                                                     .padding(8.dp),
                                                 value = key,
                                                 startIcon = {
-                                                    IconButton(
+                                                    EnhancedIconButton(
+                                                        containerColor = Color.Transparent,
+                                                        contentColor = LocalContentColor.current,
+                                                        enableAutoShadowAndBorder = false,
                                                         onClick = {
                                                             key = viewModel.generateRandomPassword()
                                                             viewModel.resetCalculatedData()
@@ -446,7 +453,10 @@ fun FileCipherScreen(
                                                     }
                                                 },
                                                 endIcon = {
-                                                    IconButton(
+                                                    EnhancedIconButton(
+                                                        containerColor = Color.Transparent,
+                                                        contentColor = LocalContentColor.current,
+                                                        enableAutoShadowAndBorder = false,
                                                         onClick = {
                                                             key = ""
                                                             viewModel.resetCalculatedData()

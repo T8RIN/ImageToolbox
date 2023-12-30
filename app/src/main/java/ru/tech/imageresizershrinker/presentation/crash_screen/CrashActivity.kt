@@ -35,7 +35,7 @@ import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -78,6 +78,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.exception.CrashHandl
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.rememberToastHostState
@@ -255,7 +256,10 @@ class CrashActivity : CrashHandler() {
                                                 .padding(16.dp)
                                                 .weight(1f)
                                         )
-                                        IconButton(
+                                        EnhancedIconButton(
+                                            containerColor = Color.Transparent,
+                                            contentColor = LocalContentColor.current,
+                                            enableAutoShadowAndBorder = false,
                                             onClick = { showError = !showError },
                                             modifier = Modifier.padding(8.dp)
                                         ) {

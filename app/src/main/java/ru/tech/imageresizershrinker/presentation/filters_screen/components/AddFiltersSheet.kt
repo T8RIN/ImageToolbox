@@ -40,7 +40,7 @@ import androidx.compose.material.icons.rounded.Slideshow
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.compose.material3.Tab
@@ -63,6 +63,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
@@ -75,6 +76,7 @@ import ru.tech.imageresizershrinker.presentation.root.icons.material.Cube
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFilter
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.presentation.root.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
@@ -284,7 +286,12 @@ fun AddFiltersSheet(
             SimpleDragHandle {
                 CenterAlignedTopAppBar(
                     navigationIcon = {
-                        IconButton(onClick = { previewSheetData = null }) {
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
+                            onClick = { previewSheetData = null }
+                        ) {
                             Icon(Icons.Rounded.Close, null)
                         }
                     },
@@ -294,7 +301,10 @@ fun AddFiltersSheet(
                         )
                     ),
                     actions = {
-                        IconButton(
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
                             onClick = {
                                 previewSheetData?.let {
                                     onFilterPickedWithParams(it.copy(it.value!!))

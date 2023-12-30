@@ -32,6 +32,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -60,6 +62,7 @@ fun PreferenceItemOverload(
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
 ) {
+    val haptics = LocalHapticFeedback.current
     ProvideTextStyle(value = LocalTextStyle.current.copy(textAlign = TextAlign.Start)) {
         Card(
             shape = shape,
@@ -74,7 +77,23 @@ fun PreferenceItemOverload(
                     onClick
                         ?.takeIf { enabled }
                         ?.let {
-                            Modifier.combinedClickable(onClick = onClick, onLongClick = onLongClick)
+                            Modifier.combinedClickable(
+                                onClick = {
+                                    haptics.performHapticFeedback(
+                                        HapticFeedbackType.LongPress
+                                    )
+                                    onClick()
+                                },
+                                onLongClick = onLongClick?.let {
+                                    {
+                                        haptics.performHapticFeedback(
+                                            HapticFeedbackType.LongPress
+                                        )
+                                        onLongClick()
+                                    }
+                                }
+                            )
+
                         } ?: Modifier
                 )
                 .alpha(animateFloatAsState(targetValue = if (enabled) 1f else 0.5f).value),

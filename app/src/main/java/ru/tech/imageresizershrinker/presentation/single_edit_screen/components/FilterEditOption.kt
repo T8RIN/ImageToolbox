@@ -23,7 +23,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -182,7 +182,10 @@ fun FilterEditOption(
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
                 } else {
-                    IconButton(
+                    EnhancedIconButton(
+                        containerColor = Color.Transparent,
+                        contentColor = LocalContentColor.current,
+                        enableAutoShadowAndBorder = false,
                         onClick = {
                             showColorPicker.value = true
                         },

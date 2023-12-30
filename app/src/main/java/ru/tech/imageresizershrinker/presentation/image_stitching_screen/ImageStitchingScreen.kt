@@ -35,8 +35,8 @@ import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
@@ -83,6 +83,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePic
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.widget.buttons.BottomButtonsBlock
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.dialogs.ExitWithoutSavingDialog
@@ -232,7 +233,10 @@ fun ImageStitchingScreen(
             enter = fadeIn() + scaleIn(),
             exit = fadeOut() + scaleOut()
         ) {
-            IconButton(
+            EnhancedIconButton(
+                containerColor = Color.Transparent,
+                contentColor = LocalContentColor.current,
+                enableAutoShadowAndBorder = false,
                 onClick = {
                     showZoomSheet.value = true
                 }
@@ -244,7 +248,10 @@ fun ImageStitchingScreen(
 
     val actions: @Composable RowScope.() -> Unit = {
         if (viewModel.previewBitmap != null) {
-            IconButton(
+            EnhancedIconButton(
+                containerColor = Color.Transparent,
+                contentColor = LocalContentColor.current,
+                enableAutoShadowAndBorder = false,
                 onClick = {
                     viewModel.shareBitmaps { showConfetti() }
                 },
@@ -310,7 +317,12 @@ fun ImageStitchingScreen(
                         )
                     ),
                     navigationIcon = {
-                        IconButton(onClick = onBack) {
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
+                            onClick = onBack
+                        ) {
                             Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                         }
                     },

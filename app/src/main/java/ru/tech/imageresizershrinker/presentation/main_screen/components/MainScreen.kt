@@ -69,8 +69,8 @@ import androidx.compose.material3.DrawerDefaults
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
@@ -98,6 +98,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
@@ -130,6 +131,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavC
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.pulsate
@@ -281,7 +283,10 @@ fun MainScreen(
                         .background(MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp))
                         .drawHorizontalStroke(),
                     actions = {
-                        IconButton(
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
                             onClick = {
                                 if (!showSettingsSearch) {
                                     showSettingsSearch = true
@@ -309,7 +314,10 @@ fun MainScreen(
                             transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
                         ) { (expanded, searching) ->
                             if (searching) {
-                                IconButton(
+                                EnhancedIconButton(
+                                    containerColor = Color.Transparent,
+                                    contentColor = LocalContentColor.current,
+                                    enableAutoShadowAndBorder = false,
                                     onClick = {
                                         showSettingsSearch = false
                                         settingsSearchKeyword = ""
@@ -321,7 +329,10 @@ fun MainScreen(
                                     )
                                 }
                             } else if (expanded) {
-                                IconButton(
+                                EnhancedIconButton(
+                                    containerColor = Color.Transparent,
+                                    contentColor = LocalContentColor.current,
+                                    enableAutoShadowAndBorder = false,
                                     onClick = {
                                         sheetExpanded = !sheetExpanded
                                     }
@@ -435,7 +446,10 @@ fun MainScreen(
                                 enter = fadeIn() + scaleIn(),
                                 exit = fadeOut() + scaleOut()
                             ) {
-                                IconButton(
+                                EnhancedIconButton(
+                                    containerColor = Color.Transparent,
+                                    contentColor = LocalContentColor.current,
+                                    enableAutoShadowAndBorder = false,
                                     onClick = { showScreenSearch = true && canSearchScreens }
                                 ) {
                                     Icon(
@@ -445,7 +459,10 @@ fun MainScreen(
                                 }
                             }
                             if (isSheetSlideable) {
-                                IconButton(
+                                EnhancedIconButton(
+                                    containerColor = Color.Transparent,
+                                    contentColor = LocalContentColor.current,
+                                    enableAutoShadowAndBorder = false,
                                     onClick = {
                                         scope.launch {
                                             sideSheetState.open()
@@ -736,7 +753,10 @@ fun MainScreen(
                                                             screenSearchKeyword = it
                                                         },
                                                         startIcon = {
-                                                            IconButton(
+                                                            EnhancedIconButton(
+                                                                containerColor = Color.Transparent,
+                                                                contentColor = LocalContentColor.current,
+                                                                enableAutoShadowAndBorder = false,
                                                                 onClick = {
                                                                     screenSearchKeyword = ""
                                                                     showScreenSearch = false
@@ -756,7 +776,10 @@ fun MainScreen(
                                                                 enter = fadeIn() + scaleIn(),
                                                                 exit = fadeOut() + scaleOut()
                                                             ) {
-                                                                IconButton(
+                                                                EnhancedIconButton(
+                                                                    containerColor = Color.Transparent,
+                                                                    contentColor = LocalContentColor.current,
+                                                                    enableAutoShadowAndBorder = false,
                                                                     onClick = {
                                                                         screenSearchKeyword = ""
                                                                     },

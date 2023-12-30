@@ -37,8 +37,8 @@ import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
@@ -59,6 +59,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.isUnspecified
@@ -88,6 +89,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.toHex
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitch
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitchDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
@@ -215,7 +217,10 @@ fun PickColorFromImageScreen(
                     LargeTopAppBar(
                         scrollBehavior = scrollBehavior,
                         navigationIcon = {
-                            IconButton(
+                            EnhancedIconButton(
+                                containerColor = Color.Transparent,
+                                contentColor = LocalContentColor.current,
+                                enableAutoShadowAndBorder = false,
                                 onClick = {
                                     onGoBack()
                                 }
@@ -250,7 +255,10 @@ fun PickColorFromImageScreen(
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    IconButton(
+                                    EnhancedIconButton(
+                                        containerColor = Color.Transparent,
+                                        contentColor = LocalContentColor.current,
+                                        enableAutoShadowAndBorder = false,
                                         onClick = {
                                             onGoBack()
                                         },
@@ -353,7 +361,10 @@ fun PickColorFromImageScreen(
                                                 )
 
                                                 if (viewModel.uri != null) {
-                                                    IconButton(
+                                                    EnhancedIconButton(
+                                                        containerColor = Color.Transparent,
+                                                        contentColor = LocalContentColor.current,
+                                                        enableAutoShadowAndBorder = false,
                                                         onClick = {
                                                             if (navController.backstack.entries.isNotEmpty()) navController.pop()
                                                             navController.navigate(
@@ -376,7 +387,10 @@ fun PickColorFromImageScreen(
                                             .padding(start = 8.dp)
                                     )
                                     if (viewModel.uri != null && portrait) {
-                                        IconButton(
+                                        EnhancedIconButton(
+                                            containerColor = Color.Transparent,
+                                            contentColor = LocalContentColor.current,
+                                            enableAutoShadowAndBorder = false,
                                             onClick = {
                                                 if (navController.backstack.entries.isNotEmpty()) navController.pop()
                                                 navController.navigate(

@@ -47,8 +47,8 @@ import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.SheetValue
@@ -104,6 +104,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePic
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitch
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitchDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.ExtensionGroup
@@ -323,7 +324,10 @@ fun EraseBackgroundScreen(
                         )
                     ),
                     navigationIcon = {
-                        IconButton(
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
                             onClick = onBack
                         ) {
                             Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
@@ -345,7 +349,10 @@ fun EraseBackgroundScreen(
                     },
                     actions = {
                         if (portrait) {
-                            IconButton(
+                            EnhancedIconButton(
+                                containerColor = Color.Transparent,
+                                contentColor = LocalContentColor.current,
+                                enableAutoShadowAndBorder = false,
                                 onClick = {
                                     scope.launch {
                                         if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
@@ -359,12 +366,18 @@ fun EraseBackgroundScreen(
                                 Icon(Icons.Rounded.Tune, null)
                             }
                         }
-                        IconButton(
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
                             onClick = { viewModel.shareBitmap { showConfetti() } }
                         ) {
                             Icon(Icons.Outlined.Share, null)
                         }
-                        IconButton(
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
                             onClick = { viewModel.clearDrawing() },
                             enabled = viewModel.paths.isNotEmpty()
                         ) {
@@ -377,7 +390,10 @@ fun EraseBackgroundScreen(
                         )
                     ),
                     navigationIcon = {
-                        IconButton(
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
                             onClick = onBack
                         ) {
                             Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)

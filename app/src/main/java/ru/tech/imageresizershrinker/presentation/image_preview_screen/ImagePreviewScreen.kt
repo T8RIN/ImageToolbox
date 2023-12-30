@@ -21,8 +21,8 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -32,6 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -43,6 +44,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.presentation.root.widget.image.LazyImagesGrid
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
@@ -108,7 +110,12 @@ fun ImagePreviewScreen(
                         )
                     ),
                     navigationIcon = {
-                        IconButton(onClick = onGoBack) {
+                        EnhancedIconButton(
+                            containerColor = Color.Transparent,
+                            contentColor = LocalContentColor.current,
+                            enableAutoShadowAndBorder = false,
+                            onClick = onGoBack
+                        ) {
                             Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
                         }
                     },
