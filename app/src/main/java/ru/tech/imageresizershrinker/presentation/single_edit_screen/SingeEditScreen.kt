@@ -415,7 +415,7 @@ fun SingleEditScreen(
         ExtensionGroup(
             enabled = viewModel.bitmap != null,
             imageFormat = bitmapInfo.imageFormat,
-            onFormatChange = viewModel::setMime
+            onFormatChange = viewModel::setImageFormat
         )
         Spacer(Modifier.height(8.dp))
         ResizeTypeSelector(

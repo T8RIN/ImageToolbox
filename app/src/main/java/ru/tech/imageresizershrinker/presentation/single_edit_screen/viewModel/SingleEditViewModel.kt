@@ -120,9 +120,10 @@ class SingleEditViewModel @Inject constructor(
 
     private var job: Job? = null
 
-    private suspend fun checkBitmapAndUpdate(resetPreset: Boolean, resetTelegram: Boolean) {
-        if (resetPreset || resetTelegram) {
+    private suspend fun checkBitmapAndUpdate(resetPreset: Boolean = false) {
+        if (resetPreset) {
             _presetSelected.value = Preset.None
+
         }
         _bitmap.value?.let { bmp ->
             val preview = updatePreview(bmp)
@@ -198,13 +199,10 @@ class SingleEditViewModel @Inject constructor(
     }
 
     private fun setBitmapInfo(newInfo: ImageInfo) {
-        if (_imageInfo.value != newInfo || _imageInfo.value.quality == 100f) {
+        if (_imageInfo.value != newInfo) {
             _imageInfo.value = newInfo
             debouncedImageCalculation {
-                checkBitmapAndUpdate(
-                    resetPreset = false,
-                    resetTelegram = true
-                )
+                checkBitmapAndUpdate()
             }
         }
     }
@@ -220,8 +218,7 @@ class SingleEditViewModel @Inject constructor(
         }
         debouncedImageCalculation {
             checkBitmapAndUpdate(
-                resetPreset = true,
-                resetTelegram = true
+                resetPreset = true
             )
         }
     }
@@ -248,10 +245,7 @@ class SingleEditViewModel @Inject constructor(
             )
         }
         debouncedImageCalculation {
-            checkBitmapAndUpdate(
-                resetPreset = false,
-                resetTelegram = false
-            )
+            checkBitmapAndUpdate()
         }
     }
 
@@ -264,20 +258,14 @@ class SingleEditViewModel @Inject constructor(
             )
         }
         debouncedImageCalculation {
-            checkBitmapAndUpdate(
-                resetPreset = false,
-                resetTelegram = false
-            )
+            checkBitmapAndUpdate()
         }
     }
 
     fun flipImage() {
         _imageInfo.value = _imageInfo.value.copy(isFlipped = !_imageInfo.value.isFlipped)
         debouncedImageCalculation {
-            checkBitmapAndUpdate(
-                resetPreset = false,
-                resetTelegram = false
-            )
+            checkBitmapAndUpdate()
         }
     }
 
@@ -286,8 +274,7 @@ class SingleEditViewModel @Inject constructor(
             _imageInfo.value = _imageInfo.value.copy(width = width)
             debouncedImageCalculation {
                 checkBitmapAndUpdate(
-                    resetPreset = true,
-                    resetTelegram = true
+                    resetPreset = true
                 )
             }
         }
@@ -298,8 +285,7 @@ class SingleEditViewModel @Inject constructor(
             _imageInfo.value = _imageInfo.value.copy(height = height)
             debouncedImageCalculation {
                 checkBitmapAndUpdate(
-                    resetPreset = true,
-                    resetTelegram = true
+                    resetPreset = true
                 )
             }
         }
@@ -309,21 +295,17 @@ class SingleEditViewModel @Inject constructor(
         if (_imageInfo.value.quality != quality) {
             _imageInfo.value = _imageInfo.value.copy(quality = quality.coerceIn(0f, 100f))
             debouncedImageCalculation {
-                checkBitmapAndUpdate(
-                    resetPreset = false,
-                    resetTelegram = false
-                )
+                checkBitmapAndUpdate()
             }
         }
     }
 
-    fun setMime(imageFormat: ImageFormat) {
+    fun setImageFormat(imageFormat: ImageFormat) {
         if (_imageInfo.value.imageFormat != imageFormat) {
             _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
             debouncedImageCalculation {
                 checkBitmapAndUpdate(
-                    resetPreset = false,
-                    resetTelegram = imageFormat != ImageFormat.Png
+                    resetPreset = _presetSelected.value == Preset.Telegram && imageFormat != ImageFormat.Png
                 )
             }
         }
@@ -334,8 +316,7 @@ class SingleEditViewModel @Inject constructor(
             _imageInfo.value = _imageInfo.value.copy(resizeType = type)
             debouncedImageCalculation {
                 checkBitmapAndUpdate(
-                    resetPreset = false,
-                    resetTelegram = false
+                    resetPreset = false
                 )
             }
         }
@@ -378,8 +359,7 @@ class SingleEditViewModel @Inject constructor(
                 height = size.second
             )
             checkBitmapAndUpdate(
-                resetPreset = false,
-                resetTelegram = imageData.imageInfo.imageFormat != ImageFormat.Png
+                resetPreset = _presetSelected.value == Preset.Telegram && imageData.imageInfo.imageFormat != ImageFormat.Png
             )
             _isImageLoading.value = false
         }
@@ -395,8 +375,8 @@ class SingleEditViewModel @Inject constructor(
                 imageLoader = {
                     imageManager.getImage(uri = uri.toString())?.image?.let {
                         ImageData(
-                            it,
-                            imageInfo
+                            image = it,
+                            imageInfo = imageInfo
                         )
                     }
                 },

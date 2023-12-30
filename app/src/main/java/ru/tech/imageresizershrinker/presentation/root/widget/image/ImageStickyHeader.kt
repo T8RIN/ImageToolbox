@@ -32,9 +32,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.materialShadow
@@ -55,6 +57,7 @@ fun LazyListScope.imageStickyHeader(
     imageBlock: @Composable () -> Unit,
 ) {
     val content = @Composable {
+        val haptics = LocalHapticFeedback.current
         val screenWidth = LocalConfiguration.current.screenWidthDp.dp
         val density = LocalDensity.current
         Column(
@@ -132,6 +135,9 @@ fun LazyListScope.imageStickyHeader(
                         OutlinedIconToggleButton(
                             checked = imageState.isBlocked,
                             onCheckedChange = {
+                                haptics.performHapticFeedback(
+                                    HapticFeedbackType.LongPress
+                                )
                                 onStateChange(imageState.copy(isBlocked = it))
                             },
                             modifier = Modifier.materialShadow(

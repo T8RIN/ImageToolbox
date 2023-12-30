@@ -24,8 +24,10 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -58,13 +60,19 @@ fun EnhancedSlider(
     )
 ) {
     if (steps != 0) {
+        var compositions by remember {
+            mutableStateOf(0)
+        }
         val haptics = LocalHapticFeedback.current
         val updatedValue by rememberUpdatedState(newValue = value)
 
         LaunchedEffect(updatedValue) {
-            haptics.performHapticFeedback(
-                HapticFeedbackType.TextHandleMove
-            )
+            if (compositions > 1) {
+                haptics.performHapticFeedback(
+                    HapticFeedbackType.TextHandleMove
+                )
+            }
+            compositions++
         }
     }
 

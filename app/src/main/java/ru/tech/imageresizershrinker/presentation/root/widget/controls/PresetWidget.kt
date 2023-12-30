@@ -44,8 +44,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -240,6 +242,7 @@ private fun Chip(
     onClick: () -> Unit,
     label: @Composable () -> Unit
 ) {
+    val haptics = LocalHapticFeedback.current
     val color by animateColorAsState(
         if (selected) MaterialTheme.colorScheme.primary
         else MaterialTheme.colorScheme.secondaryContainer.copy(
@@ -275,7 +278,12 @@ private fun Chip(
                     shape = MaterialTheme.shapes.medium,
                     autoShadowElevation = 0.5.dp
                 )
-                .clickable(onClick = onClick),
+                .clickable {
+                    haptics.performHapticFeedback(
+                        HapticFeedbackType.LongPress
+                    )
+                    onClick()
+                },
             contentAlignment = Alignment.Center
         ) {
             Box(

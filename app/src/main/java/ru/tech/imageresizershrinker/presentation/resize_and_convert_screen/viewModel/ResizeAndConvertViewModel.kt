@@ -82,6 +82,7 @@ class ResizeAndConvertViewModel @Inject constructor(
         _uris.value = null
         _uris.value = uris
         _selectedUri.value = uris?.firstOrNull()
+        _presetSelected.value = Preset.None
     }
 
     fun updateUrisSilently(removedUri: Uri) {
@@ -111,10 +112,9 @@ class ResizeAndConvertViewModel @Inject constructor(
     }
 
     private suspend fun checkBitmapAndUpdate(
-        resetPreset: Boolean,
-        resetTelegram: Boolean
+        resetPreset: Boolean = false
     ) {
-        if (resetPreset || resetTelegram) {
+        if (resetPreset) {
             _presetSelected.value = Preset.None
         }
         job?.cancel()
@@ -163,18 +163,11 @@ class ResizeAndConvertViewModel @Inject constructor(
         }
     }
 
-    private fun setBitmapInfo(newInfo: ImageInfo, resetTelegram: Boolean = true) {
-        if (_imageInfo.value != newInfo || _imageInfo.value.quality == 100f) {
-            _imageInfo.value = newInfo.let {
-                if (it.quality != imageInfo.quality) {
-                    it.copy(quality = imageInfo.quality)
-                } else it
-            }
+    private fun setBitmapInfo(newInfo: ImageInfo) {
+        if (_imageInfo.value != newInfo) {
+            _imageInfo.value = newInfo.copy(quality = imageInfo.quality)
             debouncedImageCalculation {
-                checkBitmapAndUpdate(
-                    resetPreset = false,
-                    resetTelegram = resetTelegram
-                )
+                checkBitmapAndUpdate()
             }
         }
     }
@@ -183,12 +176,13 @@ class ResizeAndConvertViewModel @Inject constructor(
         _imageInfo.value = ImageInfo(
             width = _bitmap.value?.width ?: 0,
             height = _bitmap.value?.height ?: 0,
-            imageFormat = if (saveMime) imageInfo.imageFormat else ImageFormat.Default()
+            imageFormat = if (saveMime) {
+                imageInfo.imageFormat
+            } else ImageFormat.Default()
         )
         debouncedImageCalculation {
             checkBitmapAndUpdate(
-                resetPreset = resetPreset,
-                resetTelegram = true
+                resetPreset = resetPreset
             )
         }
     }
@@ -209,8 +203,7 @@ class ResizeAndConvertViewModel @Inject constructor(
                 height = size.second
             )
             checkBitmapAndUpdate(
-                resetPreset = false,
-                resetTelegram = imageData.imageInfo.imageFormat != ImageFormat.Png
+                resetPreset = _presetSelected.value == Preset.Telegram && imageData.imageInfo.imageFormat != ImageFormat.Png
             )
             _isImageLoading.value = false
         }
@@ -225,10 +218,7 @@ class ResizeAndConvertViewModel @Inject constructor(
             )
         }
         debouncedImageCalculation {
-            checkBitmapAndUpdate(
-                resetPreset = false,
-                resetTelegram = false
-            )
+            checkBitmapAndUpdate()
         }
     }
 
@@ -241,20 +231,14 @@ class ResizeAndConvertViewModel @Inject constructor(
             )
         }
         debouncedImageCalculation {
-            checkBitmapAndUpdate(
-                resetPreset = false,
-                resetTelegram = false
-            )
+            checkBitmapAndUpdate()
         }
     }
 
     fun flip() {
         _imageInfo.value = _imageInfo.value.copy(isFlipped = !_imageInfo.value.isFlipped)
         debouncedImageCalculation {
-            checkBitmapAndUpdate(
-                resetPreset = false,
-                resetTelegram = false
-            )
+            checkBitmapAndUpdate()
         }
     }
 
@@ -262,10 +246,7 @@ class ResizeAndConvertViewModel @Inject constructor(
         if (_imageInfo.value.width != width) {
             _imageInfo.value = _imageInfo.value.copy(width = width)
             debouncedImageCalculation {
-                checkBitmapAndUpdate(
-                    resetPreset = true,
-                    resetTelegram = true
-                )
+                checkBitmapAndUpdate(true)
             }
         }
     }
@@ -274,10 +255,7 @@ class ResizeAndConvertViewModel @Inject constructor(
         if (_imageInfo.value.height != height) {
             _imageInfo.value = _imageInfo.value.copy(height = height)
             debouncedImageCalculation {
-                checkBitmapAndUpdate(
-                    resetPreset = true,
-                    resetTelegram = true
-                )
+                checkBitmapAndUpdate(true)
             }
         }
     }
@@ -286,21 +264,17 @@ class ResizeAndConvertViewModel @Inject constructor(
         if (_imageInfo.value.quality != quality) {
             _imageInfo.value = _imageInfo.value.copy(quality = quality.coerceIn(0f, 100f))
             debouncedImageCalculation {
-                checkBitmapAndUpdate(
-                    resetPreset = false,
-                    resetTelegram = false
-                )
+                checkBitmapAndUpdate()
             }
         }
     }
 
-    fun setMime(imageFormat: ImageFormat) {
+    fun setImageFormat(imageFormat: ImageFormat) {
         if (_imageInfo.value.imageFormat != imageFormat) {
             _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
             debouncedImageCalculation {
                 checkBitmapAndUpdate(
-                    resetPreset = false,
-                    resetTelegram = imageFormat !is ImageFormat.Png
+                    resetPreset = _presetSelected.value == Preset.Telegram && imageFormat != ImageFormat.Png
                 )
             }
         }
@@ -310,10 +284,7 @@ class ResizeAndConvertViewModel @Inject constructor(
         if (_imageInfo.value.resizeType != type) {
             _imageInfo.value = _imageInfo.value.copy(resizeType = type)
             debouncedImageCalculation {
-                checkBitmapAndUpdate(
-                    resetPreset = false,
-                    resetTelegram = false
-                )
+                checkBitmapAndUpdate()
             }
         }
     }
@@ -373,8 +344,7 @@ class ResizeAndConvertViewModel @Inject constructor(
     }
 
     fun setBitmap(
-        uri: Uri,
-        resetTelegram: Boolean = true
+        uri: Uri
     ) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -394,10 +364,8 @@ class ResizeAndConvertViewModel @Inject constructor(
                         image = _bitmap.value,
                         preset = _presetSelected.value,
                         currentInfo = _imageInfo.value
-                    ),
-                    resetTelegram = resetTelegram
+                    )
                 )
-                checkBitmapAndUpdate(resetPreset = false, resetTelegram = resetTelegram)
                 _selectedUri.value = uri
             }
         }

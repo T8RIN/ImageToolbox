@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.presentation.root.widget.controls.resize_gr
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -93,7 +94,8 @@ fun ResizeTypeSelector(
     }
     Column(
         modifier = modifier
-            .container(shape = RoundedCornerShape(24.dp)),
+            .container(shape = RoundedCornerShape(24.dp))
+            .animateContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ToggleGroupButton(

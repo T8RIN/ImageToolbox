@@ -470,7 +470,7 @@ fun ResizeAndConvertScreen(
         ExtensionGroup(
             enabled = viewModel.bitmap != null,
             imageFormat = bitmapInfo.imageFormat,
-            onFormatChange = viewModel::setMime
+            onFormatChange = viewModel::setImageFormat
         )
         Spacer(Modifier.height(8.dp))
         ResizeTypeSelector(
@@ -626,7 +626,7 @@ fun ResizeAndConvertScreen(
                 selectedUri = viewModel.selectedUri,
                 onUriPicked = { uri ->
                     try {
-                        viewModel.setBitmap(uri = uri, resetTelegram = false)
+                        viewModel.setBitmap(uri = uri)
                     } catch (e: Exception) {
                         scope.launch {
                             toastHostState.showError(context, e)
