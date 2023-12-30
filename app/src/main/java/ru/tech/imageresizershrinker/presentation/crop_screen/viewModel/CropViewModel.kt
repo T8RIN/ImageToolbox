@@ -141,7 +141,7 @@ class CropViewModel @Inject constructor(
     ) {
         _cropProperties.value = _cropProperties.value.copy(
             aspectRatio = aspectRatio.takeIf {
-                it != AspectRatio.Original
+                domainAspectRatio != DomainAspectRatio.Original
             } ?: _bitmap.value?.let {
                 AspectRatio(it.width.toFloat() / it.height)
             } ?: aspectRatio,
@@ -191,25 +191,27 @@ class CropViewModel @Inject constructor(
         )
     }
 
-    fun shareBitmap(bitmap: Bitmap, onComplete: () -> Unit) {
-        _isSaving.value = false
-        savingJob?.cancel()
-        savingJob = viewModelScope.launch {
-            _isSaving.value = true
-            imageManager.shareImage(
-                ImageData(
-                    image = bitmap,
-                    imageInfo = ImageInfo(
-                        imageFormat = imageFormat,
-                        width = bitmap.width,
-                        height = bitmap.height
+    fun shareBitmap(onComplete: () -> Unit) {
+        _bitmap.value?.let { bitmap ->
+            _isSaving.value = false
+            savingJob?.cancel()
+            savingJob = viewModelScope.launch {
+                _isSaving.value = true
+                imageManager.shareImage(
+                    ImageData(
+                        image = bitmap,
+                        imageInfo = ImageInfo(
+                            imageFormat = imageFormat,
+                            width = bitmap.width,
+                            height = bitmap.height
+                        ),
                     ),
-                ),
-                onComplete = {
-                    _isSaving.value = false
-                    onComplete()
-                }
-            )
+                    onComplete = {
+                        _isSaving.value = false
+                        onComplete()
+                    }
+                )
+            }
         }
     }
 

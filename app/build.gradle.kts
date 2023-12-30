@@ -156,7 +156,7 @@ dependencies {
 
     //Compose
     implementation("androidx.compose.material3:material3:1.2.0-beta01")
-    implementation("androidx.compose.material3:material3-window-size-class:beta01")
+    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-beta01")
     implementation("androidx.compose.material:material-icons-extended:1.6.0-beta03")
     implementation("androidx.compose.material:material:1.6.0-beta03")
 
@@ -199,7 +199,7 @@ dependencies {
     implementation("com.github.nanihadesuka:LazyColumnScrollbar:1.8.0")
 
 
-    implementation("com.github.awxkee:avif-coder:1.5.7")
+    implementation("com.github.awxkee:avif-coder:1.5.8")
 
     "marketImplementation"("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
     "marketImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.6.0") {

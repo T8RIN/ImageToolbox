@@ -17,9 +17,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -253,11 +253,10 @@ fun CropScreen(
     }
 
     var crop by remember { mutableStateOf(false) }
-    var share by remember { mutableStateOf(false) }
     val content: @Composable (PaddingValues) -> Unit = { paddingValues ->
         Box(
             Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .padding(paddingValues)
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {
@@ -337,10 +336,11 @@ fun CropScreen(
                             }
                             IconButton(
                                 onClick = {
-                                    share = true
-                                    crop = true
+                                    viewModel.shareBitmap(
+                                        onComplete = showConfetti
+                                    )
                                 },
-                                enabled = viewModel.bitmap != null
+                                enabled = viewModel.isBitmapChanged
                             ) {
                                 Icon(Icons.Outlined.Share, null)
                             }
@@ -355,16 +355,8 @@ fun CropScreen(
                             imageCropStarted = viewModel::imageCropStarted,
                             imageCropFinished = {
                                 viewModel.imageCropFinished()
-                                if (share) {
-                                    viewModel.shareBitmap(
-                                        bitmap = it,
-                                        onComplete = showConfetti
-                                    )
-                                } else {
-                                    viewModel.updateBitmap(it)
-                                }
+                                viewModel.updateBitmap(it)
                                 crop = false
-                                share = false
                             },
                             cropProperties = viewModel.cropProperties
                         )
@@ -385,16 +377,8 @@ fun CropScreen(
                                     imageCropStarted = viewModel::imageCropStarted,
                                     imageCropFinished = {
                                         viewModel.imageCropFinished()
-                                        if (share) {
-                                            viewModel.shareBitmap(
-                                                bitmap = it,
-                                                onComplete = showConfetti
-                                            )
-                                        } else {
-                                            viewModel.updateBitmap(it)
-                                        }
+                                        viewModel.updateBitmap(it)
                                         crop = false
-                                        share = false
                                     },
                                     cropProperties = viewModel.cropProperties
                                 )
@@ -495,6 +479,7 @@ fun CropScreen(
     }
 
     if (portrait && viewModel.bitmap != null) {
+        val screenHeight = LocalConfiguration.current.screenHeightDp.dp
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
             sheetPeekHeight = 80.dp + WindowInsets.navigationBars.asPaddingValues()
@@ -502,7 +487,7 @@ fun CropScreen(
             sheetDragHandle = null,
             sheetShape = RectangleShape,
             sheetContent = {
-                Column(Modifier.fillMaxHeight(0.8f)) {
+                Column(Modifier.heightIn(screenHeight * 0.7f)) {
                     BottomAppBar(
                         modifier = Modifier.drawHorizontalStroke(true),
                         actions = {
