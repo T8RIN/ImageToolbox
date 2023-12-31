@@ -499,4 +499,15 @@
     <string name="center_position">中心</string>
     <string name="buttons_shadow_sub">启用默认按钮后的阴影绘制</string>
     <string name="draw_path_mode">绘制路径模式</string>
+    <string name="vibration">震动</string>
+    <string name="overwrite_file_requirements">要覆盖文件，您需要使用 \"资源管理器 \"图像源，请尝试重新提供图像，我们已将图像源更改为所需的图像源</string>
+    <string name="auto_pin_sub">如果启用，自动将保存的图像添加至剪贴板</string>
+    <string name="no_such_directory">未找到 \"%1$s\"目录，我们已将其切换至默认目录，请重新保存文件</string>
+    <string name="clipboard">剪切板</string>
+    <string name="overwrite_files_sub">原始文件将被替换为新文件，而不是保存在所选文件夹中，此选项需要图像源为 \"资源管理器 \"或 GetContent，切换为此选项时，它将自动设置</string>
+    <string name="vibration_strength">震动强度</string>
+    <string name="overwrite_files">覆写文件</string>
+    <string name="empty">空</string>
+    <string name="suffix">后缀</string>
+    <string name="auto_pin">自动置顶</string>
 </resources>
