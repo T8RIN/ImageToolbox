@@ -245,4 +245,9 @@ sealed class Setting(
         title = R.string.auto_pin,
         subtitle = R.string.auto_pin_sub
     )
+
+    data object VibrationStrength : Setting(
+        title = R.string.vibration_strength,
+        subtitle = null
+    )
 }

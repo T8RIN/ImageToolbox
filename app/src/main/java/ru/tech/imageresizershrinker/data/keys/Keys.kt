@@ -47,4 +47,5 @@ object Keys {
     val DRAW_SLIDER_SHADOWS = booleanPreferencesKey("DRAW_SLIDER_SHADOWS")
     val DRAW_APPBAR_SHADOWS = booleanPreferencesKey("DRAW_APPBAR_SHADOWS")
     val COPY_TO_CLIPBOARD = booleanPreferencesKey("COPY_TO_CLIPBOARD")
+    val VIBRATION_STRENGTH = intPreferencesKey("VIBRATION_STRENGTH")
 }

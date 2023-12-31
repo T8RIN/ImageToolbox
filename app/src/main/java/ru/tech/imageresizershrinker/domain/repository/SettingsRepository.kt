@@ -102,4 +102,6 @@ interface SettingsRepository {
     suspend fun toggleDrawAppBarShadows()
 
     suspend fun toggleAutoPinClipboard()
+
+    suspend fun setVibrationStrength(strength: Int)
 }

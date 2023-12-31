@@ -42,6 +42,7 @@ import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetFontUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetNightModeUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetThemeContrastUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetThemeStyleUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetVibrationStrengthUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAddFileSizeUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAddOriginalFilenameUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleAddSequenceNumberUseCase
@@ -135,7 +136,8 @@ class MainViewModel @Inject constructor(
     private val toggleInvertColorsUseCase: ToggleInvertColorsUseCase,
     private val toggleScreensSearchEnabledUseCase: ToggleScreensSearchEnabledUseCase,
     private val toggleDrawAppBarShadowsUseCase: ToggleDrawAppBarShadowsUseCase,
-    private val toggleAutoPinClipboardUseCase: ToggleAutoPinClipboardUseCase
+    private val toggleAutoPinClipboardUseCase: ToggleAutoPinClipboardUseCase,
+    private val setVibrationStrengthUseCase: SetVibrationStrengthUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default())
@@ -619,6 +621,12 @@ class MainViewModel @Inject constructor(
     fun toggleAutoPinClipboard() {
         viewModelScope.launch {
             toggleAutoPinClipboardUseCase()
+        }
+    }
+
+    fun setVibrationStrength(strength: Int) {
+        viewModelScope.launch {
+            setVibrationStrengthUseCase(strength)
         }
     }
 

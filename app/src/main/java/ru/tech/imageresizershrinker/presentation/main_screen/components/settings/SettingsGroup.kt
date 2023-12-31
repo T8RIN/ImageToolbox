@@ -15,6 +15,7 @@ import androidx.compose.material.icons.rounded.ShieldMoon
 import androidx.compose.material.icons.rounded.SystemSecurityUpdate
 import androidx.compose.material.icons.rounded.TableRows
 import androidx.compose.material.icons.rounded.TextFormat
+import androidx.compose.material.icons.rounded.Vibration
 import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.ui.graphics.vector.ImageVector
 import ru.tech.imageresizershrinker.R
@@ -220,6 +221,15 @@ sealed class SettingsGroup(
         initialState = false
     )
 
+    data object Haptics : SettingsGroup(
+        icon = Icons.Rounded.Vibration,
+        titleId = R.string.vibration,
+        settingsList = listOf(
+            Setting.VibrationStrength
+        ),
+        initialState = false
+    )
+
     companion object {
         val entries: List<SettingsGroup> by lazy {
             listOf(
@@ -228,6 +238,7 @@ sealed class SettingsGroup(
                 SecondaryCustomization,
                 NightMode,
                 Shadows,
+                Haptics,
                 Font,
                 OptionsArrangement,
                 Presets,

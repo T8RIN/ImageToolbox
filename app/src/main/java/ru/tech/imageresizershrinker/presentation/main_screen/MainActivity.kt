@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.presentation.main_screen
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
@@ -23,6 +22,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.core.view.WindowInsetsControllerCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,6 +45,7 @@ import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.presentation.root.widget.activity.M3Activity
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSliderInit
+import ru.tech.imageresizershrinker.presentation.root.widget.haptics.customHapticFeedback
 import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastHost
 import ru.tech.imageresizershrinker.presentation.root.widget.other.rememberToastHostState
@@ -76,7 +77,8 @@ class MainActivity : M3Activity() {
                 LocalNavController provides viewModel.navController,
                 LocalEditPresetsState provides editPresetsState,
                 LocalConfettiController provides rememberToastHostState(),
-                LocalImageLoader provides viewModel.imageLoader
+                LocalImageLoader provides viewModel.imageLoader,
+                LocalHapticFeedback provides customHapticFeedback(viewModel.settingsState.hapticsStrength)
             ) {
                 val showSelectSheet = rememberSaveable(viewModel.showSelectDialog) {
                     mutableStateOf(viewModel.showSelectDialog)
@@ -183,7 +185,6 @@ class MainActivity : M3Activity() {
         }
     }
 
-    @SuppressLint("MissingSuperCall")
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         parseImage(intent)

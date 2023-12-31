@@ -42,7 +42,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.systemBars
@@ -283,23 +282,22 @@ fun MainScreen(
                         .background(MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp))
                         .drawHorizontalStroke(),
                     actions = {
-                        EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
-                            onClick = {
-                                if (!showSettingsSearch) {
-                                    showSettingsSearch = true
-                                } else {
-                                    settingsSearchKeyword = ""
+                        AnimatedContent(
+                            targetState = showSettingsSearch to settingsSearchKeyword.isNotEmpty(),
+                            transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
+                        ) { (searching, hasSearchKey) ->
+                            EnhancedIconButton(
+                                containerColor = Color.Transparent,
+                                contentColor = LocalContentColor.current,
+                                enableAutoShadowAndBorder = false,
+                                onClick = {
+                                    if (!showSettingsSearch) {
+                                        showSettingsSearch = true
+                                    } else {
+                                        settingsSearchKeyword = ""
+                                    }
                                 }
-                            },
-                            modifier = Modifier.size(48.dp)
-                        ) {
-                            AnimatedContent(
-                                targetState = showSettingsSearch to settingsSearchKeyword.isNotEmpty(),
-                                transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
-                            ) { (searching, hasSearchKey) ->
+                            ) {
                                 if (searching && hasSearchKey) {
                                     Icon(Icons.Rounded.Close, null)
                                 } else if (!searching) {

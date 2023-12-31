@@ -54,6 +54,7 @@ import ru.tech.imageresizershrinker.data.keys.Keys.SELECTED_FONT_INDEX
 import ru.tech.imageresizershrinker.data.keys.Keys.SHOW_UPDATE_DIALOG
 import ru.tech.imageresizershrinker.data.keys.Keys.THEME_CONTRAST_LEVEL
 import ru.tech.imageresizershrinker.data.keys.Keys.THEME_STYLE
+import ru.tech.imageresizershrinker.data.keys.Keys.VIBRATION_STRENGTH
 import ru.tech.imageresizershrinker.domain.model.FontFam
 import ru.tech.imageresizershrinker.domain.model.NightMode
 import ru.tech.imageresizershrinker.domain.model.Preset
@@ -76,58 +77,7 @@ class SettingsRepositoryImpl @Inject constructor(
 
     private val default = SettingsState.Default()
 
-    override suspend fun getSettingsState(): SettingsState {
-        val prefs = dataStore.data.first()
-        return SettingsState(
-            nightMode = NightMode.fromOrdinal(prefs[NIGHT_MODE]),
-            isDynamicColors = prefs[DYNAMIC_COLORS] ?: default.isDynamicColors,
-            isAmoledMode = prefs[AMOLED_MODE] ?: default.isAmoledMode,
-            appColorTuple = prefs[APP_COLOR_TUPLE] ?: default.appColorTuple,
-            borderWidth = prefs[BORDER_WIDTH] ?: default.borderWidth,
-            showDialogOnStartup = prefs[SHOW_UPDATE_DIALOG] ?: default.showDialogOnStartup,
-            selectedEmoji = prefs[SELECTED_EMOJI_INDEX] ?: default.selectedEmoji,
-            screenList = default.screenList,
-            emojisCount = prefs[EMOJI_COUNT] ?: default.emojisCount,
-            clearCacheOnLaunch = prefs[AUTO_CACHE_CLEAR] ?: default.clearCacheOnLaunch,
-            groupOptionsByTypes = prefs[GROUP_OPTIONS_BY_TYPE] ?: default.groupOptionsByTypes,
-            allowChangeColorByImage = default.allowChangeColorByImage,
-            presets = default.presets,
-            fabAlignment = default.fabAlignment,
-            imagePickerModeInt = default.imagePickerModeInt,
-            colorTupleList = default.colorTupleList,
-            addSequenceNumber = default.addSequenceNumber,
-            saveFolderUri = default.saveFolderUri,
-            filenamePrefix = default.filenamePrefix,
-            addSizeInFilename = default.addSizeInFilename,
-            addOriginalFilename = default.addOriginalFilename,
-            randomizeFilename = default.randomizeFilename,
-            font = FontFam.fromOrdinal(prefs[SELECTED_FONT_INDEX]),
-            fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f },
-            allowCollectCrashlytics = prefs[ALLOW_CRASHLYTICS] ?: default.allowCollectCrashlytics,
-            allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: default.allowCollectAnalytics,
-            allowBetas = prefs[ALLOW_BETAS] ?: default.allowBetas,
-            drawContainerShadows = prefs[DRAW_CONTAINER_SHADOWS]
-                ?: default.drawContainerShadows,
-            drawFabShadows = prefs[DRAW_FAB_SHADOWS]
-                ?: default.drawFabShadows,
-            drawSwitchShadows = prefs[DRAW_SWITCH_SHADOWS]
-                ?: default.drawSwitchShadows,
-            drawSliderShadows = prefs[DRAW_SLIDER_SHADOWS]
-                ?: default.drawSliderShadows,
-            drawButtonShadows = prefs[DRAW_BUTTON_SHADOWS]
-                ?: default.drawButtonShadows,
-            drawAppBarShadows = prefs[DRAW_APPBAR_SHADOWS]
-                ?: default.drawAppBarShadows,
-            appOpenCount = prefs[APP_OPEN_COUNT] ?: default.appOpenCount,
-            aspectRatios = default.aspectRatios,
-            lockDrawOrientation = prefs[LOCK_DRAW_ORIENTATION] ?: default.lockDrawOrientation,
-            themeContrastLevel = prefs[THEME_CONTRAST_LEVEL] ?: default.themeContrastLevel,
-            themeStyle = prefs[THEME_STYLE] ?: default.themeStyle,
-            isInvertThemeColors = prefs[INVERT_THEME] ?: default.isInvertThemeColors,
-            screensSearchEnabled = prefs[SCREEN_SEARCH_ENABLED] ?: default.screensSearchEnabled,
-            autoCopyToClipBoard = prefs[COPY_TO_CLIPBOARD] ?: default.autoCopyToClipBoard
-        )
-    }
+    override suspend fun getSettingsState(): SettingsState = getSettingsStateFlow().first()
 
     override fun getSettingsStateFlow(): Flow<SettingsState> = dataStore.data.map { prefs ->
         SettingsState(
@@ -180,7 +130,8 @@ class SettingsRepositoryImpl @Inject constructor(
             themeStyle = prefs[THEME_STYLE] ?: default.themeStyle,
             isInvertThemeColors = prefs[INVERT_THEME] ?: default.isInvertThemeColors,
             screensSearchEnabled = prefs[SCREEN_SEARCH_ENABLED] ?: default.screensSearchEnabled,
-            autoCopyToClipBoard = prefs[COPY_TO_CLIPBOARD] ?: default.autoCopyToClipBoard
+            autoCopyToClipBoard = prefs[COPY_TO_CLIPBOARD] ?: default.autoCopyToClipBoard,
+            hapticsStrength = prefs[VIBRATION_STRENGTH] ?: default.hapticsStrength
         )
     }
 
@@ -507,6 +458,12 @@ class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[COPY_TO_CLIPBOARD] ?: true
             it[COPY_TO_CLIPBOARD] = !v
+        }
+    }
+
+    override suspend fun setVibrationStrength(strength: Int) {
+        dataStore.edit {
+            it[VIBRATION_STRENGTH] = strength
         }
     }
 

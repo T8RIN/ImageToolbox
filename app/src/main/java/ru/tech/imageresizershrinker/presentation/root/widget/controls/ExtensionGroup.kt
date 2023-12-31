@@ -1,3 +1,4 @@
+
 package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
 import android.os.Build
@@ -32,6 +33,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -59,6 +62,8 @@ fun ExtensionGroup(
     LaunchedEffect(imageFormat, entries) {
         if (imageFormat !in entries) onFormatChange(ImageFormat.Png)
     }
+
+    val haptics = LocalHapticFeedback.current
 
     ProvideTextStyle(
         value = TextStyle(
@@ -107,7 +112,12 @@ fun ExtensionGroup(
                 ) {
                     items.forEach {
                         Chip(
-                            onClick = { onFormatChange(it) },
+                            onClick = {
+                                haptics.performHapticFeedback(
+                                    HapticFeedbackType.LongPress
+                                )
+                                onFormatChange(it)
+                            },
                             selected = it == imageFormat,
                             label = {
                                 Text(text = it.title)

@@ -389,5 +389,9 @@ fun SettingItem(
         Setting.AutoPinClipboard -> {
             AutoPinClipboardSettingItem(onClick = { viewModel.toggleAutoPinClipboard() })
         }
+
+        Setting.VibrationStrength -> {
+            VibrationStrengthSettingItem(onValueChange = viewModel::setVibrationStrength)
+        }
     }
 }

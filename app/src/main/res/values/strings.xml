@@ -522,4 +522,6 @@
     <string name="clipboard">Clipboard</string>
     <string name="auto_pin">Auto pin</string>
     <string name="auto_pin_sub">Automatically adds saved image to clipboard if enabled</string>
+    <string name="vibration">Vibration</string>
+    <string name="vibration_strength">Vibration Strength</string>
 </resources>
