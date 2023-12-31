@@ -1,11 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":logger")
-
-
-include(":jxlcoder-coil")
-
-
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -36,3 +30,4 @@ include(":gpuimage")
 include(":colorpicker")
 include(":systemuicontroller")
 include(":placeholder")
+include(":logger")
