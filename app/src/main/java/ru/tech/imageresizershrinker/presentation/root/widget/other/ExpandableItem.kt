@@ -29,6 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
@@ -43,6 +45,7 @@ fun ExpandableItem(
     shape: RoundedCornerShape = RoundedCornerShape(20.dp),
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
 ) {
+    val haptics = LocalHapticFeedback.current
     Column(
         Modifier
             .animateContentSize()
@@ -58,7 +61,12 @@ fun ExpandableItem(
         Row(
             modifier = Modifier
                 .clip(shape)
-                .clickable { expanded = !expanded }
+                .clickable {
+                    haptics.performHapticFeedback(
+                        HapticFeedbackType.LongPress
+                    )
+                    expanded = !expanded
+                }
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
