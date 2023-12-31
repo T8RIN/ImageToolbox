@@ -104,4 +104,6 @@ interface SettingsRepository {
     suspend fun toggleAutoPinClipboard()
 
     suspend fun setVibrationStrength(strength: Int)
+
+    suspend fun toggleOverwriteFiles()
 }

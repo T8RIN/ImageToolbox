@@ -250,4 +250,9 @@ sealed class Setting(
         title = R.string.vibration_strength,
         subtitle = null
     )
+
+    data object OverwriteFiles : Setting(
+        title = R.string.overwrite_files,
+        subtitle = R.string.overwrite_files_sub
+    )
 }

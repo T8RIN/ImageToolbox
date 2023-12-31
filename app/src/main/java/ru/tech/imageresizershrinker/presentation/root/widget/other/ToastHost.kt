@@ -291,9 +291,10 @@ suspend fun ToastHostState.showError(
     context: Context,
     error: Throwable
 ) = showToast(
-    context.getString(
+    message = context.getString(
         R.string.smth_went_wrong,
         error.localizedMessage ?: ""
     ),
-    Icons.Rounded.ErrorOutline
+    icon = Icons.Rounded.ErrorOutline,
+    duration = ToastDuration.Long
 )

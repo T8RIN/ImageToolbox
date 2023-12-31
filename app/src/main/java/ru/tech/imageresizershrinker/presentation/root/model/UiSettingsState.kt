@@ -65,7 +65,8 @@ data class UiSettingsState(
     val isInvertThemeColors: Boolean,
     val screensSearchEnabled: Boolean,
     val autoCopyToClipBoard: Boolean,
-    val hapticsStrength: Int
+    val hapticsStrength: Int,
+    val overwriteFiles: Boolean
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -144,7 +145,8 @@ fun SettingsState.toUiState(): UiSettingsState {
         isInvertThemeColors = isInvertThemeColors,
         screensSearchEnabled = screensSearchEnabled,
         autoCopyToClipBoard = autoCopyToClipBoard,
-        hapticsStrength = hapticsStrength
+        hapticsStrength = hapticsStrength,
+        overwriteFiles = overwriteFiles
     )
 }
 

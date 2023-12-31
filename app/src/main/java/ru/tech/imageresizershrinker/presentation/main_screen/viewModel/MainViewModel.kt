@@ -63,6 +63,7 @@ import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleDynamicC
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleGroupOptionsByTypesUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleInvertColorsUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleLockDrawOrientationUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleOverwriteFilesUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleRandomizeFilenameUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleScreensSearchEnabledUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleShowDialogUseCase
@@ -137,7 +138,8 @@ class MainViewModel @Inject constructor(
     private val toggleScreensSearchEnabledUseCase: ToggleScreensSearchEnabledUseCase,
     private val toggleDrawAppBarShadowsUseCase: ToggleDrawAppBarShadowsUseCase,
     private val toggleAutoPinClipboardUseCase: ToggleAutoPinClipboardUseCase,
-    private val setVibrationStrengthUseCase: SetVibrationStrengthUseCase
+    private val setVibrationStrengthUseCase: SetVibrationStrengthUseCase,
+    private val toggleOverwriteFilesUseCase: ToggleOverwriteFilesUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default())
@@ -627,6 +629,12 @@ class MainViewModel @Inject constructor(
     fun setVibrationStrength(strength: Int) {
         viewModelScope.launch {
             setVibrationStrengthUseCase(strength)
+        }
+    }
+
+    fun toggleOverwriteFiles() {
+        viewModelScope.launch {
+            toggleOverwriteFilesUseCase()
         }
     }
 

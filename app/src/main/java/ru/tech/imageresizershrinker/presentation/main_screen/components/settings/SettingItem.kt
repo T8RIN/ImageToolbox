@@ -270,6 +270,12 @@ fun SettingItem(
             )
         }
 
+        Setting.OverwriteFiles -> {
+            OverwriteFilesSettingItem(
+                onClick = { viewModel.toggleOverwriteFiles() }
+            )
+        }
+
         Setting.Reset -> {
             ResetSettingsSettingItem(
                 onReset = viewModel::resetSettings

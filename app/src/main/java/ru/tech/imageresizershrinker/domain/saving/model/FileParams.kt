@@ -7,5 +7,6 @@ data class FileParams(
     val addOriginalFilename: Boolean,
     val addSequenceNumber: Boolean,
     val randomizeFilename: Boolean,
-    val copyToClipBoard: Boolean
+    val copyToClipBoard: Boolean,
+    val overwriteFile: Boolean
 )

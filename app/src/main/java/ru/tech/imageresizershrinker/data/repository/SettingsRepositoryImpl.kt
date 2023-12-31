@@ -44,6 +44,7 @@ import ru.tech.imageresizershrinker.data.keys.Keys.IMAGE_PICKER_MODE
 import ru.tech.imageresizershrinker.data.keys.Keys.INVERT_THEME
 import ru.tech.imageresizershrinker.data.keys.Keys.LOCK_DRAW_ORIENTATION
 import ru.tech.imageresizershrinker.data.keys.Keys.NIGHT_MODE
+import ru.tech.imageresizershrinker.data.keys.Keys.OVERWRITE_FILE
 import ru.tech.imageresizershrinker.data.keys.Keys.PRESETS
 import ru.tech.imageresizershrinker.data.keys.Keys.RANDOMIZE_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER_URI
@@ -131,7 +132,8 @@ class SettingsRepositoryImpl @Inject constructor(
             isInvertThemeColors = prefs[INVERT_THEME] ?: default.isInvertThemeColors,
             screensSearchEnabled = prefs[SCREEN_SEARCH_ENABLED] ?: default.screensSearchEnabled,
             autoCopyToClipBoard = prefs[COPY_TO_CLIPBOARD] ?: default.autoCopyToClipBoard,
-            hapticsStrength = prefs[VIBRATION_STRENGTH] ?: default.hapticsStrength
+            hapticsStrength = prefs[VIBRATION_STRENGTH] ?: default.hapticsStrength,
+            overwriteFiles = prefs[OVERWRITE_FILE] ?: default.overwriteFiles
         )
     }
 
@@ -456,7 +458,7 @@ class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun toggleAutoPinClipboard() {
         dataStore.edit {
-            val v = it[COPY_TO_CLIPBOARD] ?: true
+            val v = it[COPY_TO_CLIPBOARD] ?: false
             it[COPY_TO_CLIPBOARD] = !v
         }
     }
@@ -464,6 +466,15 @@ class SettingsRepositoryImpl @Inject constructor(
     override suspend fun setVibrationStrength(strength: Int) {
         dataStore.edit {
             it[VIBRATION_STRENGTH] = strength
+        }
+    }
+
+    override suspend fun toggleOverwriteFiles() {
+        dataStore.edit {
+            val v = it[OVERWRITE_FILE] ?: false
+            it[OVERWRITE_FILE] = !v
+
+            it[IMAGE_PICKER_MODE] = 2
         }
     }
 

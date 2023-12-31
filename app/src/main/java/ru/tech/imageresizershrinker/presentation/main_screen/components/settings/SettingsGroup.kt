@@ -143,6 +143,7 @@ sealed class SettingsGroup(
             Setting.AddFileSize,
             Setting.AddOriginalFilename,
             Setting.ReplaceSequenceNumber,
+            Setting.OverwriteFiles,
             Setting.RandomizeFilename
         ),
         initialState = false

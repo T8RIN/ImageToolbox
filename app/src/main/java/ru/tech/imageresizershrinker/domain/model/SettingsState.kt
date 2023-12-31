@@ -44,7 +44,8 @@ data class SettingsState(
     val isInvertThemeColors: Boolean,
     val screensSearchEnabled: Boolean,
     val autoCopyToClipBoard: Boolean,
-    val hapticsStrength: Int
+    val hapticsStrength: Int,
+    val overwriteFiles: Boolean
 ) : Domain {
 
     companion object {
@@ -90,7 +91,8 @@ data class SettingsState(
             isInvertThemeColors = false,
             screensSearchEnabled = false,
             autoCopyToClipBoard = false,
-            hapticsStrength = 1
+            hapticsStrength = 1,
+            overwriteFiles = false
         )
     }
 }

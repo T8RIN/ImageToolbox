@@ -31,6 +31,8 @@ import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SEQ_NUM_TO_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SIZE_TO_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.COPY_TO_CLIPBOARD
 import ru.tech.imageresizershrinker.data.keys.Keys.FILENAME_PREFIX
+import ru.tech.imageresizershrinker.data.keys.Keys.IMAGE_PICKER_MODE
+import ru.tech.imageresizershrinker.data.keys.Keys.OVERWRITE_FILE
 import ru.tech.imageresizershrinker.data.keys.Keys.RANDOMIZE_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.SAVE_FOLDER_URI
 import ru.tech.imageresizershrinker.domain.image.Metadata
@@ -63,7 +65,8 @@ class FileControllerImpl @Inject constructor(
         addOriginalFilename = false,
         addSequenceNumber = false,
         randomizeFilename = false,
-        copyToClipBoard = false
+        copyToClipBoard = false,
+        overwriteFile = false
     )
 
     init {
@@ -77,6 +80,7 @@ class FileControllerImpl @Inject constructor(
                     addSequenceNumber = preferences[ADD_SEQ_NUM_TO_FILENAME] ?: true,
                     randomizeFilename = preferences[RANDOMIZE_FILENAME] ?: false,
                     copyToClipBoard = preferences[COPY_TO_CLIPBOARD] ?: false,
+                    overwriteFile = preferences[OVERWRITE_FILE] ?: false
                 )
             }
         }
@@ -139,49 +143,15 @@ class FileControllerImpl @Inject constructor(
             return SaveResult.Error.MissingPermissions
         }
 
-        fileParams.treeUri.takeIf {
-            it != null
-        }?.let { treeUri ->
-            val hasDir: Boolean = treeUri.toUri().let {
-                DocumentFile.fromTreeUri(context, it)
-            }?.exists() == true
-
-            if (!hasDir) {
-                dataStore.edit {
-                    it[SAVE_FOLDER_URI] = ""
-                }
-                return SaveResult.Error.Exception(
-                    Exception(
-                        context.getString(
-                            R.string.no_such_directory,
-                            treeUri.toUri().toUiPath(context, defaultPrefix())
-                        )
-                    )
-                )
-            }
-        }
-
         var filename = ""
 
         kotlin.runCatching {
-            var initialExif: ExifInterface? = null
-
-            val newSaveTarget = if (saveTarget is ImageSaveTarget<*>) {
-                initialExif = saveTarget.metadata as ExifInterface?
-
-                saveTarget.copy(
-                    filename = constructImageFilename(saveTarget)
-                )
-            } else saveTarget
-
-            filename = newSaveTarget.filename ?: ""
-
-            val clipboardManager = ContextCompat.getSystemService(
-                context,
-                ClipboardManager::class.java
-            )
-
             if (fileParams.copyToClipBoard) {
+                val clipboardManager = ContextCompat.getSystemService(
+                    context,
+                    ClipboardManager::class.java
+                )
+
                 cacheImage(saveTarget)?.toUri()?.let { uri ->
                     clipboardManager?.setPrimaryClip(
                         ClipData.newUri(
@@ -193,35 +163,85 @@ class FileControllerImpl @Inject constructor(
                 }
             }
 
-
-            val savingFolder = context.getSavingFolder(
-                treeUri = fileParams.treeUri?.takeIf { it.isNotEmpty() }?.toUri(),
-                saveTarget = newSaveTarget
-            )
-
-            savingFolder.outputStream?.use {
-                it.write(saveTarget.data)
-            }
-
-            kotlin.runCatching {
-                if (initialExif != null) {
-                    getFileDescriptorFor(savingFolder.fileUri)?.use {
-                        val ex = ExifInterface(it.fileDescriptor)
-                        initialExif.copyTo(ex)
-                        ex.saveAttributes()
+            if (fileParams.overwriteFile) {
+                val originalUri = saveTarget.originalUri.toUri()
+                runCatching {
+                    context.contentResolver.openFileDescriptor(originalUri, "w")
+                }.onFailure {
+                    dataStore.edit {
+                        it[IMAGE_PICKER_MODE] = 2
                     }
-                } else if (keepMetadata) {
-                    val exif = context
-                        .contentResolver
-                        .openFileDescriptor(saveTarget.originalUri.toUri(), "r")
-                        ?.use { ExifInterface(it.fileDescriptor) }
-
-                    getFileDescriptorFor(savingFolder.fileUri)?.use {
-                        val ex = ExifInterface(it.fileDescriptor)
-                        exif?.copyTo(ex)
-                        ex.saveAttributes()
+                    return SaveResult.Error.Exception(
+                        Exception(
+                            context.getString(
+                                R.string.overwrite_file_requirements
+                            )
+                        )
+                    )
+                }.getOrNull()?.use { parcel ->
+                    filename = DocumentFile.fromSingleUri(context, originalUri)?.name.toString()
+                    FileOutputStream(parcel.fileDescriptor).use { out ->
+                        out.write(saveTarget.data)
+                        copyMetadata(
+                            initialExif = (saveTarget as? ImageSaveTarget<*>)?.metadata as ExifInterface?,
+                            fileUri = originalUri,
+                            keepMetadata = keepMetadata,
+                            originalUri = originalUri
+                        )
                     }
-                } else Unit
+                }
+            } else {
+                fileParams.treeUri.takeIf {
+                    it != null
+                }?.let { treeUri ->
+                    val hasDir: Boolean = treeUri.toUri().let {
+                        DocumentFile.fromTreeUri(context, it)
+                    }?.exists() == true
+
+                    if (!hasDir) {
+                        dataStore.edit {
+                            it[SAVE_FOLDER_URI] = ""
+                        }
+                        return SaveResult.Error.Exception(
+                            Exception(
+                                context.getString(
+                                    R.string.no_such_directory,
+                                    treeUri.toUri().toUiPath(context, defaultPrefix())
+                                )
+                            )
+                        )
+                    }
+                }
+
+                var initialExif: ExifInterface? = null
+
+                val newSaveTarget = if (saveTarget is ImageSaveTarget<*>) {
+                    initialExif = saveTarget.metadata as ExifInterface?
+
+                    saveTarget.copy(
+                        filename = constructImageFilename(saveTarget)
+                    )
+                } else saveTarget
+
+                filename = newSaveTarget.filename ?: ""
+
+                val savingFolder = context.getSavingFolder(
+                    treeUri = fileParams.treeUri?.takeIf { it.isNotEmpty() }?.toUri(),
+                    saveTarget = newSaveTarget
+                )
+
+                savingFolder.outputStream?.use {
+                    it.write(saveTarget.data)
+                }
+
+                kotlin.runCatching {
+                    copyMetadata(
+                        initialExif = initialExif,
+                        fileUri = savingFolder.fileUri,
+                        keepMetadata = keepMetadata,
+                        originalUri = saveTarget.originalUri.toUri()
+                    )
+                }
             }
         }.let { result ->
             if (result.isFailure) {
@@ -230,6 +250,32 @@ class FileControllerImpl @Inject constructor(
                 return SaveResult.Success(filename = filename, savingPath = savingPath)
             }
         }
+    }
+
+    private fun copyMetadata(
+        initialExif: ExifInterface?,
+        fileUri: Uri?,
+        keepMetadata: Boolean,
+        originalUri: Uri
+    ) {
+        if (initialExif != null) {
+            getFileDescriptorFor(fileUri)?.use {
+                val ex = ExifInterface(it.fileDescriptor)
+                initialExif.copyTo(ex)
+                ex.saveAttributes()
+            }
+        } else if (keepMetadata) {
+            val exif = context
+                .contentResolver
+                .openFileDescriptor(originalUri, "r")
+                ?.use { ExifInterface(it.fileDescriptor) }
+
+            getFileDescriptorFor(fileUri)?.use {
+                val ex = ExifInterface(it.fileDescriptor)
+                exif?.copyTo(ex)
+                ex.saveAttributes()
+            }
+        } else Unit
     }
 
     private suspend fun cacheImage(
