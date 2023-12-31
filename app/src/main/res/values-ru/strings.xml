@@ -505,7 +505,7 @@
     <string name="no_such_directory">Каталог \"% 1$s\" не найден, мы переключили его на каталог по умолчанию, пожалуйста, сохраните файл еще раз</string>
     <string name="clipboard">Буфер обмена</string>
     <string name="overwrite_files_sub">Исходный файл будет заменен новым вместо сохранения в выбранной папке, для этой опции необходимо, чтобы источником изображения был \"Проводник\" или GetContent, при переключении этого параметра он будет установлен автоматически</string>
-    <string name="vibration_strength">Прочность на вибрацию</string>
+    <string name="vibration_strength">Сила вибрации</string>
     <string name="overwrite_files">Перезаписать файлы</string>
     <string name="empty">Пустой</string>
     <string name="suffix">Суффикс</string>
