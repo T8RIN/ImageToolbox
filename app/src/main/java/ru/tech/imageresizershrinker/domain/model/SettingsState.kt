@@ -45,7 +45,8 @@ data class SettingsState(
     val screensSearchEnabled: Boolean,
     val autoCopyToClipBoard: Boolean,
     val hapticsStrength: Int,
-    val overwriteFiles: Boolean
+    val overwriteFiles: Boolean,
+    val filenameSuffix: String
 ) : Domain {
 
     companion object {
@@ -68,7 +69,7 @@ data class SettingsState(
             colorTupleList = null,
             addSequenceNumber = true,
             saveFolderUri = null,
-            filenamePrefix = "",
+            filenamePrefix = "ResizedImage",
             addSizeInFilename = true,
             addOriginalFilename = false,
             randomizeFilename = false,
@@ -92,7 +93,8 @@ data class SettingsState(
             screensSearchEnabled = false,
             autoCopyToClipBoard = false,
             hapticsStrength = 1,
-            overwriteFiles = false
+            overwriteFiles = false,
+            filenameSuffix = ""
         )
     }
 }

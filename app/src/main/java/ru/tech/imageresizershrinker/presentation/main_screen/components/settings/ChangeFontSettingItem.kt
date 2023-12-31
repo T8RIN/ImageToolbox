@@ -3,7 +3,6 @@ package ru.tech.imageresizershrinker.presentation.main_screen.components.setting
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FontDownload
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -14,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.presentation.root.icons.material.FontFamily
 import ru.tech.imageresizershrinker.presentation.root.model.UiFontFam
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
@@ -38,7 +38,7 @@ fun ChangeFontSettingItem(
         color = MaterialTheme.colorScheme
             .secondaryContainer
             .copy(alpha = 0.2f),
-        icon = Icons.Outlined.FontDownload,
+        icon = Icons.Rounded.FontFamily,
         endIcon = Icons.Rounded.CreateAlt,
         modifier = modifier
     )

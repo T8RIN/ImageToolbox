@@ -3,9 +3,8 @@ package ru.tech.imageresizershrinker.domain.use_case.edit_settings
 import ru.tech.imageresizershrinker.domain.repository.SettingsRepository
 import javax.inject.Inject
 
-class UpdateColorTupleUseCase @Inject constructor(
+class SetEmojiUseCase @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) {
-    suspend operator fun invoke(colorTuple: String) =
-        settingsRepository.updateColorTuple(colorTuple)
+    suspend operator fun invoke(emoji: Int) = settingsRepository.setEmoji(emoji)
 }

@@ -127,7 +127,7 @@ class MainActivity : M3Activity() {
 
                         EditPresetsSheet(
                             editPresetsState = editPresetsState,
-                            updatePresets = viewModel::updatePresets
+                            updatePresets = viewModel::setPresets
                         )
                         ProcessImagesPreferenceSheet(
                             uris = viewModel.hasPdfUri?.let {

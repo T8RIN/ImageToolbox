@@ -15,21 +15,21 @@ interface SettingsRepository {
 
     suspend fun toggleAddOriginalFilename()
 
-    suspend fun updateEmojisCount(count: Int)
+    suspend fun setEmojisCount(count: Int)
 
-    suspend fun updateImagePickerMode(mode: Int)
+    suspend fun setImagePickerMode(mode: Int)
 
     suspend fun toggleAddFileSize()
 
-    suspend fun updateEmoji(emoji: Int)
+    suspend fun setEmoji(emoji: Int)
 
-    suspend fun updateFilename(name: String)
+    suspend fun setFilenamePrefix(name: String)
 
     suspend fun toggleShowDialog()
 
-    suspend fun updateColorTuple(colorTuple: String)
+    suspend fun setColorTuple(colorTuple: String)
 
-    suspend fun updatePresets(newPresets: String)
+    suspend fun setPresets(newPresets: String)
 
     suspend fun toggleDynamicColors()
 
@@ -41,13 +41,13 @@ interface SettingsRepository {
 
     suspend fun setNightMode(nightMode: NightMode)
 
-    suspend fun updateSaveFolderUri(uri: String?)
+    suspend fun setSaveFolderUri(uri: String?)
 
-    suspend fun updateColorTuples(colorTuples: String)
+    suspend fun setColorTuples(colorTuples: String)
 
     suspend fun setAlignment(align: Int)
 
-    suspend fun updateOrder(data: String)
+    suspend fun setScreenOrder(data: String)
 
     suspend fun toggleClearCacheOnLaunch()
 
@@ -106,4 +106,6 @@ interface SettingsRepository {
     suspend fun setVibrationStrength(strength: Int)
 
     suspend fun toggleOverwriteFiles()
+
+    suspend fun setFilenameSuffix(name: String)
 }

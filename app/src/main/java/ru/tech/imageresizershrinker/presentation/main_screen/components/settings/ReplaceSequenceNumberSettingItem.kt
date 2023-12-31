@@ -26,7 +26,7 @@ fun ReplaceSequenceNumberSettingItem(
         modifier = modifier,
         applyHorPadding = false,
         onClick = onClick,
-        enabled = !settingsState.randomizeFilename,
+        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles,
         title = stringResource(R.string.replace_sequence_number),
         subtitle = stringResource(R.string.replace_sequence_number_sub),
         checked = settingsState.addSequenceNumber,

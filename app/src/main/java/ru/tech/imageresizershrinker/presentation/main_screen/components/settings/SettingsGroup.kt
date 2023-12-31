@@ -140,6 +140,7 @@ sealed class SettingsGroup(
         titleId = R.string.filename,
         settingsList = listOf(
             Setting.FilenamePrefix,
+            Setting.FilenameSuffix,
             Setting.AddFileSize,
             Setting.AddOriginalFilename,
             Setting.ReplaceSequenceNumber,

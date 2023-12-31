@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Prefix
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Suffix
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
@@ -36,9 +36,9 @@ import ru.tech.imageresizershrinker.presentation.root.widget.preferences.Prefere
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @Composable
-fun FilenamePrefixSettingItem(
+fun FilenameSuffixSettingItem(
     onValueChange: (String) -> Unit,
-    shape: Shape = ContainerShapeDefaults.topShape,
+    shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
@@ -50,14 +50,14 @@ fun FilenamePrefixSettingItem(
             showChangeFilenameDialog = true
         },
         enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles,
-        title = stringResource(R.string.prefix),
-        subtitle = (settingsState.filenamePrefix.takeIf { it.isNotEmpty() }
+        title = stringResource(R.string.suffix),
+        subtitle = (settingsState.filenameSuffix.takeIf { it.isNotEmpty() }
             ?: stringResource(R.string.empty)),
         color = MaterialTheme.colorScheme
             .secondaryContainer
             .copy(alpha = 0.2f),
         endIcon = Icons.Rounded.CreateAlt,
-        icon = Icons.Filled.Prefix,
+        icon = Icons.Filled.Suffix,
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 8.dp, end = 8.dp)
@@ -65,7 +65,7 @@ fun FilenamePrefixSettingItem(
     if (showChangeFilenameDialog) {
         var value by remember {
             mutableStateOf(
-                settingsState.filenamePrefix
+                settingsState.filenameSuffix
             )
         }
         AlertDialog(
@@ -77,12 +77,12 @@ fun FilenamePrefixSettingItem(
             onDismissRequest = { showChangeFilenameDialog = false },
             icon = {
                 Icon(
-                    imageVector = Icons.Filled.Prefix,
+                    imageVector = Icons.Filled.Suffix,
                     contentDescription = null
                 )
             },
             title = {
-                Text(stringResource(R.string.prefix))
+                Text(stringResource(R.string.suffix))
             },
             text = {
                 Row(
@@ -91,13 +91,6 @@ fun FilenamePrefixSettingItem(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     OutlinedTextField(
-                        placeholder = {
-                            Text(
-                                text = stringResource(R.string.default_prefix),
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        },
                         shape = RoundedCornerShape(16.dp),
                         value = value,
                         textStyle = MaterialTheme.typography.titleMedium.copy(

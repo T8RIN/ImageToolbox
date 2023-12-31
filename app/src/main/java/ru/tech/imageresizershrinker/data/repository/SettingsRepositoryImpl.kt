@@ -38,6 +38,7 @@ import ru.tech.imageresizershrinker.data.keys.Keys.DYNAMIC_COLORS
 import ru.tech.imageresizershrinker.data.keys.Keys.EMOJI_COUNT
 import ru.tech.imageresizershrinker.data.keys.Keys.FAB_ALIGNMENT
 import ru.tech.imageresizershrinker.data.keys.Keys.FILENAME_PREFIX
+import ru.tech.imageresizershrinker.data.keys.Keys.FILENAME_SUFFIX
 import ru.tech.imageresizershrinker.data.keys.Keys.FONT_SCALE
 import ru.tech.imageresizershrinker.data.keys.Keys.GROUP_OPTIONS_BY_TYPE
 import ru.tech.imageresizershrinker.data.keys.Keys.IMAGE_PICKER_MODE
@@ -133,7 +134,8 @@ class SettingsRepositoryImpl @Inject constructor(
             screensSearchEnabled = prefs[SCREEN_SEARCH_ENABLED] ?: default.screensSearchEnabled,
             autoCopyToClipBoard = prefs[COPY_TO_CLIPBOARD] ?: default.autoCopyToClipBoard,
             hapticsStrength = prefs[VIBRATION_STRENGTH] ?: default.hapticsStrength,
-            overwriteFiles = prefs[OVERWRITE_FILE] ?: default.overwriteFiles
+            overwriteFiles = prefs[OVERWRITE_FILE] ?: default.overwriteFiles,
+            filenameSuffix = prefs[FILENAME_SUFFIX] ?: default.filenameSuffix
         )
     }
 
@@ -151,13 +153,13 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateEmojisCount(count: Int) {
+    override suspend fun setEmojisCount(count: Int) {
         dataStore.edit {
             it[EMOJI_COUNT] = count
         }
     }
 
-    override suspend fun updateImagePickerMode(mode: Int) {
+    override suspend fun setImagePickerMode(mode: Int) {
         dataStore.edit {
             it[IMAGE_PICKER_MODE] = mode
         }
@@ -170,13 +172,13 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateEmoji(emoji: Int) {
+    override suspend fun setEmoji(emoji: Int) {
         dataStore.edit {
             it[SELECTED_EMOJI_INDEX] = emoji
         }
     }
 
-    override suspend fun updateFilename(name: String) {
+    override suspend fun setFilenamePrefix(name: String) {
         dataStore.edit {
             it[FILENAME_PREFIX] = name
         }
@@ -189,13 +191,13 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateColorTuple(colorTuple: String) {
+    override suspend fun setColorTuple(colorTuple: String) {
         dataStore.edit {
             it[APP_COLOR_TUPLE] = colorTuple
         }
     }
 
-    override suspend fun updatePresets(newPresets: String) {
+    override suspend fun setPresets(newPresets: String) {
         dataStore.edit { preferences ->
             if (newPresets.split("*").size > 3) preferences[PRESETS] =
                 newPresets.split("*")
@@ -239,13 +241,13 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateSaveFolderUri(uri: String?) {
+    override suspend fun setSaveFolderUri(uri: String?) {
         dataStore.edit {
             it[SAVE_FOLDER_URI] = uri ?: ""
         }
     }
 
-    override suspend fun updateColorTuples(colorTuples: String) {
+    override suspend fun setColorTuples(colorTuples: String) {
         dataStore.edit {
             it[COLOR_TUPLES] = colorTuples
         }
@@ -257,7 +259,7 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateOrder(data: String) {
+    override suspend fun setScreenOrder(data: String) {
         dataStore.edit {
             it[SCREEN_ORDER] = data
         }
@@ -314,7 +316,7 @@ class SettingsRepositoryImpl @Inject constructor(
                 }
             }.exceptionOrNull()?.let(onFailure) ?: suspend {
                 onSuccess()
-                updateSaveFolderUri(null)
+                setSaveFolderUri(null)
             }.invoke()
         }
         toggleClearCacheOnLaunch()
@@ -475,6 +477,12 @@ class SettingsRepositoryImpl @Inject constructor(
             it[OVERWRITE_FILE] = !v
 
             it[IMAGE_PICKER_MODE] = 2
+        }
+    }
+
+    override suspend fun setFilenameSuffix(name: String) {
+        dataStore.edit {
+            it[FILENAME_SUFFIX] = name
         }
     }
 

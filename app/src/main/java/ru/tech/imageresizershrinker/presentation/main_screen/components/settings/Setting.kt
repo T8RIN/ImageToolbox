@@ -153,7 +153,7 @@ sealed class Setting(
 
     data object FilenamePrefix : Setting(
         title = R.string.prefix,
-        subtitle = R.string.default_prefix
+        subtitle = null
     )
 
     data object FontScale : Setting(
@@ -254,5 +254,10 @@ sealed class Setting(
     data object OverwriteFiles : Setting(
         title = R.string.overwrite_files,
         subtitle = R.string.overwrite_files_sub
+    )
+
+    data object FilenameSuffix : Setting(
+        title = R.string.suffix,
+        subtitle = null
     )
 }

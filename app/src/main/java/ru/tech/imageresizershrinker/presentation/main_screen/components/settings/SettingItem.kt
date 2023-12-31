@@ -149,7 +149,7 @@ fun SettingItem(
                 toggleInvertColors = viewModel::toggleInvertColors,
                 setThemeStyle = viewModel::setThemeStyle,
                 updateThemeContrast = viewModel::updateThemeContrast,
-                updateColorTuple = viewModel::updateColorTuple,
+                updateColorTuple = viewModel::setColorTuple,
                 updateColorTuples = viewModel::updateColorTuples
             )
         }
@@ -194,12 +194,12 @@ fun SettingItem(
             EmojiSettingItem(
                 addColorTupleFromEmoji = viewModel::addColorTupleFromEmoji,
                 selectedEmojiIndex = viewModel.settingsState.selectedEmoji ?: 0,
-                updateEmoji = viewModel::updateEmoji
+                updateEmoji = viewModel::setEmoji
             )
         }
 
         Setting.EmojisCount -> {
-            EmojisCountSettingItem(updateEmojisCount = viewModel::updateEmojisCount)
+            EmojisCountSettingItem(updateEmojisCount = viewModel::setEmojisCount)
         }
 
         Setting.FabAlignment -> {
@@ -208,7 +208,13 @@ fun SettingItem(
 
         Setting.FilenamePrefix -> {
             FilenamePrefixSettingItem(
-                updateFilenamePrefix = viewModel::updateFilename
+                onValueChange = viewModel::setFilenamePrefix
+            )
+        }
+
+        Setting.FilenameSuffix -> {
+            FilenameSuffixSettingItem(
+                onValueChange = viewModel::setFilenameSuffix
             )
         }
 
@@ -233,7 +239,7 @@ fun SettingItem(
 
         Setting.ImagePickerMode -> {
             ImagePickerModeSettingItemGroup(
-                updateImagePickerMode = viewModel::updateImagePickerMode
+                updateImagePickerMode = viewModel::setImagePickerMode
             )
         }
 

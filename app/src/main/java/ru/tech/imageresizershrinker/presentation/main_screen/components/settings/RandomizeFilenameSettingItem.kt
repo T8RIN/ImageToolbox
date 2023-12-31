@@ -25,6 +25,7 @@ fun RandomizeFilenameSettingItem(
         shape = shape,
         modifier = modifier,
         applyHorPadding = false,
+        enabled = !settingsState.overwriteFiles,
         resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
         onClick = onClick,
         title = stringResource(R.string.randomize_filename),

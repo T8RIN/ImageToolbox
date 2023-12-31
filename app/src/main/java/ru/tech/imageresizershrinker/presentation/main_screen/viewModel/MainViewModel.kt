@@ -37,9 +37,19 @@ import ru.tech.imageresizershrinker.domain.use_case.backup_and_restore.RestoreFr
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.RegisterAppOpenUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetAlignmentUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetBorderWidthUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetColorTupleUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetColorTuplesUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetEmojiUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetEmojisCountUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetFilenamePrefixUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetFilenameSuffixUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetFontScaleUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetFontUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetImagePickerModeUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetNightModeUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetPresetsUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetSaveFolderUriUseCase
+import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetScreenOrderUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetThemeContrastUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetThemeStyleUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.SetVibrationStrengthUseCase
@@ -67,15 +77,6 @@ import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleOverwrit
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleRandomizeFilenameUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleScreensSearchEnabledUseCase
 import ru.tech.imageresizershrinker.domain.use_case.edit_settings.ToggleShowDialogUseCase
-import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateColorTupleUseCase
-import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateColorTuplesUseCase
-import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateEmojiUseCase
-import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateEmojisCountUseCase
-import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateFilenameUseCase
-import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateImagePickerModeUseCase
-import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateOrderUseCase
-import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdatePresetsUseCase
-import ru.tech.imageresizershrinker.domain.use_case.edit_settings.UpdateSaveFolderUriUseCase
 import ru.tech.imageresizershrinker.domain.use_case.get_settings_state.GetSettingsStateFlowUseCase
 import ru.tech.imageresizershrinker.domain.use_case.get_settings_state.GetSettingsStateUseCase
 import ru.tech.imageresizershrinker.domain.use_case.reset_settings.ResetSettingsUseCase
@@ -96,23 +97,23 @@ class MainViewModel @Inject constructor(
     private val getSettingsStateUseCase: GetSettingsStateUseCase,
     private val toggleAddSequenceNumberUseCase: ToggleAddSequenceNumberUseCase,
     private val toggleAddOriginalFilenameUseCase: ToggleAddOriginalFilenameUseCase,
-    private val updateEmojisCountUseCase: UpdateEmojisCountUseCase,
-    private val updateImagePickerModeUseCase: UpdateImagePickerModeUseCase,
+    private val setEmojisCountUseCase: SetEmojisCountUseCase,
+    private val setImagePickerModeUseCase: SetImagePickerModeUseCase,
     private val toggleAddFileSizeUseCase: ToggleAddFileSizeUseCase,
-    private val updateEmojiUseCase: UpdateEmojiUseCase,
-    private val updateFilenameUseCase: UpdateFilenameUseCase,
+    private val setEmojiUseCase: SetEmojiUseCase,
+    private val setFilenamePrefixUseCase: SetFilenamePrefixUseCase,
     private val toggleShowDialogUseCase: ToggleShowDialogUseCase,
-    private val updateColorTupleUseCase: UpdateColorTupleUseCase,
-    private val updatePresetsUseCase: UpdatePresetsUseCase,
+    private val setColorTupleUseCase: SetColorTupleUseCase,
+    private val setPresetsUseCase: SetPresetsUseCase,
     private val toggleDynamicColorsUseCase: ToggleDynamicColorsUseCase,
     private val setBorderWidthUseCase: SetBorderWidthUseCase,
     private val toggleAllowImageMonetUseCase: ToggleAllowImageMonetUseCase,
     private val toggleAmoledModeUseCase: ToggleAmoledModeUseCase,
     private val setNightModeUseCase: SetNightModeUseCase,
-    private val updateSaveFolderUriUseCase: UpdateSaveFolderUriUseCase,
-    private val updateColorTuplesUseCase: UpdateColorTuplesUseCase,
+    private val setSaveFolderUriUseCase: SetSaveFolderUriUseCase,
+    private val setColorTuplesUseCase: SetColorTuplesUseCase,
     private val setAlignmentUseCase: SetAlignmentUseCase,
-    private val updateOrderUseCase: UpdateOrderUseCase,
+    private val setScreenOrderUseCase: SetScreenOrderUseCase,
     private val toggleClearCacheOnLaunchUseCase: ToggleClearCacheOnLaunchUseCase,
     private val toggleGroupOptionsByTypesUseCase: ToggleGroupOptionsByTypesUseCase,
     private val toggleRandomizeFilenameUseCase: ToggleRandomizeFilenameUseCase,
@@ -139,7 +140,8 @@ class MainViewModel @Inject constructor(
     private val toggleDrawAppBarShadowsUseCase: ToggleDrawAppBarShadowsUseCase,
     private val toggleAutoPinClipboardUseCase: ToggleAutoPinClipboardUseCase,
     private val setVibrationStrengthUseCase: SetVibrationStrengthUseCase,
-    private val toggleOverwriteFilesUseCase: ToggleOverwriteFilesUseCase
+    private val toggleOverwriteFilesUseCase: ToggleOverwriteFilesUseCase,
+    private val setFilenameSuffixUseCase: SetFilenameSuffixUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default())
@@ -203,15 +205,15 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun updateEmojisCount(count: Int) {
+    fun setEmojisCount(count: Int) {
         viewModelScope.launch {
-            updateEmojisCountUseCase(count)
+            setEmojisCountUseCase(count)
         }
     }
 
-    fun updateImagePickerMode(mode: Int) {
+    fun setImagePickerMode(mode: Int) {
         viewModelScope.launch {
-            updateImagePickerModeUseCase(mode)
+            setImagePickerModeUseCase(mode)
         }
     }
 
@@ -221,15 +223,21 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun updateEmoji(emoji: Int) {
+    fun setEmoji(emoji: Int) {
         viewModelScope.launch {
-            updateEmojiUseCase(emoji)
+            setEmojiUseCase(emoji)
         }
     }
 
-    fun updateFilename(name: String) {
+    fun setFilenamePrefix(name: String) {
         viewModelScope.launch {
-            updateFilenameUseCase(name)
+            setFilenamePrefixUseCase(name)
+        }
+    }
+
+    fun setFilenameSuffix(name: String) {
+        viewModelScope.launch {
+            setFilenameSuffixUseCase(name)
         }
     }
 
@@ -239,9 +247,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun updateColorTuple(colorTuple: ColorTuple) {
+    fun setColorTuple(colorTuple: ColorTuple) {
         viewModelScope.launch {
-            updateColorTupleUseCase(
+            setColorTupleUseCase(
                 colorTuple.run {
                     "${primary.toArgb()}*${secondary?.toArgb()}*${tertiary?.toArgb()}*${surface?.toArgb()}"
                 }
@@ -249,9 +257,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun updatePresets(newPresets: List<Int>) {
+    fun setPresets(newPresets: List<Int>) {
         viewModelScope.launch {
-            updatePresetsUseCase(
+            setPresetsUseCase(
                 newPresets.joinToString("*")
             )
         }
@@ -419,7 +427,7 @@ class MainViewModel @Inject constructor(
 
     fun updateSaveFolderUri(uri: Uri?) {
         viewModelScope.launch {
-            updateSaveFolderUriUseCase(uri?.toString())
+            setSaveFolderUriUseCase(uri?.toString())
         }
     }
 
@@ -429,7 +437,7 @@ class MainViewModel @Inject constructor(
 
     fun updateColorTuples(colorTuples: List<ColorTuple>) {
         viewModelScope.launch {
-            updateColorTuplesUseCase(colorTuples.asString())
+            setColorTuplesUseCase(colorTuples.asString())
         }
     }
 
@@ -441,7 +449,7 @@ class MainViewModel @Inject constructor(
 
     fun updateOrder(data: List<Screen>) {
         viewModelScope.launch {
-            updateOrderUseCase(data.joinToString("/") { it.id.toString() })
+            setScreenOrderUseCase(data.joinToString("/") { it.id.toString() })
         }
     }
 
@@ -571,8 +579,8 @@ class MainViewModel @Inject constructor(
                     surface = Color(0xFF1D2D3D)
                 )
                 val colorTupleS = listOf(colorTuple).asString()
-                updateColorTuple(colorTuple)
-                updateColorTuplesUseCase(settingsState.colorTupleList + "*" + colorTupleS)
+                setColorTuple(colorTuple)
+                setColorTuplesUseCase(settingsState.colorTupleList + "*" + colorTupleS)
                 updateThemeContrast(0f)
                 setThemeStyle(0)
                 if (settingsState.isInvertThemeColors) toggleInvertColors()
@@ -582,8 +590,8 @@ class MainViewModel @Inject constructor(
                     ?.let { primary ->
                         val colorTuple = ColorTuple(primary)
                         val colorTupleS = listOf(colorTuple).asString()
-                        updateColorTuple(colorTuple)
-                        updateColorTuplesUseCase(settingsState.colorTupleList + "*" + colorTupleS)
+                        setColorTuple(colorTuple)
+                        setColorTuplesUseCase(settingsState.colorTupleList + "*" + colorTupleS)
                     }
             }
             if (settingsState.isDynamicColors) toggleDynamicColors()

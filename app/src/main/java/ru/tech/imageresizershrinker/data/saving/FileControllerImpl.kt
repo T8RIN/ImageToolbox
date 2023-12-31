@@ -31,6 +31,7 @@ import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SEQ_NUM_TO_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.ADD_SIZE_TO_FILENAME
 import ru.tech.imageresizershrinker.data.keys.Keys.COPY_TO_CLIPBOARD
 import ru.tech.imageresizershrinker.data.keys.Keys.FILENAME_PREFIX
+import ru.tech.imageresizershrinker.data.keys.Keys.FILENAME_SUFFIX
 import ru.tech.imageresizershrinker.data.keys.Keys.IMAGE_PICKER_MODE
 import ru.tech.imageresizershrinker.data.keys.Keys.OVERWRITE_FILE
 import ru.tech.imageresizershrinker.data.keys.Keys.RANDOMIZE_FILENAME
@@ -61,6 +62,7 @@ class FileControllerImpl @Inject constructor(
     private var fileParams: FileParams = FileParams(
         treeUri = null,
         filenamePrefix = "",
+        filenameSuffix = "",
         addSizeInFilename = false,
         addOriginalFilename = false,
         addSequenceNumber = false,
@@ -74,7 +76,8 @@ class FileControllerImpl @Inject constructor(
             dataStore.data.collect { preferences ->
                 fileParams = fileParams.copy(
                     treeUri = preferences[SAVE_FOLDER_URI]?.takeIf { it.isNotEmpty() },
-                    filenamePrefix = preferences[FILENAME_PREFIX] ?: "",
+                    filenamePrefix = preferences[FILENAME_PREFIX] ?: "ResizedImage",
+                    filenameSuffix = preferences[FILENAME_SUFFIX] ?: "",
                     addSizeInFilename = preferences[ADD_SIZE_TO_FILENAME] ?: false,
                     addOriginalFilename = preferences[ADD_ORIGINAL_NAME_TO_FILENAME] ?: false,
                     addSequenceNumber = preferences[ADD_SEQ_NUM_TO_FILENAME] ?: true,
@@ -209,7 +212,10 @@ class FileControllerImpl @Inject constructor(
                             Exception(
                                 context.getString(
                                     R.string.no_such_directory,
-                                    treeUri.toUri().toUiPath(context, defaultPrefix())
+                                    treeUri.toUri().toUiPath(
+                                        context,
+                                        context.getString(R.string.default_folder)
+                                    )
                                 )
                             )
                         )
@@ -333,16 +339,18 @@ class FileControllerImpl @Inject constructor(
             ).split(" ")[0] else saveTarget.imageInfo.height) + ")"
 
         var prefix = fileParams.filenamePrefix
+        var suffix = fileParams.filenameSuffix
 
-        if (prefix.isEmpty()) prefix = defaultPrefix()
+        if (prefix.isNotEmpty()) prefix = "${prefix}_"
+        if (suffix.isNotEmpty()) suffix = "_$suffix"
 
-        if (fileParams.addOriginalFilename) prefix += "_${
-            if (saveTarget.originalUri.toUri() != Uri.EMPTY) {
+        if (fileParams.addOriginalFilename) {
+            prefix += if (saveTarget.originalUri.toUri() != Uri.EMPTY) {
                 context.getFileName(saveTarget.originalUri.toUri()) ?: ""
             } else {
                 context.getString(R.string.original_filename)
             }
-        }"
+        }
         if (fileParams.addSizeInFilename) prefix += wh
 
         val timeStamp = SimpleDateFormat(
@@ -350,14 +358,14 @@ class FileControllerImpl @Inject constructor(
             Locale.getDefault()
         ).format(Date()) + "_${Random(Random.nextInt()).hashCode().toString().take(4)}"
 
-        return "${prefix}_${
+        return "$prefix${
             if (fileParams.addSequenceNumber && saveTarget.sequenceNumber != null) {
                 SimpleDateFormat(
                     "yyyy-MM-dd_HH-mm-ss",
                     Locale.getDefault()
                 ).format(Date()) + "_" + saveTarget.sequenceNumber
             } else timeStamp
-        }.$extension"
+        }$suffix.$extension"
     }
 
     override fun clearCache(onComplete: (String) -> Unit) = context.clearCache(onComplete)
@@ -396,8 +404,6 @@ class FileControllerImpl @Inject constructor(
 
     private fun getFileDescriptorFor(uri: Uri?) =
         uri?.let { context.contentResolver.openFileDescriptor(uri, "rw") }
-
-    private fun defaultPrefix() = context.getString(R.string.default_prefix)
 
     private fun Context.getSavingFolder(
         treeUri: Uri?,

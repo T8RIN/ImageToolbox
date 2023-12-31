@@ -66,7 +66,8 @@ data class UiSettingsState(
     val screensSearchEnabled: Boolean,
     val autoCopyToClipBoard: Boolean,
     val hapticsStrength: Int,
-    val overwriteFiles: Boolean
+    val overwriteFiles: Boolean,
+    val filenameSuffix: String
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -146,7 +147,8 @@ fun SettingsState.toUiState(): UiSettingsState {
         screensSearchEnabled = screensSearchEnabled,
         autoCopyToClipBoard = autoCopyToClipBoard,
         hapticsStrength = hapticsStrength,
-        overwriteFiles = overwriteFiles
+        overwriteFiles = overwriteFiles,
+        filenameSuffix = filenameSuffix
     )
 }
 

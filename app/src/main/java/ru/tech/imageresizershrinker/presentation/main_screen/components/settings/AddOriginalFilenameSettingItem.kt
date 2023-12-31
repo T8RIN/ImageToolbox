@@ -34,7 +34,7 @@ fun AddOriginalFilenameSettingItem(
     val enabled = settingsState.imagePickerModeInt != 0
     PreferenceRowSwitch(
         shape = shape,
-        enabled = !settingsState.randomizeFilename,
+        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles,
         applyHorPadding = false,
         modifier = modifier
             .alpha(

@@ -527,4 +527,6 @@
     <string name="overwrite_file_requirements">In order to overwrite files you need to use \"Explorer\" image source, try repick images, we\'ve changed image source to the needed one</string>
     <string name="overwrite_files">Overwrite Files</string>
     <string name="overwrite_files_sub">Original file will be replaced with new one instead of saving in selected folder, this option need to image source be \"Explorer\" or GetContent, when toggling this, it will be set automatically</string>
+    <string name="empty">Empty</string>
+    <string name="suffix">Suffix</string>
 </resources>
