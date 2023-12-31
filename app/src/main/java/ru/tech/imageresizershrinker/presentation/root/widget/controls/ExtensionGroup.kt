@@ -1,4 +1,3 @@
-
 package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
 import android.os.Build
