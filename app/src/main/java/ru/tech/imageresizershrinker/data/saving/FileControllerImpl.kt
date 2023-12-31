@@ -144,6 +144,7 @@ class FileControllerImpl @Inject constructor(
         }
 
         var filename = ""
+        var savePath = savingPath
 
         kotlin.runCatching {
             if (fileParams.copyToClipBoard) {
@@ -179,7 +180,9 @@ class FileControllerImpl @Inject constructor(
                         )
                     )
                 }.getOrNull()?.use { parcel ->
-                    filename = DocumentFile.fromSingleUri(context, originalUri)?.name.toString()
+                    filename = context.getFileName(originalUri).toString()
+                    savePath = context.getString(R.string.original)
+
                     FileOutputStream(parcel.fileDescriptor).use { out ->
                         out.write(saveTarget.data)
                         copyMetadata(
@@ -247,7 +250,7 @@ class FileControllerImpl @Inject constructor(
             if (result.isFailure) {
                 return SaveResult.Error.Exception(result.exceptionOrNull() ?: Throwable())
             } else {
-                return SaveResult.Success(filename = filename, savingPath = savingPath)
+                return SaveResult.Success(filename = filename, savingPath = savePath)
             }
         }
     }

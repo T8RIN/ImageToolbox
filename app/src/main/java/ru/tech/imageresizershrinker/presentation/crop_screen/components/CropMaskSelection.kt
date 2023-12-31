@@ -149,6 +149,9 @@ fun CropMaskSelection(
             value = cornerRadius,
             title = stringResource(R.string.radius),
             icon = null,
+            internalStateTransformation = {
+                it.roundToInt()
+            },
             onValueChange = {
                 cornerRadius = it.roundToInt()
                 if (selectedItem.cropOutline is CutCornerCropShape) {

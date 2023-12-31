@@ -6,5 +6,5 @@ import javax.inject.Inject
 class ToggleOverwriteFilesUseCase @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) {
-    suspend operator fun invoke() = settingsRepository.toggleAddOriginalFilename()
+    suspend operator fun invoke() = settingsRepository.toggleOverwriteFiles()
 }

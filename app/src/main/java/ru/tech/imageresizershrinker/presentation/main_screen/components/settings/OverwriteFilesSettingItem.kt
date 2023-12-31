@@ -29,7 +29,7 @@ fun OverwriteFilesSettingItem(
         enabled = !settingsState.randomizeFilename,
         title = stringResource(R.string.overwrite_files),
         subtitle = stringResource(R.string.overwrite_files_sub),
-        checked = settingsState.addSequenceNumber,
+        checked = settingsState.overwriteFiles,
         resultModifier = Modifier.padding(
             horizontal = 16.dp,
             vertical = 8.dp
