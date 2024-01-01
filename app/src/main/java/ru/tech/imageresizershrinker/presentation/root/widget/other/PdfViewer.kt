@@ -212,8 +212,11 @@ fun PdfViewer(
                         indicatorContent = { index, _ ->
                             val text by remember(index, pageCount, listState) {
                                 derivedStateOf {
+                                    val first = listState.layoutInfo.visibleItemsInfo.firstOrNull()
                                     val last = listState.layoutInfo.visibleItemsInfo.lastOrNull()
-                                    (last?.index ?: index) + 1
+                                    first?.takeIf {
+                                        it.index == 0
+                                    }?.let { 1 } ?: ((last?.index ?: index) + 1)
                                 }
                             }
                             Text(
@@ -320,15 +323,13 @@ fun PdfViewer(
                             state = state,
                             modifier = Modifier
                                 .fillMaxSize()
-                                .dragHandler(
-                                    key = uri,
+                                .dragHandler(key = uri,
                                     lazyGridState = state,
                                     isVertical = true,
                                     haptics = LocalHapticFeedback.current,
                                     selectedItems = selectedItems,
                                     autoScrollSpeed = autoScrollSpeed,
-                                    autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
-                                ),
+                                    autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }),
                             verticalArrangement = Arrangement.spacedBy(
                                 spacing,
                                 Alignment.CenterVertically
@@ -374,15 +375,13 @@ fun PdfViewer(
                             state = state,
                             modifier = Modifier
                                 .fillMaxSize()
-                                .dragHandler(
-                                    key = uri,
+                                .dragHandler(key = uri,
                                     lazyGridState = state,
                                     isVertical = false,
                                     haptics = LocalHapticFeedback.current,
                                     selectedItems = selectedItems,
                                     autoScrollSpeed = autoScrollSpeed,
-                                    autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
-                                ),
+                                    autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }),
                             verticalArrangement = Arrangement.spacedBy(
                                 spacing,
                                 Alignment.CenterVertically
@@ -529,9 +528,7 @@ private fun PdfPage(
                     if (contentScale == ContentScale.Crop) Modifier.matchParentSize()
                     else Modifier
                 )
-                .width(
-                    with(density) { renderWidth.toDp() * zoom }
-                )
+                .width(with(density) { renderWidth.toDp() * zoom })
                 .aspectRatio(renderWidth / renderHeight.toFloat())
                 .padding(padding)
                 .clip(RoundedCornerShape(corners))
