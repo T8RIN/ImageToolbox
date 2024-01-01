@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
+import ru.tech.imageresizershrinker.presentation.root.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.presentation.root.theme.blend
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
@@ -65,9 +65,7 @@ fun CurrentVersionCodeSettingItem(
                     if (settingsState.isNightMode) {
                         MaterialTheme.colorScheme.primary
                     } else {
-                        MaterialTheme.colorScheme.onPrimaryContainer.blend(
-                            Color.White
-                        )
+                        MaterialTheme.colorScheme.primary.blend(Color.Black)
                     }
                 ).value,
                 modifier = Modifier
@@ -77,16 +75,16 @@ fun CurrentVersionCodeSettingItem(
                         resultPadding = 0.dp,
                         color = animateColorAsState(
                             if (settingsState.isNightMode) {
-                                MaterialTheme.colorScheme.background.blend(
-                                    Color.White,
-                                    0.1f
+                                MaterialTheme.colorScheme.secondaryContainer.blend(
+                                    color = Color.Black,
+                                    fraction = 0.3f
                                 )
                             } else {
                                 MaterialTheme.colorScheme.primaryContainer
                             }
                         ).value,
                         borderColor = MaterialTheme.colorScheme.outlineVariant(),
-                        shape = DavidStarShape
+                        shape = MaterialStarShape
                     )
                     .scale(1.25f)
             )

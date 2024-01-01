@@ -36,7 +36,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.materialShadow
-import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
+import ru.tech.imageresizershrinker.presentation.root.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,7 +47,7 @@ fun EnhancedSlider(
     onValueChange: (Float) -> Unit,
     onValueChangeFinished: (() -> Unit)? = null,
     valueRange: ClosedFloatingPointRange<Float>,
-    thumbShape: Shape = DavidStarShape,
+    thumbShape: Shape = MaterialStarShape,
     thumbColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     steps: Int = 0,
     enabled: Boolean = true,

@@ -22,7 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.gigamole.composeshadowsplus.rsblur.rsBlurShadow
-import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
+import ru.tech.imageresizershrinker.presentation.root.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
@@ -44,14 +44,14 @@ fun Loading(modifier: Modifier = Modifier) {
                 if (borderWidth <= 0.dp) {
                     Modifier.rsBlurShadow(
                         radius = 2.dp,
-                        shape = DavidStarShape,
+                        shape = MaterialStarShape,
                         isAlphaContentClip = true
                     )
                 } else Modifier
             )
             .background(
                 color = MaterialTheme.colorScheme.secondaryContainer,
-                shape = DavidStarShape
+                shape = MaterialStarShape
             )
             .border(
                 width = borderWidth,
@@ -59,7 +59,7 @@ fun Loading(modifier: Modifier = Modifier) {
                     0.1f,
                     MaterialTheme.colorScheme.secondaryContainer
                 ),
-                shape = DavidStarShape
+                shape = MaterialStarShape
             )
     ) {
         CircularProgressIndicator(
@@ -84,12 +84,12 @@ fun BoxScope.Loading(done: Int, left: Int) {
             .size(108.dp)
             .then(
                 if (borderWidth <= 0.dp) {
-                    Modifier.rsBlurShadow(radius = 2.dp, shape = DavidStarShape)
+                    Modifier.rsBlurShadow(radius = 2.dp, shape = MaterialStarShape)
                 } else Modifier
             )
             .background(
                 color = MaterialTheme.colorScheme.secondaryContainer,
-                shape = DavidStarShape
+                shape = MaterialStarShape
             )
             .border(
                 width = borderWidth,
@@ -97,7 +97,7 @@ fun BoxScope.Loading(done: Int, left: Int) {
                     0.1f,
                     MaterialTheme.colorScheme.secondaryContainer
                 ),
-                shape = DavidStarShape
+                shape = MaterialStarShape
             )
             .align(Alignment.Center),
         verticalArrangement = Arrangement.Center,

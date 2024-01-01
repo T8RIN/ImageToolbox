@@ -79,10 +79,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -135,6 +137,8 @@ fun FileCipherScreen(
     onGoBack: () -> Unit,
     viewModel: FileCipherViewModel = hiltViewModel()
 ) {
+    val haptics = LocalHapticFeedback.current
+
     LaunchedEffect(uriState) {
         uriState?.let { viewModel.setUri(it) }
     }
@@ -297,13 +301,18 @@ fun FileCipherScreen(
                                                 modifier = Modifier
                                                     .size(100.dp)
                                                     .container(
-                                                        CloverShape,
+                                                        shape = CloverShape,
                                                         resultPadding = 0.dp,
-                                                        color = MaterialTheme.colorScheme.primaryContainer
+                                                        color = MaterialTheme.colorScheme.secondaryContainer
                                                     )
-                                                    .clickable { filePicker.launch(arrayOf("*/*")) }
+                                                    .clickable {
+                                                        haptics.performHapticFeedback(
+                                                            HapticFeedbackType.LongPress
+                                                        )
+                                                        filePicker.launch(arrayOf("*/*"))
+                                                    }
                                                     .padding(12.dp),
-                                                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                                                tint = MaterialTheme.colorScheme.onSecondaryContainer
                                             )
                                             Text(
                                                 text = stringResource(R.string.pick_file_to_start),

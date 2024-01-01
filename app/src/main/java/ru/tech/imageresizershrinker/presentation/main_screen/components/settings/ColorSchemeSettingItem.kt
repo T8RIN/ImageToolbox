@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Theme
-import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
+import ru.tech.imageresizershrinker.presentation.root.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AvailableColorTuplesSheet
@@ -98,7 +98,7 @@ fun ColorSchemeSettingItem(
                     .padding(end = 8.dp)
                     .size(72.dp)
                     .container(
-                        shape = DavidStarShape,
+                        shape = MaterialStarShape,
                         color = MaterialTheme.colorScheme
                             .surfaceVariant
                             .copy(alpha = 0.5f),

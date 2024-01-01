@@ -28,7 +28,7 @@ import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.rememberColorScheme
-import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
+import ru.tech.imageresizershrinker.presentation.root.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.presentation.root.theme.inverse
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
@@ -57,7 +57,7 @@ fun ColorTuplePreview(
         modifier = modifier
             .aspectRatio(1f)
             .container(
-                shape = DavidStarShape,
+                shape = MaterialStarShape,
                 color = rememberColorScheme(
                     isDarkTheme = settingsState.isNightMode,
                     amoledMode = settingsState.isDynamicColors,

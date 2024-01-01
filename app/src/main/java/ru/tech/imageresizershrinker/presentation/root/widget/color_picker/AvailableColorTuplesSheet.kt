@@ -2,8 +2,10 @@ package ru.tech.imageresizershrinker.presentation.root.widget.color_picker
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -46,6 +48,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
@@ -60,7 +63,7 @@ import com.t8rin.dynamic.theme.rememberColorScheme
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Theme
-import ru.tech.imageresizershrinker.presentation.root.shapes.DavidStarShape
+import ru.tech.imageresizershrinker.presentation.root.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.presentation.root.theme.defaultColorTuple
 import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.root.utils.helper.ListUtils.nearestFor
@@ -68,7 +71,6 @@ import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedBu
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.presentation.root.widget.palette_selection.PaletteStyleSelection
 import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleDragHandle
@@ -165,7 +167,7 @@ fun AvailableColorTuplesSheet(
                                     .padding(2.dp)
                                     .size(64.dp)
                                     .container(
-                                        shape = DavidStarShape,
+                                        shape = MaterialStarShape,
                                         color = rememberColorScheme(
                                             isDarkTheme = settingsState.isNightMode,
                                             amoledMode = settingsState.isDynamicColors,
@@ -303,21 +305,47 @@ fun AvailableColorTuplesSheet(
                             fontSize = 18.sp
                         )
                     }
-                    LazyRow(
-                        state = listState,
-                        contentPadding = PaddingValues(16.dp),
-                        modifier = Modifier.fadingEdges(listState),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        items(defList) { colorTuple ->
-                            ColorTuplePreview(
-                                isDefaultItem = true,
-                                modifier = Modifier.size(60.dp),
-                                colorTuple = colorTuple,
-                                appColorTuple = currentColorTuple,
-                                onClick = { onPickTheme(colorTuple) }
-                            )
+                    Box {
+                        LazyRow(
+                            state = listState,
+                            contentPadding = PaddingValues(16.dp),
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            items(defList) { colorTuple ->
+                                ColorTuplePreview(
+                                    isDefaultItem = true,
+                                    modifier = Modifier.size(60.dp),
+                                    colorTuple = colorTuple,
+                                    appColorTuple = currentColorTuple,
+                                    onClick = { onPickTheme(colorTuple) }
+                                )
+                            }
                         }
+
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .width(8.dp)
+                                .height(64.dp)
+                                .background(
+                                    brush = Brush.horizontalGradient(
+                                        0f to MaterialTheme.colorScheme.surfaceContainerHigh,
+                                        1f to Color.Transparent
+                                    )
+                                )
+                        )
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .width(8.dp)
+                                .height(64.dp)
+                                .background(
+                                    brush = Brush.horizontalGradient(
+                                        0f to Color.Transparent,
+                                        1f to MaterialTheme.colorScheme.surfaceContainerHigh
+                                    )
+                                )
+                        )
                     }
                 }
             }
@@ -388,7 +416,7 @@ fun AvailableColorTuplesSheet(
                             modifier = Modifier
                                 .aspectRatio(1f)
                                 .container(
-                                    shape = DavidStarShape,
+                                    shape = MaterialStarShape,
                                     color = MaterialTheme.colorScheme.surfaceVariant,
                                     borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
                                     resultPadding = 0.dp
@@ -427,4 +455,8 @@ fun AvailableColorTuplesSheet(
         }
     )
     colorPicker(onUpdateColorTuples)
+
+    if (settingsState.isDynamicColors) {
+        visible.value = false
+    }
 }

@@ -43,7 +43,7 @@ fun ImageNotPickedWidget(
             modifier = Modifier
                 .size(100.dp)
                 .container(
-                    CloverShape,
+                    shape = CloverShape,
                     resultPadding = 0.dp,
                     color = MaterialTheme.colorScheme.secondaryContainer
                 )

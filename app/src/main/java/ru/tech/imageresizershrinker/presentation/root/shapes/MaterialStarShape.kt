@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 
-val DavidStarShape: Shape = object : Shape {
+val MaterialStarShape: Shape = object : Shape {
     override fun createOutline(
         size: Size,
         layoutDirection: LayoutDirection,
