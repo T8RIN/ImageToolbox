@@ -15,7 +15,12 @@ import androidx.compose.ui.hapticfeedback.HapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalView
 
-private fun View.vibrate() = reallyPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+private fun View.vibrate() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+    reallyPerformHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+} else {
+    reallyPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+}
+
 private fun View.vibrateStrong() = reallyPerformHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
 
 private fun View.reallyPerformHapticFeedback(feedbackConstant: Int) {

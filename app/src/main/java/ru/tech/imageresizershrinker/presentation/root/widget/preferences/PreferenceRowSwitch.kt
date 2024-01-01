@@ -64,6 +64,7 @@ fun PreferenceRowSwitch(
         },
         endContent = {
             EnhancedSwitch(
+                modifier = Modifier.padding(start = 8.dp),
                 thumbIcon = if (checked) Icons.Rounded.Check else null,
                 colors = SwitchDefaults.colors(
                     uncheckedBorderColor = MaterialTheme.colorScheme.outline.blend(
