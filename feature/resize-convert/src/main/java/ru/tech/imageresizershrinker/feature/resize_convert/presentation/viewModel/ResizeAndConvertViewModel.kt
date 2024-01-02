@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.resize_and_convert_screen.viewModel
+package ru.tech.imageresizershrinker.feature.resize_convert.presentation.viewModel
 
 import android.graphics.Bitmap
 import android.net.Uri

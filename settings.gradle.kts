@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":feature:resize-convert")
+
+
 include(":feature:generate-palette")
 
 

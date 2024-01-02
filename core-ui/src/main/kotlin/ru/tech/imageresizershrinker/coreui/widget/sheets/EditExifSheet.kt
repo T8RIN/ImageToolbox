@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.single_edit_screen.components
+package ru.tech.imageresizershrinker.coreui.widget.sheets
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -53,8 +53,6 @@ import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.coreui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.coreui.widget.modifier.container
 import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceItemOverload
-import ru.tech.imageresizershrinker.coreui.widget.sheets.SimpleDragHandle
-import ru.tech.imageresizershrinker.coreui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.coreui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.coreui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.coreui.widget.text.TitleItem

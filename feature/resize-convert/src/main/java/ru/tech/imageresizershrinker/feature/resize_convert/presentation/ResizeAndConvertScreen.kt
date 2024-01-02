@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.resize_and_convert_screen
+package ru.tech.imageresizershrinker.feature.resize_convert.presentation
 
 import android.content.res.Configuration
 import android.net.Uri
@@ -78,7 +78,6 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.coreresources.R
-import ru.tech.imageresizershrinker.presentation.resize_and_convert_screen.viewModel.ResizeAndConvertViewModel
 import ru.tech.imageresizershrinker.coreui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.coreui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.coreui.utils.helper.Picker
@@ -107,6 +106,7 @@ import ru.tech.imageresizershrinker.coreui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.coreui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.coreui.widget.other.showError
 import ru.tech.imageresizershrinker.coreui.widget.sheets.CompareSheet
+import ru.tech.imageresizershrinker.coreui.widget.sheets.EditExifSheet
 import ru.tech.imageresizershrinker.coreui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.coreui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.coreui.widget.text.TopAppBarTitle
@@ -115,7 +115,7 @@ import ru.tech.imageresizershrinker.coreui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.coreui.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.coreui.widget.utils.middleImageState
 import ru.tech.imageresizershrinker.coreui.widget.utils.rememberAvailableHeight
-import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.EditExifSheet
+import ru.tech.imageresizershrinker.feature.resize_convert.presentation.viewModel.ResizeAndConvertViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

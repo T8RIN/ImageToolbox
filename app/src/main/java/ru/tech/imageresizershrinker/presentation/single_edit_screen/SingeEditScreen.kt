@@ -110,7 +110,7 @@ import ru.tech.imageresizershrinker.coreui.widget.utils.middleImageState
 import ru.tech.imageresizershrinker.coreui.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.CropEditOption
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.DrawEditOption
-import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.EditExifSheet
+import ru.tech.imageresizershrinker.coreui.widget.sheets.EditExifSheet
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.EraseBackgroundEditOption
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.components.FilterEditOption
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.viewModel.SingleEditViewModel
