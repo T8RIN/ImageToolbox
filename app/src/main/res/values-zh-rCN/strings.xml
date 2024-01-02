@@ -407,7 +407,7 @@
     <string name="circle_pixelation">圆形像素化</string>
     <string name="fidelity_sub">与内容方案非常相似的方案</string>
     <string name="content">内容</string>
-    <string name="disabled">残疾人</string>
+    <string name="disabled">禁用</string>
     <string name="expressive">富有表现力</string>
     <string name="neutral">中性的</string>
     <string name="tonal_spot_sub">默认调色板样式，它允许自定义所有四种颜色，其他允许您仅设置关键颜色</string>
