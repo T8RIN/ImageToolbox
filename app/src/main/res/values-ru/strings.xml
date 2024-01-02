@@ -509,5 +509,5 @@
     <string name="overwrite_files">Перезаписать файлы</string>
     <string name="empty">Пустой</string>
     <string name="suffix">Суффикс</string>
-    <string name="auto_pin">Автоматический вывод</string>
+    <string name="auto_pin">Авто закрепление</string>
 </resources>
