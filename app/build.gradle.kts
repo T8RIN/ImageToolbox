@@ -168,6 +168,9 @@ dependencies {
     implementation(project(":feature:cipher"))
     implementation(project(":feature:image-preview"))
     implementation(project(":feature:bytes-resize"))
+    implementation(project(":feature:compare"))
+    implementation(project(":feature:delete-exif"))
+    implementation(project(":feature:generate-palette"))
 
     "marketImplementation"(libs.firebase.crashlytics.ktx) {
         exclude("androidx.datastore", "datastore-preferences")

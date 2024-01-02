@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "ru.tech.imageresizershrinker.feature.bytesresize"
+    namespace = "ru.tech.imageresizershrinker.feature.bytes_resize"
     compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {

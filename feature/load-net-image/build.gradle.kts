@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "ru.tech.imageresizershrinker.feature.loadnetimage"
+    namespace = "ru.tech.imageresizershrinker.feature.load_net_image"
     compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {

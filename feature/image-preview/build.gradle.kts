@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "ru.tech.imageresizershrinker.feature.imagepreview"
+    namespace = "ru.tech.imageresizershrinker.feature.image_preview"
     compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {

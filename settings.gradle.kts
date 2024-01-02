@@ -1,5 +1,14 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":feature:generate-palette")
+
+
+include(":feature:delete-exif")
+
+
+include(":feature:compare")
+
+
 include(":feature:bytes-resize")
 
 

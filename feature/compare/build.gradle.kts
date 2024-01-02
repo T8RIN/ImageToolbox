@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "ru.tech.imageresizershrinker.feature.limits_resize"
+    namespace = "ru.tech.imageresizershrinker.feature.compare"
     compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {
