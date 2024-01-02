@@ -74,7 +74,7 @@ import ru.tech.imageresizershrinker.coreui.theme.Blue
 import ru.tech.imageresizershrinker.coreui.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.coreui.theme.White
 import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
-import ru.tech.imageresizershrinker.coreui.utils.exception.CrashHandler
+import ru.tech.imageresizershrinker.presentation.CrashHandler
 import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedFloatingActionButton

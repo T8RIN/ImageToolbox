@@ -53,7 +53,7 @@ import ru.tech.imageresizershrinker.presentation.main_screen.components.ScreenSe
 import ru.tech.imageresizershrinker.coreui.widget.UpdateSheet
 import ru.tech.imageresizershrinker.presentation.main_screen.components.particles
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.coreui.widget.activity.M3Activity
+import ru.tech.imageresizershrinker.presentation.M3Activity
 
 @AndroidEntryPoint
 class MainActivity : M3Activity() {

@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.coreui.widget.activity
+package ru.tech.imageresizershrinker.presentation
 
 import android.content.Context
 import android.content.res.Configuration
@@ -18,7 +18,6 @@ import ru.tech.imageresizershrinker.coredomain.model.SettingsState
 import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.adjustFontSize
 import ru.tech.imageresizershrinker.coreui.widget.activity.SettingsStateEntryPoint
 import ru.tech.imageresizershrinker.presentation.crash_screen.CrashActivity
-import ru.tech.imageresizershrinker.coreui.utils.exception.GlobalExceptionHandler
 
 @AndroidEntryPoint
 open class M3Activity : AppCompatActivity() {

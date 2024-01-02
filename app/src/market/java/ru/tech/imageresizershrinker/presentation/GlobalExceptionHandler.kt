@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.coreui.utils.exception
+package ru.tech.imageresizershrinker.presentation
 
 import android.app.Activity
 import android.content.Context
@@ -7,7 +7,6 @@ import android.util.Log
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
-import ru.tech.imageresizershrinker.coreui.widget.activity.M3Activity
 import kotlin.system.exitProcess
 
 

@@ -26,7 +26,7 @@
     <uses-permission android:name="android.permission.PROJECT_MEDIA" />
 
     <application
-        android:name=".coreui.app.ImageApplication"
+        android:name=".presentation.ImageApplication"
         android:allowBackup="true"
         android:colorMode="wideColorGamut"
         android:dataExtractionRules="@xml/data_extraction_rules"
