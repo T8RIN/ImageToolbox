@@ -13,7 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DataArray
 import androidx.compose.material.icons.rounded.DragHandle
-import androidx.compose.material.icons.rounded.TableRows
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
@@ -37,6 +36,7 @@ import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Stacks
 import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
@@ -77,7 +77,7 @@ fun ScreenOrderSettingItem(
                 showArrangementSheet.value = true
             } else scope.launch {
                 toastHostState.showToast(
-                    icon = Icons.Rounded.TableRows,
+                    icon = Icons.Rounded.Stacks,
                     message = context.getString(R.string.cannot_change_arrangement_while_options_grouping_enabled)
                 )
             }
@@ -96,7 +96,7 @@ fun ScreenOrderSettingItem(
         title = {
             TitleItem(
                 text = stringResource(R.string.order),
-                icon = Icons.Rounded.TableRows
+                icon = Icons.Rounded.Stacks
             )
         },
         confirmButton = {

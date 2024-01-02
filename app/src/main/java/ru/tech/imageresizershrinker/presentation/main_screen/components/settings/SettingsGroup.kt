@@ -12,9 +12,8 @@ import androidx.compose.material.icons.rounded.PersonSearch
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.SettingsBackupRestore
 import androidx.compose.material.icons.rounded.ShieldMoon
+import androidx.compose.material.icons.rounded.SortByAlpha
 import androidx.compose.material.icons.rounded.SystemSecurityUpdate
-import androidx.compose.material.icons.rounded.TableRows
-import androidx.compose.material.icons.rounded.TextFormat
 import androidx.compose.material.icons.rounded.Vibration
 import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -22,6 +21,7 @@ import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Firebase
 import ru.tech.imageresizershrinker.presentation.root.icons.material.FolderOpen
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Shadow
+import ru.tech.imageresizershrinker.presentation.root.icons.material.Stacks
 
 sealed class SettingsGroup(
     val titleId: Int,
@@ -87,7 +87,7 @@ sealed class SettingsGroup(
     )
 
     data object Font : SettingsGroup(
-        icon = Icons.Rounded.TextFormat,
+        icon = Icons.Rounded.SortByAlpha,
         titleId = R.string.text,
         settingsList = listOf(
             Setting.ChangeLanguage,
@@ -98,7 +98,7 @@ sealed class SettingsGroup(
     )
 
     data object OptionsArrangement : SettingsGroup(
-        icon = Icons.Rounded.TableRows,
+        icon = Icons.Rounded.Stacks,
         titleId = R.string.options_arrangement,
         settingsList = listOf(
             Setting.ScreenOrder,
