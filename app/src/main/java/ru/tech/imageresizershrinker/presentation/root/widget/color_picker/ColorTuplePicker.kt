@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.rounded.ContentPaste
+import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -41,7 +42,6 @@ import com.t8rin.dynamic.theme.rememberAppColorTuple
 import com.t8rin.dynamic.theme.rememberColorScheme
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.icons.material.PaletteSwatch
 import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
 import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
@@ -139,7 +139,7 @@ fun ColorTuplePicker(
                                 .container(RoundedCornerShape(24.dp))
                                 .padding(16.dp)
                         ) {
-                            Icon(Icons.Rounded.PaletteSwatch, null)
+                            Icon(Icons.Rounded.FormatColorFill, null)
                             Spacer(Modifier.width(8.dp))
                             Text(stringResource(R.string.monet_colors))
                             Spacer(Modifier.width(8.dp))

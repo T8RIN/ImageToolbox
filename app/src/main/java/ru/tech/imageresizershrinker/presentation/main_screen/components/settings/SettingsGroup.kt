@@ -2,8 +2,8 @@ package ru.tech.imageresizershrinker.presentation.main_screen.components.setting
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Cached
+import androidx.compose.material.icons.rounded.Description
 import androidx.compose.material.icons.rounded.Draw
-import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.IntegrationInstructions
@@ -19,8 +19,8 @@ import androidx.compose.material.icons.rounded.Vibration
 import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.ui.graphics.vector.ImageVector
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.icons.material.FileSettings
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Firebase
+import ru.tech.imageresizershrinker.presentation.root.icons.material.FolderOpen
 import ru.tech.imageresizershrinker.presentation.root.icons.material.Shadow
 
 sealed class SettingsGroup(
@@ -127,7 +127,7 @@ sealed class SettingsGroup(
     )
 
     data object Folder : SettingsGroup(
-        icon = Icons.Rounded.Folder,
+        icon = Icons.Rounded.FolderOpen,
         titleId = R.string.folder,
         settingsList = listOf(
             Setting.SavingFolder
@@ -136,7 +136,7 @@ sealed class SettingsGroup(
     )
 
     data object Filename : SettingsGroup(
-        icon = Icons.Rounded.FileSettings,
+        icon = Icons.Rounded.Description,
         titleId = R.string.filename,
         settingsList = listOf(
             Setting.FilenamePrefix,
