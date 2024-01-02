@@ -470,7 +470,7 @@ fun CompareScreen(
 
                                 EnhancedSlider(
                                     modifier = modifier,
-                                    value = animateFloatAsState(targetValue = progress).value,
+                                    value = progress,
                                     onValueChange = {
                                         progress = it
                                     },

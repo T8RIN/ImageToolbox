@@ -2,7 +2,6 @@ package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -116,7 +115,7 @@ fun QualityWidget(
                 EnhancedSlider(
                     modifier = Modifier.padding(horizontal = 6.dp, vertical = 6.dp),
                     enabled = enabled,
-                    value = animateFloatAsState(quality).value,
+                    value = quality,
                     onValueChange = {
                         onQualityChange(it.toInt().coerceIn(imageFormat.compressionRange).toFloat())
                     },

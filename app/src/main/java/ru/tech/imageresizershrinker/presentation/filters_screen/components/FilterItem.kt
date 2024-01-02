@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.filters_screen.components
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
@@ -239,7 +238,7 @@ fun <T> FilterItem(
                                 .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
                                 .offset(y = (-2).dp),
                             enabled = !previewOnly,
-                            value = animateFloatAsState(sliderValue).value,
+                            value = sliderValue,
                             onValueChange = {
                                 sliderValue = it.roundTo(filter.paramsInfo.first().roundTo)
                                 onFilterChange(sliderValue)
@@ -293,7 +292,7 @@ fun <T> FilterItem(
                                     .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
                                     .offset(y = (-2).dp),
                                 enabled = !previewOnly,
-                                value = animateFloatAsState(sliderState1).value,
+                                value = sliderState1,
                                 onValueChange = {
                                     sliderState1 = it.roundTo(filter.paramsInfo[0].roundTo)
                                     onFilterChange(sliderState1 to sliderState2)
@@ -340,7 +339,7 @@ fun <T> FilterItem(
                                     .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
                                     .offset(y = (-2).dp),
                                 enabled = !previewOnly,
-                                value = animateFloatAsState(sliderState2).value,
+                                value = sliderState2,
                                 onValueChange = {
                                     sliderState2 = it.roundTo(filter.paramsInfo[1].roundTo)
                                     onFilterChange(sliderState1 to sliderState2)
@@ -441,7 +440,7 @@ fun <T> FilterItem(
                                     .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
                                     .offset(y = (-2).dp),
                                 enabled = !previewOnly,
-                                value = animateFloatAsState(sliderState1).value,
+                                value = sliderState1,
                                 onValueChange = {
                                     sliderState1 = it.roundTo(filter.paramsInfo[0].roundTo)
                                     onFilterChange(sliderState1 to color1)
@@ -534,7 +533,7 @@ fun <T> FilterItem(
                                     .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
                                     .offset(y = (-2).dp),
                                 enabled = !previewOnly,
-                                value = animateFloatAsState(sliderState1).value,
+                                value = sliderState1,
                                 onValueChange = {
                                     sliderState1 = it.roundTo(filter.paramsInfo[0].roundTo)
                                     onFilterChange(Triple(sliderState1, sliderState2, sliderState3))
@@ -587,7 +586,7 @@ fun <T> FilterItem(
                                     .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
                                     .offset(y = (-2).dp),
                                 enabled = !previewOnly,
-                                value = animateFloatAsState(sliderState2).value,
+                                value = sliderState2,
                                 onValueChange = {
                                     sliderState2 = it.roundTo(filter.paramsInfo[1].roundTo)
                                     onFilterChange(Triple(sliderState1, sliderState2, sliderState3))
@@ -640,7 +639,7 @@ fun <T> FilterItem(
                                     .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
                                     .offset(y = (-2).dp),
                                 enabled = !previewOnly,
-                                value = animateFloatAsState(sliderState3).value,
+                                value = sliderState3,
                                 onValueChange = {
                                     sliderState3 = it.roundTo(filter.paramsInfo[2].roundTo)
                                     onFilterChange(Triple(sliderState1, sliderState2, sliderState3))
@@ -697,7 +696,7 @@ fun <T> FilterItem(
                                     .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
                                     .offset(y = (-2).dp),
                                 enabled = !previewOnly,
-                                value = animateFloatAsState(sliderState1).value,
+                                value = sliderState1,
                                 onValueChange = {
                                     sliderState1 = it.roundTo(filter.paramsInfo[0].roundTo)
                                     onFilterChange(Triple(sliderState1, color1, color2))

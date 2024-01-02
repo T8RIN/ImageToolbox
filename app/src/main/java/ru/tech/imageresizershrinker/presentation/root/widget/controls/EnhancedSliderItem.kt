@@ -2,7 +2,6 @@ package ru.tech.imageresizershrinker.presentation.root.widget.controls
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -116,7 +115,7 @@ fun EnhancedSliderItem(
                 }
                 EnhancedSlider(
                     modifier = sliderModifier,
-                    value = animateFloatAsState(internalState.toFloat()).value,
+                    value = internalState.toFloat(),
                     onValueChange = {
                         internalState = internalStateTransformation(it)
                         onValueChange(it)

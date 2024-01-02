@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.presentation.root.widget.image
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -117,7 +116,7 @@ fun LazyListScope.imageStickyHeader(
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = 10.dp),
-                        value = animateFloatAsState(targetValue = imageState.position.toFloat()).value,
+                        value = imageState.position.toFloat(),
                         onValueChange = {
                             onStateChange(imageState.copy(position = it.toInt()))
                         },

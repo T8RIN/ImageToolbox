@@ -67,7 +67,7 @@ fun EnhancedSlider(
         val updatedValue by rememberUpdatedState(newValue = value)
 
         LaunchedEffect(updatedValue) {
-            if (compositions > 1) {
+            if (compositions > 0) {
                 haptics.performHapticFeedback(
                     HapticFeedbackType.TextHandleMove
                 )
