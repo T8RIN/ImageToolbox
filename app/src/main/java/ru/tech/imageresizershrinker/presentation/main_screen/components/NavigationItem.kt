@@ -32,6 +32,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.MeasureResult
 import androidx.compose.ui.layout.MeasureScope
@@ -39,6 +40,7 @@ import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.Constraints
@@ -60,6 +62,7 @@ fun NavigationItem(
     alwaysShowLabel: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
+    val haptics = LocalHapticFeedback.current
     val styledIcon = @Composable {
         val iconColor by iconColor(selected = selected, enabled = enabled)
         // If there's a label, don't have a11y services repeat the icon description.
@@ -85,7 +88,12 @@ fun NavigationItem(
         modifier
             .selectable(
                 selected = selected,
-                onClick = onClick,
+                onClick = {
+                    haptics.performHapticFeedback(
+                        HapticFeedbackType.LongPress
+                    )
+                    onClick()
+                },
                 enabled = enabled,
                 role = Role.Tab,
                 interactionSource = interactionSource,

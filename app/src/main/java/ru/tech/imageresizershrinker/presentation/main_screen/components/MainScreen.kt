@@ -736,7 +736,6 @@ fun MainScreen(
                                                     showScreenSearch = false
                                                 }
                                                 ProvideTextStyle(value = MaterialTheme.typography.bodyLarge) {
-                                                    //TODO: FIX
                                                     RoundedTextField(
                                                         maxLines = 1,
                                                         hint = { Text(stringResource(id = R.string.search_here)) },
