@@ -59,7 +59,6 @@ dependencies {
     api(libs.androidx.exifinterface)
     api(libs.appCompat)
     api(libs.androidx.documentfile)
-    api(libs.datastore.preferences.android)
     api(libs.androidx.lifecycle.viewmodel.compose)
 
     api(libs.decompose)
@@ -113,8 +112,7 @@ dependencies {
     api(libs.fadingEdges)
     api(libs.scrollbar)
 
-
-    api(libs.avif.coder)
+    implementation(libs.datastore.preferences.android)
 
     "marketImplementation"(libs.mlkit.segmentation.selfie)
     "marketImplementation"(libs.firebase.crashlytics.ktx) {

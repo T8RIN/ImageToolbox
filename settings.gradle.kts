@@ -1,5 +1,11 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":core-resources")
+
+
+include(":core-data")
+
+
 include(":core-domain")
 
 

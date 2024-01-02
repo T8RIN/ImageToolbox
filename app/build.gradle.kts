@@ -153,69 +153,13 @@ dependencies {
 
     coreLibraryDesugaring(libs.desugaring)
 
-    //AndroidX
-    implementation(libs.activityCompose)
-    implementation(libs.splashScreen)
-    implementation(libs.androidx.exifinterface)
-    implementation(libs.appCompat)
-    implementation(libs.androidx.documentfile)
-    implementation(libs.datastore.preferences.android)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-
-    //Navigation
-    implementation(libs.reimagined)
-    implementation(libs.reimagined.hilt)
-
-    //Konfetti
-    implementation(libs.konfetti.compose)
-
-    //Compose
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.material3.window.sizeclass)
-    implementation(libs.androidx.material.icons.extended)
-    implementation(libs.androidx.material)
-
     //Di
     implementation(libs.hilt)
     kapt(libs.dagger.hilt.compiler)
 
-    //Coil
-    implementation(libs.coil)
-    implementation(libs.coilCompose)
-    implementation(libs.coilGif)
-    implementation(libs.coilSvg)
-
-    //Modules
-    implementation(project(":cropper"))
-    implementation(project(":dynamic_theme"))
-    implementation(project(":colordetector"))
-    implementation(project(":beforeafter"))
-    implementation(project(":image"))
-    implementation(project(":modalsheet"))
-    implementation(project(":gpuimage"))
-    implementation(project(":gesture"))
-    implementation(project(":screenshot"))
-    implementation(project(":systemuicontroller"))
-    implementation(project(":placeholder"))
-    implementation(project(":logger"))
     implementation(project(":core-domain"))
     implementation(project(":core-ui"))
-
-    implementation(project(":colorpicker")) {
-        exclude("com.github.SmartToolFactory", "Compose-Color-Detector")
-    }
-
-    implementation(libs.reorderable)
-
-    implementation(libs.compose)
-    implementation(libs.shadowsPlus)
-
-    implementation(libs.kotlinx.collections.immutable)
-
-    implementation(libs.fadingEdges)
-    implementation(libs.scrollbar)
-
-    implementation(libs.avif.coder)
+    implementation(project(":core-data"))
 
     "marketImplementation"(libs.mlkit.segmentation.selfie)
     "marketImplementation"(libs.firebase.crashlytics.ktx) {
