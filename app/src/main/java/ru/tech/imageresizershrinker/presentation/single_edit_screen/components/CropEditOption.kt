@@ -42,9 +42,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coredomain.model.DomainAspectRatio
-import ru.tech.imageresizershrinker.presentation.crop_screen.components.AspectRatioSelection
-import ru.tech.imageresizershrinker.presentation.crop_screen.components.CropMaskSelection
-import ru.tech.imageresizershrinker.presentation.crop_screen.components.Cropper
+import ru.tech.imageresizershrinker.feature.crop.presentation.components.AspectRatioSelection
+import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMaskSelection
+import ru.tech.imageresizershrinker.feature.crop.presentation.components.Cropper
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.coreui.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.coreui.widget.modifier.drawHorizontalStroke
@@ -75,7 +75,7 @@ fun CropEditOption(
             onDismiss = onDismiss,
             useScaffold = useScaffold,
             controls = {
-                AspectRatioSelection(
+                ru.tech.imageresizershrinker.feature.crop.presentation.components.AspectRatioSelection(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 16.dp),
@@ -83,7 +83,7 @@ fun CropEditOption(
                     onAspectRatioChange = setCropAspectRatio
                 )
                 HorizontalDivider()
-                CropMaskSelection(
+                ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMaskSelection(
                     onCropMaskChange = { setCropMask(it) },
                     selectedItem = cropProperties.cropOutlineProperty,
                     loadImage = {
@@ -143,7 +143,7 @@ fun CropEditOption(
         ) {
             var loading by remember { mutableStateOf(false) }
             Box(contentAlignment = Alignment.Center) {
-                Cropper(
+                ru.tech.imageresizershrinker.feature.crop.presentation.components.Cropper(
                     bitmap = stateBitmap,
                     crop = crop,
                     imageCropStarted = { loading = true },

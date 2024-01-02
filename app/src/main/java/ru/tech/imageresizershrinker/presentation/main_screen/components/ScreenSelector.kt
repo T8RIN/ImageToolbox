@@ -17,26 +17,25 @@ import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.presentation.bytes_resize_screen.BytesResizeScreen
+import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.findActivity
+import ru.tech.imageresizershrinker.coreui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.feature.loadnetimage.presentation.LoadNetImageScreen
+import ru.tech.imageresizershrinker.feature.bytesresize.presentation.BytesResizeScreen
 import ru.tech.imageresizershrinker.presentation.compare_screen.CompareScreen
-import ru.tech.imageresizershrinker.presentation.crop_screen.CropScreen
 import ru.tech.imageresizershrinker.presentation.delete_exif_screen.DeleteExifScreen
 import ru.tech.imageresizershrinker.presentation.draw_screen.DrawScreen
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.EraseBackgroundScreen
-import ru.tech.imageresizershrinker.presentation.file_cipher_screen.FileCipherScreen
+import ru.tech.imageresizershrinker.feature.cipher.presentation.FileCipherScreen
+import ru.tech.imageresizershrinker.feature.limitsresize.presentation.LimitsResizeScreen
 import ru.tech.imageresizershrinker.presentation.filters_screen.FiltersScreen
 import ru.tech.imageresizershrinker.presentation.generate_palette_screen.GeneratePaletteScreen
-import ru.tech.imageresizershrinker.presentation.image_preview_screen.ImagePreviewScreen
+import ru.tech.imageresizershrinker.feature.imagepreview.presentation.ImagePreviewScreen
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.ImageStitchingScreen
-import ru.tech.imageresizershrinker.presentation.limits_resize_screen.LimitsResizeScreen
-import ru.tech.imageresizershrinker.presentation.load_net_image_screen.LoadNetImageScreen
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.pdf_tools_screen.PdfToolsScreen
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.PickColorFromImageScreen
 import ru.tech.imageresizershrinker.presentation.resize_and_convert_screen.ResizeAndConvertScreen
-import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.findActivity
-import ru.tech.imageresizershrinker.coreui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.SingleEditScreen
 
 @Composable
@@ -126,7 +125,7 @@ fun ScreenSelector(
             }
 
             is Screen.Crop -> {
-                CropScreen(
+                ru.tech.imageresizershrinker.feature.crop.presentation.CropScreen(
                     uriState = screen.uri,
                     onGoBack = onGoBack
                 )

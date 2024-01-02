@@ -162,23 +162,22 @@ dependencies {
     implementation(project(":core-data"))
     implementation(project(":core-resources"))
 
-    "marketImplementation"(libs.mlkit.segmentation.selfie)
+    implementation(project(":feature:load-net-image"))
+    implementation(project(":feature:crop"))
+    implementation(project(":feature:limits-resize"))
+    implementation(project(":feature:cipher"))
+    implementation(project(":feature:image-preview"))
+    implementation(project(":feature:bytes-resize"))
+
     "marketImplementation"(libs.firebase.crashlytics.ktx) {
         exclude("androidx.datastore", "datastore-preferences")
     }
     "marketImplementation"(libs.firebase.analytics.ktx)
-    "marketImplementation"(libs.review.ktx)
 
-    "jxlImplementation"(libs.mlkit.segmentation.selfie)
     "jxlImplementation"(libs.firebase.crashlytics.ktx) {
         exclude("androidx.datastore", "datastore-preferences")
     }
     "jxlImplementation"(libs.firebase.analytics.ktx)
-    "jxlImplementation"(libs.review.ktx)
-    "jxlImplementation"(libs.jxl.coder.coil)
-
-    "marketImplementation"(libs.app.update)
-    "marketImplementation"(libs.app.update.ktx)
 
 }
 

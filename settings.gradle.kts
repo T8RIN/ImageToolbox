@@ -1,5 +1,23 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":feature:bytes-resize")
+
+
+include(":feature:image-preview")
+
+
+include(":feature:cipher")
+
+
+include(":feature:limits-resize")
+
+
+include(":feature:crop")
+
+
+include(":feature:load-net-image")
+
+
 include(":core-resources")
 
 
