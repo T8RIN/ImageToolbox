@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.root.utils.helper
+package ru.tech.imageresizershrinker.coreui.utils.helper
 
 import android.content.Context
 

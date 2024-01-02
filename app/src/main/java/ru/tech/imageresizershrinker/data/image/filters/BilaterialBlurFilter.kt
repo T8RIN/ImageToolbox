@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageBilateralBlurFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import ru.tech.imageresizershrinker.domain.image.filters.Filter
+import ru.tech.imageresizershrinker.coredomain.image.filters.Filter
 
 class BilaterialBlurFilter(
     private val context: Context,

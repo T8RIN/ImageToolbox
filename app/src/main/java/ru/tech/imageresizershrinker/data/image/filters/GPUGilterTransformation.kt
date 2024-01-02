@@ -11,7 +11,7 @@ import java.lang.Integer.max
 
 abstract class GPUFilterTransformation(
     private val context: Context
-) : Transformation, ru.tech.imageresizershrinker.domain.image.Transformation<Bitmap> {
+) : Transformation, ru.tech.imageresizershrinker.coredomain.image.Transformation<Bitmap> {
 
     /**
      * Create the [GPUImageFilter] to apply to this [Transformation]

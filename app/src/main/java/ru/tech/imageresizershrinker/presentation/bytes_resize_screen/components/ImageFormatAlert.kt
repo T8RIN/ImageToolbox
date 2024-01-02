@@ -21,8 +21,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.model.ImageFormat
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.coredomain.model.ImageFormat
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 
 @Composable
 fun ImageFormatAlert(format: ImageFormat) {

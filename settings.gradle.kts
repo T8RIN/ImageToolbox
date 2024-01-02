@@ -1,5 +1,10 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":core-domain")
+
+
+include(":core-ui")
+
 pluginManagement {
     repositories {
         gradlePluginPortal()

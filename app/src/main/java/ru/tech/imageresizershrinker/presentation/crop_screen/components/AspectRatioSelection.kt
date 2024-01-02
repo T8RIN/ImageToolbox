@@ -36,11 +36,11 @@ import com.smarttoolfactory.cropper.model.CropAspectRatio
 import com.smarttoolfactory.cropper.util.createRectShape
 import com.smarttoolfactory.cropper.widget.AspectRatioSelectionCard
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.utils.trimTrailingZero
-import ru.tech.imageresizershrinker.domain.model.DomainAspectRatio
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.fadingEdges
+import ru.tech.imageresizershrinker.coredomain.utils.trimTrailingZero
+import ru.tech.imageresizershrinker.coredomain.model.DomainAspectRatio
+import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
+import ru.tech.imageresizershrinker.coreui.widget.modifier.container
+import ru.tech.imageresizershrinker.coreui.widget.modifier.fadingEdges
 
 @Composable
 fun AspectRatioSelection(

@@ -41,18 +41,18 @@ import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.icons.emoji.EmojiData
-import ru.tech.imageresizershrinker.presentation.root.icons.emoji.EmojiItem
-import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
-import ru.tech.imageresizershrinker.presentation.root.theme.blend
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitch
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleDragHandle
-import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
+import ru.tech.imageresizershrinker.coreui.icons.emoji.EmojiData
+import ru.tech.imageresizershrinker.coreui.icons.emoji.EmojiItem
+import ru.tech.imageresizershrinker.coreui.shapes.CloverShape
+import ru.tech.imageresizershrinker.coreui.theme.blend
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedSwitch
+import ru.tech.imageresizershrinker.coreui.widget.modifier.container
+import ru.tech.imageresizershrinker.coreui.widget.sheets.SimpleDragHandle
+import ru.tech.imageresizershrinker.coreui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.coreui.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.coreui.widget.text.TitleItem
 import kotlin.random.Random
 
 @Composable

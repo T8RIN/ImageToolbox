@@ -10,8 +10,9 @@ import android.graphics.Shader
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import coil.size.Size
-import ru.tech.imageresizershrinker.domain.image.Transformation
-import ru.tech.imageresizershrinker.domain.image.filters.Filter
+import ru.tech.imageresizershrinker.coredomain.image.Transformation
+import ru.tech.imageresizershrinker.coredomain.image.filters.FadeSide
+import ru.tech.imageresizershrinker.coredomain.image.filters.Filter
 
 
 class SideFadeFilter(
@@ -97,11 +98,4 @@ class SideFadeFilter(
         return paint
     }
 
-}
-
-enum class FadeSide {
-    Start,
-    End,
-    Top,
-    Bottom
 }

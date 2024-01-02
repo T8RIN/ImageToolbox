@@ -13,9 +13,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.core.ISSUE_TRACKER
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.coredomain.ISSUE_TRACKER
+import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceItem
 
 @Composable
 fun IssueTrackerSettingItem(

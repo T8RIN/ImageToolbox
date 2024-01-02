@@ -26,14 +26,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Suffix
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.coreui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.coreui.icons.material.Suffix
+import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.coreui.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 
 @Composable
 fun FilenameSuffixSettingItem(

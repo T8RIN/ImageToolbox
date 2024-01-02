@@ -32,18 +32,18 @@ import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Theme
-import ru.tech.imageresizershrinker.presentation.root.shapes.MaterialStarShape
-import ru.tech.imageresizershrinker.presentation.root.theme.inverse
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.AvailableColorTuplesSheet
-import ru.tech.imageresizershrinker.presentation.root.widget.color_picker.ColorTuplePicker
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRow
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.coreui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.coreui.icons.material.Theme
+import ru.tech.imageresizershrinker.coreui.shapes.MaterialStarShape
+import ru.tech.imageresizershrinker.coreui.theme.inverse
+import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
+import ru.tech.imageresizershrinker.coreui.widget.color_picker.AvailableColorTuplesSheet
+import ru.tech.imageresizershrinker.coreui.widget.color_picker.ColorTuplePicker
+import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.coreui.widget.modifier.container
+import ru.tech.imageresizershrinker.coreui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceRow
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

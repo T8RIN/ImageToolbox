@@ -1,0 +1,13 @@
+package ru.tech.imageresizershrinker.coredomain.saving
+
+sealed interface SaveResult {
+    class Success(
+        val filename: String,
+        val savingPath: String
+    ) : SaveResult
+
+    sealed interface Error : SaveResult {
+        data object MissingPermissions : Error
+        class Exception(val throwable: Throwable) : Error
+    }
+}

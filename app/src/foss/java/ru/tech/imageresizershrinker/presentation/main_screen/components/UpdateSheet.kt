@@ -26,12 +26,12 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.core.APP_RELEASES
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleDragHandle
-import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.presentation.root.widget.text.HtmlText
-import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.coreui.widget.sheets.SimpleDragHandle
+import ru.tech.imageresizershrinker.coreui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.coreui.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.coreui.widget.text.HtmlText
+import ru.tech.imageresizershrinker.coreui.widget.text.TitleItem
 
 @Composable
 fun UpdateSheet(changelog: String, tag: String, visible: MutableState<Boolean>) {

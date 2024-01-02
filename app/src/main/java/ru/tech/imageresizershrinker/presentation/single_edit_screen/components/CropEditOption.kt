@@ -41,15 +41,15 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.model.DomainAspectRatio
+import ru.tech.imageresizershrinker.coredomain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.AspectRatioSelection
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.CropMaskSelection
 import ru.tech.imageresizershrinker.presentation.crop_screen.components.Cropper
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.widget.other.Loading
-import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.coreui.widget.modifier.autoElevatedBorder
+import ru.tech.imageresizershrinker.coreui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.coreui.widget.other.Loading
+import ru.tech.imageresizershrinker.coreui.widget.text.Marquee
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -13,10 +13,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.domain.image.ImageManager
-import ru.tech.imageresizershrinker.domain.use_case.decrypt_file.DecryptFileUseCase
-import ru.tech.imageresizershrinker.domain.use_case.encrypt_file.EncryptFileUseCase
-import ru.tech.imageresizershrinker.domain.use_case.generate_random_password.GenerateRandomPasswordUseCase
+import ru.tech.imageresizershrinker.coredomain.image.ImageManager
+import ru.tech.imageresizershrinker.coredomain.use_case.decrypt_file.DecryptFileUseCase
+import ru.tech.imageresizershrinker.coredomain.use_case.encrypt_file.EncryptFileUseCase
+import ru.tech.imageresizershrinker.coredomain.use_case.generate_random_password.GenerateRandomPasswordUseCase
 import java.io.OutputStream
 import java.security.InvalidKeyException
 import javax.inject.Inject

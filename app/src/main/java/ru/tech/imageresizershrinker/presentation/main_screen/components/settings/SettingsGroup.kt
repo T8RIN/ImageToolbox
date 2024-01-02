@@ -18,10 +18,10 @@ import androidx.compose.material.icons.rounded.Vibration
 import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.ui.graphics.vector.ImageVector
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Firebase
-import ru.tech.imageresizershrinker.presentation.root.icons.material.FolderOpen
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Shadow
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Stacks
+import ru.tech.imageresizershrinker.coreui.icons.material.Firebase
+import ru.tech.imageresizershrinker.coreui.icons.material.FolderOpen
+import ru.tech.imageresizershrinker.coreui.icons.material.Shadow
+import ru.tech.imageresizershrinker.coreui.icons.material.Stacks
 
 sealed class SettingsGroup(
     val titleId: Int,

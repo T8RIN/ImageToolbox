@@ -35,17 +35,17 @@ import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Stacks
-import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.coreui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.coreui.icons.material.Stacks
+import ru.tech.imageresizershrinker.coreui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.coreui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.coreui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.coreui.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.coreui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 
 @Composable
 fun ScreenOrderSettingItem(

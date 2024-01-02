@@ -46,9 +46,9 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.map
-import ru.tech.imageresizershrinker.presentation.root.theme.inverse
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.coreui.theme.inverse
+import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
 @Composable

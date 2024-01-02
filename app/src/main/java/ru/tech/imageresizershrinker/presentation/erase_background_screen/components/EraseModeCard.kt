@@ -15,10 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Eraser
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRow
+import ru.tech.imageresizershrinker.coreui.icons.material.Eraser
+import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceRow
 
 @Composable
 fun EraseModeCard(

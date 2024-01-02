@@ -13,8 +13,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.coreui.theme.mixedContainer
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
 
 @Composable
 fun AddFilterButton(

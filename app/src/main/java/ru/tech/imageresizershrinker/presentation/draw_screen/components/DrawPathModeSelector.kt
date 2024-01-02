@@ -55,23 +55,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.image.draw.DrawPathMode
-import ru.tech.imageresizershrinker.presentation.root.icons.material.FreeArrow
-import ru.tech.imageresizershrinker.presentation.root.icons.material.FreeDoubleArrow
-import ru.tech.imageresizershrinker.presentation.root.icons.material.FreeDraw
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Lasso
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Line
-import ru.tech.imageresizershrinker.presentation.root.icons.material.LineArrow
-import ru.tech.imageresizershrinker.presentation.root.icons.material.LineDoubleArrow
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Square
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.coredomain.image.draw.DrawPathMode
+import ru.tech.imageresizershrinker.coreui.icons.material.FreeArrow
+import ru.tech.imageresizershrinker.coreui.icons.material.FreeDoubleArrow
+import ru.tech.imageresizershrinker.coreui.icons.material.FreeDraw
+import ru.tech.imageresizershrinker.coreui.icons.material.Lasso
+import ru.tech.imageresizershrinker.coreui.icons.material.Line
+import ru.tech.imageresizershrinker.coreui.icons.material.LineArrow
+import ru.tech.imageresizershrinker.coreui.icons.material.LineDoubleArrow
+import ru.tech.imageresizershrinker.coreui.icons.material.Square
+import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.coreui.widget.modifier.container
+import ru.tech.imageresizershrinker.coreui.widget.modifier.materialShadow
+import ru.tech.imageresizershrinker.coreui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.coreui.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.coreui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -14,13 +14,13 @@ import com.smarttoolfactory.cropper.model.RectCropShape
 import com.smarttoolfactory.cropper.model.RoundedCornerCropShape
 import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import com.smarttoolfactory.cropper.settings.Paths
-import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
-import ru.tech.imageresizershrinker.presentation.root.shapes.KotlinShape
-import ru.tech.imageresizershrinker.presentation.root.shapes.MaterialStarShape
-import ru.tech.imageresizershrinker.presentation.root.shapes.OctagonShape
-import ru.tech.imageresizershrinker.presentation.root.shapes.OvalShape
-import ru.tech.imageresizershrinker.presentation.root.shapes.PentagonShape
-import ru.tech.imageresizershrinker.presentation.root.shapes.SquircleShape
+import ru.tech.imageresizershrinker.coreui.shapes.CloverShape
+import ru.tech.imageresizershrinker.coreui.shapes.KotlinShape
+import ru.tech.imageresizershrinker.coreui.shapes.MaterialStarShape
+import ru.tech.imageresizershrinker.coreui.shapes.OctagonShape
+import ru.tech.imageresizershrinker.coreui.shapes.OvalShape
+import ru.tech.imageresizershrinker.coreui.shapes.PentagonShape
+import ru.tech.imageresizershrinker.coreui.shapes.SquircleShape
 
 @Composable
 fun outlineProperties(): List<CropOutlineProperty> = remember {

@@ -30,14 +30,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Beta
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.fadingEdges
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.coreui.icons.material.Beta
+import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.isInstalledFromPlayStore
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.coreui.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.coreui.widget.modifier.fadingEdges
+import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceRowSwitch
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 
 @Suppress("KotlinConstantConditions")
 @Composable

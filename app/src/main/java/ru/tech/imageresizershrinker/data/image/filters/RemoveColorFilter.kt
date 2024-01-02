@@ -3,8 +3,8 @@ package ru.tech.imageresizershrinker.data.image.filters
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import coil.size.Size
-import ru.tech.imageresizershrinker.domain.image.Transformation
-import ru.tech.imageresizershrinker.domain.image.filters.Filter
+import ru.tech.imageresizershrinker.coredomain.image.Transformation
+import ru.tech.imageresizershrinker.coredomain.image.filters.Filter
 
 class RemoveColorFilter(
     override val value: Pair<Float, Color> = 0f to Color(0xFF000000),

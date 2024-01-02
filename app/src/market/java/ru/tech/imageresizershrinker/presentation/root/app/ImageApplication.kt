@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.root.app
+package ru.tech.imageresizershrinker.coreui.app
 
 import android.app.Application
 import com.google.mlkit.common.sdkinternal.MlKitContext

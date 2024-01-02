@@ -57,11 +57,11 @@ import ru.tech.imageresizershrinker.data.keys.Keys.SHOW_UPDATE_DIALOG
 import ru.tech.imageresizershrinker.data.keys.Keys.THEME_CONTRAST_LEVEL
 import ru.tech.imageresizershrinker.data.keys.Keys.THEME_STYLE
 import ru.tech.imageresizershrinker.data.keys.Keys.VIBRATION_STRENGTH
-import ru.tech.imageresizershrinker.domain.model.FontFam
-import ru.tech.imageresizershrinker.domain.model.NightMode
-import ru.tech.imageresizershrinker.domain.model.Preset
-import ru.tech.imageresizershrinker.domain.model.SettingsState
-import ru.tech.imageresizershrinker.domain.repository.SettingsRepository
+import ru.tech.imageresizershrinker.coredomain.model.FontFam
+import ru.tech.imageresizershrinker.coredomain.model.NightMode
+import ru.tech.imageresizershrinker.coredomain.model.Preset
+import ru.tech.imageresizershrinker.coredomain.model.SettingsState
+import ru.tech.imageresizershrinker.coredomain.repository.SettingsRepository
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.DataInputStream

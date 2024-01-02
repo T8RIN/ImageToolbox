@@ -53,26 +53,26 @@ import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.image.ImageManager
-import ru.tech.imageresizershrinker.domain.image.Transformation
+import ru.tech.imageresizershrinker.coredomain.image.ImageManager
+import ru.tech.imageresizershrinker.coredomain.image.Transformation
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddFiltersSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterItem
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterReorderSheet
-import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFilter
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.toBitmap
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
-import ru.tech.imageresizershrinker.presentation.root.widget.image.Picture
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
-import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
-import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
-import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
+import ru.tech.imageresizershrinker.coreui.theme.mixedContainer
+import ru.tech.imageresizershrinker.coreui.transformation.filter.UiFilter
+import ru.tech.imageresizershrinker.coreui.utils.helper.ImageUtils.toBitmap
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.coreui.widget.image.Picture
+import ru.tech.imageresizershrinker.coreui.widget.modifier.autoElevatedBorder
+import ru.tech.imageresizershrinker.coreui.widget.modifier.container
+import ru.tech.imageresizershrinker.coreui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.coreui.widget.modifier.transparencyChecker
+import ru.tech.imageresizershrinker.coreui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.coreui.widget.other.showError
+import ru.tech.imageresizershrinker.coreui.widget.text.Marquee
+import ru.tech.imageresizershrinker.coreui.widget.text.TitleItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

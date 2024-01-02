@@ -10,8 +10,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.data.repository.CipherRepositoryImpl
 import ru.tech.imageresizershrinker.data.repository.SettingsRepositoryImpl
-import ru.tech.imageresizershrinker.domain.repository.CipherRepository
-import ru.tech.imageresizershrinker.domain.repository.SettingsRepository
+import ru.tech.imageresizershrinker.coredomain.repository.CipherRepository
+import ru.tech.imageresizershrinker.coredomain.repository.SettingsRepository
 import javax.inject.Singleton
 
 @Module

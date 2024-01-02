@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRowSwitch
+import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceRowSwitch
 
 @Composable
 fun TrimImageToggle(

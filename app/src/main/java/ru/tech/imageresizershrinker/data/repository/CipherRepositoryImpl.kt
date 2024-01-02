@@ -4,7 +4,7 @@ package ru.tech.imageresizershrinker.data.repository
 
 import android.content.Context
 import android.net.Uri
-import ru.tech.imageresizershrinker.domain.repository.CipherRepository
+import ru.tech.imageresizershrinker.coredomain.repository.CipherRepository
 import java.io.DataInputStream
 import java.io.InputStream
 import java.security.MessageDigest

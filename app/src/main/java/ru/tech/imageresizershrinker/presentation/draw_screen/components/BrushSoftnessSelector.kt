@@ -11,8 +11,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Dots
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSliderItem
+import ru.tech.imageresizershrinker.coreui.icons.material.Dots
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedSliderItem
 
 @Composable
 fun BrushSoftnessSelector(

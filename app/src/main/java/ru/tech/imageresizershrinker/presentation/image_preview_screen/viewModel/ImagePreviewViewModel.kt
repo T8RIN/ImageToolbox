@@ -7,8 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ru.tech.imageresizershrinker.domain.image.ImageManager
-import ru.tech.imageresizershrinker.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.coredomain.image.ImageManager
+import ru.tech.imageresizershrinker.coredomain.model.ImageFormat
 import javax.inject.Inject
 
 @HiltViewModel

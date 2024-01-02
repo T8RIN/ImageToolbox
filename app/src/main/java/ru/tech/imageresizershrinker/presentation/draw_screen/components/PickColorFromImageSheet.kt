@@ -39,17 +39,17 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.ImageColorDetector
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.copyToClipboard
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.toHex
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitch
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitchDefaults
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.shimmer
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.transparencyChecker
-import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
+import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.copyToClipboard
+import ru.tech.imageresizershrinker.coreui.utils.helper.toHex
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedSwitch
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedSwitchDefaults
+import ru.tech.imageresizershrinker.coreui.widget.modifier.container
+import ru.tech.imageresizershrinker.coreui.widget.modifier.shimmer
+import ru.tech.imageresizershrinker.coreui.widget.modifier.transparencyChecker
+import ru.tech.imageresizershrinker.coreui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.coreui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 
 @Composable
 fun PickColorFromImageSheet(

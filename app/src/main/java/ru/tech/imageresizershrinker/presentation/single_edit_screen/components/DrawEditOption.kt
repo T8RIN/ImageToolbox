@@ -48,10 +48,10 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.image.ImageManager
-import ru.tech.imageresizershrinker.domain.image.draw.DrawMode
-import ru.tech.imageresizershrinker.domain.image.draw.DrawPathMode
-import ru.tech.imageresizershrinker.domain.image.draw.pt
+import ru.tech.imageresizershrinker.coredomain.image.ImageManager
+import ru.tech.imageresizershrinker.coredomain.image.draw.DrawMode
+import ru.tech.imageresizershrinker.coredomain.image.draw.DrawPathMode
+import ru.tech.imageresizershrinker.coredomain.image.draw.pt
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BitmapDrawer
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawAlphaSelector
@@ -61,23 +61,23 @@ import ru.tech.imageresizershrinker.presentation.draw_screen.components.DrawPath
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidthSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.OpenColorPickerCard
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Eraser
-import ru.tech.imageresizershrinker.presentation.root.model.PtSaver
-import ru.tech.imageresizershrinker.presentation.root.model.UiPathPaint
-import ru.tech.imageresizershrinker.presentation.root.theme.mixedContainer
-import ru.tech.imageresizershrinker.presentation.root.theme.onMixedContainer
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitch
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitchDefaults
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.widget.other.DrawLockScreenOrientation
-import ru.tech.imageresizershrinker.presentation.root.widget.saver.ColorSaver
-import ru.tech.imageresizershrinker.presentation.root.widget.saver.DrawModeSaver
-import ru.tech.imageresizershrinker.presentation.root.widget.saver.DrawPathModeSaver
-import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.coreui.icons.material.Eraser
+import ru.tech.imageresizershrinker.coreui.model.PtSaver
+import ru.tech.imageresizershrinker.coreui.model.UiPathPaint
+import ru.tech.imageresizershrinker.coreui.theme.mixedContainer
+import ru.tech.imageresizershrinker.coreui.theme.onMixedContainer
+import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedSwitch
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedSwitchDefaults
+import ru.tech.imageresizershrinker.coreui.widget.modifier.container
+import ru.tech.imageresizershrinker.coreui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.coreui.widget.other.DrawLockScreenOrientation
+import ru.tech.imageresizershrinker.coreui.widget.saver.ColorSaver
+import ru.tech.imageresizershrinker.coreui.widget.saver.DrawModeSaver
+import ru.tech.imageresizershrinker.coreui.widget.saver.DrawPathModeSaver
+import ru.tech.imageresizershrinker.coreui.widget.text.Marquee
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

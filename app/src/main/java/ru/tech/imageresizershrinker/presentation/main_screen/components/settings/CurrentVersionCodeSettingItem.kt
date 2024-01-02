@@ -20,14 +20,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.shapes.MaterialStarShape
-import ru.tech.imageresizershrinker.presentation.root.theme.blend
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.pulsate
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRow
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.coreui.shapes.MaterialStarShape
+import ru.tech.imageresizershrinker.coreui.theme.blend
+import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
+import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.coreui.widget.modifier.container
+import ru.tech.imageresizershrinker.coreui.widget.modifier.pulsate
+import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceRow
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 
 @Composable
 fun CurrentVersionCodeSettingItem(

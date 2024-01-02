@@ -18,13 +18,13 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.isInstalledFromPlayStore
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
-import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.coreui.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.isInstalledFromPlayStore
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.coreui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.coreui.widget.other.showError
+import ru.tech.imageresizershrinker.coreui.widget.text.AutoSizeText
 
 @Composable
 fun SettingItem(

@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.widget.buttons.ToggleGroupButton
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
+import ru.tech.imageresizershrinker.coreui.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.coreui.widget.modifier.container
 
 @Composable
 fun ImageFadingEdgesSelector(

@@ -34,9 +34,9 @@ import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewM
 import ru.tech.imageresizershrinker.presentation.pdf_tools_screen.PdfToolsScreen
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.PickColorFromImageScreen
 import ru.tech.imageresizershrinker.presentation.resize_and_convert_screen.ResizeAndConvertScreen
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.ContextUtils.findActivity
-import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.findActivity
+import ru.tech.imageresizershrinker.coreui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.single_edit_screen.SingleEditScreen
 
 @Composable

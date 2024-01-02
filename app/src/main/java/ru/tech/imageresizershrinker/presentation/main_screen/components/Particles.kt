@@ -6,7 +6,7 @@ import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.Spread
 import nl.dionsegijn.konfetti.core.emitter.Emitter
-import ru.tech.imageresizershrinker.presentation.root.theme.blend
+import ru.tech.imageresizershrinker.coreui.theme.blend
 import java.util.concurrent.TimeUnit
 
 fun particles(primary: Color) = listOf(

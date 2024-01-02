@@ -40,17 +40,17 @@ import androidx.compose.ui.unit.dp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.image_preview_screen.viewModel.ImagePreviewViewModel
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedFloatingActionButton
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
-import ru.tech.imageresizershrinker.presentation.root.widget.image.ImageNotPickedWidget
-import ru.tech.imageresizershrinker.presentation.root.widget.image.LazyImagesGrid
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.coreui.utils.helper.Picker
+import ru.tech.imageresizershrinker.coreui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.coreui.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.coreui.widget.image.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.coreui.widget.image.LazyImagesGrid
+import ru.tech.imageresizershrinker.coreui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.coreui.widget.other.TopAppBarEmoji
+import ru.tech.imageresizershrinker.coreui.widget.text.Marquee
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

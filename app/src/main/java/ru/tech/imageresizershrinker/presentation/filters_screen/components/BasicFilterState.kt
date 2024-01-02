@@ -1,7 +1,7 @@
 package ru.tech.imageresizershrinker.presentation.filters_screen.components
 
 import android.net.Uri
-import ru.tech.imageresizershrinker.presentation.root.transformation.filter.UiFilter
+import ru.tech.imageresizershrinker.coreui.transformation.filter.UiFilter
 
 data class BasicFilterState(
     val uris: List<Uri>? = null,

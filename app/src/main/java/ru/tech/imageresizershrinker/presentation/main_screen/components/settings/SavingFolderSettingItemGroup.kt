@@ -27,13 +27,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.icons.material.CreateAlt
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.toUiPath
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.presentation.root.widget.other.ToastDuration
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.coreui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.coreui.utils.helper.toUiPath
+import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.coreui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.coreui.widget.other.ToastDuration
+import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 
 @Composable
 fun SavingFolderSettingItemGroup(

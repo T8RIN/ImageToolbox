@@ -5,7 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.PointF
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageVignetteFilter
-import ru.tech.imageresizershrinker.domain.image.filters.Filter
+import ru.tech.imageresizershrinker.coredomain.image.filters.Filter
 
 
 class VignetteFilter(

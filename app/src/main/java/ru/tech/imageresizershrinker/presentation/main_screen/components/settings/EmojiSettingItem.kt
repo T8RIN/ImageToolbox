@@ -21,20 +21,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.main_screen.components.EmojiSheet
-import ru.tech.imageresizershrinker.presentation.root.icons.emoji.Emoji
-import ru.tech.imageresizershrinker.presentation.root.icons.emoji.EmojiItem
-import ru.tech.imageresizershrinker.presentation.root.icons.emoji.allIcons
-import ru.tech.imageresizershrinker.presentation.root.icons.emoji.allIconsCategorized
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Cool
-import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.scaleOnTap
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceRow
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.coreui.icons.emoji.Emoji
+import ru.tech.imageresizershrinker.coreui.icons.emoji.EmojiItem
+import ru.tech.imageresizershrinker.coreui.icons.emoji.allIcons
+import ru.tech.imageresizershrinker.coreui.icons.emoji.allIconsCategorized
+import ru.tech.imageresizershrinker.coreui.icons.material.Cool
+import ru.tech.imageresizershrinker.coreui.shapes.CloverShape
+import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.coreui.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.coreui.widget.modifier.container
+import ru.tech.imageresizershrinker.coreui.widget.modifier.scaleOnTap
+import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceRow
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 
 @Composable
 fun EmojiSettingItem(

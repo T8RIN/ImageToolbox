@@ -36,11 +36,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.shapes.CloverShape
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.autoElevatedBorder
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.containerFabBorder
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.coreui.shapes.CloverShape
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.coreui.widget.modifier.autoElevatedBorder
+import ru.tech.imageresizershrinker.coreui.widget.modifier.containerFabBorder
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 
 @Composable
 fun FabPreview(

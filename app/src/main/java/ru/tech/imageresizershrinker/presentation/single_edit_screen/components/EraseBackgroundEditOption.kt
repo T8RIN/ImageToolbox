@@ -48,8 +48,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.image.ImageManager
-import ru.tech.imageresizershrinker.domain.image.draw.pt
+import ru.tech.imageresizershrinker.coredomain.image.ImageManager
+import ru.tech.imageresizershrinker.coredomain.image.draw.pt
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.LineWidthSelector
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.AutoEraseBackgroundCard
@@ -57,22 +57,22 @@ import ru.tech.imageresizershrinker.presentation.erase_background_screen.compone
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.EraseModeButton
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.EraseModeCard
 import ru.tech.imageresizershrinker.presentation.erase_background_screen.components.TrimImageToggle
-import ru.tech.imageresizershrinker.presentation.root.icons.material.Transparency
-import ru.tech.imageresizershrinker.presentation.root.model.PtSaver
-import ru.tech.imageresizershrinker.presentation.root.model.UiPathPaint
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitch
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSwitchDefaults
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.presentation.root.widget.other.DrawLockScreenOrientation
-import ru.tech.imageresizershrinker.presentation.root.widget.other.Loading
-import ru.tech.imageresizershrinker.presentation.root.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.presentation.root.widget.other.showError
-import ru.tech.imageresizershrinker.presentation.root.widget.text.Marquee
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.coreui.icons.material.Transparency
+import ru.tech.imageresizershrinker.coreui.model.PtSaver
+import ru.tech.imageresizershrinker.coreui.model.UiPathPaint
+import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
+import ru.tech.imageresizershrinker.coreui.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedSwitch
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedSwitchDefaults
+import ru.tech.imageresizershrinker.coreui.widget.modifier.container
+import ru.tech.imageresizershrinker.coreui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.coreui.widget.other.DrawLockScreenOrientation
+import ru.tech.imageresizershrinker.coreui.widget.other.Loading
+import ru.tech.imageresizershrinker.coreui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.coreui.widget.other.showError
+import ru.tech.imageresizershrinker.coreui.widget.text.Marquee
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

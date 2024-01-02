@@ -21,14 +21,14 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.exifinterface.media.ExifInterface
 import ru.tech.imageresizershrinker.data.image.filters.PixelationFilter
 import ru.tech.imageresizershrinker.data.image.filters.StackBlurFilter
-import ru.tech.imageresizershrinker.domain.image.ImageManager
-import ru.tech.imageresizershrinker.domain.image.Transformation
-import ru.tech.imageresizershrinker.domain.image.draw.DrawBehavior
-import ru.tech.imageresizershrinker.domain.image.draw.DrawMode
-import ru.tech.imageresizershrinker.domain.image.draw.DrawPathMode
-import ru.tech.imageresizershrinker.domain.image.draw.ImageDrawApplier
-import ru.tech.imageresizershrinker.domain.image.draw.PathPaint
-import ru.tech.imageresizershrinker.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.coredomain.image.ImageManager
+import ru.tech.imageresizershrinker.coredomain.image.Transformation
+import ru.tech.imageresizershrinker.coredomain.image.draw.DrawBehavior
+import ru.tech.imageresizershrinker.coredomain.image.draw.DrawMode
+import ru.tech.imageresizershrinker.coredomain.image.draw.DrawPathMode
+import ru.tech.imageresizershrinker.coredomain.image.draw.ImageDrawApplier
+import ru.tech.imageresizershrinker.coredomain.image.draw.PathPaint
+import ru.tech.imageresizershrinker.coredomain.model.IntegerSize
 import javax.inject.Inject
 
 class AndroidImageDrawApplier @Inject constructor(

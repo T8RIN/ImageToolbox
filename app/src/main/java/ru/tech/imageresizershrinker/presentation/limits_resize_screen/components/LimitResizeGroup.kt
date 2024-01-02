@@ -16,9 +16,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.model.ResizeType
-import ru.tech.imageresizershrinker.presentation.root.widget.buttons.ToggleGroupButton
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
+import ru.tech.imageresizershrinker.coredomain.model.ResizeType
+import ru.tech.imageresizershrinker.coreui.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.coreui.widget.modifier.container
 
 @Composable
 fun LimitsResizeSelector(

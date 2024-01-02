@@ -9,8 +9,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.createBitmap
 import coil.size.Size
-import ru.tech.imageresizershrinker.domain.image.Transformation
-import ru.tech.imageresizershrinker.domain.image.filters.Filter
+import ru.tech.imageresizershrinker.coredomain.image.Transformation
+import ru.tech.imageresizershrinker.coredomain.image.filters.Filter
 
 
 class ColorFilter(

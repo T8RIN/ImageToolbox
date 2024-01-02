@@ -33,10 +33,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.main_screen.components.FabPreview
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSlider
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedSlider
+import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.coreui.widget.modifier.container
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 import kotlin.math.roundToInt
 
 @Composable

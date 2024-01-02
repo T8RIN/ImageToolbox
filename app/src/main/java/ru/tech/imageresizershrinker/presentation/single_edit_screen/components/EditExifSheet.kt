@@ -46,18 +46,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.exifinterface.media.ExifInterface
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.image.Metadata
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.ImageUtils.toMap
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedIconButton
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.alertDialogBorder
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
-import ru.tech.imageresizershrinker.presentation.root.widget.preferences.PreferenceItemOverload
-import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleDragHandle
-import ru.tech.imageresizershrinker.presentation.root.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.presentation.root.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.presentation.root.widget.text.RoundedTextField
-import ru.tech.imageresizershrinker.presentation.root.widget.text.TitleItem
+import ru.tech.imageresizershrinker.coredomain.image.Metadata
+import ru.tech.imageresizershrinker.coreui.utils.helper.ImageUtils.toMap
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.coreui.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.coreui.widget.modifier.container
+import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceItemOverload
+import ru.tech.imageresizershrinker.coreui.widget.sheets.SimpleDragHandle
+import ru.tech.imageresizershrinker.coreui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.coreui.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.coreui.widget.text.RoundedTextField
+import ru.tech.imageresizershrinker.coreui.widget.text.TitleItem
 
 @Composable
 fun EditExifSheet(

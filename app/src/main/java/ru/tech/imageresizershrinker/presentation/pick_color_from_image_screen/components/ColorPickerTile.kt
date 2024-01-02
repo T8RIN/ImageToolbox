@@ -8,7 +8,7 @@ import android.os.Build
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.utils.navigation.Screen
+import ru.tech.imageresizershrinker.coreui.utils.navigation.Screen
 
 @RequiresApi(Build.VERSION_CODES.N)
 class ColorPickerTile : TileService() {

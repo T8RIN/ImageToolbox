@@ -26,7 +26,7 @@
     <uses-permission android:name="android.permission.PROJECT_MEDIA" />
 
     <application
-        android:name=".presentation.root.app.ImageApplication"
+        android:name=".coreui.app.ImageApplication"
         android:allowBackup="true"
         android:colorMode="wideColorGamut"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -100,7 +100,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".presentation.crash_screen.CrashActivity" />
+        <activity android:name=".featurecrash.CrashActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

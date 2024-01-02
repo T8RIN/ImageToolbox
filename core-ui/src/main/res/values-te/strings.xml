@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="size">పరిమాణం %1$s</string>
+    <string name="app_closing">యాప్‌ను మూసివేస్తోంది</string>
+    <string name="pick_image_alt">చిత్రాన్ని ఎంచుకోండి</string>
+    <string name="reset_image">చిత్రాన్ని రీసెట్ చేయండి</string>
+    <string name="height">ఎత్తు %1$s</string>
+    <string name="app_closing_sub">మీరు నిజంగా యాప్‌ను మూసివేయాలనుకుంటున్నారా\?</string>
+    <string name="pick_image">ప్రారంభించడానికి చిత్రాన్ని ఎంచుకోండి</string>
+    <string name="flexible">అనువైన</string>
+    <string name="width">వెడల్పు %1$s</string>
+    <string name="extension">పొడిగింపు</string>
+    <string name="stay">ఉండు</string>
+    <string name="smth_went_wrong">ఏదో తప్పు జరిగింది: %1$s</string>
+    <string name="quality">నాణ్యత</string>
+    <string name="image_too_large_preview">ప్రివ్యూ చేయడానికి చిత్రం చాలా పెద్దదిగా ఉంది, అయితే దీన్ని ఎలాగైనా సేవ్ చేయడానికి ప్రయత్నించబడుతుంది</string>
+    <string name="resize_type">రీసైజ్ రకం</string>
+</resources>

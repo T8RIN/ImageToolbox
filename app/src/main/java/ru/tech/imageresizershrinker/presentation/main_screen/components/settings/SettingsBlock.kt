@@ -51,10 +51,10 @@ import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.R
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.plus
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.presentation.root.widget.other.Loading
-import ru.tech.imageresizershrinker.presentation.root.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.coreui.utils.helper.plus
+import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.coreui.widget.other.Loading
+import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 
 
 @Composable

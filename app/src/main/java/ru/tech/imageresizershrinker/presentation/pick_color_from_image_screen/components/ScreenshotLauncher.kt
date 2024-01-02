@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.image.ImageManager
+import ru.tech.imageresizershrinker.coredomain.image.ImageManager
 import javax.inject.Inject
 
 @AndroidEntryPoint

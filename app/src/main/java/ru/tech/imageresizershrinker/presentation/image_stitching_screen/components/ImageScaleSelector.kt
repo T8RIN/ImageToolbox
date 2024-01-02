@@ -30,10 +30,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSliderItem
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.OOMWarning
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
+import ru.tech.imageresizershrinker.coredomain.model.IntegerSize
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedSliderItem
+import ru.tech.imageresizershrinker.coreui.widget.controls.OOMWarning
+import ru.tech.imageresizershrinker.coreui.widget.modifier.container
 
 @Composable
 fun ImageScaleSelector(

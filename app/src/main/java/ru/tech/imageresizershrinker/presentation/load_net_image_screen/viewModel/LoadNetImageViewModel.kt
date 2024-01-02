@@ -15,12 +15,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.domain.image.ImageManager
-import ru.tech.imageresizershrinker.domain.model.ImageData
-import ru.tech.imageresizershrinker.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.domain.saving.FileController
-import ru.tech.imageresizershrinker.domain.saving.SaveResult
-import ru.tech.imageresizershrinker.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.coredomain.image.ImageManager
+import ru.tech.imageresizershrinker.coredomain.model.ImageData
+import ru.tech.imageresizershrinker.coredomain.model.ImageInfo
+import ru.tech.imageresizershrinker.coredomain.saving.FileController
+import ru.tech.imageresizershrinker.coredomain.saving.SaveResult
+import ru.tech.imageresizershrinker.coredomain.saving.model.ImageSaveTarget
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 

@@ -43,12 +43,12 @@ import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import com.smarttoolfactory.cropper.widget.CropFrameDisplayCard
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.R
-import ru.tech.imageresizershrinker.presentation.root.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.Picker
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.presentation.root.utils.helper.rememberImagePicker
-import ru.tech.imageresizershrinker.presentation.root.widget.controls.EnhancedSliderItem
-import ru.tech.imageresizershrinker.presentation.root.widget.modifier.container
+import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
+import ru.tech.imageresizershrinker.coreui.utils.helper.Picker
+import ru.tech.imageresizershrinker.coreui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.coreui.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedSliderItem
+import ru.tech.imageresizershrinker.coreui.widget.modifier.container
 import kotlin.math.roundToInt
 
 @Composable
