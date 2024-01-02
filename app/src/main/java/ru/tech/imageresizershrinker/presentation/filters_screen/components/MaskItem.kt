@@ -49,7 +49,9 @@ import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.coreui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.coreui.widget.modifier.container
 import ru.tech.imageresizershrinker.coreui.widget.other.ExpandableItem
+import ru.tech.imageresizershrinker.coreui.widget.other.FilterItem
 import ru.tech.imageresizershrinker.coreui.widget.other.PathPaintPreview
+import ru.tech.imageresizershrinker.coreui.widget.sheets.AddFiltersSheet
 import ru.tech.imageresizershrinker.coreui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 

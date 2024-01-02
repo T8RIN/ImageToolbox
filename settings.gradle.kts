@@ -1,5 +1,17 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":feature:draw")
+
+
+include(":feature:erase-background")
+
+
+include(":feature:single-edit")
+
+
+include(":feature:pdf-tools")
+
+
 include(":feature:resize-convert")
 
 

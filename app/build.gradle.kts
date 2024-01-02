@@ -172,6 +172,10 @@ dependencies {
     implementation(project(":feature:delete-exif"))
     implementation(project(":feature:generate-palette"))
     implementation(project(":feature:resize-convert"))
+    implementation(project(":feature:pdf-tools"))
+    implementation(project(":feature:single-edit"))
+    implementation(project(":feature:erase-background"))
+    implementation(project(":feature:draw"))
 
     "marketImplementation"(libs.firebase.crashlytics.ktx) {
         exclude("androidx.datastore", "datastore-preferences")

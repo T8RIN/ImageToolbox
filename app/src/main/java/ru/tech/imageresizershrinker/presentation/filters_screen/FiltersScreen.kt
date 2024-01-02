@@ -101,12 +101,12 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.coreresources.R
-import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
+import ru.tech.imageresizershrinker.coreui.widget.sheets.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddEditMaskSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddFilterButton
-import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddFiltersSheet
-import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterItem
-import ru.tech.imageresizershrinker.presentation.filters_screen.components.FilterReorderSheet
+import ru.tech.imageresizershrinker.coreui.widget.sheets.AddFiltersSheet
+import ru.tech.imageresizershrinker.coreui.widget.other.FilterItem
+import ru.tech.imageresizershrinker.coreui.widget.sheets.FilterReorderSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.MaskItem
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.MaskReorderSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.viewModel.FilterViewModel

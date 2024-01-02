@@ -24,8 +24,8 @@ import ru.tech.imageresizershrinker.feature.load_net_image.presentation.LoadNetI
 import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.BytesResizeScreen
 import ru.tech.imageresizershrinker.feature.compare.presentation.CompareScreen
 import ru.tech.imageresizershrinker.feature.delete_exif.presentation.DeleteExifScreen
-import ru.tech.imageresizershrinker.presentation.draw_screen.DrawScreen
-import ru.tech.imageresizershrinker.presentation.erase_background_screen.EraseBackgroundScreen
+import ru.tech.imageresizershrinker.feature.draw.presentation.DrawScreen
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.EraseBackgroundScreen
 import ru.tech.imageresizershrinker.feature.cipher.presentation.FileCipherScreen
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.LimitsResizeScreen
 import ru.tech.imageresizershrinker.presentation.filters_screen.FiltersScreen
@@ -33,10 +33,10 @@ import ru.tech.imageresizershrinker.feature.generate_palette.presentation.Genera
 import ru.tech.imageresizershrinker.feature.image_preview.presentation.ImagePreviewScreen
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.ImageStitchingScreen
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.presentation.pdf_tools_screen.PdfToolsScreen
+import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.PdfToolsScreen
 import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.PickColorFromImageScreen
 import ru.tech.imageresizershrinker.feature.resize_convert.presentation.ResizeAndConvertScreen
-import ru.tech.imageresizershrinker.presentation.single_edit_screen.SingleEditScreen
+import ru.tech.imageresizershrinker.feature.single_edit.presentation.SingleEditScreen
 
 @Composable
 fun ScreenSelector(

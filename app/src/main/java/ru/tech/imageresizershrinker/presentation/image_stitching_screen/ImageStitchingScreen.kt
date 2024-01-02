@@ -71,9 +71,9 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.widget.controls.DrawBackgroundSelector
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageFadingEdgesSelector
-import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageReorderCarousel
+import ru.tech.imageresizershrinker.coreui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageScaleSelector
-import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ScaleSmallImagesToLargeToggle
+import ru.tech.imageresizershrinker.coreui.widget.controls.ScaleSmallImagesToLargeToggle
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.SpacingSelector
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.StitchModeSelector
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.viewModel.ImageStitchingViewModel
