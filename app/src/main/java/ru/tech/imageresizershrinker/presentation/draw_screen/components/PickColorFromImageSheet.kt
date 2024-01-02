@@ -38,7 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.ImageColorDetector
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
 import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.coreui.utils.helper.toHex

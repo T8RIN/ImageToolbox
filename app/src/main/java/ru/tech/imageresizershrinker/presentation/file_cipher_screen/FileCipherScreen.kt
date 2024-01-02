@@ -94,7 +94,7 @@ import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coredomain.utils.readableByteCount
 import ru.tech.imageresizershrinker.coreui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.presentation.file_cipher_screen.components.CipherTipSheet

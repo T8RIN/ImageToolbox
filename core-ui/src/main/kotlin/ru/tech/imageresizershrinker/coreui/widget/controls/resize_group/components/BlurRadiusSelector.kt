@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.coreui.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedSliderItem
 import kotlin.math.roundToInt
 

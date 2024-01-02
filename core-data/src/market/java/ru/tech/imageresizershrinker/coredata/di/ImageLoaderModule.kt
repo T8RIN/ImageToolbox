@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.coredata.data.di
+package ru.tech.imageresizershrinker.coredata.di
 
 import android.content.Context
 import android.os.Build

@@ -16,7 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import com.t8rin.dynamic.theme.observeAsState
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.findActivity
 import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.needToShowStoragePermissionRequest
 import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.requestStoragePermission

@@ -39,7 +39,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
 import ru.tech.imageresizershrinker.coreui.transformation.filter.UiColorFilter
 import ru.tech.imageresizershrinker.coreui.transformation.filter.UiFilter

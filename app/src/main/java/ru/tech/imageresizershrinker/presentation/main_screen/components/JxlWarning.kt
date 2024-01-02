@@ -12,7 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import ru.tech.imageresizershrinker.BuildConfig
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.icons.material.Jxl
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.coreui.widget.modifier.alertDialogBorder

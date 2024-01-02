@@ -13,15 +13,6 @@ android {
         minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
     compileOptions {
         sourceCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
         targetCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
@@ -55,12 +46,15 @@ dependencies {
     implementation(libs.coilSvg)
     implementation(libs.avif.coder)
     api(libs.datastore.preferences.android)
+    implementation(project(":gpuimage"))
 
     "marketImplementation"(libs.mlkit.segmentation.selfie)
     "jxlImplementation"(libs.mlkit.segmentation.selfie)
     "jxlImplementation"(libs.jxl.coder.coil)
 
-    //TODO REMOVE!!!!!!!!!
-    implementation(project(":core-ui"))
+    api(libs.androidx.exifinterface)
+    api(libs.androidx.documentfile)
+
     implementation(project(":core-domain"))
+    implementation(project(":core-resources"))
 }

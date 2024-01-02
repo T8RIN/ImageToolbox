@@ -52,7 +52,7 @@ import coil.size.Size
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coredomain.image.ImageManager
 import ru.tech.imageresizershrinker.coredomain.image.Transformation
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet

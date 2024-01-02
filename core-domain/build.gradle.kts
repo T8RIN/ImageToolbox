@@ -13,15 +13,6 @@ android {
         minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
     compileOptions {
         sourceCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
         targetCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
@@ -52,4 +43,5 @@ dependencies {
     implementation(libs.hilt)
     kapt(libs.dagger.hilt.compiler)
     implementation(libs.coil)
+    implementation(project(":core-resources"))
 }

@@ -62,7 +62,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coredomain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.delete_exif_screen.viewModel.DeleteExifViewModel
 import ru.tech.imageresizershrinker.coreui.transformation.ImageInfoTransformation

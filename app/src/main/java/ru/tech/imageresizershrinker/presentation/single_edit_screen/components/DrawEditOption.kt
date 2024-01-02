@@ -47,7 +47,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coredomain.image.ImageManager
 import ru.tech.imageresizershrinker.coredomain.image.draw.DrawMode
 import ru.tech.imageresizershrinker.coredomain.image.draw.DrawPathMode

@@ -29,8 +29,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.coredata.data.image.BackgroundRemover
-import ru.tech.imageresizershrinker.coredata.data.image.ImageCompressor
 import ru.tech.imageresizershrinker.coredata.image.filters.SideFadeFilter
 import ru.tech.imageresizershrinker.coredata.image.filters.StackBlurFilter
 import ru.tech.imageresizershrinker.coredomain.image.ImageManager
@@ -50,7 +48,7 @@ import ru.tech.imageresizershrinker.coredomain.model.StitchMode
 import ru.tech.imageresizershrinker.coredomain.model.withSize
 import ru.tech.imageresizershrinker.coredomain.saving.FileController
 import ru.tech.imageresizershrinker.coredomain.saving.model.ImageSaveTarget
-import ru.tech.imageresizershrinker.coreui.R
+import ru.tech.imageresizershrinker.coreresources.R
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File

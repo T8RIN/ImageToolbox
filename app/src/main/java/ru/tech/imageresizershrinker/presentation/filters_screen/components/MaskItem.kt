@@ -39,7 +39,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coredomain.image.ImageManager
 import ru.tech.imageresizershrinker.coreui.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.coreui.theme.outlineVariant

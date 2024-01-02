@@ -77,7 +77,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.presentation.resize_and_convert_screen.viewModel.ResizeAndConvertViewModel
 import ru.tech.imageresizershrinker.coreui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.coreui.utils.confetti.LocalConfettiController

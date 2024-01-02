@@ -100,7 +100,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".featurecrash.CrashActivity" />
+        <activity android:name=".presentation.crash_screen.CrashActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

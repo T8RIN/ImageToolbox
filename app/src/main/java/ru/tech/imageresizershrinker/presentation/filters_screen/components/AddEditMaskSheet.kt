@@ -67,7 +67,7 @@ import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coredomain.image.ImageManager
 import ru.tech.imageresizershrinker.coredomain.image.draw.DrawMode
 import ru.tech.imageresizershrinker.coredomain.image.draw.DrawPathMode

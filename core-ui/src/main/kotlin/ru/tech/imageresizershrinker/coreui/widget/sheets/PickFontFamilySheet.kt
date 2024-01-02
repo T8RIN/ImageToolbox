@@ -12,7 +12,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.coreui.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.model.UiFontFam
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.coreui.widget.other.FontSelectionItem

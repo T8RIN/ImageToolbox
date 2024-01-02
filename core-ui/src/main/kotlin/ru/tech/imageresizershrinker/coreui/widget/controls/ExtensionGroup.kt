@@ -39,7 +39,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.coreui.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coredomain.model.ImageFormat
 import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
 import ru.tech.imageresizershrinker.coreui.widget.modifier.container

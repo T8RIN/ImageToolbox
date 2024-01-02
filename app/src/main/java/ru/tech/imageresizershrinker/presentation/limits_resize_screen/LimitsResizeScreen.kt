@@ -64,7 +64,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coredomain.model.ImageInfo
 import ru.tech.imageresizershrinker.presentation.limits_resize_screen.components.AutoRotateLimitBoxToggle
 import ru.tech.imageresizershrinker.presentation.limits_resize_screen.components.LimitsResizeSelector

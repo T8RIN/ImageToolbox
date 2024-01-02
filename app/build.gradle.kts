@@ -160,6 +160,7 @@ dependencies {
     implementation(project(":core-domain"))
     implementation(project(":core-ui"))
     implementation(project(":core-data"))
+    implementation(project(":core-resources"))
 
     "marketImplementation"(libs.mlkit.segmentation.selfie)
     "marketImplementation"(libs.firebase.crashlytics.ktx) {

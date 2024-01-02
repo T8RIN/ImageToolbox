@@ -58,7 +58,6 @@ dependencies {
     api(libs.splashScreen)
     api(libs.androidx.exifinterface)
     api(libs.appCompat)
-    api(libs.androidx.documentfile)
     api(libs.androidx.lifecycle.viewmodel.compose)
 
     api(libs.decompose)
@@ -90,7 +89,6 @@ dependencies {
     api(project(":beforeafter"))
     api(project(":image"))
     api(project(":modalsheet"))
-    api(project(":gpuimage"))
     api(project(":gesture"))
     api(project(":screenshot"))
     api(project(":systemuicontroller"))
@@ -122,4 +120,6 @@ dependencies {
     "marketImplementation"(libs.review.ktx)
     "marketImplementation"(libs.app.update)
     "marketImplementation"(libs.app.update.ktx)
+
+    api(project(":core-resources"))
 }

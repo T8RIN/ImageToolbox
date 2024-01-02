@@ -68,7 +68,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.widget.controls.DrawBackgroundSelector
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageFadingEdgesSelector
 import ru.tech.imageresizershrinker.presentation.image_stitching_screen.components.ImageReorderCarousel

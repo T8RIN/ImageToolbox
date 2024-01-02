@@ -28,7 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.coreui.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.coreui.widget.modifier.container
 import ru.tech.imageresizershrinker.coreui.widget.modifier.drawHorizontalStroke

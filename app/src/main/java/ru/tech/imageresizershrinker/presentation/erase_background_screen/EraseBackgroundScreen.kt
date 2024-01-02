@@ -85,7 +85,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.observeAsState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coredomain.image.draw.pt
 import ru.tech.imageresizershrinker.coredomain.model.ImageFormat
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.BrushSoftnessSelector

@@ -27,7 +27,7 @@ import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coredomain.image.ImageManager
 import ru.tech.imageresizershrinker.coredomain.model.ImageData
 import ru.tech.imageresizershrinker.coredomain.model.ImageFormat

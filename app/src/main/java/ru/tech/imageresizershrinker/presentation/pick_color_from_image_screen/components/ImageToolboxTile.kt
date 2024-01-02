@@ -7,7 +7,7 @@ import android.graphics.drawable.Icon
 import android.os.Build
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.presentation.main_screen.MainActivity
 
 

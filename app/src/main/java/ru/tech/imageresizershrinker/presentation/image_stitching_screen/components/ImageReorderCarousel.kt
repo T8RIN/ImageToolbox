@@ -49,7 +49,7 @@ import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.coreui.widget.image.Picture

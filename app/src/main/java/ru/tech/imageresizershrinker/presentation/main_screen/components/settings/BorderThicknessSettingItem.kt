@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.round
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState

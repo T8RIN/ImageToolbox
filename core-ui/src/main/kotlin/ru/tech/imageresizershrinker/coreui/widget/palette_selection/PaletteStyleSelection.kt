@@ -21,7 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.PaletteStyle
-import ru.tech.imageresizershrinker.coreui.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.coreui.icons.material.Swatch
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton

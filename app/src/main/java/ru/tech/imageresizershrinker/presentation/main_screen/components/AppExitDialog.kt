@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.findActivity
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.coreui.widget.modifier.alertDialogBorder

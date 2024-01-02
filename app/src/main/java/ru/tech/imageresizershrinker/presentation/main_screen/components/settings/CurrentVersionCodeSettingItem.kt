@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.BuildConfig
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.coreui.theme.blend
 import ru.tech.imageresizershrinker.coreui.theme.outlineVariant

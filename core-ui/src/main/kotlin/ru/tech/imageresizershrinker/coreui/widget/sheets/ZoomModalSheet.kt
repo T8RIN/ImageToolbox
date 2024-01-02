@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.image.zoom.ZoomLevel
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
-import ru.tech.imageresizershrinker.coreui.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.coreui.widget.modifier.transparencyChecker

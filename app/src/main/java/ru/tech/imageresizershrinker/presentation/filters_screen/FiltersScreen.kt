@@ -100,7 +100,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.presentation.draw_screen.components.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddEditMaskSheet
 import ru.tech.imageresizershrinker.presentation.filters_screen.components.AddFilterButton

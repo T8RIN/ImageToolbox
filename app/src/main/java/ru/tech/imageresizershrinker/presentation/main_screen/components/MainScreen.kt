@@ -117,7 +117,7 @@ import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.BuildConfig
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coredomain.APP_LINK
 import ru.tech.imageresizershrinker.presentation.main_screen.components.settings.SettingsBlock
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel

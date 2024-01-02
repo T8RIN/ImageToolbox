@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.coredata.data.image
+package ru.tech.imageresizershrinker.coredata.image
 
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color

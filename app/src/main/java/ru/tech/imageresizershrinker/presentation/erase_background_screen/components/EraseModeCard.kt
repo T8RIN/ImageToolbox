@@ -14,7 +14,7 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.icons.material.Eraser
 import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton

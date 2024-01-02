@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.NavController
 import dev.olshevski.navigation.reimagined.navigate
-import ru.tech.imageresizershrinker.coreui.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.theme.White
 import ru.tech.imageresizershrinker.coreui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.coreui.utils.navigation.Screen

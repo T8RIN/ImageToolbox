@@ -75,7 +75,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.R
+import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.presentation.generate_palette_screen.components.PaletteColorsCountSelector
 import ru.tech.imageresizershrinker.presentation.generate_palette_screen.viewModel.GeneratePaletteViewModel
 import ru.tech.imageresizershrinker.coreui.icons.material.PaletteSwatch
