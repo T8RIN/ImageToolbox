@@ -33,7 +33,7 @@ import ru.tech.imageresizershrinker.coredomain.saving.FileController
 import ru.tech.imageresizershrinker.coredomain.saving.SaveResult
 import ru.tech.imageresizershrinker.coredomain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.coreui.model.UiPathPaint
-import ru.tech.imageresizershrinker.coreui.transformation.filter.UiFilter
+import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.coreui.utils.state.update
 import javax.inject.Inject
 
@@ -64,7 +64,7 @@ class SingleEditViewModel @Inject constructor(
     private val _drawUndonePaths = mutableStateOf(listOf<UiPathPaint>())
     val drawUndonePaths: List<UiPathPaint> by _drawUndonePaths
 
-    private val _filterList = mutableStateOf(listOf<UiFilter<*>>())
+    private val _filterList = mutableStateOf(listOf<ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter<*>>())
     val filterList by _filterList
 
     private val _selectedAspectRatio: MutableState<DomainAspectRatio> =
@@ -463,11 +463,11 @@ class SingleEditViewModel @Inject constructor(
         }
     }
 
-    fun updateOrder(value: List<UiFilter<*>>) {
+    fun updateOrder(value: List<ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter<*>>) {
         _filterList.value = value
     }
 
-    fun addFilter(filter: UiFilter<*>) {
+    fun addFilter(filter: ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter<*>) {
         _filterList.value = _filterList.value + filter
     }
 

@@ -1,5 +1,17 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":feature:pick-color")
+
+
+include(":feature:image-stitch")
+
+
+include(":core:filters")
+
+
+include(":feature:filters")
+
+
 include(":feature:draw")
 
 

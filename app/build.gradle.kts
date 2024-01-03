@@ -176,6 +176,8 @@ dependencies {
     implementation(project(":feature:single-edit"))
     implementation(project(":feature:erase-background"))
     implementation(project(":feature:draw"))
+    implementation(project(":feature:filters"))
+    implementation(project(":feature:image-stitch"))
 
     "marketImplementation"(libs.firebase.crashlytics.ktx) {
         exclude("androidx.datastore", "datastore-preferences")

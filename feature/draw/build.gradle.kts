@@ -51,6 +51,8 @@ dependencies {
     implementation(project(":core-data"))
     implementation(project(":core-resources"))
 
+    implementation(project(":core:filters"))
+
     implementation(libs.hilt)
     kapt(libs.dagger.hilt.compiler)
 }

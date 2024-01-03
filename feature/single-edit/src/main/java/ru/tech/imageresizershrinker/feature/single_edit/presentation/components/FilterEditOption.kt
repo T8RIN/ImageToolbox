@@ -56,7 +56,7 @@ import ru.tech.imageresizershrinker.coredomain.image.ImageManager
 import ru.tech.imageresizershrinker.coredomain.image.Transformation
 import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.theme.mixedContainer
-import ru.tech.imageresizershrinker.coreui.transformation.filter.UiFilter
+import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.coreui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton
@@ -65,14 +65,12 @@ import ru.tech.imageresizershrinker.coreui.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.coreui.widget.modifier.container
 import ru.tech.imageresizershrinker.coreui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.coreui.widget.modifier.transparencyChecker
-import ru.tech.imageresizershrinker.coreui.widget.other.FilterItem
 import ru.tech.imageresizershrinker.coreui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.coreui.widget.other.showError
-import ru.tech.imageresizershrinker.coreui.widget.sheets.AddFiltersSheet
-import ru.tech.imageresizershrinker.coreui.widget.sheets.FilterReorderSheet
 import ru.tech.imageresizershrinker.coreui.widget.sheets.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.coreui.widget.text.Marquee
 import ru.tech.imageresizershrinker.coreui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -83,11 +81,11 @@ fun FilterEditOption(
     bitmap: Bitmap?,
     onGetBitmap: (Bitmap) -> Unit,
     imageManager: ImageManager<Bitmap, ExifInterface>,
-    filterList: List<UiFilter<*>>,
+    filterList: List<ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter<*>>,
     updateFilter: (Any, Int, (Throwable) -> Unit) -> Unit,
     removeAt: (Int) -> Unit,
-    addFilter: (UiFilter<*>) -> Unit,
-    updateOrder: (List<UiFilter<*>>) -> Unit
+    addFilter: (ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter<*>) -> Unit,
+    updateOrder: (List<ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter<*>>) -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val toastHostState = LocalToastHost.current
@@ -255,7 +253,7 @@ fun FilterEditOption(
             }
         }
 
-        AddFiltersSheet(
+        ru.tech.imageresizershrinker.feature.filters.presentation.components.AddFiltersSheet(
             visible = showFilterSheet,
             previewBitmap = stateBitmap,
             onFilterPicked = {
@@ -273,7 +271,7 @@ fun FilterEditOption(
             imageManager = imageManager
         )
 
-        FilterReorderSheet(
+        ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterReorderSheet(
             filterList = filterList,
             visible = showReorderSheet,
             updateOrder = updateOrder

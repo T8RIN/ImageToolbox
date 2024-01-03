@@ -27,14 +27,13 @@ import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
-import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coredomain.image.ImageManager
 import ru.tech.imageresizershrinker.coredomain.model.ImageData
 import ru.tech.imageresizershrinker.coredomain.model.ImageFormat
 import ru.tech.imageresizershrinker.coredomain.model.ImageInfo
 import ru.tech.imageresizershrinker.coredomain.saving.FileController
 import ru.tech.imageresizershrinker.coredomain.saving.model.FileSaveTarget
-import ru.tech.imageresizershrinker.presentation.main_screen.MainActivity
+import ru.tech.imageresizershrinker.coreresources.R
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -150,7 +149,10 @@ class ScreenshotService : Service() {
 
                         if (intent?.getStringExtra("screen") != "shot") {
                             applicationContext.startActivity(
-                                Intent(applicationContext, MainActivity::class.java).apply {
+                                Intent(
+                                    applicationContext,
+                                    Class.forName("ru.tech.imageresizershrinker.MainActivity")
+                                ).apply {
                                     putExtra("screen", intent?.getStringExtra("screen"))
                                     type = "image/jpg"
                                     putExtra(Intent.EXTRA_STREAM, uri)

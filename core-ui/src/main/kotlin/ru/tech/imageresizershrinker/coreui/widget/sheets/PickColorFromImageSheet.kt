@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.coreui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.coreui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 
+//TODO: Move to color-picker
 @Composable
 fun PickColorFromImageSheet(
     visible: MutableState<Boolean>,
