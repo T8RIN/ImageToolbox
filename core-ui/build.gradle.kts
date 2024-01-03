@@ -60,9 +60,6 @@ dependencies {
     api(libs.appCompat)
     api(libs.androidx.lifecycle.viewmodel.compose)
 
-    api(libs.decompose)
-    api(libs.decomposeExtensions)
-
     //Konfetti
     api(libs.konfetti.compose)
 

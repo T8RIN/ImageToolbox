@@ -20,4 +20,33 @@ android {
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+    buildTypes {
+        getByName("release") {
+            buildConfigField("String", "VERSION_NAME", "\"${libs.versions.versionName.get()}\"")
+            buildConfigField("int", "VERSION_CODE", libs.versions.versionCode.get())
+        }
+        getByName("debug") {
+            buildConfigField("String", "VERSION_NAME", "\"${libs.versions.versionName.get()}\"")
+            buildConfigField("int", "VERSION_CODE", libs.versions.versionCode.get())
+        }
+    }
+
+    flavorDimensions += "app"
+
+    productFlavors {
+        create("foss") {
+            dimension = "app"
+        }
+        create("market") {
+            dimension = "app"
+        }
+        create("jxl") {
+            dimension = "app"
+        }
+    }
 }

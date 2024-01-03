@@ -24,8 +24,8 @@ android {
         applicationId = "ru.tech.imageresizershrinker"
         minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
         targetSdk = libs.versions.androidTargetSdk.get().toIntOrNull()
-        versionCode = 105
-        versionName = "2.5.1"
+        versionCode = libs.versions.versionCode.get().toIntOrNull()
+        versionName = libs.versions.versionName.get()
 
         resourceConfigurations += setOf(
             "en",
@@ -162,23 +162,7 @@ dependencies {
     implementation(project(":core-data"))
     implementation(project(":core-resources"))
 
-    implementation(project(":feature:load-net-image"))
-    implementation(project(":feature:crop"))
-    implementation(project(":feature:limits-resize"))
-    implementation(project(":feature:cipher"))
-    implementation(project(":feature:image-preview"))
-    implementation(project(":feature:bytes-resize"))
-    implementation(project(":feature:compare"))
-    implementation(project(":feature:delete-exif"))
-    implementation(project(":feature:generate-palette"))
-    implementation(project(":feature:resize-convert"))
-    implementation(project(":feature:pdf-tools"))
-    implementation(project(":feature:single-edit"))
-    implementation(project(":feature:erase-background"))
-    implementation(project(":feature:draw"))
-    implementation(project(":feature:filters"))
-    implementation(project(":feature:image-stitch"))
-    implementation(project(":feature:pick-color"))
+    implementation(project(":feature:main"))
 
     "marketImplementation"(libs.firebase.crashlytics.ktx) {
         exclude("androidx.datastore", "datastore-preferences")

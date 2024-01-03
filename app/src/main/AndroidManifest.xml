@@ -51,7 +51,7 @@
             android:value="false" />
 
         <activity
-            android:name=".presentation.main_screen.MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true"
             android:launchMode="singleInstance">
             <intent-filter>

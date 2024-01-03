@@ -64,7 +64,7 @@ import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coredomain.AUTHOR_TG
 import ru.tech.imageresizershrinker.coredomain.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.presentation.crash_screen.viewModel.CrashViewModel
-import ru.tech.imageresizershrinker.presentation.main_screen.MainActivity
+import ru.tech.imageresizershrinker.presentation.MainActivity
 import ru.tech.imageresizershrinker.coreui.icons.material.Github
 import ru.tech.imageresizershrinker.coreui.icons.material.Robot
 import ru.tech.imageresizershrinker.coreui.icons.material.Telegram
