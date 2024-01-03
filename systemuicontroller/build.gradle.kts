@@ -23,41 +23,33 @@ plugins {
 
 android {
     namespace = "com.google.accompanist.systemuicontroller"
-
-    compileSdk = 34
+    compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {
-        minSdk = 21
-        targetSdk = 34
+        minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
+        targetCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
+        jvmTarget = libs.versions.jvmTarget.get()
     }
 
-    packaging {
-        // Some of the META-INF files conflict with coroutines-test. Exclude them to enable
-        // our test APK to build (has no effect on our AARs)
-        resources {
-            excludes += listOf("/META-INF/AL2.0", "/META-INF/LGPL2.1")
-        }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
+
+    buildFeatures {
+        compose = true
     }
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation(platform("androidx.compose:compose-bom:2023.10.01"))
-    implementation("androidx.compose.ui:ui")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation(libs.androidxCore)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.ui)
+    implementation(libs.coroutinesAndroid)
 }

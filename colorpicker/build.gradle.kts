@@ -4,62 +4,47 @@ plugins {
 }
 
 android {
-    compileSdk = 34
+    compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {
-        minSdk = 21
-        targetSdk = 34
+        minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
+        targetCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
     }
+
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+        jvmTarget = libs.versions.jvmTarget.get()
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
+
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
-    }
-
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-    lint {
-        disable += "UsingMaterialAndMaterial3Libraries"
-        disable += "ModifierParameter"
     }
     namespace = "com.smarttoolfactory.colorpicker"
 }
 
 dependencies {
-    implementation(platform("androidx.compose:compose-bom:2023.10.01"))
-    implementation("androidx.core:core-ktx:1.12.0")
+    implementation(libs.androidxCore)
 
     implementation(project(":gesture"))
-    implementation("com.github.SmartToolFactory:Compose-Extended-Colors:1.0.0-alpha07")
     implementation(project(":screenshot"))
-    implementation("com.github.SmartToolFactory:Compose-Color-Detector:1.0.0")
-    implementation("com.github.SmartToolFactory:Compose-Colorful-Sliders:1.2.0")
-    // Jetpack Compose
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-tooling")
-    implementation("androidx.compose.material:material")
-    implementation("androidx.compose.runtime:runtime")
-    implementation("androidx.compose.material:material-icons-extended")
-    implementation("androidx.compose.material3:material3")
+
+    implementation(libs.compose.extended.colors)
+    implementation(libs.compose.color.detector)
+    implementation(libs.compose.colorful.sliders)
+
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.compose.runtime)
+    implementation(libs.compose.material3)
+    implementation(libs.compose.material)
+    implementation(libs.compose.material.iconsExtended)
 }

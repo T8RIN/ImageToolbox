@@ -7,57 +7,34 @@ plugins {
 
 android {
     namespace = "com.t8rin.modalsheet"
-    compileSdk = 34
+    compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {
-        minSdk = 21
-        targetSdk = 34
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
+        minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
+        targetCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
     }
+
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+        jvmTarget = libs.versions.jvmTarget.get()
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
+
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
-    }
-
-    packaging {
-        resources {
-            excludes += setOf(
-                "META-INF/*.kotlin_module",
-                "kotlin/*.kotlin_builtins",
-                "kotlin/**/*.kotlin_builtins",
-                "META-INF/*",
-                "CERT.SF",
-                "publicsuffixes.gz"
-            )
-        }
     }
 }
 
 dependencies {
-    implementation(platform("androidx.compose:compose-bom:2023.10.01"))
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.material:material")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.material)
+    implementation(libs.compose.material3)
+    implementation(libs.lifecycle.viewmodel.savedstate)
+    implementation(libs.viewModelKtx)
 }

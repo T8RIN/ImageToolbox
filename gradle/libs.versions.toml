@@ -2,6 +2,12 @@
 androidMinSdk = "21"
 androidTargetSdk = "34"
 androidCompileSdk = "34"
+composeColorDetector = "1.0.0"
+composeColorfulSliders = "1.2.0"
+composeExtendedColors = "1.0.0-alpha07"
+m3color = "2023.10.1"
+paletteKtx = "1.0.0"
+uiText = "1.6.0-beta03"
 versionName = "2.5.2"
 versionCode = "106"
 
@@ -80,14 +86,20 @@ androidx-material3-window-sizeclass = { module = "androidx.compose.material3:mat
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-material = { module = "androidx.compose.material:material", version.ref = "materialIconsExtended" }
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+androidx-palette-ktx = { module = "androidx.palette:palette-ktx", version.ref = "paletteKtx" }
+androidx-ui-text = { module = "androidx.compose.ui:ui-text", version.ref = "uiText" }
 app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
 app-update = { module = "com.google.android.play:app-update", version.ref = "appUpdate" }
 avif-coder = { module = "com.github.awxkee:avif-coder", version.ref = "avifCoder" }
 compose = { module = "com.github.zed-alpha.shadow-gadgets:compose", version.ref = "compose" }
+compose-color-detector = { module = "com.github.SmartToolFactory:Compose-Color-Detector", version.ref = "composeColorDetector" }
+compose-colorful-sliders = { module = "com.github.SmartToolFactory:Compose-Colorful-Sliders", version.ref = "composeColorfulSliders" }
+compose-extended-colors = { module = "com.github.SmartToolFactory:Compose-Extended-Colors", version.ref = "composeExtendedColors" }
 datastore-preferences-android = { module = "androidx.datastore:datastore-preferences-android", version.ref = "androidx-datastorePreferencesAndroid" }
 fadingEdges = { module = "com.github.GIGAMOLE:ComposeFadingEdges", version.ref = "fadingEdges" }
 firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebaseCrashlyticsKtx" }
 konfetti-compose = { module = "nl.dionsegijn:konfetti-compose", version.ref = "konfettiCompose" }
+m3color = { module = "com.github.Kyant0:m3color", version.ref = "m3color" }
 reimagined = { module = "dev.olshevski.navigation:reimagined", version.ref = "reimagined" }
 reimagined-hilt = { module = "dev.olshevski.navigation:reimagined-hilt", version.ref = "reimagined" }
 shadowsPlus = { module = "com.github.GIGAMOLE:ComposeShadowsPlus", version.ref = "shadowsPlus" }
@@ -158,6 +170,7 @@ compose-foundation = { group = "androidx.compose.foundation", name = "foundation
 compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
 compose-animation-graphics = { group = "androidx.compose.animation", name = "animation-graphics" }
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }
 compose-material = { group = "androidx.compose.material", name = "material" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3" }

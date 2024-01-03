@@ -7,12 +7,11 @@ plugins {
 
 
 android {
-    compileSdk = 34
+    compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     namespace = "jp.co.cyberagent.android.gpuimage"
     defaultConfig {
-        minSdk = 21
-        targetSdk = 34
+        minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
 
         ndk.abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64"))
     }
@@ -20,20 +19,12 @@ android {
         cmake { path("src/main/cpp/CMakeLists.txt") }
     }
 
-    buildTypes {
-        release {
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
+    compileOptions {
+        sourceCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
+        targetCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+        jvmTarget = libs.versions.jvmTarget.get()
     }
 }

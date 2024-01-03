@@ -7,63 +7,37 @@ plugins {
 
 android {
     namespace = "com.smarttoolfactory.gesture"
-    compileSdk = 34
+    compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {
-        minSdk = 21
-        targetSdk = 34
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
+        minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
+        targetCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
     }
+
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+        jvmTarget = libs.versions.jvmTarget.get()
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
+
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
-    }
-
-    packaging {
-        resources {
-            excludes += setOf(
-                "META-INF/*.kotlin_module",
-                "kotlin/*.kotlin_builtins",
-                "kotlin/**/*.kotlin_builtins",
-                "META-INF/*",
-                "CERT.SF",
-                "publicsuffixes.gz"
-            )
-        }
     }
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.12.0")
+    implementation(libs.androidxCore)
 
-    implementation(platform("androidx.compose:compose-bom:2023.10.01"))
-    // Jetpack Compose
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.runtime:runtime")
-
-    // Material Design 3 for Compose
-    implementation("androidx.compose.material3:material3")
-    // Material design icons
-    implementation("androidx.compose.material:material-icons-extended")
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.runtime)
+    implementation(libs.compose.material3)
+    implementation(libs.compose.material.iconsExtended)
 }

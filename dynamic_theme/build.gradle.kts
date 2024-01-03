@@ -7,45 +7,38 @@ plugins {
 
 android {
     namespace = "com.cookhelper.dynamic.theme"
-    compileSdk = 34
+    compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {
-        minSdk = 21
-        targetSdk = 34
+        minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
     compileOptions {
+        sourceCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
+        targetCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+        jvmTarget = libs.versions.jvmTarget.get()
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
+
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
     }
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.compose.material3:material3:1.2.0-beta01")
-    implementation("androidx.palette:palette-ktx:1.0.0")
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
-    implementation("androidx.compose.ui:ui-text:1.6.0-beta03")
+    implementation(libs.androidxCore)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.palette.ktx)
+    coreLibraryDesugaring(libs.desugaring)
+    implementation(libs.androidx.ui.text)
 
     implementation(project(":systemuicontroller"))
-    implementation("com.github.Kyant0:m3color:2023.10.1")
+    implementation(libs.m3color)
 }
