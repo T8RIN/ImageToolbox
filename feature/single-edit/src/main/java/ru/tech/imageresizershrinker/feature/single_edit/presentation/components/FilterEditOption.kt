@@ -56,7 +56,6 @@ import ru.tech.imageresizershrinker.coredomain.image.ImageManager
 import ru.tech.imageresizershrinker.coredomain.image.Transformation
 import ru.tech.imageresizershrinker.coreresources.R
 import ru.tech.imageresizershrinker.coreui.theme.mixedContainer
-import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.coreui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton
@@ -67,7 +66,7 @@ import ru.tech.imageresizershrinker.coreui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.coreui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.coreui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.coreui.widget.other.showError
-import ru.tech.imageresizershrinker.coreui.widget.sheets.PickColorFromImageSheet
+import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.coreui.widget.text.Marquee
 import ru.tech.imageresizershrinker.coreui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterItem
@@ -277,7 +276,7 @@ fun FilterEditOption(
             updateOrder = updateOrder
         )
 
-        PickColorFromImageSheet(
+        ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet(
             visible = showColorPicker,
             bitmap = stateBitmap,
             onColorChange = { tempColor = it },

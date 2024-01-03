@@ -53,6 +53,7 @@ dependencies {
 
     api(project(":core:filters"))
     implementation(project(":feature:draw"))
+    implementation(project(":feature:pick-color"))
 
     implementation(libs.hilt)
     kapt(libs.dagger.hilt.compiler)

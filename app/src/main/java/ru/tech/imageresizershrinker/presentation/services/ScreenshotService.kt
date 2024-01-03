@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.components
+package ru.tech.imageresizershrinker.presentation.services
 
 import android.app.Activity.RESULT_CANCELED
 import android.app.Notification
@@ -34,6 +34,7 @@ import ru.tech.imageresizershrinker.coredomain.model.ImageInfo
 import ru.tech.imageresizershrinker.coredomain.saving.FileController
 import ru.tech.imageresizershrinker.coredomain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.presentation.main_screen.MainActivity
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -149,10 +150,7 @@ class ScreenshotService : Service() {
 
                         if (intent?.getStringExtra("screen") != "shot") {
                             applicationContext.startActivity(
-                                Intent(
-                                    applicationContext,
-                                    Class.forName("ru.tech.imageresizershrinker.MainActivity")
-                                ).apply {
+                                Intent(applicationContext, MainActivity::class.java).apply {
                                     putExtra("screen", intent?.getStringExtra("screen"))
                                     type = "image/jpg"
                                     putExtra(Intent.EXTRA_STREAM, uri)

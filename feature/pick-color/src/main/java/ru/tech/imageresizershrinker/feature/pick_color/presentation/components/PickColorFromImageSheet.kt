@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.coreui.widget.sheets
+package ru.tech.imageresizershrinker.feature.pick_color.presentation.components
 
 import android.graphics.Bitmap
 import androidx.compose.animation.animateColorAsState
@@ -48,9 +48,9 @@ import ru.tech.imageresizershrinker.coreui.widget.modifier.container
 import ru.tech.imageresizershrinker.coreui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.coreui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.coreui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.coreui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 
-//TODO: Move to color-picker
 @Composable
 fun PickColorFromImageSheet(
     visible: MutableState<Boolean>,

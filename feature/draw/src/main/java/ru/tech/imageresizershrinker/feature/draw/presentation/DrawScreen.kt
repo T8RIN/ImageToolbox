@@ -157,7 +157,6 @@ import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.coreui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.coreui.widget.saver.DrawModeSaver
 import ru.tech.imageresizershrinker.coreui.widget.saver.DrawPathModeSaver
-import ru.tech.imageresizershrinker.coreui.widget.sheets.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.coreui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.coreui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.coreui.widget.text.Marquee
@@ -167,6 +166,7 @@ import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.coreui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BitmapDrawer
 import ru.tech.imageresizershrinker.feature.draw.presentation.viewModel.DrawViewModel
+import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
 @SuppressLint("AutoboxingStateCreation")
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.viewModel
+package ru.tech.imageresizershrinker.feature.pick_color.presentation.viewModel
 
 import android.graphics.Bitmap
 import android.net.Uri

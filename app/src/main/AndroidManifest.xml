@@ -138,7 +138,7 @@
         </service>
 
         <service
-            android:name=".presentation.pick_color_from_image_screen.components.ColorPickerTile"
+            android:name=".presentation.services.ColorPickerTile"
             android:exported="true"
             android:icon="@drawable/outline_colorize_24"
             android:label="@string/pick_color"
@@ -149,7 +149,7 @@
         </service>
 
         <service
-            android:name=".presentation.pick_color_from_image_screen.components.ImageToolboxTile"
+            android:name=".presentation.services.ImageToolboxTile"
             android:exported="true"
             android:icon="@drawable/ic_launcher_monochrome_24"
             android:label="@string/app_name"
@@ -160,7 +160,7 @@
         </service>
 
         <service
-            android:name=".presentation.pick_color_from_image_screen.components.EditScreenshotTile"
+            android:name=".presentation.services.EditScreenshotTile"
             android:exported="true"
             android:icon="@drawable/outline_app_registration_24"
             android:label="@string/edit_screenshot"
@@ -171,7 +171,7 @@
         </service>
 
         <service
-            android:name=".presentation.pick_color_from_image_screen.components.TakeScreenshotTile"
+            android:name=".presentation.services.TakeScreenshotTile"
             android:exported="true"
             android:icon="@drawable/outline_screenshot_24"
             android:label="@string/screenshot"
@@ -182,11 +182,11 @@
         </service>
 
         <activity
-            android:name=".presentation.pick_color_from_image_screen.components.ScreenshotLauncher"
+            android:name=".presentation.services.ScreenshotLauncher"
             android:theme="@style/TransparentActivity" />
 
         <service
-            android:name=".presentation.pick_color_from_image_screen.components.ScreenshotService"
+            android:name=".presentation.services.ScreenshotService"
             android:foregroundServiceType="mediaProjection" />
 
     </application>

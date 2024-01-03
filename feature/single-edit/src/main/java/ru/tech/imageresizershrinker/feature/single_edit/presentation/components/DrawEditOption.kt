@@ -74,10 +74,10 @@ import ru.tech.imageresizershrinker.coreui.widget.other.DrawLockScreenOrientatio
 import ru.tech.imageresizershrinker.coreui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.coreui.widget.saver.DrawModeSaver
 import ru.tech.imageresizershrinker.coreui.widget.saver.DrawPathModeSaver
-import ru.tech.imageresizershrinker.coreui.widget.sheets.PickColorFromImageSheet
 import ru.tech.imageresizershrinker.coreui.widget.text.Marquee
 import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BitmapDrawer
+import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

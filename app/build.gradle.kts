@@ -178,6 +178,7 @@ dependencies {
     implementation(project(":feature:draw"))
     implementation(project(":feature:filters"))
     implementation(project(":feature:image-stitch"))
+    implementation(project(":feature:pick-color"))
 
     "marketImplementation"(libs.firebase.crashlytics.ktx) {
         exclude("androidx.datastore", "datastore-preferences")

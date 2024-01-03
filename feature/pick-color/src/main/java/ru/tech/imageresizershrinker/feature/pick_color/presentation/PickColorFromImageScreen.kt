@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen
+package ru.tech.imageresizershrinker.feature.pick_color.presentation
 
 import android.content.res.Configuration
 import android.net.Uri
@@ -78,7 +78,7 @@ import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.coreresources.R
-import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.viewModel.PickColorViewModel
+import ru.tech.imageresizershrinker.feature.pick_color.presentation.viewModel.PickColorViewModel
 import ru.tech.imageresizershrinker.coreui.icons.material.PaletteSwatch
 import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
 import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.copyToClipboard

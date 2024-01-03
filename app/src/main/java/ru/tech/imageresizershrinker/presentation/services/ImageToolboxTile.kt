@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.components
+package ru.tech.imageresizershrinker.presentation.services
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent

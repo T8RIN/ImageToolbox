@@ -101,15 +101,6 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.coreresources.R
-import ru.tech.imageresizershrinker.coreui.widget.sheets.PickColorFromImageSheet
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddEditMaskSheet
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddFilterButton
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddFiltersSheet
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterItem
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterReorderSheet
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskItem
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskReorderSheet
-import ru.tech.imageresizershrinker.feature.filters.presentation.viewModel.FilterViewModel
 import ru.tech.imageresizershrinker.coreui.theme.mixedContainer
 import ru.tech.imageresizershrinker.coreui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.coreui.utils.confetti.LocalConfettiController
@@ -151,6 +142,15 @@ import ru.tech.imageresizershrinker.coreui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.coreui.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.coreui.widget.utils.middleImageState
 import ru.tech.imageresizershrinker.coreui.widget.utils.rememberAvailableHeight
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddEditMaskSheet
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddFilterButton
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddFiltersSheet
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterItem
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterReorderSheet
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskItem
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskReorderSheet
+import ru.tech.imageresizershrinker.feature.filters.presentation.viewModel.FilterViewModel
+import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

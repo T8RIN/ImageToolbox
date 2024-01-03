@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.components
+package ru.tech.imageresizershrinker.presentation.services
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
@@ -8,9 +8,10 @@ import android.os.Build
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.coreui.utils.navigation.Screen
 
 @RequiresApi(Build.VERSION_CODES.N)
-class TakeScreenshotTile : TileService() {
+class ColorPickerTile : TileService() {
 
     @SuppressLint("StartActivityAndCollapseDeprecated")
     override fun onClick() {
@@ -18,7 +19,7 @@ class TakeScreenshotTile : TileService() {
         runCatching {
             val intent = Intent(applicationContext, ScreenshotLauncher::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            intent.putExtra("screen", "shot")
+            intent.putExtra("screen", Screen.PickColorFromImage::class.simpleName)
 
             val pendingIntent =
                 PendingIntent.getActivity(
@@ -39,8 +40,8 @@ class TakeScreenshotTile : TileService() {
 
     override fun onStartListening() {
         val tile = qsTile
-        tile.label = getString(R.string.screenshot)
-        tile.icon = Icon.createWithResource(this, R.drawable.outline_screenshot_24)
+        tile.label = getString(R.string.pick_color)
+        tile.icon = Icon.createWithResource(this, R.drawable.outline_colorize_24)
         tile.updateTile()
     }
 

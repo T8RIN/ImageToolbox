@@ -36,7 +36,7 @@ import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.PdfToolsScree
 import ru.tech.imageresizershrinker.feature.resize_convert.presentation.ResizeAndConvertScreen
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.SingleEditScreen
 import ru.tech.imageresizershrinker.presentation.main_screen.viewModel.MainViewModel
-import ru.tech.imageresizershrinker.presentation.pick_color_from_image_screen.PickColorFromImageScreen
+import ru.tech.imageresizershrinker.feature.pick_color.presentation.PickColorFromImageScreen
 
 @Composable
 fun ScreenSelector(

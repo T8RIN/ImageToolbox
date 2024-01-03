@@ -55,6 +55,7 @@ dependencies {
     implementation(project(":feature:erase-background"))
     implementation(project(":feature:draw"))
     implementation(project(":feature:filters"))
+    implementation(project(":feature:pick-color"))
 
     implementation(libs.hilt)
     kapt(libs.dagger.hilt.compiler)
