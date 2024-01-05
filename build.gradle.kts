@@ -10,13 +10,14 @@ buildscript {
     }
 
     dependencies {
-        classpath(libs.kotlinSerializationGradlePlugin)
-        classpath(libs.kspGradlePlugin)
-        classpath(libs.androidBuildTools)
-        classpath(libs.kotlinGradlePlugin)
-        classpath(libs.hiltGradlePlugin)
-        classpath(libs.gmsGradlePlugin)
+        classpath(libs.kotlinx.serialization.gradle)
+        classpath(libs.ksp.gradle)
+        classpath(libs.agp.gradle)
+        classpath(libs.kotlin.gradle)
+        classpath(libs.hilt.gradle)
+        classpath(libs.gms.gradle)
         classpath(libs.firebase.crashlytics.gradle)
+        classpath(libs.baselineprofile.gradle)
     }
 }
 

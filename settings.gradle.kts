@@ -1,5 +1,4 @@
 @file:Suppress("UnstableApiUsage")
-
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -58,3 +57,5 @@ include(":core:resources")
 include(":core:data")
 include(":core:domain")
 include(":core:ui")
+
+include(":benchmark")

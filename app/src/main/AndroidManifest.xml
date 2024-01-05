@@ -9,9 +9,7 @@
     <uses-permission
         android:name="com.google.android.gms.permission.AD_ID"
         tools:node="remove" />
-
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
@@ -20,7 +18,6 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
-
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
     <uses-permission android:name="android.permission.PROJECT_MEDIA" />
@@ -42,10 +39,13 @@
         android:theme="@style/Theme.ImageResizer.Launcher"
         tools:targetApi="tiramisu">
 
+        <profileable
+            android:shell="true"
+            tools:targetApi="29" />
+
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="false" />
-
         <meta-data
             android:name="firebase_analytics_collection_enabled"
             android:value="false" />
@@ -54,52 +54,56 @@
             android:name=".presentation.MainActivity"
             android:exported="true"
             android:launchMode="singleInstance">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <intent-filter android:label="@string/app_launcher_name">
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="com.android.camera.action.REVIEW" />
                 <action android:name="android.provider.action.REVIEW" />
                 <action android:name="android.provider.action.REVIEW_SECURE" />
-
                 <data android:scheme="content" />
                 <data android:scheme="file" />
                 <data android:mimeType="image/*" />
                 <data android:mimeType="application/pdf" />
                 <data android:mimeType="*/pdf" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="*/*" />
             </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="*/*" />
             </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="*/*" />
             </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.INSERT_OR_EDIT" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="*/*" />
             </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.INSERT" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
-
         <activity android:name=".presentation.crash_screen.CrashActivity" />
 
         <provider
@@ -188,7 +192,6 @@
         <service
             android:name=".presentation.services.ScreenshotService"
             android:foregroundServiceType="mediaProjection" />
-
     </application>
 
 </manifest>

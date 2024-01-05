@@ -2,15 +2,15 @@
 androidMinSdk = "21"
 androidTargetSdk = "34"
 androidCompileSdk = "34"
+versionName = "2.5.2"
+versionCode = "106"
+
 composeColorDetector = "1.0.0"
 composeColorfulSliders = "1.2.0"
 composeExtendedColors = "1.0.0-alpha07"
 m3color = "2023.10.1"
 paletteKtx = "1.0.0"
 uiText = "1.6.0-beta03"
-versionName = "2.5.2"
-versionCode = "106"
-
 androidx-datastorePreferencesAndroid = "1.1.0-alpha07"
 androidx-material = "1.6.0-beta03"
 appUpdateKtx = "2.1.0"
@@ -46,7 +46,7 @@ firebaseBom = "32.2.2"
 firebaseMessaging = "23.4.0"
 firebaseGms = "18.2.0"
 composeBom = "2023.10.01"
-decompose = "2.2.0"
+decompose = "2.2.2"
 activityCompose = "1.8.2"
 kotlinxCollectionsImmutable = "0.3.7"
 scrollbar = "1.8.0"
@@ -71,14 +71,16 @@ espresso = "3.5.1"
 mockito = "4.8.0"
 testArchCore = "2.1.0"
 testCoroutines = "1.5.1"
-kotlinxSerializationJson = "1.6.1"
+kotlinxSerializationJson = "1.6.2"
 ksp = "1.9.21-1.0.15"
-tinkoffSdk = "3.0.0"
+
 androidx-test-ext-junit = "1.1.5"
 material = "1.11.0"
 documentfile = "1.0.1"
 vkauth = "1.2.0"
 datastorePreferencesAndroid = "1.0.0"
+uiautomator = "2.2.0"
+androidxMacroBenchmark = "1.2.2"
 
 [libraries]
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "exifinterface" }
@@ -110,18 +112,10 @@ coilCompose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coilGif = { module = "io.coil-kt:coil-gif", version.ref = "coil" }
 coilSvg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
-androidBuildTools = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebaseAnalyticsKtx" }
-firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
 hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltCompiler" }
 jxl-coder-coil = { module = "com.github.awxkee:jxl-coder-coil", version.ref = "jxlCoder" }
-kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-hiltGradlePlugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
-gmsGradlePlugin = { module = "com.google.gms:google-services", version.ref = "gms" }
-kotlinSerializationGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
-kspGradlePlugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
-
 kotlin = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 coroutinesAndroid = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 coroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
@@ -182,3 +176,14 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "documentfile" }
 vkauth = { module = "com.petersamokhin.vksdk.android:auth", version.ref = "vkauth" }
 androidx-datastore-preferences-android = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferencesAndroid" }
+uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "androidxMacroBenchmark" }
+
+firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
+baselineprofile-gradle = { group = "androidx.benchmark", name = "benchmark-baseline-profile-gradle-plugin", version.ref = "androidxMacroBenchmark" }
+kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+hilt-gradle = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+gms-gradle = { module = "com.google.gms:google-services", version.ref = "gms" }
+kotlinx-serialization-gradle = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+ksp-gradle = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+agp-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
