@@ -18,14 +18,15 @@ android {
     var isFoss = false
 
     namespace = "ru.tech.imageresizershrinker"
-    compileSdk = 34
+    compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {
         applicationId = "ru.tech.imageresizershrinker"
-        minSdk = 21
-        targetSdk = 34
-        versionCode = 106
-        versionName = "2.5.2"
+        minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
+        targetSdk = libs.versions.androidTargetSdk.get().toIntOrNull()
+        versionCode = libs.versions.versionCode.get().toIntOrNull()
+        versionName = libs.versions.versionName.get()
+
         resourceConfigurations += setOf(
             "en",
             "af",
@@ -97,19 +98,31 @@ android {
                 "proguard-rules.pro"
             )
         }
+        create("benchmark") {
+            initWith(buildTypes.getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            isMinifyEnabled = false
+            isShrinkResources = false
+        }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
+        targetCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
+        isCoreLibraryDesugaringEnabled = true
     }
+
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+        jvmTarget = libs.versions.jvmTarget.get()
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
+
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
+        buildConfig = true
     }
 
     packaging {
@@ -145,86 +158,28 @@ android {
 
 dependencies {
 
-    //AndroidX
-    implementation("androidx.activity:activity-compose:1.8.2")
-    implementation("androidx.core:core-splashscreen:1.0.1")
-    implementation("androidx.exifinterface:exifinterface:1.3.7")
-    implementation("androidx.appcompat:appcompat:1.7.0-alpha03")
-    implementation("androidx.documentfile:documentfile:1.0.1")
-    implementation("androidx.datastore:datastore-preferences-android:1.1.0-alpha07")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-
-    //Navigation
-    implementation("dev.olshevski.navigation:reimagined:1.5.0")
-    implementation("dev.olshevski.navigation:reimagined-hilt:1.5.0")
-
-    //Konfetti
-    implementation("nl.dionsegijn:konfetti-compose:2.0.4")
-
-    //Compose
-    implementation("androidx.compose.material3:material3:1.2.0-beta01")
-    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-beta01")
-    implementation("androidx.compose.material:material-icons-extended:1.6.0-beta03")
-    implementation("androidx.compose.material:material:1.6.0-beta03")
+    coreLibraryDesugaring(libs.desugaring)
 
     //Di
-    implementation("com.google.dagger:hilt-android:2.50")
-    kapt("com.google.dagger:hilt-compiler:2.50")
+    implementation(libs.hilt)
+    kapt(libs.dagger.hilt.compiler)
 
-    //Coil
-    implementation("io.coil-kt:coil:2.5.0")
-    implementation("io.coil-kt:coil-compose:2.5.0")
-    implementation("io.coil-kt:coil-gif:2.5.0")
-    implementation("io.coil-kt:coil-svg:2.5.0")
+    implementation(project(":core:domain"))
+    implementation(project(":core:ui"))
+    implementation(project(":core:data"))
+    implementation(project(":core:resources"))
 
-    //Modules
-    implementation(project(":cropper"))
-    implementation(project(":dynamic_theme"))
-    implementation(project(":colordetector"))
-    implementation(project(":beforeafter"))
-    implementation(project(":image"))
-    implementation(project(":modalsheet"))
-    implementation(project(":gpuimage"))
-    implementation(project(":gesture"))
-    implementation(project(":screenshot"))
-    implementation(project(":systemuicontroller"))
-    implementation(project(":placeholder"))
-    implementation(project(":logger"))
+    implementation(project(":feature:main"))
 
-    implementation(project(":colorpicker")) {
-        exclude("com.github.SmartToolFactory", "Compose-Color-Detector")
-    }
-
-    implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
-
-    implementation("com.github.zed-alpha.shadow-gadgets:compose:2.1.0")
-    implementation("com.github.GIGAMOLE:ComposeShadowsPlus:1.0.4")
-
-    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
-
-    implementation("com.github.GIGAMOLE:ComposeFadingEdges:1.0.3")
-    implementation("com.github.nanihadesuka:LazyColumnScrollbar:1.8.0")
-
-
-    implementation("com.github.awxkee:avif-coder:1.5.8")
-
-    "marketImplementation"("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
-    "marketImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.6.0") {
+    "marketImplementation"(libs.firebase.crashlytics.ktx) {
         exclude("androidx.datastore", "datastore-preferences")
     }
-    "marketImplementation"("com.google.firebase:firebase-analytics-ktx:21.5.0")
-    "marketImplementation"("com.google.android.play:review-ktx:2.0.1")
+    "marketImplementation"(libs.firebase.analytics.ktx)
 
-    "jxlImplementation"("com.google.mlkit:segmentation-selfie:16.0.0-beta4")
-    "jxlImplementation"("com.google.firebase:firebase-crashlytics-ktx:18.6.0") {
+    "jxlImplementation"(libs.firebase.crashlytics.ktx) {
         exclude("androidx.datastore", "datastore-preferences")
     }
-    "jxlImplementation"("com.google.firebase:firebase-analytics-ktx:21.5.0")
-    "jxlImplementation"("com.google.android.play:review-ktx:2.0.1")
-    "jxlImplementation"("com.github.awxkee:jxl-coder-coil:1.5.7")
-
-    "marketImplementation"("com.google.android.play:app-update:2.1.0")
-    "marketImplementation"("com.google.android.play:app-update-ktx:2.1.0")
+    "jxlImplementation"(libs.firebase.analytics.ktx)
 
 }
 

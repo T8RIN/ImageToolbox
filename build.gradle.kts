@@ -1,15 +1,23 @@
 buildscript {
+    rootProject.extra.apply {
+        set("javaCompile", JavaVersion.VERSION_17)
+    }
+
     repositories {
         gradlePluginPortal()
         google()
         mavenCentral()
     }
+
     dependencies {
-        classpath("com.android.tools.build:gradle:8.1.4")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.50")
-        classpath("com.google.gms:google-services:4.4.0")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
+        classpath(libs.kotlinx.serialization.gradle)
+        classpath(libs.ksp.gradle)
+        classpath(libs.agp.gradle)
+        classpath(libs.kotlin.gradle)
+        classpath(libs.hilt.gradle)
+        classpath(libs.gms.gradle)
+        classpath(libs.firebase.crashlytics.gradle)
+        classpath(libs.baselineprofile.gradle)
     }
 }
 
