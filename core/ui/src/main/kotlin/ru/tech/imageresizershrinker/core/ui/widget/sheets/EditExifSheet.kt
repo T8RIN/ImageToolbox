@@ -45,8 +45,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.exifinterface.media.ExifInterface
-import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toMap
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedIconButton

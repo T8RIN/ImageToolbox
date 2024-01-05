@@ -94,9 +94,8 @@ import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.ShieldKey
 import ru.tech.imageresizershrinker.core.ui.icons.material.ShieldOpen
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
@@ -112,6 +111,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji

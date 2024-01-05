@@ -75,12 +75,8 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
-import ru.tech.imageresizershrinker.feature.crop.presentation.components.AspectRatioSelection
-import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMaskSelection
-import ru.tech.imageresizershrinker.feature.crop.presentation.components.Cropper
-import ru.tech.imageresizershrinker.feature.crop.presentation.viewModel.CropViewModel
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
@@ -103,6 +99,10 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.utils.isScrollingUp
+import ru.tech.imageresizershrinker.feature.crop.presentation.components.AspectRatioSelection
+import ru.tech.imageresizershrinker.feature.crop.presentation.components.CropMaskSelection
+import ru.tech.imageresizershrinker.feature.crop.presentation.components.Cropper
+import ru.tech.imageresizershrinker.feature.crop.presentation.viewModel.CropViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

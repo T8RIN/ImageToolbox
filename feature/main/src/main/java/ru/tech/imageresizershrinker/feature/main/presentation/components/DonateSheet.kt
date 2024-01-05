@@ -30,11 +30,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.domain.BitcoinWallet
 import ru.tech.imageresizershrinker.core.domain.TONSpaceWallet
 import ru.tech.imageresizershrinker.core.domain.TONWallet
 import ru.tech.imageresizershrinker.core.domain.USDTWallet
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.Bitcoin
 import ru.tech.imageresizershrinker.core.ui.icons.material.Ton
 import ru.tech.imageresizershrinker.core.ui.icons.material.USDT

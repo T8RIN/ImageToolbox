@@ -24,8 +24,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.data.keys.Keys.ADD_ORIGINAL_NAME_TO_FILENAME
 import ru.tech.imageresizershrinker.core.data.keys.Keys.ADD_SEQ_NUM_TO_FILENAME
 import ru.tech.imageresizershrinker.core.data.keys.Keys.ADD_SIZE_TO_FILENAME
@@ -43,6 +41,8 @@ import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.SaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.FileParams
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
+import ru.tech.imageresizershrinker.core.resources.R
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream

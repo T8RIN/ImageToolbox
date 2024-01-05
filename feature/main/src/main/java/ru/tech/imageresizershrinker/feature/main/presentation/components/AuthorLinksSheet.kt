@@ -21,9 +21,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.domain.AUTHOR_LINK
 import ru.tech.imageresizershrinker.core.domain.AUTHOR_TG
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.Github
 import ru.tech.imageresizershrinker.core.ui.icons.material.Telegram
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton

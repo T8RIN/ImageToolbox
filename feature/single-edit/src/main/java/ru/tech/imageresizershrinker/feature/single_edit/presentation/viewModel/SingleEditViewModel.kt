@@ -63,7 +63,8 @@ class SingleEditViewModel @Inject constructor(
     private val _drawUndonePaths = mutableStateOf(listOf<UiPathPaint>())
     val drawUndonePaths: List<UiPathPaint> by _drawUndonePaths
 
-    private val _filterList = mutableStateOf(listOf<ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter<*>>())
+    private val _filterList =
+        mutableStateOf(listOf<ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter<*>>())
     val filterList by _filterList
 
     private val _selectedAspectRatio: MutableState<DomainAspectRatio> =

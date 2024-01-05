@@ -26,12 +26,12 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.BasicFilterState
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskingFilterState
-import ru.tech.imageresizershrinker.feature.filters.presentation.components.UiFilterMask
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.BasicFilterState
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskingFilterState
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.UiFilterMask
 import javax.inject.Inject
 
 @HiltViewModel

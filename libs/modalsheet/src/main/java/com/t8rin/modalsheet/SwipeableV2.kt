@@ -214,7 +214,7 @@ class SwipeableV2State<T>(
      */
     fun requireOffset(): Float = checkNotNull(offset) {
         "The offset was read before being initialized. Did you access the offset in a phase " +
-            "before layout, like effects or composition?"
+                "before layout, like effects or composition?"
     }
 
     /**

@@ -85,17 +85,9 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.observeAsState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.domain.image.draw.pt
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.BrushSoftnessSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.LineWidthSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.AutoEraseBackgroundCard
-import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.BitmapEraser
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.EraseModeButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.EraseModeCard
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.TrimImageToggle
-import ru.tech.imageresizershrinker.feature.erase_background.presentation.viewModel.EraseBackgroundViewModel
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.Transparency
 import ru.tech.imageresizershrinker.core.ui.model.PtSaver
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
@@ -109,6 +101,12 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitchDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
+import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.AutoEraseBackgroundCard
+import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.BrushSoftnessSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.EraseModeButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.EraseModeCard
+import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.LineWidthSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.TrimImageToggle
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -122,6 +120,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.BitmapEraser
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.viewModel.EraseBackgroundViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

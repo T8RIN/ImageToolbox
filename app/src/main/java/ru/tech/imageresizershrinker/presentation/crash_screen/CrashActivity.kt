@@ -60,11 +60,9 @@ import androidx.compose.ui.unit.sp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.BuildConfig
-import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.domain.AUTHOR_TG
 import ru.tech.imageresizershrinker.core.domain.ISSUE_TRACKER
-import ru.tech.imageresizershrinker.presentation.crash_screen.viewModel.CrashViewModel
-import ru.tech.imageresizershrinker.presentation.MainActivity
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.Github
 import ru.tech.imageresizershrinker.core.ui.icons.material.Robot
 import ru.tech.imageresizershrinker.core.ui.icons.material.Telegram
@@ -74,7 +72,6 @@ import ru.tech.imageresizershrinker.core.ui.theme.Blue
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.presentation.CrashHandler
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedFloatingActionButton
@@ -84,6 +81,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.presentation.CrashHandler
+import ru.tech.imageresizershrinker.presentation.MainActivity
+import ru.tech.imageresizershrinker.presentation.crash_screen.viewModel.CrashViewModel
 
 @AndroidEntryPoint
 class CrashActivity : CrashHandler() {

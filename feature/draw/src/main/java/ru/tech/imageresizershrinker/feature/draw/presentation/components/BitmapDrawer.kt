@@ -53,14 +53,14 @@ import com.smarttoolfactory.image.zoom.AnimatedZoomState
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.filters.presentation.model.UiPixelationFilter
-import ru.tech.imageresizershrinker.core.filters.presentation.model.UiStackBlurFilter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.draw.DrawMode
 import ru.tech.imageresizershrinker.core.domain.image.draw.DrawPathMode
 import ru.tech.imageresizershrinker.core.domain.image.draw.Pt
 import ru.tech.imageresizershrinker.core.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.filters.presentation.model.UiPixelationFilter
+import ru.tech.imageresizershrinker.core.filters.presentation.model.UiStackBlurFilter
 import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
