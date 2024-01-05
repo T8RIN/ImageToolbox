@@ -50,3 +50,9 @@ android {
         }
     }
 }
+
+dependencies {
+    implementation(libs.androidxCore)
+    implementation(libs.appCompat)
+    implementation(libs.splashScreen)
+}
