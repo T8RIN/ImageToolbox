@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.smarttoolfactory.beforeafter"
+    namespace = "com.smarttoolfactory.colordetector"
     compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {
@@ -32,13 +32,18 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidxCore)
 
-    implementation(project(":gesture"))
+    implementation(libs.androidxCore)
+    implementation(libs.androidx.palette.ktx)
+
+    implementation(project(":libs:gesture"))
+    implementation(project(":libs:screenshot"))
+    implementation(project(":libs:image"))
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
+    implementation(libs.compose.ui.tooling)
     implementation(libs.compose.runtime)
     implementation(libs.compose.material3)
-    implementation(libs.compose.material.iconsExtended)
+    implementation(libs.compose.material)
 }

@@ -1,12 +1,9 @@
-@file:Suppress("UnstableApiUsage")
-
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace = "com.smarttoolfactory.cropper"
     compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {
@@ -29,17 +26,25 @@ android {
     buildFeatures {
         compose = true
     }
+    namespace = "com.smarttoolfactory.colorpicker"
 }
 
 dependencies {
     implementation(libs.androidxCore)
 
+    implementation(project(":libs:gesture"))
+    implementation(project(":libs:screenshot"))
+
+    implementation(libs.compose.extended.colors)
+    implementation(libs.compose.color.detector)
+    implementation(libs.compose.colorful.sliders)
+
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.foundation)
     implementation(libs.compose.ui)
+    implementation(libs.compose.ui.tooling)
     implementation(libs.compose.runtime)
     implementation(libs.compose.material3)
+    implementation(libs.compose.material)
     implementation(libs.compose.material.iconsExtended)
-
-    implementation(project(":gesture"))
 }

@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.cookhelper.dynamic.theme"
+    namespace = "com.smarttoolfactory.image"
     compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {
@@ -16,7 +16,6 @@ android {
     compileOptions {
         sourceCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
         targetCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
-        isCoreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
@@ -33,12 +32,15 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidxCore)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.palette.ktx)
-    coreLibraryDesugaring(libs.desugaring)
-    implementation(libs.androidx.ui.text)
+    implementation(project(":libs:gesture"))
 
-    implementation(project(":systemuicontroller"))
-    implementation(libs.m3color)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.androidxCore)
+    implementation(libs.androidx.palette.ktx)
+
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.compose.runtime)
+    implementation(libs.compose.material)
+    implementation(libs.compose.material3)
 }

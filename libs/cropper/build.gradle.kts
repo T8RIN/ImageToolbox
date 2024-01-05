@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.smarttoolfactory.colordetector"
+    namespace = "com.smarttoolfactory.cropper"
     compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {
@@ -32,18 +32,14 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidxCore)
-    implementation(libs.androidx.palette.ktx)
-
-    implementation(project(":gesture"))
-    implementation(project(":screenshot"))
-    implementation(project(":image"))
 
     implementation(platform(libs.compose.bom))
+    implementation(libs.compose.foundation)
     implementation(libs.compose.ui)
-    implementation(libs.compose.ui.tooling)
     implementation(libs.compose.runtime)
     implementation(libs.compose.material3)
-    implementation(libs.compose.material)
+    implementation(libs.compose.material.iconsExtended)
+
+    implementation(project(":libs:gesture"))
 }

@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.smarttoolfactory.image"
+    namespace = "com.t8rin.dynamic.theme"
     compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {
@@ -16,6 +16,7 @@ android {
     compileOptions {
         sourceCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
         targetCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
+        isCoreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
@@ -32,15 +33,12 @@ android {
 }
 
 dependencies {
-    implementation(project(":gesture"))
-
-    implementation(platform(libs.compose.bom))
     implementation(libs.androidxCore)
+    implementation(libs.androidx.material3)
     implementation(libs.androidx.palette.ktx)
+    coreLibraryDesugaring(libs.desugaring)
+    implementation(libs.androidx.ui.text)
 
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.tooling)
-    implementation(libs.compose.runtime)
-    implementation(libs.compose.material)
-    implementation(libs.compose.material3)
+    implementation(project(":libs:systemuicontroller"))
+    implementation(libs.m3color)
 }

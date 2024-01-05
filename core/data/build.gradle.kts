@@ -46,7 +46,7 @@ dependencies {
     implementation(libs.coilSvg)
     implementation(libs.avif.coder)
     api(libs.datastore.preferences.android)
-    implementation(project(":gpuimage"))
+    implementation(project(":libs:gpuimage"))
 
     "marketImplementation"(libs.mlkit.segmentation.selfie)
     "jxlImplementation"(libs.mlkit.segmentation.selfie)

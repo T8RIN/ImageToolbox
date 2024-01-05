@@ -80,20 +80,20 @@ dependencies {
     api(libs.coilSvg)
 
     //Modules
-    api(project(":cropper"))
-    api(project(":dynamic_theme"))
-    api(project(":colordetector"))
-    api(project(":beforeafter"))
-    api(project(":image"))
-    api(project(":modalsheet"))
-    api(project(":gesture"))
-    api(project(":screenshot"))
-    api(project(":systemuicontroller"))
-    api(project(":placeholder"))
-    api(project(":logger"))
+    api(project(":libs:cropper"))
+    api(project(":libs:dynamic-theme"))
+    api(project(":libs:colordetector"))
+    api(project(":libs:beforeafter"))
+    api(project(":libs:image"))
+    api(project(":libs:modalsheet"))
+    api(project(":libs:gesture"))
+    api(project(":libs:screenshot"))
+    api(project(":libs:systemuicontroller"))
+    api(project(":libs:placeholder"))
+    api(project(":libs:logger"))
     implementation(project(":core:domain"))
 
-    api(project(":colorpicker")) {
+    api(project(":libs:colorpicker")) {
         exclude("com.github.SmartToolFactory", "Compose-Color-Detector")
     }
 
