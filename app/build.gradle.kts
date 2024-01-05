@@ -159,7 +159,7 @@ dependencies {
 
     implementation(project(":core-domain"))
     implementation(project(":core-ui"))
-    implementation(project(":core-data"))
+    implementation(project(":core:data"))
     implementation(project(":core:resources"))
 
     implementation(project(":feature:main"))
