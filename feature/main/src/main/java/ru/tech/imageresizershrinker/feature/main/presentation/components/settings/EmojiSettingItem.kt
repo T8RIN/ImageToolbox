@@ -20,20 +20,20 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.coreui.icons.emoji.Emoji
-import ru.tech.imageresizershrinker.coreui.icons.emoji.EmojiItem
-import ru.tech.imageresizershrinker.coreui.icons.emoji.allIcons
-import ru.tech.imageresizershrinker.coreui.icons.emoji.allIconsCategorized
-import ru.tech.imageresizershrinker.coreui.icons.material.Cool
-import ru.tech.imageresizershrinker.coreui.shapes.CloverShape
-import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
-import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.coreui.widget.modifier.alertDialogBorder
-import ru.tech.imageresizershrinker.coreui.widget.modifier.container
-import ru.tech.imageresizershrinker.coreui.widget.modifier.scaleOnTap
-import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceRow
-import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.icons.emoji.Emoji
+import ru.tech.imageresizershrinker.core.ui.icons.emoji.EmojiItem
+import ru.tech.imageresizershrinker.core.ui.icons.emoji.allIcons
+import ru.tech.imageresizershrinker.core.ui.icons.emoji.allIconsCategorized
+import ru.tech.imageresizershrinker.core.ui.icons.material.Cool
+import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
+import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
+import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.feature.main.presentation.components.EmojiSheet
 
 @Composable

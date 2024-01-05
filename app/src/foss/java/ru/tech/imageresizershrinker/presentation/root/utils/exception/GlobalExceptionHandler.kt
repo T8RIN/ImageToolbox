@@ -1,10 +1,10 @@
-package ru.tech.imageresizershrinker.coreui.utils.exception
+package ru.tech.imageresizershrinker.core.ui.utils.exception
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import ru.tech.imageresizershrinker.coreui.widget.activity.M3Activity
+import ru.tech.imageresizershrinker.core.ui.widget.activity.M3Activity
 import kotlin.system.exitProcess
 
 

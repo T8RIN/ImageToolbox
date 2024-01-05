@@ -65,25 +65,25 @@ import ru.tech.imageresizershrinker.core.domain.AUTHOR_TG
 import ru.tech.imageresizershrinker.core.domain.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.presentation.crash_screen.viewModel.CrashViewModel
 import ru.tech.imageresizershrinker.presentation.MainActivity
-import ru.tech.imageresizershrinker.coreui.icons.material.Github
-import ru.tech.imageresizershrinker.coreui.icons.material.Robot
-import ru.tech.imageresizershrinker.coreui.icons.material.Telegram
-import ru.tech.imageresizershrinker.coreui.model.toUiState
-import ru.tech.imageresizershrinker.coreui.theme.Black
-import ru.tech.imageresizershrinker.coreui.theme.Blue
-import ru.tech.imageresizershrinker.coreui.theme.ImageToolboxTheme
-import ru.tech.imageresizershrinker.coreui.theme.White
-import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.icons.material.Github
+import ru.tech.imageresizershrinker.core.ui.icons.material.Robot
+import ru.tech.imageresizershrinker.core.ui.icons.material.Telegram
+import ru.tech.imageresizershrinker.core.ui.model.toUiState
+import ru.tech.imageresizershrinker.core.ui.theme.Black
+import ru.tech.imageresizershrinker.core.ui.theme.Blue
+import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
+import ru.tech.imageresizershrinker.core.ui.theme.White
+import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.presentation.CrashHandler
-import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.copyToClipboard
-import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedFloatingActionButton
-import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton
-import ru.tech.imageresizershrinker.coreui.widget.modifier.container
-import ru.tech.imageresizershrinker.coreui.widget.other.ToastHost
-import ru.tech.imageresizershrinker.coreui.widget.other.rememberToastHostState
-import ru.tech.imageresizershrinker.coreui.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.rememberToastHostState
+import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 
 @AndroidEntryPoint
 class CrashActivity : CrashHandler() {

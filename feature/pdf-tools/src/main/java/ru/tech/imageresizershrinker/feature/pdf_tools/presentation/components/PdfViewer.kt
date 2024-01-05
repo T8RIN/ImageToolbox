@@ -96,12 +96,12 @@ import kotlinx.coroutines.sync.withLock
 import my.nanihadesuka.compose.LazyColumnScrollbar
 import my.nanihadesuka.compose.ScrollbarSelectionMode
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.coreui.utils.state.update
-import ru.tech.imageresizershrinker.coreui.widget.image.Picture
-import ru.tech.imageresizershrinker.coreui.widget.modifier.container
-import ru.tech.imageresizershrinker.coreui.widget.other.Loading
-import ru.tech.imageresizershrinker.coreui.widget.utils.LocalImageLoader
-import ru.tech.imageresizershrinker.coreui.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
+import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
+import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 import kotlin.math.max
 import kotlin.math.sqrt
 

@@ -32,18 +32,18 @@ import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.coreui.icons.material.CreateAlt
-import ru.tech.imageresizershrinker.coreui.icons.material.Theme
-import ru.tech.imageresizershrinker.coreui.shapes.MaterialStarShape
-import ru.tech.imageresizershrinker.coreui.theme.inverse
-import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
-import ru.tech.imageresizershrinker.coreui.widget.color_picker.AvailableColorTuplesSheet
-import ru.tech.imageresizershrinker.coreui.widget.color_picker.ColorTuplePicker
-import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.coreui.widget.modifier.container
-import ru.tech.imageresizershrinker.coreui.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceRow
-import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.icons.material.Theme
+import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
+import ru.tech.imageresizershrinker.core.ui.theme.inverse
+import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.widget.color_picker.AvailableColorTuplesSheet
+import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorTuplePicker
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
+import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

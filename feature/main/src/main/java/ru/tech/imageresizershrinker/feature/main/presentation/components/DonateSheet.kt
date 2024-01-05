@@ -35,24 +35,24 @@ import ru.tech.imageresizershrinker.core.domain.BitcoinWallet
 import ru.tech.imageresizershrinker.core.domain.TONSpaceWallet
 import ru.tech.imageresizershrinker.core.domain.TONWallet
 import ru.tech.imageresizershrinker.core.domain.USDTWallet
-import ru.tech.imageresizershrinker.coreui.icons.material.Bitcoin
-import ru.tech.imageresizershrinker.coreui.icons.material.Ton
-import ru.tech.imageresizershrinker.coreui.icons.material.USDT
-import ru.tech.imageresizershrinker.coreui.theme.BitcoinColor
-import ru.tech.imageresizershrinker.coreui.theme.TONColor
-import ru.tech.imageresizershrinker.coreui.theme.TONSpaceColor
-import ru.tech.imageresizershrinker.coreui.theme.USDTColor
-import ru.tech.imageresizershrinker.coreui.theme.inverse
-import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.copyToClipboard
-import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.coreui.widget.modifier.container
-import ru.tech.imageresizershrinker.coreui.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceItemOverload
-import ru.tech.imageresizershrinker.coreui.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.coreui.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.coreui.widget.text.TitleItem
-import ru.tech.imageresizershrinker.coreui.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.icons.material.Bitcoin
+import ru.tech.imageresizershrinker.core.ui.icons.material.Ton
+import ru.tech.imageresizershrinker.core.ui.icons.material.USDT
+import ru.tech.imageresizershrinker.core.ui.theme.BitcoinColor
+import ru.tech.imageresizershrinker.core.ui.theme.TONColor
+import ru.tech.imageresizershrinker.core.ui.theme.TONSpaceColor
+import ru.tech.imageresizershrinker.core.ui.theme.USDTColor
+import ru.tech.imageresizershrinker.core.ui.theme.inverse
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 
 
 private val topShape = RoundedCornerShape(

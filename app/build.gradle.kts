@@ -158,7 +158,7 @@ dependencies {
     kapt(libs.dagger.hilt.compiler)
 
     implementation(project(":core:domain"))
-    implementation(project(":core-ui"))
+    implementation(project(":core:ui"))
     implementation(project(":core:data"))
     implementation(project(":core:resources"))
 

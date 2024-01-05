@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.coreui.widget.other.ExpandableItem
-import ru.tech.imageresizershrinker.coreui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
+import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun SettingGroupItem(

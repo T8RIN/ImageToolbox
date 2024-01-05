@@ -17,8 +17,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.tech.imageresizershrinker.coreui.widget.modifier.container
-import ru.tech.imageresizershrinker.coreui.widget.utils.ProvideContainerShape
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerShape
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
 
 @Composable

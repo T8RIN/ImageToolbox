@@ -24,7 +24,7 @@ import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
-import ru.tech.imageresizershrinker.coreui.utils.state.update
+import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
 
 @HiltViewModel

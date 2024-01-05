@@ -80,8 +80,8 @@ import ru.tech.imageresizershrinker.core.domain.use_case.get_settings_state.GetS
 import ru.tech.imageresizershrinker.core.domain.use_case.get_settings_state.GetSettingsStateUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.reset_settings.ResetSettingsUseCase
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
-import ru.tech.imageresizershrinker.coreui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.coreui.widget.other.ToastHostState
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
 import java.io.OutputStream
 import java.net.URL
 import javax.inject.Inject

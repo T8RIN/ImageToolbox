@@ -23,8 +23,8 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfToImageState
-import ru.tech.imageresizershrinker.coreui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.coreui.utils.state.update
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Date

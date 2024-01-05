@@ -24,9 +24,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.domain.model.StitchMode
-import ru.tech.imageresizershrinker.coreui.widget.buttons.ToggleGroupButton
-import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedSliderItem
-import ru.tech.imageresizershrinker.coreui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import kotlin.math.roundToInt
 
 @Composable

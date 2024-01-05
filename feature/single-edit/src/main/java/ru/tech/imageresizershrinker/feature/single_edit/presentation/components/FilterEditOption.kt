@@ -55,19 +55,19 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.coreui.theme.mixedContainer
-import ru.tech.imageresizershrinker.coreui.utils.helper.ImageUtils.toBitmap
-import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton
-import ru.tech.imageresizershrinker.coreui.widget.image.Picture
-import ru.tech.imageresizershrinker.coreui.widget.modifier.autoElevatedBorder
-import ru.tech.imageresizershrinker.coreui.widget.modifier.container
-import ru.tech.imageresizershrinker.coreui.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.coreui.widget.modifier.transparencyChecker
-import ru.tech.imageresizershrinker.coreui.widget.other.LocalToastHost
-import ru.tech.imageresizershrinker.coreui.widget.other.showError
-import ru.tech.imageresizershrinker.coreui.widget.text.Marquee
-import ru.tech.imageresizershrinker.coreui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.showError
+import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
+import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterItem
 
 @OptIn(ExperimentalMaterial3Api::class)

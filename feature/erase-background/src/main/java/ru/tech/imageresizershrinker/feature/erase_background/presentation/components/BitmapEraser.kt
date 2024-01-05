@@ -53,11 +53,11 @@ import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.draw.Pt
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.coreui.model.UiPathPaint
-import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
-import ru.tech.imageresizershrinker.coreui.utils.helper.ImageUtils.createScaledBitmap
-import ru.tech.imageresizershrinker.coreui.utils.helper.scaleToFitCanvas
-import ru.tech.imageresizershrinker.coreui.widget.modifier.transparencyChecker
+import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
+import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
+import ru.tech.imageresizershrinker.core.ui.utils.helper.scaleToFitCanvas
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 
 @Composable
 fun BitmapEraser(

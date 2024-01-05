@@ -39,13 +39,13 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import org.xmlpull.v1.XmlPullParser
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.coreui.icons.material.CreateAlt
-import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils
-import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceRow
-import ru.tech.imageresizershrinker.coreui.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.coreui.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.coreui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import java.util.Locale
 
 @Composable

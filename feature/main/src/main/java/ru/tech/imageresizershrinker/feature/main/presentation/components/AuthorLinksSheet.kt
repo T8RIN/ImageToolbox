@@ -24,13 +24,13 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.domain.AUTHOR_LINK
 import ru.tech.imageresizershrinker.core.domain.AUTHOR_TG
-import ru.tech.imageresizershrinker.coreui.icons.material.Github
-import ru.tech.imageresizershrinker.coreui.icons.material.Telegram
-import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.coreui.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.coreui.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.coreui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.core.ui.icons.material.Github
+import ru.tech.imageresizershrinker.core.ui.icons.material.Telegram
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 
 private val topShape = RoundedCornerShape(

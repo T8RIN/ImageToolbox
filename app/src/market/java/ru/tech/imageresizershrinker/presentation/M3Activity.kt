@@ -15,8 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import ru.tech.imageresizershrinker.core.domain.model.SettingsState
-import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.adjustFontSize
-import ru.tech.imageresizershrinker.coreui.widget.activity.SettingsStateEntryPoint
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.adjustFontSize
+import ru.tech.imageresizershrinker.core.ui.widget.activity.SettingsStateEntryPoint
 import ru.tech.imageresizershrinker.presentation.crash_screen.CrashActivity
 
 @AndroidEntryPoint

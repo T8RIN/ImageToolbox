@@ -20,11 +20,11 @@ import ru.tech.imageresizershrinker.core.domain.AUTHOR_AVATAR
 import ru.tech.imageresizershrinker.core.domain.FOSS_LINK
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.coreui.shapes.CloverShape
-import ru.tech.imageresizershrinker.coreui.widget.image.Picture
-import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.coreui.widget.modifier.container
-import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceRow
+import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
+import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.feature.main.presentation.components.AuthorLinksSheet
 
 @Composable
