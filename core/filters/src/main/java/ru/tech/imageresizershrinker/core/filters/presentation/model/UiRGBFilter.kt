@@ -2,7 +2,7 @@ package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coredomain.image.filters.Filter
 
 

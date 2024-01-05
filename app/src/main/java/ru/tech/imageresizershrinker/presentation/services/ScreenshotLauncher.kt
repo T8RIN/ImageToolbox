@@ -12,7 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.AndroidEntryPoint
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coredomain.image.ImageManager
 import javax.inject.Inject
 

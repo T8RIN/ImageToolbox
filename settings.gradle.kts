@@ -1,8 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":feature:main")
-
-
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -52,7 +49,8 @@ include(":feature:cipher")
 include(":feature:limits-resize")
 include(":feature:crop")
 include(":feature:load-net-image")
-include(":core-resources")
 include(":core-data")
 include(":core-domain")
 include(":core-ui")
+include(":feature:main")
+include(":core:resources")

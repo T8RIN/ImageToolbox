@@ -2,7 +2,7 @@ package ru.tech.imageresizershrinker.coreui.widget.palette_selection
 
 import android.content.Context
 import com.t8rin.dynamic.theme.PaletteStyle
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 
 fun PaletteStyle.getTitle(context: Context): String {
     return when (this) {

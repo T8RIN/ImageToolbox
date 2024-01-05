@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coredomain.AUTHOR_LINK
 import ru.tech.imageresizershrinker.coredomain.AUTHOR_TG
 import ru.tech.imageresizershrinker.coreui.icons.material.Github

@@ -60,7 +60,7 @@ import androidx.compose.ui.unit.sp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.BuildConfig
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coredomain.AUTHOR_TG
 import ru.tech.imageresizershrinker.coredomain.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.presentation.crash_screen.viewModel.CrashViewModel

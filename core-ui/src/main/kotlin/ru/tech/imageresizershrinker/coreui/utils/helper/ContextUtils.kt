@@ -20,7 +20,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.documentfile.provider.DocumentFile
 import ru.tech.imageresizershrinker.coreui.BuildConfig
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coreui.utils.helper.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.coreui.utils.helper.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.coreui.utils.navigation.Screen

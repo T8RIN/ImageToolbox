@@ -48,7 +48,7 @@ import ru.tech.imageresizershrinker.coredomain.model.StitchMode
 import ru.tech.imageresizershrinker.coredomain.model.withSize
 import ru.tech.imageresizershrinker.coredomain.saving.FileController
 import ru.tech.imageresizershrinker.coredomain.saving.model.ImageSaveTarget
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File

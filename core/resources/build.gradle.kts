@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "ru.tech.imageresizershrinker.coreresources"
+    namespace = "ru.tech.imageresizershrinker.core.resources"
     compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {

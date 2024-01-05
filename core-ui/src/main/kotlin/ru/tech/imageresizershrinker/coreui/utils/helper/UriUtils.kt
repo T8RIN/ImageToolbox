@@ -3,7 +3,7 @@ package ru.tech.imageresizershrinker.coreui.utils.helper
 import android.content.Context
 import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 
 fun Uri?.toUiPath(context: Context, default: String): String = this?.let { uri ->
     DocumentFile

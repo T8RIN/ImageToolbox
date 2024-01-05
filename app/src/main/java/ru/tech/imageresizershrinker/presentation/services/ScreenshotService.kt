@@ -33,7 +33,7 @@ import ru.tech.imageresizershrinker.coredomain.model.ImageFormat
 import ru.tech.imageresizershrinker.coredomain.model.ImageInfo
 import ru.tech.imageresizershrinker.coredomain.saving.FileController
 import ru.tech.imageresizershrinker.coredomain.saving.model.FileSaveTarget
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.presentation.MainActivity
 import java.text.SimpleDateFormat
 import java.util.Date

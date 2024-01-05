@@ -25,7 +25,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coreui.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.coreui.icons.material.FingerprintOff
 import ru.tech.imageresizershrinker.coreui.icons.material.Interface

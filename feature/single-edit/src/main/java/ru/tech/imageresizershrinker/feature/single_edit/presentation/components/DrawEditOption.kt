@@ -51,7 +51,7 @@ import ru.tech.imageresizershrinker.coredomain.image.ImageManager
 import ru.tech.imageresizershrinker.coredomain.image.draw.DrawMode
 import ru.tech.imageresizershrinker.coredomain.image.draw.DrawPathMode
 import ru.tech.imageresizershrinker.coredomain.image.draw.pt
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coreui.icons.material.Eraser
 import ru.tech.imageresizershrinker.coreui.model.PtSaver
 import ru.tech.imageresizershrinker.coreui.model.UiPathPaint

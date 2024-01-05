@@ -18,8 +18,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.coredomain.AUTHOR_AVATAR
 import ru.tech.imageresizershrinker.coredomain.FOSS_LINK
-import ru.tech.imageresizershrinker.coreresources.BuildConfig
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.BuildConfig
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coreui.shapes.CloverShape
 import ru.tech.imageresizershrinker.coreui.widget.image.Picture
 import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults

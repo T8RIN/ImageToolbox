@@ -5,7 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Save
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coredomain.saving.SaveResult
 import ru.tech.imageresizershrinker.coreui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.coreui.widget.other.ToastHostState

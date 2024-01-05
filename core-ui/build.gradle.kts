@@ -117,6 +117,5 @@ dependencies {
     "marketImplementation"(libs.review.ktx)
     "marketImplementation"(libs.app.update)
     "marketImplementation"(libs.app.update.ktx)
-
-    api(project(":core-resources"))
+    api(project(":core:resources"))
 }

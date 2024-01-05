@@ -103,7 +103,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.coredomain.model.Preset
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coreui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.getFileName
 import ru.tech.imageresizershrinker.coreui.utils.helper.Picker

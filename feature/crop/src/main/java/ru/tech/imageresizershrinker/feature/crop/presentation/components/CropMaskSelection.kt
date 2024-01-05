@@ -42,7 +42,7 @@ import com.smarttoolfactory.cropper.model.RoundedCornerCropShape
 import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import com.smarttoolfactory.cropper.widget.CropFrameDisplayCard
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
 import ru.tech.imageresizershrinker.coreui.utils.helper.Picker
 import ru.tech.imageresizershrinker.coreui.utils.helper.localImagePickerMode

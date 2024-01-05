@@ -2,7 +2,7 @@ package ru.tech.imageresizershrinker.coreui.model
 
 import android.os.Build
 import androidx.compose.ui.text.font.FontFamily
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coredomain.model.FontFam
 import ru.tech.imageresizershrinker.coreui.theme.fontFamilyResource
 

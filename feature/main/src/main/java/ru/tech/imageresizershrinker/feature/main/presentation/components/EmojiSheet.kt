@@ -40,7 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coreui.icons.emoji.EmojiData
 import ru.tech.imageresizershrinker.coreui.icons.emoji.EmojiItem
 import ru.tech.imageresizershrinker.coreui.shapes.CloverShape

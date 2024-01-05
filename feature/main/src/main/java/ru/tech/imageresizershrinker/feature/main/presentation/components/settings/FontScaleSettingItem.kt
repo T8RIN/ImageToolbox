@@ -27,7 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coredomain.utils.trimTrailingZero
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults

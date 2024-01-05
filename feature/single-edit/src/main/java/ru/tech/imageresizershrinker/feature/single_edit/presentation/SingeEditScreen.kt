@@ -73,7 +73,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coreui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.coreui.utils.helper.Picker
 import ru.tech.imageresizershrinker.coreui.utils.helper.localImagePickerMode

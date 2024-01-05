@@ -56,5 +56,5 @@ dependencies {
     api(libs.androidx.documentfile)
 
     implementation(project(":core-domain"))
-    implementation(project(":core-resources"))
+    implementation(project(":core:resources"))
 }

@@ -48,8 +48,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import ru.tech.imageresizershrinker.coreresources.BuildConfig
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.BuildConfig
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coreui.utils.helper.plus
 import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.coreui.widget.other.Loading

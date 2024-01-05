@@ -43,5 +43,5 @@ dependencies {
     implementation(libs.hilt)
     kapt(libs.dagger.hilt.compiler)
     implementation(libs.coil)
-    implementation(project(":core-resources"))
+    implementation(project(":core:resources"))
 }

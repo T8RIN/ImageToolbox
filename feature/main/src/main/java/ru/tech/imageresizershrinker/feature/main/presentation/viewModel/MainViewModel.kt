@@ -79,7 +79,7 @@ import ru.tech.imageresizershrinker.coredomain.use_case.edit_settings.ToggleShow
 import ru.tech.imageresizershrinker.coredomain.use_case.get_settings_state.GetSettingsStateFlowUseCase
 import ru.tech.imageresizershrinker.coredomain.use_case.get_settings_state.GetSettingsStateUseCase
 import ru.tech.imageresizershrinker.coredomain.use_case.reset_settings.ResetSettingsUseCase
-import ru.tech.imageresizershrinker.coreresources.BuildConfig
+import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.coreui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.coreui.widget.other.ToastHostState
 import java.io.OutputStream

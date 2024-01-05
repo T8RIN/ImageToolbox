@@ -1,6 +1,6 @@
 package ru.tech.imageresizershrinker.feature.main.presentation.components.settings
 
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 
 sealed class Setting(
     val title: Int,

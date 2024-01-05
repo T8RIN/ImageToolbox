@@ -46,7 +46,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
-import ru.tech.imageresizershrinker.coreresources.R
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coreui.theme.inverse
 import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.coreui.utils.helper.ContextUtils.pasteColorFromClipboard
