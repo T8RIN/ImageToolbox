@@ -10,7 +10,7 @@ import android.provider.OpenableColumns
 import androidx.core.graphics.BitmapCompat
 import androidx.core.text.isDigitsOnly
 import androidx.exifinterface.media.ExifInterface
-import ru.tech.imageresizershrinker.coredomain.image.Metadata
+import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import kotlin.math.roundToInt
 
 

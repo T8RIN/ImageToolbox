@@ -48,7 +48,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.coredomain.model.ResizeType
+import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.coreui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.coreui.widget.controls.DrawBackgroundSelector
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedButton

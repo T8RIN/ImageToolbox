@@ -63,7 +63,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.coredomain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.feature.delete_exif.presentation.viewModel.DeleteExifViewModel
 import ru.tech.imageresizershrinker.coreui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.coreui.utils.confetti.LocalConfettiController

@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageCrosshatchFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import ru.tech.imageresizershrinker.coredomain.image.filters.Filter
+import ru.tech.imageresizershrinker.core.domain.image.filters.Filter
 
 
 class CrosshatchFilter(

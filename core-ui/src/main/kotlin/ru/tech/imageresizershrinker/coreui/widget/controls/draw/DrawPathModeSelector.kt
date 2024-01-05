@@ -55,7 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.coredomain.image.draw.DrawPathMode
+import ru.tech.imageresizershrinker.core.domain.image.draw.DrawPathMode
 import ru.tech.imageresizershrinker.coreui.icons.material.FreeArrow
 import ru.tech.imageresizershrinker.coreui.icons.material.FreeDoubleArrow
 import ru.tech.imageresizershrinker.coreui.icons.material.FreeDraw

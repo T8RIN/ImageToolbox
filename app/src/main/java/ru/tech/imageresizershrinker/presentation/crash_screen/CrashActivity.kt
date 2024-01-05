@@ -61,8 +61,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.coredomain.AUTHOR_TG
-import ru.tech.imageresizershrinker.coredomain.ISSUE_TRACKER
+import ru.tech.imageresizershrinker.core.domain.AUTHOR_TG
+import ru.tech.imageresizershrinker.core.domain.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.presentation.crash_screen.viewModel.CrashViewModel
 import ru.tech.imageresizershrinker.presentation.MainActivity
 import ru.tech.imageresizershrinker.coreui.icons.material.Github

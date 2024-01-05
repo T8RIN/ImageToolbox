@@ -3,12 +3,12 @@ package ru.tech.imageresizershrinker.coreui.transformation
 import android.graphics.Bitmap
 import androidx.exifinterface.media.ExifInterface
 import coil.size.Size
-import ru.tech.imageresizershrinker.coredomain.image.ImageManager
-import ru.tech.imageresizershrinker.coredomain.image.Transformation
-import ru.tech.imageresizershrinker.coredomain.image.filters.Filter
-import ru.tech.imageresizershrinker.coredomain.model.ImageInfo
-import ru.tech.imageresizershrinker.coredomain.model.Preset
-import ru.tech.imageresizershrinker.coredomain.model.ResizeType
+import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.image.filters.Filter
+import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.Preset
+import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import coil.transform.Transformation as CoilTransformation
 
 class ImageInfoTransformation(

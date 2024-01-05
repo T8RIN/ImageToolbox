@@ -113,10 +113,10 @@ import com.t8rin.dynamic.theme.observeAsState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.coredomain.image.draw.DrawBehavior
-import ru.tech.imageresizershrinker.coredomain.image.draw.DrawMode
-import ru.tech.imageresizershrinker.coredomain.image.draw.DrawPathMode
-import ru.tech.imageresizershrinker.coredomain.image.draw.pt
+import ru.tech.imageresizershrinker.core.domain.image.draw.DrawBehavior
+import ru.tech.imageresizershrinker.core.domain.image.draw.DrawMode
+import ru.tech.imageresizershrinker.core.domain.image.draw.DrawPathMode
+import ru.tech.imageresizershrinker.core.domain.image.draw.pt
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coreui.icons.material.Eraser
 import ru.tech.imageresizershrinker.coreui.model.PtSaver

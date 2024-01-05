@@ -4,8 +4,8 @@ import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import coil.size.Size
-import ru.tech.imageresizershrinker.coredomain.image.Transformation
-import ru.tech.imageresizershrinker.coredomain.image.filters.Filter
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.image.filters.Filter
 import kotlin.math.pow
 import kotlin.math.sqrt
 

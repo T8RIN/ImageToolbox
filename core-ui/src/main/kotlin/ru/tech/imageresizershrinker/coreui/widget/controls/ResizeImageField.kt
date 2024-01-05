@@ -13,8 +13,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.coredomain.model.ImageInfo
-import ru.tech.imageresizershrinker.coredomain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.coreui.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.coreui.widget.modifier.container
 import ru.tech.imageresizershrinker.coreui.widget.text.RoundedTextField

@@ -73,8 +73,8 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.coredomain.model.ImageInfo
-import ru.tech.imageresizershrinker.coredomain.model.Preset
+import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.components.ImageFormatAlert
 import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.viewModel.BytesResizeViewModel
 import ru.tech.imageresizershrinker.coreui.transformation.ImageInfoTransformation

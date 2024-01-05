@@ -6,7 +6,7 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Build
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
-import ru.tech.imageresizershrinker.coredomain.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import java.io.ByteArrayOutputStream
 
 internal object ImageCompressor {

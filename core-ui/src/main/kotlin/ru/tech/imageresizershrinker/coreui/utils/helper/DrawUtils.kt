@@ -5,7 +5,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.graphics.asComposePath
-import ru.tech.imageresizershrinker.coredomain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import kotlin.math.cos
 import kotlin.math.sin
 

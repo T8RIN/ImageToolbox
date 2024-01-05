@@ -64,9 +64,9 @@ import ru.tech.imageresizershrinker.core.data.image.filters.VignetteFilter
 import ru.tech.imageresizershrinker.core.data.image.filters.WeakPixelFilter
 import ru.tech.imageresizershrinker.core.data.image.filters.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.core.data.image.filters.ZoomBlurFilter
-import ru.tech.imageresizershrinker.coredomain.image.Transformation
-import ru.tech.imageresizershrinker.coredomain.image.filters.Filter
-import ru.tech.imageresizershrinker.coredomain.image.filters.provider.FilterProvider
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.image.filters.Filter
+import ru.tech.imageresizershrinker.core.domain.image.filters.provider.FilterProvider
 import javax.inject.Inject
 
 class AndroidFilterProvider @Inject constructor(

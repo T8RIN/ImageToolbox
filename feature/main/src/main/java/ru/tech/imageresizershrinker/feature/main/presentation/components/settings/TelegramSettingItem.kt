@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.coredomain.CHAT_LINK
+import ru.tech.imageresizershrinker.core.domain.CHAT_LINK
 import ru.tech.imageresizershrinker.coreui.icons.material.Telegram
 import ru.tech.imageresizershrinker.coreui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.coreui.widget.preferences.PreferenceRow

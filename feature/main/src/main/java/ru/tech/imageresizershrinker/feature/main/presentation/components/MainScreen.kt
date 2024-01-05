@@ -116,7 +116,7 @@ import androidx.compose.ui.zIndex
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.coredomain.APP_LINK
+import ru.tech.imageresizershrinker.core.domain.APP_LINK
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coreui.icons.material.Github

@@ -79,7 +79,7 @@ import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.coredomain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.viewModel.LoadNetImageViewModel
 import ru.tech.imageresizershrinker.coreui.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.coreui.theme.outlineVariant

@@ -76,7 +76,7 @@ import com.t8rin.dynamic.theme.extractPrimaryColor
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.coredomain.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.feature.compare.presentation.viewModel.CompareViewModel
 import ru.tech.imageresizershrinker.coreui.theme.blend
 import ru.tech.imageresizershrinker.coreui.utils.confetti.LocalConfettiController

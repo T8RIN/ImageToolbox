@@ -52,8 +52,8 @@ import coil.size.Size
 import com.smarttoolfactory.image.zoom.animatedZoom
 import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.coredomain.image.ImageManager
-import ru.tech.imageresizershrinker.coredomain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coreui.theme.mixedContainer
 import ru.tech.imageresizershrinker.coreui.utils.helper.ImageUtils.toBitmap

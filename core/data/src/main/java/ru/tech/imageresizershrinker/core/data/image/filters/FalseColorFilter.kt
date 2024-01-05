@@ -5,7 +5,7 @@ import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFalseColorFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import ru.tech.imageresizershrinker.coredomain.image.filters.Filter
+import ru.tech.imageresizershrinker.core.domain.image.filters.Filter
 
 
 class FalseColorFilter(

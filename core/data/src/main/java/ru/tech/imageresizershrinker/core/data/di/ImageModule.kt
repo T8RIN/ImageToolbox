@@ -15,11 +15,11 @@ import ru.tech.imageresizershrinker.core.data.image.AndroidImageManager
 import ru.tech.imageresizershrinker.core.data.image.draw.AndroidImageDrawApplier
 import ru.tech.imageresizershrinker.core.data.image.filters.applier.AndroidFilterMaskApplier
 import ru.tech.imageresizershrinker.core.data.image.filters.provider.AndroidFilterProvider
-import ru.tech.imageresizershrinker.coredomain.image.ImageManager
-import ru.tech.imageresizershrinker.coredomain.image.draw.ImageDrawApplier
-import ru.tech.imageresizershrinker.coredomain.image.filters.FilterMaskApplier
-import ru.tech.imageresizershrinker.coredomain.image.filters.provider.FilterProvider
-import ru.tech.imageresizershrinker.coredomain.saving.FileController
+import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.draw.ImageDrawApplier
+import ru.tech.imageresizershrinker.core.domain.image.filters.FilterMaskApplier
+import ru.tech.imageresizershrinker.core.domain.image.filters.provider.FilterProvider
+import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import javax.inject.Singleton
 
 @Module

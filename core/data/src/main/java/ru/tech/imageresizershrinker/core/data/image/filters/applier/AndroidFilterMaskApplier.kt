@@ -15,13 +15,13 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.exifinterface.media.ExifInterface
-import ru.tech.imageresizershrinker.coredomain.image.ImageManager
-import ru.tech.imageresizershrinker.coredomain.image.draw.DrawPathMode
-import ru.tech.imageresizershrinker.coredomain.image.draw.PathPaint
-import ru.tech.imageresizershrinker.coredomain.image.filters.Filter
-import ru.tech.imageresizershrinker.coredomain.image.filters.FilterMaskApplier
-import ru.tech.imageresizershrinker.coredomain.model.FilterMask
-import ru.tech.imageresizershrinker.coredomain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.draw.DrawPathMode
+import ru.tech.imageresizershrinker.core.domain.image.draw.PathPaint
+import ru.tech.imageresizershrinker.core.domain.image.filters.Filter
+import ru.tech.imageresizershrinker.core.domain.image.filters.FilterMaskApplier
+import ru.tech.imageresizershrinker.core.domain.model.FilterMask
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import javax.inject.Inject
 
 class AndroidFilterMaskApplier @Inject constructor(

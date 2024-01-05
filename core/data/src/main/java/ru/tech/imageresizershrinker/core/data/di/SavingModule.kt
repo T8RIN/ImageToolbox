@@ -9,8 +9,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.core.data.saving.FileControllerImpl
-import ru.tech.imageresizershrinker.coredomain.repository.CipherRepository
-import ru.tech.imageresizershrinker.coredomain.saving.FileController
+import ru.tech.imageresizershrinker.core.domain.repository.CipherRepository
+import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import javax.inject.Singleton
 
 @Module

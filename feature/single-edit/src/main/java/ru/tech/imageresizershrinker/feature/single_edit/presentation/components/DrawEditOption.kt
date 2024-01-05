@@ -47,10 +47,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.coredomain.image.ImageManager
-import ru.tech.imageresizershrinker.coredomain.image.draw.DrawMode
-import ru.tech.imageresizershrinker.coredomain.image.draw.DrawPathMode
-import ru.tech.imageresizershrinker.coredomain.image.draw.pt
+import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.draw.DrawMode
+import ru.tech.imageresizershrinker.core.domain.image.draw.DrawPathMode
+import ru.tech.imageresizershrinker.core.domain.image.draw.pt
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coreui.icons.material.Eraser
 import ru.tech.imageresizershrinker.coreui.model.PtSaver

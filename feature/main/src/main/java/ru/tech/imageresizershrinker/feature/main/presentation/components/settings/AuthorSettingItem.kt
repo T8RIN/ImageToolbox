@@ -16,8 +16,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.coredomain.AUTHOR_AVATAR
-import ru.tech.imageresizershrinker.coredomain.FOSS_LINK
+import ru.tech.imageresizershrinker.core.domain.AUTHOR_AVATAR
+import ru.tech.imageresizershrinker.core.domain.FOSS_LINK
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coreui.shapes.CloverShape

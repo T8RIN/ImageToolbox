@@ -26,9 +26,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.coredomain.image.draw.DrawPathMode
-import ru.tech.imageresizershrinker.coredomain.image.draw.PathPaint
-import ru.tech.imageresizershrinker.coredomain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.image.draw.DrawPathMode
+import ru.tech.imageresizershrinker.core.domain.image.draw.PathPaint
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.coreui.theme.outlineVariant
 import ru.tech.imageresizershrinker.coreui.utils.helper.scaleToFitCanvas
 import ru.tech.imageresizershrinker.coreui.widget.modifier.transparencyChecker

@@ -3,12 +3,12 @@ package ru.tech.imageresizershrinker.coreui.model
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
-import ru.tech.imageresizershrinker.coredomain.image.draw.DrawMode
-import ru.tech.imageresizershrinker.coredomain.image.draw.DrawPathMode
-import ru.tech.imageresizershrinker.coredomain.image.draw.PathPaint
-import ru.tech.imageresizershrinker.coredomain.image.draw.Pt
-import ru.tech.imageresizershrinker.coredomain.image.draw.pt
-import ru.tech.imageresizershrinker.coredomain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.image.draw.DrawMode
+import ru.tech.imageresizershrinker.core.domain.image.draw.DrawPathMode
+import ru.tech.imageresizershrinker.core.domain.image.draw.PathPaint
+import ru.tech.imageresizershrinker.core.domain.image.draw.Pt
+import ru.tech.imageresizershrinker.core.domain.image.draw.pt
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 
 data class UiPathPaint(
     override val path: Path,

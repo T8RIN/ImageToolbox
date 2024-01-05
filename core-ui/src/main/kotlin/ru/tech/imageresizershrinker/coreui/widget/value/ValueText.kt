@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.tech.imageresizershrinker.coredomain.utils.trimTrailingZero
+import ru.tech.imageresizershrinker.core.domain.utils.trimTrailingZero
 
 @Composable
 fun ValueText(

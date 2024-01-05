@@ -40,7 +40,7 @@ import com.smarttoolfactory.cropper.settings.CropProperties
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.coredomain.model.DomainAspectRatio
+import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.coreui.widget.controls.EnhancedIconButton
 import ru.tech.imageresizershrinker.coreui.widget.modifier.autoElevatedBorder

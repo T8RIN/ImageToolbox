@@ -95,7 +95,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import my.nanihadesuka.compose.LazyColumnScrollbar
 import my.nanihadesuka.compose.ScrollbarSelectionMode
-import ru.tech.imageresizershrinker.coredomain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.coreui.utils.state.update
 import ru.tech.imageresizershrinker.coreui.widget.image.Picture
 import ru.tech.imageresizershrinker.coreui.widget.modifier.container
