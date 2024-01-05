@@ -53,6 +53,8 @@ dependencies {
     api(libs.reimagined)
     api(libs.reimagined.hilt)
 
+    api(libs.androidx.documentfile)
+
     //AndroidX
     api(libs.activityCompose)
     api(libs.splashScreen)
@@ -117,5 +119,13 @@ dependencies {
     "marketImplementation"(libs.review.ktx)
     "marketImplementation"(libs.app.update)
     "marketImplementation"(libs.app.update.ktx)
+
+    "jxlImplementation"(libs.mlkit.segmentation.selfie)
+    "jxlImplementation"(libs.firebase.crashlytics.ktx) {
+        exclude("androidx.datastore", "datastore-preferences")
+    }
+    "jxlImplementation"(libs.firebase.analytics.ktx)
+    "jxlImplementation"(libs.review.ktx)
+
     api(project(":core:resources"))
 }
