@@ -47,7 +47,7 @@ fun DefaultScaleModeSettingItem(
                 Icon(Icons.Outlined.Numbers, null)
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
-                    text = stringResource(R.string.default_values),
+                    text = stringResource(R.string.default_value),
                     modifier = Modifier.weight(1f),
                     style = LocalTextStyle.current.copy(lineHeight = 18.sp),
                     fontWeight = FontWeight.Medium

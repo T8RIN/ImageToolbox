@@ -540,5 +540,5 @@
     <string name="nearest">Nearest</string>
     <string name="spline">Spline</string>
     <string name="basic">Basic</string>
-    <string name="default_values">Default Values</string>
+    <string name="default_value">Default Value</string>
 </resources>

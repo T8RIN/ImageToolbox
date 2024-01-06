@@ -262,7 +262,7 @@ sealed class Setting(
     )
 
     data object DefaultScaleMode : Setting(
-        title = R.string.default_values,
+        title = R.string.default_value,
         subtitle = null
     )
 }
