@@ -167,8 +167,8 @@ private val ImageScaleMode.title: String
     @Composable
     get() = when (this) {
         ImageScaleMode.Bilinear -> stringResource(id = R.string.bilinear)
-        ImageScaleMode.CatmullRom -> stringResource(id = R.string.catmul_rom)
-        ImageScaleMode.Cubic -> stringResource(id = R.string.cubic)
+        ImageScaleMode.Catmull -> stringResource(id = R.string.catmull)
+        ImageScaleMode.Bicubic -> stringResource(id = R.string.bicubic)
         ImageScaleMode.Hann -> stringResource(id = R.string.hann)
         ImageScaleMode.Hermite -> stringResource(id = R.string.hermite)
         ImageScaleMode.Lanczos -> stringResource(id = R.string.lanczos)

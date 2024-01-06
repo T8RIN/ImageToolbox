@@ -1003,7 +1003,7 @@ class AndroidImageManager @Inject constructor(
             height = height,
             width = width,
             resizeType = ResizeType.Flexible,
-            imageScaleMode = ImageScaleMode.Cubic
+            imageScaleMode = ImageScaleMode.Bicubic
         )
     }
 
