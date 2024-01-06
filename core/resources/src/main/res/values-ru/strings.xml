@@ -521,4 +521,5 @@
     <string name="mitchell">Митчелл</string>
     <string name="nearest">Ближайший</string>
     <string name="basic">Базовый</string>
+    <string name="default_value">Значение по умолчанию</string>
 </resources>
