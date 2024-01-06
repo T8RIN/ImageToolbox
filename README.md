@@ -208,6 +208,17 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
   - Center Crop with
     - Background color changing
     - Background blur drawing
+  - Different Scaling Algorhytms
+    * Bitmap Compat
+    * Bilinear
+    * Nearest Neighbour
+    * Bicubic
+    * Mitchell
+    * Lanczos
+    * Catmull
+    * Hermite
+    * Spline
+    * Hann
 - Image Shrinking
   - Quality compressing
   - Preset shrinking
@@ -336,6 +347,8 @@ height="80">](https://github.com/t8rin/imageresizer/releases/latest)
 - [SmartToolFactory](https://github.com/SmartToolFactory) provides a bunch of helpful libraries
 
 - [AVIF Coder](https://github.com/awxkee/avif-coder) library that provides avif, heic, heif support
+
+- [Bitmap Scaler](https://github.com/T8RIN/BitmapScaler) library that provides different scaling algorhytms
 
 <div align="center">
 
