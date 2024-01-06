@@ -43,8 +43,7 @@ androidxCore = "1.12.0"
 androidxLifecycle = "2.6.2"
 desugaring = "2.0.4"
 firebaseBom = "32.2.2"
-firebaseMessaging = "23.4.0"
-firebaseGms = "18.2.0"
+firebaseGms = "18.3.0"
 composeBom = "2023.10.01"
 decompose = "2.2.2"
 activityCompose = "1.8.2"
@@ -58,12 +57,7 @@ reviewKtx = "2.0.1"
 splashScreen = "1.0.1"
 room = "2.6.1"
 hiltJetpack = "1.0.0"
-yandexMetrica = "5.3.0"
-yandexMetricaPush = "2.2.0"
-retrofit = "2.9.0"
-okHttp = "4.12.0"
-chucker = "4.0.0"
-gson = "2.10.1"
+
 leakCanary = "2.7"
 junit = "4.13.2"
 runner = "1.5.2"
@@ -77,8 +71,6 @@ ksp = "1.9.22-1.0.16"
 androidx-test-ext-junit = "1.1.5"
 material = "1.11.0"
 documentfile = "1.0.1"
-vkauth = "1.2.0"
-datastorePreferencesAndroid = "1.0.0"
 uiautomator = "2.2.0"
 androidxMacroBenchmark = "1.2.2"
 
@@ -140,14 +132,8 @@ hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 dagger = { module = "com.google.dagger:dagger", version.ref = "hilt" }
 room = { module = "androidx.room:room-runtime", version.ref = "room" }
 roomKtx = { module = "androidx.room:room-ktx", version.ref = "room" }
-gsonConverter = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-okHttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okHttp" }
-okHttpLogging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okHttp" }
-messaging = { module = "com.google.firebase:firebase-messaging", version.ref = "firebaseMessaging" }
+
 gms = { module = "com.google.android.gms:play-services-base", version.ref = "firebaseGms" }
-push = { module = "com.yandex.android:mobmetricapushlib", version.ref = "yandexMetricaPush" }
 junit = { module = "junit:junit", version.ref = "junit" }
 mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 mockitoInline = { module = "org.mockito:mockito-inline", version.ref = "mockito" }
@@ -156,9 +142,7 @@ testArchCore = { module = "android.arch.core:core-testing", version.ref = "testA
 testCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "testCoroutines" }
 espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 runner = { module = "androidx.test:runner", version.ref = "runner" }
-yandexMetrica = { module = "com.yandex.android:mobmetricalib", version.ref = "yandexMetrica" }
-chuckerDebug = { module = "com.github.chuckerteam.chucker:library", version.ref = "chucker" }
-chuckerRelease = { module = "com.github.chuckerteam.chucker:library-no-op", version.ref = "chucker" }
+
 hiltAndroidCompiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 roomCompiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
@@ -176,8 +160,6 @@ kotlin-reflection = { module = "org.jetbrains.kotlin:kotlin-reflect", version.re
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "documentfile" }
-vkauth = { module = "com.petersamokhin.vksdk.android:auth", version.ref = "vkauth" }
-androidx-datastore-preferences-android = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferencesAndroid" }
 uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "androidxMacroBenchmark" }
 t8rin-bitmapscaler = { group = "com.github.t8rin", name = "bitmapscaler", version.ref="bitmapscaler" }
