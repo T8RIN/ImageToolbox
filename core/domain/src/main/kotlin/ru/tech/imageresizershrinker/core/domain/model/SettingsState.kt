@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.core.domain.model
 
 import ru.tech.imageresizershrinker.core.domain.Domain
+import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 
 data class SettingsState(
     val nightMode: NightMode,
@@ -46,7 +47,8 @@ data class SettingsState(
     val autoCopyToClipBoard: Boolean,
     val hapticsStrength: Int,
     val overwriteFiles: Boolean,
-    val filenameSuffix: String
+    val filenameSuffix: String,
+    val defaultImageScaleMode: ImageScaleMode
 ) : Domain {
 
     companion object {
@@ -94,7 +96,8 @@ data class SettingsState(
             autoCopyToClipBoard = false,
             hapticsStrength = 1,
             overwriteFiles = false,
-            filenameSuffix = ""
+            filenameSuffix = "",
+            defaultImageScaleMode = ImageScaleMode.Default
         )
     }
 }

@@ -50,4 +50,5 @@ object Keys {
     val VIBRATION_STRENGTH = intPreferencesKey("VIBRATION_STRENGTH")
     val OVERWRITE_FILE = booleanPreferencesKey("OVERWRITE_FILE")
     val FILENAME_SUFFIX = stringPreferencesKey("FILENAME_SUFFIX")
+    val IMAGE_SCALE_MODE = intPreferencesKey("IMAGE_SCALE_MODE")
 }

@@ -24,6 +24,8 @@ import androidx.exifinterface.media.ExifInterface
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.size.Size
+import com.t8rin.bitmapscaler.BitmapScaler
+import com.t8rin.bitmapscaler.ScaleMode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -31,6 +33,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.image.filters.SideFadeFilter
 import ru.tech.imageresizershrinker.core.data.image.filters.StackBlurFilter
+import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.image.filters.FadeSide
@@ -46,6 +49,7 @@ import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.StitchMode
 import ru.tech.imageresizershrinker.core.domain.model.withSize
+import ru.tech.imageresizershrinker.core.domain.repository.SettingsRepository
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.resources.R
@@ -67,7 +71,8 @@ class AndroidImageManager @Inject constructor(
     private val context: Context,
     private val fileController: FileController,
     private val imageLoader: ImageLoader,
-    private val filterProvider: FilterProvider<Bitmap>
+    private val filterProvider: FilterProvider<Bitmap>,
+    private val settingsRepository: SettingsRepository
 ) : ImageManager<Bitmap, ExifInterface> {
 
     override fun getFilterProvider(): FilterProvider<Bitmap> = filterProvider
@@ -235,7 +240,8 @@ class AndroidImageManager @Inject constructor(
         image: Bitmap,
         width: Int,
         height: Int,
-        resizeType: ResizeType
+        resizeType: ResizeType,
+        imageScaleMode: ImageScaleMode
     ): Bitmap? = withContext(Dispatchers.IO) {
 
         val widthInternal = width.takeIf { it > 0 } ?: image.width
@@ -245,14 +251,16 @@ class AndroidImageManager @Inject constructor(
             ResizeType.Explicit -> {
                 image.createScaledBitmap(
                     width = widthInternal,
-                    height = heightInternal
+                    height = heightInternal,
+                    imageScaleMode = imageScaleMode
                 )
             }
 
             ResizeType.Flexible -> {
                 flexibleResize(
                     image = image,
-                    max = max(widthInternal, heightInternal)
+                    max = max(widthInternal, heightInternal),
+                    imageScaleMode = imageScaleMode
                 )
             }
 
@@ -260,7 +268,8 @@ class AndroidImageManager @Inject constructor(
                 resizeType.resizeWithLimits(
                     image = image,
                     width = widthInternal,
-                    height = heightInternal
+                    height = heightInternal,
+                    imageScaleMode = imageScaleMode
                 )
             }
 
@@ -268,22 +277,27 @@ class AndroidImageManager @Inject constructor(
                 resizeType.resizeWithCenterCrop(
                     image = image,
                     w = widthInternal,
-                    h = heightInternal
+                    h = heightInternal,
+                    imageScaleMode = imageScaleMode
                 )
             }
         }
     }
 
-    private fun flexibleResize(image: Bitmap, max: Int): Bitmap {
+    private suspend fun flexibleResize(
+        image: Bitmap,
+        max: Int,
+        imageScaleMode: ImageScaleMode
+    ): Bitmap {
         return kotlin.runCatching {
             if (image.height >= image.width) {
                 val aspectRatio = image.width.toDouble() / image.height.toDouble()
                 val targetWidth = (max * aspectRatio).toInt()
-                image.createScaledBitmap(targetWidth, max)
+                image.createScaledBitmap(targetWidth, max, imageScaleMode)
             } else {
                 val aspectRatio = image.height.toDouble() / image.width.toDouble()
                 val targetHeight = (max * aspectRatio).toInt()
-                image.createScaledBitmap(max, targetHeight)
+                image.createScaledBitmap(max, targetHeight, imageScaleMode)
             }
         }.getOrNull() ?: image
     }
@@ -291,7 +305,8 @@ class AndroidImageManager @Inject constructor(
     private suspend fun ResizeType.Limits.resizeWithLimits(
         image: Bitmap,
         width: Int,
-        height: Int
+        height: Int,
+        imageScaleMode: ImageScaleMode
     ): Bitmap? {
         val limitWidth: Int
         val limitHeight: Int
@@ -311,21 +326,24 @@ class AndroidImageManager @Inject constructor(
                     image = image,
                     width = limitWidth,
                     height = limitWidth,
-                    resizeType = ResizeType.Flexible
+                    resizeType = ResizeType.Flexible,
+                    imageScaleMode = imageScaleMode
                 )
             } else if (image.aspectRatio < limitAspectRatio) {
                 return resize(
                     image = image,
                     width = limitHeight,
                     height = limitHeight,
-                    resizeType = ResizeType.Flexible
+                    resizeType = ResizeType.Flexible,
+                    imageScaleMode = imageScaleMode
                 )
             } else {
                 return resize(
                     image = image,
                     width = limitWidth,
                     height = limitHeight,
-                    resizeType = ResizeType.Flexible
+                    resizeType = ResizeType.Flexible,
+                    imageScaleMode = imageScaleMode
                 )
             }
         } else {
@@ -336,7 +354,8 @@ class AndroidImageManager @Inject constructor(
                     image = image,
                     width = limitWidth,
                     height = limitHeight,
-                    resizeType = ResizeType.Flexible
+                    resizeType = ResizeType.Flexible,
+                    imageScaleMode = imageScaleMode
                 )
 
                 is ResizeType.Limits.Skip -> null
@@ -527,7 +546,8 @@ class AndroidImageManager @Inject constructor(
                     image = bitmap,
                     width = (size.width * imageScale).toInt(),
                     height = (size.height * imageScale).toInt(),
-                    resizeType = ResizeType.Flexible
+                    resizeType = ResizeType.Flexible,
+                    imageScaleMode = ImageScaleMode.NotPresent
                 )!!,
                 imageInfo = ImageInfo(
                     width = (size.width * imageScale).toInt(),
@@ -859,6 +879,7 @@ class AndroidImageManager @Inject constructor(
     override suspend fun scaleByMaxBytes(
         image: Bitmap,
         imageFormat: ImageFormat,
+        imageScaleMode: ImageScaleMode,
         maxBytes: Long
     ): ImageData<Bitmap, ExifInterface>? = withContext(Dispatchers.IO) {
         val maxBytes1 =
@@ -918,7 +939,8 @@ class AndroidImageManager @Inject constructor(
                             image = image,
                             width = (newSize.first * 0.98).toInt(),
                             height = (newSize.second * 0.98).toInt(),
-                            resizeType = ResizeType.Explicit
+                            resizeType = ResizeType.Explicit,
+                            imageScaleMode = imageScaleMode
                         )
                         bmpStream.write(
                             temp?.let {
@@ -980,7 +1002,8 @@ class AndroidImageManager @Inject constructor(
             image = image,
             height = height,
             width = width,
-            resizeType = ResizeType.Flexible
+            resizeType = ResizeType.Flexible,
+            imageScaleMode = ImageScaleMode.Cubic
         )
     }
 
@@ -1002,7 +1025,8 @@ class AndroidImageManager @Inject constructor(
                 ),
                 width = imageData.imageInfo.width,
                 height = imageData.imageInfo.height,
-                resizeType = imageData.imageInfo.resizeType
+                resizeType = imageData.imageInfo.resizeType,
+                imageScaleMode = imageData.imageInfo.imageScaleMode
             )?.let {
                 flip(
                     image = it,
@@ -1049,7 +1073,8 @@ class AndroidImageManager @Inject constructor(
                 ),
                 w = imageData.imageInfo.width,
                 h = imageData.imageInfo.height,
-                scaleFactor = scaleFactor
+                scaleFactor = scaleFactor,
+                imageScaleMode = imageData.imageInfo.imageScaleMode
             )?.let {
                 flip(
                     image = it,
@@ -1306,7 +1331,8 @@ class AndroidImageManager @Inject constructor(
         image: Bitmap,
         w: Int,
         h: Int,
-        scaleFactor: Float = 1f
+        scaleFactor: Float = 1f,
+        imageScaleMode: ImageScaleMode
     ): Bitmap {
         if (w == image.width && h == image.height) return image
         val bitmap = transform(
@@ -1316,7 +1342,8 @@ class AndroidImageManager @Inject constructor(
                 val scale = xScale.coerceAtLeast(yScale)
                 it.createScaledBitmap(
                     width = (scale * it.width).toInt(),
-                    height = (scale * it.height).toInt()
+                    height = (scale * it.height).toInt(),
+                    imageScaleMode = imageScaleMode
                 )
             },
             transformations = listOf(
@@ -1327,7 +1354,8 @@ class AndroidImageManager @Inject constructor(
         )
         val drawImage = image.createScaledBitmap(
             width = (image.width * scaleFactor).toInt(),
-            height = (image.height * scaleFactor).toInt()
+            height = (image.height * scaleFactor).toInt(),
+            imageScaleMode = imageScaleMode
         )
         val canvas = Bitmap.createBitmap(w, h, drawImage.config).apply { setHasAlpha(true) }
         Canvas(canvas).apply {
@@ -1436,30 +1464,44 @@ class AndroidImageManager @Inject constructor(
         else this.width != size.width
     }
 
-    private fun Bitmap.upscale(
+    private suspend fun Bitmap.upscale(
         isHorizontal: Boolean,
         size: IntegerSize
     ): Bitmap {
         return if (isHorizontal) {
             createScaledBitmap(
                 width = (size.height * aspectRatio).toInt(),
-                height = size.height
+                height = size.height,
+                imageScaleMode = ImageScaleMode.NotPresent
             )
         } else {
             createScaledBitmap(
                 width = size.width,
-                height = (size.width / aspectRatio).toInt()
+                height = (size.width / aspectRatio).toInt(),
+                imageScaleMode = ImageScaleMode.NotPresent
             )
         }
     }
 
-    private fun Bitmap.createScaledBitmap(
+    private suspend fun Bitmap.createScaledBitmap(
         width: Int,
-        height: Int
+        height: Int,
+        imageScaleMode: ImageScaleMode
     ): Bitmap {
         if (width == this.width && height == this.height) return this
 
-        return if (width < this.width && height < this.height) {
+        val mode = imageScaleMode.takeIf {
+            it != ImageScaleMode.NotPresent
+        } ?: settingsRepository.getSettingsState().defaultImageScaleMode
+
+        return mode.takeIf { it != ImageScaleMode.Default }?.let {
+            BitmapScaler.scale(
+                bitmap = this,
+                dstWidth = width,
+                dstHeight = height,
+                scaleMode = ScaleMode.entries.first { e -> e.ordinal == it.value }
+            )
+        } ?: if (width < this.width && height < this.height) {
             BitmapCompat.createScaledBitmap(
                 this,
                 width,

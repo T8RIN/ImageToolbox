@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.core.domain.model
 
 import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.domain.Domain
+import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 
 data class ImageInfo(
     val width: Int = 0,
@@ -11,7 +12,8 @@ data class ImageInfo(
     val resizeType: ResizeType = ResizeType.Explicit,
     val rotationDegrees: Float = 0f,
     val isFlipped: Boolean = false,
-    val sizeInBytes: Int = 0
+    val sizeInBytes: Int = 0,
+    val imageScaleMode: ImageScaleMode = ImageScaleMode.Default
 ) : Domain {
     fun haveChanges(original: Bitmap?): Boolean {
         if (original == null) return false

@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
@@ -23,6 +24,7 @@ import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,6 +32,10 @@ class BytesResizeViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : ViewModel() {
+
+    private val _imageScaleMode: MutableState<ImageScaleMode> =
+        mutableStateOf(ImageScaleMode.Default)
+    val imageScaleMode by _imageScaleMode
 
     private val _imageSize: MutableState<Long> = mutableLongStateOf(0L)
     val imageSize by _imageSize
@@ -155,7 +161,8 @@ class BytesResizeViewModel @Inject constructor(
                             imageManager.scaleByMaxBytes(
                                 image = bitmap,
                                 maxBytes = maxBytes,
-                                imageFormat = imageFormat
+                                imageFormat = imageFormat,
+                                imageScaleMode = imageScaleMode
                             )
                         } else {
                             imageManager.scaleByMaxBytes(
@@ -163,7 +170,8 @@ class BytesResizeViewModel @Inject constructor(
                                 maxBytes = (fileController.getSize(uri.toString()) ?: 0)
                                     .times(_presetSelected.value / 100f)
                                     .toLong(),
-                                imageFormat = imageFormat
+                                imageFormat = imageFormat,
+                                imageScaleMode = imageScaleMode
                             )
                         }
                     }.let { result ->
@@ -257,7 +265,8 @@ class BytesResizeViewModel @Inject constructor(
                             imageManager.scaleByMaxBytes(
                                 image = bitmap,
                                 maxBytes = maxBytes,
-                                imageFormat = imageFormat
+                                imageFormat = imageFormat,
+                                imageScaleMode = imageScaleMode
                             )
                         } else {
                             imageManager.scaleByMaxBytes(
@@ -265,7 +274,8 @@ class BytesResizeViewModel @Inject constructor(
                                 maxBytes = (fileController.getSize(uri) ?: 0)
                                     .times(_presetSelected.value / 100f)
                                     .toLong(),
-                                imageFormat = imageFormat
+                                imageFormat = imageFormat,
+                                imageScaleMode = imageScaleMode
                             )
                         }
                     }?.let { scaled ->
@@ -331,6 +341,11 @@ class BytesResizeViewModel @Inject constructor(
         savingJob?.cancel()
         savingJob = null
         _isSaving.value = false
+    }
+
+    fun setImageScaleMode(imageScaleMode: ImageScaleMode) {
+        _imageScaleMode.update { imageScaleMode }
+        updateCanSave()
     }
 
 }

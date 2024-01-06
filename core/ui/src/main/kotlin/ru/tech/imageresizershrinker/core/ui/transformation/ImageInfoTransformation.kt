@@ -3,6 +3,7 @@ package ru.tech.imageresizershrinker.core.ui.transformation
 import android.graphics.Bitmap
 import androidx.exifinterface.media.ExifInterface
 import coil.size.Size
+import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.image.filters.Filter
@@ -37,7 +38,13 @@ class ImageInfoTransformation(
 
     override suspend fun transform(input: Bitmap, size: Size): Bitmap {
         val transformedInput =
-            imageManager.resize(input, imageInfo.width, imageInfo.height, ResizeType.Flexible)!!
+            imageManager.resize(
+                image = input,
+                width = imageInfo.width,
+                height = imageInfo.height,
+                resizeType = ResizeType.Flexible,
+                imageScaleMode = ImageScaleMode.NotPresent
+            )!!
         var info = imageInfo
         if (!preset.isEmpty()) {
             val currentInfo = info.copy()

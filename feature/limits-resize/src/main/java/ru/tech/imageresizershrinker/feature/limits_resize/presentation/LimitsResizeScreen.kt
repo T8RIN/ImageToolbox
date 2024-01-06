@@ -79,6 +79,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleModeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
@@ -413,8 +414,8 @@ fun LimitsResizeScreen(
                                     Spacer(Modifier.size(8.dp))
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
-                                        imageFormat = viewModel.imageInfo.imageFormat,
-                                        onFormatChange = viewModel::setMime
+                                        value = viewModel.imageInfo.imageFormat,
+                                        onValueChange = viewModel::setMime
                                     )
                                     Spacer(Modifier.size(8.dp))
                                     AutoRotateLimitBoxToggle(
@@ -426,6 +427,11 @@ fun LimitsResizeScreen(
                                         enabled = viewModel.bitmap != null,
                                         value = viewModel.resizeType,
                                         onValueChange = viewModel::setResizeType
+                                    )
+                                    Spacer(Modifier.height(8.dp))
+                                    ScaleModeSelector(
+                                        value = viewModel.imageInfo.imageScaleMode,
+                                        onValueChange = viewModel::setImageScaleMode
                                     )
                                 } else if (!viewModel.isImageLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)

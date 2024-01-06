@@ -4,6 +4,7 @@ androidTargetSdk = "34"
 androidCompileSdk = "34"
 versionName = "2.5.2"
 versionCode = "106"
+jvmTarget = "17"
 
 composeColorDetector = "1.0.0"
 composeColorfulSliders = "1.2.0"
@@ -28,10 +29,9 @@ firebaseAnalyticsKtx = "21.5.0"
 firebaseCrashlyticsGradle = "2.9.9"
 google-segmentationSelfie = "16.0.0-beta4"
 hiltCompiler = "1.1.0"
-jvmTarget = "17"
 
-compose-compiler = "1.5.3"
-kotlin = "1.9.10"
+compose-compiler = "1.5.7"
+kotlin = "1.9.21"
 agp = "8.2.0"
 hilt = "2.50"
 gms = "4.4.0"
@@ -70,7 +70,7 @@ runner = "1.5.2"
 espresso = "3.5.1"
 mockito = "4.8.0"
 testArchCore = "2.1.0"
-testCoroutines = "1.5.1"
+testCoroutines = "1.7.2"
 kotlinxSerializationJson = "1.6.2"
 ksp = "1.9.22-1.0.16"
 
@@ -81,6 +81,8 @@ vkauth = "1.2.0"
 datastorePreferencesAndroid = "1.0.0"
 uiautomator = "2.2.0"
 androidxMacroBenchmark = "1.2.2"
+
+bitmapscaler = "1.0.2"
 
 [libraries]
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "exifinterface" }
@@ -178,6 +180,7 @@ vkauth = { module = "com.petersamokhin.vksdk.android:auth", version.ref = "vkaut
 androidx-datastore-preferences-android = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferencesAndroid" }
 uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "androidxMacroBenchmark" }
+t8rin-bitmapscaler = { group = "com.github.t8rin", name = "bitmapscaler", version.ref="bitmapscaler" }
 
 firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
 baselineprofile-gradle = { group = "androidx.benchmark", name = "benchmark-baseline-profile-gradle-plugin", version.ref = "androidxMacroBenchmark" }

@@ -41,6 +41,7 @@ import ru.tech.imageresizershrinker.core.data.keys.Keys.FILENAME_SUFFIX
 import ru.tech.imageresizershrinker.core.data.keys.Keys.FONT_SCALE
 import ru.tech.imageresizershrinker.core.data.keys.Keys.GROUP_OPTIONS_BY_TYPE
 import ru.tech.imageresizershrinker.core.data.keys.Keys.IMAGE_PICKER_MODE
+import ru.tech.imageresizershrinker.core.data.keys.Keys.IMAGE_SCALE_MODE
 import ru.tech.imageresizershrinker.core.data.keys.Keys.INVERT_THEME
 import ru.tech.imageresizershrinker.core.data.keys.Keys.LOCK_DRAW_ORIENTATION
 import ru.tech.imageresizershrinker.core.data.keys.Keys.NIGHT_MODE
@@ -56,6 +57,7 @@ import ru.tech.imageresizershrinker.core.data.keys.Keys.SHOW_UPDATE_DIALOG
 import ru.tech.imageresizershrinker.core.data.keys.Keys.THEME_CONTRAST_LEVEL
 import ru.tech.imageresizershrinker.core.data.keys.Keys.THEME_STYLE
 import ru.tech.imageresizershrinker.core.data.keys.Keys.VIBRATION_STRENGTH
+import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.domain.model.Preset
@@ -135,7 +137,10 @@ class SettingsRepositoryImpl @Inject constructor(
             autoCopyToClipBoard = prefs[COPY_TO_CLIPBOARD] ?: default.autoCopyToClipBoard,
             hapticsStrength = prefs[VIBRATION_STRENGTH] ?: default.hapticsStrength,
             overwriteFiles = prefs[OVERWRITE_FILE] ?: default.overwriteFiles,
-            filenameSuffix = prefs[FILENAME_SUFFIX] ?: default.filenameSuffix
+            filenameSuffix = prefs[FILENAME_SUFFIX] ?: default.filenameSuffix,
+            defaultImageScaleMode = prefs[IMAGE_SCALE_MODE]?.let {
+                ImageScaleMode.fromInt(it)
+            } ?: default.defaultImageScaleMode
         )
     }
 
@@ -483,6 +488,12 @@ class SettingsRepositoryImpl @Inject constructor(
     override suspend fun setFilenameSuffix(name: String) {
         dataStore.edit {
             it[FILENAME_SUFFIX] = name
+        }
+    }
+
+    override suspend fun setDefaultImageScaleMode(imageScaleMode: ImageScaleMode) {
+        dataStore.edit {
+            it[IMAGE_SCALE_MODE] = imageScaleMode.value
         }
     }
 

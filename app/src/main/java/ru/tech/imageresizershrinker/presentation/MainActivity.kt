@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.presentation
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
@@ -189,6 +190,7 @@ class MainActivity : M3Activity() {
         }
     }
 
+    @SuppressLint("MissingSuperCall")
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         parseImage(intent)

@@ -46,7 +46,6 @@ dependencies {
     implementation(libs.coilSvg)
     implementation(libs.avif.coder)
     api(libs.datastore.preferences.android)
-    implementation(project(":libs:gpuimage"))
 
     "marketImplementation"(libs.mlkit.segmentation.selfie)
     "jxlImplementation"(libs.mlkit.segmentation.selfie)
@@ -54,6 +53,10 @@ dependencies {
 
     api(libs.androidx.exifinterface)
     api(libs.androidx.documentfile)
+
+    implementation(libs.t8rin.bitmapscaler)
+
+    implementation(project(":libs:gpuimage"))
 
     implementation(project(":core:domain"))
     implementation(project(":core:resources"))

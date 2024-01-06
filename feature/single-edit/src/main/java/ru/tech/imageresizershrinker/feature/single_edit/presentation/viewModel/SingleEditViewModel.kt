@@ -20,6 +20,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
@@ -567,6 +568,15 @@ class SingleEditViewModel @Inject constructor(
         savingJob?.cancel()
         savingJob = null
         _isSaving.value = false
+    }
+
+    fun setImageScaleMode(imageScaleMode: ImageScaleMode) {
+        _imageInfo.update {
+            it.copy(imageScaleMode = imageScaleMode)
+        }
+        debouncedImageCalculation {
+            checkBitmapAndUpdate()
+        }
     }
 
 }

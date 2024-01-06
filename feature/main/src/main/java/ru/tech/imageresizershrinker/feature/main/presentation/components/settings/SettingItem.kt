@@ -405,5 +405,11 @@ fun SettingItem(
         Setting.VibrationStrength -> {
             VibrationStrengthSettingItem(onValueChange = viewModel::setVibrationStrength)
         }
+
+        Setting.DefaultScaleMode -> {
+            DefaultScaleModeSettingItem(
+                onValueChange = viewModel::setDefaultImageScaleMode
+            )
+        }
     }
 }

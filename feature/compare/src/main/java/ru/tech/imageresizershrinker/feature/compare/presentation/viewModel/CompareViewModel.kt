@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
@@ -57,9 +58,25 @@ class CompareViewModel @Inject constructor(
                     val (aW, aH) = a?.run { width to height } ?: (0 to 0)
 
                     if (bW * bH > aH * aW) {
-                        b to a?.let { imageManager.resize(it, bW, bH, ResizeType.Flexible) }
+                        b to a?.let {
+                            imageManager.resize(
+                                image = it,
+                                width = bW,
+                                height = bH,
+                                resizeType = ResizeType.Flexible,
+                                imageScaleMode = ImageScaleMode.NotPresent
+                            )
+                        }
                     } else if (bW * bH < aH * aW) {
-                        b?.let { imageManager.resize(it, aW, aH, ResizeType.Flexible) } to a
+                        b?.let {
+                            imageManager.resize(
+                                image = it,
+                                width = aW,
+                                height = aH,
+                                resizeType = ResizeType.Flexible,
+                                imageScaleMode = ImageScaleMode.NotPresent
+                            )
+                        } to a
                     } else {
                         b to a
                     }

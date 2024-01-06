@@ -87,6 +87,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageTransformBar
 import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleModeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.ResizeTypeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
@@ -163,7 +164,7 @@ fun SingleEditScreen(
     var showOriginal by rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
-    val bitmapInfo = viewModel.imageInfo
+    val imageInfo = viewModel.imageInfo
 
     val pickImageLauncher =
         rememberImagePicker(
@@ -363,7 +364,7 @@ fun SingleEditScreen(
     )
 
     val onBack = {
-        if (bitmapInfo.haveChanges(viewModel.bitmap)) showExitDialog = true
+        if (imageInfo.haveChanges(viewModel.bitmap)) showExitDialog = true
         else onGoBack()
     }
 
@@ -396,32 +397,37 @@ fun SingleEditScreen(
         )
         Spacer(Modifier.size(8.dp))
         ResizeImageField(
-            imageInfo = bitmapInfo,
+            imageInfo = imageInfo,
             originalSize = viewModel.originalSize,
             onHeightChange = viewModel::updateHeight,
             onWidthChange = viewModel::updateWidth,
             showWarning = viewModel.showWarning
         )
-        if (bitmapInfo.imageFormat.canChangeCompressionValue) Spacer(
+        if (imageInfo.imageFormat.canChangeCompressionValue) Spacer(
             Modifier.height(8.dp)
         )
         QualityWidget(
-            imageFormat = bitmapInfo.imageFormat,
+            imageFormat = imageInfo.imageFormat,
             enabled = viewModel.bitmap != null,
-            quality = bitmapInfo.quality.coerceIn(0f, 100f),
+            quality = imageInfo.quality.coerceIn(0f, 100f),
             onQualityChange = viewModel::setQuality
         )
         Spacer(Modifier.height(8.dp))
         ExtensionGroup(
             enabled = viewModel.bitmap != null,
-            imageFormat = bitmapInfo.imageFormat,
-            onFormatChange = viewModel::setImageFormat
+            value = imageInfo.imageFormat,
+            onValueChange = viewModel::setImageFormat
         )
         Spacer(Modifier.height(8.dp))
         ResizeTypeSelector(
             enabled = viewModel.bitmap != null,
-            value = bitmapInfo.resizeType,
+            value = imageInfo.resizeType,
             onValueChange = viewModel::setResizeType
+        )
+        Spacer(Modifier.height(8.dp))
+        ScaleModeSelector(
+            value = imageInfo.imageScaleMode,
+            onValueChange = viewModel::setImageScaleMode
         )
 
         EditExifSheet(

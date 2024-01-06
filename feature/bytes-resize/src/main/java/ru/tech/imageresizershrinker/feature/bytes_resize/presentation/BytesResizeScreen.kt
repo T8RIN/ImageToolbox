@@ -88,6 +88,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleModeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
@@ -456,8 +457,13 @@ fun BytesResizeScreen(
                                     ImageFormatAlert(viewModel.imageFormat)
                                     ExtensionGroup(
                                         enabled = viewModel.bitmap != null,
-                                        imageFormat = viewModel.imageFormat,
-                                        onFormatChange = viewModel::setMime
+                                        value = viewModel.imageFormat,
+                                        onValueChange = viewModel::setMime
+                                    )
+                                    Spacer(Modifier.size(8.dp))
+                                    ScaleModeSelector(
+                                        value = viewModel.imageScaleMode,
+                                        onValueChange = viewModel::setImageScaleMode
                                     )
                                 } else if (!viewModel.isImageLoading) {
                                     ImageNotPickedWidget(onPickImage = pickImage)

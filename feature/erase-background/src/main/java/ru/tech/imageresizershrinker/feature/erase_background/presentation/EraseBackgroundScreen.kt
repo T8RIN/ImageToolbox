@@ -464,8 +464,8 @@ fun EraseBackgroundScreen(
                     .navigationBarsPadding(),
                 entries = ImageFormat.alphaContainedEntries,
                 enabled = true,
-                imageFormat = viewModel.imageFormat,
-                onFormatChange = {
+                value = viewModel.imageFormat,
+                onValueChange = {
                     viewModel.setMime(it)
                 }
             )

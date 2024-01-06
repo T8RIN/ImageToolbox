@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
@@ -106,7 +107,7 @@ class LimitsResizeViewModel @Inject constructor(
         }
     }
 
-    fun updateBitmap(bitmap: Bitmap?, preview: Bitmap? = null) {
+    private fun updateBitmap(bitmap: Bitmap?, preview: Bitmap? = null) {
         viewModelScope.launch {
             _isImageLoading.value = true
             val size = bitmap?.let { it.width to it.height }
@@ -138,7 +139,8 @@ class LimitsResizeViewModel @Inject constructor(
                         image = bitmap,
                         width = imageInfo.width,
                         height = imageInfo.height,
-                        resizeType = resizeType
+                        resizeType = resizeType,
+                        imageScaleMode = imageInfo.imageScaleMode
                     )
                 }?.let { localBitmap ->
                     val result = fileController.save(
@@ -220,7 +222,8 @@ class LimitsResizeViewModel @Inject constructor(
                             image = bitmap,
                             width = imageInfo.width,
                             height = imageInfo.height,
-                            resizeType = resizeType
+                            resizeType = resizeType,
+                            imageScaleMode = imageInfo.imageScaleMode
                         )
                     }?.let {
                         ImageData(
@@ -281,6 +284,14 @@ class LimitsResizeViewModel @Inject constructor(
 
     fun toggleAutoRotateLimitBox() {
         _resizeType.update { it.copy(!it.autoRotateLimitBox) }
+    }
+
+    fun setImageScaleMode(imageScaleMode: ImageScaleMode) {
+        _imageInfo.update {
+            it.copy(
+                imageScaleMode = imageScaleMode
+            )
+        }
     }
 
 }

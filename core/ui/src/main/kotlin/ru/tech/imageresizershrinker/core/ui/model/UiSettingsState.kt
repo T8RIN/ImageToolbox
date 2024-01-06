@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.PaletteStyle
+import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.domain.model.NightMode
@@ -67,7 +68,8 @@ data class UiSettingsState(
     val autoCopyToClipBoard: Boolean,
     val hapticsStrength: Int,
     val overwriteFiles: Boolean,
-    val filenameSuffix: String
+    val filenameSuffix: String,
+    val defaultImageScaleMode: ImageScaleMode
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -148,7 +150,8 @@ fun SettingsState.toUiState(): UiSettingsState {
         autoCopyToClipBoard = autoCopyToClipBoard,
         hapticsStrength = hapticsStrength,
         overwriteFiles = overwriteFiles,
-        filenameSuffix = filenameSuffix
+        filenameSuffix = filenameSuffix,
+        defaultImageScaleMode = defaultImageScaleMode
     )
 }
 

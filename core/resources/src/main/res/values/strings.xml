@@ -529,4 +529,16 @@
     <string name="overwrite_files_sub">Original file will be replaced with new one instead of saving in selected folder, this option need to image source be \"Explorer\" or GetContent, when toggling this, it will be set automatically</string>
     <string name="empty">Empty</string>
     <string name="suffix">Suffix</string>
+    <string name="scale_mode">Scale mode</string>
+    <string name="bilinear">Bilinear</string>
+    <string name="catmul_rom">Catmul Rom</string>
+    <string name="cubic">Cubic</string>
+    <string name="hann">Hann</string>
+    <string name="hermite">Hermite</string>
+    <string name="lanczos">Lanczos</string>
+    <string name="mitchell">Mitchell</string>
+    <string name="nearest">Nearest</string>
+    <string name="spline">Spline</string>
+    <string name="basic">Basic</string>
+    <string name="default_values">Default Values</string>
 </resources>

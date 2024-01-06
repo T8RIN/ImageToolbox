@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.core.domain.image
 
 import kotlinx.coroutines.Job
+import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.core.domain.image.filters.provider.FilterProvider
 import ru.tech.imageresizershrinker.core.domain.model.CombiningParams
@@ -53,7 +54,8 @@ interface ImageManager<I, M> {
         image: I,
         width: Int,
         height: Int,
-        resizeType: ResizeType
+        resizeType: ResizeType,
+        imageScaleMode: ImageScaleMode
     ): I?
 
     suspend fun createPreview(
@@ -104,6 +106,7 @@ interface ImageManager<I, M> {
     suspend fun scaleByMaxBytes(
         image: I,
         imageFormat: ImageFormat,
+        imageScaleMode: ImageScaleMode,
         maxBytes: Long
     ): ImageData<I, M>?
 

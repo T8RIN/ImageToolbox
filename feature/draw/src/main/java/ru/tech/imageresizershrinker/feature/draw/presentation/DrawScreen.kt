@@ -418,8 +418,8 @@ fun DrawScreen(
                 .padding(16.dp)
                 .navigationBarsPadding(),
             enabled = viewModel.drawBehavior !is DrawBehavior.None,
-            imageFormat = viewModel.imageFormat,
-            onFormatChange = {
+            value = viewModel.imageFormat,
+            onValueChange = {
                 viewModel.updateMimeType(it)
             },
             backgroundColor = MaterialTheme.colorScheme.surfaceContainer

@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Cached
 import androidx.compose.material.icons.rounded.Description
 import androidx.compose.material.icons.rounded.Draw
+import androidx.compose.material.icons.rounded.FitScreen
 import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.IntegrationInstructions
@@ -113,6 +114,15 @@ sealed class SettingsGroup(
         titleId = R.string.presets,
         settingsList = listOf(
             Setting.Presets
+        ),
+        initialState = false
+    )
+
+    data object ScaleMode : SettingsGroup(
+        icon = Icons.Rounded.FitScreen,
+        titleId = R.string.scale_mode,
+        settingsList = listOf(
+            Setting.DefaultScaleMode
         ),
         initialState = false
     )
@@ -244,6 +254,7 @@ sealed class SettingsGroup(
                 Font,
                 OptionsArrangement,
                 Presets,
+                ScaleMode,
                 Draw,
                 Folder,
                 Filename,

@@ -444,8 +444,8 @@ fun ImageStitchingScreen(
                                         )
                                         ExtensionGroup(
                                             enabled = !viewModel.uris.isNullOrEmpty(),
-                                            imageFormat = viewModel.imageInfo.imageFormat,
-                                            onFormatChange = viewModel::setMime
+                                            value = viewModel.imageInfo.imageFormat,
+                                            onValueChange = viewModel::setMime
                                         )
                                     }
                                 } else if (!viewModel.isImageLoading) {

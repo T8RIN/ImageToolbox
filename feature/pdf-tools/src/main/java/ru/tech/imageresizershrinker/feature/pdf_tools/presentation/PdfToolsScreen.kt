@@ -504,8 +504,8 @@ fun PdfToolsScreen(
                 )
                 ExtensionGroup(
                     enabled = true,
-                    imageFormat = viewModel.imageInfo.imageFormat,
-                    onFormatChange = viewModel::updateImageFormat
+                    value = viewModel.imageInfo.imageFormat,
+                    onValueChange = viewModel::updateImageFormat
                 )
             }
         }

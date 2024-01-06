@@ -552,8 +552,8 @@ fun FiltersScreen(
                         Spacer(Modifier.size(8.dp))
                         ExtensionGroup(
                             enabled = viewModel.bitmap != null,
-                            imageFormat = viewModel.imageInfo.imageFormat,
-                            onFormatChange = {
+                            value = viewModel.imageInfo.imageFormat,
+                            onValueChange = {
                                 viewModel.setImageFormat(it)
                             }
                         )
@@ -678,8 +678,8 @@ fun FiltersScreen(
                         Spacer(Modifier.size(8.dp))
                         ExtensionGroup(
                             enabled = viewModel.bitmap != null,
-                            imageFormat = viewModel.imageInfo.imageFormat,
-                            onFormatChange = {
+                            value = viewModel.imageInfo.imageFormat,
+                            onValueChange = {
                                 viewModel.setImageFormat(it)
                             }
                         )

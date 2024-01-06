@@ -25,6 +25,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.core.domain.APP_RELEASES
+import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.domain.model.NightMode
@@ -38,6 +39,7 @@ import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.SetAlignm
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.SetBorderWidthUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.SetColorTupleUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.SetColorTuplesUseCase
+import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.SetDefaultImageScaleModeUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.SetEmojiUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.SetEmojisCountUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.SetFilenamePrefixUseCase
@@ -140,7 +142,8 @@ class MainViewModel @Inject constructor(
     private val toggleAutoPinClipboardUseCase: ToggleAutoPinClipboardUseCase,
     private val setVibrationStrengthUseCase: SetVibrationStrengthUseCase,
     private val toggleOverwriteFilesUseCase: ToggleOverwriteFilesUseCase,
-    private val setFilenameSuffixUseCase: SetFilenameSuffixUseCase
+    private val setFilenameSuffixUseCase: SetFilenameSuffixUseCase,
+    private val setDefaultImageScaleModeUseCase: SetDefaultImageScaleModeUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default())
@@ -640,6 +643,12 @@ class MainViewModel @Inject constructor(
     fun toggleOverwriteFiles() {
         viewModelScope.launch {
             toggleOverwriteFilesUseCase()
+        }
+    }
+
+    fun setDefaultImageScaleMode(imageScaleMode: ImageScaleMode) {
+        viewModelScope.launch {
+            setDefaultImageScaleModeUseCase(imageScaleMode)
         }
     }
 

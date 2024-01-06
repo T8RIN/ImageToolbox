@@ -568,8 +568,8 @@ fun CompareScreen(
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
                         enabled = true,
-                        imageFormat = imageFormat,
-                        onFormatChange = { imageFormat = it }
+                        value = imageFormat,
+                        onValueChange = { imageFormat = it }
                     )
                     Spacer(Modifier.height(8.dp))
                     PreferenceItem(

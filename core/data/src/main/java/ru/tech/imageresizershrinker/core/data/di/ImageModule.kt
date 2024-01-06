@@ -19,6 +19,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.draw.ImageDrawApplier
 import ru.tech.imageresizershrinker.core.domain.image.filters.FilterMaskApplier
 import ru.tech.imageresizershrinker.core.domain.image.filters.provider.FilterProvider
+import ru.tech.imageresizershrinker.core.domain.repository.SettingsRepository
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import javax.inject.Singleton
 
@@ -32,12 +33,14 @@ object ImageModule {
         @ApplicationContext context: Context,
         fileController: FileController,
         imageLoader: ImageLoader,
-        filterProvider: FilterProvider<Bitmap>
+        filterProvider: FilterProvider<Bitmap>,
+        settingsRepository: SettingsRepository
     ): ImageManager<Bitmap, ExifInterface> = AndroidImageManager(
         context = context,
         fileController = fileController,
         imageLoader = imageLoader,
-        filterProvider = filterProvider
+        filterProvider = filterProvider,
+        settingsRepository = settingsRepository
     )
 
     @Singleton

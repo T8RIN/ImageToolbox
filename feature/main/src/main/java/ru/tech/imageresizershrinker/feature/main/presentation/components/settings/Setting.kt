@@ -260,4 +260,9 @@ sealed class Setting(
         title = R.string.suffix,
         subtitle = null
     )
+
+    data object DefaultScaleMode : Setting(
+        title = R.string.default_values,
+        subtitle = null
+    )
 }
