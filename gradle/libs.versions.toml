@@ -70,7 +70,7 @@ runner = "1.5.2"
 espresso = "3.5.1"
 mockito = "4.8.0"
 testArchCore = "2.1.0"
-testCoroutines = "1.7.2"
+testCoroutines = "1.7.3"
 kotlinxSerializationJson = "1.6.2"
 ksp = "1.9.22-1.0.16"
 
