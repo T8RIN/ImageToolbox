@@ -72,7 +72,7 @@ mockito = "4.8.0"
 testArchCore = "2.1.0"
 testCoroutines = "1.5.1"
 kotlinxSerializationJson = "1.6.2"
-ksp = "1.9.21-1.0.15"
+ksp = "1.9.22-1.0.16"
 
 androidx-test-ext-junit = "1.1.5"
 material = "1.11.0"
