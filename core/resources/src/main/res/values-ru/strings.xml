@@ -510,4 +510,15 @@
     <string name="empty">Пустой</string>
     <string name="suffix">Суффикс</string>
     <string name="auto_pin">Авто закрепление</string>
+    <string name="catmul_rom">Катмул Ром</string>
+    <string name="cubic">Бикубический</string>
+    <string name="hermite">Гермит</string>
+    <string name="spline">Сплайн</string>
+    <string name="scale_mode">Режим масштабирования</string>
+    <string name="bilinear">Билинейный</string>
+    <string name="hann">Ханн</string>
+    <string name="lanczos">Ланкоз</string>
+    <string name="mitchell">Митчелл</string>
+    <string name="nearest">Ближайший</string>
+    <string name="basic">Базовый</string>
 </resources>
