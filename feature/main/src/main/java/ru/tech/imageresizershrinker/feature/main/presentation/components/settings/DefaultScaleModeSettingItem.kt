@@ -39,6 +39,7 @@ fun DefaultScaleModeSettingItem(
         backgroundColor = MaterialTheme.colorScheme.secondaryContainer.copy(
             alpha = 0.2f
         ),
+        enableItemsCardBackground = false,
         title = {
             Row(
                 modifier = Modifier.padding(16.dp),

@@ -45,6 +45,7 @@ fun ScaleModeSelector(
     modifier: Modifier = Modifier,
     backgroundColor: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
     shape: Shape = RoundedCornerShape(24.dp),
+    enableItemsCardBackground: Boolean = true,
     value: ImageScaleMode,
     onValueChange: (ImageScaleMode) -> Unit,
     title: @Composable ColumnScope.() -> Unit = {
@@ -93,8 +94,13 @@ fun ScaleModeSelector(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
-                .container()
-                .padding(horizontal = 8.dp, vertical = 12.dp)
+                .then(
+                    if (enableItemsCardBackground) {
+                        Modifier
+                            .container()
+                            .padding(horizontal = 8.dp, vertical = 12.dp)
+                    } else Modifier
+                )
         ) {
             items.forEach {
                 Chip(
