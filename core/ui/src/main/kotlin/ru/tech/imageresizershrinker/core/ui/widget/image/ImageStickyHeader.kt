@@ -11,6 +11,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -135,6 +136,16 @@ fun LazyListScope.imageStickyHeader(
                     modifier = Modifier
                         .weight(1f, false)
                         .then(imageModifier)
+                        .pointerInput(Unit) {
+                            detectTapGestures {
+                                controlsVisible = true
+                            }
+                        }
+                        .pointerInput(Unit) {
+                            detectTransformGestures { _, _, _, _ ->
+                                controlsVisible = true
+                            }
+                        }
                 ) {
                     imageBlock()
                 }
