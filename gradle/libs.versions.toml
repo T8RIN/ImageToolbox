@@ -17,7 +17,7 @@ androidx-material = "1.6.0-beta03"
 appUpdateKtx = "2.1.0"
 appUpdate = "2.1.0"
 avifCoder = "1.5.8"
-jxlCoder = "1.5.7"
+jxlCoder = "1.6.0"
 compose = "2.1.0"
 fadingEdges = "1.0.3"
 firebaseCrashlyticsKtx = "18.6.0"
@@ -74,7 +74,7 @@ documentfile = "1.0.1"
 uiautomator = "2.2.0"
 androidxMacroBenchmark = "1.2.2"
 
-bitmapscaler = "1.0.2"
+bitmapscaler = "1.0.4"
 
 [libraries]
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "exifinterface" }
