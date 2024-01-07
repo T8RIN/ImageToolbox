@@ -541,4 +541,15 @@
     <string name="spline">Spline</string>
     <string name="basic">Basic</string>
     <string name="default_value">Default Value</string>
+    <string name="bilinear_sub">Linear (or bilinear, in two dimensions) interpolation is typically good for changing the size of an image, but causes some undesirable softening of details and can still be somewhat jagged</string>
+    <string name="bicubic_sub">Better scaling methods include Lanczos resampling and Mitchell-Netravali filters</string>
+    <string name="nearest_sub">One of the simpler ways of increasing the size, replacing every pixel with a number of pixels of the same color</string>
+    <string name="basic_sub">Simplest android scaling mode that used in almost all apps</string>
+    <string name="catmull_sub">Method for smoothly interpolating and resampling a set of control points, commonly used in computer graphics to create smooth curves</string>
+    <string name="hann_sub">Windowing function often applied in signal processing to minimize spectral leakage and improve the accuracy of frequency analysis by tapering the edges of a signal</string>
+    <string name="hermite_sub">Mathematical interpolation technique that uses the values and derivatives at the endpoints of a curve segment to generate a smooth and continuous curve</string>
+    <string name="lanczos_sub">Resampling method that maintains high-quality interpolation by applying a weighted sinc function to the pixel values</string>
+    <string name="mitchell_sub">Resampling method that use a convolution filter with adjustable parameters to achieve a balance between sharpness and anti-aliasing in the scaled image</string>
+    <string name="spline_sub">Utilizes piecewise-defined polynomial functions to smoothly interpolate and approximate a curve or surface, flexible and continuous shape representation</string>
+
 </resources>

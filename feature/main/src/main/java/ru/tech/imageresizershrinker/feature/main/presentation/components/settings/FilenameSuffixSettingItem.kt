@@ -29,7 +29,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.core.ui.icons.material.Suffix
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem

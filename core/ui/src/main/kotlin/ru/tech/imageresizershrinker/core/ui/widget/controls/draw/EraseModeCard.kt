@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.Eraser
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 
 @Composable

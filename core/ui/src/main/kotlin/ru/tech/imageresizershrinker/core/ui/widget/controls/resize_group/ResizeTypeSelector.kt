@@ -7,8 +7,6 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,16 +14,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,10 +30,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -49,9 +39,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.DrawBackgroundSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.components.UseBlurredBackgroundToggle
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
@@ -113,25 +104,10 @@ fun ResizeTypeSelector(
                         fontWeight = FontWeight.Medium
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Icon(
-                        imageVector = Icons.Outlined.Info,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                        modifier = Modifier
-                            .background(
-                                MaterialTheme.colorScheme.secondaryContainer,
-                                CircleShape
-                            )
-                            .clip(CircleShape)
-                            .clickable {
-                                state.value = true
-                            }
-                            .padding(1.dp)
-                            .size(
-                                with(LocalDensity.current) {
-                                    LocalTextStyle.current.fontSize.toDp()
-                                }
-                            )
+                    SupportingButton(
+                        onClick = {
+                            state.value = true
+                        }
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))

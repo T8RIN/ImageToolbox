@@ -75,8 +75,8 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.Cube
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container

@@ -50,8 +50,8 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.pasteColorFromClipboard
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker

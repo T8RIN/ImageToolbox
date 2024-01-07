@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.Jxl
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 

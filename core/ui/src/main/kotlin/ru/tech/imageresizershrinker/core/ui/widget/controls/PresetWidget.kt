@@ -3,9 +3,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.controls
 
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,27 +10,22 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,13 +33,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.compositeOver
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -57,9 +43,12 @@ import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.core.ui.icons.material.Telegram
-import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
@@ -118,25 +107,10 @@ fun PresetWidget(
                         fontWeight = FontWeight.Medium
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Icon(
-                        imageVector = Icons.Outlined.Info,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                        modifier = Modifier
-                            .background(
-                                MaterialTheme.colorScheme.secondaryContainer,
-                                CircleShape
-                            )
-                            .clip(CircleShape)
-                            .clickable {
-                                showPresetInfoDialog = true
-                            }
-                            .padding(1.dp)
-                            .size(
-                                with(LocalDensity.current) {
-                                    LocalTextStyle.current.fontSize.toDp()
-                                }
-                            )
+                    SupportingButton(
+                        onClick = {
+                            showPresetInfoDialog = true
+                        }
                     )
                 }
                 Spacer(Modifier.height(8.dp))
@@ -159,23 +133,25 @@ fun PresetWidget(
                         if (includeTelegramOption) {
                             item {
                                 val selected = selectedPreset.isTelegram()
-                                Chip(
+                                EnhancedChip(
                                     selected = selected,
-                                    onClick = { onPresetSelected(Preset.Telegram) }
+                                    onClick = { onPresetSelected(Preset.Telegram) },
+                                    selectedColor = MaterialTheme.colorScheme.primary,
+                                    shape = MaterialTheme.shapes.medium
                                 ) {
                                     Icon(Icons.Rounded.Telegram, null)
                                 }
                             }
                         }
-                        data.forEach {
-                            item {
-                                val selected = selectedPreset.value() == it
-                                Chip(
-                                    selected = selected,
-                                    onClick = { onPresetSelected(Preset.Numeric(it)) }
-                                ) {
-                                    AutoSizeText(it.toString())
-                                }
+                        items(data) {
+                            val selected = selectedPreset.value() == it
+                            EnhancedChip(
+                                selected = selected,
+                                onClick = { onPresetSelected(Preset.Numeric(it)) },
+                                selectedColor = MaterialTheme.colorScheme.primary,
+                                shape = MaterialTheme.shapes.medium
+                            ) {
+                                AutoSizeText(it.toString())
                             }
                         }
                     }
@@ -233,65 +209,5 @@ fun PresetWidget(
                 else Text(stringResource(R.string.presets_sub_bytes))
             }
         )
-    }
-}
-
-@Composable
-private fun Chip(
-    selected: Boolean,
-    onClick: () -> Unit,
-    label: @Composable () -> Unit
-) {
-    val haptics = LocalHapticFeedback.current
-    val color by animateColorAsState(
-        if (selected) MaterialTheme.colorScheme.primary
-        else MaterialTheme.colorScheme.secondaryContainer.copy(
-            alpha = 0.6f
-        )
-    )
-
-    CompositionLocalProvider(
-        LocalTextStyle provides MaterialTheme.typography.labelLarge.copy(
-            fontWeight = FontWeight.SemiBold,
-            color = if (selected) MaterialTheme.colorScheme.onTertiary
-            else MaterialTheme.colorScheme.onSurface
-        ),
-        LocalContentColor provides animateColorAsState(
-            if (selected) MaterialTheme.colorScheme.onPrimary
-            else MaterialTheme.colorScheme.onSurface
-        ).value,
-    ) {
-        Box(
-            modifier = Modifier
-                .defaultMinSize(36.dp, 36.dp)
-                .container(
-                    color = color,
-                    resultPadding = 0.dp,
-                    borderColor = animateColorAsState(
-                        if (!selected) MaterialTheme.colorScheme.outlineVariant()
-                        else MaterialTheme.colorScheme.primary
-                            .copy(
-                                alpha = 0.9f
-                            )
-                            .compositeOver(Color.Black)
-                    ).value,
-                    shape = MaterialTheme.shapes.medium,
-                    autoShadowElevation = 0.5.dp
-                )
-                .clickable {
-                    haptics.performHapticFeedback(
-                        HapticFeedbackType.LongPress
-                    )
-                    onClick()
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            Box(
-                modifier = Modifier.padding(6.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                label()
-            }
-        }
     }
 }

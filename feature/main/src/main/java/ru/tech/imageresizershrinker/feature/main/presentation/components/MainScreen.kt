@@ -126,9 +126,9 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedFloatingActionButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.pulsate

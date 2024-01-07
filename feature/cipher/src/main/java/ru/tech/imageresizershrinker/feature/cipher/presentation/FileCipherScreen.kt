@@ -105,9 +105,9 @@ import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiControll
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFileName
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.showReview
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedFloatingActionButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
@@ -350,7 +350,12 @@ fun FileCipherScreen(
                                                         val selected =
                                                             index == if (viewModel.isEncrypt) 0 else 1
                                                         SegmentedButton(
-                                                            onClick = { viewModel.setIsEncrypt(index == 0) },
+                                                            onClick = {
+                                                                haptics.performHapticFeedback(
+                                                                    HapticFeedbackType.LongPress
+                                                                )
+                                                                viewModel.setIsEncrypt(index == 0)
+                                                            },
                                                             border = BorderStroke(
                                                                 width = settingsState.borderWidth,
                                                                 color = MaterialTheme.colorScheme.outlineVariant()

@@ -111,9 +111,9 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedFloatingActionButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget

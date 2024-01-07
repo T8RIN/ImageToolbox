@@ -1,17 +1,14 @@
 package ru.tech.imageresizershrinker.feature.main.presentation.components
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -24,13 +21,10 @@ import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,18 +33,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -93,24 +85,29 @@ fun EditPresetsSheet(
                         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
                     ) {
                         list.forEach {
-                            Chip(
+                            EnhancedChip(
                                 onClick = {
                                     updatePresets(list - it)
                                 },
-                                selected = false
+                                selected = false,
+                                selectedColor = MaterialTheme.colorScheme.primary,
+                                shape = MaterialTheme.shapes.medium
                             ) {
                                 AutoSizeText(it.toString())
                             }
                         }
                         var expanded by remember { mutableStateOf(false) }
-                        Chip(
+                        EnhancedChip(
                             onClick = {
                                 expanded = true
                             },
-                            selected = false
-                        ) {
-                            Icon(Icons.Rounded.AddCircle, null)
-                        }
+                            selected = false,
+                            selectedColor = MaterialTheme.colorScheme.primary,
+                            shape = MaterialTheme.shapes.medium,
+                            label = {
+                                Icon(Icons.Rounded.AddCircle, null)
+                            }
+                        )
                         if (expanded) {
                             var value by remember { mutableStateOf("") }
                             AlertDialog(
@@ -192,58 +189,4 @@ fun EditPresetsSheet(
             }
         }
     )
-}
-
-@Composable
-private fun Chip(
-    selected: Boolean,
-    onClick: () -> Unit,
-    label: @Composable () -> Unit
-) {
-    val color by animateColorAsState(
-        if (selected) MaterialTheme.colorScheme.primary
-        else MaterialTheme.colorScheme.secondaryContainer.copy(
-            alpha = 0.6f
-        )
-    )
-
-    CompositionLocalProvider(
-        LocalTextStyle provides MaterialTheme.typography.labelLarge.copy(
-            fontWeight = FontWeight.SemiBold,
-            color = if (selected) MaterialTheme.colorScheme.onTertiary
-            else MaterialTheme.colorScheme.onSurface
-        ),
-        LocalContentColor provides animateColorAsState(
-            if (selected) MaterialTheme.colorScheme.onPrimary
-            else MaterialTheme.colorScheme.onSurface
-        ).value,
-    ) {
-        Box(
-            modifier = Modifier
-                .defaultMinSize(36.dp, 36.dp)
-                .container(
-                    color = color,
-                    resultPadding = 0.dp,
-                    borderColor = animateColorAsState(
-                        if (!selected) MaterialTheme.colorScheme.outlineVariant()
-                        else MaterialTheme.colorScheme.primary
-                            .copy(
-                                alpha = 0.9f
-                            )
-                            .compositeOver(Color.Black)
-                    ).value,
-                    autoShadowElevation = 0.5.dp,
-                    shape = MaterialTheme.shapes.medium
-                )
-                .clickable(onClick = onClick),
-            contentAlignment = Alignment.Center
-        ) {
-            Box(
-                modifier = Modifier.padding(6.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                label()
-            }
-        }
-    }
 }

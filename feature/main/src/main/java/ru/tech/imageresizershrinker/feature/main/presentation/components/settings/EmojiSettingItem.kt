@@ -27,7 +27,7 @@ import ru.tech.imageresizershrinker.core.ui.icons.emoji.allIconsCategorized
 import ru.tech.imageresizershrinker.core.ui.icons.material.Cool
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container

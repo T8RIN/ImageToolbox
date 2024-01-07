@@ -1,6 +1,7 @@
 package ru.tech.imageresizershrinker.feature.main.presentation.components.settings
 
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -11,7 +12,6 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
@@ -40,20 +40,16 @@ fun DefaultScaleModeSettingItem(
             alpha = 0.2f
         ),
         enableItemsCardBackground = false,
+        titlePadding = PaddingValues(16.dp),
+        titleArrangement = Arrangement.Start,
         title = {
-            Row(
-                modifier = Modifier.padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(Icons.Outlined.Numbers, null)
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(
-                    text = stringResource(R.string.default_value),
-                    modifier = Modifier.weight(1f),
-                    style = LocalTextStyle.current.copy(lineHeight = 18.sp),
-                    fontWeight = FontWeight.Medium
-                )
-            }
+            Icon(Icons.Outlined.Numbers, null)
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(
+                text = stringResource(R.string.default_value),
+                style = LocalTextStyle.current.copy(lineHeight = 18.sp),
+                fontWeight = FontWeight.Medium
+            )
         }
     )
 }

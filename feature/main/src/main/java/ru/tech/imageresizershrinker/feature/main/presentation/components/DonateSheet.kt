@@ -44,7 +44,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.TONSpaceColor
 import ru.tech.imageresizershrinker.core.ui.theme.USDTColor
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem

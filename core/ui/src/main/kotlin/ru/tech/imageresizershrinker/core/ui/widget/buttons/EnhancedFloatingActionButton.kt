@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.core.ui.widget.controls
+package ru.tech.imageresizershrinker.core.ui.widget.buttons
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource

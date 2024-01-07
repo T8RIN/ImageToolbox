@@ -55,7 +55,7 @@ import ru.tech.imageresizershrinker.core.ui.model.PtSaver
 import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitchDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.AutoEraseBackgroundCard

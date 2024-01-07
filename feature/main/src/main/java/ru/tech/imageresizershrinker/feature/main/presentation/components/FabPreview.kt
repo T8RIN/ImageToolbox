@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.containerFabBorder
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState

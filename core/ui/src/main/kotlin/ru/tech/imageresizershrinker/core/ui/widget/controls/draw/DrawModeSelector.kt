@@ -8,7 +8,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,20 +17,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material.icons.rounded.Brush
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -47,11 +42,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -64,7 +59,8 @@ import ru.tech.imageresizershrinker.core.ui.icons.material.Cube
 import ru.tech.imageresizershrinker.core.ui.icons.material.Highlighter
 import ru.tech.imageresizershrinker.core.ui.icons.material.Laser
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -81,6 +77,7 @@ fun DrawModeSelector(
     value: DrawMode,
     onValueChange: (DrawMode) -> Unit
 ) {
+    val haptics = LocalHapticFeedback.current
     val state = rememberSaveable { mutableStateOf(false) }
 
     val settingsState = LocalSettingsState.current
@@ -102,25 +99,10 @@ fun DrawModeSelector(
                 fontWeight = FontWeight.Medium
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Icon(
-                imageVector = Icons.Outlined.Info,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                modifier = Modifier
-                    .background(
-                        MaterialTheme.colorScheme.secondaryContainer,
-                        CircleShape
-                    )
-                    .clip(CircleShape)
-                    .clickable {
-                        state.value = true
-                    }
-                    .padding(1.dp)
-                    .size(
-                        with(LocalDensity.current) {
-                            LocalTextStyle.current.fontSize.toDp()
-                        }
-                    )
+            SupportingButton(
+                onClick = {
+                    state.value = true
+                }
             )
         }
         Box {
@@ -144,7 +126,12 @@ fun DrawModeSelector(
                             count = DrawMode.entries.size
                         )
                         SegmentedButton(
-                            onClick = { onValueChange(item) },
+                            onClick = {
+                                haptics.performHapticFeedback(
+                                    HapticFeedbackType.LongPress
+                                )
+                                onValueChange(item)
+                            },
                             selected = selected,
                             icon = {},
                             border = BorderStroke(

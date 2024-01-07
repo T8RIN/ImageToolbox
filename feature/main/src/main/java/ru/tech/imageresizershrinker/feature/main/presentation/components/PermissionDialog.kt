@@ -20,7 +20,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.findActivity
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.needToShowStoragePermissionRequest
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.requestStoragePermission
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 

@@ -1,4 +1,4 @@
-package ru.tech.imageresizershrinker.core.ui.widget.controls
+package ru.tech.imageresizershrinker.core.ui.widget.buttons
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Shape
