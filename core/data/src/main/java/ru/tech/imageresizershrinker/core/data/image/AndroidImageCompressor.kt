@@ -10,6 +10,8 @@ import com.awxkee.jxlcoder.JxlColorSpace
 import com.awxkee.jxlcoder.JxlCompressionOption
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import java.io.ByteArrayOutputStream
@@ -23,11 +25,11 @@ internal class AndroidImageCompressor @Inject constructor(
         image: Bitmap,
         imageFormat: ImageFormat,
         quality: Float
-    ): ByteArray {
+    ): ByteArray = withContext(Dispatchers.IO) {
         val heifCoder = HeifCoder(context)
         val jxlCoder = JxlCoder()
 
-        return when (imageFormat) {
+        return@withContext when (imageFormat) {
             ImageFormat.Bmp -> BMPCompressor.compress(image)
             ImageFormat.Jpeg, ImageFormat.Jpg -> {
                 val out = ByteArrayOutputStream()

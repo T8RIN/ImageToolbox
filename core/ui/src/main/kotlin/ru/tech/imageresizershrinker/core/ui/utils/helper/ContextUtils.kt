@@ -136,9 +136,12 @@ object ContextUtils {
         if (intent?.type != null && notHasUris) onColdStart()
 
         runCatching {
-            if (intent?.type?.startsWith("image/") == true || (intent?.clipData?.clipList()
-                    ?.any { it.toString().endsWith(".jxl") } == true)
-            ) {
+            val startsWithImage = intent?.type?.startsWith("image/") == true
+            val hasJxl = intent?.clipData?.clipList()
+                ?.any { it.toString().endsWith(".jxl") } == true
+            val dataHasJxl = intent?.data.toString().endsWith(".jxl")
+
+            if ((startsWithImage || hasJxl || dataHasJxl) && intent != null) {
                 when (intent.action) {
                     Intent.ACTION_VIEW -> {
                         val data = intent.data

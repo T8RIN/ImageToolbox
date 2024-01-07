@@ -147,7 +147,7 @@ class FileControllerImpl @Inject constructor(
         }
 
         var filename = ""
-        var savePath = savingPath
+        var savePath: String = savingPath
 
         kotlin.runCatching {
             if (fileParams.copyToClipBoard) {
@@ -322,7 +322,7 @@ class FileControllerImpl @Inject constructor(
     private data class SavingFolder(
         val outputStream: OutputStream? = null,
         val file: File? = null,
-        val fileUri: Uri? = null,
+        val fileUri: Uri? = null
     )
 
     override fun constructImageFilename(
@@ -412,6 +412,7 @@ class FileControllerImpl @Inject constructor(
         return if (treeUri == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 val type = saveTarget.imageFormat.type
+                val path = "${Environment.DIRECTORY_DOCUMENTS}/ResizedImages"
                 val contentValues = ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, saveTarget.filename)
                     put(
@@ -420,19 +421,11 @@ class FileControllerImpl @Inject constructor(
                     )
                     put(
                         MediaStore.MediaColumns.RELATIVE_PATH,
-                        "DCIM/ResizedImages"
+                        path
                     )
                 }
                 val imageUri = contentResolver.insert(
-                    if ("image" in type) {
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                    } else if ("video" in type) {
-                        MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-                    } else if ("audio" in type) {
-                        MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-                    } else {
-                        MediaStore.Files.getContentUri("external")
-                    },
+                    MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY),
                     contentValues
                 )
 
@@ -455,36 +448,20 @@ class FileControllerImpl @Inject constructor(
                 )
             }
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                val documentFile = DocumentFile.fromTreeUri(this, treeUri)
+            val documentFile = DocumentFile.fromTreeUri(this, treeUri)
 
-                if (documentFile?.exists() == false || documentFile == null) {
-                    throw NoSuchFileException(File(treeUri.toString()))
-                }
-
-                val file =
-                    documentFile.createFile(saveTarget.imageFormat.type, saveTarget.filename!!)
-
-                val imageUri = file!!.uri
-                SavingFolder(
-                    outputStream = contentResolver.openOutputStream(imageUri),
-                    fileUri = imageUri
-                )
-            } else {
-                val path = treeUri.toPath(this@getSavingFolder)?.split("/")?.let {
-                    it - it.last() to it.last()
-                }
-                val imagesDir = File(
-                    Environment.getExternalStoragePublicDirectory(
-                        "${path?.first?.joinToString("/")}"
-                    ), path?.second.toString()
-                )
-                if (!imagesDir.exists()) imagesDir.mkdir()
-                SavingFolder(
-                    outputStream = FileOutputStream(File(imagesDir, saveTarget.filename!!)),
-                    fileUri = File(imagesDir, saveTarget.filename!!).toUri()
-                )
+            if (documentFile?.exists() == false || documentFile == null) {
+                throw NoSuchFileException(File(treeUri.toString()))
             }
+
+            val file =
+                documentFile.createFile(saveTarget.imageFormat.type, saveTarget.filename!!)
+
+            val imageUri = file!!.uri
+            SavingFolder(
+                outputStream = contentResolver.openOutputStream(imageUri),
+                fileUri = imageUri
+            )
         }
     }
 
