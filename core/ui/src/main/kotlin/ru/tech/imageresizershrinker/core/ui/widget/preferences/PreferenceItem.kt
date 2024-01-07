@@ -2,6 +2,12 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.preferences
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -36,11 +42,26 @@ fun PreferenceItem(
         .padding(horizontal = 12.dp)
 ) {
     val _icon: (@Composable () -> Unit)? = if (icon == null) null else {
-        { Icon(imageVector = icon, contentDescription = null) }
+        {
+            AnimatedContent(
+                targetState = icon,
+                transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
+            ) { icon ->
+                Icon(imageVector = icon, contentDescription = null)
+            }
+        }
     }
     val _icon2: (@Composable () -> Unit)? = if (endIcon == null) null else {
-        { Icon(imageVector = endIcon, contentDescription = null) }
+        {
+            AnimatedContent(
+                targetState = endIcon,
+                transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
+            ) { endIcon ->
+                Icon(imageVector = endIcon, contentDescription = null)
+            }
+        }
     }
+
     PreferenceItemOverload(
         autoShadowElevation = autoShadowElevation,
         contentColor = contentColor,

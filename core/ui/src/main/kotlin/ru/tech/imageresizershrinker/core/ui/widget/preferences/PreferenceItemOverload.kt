@@ -4,8 +4,6 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
@@ -106,16 +104,11 @@ fun PreferenceItemOverload(
                 Modifier.padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                AnimatedContent(
-                    targetState = icon,
-                    transitionSpec = { fadeIn() togetherWith fadeOut() }
-                ) { icon ->
-                    icon?.let {
-                        ProvideContainerShape(null) {
-                            Row {
-                                it()
-                                Spacer(modifier = Modifier.width(16.dp))
-                            }
+                icon?.let {
+                    ProvideContainerShape(null) {
+                        Row {
+                            it()
+                            Spacer(modifier = Modifier.width(16.dp))
                         }
                     }
                 }
@@ -154,14 +147,7 @@ fun PreferenceItemOverload(
                     }
                 }
                 ProvideContainerShape(null) {
-                    AnimatedContent(
-                        targetState = endIcon,
-                        transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
-                    ) { icon ->
-                        icon?.let {
-                            it()
-                        }
-                    }
+                    endIcon?.invoke()
                 }
             }
         }
