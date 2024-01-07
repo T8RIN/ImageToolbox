@@ -57,7 +57,8 @@ fun EnhancedSlider(
         activeTrackColor = MaterialTheme.colorScheme.primaryContainer,
         inactiveTrackColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(0.15f),
         thumbColor = thumbColor
-    )
+    ),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
     if (steps != 0) {
         var compositions by remember {
@@ -75,8 +76,7 @@ fun EnhancedSlider(
             compositions++
         }
     }
-
-    val interactionSource = remember { MutableInteractionSource() }
+    
     val thumb: @Composable (SliderState) -> Unit = {
         val interaction by interactionSource.interactions.collectAsState(initial = null)
 

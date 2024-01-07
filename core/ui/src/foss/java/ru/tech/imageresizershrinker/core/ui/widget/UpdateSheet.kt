@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import ru.tech.imageresizershrinker.core.domain.APP_RELEASES
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleDragHandle
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
