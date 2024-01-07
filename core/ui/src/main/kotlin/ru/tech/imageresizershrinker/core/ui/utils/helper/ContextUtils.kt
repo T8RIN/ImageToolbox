@@ -20,7 +20,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.documentfile.provider.DocumentFile
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.BuildConfig
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -138,7 +137,7 @@ object ContextUtils {
 
         runCatching {
             if (intent?.type?.startsWith("image/") == true || (intent?.clipData?.clipList()
-                    ?.any { it.toString().endsWith(".jxl") } == true && BuildConfig.FLAVOR == "jxl")
+                    ?.any { it.toString().endsWith(".jxl") } == true)
             ) {
                 when (intent.action) {
                     Intent.ACTION_VIEW -> {

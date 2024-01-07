@@ -34,6 +34,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.image.filters.SideFadeFilter
 import ru.tech.imageresizershrinker.core.data.image.filters.StackBlurFilter
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.image.filters.FadeSide
@@ -72,6 +73,7 @@ class AndroidImageManager @Inject constructor(
     private val fileController: FileController,
     private val imageLoader: ImageLoader,
     private val filterProvider: FilterProvider<Bitmap>,
+    private val imageCompressor: ImageCompressor<Bitmap>,
     private val settingsRepository: SettingsRepository
 ) : ImageManager<Bitmap, ExifInterface> {
 
@@ -1038,7 +1040,7 @@ class AndroidImageManager @Inject constructor(
         } else currentImage = onImageReadyToCompressInterceptor(imageData.image)
 
         return@withContext runCatching {
-            ImageCompressor.compress(
+            imageCompressor.compress(
                 image = currentImage,
                 imageFormat = imageData.imageInfo.imageFormat,
                 quality = imageData.imageInfo.quality
@@ -1085,7 +1087,7 @@ class AndroidImageManager @Inject constructor(
             } ?: return@withContext ByteArray(0)
 
         return@withContext runCatching {
-            ImageCompressor.compress(
+            imageCompressor.compress(
                 image = currentImage,
                 imageFormat = imageData.imageInfo.imageFormat,
                 quality = imageData.imageInfo.quality

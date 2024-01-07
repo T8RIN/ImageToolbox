@@ -41,7 +41,6 @@ android {
     productFlavors {
         create("foss") { dimension = "app" }
         create("market") { dimension = "app" }
-        create("jxl") { dimension = "app" }
     }
 
     targetProjectPath = ":app"

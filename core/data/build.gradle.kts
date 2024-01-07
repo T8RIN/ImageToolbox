@@ -31,9 +31,7 @@ android {
         create("market") {
             dimension = "app"
         }
-        create("jxl") {
-            dimension = "app"
-        }
+        
     }
 }
 
@@ -48,8 +46,8 @@ dependencies {
     api(libs.datastore.preferences.android)
 
     "marketImplementation"(libs.mlkit.segmentation.selfie)
-    "jxlImplementation"(libs.mlkit.segmentation.selfie)
-    "jxlImplementation"(libs.jxl.coder.coil)
+
+    implementation(libs.jxl.coder.coil)
 
     api(libs.androidx.exifinterface)
     api(libs.androidx.documentfile)

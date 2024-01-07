@@ -28,7 +28,6 @@ android {
     }
 
     buildFeatures {
-        buildConfig = true
         compose = true
     }
 
@@ -39,9 +38,6 @@ android {
             dimension = "app"
         }
         create("market") {
-            dimension = "app"
-        }
-        create("jxl") {
             dimension = "app"
         }
     }
@@ -119,13 +115,6 @@ dependencies {
     "marketImplementation"(libs.review.ktx)
     "marketImplementation"(libs.app.update)
     "marketImplementation"(libs.app.update.ktx)
-
-    "jxlImplementation"(libs.mlkit.segmentation.selfie)
-    "jxlImplementation"(libs.firebase.crashlytics.ktx) {
-        exclude("androidx.datastore", "datastore-preferences")
-    }
-    "jxlImplementation"(libs.firebase.analytics.ktx)
-    "jxlImplementation"(libs.review.ktx)
 
     api(project(":core:resources"))
 }

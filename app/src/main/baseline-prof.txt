@@ -23638,16 +23638,6 @@ HSPLru/tech/imageresizershrinker/feature/main/presentation/components/FirstLaunc
 HSPLru/tech/imageresizershrinker/feature/main/presentation/components/FirstLaunchSetupDialogKt$FirstLaunchSetupDialog$updateOnFirstOpen$2;-><init>()V
 HSPLru/tech/imageresizershrinker/feature/main/presentation/components/FirstLaunchSetupDialogKt$FirstLaunchSetupDialog$updateOnFirstOpen$2;->invoke()Landroidx/compose/runtime/MutableState;
 HSPLru/tech/imageresizershrinker/feature/main/presentation/components/FirstLaunchSetupDialogKt$FirstLaunchSetupDialog$updateOnFirstOpen$2;->invoke()Ljava/lang/Object;
-Lru/tech/imageresizershrinker/feature/main/presentation/components/JxlWarningKt;
-HSPLru/tech/imageresizershrinker/feature/main/presentation/components/JxlWarningKt;->JxlWarning$lambda$0(Landroidx/compose/runtime/MutableState;)Z
-HSPLru/tech/imageresizershrinker/feature/main/presentation/components/JxlWarningKt;->JxlWarning(Landroidx/compose/runtime/Composer;I)V
-Lru/tech/imageresizershrinker/feature/main/presentation/components/JxlWarningKt$JxlWarning$3;
-HSPLru/tech/imageresizershrinker/feature/main/presentation/components/JxlWarningKt$JxlWarning$3;-><init>(I)V
-Lru/tech/imageresizershrinker/feature/main/presentation/components/JxlWarningKt$JxlWarning$showJxlWarning$2;
-HSPLru/tech/imageresizershrinker/feature/main/presentation/components/JxlWarningKt$JxlWarning$showJxlWarning$2;-><clinit>()V
-HSPLru/tech/imageresizershrinker/feature/main/presentation/components/JxlWarningKt$JxlWarning$showJxlWarning$2;-><init>()V
-HSPLru/tech/imageresizershrinker/feature/main/presentation/components/JxlWarningKt$JxlWarning$showJxlWarning$2;->invoke()Landroidx/compose/runtime/MutableState;
-HSPLru/tech/imageresizershrinker/feature/main/presentation/components/JxlWarningKt$JxlWarning$showJxlWarning$2;->invoke()Ljava/lang/Object;
 Lru/tech/imageresizershrinker/feature/main/presentation/components/MainScreenKt;
 HSPLru/tech/imageresizershrinker/feature/main/presentation/components/MainScreenKt;->MainScreen$lambda$0(Landroidx/compose/runtime/MutableState;)Z
 HSPLru/tech/imageresizershrinker/feature/main/presentation/components/MainScreenKt;->MainScreen$lambda$2(Landroidx/compose/runtime/MutableState;)Ljava/lang/String;

@@ -82,11 +82,6 @@ android {
             dimension = "app"
             extra.set("gmsEnabled", true)
         }
-        create("jxl") {
-            dimension = "app"
-            versionNameSuffix = "-jxl"
-            extra.set("gmsEnabled", true)
-        }
     }
 
     buildTypes {
@@ -122,7 +117,6 @@ android {
 
     buildFeatures {
         compose = true
-        buildConfig = true
     }
 
     packaging {
@@ -175,11 +169,6 @@ dependencies {
         exclude("androidx.datastore", "datastore-preferences")
     }
     "marketImplementation"(libs.firebase.analytics.ktx)
-
-    "jxlImplementation"(libs.firebase.crashlytics.ktx) {
-        exclude("androidx.datastore", "datastore-preferences")
-    }
-    "jxlImplementation"(libs.firebase.analytics.ktx)
 
 }
 

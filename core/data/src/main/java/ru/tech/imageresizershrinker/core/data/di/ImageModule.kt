@@ -11,10 +11,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import ru.tech.imageresizershrinker.core.data.image.AndroidImageCompressor
 import ru.tech.imageresizershrinker.core.data.image.AndroidImageManager
 import ru.tech.imageresizershrinker.core.data.image.draw.AndroidImageDrawApplier
 import ru.tech.imageresizershrinker.core.data.image.filters.applier.AndroidFilterMaskApplier
 import ru.tech.imageresizershrinker.core.data.image.filters.provider.AndroidFilterProvider
+import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.draw.ImageDrawApplier
 import ru.tech.imageresizershrinker.core.domain.image.filters.FilterMaskApplier
@@ -34,14 +36,22 @@ object ImageModule {
         fileController: FileController,
         imageLoader: ImageLoader,
         filterProvider: FilterProvider<Bitmap>,
+        imageCompressor: ImageCompressor<Bitmap>,
         settingsRepository: SettingsRepository
     ): ImageManager<Bitmap, ExifInterface> = AndroidImageManager(
         context = context,
         fileController = fileController,
         imageLoader = imageLoader,
         filterProvider = filterProvider,
-        settingsRepository = settingsRepository
+        settingsRepository = settingsRepository,
+        imageCompressor = imageCompressor
     )
+
+    @Singleton
+    @Provides
+    fun provideImageCompressor(
+        @ApplicationContext context: Context,
+    ): ImageCompressor<Bitmap> = AndroidImageCompressor(context)
 
     @Singleton
     @Provides

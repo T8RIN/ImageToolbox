@@ -49,7 +49,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.setContentWithWindowSiz
 import ru.tech.imageresizershrinker.feature.main.presentation.components.AppExitDialog
 import ru.tech.imageresizershrinker.feature.main.presentation.components.EditPresetsSheet
 import ru.tech.imageresizershrinker.feature.main.presentation.components.FirstLaunchSetupDialog
-import ru.tech.imageresizershrinker.feature.main.presentation.components.JxlWarning
 import ru.tech.imageresizershrinker.feature.main.presentation.components.PermissionDialog
 import ru.tech.imageresizershrinker.feature.main.presentation.components.ScreenSelector
 import ru.tech.imageresizershrinker.feature.main.presentation.components.particles
@@ -177,7 +176,6 @@ class MainActivity : M3Activity() {
                             installedFromMarket = isInstalledFromPlayStore()
                         )
                     }
-                    JxlWarning()
 
                     FirstLaunchSetupDialog(
                         toggleShowUpdateDialog = viewModel::toggleShowUpdateDialog,

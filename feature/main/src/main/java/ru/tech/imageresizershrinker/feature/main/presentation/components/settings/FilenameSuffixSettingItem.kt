@@ -58,7 +58,7 @@ fun FilenameSuffixSettingItem(
             .copy(alpha = 0.2f),
         endIcon = Icons.Rounded.CreateAlt,
         icon = Icons.Filled.Suffix,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(start = 8.dp, end = 8.dp)
     )

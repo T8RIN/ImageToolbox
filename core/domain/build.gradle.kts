@@ -31,9 +31,7 @@ android {
         create("market") {
             dimension = "app"
         }
-        create("jxl") {
-            dimension = "app"
-        }
+        
     }
 }
 
