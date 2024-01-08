@@ -25,7 +25,7 @@ fun parseSaveResult(
             }
         }
 
-        is SaveResult.Success -> {
+        is SaveResult.Success.WithData -> {
             if (saveResult.savingPath.isNotEmpty() && saveResult.filename.isNotEmpty()) {
                 scope.launch {
                     toastHostState.showToast(
@@ -41,6 +41,11 @@ fun parseSaveResult(
                 scope.launch { onSuccess() }
                 showReview(context)
             }
+        }
+
+        SaveResult.Success.WithoutToast -> {
+            scope.launch { onSuccess() }
+            showReview(context)
         }
 
         SaveResult.Error.MissingPermissions -> Unit //Requesting permissions does FileController

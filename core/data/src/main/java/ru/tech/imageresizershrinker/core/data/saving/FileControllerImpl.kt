@@ -35,6 +35,7 @@ import ru.tech.imageresizershrinker.core.data.keys.Keys.OVERWRITE_FILE
 import ru.tech.imageresizershrinker.core.data.keys.Keys.RANDOMIZE_FILENAME
 import ru.tech.imageresizershrinker.core.data.keys.Keys.SAVE_FOLDER_URI
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
+import ru.tech.imageresizershrinker.core.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.domain.repository.CipherRepository
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
@@ -67,7 +68,7 @@ class FileControllerImpl @Inject constructor(
         addOriginalFilename = false,
         addSequenceNumber = false,
         randomizeFilename = false,
-        copyToClipBoard = false,
+        copyToClipboardMode = CopyToClipboardMode.Disabled,
         overwriteFile = false
     )
 
@@ -82,7 +83,9 @@ class FileControllerImpl @Inject constructor(
                     addOriginalFilename = preferences[ADD_ORIGINAL_NAME_TO_FILENAME] ?: false,
                     addSequenceNumber = preferences[ADD_SEQ_NUM_TO_FILENAME] ?: true,
                     randomizeFilename = preferences[RANDOMIZE_FILENAME] ?: false,
-                    copyToClipBoard = preferences[COPY_TO_CLIPBOARD] ?: false,
+                    copyToClipboardMode = preferences[COPY_TO_CLIPBOARD]?.let {
+                        CopyToClipboardMode.fromInt(it)
+                    } ?: CopyToClipboardMode.Disabled,
                     overwriteFile = preferences[OVERWRITE_FILE] ?: false
                 )
             }
@@ -150,7 +153,7 @@ class FileControllerImpl @Inject constructor(
         var savePath: String = savingPath
 
         kotlin.runCatching {
-            if (fileParams.copyToClipBoard) {
+            if (fileParams.copyToClipboardMode is CopyToClipboardMode.Enabled) {
                 val clipboardManager = ContextCompat.getSystemService(
                     context,
                     ClipboardManager::class.java
@@ -165,6 +168,10 @@ class FileControllerImpl @Inject constructor(
                         )
                     )
                 }
+            }
+
+            if (fileParams.copyToClipboardMode is CopyToClipboardMode.Enabled.WithoutSaving) {
+                return SaveResult.Success.WithoutToast
             }
 
             if (fileParams.overwriteFile) {
@@ -256,7 +263,7 @@ class FileControllerImpl @Inject constructor(
             if (result.isFailure) {
                 return SaveResult.Error.Exception(result.exceptionOrNull() ?: Throwable())
             } else {
-                return SaveResult.Success(filename = filename, savingPath = savePath)
+                return SaveResult.Success.WithData(filename = filename, savingPath = savePath)
             }
         }
     }

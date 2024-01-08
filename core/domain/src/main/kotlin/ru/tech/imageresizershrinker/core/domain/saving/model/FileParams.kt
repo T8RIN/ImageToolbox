@@ -1,5 +1,7 @@
 package ru.tech.imageresizershrinker.core.domain.saving.model
 
+import ru.tech.imageresizershrinker.core.domain.model.CopyToClipboardMode
+
 data class FileParams(
     val treeUri: String?,
     val filenamePrefix: String,
@@ -8,6 +10,6 @@ data class FileParams(
     val addOriginalFilename: Boolean,
     val addSequenceNumber: Boolean,
     val randomizeFilename: Boolean,
-    val copyToClipBoard: Boolean,
+    val copyToClipboardMode: CopyToClipboardMode,
     val overwriteFile: Boolean
 )
