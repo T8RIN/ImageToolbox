@@ -225,7 +225,7 @@ or click one of the badges below.
     - Octagon
     - Rounded Pentagon
     - Clover
-    - David Star
+    - Material Star
     - Kotlin Logo
     - Heart
     - Star
