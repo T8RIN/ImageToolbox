@@ -41,9 +41,9 @@
   </a>
 </p>
 
-<h4 align="center">Image Toolbox is an app based on a modern tech stack using Clean
-Architecture. It has features like filter applying, cropping, EXIF editing, quality and output
-image type picking, and tons of other options </h4>
+<h4 align="center">Image Toolbox is an powerful picture editor, which can crop, 
+  
+  apply filters, add some drawing, erase background, edit EXIF or even create PDF file</h4>
 
 <p align="middle">
     <img src="./fastlane/metadata/android/en-US/images/banner/banner1.png" width="99%" />
