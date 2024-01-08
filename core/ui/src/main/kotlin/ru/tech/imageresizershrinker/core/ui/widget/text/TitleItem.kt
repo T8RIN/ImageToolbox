@@ -31,7 +31,7 @@ fun TitleItem(
             Icon(it, null)
             Spacer(Modifier.width(8.dp))
         }
-        Text(text = text, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+        Text(text = text, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
         endContent.let {
             Spacer(Modifier.width(8.dp))
             it()

@@ -129,10 +129,10 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.widget.controls.DrawBackgroundSelector
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.DrawBackgroundSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitchDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
@@ -180,7 +180,6 @@ fun DrawScreen(
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHost.current
     val themeState = LocalDynamicThemeState.current
-    val allowChangeColor = settingsState.allowChangeColorByImage
 
     val appColorTuple = rememberAppColorTuple(
         defaultColorTuple = settingsState.appColorTuple,
@@ -221,14 +220,6 @@ fun DrawScreen(
                     }
                 }
             )
-        }
-    }
-    LaunchedEffect(viewModel.uri, viewModel.paths) {
-        viewModel.getBitmapFromUriWithTransformations(
-            uri = viewModel.uri,
-            transformations = listOf()
-        )?.let {
-            if (allowChangeColor) themeState.updateColorByImage(it)
         }
     }
 

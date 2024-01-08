@@ -20,7 +20,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
-import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.image.draw.DrawBehavior
 import ru.tech.imageresizershrinker.core.domain.image.draw.ImageDrawApplier
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
@@ -262,16 +261,6 @@ class DrawViewModel @Inject constructor(
             _isSaving.value = false
         }
     }
-
-    suspend fun getBitmapFromUriWithTransformations(
-        uri: Uri,
-        transformations: List<Transformation<Bitmap>>,
-        originalSize: Boolean = false
-    ): Bitmap? = imageManager.getImageWithTransformations(
-        uri.toString(),
-        transformations,
-        originalSize
-    )?.image
 
     fun updateBackgroundColor(color: Color) {
         _backgroundColor.value = color
