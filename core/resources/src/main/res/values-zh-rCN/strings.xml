@@ -520,4 +520,16 @@
     <string name="default_value">默认值</string>
     <string name="hann">Hann</string>
     <string name="mitchell">Mitchell</string>
+    <string name="bicubic_sub">更好的缩放方法包括 Lanczos 重采样和 Mitchell-Netravali 滤波器</string>
+    <string name="hermite_sub">利用曲线段端点的数值和导数生成平滑连续曲线的数学插值技术</string>
+    <string name="bilinear_sub">线性插值（或二维双线性插值）通常可以很好地改变图像的大小，但会导致一些不理想的细节弱化，而且仍会有些锯齿状的效果。</string>
+    <string name="nearest_sub">其中一种更简单的增大尺寸的方法是，用相同颜色的像素替换每个像素</string>
+    <string name="basic_sub">最简单的安卓缩放模式，几乎适用于所有应用程序</string>
+    <string name="hann_sub">信号处理中经常使用的渐变函数，通过渐变信号的边缘，最大限度地减少频谱泄漏，提高频率分析的准确性</string>
+    <string name="catmull_sub">对一组控制点进行平滑插值和重采样的方法，常用于计算机制图，以创建平滑曲线</string>
+    <string name="lanczos_sub">通过对像素值应用加权 sinc 函数来保持高质量插值的重采样方法</string>
+    <string name="mitchell_sub">重采样方法，使用参数可调的卷积滤波器，在缩放图像的清晰度和抗锯齿之间取得平衡</string>
+    <string name="bicubic">Bicubic</string>
+    <string name="catmull">Catmull</string>
+    <string name="spline_sub">利用分段定义的多项式函数平滑插值和近似曲线或曲面，灵活、连续地表示形状</string>
 </resources>
