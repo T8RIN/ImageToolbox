@@ -259,11 +259,16 @@ or click one of the badges below.
 # 🌟 UI tweaks
 
 - Custom app color scheme
+  - Different palette styles
+  - Predefined schemes
+  - Color invertion
+  - Contrast adjusting
+- Controling borders thickness
+- Enabling and disabling each existing shadow
+- Haptics controls
 - Light/Dark mode
 - AMOLED mode
-- Monet implementation (Dynamic colors) for android 12 and above
-  by [Dynamic Theme](https://github.com/T8RIN/DynamicTheme)
-- Dynamic colors theming even for Android versions less than 12
+- Monet implementation (Dynamic colors) even for Android versions less than 12 by [Dynamic Theme](https://github.com/T8RIN/DynamicTheme)
 - Image based color scheme
 - Custom fonts
   - Montserrat
