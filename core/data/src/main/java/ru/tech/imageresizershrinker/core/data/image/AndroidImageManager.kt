@@ -1,5 +1,6 @@
 package ru.tech.imageresizershrinker.core.data.image
 
+import android.annotation.TargetApi
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
@@ -14,6 +15,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.pdf.PdfDocument
 import android.graphics.pdf.PdfRenderer
 import android.net.Uri
+import android.os.Build
 import android.webkit.MimeTypeMap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -491,7 +493,7 @@ class AndroidImageManager @Inject constructor(
                 } else image
             }
 
-            val bitmap = Bitmap.createBitmap(size.width, size.height, Bitmap.Config.ARGB_8888)
+            val bitmap = Bitmap.createBitmap(size.width, size.height, getSuitableConfig())
             val canvas = Canvas(bitmap).apply {
                 drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
                 drawColor(combiningParams.backgroundColor)
@@ -1257,7 +1259,7 @@ class AndroidImageManager @Inject constructor(
                             Bitmap.createBitmap(
                                 (page.width * (preset.value / 100f)).roundToInt(),
                                 (page.height * (preset.value / 100f)).roundToInt(),
-                                Bitmap.Config.ARGB_8888
+                                getSuitableConfig()
                             )
                         )!!
                         page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
@@ -1267,7 +1269,7 @@ class AndroidImageManager @Inject constructor(
                             Bitmap.createBitmap(
                                 bitmap.width,
                                 bitmap.height,
-                                Bitmap.Config.ARGB_8888
+                                getSuitableConfig(bitmap)
                             )
                         Canvas(renderedBitmap).apply {
                             drawColor(Color.White.toArgb())
@@ -1302,13 +1304,13 @@ class AndroidImageManager @Inject constructor(
             Bitmap.createBitmap(
                 1,
                 1,
-                Bitmap.Config.ARGB_8888
+                getSuitableConfig()
             ) // Single color bitmap will be created of 1x1 pixel
         } else {
             Bitmap.createBitmap(
                 drawable.intrinsicWidth,
                 drawable.intrinsicHeight,
-                Bitmap.Config.ARGB_8888
+                getSuitableConfig()
             )
         }
         val canvas = Canvas(bitmap)
@@ -1382,8 +1384,13 @@ class AndroidImageManager @Inject constructor(
         return canvas
     }
 
+    @TargetApi(Build.VERSION_CODES.O)
     private fun Bitmap.size(): Int {
-        return width * height * (if (config == Bitmap.Config.RGB_565) 2 else 4)
+        return width * height * when (config) {
+            Bitmap.Config.RGB_565 -> 2
+            Bitmap.Config.RGBA_F16 -> 8
+            else -> 4
+        }
     }
 
     override suspend fun shareUri(uri: String, type: String?) {
@@ -1485,6 +1492,16 @@ class AndroidImageManager @Inject constructor(
         }
     }
 
+    private fun getSuitableConfig(
+        image: Bitmap? = null
+    ): Bitmap.Config = image?.config ?: if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        Bitmap.Config.RGBA_1010102
+    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        Bitmap.Config.RGBA_F16
+    } else {
+        Bitmap.Config.ARGB_8888
+    }
+
     private suspend fun Bitmap.createScaledBitmap(
         width: Int,
         height: Int,
@@ -1503,18 +1520,12 @@ class AndroidImageManager @Inject constructor(
                 dstHeight = height,
                 scaleMode = ScaleMode.entries.first { e -> e.ordinal == it.value }
             )
-        } ?: if (width < this.width && height < this.height) {
-            BitmapCompat.createScaledBitmap(
-                this,
-                width,
-                height,
-                null,
-                true
-            )
-        } else {
-            Bitmap.createScaledBitmap(
-                this, width, height, true
-            )
-        }
+        } ?: BitmapCompat.createScaledBitmap(
+            this,
+            width,
+            height,
+            null,
+            true
+        )
     }
 }
