@@ -63,11 +63,11 @@ image type picking, and tons of other options </h4>
 
 </br>
 <a href="https://t.me/t8rin_imagetoolbox">
-    <img src="https://img.shields.io/endpoint?&style=for-the-badge&colorA=b3ffdd&colorB=274f13&logo=telegram&logoColor=4a6827&label=ImageToolbox ✨ Chat&url=https://mogyo.ro/quart-apis/tgmembercount?chat_id=t8rin_imagetoolbox" alt="Telegram">
+    <img src="https://img.shields.io/endpoint?&style=for-the-badge&colorA=17270b&colorB=617626&logo=telegram&logoColor=b3ffdd&label=ImageToolbox ✨ Chat&url=https://mogyo.ro/quart-apis/tgmembercount?chat_id=t8rin_imagetoolbox" alt="Telegram">
   </a>
 
   <a href="https://t.me/t8rin_imagetoolbox_ci">
-    <img src="https://img.shields.io/endpoint?&style=for-the-badge&colorA=b3ffdd&colorB=274f13&logo=telegram&logoColor=4a6827&url=https://tg.sumanjay.workers.dev/t8rin_imagetoolbox_ci" alt="Telegram">
+    <img src="https://img.shields.io/endpoint?&style=for-the-badge&colorA=17270b&colorB=617626&logo=telegram&logoColor=b3ffdd&url=https://tg.sumanjay.workers.dev/t8rin_imagetoolbox_ci" alt="Telegram">
   </a>
 
   </br>
