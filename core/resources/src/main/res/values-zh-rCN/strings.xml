@@ -512,8 +512,6 @@
     <string name="auto_pin">自动置顶</string>
     <string name="scale_mode">缩放模式</string>
     <string name="bilinear">双线性</string>
-    <string name="catmul_rom">Catmul Rom</string>
-    <string name="cubic">立方体</string>
     <string name="hermite">Hermite</string>
     <string name="lanczos">Lanczos</string>
     <string name="nearest">最近的</string>
