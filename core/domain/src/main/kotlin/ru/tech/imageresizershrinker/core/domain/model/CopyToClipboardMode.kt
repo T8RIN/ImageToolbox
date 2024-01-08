@@ -13,4 +13,14 @@ sealed class CopyToClipboardMode(
         data object WithSaving : Enabled(2)
     }
 
+    companion object {
+        fun fromInt(
+            value: Int
+        ): CopyToClipboardMode = when (value) {
+            1 -> Enabled.WithSaving
+            2 -> Enabled.WithSaving
+            else -> Disabled
+        }
+    }
+
 }
