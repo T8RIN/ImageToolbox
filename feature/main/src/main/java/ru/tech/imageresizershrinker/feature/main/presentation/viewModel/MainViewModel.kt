@@ -27,6 +27,7 @@ import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.core.domain.APP_RELEASES
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.domain.model.SettingsState
@@ -39,6 +40,7 @@ import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.SetAlignm
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.SetBorderWidthUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.SetColorTupleUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.SetColorTuplesUseCase
+import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.SetCopyToClipboardModeUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.SetDefaultImageScaleModeUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.SetEmojiUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.SetEmojisCountUseCase
@@ -62,7 +64,6 @@ import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleAll
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleAllowCollectCrashlyticsUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleAllowImageMonetUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleAmoledModeUseCase
-import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleAutoPinClipboardUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleClearCacheOnLaunchUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleDrawAppBarShadowsUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleDrawButtonShadowsUseCase
@@ -139,14 +140,14 @@ class MainViewModel @Inject constructor(
     private val toggleInvertColorsUseCase: ToggleInvertColorsUseCase,
     private val toggleScreensSearchEnabledUseCase: ToggleScreensSearchEnabledUseCase,
     private val toggleDrawAppBarShadowsUseCase: ToggleDrawAppBarShadowsUseCase,
-    private val toggleAutoPinClipboardUseCase: ToggleAutoPinClipboardUseCase,
+    private val setCopyToClipboardModeUseCase: SetCopyToClipboardModeUseCase,
     private val setVibrationStrengthUseCase: SetVibrationStrengthUseCase,
     private val toggleOverwriteFilesUseCase: ToggleOverwriteFilesUseCase,
     private val setFilenameSuffixUseCase: SetFilenameSuffixUseCase,
     private val setDefaultImageScaleModeUseCase: SetDefaultImageScaleModeUseCase
 ) : ViewModel() {
 
-    private val _settingsState = mutableStateOf(SettingsState.Default())
+    private val _settingsState = mutableStateOf(SettingsState.Default)
     val settingsState: SettingsState by _settingsState
 
     val navController = navController<Screen>(Screen.Main)
@@ -628,9 +629,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun toggleAutoPinClipboard() {
+    fun setCopyToClipboardMode(copyToClipboardMode: CopyToClipboardMode) {
         viewModelScope.launch {
-            toggleAutoPinClipboardUseCase()
+            setCopyToClipboardModeUseCase(copyToClipboardMode)
         }
     }
 

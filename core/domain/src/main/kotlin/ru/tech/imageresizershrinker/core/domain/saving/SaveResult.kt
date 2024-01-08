@@ -2,14 +2,7 @@ package ru.tech.imageresizershrinker.core.domain.saving
 
 sealed interface SaveResult {
 
-    sealed class Success : SaveResult {
-        data class WithData(
-            val filename: String,
-            val savingPath: String
-        ) : Success()
-
-        data object WithoutToast : Success()
-    }
+    data class Success(val message: String? = null) : SaveResult
 
     sealed interface Error : SaveResult {
         data object MissingPermissions : Error

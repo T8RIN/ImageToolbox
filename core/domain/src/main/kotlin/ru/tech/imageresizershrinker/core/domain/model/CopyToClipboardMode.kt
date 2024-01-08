@@ -17,7 +17,7 @@ sealed class CopyToClipboardMode(
         fun fromInt(
             value: Int
         ): CopyToClipboardMode = when (value) {
-            1 -> Enabled.WithSaving
+            1 -> Enabled.WithoutSaving
             2 -> Enabled.WithSaving
             else -> Disabled
         }

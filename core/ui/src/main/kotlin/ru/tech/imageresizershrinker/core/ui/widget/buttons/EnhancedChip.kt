@@ -31,17 +31,20 @@ fun EnhancedChip(
     onClick: () -> Unit,
     contentPadding: PaddingValues = PaddingValues(6.dp),
     selectedColor: Color,
+    selectedContentColor: Color = MaterialTheme.colorScheme.contentColorFor(selectedColor),
+    unselectedColor: Color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f),
+    unselectedContentColor: Color = MaterialTheme.colorScheme.onSurface,
     shape: Shape = MaterialTheme.shapes.small,
     label: @Composable () -> Unit
 ) {
     val haptics = LocalHapticFeedback.current
     val color by animateColorAsState(
         if (selected) selectedColor
-        else MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f)
+        else unselectedColor
     )
     val contentColor by animateColorAsState(
-        if (selected) MaterialTheme.colorScheme.contentColorFor(selectedColor)
-        else MaterialTheme.colorScheme.onSurface
+        if (selected) selectedContentColor
+        else unselectedContentColor
     )
 
     CompositionLocalProvider(

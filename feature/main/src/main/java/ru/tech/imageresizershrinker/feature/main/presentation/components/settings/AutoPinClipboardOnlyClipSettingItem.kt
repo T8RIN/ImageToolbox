@@ -2,7 +2,7 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.PushPin
+import androidx.compose.material.icons.outlined.SaveAs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -16,19 +16,20 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 
 
 @Composable
-fun AutoPinClipboardSettingItem(
+fun AutoPinClipboardOnlyClipSettingItem(
     onClick: (Boolean) -> Unit,
-    shape: Shape = ContainerShapeDefaults.topShape,
+    shape: Shape = ContainerShapeDefaults.bottomShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
     PreferenceRowSwitch(
         modifier = modifier,
+        enabled = settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled,
         shape = shape,
-        title = stringResource(R.string.auto_pin),
-        subtitle = stringResource(R.string.auto_pin_sub),
-        checked = settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled,
+        title = stringResource(R.string.only_clip),
+        subtitle = stringResource(R.string.only_clip_sub),
+        checked = settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled.WithoutSaving,
         onClick = onClick,
-        startIcon = Icons.Outlined.PushPin
+        startIcon = Icons.Outlined.SaveAs
     )
 }

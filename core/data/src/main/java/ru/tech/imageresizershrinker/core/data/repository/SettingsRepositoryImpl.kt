@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.data.keys.Keys.APP_OPEN_COUNT
 import ru.tech.imageresizershrinker.core.data.keys.Keys.AUTO_CACHE_CLEAR
 import ru.tech.imageresizershrinker.core.data.keys.Keys.BORDER_WIDTH
 import ru.tech.imageresizershrinker.core.data.keys.Keys.COLOR_TUPLES
-import ru.tech.imageresizershrinker.core.data.keys.Keys.COPY_TO_CLIPBOARD
+import ru.tech.imageresizershrinker.core.data.keys.Keys.COPY_TO_CLIPBOARD_MODE
 import ru.tech.imageresizershrinker.core.data.keys.Keys.DRAW_APPBAR_SHADOWS
 import ru.tech.imageresizershrinker.core.data.keys.Keys.DRAW_BUTTON_SHADOWS
 import ru.tech.imageresizershrinker.core.data.keys.Keys.DRAW_CONTAINER_SHADOWS
@@ -58,6 +58,7 @@ import ru.tech.imageresizershrinker.core.data.keys.Keys.THEME_CONTRAST_LEVEL
 import ru.tech.imageresizershrinker.core.data.keys.Keys.THEME_STYLE
 import ru.tech.imageresizershrinker.core.data.keys.Keys.VIBRATION_STRENGTH
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.domain.model.Preset
@@ -79,7 +80,7 @@ class SettingsRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : SettingsRepository {
 
-    private val default = SettingsState.Default()
+    private val default = SettingsState.Default
 
     override suspend fun getSettingsState(): SettingsState = getSettingsStateFlow().first()
 
@@ -134,7 +135,9 @@ class SettingsRepositoryImpl @Inject constructor(
             themeStyle = prefs[THEME_STYLE] ?: default.themeStyle,
             isInvertThemeColors = prefs[INVERT_THEME] ?: default.isInvertThemeColors,
             screensSearchEnabled = prefs[SCREEN_SEARCH_ENABLED] ?: default.screensSearchEnabled,
-            autoCopyToClipBoard = prefs[COPY_TO_CLIPBOARD] ?: default.autoCopyToClipBoard,
+            copyToClipboardMode = prefs[COPY_TO_CLIPBOARD_MODE]?.let {
+                CopyToClipboardMode.fromInt(it)
+            } ?: CopyToClipboardMode.Disabled,
             hapticsStrength = prefs[VIBRATION_STRENGTH] ?: default.hapticsStrength,
             overwriteFiles = prefs[OVERWRITE_FILE] ?: default.overwriteFiles,
             filenameSuffix = prefs[FILENAME_SUFFIX] ?: default.filenameSuffix,
@@ -463,10 +466,9 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun toggleAutoPinClipboard() {
+    override suspend fun setCopyToClipboardMode(copyToClipboardMode: CopyToClipboardMode) {
         dataStore.edit {
-            val v = it[COPY_TO_CLIPBOARD] ?: false
-            it[COPY_TO_CLIPBOARD] = !v
+            it[COPY_TO_CLIPBOARD_MODE] = copyToClipboardMode.value
         }
     }
 

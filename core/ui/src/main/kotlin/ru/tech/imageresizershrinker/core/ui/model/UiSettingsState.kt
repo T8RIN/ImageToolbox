@@ -14,6 +14,7 @@ import androidx.core.net.toUri
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.PaletteStyle
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.domain.model.NightMode
@@ -65,7 +66,7 @@ data class UiSettingsState(
     val themeStyle: PaletteStyle,
     val isInvertThemeColors: Boolean,
     val screensSearchEnabled: Boolean,
-    val autoCopyToClipBoard: Boolean,
+    val copyToClipboardMode: CopyToClipboardMode,
     val hapticsStrength: Int,
     val overwriteFiles: Boolean,
     val filenameSuffix: String,
@@ -147,7 +148,7 @@ fun SettingsState.toUiState(): UiSettingsState {
             .getOrNull(themeStyle) ?: PaletteStyle.TonalSpot,
         isInvertThemeColors = isInvertThemeColors,
         screensSearchEnabled = screensSearchEnabled,
-        autoCopyToClipBoard = autoCopyToClipBoard,
+        copyToClipboardMode = copyToClipboardMode,
         hapticsStrength = hapticsStrength,
         overwriteFiles = overwriteFiles,
         filenameSuffix = filenameSuffix,

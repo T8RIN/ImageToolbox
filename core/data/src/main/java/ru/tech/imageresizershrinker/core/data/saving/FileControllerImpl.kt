@@ -27,7 +27,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.keys.Keys.ADD_ORIGINAL_NAME_TO_FILENAME
 import ru.tech.imageresizershrinker.core.data.keys.Keys.ADD_SEQ_NUM_TO_FILENAME
 import ru.tech.imageresizershrinker.core.data.keys.Keys.ADD_SIZE_TO_FILENAME
-import ru.tech.imageresizershrinker.core.data.keys.Keys.COPY_TO_CLIPBOARD
+import ru.tech.imageresizershrinker.core.data.keys.Keys.COPY_TO_CLIPBOARD_MODE
 import ru.tech.imageresizershrinker.core.data.keys.Keys.FILENAME_PREFIX
 import ru.tech.imageresizershrinker.core.data.keys.Keys.FILENAME_SUFFIX
 import ru.tech.imageresizershrinker.core.data.keys.Keys.IMAGE_PICKER_MODE
@@ -83,7 +83,7 @@ class FileControllerImpl @Inject constructor(
                     addOriginalFilename = preferences[ADD_ORIGINAL_NAME_TO_FILENAME] ?: false,
                     addSequenceNumber = preferences[ADD_SEQ_NUM_TO_FILENAME] ?: true,
                     randomizeFilename = preferences[RANDOMIZE_FILENAME] ?: false,
-                    copyToClipboardMode = preferences[COPY_TO_CLIPBOARD]?.let {
+                    copyToClipboardMode = preferences[COPY_TO_CLIPBOARD_MODE]?.let {
                         CopyToClipboardMode.fromInt(it)
                     } ?: CopyToClipboardMode.Disabled,
                     overwriteFile = preferences[OVERWRITE_FILE] ?: false
@@ -171,7 +171,7 @@ class FileControllerImpl @Inject constructor(
             }
 
             if (fileParams.copyToClipboardMode is CopyToClipboardMode.Enabled.WithoutSaving) {
-                return SaveResult.Success.WithoutToast
+                return SaveResult.Success(context.getString(R.string.copied))
             }
 
             if (fileParams.overwriteFile) {
@@ -263,7 +263,15 @@ class FileControllerImpl @Inject constructor(
             if (result.isFailure) {
                 return SaveResult.Error.Exception(result.exceptionOrNull() ?: Throwable())
             } else {
-                return SaveResult.Success.WithData(filename = filename, savingPath = savePath)
+                return SaveResult.Success(
+                    if (savePath.isNotEmpty() && filename.isNotEmpty()) {
+                        context.getString(
+                            R.string.saved_to,
+                            savingPath,
+                            filename
+                        )
+                    } else null
+                )
             }
         }
     }

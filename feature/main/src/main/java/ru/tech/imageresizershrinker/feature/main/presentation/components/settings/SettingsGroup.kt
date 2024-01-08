@@ -228,7 +228,8 @@ sealed class SettingsGroup(
         icon = Icons.Rounded.IntegrationInstructions,
         titleId = R.string.clipboard,
         settingsList = listOf(
-            Setting.AutoPinClipboard
+            Setting.AutoPinClipboard,
+            Setting.AutoPinClipboardOnlyClip
         ),
         initialState = false
     )

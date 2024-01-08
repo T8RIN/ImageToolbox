@@ -46,7 +46,7 @@ object Keys {
     val DRAW_SWITCH_SHADOWS = booleanPreferencesKey("DRAW_SWITCH_SHADOWS")
     val DRAW_SLIDER_SHADOWS = booleanPreferencesKey("DRAW_SLIDER_SHADOWS")
     val DRAW_APPBAR_SHADOWS = booleanPreferencesKey("DRAW_APPBAR_SHADOWS")
-    val COPY_TO_CLIPBOARD = intPreferencesKey("COPY_TO_CLIPBOARD")
+    val COPY_TO_CLIPBOARD_MODE = intPreferencesKey("COPY_TO_CLIPBOARD_MODE")
     val VIBRATION_STRENGTH = intPreferencesKey("VIBRATION_STRENGTH")
     val OVERWRITE_FILE = booleanPreferencesKey("OVERWRITE_FILE")
     val FILENAME_SUFFIX = stringPreferencesKey("FILENAME_SUFFIX")

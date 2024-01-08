@@ -19,12 +19,12 @@ sealed class ImageScaleMode(val value: Int) {
                 Default,
                 Bilinear,
                 Nearest,
-                Bicubic,
+                Spline,
                 Mitchell,
                 Lanczos,
                 Catmull,
                 Hermite,
-                Spline,
+                Bicubic,
                 Hann
             )
         }
@@ -33,12 +33,12 @@ sealed class ImageScaleMode(val value: Int) {
             -1 -> Default
             0 -> Bilinear
             1 -> Nearest
-            2 -> Bicubic
+            2 -> Spline
             3 -> Mitchell
             4 -> Lanczos
             5 -> Catmull
             6 -> Hermite
-            7 -> Spline
+            7 -> Bicubic
             8 -> Hann
 
             else -> NotPresent

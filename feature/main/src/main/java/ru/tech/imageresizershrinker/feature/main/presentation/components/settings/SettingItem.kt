@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
@@ -399,7 +400,27 @@ fun SettingItem(
         }
 
         Setting.AutoPinClipboard -> {
-            AutoPinClipboardSettingItem(onClick = { viewModel.toggleAutoPinClipboard() })
+            AutoPinClipboardSettingItem(
+                onClick = {
+                    if(it) {
+                        viewModel.setCopyToClipboardMode(CopyToClipboardMode.Enabled.WithSaving)
+                    } else {
+                        viewModel.setCopyToClipboardMode(CopyToClipboardMode.Disabled)
+                    }
+                }
+            )
+        }
+
+        Setting.AutoPinClipboardOnlyClip -> {
+            AutoPinClipboardOnlyClipSettingItem(
+                onClick = {
+                    if(it) {
+                        viewModel.setCopyToClipboardMode(CopyToClipboardMode.Enabled.WithoutSaving)
+                    } else {
+                        viewModel.setCopyToClipboardMode(CopyToClipboardMode.Enabled.WithSaving)
+                    }
+                }
+            )
         }
 
         Setting.VibrationStrength -> {

@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.core.domain.repository
 
 import kotlinx.coroutines.flow.Flow
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.domain.model.SettingsState
@@ -102,7 +103,7 @@ interface SettingsRepository {
 
     suspend fun toggleDrawAppBarShadows()
 
-    suspend fun toggleAutoPinClipboard()
+    suspend fun setCopyToClipboardMode(copyToClipboardMode: CopyToClipboardMode)
 
     suspend fun setVibrationStrength(strength: Int)
 

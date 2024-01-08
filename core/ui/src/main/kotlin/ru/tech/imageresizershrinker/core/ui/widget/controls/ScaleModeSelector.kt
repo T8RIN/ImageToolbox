@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -34,6 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.theme.blend
+import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
@@ -130,7 +133,10 @@ fun ScaleModeSelector(
                         Text(text = it.title)
                     },
                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
-                    selectedColor = MaterialTheme.colorScheme.secondary
+                    selectedColor = MaterialTheme.colorScheme.outlineVariant(0.2f, MaterialTheme.colorScheme.tertiaryContainer),
+                    selectedContentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                    unselectedColor = MaterialTheme.colorScheme.outlineVariant(0.01f),
+                    unselectedContentColor = MaterialTheme.colorScheme.onSurface
                 )
             }
         }

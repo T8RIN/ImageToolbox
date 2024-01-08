@@ -246,6 +246,11 @@ sealed class Setting(
         subtitle = R.string.auto_pin_sub
     )
 
+    data object AutoPinClipboardOnlyClip : Setting(
+        title = R.string.only_clip,
+        subtitle = R.string.only_clip_sub
+    )
+
     data object VibrationStrength : Setting(
         title = R.string.vibration_strength,
         subtitle = null

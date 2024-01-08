@@ -6,7 +6,6 @@ import androidx.compose.material.icons.rounded.Save
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
-import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
@@ -25,25 +24,16 @@ fun parseSaveResult(
             }
         }
 
-        is SaveResult.Success.WithData -> {
-            if (saveResult.savingPath.isNotEmpty() && saveResult.filename.isNotEmpty()) {
+        is SaveResult.Success -> {
+            saveResult.message?.let {
                 scope.launch {
                     toastHostState.showToast(
-                        message = context.getString(
-                            R.string.saved_to,
-                            saveResult.savingPath,
-                            saveResult.filename
-                        ),
+                        message = it,
                         icon = Icons.Rounded.Save,
                         duration = ToastDuration.Long
                     )
                 }
-                scope.launch { onSuccess() }
-                showReview(context)
             }
-        }
-
-        SaveResult.Success.WithoutToast -> {
             scope.launch { onSuccess() }
             showReview(context)
         }
