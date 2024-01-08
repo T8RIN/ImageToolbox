@@ -83,27 +83,18 @@ This application is completely free, but if you want to support the project deve
 | </br> ![Bitcoin](https://img.shields.io/badge/Bitcoin-EAB300?style=for-the-badge&logo=Bitcoin%20SV&logoColor=white) <br/> <br/> ->  ```17Pk1RurnkJxLV9V7mc6Y7dLyHFb9rvQDq```  <- <br/> <br/> | </br> ![Tether](https://img.shields.io/badge/USDT-168363?style=for-the-badge&logo=tether&logoColor=white) <br/> <br/> ->  ```TMPAu7a54NvQNEKnNWh3naXu3oYijqP3U7```  <- <br/> <br/> |
 | :----: | :----: |
 
-# ⬇️ Download
+# 📲 Download
 
 Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and the download latest apk
 or click one of the badges below.
 
-[<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-align="center"
-alt='Get it on Google Play'
-height="80">](https://play.google.com/store/apps/details?id=ru.tech.imageresizershrinker)
-[<img src="https://gitlab.com/fdroid/artwork/-/raw/master/badge/get-it-on-en-au.png"
-alt='Get it on fdroid'
-align="center"
-height="80">](https://f-droid.org/packages/ru.tech.imageresizershrinker)
-[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
-alt='Get it on izzy'
-align="center"
-height="80">](https://apt.izzysoft.de/fdroid/index/apk/ru.tech.imageresizershrinker)
-[<img src="https://user-images.githubusercontent.com/69304392/148696068-0cfea65d-b18f-4685-82b5-329a330b1c0d.png"
-alt='Get it on GitHub'
-align="center"
-height="80">](https://github.com/t8rin/imageresizer/releases/latest)
+</br>
+
+<p align="middle">
+    <a href="https://play.google.com/store/apps/details?id=ru.tech.imageresizershrinker"><img alt="Google Play" src="./fastlane/metadata/android/en-US/images/buttons/gplay.svg" height="60"></a>
+    <a href="https://f-droid.org/packages/ru.tech.imageresizershrinker"><img alt="F-Droid" src="./fastlane/metadata/android/en-US/images/buttons/fdroid.svg" height="60"/></a>
+    <a href="https://github.com/t8rin/imageresizer/releases/latest"><img alt="GitHub" src="./fastlane/metadata/android/en-US/images/buttons/github.svg" height="60"/></a>
+</p>
 </div>
 
 # ✨ Features
