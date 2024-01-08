@@ -1,6 +1,6 @@
 <div align="center">
 </br>
-<img src="https://github.com/T8RIN/ImageToolbox/assets/52178347/7561ef91-3c2e-4398-87a0-813a56a9f408" width="200" />
+<img src="./fastlane/metadata/android/en-US/images/logo/logo.png" width="200" />
 
 </div>
 
