@@ -510,4 +510,14 @@
     <string name="empty">空</string>
     <string name="suffix">后缀</string>
     <string name="auto_pin">自动置顶</string>
+    <string name="scale_mode">缩放模式</string>
+    <string name="bilinear">双线性</string>
+    <string name="hermite">Hermite</string>
+    <string name="lanczos">Lanczos</string>
+    <string name="nearest">最近的</string>
+    <string name="spline">花键式</string>
+    <string name="basic">基本式</string>
+    <string name="default_value">默认值</string>
+    <string name="hann">Hann</string>
+    <string name="mitchell">Mitchell</string>
 </resources>
