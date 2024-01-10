@@ -180,6 +180,7 @@ fun DrawScreen(
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHost.current
     val themeState = LocalDynamicThemeState.current
+    val allowChangeColor = settingsState.allowChangeColorByImage
 
     val appColorTuple = rememberAppColorTuple(
         defaultColorTuple = settingsState.appColorTuple,
@@ -220,6 +221,13 @@ fun DrawScreen(
                     }
                 }
             )
+        }
+    }
+    LaunchedEffect(viewModel.bitmap) {
+        if (allowChangeColor) {
+            viewModel.bitmap?.let {
+                themeState.updateColorByImage(it)
+            }
         }
     }
 

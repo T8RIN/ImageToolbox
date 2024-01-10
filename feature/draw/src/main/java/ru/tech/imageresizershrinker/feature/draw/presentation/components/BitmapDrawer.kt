@@ -48,7 +48,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.ZoomState
 import net.engawapg.lib.zoomable.rememberZoomState
@@ -67,7 +66,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaled
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rotateVector
 import ru.tech.imageresizershrinker.core.ui.utils.helper.scaleToFitCanvas
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -94,8 +92,6 @@ fun BitmapDrawer(
     zoomEnabled: Boolean,
     drawColor: Color
 ) {
-    val themeState = LocalDynamicThemeState.current
-    val allowChangeColor = LocalSettingsState.current.allowChangeColorByImage
     val scope = rememberCoroutineScope()
 
     Box(
@@ -162,7 +158,6 @@ fun BitmapDrawer(
 
             LaunchedEffect(invalidations) {
                 val outImage = outputImage.overlay(drawPathBitmap).asAndroidBitmap()
-                if (allowChangeColor) themeState.updateColorByImage(outImage)
                 onDraw(outImage)
             }
 
