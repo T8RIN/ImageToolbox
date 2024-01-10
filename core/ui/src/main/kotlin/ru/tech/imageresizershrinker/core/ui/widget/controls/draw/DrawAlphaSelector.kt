@@ -27,6 +27,9 @@ fun DrawAlphaSelector(
         sliderModifier = Modifier
             .padding(top = 14.dp, start = 12.dp, end = 12.dp, bottom = 10.dp),
         valueRange = 0.01f..1f,
+        internalStateTransformation = {
+            it.roundToTwoDigits()
+        },
         onValueChange = {
             onValueChange(it.roundToTwoDigits())
         },

@@ -33,6 +33,9 @@ fun BlurRadiusSelector(
             ),
         icon = Icons.Rounded.BlurCircular,
         valueRange = valueRange,
+        internalStateTransformation = {
+            it.roundToInt()
+        },
         onValueChange = {
             onValueChange(it.roundToInt())
         },

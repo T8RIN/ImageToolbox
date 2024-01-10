@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.isSpecified
+import androidx.compose.ui.geometry.takeOrElse
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
@@ -205,7 +205,7 @@ fun BitmapEraser(
                                 setPath(drawPath, false)
                             }.let {
                                 it.getPosition(it.length)
-                            }.takeIf { it.isSpecified }?.let { lastPoint ->
+                            }.takeOrElse { currentPosition }.let { lastPoint ->
                                 drawPath.moveTo(lastPoint.x, lastPoint.y)
                                 drawPath.lineTo(currentPosition.x, currentPosition.y)
                                 currentPosition = Offset.Unspecified

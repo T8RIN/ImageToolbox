@@ -145,7 +145,7 @@ fun DrawPathModeSelector(
                                     1.dp
                                 ),
                                 activeContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                    3.dp
+                                    10.dp
                                 )
                             ),
                             modifier = Modifier.materialShadow(

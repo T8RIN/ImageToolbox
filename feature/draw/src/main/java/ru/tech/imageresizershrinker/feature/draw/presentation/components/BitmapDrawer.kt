@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.isSpecified
 import androidx.compose.ui.geometry.takeOrElse
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
@@ -405,7 +406,14 @@ fun BitmapDrawer(
 
                         MotionEvent.Up -> {
                             val baseMove = {
-                                drawPath.lineTo(currentPosition.x, currentPosition.y)
+                                PathMeasure().apply {
+                                    setPath(drawPath, false)
+                                }.let {
+                                    it.getPosition(it.length)
+                                }.takeOrElse { currentPosition }.let { lastPoint ->
+                                    drawPath.moveTo(lastPoint.x, lastPoint.y)
+                                    drawPath.lineTo(currentPosition.x, currentPosition.y)
+                                }
                             }
                             if (!isEraserOn) {
                                 when (drawPathMode) {
@@ -426,7 +434,19 @@ fun BitmapDrawer(
                                     DrawPathMode.PointingArrow,
                                     DrawPathMode.DoublePointingArrow -> {
                                         drawPath = pathWithoutTransformations
-                                        drawPath.lineTo(currentPosition.x, currentPosition.y)
+                                        PathMeasure().apply {
+                                            setPath(drawPath, false)
+                                        }.let {
+                                            it.getPosition(it.length)
+                                        }.let { lastPoint ->
+                                            if (!lastPoint.isSpecified) {
+                                                drawPath.moveTo(
+                                                    currentPosition.x,
+                                                    currentPosition.y
+                                                )
+                                            }
+                                            drawPath.lineTo(currentPosition.x, currentPosition.y)
+                                        }
 
                                         drawPathMode.drawArrowsIfNeeded(
                                             drawPath = drawPath,
