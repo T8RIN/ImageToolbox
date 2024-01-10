@@ -49,7 +49,6 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
-import com.t8rin.logger.makeLog
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.ZoomState
 import net.engawapg.lib.zoomable.rememberZoomState
@@ -98,7 +97,7 @@ fun BitmapDrawer(
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = LocalSettingsState.current.allowChangeColorByImage
     val scope = rememberCoroutineScope()
-    zoomState.scale.makeLog()
+
     Box(
         modifier = Modifier
             .fillMaxSize()

@@ -402,7 +402,7 @@ fun SettingItem(
         Setting.AutoPinClipboard -> {
             AutoPinClipboardSettingItem(
                 onClick = {
-                    if(it) {
+                    if (it) {
                         viewModel.setCopyToClipboardMode(CopyToClipboardMode.Enabled.WithSaving)
                     } else {
                         viewModel.setCopyToClipboardMode(CopyToClipboardMode.Disabled)
@@ -414,7 +414,7 @@ fun SettingItem(
         Setting.AutoPinClipboardOnlyClip -> {
             AutoPinClipboardOnlyClipSettingItem(
                 onClick = {
-                    if(it) {
+                    if (it) {
                         viewModel.setCopyToClipboardMode(CopyToClipboardMode.Enabled.WithoutSaving)
                     } else {
                         viewModel.setCopyToClipboardMode(CopyToClipboardMode.Enabled.WithSaving)

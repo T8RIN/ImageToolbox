@@ -76,7 +76,7 @@ fun EnhancedSlider(
             compositions++
         }
     }
-    
+
     val thumb: @Composable (SliderState) -> Unit = {
         val interaction by interactionSource.interactions.collectAsState(initial = null)
 

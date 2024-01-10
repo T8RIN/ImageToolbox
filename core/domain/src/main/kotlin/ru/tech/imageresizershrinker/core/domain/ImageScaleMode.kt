@@ -1,7 +1,7 @@
 package ru.tech.imageresizershrinker.core.domain
 
 sealed class ImageScaleMode(val value: Int) {
-    data object NotPresent: ImageScaleMode(-2)
+    data object NotPresent : ImageScaleMode(-2)
     data object Default : ImageScaleMode(-1)
     data object Bilinear : ImageScaleMode(0)
     data object Nearest : ImageScaleMode(1)
@@ -29,7 +29,7 @@ sealed class ImageScaleMode(val value: Int) {
             )
         }
 
-        fun fromInt(value: Int): ImageScaleMode = when(value) {
+        fun fromInt(value: Int): ImageScaleMode = when (value) {
             -1 -> Default
             0 -> Bilinear
             1 -> Nearest

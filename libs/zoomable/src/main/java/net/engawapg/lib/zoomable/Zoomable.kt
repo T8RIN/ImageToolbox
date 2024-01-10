@@ -372,7 +372,7 @@ private class ZoomableNode(
     var onTap: (position: Offset) -> Unit,
     var onDoubleTap: suspend (position: Offset, level: DoubleTapZoomLevel) -> Unit,
     var enabled: (Float, Offset) -> Boolean,
-): PointerInputModifierNode, LayoutModifierNode, DelegatingNode() {
+) : PointerInputModifierNode, LayoutModifierNode, DelegatingNode() {
     var measuredSize = Size.Zero
 
     fun update(
