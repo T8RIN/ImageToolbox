@@ -532,4 +532,6 @@
     <string name="bicubic">Bicubic</string>
     <string name="catmull">Catmull</string>
     <string name="spline_sub">利用分段定义的多项式函数平滑插值和近似曲线或曲面，灵活、连续地表示形状</string>
+    <string name="only_clip">仅剪切</string>
+    <string name="only_clip_sub">不会将图像保存到本地存储，只会尝试将图像放入剪贴板中</string>
 </resources>
