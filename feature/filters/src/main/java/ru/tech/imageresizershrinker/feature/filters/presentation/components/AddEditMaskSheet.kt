@@ -63,10 +63,10 @@ import androidx.compose.ui.unit.dp
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import net.engawapg.lib.zoomable.rememberZoomState
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.draw.DrawMode
 import ru.tech.imageresizershrinker.core.domain.image.draw.DrawPathMode
@@ -174,10 +174,9 @@ fun AddEditMaskSheet(
             enableBackHandler = false
         ) {
             var imageState by remember { mutableStateOf(ImageHeaderState(2)) }
-            val zoomState = rememberAnimatedZoomState(maxZoom = 30f)
+            val zoomState = rememberZoomState(maxScale = 30f)
             LaunchedEffect(imageState) {
-                zoomState.setZoom(1f)
-                zoomState.setPan(Offset.Zero)
+                zoomState.changeScale(1f, Offset.Zero)
             }
             disposable()
             if (visible.value) {

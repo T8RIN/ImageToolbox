@@ -1,12 +1,10 @@
-@file:Suppress("UnstableApiUsage")
-
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace = "com.smarttoolfactory.colordetector"
+    namespace = "net.engawapg.lib.zoomable"
     compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
 
     defaultConfig {
@@ -32,19 +30,11 @@ android {
 }
 
 dependencies {
+    implementation(libs.compose.animation.core)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.runtime)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.util)
 
     implementation(libs.androidxCore)
-    implementation(libs.androidx.palette.ktx)
-
-    implementation(project(":libs:gesture"))
-    implementation(project(":libs:screenshot"))
-    implementation(project(":libs:image"))
-    implementation(project(":libs:zoomable"))
-
-    implementation(platform(libs.compose.bom))
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.tooling)
-    implementation(libs.compose.runtime)
-    implementation(libs.compose.material3)
-    implementation(libs.compose.material)
 }

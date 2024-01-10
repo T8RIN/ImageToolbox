@@ -46,12 +46,11 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.smarttoolfactory.image.zoom.ZoomLevel
-import com.smarttoolfactory.image.zoom.animatedZoom
-import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
@@ -105,19 +104,10 @@ fun ImagePager(
                     detectTapGestures { }
                 }
         ) {
-            val zoomState = rememberAnimatedZoomState(
-                minZoom = 0.5f,
-                maxZoom = 8f,
-                moveToBounds = true,
-                zoomable = true,
-                pannable = true,
-                rotatable = true
-            )
             HorizontalPager(
                 state = state,
                 modifier = Modifier.fillMaxSize(),
-                beyondBoundsPageCount = 5,
-                userScrollEnabled = zoomState.zoom == 1f
+                beyondBoundsPageCount = 5
             ) { page ->
                 Box(
                     modifier = Modifier.fillMaxSize()
@@ -127,19 +117,7 @@ fun ImagePager(
                         model = uris?.getOrNull(page),
                         modifier = Modifier
                             .fillMaxSize()
-                            .animatedZoom(
-                                animatedZoomState = zoomState,
-                                zoomOnDoubleTap = {
-                                    when (it) {
-                                        ZoomLevel.Min -> 1f
-                                        ZoomLevel.Mid -> 4f
-                                        ZoomLevel.Max -> 8f
-                                    }
-                                },
-                                enabled = { zoom, _, _ ->
-                                    zoom != 1f
-                                }
-                            )
+                            .zoomable(rememberZoomState(8f))
                             .systemBarsPadding()
                             .displayCutoutPadding(),
                         contentScale = ContentScale.Fit,

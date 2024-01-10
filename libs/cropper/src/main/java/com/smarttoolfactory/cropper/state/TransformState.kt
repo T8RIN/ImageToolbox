@@ -168,7 +168,7 @@ open class TransformState(
         }
     }
 
-    internal suspend fun animateRotationTo(
+    suspend fun animateRotationTo(
         rotation: Float,
         animationSpec: AnimationSpec<Float> = tween(400)
     ) {

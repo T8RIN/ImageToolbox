@@ -11,14 +11,13 @@ composeColorfulSliders = "1.2.0"
 composeExtendedColors = "1.0.0-alpha07"
 m3color = "2023.10.1"
 paletteKtx = "1.0.0"
-uiText = "1.6.0-beta03"
+composeVersion = "1.6.0-beta03"
 androidx-datastorePreferencesAndroid = "1.1.0-alpha07"
-androidx-material = "1.6.0-beta03"
 appUpdateKtx = "2.1.0"
 appUpdate = "2.1.0"
 avifCoder = "1.5.8"
 jxlCoder = "1.6.2"
-compose = "2.1.0"
+shadowGadgets = "2.1.0"
 fadingEdges = "1.0.3"
 firebaseCrashlyticsKtx = "18.6.0"
 konfettiCompose = "2.0.4"
@@ -50,7 +49,6 @@ activityCompose = "1.8.2"
 kotlinxCollectionsImmutable = "0.3.7"
 scrollbar = "1.8.0"
 material3 = "1.2.0-beta01"
-material3WindowSizeClass = "beta01"
 materialIconsExtended = "1.6.0-beta03"
 reorderable = "0.9.6"
 reviewKtx = "2.0.1"
@@ -79,16 +77,16 @@ bitmapscaler = "1.1.2"
 [libraries]
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "exifinterface" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
-androidx-material3-window-sizeclass = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3WindowSizeClass" }
+androidx-material3-window-sizeclass = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-material = { module = "androidx.compose.material:material", version.ref = "materialIconsExtended" }
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 androidx-palette-ktx = { module = "androidx.palette:palette-ktx", version.ref = "paletteKtx" }
-androidx-ui-text = { module = "androidx.compose.ui:ui-text", version.ref = "uiText" }
+androidx-ui-text = { module = "androidx.compose.ui:ui-text", version.ref = "composeVersion" }
 app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
 app-update = { module = "com.google.android.play:app-update", version.ref = "appUpdate" }
 avif-coder = { module = "com.github.awxkee:avif-coder", version.ref = "avifCoder" }
-compose = { module = "com.github.zed-alpha.shadow-gadgets:compose", version.ref = "compose" }
+compose = { module = "com.github.zed-alpha.shadow-gadgets:compose", version.ref = "shadowGadgets" }
 compose-color-detector = { module = "com.github.SmartToolFactory:Compose-Color-Detector", version.ref = "composeColorDetector" }
 compose-colorful-sliders = { module = "com.github.SmartToolFactory:Compose-Colorful-Sliders", version.ref = "composeColorfulSliders" }
 compose-extended-colors = { module = "com.github.SmartToolFactory:Compose-Extended-Colors", version.ref = "composeExtendedColors" }
@@ -150,6 +148,7 @@ compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = 
 compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
 compose-animation-graphics = { group = "androidx.compose.animation", name = "animation-graphics" }
+compose-animation-core = { module = "androidx.compose.animation:animation-core", version.ref = "composeVersion" }
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }

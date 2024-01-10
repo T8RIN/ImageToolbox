@@ -47,10 +47,9 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
-import com.smarttoolfactory.image.util.update
-import com.smarttoolfactory.image.zoom.animatedZoom
-import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
+import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.image.draw.Pt
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
@@ -72,7 +71,7 @@ fun BitmapEraser(
     onErased: (Bitmap) -> Unit = {},
     zoomEnabled: Boolean
 ) {
-    val zoomState = rememberAnimatedZoomState(maxZoom = 30f)
+    val zoomState = rememberZoomState(maxScale = 30f)
     val scope = rememberCoroutineScope()
 
     Box(
@@ -80,12 +79,16 @@ fun BitmapEraser(
             .fillMaxSize()
             .then(
                 if (zoomEnabled) {
-                    Modifier.animatedZoom(animatedZoomState = zoomState)
+                    Modifier
+                        .zoomable(zoomState = zoomState)
                 } else {
                     Modifier
                         .clipToBounds()
                         .graphicsLayer {
-                            update(zoomState)
+                            scaleX = zoomState.scale
+                            scaleY = zoomState.scale
+                            translationX = zoomState.offsetX
+                            translationY = zoomState.offsetY
                         }
                 }
             ),

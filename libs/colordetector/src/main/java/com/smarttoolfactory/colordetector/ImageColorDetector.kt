@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.isFinite
@@ -28,10 +29,8 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.calculateColorInPixel
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import com.smarttoolfactory.image.ImageWithConstraints
-import com.smarttoolfactory.image.util.update
-import com.smarttoolfactory.image.zoom.ZoomState
-import com.smarttoolfactory.image.zoom.animatedZoom
-import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
+import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.zoomable
 
 
 @Composable
@@ -47,17 +46,23 @@ fun ImageColorDetector(
         mutableStateOf(Offset.Unspecified)
     }
 
-    val zoomState = rememberAnimatedZoomState(limitPan = true)
+    val zoomState = rememberZoomState(maxScale = 15f)
 
     ImageWithConstraints(
         modifier = modifier
             .then(
                 if (canZoom) {
-                    Modifier.animatedZoom(animatedZoomState = zoomState)
+                    Modifier
+                        .zoomable(zoomState = zoomState)
                 } else {
-                    Modifier.graphicsLayer {
-                        update(zoomState)
-                    }
+                    Modifier
+                        .clipToBounds()
+                        .graphicsLayer {
+                            scaleX = zoomState.scale
+                            scaleY = zoomState.scale
+                            translationX = zoomState.offsetX
+                            translationY = zoomState.offsetY
+                        }
                 }
             ),
         imageBitmap = imageBitmap
@@ -118,7 +123,7 @@ fun ImageColorDetector(
             modifier = Modifier
                 .size(imageWidth, imageHeight),
             selectedColor = color,
-            zoomState = zoomState,
+            zoom = zoomState.scale,
             offset = offset
         )
     }
@@ -129,14 +134,12 @@ fun ImageColorDetector(
 internal fun ColorSelectionDrawing(
     modifier: Modifier,
     selectedColor: Color = Color.Black,
-    zoomState: ZoomState? = null,
+    zoom: Float = 1f,
     offset: Offset,
 ) {
     val color = animateColorAsState(
         if (selectedColor.luminance() > 0.3f) Color.Black else Color.White
     ).value
-
-    val zoom = zoomState?.zoom ?: 1f
 
     Canvas(modifier = modifier.fillMaxSize()) {
 

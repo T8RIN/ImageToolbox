@@ -32,6 +32,7 @@ include(":libs:colorpicker")
 include(":libs:systemuicontroller")
 include(":libs:placeholder")
 include(":libs:logger")
+include(":libs:zoomable")
 
 include(":feature:main")
 include(":feature:pick-color")

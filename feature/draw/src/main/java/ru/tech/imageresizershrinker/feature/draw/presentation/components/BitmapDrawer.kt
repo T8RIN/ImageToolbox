@@ -48,12 +48,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
-import com.smarttoolfactory.image.util.update
-import com.smarttoolfactory.image.zoom.AnimatedZoomState
-import com.smarttoolfactory.image.zoom.animatedZoom
-import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import com.t8rin.logger.makeLog
 import kotlinx.coroutines.launch
+import net.engawapg.lib.zoomable.ZoomState
+import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.draw.DrawMode
 import ru.tech.imageresizershrinker.core.domain.image.draw.DrawPathMode
@@ -81,7 +81,7 @@ fun BitmapDrawer(
     imageManager: ImageManager<Bitmap, *>,
     paths: List<UiPathPaint>,
     brushSoftness: Pt,
-    zoomState: AnimatedZoomState = rememberAnimatedZoomState(maxZoom = 30f),
+    zoomState: ZoomState = rememberZoomState(maxScale = 30f),
     onAddPath: (UiPathPaint) -> Unit,
     strokeWidth: Pt,
     isEraserOn: Boolean,
@@ -98,18 +98,22 @@ fun BitmapDrawer(
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = LocalSettingsState.current.allowChangeColorByImage
     val scope = rememberCoroutineScope()
-
+    zoomState.scale.makeLog()
     Box(
         modifier = Modifier
             .fillMaxSize()
             .then(
                 if (zoomEnabled) {
-                    Modifier.animatedZoom(animatedZoomState = zoomState)
+                    Modifier
+                        .zoomable(zoomState = zoomState)
                 } else {
                     Modifier
                         .clipToBounds()
                         .graphicsLayer {
-                            update(zoomState)
+                            scaleX = zoomState.scale
+                            scaleY = zoomState.scale
+                            translationX = zoomState.offsetX
+                            translationY = zoomState.offsetY
                         }
                 }
             ),

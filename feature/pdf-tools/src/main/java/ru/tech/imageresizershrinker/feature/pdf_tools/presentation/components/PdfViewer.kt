@@ -84,8 +84,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toIntRect
 import coil.memory.MemoryCache
 import coil.request.ImageRequest
-import com.smarttoolfactory.image.zoom.animatedZoom
-import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import com.t8rin.dynamic.theme.observeAsState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -95,6 +93,8 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import my.nanihadesuka.compose.LazyColumnScrollbar
 import my.nanihadesuka.compose.ScrollbarSelectionMode
+import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
@@ -233,16 +233,14 @@ fun PdfViewer(
                             )
                         }
                     ) {
-                        val zoomState = rememberAnimatedZoomState(
-                            maxZoom = 10f
-                        )
-
                         LazyColumn(
                             state = listState,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .background(MaterialTheme.colorScheme.surfaceContainerLow)
-                                .animatedZoom(animatedZoomState = zoomState),
+                                .zoomable(
+                                    rememberZoomState(10f)
+                                ),
                             contentPadding = PaddingValues(start = 20.dp, end = 20.dp),
                             horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
@@ -608,68 +606,76 @@ private fun Modifier.dragHandler(
         return itemKey?.toString()?.takeLastWhile { it != '-' }?.toIntOrNull()
     }
 
-    return pointerInput(key) {
-        detectTapGestures { offset ->
-            lazyGridState.gridItemKeyAtPosition(offset)?.let { key ->
-                if (selectedItems.value.contains(key)) {
-                    selectedItems.update { it - key }
-                } else {
-                    selectedItems.update { it + key }
-                }
-            }
-        }
-    }.pointerInput(key) {
-        var initialKey: Int? = null
-        var currentKey: Int? = null
-        detectDragGesturesAfterLongPress(
-            onDragStart = { offset ->
-                lazyGridState.gridItemKeyAtPosition(offset)?.let { key ->
-                    if (!selectedItems.value.contains(key)) {
-                        haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-                        initialKey = key
-                        currentKey = key
-                        selectedItems.update { it + key }
-                    }
-                }
-            },
-            onDragCancel = {
-                initialKey = null
-                autoScrollSpeed.value = 0f
-            },
-            onDragEnd = {
-                initialKey = null
-                autoScrollSpeed.value = 0f
-            },
-            onDrag = { change, _ ->
-                if (initialKey != null) {
-                    val distFromBottom = if (isVertical) {
-                        lazyGridState.layoutInfo.viewportSize.height - change.position.y
-                    } else lazyGridState.layoutInfo.viewportSize.width - change.position.x
-                    val distFromTop = if (isVertical) {
-                        change.position.y
-                    } else change.position.x
-                    autoScrollSpeed.value = when {
-                        distFromBottom < autoScrollThreshold -> autoScrollThreshold - distFromBottom
-                        distFromTop < autoScrollThreshold -> -(autoScrollThreshold - distFromTop)
-                        else -> 0f
-                    }
-
-                    lazyGridState.gridItemKeyAtPosition(change.position)?.let { key ->
-                        if (currentKey != key) {
-                            selectedItems.update {
-                                it
-                                    .minus(initialKey!!..currentKey!!)
-                                    .minus(currentKey!!..initialKey!!)
-                                    .plus(initialKey!!..key)
-                                    .plus(key..initialKey!!)
-                            }
-                            currentKey = key
+    return this
+        .pointerInput(key) {
+            detectTapGestures { offset ->
+                lazyGridState
+                    .gridItemKeyAtPosition(offset)
+                    ?.let { key ->
+                        if (selectedItems.value.contains(key)) {
+                            selectedItems.update { it - key }
+                        } else {
+                            selectedItems.update { it + key }
                         }
                     }
-                }
             }
-        )
-    }
+        }
+        .pointerInput(key) {
+            var initialKey: Int? = null
+            var currentKey: Int? = null
+            detectDragGesturesAfterLongPress(
+                onDragStart = { offset ->
+                    lazyGridState
+                        .gridItemKeyAtPosition(offset)
+                        ?.let { key ->
+                            if (!selectedItems.value.contains(key)) {
+                                haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                                initialKey = key
+                                currentKey = key
+                                selectedItems.update { it + key }
+                            }
+                        }
+                },
+                onDragCancel = {
+                    initialKey = null
+                    autoScrollSpeed.value = 0f
+                },
+                onDragEnd = {
+                    initialKey = null
+                    autoScrollSpeed.value = 0f
+                },
+                onDrag = { change, _ ->
+                    if (initialKey != null) {
+                        val distFromBottom = if (isVertical) {
+                            lazyGridState.layoutInfo.viewportSize.height - change.position.y
+                        } else lazyGridState.layoutInfo.viewportSize.width - change.position.x
+                        val distFromTop = if (isVertical) {
+                            change.position.y
+                        } else change.position.x
+                        autoScrollSpeed.value = when {
+                            distFromBottom < autoScrollThreshold -> autoScrollThreshold - distFromBottom
+                            distFromTop < autoScrollThreshold -> -(autoScrollThreshold - distFromTop)
+                            else -> 0f
+                        }
+
+                        lazyGridState
+                            .gridItemKeyAtPosition(change.position)
+                            ?.let { key ->
+                                if (currentKey != key) {
+                                    selectedItems.update {
+                                        it
+                                            .minus(initialKey!!..currentKey!!)
+                                            .minus(currentKey!!..initialKey!!)
+                                            .plus(initialKey!!..key)
+                                            .plus(key..initialKey!!)
+                                    }
+                                    currentKey = key
+                                }
+                            }
+                    }
+                }
+            )
+        }
 }
 
 private fun IntegerSize.flexibleResize(w: Int, h: Int): IntegerSize {

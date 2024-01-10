@@ -25,12 +25,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.smarttoolfactory.image.zoom.ZoomLevel
-import com.smarttoolfactory.image.zoom.animatedZoom
-import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
+import net.engawapg.lib.zoomable.ZoomState
+import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -49,6 +50,7 @@ fun ZoomModalSheet(
     var showSheet by visible
 
     val sheetContent: @Composable ColumnScope.() -> Unit = {
+        val zoomState = rememberZoomState(maxScale = 10f)
         Column(
             Modifier.navigationBarsPadding()
         ) {
@@ -75,19 +77,8 @@ fun ZoomModalSheet(
                         RoundedCornerShape(4.dp)
                     )
                     .transparencyChecker()
-                    .animatedZoom(
-                        animatedZoomState = rememberAnimatedZoomState(
-                            moveToBounds = true,
-                            minZoom = 0.5f,
-                            maxZoom = 10f
-                        ),
-                        zoomOnDoubleTap = { zoomLevel ->
-                            when (zoomLevel) {
-                                ZoomLevel.Min -> 1f
-                                ZoomLevel.Mid -> 5f
-                                ZoomLevel.Max -> 10f
-                            }
-                        }
+                    .zoomable(
+                        zoomState = zoomState
                     )
             )
             Row(

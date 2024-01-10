@@ -49,9 +49,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.exifinterface.media.ExifInterface
 import coil.size.Size
-import com.smarttoolfactory.image.zoom.animatedZoom
-import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import kotlinx.coroutines.launch
+import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.resources.R
@@ -68,7 +68,10 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddFiltersSheet
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterItem
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterReorderSheet
+import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -245,13 +248,13 @@ fun FilterEditOption(
                         .fillMaxSize()
                         .clipToBounds()
                         .transparencyChecker()
-                        .animatedZoom(animatedZoomState = rememberAnimatedZoomState()),
+                        .zoomable(rememberZoomState()),
                     contentScale = ContentScale.Fit,
                 )
             }
         }
 
-        ru.tech.imageresizershrinker.feature.filters.presentation.components.AddFiltersSheet(
+        AddFiltersSheet(
             visible = showFilterSheet,
             previewBitmap = stateBitmap,
             onFilterPicked = {
@@ -269,13 +272,13 @@ fun FilterEditOption(
             imageManager = imageManager
         )
 
-        ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterReorderSheet(
+        FilterReorderSheet(
             filterList = filterList,
             visible = showReorderSheet,
             updateOrder = updateOrder
         )
 
-        ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet(
+        PickColorFromImageSheet(
             visible = showColorPicker,
             bitmap = stateBitmap,
             onColorChange = { tempColor = it },

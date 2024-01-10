@@ -69,12 +69,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
-import com.smarttoolfactory.image.zoom.animatedZoom
-import com.smarttoolfactory.image.zoom.rememberAnimatedZoomState
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
+import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.blend
@@ -330,10 +330,8 @@ fun CompareScreen(
                                 modifier = Modifier
                                     .weight(1f)
                                     .fillMaxWidth()
-                                    .animatedZoom(
-                                        animatedZoomState = rememberAnimatedZoomState(
-                                            maxZoom = 30f
-                                        )
+                                    .zoomable(
+                                        rememberZoomState(30f)
                                     )
                             ) {
                                 AnimatedContent(targetState = bitmapPair) { data ->
@@ -394,10 +392,8 @@ fun CompareScreen(
                             Box(
                                 Modifier
                                     .weight(0.8f)
-                                    .animatedZoom(
-                                        animatedZoomState = rememberAnimatedZoomState(
-                                            maxZoom = 30f
-                                        )
+                                    .zoomable(
+                                        rememberZoomState(30f)
                                     )
                                     .padding(20.dp)
                             ) {

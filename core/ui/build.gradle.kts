@@ -82,13 +82,13 @@ dependencies {
     api(project(":libs:dynamic-theme"))
     api(project(":libs:colordetector"))
     api(project(":libs:beforeafter"))
-    api(project(":libs:image"))
     api(project(":libs:modalsheet"))
     api(project(":libs:gesture"))
     api(project(":libs:screenshot"))
     api(project(":libs:systemuicontroller"))
     api(project(":libs:placeholder"))
     api(project(":libs:logger"))
+    api(project(":libs:zoomable"))
     implementation(project(":core:domain"))
 
     api(project(":libs:colorpicker")) {
