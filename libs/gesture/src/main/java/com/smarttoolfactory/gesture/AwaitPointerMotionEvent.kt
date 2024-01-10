@@ -64,12 +64,11 @@ suspend fun PointerInputScope.detectMotionEvents(
     requireUnconsumed: Boolean = true,
     pass: PointerEventPass = Main
 ) {
-
     coroutineScope {
         awaitEachGesture {
             // Wait for at least one pointer to press down, and set first contact position
             val down: PointerInputChange = awaitFirstDown(requireUnconsumed)
-            onDown(down)
+
 
             var pointer = down
             // Main pointer is the one that is down initially
@@ -81,6 +80,7 @@ suspend fun PointerInputScope.detectMotionEvents(
 
             launch {
                 delay(delayAfterDownInMillis)
+                onDown(down)
                 waitedAfterDown = true
             }
 

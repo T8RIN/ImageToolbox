@@ -22,8 +22,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.isSpecified
 import androidx.compose.ui.geometry.takeOrElse
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
@@ -39,7 +39,6 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
@@ -49,6 +48,7 @@ import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.toggleScale
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.image.draw.Pt
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -56,6 +56,7 @@ import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.scaleToFitCanvas
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCount
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 
 @Composable
@@ -74,22 +75,22 @@ fun BitmapEraser(
     val zoomState = rememberZoomState(maxScale = 30f)
     val scope = rememberCoroutineScope()
 
+    var pointersCount by remember { mutableIntStateOf(0) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .then(
-                if (zoomEnabled) {
-                    Modifier
-                        .zoomable(zoomState = zoomState)
-                } else {
-                    Modifier
-                        .clipToBounds()
-                        .graphicsLayer {
-                            scaleX = zoomState.scale
-                            scaleY = zoomState.scale
-                            translationX = zoomState.offsetX
-                            translationY = zoomState.offsetY
-                        }
+            .observePointersCount {
+                pointersCount = it
+            }
+            .zoomable(
+                zoomState = zoomState,
+                enabled = { _, _ ->
+                    (pointersCount >= 2 || zoomEnabled)
+                },
+                enableOneFingerZoom = false,
+                onDoubleTap = { pos, _ ->
+                    if (zoomEnabled) zoomState.toggleScale(5f, pos)
                 }
             ),
         contentAlignment = Alignment.Center
@@ -179,17 +180,21 @@ fun BitmapEraser(
                 brushSoftness
             ) { mutableStateOf(Path()) }
 
-            runCatching {
-                canvas.apply {
-                    when (motionEvent) {
+            canvas.apply {
+                when (motionEvent) {
 
-                        MotionEvent.Down -> {
+                    MotionEvent.Down -> {
+                        if (currentPosition.isSpecified) {
                             drawPath.moveTo(currentPosition.x, currentPosition.y)
                             previousPosition = currentPosition
-                            motionEvent = MotionEvent.Idle
+                        } else {
+                            drawPath = Path()
                         }
+                        motionEvent = MotionEvent.Idle
+                    }
 
-                        MotionEvent.Move -> {
+                    MotionEvent.Move -> {
+                        if (previousPosition.isSpecified && currentPosition.isSpecified) {
                             drawPath.quadraticBezierTo(
                                 previousPosition.x,
                                 previousPosition.y,
@@ -197,20 +202,19 @@ fun BitmapEraser(
                                 (previousPosition.y + currentPosition.y) / 2
                             )
                             previousPosition = currentPosition
-                            motionEvent = MotionEvent.Idle
                         }
+                        motionEvent = MotionEvent.Idle
+                    }
 
-                        MotionEvent.Up -> {
-                            PathMeasure().apply {
-                                setPath(drawPath, false)
-                            }.let {
-                                it.getPosition(it.length)
-                            }.takeOrElse { currentPosition }.let { lastPoint ->
+                    MotionEvent.Up -> {
+                        PathMeasure().apply {
+                            setPath(drawPath, false)
+                        }.let {
+                            it.getPosition(it.length)
+                        }.takeOrElse { currentPosition }.let { lastPoint ->
+                            if (currentPosition.isSpecified) {
                                 drawPath.moveTo(lastPoint.x, lastPoint.y)
                                 drawPath.lineTo(currentPosition.x, currentPosition.y)
-                                currentPosition = Offset.Unspecified
-                                previousPosition = Offset.Unspecified
-                                motionEvent = MotionEvent.Idle
                                 onAddPath(
                                     UiPathPaint(
                                         path = drawPath,
@@ -221,79 +225,96 @@ fun BitmapEraser(
                                     )
                                 )
                             }
-                            scope.launch {
-                                drawPath = Path()
-                            }
                         }
+                        currentPosition = Offset.Unspecified
+                        previousPosition = Offset.Unspecified
+                        motionEvent = MotionEvent.Idle
 
-                        else -> Unit
+                        scope.launch {
+                            drawPath = Path()
+                        }
                     }
 
-                    with(canvas.nativeCanvas) {
-                        drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
-
-
-                        drawImageRect(
-                            image = drawImageBitmap,
-                            dstSize = IntSize(canvasSize.width, canvasSize.height),
-                            paint = paint
-                        )
-
-                        paths.forEach { (nonScaledPath, stroke, radius, _, isRecoveryOn, _, size) ->
-                            val path = nonScaledPath.scaleToFitCanvas(
-                                currentSize = canvasSize,
-                                oldSize = size
-                            )
-                            this.drawPath(
-                                path.asAndroidPath(),
-                                Paint().apply {
-                                    blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
-                                    style = PaintingStyle.Stroke
-                                    strokeCap = StrokeCap.Round
-                                    shader =
-                                        if (isRecoveryOn) shaderBitmap?.let { ImageShader(it) } else shader
-                                    this.strokeWidth = stroke.toPx(canvasSize)
-                                    strokeJoin = StrokeJoin.Round
-                                    isAntiAlias = true
-                                }.asFrameworkPaint().apply {
-                                    if (radius.value > 0f) {
-                                        maskFilter =
-                                            BlurMaskFilter(
-                                                radius.toPx(canvasSize),
-                                                BlurMaskFilter.Blur.NORMAL
-                                            )
-                                    }
-                                }
-                            )
-                        }
-
-                        drawPath(
-                            drawPath.asAndroidPath(),
-                            drawPaint
-                        )
-                    }
+                    else -> Unit
                 }
+
+                with(canvas.nativeCanvas) {
+                    drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
+
+
+                    drawImageRect(
+                        image = drawImageBitmap,
+                        dstSize = IntSize(canvasSize.width, canvasSize.height),
+                        paint = paint
+                    )
+
+                    paths.forEach { (nonScaledPath, stroke, radius, _, isRecoveryOn, _, size) ->
+                        val path = nonScaledPath.scaleToFitCanvas(
+                            currentSize = canvasSize,
+                            oldSize = size
+                        )
+                        this.drawPath(
+                            path.asAndroidPath(),
+                            Paint().apply {
+                                blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
+                                style = PaintingStyle.Stroke
+                                strokeCap = StrokeCap.Round
+                                shader =
+                                    if (isRecoveryOn) shaderBitmap?.let { ImageShader(it) } else shader
+                                this.strokeWidth = stroke.toPx(canvasSize)
+                                strokeJoin = StrokeJoin.Round
+                                isAntiAlias = true
+                            }.asFrameworkPaint().apply {
+                                if (radius.value > 0f) {
+                                    maskFilter =
+                                        BlurMaskFilter(
+                                            radius.toPx(canvasSize),
+                                            BlurMaskFilter.Blur.NORMAL
+                                        )
+                                }
+                            }
+                        )
+                    }
+
+                    drawPath(
+                        drawPath.asAndroidPath(),
+                        drawPaint
+                    )
+                }
+            }
+
+            var drawStartedWithOnePointer by remember {
+                mutableStateOf(false)
             }
 
             val canvasModifier = Modifier.pointerMotionEvents(
                 onDown = { pointerInputChange ->
-                    motionEvent = MotionEvent.Down
-                    currentPosition = pointerInputChange.position
-                    pointerInputChange.consume()
-                    invalidations++
+                    drawStartedWithOnePointer = pointersCount <= 1
+
+                    if (drawStartedWithOnePointer) {
+                        motionEvent = MotionEvent.Down
+                        currentPosition = pointerInputChange.position
+                        pointerInputChange.consume()
+                        invalidations++
+                    }
                 },
                 onMove = { pointerInputChange ->
-                    motionEvent = MotionEvent.Move
-                    currentPosition = pointerInputChange.position
-                    pointerInputChange.consume()
-                    invalidations++
+                    if (drawStartedWithOnePointer) {
+                        motionEvent = MotionEvent.Move
+                        currentPosition = pointerInputChange.position
+                        pointerInputChange.consume()
+                        invalidations++
+                    }
                 },
                 onUp = { pointerInputChange ->
-                    motionEvent = MotionEvent.Up
-                    pointerInputChange.consume()
-                    invalidations++
+                    if (drawStartedWithOnePointer) {
+                        motionEvent = MotionEvent.Up
+                        pointerInputChange.consume()
+                        invalidations++
+                    }
+                    drawStartedWithOnePointer = false
                 },
-                delayAfterDownInMillis = 20
+                delayAfterDownInMillis = 5
             )
 
             Image(

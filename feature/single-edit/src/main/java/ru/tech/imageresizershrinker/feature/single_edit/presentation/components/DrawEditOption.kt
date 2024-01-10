@@ -2,7 +2,6 @@ package ru.tech.imageresizershrinker.feature.single_edit.presentation.components
 
 import android.graphics.Bitmap
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -23,8 +22,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.rounded.Done
-import androidx.compose.material.icons.rounded.Draw
-import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -52,15 +49,12 @@ import ru.tech.imageresizershrinker.core.domain.image.draw.DrawMode
 import ru.tech.imageresizershrinker.core.domain.image.draw.DrawPathMode
 import ru.tech.imageresizershrinker.core.domain.image.draw.pt
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.icons.material.Eraser
 import ru.tech.imageresizershrinker.core.ui.model.PtSaver
 import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
-import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
-import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitch
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitchDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EraseModeButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.DrawAlphaSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.DrawColorSelector
@@ -101,17 +95,11 @@ fun DrawEditOption(
         var zoomEnabled by rememberSaveable { mutableStateOf(false) }
 
         val switch = @Composable {
-            EnhancedSwitch(
-                modifier = Modifier.then(
-                    if (!useScaffold) Modifier.padding(start = 8.dp)
-                    else Modifier
-                ),
-                colors = EnhancedSwitchDefaults.uncheckableColors(),
-                checked = !zoomEnabled,
-                onCheckedChange = { zoomEnabled = !zoomEnabled },
-                thumbIcon = if (!zoomEnabled) {
-                    Icons.Rounded.Draw
-                } else Icons.Rounded.ZoomIn,
+            PanModeButton(
+                selected = zoomEnabled,
+                onClick = {
+                    zoomEnabled = !zoomEnabled
+                }
             )
         }
 
@@ -162,24 +150,13 @@ fun DrawEditOption(
                 ) {
                     Icon(Icons.AutoMirrored.Rounded.Redo, null)
                 }
-                EnhancedIconButton(
-                    containerColor = animateColorAsState(
-                        if (isEraserOn) MaterialTheme.colorScheme.mixedContainer
-                        else Color.Transparent
-                    ).value,
-                    contentColor = animateColorAsState(
-                        if (isEraserOn) MaterialTheme.colorScheme.onMixedContainer
-                        else MaterialTheme.colorScheme.onSurface
-                    ).value,
-                    borderColor = MaterialTheme.colorScheme.outlineVariant(
-                        luminance = 0.1f
-                    ),
+                EraseModeButton(
+                    selected = isEraserOn,
+                    enabled = !zoomEnabled,
                     onClick = {
                         isEraserOn = !isEraserOn
                     }
-                ) {
-                    Icon(Icons.Rounded.Eraser, null)
-                }
+                )
             }
         }
 

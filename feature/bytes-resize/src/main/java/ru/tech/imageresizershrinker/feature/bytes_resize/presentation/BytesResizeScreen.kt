@@ -85,6 +85,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitch
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitchDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
@@ -223,6 +224,7 @@ fun BytesResizeScreen(
         EnhancedSwitch(
             modifier = Modifier.padding(horizontal = 16.dp),
             checked = viewModel.handMode,
+            colors = EnhancedSwitchDefaults.uncheckableColors(),
             onCheckedChange = { viewModel.updateHandMode() },
             thumbIcon = if (viewModel.handMode) {
                 Icons.Rounded.FrontHand

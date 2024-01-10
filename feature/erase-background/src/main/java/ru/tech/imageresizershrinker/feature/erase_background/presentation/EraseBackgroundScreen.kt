@@ -41,7 +41,6 @@ import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Tune
-import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ButtonDefaults
@@ -88,7 +87,6 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.draw.pt
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.icons.material.Transparency
 import ru.tech.imageresizershrinker.core.ui.model.PtSaver
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -97,15 +95,14 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitch
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitchDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.AutoEraseBackgroundCard
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.BrushSoftnessSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.EraseModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.EraseModeCard
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.LineWidthSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.RecoverModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.TrimImageToggle
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
@@ -237,14 +234,11 @@ fun EraseBackgroundScreen(
     var zoomEnabled by rememberSaveable { mutableStateOf(false) }
 
     val secondaryControls = @Composable {
-        EnhancedSwitch(
-            modifier = Modifier.padding(horizontal = if (!portrait) 8.dp else 16.dp),
-            colors = EnhancedSwitchDefaults.uncheckableColors(),
-            checked = !zoomEnabled,
-            onCheckedChange = { zoomEnabled = !zoomEnabled },
-            thumbIcon = if (!zoomEnabled) {
-                Icons.Filled.Transparency
-            } else Icons.Rounded.ZoomIn,
+        PanModeButton(
+            selected = zoomEnabled,
+            onClick = {
+                zoomEnabled = !zoomEnabled
+            }
         )
         OutlinedIconButton(
             border = if (portrait) {
@@ -524,8 +518,8 @@ fun EraseBackgroundScreen(
                                 modifier = Modifier.drawHorizontalStroke(true),
                                 actions = {
                                     secondaryControls()
-                                    EraseModeButton(
-                                        isRecoveryOn = viewModel.isRecoveryOn,
+                                    RecoverModeButton(
+                                        selected = viewModel.isRecoveryOn,
                                         onClick = viewModel::toggleEraser
                                     )
                                 },

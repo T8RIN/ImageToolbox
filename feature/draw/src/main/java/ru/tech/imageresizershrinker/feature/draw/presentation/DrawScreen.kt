@@ -12,7 +12,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
@@ -64,7 +63,6 @@ import androidx.compose.material.icons.rounded.FormatPaint
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Tune
-import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -118,10 +116,7 @@ import ru.tech.imageresizershrinker.core.domain.image.draw.DrawMode
 import ru.tech.imageresizershrinker.core.domain.image.draw.DrawPathMode
 import ru.tech.imageresizershrinker.core.domain.image.draw.pt
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.icons.material.Eraser
 import ru.tech.imageresizershrinker.core.ui.model.PtSaver
-import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
-import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
@@ -132,9 +127,9 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EraseModeButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.DrawBackgroundSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitch
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitchDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.BrushSoftnessSelector
@@ -296,14 +291,11 @@ fun DrawScreen(
     var zoomEnabled by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(false) }
 
     val switch = @Composable {
-        EnhancedSwitch(
-            modifier = Modifier.padding(horizontal = if (!portrait) 8.dp else 16.dp),
-            checked = !zoomEnabled,
-            colors = EnhancedSwitchDefaults.uncheckableColors(),
-            onCheckedChange = { zoomEnabled = !zoomEnabled },
-            thumbIcon = if (!zoomEnabled) {
-                Icons.Rounded.Draw
-            } else Icons.Rounded.ZoomIn
+        PanModeButton(
+            selected = zoomEnabled,
+            onClick = {
+                zoomEnabled = !zoomEnabled
+            }
         )
     }
 
@@ -452,26 +444,17 @@ fun DrawScreen(
             ) {
                 Icon(Icons.AutoMirrored.Rounded.Redo, null)
             }
-            EnhancedIconButton(
-                borderColor = MaterialTheme.colorScheme.outlineVariant(
-                    luminance = 0.1f
-                ),
-                containerColor = animateColorAsState(
-                    if (isEraserOn) MaterialTheme.colorScheme.mixedContainer
-                    else Color.Transparent
-                ).value,
-                contentColor = animateColorAsState(
-                    if (isEraserOn) MaterialTheme.colorScheme.onMixedContainer
-                    else MaterialTheme.colorScheme.onSurface
-                ).value,
+            EraseModeButton(
+                selected = isEraserOn,
+                enabled = !zoomEnabled,
                 onClick = {
                     isEraserOn = !isEraserOn
                 }
-            ) {
-                Icon(Icons.Rounded.Eraser, null)
-            }
+            )
         }
     }
+
+    //TODO: FIX LAYOUT WITH CUTOUT, and fix secondary controls
 
     val bitmap = viewModel.bitmap ?: (viewModel.drawBehavior as? DrawBehavior.Background)?.run {
         remember { ImageBitmap(width, height).asAndroidBitmap() }
@@ -832,42 +815,7 @@ fun DrawScreen(
                             BottomAppBar(
                                 modifier = Modifier.drawHorizontalStroke(true),
                                 actions = {
-                                    switch()
-                                    EnhancedIconButton(
-                                        containerColor = Color.Transparent,
-                                        contentColor = LocalContentColor.current,
-                                        enableAutoShadowAndBorder = false,
-                                        onClick = viewModel::undo,
-                                        enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
-                                    ) {
-                                        Icon(Icons.AutoMirrored.Rounded.Undo, null)
-                                    }
-                                    EnhancedIconButton(
-                                        containerColor = Color.Transparent,
-                                        contentColor = LocalContentColor.current,
-                                        enableAutoShadowAndBorder = false,
-                                        onClick = viewModel::redo,
-                                        enabled = viewModel.undonePaths.isNotEmpty()
-                                    ) {
-                                        Icon(Icons.AutoMirrored.Rounded.Redo, null)
-                                    }
-                                    EnhancedIconButton(
-                                        containerColor = animateColorAsState(
-                                            if (isEraserOn) MaterialTheme.colorScheme.mixedContainer
-                                            else Color.Transparent
-                                        ).value,
-                                        contentColor = animateColorAsState(
-                                            if (isEraserOn) MaterialTheme.colorScheme.onMixedContainer
-                                            else MaterialTheme.colorScheme.onSurface
-                                        ).value,
-                                        borderColor = animateColorAsState(
-                                            if (isEraserOn) MaterialTheme.colorScheme.outlineVariant
-                                            else Color.Transparent
-                                        ).value,
-                                        onClick = { isEraserOn = !isEraserOn }
-                                    ) {
-                                        Icon(Icons.Rounded.Eraser, null)
-                                    }
+                                    secondaryControls()
                                 },
                                 floatingActionButton = {
                                     Row {

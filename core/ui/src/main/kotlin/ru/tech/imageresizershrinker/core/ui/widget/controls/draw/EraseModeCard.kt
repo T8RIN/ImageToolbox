@@ -56,19 +56,20 @@ fun EraseModeCard(
     )
 }
 
+//TODO
 @Composable
-fun EraseModeButton(
-    isRecoveryOn: Boolean,
+fun RecoverModeButton(
+    selected: Boolean,
     onClick: () -> Unit,
 ) {
     val containerColor = animateColorAsState(
-        if (isRecoveryOn) MaterialTheme.colorScheme.tertiary.copy(0.8f)
+        if (selected) MaterialTheme.colorScheme.tertiary.copy(0.8f)
         else MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
     ).value
 
     EnhancedIconButton(
         contentColor = animateColorAsState(
-            if (isRecoveryOn) MaterialTheme.colorScheme.onPrimary
+            if (selected) MaterialTheme.colorScheme.onPrimary
             else MaterialTheme.colorScheme.onSurface
         ).value,
         containerColor = containerColor,
@@ -76,7 +77,7 @@ fun EraseModeButton(
         onClick = onClick
     ) {
         AnimatedContent(
-            targetState = isRecoveryOn,
+            targetState = selected,
             transitionSpec = {
                 fadeIn().togetherWith(fadeOut()).using(SizeTransform(false))
             }

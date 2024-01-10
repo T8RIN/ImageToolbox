@@ -23,7 +23,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.rounded.Done
-import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -50,19 +49,17 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.draw.pt
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.icons.material.Transparency
 import ru.tech.imageresizershrinker.core.ui.model.PtSaver
 import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitch
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitchDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.AutoEraseBackgroundCard
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.BrushSoftnessSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.EraseModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.EraseModeCard
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.LineWidthSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.RecoverModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.TrimImageToggle
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
@@ -109,17 +106,11 @@ fun EraseBackgroundEditOption(
         var zoomEnabled by rememberSaveable { mutableStateOf(false) }
 
         val switch = @Composable {
-            EnhancedSwitch(
-                modifier = Modifier.then(
-                    if (!useScaffold) Modifier.padding(start = 8.dp)
-                    else Modifier
-                ),
-                colors = EnhancedSwitchDefaults.uncheckableColors(),
-                checked = !zoomEnabled,
-                onCheckedChange = { zoomEnabled = !zoomEnabled },
-                thumbIcon = if (!zoomEnabled) {
-                    Icons.Filled.Transparency
-                } else Icons.Rounded.ZoomIn,
+            PanModeButton(
+                selected = zoomEnabled,
+                onClick = {
+                    zoomEnabled = !zoomEnabled
+                }
             )
         }
 
@@ -160,8 +151,8 @@ fun EraseBackgroundEditOption(
                 ) {
                     Icon(Icons.AutoMirrored.Rounded.Redo, null)
                 }
-                EraseModeButton(
-                    isRecoveryOn = isRecoveryOn,
+                RecoverModeButton(
+                    selected = isRecoveryOn,
                     onClick = { isRecoveryOn = !isRecoveryOn }
                 )
             }

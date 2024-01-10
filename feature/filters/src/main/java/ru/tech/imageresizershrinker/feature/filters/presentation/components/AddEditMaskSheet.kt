@@ -29,10 +29,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
-import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Texture
-import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -77,18 +75,15 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.icons.material.Eraser
 import ru.tech.imageresizershrinker.core.ui.model.PtSaver
 import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
 import ru.tech.imageresizershrinker.core.ui.model.toUiPathPaint
-import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
-import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitch
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitchDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EraseModeButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.DrawColorSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.DrawPathModeSelector
@@ -187,15 +182,11 @@ fun AddEditMaskSheet(
                 }
             }
             val switch = @Composable {
-                val checked = !zoomEnabled
-                EnhancedSwitch(
-                    modifier = Modifier.padding(start = 8.dp),
-                    colors = EnhancedSwitchDefaults.uncheckableColors(),
-                    checked = checked,
-                    onCheckedChange = { zoomEnabled = !zoomEnabled },
-                    thumbIcon = if (!zoomEnabled) {
-                        Icons.Rounded.Draw
-                    } else Icons.Rounded.ZoomIn,
+                PanModeButton(
+                    selected = zoomEnabled,
+                    onClick = {
+                        zoomEnabled = !zoomEnabled
+                    }
                 )
             }
             val drawPreview: @Composable () -> Unit = {
@@ -318,24 +309,13 @@ fun AddEditMaskSheet(
                             ) {
                                 Icon(Icons.AutoMirrored.Rounded.Redo, null)
                             }
-                            EnhancedIconButton(
-                                borderColor = MaterialTheme.colorScheme.outlineVariant(
-                                    luminance = 0.1f
-                                ),
-                                containerColor = animateColorAsState(
-                                    if (isEraserOn) MaterialTheme.colorScheme.mixedContainer
-                                    else Color.Transparent
-                                ).value,
-                                contentColor = animateColorAsState(
-                                    if (isEraserOn) MaterialTheme.colorScheme.onMixedContainer
-                                    else MaterialTheme.colorScheme.onSurface
-                                ).value,
+                            EraseModeButton(
+                                selected = isEraserOn,
+                                enabled = !zoomEnabled,
                                 onClick = {
                                     isEraserOn = !isEraserOn
                                 }
-                            ) {
-                                Icon(Icons.Rounded.Eraser, null)
-                            }
+                            )
                         }
 
                         AnimatedVisibility(visible = canSave) {
