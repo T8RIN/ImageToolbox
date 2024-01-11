@@ -288,7 +288,7 @@ fun DrawScreen(
         )
     )
 
-    var zoomEnabled by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(false) }
+    var panEnabled by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(false) }
 
     var strokeWidth by rememberSaveable(
         viewModel.drawBehavior,
@@ -410,9 +410,9 @@ fun DrawScreen(
 
     val secondaryControls = @Composable {
         PanModeButton(
-            selected = zoomEnabled,
+            selected = panEnabled,
             onClick = {
-                zoomEnabled = !zoomEnabled
+                panEnabled = !panEnabled
             }
         )
         EnhancedIconButton(
@@ -437,7 +437,7 @@ fun DrawScreen(
         }
         EraseModeButton(
             selected = isEraserOn,
-            enabled = !zoomEnabled,
+            enabled = !panEnabled,
             onClick = {
                 isEraserOn = !isEraserOn
             }
@@ -583,7 +583,7 @@ fun DrawScreen(
                     .padding(16.dp)
                     .aspectRatio(aspectRatio, portrait)
                     .fillMaxSize(),
-                zoomEnabled = zoomEnabled,
+                panEnabled = panEnabled,
                 onDraw = {},
                 imageManager = viewModel.getImageManager(),
                 drawPathMode = drawPathMode,

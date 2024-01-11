@@ -92,13 +92,13 @@ fun DrawEditOption(
 ) {
     val settingsState = LocalSettingsState.current
     bitmap?.let {
-        var zoomEnabled by rememberSaveable { mutableStateOf(false) }
+        var panEnabled by rememberSaveable { mutableStateOf(false) }
 
         val switch = @Composable {
             PanModeButton(
-                selected = zoomEnabled,
+                selected = panEnabled,
                 onClick = {
-                    zoomEnabled = !zoomEnabled
+                    panEnabled = !panEnabled
                 }
             )
         }
@@ -152,7 +152,7 @@ fun DrawEditOption(
                 }
                 EraseModeButton(
                     selected = isEraserOn,
-                    enabled = !zoomEnabled,
+                    enabled = !panEnabled,
                     onClick = {
                         isEraserOn = !isEraserOn
                     }
@@ -298,7 +298,7 @@ fun DrawEditOption(
                             .padding(16.dp)
                             .aspectRatio(aspectRatio, !useScaffold)
                             .fillMaxSize(),
-                        zoomEnabled = zoomEnabled,
+                        panEnabled = panEnabled,
                         onDraw = {
                             stateBitmap = it
                         },

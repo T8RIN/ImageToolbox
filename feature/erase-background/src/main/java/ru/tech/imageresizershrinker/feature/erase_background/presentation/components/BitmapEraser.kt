@@ -71,7 +71,7 @@ fun BitmapEraser(
     isRecoveryOn: Boolean = false,
     modifier: Modifier,
     onErased: (Bitmap) -> Unit = {},
-    zoomEnabled: Boolean
+    panEnabled: Boolean
 ) {
     val zoomState = rememberZoomState(maxScale = 30f)
     val scope = rememberCoroutineScope()
@@ -87,11 +87,11 @@ fun BitmapEraser(
             .zoomable(
                 zoomState = zoomState,
                 enabled = { _, _ ->
-                    (pointersCount >= 2 || zoomEnabled)
+                    (pointersCount >= 2 || panEnabled)
                 },
                 enableOneFingerZoom = false,
                 onDoubleTap = { pos ->
-                    if (zoomEnabled) zoomState.defaultZoomOnDoubleTap(pos)
+                    if (panEnabled) zoomState.defaultZoomOnDoubleTap(pos)
                 }
             ),
         contentAlignment = Alignment.Center
@@ -322,7 +322,7 @@ fun BitmapEraser(
                 modifier = Modifier
                     .matchParentSize()
                     .then(
-                        if (!zoomEnabled) canvasModifier
+                        if (!panEnabled) canvasModifier
                         else Modifier
                     )
                     .clip(RoundedCornerShape(2.dp))

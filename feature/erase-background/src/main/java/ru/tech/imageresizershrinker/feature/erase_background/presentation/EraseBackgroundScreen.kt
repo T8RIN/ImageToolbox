@@ -231,13 +231,13 @@ fun EraseBackgroundScreen(
             }
         }.value
 
-    var zoomEnabled by rememberSaveable { mutableStateOf(false) }
+    var panEnabled by rememberSaveable { mutableStateOf(false) }
 
     val secondaryControls = @Composable {
         PanModeButton(
-            selected = zoomEnabled,
+            selected = panEnabled,
             onClick = {
-                zoomEnabled = !zoomEnabled
+                panEnabled = !panEnabled
             }
         )
         OutlinedIconButton(
@@ -288,7 +288,7 @@ fun EraseBackgroundScreen(
                     .padding(16.dp)
                     .aspectRatio(aspectRatio, portrait)
                     .fillMaxSize(),
-                zoomEnabled = zoomEnabled,
+                panEnabled = panEnabled,
                 onErased = {}
             )
         }
@@ -412,7 +412,7 @@ fun EraseBackgroundScreen(
             Spacer(modifier = Modifier.height(16.dp))
             RecoverModeCard(
                 selected = viewModel.isRecoveryOn,
-                enabled = !zoomEnabled,
+                enabled = !panEnabled,
                 onClick = viewModel::toggleEraser
             )
             AutoEraseBackgroundCard(
@@ -521,7 +521,7 @@ fun EraseBackgroundScreen(
                                     secondaryControls()
                                     RecoverModeButton(
                                         selected = viewModel.isRecoveryOn,
-                                        enabled = !zoomEnabled,
+                                        enabled = !panEnabled,
                                         onClick = viewModel::toggleEraser
                                     )
                                 },

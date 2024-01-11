@@ -137,7 +137,7 @@ fun AddEditMaskSheet(
         var isEraserOn by rememberSaveable { mutableStateOf(false) }
         var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(20.pt) }
         var brushSoftness by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(20.pt) }
-        var zoomEnabled by rememberSaveable { mutableStateOf(false) }
+        var panEnabled by rememberSaveable { mutableStateOf(false) }
         var drawPathMode by rememberSaveable(stateSaver = DrawPathModeSaver) {
             mutableStateOf(DrawPathMode.Free)
         }
@@ -183,9 +183,9 @@ fun AddEditMaskSheet(
             }
             val switch = @Composable {
                 PanModeButton(
-                    selected = zoomEnabled,
+                    selected = panEnabled,
                     onClick = {
-                        zoomEnabled = !zoomEnabled
+                        panEnabled = !panEnabled
                     }
                 )
             }
@@ -234,7 +234,7 @@ fun AddEditMaskSheet(
                                 .padding(16.dp)
                                 .aspectRatio(aspectRatio, portrait)
                                 .fillMaxSize(),
-                            zoomEnabled = zoomEnabled,
+                            panEnabled = panEnabled,
                             onDrawStart = {
                                 drawing = true
                             },
@@ -311,7 +311,7 @@ fun AddEditMaskSheet(
                             }
                             EraseModeButton(
                                 selected = isEraserOn,
-                                enabled = !zoomEnabled,
+                                enabled = !panEnabled,
                                 onClick = {
                                     isEraserOn = !isEraserOn
                                 }

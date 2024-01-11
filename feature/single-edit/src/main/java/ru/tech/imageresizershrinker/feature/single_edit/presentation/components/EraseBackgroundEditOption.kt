@@ -103,13 +103,13 @@ fun EraseBackgroundEditOption(
     val context = LocalContext.current
 
     bitmap?.let {
-        var zoomEnabled by rememberSaveable { mutableStateOf(false) }
+        var panEnabled by rememberSaveable { mutableStateOf(false) }
 
         val switch = @Composable {
             PanModeButton(
-                selected = zoomEnabled,
+                selected = panEnabled,
                 onClick = {
-                    zoomEnabled = !zoomEnabled
+                    panEnabled = !panEnabled
                 }
             )
         }
@@ -153,7 +153,7 @@ fun EraseBackgroundEditOption(
                 }
                 RecoverModeButton(
                     selected = isRecoveryOn,
-                    enabled = !zoomEnabled,
+                    enabled = !panEnabled,
                     onClick = { isRecoveryOn = !isRecoveryOn }
                 )
             }
@@ -176,7 +176,7 @@ fun EraseBackgroundEditOption(
                 Spacer(modifier = Modifier.height(8.dp))
                 RecoverModeCard(
                     selected = isRecoveryOn,
-                    enabled = !zoomEnabled,
+                    enabled = !panEnabled,
                     onClick = { isRecoveryOn = !isRecoveryOn }
                 )
                 AutoEraseBackgroundCard(
@@ -301,7 +301,7 @@ fun EraseBackgroundEditOption(
                             .padding(16.dp)
                             .aspectRatio(aspectRatio, !useScaffold)
                             .fillMaxSize(),
-                        zoomEnabled = zoomEnabled,
+                        panEnabled = panEnabled,
                         onErased = { erasedBitmap = it }
                     )
                 }

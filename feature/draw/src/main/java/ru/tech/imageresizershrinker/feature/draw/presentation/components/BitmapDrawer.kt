@@ -91,7 +91,7 @@ fun BitmapDrawer(
     onDraw: (Bitmap) -> Unit = {},
     onDrawFinish: (Bitmap) -> Unit = {},
     backgroundColor: Color,
-    zoomEnabled: Boolean,
+    panEnabled: Boolean,
     drawColor: Color
 ) {
     val scope = rememberCoroutineScope()
@@ -107,11 +107,11 @@ fun BitmapDrawer(
             .zoomable(
                 zoomState = zoomState,
                 enabled = { _, _ ->
-                    (pointersCount >= 2 || zoomEnabled)
+                    (pointersCount >= 2 || panEnabled)
                 },
                 enableOneFingerZoom = false,
                 onDoubleTap = { pos ->
-                    if (zoomEnabled) zoomState.defaultZoomOnDoubleTap(pos)
+                    if (panEnabled) zoomState.defaultZoomOnDoubleTap(pos)
                 }
             ),
         contentAlignment = Alignment.Center
@@ -772,7 +772,7 @@ fun BitmapDrawer(
                 modifier = Modifier
                     .matchParentSize()
                     .then(
-                        if (!zoomEnabled) canvasModifier
+                        if (!panEnabled) canvasModifier
                         else Modifier
                     )
                     .clip(RoundedCornerShape(2.dp))
