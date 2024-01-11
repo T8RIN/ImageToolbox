@@ -187,15 +187,6 @@ fun DeleteExifScreen(
     val imageBlock = @Composable {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             ImageContainer(
-                modifier = Modifier.pointerInput(Unit) {
-                    detectTapGestures(
-                        onTap = {
-                            if ((viewModel.uris?.size ?: 0) > 1) {
-                                showPickImageFromUrisSheet.value = true
-                            }
-                        }
-                    )
-                },
                 imageInside = imageInside,
                 showOriginal = false,
                 previewBitmap = viewModel.previewBitmap,

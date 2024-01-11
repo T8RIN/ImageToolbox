@@ -331,11 +331,6 @@ fun FiltersScreen(
 
     val imageBlock = @Composable {
         ImageContainer(
-            modifier = Modifier.pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = { showPickImageFromUrisSheet.value = true }
-                )
-            },
             imageInside = imageInside,
             showOriginal = showOriginal,
             previewBitmap = viewModel.previewBitmap,

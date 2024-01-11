@@ -41,6 +41,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.core.ui.widget.utils.notNullAnd
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -53,7 +54,9 @@ fun PickImageFromUrisSheet(
     columns: Int,
     onUriPicked: (Uri) -> Unit
 ) {
-    val hasUris = (uris?.size ?: 0) > 1
+    val hasUris = uris.notNullAnd { it.size >= 2 }
+    if (!hasUris) visible.value = false
+
     SimpleSheet(
         sheetContent = {
             val gridState = rememberLazyGridState()
@@ -150,6 +153,4 @@ fun PickImageFromUrisSheet(
         },
         visible = visible
     )
-
-    if (!(hasUris && visible.value)) visible.value = false
 }

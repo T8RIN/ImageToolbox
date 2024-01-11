@@ -234,11 +234,6 @@ fun BytesResizeScreen(
 
     val imageBlock = @Composable {
         ImageContainer(
-            modifier = Modifier.pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = { showPickImageFromUrisSheet.value = true }
-                )
-            },
             imageInside = imageInside,
             showOriginal = false,
             previewBitmap = viewModel.previewBitmap,
