@@ -259,6 +259,7 @@ sealed class Screen(
                     EraseBackground(),
                     ImageStitching(),
                     Cipher(),
+                    Compare()
                 ) to Triple(
                     R.string.create,
                     Icons.Filled.AutoAwesome,
@@ -266,7 +267,6 @@ sealed class Screen(
                 ),
                 listOf(
                     PickColorFromImage(),
-                    Compare(),
                     PdfTools(),
                     ImagePreview(),
                     LoadNetImage(),

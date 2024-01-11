@@ -9,10 +9,10 @@ jvmTarget = "17"
 composeColorDetector = "1.0.0"
 composeColorfulSliders = "1.2.0"
 composeExtendedColors = "1.0.0-alpha07"
-m3color = "2023.10.1"
+m3color = "2024.1"
 paletteKtx = "1.0.0"
-composeVersion = "1.6.0-beta03"
-androidx-datastorePreferencesAndroid = "1.1.0-alpha07"
+composeVersion = "1.6.0-rc01"
+androidx-datastorePreferencesAndroid = "1.1.0-beta01"
 appUpdateKtx = "2.1.0"
 appUpdate = "2.1.0"
 avifCoder = "1.5.10"
@@ -29,8 +29,8 @@ firebaseCrashlyticsGradle = "2.9.9"
 google-segmentationSelfie = "16.0.0-beta4"
 hiltCompiler = "1.1.0"
 
-compose-compiler = "1.5.7"
-kotlin = "1.9.21"
+compose-compiler = "1.5.8"
+kotlin = "1.9.22"
 agp = "8.2.0"
 hilt = "2.50"
 gms = "4.4.0"
@@ -41,33 +41,23 @@ androidx = "1.6.1"
 androidxCore = "1.12.0"
 androidxLifecycle = "2.6.2"
 desugaring = "2.0.4"
-firebaseBom = "32.2.2"
-firebaseGms = "18.3.0"
 composeBom = "2023.10.01"
 decompose = "2.2.2"
 activityCompose = "1.8.2"
 kotlinxCollectionsImmutable = "0.3.7"
 scrollbar = "1.8.0"
-material3 = "1.2.0-beta01"
-materialIconsExtended = "1.6.0-beta03"
+material3 = "1.2.0-beta02"
 reorderable = "0.9.6"
 reviewKtx = "2.0.1"
 splashScreen = "1.0.1"
 room = "2.6.1"
 hiltJetpack = "1.0.0"
 
-leakCanary = "2.7"
-junit = "4.13.2"
-runner = "1.5.2"
 espresso = "3.5.1"
-mockito = "4.8.0"
-testArchCore = "2.1.0"
-testCoroutines = "1.7.3"
 kotlinxSerializationJson = "1.6.2"
 ksp = "1.9.22-1.0.16"
 
 androidx-test-ext-junit = "1.1.5"
-material = "1.11.0"
 documentfile = "1.0.1"
 uiautomator = "2.2.0"
 androidxMacroBenchmark = "1.2.2"
@@ -78,8 +68,8 @@ bitmapscaler = "1.1.2"
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "exifinterface" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
 androidx-material3-window-sizeclass = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3" }
-androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
-androidx-material = { module = "androidx.compose.material:material", version.ref = "materialIconsExtended" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "composeVersion" }
+androidx-material = { module = "androidx.compose.material:material", version.ref = "composeVersion" }
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 androidx-palette-ktx = { module = "androidx.palette:palette-ktx", version.ref = "paletteKtx" }
 androidx-ui-text = { module = "androidx.compose.ui:ui-text", version.ref = "composeVersion" }
@@ -131,17 +121,8 @@ dagger = { module = "com.google.dagger:dagger", version.ref = "hilt" }
 room = { module = "androidx.room:room-runtime", version.ref = "room" }
 roomKtx = { module = "androidx.room:room-ktx", version.ref = "room" }
 
-gms = { module = "com.google.android.gms:play-services-base", version.ref = "firebaseGms" }
-junit = { module = "junit:junit", version.ref = "junit" }
-mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
-mockitoInline = { module = "org.mockito:mockito-inline", version.ref = "mockito" }
-mockitoKotlin = { module = "com.nhaarman.mockitokotlin2:mockito-kotlin", version.ref = "mockito" }
-testArchCore = { module = "android.arch.core:core-testing", version.ref = "testArchCore" }
-testCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "testCoroutines" }
 espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
-runner = { module = "androidx.test:runner", version.ref = "runner" }
 
-hiltAndroidCompiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 roomCompiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -154,14 +135,12 @@ compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }
 compose-material = { group = "androidx.compose.material", name = "material" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3" }
-compose-material3-windowSizeClass = { group = "androidx.compose.material3", name = "material3-window-size-class" }
 kotlin-reflection = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "documentfile" }
 uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "androidxMacroBenchmark" }
-t8rin-bitmapscaler = { group = "com.github.t8rin", name = "bitmapscaler", version.ref="bitmapscaler" }
+t8rin-bitmapscaler = { group = "com.github.t8rin", name = "bitmapscaler", version.ref = "bitmapscaler" }
 
 firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
 baselineprofile-gradle = { group = "androidx.benchmark", name = "benchmark-baseline-profile-gradle-plugin", version.ref = "androidxMacroBenchmark" }
