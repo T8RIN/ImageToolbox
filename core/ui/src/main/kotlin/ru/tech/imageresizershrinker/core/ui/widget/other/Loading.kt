@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.gigamole.composeshadowsplus.rsblur.rsBlurShadow
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
@@ -78,6 +79,19 @@ fun Loading(modifier: Modifier = Modifier) {
 
 @Composable
 fun BoxScope.Loading(done: Int, left: Int) {
+    Loading(progress = done / left.toFloat()) {
+        AutoSizeText(
+            text = "$done / $left",
+            maxLines = 1,
+            fontWeight = FontWeight.Medium,
+            modifier = Modifier.width(it * 0.8f),
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+fun BoxScope.Loading(progress: Float, additionalContent: @Composable (Dp) -> Unit = {}) {
     val borderWidth = LocalSettingsState.current.borderWidth
     Column(
         modifier = Modifier
@@ -113,20 +127,14 @@ fun BoxScope.Loading(done: Int, left: Int) {
                 trackColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                 strokeCap = StrokeCap.Round,
             )
-            val progress by animateFloatAsState(targetValue = done / left.toFloat())
+            val progressAnimated by animateFloatAsState(targetValue = progress)
             CircularProgressIndicator(
                 modifier = Modifier.size(maxWidth),
-                progress = { progress },
+                progress = { progressAnimated },
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
                 strokeCap = StrokeCap.Round,
             )
-            AutoSizeText(
-                text = "$done / $left",
-                maxLines = 1,
-                fontWeight = FontWeight.Medium,
-                modifier = Modifier.width(maxWidth * 0.8f),
-                textAlign = TextAlign.Center
-            )
+            additionalContent(maxWidth)
         }
     }
     KeepScreenOn()

@@ -12,6 +12,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.ImageTextReader
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.OCRLanguage
@@ -26,6 +28,9 @@ import javax.inject.Inject
 class RecognizeTextViewModel @Inject constructor(
     private val imageTextReader: ImageTextReader<Bitmap>
 ) : ViewModel() {
+
+    private val _selectedLanguage = mutableStateOf(OCRLanguage.Default)
+    val selectedLanguage by _selectedLanguage
 
     private val _recognitionType = mutableStateOf<RecognitionType>(RecognitionType.Standard)
     val recognitionType by _recognitionType
@@ -46,9 +51,7 @@ class RecognizeTextViewModel @Inject constructor(
     val isLanguagesLoading by _isLanguagesLoading
 
     val isTextLoading: Boolean
-        get() {
-            return textLoadingProgress in 0..100
-        }
+        get() = textLoadingProgress in 0..100
 
     private var longsJob: Job? = null
     private fun loadLanguages() {
@@ -58,6 +61,11 @@ class RecognizeTextViewModel @Inject constructor(
             delay(200L)
             _isLanguagesLoading.update { true }
             val data = imageTextReader.getLanguages(recognitionType)
+            if (_selectedLanguage.value == OCRLanguage.Default) {
+                _selectedLanguage.update {
+                    data.first { it.code == "eng" }
+                }
+            }
             _languages.update { data }
             _isLanguagesLoading.update { false }
         }
@@ -74,46 +82,70 @@ class RecognizeTextViewModel @Inject constructor(
     private var job: Job? = null
 
     fun startRecognition(
-        onError: suspend (Throwable) -> Unit,
-        onRequestDownload: suspend (RecognitionType, String) -> Unit
+        onError: (Throwable) -> Unit,
+        onRequestDownload: (RecognitionType, String) -> Unit
     ) {
-        uri?.let {
-            _textLoadingProgress.update { -1 }
-            job?.cancel()
-            job = viewModelScope.launch {
-                delay(200L)
-                _textLoadingProgress.update { 0 }
-                imageTextReader.getTextFromImage(
-                    type = recognitionType,
-                    language = "eng",
-                    segmentationMode = SegmentationMode.PSM_AUTO_OSD,
-                    imageUri = uri.toString(),
-                    onProgress = { progress ->
-                        _textLoadingProgress.update { progress }
+        _textLoadingProgress.update { -1 }
+        job?.cancel()
+        job = viewModelScope.launch {
+            //TODO: NOT WORKING
+            if (uri == null) return@launch
+            delay(400L)
+            _textLoadingProgress.update { 0 }
+            imageTextReader.getTextFromImage(
+                type = recognitionType,
+                language = selectedLanguage.code,
+                segmentationMode = SegmentationMode.PSM_AUTO_OSD, //TODO
+                imageUri = uri.toString(),
+                onProgress = { progress ->
+                    _textLoadingProgress.update { progress }
+                }
+            ).also { result ->
+                when (result) {
+                    is TextRecognitionResult.Error -> {
+                        onError(result.throwable)
                     }
-                ).also { result ->
-                    when (result) {
-                        is TextRecognitionResult.Error -> {
-                            onError(result.throwable)
-                        }
 
-                        is TextRecognitionResult.NoData -> {
-                            onRequestDownload(result.type, result.language)
-                        }
+                    is TextRecognitionResult.NoData -> {
+                        onRequestDownload(result.type, result.language)
+                    }
 
-                        is TextRecognitionResult.Success -> {
-                            _recognitionData.update { result.data }
-                        }
+                    is TextRecognitionResult.Success -> {
+                        _recognitionData.update { result.data }
                     }
                 }
-                _textLoadingProgress.update { -1 }
             }
+            _textLoadingProgress.update { -1 }
         }
     }
 
     fun setRecognitionType(recognitionType: RecognitionType) {
         _recognitionType.update { recognitionType }
         loadLanguages()
+    }
+
+    private val downloadMutex = Mutex()
+    fun downloadTrainData(
+        type: RecognitionType,
+        language: String,
+        onProgress: (Float, Long) -> Unit,
+        onComplete: () -> Unit
+    ) {
+        viewModelScope.launch {
+            downloadMutex.withLock {
+                imageTextReader.downloadTrainingData(
+                    type, language, onProgress
+                )
+                onComplete()
+            }
+        }
+    }
+
+    fun onLanguageSelected(ocrLanguage: OCRLanguage) {
+        _selectedLanguage.update { ocrLanguage }
+        _recognitionData.update { null }
+        job?.cancel()
+        _textLoadingProgress.update { -1 }
     }
 
 }

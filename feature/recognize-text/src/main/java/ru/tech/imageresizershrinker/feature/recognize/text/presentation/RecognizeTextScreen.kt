@@ -1,7 +1,11 @@
 package ru.tech.imageresizershrinker.feature.recognize.text.presentation
 
+import android.content.Context
 import android.content.res.Configuration
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
+import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -27,14 +31,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.outlined.ModelTraining
 import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet0Bar
 import androidx.compose.material.icons.rounded.CopyAll
 import androidx.compose.material.icons.rounded.ZoomIn
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -50,8 +59,10 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -67,32 +78,41 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.request.ImageRequest
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.shareText
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsLandscapePadding
+import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
+import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
@@ -103,6 +123,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.middleImageState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.notNullAnd
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
+import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.LanguageSelector
+import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.UiDownloadData
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.viewModel.RecognizeTextViewModel
 
 
@@ -115,6 +137,7 @@ fun RecognizeTextScreen(
 ) {
     val isHaveText = viewModel.recognitionData?.text.notNullAnd { it.isNotEmpty() }
 
+    val scope = rememberCoroutineScope()
     val themeState = LocalDynamicThemeState.current
 
     val settingsState = LocalSettingsState.current
@@ -122,15 +145,22 @@ fun RecognizeTextScreen(
 
     val context = LocalContext.current
 
+    val confettiController = LocalConfettiController.current
     val toastHostState = LocalToastHost.current
+
+    var showDownloadDialogData by rememberSaveable {
+        mutableStateOf<UiDownloadData?>(null)
+    }
 
     val startRecognition = {
         viewModel.startRecognition(
             onError = {
-                toastHostState.showError(context, it)
+                scope.launch {
+                    toastHostState.showError(context, it)
+                }
             },
             onRequestDownload = { type, lang ->
-                TODO()
+                showDownloadDialogData = UiDownloadData(type, lang)
             }
         )
     }
@@ -246,11 +276,21 @@ fun RecognizeTextScreen(
     val controls: @Composable () -> Unit = {
         val text = viewModel.recognitionData?.text ?: stringResource(R.string.picture_has_no_text)
 
-        Column(
+        LanguageSelector(
+            value = viewModel.selectedLanguage,
+            availableLanguages = viewModel.languages,
+            isLanguagesLoading = viewModel.isLanguagesLoading,
+            onValueChange = {
+                viewModel.onLanguageSelected(it)
+                startRecognition()
+            }
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Box(
             modifier = Modifier
                 .container(shape = RoundedCornerShape(24.dp))
                 .animateContentSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            contentAlignment = Alignment.Center
         ) {
             ToggleGroupButton(
                 modifier = Modifier.padding(8.dp),
@@ -270,7 +310,6 @@ fun RecognizeTextScreen(
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
-
         AnimatedContent(targetState = viewModel.isTextLoading to text) { (loading, dataText) ->
             Box(
                 modifier = Modifier
@@ -280,20 +319,31 @@ fun RecognizeTextScreen(
                 contentAlignment = Alignment.Center
             ) {
                 if (loading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.padding(24.dp),
-                        color = MaterialTheme.colorScheme.tertiary.copy(0.5f),
-                        trackColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        strokeCap = StrokeCap.Round
-                    )
-                    CircularProgressIndicator(
-                        modifier = Modifier.padding(24.dp),
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
-                        strokeCap = StrokeCap.Round,
-                        progress = {
-                            viewModel.textLoadingProgress / 100f
-                        }
-                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .border(
+                                width = 2.dp,
+                                color = MaterialTheme.colorScheme.outline,
+                                shape = RoundedCornerShape(12.dp)
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.padding(24.dp),
+                            color = MaterialTheme.colorScheme.tertiary.copy(0.5f),
+                            trackColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            strokeCap = StrokeCap.Round
+                        )
+                        CircularProgressIndicator(
+                            modifier = Modifier.padding(24.dp),
+                            color = MaterialTheme.colorScheme.onSecondaryContainer,
+                            strokeCap = StrokeCap.Round,
+                            progress = {
+                                viewModel.textLoadingProgress / 100f
+                            }
+                        )
+                    }
                 } else {
                     Column(
                         Modifier
@@ -477,6 +527,98 @@ fun RecognizeTextScreen(
         data = viewModel.uri,
         visible = showZoomSheet
     )
+
+    if (showDownloadDialogData != null) {
+        var downloadStarted by rememberSaveable(showDownloadDialogData) {
+            mutableStateOf(false)
+        }
+        var progress by rememberSaveable(showDownloadDialogData) {
+            mutableFloatStateOf(0f)
+        }
+        var dataRemaining by rememberSaveable(showDownloadDialogData) {
+            mutableStateOf("")
+        }
+        if (!downloadStarted) {
+            AlertDialog(
+                modifier = Modifier.alertDialogBorder(),
+                icon = { Icon(Icons.Outlined.ModelTraining, null) },
+                title = { Text(stringResource(id = R.string.no_data)) },
+                text = {
+                    Text(
+                        stringResource(
+                            id = R.string.download_description,
+                            showDownloadDialogData?.type?.displayName ?: "",
+                            showDownloadDialogData?.language ?: ""
+                        )
+                    )
+                },
+                onDismissRequest = {},
+                confirmButton = {
+                    EnhancedButton(
+                        onClick = {
+                            if (context.isNetworkAvailable()) {
+                                showDownloadDialogData?.let {
+                                    viewModel.downloadTrainData(
+                                        type = it.type,
+                                        language = it.language,
+                                        onProgress = { p, size ->
+                                            dataRemaining = readableByteCount(size)
+                                            progress = p
+                                        },
+                                        onComplete = {
+                                            showDownloadDialogData = null
+                                            scope.launch {
+                                                confettiController.showEmpty()
+                                            }
+                                            startRecognition()
+                                        }
+                                    )
+                                    downloadStarted = true
+                                }
+                            } else {
+                                showDownloadDialogData = null
+                                scope.launch {
+                                    toastHostState.showToast(
+                                        message = context.getString(R.string.no_connection),
+                                        icon = Icons.Outlined.SignalCellularConnectedNoInternet0Bar,
+                                        duration = ToastDuration.Long
+                                    )
+                                }
+                            }
+                        }
+                    ) {
+                        Text(stringResource(R.string.download))
+                    }
+                },
+                dismissButton = {
+                    EnhancedButton(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        onClick = {
+                            showDownloadDialogData = null
+                        }
+                    ) {
+                        Text(stringResource(R.string.close))
+                    }
+                }
+            )
+        } else {
+            BasicAlertDialog(onDismissRequest = {}) {
+                Box(
+                    Modifier.fillMaxSize()
+                ) {
+                    Loading(progress / 100) {
+                        AutoSizeText(
+                            text = dataRemaining,
+                            maxLines = 1,
+                            fontWeight = FontWeight.Medium,
+                            modifier = Modifier.width(it * 0.8f),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
 
 private val RecognitionType.translatedName: String
@@ -486,3 +628,20 @@ private val RecognitionType.translatedName: String
         RecognitionType.Fast -> stringResource(id = R.string.fast)
         RecognitionType.Standard -> stringResource(id = R.string.standard)
     }
+
+private fun Context.isNetworkAvailable(): Boolean {
+    val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val nw = connectivityManager.activeNetwork ?: return false
+        val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
+        return when {
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
+            else -> false
+        }
+    } else {
+        return connectivityManager.activeNetworkInfo?.isConnected ?: false
+    }
+}

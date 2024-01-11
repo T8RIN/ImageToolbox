@@ -4,7 +4,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun LoadingDialog(canCancel: Boolean = true, onCancelLoading: () -> Unit) {
     var showWantDismissDialog by remember(canCancel) { mutableStateOf(false) }
-    AlertDialog(onDismissRequest = { showWantDismissDialog = canCancel }) {
+    BasicAlertDialog(onDismissRequest = { showWantDismissDialog = canCancel }) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -44,15 +44,15 @@ fun LoadingDialog(canCancel: Boolean = true, onCancelLoading: () -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoadingDialog(done: Int, left: Int, onCancelLoading: () -> Unit) {
-    var showWantDismissDialog by remember { mutableStateOf(false) }
-    AlertDialog(onDismissRequest = { showWantDismissDialog = true }) {
+fun LoadingDialog(done: Int, left: Int, canCancel: Boolean = true, onCancelLoading: () -> Unit) {
+    var showWantDismissDialog by remember(canCancel) { mutableStateOf(false) }
+    BasicAlertDialog(onDismissRequest = { showWantDismissDialog = canCancel }) {
         Box(
             Modifier
                 .fillMaxSize()
                 .pointerInput(Unit) {
                     detectTapGestures {
-                        showWantDismissDialog = !showWantDismissDialog
+                        showWantDismissDialog = canCancel
                     }
                 }
         ) { Loading(done, left) }

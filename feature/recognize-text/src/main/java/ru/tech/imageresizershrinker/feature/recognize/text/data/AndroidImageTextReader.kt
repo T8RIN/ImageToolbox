@@ -33,7 +33,7 @@ internal class AndroidImageTextReader @Inject constructor(
 
     init {
         RecognitionType.entries.forEach {
-            File(context.filesDir, "${it.name}/tessdata").mkdirs()
+            File(context.filesDir, "${it.displayName}/tessdata").mkdirs()
         }
     }
 
@@ -60,9 +60,7 @@ internal class AndroidImageTextReader @Inject constructor(
     ): TextRecognitionResult = withContext(Dispatchers.IO) {
 
         if (!isLanguageDataExists(type, language)) {
-            return@withContext TextRecognitionResult.NoData(type, language).also {
-                downloadTrainingData(it.type, it.language) { _, _ -> }
-            }
+            return@withContext TextRecognitionResult.NoData(type, language)
         }
 
         val path = getPathFromMode(type)
@@ -74,8 +72,7 @@ internal class AndroidImageTextReader @Inject constructor(
             pageSegMode = segmentationMode.ordinal
             setImage(image)
         }
-        return@withContext try {
-
+        return@withContext runCatching {
             val text = HtmlCompat.fromHtml(
                 api.getHOCRText(1),
                 HtmlCompat.FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH
@@ -84,13 +81,17 @@ internal class AndroidImageTextReader @Inject constructor(
             val accuracy = api.meanConfidence()
 
             TextRecognitionResult.Success(RecognitionData(text, accuracy))
-        } catch (t: Throwable) {
-            File(
-                path,
-                format(Constants.LANGUAGE_CODE, language)
-            ).delete()
+        }.let {
+            if (it.isSuccess) {
+                it.getOrNull()!!
+            } else {
+                File(
+                    path,
+                    format(Constants.LANGUAGE_CODE, language)
+                ).delete()
 
-            TextRecognitionResult.Error(t)
+                TextRecognitionResult.Error(it.exceptionOrNull()!!)
+            }
         }
     }
 
@@ -162,6 +163,7 @@ internal class AndroidImageTextReader @Inject constructor(
             conn.connect()
 
             val totalContentSize = conn.contentLength.toLong()
+            onProgress(0f, totalContentSize)
 
             val input: InputStream = BufferedInputStream(url.openStream())
             val output: OutputStream = FileOutputStream(
@@ -181,6 +183,7 @@ internal class AndroidImageTextReader @Inject constructor(
                 val percentage = downloaded * 100f / totalContentSize
                 onProgress(percentage, totalContentSize)
             }
+
             output.flush()
             output.close()
             input.close()
@@ -189,6 +192,6 @@ internal class AndroidImageTextReader @Inject constructor(
 
     private fun getPathFromMode(
         type: RecognitionType
-    ): String = File(context.filesDir, type.name).absolutePath
+    ): String = File(context.filesDir, type.displayName).absolutePath
 
 }
