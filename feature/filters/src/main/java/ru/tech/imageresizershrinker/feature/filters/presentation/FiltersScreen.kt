@@ -350,7 +350,7 @@ fun FiltersScreen(
                     is Screen.Filter.Type.Masking -> pickSingleImageLauncher.pickImage()
                 }
             },
-            onSaveBitmap = {
+            onPrimaryButtonClick = {
                 when (filterType) {
                     is Screen.Filter.Type.Basic -> {
                         viewModel.saveBitmaps { failed, savingPath ->
@@ -378,7 +378,7 @@ fun FiltersScreen(
                     }
                 }
             },
-            canSave = viewModel.canSave,
+            isPrimaryButtonVisible = viewModel.canSave,
             columnarFab = {
                 EnhancedFloatingActionButton(
                     onClick = {
@@ -736,7 +736,7 @@ fun FiltersScreen(
     )
 
     ZoomModalSheet(
-        bitmap = viewModel.previewBitmap,
+        data = viewModel.previewBitmap,
         visible = showSheet
     )
 

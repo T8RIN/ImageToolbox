@@ -554,4 +554,12 @@
     <string name="only_clip">Only Clip</string>
     <string name="only_clip_sub">Saving to storage will not be performed, and image will be tried to put into the clipboard only</string>
     <string name="restore_background_sub">Brush will restore background instead of erasing if enabled</string>
+    <string name="recognize_text">OCR (Recognize Text)</string>
+    <string name="recognize_text_sub">Recognize text from given image, 120+ languages supported</string>
+    <string name="picture_has_no_text">Picture has no text, or app didn\'t find it</string>
+    <string name="accuracy">"Accuracy: %1$d"</string>
+    <string name="recognition_type">Recognition Type</string>
+    <string name="fast">Fast</string>
+    <string name="standard">Standard</string>
+    <string name="best">Best</string>
 </resources>

@@ -243,7 +243,7 @@ fun DeleteExifScreen(
         BottomButtonsBlock(
             targetState = (viewModel.uris.isNullOrEmpty()) to imageInside,
             onPickImage = pickImage,
-            onSaveBitmap = saveBitmaps,
+            onPrimaryButtonClick = saveBitmaps,
             actions = {
                 if (imageInside) actions()
             }
@@ -252,7 +252,7 @@ fun DeleteExifScreen(
 
 
     ZoomModalSheet(
-        bitmap = viewModel.previewBitmap,
+        data = viewModel.previewBitmap,
         visible = showSheet
     )
 

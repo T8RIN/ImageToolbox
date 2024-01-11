@@ -1,7 +1,5 @@
 package ru.tech.imageresizershrinker.core.ui.widget.sheets
 
-import android.graphics.Bitmap
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -25,7 +23,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import net.engawapg.lib.zoomable.rememberZoomState
@@ -33,6 +32,7 @@ import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -41,7 +41,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ZoomModalSheet(
-    bitmap: Bitmap?,
+    data: Any?,
     visible: MutableState<Boolean>
 ) {
     val settingsState = LocalSettingsState.current
@@ -52,9 +52,12 @@ fun ZoomModalSheet(
         Column(
             Modifier.navigationBarsPadding()
         ) {
-            Image(
-                bitmap = bitmap!!.asImageBitmap(),
+            Picture(
+                model = data,
                 contentDescription = null,
+                shape = RectangleShape,
+                contentScale = ContentScale.Inside,
+                showTransparencyChecker = false,
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
@@ -98,7 +101,7 @@ fun ZoomModalSheet(
         }
     }
 
-    if (bitmap != null) {
+    if (data != null) {
         SimpleSheet(
             sheetContent = sheetContent,
             visible = visible,

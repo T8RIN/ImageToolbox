@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.WrapText
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Margin
@@ -239,6 +240,15 @@ sealed class Screen(
         }
     }
 
+    class RecognizeText(
+        val uri: Uri? = null
+    ) : Screen(
+        id = 17,
+        icon = Icons.AutoMirrored.Outlined.WrapText,
+        title = R.string.recognize_text,
+        subtitle = R.string.limits_resize_sub
+    )
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -267,6 +277,7 @@ sealed class Screen(
                 ),
                 listOf(
                     PickColorFromImage(),
+                    RecognizeText(),
                     PdfTools(),
                     ImagePreview(),
                     LoadNetImage(),
@@ -291,6 +302,7 @@ sealed class Screen(
                 EraseBackground(),
                 ImageStitching(),
                 PdfTools(),
+                RecognizeText(),
                 ImagePreview(),
                 LoadNetImage(),
                 PickColorFromImage(),
@@ -300,6 +312,6 @@ sealed class Screen(
                 LimitResize()
             )
         }
-        const val featuresCount = 20
+        const val featuresCount = 21
     }
 }

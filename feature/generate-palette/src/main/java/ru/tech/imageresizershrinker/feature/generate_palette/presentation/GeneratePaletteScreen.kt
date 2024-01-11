@@ -247,7 +247,7 @@ fun GeneratePaletteScreen(
     }
 
     ZoomModalSheet(
-        bitmap = viewModel.bitmap,
+        data = viewModel.bitmap,
         visible = showSheet
     )
 

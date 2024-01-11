@@ -292,7 +292,7 @@ fun SingleEditScreen(
         BottomButtonsBlock(
             targetState = (viewModel.uri == Uri.EMPTY) to imageInside,
             onPickImage = pickImage,
-            onSaveBitmap = saveBitmap,
+            onPrimaryButtonClick = saveBitmap,
             actions = {
                 if (imageInside) actions()
             }
@@ -359,7 +359,7 @@ fun SingleEditScreen(
     )
 
     ZoomModalSheet(
-        bitmap = viewModel.previewBitmap,
+        data = viewModel.previewBitmap,
         visible = showSheet
     )
 

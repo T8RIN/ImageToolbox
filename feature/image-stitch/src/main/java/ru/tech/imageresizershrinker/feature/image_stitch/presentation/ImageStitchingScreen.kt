@@ -265,10 +265,10 @@ fun ImageStitchingScreen(
 
     val buttons = @Composable {
         BottomButtonsBlock(
-            canSave = viewModel.previewBitmap != null,
+            isPrimaryButtonVisible = viewModel.previewBitmap != null,
             targetState = (viewModel.uris.isNullOrEmpty()) to imageInside,
             onPickImage = pickImage,
-            onSaveBitmap = saveBitmaps,
+            onPrimaryButtonClick = saveBitmaps,
             actions = {
                 if (imageInside) actions()
             }
@@ -276,7 +276,7 @@ fun ImageStitchingScreen(
     }
 
     ZoomModalSheet(
-        bitmap = viewModel.previewBitmap,
+        data = viewModel.previewBitmap,
         visible = showZoomSheet
     )
 

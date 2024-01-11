@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
@@ -36,8 +37,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 fun BottomButtonsBlock(
     targetState: Pair<Boolean, Boolean>,
     onPickImage: () -> Unit,
-    onSaveBitmap: () -> Unit,
-    canSave: Boolean = true,
+    onPrimaryButtonClick: () -> Unit,
+    primaryButtonIcon: ImageVector = Icons.Rounded.Save,
+    isPrimaryButtonVisible: Boolean = true,
     columnarFab: (@Composable ColumnScope.() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit
 ) {
@@ -73,14 +75,14 @@ fun BottomButtonsBlock(
                                 contentDescription = null
                             )
                         }
-                        AnimatedVisibility(visible = canSave) {
+                        AnimatedVisibility(visible = isPrimaryButtonVisible) {
                             Row {
                                 Spacer(Modifier.width(8.dp))
                                 EnhancedFloatingActionButton(
-                                    onClick = onSaveBitmap
+                                    onClick = onPrimaryButtonClick
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Rounded.Save,
+                                        imageVector = primaryButtonIcon,
                                         contentDescription = null
                                     )
                                 }
@@ -115,13 +117,16 @@ fun BottomButtonsBlock(
                     Spacer(Modifier.height(8.dp))
                     it()
                 }
-                AnimatedVisibility(visible = canSave) {
+                AnimatedVisibility(visible = isPrimaryButtonVisible) {
                     Column {
                         Spacer(Modifier.height(8.dp))
                         EnhancedFloatingActionButton(
-                            onClick = onSaveBitmap
+                            onClick = onPrimaryButtonClick
                         ) {
-                            Icon(imageVector = Icons.Rounded.Save, contentDescription = null)
+                            Icon(
+                                imageVector = primaryButtonIcon,
+                                contentDescription = null
+                            )
                         }
                     }
                 }

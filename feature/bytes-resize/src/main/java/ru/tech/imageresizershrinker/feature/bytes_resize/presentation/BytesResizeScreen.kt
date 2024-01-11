@@ -247,8 +247,8 @@ fun BytesResizeScreen(
         BottomButtonsBlock(
             targetState = (viewModel.uris.isNullOrEmpty()) to imageInside,
             onPickImage = pickImage,
-            onSaveBitmap = saveBitmaps,
-            canSave = viewModel.canSave,
+            onPrimaryButtonClick = saveBitmaps,
+            isPrimaryButtonVisible = viewModel.canSave,
             actions = {
                 switch()
             }
@@ -276,7 +276,7 @@ fun BytesResizeScreen(
     }
 
     ZoomModalSheet(
-        bitmap = viewModel.previewBitmap,
+        data = viewModel.previewBitmap,
         visible = showSheet
     )
 

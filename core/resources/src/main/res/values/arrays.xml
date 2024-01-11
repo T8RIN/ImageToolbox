@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--language array-->
+    <string-array name="ocr_engine_language">
+        <item>Afrikaans</item>
+        <item>Amharic</item>
+        <item>Arabic</item>
+        <item>Assamese</item>
+        <item>Azerbaijani</item>
+        <item>Azerbaijani-Cyrillic</item>
+        <item>Belarusian</item>
+        <item>Bengali</item>
+        <item>Tibetan</item>
+        <item>Bosnian</item>
+        <item>Bulgarian</item>
+        <item>Catalan;Valencian</item>
+        <item>Cebuano</item>
+        <item>Czech</item>
+        <item>Chinese-Simplified</item>
+        <item>Chinese-Simplified-Vertical</item>
+        <item>Chinese-Traditional</item>
+        <item>Chinese-Traditional-Vertical</item>
+        <item>Cherokee</item>
+        <item>Corsican</item>
+        <item>Welsh</item>
+        <item>Danish</item>
+        <item>Danish Fraktur</item>
+        <item>German</item>
+        <item>German Fraktur</item>
+        <item>Dhivehi; Divehi; Maldivian</item>
+        <item>Dzongkha</item>
+        <item>Greek,Modern(1453-)</item>
+        <item>English</item>
+        <item>English,Modern(1453-)</item>
+        <item>Esperanto</item>
+        <item>equation</item>
+        <item>Estonian</item>
+        <item>Basque</item>
+        <item>Faroese</item>
+        <item>Persian</item>
+        <item>Filipino:Pilipino</item>
+        <item>Finnish</item>
+        <item>French</item>
+        <item>Frankish</item>
+        <item>French,Middle(ca.1400–1600)</item>
+        <item>Westtern Frisian</item>
+        <item>Scottish Gaelic; Gaelic</item>
+        <item>Irish</item>
+        <item>Galician</item>
+        <item>Greek,Ancient(-1453)</item>
+        <item>Gujarati</item>
+        <item>Haitian;Haitian Creole</item>
+        <item>Hebrew</item>
+        <item>Hindi</item>
+        <item>Croatian</item>
+        <item>Hungarian</item>
+        <item>Armenian</item>
+        <item>Inuktitut</item>
+        <item>Indonesian</item>
+        <item>Icelandic</item>
+        <item>Italian</item>
+        <item>Italian-old</item>
+        <item>Javanese</item>
+        <item>Japanese</item>
+        <item>Japanese (vertical)</item>
+        <item>Kannada</item>
+        <item>Georgian</item>
+        <item>Georgian-old</item>
+        <item>Kazakh</item>
+        <item>Central Khmer</item>
+        <item>Kirghiz; Kyrgyz</item>
+        <item>Northern Kurdish</item>
+        <item>Korean</item>
+        <item>Korean (vertical)</item>
+        <item>Kurdish</item>
+        <item>Lao</item>
+        <item>Latin</item>
+        <item>Latvian</item>
+        <item>Lithuanian</item>
+        <item>Luxembourgish; Letzeburgesch</item>
+        <item>Malayalam</item>
+        <item>Marathi</item>
+        <item>Macedonian</item>
+        <item>Maltese</item>
+        <item>Mongolian</item>
+        <item>Maori</item>
+        <item>Malay</item>
+        <item>Burmese</item>
+        <item>Nepali</item>
+        <item>Dutch; Flemish</item>
+        <item>Norwegian</item>
+        <item>Occitan (post 1500)</item>
+        <item>Oriya</item>
+        <item>OSD</item>
+        <item>Panjabi;</item>
+        <item>PDF</item>
+        <item>Polish</item>
+        <item>Portuguese</item>
+        <item>Pushto;</item>
+        <item>Quechua</item>
+        <item>Romanian;Moldavian;Moldovan</item>
+        <item>Russian</item>
+        <item>Sanskrit</item>
+        <item>Sinhala; Sinhalese</item>
+        <item>Slovak</item>
+        <item>Slovak Fraktur</item>
+        <item>Slovenian</item>
+        <item>Sindhi</item>
+        <item>Spanish;Castilian</item>
+        <item>Spanish; Castilian-Old</item>
+        <item>Albanian</item>
+        <item>Serbian</item>
+        <item>Serbian-Latin</item>
+        <item>Sundanese</item>
+        <item>Swahili</item>
+        <item>Swedish</item>
+        <item>Syriac</item>
+        <item>Tamil</item>
+        <item>Tatar</item>
+        <item>Telugu</item>
+        <item>Tajik</item>
+        <item>Tagalog</item>
+        <item>Thai</item>
+        <item>Tigrinya</item>
+        <item>Tonga (Tonga Islands)</item>
+        <item>Turkish</item>
+        <item>Uighur;;Uyghur</item>
+        <item>Ukrainian</item>
+        <item>Urdu</item>
+        <item>Uzbek</item>
+        <item>Uzbek-Cyrillic</item>
+        <item>Vietnamese</item>
+        <item>Yiddish</item>
+        <item>Yoruba</item>
+    </string-array>
+
+    <!--language keys mapped to tessertact training data -->
+    <string-array name="key_ocr_engine_language_value">
+        <item>afr</item>
+        <item>amh</item>
+        <item>ara</item>
+        <item>asm</item>
+        <item>aze</item>
+        <item>aze_cyrl</item>
+        <item>bel</item>
+        <item>ben</item>
+        <item>bod</item>
+        <item>bos</item>
+        <item>bul</item>
+        <item>cat</item>
+        <item>ceb</item>
+        <item>ces</item>
+        <item>chi_sim</item>
+        <item>chi_sim_vert</item>
+        <item>chi_tra</item>
+        <item>chi_tra_vert</item>
+        <item>chr</item>
+        <item>cos</item>
+        <item>cym</item>
+        <item>dan</item>
+        <item>dan_frak</item>
+        <item>deu</item>
+        <item>deu_frak</item>
+        <item>div</item>
+        <item>dzo</item>
+        <item>ell</item>
+        <item>eng</item>
+        <item>enm</item>
+        <item>epo</item>
+        <item>eqo</item>
+        <item>est</item>
+        <item>eus</item>
+        <item>fao</item>
+        <item>fas</item>
+        <item>fil</item>
+        <item>fin</item>
+        <item>fra</item>
+        <item>frk</item>
+        <item>frm</item>
+        <item>fry</item>
+        <item>gla</item>
+        <item>gle</item>
+        <item>glg</item>
+        <item>grc</item>
+        <item>guj</item>
+        <item>hat</item>
+        <item>heb</item>
+        <item>hin</item>
+        <item>hrv</item>
+        <item>hun</item>
+        <item>hye</item>
+        <item>iku</item>
+        <item>ind</item>
+        <item>isl</item>
+        <item>ita</item>
+        <item>ita_old</item>
+        <item>jav</item>
+        <item>jpn</item>
+        <item>jpn_vert</item>
+        <item>kan</item>
+        <item>kat</item>
+        <item>kat_old</item>
+        <item>kaz</item>
+        <item>khm</item>
+        <item>kir</item>
+        <item>kmr</item>
+        <item>kor</item>
+        <item>kor_vert</item>
+        <item>kur</item>
+        <item>lao</item>
+        <item>lat</item>
+        <item>lav</item>
+        <item>lit</item>
+        <item>ltz</item>
+        <item>mal</item>
+        <item>mar</item>
+        <item>mkd</item>
+        <item>mlt</item>
+        <item>mon</item>
+        <item>mri</item>
+        <item>msa</item>
+        <item>mya</item>
+        <item>nep</item>
+        <item>nld</item>
+        <item>nor</item>
+        <item>oci</item>
+        <item>ori</item>
+        <item>osd</item>
+        <item>pan</item>
+        <item>pdf.ttf</item>
+        <item>pol</item>
+        <item>por</item>
+        <item>pus</item>
+        <item>que</item>
+        <item>ron</item>
+        <item>rus</item>
+        <item>san</item>
+        <item>sin</item>
+        <item>slk</item>
+        <item>slk_frak</item>
+        <item>slv</item>
+        <item>snd</item>
+        <item>spa</item>
+        <item>spa_old</item>
+        <item>sqi</item>
+        <item>srp</item>
+        <item>srp_latn</item>
+        <item>sun</item>
+        <item>swa</item>
+        <item>swe</item>
+        <item>syr</item>
+        <item>tam</item>
+        <item>tat</item>
+        <item>tel</item>
+        <item>tgk</item>
+        <item>tgl</item>
+        <item>tha</item>
+        <item>tir</item>
+        <item>ton</item>
+        <item>tur</item>
+        <item>uig</item>
+        <item>ukr</item>
+        <item>urd</item>
+        <item>uzb</item>
+        <item>uzb_cyrl</item>
+        <item>vie</item>
+        <item>yid</item>
+        <item>yor</item>
+    </string-array>
+</resources>

@@ -335,7 +335,7 @@ fun ResizeAndConvertScreen(
         BottomButtonsBlock(
             targetState = (viewModel.uris.isNullOrEmpty()) to imageInside,
             onPickImage = pickImage,
-            onSaveBitmap = saveBitmaps,
+            onPrimaryButtonClick = saveBitmaps,
             actions = {
                 if (imageInside) actions()
             }
@@ -389,7 +389,7 @@ fun ResizeAndConvertScreen(
     )
 
     ZoomModalSheet(
-        bitmap = viewModel.previewBitmap,
+        data = viewModel.previewBitmap,
         visible = showZoomSheet
     )
 

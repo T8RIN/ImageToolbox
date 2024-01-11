@@ -6,6 +6,7 @@ versionName = "2.5.2"
 versionCode = "106"
 jvmTarget = "17"
 
+tesseract = "4.3.0"
 composeColorDetector = "1.0.0"
 composeColorfulSliders = "1.2.0"
 composeExtendedColors = "1.0.0-alpha07"
@@ -63,6 +64,8 @@ uiautomator = "2.2.0"
 androidxMacroBenchmark = "1.2.2"
 
 bitmapscaler = "1.1.2"
+junit = "4.13.2"
+material = "1.11.0"
 
 [libraries]
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "exifinterface" }
@@ -141,6 +144,7 @@ androidx-documentfile = { group = "androidx.documentfile", name = "documentfile"
 uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "androidxMacroBenchmark" }
 t8rin-bitmapscaler = { group = "com.github.t8rin", name = "bitmapscaler", version.ref = "bitmapscaler" }
+tesseract = { module = "cz.adaptech.tesseract4android:tesseract4android-openmp", version.ref = "tesseract" }
 
 firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
 baselineprofile-gradle = { group = "androidx.benchmark", name = "benchmark-baseline-profile-gradle-plugin", version.ref = "androidxMacroBenchmark" }
@@ -150,3 +154,5 @@ gms-gradle = { module = "com.google.gms:google-services", version.ref = "gms" }
 kotlinx-serialization-gradle = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 ksp-gradle = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 agp-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }

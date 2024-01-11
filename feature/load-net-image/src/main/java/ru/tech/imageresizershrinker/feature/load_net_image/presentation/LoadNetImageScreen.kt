@@ -231,7 +231,7 @@ fun LoadNetImageScreen(
     }
 
     ZoomModalSheet(
-        bitmap = viewModel.bitmap,
+        data = viewModel.bitmap,
         visible = showSheet
     )
 

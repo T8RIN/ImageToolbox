@@ -1,4 +1,7 @@
 @file:Suppress("UnstableApiUsage")
+
+include(":feature:recognize-text")
+
 pluginManagement {
     repositories {
         gradlePluginPortal()

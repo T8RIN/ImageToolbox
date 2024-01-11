@@ -54,6 +54,8 @@ dependencies {
 
     implementation(libs.t8rin.bitmapscaler)
 
+    api(libs.tesseract)
+
     implementation(project(":libs:gpuimage"))
 
     implementation(project(":core:domain"))

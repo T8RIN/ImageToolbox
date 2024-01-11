@@ -23,6 +23,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.BytesResizeScreen
 import ru.tech.imageresizershrinker.feature.cipher.presentation.FileCipherScreen
 import ru.tech.imageresizershrinker.feature.compare.presentation.CompareScreen
+import ru.tech.imageresizershrinker.feature.crop.presentation.CropScreen
 import ru.tech.imageresizershrinker.feature.delete_exif.presentation.DeleteExifScreen
 import ru.tech.imageresizershrinker.feature.draw.presentation.DrawScreen
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.EraseBackgroundScreen
@@ -35,6 +36,7 @@ import ru.tech.imageresizershrinker.feature.load_net_image.presentation.LoadNetI
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.PdfToolsScreen
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.PickColorFromImageScreen
+import ru.tech.imageresizershrinker.feature.recognize.text.presentation.RecognizeTextScreen
 import ru.tech.imageresizershrinker.feature.resize_convert.presentation.ResizeAndConvertScreen
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.SingleEditScreen
 
@@ -125,7 +127,7 @@ fun ScreenSelector(
             }
 
             is Screen.Crop -> {
-                ru.tech.imageresizershrinker.feature.crop.presentation.CropScreen(
+                CropScreen(
                     uriState = screen.uri,
                     onGoBack = onGoBack
                 )
@@ -222,6 +224,13 @@ fun ScreenSelector(
                             context.findActivity()?.finishAffinity()
                         } else onGoBack()
                     }
+                )
+            }
+
+            is Screen.RecognizeText -> {
+                RecognizeTextScreen(
+                    uriState = screen.uri,
+                    onGoBack = onGoBack
                 )
             }
         }
