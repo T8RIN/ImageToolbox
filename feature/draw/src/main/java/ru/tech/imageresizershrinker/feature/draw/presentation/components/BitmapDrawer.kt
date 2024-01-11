@@ -109,7 +109,7 @@ fun BitmapDrawer(
                 enabled = { _, _ ->
                     (pointersCount >= 2 || panEnabled)
                 },
-                enableOneFingerZoom = false,
+                enableOneFingerZoom = panEnabled,
                 onDoubleTap = { pos ->
                     if (panEnabled) zoomState.defaultZoomOnDoubleTap(pos)
                 }
