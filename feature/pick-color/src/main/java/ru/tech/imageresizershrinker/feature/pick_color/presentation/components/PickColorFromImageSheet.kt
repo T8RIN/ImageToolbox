@@ -13,9 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.ContentPaste
-import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -42,8 +40,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitch
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitchDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
@@ -63,16 +60,12 @@ fun PickColorFromImageSheet(
     val scope = rememberCoroutineScope()
     val toastHostState = LocalToastHost.current
 
-    var canZoom by rememberSaveable { mutableStateOf(false) }
+    var panEnabled by rememberSaveable { mutableStateOf(false) }
+
     val switch = @Composable {
-        EnhancedSwitch(
-            modifier = Modifier.padding(start = 16.dp),
-            colors = EnhancedSwitchDefaults.uncheckableColors(),
-            checked = !canZoom,
-            onCheckedChange = { canZoom = !canZoom },
-            thumbIcon = if (!canZoom) {
-                Icons.Rounded.Colorize
-            } else Icons.Rounded.ZoomIn,
+        PanModeButton(
+            selected = panEnabled,
+            onClick = { panEnabled = !panEnabled }
         )
     }
 
@@ -84,7 +77,7 @@ fun PickColorFromImageSheet(
             ) {
                 remember(bitmap) { bitmap?.asImageBitmap() }?.let {
                     ImageColorDetector(
-                        canZoom = canZoom,
+                        panEnabled = panEnabled,
                         color = color,
                         imageBitmap = it,
                         onColorChange = onColorChange,

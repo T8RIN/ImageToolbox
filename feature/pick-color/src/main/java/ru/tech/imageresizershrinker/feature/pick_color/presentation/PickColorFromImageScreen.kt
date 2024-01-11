@@ -31,9 +31,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.ContentPaste
-import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -89,8 +87,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitch
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitchDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
@@ -124,7 +121,7 @@ fun PickColorFromImageScreen(
 
     val scope = rememberCoroutineScope()
 
-    var canZoom by rememberSaveable { mutableStateOf(false) }
+    var panEnabled by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(uriState) {
         uriState?.let {
@@ -190,14 +187,9 @@ fun PickColorFromImageScreen(
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
     val switch = @Composable {
-        EnhancedSwitch(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            colors = EnhancedSwitchDefaults.uncheckableColors(),
-            checked = !canZoom,
-            onCheckedChange = { canZoom = !canZoom },
-            thumbIcon = if (!canZoom) {
-                Icons.Rounded.Colorize
-            } else Icons.Rounded.ZoomIn,
+        PanModeButton(
+            selected = panEnabled,
+            onClick = { panEnabled = !panEnabled }
         )
     }
 
@@ -506,7 +498,7 @@ fun PickColorFromImageScreen(
                             targetState = it
                         ) { bitmap ->
                             ImageColorDetector(
-                                canZoom = canZoom,
+                                panEnabled = panEnabled,
                                 imageBitmap = bitmap.asImageBitmap(),
                                 color = viewModel.color,
                                 modifier = Modifier
@@ -531,7 +523,7 @@ fun PickColorFromImageScreen(
                                         targetState = it
                                     ) { bitmap ->
                                         ImageColorDetector(
-                                            canZoom = canZoom,
+                                            panEnabled = panEnabled,
                                             imageBitmap = bitmap.asImageBitmap(),
                                             color = viewModel.color,
                                             modifier = Modifier

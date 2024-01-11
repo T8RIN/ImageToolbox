@@ -553,4 +553,5 @@
     <string name="spline_sub">Utilizes piecewise-defined polynomial functions to smoothly interpolate and approximate a curve or surface, flexible and continuous shape representation</string>
     <string name="only_clip">Only Clip</string>
     <string name="only_clip_sub">Saving to storage will not be performed, and image will be tried to put into the clipboard only</string>
+    <string name="restore_background_sub">Brush will restore background instead of erasing if enabled</string>
 </resources>

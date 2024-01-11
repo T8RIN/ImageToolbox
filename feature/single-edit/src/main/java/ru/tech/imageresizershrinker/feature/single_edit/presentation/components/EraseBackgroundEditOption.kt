@@ -57,9 +57,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.AutoEraseBackgroundCard
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.BrushSoftnessSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.EraseModeCard
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.LineWidthSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.RecoverModeButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.RecoverModeCard
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.TrimImageToggle
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
@@ -153,6 +153,7 @@ fun EraseBackgroundEditOption(
                 }
                 RecoverModeButton(
                     selected = isRecoveryOn,
+                    enabled = !zoomEnabled,
                     onClick = { isRecoveryOn = !isRecoveryOn }
                 )
             }
@@ -173,8 +174,9 @@ fun EraseBackgroundEditOption(
             controls = { scaffoldState ->
                 if (!useScaffold) secondaryControls()
                 Spacer(modifier = Modifier.height(8.dp))
-                EraseModeCard(
-                    isRecoveryOn = isRecoveryOn,
+                RecoverModeCard(
+                    selected = isRecoveryOn,
+                    enabled = !zoomEnabled,
                     onClick = { isRecoveryOn = !isRecoveryOn }
                 )
                 AutoEraseBackgroundCard(

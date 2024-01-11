@@ -24,7 +24,6 @@ import androidx.compose.foundation.gestures.calculateCentroid
 import androidx.compose.foundation.gestures.calculatePan
 import androidx.compose.foundation.gestures.calculateZoom
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.graphicsLayer
@@ -278,11 +277,10 @@ fun Modifier.zoomable(
     enableOneFingerZoom: Boolean = true,
     scrollGesturePropagation: ScrollGesturePropagation = ScrollGesturePropagation.ContentEdge,
     onTap: (position: Offset) -> Unit = {},
-    onDoubleTap: suspend (position: Offset, level: DoubleTapZoomLevel) -> Unit = zoomState.defaultZoomOnDoubleTap,
+    onDoubleTap: suspend (position: Offset) -> Unit = zoomState.defaultZoomOnDoubleTap,
     enabled: (Float, Offset) -> Boolean = DefaultEnabled,
     clipToBounds: Boolean = true
 ): Modifier = this
-    .clipToBounds()
     .graphicsLayer {
         clip = clipToBounds
     } then ZoomableElement(
@@ -294,44 +292,12 @@ fun Modifier.zoomable(
     enabled
 )
 
-/**
- * Modifier function that make the content zoomable.
- *
- * @param zoomState A [ZoomState] object.
- * @param enableOneFingerZoom If true, enable one finger zoom gesture, double tap followed by
- * vertical scrolling.
- * @param scrollGesturePropagation specifies when scroll gestures are propagated to the parent
- * composable element.
- * @param onTap will be called when single tap is detected on the element.
- * @param onDoubleTap will be called when double tap is detected on the element. This is a suspend
- * function and called in a coroutine scope.
- */
-fun Modifier.zoomable(
-    zoomState: ZoomState,
-    enableOneFingerZoom: Boolean = true,
-    scrollGesturePropagation: ScrollGesturePropagation = ScrollGesturePropagation.ContentEdge,
-    onTap: (position: Offset) -> Unit = {},
-    onDoubleTap: suspend (position: Offset) -> Unit,
-    enabled: (Float, Offset) -> Boolean = DefaultEnabled,
-    clipToBounds: Boolean = true
-): Modifier = this.zoomable(
-    zoomState = zoomState,
-    enableOneFingerZoom = enableOneFingerZoom,
-    scrollGesturePropagation = scrollGesturePropagation,
-    onTap = onTap,
-    onDoubleTap = { position, _ ->
-        onDoubleTap(position)
-    },
-    enabled = enabled,
-    clipToBounds = clipToBounds
-)
-
 private data class ZoomableElement(
     val zoomState: ZoomState,
     val enableOneFingerZoom: Boolean,
     val scrollGesturePropagation: ScrollGesturePropagation,
     val onTap: (position: Offset) -> Unit,
-    val onDoubleTap: suspend (position: Offset, level: DoubleTapZoomLevel) -> Unit,
+    val onDoubleTap: suspend (position: Offset) -> Unit,
     val enabled: (Float, Offset) -> Boolean
 ) : ModifierNodeElement<ZoomableNode>() {
     override fun create(): ZoomableNode = ZoomableNode(
@@ -370,7 +336,7 @@ private class ZoomableNode(
     var enableOneFingerZoom: Boolean,
     var scrollGesturePropagation: ScrollGesturePropagation,
     var onTap: (position: Offset) -> Unit,
-    var onDoubleTap: suspend (position: Offset, level: DoubleTapZoomLevel) -> Unit,
+    var onDoubleTap: suspend (position: Offset) -> Unit,
     var enabled: (Float, Offset) -> Boolean,
 ) : PointerInputModifierNode, LayoutModifierNode, DelegatingNode() {
     var measuredSize = Size.Zero
@@ -380,7 +346,7 @@ private class ZoomableNode(
         enableOneFingerZoom: Boolean,
         scrollGesturePropagation: ScrollGesturePropagation,
         onTap: (position: Offset) -> Unit,
-        onDoubleTap: suspend (position: Offset, level: DoubleTapZoomLevel) -> Unit,
+        onDoubleTap: suspend (position: Offset) -> Unit,
         enabled: (Float, Offset) -> Boolean
     ) {
         if (this.zoomState != zoomState) {
@@ -420,18 +386,8 @@ private class ZoomableNode(
             },
             onTap = onTap,
             onDoubleTap = { position ->
-                val scale = zoomState.scale
-                val minScale = zoomState.minScale
-                val maxScale = zoomState.maxScale
-                val midScale = (maxScale - minScale) / 2f
-
-                val level = when (scale) {
-                    in minScale..<midScale -> DoubleTapZoomLevel.Mid
-                    in midScale..<maxScale -> DoubleTapZoomLevel.Max
-                    else -> DoubleTapZoomLevel.Min
-                }
                 coroutineScope.launch {
-                    onDoubleTap(position, level)
+                    onDoubleTap(position)
                 }
             },
             enableOneFingerZoom = enableOneFingerZoom,

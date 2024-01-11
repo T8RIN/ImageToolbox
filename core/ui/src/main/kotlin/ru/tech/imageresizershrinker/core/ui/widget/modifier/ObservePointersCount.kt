@@ -1,5 +1,12 @@
 package ru.tech.imageresizershrinker.core.ui.widget.modifier
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.AwaitPointerEventScope
 import androidx.compose.ui.input.pointer.PointerEventPass
@@ -63,3 +70,20 @@ private suspend fun AwaitPointerEventScope.awaitAllPointersUp() {
 
 private fun AwaitPointerEventScope.allPointersUp(): Boolean =
     !currentEvent.changes.fastAny { it.pressed }
+
+
+@Composable
+fun smartDelayAfterDownInMillis(pointersCount: Int): Long {
+    var delayAfterDownInMillis by remember {
+        mutableLongStateOf(20L)
+    }
+    var previousCount by remember {
+        mutableIntStateOf(pointersCount)
+    }
+    LaunchedEffect(pointersCount) {
+        delayAfterDownInMillis = if (pointersCount <= 1 && previousCount >= 2) 5L else 20L
+        previousCount = pointersCount
+    }
+
+    return delayAfterDownInMillis
+}

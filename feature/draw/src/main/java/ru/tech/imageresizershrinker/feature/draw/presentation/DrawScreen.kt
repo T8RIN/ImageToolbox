@@ -290,15 +290,6 @@ fun DrawScreen(
 
     var zoomEnabled by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(false) }
 
-    val switch = @Composable {
-        PanModeButton(
-            selected = zoomEnabled,
-            onClick = {
-                zoomEnabled = !zoomEnabled
-            }
-        )
-    }
-
     var strokeWidth by rememberSaveable(
         viewModel.drawBehavior,
         stateSaver = PtSaver
@@ -418,43 +409,40 @@ fun DrawScreen(
     }
 
     val secondaryControls = @Composable {
-        Row(
-            Modifier
-                .padding(16.dp)
-                .container(shape = CircleShape)
+        PanModeButton(
+            selected = zoomEnabled,
+            onClick = {
+                zoomEnabled = !zoomEnabled
+            }
+        )
+        EnhancedIconButton(
+            containerColor = Color.Transparent,
+            borderColor = MaterialTheme.colorScheme.outlineVariant(
+                luminance = 0.1f
+            ),
+            onClick = viewModel::undo,
+            enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
         ) {
-            switch()
-            EnhancedIconButton(
-                containerColor = Color.Transparent,
-                borderColor = MaterialTheme.colorScheme.outlineVariant(
-                    luminance = 0.1f
-                ),
-                onClick = viewModel::undo,
-                enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
-            ) {
-                Icon(Icons.AutoMirrored.Rounded.Undo, null)
-            }
-            EnhancedIconButton(
-                containerColor = Color.Transparent,
-                borderColor = MaterialTheme.colorScheme.outlineVariant(
-                    luminance = 0.1f
-                ),
-                onClick = viewModel::redo,
-                enabled = viewModel.undonePaths.isNotEmpty()
-            ) {
-                Icon(Icons.AutoMirrored.Rounded.Redo, null)
-            }
-            EraseModeButton(
-                selected = isEraserOn,
-                enabled = !zoomEnabled,
-                onClick = {
-                    isEraserOn = !isEraserOn
-                }
-            )
+            Icon(Icons.AutoMirrored.Rounded.Undo, null)
         }
+        EnhancedIconButton(
+            containerColor = Color.Transparent,
+            borderColor = MaterialTheme.colorScheme.outlineVariant(
+                luminance = 0.1f
+            ),
+            onClick = viewModel::redo,
+            enabled = viewModel.undonePaths.isNotEmpty()
+        ) {
+            Icon(Icons.AutoMirrored.Rounded.Redo, null)
+        }
+        EraseModeButton(
+            selected = isEraserOn,
+            enabled = !zoomEnabled,
+            onClick = {
+                isEraserOn = !isEraserOn
+            }
+        )
     }
-
-    //TODO: FIX LAYOUT WITH CUTOUT, and fix secondary controls
 
     val bitmap = viewModel.bitmap ?: (viewModel.drawBehavior as? DrawBehavior.Background)?.run {
         remember { ImageBitmap(width, height).asAndroidBitmap() }
@@ -892,7 +880,13 @@ fun DrawScreen(
                                 .clipToBounds()
                         ) {
                             item {
-                                secondaryControls()
+                                Row(
+                                    Modifier
+                                        .padding(16.dp)
+                                        .container(shape = CircleShape)
+                                ) {
+                                    secondaryControls()
+                                }
                                 controls()
                             }
                         }

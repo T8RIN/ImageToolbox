@@ -100,9 +100,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.AutoEraseBackgroundCard
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.BrushSoftnessSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.EraseModeCard
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.LineWidthSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.RecoverModeButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.RecoverModeCard
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.TrimImageToggle
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
@@ -410,8 +410,9 @@ fun EraseBackgroundScreen(
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            EraseModeCard(
-                isRecoveryOn = viewModel.isRecoveryOn,
+            RecoverModeCard(
+                selected = viewModel.isRecoveryOn,
+                enabled = !zoomEnabled,
                 onClick = viewModel::toggleEraser
             )
             AutoEraseBackgroundCard(
@@ -520,6 +521,7 @@ fun EraseBackgroundScreen(
                                     secondaryControls()
                                     RecoverModeButton(
                                         selected = viewModel.isRecoveryOn,
+                                        enabled = !zoomEnabled,
                                         onClick = viewModel::toggleEraser
                                     )
                                 },

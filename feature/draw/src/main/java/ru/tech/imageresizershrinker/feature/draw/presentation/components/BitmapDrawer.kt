@@ -49,8 +49,8 @@ import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.ZoomState
+import net.engawapg.lib.zoomable.ZoomableDefaults.defaultZoomOnDoubleTap
 import net.engawapg.lib.zoomable.rememberZoomState
-import net.engawapg.lib.zoomable.toggleScale
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.draw.DrawMode
@@ -66,6 +66,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaled
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rotateVector
 import ru.tech.imageresizershrinker.core.ui.utils.helper.scaleToFitCanvas
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCount
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.smartDelayAfterDownInMillis
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import kotlin.math.abs
 import kotlin.math.max
@@ -95,11 +96,6 @@ fun BitmapDrawer(
 ) {
     val scope = rememberCoroutineScope()
 
-    var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
-    var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
-    var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
-    var downPosition by remember { mutableStateOf(Offset.Unspecified) }
-
     var pointersCount by remember { mutableIntStateOf(0) }
 
     Box(
@@ -114,13 +110,18 @@ fun BitmapDrawer(
                     (pointersCount >= 2 || zoomEnabled)
                 },
                 enableOneFingerZoom = false,
-                onDoubleTap = { pos, _ ->
-                    if (zoomEnabled) zoomState.toggleScale(5f, pos)
+                onDoubleTap = { pos ->
+                    if (zoomEnabled) zoomState.defaultZoomOnDoubleTap(pos)
                 }
             ),
         contentAlignment = Alignment.Center
     ) {
         BoxWithConstraints(modifier) {
+            var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
+            var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
+            var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
+            var downPosition by remember { mutableStateOf(Offset.Unspecified) }
+
             val imageWidth = constraints.maxWidth
             val imageHeight = constraints.maxHeight
 
@@ -764,7 +765,7 @@ fun BitmapDrawer(
                     }
                     drawStartedWithOnePointer = false
                 },
-                delayAfterDownInMillis = 5
+                delayAfterDownInMillis = smartDelayAfterDownInMillis(pointersCount)
             )
 
             Image(

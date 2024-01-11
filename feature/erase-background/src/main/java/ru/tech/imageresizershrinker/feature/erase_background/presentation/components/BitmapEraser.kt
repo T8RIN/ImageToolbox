@@ -47,8 +47,8 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import kotlinx.coroutines.launch
+import net.engawapg.lib.zoomable.ZoomableDefaults.defaultZoomOnDoubleTap
 import net.engawapg.lib.zoomable.rememberZoomState
-import net.engawapg.lib.zoomable.toggleScale
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.image.draw.Pt
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -57,6 +57,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.scaleToFitCanvas
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCount
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.smartDelayAfterDownInMillis
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 
 @Composable
@@ -89,8 +90,8 @@ fun BitmapEraser(
                     (pointersCount >= 2 || zoomEnabled)
                 },
                 enableOneFingerZoom = false,
-                onDoubleTap = { pos, _ ->
-                    if (zoomEnabled) zoomState.toggleScale(5f, pos)
+                onDoubleTap = { pos ->
+                    if (zoomEnabled) zoomState.defaultZoomOnDoubleTap(pos)
                 }
             ),
         contentAlignment = Alignment.Center
@@ -314,7 +315,7 @@ fun BitmapEraser(
                     }
                     drawStartedWithOnePointer = false
                 },
-                delayAfterDownInMillis = 5
+                delayAfterDownInMillis = smartDelayAfterDownInMillis(pointersCount)
             )
 
             Image(
