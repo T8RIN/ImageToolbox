@@ -167,6 +167,10 @@ or click one of the badges below.
   </details>
 
 - AES-256 GCM No Padding files encryption and decryption
+- Extract Text From Images
+  - 120+ languages
+  - 3 Type of data: Fast, Standard, Best
+  - Segmentation Mode Selection
 - EXIF metadata editing/deleting
 - Loading images from internet
 - Image Stitching
