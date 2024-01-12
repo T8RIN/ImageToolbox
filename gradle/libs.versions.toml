@@ -7,9 +7,7 @@ versionCode = "107"
 jvmTarget = "17"
 
 tesseract = "4.3.0"
-composeColorDetector = "1.0.0"
-composeColorfulSliders = "1.2.0"
-composeExtendedColors = "1.0.0-alpha07"
+composeColorfulSliders = "1.2.2"
 m3color = "2024.1"
 paletteKtx = "1.0.0"
 composeVersion = "1.6.0-rc01"
@@ -80,9 +78,7 @@ app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.re
 app-update = { module = "com.google.android.play:app-update", version.ref = "appUpdate" }
 avif-coder = { module = "com.github.awxkee:avif-coder", version.ref = "avifCoder" }
 compose = { module = "com.github.zed-alpha.shadow-gadgets:compose", version.ref = "shadowGadgets" }
-compose-color-detector = { module = "com.github.SmartToolFactory:Compose-Color-Detector", version.ref = "composeColorDetector" }
 compose-colorful-sliders = { module = "com.github.SmartToolFactory:Compose-Colorful-Sliders", version.ref = "composeColorfulSliders" }
-compose-extended-colors = { module = "com.github.SmartToolFactory:Compose-Extended-Colors", version.ref = "composeExtendedColors" }
 datastore-preferences-android = { module = "androidx.datastore:datastore-preferences-android", version.ref = "androidx-datastorePreferencesAndroid" }
 fadingEdges = { module = "com.github.GIGAMOLE:ComposeFadingEdges", version.ref = "fadingEdges" }
 firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebaseCrashlyticsKtx" }
