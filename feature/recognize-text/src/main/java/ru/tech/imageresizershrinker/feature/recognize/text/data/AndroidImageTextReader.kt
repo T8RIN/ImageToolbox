@@ -78,7 +78,19 @@ internal class AndroidImageTextReader @Inject constructor(
         val api = TessBaseAPI {
             if (isActive) onProgress(it.percent)
         }.apply {
-            init(path, languageCode)
+            val success = init(path, languageCode)
+            if (!success) return@withContext TextRecognitionResult.NoData(
+                DownloadData(
+                    type = type,
+                    languageCode = languageCode,
+                    name = getDisplayName(languageCode)
+                )
+            ).also {
+                File(
+                    "${getPathFromMode(type)}/tessdata",
+                    format(Constants.LANGUAGE_CODE, languageCode)
+                ).delete()
+            }
             pageSegMode = segmentationMode.ordinal
             setImage(image)
         }

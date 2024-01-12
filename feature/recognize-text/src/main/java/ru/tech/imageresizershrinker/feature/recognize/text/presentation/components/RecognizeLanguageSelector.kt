@@ -2,7 +2,6 @@ package ru.tech.imageresizershrinker.feature.recognize.text.presentation.compone
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -45,8 +44,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
-import ru.tech.imageresizershrinker.core.ui.theme.Green
-import ru.tech.imageresizershrinker.core.ui.theme.Red
+import ru.tech.imageresizershrinker.core.ui.theme.GreenContrast
+import ru.tech.imageresizershrinker.core.ui.theme.RedContrast
+import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
@@ -60,8 +60,9 @@ import ru.tech.imageresizershrinker.feature.recognize.text.domain.OCRLanguage
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
 
 @Composable
-fun LanguageSelector(
+fun RecognizeLanguageSelector(
     currentRecognitionType: RecognitionType,
+    onRecognitionTypeChange: (RecognitionType) -> Unit,
     value: OCRLanguage,
     availableLanguages: List<OCRLanguage>,
     isLanguagesLoading: Boolean,
@@ -163,7 +164,7 @@ fun LanguageSelector(
                                         size = downloadedLanguages.size
                                     ),
                                     color = animateColorAsState(
-                                        if (value == lang) MaterialTheme.colorScheme.secondaryContainer
+                                        if (value == lang) MaterialTheme.colorScheme.mixedContainer
                                         else MaterialTheme.colorScheme.surfaceContainerLow
                                     ).value,
                                     resultPadding = 0.dp
@@ -179,18 +180,18 @@ fun LanguageSelector(
                             Text(text = lang.name)
                             Spacer(modifier = Modifier.weight(1f))
                             Row(
-                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                modifier = Modifier.container()
                             ) {
                                 RecognitionType.entries.forEach {
                                     Column(
                                         horizontalAlignment = Alignment.CenterHorizontally,
                                         verticalArrangement = Arrangement.Center,
-                                        modifier = Modifier.alpha(
-                                            animateFloatAsState(
-                                                if (it !in lang.downloaded) 0.5f
-                                                else 1f
-                                            ).value
-                                        )
+                                        modifier = Modifier
+                                            .clip(CircleShape)
+                                            .clickable {
+                                                onRecognitionTypeChange(it)
+                                            }
                                     ) {
                                         Text(
                                             text = it.displayName.first().uppercase(),
@@ -204,9 +205,12 @@ fun LanguageSelector(
                                             contentDescription = null,
                                             tint = animateColorAsState(
                                                 when (it) {
-                                                    !in lang.downloaded -> Red.copy(0.3f)
-                                                    currentRecognitionType -> Green
-                                                    else -> Green.copy(0.3f)
+                                                    currentRecognitionType -> if (it in lang.downloaded) {
+                                                        GreenContrast
+                                                    } else RedContrast
+
+                                                    !in lang.downloaded -> RedContrast.copy(0.3f)
+                                                    else -> GreenContrast.copy(0.3f)
                                                 }
                                             ).value,
                                             modifier = Modifier
@@ -240,7 +244,7 @@ fun LanguageSelector(
                                         size = notDownloadedLanguages.size
                                     ),
                                     color = animateColorAsState(
-                                        if (value == lang) MaterialTheme.colorScheme.secondaryContainer
+                                        if (value == lang) MaterialTheme.colorScheme.mixedContainer
                                         else MaterialTheme.colorScheme.surfaceContainerLow
                                     ).value,
                                     resultPadding = 0.dp

@@ -124,8 +124,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.middleImageState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.notNullAnd
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
-import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.LanguageSelector
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.ModelTypeSelector
+import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.RecognizeLanguageSelector
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.UiDownloadData
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.toUi
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.viewModel.RecognizeTextViewModel
@@ -286,15 +286,21 @@ fun RecognizeTextScreen(
     }
 
     val controls: @Composable () -> Unit = {
-        val text = viewModel.recognitionData?.text ?: stringResource(R.string.picture_has_no_text)
+        val text = viewModel.recognitionData?.text?.takeIf {
+            it.isNotEmpty()
+        } ?: stringResource(R.string.picture_has_no_text)
 
-        LanguageSelector(
+        RecognizeLanguageSelector(
             currentRecognitionType = viewModel.recognitionType,
             value = viewModel.selectedLanguage,
             availableLanguages = viewModel.languages,
             isLanguagesLoading = viewModel.isLanguagesLoading,
             onValueChange = {
                 viewModel.onLanguageSelected(it)
+                startRecognition()
+            },
+            onRecognitionTypeChange = {
+                viewModel.setRecognitionType(it)
                 startRecognition()
             }
         )
