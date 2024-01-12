@@ -1,7 +1,12 @@
 package ru.tech.imageresizershrinker.core.ui.widget.controls
 
+
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -23,6 +28,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.PixelSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 
@@ -46,45 +52,66 @@ fun EnhancedSwitch(
     val haptics = LocalHapticFeedback.current
 
     CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
-        Switch(
-            modifier = modifier
-                .minimumInteractiveComponentSize()
-                .container(
-                    shape = CircleShape,
-                    resultPadding = 0.dp,
-                    autoShadowElevation = animateDpAsState(
-                        if (settingsState.drawSwitchShadows) 1.dp
-                        else 0.dp
-                    ).value,
-                    borderColor = Color.Transparent,
-                    isShadowClip = true,
-                    isStandaloneContainer = false,
-                    color = Color.Transparent
-                ),
-            colors = switchColors,
-            checked = checked,
-            enabled = enabled,
-            onCheckedChange = onCheckedChange?.let {
-                {
-                    onCheckedChange(it)
-                    haptics.performHapticFeedback(
-                        HapticFeedbackType.LongPress
+        val switchModifier = modifier
+            .minimumInteractiveComponentSize()
+            .container(
+                shape = CircleShape,
+                resultPadding = 0.dp,
+                autoShadowElevation = animateDpAsState(
+                    if (settingsState.drawSwitchShadows) 1.dp
+                    else 0.dp
+                ).value,
+                borderColor = Color.Transparent,
+                isShadowClip = true,
+                isStandaloneContainer = false,
+                color = Color.Transparent
+            )
+        val switchOnCheckedChange: ((Boolean) -> Unit)? = onCheckedChange?.let {
+            { boolean ->
+                onCheckedChange(boolean)
+                haptics.performHapticFeedback(
+                    HapticFeedbackType.LongPress
+                )
+            }
+        }
+        val thumbContent: (@Composable () -> Unit)? = thumbIcon?.let {
+            {
+                AnimatedContent(thumbIcon) { thumbIcon ->
+                    Icon(
+                        imageVector = thumbIcon,
+                        contentDescription = null,
+                        modifier = Modifier.size(SwitchDefaults.IconSize)
                     )
                 }
-            },
-            interactionSource = interactionSource,
-            thumbContent = thumbIcon?.let {
-                {
-                    AnimatedContent(thumbIcon) { thumbIcon ->
-                        Icon(
-                            imageVector = thumbIcon,
-                            contentDescription = null,
-                            modifier = Modifier.size(SwitchDefaults.IconSize)
-                        )
-                    }
-                }
             }
-        )
-    }
+        }
 
+        AnimatedContent(
+            targetState = settingsState.usePixelSwitch,
+            transitionSpec = {
+                fadeIn() togetherWith fadeOut() using SizeTransform(false)
+            }
+        ) { usePixelSwitch ->
+            if (usePixelSwitch) {
+                PixelSwitch(
+                    modifier = switchModifier,
+                    colors = switchColors,
+                    checked = checked,
+                    enabled = enabled,
+                    onCheckedChange = switchOnCheckedChange,
+                    interactionSource = interactionSource
+                )
+            } else {
+                Switch(
+                    modifier = switchModifier,
+                    colors = switchColors,
+                    checked = checked,
+                    enabled = enabled,
+                    onCheckedChange = switchOnCheckedChange,
+                    interactionSource = interactionSource,
+                    thumbContent = thumbContent
+                )
+            }
+        }
+    }
 }

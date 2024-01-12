@@ -22,6 +22,8 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,6 +54,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -607,6 +610,15 @@ fun MainScreen(
                                     ),
                                     content = {
                                         items(currentScreenList) { screen ->
+                                            val interactionSource = remember {
+                                                MutableInteractionSource()
+                                            }
+                                            val pressed by interactionSource.collectIsPressedAsState()
+
+                                            val cornerSize by animateDpAsState(
+                                                if (pressed) 6.dp
+                                                else 18.dp
+                                            )
                                             PreferenceItemOverload(
                                                 onClick = {
                                                     navController.popUpTo { it == Screen.Main }
@@ -616,11 +628,13 @@ fun MainScreen(
                                                     .widthIn(min = 1.dp)
                                                     .fillMaxWidth()
                                                     .animateItemPlacement(),
+                                                shape = RoundedCornerShape(cornerSize),
                                                 title = stringResource(screen.title),
                                                 subtitle = stringResource(screen.subtitle),
                                                 icon = {
                                                     Icon(screen.icon!!, null)
-                                                }
+                                                },
+                                                interactionSource = interactionSource
                                             )
                                         }
                                     }

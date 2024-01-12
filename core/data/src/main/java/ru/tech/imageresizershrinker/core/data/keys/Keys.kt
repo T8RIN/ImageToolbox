@@ -51,4 +51,5 @@ object Keys {
     val OVERWRITE_FILE = booleanPreferencesKey("OVERWRITE_FILE")
     val FILENAME_SUFFIX = stringPreferencesKey("FILENAME_SUFFIX")
     val IMAGE_SCALE_MODE = intPreferencesKey("IMAGE_SCALE_MODE")
+    val USE_PIXEL_SWITCH = booleanPreferencesKey("USE_PIXEL_SWITCH")
 }

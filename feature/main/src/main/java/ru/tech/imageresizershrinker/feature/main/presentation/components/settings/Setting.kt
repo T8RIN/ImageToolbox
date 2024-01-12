@@ -270,4 +270,9 @@ sealed class Setting(
         title = R.string.default_value,
         subtitle = null
     )
+
+    data object UsePixelSwitch : Setting(
+        title = R.string.use_pixel_switch,
+        subtitle = R.string.use_pixel_switch_sub
+    )
 }

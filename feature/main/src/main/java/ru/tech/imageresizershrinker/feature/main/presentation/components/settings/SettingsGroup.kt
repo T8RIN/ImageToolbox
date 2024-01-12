@@ -59,6 +59,7 @@ sealed class SettingsGroup(
             Setting.AllowImageMonet,
             Setting.EmojisCount,
             Setting.BorderThickness,
+            Setting.UsePixelSwitch,
             Setting.FabAlignment
         ),
         initialState = false

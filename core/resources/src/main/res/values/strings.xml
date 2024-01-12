@@ -569,4 +569,6 @@
     <string name="downloaded_languages">Downloaded Languages</string>
     <string name="available_languages">Available Languages</string>
     <string name="segmentation_mode">Segmentation Mode</string>
+    <string name="use_pixel_switch">Use Pixel Switch</string>
+    <string name="use_pixel_switch_sub">Pixel-like switch will be used instead of google\'s material you based one</string>
 </resources>

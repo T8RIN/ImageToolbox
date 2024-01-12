@@ -48,7 +48,8 @@ data class SettingsState(
     val hapticsStrength: Int,
     val overwriteFiles: Boolean,
     val filenameSuffix: String,
-    val defaultImageScaleMode: ImageScaleMode
+    val defaultImageScaleMode: ImageScaleMode,
+    val usePixelSwitch: Boolean
 ) : Domain {
 
     companion object {
@@ -98,7 +99,8 @@ data class SettingsState(
                 overwriteFiles = false,
                 filenameSuffix = "",
                 defaultImageScaleMode = ImageScaleMode.Default,
-                copyToClipboardMode = CopyToClipboardMode.Disabled
+                copyToClipboardMode = CopyToClipboardMode.Disabled,
+                usePixelSwitch = false
             )
         }
     }

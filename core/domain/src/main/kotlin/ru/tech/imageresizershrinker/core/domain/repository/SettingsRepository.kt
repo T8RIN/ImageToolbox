@@ -112,4 +112,6 @@ interface SettingsRepository {
     suspend fun setFilenameSuffix(name: String)
 
     suspend fun setDefaultImageScaleMode(imageScaleMode: ImageScaleMode)
+
+    suspend fun toggleUsePixelSwitch()
 }

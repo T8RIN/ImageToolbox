@@ -8,6 +8,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +37,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -212,13 +217,23 @@ class CrashActivity : CrashHandler() {
                                     }
                                 }
                                 Spacer(modifier = Modifier.height(16.dp))
+                                val interactionSource = remember {
+                                    MutableInteractionSource()
+                                }
+                                val pressed by interactionSource.collectIsPressedAsState()
+
+                                val cornerSize by animateDpAsState(
+                                    if (pressed) 8.dp
+                                    else 24.dp
+                                )
                                 ExpandableItem(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(horizontal = 16.dp)
                                         .navigationBarsPadding()
                                         .animateContentSize(),
-                                    shape = RoundedCornerShape(24.dp),
+                                    shape = RoundedCornerShape(cornerSize),
+                                    interactionSource = interactionSource,
                                     visibleContent = {
                                         Icon(
                                             imageVector = Icons.Rounded.BugReport,

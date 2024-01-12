@@ -6,7 +6,9 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -58,7 +61,8 @@ fun PreferenceItemOverload(
     ) else contentColorFor(backgroundColor = color),
     modifier: Modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 12.dp)
+        .padding(horizontal = 12.dp),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
     val haptics = LocalHapticFeedback.current
     ProvideTextStyle(value = LocalTextStyle.current.copy(textAlign = TextAlign.Start)) {
@@ -76,6 +80,8 @@ fun PreferenceItemOverload(
                         ?.takeIf { enabled }
                         ?.let {
                             Modifier.combinedClickable(
+                                interactionSource = interactionSource,
+                                indication = LocalIndication.current,
                                 onClick = {
                                     haptics.performHapticFeedback(
                                         HapticFeedbackType.LongPress

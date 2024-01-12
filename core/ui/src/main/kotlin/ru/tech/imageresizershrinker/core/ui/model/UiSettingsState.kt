@@ -70,7 +70,8 @@ data class UiSettingsState(
     val hapticsStrength: Int,
     val overwriteFiles: Boolean,
     val filenameSuffix: String,
-    val defaultImageScaleMode: ImageScaleMode
+    val defaultImageScaleMode: ImageScaleMode,
+    val usePixelSwitch: Boolean
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -152,7 +153,8 @@ fun SettingsState.toUiState(): UiSettingsState {
         hapticsStrength = hapticsStrength,
         overwriteFiles = overwriteFiles,
         filenameSuffix = filenameSuffix,
-        defaultImageScaleMode = defaultImageScaleMode
+        defaultImageScaleMode = defaultImageScaleMode,
+        usePixelSwitch = usePixelSwitch
     )
 }
 

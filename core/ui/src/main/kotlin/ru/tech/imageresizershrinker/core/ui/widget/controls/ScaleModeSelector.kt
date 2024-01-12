@@ -133,9 +133,9 @@ fun ScaleModeSelector(
                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
                     selectedColor = MaterialTheme.colorScheme.outlineVariant(
                         0.2f,
-                        MaterialTheme.colorScheme.tertiaryContainer
+                        MaterialTheme.colorScheme.tertiary
                     ),
-                    selectedContentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                    selectedContentColor = MaterialTheme.colorScheme.onTertiary,
                     unselectedColor = MaterialTheme.colorScheme.outlineVariant(0.01f),
                     unselectedContentColor = MaterialTheme.colorScheme.onSurface
                 )

@@ -56,6 +56,7 @@ import ru.tech.imageresizershrinker.core.data.keys.Keys.SELECTED_FONT_INDEX
 import ru.tech.imageresizershrinker.core.data.keys.Keys.SHOW_UPDATE_DIALOG
 import ru.tech.imageresizershrinker.core.data.keys.Keys.THEME_CONTRAST_LEVEL
 import ru.tech.imageresizershrinker.core.data.keys.Keys.THEME_STYLE
+import ru.tech.imageresizershrinker.core.data.keys.Keys.USE_PIXEL_SWITCH
 import ru.tech.imageresizershrinker.core.data.keys.Keys.VIBRATION_STRENGTH
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.CopyToClipboardMode
@@ -143,7 +144,8 @@ class SettingsRepositoryImpl @Inject constructor(
             filenameSuffix = prefs[FILENAME_SUFFIX] ?: default.filenameSuffix,
             defaultImageScaleMode = prefs[IMAGE_SCALE_MODE]?.let {
                 ImageScaleMode.fromInt(it)
-            } ?: default.defaultImageScaleMode
+            } ?: default.defaultImageScaleMode,
+            usePixelSwitch = prefs[USE_PIXEL_SWITCH] ?: default.usePixelSwitch,
         )
     }
 
@@ -496,6 +498,13 @@ class SettingsRepositoryImpl @Inject constructor(
     override suspend fun setDefaultImageScaleMode(imageScaleMode: ImageScaleMode) {
         dataStore.edit {
             it[IMAGE_SCALE_MODE] = imageScaleMode.value
+        }
+    }
+
+    override suspend fun toggleUsePixelSwitch() {
+        dataStore.edit {
+            val v = it[USE_PIXEL_SWITCH] ?: false
+            it[USE_PIXEL_SWITCH] = !v
         }
     }
 

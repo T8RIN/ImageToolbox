@@ -3,7 +3,9 @@ package ru.tech.imageresizershrinker.core.ui.widget.other
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -22,6 +24,7 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -43,7 +46,8 @@ fun ExpandableItem(
     initialState: Boolean = false,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     shape: RoundedCornerShape = RoundedCornerShape(20.dp),
-    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
+    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
     val haptics = LocalHapticFeedback.current
     Column(
@@ -61,7 +65,10 @@ fun ExpandableItem(
         Row(
             modifier = Modifier
                 .clip(shape)
-                .clickable {
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = LocalIndication.current
+                ) {
                     haptics.performHapticFeedback(
                         HapticFeedbackType.LongPress
                     )

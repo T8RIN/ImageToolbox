@@ -432,5 +432,9 @@ fun SettingItem(
                 onValueChange = viewModel::setDefaultImageScaleMode
             )
         }
+
+        Setting.UsePixelSwitch -> {
+            UsePixelSwitchSettingItem(onClick = { viewModel.toggleUsePixelSwitch() })
+        }
     }
 }
