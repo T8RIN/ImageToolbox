@@ -44,8 +44,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
-import ru.tech.imageresizershrinker.core.ui.theme.GreenContrast
-import ru.tech.imageresizershrinker.core.ui.theme.RedContrast
+import ru.tech.imageresizershrinker.core.ui.theme.Green
+import ru.tech.imageresizershrinker.core.ui.theme.Red
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -133,7 +133,7 @@ fun RecognizeLanguageSelector(
                 }
             } else {
                 val listState = rememberLazyListState()
-                LaunchedEffect(Unit) {
+                LaunchedEffect(downloadedLanguages) {
                     downloadedLanguages.indexOf(value).takeIf {
                         it != -1
                     }.let {
@@ -208,11 +208,11 @@ fun RecognizeLanguageSelector(
                                             tint = animateColorAsState(
                                                 when (it) {
                                                     currentRecognitionType -> if (it in lang.downloaded) {
-                                                        GreenContrast
-                                                    } else RedContrast
+                                                        Green
+                                                    } else Red
 
-                                                    !in lang.downloaded -> RedContrast.copy(0.3f)
-                                                    else -> GreenContrast.copy(0.3f)
+                                                    !in lang.downloaded -> Red.copy(0.3f)
+                                                    else -> Green.copy(0.3f)
                                                 }
                                             ).value,
                                             modifier = Modifier

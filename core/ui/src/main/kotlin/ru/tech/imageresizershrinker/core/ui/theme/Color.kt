@@ -87,12 +87,8 @@ val defaultColorTuple = ColorTuple(md_theme_dark_primary)
 inline val Green: Color
     @Composable get() = Color(0xFFBADB94).harmonizeWithPrimary(0.2f)
 
-inline val GreenContrast: Color
-    @Composable get() = Color(0xFF7FC232).harmonizeWithPrimary(0.2f)
-
-inline val RedContrast: Color
-    @Composable get() = Color(0xFFCF4B4B).harmonizeWithPrimary(0.2f)
-
+inline val Red: Color
+    @Composable get() = Color(0xFFDB9494).harmonizeWithPrimary(0.2f)
 
 inline val Blue: Color
     @Composable get() = Color(0xFF0088CC).harmonizeWithPrimary(0.2f)
