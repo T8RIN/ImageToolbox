@@ -53,6 +53,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -83,18 +84,22 @@ fun ToastHost(
         }
     }
 
-    AnimatedContent(
-        modifier = Modifier.zIndex(100f),
-        targetState = currentToastData,
-        transitionSpec = transitionSpec
+
+    FullscreenPopup(
+        placeAboveAll = true
     ) {
-        Box(modifier = modifier) {
-            Box(modifier = Modifier.align(alignment)) {
-                it?.let { toast(it) }
+        AnimatedContent(
+            modifier = Modifier.zIndex(100f),
+            targetState = currentToastData,
+            transitionSpec = transitionSpec
+        ) {
+            Box(modifier = modifier) {
+                Box(modifier = Modifier.align(alignment)) {
+                    it?.let { toast(it) }
+                }
             }
         }
     }
-
 }
 
 @Composable

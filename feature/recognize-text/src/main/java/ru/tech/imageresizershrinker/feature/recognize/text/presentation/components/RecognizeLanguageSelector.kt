@@ -62,11 +62,10 @@ import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionTyp
 @Composable
 fun RecognizeLanguageSelector(
     currentRecognitionType: RecognitionType,
-    onRecognitionTypeChange: (RecognitionType) -> Unit,
     value: OCRLanguage,
     availableLanguages: List<OCRLanguage>,
     isLanguagesLoading: Boolean,
-    onValueChange: (OCRLanguage) -> Unit
+    onValueChange: (OCRLanguage, RecognitionType) -> Unit
 ) {
     val haptics = LocalHapticFeedback.current
     val settingsState = LocalSettingsState.current
@@ -173,7 +172,7 @@ fun RecognizeLanguageSelector(
                                     haptics.performHapticFeedback(
                                         HapticFeedbackType.LongPress
                                     )
-                                    onValueChange(lang)
+                                    onValueChange(lang, currentRecognitionType)
                                 }
                                 .padding(16.dp)
                         ) {
@@ -190,7 +189,10 @@ fun RecognizeLanguageSelector(
                                         modifier = Modifier
                                             .clip(CircleShape)
                                             .clickable {
-                                                onRecognitionTypeChange(it)
+                                                haptics.performHapticFeedback(
+                                                    HapticFeedbackType.LongPress
+                                                )
+                                                onValueChange(lang, it)
                                             }
                                     ) {
                                         Text(
@@ -253,7 +255,7 @@ fun RecognizeLanguageSelector(
                                     haptics.performHapticFeedback(
                                         HapticFeedbackType.LongPress
                                     )
-                                    onValueChange(lang)
+                                    onValueChange(lang, currentRecognitionType)
                                 }
                                 .padding(16.dp)
                         ) {

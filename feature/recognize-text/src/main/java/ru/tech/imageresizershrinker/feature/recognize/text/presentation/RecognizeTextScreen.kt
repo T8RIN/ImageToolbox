@@ -295,12 +295,9 @@ fun RecognizeTextScreen(
             value = viewModel.selectedLanguage,
             availableLanguages = viewModel.languages,
             isLanguagesLoading = viewModel.isLanguagesLoading,
-            onValueChange = {
-                viewModel.onLanguageSelected(it)
-                startRecognition()
-            },
-            onRecognitionTypeChange = {
-                viewModel.setRecognitionType(it)
+            onValueChange = { code, type ->
+                viewModel.onLanguageSelected(code)
+                viewModel.setRecognitionType(type)
                 startRecognition()
             }
         )

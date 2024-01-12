@@ -50,6 +50,7 @@ import java.util.UUID
 @Composable
 fun FullscreenPopup(
     onDismiss: (() -> Unit)? = null,
+    placeAboveAll: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val view = LocalView.current
@@ -60,7 +61,8 @@ fun FullscreenPopup(
         PopupLayout(
             onDismiss = onDismiss,
             composeView = view,
-            popupId = popupId
+            popupId = popupId,
+            placeAboveAll = placeAboveAll
         ).apply {
             setContent(parentComposition) {
                 Box(Modifier.semantics { this.popup() }) {
@@ -73,7 +75,8 @@ fun FullscreenPopup(
     DisposableEffect(popupLayout) {
         popupLayout.show()
         popupLayout.updateParameters(
-            onDismiss = onDismiss
+            onDismiss = onDismiss,
+            placeAboveAll = placeAboveAll
         )
         onDispose {
             popupLayout.disposeComposition()
@@ -84,7 +87,8 @@ fun FullscreenPopup(
 
     SideEffect {
         popupLayout.updateParameters(
-            onDismiss = onDismiss
+            onDismiss = onDismiss,
+            placeAboveAll = placeAboveAll
         )
     }
 }
@@ -96,9 +100,11 @@ fun FullscreenPopup(
 private class PopupLayout(
     private var onDismiss: (() -> Unit)?,
     composeView: View,
-    popupId: UUID
-) : AbstractComposeView(composeView.context),
-    ViewRootForInspector {
+    popupId: UUID,
+    private var placeAboveAll: Boolean
+) : AbstractComposeView(composeView.context), ViewRootForInspector {
+
+    private val ABOVE_ALL_Z = Float.MAX_VALUE
 
     private val decorView = findOwner<Activity>(composeView.context)?.window?.decorView as ViewGroup
 
@@ -122,12 +128,25 @@ private class PopupLayout(
 
     fun show() {
         // Place popup above all current views
-        z = decorView.children.maxOf { it.z } + 1
+        var placeAboveAllView: View? = null
+        val topView = decorView.children.maxBy {
+            if (it.z == ABOVE_ALL_Z) {
+                placeAboveAllView = it
+                -ABOVE_ALL_Z
+            } else it.z
+        }
+
+        z = if (placeAboveAll) ABOVE_ALL_Z
+        else topView.z + 1
+
         decorView.addView(
             this,
             0,
             MarginLayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         )
+
+        placeAboveAllView?.bringToFront()
+        (decorView as View).invalidate()
 
         requestFocus()
     }
@@ -165,9 +184,11 @@ private class PopupLayout(
     }
 
     fun updateParameters(
-        onDismiss: (() -> Unit)?
+        onDismiss: (() -> Unit)?,
+        placeAboveAll: Boolean
     ) {
         this.onDismiss = onDismiss
+        this.placeAboveAll = placeAboveAll
     }
 
     fun dismiss() {
