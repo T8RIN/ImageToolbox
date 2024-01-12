@@ -26,8 +26,8 @@ import androidx.exifinterface.media.ExifInterface
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.size.Size
-import com.t8rin.bitmapscaler.BitmapScaler
-import com.t8rin.bitmapscaler.ScaleMode
+import com.awxkee.jxlcoder.scale.BitmapScaleMode
+import com.awxkee.jxlcoder.scale.BitmapScaler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -1518,7 +1518,7 @@ class AndroidImageManager @Inject constructor(
                 bitmap = this,
                 dstWidth = width,
                 dstHeight = height,
-                scaleMode = ScaleMode.entries.first { e -> e.ordinal == it.value }
+                scaleMode = BitmapScaleMode.entries.first { e -> e.ordinal == it.value }
             )
         } ?: BitmapCompat.createScaledBitmap(
             this,

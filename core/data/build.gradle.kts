@@ -38,21 +38,20 @@ android {
 dependencies {
     implementation(libs.hilt)
     kapt(libs.dagger.hilt.compiler)
-    implementation(libs.coil)
-    implementation(libs.coilCompose)
-    implementation(libs.coilGif)
-    implementation(libs.coilSvg)
-    implementation(libs.avif.coder)
+    api(libs.coil)
+    api(libs.coilCompose)
+    api(libs.coilGif)
+    api(libs.coilSvg)
+    api(libs.avif.coder)
     api(libs.datastore.preferences.android)
 
     "marketImplementation"(libs.mlkit.segmentation.selfie)
 
-    implementation(libs.jxl.coder.coil)
+    api(libs.jxl.coder.coil)
+    api(libs.jxl.coder)
 
     api(libs.androidx.exifinterface)
     api(libs.androidx.documentfile)
-
-    implementation(libs.t8rin.bitmapscaler)
 
     api(libs.tesseract)
 

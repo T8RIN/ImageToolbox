@@ -16,7 +16,8 @@ androidx-datastorePreferencesAndroid = "1.1.0-beta01"
 appUpdateKtx = "2.1.0"
 appUpdate = "2.1.0"
 avifCoder = "1.5.10"
-jxlCoder = "1.7.3"
+jxlCoderCoil = "1.7.4"
+jxlCoder = "1.7.5"
 shadowGadgets = "2.1.0"
 fadingEdges = "1.0.3"
 firebaseCrashlyticsKtx = "18.6.0"
@@ -60,10 +61,6 @@ documentfile = "1.0.1"
 uiautomator = "2.2.0"
 androidxMacroBenchmark = "1.2.2"
 
-bitmapscaler = "1.1.2"
-junit = "4.13.2"
-material = "1.11.0"
-
 [libraries]
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "exifinterface" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
@@ -94,7 +91,8 @@ coilSvg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebaseAnalyticsKtx" }
 hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltCompiler" }
-jxl-coder-coil = { module = "com.github.awxkee:jxl-coder-coil", version.ref = "jxlCoder" }
+jxl-coder-coil = { module = "com.github.awxkee:jxl-coder-coil", version.ref = "jxlCoderCoil" }
+jxl-coder = { module = "com.github.awxkee:jxl-coder", version.ref = "jxlCoder" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 coroutinesAndroid = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 coroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
@@ -137,7 +135,6 @@ androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version
 androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "documentfile" }
 uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "androidxMacroBenchmark" }
-t8rin-bitmapscaler = { group = "com.github.t8rin", name = "bitmapscaler", version.ref = "bitmapscaler" }
 tesseract = { module = "cz.adaptech.tesseract4android:tesseract4android-openmp", version.ref = "tesseract" }
 
 firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
