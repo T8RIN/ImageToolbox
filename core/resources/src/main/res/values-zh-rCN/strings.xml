@@ -28,7 +28,7 @@
     <string name="clear_exif">清空 EXIF 信息</string>
     <string name="values_reset">更改已重置</string>
     <string name="cancel">取消</string>
-    <string name="clear_exif_sub">所有的图片 EXIF 信息都将被擦除，此操作可撤销！</string>
+    <string name="clear_exif_sub">图片的全部 EXIF 信息都将被擦除，此操作无法撤销！</string>
     <string name="presets">预设</string>
     <string name="crop">裁剪</string>
     <string name="image_not_saved">保存</string>
@@ -61,7 +61,7 @@
     <string name="custom">自定义</string>
     <string name="unspecified">未指定</string>
     <string name="device_storage">设备存储</string>
-    <string name="by_bytes_resize">按大小缩放</string>
+    <string name="by_bytes_resize">按占用大小缩放</string>
     <string name="max_bytes">最大大小（KB）</string>
     <string name="by_bytes_resize_sub">按指定大小（KB）缩放图片</string>
     <string name="compare">对比</string>
@@ -345,7 +345,7 @@
     <string name="something_went_wrong_emphasis">哎呀，软件出错了。您可以使用下面的选项给我写信，我会试着找到解决它</string>
     <string name="resize_and_convert">调整大小和转换</string>
     <string name="resize_and_convert_sub">更改给定图像的大小或将其转换为其他格式。如果选择单个图像，还可以编辑 EXIF 元数据</string>
-    <string name="alphabet_and_numbers">你好，世界！Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !\?</string>
+    <string name="alphabet_and_numbers">你好，世界！字体示例Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="updates">更新</string>
     <string name="max_colors_count">最大颜色数</string>
     <string name="wait">等待</string>
@@ -387,7 +387,7 @@
     <string name="output_image_scale">输出图像缩放</string>
     <string name="lock_draw_orientation_sub">如果在绘图模式下启用，屏幕将不会旋转</string>
     <string name="scale_small_images_to_large">放大小的图片</string>
-    <string name="tolerance">宽容</string>
+    <string name="tolerance">容错度</string>
     <string name="both">两个都</string>
     <string name="invert_colors_sub">如果启用，将主题颜色替换为负值</string>
     <string name="fidelity">富达</string>
@@ -514,7 +514,7 @@
     <string name="bilinear">双线性</string>
     <string name="hermite">Hermite</string>
     <string name="lanczos">Lanczos</string>
-    <string name="nearest">最近的</string>
+    <string name="nearest">近似像素式</string>
     <string name="spline">花键式</string>
     <string name="basic">基本式</string>
     <string name="default_value">默认值</string>
@@ -534,4 +534,21 @@
     <string name="spline_sub">利用分段定义的多项式函数平滑插值和近似曲线或曲面，灵活、连续地表示形状</string>
     <string name="only_clip">仅剪切</string>
     <string name="only_clip_sub">不会将图像保存到本地存储，只会尝试将图像放入剪贴板中</string>
+    <string name="recognize_text">OCR （文本识别）</string>
+    <string name="accuracy">精确度： %1$d</string>
+    <string name="recognition_type">识别类型</string>
+    <string name="fast">快速</string>
+    <string name="best">最优</string>
+    <string name="no_data">无数据</string>
+    <string name="download">下载</string>
+    <string name="downloaded_languages">已下载的语言</string>
+    <string name="segmentation_mode">分割模式</string>
+    <string name="restore_background_sub">刷子将会还原背景，而不是擦除</string>
+    <string name="recognize_text_sub">从给定图像识别文字，支持 120 多种语言</string>
+    <string name="picture_has_no_text">图片中不含文字，或者应用程序没有找到</string>
+    <string name="standard">标准</string>
+    <string name="download_description">为使 Tesseract OCR 正常运行，将需要下载额外的训练数据 (%1$s) 到您的设备。
+\n您要下载 %2$s 数据吗？</string>
+    <string name="no_connection">无网络连接，请检查并重试，以便下载训练模型</string>
+    <string name="available_languages">可用语言</string>
 </resources>
