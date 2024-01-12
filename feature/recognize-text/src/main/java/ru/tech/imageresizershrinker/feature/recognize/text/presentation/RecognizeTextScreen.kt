@@ -40,6 +40,7 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet0Bar
+import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.CopyAll
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.AlertDialog
@@ -225,12 +226,21 @@ fun RecognizeTextScreen(
                 label = context.getString(R.string.recognize_text),
                 value = it
             )
+            scope.launch {
+                toastHostState.showToast(
+                    icon = Icons.Rounded.ContentCopy,
+                    message = context.getString(R.string.copied),
+                )
+            }
         }
     }
 
     val shareText: () -> Unit = {
         viewModel.recognitionData?.text?.let {
             context.shareText(it)
+            scope.launch {
+                confettiController.showEmpty()
+            }
         }
     }
 

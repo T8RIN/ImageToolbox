@@ -56,6 +56,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.MaskFilte
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.PdfToImagesPreference
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.PickColorPreference
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.PreviewPdfPreference
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.RecognizeTextPreference
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.ResizeAndConvertPreference
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.SingleEditPreference
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -265,6 +266,17 @@ fun ProcessImagesPreferenceSheet(
                             DrawPreference(
                                 modifier = Modifier.fillMaxWidth(),
                                 onClick = { navigate(Screen.Draw(uris.firstOrNull())) },
+                                color = color
+                            )
+                        }
+                        item {
+                            RecognizeTextPreference(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = {
+                                    navigate(
+                                        Screen.RecognizeText(uris.firstOrNull())
+                                    )
+                                },
                                 color = color
                             )
                         }
