@@ -563,7 +563,10 @@
     <string name="standard">Standard</string>
     <string name="best">Best</string>
     <string name="no_data">No Data</string>
-    <string name="download_description">For proper functioning of Tesseract OCR additional training data (%1$s) needs to be downloaded to your device.\nDo you want to download selected language(%2$s) data?</string>
+    <string name="download_description">For proper functioning of Tesseract OCR additional training data (%1$s) needs to be downloaded to your device.\nDo you want to download %2$s data?</string>
     <string name="download">Download</string>
     <string name="no_connection">No connection, check it and try again in order to download train models</string>
+    <string name="downloaded_languages">Downloaded Languages</string>
+    <string name="available_languages">Available Languages</string>
+    <string name="segmentation_mode">Segmentation Mode</string>
 </resources>

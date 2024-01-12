@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.DownloadData
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.ImageTextReader
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.OCRLanguage
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionData
@@ -28,6 +29,9 @@ import javax.inject.Inject
 class RecognizeTextViewModel @Inject constructor(
     private val imageTextReader: ImageTextReader<Bitmap>
 ) : ViewModel() {
+
+    private val _segmentationMode: MutableState<SegmentationMode> = mutableStateOf(SegmentationMode.PSM_AUTO_OSD)
+    val segmentationMode by _segmentationMode
 
     private val _selectedLanguage = mutableStateOf(OCRLanguage.Default)
     val selectedLanguage by _selectedLanguage
@@ -65,6 +69,10 @@ class RecognizeTextViewModel @Inject constructor(
                 _selectedLanguage.update {
                     data.first { it.code == "eng" }
                 }
+            } else {
+                _selectedLanguage.update {
+                    data.first { it.code == selectedLanguage.code }
+                }
             }
             _languages.update { data }
             _isLanguagesLoading.update { false }
@@ -83,19 +91,18 @@ class RecognizeTextViewModel @Inject constructor(
 
     fun startRecognition(
         onError: (Throwable) -> Unit,
-        onRequestDownload: (RecognitionType, String) -> Unit
+        onRequestDownload: (DownloadData) -> Unit
     ) {
         _textLoadingProgress.update { -1 }
         job?.cancel()
         job = viewModelScope.launch {
-            //TODO: NOT WORKING
             if (uri == null) return@launch
             delay(400L)
             _textLoadingProgress.update { 0 }
             imageTextReader.getTextFromImage(
                 type = recognitionType,
-                language = selectedLanguage.code,
-                segmentationMode = SegmentationMode.PSM_AUTO_OSD, //TODO
+                languageCode = selectedLanguage.code,
+                segmentationMode = segmentationMode,
                 imageUri = uri.toString(),
                 onProgress = { progress ->
                     _textLoadingProgress.update { progress }
@@ -107,7 +114,7 @@ class RecognizeTextViewModel @Inject constructor(
                     }
 
                     is TextRecognitionResult.NoData -> {
-                        onRequestDownload(result.type, result.language)
+                        onRequestDownload(result.data)
                     }
 
                     is TextRecognitionResult.Success -> {
@@ -127,15 +134,18 @@ class RecognizeTextViewModel @Inject constructor(
     private val downloadMutex = Mutex()
     fun downloadTrainData(
         type: RecognitionType,
-        language: String,
+        languageCode: String,
         onProgress: (Float, Long) -> Unit,
         onComplete: () -> Unit
     ) {
         viewModelScope.launch {
             downloadMutex.withLock {
                 imageTextReader.downloadTrainingData(
-                    type, language, onProgress
+                    type = type,
+                    languageCode = languageCode,
+                    onProgress = onProgress
                 )
+                loadLanguages()
                 onComplete()
             }
         }
@@ -146,6 +156,10 @@ class RecognizeTextViewModel @Inject constructor(
         _recognitionData.update { null }
         job?.cancel()
         _textLoadingProgress.update { -1 }
+    }
+
+    fun setSegmentationMode(segmentationMode: SegmentationMode) {
+        _segmentationMode.update { segmentationMode }
     }
 
 }

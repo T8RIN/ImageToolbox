@@ -37,7 +37,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.outlined.ModelTraining
+import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet0Bar
 import androidx.compose.material.icons.rounded.CopyAll
@@ -124,7 +124,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.notNullAnd
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.LanguageSelector
+import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.ModelTypeSelector
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.UiDownloadData
+import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.toUi
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.viewModel.RecognizeTextViewModel
 
 
@@ -159,8 +161,8 @@ fun RecognizeTextScreen(
                     toastHostState.showError(context, it)
                 }
             },
-            onRequestDownload = { type, lang ->
-                showDownloadDialogData = UiDownloadData(type, lang)
+            onRequestDownload = { data ->
+                showDownloadDialogData = data.toUi()
             }
         )
     }
@@ -277,6 +279,7 @@ fun RecognizeTextScreen(
         val text = viewModel.recognitionData?.text ?: stringResource(R.string.picture_has_no_text)
 
         LanguageSelector(
+            currentRecognitionType = viewModel.recognitionType,
             value = viewModel.selectedLanguage,
             availableLanguages = viewModel.languages,
             isLanguagesLoading = viewModel.isLanguagesLoading,
@@ -285,30 +288,6 @@ fun RecognizeTextScreen(
                 startRecognition()
             }
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        Box(
-            modifier = Modifier
-                .container(shape = RoundedCornerShape(24.dp))
-                .animateContentSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            ToggleGroupButton(
-                modifier = Modifier.padding(8.dp),
-                enabled = true,
-                items = RecognitionType.entries.map { it.translatedName },
-                selectedIndex = RecognitionType.entries.indexOf(viewModel.recognitionType),
-                title = stringResource(id = R.string.recognition_type),
-                indexChanged = {
-                    val recognitionType = when (it) {
-                        0 -> RecognitionType.Fast
-                        2 -> RecognitionType.Best
-                        else -> RecognitionType.Standard
-                    }
-                    viewModel.setRecognitionType(recognitionType)
-                    startRecognition()
-                }
-            )
-        }
         Spacer(modifier = Modifier.height(8.dp))
         AnimatedContent(targetState = viewModel.isTextLoading to text) { (loading, dataText) ->
             Box(
@@ -371,6 +350,38 @@ fun RecognizeTextScreen(
                 }
             }
         }
+        Spacer(modifier = Modifier.height(8.dp))
+        Box(
+            modifier = Modifier
+                .container(shape = RoundedCornerShape(24.dp))
+                .animateContentSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            ToggleGroupButton(
+                modifier = Modifier.padding(8.dp),
+                enabled = true,
+                items = RecognitionType.entries.map { it.translatedName },
+                selectedIndex = RecognitionType.entries.indexOf(viewModel.recognitionType),
+                title = stringResource(id = R.string.recognition_type),
+                indexChanged = {
+                    val recognitionType = when (it) {
+                        0 -> RecognitionType.Fast
+                        2 -> RecognitionType.Best
+                        else -> RecognitionType.Standard
+                    }
+                    viewModel.setRecognitionType(recognitionType)
+                    startRecognition()
+                }
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        ModelTypeSelector(
+            value = viewModel.segmentationMode,
+            onValueChange = {
+                viewModel.setSegmentationMode(it)
+                startRecognition()
+            }
+        )
     }
 
     val showZoomSheet = rememberSaveable { mutableStateOf(false) }
@@ -541,14 +552,14 @@ fun RecognizeTextScreen(
         if (!downloadStarted) {
             AlertDialog(
                 modifier = Modifier.alertDialogBorder(),
-                icon = { Icon(Icons.Outlined.ModelTraining, null) },
+                icon = { Icon(Icons.Outlined.Download, null) },
                 title = { Text(stringResource(id = R.string.no_data)) },
                 text = {
                     Text(
                         stringResource(
                             id = R.string.download_description,
                             showDownloadDialogData?.type?.displayName ?: "",
-                            showDownloadDialogData?.language ?: ""
+                            showDownloadDialogData?.name ?: ""
                         )
                     )
                 },
@@ -560,7 +571,7 @@ fun RecognizeTextScreen(
                                 showDownloadDialogData?.let {
                                     viewModel.downloadTrainData(
                                         type = it.type,
-                                        language = it.language,
+                                        languageCode = it.languageCode,
                                         onProgress = { p, size ->
                                             dataRemaining = readableByteCount(size)
                                             progress = p
@@ -642,6 +653,7 @@ private fun Context.isNetworkAvailable(): Boolean {
             else -> false
         }
     } else {
+        @Suppress("DEPRECATION")
         return connectivityManager.activeNetworkInfo?.isConnected ?: false
     }
 }

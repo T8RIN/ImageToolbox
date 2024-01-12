@@ -2,14 +2,18 @@ package ru.tech.imageresizershrinker.feature.recognize.text.data
 
 import android.content.Context
 import android.graphics.Bitmap
+import androidx.core.os.LocaleListCompat
 import androidx.core.text.HtmlCompat
 import com.googlecode.tesseract.android.TessBaseAPI
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.DownloadData
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.ImageTextReader
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.OCRLanguage
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionData
@@ -24,6 +28,7 @@ import java.io.OutputStream
 import java.lang.String.format
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.Locale
 import javax.inject.Inject
 
 internal class AndroidImageTextReader @Inject constructor(
@@ -39,13 +44,13 @@ internal class AndroidImageTextReader @Inject constructor(
 
     override suspend fun getTextFromImage(
         type: RecognitionType,
-        language: String,
+        languageCode: String,
         segmentationMode: SegmentationMode,
         imageUri: String,
         onProgress: (Int) -> Unit
     ): TextRecognitionResult = getTextFromImage(
         type = type,
-        language = language,
+        languageCode = languageCode,
         segmentationMode = segmentationMode,
         image = imageManager.getImage(imageUri)?.image,
         onProgress = onProgress
@@ -53,22 +58,28 @@ internal class AndroidImageTextReader @Inject constructor(
 
     override suspend fun getTextFromImage(
         type: RecognitionType,
-        language: String,
+        languageCode: String,
         segmentationMode: SegmentationMode,
         image: Bitmap?,
         onProgress: (Int) -> Unit
     ): TextRecognitionResult = withContext(Dispatchers.IO) {
 
-        if (!isLanguageDataExists(type, language)) {
-            return@withContext TextRecognitionResult.NoData(type, language)
+        if (!isLanguageDataExists(type, languageCode)) {
+            return@withContext TextRecognitionResult.NoData(
+                DownloadData(
+                    type = type,
+                    languageCode = languageCode,
+                    name = getDisplayName(languageCode)
+                )
+            )
         }
 
         val path = getPathFromMode(type)
 
         val api = TessBaseAPI {
-            onProgress(it.percent)
+            if (isActive) onProgress(it.percent)
         }.apply {
-            init(path, language)
+            init(path, languageCode)
             pageSegMode = segmentationMode.ordinal
             setImage(image)
         }
@@ -87,7 +98,7 @@ internal class AndroidImageTextReader @Inject constructor(
             } else {
                 File(
                     path,
-                    format(Constants.LANGUAGE_CODE, language)
+                    format(Constants.LANGUAGE_CODE, languageCode)
                 ).delete()
 
                 TextRecognitionResult.Error(it.exceptionOrNull()!!)
@@ -95,35 +106,40 @@ internal class AndroidImageTextReader @Inject constructor(
         }
     }
 
-    override fun isLanguageDataExists(type: RecognitionType, language: String): Boolean {
+    override fun isLanguageDataExists(type: RecognitionType, languageCode: String): Boolean {
         return File(
             "${getPathFromMode(type)}/tessdata",
-            format(Constants.LANGUAGE_CODE, language)
+            format(Constants.LANGUAGE_CODE, languageCode)
         ).exists()
     }
 
     override suspend fun getLanguages(
         type: RecognitionType
     ): List<OCRLanguage> = withContext(Dispatchers.IO) {
-        val names = context.resources.getStringArray(R.array.ocr_engine_language)
+
         val codes = context.resources.getStringArray(R.array.key_ocr_engine_language_value)
 
-        return@withContext names.mapIndexed { index, name ->
+        return@withContext codes.mapNotNull { code ->
+            val name = getDisplayName(code)
+            if (name.isEmpty()) return@mapNotNull null
+
             OCRLanguage(
                 name = name,
-                code = codes[index],
-                downloaded = isLanguageDataExists(type, codes[index])
+                code = code,
+                downloaded = RecognitionType.entries.filter {
+                    isLanguageDataExists(it, code)
+                }
             )
         }.toList()
     }
 
     override suspend fun downloadTrainingData(
         type: RecognitionType,
-        language: String,
+        languageCode: String,
         onProgress: (Float, Long) -> Unit
     ): Boolean {
-        return if (!isLanguageDataExists(type, language)) {
-            downloadTrainingDataImpl(type, language, onProgress)
+        return if (!isLanguageDataExists(type, languageCode)) {
+            downloadTrainingDataImpl(type, languageCode, onProgress)
         } else false
     }
 
@@ -194,4 +210,15 @@ internal class AndroidImageTextReader @Inject constructor(
         type: RecognitionType
     ): String = File(context.filesDir, type.displayName).absolutePath
 
+    private fun getDisplayName(lang: String?): String {
+        if (lang == null) {
+            return ""
+        }
+
+        val locale = when (lang) {
+            "" -> LocaleListCompat.getAdjustedDefault()[0]
+            else -> Locale.forLanguageTag(lang)
+        }
+        return locale!!.getDisplayName(locale).replaceFirstChar { it.uppercase(locale) }
+    }
 }

@@ -246,7 +246,7 @@ sealed class Screen(
         id = 17,
         icon = Icons.AutoMirrored.Outlined.WrapText,
         title = R.string.recognize_text,
-        subtitle = R.string.limits_resize_sub
+        subtitle = R.string.recognize_text_sub
     )
 
     companion object {

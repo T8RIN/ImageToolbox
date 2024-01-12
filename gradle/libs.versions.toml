@@ -2,8 +2,8 @@
 androidMinSdk = "21"
 androidTargetSdk = "34"
 androidCompileSdk = "34"
-versionName = "2.5.2"
-versionCode = "106"
+versionName = "2.6.0-alpha01"
+versionCode = "107"
 jvmTarget = "17"
 
 tesseract = "4.3.0"

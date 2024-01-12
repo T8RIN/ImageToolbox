@@ -4,7 +4,7 @@ interface ImageTextReader<Image> {
 
     suspend fun getTextFromImage(
         type: RecognitionType,
-        language: String,
+        languageCode: String,
         segmentationMode: SegmentationMode,
         imageUri: String,
         onProgress: (Int) -> Unit
@@ -12,7 +12,7 @@ interface ImageTextReader<Image> {
 
     suspend fun getTextFromImage(
         type: RecognitionType,
-        language: String,
+        languageCode: String,
         segmentationMode: SegmentationMode,
         image: Image?,
         onProgress: (Int) -> Unit
@@ -20,13 +20,13 @@ interface ImageTextReader<Image> {
 
     suspend fun downloadTrainingData(
         type: RecognitionType,
-        language: String,
+        languageCode: String,
         onProgress: (Float, Long) -> Unit
     ): Boolean
 
     fun isLanguageDataExists(
         type: RecognitionType,
-        language: String
+        languageCode: String
     ): Boolean
 
     suspend fun getLanguages(

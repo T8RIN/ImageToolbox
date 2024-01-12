@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -50,6 +51,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toMap
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
@@ -127,20 +129,29 @@ fun EditExifSheet(
         },
         visible = visible,
         sheetContent = {
+            val data by remember(exifMap) {
+                derivedStateOf {
+                    exifMap!!.toList()
+                }
+            }
             if (exifMap?.isEmpty() == false) {
                 Box {
                     LazyColumn(
                         contentPadding = PaddingValues(8.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        items(exifMap!!.toList()) { (tag, value) ->
+                        itemsIndexed(data) {index, (tag, value) ->
                             Column(
                                 Modifier
                                     .fillMaxWidth()
                                     .container(
                                         color = MaterialTheme.colorScheme.secondaryContainer.copy(
                                             alpha = 0.1f
-                                        )
+                                        ),
+                                        shape = ContainerShapeDefaults.shapeForIndex(
+                                            index = index,
+                                            size = data.size
+                                        ),
                                     )
                             ) {
                                 Row {
@@ -262,16 +273,16 @@ fun EditExifSheet(
                     Column {
                         LazyColumn(
                             contentPadding = PaddingValues(bottom = 8.dp),
-                            modifier = Modifier.weight(1f, false)
+                            modifier = Modifier.weight(1f, false),
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
                             item {
-                                Spacer(Modifier.height(8.dp))
+                                Spacer(Modifier.height(4.dp))
                             }
-                            items(list) { tag ->
+                            itemsIndexed(list) { index,  tag ->
                                 PreferenceItemOverload(
                                     title = tag,
-                                    modifier = Modifier
-                                        .padding(vertical = 4.dp, horizontal = 8.dp),
+                                    modifier = Modifier.padding(horizontal = 8.dp),
                                     endIcon = {
                                         Icon(
                                             imageVector = Icons.Rounded.AddCircleOutline,
@@ -280,6 +291,10 @@ fun EditExifSheet(
                                     },
                                     color = MaterialTheme.colorScheme.secondaryContainer.copy(
                                         0.1f
+                                    ),
+                                    shape = ContainerShapeDefaults.shapeForIndex(
+                                        index = index,
+                                        size = list.size
                                     ),
                                     onClick = {
                                         onRemoveTag(tag)
