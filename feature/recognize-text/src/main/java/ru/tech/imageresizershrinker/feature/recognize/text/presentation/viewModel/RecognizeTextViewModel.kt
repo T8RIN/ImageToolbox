@@ -30,7 +30,8 @@ class RecognizeTextViewModel @Inject constructor(
     private val imageTextReader: ImageTextReader<Bitmap>
 ) : ViewModel() {
 
-    private val _segmentationMode: MutableState<SegmentationMode> = mutableStateOf(SegmentationMode.PSM_AUTO_OSD)
+    private val _segmentationMode: MutableState<SegmentationMode> =
+        mutableStateOf(SegmentationMode.PSM_AUTO_OSD)
     val segmentationMode by _segmentationMode
 
     private val _selectedLanguage = mutableStateOf(OCRLanguage.Default)

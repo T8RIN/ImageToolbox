@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import androidx.core.os.LocaleListCompat
 import androidx.core.text.HtmlCompat
 import com.googlecode.tesseract.android.TessBaseAPI
-import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
