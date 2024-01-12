@@ -9,10 +9,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.graphics.Bitmap
-import android.graphics.PixelFormat
-import android.hardware.display.DisplayManager
-import android.media.Image
-import android.media.ImageReader
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
 import android.net.Uri
@@ -23,18 +19,16 @@ import android.os.IBinder
 import android.os.Looper
 import android.os.Parcelable
 import android.widget.Toast
-import androidx.core.net.toUri
-import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
-import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
-import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.presentation.MainActivity
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -42,9 +36,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ScreenshotService : Service() {
-
-    @Inject
-    lateinit var imageManager: ImageManager<Bitmap, ExifInterface>
 
     @Inject
     lateinit var fileController: FileController
@@ -85,122 +76,88 @@ class ScreenshotService : Service() {
             }
             val callback = object : MediaProjection.Callback() {}
 
-            val mediaProjection = mediaProjectionManager.getMediaProjection(resultCode, data!!)
-            mediaProjection.registerCallback(callback, null)
-            startCapture(
-                mediaProjection = mediaProjection,
-                intent = intent
-            )
+            mediaProjectionManager.getMediaProjection(resultCode, data!!).apply {
+                registerCallback(
+                    callback,
+                    Handler(
+                        Looper.getMainLooper()
+                    )
+                )
+                startCapture(
+                    mediaProjection = this,
+                    intent = intent
+                )
+            }
         }
 
         return START_REDELIVER_INTENT
     }
-
-    private var imageReader: ImageReader? = null
 
     private fun startCapture(mediaProjection: MediaProjection, intent: Intent?) {
         Handler(
             Looper.getMainLooper()
         ).postDelayed(
             {
-                val displayMetrics = applicationContext.resources.displayMetrics
-                imageReader = ImageReader.newInstance(
-                    displayMetrics.widthPixels,
-                    displayMetrics.heightPixels,
-                    PixelFormat.RGBA_8888, 2
-                )
-                imageReader?.use {
-                    val virtualDisplay = mediaProjection.createVirtualDisplay(
-                        "screenshot",
-                        displayMetrics.widthPixels,
-                        displayMetrics.heightPixels,
-                        displayMetrics.densityDpi,
-                        DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
-                        it.surface,
-                        null, null
-                    )
-                    val image: Image? = it.acquireLatestImage()
+                ScreenshotMaker(
+                    mMediaProjection = mediaProjection,
+                    displayMetrics = resources.displayMetrics
+                ).takeScreenshot { bitmap ->
+                    val uri: Uri? = runBlocking {
+                        File(filesDir, "screenshots").let { dir ->
+                            dir.deleteRecursively()
+                            dir.mkdirs()
+                            val file = File(dir, "screenshot.png")
+                            file.createNewFile()
 
-                    image?.planes?.let { planes ->
-                        val buffer = planes[0].buffer
-                        val pixelStride = planes[0].pixelStride
-                        val rowStride = planes[0].rowStride
-                        val rowPadding = rowStride - pixelStride * displayMetrics.widthPixels
-
-                        val bitmap = Bitmap.createBitmap(
-                            displayMetrics.widthPixels + rowPadding / pixelStride,
-                            displayMetrics.heightPixels, Bitmap.Config.ARGB_8888
-                        )
-                        bitmap.copyPixelsFromBuffer(buffer)
-                        image.close()
-                        virtualDisplay?.release()
-                        mediaProjection.stop()
-
-                        val uri: Uri? = runBlocking {
-                            imageManager.cacheImage(
-                                image = bitmap,
-                                imageInfo = ImageInfo(
-                                    width = bitmap.width,
-                                    height = bitmap.height,
-                                    imageFormat = ImageFormat.Jpg
-                                ),
-                                name = "screenshot"
-                            )?.toUri()
-                        }
-
-                        if (intent?.getStringExtra("screen") != "shot") {
-                            applicationContext.startActivity(
-                                Intent(applicationContext, MainActivity::class.java).apply {
-                                    putExtra("screen", intent?.getStringExtra("screen"))
-                                    type = "image/jpg"
-                                    putExtra(Intent.EXTRA_STREAM, uri)
-                                    action = Intent.ACTION_SEND
-                                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                }
-                            )
-                        } else {
-                            runBlocking {
-                                val timeStamp = SimpleDateFormat(
-                                    "yyyy-MM-dd_HH-mm-ss",
-                                    Locale.getDefault()
-                                ).format(Date())
-                                fileController.save(
-                                    FileSaveTarget(
-                                        filename = "screenshot-$timeStamp.jpg",
-                                        originalUri = "screenshot",
-                                        imageFormat = ImageFormat["jpg"],
-                                        data = imageManager.compress(
-                                            ImageData(
-                                                bitmap, ImageInfo(
-                                                    width = bitmap.width,
-                                                    height = bitmap.height,
-                                                    imageFormat = ImageFormat.Jpg
-                                                )
-                                            )
-                                        )
-                                    ),
-                                    true
-                                )
-                                Toast.makeText(
-                                    this@ScreenshotService,
-                                    this@ScreenshotService.getString(
-                                        R.string.saved_to_without_filename,
-                                        fileController.savingPath
-                                    ),
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                            FileOutputStream(file).use {
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
                             }
+                            Uri.fromFile(file)
+                        }
+                    }
+
+                    if (intent?.getStringExtra("screen") != "shot") {
+                        applicationContext.startActivity(
+                            Intent(applicationContext, MainActivity::class.java).apply {
+                                putExtra("screen", intent?.getStringExtra("screen"))
+                                type = "image/png"
+                                putExtra(Intent.EXTRA_STREAM, uri)
+                                action = Intent.ACTION_SEND
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            }
+                        )
+                    } else {
+                        runBlocking {
+                            val timeStamp = SimpleDateFormat(
+                                "yyyy-MM-dd_HH-mm-ss",
+                                Locale.getDefault()
+                            ).format(Date())
+                            val stream = ByteArrayOutputStream()
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                            bitmap.recycle()
+
+                            fileController.save(
+                                FileSaveTarget(
+                                    filename = "screenshot-$timeStamp.png",
+                                    originalUri = "screenshot",
+                                    imageFormat = ImageFormat.Png,
+                                    data = stream.toByteArray()
+                                ),
+                                true
+                            )
+                            Toast.makeText(
+                                this@ScreenshotService,
+                                this@ScreenshotService.getString(
+                                    R.string.saved_to_without_filename,
+                                    fileController.savingPath
+                                ),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 }
             }, 1000
         )
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        imageReader?.close()
-        imageReader = null
     }
 
     override fun onBind(intent: Intent): IBinder = Binder()

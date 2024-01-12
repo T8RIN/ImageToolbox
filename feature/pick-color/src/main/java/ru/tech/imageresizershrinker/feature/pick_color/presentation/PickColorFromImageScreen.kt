@@ -128,10 +128,6 @@ fun PickColorFromImageScreen(
             viewModel.setUri(it)
             viewModel.decodeBitmapByUri(
                 uri = it,
-                originalSize = false,
-                onGetMimeType = {},
-                onGetExif = {},
-                onGetBitmap = viewModel::updateBitmap,
                 onError = {
                     scope.launch {
                         toastHostState.showError(context, it)
@@ -163,10 +159,6 @@ fun PickColorFromImageScreen(
                 viewModel.setUri(it)
                 viewModel.decodeBitmapByUri(
                     uri = it,
-                    originalSize = false,
-                    onGetMimeType = {},
-                    onGetExif = {},
-                    onGetBitmap = viewModel::updateBitmap,
                     onError = {
                         scope.launch {
                             toastHostState.showError(context, it)

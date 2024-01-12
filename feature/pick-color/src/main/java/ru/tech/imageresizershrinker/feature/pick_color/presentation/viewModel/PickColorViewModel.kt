@@ -9,10 +9,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
-import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,10 +33,11 @@ class PickColorViewModel @Inject constructor(
     val uri by _uri
 
     fun setUri(uri: Uri) {
+        uri.makeLog()
         _uri.value = uri
     }
 
-    fun updateBitmap(bitmap: Bitmap?) {
+    private fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
             _isImageLoading.value = true
             _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
@@ -50,21 +51,12 @@ class PickColorViewModel @Inject constructor(
 
     fun decodeBitmapByUri(
         uri: Uri,
-        originalSize: Boolean = true,
-        onGetMimeType: (ImageFormat) -> Unit,
-        onGetExif: (ExifInterface?) -> Unit,
-        onGetBitmap: (Bitmap) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        imageManager.getImageAsync(
-            uri = uri.toString(),
-            originalSize = originalSize,
-            onGetImage = {
-                onGetBitmap(it.image)
-                onGetExif(it.metadata)
-                onGetMimeType(it.imageInfo.imageFormat)
-            },
-            onError = onError
-        )
+        viewModelScope.launch {
+            runCatching {
+                updateBitmap(imageManager.getImage(uri, false))
+            }.exceptionOrNull()?.let(onError)
+        }
     }
 }

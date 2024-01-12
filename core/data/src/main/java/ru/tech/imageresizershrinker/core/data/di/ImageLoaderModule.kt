@@ -7,6 +7,7 @@ import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import coil.imageLoader
+import coil.util.DebugLogger
 import com.awxkee.jxlcoder.coil.JxlDecoder
 import com.github.awxkee.avifcoil.HeifDecoder
 import dagger.Module
@@ -28,6 +29,6 @@ object ImageLoaderModule {
         add(SvgDecoder.Factory())
         if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory(context))
         add(JxlDecoder.Factory())
-    }.allowHardware(false).build()
+    }.allowHardware(false).logger(DebugLogger()).build()
 
 }

@@ -2,7 +2,6 @@ package ru.tech.imageresizershrinker.presentation.services
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.media.projection.MediaProjectionManager
 import android.os.Build
 import android.os.Bundle
@@ -10,17 +9,9 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.exifinterface.media.ExifInterface
-import dagger.hilt.android.AndroidEntryPoint
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.resources.R
-import javax.inject.Inject
 
-@AndroidEntryPoint
 class ScreenshotLauncher : AppCompatActivity() {
-
-    @Inject
-    lateinit var imageManager: ImageManager<Bitmap, ExifInterface>
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
