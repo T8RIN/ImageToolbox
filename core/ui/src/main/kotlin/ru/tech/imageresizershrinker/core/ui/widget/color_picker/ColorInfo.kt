@@ -96,7 +96,10 @@ fun ColorInfo(
                 )
                 .transparencyChecker()
                 .background(Color(color), MaterialTheme.shapes.medium),
-            colors = CardDefaults.cardColors(Color.Transparent)
+            colors = CardDefaults.cardColors(
+                containerColor = Color.Transparent,
+                contentColor = MaterialTheme.colorScheme.onSurface
+            )
         ) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -144,7 +147,10 @@ fun ColorInfo(
                 .container(
                     shape = MaterialTheme.shapes.medium,
                 ),
-            colors = CardDefaults.cardColors(Color.Transparent)
+            colors = CardDefaults.cardColors(
+                containerColor = Color.Transparent,
+                contentColor = MaterialTheme.colorScheme.onSurface
+            )
         ) {
             AnimatedContent(
                 colorPasteError.value != null

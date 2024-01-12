@@ -8,8 +8,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,26 +28,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.ContentCopy
-import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.RestartAlt
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -59,9 +46,9 @@ import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.domain.AUTHOR_TG
 import ru.tech.imageresizershrinker.core.domain.ISSUE_TRACKER
+import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.Github
 import ru.tech.imageresizershrinker.core.ui.icons.material.Robot
@@ -75,8 +62,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -153,7 +139,11 @@ class CrashActivity : CrashHandler() {
                                     modifier = Modifier.padding(16.dp)
                                 )
                                 Spacer(modifier = Modifier.height(24.dp))
-                                Row(Modifier.padding(horizontal = 16.dp)) {
+                                Row(
+                                    Modifier
+                                        .padding(horizontal = 16.dp)
+                                        .fillMaxWidth()
+                                ) {
                                     EnhancedButton(
                                         onClick = {
                                             startActivity(
@@ -165,7 +155,8 @@ class CrashActivity : CrashHandler() {
                                             newClip(title + "\n\n" + body)
                                         },
                                         modifier = Modifier
-                                            .weight(1f)
+                                            .padding(end = 8.dp)
+                                            .fillMaxWidth(0.5f)
                                             .height(50.dp),
                                         containerColor = Blue,
                                         contentColor = White,
@@ -188,7 +179,6 @@ class CrashActivity : CrashHandler() {
                                             )
                                         }
                                     }
-                                    Spacer(Modifier.width(8.dp))
                                     EnhancedButton(
                                         onClick = {
                                             startActivity(
@@ -222,31 +212,22 @@ class CrashActivity : CrashHandler() {
                                     }
                                 }
                                 Spacer(modifier = Modifier.height(16.dp))
-                                Card(
-                                    colors = CardDefaults.cardColors(Color.Transparent),
+                                ExpandableItem(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(horizontal = 16.dp)
                                         .navigationBarsPadding()
-                                        .container(RoundedCornerShape(24.dp), resultPadding = 0.dp)
-                                        .animateContentSize()
-                                ) {
-                                    var showError by rememberSaveable {
-                                        mutableStateOf(false)
-                                    }
-                                    val rotation by animateFloatAsState(if (showError) 180f else 0f)
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        modifier = Modifier
-                                            .clip(
-                                                RoundedCornerShape(24.dp)
-                                            )
-                                            .clickable { showError = !showError }
-                                    ) {
+                                        .animateContentSize(),
+                                    shape = RoundedCornerShape(24.dp),
+                                    visibleContent = {
                                         Icon(
                                             imageVector = Icons.Rounded.BugReport,
                                             contentDescription = null,
-                                            modifier = Modifier.padding(start = 16.dp)
+                                            modifier = Modifier.padding(
+                                                start = 16.dp,
+                                                top = 16.dp,
+                                                bottom = 16.dp
+                                            )
                                         )
                                         AutoSizeText(
                                             text = exName,
@@ -256,30 +237,19 @@ class CrashActivity : CrashHandler() {
                                                 .padding(16.dp)
                                                 .weight(1f)
                                         )
-                                        EnhancedIconButton(
-                                            containerColor = Color.Transparent,
-                                            contentColor = LocalContentColor.current,
-                                            enableAutoShadowAndBorder = false,
-                                            onClick = { showError = !showError },
-                                            modifier = Modifier.padding(8.dp)
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Rounded.KeyboardArrowDown,
-                                                contentDescription = null,
-                                                modifier = Modifier.rotate(rotation)
-                                            )
+                                    },
+                                    expandableContent = {
+                                        AnimatedVisibility(visible = it) {
+                                            SelectionContainer {
+                                                Text(
+                                                    text = ex,
+                                                    textAlign = TextAlign.Center,
+                                                    modifier = Modifier.padding(16.dp)
+                                                )
+                                            }
                                         }
                                     }
-                                    AnimatedVisibility(visible = showError) {
-                                        SelectionContainer {
-                                            Text(
-                                                text = ex,
-                                                textAlign = TextAlign.Center,
-                                                modifier = Modifier.padding(16.dp)
-                                            )
-                                        }
-                                    }
-                                }
+                                )
                                 Spacer(modifier = Modifier.height(80.dp))
                             }
                             Row(
