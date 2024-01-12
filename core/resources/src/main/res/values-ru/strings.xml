@@ -534,4 +534,21 @@
     <string name="spline_sub">Использует кусочно-заданные полиномиальные функции для плавной интерполяции и приближения кривой или поверхности, обеспечивая гибкое и непрерывное представление формы</string>
     <string name="only_clip_sub">Сохранение в хранилище не будет выполнено, и изображение при возможности будет перемещено в буфер обмена</string>
     <string name="only_clip">Только нажатие</string>
+    <string name="recognize_text">Распознавание текста</string>
+    <string name="accuracy">Точность: %1$d</string>
+    <string name="fast">Быстро</string>
+    <string name="no_data">Нет данных</string>
+    <string name="download">Загрузить</string>
+    <string name="no_connection">Нет соединения с интернетом, проверьте подключение и попробуйте снова чтобы загрузить модель</string>
+    <string name="downloaded_languages">Загруженные языки</string>
+    <string name="available_languages">Доступные языки</string>
+    <string name="recognize_text_sub">Распознайте текст с заданного изображения, поддерживается более 120 языков</string>
+    <string name="download_description">Для правильной работы Tesseract OCR на ваше устройство необходимо загрузить дополнительные обучающие данные (%1$s).
+\n Вы хотите загрузить данные %2$s?</string>
+    <string name="picture_has_no_text">На изображении нет текста, или приложение не смогло его определить</string>
+    <string name="restore_background_sub">Кисть будет восстанавливать стертое изображение вместо стирания</string>
+    <string name="recognition_type">Тип распознавания</string>
+    <string name="standard">Стандарт</string>
+    <string name="best">Лучший</string>
+    <string name="segmentation_mode">Режим сегментации</string>
 </resources>
