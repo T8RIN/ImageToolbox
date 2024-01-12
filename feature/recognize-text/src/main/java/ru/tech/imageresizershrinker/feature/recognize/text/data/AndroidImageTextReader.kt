@@ -35,6 +35,8 @@ internal class AndroidImageTextReader @Inject constructor(
     @ApplicationContext private val context: Context
 ) : ImageTextReader<Bitmap> {
 
+    //TODO: Add multiple languages support
+
     init {
         RecognitionType.entries.forEach {
             File(context.filesDir, "${it.displayName}/tessdata").mkdirs()
