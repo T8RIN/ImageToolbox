@@ -5,6 +5,7 @@ androidCompileSdk = "34"
 versionName = "2.6.0-alpha01"
 versionCode = "107"
 jvmTarget = "17"
+compose-compiler = "1.5.8"
 
 tesseract = "4.3.0"
 composeColorfulSliders = "1.2.2"
@@ -28,9 +29,8 @@ firebaseCrashlyticsGradle = "2.9.9"
 google-segmentationSelfie = "16.0.0-beta4"
 hiltCompiler = "1.1.0"
 
-compose-compiler = "1.5.8"
 kotlin = "1.9.22"
-agp = "8.2.0"
+agp = "8.2.1"
 hilt = "2.50"
 gms = "4.4.0"
 
@@ -50,7 +50,6 @@ reorderable = "0.9.6"
 reviewKtx = "2.0.1"
 splashScreen = "1.0.1"
 room = "2.6.1"
-hiltJetpack = "1.0.0"
 
 espresso = "3.5.1"
 kotlinxSerializationJson = "1.6.2"
@@ -97,7 +96,6 @@ firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx"
 hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltCompiler" }
 jxl-coder-coil = { module = "com.github.awxkee:jxl-coder-coil", version.ref = "jxlCoder" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
-kotlin = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 coroutinesAndroid = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 coroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 appCompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx" }
@@ -150,5 +148,3 @@ gms-gradle = { module = "com.google.gms:google-services", version.ref = "gms" }
 kotlinx-serialization-gradle = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 ksp-gradle = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 agp-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
