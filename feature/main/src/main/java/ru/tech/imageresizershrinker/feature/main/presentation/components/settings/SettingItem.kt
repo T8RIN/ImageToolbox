@@ -440,5 +440,9 @@ fun SettingItem(
         Setting.Magnifier -> {
             MagnifierSettingItem(onClick = { viewModel.toggleMagnifierEnabled() })
         }
+
+        Setting.ExifWidgetInitialState -> {
+            ExifWidgetInitialStateSettingItem(onClick = { viewModel.toggleExifWidgetInitialState() })
+        }
     }
 }

@@ -116,4 +116,6 @@ interface SettingsRepository {
     suspend fun toggleUsePixelSwitch()
 
     suspend fun toggleMagnifierEnabled()
+
+    suspend fun toggleExifWidgetInitialState()
 }

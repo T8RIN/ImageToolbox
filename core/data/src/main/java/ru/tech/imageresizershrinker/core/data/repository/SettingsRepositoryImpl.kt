@@ -35,6 +35,7 @@ import ru.tech.imageresizershrinker.core.data.keys.Keys.DRAW_SLIDER_SHADOWS
 import ru.tech.imageresizershrinker.core.data.keys.Keys.DRAW_SWITCH_SHADOWS
 import ru.tech.imageresizershrinker.core.data.keys.Keys.DYNAMIC_COLORS
 import ru.tech.imageresizershrinker.core.data.keys.Keys.EMOJI_COUNT
+import ru.tech.imageresizershrinker.core.data.keys.Keys.EXIF_WIDGET_INITIAL_STATE
 import ru.tech.imageresizershrinker.core.data.keys.Keys.FAB_ALIGNMENT
 import ru.tech.imageresizershrinker.core.data.keys.Keys.FILENAME_PREFIX
 import ru.tech.imageresizershrinker.core.data.keys.Keys.FILENAME_SUFFIX
@@ -147,7 +148,9 @@ class SettingsRepositoryImpl @Inject constructor(
                 ImageScaleMode.fromInt(it)
             } ?: default.defaultImageScaleMode,
             usePixelSwitch = prefs[USE_PIXEL_SWITCH] ?: default.usePixelSwitch,
-            magnifierEnabled = prefs[MAGNIFIER_ENABLED] ?: default.magnifierEnabled
+            magnifierEnabled = prefs[MAGNIFIER_ENABLED] ?: default.magnifierEnabled,
+            exifWidgetInitialState = prefs[EXIF_WIDGET_INITIAL_STATE]
+                ?: default.exifWidgetInitialState
         )
     }
 
@@ -514,6 +517,13 @@ class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[MAGNIFIER_ENABLED] ?: false
             it[MAGNIFIER_ENABLED] = !v
+        }
+    }
+
+    override suspend fun toggleExifWidgetInitialState() {
+        dataStore.edit {
+            val v = it[EXIF_WIDGET_INITIAL_STATE] ?: false
+            it[EXIF_WIDGET_INITIAL_STATE] = !v
         }
     }
 

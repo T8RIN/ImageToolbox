@@ -574,4 +574,7 @@
     <string name="saved_to_original">Overwritten file with name %s at original destination</string>
     <string name="magnifier">Magnifier</string>
     <string name="magnifier_sub">Enables magnifier at the top of finger in drawing modes for better accessibility</string>
+    <string name="force_exif_widget_inital_value">Force initial value</string>
+    <string name="force_exif_widget_inital_value_sub">Forces exif widget to be checked initially</string>
+    <string name="exif" translatable="false">EXIF</string>
 </resources>

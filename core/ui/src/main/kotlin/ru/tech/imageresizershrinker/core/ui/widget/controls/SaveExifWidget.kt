@@ -6,6 +6,7 @@ import androidx.compose.material.icons.rounded.Fingerprint
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -13,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
+import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 
 @Composable
 fun SaveExifWidget(
@@ -22,6 +24,10 @@ fun SaveExifWidget(
     modifier: Modifier = Modifier,
     backgroundColor: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
 ) {
+    val settingsState = LocalSettingsState.current
+    LaunchedEffect(Unit) {
+        onCheckedChange(settingsState.exifWidgetInitialState)
+    }
     PreferenceRowSwitch(
         modifier = modifier,
         title = stringResource(R.string.keep_exif),

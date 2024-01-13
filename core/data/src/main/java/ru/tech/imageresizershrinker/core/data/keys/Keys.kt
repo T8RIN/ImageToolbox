@@ -53,4 +53,5 @@ object Keys {
     val IMAGE_SCALE_MODE = intPreferencesKey("IMAGE_SCALE_MODE")
     val USE_PIXEL_SWITCH = booleanPreferencesKey("USE_PIXEL_SWITCH")
     val MAGNIFIER_ENABLED = booleanPreferencesKey("MAGNIFIER_ENABLED")
+    val EXIF_WIDGET_INITIAL_STATE = booleanPreferencesKey("EXIF_WIDGET_INITIAL_STATE")
 }

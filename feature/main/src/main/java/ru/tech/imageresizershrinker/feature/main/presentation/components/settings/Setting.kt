@@ -280,4 +280,9 @@ sealed class Setting(
         title = R.string.magnifier,
         subtitle = R.string.magnifier_sub
     )
+
+    data object ExifWidgetInitialState : Setting(
+        title = R.string.force_exif_widget_inital_value,
+        subtitle = R.string.force_exif_widget_inital_value_sub
+    )
 }

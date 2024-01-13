@@ -72,6 +72,7 @@ import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleDra
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleDrawSliderShadowsUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleDrawSwitchShadowsUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleDynamicColorsUseCase
+import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleExifWidgetInitialStateUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleGroupOptionsByTypesUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleInvertColorsUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleLockDrawOrientationUseCase
@@ -148,7 +149,8 @@ class MainViewModel @Inject constructor(
     private val setFilenameSuffixUseCase: SetFilenameSuffixUseCase,
     private val setDefaultImageScaleModeUseCase: SetDefaultImageScaleModeUseCase,
     private val toggleUsePixelSwitchUseCase: ToggleUsePixelSwitchUseCase,
-    private val toggleMagnifierEnabledUseCase: ToggleMagnifierEnabledUseCase
+    private val toggleMagnifierEnabledUseCase: ToggleMagnifierEnabledUseCase,
+    private val toggleExifWidgetInitialStateUseCase: ToggleExifWidgetInitialStateUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
@@ -666,6 +668,12 @@ class MainViewModel @Inject constructor(
     fun toggleMagnifierEnabled() {
         viewModelScope.launch {
             toggleMagnifierEnabledUseCase()
+        }
+    }
+
+    fun toggleExifWidgetInitialState() {
+        viewModelScope.launch {
+            toggleExifWidgetInitialStateUseCase()
         }
     }
 

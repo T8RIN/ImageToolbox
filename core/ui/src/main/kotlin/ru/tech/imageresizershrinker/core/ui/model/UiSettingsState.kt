@@ -72,7 +72,8 @@ data class UiSettingsState(
     val filenameSuffix: String,
     val defaultImageScaleMode: ImageScaleMode,
     val usePixelSwitch: Boolean,
-    val magnifierEnabled: Boolean
+    val magnifierEnabled: Boolean,
+    val exifWidgetInitialState: Boolean
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -156,7 +157,8 @@ fun SettingsState.toUiState(): UiSettingsState {
         filenameSuffix = filenameSuffix,
         defaultImageScaleMode = defaultImageScaleMode,
         usePixelSwitch = usePixelSwitch,
-        magnifierEnabled = magnifierEnabled
+        magnifierEnabled = magnifierEnabled,
+        exifWidgetInitialState = exifWidgetInitialState
     )
 }
 

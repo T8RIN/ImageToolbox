@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Cached
 import androidx.compose.material.icons.rounded.Description
 import androidx.compose.material.icons.rounded.Draw
+import androidx.compose.material.icons.rounded.Fingerprint
 import androidx.compose.material.icons.rounded.FitScreen
 import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
@@ -138,6 +139,15 @@ sealed class SettingsGroup(
         initialState = false
     )
 
+    data object Exif : SettingsGroup(
+        icon = Icons.Rounded.Fingerprint,
+        titleId = R.string.exif,
+        settingsList = listOf(
+            Setting.ExifWidgetInitialState
+        ),
+        initialState = false
+    )
+
     data object Folder : SettingsGroup(
         icon = Icons.Rounded.FolderOpen,
         titleId = R.string.folder,
@@ -259,6 +269,7 @@ sealed class SettingsGroup(
                 Presets,
                 ScaleMode,
                 Draw,
+                Exif,
                 Folder,
                 Filename,
                 Clipboard,

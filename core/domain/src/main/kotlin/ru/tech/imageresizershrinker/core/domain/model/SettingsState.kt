@@ -50,7 +50,8 @@ data class SettingsState(
     val filenameSuffix: String,
     val defaultImageScaleMode: ImageScaleMode,
     val usePixelSwitch: Boolean,
-    val magnifierEnabled: Boolean
+    val magnifierEnabled: Boolean,
+    val exifWidgetInitialState: Boolean
 ) : Domain {
 
     companion object {
@@ -102,7 +103,8 @@ data class SettingsState(
                 defaultImageScaleMode = ImageScaleMode.Default,
                 copyToClipboardMode = CopyToClipboardMode.Disabled,
                 usePixelSwitch = false,
-                magnifierEnabled = true
+                magnifierEnabled = true,
+                exifWidgetInitialState = false
             )
         }
     }
