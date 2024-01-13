@@ -275,4 +275,9 @@ sealed class Setting(
         title = R.string.use_pixel_switch,
         subtitle = R.string.use_pixel_switch_sub
     )
+
+    data object Magnifier : Setting(
+        title = R.string.magnifier,
+        subtitle = R.string.magnifier_sub
+    )
 }

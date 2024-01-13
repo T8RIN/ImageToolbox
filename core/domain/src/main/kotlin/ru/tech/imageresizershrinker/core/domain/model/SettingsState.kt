@@ -49,7 +49,8 @@ data class SettingsState(
     val overwriteFiles: Boolean,
     val filenameSuffix: String,
     val defaultImageScaleMode: ImageScaleMode,
-    val usePixelSwitch: Boolean
+    val usePixelSwitch: Boolean,
+    val magnifierEnabled: Boolean
 ) : Domain {
 
     companion object {
@@ -100,7 +101,8 @@ data class SettingsState(
                 filenameSuffix = "",
                 defaultImageScaleMode = ImageScaleMode.Default,
                 copyToClipboardMode = CopyToClipboardMode.Disabled,
-                usePixelSwitch = false
+                usePixelSwitch = false,
+                magnifierEnabled = true
             )
         }
     }

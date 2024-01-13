@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.AwaitPointerEventScope
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.PointerInputScope
@@ -18,21 +19,31 @@ import kotlinx.coroutines.isActive
 import kotlin.coroutines.cancellation.CancellationException
 
 
-fun Modifier.observePointersCount(
+fun Modifier.observePointersCountWithOffset(
     enabled: Boolean = true,
-    onChange: (Int) -> Unit
+    onChange: (Int, Offset) -> Unit
 ) = this then if (enabled) Modifier.pointerInput(Unit) {
     onEachGesture {
         val context = currentCoroutineContext()
         awaitPointerEventScope {
             do {
                 val event = awaitPointerEvent()
-                onChange(event.changes.size)
+                onChange(
+                    event.changes.size,
+                    event.changes.firstOrNull()?.position ?: Offset.Unspecified
+                )
             } while (event.changes.any { it.pressed } && context.isActive)
-            onChange(0)
+            onChange(0, Offset.Unspecified)
         }
     }
 } else Modifier
+
+fun Modifier.observePointersCount(
+    enabled: Boolean = true,
+    onChange: (Int) -> Unit
+) = this.observePointersCountWithOffset(enabled) { size, _ ->
+    onChange(size)
+}
 
 suspend fun PointerInputScope.onEachGesture(block: suspend PointerInputScope.() -> Unit) {
     val currentContext = currentCoroutineContext()

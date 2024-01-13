@@ -114,4 +114,6 @@ interface SettingsRepository {
     suspend fun setDefaultImageScaleMode(imageScaleMode: ImageScaleMode)
 
     suspend fun toggleUsePixelSwitch()
+
+    suspend fun toggleMagnifierEnabled()
 }

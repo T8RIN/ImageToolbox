@@ -572,4 +572,6 @@
     <string name="use_pixel_switch">Use Pixel Switch</string>
     <string name="use_pixel_switch_sub">Pixel-like switch will be used instead of google\'s material you based one</string>
     <string name="saved_to_original">Overwritten file with name %s at original destination</string>
+    <string name="magnifier">Magnifier</string>
+    <string name="magnifier_sub">Enables magnifier at the top of finger in drawing modes for better accessibility</string>
 </resources>

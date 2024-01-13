@@ -16,7 +16,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 @Composable
 fun LockDrawOrientationSettingItem(
     onClick: (Boolean) -> Unit,
-    shape: Shape = ContainerShapeDefaults.defaultShape,
+    shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current

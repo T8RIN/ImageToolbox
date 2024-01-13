@@ -71,7 +71,8 @@ data class UiSettingsState(
     val overwriteFiles: Boolean,
     val filenameSuffix: String,
     val defaultImageScaleMode: ImageScaleMode,
-    val usePixelSwitch: Boolean
+    val usePixelSwitch: Boolean,
+    val magnifierEnabled: Boolean
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -154,7 +155,8 @@ fun SettingsState.toUiState(): UiSettingsState {
         overwriteFiles = overwriteFiles,
         filenameSuffix = filenameSuffix,
         defaultImageScaleMode = defaultImageScaleMode,
-        usePixelSwitch = usePixelSwitch
+        usePixelSwitch = usePixelSwitch,
+        magnifierEnabled = magnifierEnabled
     )
 }
 

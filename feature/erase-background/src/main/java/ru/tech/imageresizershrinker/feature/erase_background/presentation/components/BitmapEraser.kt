@@ -8,6 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.magnifier
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -43,6 +44,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.gesture.MotionEvent
@@ -57,9 +59,10 @@ import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.scaleToFitCanvas
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCount
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCountWithOffset
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.smartDelayAfterDownInMillis
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
+import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 
 @Composable
 fun BitmapEraser(
@@ -77,18 +80,46 @@ fun BitmapEraser(
     val zoomState = rememberZoomState(maxScale = 30f)
     val scope = rememberCoroutineScope()
 
-    var pointersCount by remember { mutableIntStateOf(0) }
+    val settingsState = LocalSettingsState.current
+    val magnifierEnabled by remember(zoomState.scale) {
+        derivedStateOf {
+            zoomState.scale <= 3f && !panEnabled && settingsState.magnifierEnabled
+        }
+    }
+    var globalTouchPosition by remember { mutableStateOf(Offset.Unspecified) }
+    var globalTouchPointersCount by remember { mutableIntStateOf(0) }
+
+    var currentDrawPosition by remember { mutableStateOf(Offset.Unspecified) }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .observePointersCount {
-                pointersCount = it
+            .observePointersCountWithOffset { size, offset ->
+                globalTouchPointersCount = size
+                globalTouchPosition = offset
             }
+            .then(
+                if (magnifierEnabled) {
+                    Modifier.magnifier(
+                        sourceCenter = {
+                            if (currentDrawPosition.isSpecified) {
+                                globalTouchPosition
+                            } else Offset.Unspecified
+                        },
+                        magnifierCenter = {
+                            globalTouchPosition - Offset(0f, 200f)
+                        },
+                        size = DpSize(height = 100.dp, width = 100.dp),
+                        zoom = 2f / zoomState.scale,
+                        cornerRadius = 50.dp,
+                        elevation = 2.dp
+                    )
+                } else Modifier
+            )
             .zoomable(
                 zoomState = zoomState,
                 enabled = { _, _ ->
-                    (pointersCount >= 2 || panEnabled)
+                    (globalTouchPointersCount >= 2 || panEnabled)
                 },
                 enableOneFingerZoom = panEnabled,
                 onDoubleTap = { pos ->
@@ -108,9 +139,6 @@ fun BitmapEraser(
             }
 
             var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
-            // This is our motion event we get from touch motion
-            var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
-            // This is previous motion event before next touch is saved into this current position
             var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
 
             val imageWidth = constraints.maxWidth
@@ -186,9 +214,9 @@ fun BitmapEraser(
                 when (motionEvent) {
 
                     MotionEvent.Down -> {
-                        if (currentPosition.isSpecified) {
-                            drawPath.moveTo(currentPosition.x, currentPosition.y)
-                            previousPosition = currentPosition
+                        if (currentDrawPosition.isSpecified) {
+                            drawPath.moveTo(currentDrawPosition.x, currentDrawPosition.y)
+                            previousPosition = currentDrawPosition
                         } else {
                             drawPath = Path()
                         }
@@ -196,19 +224,19 @@ fun BitmapEraser(
                     }
 
                     MotionEvent.Move -> {
-                        if (previousPosition.isUnspecified && currentPosition.isSpecified) {
-                            drawPath.moveTo(currentPosition.x, currentPosition.y)
-                            previousPosition = currentPosition
+                        if (previousPosition.isUnspecified && currentDrawPosition.isSpecified) {
+                            drawPath.moveTo(currentDrawPosition.x, currentDrawPosition.y)
+                            previousPosition = currentDrawPosition
                         }
-                        if (previousPosition.isSpecified && currentPosition.isSpecified) {
+                        if (previousPosition.isSpecified && currentDrawPosition.isSpecified) {
                             drawPath.quadraticBezierTo(
                                 previousPosition.x,
                                 previousPosition.y,
-                                (previousPosition.x + currentPosition.x) / 2,
-                                (previousPosition.y + currentPosition.y) / 2
+                                (previousPosition.x + currentDrawPosition.x) / 2,
+                                (previousPosition.y + currentDrawPosition.y) / 2
                             )
                         }
-                        previousPosition = currentPosition
+                        previousPosition = currentDrawPosition
                         motionEvent = MotionEvent.Idle
                     }
 
@@ -217,10 +245,10 @@ fun BitmapEraser(
                             setPath(drawPath, false)
                         }.let {
                             it.getPosition(it.length)
-                        }.takeOrElse { currentPosition }.let { lastPoint ->
-                            if (currentPosition.isSpecified) {
+                        }.takeOrElse { currentDrawPosition }.let { lastPoint ->
+                            if (currentDrawPosition.isSpecified) {
                                 drawPath.moveTo(lastPoint.x, lastPoint.y)
-                                drawPath.lineTo(currentPosition.x, currentPosition.y)
+                                drawPath.lineTo(currentDrawPosition.x, currentDrawPosition.y)
                                 onAddPath(
                                     UiPathPaint(
                                         path = drawPath,
@@ -232,7 +260,7 @@ fun BitmapEraser(
                                 )
                             }
                         }
-                        currentPosition = Offset.Unspecified
+                        currentDrawPosition = Offset.Unspecified
                         previousPosition = Offset.Unspecified
                         motionEvent = MotionEvent.Idle
 
@@ -295,11 +323,11 @@ fun BitmapEraser(
 
             val canvasModifier = Modifier.pointerMotionEvents(
                 onDown = { pointerInputChange ->
-                    drawStartedWithOnePointer = pointersCount <= 1
+                    drawStartedWithOnePointer = globalTouchPointersCount <= 1
 
                     if (drawStartedWithOnePointer) {
                         motionEvent = MotionEvent.Down
-                        currentPosition = pointerInputChange.position
+                        currentDrawPosition = pointerInputChange.position
                         pointerInputChange.consume()
                         invalidations++
                     }
@@ -307,7 +335,7 @@ fun BitmapEraser(
                 onMove = { pointerInputChange ->
                     if (drawStartedWithOnePointer) {
                         motionEvent = MotionEvent.Move
-                        currentPosition = pointerInputChange.position
+                        currentDrawPosition = pointerInputChange.position
                         pointerInputChange.consume()
                         invalidations++
                     }
@@ -320,7 +348,7 @@ fun BitmapEraser(
                     }
                     drawStartedWithOnePointer = false
                 },
-                delayAfterDownInMillis = smartDelayAfterDownInMillis(pointersCount)
+                delayAfterDownInMillis = smartDelayAfterDownInMillis(globalTouchPointersCount)
             )
 
             Image(

@@ -44,6 +44,7 @@ import ru.tech.imageresizershrinker.core.data.keys.Keys.IMAGE_PICKER_MODE
 import ru.tech.imageresizershrinker.core.data.keys.Keys.IMAGE_SCALE_MODE
 import ru.tech.imageresizershrinker.core.data.keys.Keys.INVERT_THEME
 import ru.tech.imageresizershrinker.core.data.keys.Keys.LOCK_DRAW_ORIENTATION
+import ru.tech.imageresizershrinker.core.data.keys.Keys.MAGNIFIER_ENABLED
 import ru.tech.imageresizershrinker.core.data.keys.Keys.NIGHT_MODE
 import ru.tech.imageresizershrinker.core.data.keys.Keys.OVERWRITE_FILE
 import ru.tech.imageresizershrinker.core.data.keys.Keys.PRESETS
@@ -146,6 +147,7 @@ class SettingsRepositoryImpl @Inject constructor(
                 ImageScaleMode.fromInt(it)
             } ?: default.defaultImageScaleMode,
             usePixelSwitch = prefs[USE_PIXEL_SWITCH] ?: default.usePixelSwitch,
+            magnifierEnabled = prefs[MAGNIFIER_ENABLED] ?: default.magnifierEnabled
         )
     }
 
@@ -505,6 +507,13 @@ class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[USE_PIXEL_SWITCH] ?: false
             it[USE_PIXEL_SWITCH] = !v
+        }
+    }
+
+    override suspend fun toggleMagnifierEnabled() {
+        dataStore.edit {
+            val v = it[MAGNIFIER_ENABLED] ?: false
+            it[MAGNIFIER_ENABLED] = !v
         }
     }
 

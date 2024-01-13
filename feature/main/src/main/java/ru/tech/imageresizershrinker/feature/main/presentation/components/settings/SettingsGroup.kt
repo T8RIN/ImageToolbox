@@ -132,7 +132,8 @@ sealed class SettingsGroup(
         icon = Icons.Rounded.Draw,
         titleId = R.string.draw,
         settingsList = listOf(
-            Setting.LockDrawOrientation
+            Setting.LockDrawOrientation,
+            Setting.Magnifier
         ),
         initialState = false
     )

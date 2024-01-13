@@ -26,7 +26,7 @@ fun RecognizeTextPreference(
         onClick = onClick,
         icon = Icons.AutoMirrored.Outlined.WrapText,
         title = stringResource(R.string.recognize_text),
-        subtitle = stringResource(R.string.recognize_text),
+        subtitle = stringResource(R.string.recognize_text_sub),
         modifier = modifier,
         color = color
     )

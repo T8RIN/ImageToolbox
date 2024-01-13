@@ -436,5 +436,9 @@ fun SettingItem(
         Setting.UsePixelSwitch -> {
             UsePixelSwitchSettingItem(onClick = { viewModel.toggleUsePixelSwitch() })
         }
+
+        Setting.Magnifier -> {
+            MagnifierSettingItem(onClick = { viewModel.toggleMagnifierEnabled() })
+        }
     }
 }

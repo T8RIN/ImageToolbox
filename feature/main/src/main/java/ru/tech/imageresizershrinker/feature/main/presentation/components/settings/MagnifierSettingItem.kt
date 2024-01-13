@@ -2,7 +2,7 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Android
+import androidx.compose.material.icons.outlined.ZoomIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -14,19 +14,19 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 
 @Composable
-fun UsePixelSwitchSettingItem(
+fun MagnifierSettingItem(
     onClick: (Boolean) -> Unit,
-    shape: Shape = ContainerShapeDefaults.centerShape,
+    shape: Shape = ContainerShapeDefaults.bottomShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
     PreferenceRowSwitch(
         modifier = modifier,
         shape = shape,
-        title = stringResource(R.string.use_pixel_switch),
-        subtitle = stringResource(R.string.use_pixel_switch_sub),
-        checked = settingsState.usePixelSwitch,
+        title = stringResource(R.string.magnifier),
+        subtitle = stringResource(R.string.magnifier_sub),
+        checked = settingsState.magnifierEnabled,
         onClick = onClick,
-        startIcon = Icons.Outlined.Android
+        startIcon = Icons.Outlined.ZoomIn
     )
 }

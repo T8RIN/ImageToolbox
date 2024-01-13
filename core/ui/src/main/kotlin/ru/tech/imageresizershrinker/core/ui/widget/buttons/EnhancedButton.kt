@@ -114,7 +114,7 @@ fun EnhancedIconButton(
     shape: Shape = IconButtonDefaults.outlinedShape,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     forceMinimumInteractiveComponentSize: Boolean = true,
-    enableAutoShadowAndBorder: Boolean = true,
+    enableAutoShadowAndBorder: Boolean = containerColor != Color.Transparent,
     isShadowClip: Boolean = containerColor.alpha != 1f || !enabled,
     content: @Composable () -> Unit
 ) {

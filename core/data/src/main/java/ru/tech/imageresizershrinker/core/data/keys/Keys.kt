@@ -52,4 +52,5 @@ object Keys {
     val FILENAME_SUFFIX = stringPreferencesKey("FILENAME_SUFFIX")
     val IMAGE_SCALE_MODE = intPreferencesKey("IMAGE_SCALE_MODE")
     val USE_PIXEL_SWITCH = booleanPreferencesKey("USE_PIXEL_SWITCH")
+    val MAGNIFIER_ENABLED = booleanPreferencesKey("MAGNIFIER_ENABLED")
 }

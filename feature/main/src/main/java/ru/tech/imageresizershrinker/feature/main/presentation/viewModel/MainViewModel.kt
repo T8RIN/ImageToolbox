@@ -75,6 +75,7 @@ import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleDyn
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleGroupOptionsByTypesUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleInvertColorsUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleLockDrawOrientationUseCase
+import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleMagnifierEnabledUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleOverwriteFilesUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleRandomizeFilenameUseCase
 import ru.tech.imageresizershrinker.core.domain.use_case.edit_settings.ToggleScreensSearchEnabledUseCase
@@ -146,7 +147,8 @@ class MainViewModel @Inject constructor(
     private val toggleOverwriteFilesUseCase: ToggleOverwriteFilesUseCase,
     private val setFilenameSuffixUseCase: SetFilenameSuffixUseCase,
     private val setDefaultImageScaleModeUseCase: SetDefaultImageScaleModeUseCase,
-    private val toggleUsePixelSwitchUseCase: ToggleUsePixelSwitchUseCase
+    private val toggleUsePixelSwitchUseCase: ToggleUsePixelSwitchUseCase,
+    private val toggleMagnifierEnabledUseCase: ToggleMagnifierEnabledUseCase
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
@@ -658,6 +660,12 @@ class MainViewModel @Inject constructor(
     fun toggleUsePixelSwitch() {
         viewModelScope.launch {
             toggleUsePixelSwitchUseCase()
+        }
+    }
+
+    fun toggleMagnifierEnabled() {
+        viewModelScope.launch {
+            toggleMagnifierEnabledUseCase()
         }
     }
 
