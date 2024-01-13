@@ -206,7 +206,7 @@ fun RecognizeLanguageSelector(
                                     }
                                 }
                                 .background(MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp))
-                                .padding(16.dp),
+                                .padding(start = 16.dp, top = 20.dp, bottom = 8.dp, end = 16.dp),
                             shape = RoundedCornerShape(28.dp),
                             checked = allowMultipleLanguagesSelection,
                             startIcon = Icons.Rounded.MultipleStop,

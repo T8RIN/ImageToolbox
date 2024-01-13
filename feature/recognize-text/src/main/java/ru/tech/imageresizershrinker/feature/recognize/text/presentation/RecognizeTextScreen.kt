@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -254,6 +255,7 @@ fun RecognizeTextScreen(
             Picture(
                 model = viewModel.uri,
                 contentScale = ContentScale.Inside,
+                modifier = Modifier.fillMaxHeight(),
                 contentDescription = null,
                 shape = MaterialTheme.shapes.medium
             )
