@@ -24,6 +24,8 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
+import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareType
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -41,6 +43,9 @@ class CompareViewModel @Inject constructor(
 
     private val _rotation: MutableState<Float> = mutableFloatStateOf(0f)
     val rotation by _rotation
+
+    private val _compareType: MutableState<CompareType> = mutableStateOf(CompareType.Slide)
+    val compareType by _compareType
 
     fun updateBitmapData(newBeforeBitmap: Bitmap?, newAfterBitmap: Bitmap?) {
         viewModelScope.launch {
@@ -246,6 +251,10 @@ class CompareViewModel @Inject constructor(
         savingJob?.cancel()
         savingJob = null
         _isImageLoading.value = false
+    }
+
+    fun setCompareType(value: CompareType) {
+        _compareType.update { value }
     }
 
 }

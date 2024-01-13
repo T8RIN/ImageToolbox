@@ -1,10 +1,14 @@
 package ru.tech.imageresizershrinker.feature.compare.presentation
 
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,6 +59,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -62,6 +67,8 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -73,6 +80,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
+import net.engawapg.lib.zoomable.ZoomableDefaults.defaultZoomOnDoubleTap
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
@@ -92,7 +100,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
@@ -104,6 +111,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareType
 import ru.tech.imageresizershrinker.feature.compare.presentation.viewModel.CompareViewModel
 
 
@@ -143,7 +151,7 @@ fun CompareScreen(
         }
     }
 
-    var progress by rememberSaveable { mutableFloatStateOf(50f) }
+    var compareProgress by rememberSaveable { mutableFloatStateOf(50f) }
 
     LaunchedEffect(viewModel.bitmapData) {
         viewModel.bitmapData?.let { (b, a) ->
@@ -162,7 +170,7 @@ fun CompareScreen(
                     newBeforeBitmap = newBeforeBitmap,
                     newAfterBitmap = newAfterBitmap
                 )
-                progress = 50f
+                compareProgress = 50f
             } else {
                 scope.launch {
                     toastHostState.showToast(
@@ -189,7 +197,7 @@ fun CompareScreen(
                 } else {
                     viewModel.updateBitmapDataAsync(
                         onSuccess = {
-                            progress = 50f
+                            compareProgress = 50f
                         }, loader = {
                             viewModel.getBitmapByUri(
                                 uris[0],
@@ -217,6 +225,134 @@ fun CompareScreen(
 
     val portrait =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
+
+    val content: @Composable (Pair<Bitmap?, Bitmap?>) -> Unit = { bitmapPair ->
+        val modifier = Modifier
+            .padding(16.dp)
+            .container(RoundedCornerShape(16.dp))
+            .padding(4.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .transparencyChecker()
+
+        AnimatedContent(targetState = viewModel.compareType) { compareType ->
+            when (compareType) {
+                CompareType.Slide -> {
+                    AnimatedContent(targetState = bitmapPair) { data ->
+                        data.let { (b, a) ->
+                            val before = remember(data) { b?.asImageBitmap() }
+                            val after = remember(data) { a?.asImageBitmap() }
+
+                            if (before != null && after != null) {
+                                BeforeAfterImage(
+                                    enableZoom = false,
+                                    modifier = modifier,
+                                    progress = animateFloatAsState(targetValue = compareProgress).value,
+                                    onProgressChange = {
+                                        compareProgress = it
+                                    },
+                                    beforeImage = before,
+                                    afterImage = after,
+                                    beforeLabel = { },
+                                    afterLabel = { }
+                                )
+                            }
+                        }
+                    }
+                }
+
+                CompareType.SideBySide -> {
+                    val first = bitmapPair.first
+                    val second = bitmapPair.second
+
+                    val zoomState = rememberZoomState(30f)
+                    val zoomModifier = Modifier.zoomable(
+                        zoomState = zoomState
+                    )
+
+                    Column(
+                        modifier = modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        if (first != null) {
+                            Image(
+                                bitmap = first.asImageBitmap(),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f)
+                                    .then(zoomModifier)
+                            )
+                        }
+                        if (second != null) {
+                            Image(
+                                bitmap = second.asImageBitmap(),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f)
+                                    .then(zoomModifier)
+                            )
+                        }
+                    }
+                }
+
+                CompareType.Tap -> {
+                    var showSecondImage by rememberSaveable {
+                        mutableStateOf(false)
+                    }
+                    Box(
+                        modifier = modifier
+                            .pointerInput(Unit) {
+                                detectTapGestures {
+                                    showSecondImage = !showSecondImage
+                                }
+                            }
+                    ) {
+                        val first = bitmapPair.first
+                        val second = bitmapPair.second
+                        if (!showSecondImage && first != null) {
+                            Image(
+                                bitmap = first.asImageBitmap(),
+                                contentDescription = null,
+                                contentScale = ContentScale.Inside
+                            )
+                        }
+                        if (showSecondImage && second != null) {
+                            Image(
+                                bitmap = second.asImageBitmap(),
+                                contentDescription = null,
+                                contentScale = ContentScale.Inside
+                            )
+                        }
+                    }
+                }
+
+                CompareType.Transparency -> {
+                    Box(
+                        modifier = modifier
+                    ) {
+                        val first = bitmapPair.first
+                        val second = bitmapPair.second
+                        if (first != null) {
+                            Image(
+                                bitmap = first.asImageBitmap(),
+                                contentDescription = null,
+                                contentScale = ContentScale.Inside
+                            )
+                        }
+                        if (second != null) {
+                            Image(
+                                bitmap = second.asImageBitmap(),
+                                contentDescription = null,
+                                contentScale = ContentScale.Inside,
+                                modifier = Modifier.alpha(compareProgress / 100f)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     val showShareSheet = rememberSaveable { mutableStateOf(false) }
     Box(
@@ -270,13 +406,15 @@ fun CompareScreen(
                         }
                     },
                     actions = {
-                        EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
-                            onClick = { showShareSheet.value = true }
-                        ) {
-                            Icon(Icons.Outlined.Share, null)
+                        AnimatedVisibility(visible = viewModel.compareType == CompareType.Slide) {
+                            EnhancedIconButton(
+                                containerColor = Color.Transparent,
+                                contentColor = LocalContentColor.current,
+                                enableAutoShadowAndBorder = false,
+                                onClick = { showShareSheet.value = true }
+                            ) {
+                                Icon(Icons.Outlined.Share, null)
+                            }
                         }
                         EnhancedIconButton(
                             containerColor = Color.Transparent,
@@ -325,39 +463,61 @@ fun CompareScreen(
                 viewModel.bitmapData.takeIf { !nil }?.let { bitmapPair ->
                     if (portrait) {
                         Column {
+                            val zoomEnabled = viewModel.compareType != CompareType.SideBySide
+                            val zoomState = rememberZoomState(30f)
                             Box(
                                 contentAlignment = Alignment.Center,
                                 modifier = Modifier
                                     .weight(1f)
                                     .fillMaxWidth()
                                     .zoomable(
-                                        rememberZoomState(30f)
+                                        zoomState = zoomState,
+                                        onDoubleTap = {
+                                            if (zoomEnabled) {
+                                                zoomState.defaultZoomOnDoubleTap(it)
+                                            }
+                                        },
+                                        enableOneFingerZoom = zoomEnabled,
+                                        enabled = { _, _ ->
+                                            zoomEnabled
+                                        }
                                     )
                             ) {
-                                AnimatedContent(targetState = bitmapPair) { data ->
-                                    data.let { (b, a) ->
-                                        val before = remember(data) { b?.asImageBitmap() }
-                                        val after = remember(data) { a?.asImageBitmap() }
-                                        if (before != null && after != null) {
-                                            BeforeAfterImage(
-                                                modifier = Modifier
-                                                    .padding(16.dp)
-                                                    .container(RoundedCornerShape(16.dp))
-                                                    .padding(4.dp)
-                                                    .clip(RoundedCornerShape(12.dp))
-                                                    .transparencyChecker(),
-                                                progress = animateFloatAsState(targetValue = progress).value,
-                                                onProgressChange = {
-                                                    progress = it
-                                                },
-                                                enableZoom = false,
-                                                beforeImage = before,
-                                                afterImage = after,
-                                                beforeLabel = { },
-                                                afterLabel = { }
-                                            )
-                                        }
+                                content(bitmapPair)
+                            }
+                            val selectionButtons: @Composable () -> Unit = {
+                                CompareType.entries.forEach {
+                                    EnhancedIconButton(
+                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                        onClick = { viewModel.setCompareType(it) }
+                                    ) {
+                                        Icon(
+                                            imageVector = it.icon,
+                                            contentDescription = null
+                                        )
                                     }
+                                }
+                            }
+                            AnimatedVisibility(
+                                visible = viewModel.compareType != CompareType.Tap && viewModel.compareType != CompareType.SideBySide
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .container(
+                                            color = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                3.dp
+                                            ),
+                                            shape = RectangleShape
+                                        )
+                                        .padding(4.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(
+                                        space = 4.dp,
+                                        alignment = Alignment.CenterHorizontally
+                                    ),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    selectionButtons()
                                 }
                             }
                             BottomAppBar(
@@ -373,17 +533,32 @@ fun CompareScreen(
                                     }
                                 },
                                 actions = {
-                                    EnhancedSlider(
-                                        modifier = Modifier
-                                            .padding(horizontal = 16.dp)
-                                            .weight(100f, true)
-                                            .offset(y = (-2).dp),
-                                        value = progress,
-                                        onValueChange = {
-                                            progress = it
-                                        },
-                                        valueRange = 0f..100f
-                                    )
+                                    AnimatedContent(
+                                        targetState = viewModel.compareType == CompareType.Tap || viewModel.compareType == CompareType.SideBySide
+                                    ) { showButtons ->
+                                        if (showButtons) {
+                                            Row(
+                                                horizontalArrangement = Arrangement.spacedBy(
+                                                    space = 4.dp,
+                                                    alignment = Alignment.CenterHorizontally
+                                                )
+                                            ) {
+                                                selectionButtons()
+                                            }
+                                        } else {
+                                            EnhancedSlider(
+                                                modifier = Modifier
+                                                    .padding(horizontal = 16.dp)
+                                                    .weight(100f, true)
+                                                    .offset(y = (-2).dp),
+                                                value = compareProgress,
+                                                onValueChange = {
+                                                    compareProgress = it
+                                                },
+                                                valueRange = 0f..100f
+                                            )
+                                        }
+                                    }
                                 }
                             )
                         }
@@ -403,32 +578,7 @@ fun CompareScreen(
                                         .fillMaxSize(),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    AnimatedContent(targetState = bitmapPair) { data ->
-                                        data.let { (b, a) ->
-                                            val before = remember(data) { b?.asImageBitmap() }
-                                            val after = remember(data) { a?.asImageBitmap() }
-
-                                            if (before != null && after != null) {
-                                                BeforeAfterImage(
-                                                    enableZoom = false,
-                                                    modifier = Modifier
-                                                        .navBarsPaddingOnlyIfTheyAtTheBottom()
-                                                        .container(RoundedCornerShape(16.dp))
-                                                        .padding(4.dp)
-                                                        .clip(RoundedCornerShape(12.dp))
-                                                        .transparencyChecker(),
-                                                    progress = animateFloatAsState(targetValue = progress).value,
-                                                    onProgressChange = {
-                                                        progress = it
-                                                    },
-                                                    beforeImage = before,
-                                                    afterImage = after,
-                                                    beforeLabel = { },
-                                                    afterLabel = { }
-                                                )
-                                            }
-                                        }
-                                    }
+                                    content(bitmapPair)
                                 }
                             }
                             Column(
@@ -443,35 +593,37 @@ fun CompareScreen(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
                             ) {
-                                val modifier = Modifier
-                                    .padding(16.dp)
-                                    .graphicsLayer {
-                                        rotationZ = 270f
-                                        transformOrigin = TransformOrigin(0f, 0f)
-                                    }
-                                    .layout { measurable, constraints ->
-                                        val placeable = measurable.measure(
-                                            Constraints(
-                                                minWidth = constraints.minHeight,
-                                                maxWidth = constraints.maxHeight,
-                                                minHeight = constraints.minWidth,
-                                                maxHeight = constraints.maxHeight,
-                                            )
-                                        )
-                                        layout(placeable.height, placeable.width) {
-                                            placeable.place(-placeable.width, 0)
+                                AnimatedVisibility(visible = viewModel.compareType != CompareType.Tap) {
+                                    val modifier = Modifier
+                                        .padding(16.dp)
+                                        .graphicsLayer {
+                                            rotationZ = 270f
+                                            transformOrigin = TransformOrigin(0f, 0f)
                                         }
-                                    }
-                                    .width((LocalConfiguration.current.screenHeightDp / 2f).dp)
+                                        .layout { measurable, constraints ->
+                                            val placeable = measurable.measure(
+                                                Constraints(
+                                                    minWidth = constraints.minHeight,
+                                                    maxWidth = constraints.maxHeight,
+                                                    minHeight = constraints.minWidth,
+                                                    maxHeight = constraints.maxHeight,
+                                                )
+                                            )
+                                            layout(placeable.height, placeable.width) {
+                                                placeable.place(-placeable.width, 0)
+                                            }
+                                        }
+                                        .width((LocalConfiguration.current.screenHeightDp / 2f).dp)
 
-                                EnhancedSlider(
-                                    modifier = modifier,
-                                    value = progress,
-                                    onValueChange = {
-                                        progress = it
-                                    },
-                                    valueRange = 0f..100f
-                                )
+                                    EnhancedSlider(
+                                        modifier = modifier,
+                                        value = compareProgress,
+                                        onValueChange = {
+                                            compareProgress = it
+                                        },
+                                        valueRange = 0f..100f
+                                    )
+                                }
 
                                 EnhancedFloatingActionButton(
                                     onClick = pickImage
@@ -518,7 +670,7 @@ fun CompareScreen(
         sheetContent = {
             var imageFormat by remember { mutableStateOf<ImageFormat>(ImageFormat.Png) }
             val saveBitmap: () -> Unit = {
-                viewModel.saveBitmap(progress, imageFormat) { saveResult ->
+                viewModel.saveBitmap(compareProgress, imageFormat) { saveResult ->
                     parseSaveResult(
                         saveResult = saveResult,
                         onSuccess = showConfetti,
@@ -551,7 +703,7 @@ fun CompareScreen(
                         Picture(
                             model = remember(viewModel.bitmapData) {
                                 derivedStateOf {
-                                    viewModel.getOverlayedImage(progress)
+                                    viewModel.getOverlayedImage(compareProgress)
                                 }
                             }.value,
                             shape = RectangleShape,
@@ -589,7 +741,7 @@ fun CompareScreen(
                             .padding(horizontal = 16.dp),
                         shape = bottomShape,
                         onClick = {
-                            viewModel.shareBitmap(progress, imageFormat) {
+                            viewModel.shareBitmap(compareProgress, imageFormat) {
                                 showConfetti()
                             }
                             showShareSheet.value = false
