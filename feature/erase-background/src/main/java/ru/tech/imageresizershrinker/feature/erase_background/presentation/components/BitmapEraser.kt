@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.isSpecified
+import androidx.compose.ui.geometry.isUnspecified
 import androidx.compose.ui.geometry.takeOrElse
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
@@ -195,6 +196,10 @@ fun BitmapEraser(
                     }
 
                     MotionEvent.Move -> {
+                        if (previousPosition.isUnspecified && currentPosition.isSpecified) {
+                            drawPath.moveTo(currentPosition.x, currentPosition.y)
+                            previousPosition = currentPosition
+                        }
                         if (previousPosition.isSpecified && currentPosition.isSpecified) {
                             drawPath.quadraticBezierTo(
                                 previousPosition.x,
@@ -202,8 +207,8 @@ fun BitmapEraser(
                                 (previousPosition.x + currentPosition.x) / 2,
                                 (previousPosition.y + currentPosition.y) / 2
                             )
-                            previousPosition = currentPosition
                         }
+                        previousPosition = currentPosition
                         motionEvent = MotionEvent.Idle
                     }
 

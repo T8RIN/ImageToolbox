@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.isSpecified
+import androidx.compose.ui.geometry.isUnspecified
 import androidx.compose.ui.geometry.takeOrElse
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Canvas
@@ -325,15 +326,20 @@ fun BitmapDrawer(
 
                     MotionEvent.Move -> {
                         val baseMove = {
-                            if (previousPosition.isSpecified && currentPosition.isSpecified) {
+                            if (previousPosition.isUnspecified && currentPosition.isSpecified) {
+                                drawPath.moveTo(currentPosition.x, currentPosition.y)
+                                previousPosition = currentPosition
+                            }
+
+                            if (currentPosition.isSpecified && previousPosition.isSpecified) {
                                 drawPath.quadraticBezierTo(
                                     previousPosition.x,
                                     previousPosition.y,
                                     (previousPosition.x + currentPosition.x) / 2,
                                     (previousPosition.y + currentPosition.y) / 2
                                 )
-                                previousPosition = currentPosition
                             }
+                            previousPosition = currentPosition
                         }
                         if (!isEraserOn) {
                             when (drawPathMode) {
@@ -430,7 +436,7 @@ fun BitmapDrawer(
                                 drawPath.lineTo(currentPosition.x, currentPosition.y)
                             }
                         }
-                        if (currentPosition.isSpecified && previousPosition.isSpecified && downPosition.isSpecified) {
+                        if (currentPosition.isSpecified && downPosition.isSpecified) {
                             if (!isEraserOn) {
                                 when (drawPathMode) {
                                     DrawPathMode.DoubleLinePointingArrow,
