@@ -152,7 +152,7 @@ fun RecognizeTextScreen(
     val toastHostState = LocalToastHost.current
 
     var showDownloadDialogData by rememberSaveable {
-        mutableStateOf<UiDownloadData?>(null)
+        mutableStateOf<List<UiDownloadData>>(emptyList())
     }
 
     val startRecognition = {
@@ -163,7 +163,7 @@ fun RecognizeTextScreen(
                 }
             },
             onRequestDownload = { data ->
-                showDownloadDialogData = data.toUi()
+                showDownloadDialogData = data.map { it.toUi() }
             }
         )
     }
@@ -292,11 +292,10 @@ fun RecognizeTextScreen(
 
         RecognizeLanguageSelector(
             currentRecognitionType = viewModel.recognitionType,
-            value = viewModel.selectedLanguage,
+            value = viewModel.selectedLanguages,
             availableLanguages = viewModel.languages,
-            isLanguagesLoading = viewModel.isLanguagesLoading,
-            onValueChange = { code, type ->
-                viewModel.onLanguageSelected(code)
+            onValueChange = { codeList, type ->
+                viewModel.onLanguagesSelected(codeList)
                 viewModel.setRecognitionType(type)
                 startRecognition()
             }
@@ -552,7 +551,7 @@ fun RecognizeTextScreen(
         visible = showZoomSheet
     )
 
-    if (showDownloadDialogData != null) {
+    if (showDownloadDialogData.isNotEmpty()) {
         var downloadStarted by rememberSaveable(showDownloadDialogData) {
             mutableStateOf(false)
         }
@@ -571,8 +570,8 @@ fun RecognizeTextScreen(
                     Text(
                         stringResource(
                             id = R.string.download_description,
-                            showDownloadDialogData?.type?.displayName ?: "",
-                            showDownloadDialogData?.name ?: ""
+                            showDownloadDialogData.firstOrNull()?.type?.displayName ?: "",
+                            showDownloadDialogData.joinToString(separator = ", ") { it.name }
                         )
                     )
                 },
@@ -581,16 +580,17 @@ fun RecognizeTextScreen(
                     EnhancedButton(
                         onClick = {
                             if (context.isNetworkAvailable()) {
-                                showDownloadDialogData?.let {
+                                showDownloadDialogData.let { downloadData ->
                                     viewModel.downloadTrainData(
-                                        type = it.type,
-                                        languageCode = it.languageCode,
+                                        type = downloadData.firstOrNull()?.type
+                                            ?: RecognitionType.Standard,
+                                        languageCode = showDownloadDialogData.joinToString(separator = "+") { it.languageCode },
                                         onProgress = { p, size ->
                                             dataRemaining = readableByteCount(size)
                                             progress = p
                                         },
                                         onComplete = {
-                                            showDownloadDialogData = null
+                                            showDownloadDialogData = emptyList()
                                             scope.launch {
                                                 confettiController.showEmpty()
                                             }
@@ -600,7 +600,7 @@ fun RecognizeTextScreen(
                                     downloadStarted = true
                                 }
                             } else {
-                                showDownloadDialogData = null
+                                showDownloadDialogData = emptyList()
                                 scope.launch {
                                     toastHostState.showToast(
                                         message = context.getString(R.string.no_connection),
@@ -618,7 +618,7 @@ fun RecognizeTextScreen(
                     EnhancedButton(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer,
                         onClick = {
-                            showDownloadDialogData = null
+                            showDownloadDialogData = emptyList()
                         }
                     ) {
                         Text(stringResource(R.string.close))

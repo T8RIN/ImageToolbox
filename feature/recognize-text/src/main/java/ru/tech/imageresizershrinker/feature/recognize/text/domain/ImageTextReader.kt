@@ -33,4 +33,8 @@ interface ImageTextReader<Image> {
         type: RecognitionType
     ): List<OCRLanguage>
 
+    fun getLanguageForCode(
+        code: String
+    ): OCRLanguage
+
 }

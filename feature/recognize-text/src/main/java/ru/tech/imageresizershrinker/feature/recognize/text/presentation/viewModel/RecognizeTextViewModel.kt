@@ -14,6 +14,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import ru.tech.imageresizershrinker.core.domain.repository.SettingsRepository
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.DownloadData
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.ImageTextReader
@@ -27,15 +28,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RecognizeTextViewModel @Inject constructor(
-    private val imageTextReader: ImageTextReader<Bitmap>
+    private val imageTextReader: ImageTextReader<Bitmap>,
+    private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
     private val _segmentationMode: MutableState<SegmentationMode> =
         mutableStateOf(SegmentationMode.PSM_AUTO_OSD)
     val segmentationMode by _segmentationMode
 
-    private val _selectedLanguage = mutableStateOf(OCRLanguage.Default)
-    val selectedLanguage by _selectedLanguage
+    private val _selectedLanguages = mutableStateOf(listOf(OCRLanguage.Default))
+    val selectedLanguages by _selectedLanguages
 
     private val _recognitionType = mutableStateOf<RecognitionType>(RecognitionType.Standard)
     val recognitionType by _recognitionType
@@ -52,36 +54,38 @@ class RecognizeTextViewModel @Inject constructor(
     private val _languages: MutableState<List<OCRLanguage>> = mutableStateOf(emptyList())
     val languages by _languages
 
-    private val _isLanguagesLoading = mutableStateOf(false)
-    val isLanguagesLoading by _isLanguagesLoading
-
     val isTextLoading: Boolean
         get() = textLoadingProgress in 0..100
 
     private var longsJob: Job? = null
     private fun loadLanguages() {
-        _isLanguagesLoading.update { false }
         longsJob?.cancel()
         longsJob = viewModelScope.launch {
             delay(200L)
-            _isLanguagesLoading.update { true }
             val data = imageTextReader.getLanguages(recognitionType)
-            if (_selectedLanguage.value == OCRLanguage.Default) {
-                _selectedLanguage.update {
-                    data.first { it.code == "eng" }
+            _selectedLanguages.update { ocrLanguages ->
+                val list = ocrLanguages.toMutableList()
+                data.forEach { ocrLanguage ->
+                    ocrLanguages.indexOfFirst {
+                        it.code == ocrLanguage.code
+                    }.takeIf { it != -1 }?.let { index ->
+                        list[index] = ocrLanguage
+                    }
                 }
-            } else {
-                _selectedLanguage.update {
-                    data.first { it.code == selectedLanguage.code }
-                }
+                list
             }
             _languages.update { data }
-            _isLanguagesLoading.update { false }
         }
     }
 
     init {
         loadLanguages()
+        viewModelScope.launch {
+            val languageCodes = settingsRepository.getInitialOCRLanguageCodes().map {
+                imageTextReader.getLanguageForCode(it)
+            }
+            _selectedLanguages.update { languageCodes }
+        }
     }
 
     fun updateUri(uri: Uri?) {
@@ -92,7 +96,7 @@ class RecognizeTextViewModel @Inject constructor(
 
     fun startRecognition(
         onError: (Throwable) -> Unit,
-        onRequestDownload: (DownloadData) -> Unit
+        onRequestDownload: (List<DownloadData>) -> Unit
     ) {
         _textLoadingProgress.update { -1 }
         job?.cancel()
@@ -102,7 +106,7 @@ class RecognizeTextViewModel @Inject constructor(
             _textLoadingProgress.update { 0 }
             imageTextReader.getTextFromImage(
                 type = recognitionType,
-                languageCode = selectedLanguage.code,
+                languageCode = selectedLanguages.joinToString("+") { it.code },
                 segmentationMode = segmentationMode,
                 imageUri = uri.toString(),
                 onProgress = { progress ->
@@ -152,11 +156,18 @@ class RecognizeTextViewModel @Inject constructor(
         }
     }
 
-    fun onLanguageSelected(ocrLanguage: OCRLanguage) {
-        _selectedLanguage.update { ocrLanguage }
-        _recognitionData.update { null }
-        job?.cancel()
-        _textLoadingProgress.update { -1 }
+    fun onLanguagesSelected(ocrLanguages: List<OCRLanguage>) {
+        if (ocrLanguages.isNotEmpty()) {
+            viewModelScope.launch {
+                settingsRepository.setInitialOCRLanguageCodes(
+                    ocrLanguages.map { it.code }
+                )
+            }
+            _selectedLanguages.update { ocrLanguages }
+            _recognitionData.update { null }
+            job?.cancel()
+            _textLoadingProgress.update { -1 }
+        }
     }
 
     fun setSegmentationMode(segmentationMode: SegmentationMode) {

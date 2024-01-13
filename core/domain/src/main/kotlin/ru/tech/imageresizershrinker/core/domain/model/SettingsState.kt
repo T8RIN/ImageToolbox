@@ -51,7 +51,8 @@ data class SettingsState(
     val defaultImageScaleMode: ImageScaleMode,
     val usePixelSwitch: Boolean,
     val magnifierEnabled: Boolean,
-    val exifWidgetInitialState: Boolean
+    val exifWidgetInitialState: Boolean,
+    val initialOcrCodes: List<String>
 ) : Domain {
 
     companion object {
@@ -104,7 +105,8 @@ data class SettingsState(
                 copyToClipboardMode = CopyToClipboardMode.Disabled,
                 usePixelSwitch = false,
                 magnifierEnabled = true,
-                exifWidgetInitialState = false
+                exifWidgetInitialState = false,
+                initialOcrCodes = listOf("eng")
             )
         }
     }

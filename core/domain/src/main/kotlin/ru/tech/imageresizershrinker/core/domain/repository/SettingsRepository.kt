@@ -118,4 +118,8 @@ interface SettingsRepository {
     suspend fun toggleMagnifierEnabled()
 
     suspend fun toggleExifWidgetInitialState()
+
+    suspend fun setInitialOCRLanguageCodes(list: List<String>)
+
+    suspend fun getInitialOCRLanguageCodes(): List<String>
 }

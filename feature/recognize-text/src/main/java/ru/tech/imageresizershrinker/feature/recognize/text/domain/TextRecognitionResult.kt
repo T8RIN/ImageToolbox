@@ -7,6 +7,6 @@ sealed interface TextRecognitionResult {
 
     data class Success(val data: RecognitionData) : TextRecognitionResult
 
-    data class NoData(val data: DownloadData) : TextRecognitionResult
+    data class NoData(val data: List<DownloadData>) : TextRecognitionResult
 
 }

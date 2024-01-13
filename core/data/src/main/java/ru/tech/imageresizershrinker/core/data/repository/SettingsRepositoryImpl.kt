@@ -43,6 +43,7 @@ import ru.tech.imageresizershrinker.core.data.keys.Keys.FONT_SCALE
 import ru.tech.imageresizershrinker.core.data.keys.Keys.GROUP_OPTIONS_BY_TYPE
 import ru.tech.imageresizershrinker.core.data.keys.Keys.IMAGE_PICKER_MODE
 import ru.tech.imageresizershrinker.core.data.keys.Keys.IMAGE_SCALE_MODE
+import ru.tech.imageresizershrinker.core.data.keys.Keys.INITIAL_OCR_CODES
 import ru.tech.imageresizershrinker.core.data.keys.Keys.INVERT_THEME
 import ru.tech.imageresizershrinker.core.data.keys.Keys.LOCK_DRAW_ORIENTATION
 import ru.tech.imageresizershrinker.core.data.keys.Keys.MAGNIFIER_ENABLED
@@ -150,7 +151,8 @@ class SettingsRepositoryImpl @Inject constructor(
             usePixelSwitch = prefs[USE_PIXEL_SWITCH] ?: default.usePixelSwitch,
             magnifierEnabled = prefs[MAGNIFIER_ENABLED] ?: default.magnifierEnabled,
             exifWidgetInitialState = prefs[EXIF_WIDGET_INITIAL_STATE]
-                ?: default.exifWidgetInitialState
+                ?: default.exifWidgetInitialState,
+            initialOcrCodes = prefs[INITIAL_OCR_CODES]?.split("+") ?: default.initialOcrCodes
         )
     }
 
@@ -524,6 +526,18 @@ class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[EXIF_WIDGET_INITIAL_STATE] ?: false
             it[EXIF_WIDGET_INITIAL_STATE] = !v
+        }
+    }
+
+    override suspend fun setInitialOCRLanguageCodes(list: List<String>) {
+        dataStore.edit {
+            it[INITIAL_OCR_CODES] = list.joinToString(separator = "+")
+        }
+    }
+
+    override suspend fun getInitialOCRLanguageCodes(): List<String> {
+        return dataStore.data.first().let { prefs ->
+            prefs[INITIAL_OCR_CODES]?.split("+") ?: default.initialOcrCodes
         }
     }
 

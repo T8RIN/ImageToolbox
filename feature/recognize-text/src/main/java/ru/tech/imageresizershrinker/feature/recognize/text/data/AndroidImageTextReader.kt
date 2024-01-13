@@ -2,6 +2,7 @@ package ru.tech.imageresizershrinker.feature.recognize.text.data
 
 import android.content.Context
 import android.graphics.Bitmap
+import androidx.compose.ui.util.fastAll
 import androidx.core.os.LocaleListCompat
 import androidx.core.text.HtmlCompat
 import com.googlecode.tesseract.android.TessBaseAPI
@@ -35,8 +36,6 @@ internal class AndroidImageTextReader @Inject constructor(
     @ApplicationContext private val context: Context
 ) : ImageTextReader<Bitmap> {
 
-    //TODO: Add multiple languages support
-
     init {
         RecognitionType.entries.forEach {
             File(context.filesDir, "${it.displayName}/tessdata").mkdirs()
@@ -65,14 +64,10 @@ internal class AndroidImageTextReader @Inject constructor(
         onProgress: (Int) -> Unit
     ): TextRecognitionResult = withContext(Dispatchers.IO) {
 
-        if (!isLanguageDataExists(type, languageCode)) {
-            return@withContext TextRecognitionResult.NoData(
-                DownloadData(
-                    type = type,
-                    languageCode = languageCode,
-                    name = getDisplayName(languageCode)
-                )
-            )
+        val needToDownload = getNeedToDownloadLanguages(type, languageCode)
+
+        if (needToDownload.isNotEmpty()) {
+            return@withContext TextRecognitionResult.NoData(needToDownload)
         }
 
         val path = getPathFromMode(type)
@@ -81,17 +76,20 @@ internal class AndroidImageTextReader @Inject constructor(
             if (isActive) onProgress(it.percent)
         }.apply {
             val success = init(path, languageCode)
-            if (!success) return@withContext TextRecognitionResult.NoData(
-                DownloadData(
-                    type = type,
-                    languageCode = languageCode,
-                    name = getDisplayName(languageCode)
-                )
-            ).also {
-                File(
-                    "${getPathFromMode(type)}/tessdata",
-                    format(Constants.LANGUAGE_CODE, languageCode)
-                ).delete()
+            if (!success) {
+                return@withContext TextRecognitionResult.NoData(
+                    getNeedToDownloadLanguages(
+                        type = type,
+                        languageCode = languageCode
+                    )
+                ).also {
+                    it.data.forEach { data ->
+                        File(
+                            "${getPathFromMode(type)}/tessdata",
+                            format(Constants.LANGUAGE_CODE, data.languageCode)
+                        ).delete()
+                    }
+                }
             }
             pageSegMode = segmentationMode.ordinal
             setImage(image)
@@ -109,14 +107,35 @@ internal class AndroidImageTextReader @Inject constructor(
             if (it.isSuccess) {
                 it.getOrNull()!!
             } else {
-                File(
-                    path,
-                    format(Constants.LANGUAGE_CODE, languageCode)
-                ).delete()
+                languageCode.split("+").forEach { code ->
+                    File(
+                        path,
+                        format(Constants.LANGUAGE_CODE, code)
+                    ).delete()
+                }
 
                 TextRecognitionResult.Error(it.exceptionOrNull()!!)
             }
         }
+    }
+
+    private fun getNeedToDownloadLanguages(
+        type: RecognitionType,
+        languageCode: String
+    ): List<DownloadData> {
+        val needToDownload = mutableListOf<DownloadData>()
+        languageCode.split("+").forEach { code ->
+            if (!isLanguageDataExists(type, code)) {
+                needToDownload.add(
+                    DownloadData(
+                        type = type,
+                        languageCode = code,
+                        name = getDisplayName(code)
+                    )
+                )
+            }
+        }
+        return needToDownload
     }
 
     override fun isLanguageDataExists(type: RecognitionType, languageCode: String): Boolean {
@@ -146,17 +165,37 @@ internal class AndroidImageTextReader @Inject constructor(
         }.toList()
     }
 
+    override fun getLanguageForCode(
+        code: String
+    ): OCRLanguage = OCRLanguage(
+        name = getDisplayName(code),
+        code = code,
+        downloaded = RecognitionType.entries.filter {
+            isLanguageDataExists(it, code)
+        }
+    )
+
     override suspend fun downloadTrainingData(
         type: RecognitionType,
         languageCode: String,
         onProgress: (Float, Long) -> Unit
     ): Boolean {
-        return if (!isLanguageDataExists(type, languageCode)) {
-            downloadTrainingDataImpl(type, languageCode, onProgress)
+        val needToDownloadLanguages = getNeedToDownloadLanguages(type, languageCode)
+
+        return if (needToDownloadLanguages.isNotEmpty()) {
+            downloadTrainingDataImpl(type, needToDownloadLanguages, onProgress)
         } else false
     }
 
     private suspend fun downloadTrainingDataImpl(
+        type: RecognitionType,
+        needToDownloadLanguages: List<DownloadData>,
+        onProgress: (Float, Long) -> Unit
+    ): Boolean = needToDownloadLanguages.map {
+        downloadTrainingDataForCode(type, it.languageCode, onProgress)
+    }.fastAll { it }
+
+    private suspend fun downloadTrainingDataForCode(
         type: RecognitionType,
         lang: String,
         onProgress: (Float, Long) -> Unit

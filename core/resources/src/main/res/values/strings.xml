@@ -577,4 +577,5 @@
     <string name="force_exif_widget_inital_value">Force initial value</string>
     <string name="force_exif_widget_inital_value_sub">Forces exif widget to be checked initially</string>
     <string name="exif" translatable="false">EXIF</string>
+    <string name="allow_multiple_languages">Allow Multiple Languages</string>
 </resources>
