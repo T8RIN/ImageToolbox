@@ -142,7 +142,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.OpenColorPicker
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientation
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
@@ -848,7 +847,6 @@ fun DrawScreen(
                 Column {
                     topAppBar()
                     Row(
-                        modifier = Modifier.navBarsPaddingOnlyIfTheyAtTheEnd(),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
@@ -890,6 +888,7 @@ fun DrawScreen(
                                 controls()
                             }
                         }
+                        val direction = LocalLayoutDirection.current
                         Column(
                             Modifier
                                 .container(
@@ -898,7 +897,12 @@ fun DrawScreen(
                                 )
                                 .padding(horizontal = 20.dp)
                                 .fillMaxHeight()
-                                .navigationBarsPadding(),
+                                .navigationBarsPadding()
+                                .padding(
+                                    end = WindowInsets.displayCutout
+                                        .asPaddingValues()
+                                        .calculateEndPadding(direction)
+                                ),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {

@@ -10,7 +10,6 @@ import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +19,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -43,13 +44,11 @@ import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -77,6 +76,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -88,6 +88,7 @@ import ru.tech.imageresizershrinker.core.domain.image.draw.pt
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.model.PtSaver
+import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
@@ -108,7 +109,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDial
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientation
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
@@ -240,19 +240,21 @@ fun EraseBackgroundScreen(
                 panEnabled = !panEnabled
             }
         )
-        OutlinedIconButton(
-            border = if (portrait) {
-                BorderStroke(0.dp, Color.Transparent)
-            } else ButtonDefaults.outlinedButtonBorder,
+        EnhancedIconButton(
+            containerColor = Color.Transparent,
+            borderColor = MaterialTheme.colorScheme.outlineVariant(
+                luminance = 0.1f
+            ),
             onClick = { viewModel.undo() },
             enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
         ) {
             Icon(Icons.AutoMirrored.Rounded.Undo, null)
         }
-        OutlinedIconButton(
-            border = if (portrait) {
-                BorderStroke(0.dp, Color.Transparent)
-            } else ButtonDefaults.outlinedButtonBorder,
+        EnhancedIconButton(
+            containerColor = Color.Transparent,
+            borderColor = MaterialTheme.colorScheme.outlineVariant(
+                luminance = 0.1f
+            ),
             onClick = { viewModel.redo() },
             enabled = viewModel.undonePaths.isNotEmpty()
         ) {
@@ -567,7 +569,6 @@ fun EraseBackgroundScreen(
                 Column {
                     topAppBar()
                     Row(
-                        modifier = Modifier.navBarsPaddingOnlyIfTheyAtTheEnd(),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
@@ -602,6 +603,7 @@ fun EraseBackgroundScreen(
                                 controls()
                             }
                         }
+                        val direction = LocalLayoutDirection.current
                         Column(
                             Modifier
                                 .container(
@@ -610,7 +612,12 @@ fun EraseBackgroundScreen(
                                 )
                                 .padding(horizontal = 20.dp)
                                 .fillMaxHeight()
-                                .navigationBarsPadding(),
+                                .navigationBarsPadding()
+                                .padding(
+                                    end = WindowInsets.displayCutout
+                                        .asPaddingValues()
+                                        .calculateEndPadding(direction)
+                                ),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {

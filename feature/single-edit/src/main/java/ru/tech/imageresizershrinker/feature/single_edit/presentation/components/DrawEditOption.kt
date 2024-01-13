@@ -8,7 +8,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,7 +25,6 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
@@ -69,7 +67,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.saver.DrawModeSaver
 import ru.tech.imageresizershrinker.core.ui.widget.saver.DrawPathModeSaver
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BitmapDrawer
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
@@ -90,7 +87,6 @@ fun DrawEditOption(
     undonePaths: List<UiPathPaint>,
     addPath: (UiPathPaint) -> Unit,
 ) {
-    val settingsState = LocalSettingsState.current
     bitmap?.let {
         var panEnabled by rememberSaveable { mutableStateOf(false) }
 
@@ -123,12 +119,6 @@ fun DrawEditOption(
         }
 
         val secondaryControls = @Composable {
-            val border = BorderStroke(
-                settingsState.borderWidth,
-                MaterialTheme.colorScheme.outlineVariant(
-                    luminance = 0.1f
-                )
-            )
             Row(
                 Modifier
                     .padding(16.dp)
@@ -136,15 +126,21 @@ fun DrawEditOption(
             ) {
                 switch()
                 Spacer(Modifier.width(8.dp))
-                OutlinedIconButton(
-                    border = border,
+                EnhancedIconButton(
+                    containerColor = Color.Transparent,
+                    borderColor = MaterialTheme.colorScheme.outlineVariant(
+                        luminance = 0.1f
+                    ),
                     onClick = undo,
                     enabled = lastPaths.isNotEmpty() || paths.isNotEmpty()
                 ) {
                     Icon(Icons.AutoMirrored.Rounded.Undo, null)
                 }
-                OutlinedIconButton(
-                    border = border,
+                EnhancedIconButton(
+                    containerColor = Color.Transparent,
+                    borderColor = MaterialTheme.colorScheme.outlineVariant(
+                        luminance = 0.1f
+                    ),
                     onClick = redo,
                     enabled = undonePaths.isNotEmpty()
                 ) {

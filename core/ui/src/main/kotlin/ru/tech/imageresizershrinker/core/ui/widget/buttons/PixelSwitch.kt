@@ -16,6 +16,7 @@ import androidx.compose.material3.SwitchColors
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,12 +34,11 @@ fun PixelSwitch(
     colors: SwitchColors = SwitchDefaults.colors(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
-    val trackColor = animateColorAsState(targetValue = trackColor(enabled, checked, colors))
-    val thumbColor = animateColorAsState(targetValue = thumbColor(enabled, checked, colors))
-    val thumbSize =
-        animateDpAsState(targetValue = if (checked) SelectedHandleSize else UnselectedHandleSize)
-    val thumbOffset =
-        animateDpAsState(targetValue = if (checked) ThumbPaddingEnd else ThumbPaddingStart)
+    val trackColor by animateColorAsState(targetValue = trackColor(enabled, checked, colors))
+    val thumbColor by animateColorAsState(targetValue = thumbColor(enabled, checked, colors))
+    val borderColor by animateColorAsState(targetValue = borderColor(enabled, checked, colors))
+    val thumbSize by animateDpAsState(targetValue = if (checked) SelectedHandleSize else UnselectedHandleSize)
+    val thumbOffset by animateDpAsState(targetValue = if (checked) ThumbPaddingEnd else ThumbPaddingStart)
 
     Box(
         modifier = modifier
@@ -50,24 +50,24 @@ fun PixelSwitch(
                 role = Role.Switch,
                 onClick = { onCheckedChange?.invoke(!checked) }
             )
-            .background(trackColor.value, CircleShape)
+            .background(trackColor, CircleShape)
             .size(TrackWidth, TrackHeight)
             .border(
-                TrackOutlineWidth,
-                borderColor(enabled, checked, colors),
-                CircleShape
+                width = TrackOutlineWidth,
+                color = borderColor,
+                shape = CircleShape
             )
     ) {
         Box(
             modifier = Modifier
-                .offset { IntOffset(x = thumbOffset.value.roundToPx(), y = 0) }
+                .offset { IntOffset(x = thumbOffset.roundToPx(), y = 0) }
                 .indication(
                     interactionSource = interactionSource,
                     indication = rememberRipple(false, 16.dp),
                 )
                 .align(Alignment.CenterStart)
-                .background(thumbColor.value, CircleShape)
-                .size(thumbSize.value)
+                .background(thumbColor, CircleShape)
+                .size(thumbSize)
         )
     }
 }

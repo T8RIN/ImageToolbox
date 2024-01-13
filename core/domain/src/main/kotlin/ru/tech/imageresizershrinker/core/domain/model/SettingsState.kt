@@ -90,7 +90,7 @@ data class SettingsState(
                 drawAppBarShadows = true,
                 appOpenCount = 0,
                 aspectRatios = DomainAspectRatio.defaultList,
-                lockDrawOrientation = true,
+                lockDrawOrientation = false,
                 themeContrastLevel = 0.0,
                 themeStyle = 0,
                 isInvertThemeColors = false,

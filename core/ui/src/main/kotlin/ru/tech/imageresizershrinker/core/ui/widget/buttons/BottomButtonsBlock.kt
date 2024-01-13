@@ -109,7 +109,9 @@ fun BottomButtonsBlock(
                     .padding(horizontal = 16.dp)
                     .navigationBarsPadding()
                     .padding(
-                        WindowInsets.displayCutout.asPaddingValues().calculateEndPadding(direction)
+                        end = WindowInsets.displayCutout
+                            .asPaddingValues()
+                            .calculateEndPadding(direction)
                     ),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
