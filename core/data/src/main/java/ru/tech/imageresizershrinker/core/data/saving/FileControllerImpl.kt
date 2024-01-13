@@ -24,6 +24,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okio.use
 import ru.tech.imageresizershrinker.core.data.keys.Keys.ADD_ORIGINAL_NAME_TO_FILENAME
 import ru.tech.imageresizershrinker.core.data.keys.Keys.ADD_SEQ_NUM_TO_FILENAME
 import ru.tech.imageresizershrinker.core.data.keys.Keys.ADD_SIZE_TO_FILENAME
@@ -60,7 +61,7 @@ class FileControllerImpl @Inject constructor(
     private val cipherRepository: CipherRepository
 ) : FileController {
 
-    private var fileParams: FileParams = FileParams(
+    private var _fileParams: FileParams = FileParams(
         treeUri = null,
         filenamePrefix = "",
         filenameSuffix = "",
@@ -72,10 +73,12 @@ class FileControllerImpl @Inject constructor(
         overwriteFile = false
     )
 
+    private val fileParams get() = _fileParams
+
     init {
         CoroutineScope(Dispatchers.IO).launch {
             dataStore.data.collect { preferences ->
-                fileParams = fileParams.copy(
+                _fileParams = _fileParams.copy(
                     treeUri = preferences[SAVE_FOLDER_URI]?.takeIf { it.isNotEmpty() },
                     filenamePrefix = preferences[FILENAME_PREFIX] ?: "ResizedImage",
                     filenameSuffix = preferences[FILENAME_SUFFIX] ?: "",
@@ -122,10 +125,15 @@ class FileControllerImpl @Inject constructor(
             default = context.getString(R.string.default_folder)
         )
 
-    private fun Uri?.toUiPath(context: Context, default: String): String = this?.let { uri ->
-        DocumentFile
-            .fromTreeUri(context, uri)
-            ?.uri?.path?.split(":")
+    private fun Uri?.toUiPath(
+        context: Context,
+        default: String,
+        isTreeUri: Boolean = true
+    ): String = this?.let { uri ->
+        val document = if (isTreeUri) DocumentFile.fromTreeUri(context, uri)
+        else DocumentFile.fromSingleUri(context, uri)
+
+        document?.uri?.path?.split(":")
             ?.lastOrNull()?.let { p ->
                 val endPath = p.takeIf {
                     it.isNotEmpty()
@@ -149,9 +157,6 @@ class FileControllerImpl @Inject constructor(
             return SaveResult.Error.MissingPermissions
         }
 
-        var filename = ""
-        var savePath: String = savingPath
-
         kotlin.runCatching {
             if (fileParams.copyToClipboardMode is CopyToClipboardMode.Enabled) {
                 val clipboardManager = ContextCompat.getSystemService(
@@ -174,10 +179,16 @@ class FileControllerImpl @Inject constructor(
                 return SaveResult.Success(context.getString(R.string.copied))
             }
 
-            if (fileParams.overwriteFile) {
-                val originalUri = saveTarget.originalUri.toUri()
+            val originalUri = saveTarget.originalUri.toUri()
+            val hasOriginalUri = runCatching {
+                context.contentResolver.openFileDescriptor(originalUri, "r")
+            }.isSuccess
+
+            if (fileParams.overwriteFile && hasOriginalUri) {
                 runCatching {
-                    context.contentResolver.openFileDescriptor(originalUri, "w")
+                    if (originalUri == Uri.EMPTY) throw IllegalStateException()
+
+                    context.contentResolver.openFileDescriptor(originalUri, "wt")
                 }.onFailure {
                     dataStore.edit {
                         it[IMAGE_PICKER_MODE] = 2
@@ -190,9 +201,6 @@ class FileControllerImpl @Inject constructor(
                         )
                     )
                 }.getOrNull()?.use { parcel ->
-                    filename = context.getFileName(originalUri).toString()
-                    savePath = context.getString(R.string.original)
-
                     FileOutputStream(parcel.fileDescriptor).use { out ->
                         out.write(saveTarget.data)
                         copyMetadata(
@@ -202,6 +210,13 @@ class FileControllerImpl @Inject constructor(
                             originalUri = originalUri
                         )
                     }
+
+                    return SaveResult.Success(
+                        message = context.getString(
+                            R.string.saved_to_original,
+                            context.getFileName(originalUri).toString()
+                        )
+                    )
                 }
             } else {
                 fileParams.treeUri.takeIf {
@@ -239,8 +254,6 @@ class FileControllerImpl @Inject constructor(
                     )
                 } else saveTarget
 
-                filename = newSaveTarget.filename ?: ""
-
                 val savingFolder = context.getSavingFolder(
                     treeUri = fileParams.treeUri?.takeIf { it.isNotEmpty() }?.toUri(),
                     saveTarget = newSaveTarget
@@ -258,13 +271,11 @@ class FileControllerImpl @Inject constructor(
                         originalUri = saveTarget.originalUri.toUri()
                     )
                 }
-            }
-        }.let { result ->
-            if (result.isFailure) {
-                return SaveResult.Error.Exception(result.exceptionOrNull() ?: Throwable())
-            } else {
+
+                val filename = newSaveTarget.filename ?: ""
+
                 return SaveResult.Success(
-                    if (savePath.isNotEmpty() && filename.isNotEmpty()) {
+                    if (savingPath.isNotEmpty() && filename.isNotEmpty()) {
                         context.getString(
                             R.string.saved_to,
                             savingPath,
@@ -273,7 +284,15 @@ class FileControllerImpl @Inject constructor(
                     } else null
                 )
             }
+        }.onFailure {
+            return SaveResult.Error.Exception(it)
         }
+
+        return SaveResult.Error.Exception(
+            SaveException(
+                message = context.getString(R.string.something_went_wrong)
+            )
+        )
     }
 
     private fun copyMetadata(
@@ -427,7 +446,7 @@ class FileControllerImpl @Inject constructor(
         return if (treeUri == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 val type = saveTarget.imageFormat.type
-                val path = "${Environment.DIRECTORY_DOCUMENTS}/ResizedImages"
+                val path = "${Environment.DIRECTORY_PICTURES}/ResizedImages"
                 val contentValues = ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, saveTarget.filename)
                     put(
@@ -451,7 +470,7 @@ class FileControllerImpl @Inject constructor(
             } else {
                 val imagesDir = File(
                     Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_DCIM
+                        Environment.DIRECTORY_PICTURES
                     ), "ResizedImages"
                 )
                 if (!imagesDir.exists()) imagesDir.mkdir()

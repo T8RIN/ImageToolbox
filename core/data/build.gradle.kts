@@ -55,6 +55,8 @@ dependencies {
 
     api(libs.tesseract)
 
+    implementation(project(":libs:logger"))
+
     implementation(project(":libs:gpuimage"))
 
     implementation(project(":core:domain"))
