@@ -38,6 +38,7 @@ import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.SwapHoriz
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
@@ -282,6 +283,7 @@ fun CompareScreen(
                                     .weight(1f)
                                     .then(zoomModifier)
                             )
+                            HorizontalDivider()
                         }
                         if (second != null) {
                             Image(
@@ -461,10 +463,11 @@ fun CompareScreen(
 
             AnimatedContent(viewModel.bitmapData == null) { nil ->
                 viewModel.bitmapData.takeIf { !nil }?.let { bitmapPair ->
+                    val zoomEnabled = viewModel.compareType != CompareType.SideBySide
+                    val zoomState = rememberZoomState(30f, key = viewModel.compareType)
+
                     if (portrait) {
                         Column {
-                            val zoomEnabled = viewModel.compareType != CompareType.SideBySide
-                            val zoomState = rememberZoomState(30f)
                             Box(
                                 contentAlignment = Alignment.Center,
                                 modifier = Modifier
@@ -568,7 +571,16 @@ fun CompareScreen(
                                 Modifier
                                     .weight(0.8f)
                                     .zoomable(
-                                        rememberZoomState(30f)
+                                        zoomState = zoomState,
+                                        onDoubleTap = {
+                                            if (zoomEnabled) {
+                                                zoomState.defaultZoomOnDoubleTap(it)
+                                            }
+                                        },
+                                        enableOneFingerZoom = zoomEnabled,
+                                        enabled = { _, _ ->
+                                            zoomEnabled
+                                        }
                                     )
                                     .padding(20.dp)
                             ) {

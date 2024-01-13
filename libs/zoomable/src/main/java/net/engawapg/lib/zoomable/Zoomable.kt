@@ -458,6 +458,6 @@ suspend fun ZoomState.toggleScale(
     position: Offset,
     animationSpec: AnimationSpec<Float> = spring(),
 ) {
-    val newScale = if (scale == 1f) targetScale else 1f
+    val newScale = if (scale == minScale) targetScale else minScale
     changeScale(newScale, position, animationSpec)
 }

@@ -413,11 +413,13 @@ fun rememberZoomState(
     @FloatRange(from = 1.0) maxScale: Float = 5f,
     contentSize: Size = Size.Zero,
     velocityDecay: DecayAnimationSpec<Float> = exponentialDecay(),
+    key: Any? = null
 ) = rememberZoomState(
     maxScale = maxScale,
     minScale = 1f,
     contentSize = contentSize,
-    velocityDecay = velocityDecay
+    velocityDecay = velocityDecay,
+    key = key
 )
 
 /**
@@ -435,7 +437,8 @@ fun rememberZoomState(
     @FloatRange(from = 0.0) minScale: Float = 1f,
     contentSize: Size = Size.Zero,
     velocityDecay: DecayAnimationSpec<Float> = exponentialDecay(),
-) = remember {
+    key: Any? = null
+) = remember(key) {
     ZoomState(
         maxScale = maxScale,
         minScale = minScale,
