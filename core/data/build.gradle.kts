@@ -1,43 +1,11 @@
-
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
+    alias(libs.plugins.image.toolbox.library)
+    alias(libs.plugins.image.toolbox.hilt)
 }
 
-android {
-    namespace = "ru.tech.imageresizershrinker.core.data"
-    compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
-
-    defaultConfig {
-        minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
-    }
-
-    compileOptions {
-        sourceCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
-        targetCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
-    }
-
-    kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
-    }
-
-    flavorDimensions += "app"
-
-    productFlavors {
-        create("foss") {
-            dimension = "app"
-        }
-        create("market") {
-            dimension = "app"
-        }
-        
-    }
-}
+android.namespace = "ru.tech.imageresizershrinker.core.data"
 
 dependencies {
-    implementation(libs.hilt)
-    kapt(libs.dagger.hilt.compiler)
     api(libs.coil)
     api(libs.coilCompose)
     api(libs.coilGif)

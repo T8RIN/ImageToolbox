@@ -246,6 +246,7 @@ fun RecognizeTextScreen(
     }
 
     val imageBlock = @Composable {
+        //TODO FIX
         Box(
             modifier = Modifier
                 .container()

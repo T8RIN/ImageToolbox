@@ -1,51 +1,12 @@
-
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
-    id("kotlin-parcelize")
+    alias(libs.plugins.image.toolbox.library)
+    alias(libs.plugins.image.toolbox.hilt)
+    alias(libs.plugins.image.toolbox.compose)
 }
 
-android {
-    namespace = "ru.tech.imageresizershrinker.core.ui"
-    compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
-
-    defaultConfig {
-        minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
-    }
-
-    compileOptions {
-        sourceCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
-        targetCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
-    }
-
-    kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    flavorDimensions += "app"
-
-    productFlavors {
-        create("foss") {
-            dimension = "app"
-        }
-        create("market") {
-            dimension = "app"
-        }
-    }
-}
+android.namespace = "ru.tech.imageresizershrinker.core.ui"
 
 dependencies {
-    coreLibraryDesugaring(libs.desugaring)
-
     api(libs.reimagined)
     api(libs.reimagined.hilt)
 
@@ -60,16 +21,6 @@ dependencies {
 
     //Konfetti
     api(libs.konfetti.compose)
-
-    //Compose
-    api(libs.androidx.material3)
-    api(libs.androidx.material3.window.sizeclass)
-    api(libs.androidx.material.icons.extended)
-    api(libs.androidx.material)
-
-    //Di
-    implementation(libs.hilt)
-    kapt(libs.dagger.hilt.compiler)
 
     //Coil
     api(libs.coil)

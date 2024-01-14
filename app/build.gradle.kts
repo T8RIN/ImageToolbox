@@ -158,6 +158,12 @@ dependencies {
     implementation(libs.hilt)
     kapt(libs.dagger.hilt.compiler)
 
+    //Compose
+    api(libs.androidx.material3)
+    api(libs.androidx.material3.window.sizeclass)
+    api(libs.androidx.material.icons.extended)
+    api(libs.androidx.material)
+
     implementation(project(":core:domain"))
     implementation(project(":core:ui"))
     implementation(project(":core:data"))

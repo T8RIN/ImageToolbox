@@ -1,25 +1,9 @@
-
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.image.toolbox.library)
 }
 
 android {
     namespace = "ru.tech.imageresizershrinker.core.resources"
-    compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
-
-    defaultConfig {
-        minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
-    }
-
-    compileOptions {
-        sourceCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
-        targetCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
-    }
-
-    kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
-    }
 
     buildFeatures {
         buildConfig = true
@@ -34,18 +18,6 @@ android {
             buildConfigField("String", "VERSION_NAME", "\"${libs.versions.versionName.get()}\"")
             buildConfigField("int", "VERSION_CODE", libs.versions.versionCode.get())
         }
-    }
-
-    flavorDimensions += "app"
-
-    productFlavors {
-        create("foss") {
-            dimension = "app"
-        }
-        create("market") {
-            dimension = "app"
-        }
-        
     }
 }
 

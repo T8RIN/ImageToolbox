@@ -4,6 +4,7 @@ include(":feature:recognize-text")
 
 pluginManagement {
     repositories {
+        includeBuild("build-logic")
         gradlePluginPortal()
         google()
         mavenCentral()

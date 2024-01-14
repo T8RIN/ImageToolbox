@@ -1,37 +1,10 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.image.toolbox.library)
+    alias(libs.plugins.image.toolbox.compose)
 }
-
-android {
-    compileSdk = libs.versions.androidCompileSdk.get().toIntOrNull()
-
-    defaultConfig {
-        minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
-    }
-
-    compileOptions {
-        sourceCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
-        targetCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
-    }
-
-    kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
-
-    buildFeatures {
-        compose = true
-    }
-    namespace = "com.smarttoolfactory.colorpicker"
-}
+android.namespace = "com.smarttoolfactory.colorpicker"
 
 dependencies {
-    implementation(libs.androidxCore)
-
     implementation(project(":libs:gesture"))
     implementation(project(":libs:screenshot"))
 
