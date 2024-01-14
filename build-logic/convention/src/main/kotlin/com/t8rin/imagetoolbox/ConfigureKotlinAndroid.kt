@@ -31,8 +31,10 @@ internal fun Project.configureKotlinAndroid(
         }
 
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_17
-            targetCompatibility = JavaVersion.VERSION_17
+            sourceCompatibility =
+                JavaVersion.toVersion(libs.findVersion("jvmTarget").get().toString())
+            targetCompatibility =
+                JavaVersion.toVersion(libs.findVersion("jvmTarget").get().toString())
             isCoreLibraryDesugaringEnabled = true
         }
 
@@ -61,13 +63,13 @@ internal fun Project.configureKotlinAndroid(
                 "-opt-in=androidx.compose.ui.unit.ExperimentalUnitApi",
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
             )
-            jvmTarget = JavaVersion.VERSION_17.toString()
+            jvmTarget = libs.findVersion("jvmTarget").get().toString()
         }
     }
 
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_17.toString()
+            jvmTarget = libs.findVersion("jvmTarget").get().toString()
         }
     }
 

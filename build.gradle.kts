@@ -1,8 +1,4 @@
 buildscript {
-    rootProject.extra.apply {
-        set("javaCompile", JavaVersion.VERSION_17)
-    }
-
     repositories {
         gradlePluginPortal()
         google()

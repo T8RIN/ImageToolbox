@@ -102,8 +102,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
-        targetCompatibility = rootProject.extra.get("javaCompile") as JavaVersion
+        sourceCompatibility = JavaVersion.toVersion(libs.versions.jvmTarget.get())
+        targetCompatibility = JavaVersion.toVersion(libs.versions.jvmTarget.get())
         isCoreLibraryDesugaringEnabled = true
     }
 
