@@ -3,6 +3,7 @@ package ru.tech.imageresizershrinker.core.ui.widget.controls
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -24,7 +25,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
@@ -36,6 +37,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
+import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 
@@ -62,7 +64,7 @@ fun EnhancedSlider(
 ) {
     if (steps != 0) {
         var compositions by remember {
-            mutableStateOf(0)
+            mutableIntStateOf(0)
         }
         val haptics = LocalHapticFeedback.current
         val updatedValue by rememberUpdatedState(newValue = value)
@@ -123,6 +125,14 @@ fun EnhancedSlider(
                     ).value,
                     enabled = LocalSettingsState.current.drawSliderShadows,
                     isClipped = true
+                )
+                .border(
+                    width = settingsState.borderWidth,
+                    color = MaterialTheme.colorScheme.outlineVariant(
+                        luminance = 0.1f,
+                        onTopOf = colors.inactiveTrackColor
+                    ),
+                    shape = CircleShape
                 )
                 .padding(horizontal = 6.dp),
             colors = colors,

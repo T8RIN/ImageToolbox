@@ -23,7 +23,10 @@ fun Modifier.drawHorizontalStroke(
     top: Boolean = false,
     height: Dp = Dp.Unspecified,
     autoElevation: Dp = 6.dp,
+    enabled: Boolean = true
 ) = composed {
+    if (!enabled) return@composed Modifier
+
     val settingsState = LocalSettingsState.current
     val borderWidth = settingsState.borderWidth
     val h = if (height.isUnspecified) {

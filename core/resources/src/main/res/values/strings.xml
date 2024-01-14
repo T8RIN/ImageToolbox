@@ -578,4 +578,8 @@
     <string name="force_exif_widget_inital_value_sub">Forces exif widget to be checked initially</string>
     <string name="exif" translatable="false">EXIF</string>
     <string name="allow_multiple_languages">Allow Multiple Languages</string>
+    <string name="slide">Slide</string>
+    <string name="side_by_side">Side By Side</string>
+    <string name="toggle_tap">Toggle Tap</string>
+    <string name="transparency">Transparency</string>
 </resources>

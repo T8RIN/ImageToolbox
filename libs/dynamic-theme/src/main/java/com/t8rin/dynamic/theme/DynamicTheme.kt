@@ -46,7 +46,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -458,25 +458,29 @@ fun rememberDynamicThemeState(
         tertiary = MaterialTheme.colorScheme.tertiary,
         surface = MaterialTheme.colorScheme.surface
     )
-): DynamicThemeState {
-    return rememberSaveable(saver = DynamicThemeStateSaver) {
-        DynamicThemeState(initialColorTuple)
-    }
+): DynamicThemeState = rememberSaveable(saver = DynamicThemeStateSaver) {
+    DynamicThemeState(initialColorTuple)
 }
 
-val DynamicThemeStateSaver: Saver<DynamicThemeState, String> = Saver(
+val DynamicThemeStateSaver = listSaver(
     save = {
         val colorTuple = it.colorTuple.value
-        "${colorTuple.primary.toArgb()}*${colorTuple.secondary?.toArgb()}*${colorTuple.tertiary?.toArgb()}*${colorTuple.surface?.toArgb()}"
+        val list: List<Int> = listOf(
+            colorTuple.primary.toArgb(),
+            colorTuple.secondary?.toArgb() ?: -1,
+            colorTuple.tertiary?.toArgb() ?: -1,
+            colorTuple.surface?.toArgb() ?: -1
+        )
+
+        list
     },
-    restore = { string ->
-        val ar = string.split("*").map { s -> s.toIntOrNull()?.let { Color(it) } }
+    restore = { ints: List<Int> ->
         DynamicThemeState(
             initialColorTuple = ColorTuple(
-                ar[0]!!,
-                ar[1],
-                ar[2],
-                ar[3]
+                primary = Color(ints[0]),
+                secondary = ints[1].takeIf { it != -1 }?.let { Color(it) },
+                tertiary = ints[2].takeIf { it != -1 }?.let { Color(it) },
+                surface = ints[3].takeIf { it != -1 }?.let { Color(it) },
             )
         )
     }
@@ -504,8 +508,8 @@ class DynamicThemeState(
 
     private suspend fun Bitmap.saturate(saturation: Float): Bitmap = withContext(Dispatchers.IO) {
         val src = this@saturate
-        val w = src.width
-        val h = src.height
+        val w = src.width.coerceAtMost(600)
+        val h = src.height.coerceAtMost(600)
         val bitmapResult = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         val canvasResult = Canvas(bitmapResult)
         val paint = Paint()

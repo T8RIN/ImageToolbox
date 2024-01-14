@@ -134,13 +134,11 @@ fun EnhancedIconButton(
                     if (forceMinimumInteractiveComponentSize) Modifier.minimumInteractiveComponentSize()
                     else Modifier
                 )
-                .then(
-                    if (enableAutoShadowAndBorder) Modifier.materialShadow(
-                        shape = shape,
-                        isClipped = isShadowClip,
-                        enabled = LocalSettingsState.current.drawButtonShadows,
-                        elevation = if (settingsState.borderWidth > 0.dp) 0.dp else 0.7.dp
-                    ) else Modifier
+                .materialShadow(
+                    shape = shape,
+                    isClipped = isShadowClip,
+                    enabled = LocalSettingsState.current.drawButtonShadows,
+                    elevation = if (settingsState.borderWidth > 0.dp || !enableAutoShadowAndBorder) 0.dp else 0.7.dp
                 ),
             shape = shape,
             colors = IconButtonDefaults.iconButtonColors(
@@ -148,10 +146,16 @@ fun EnhancedIconButton(
                 containerColor = containerColor
             ),
             enabled = enabled,
-            border = if (enableAutoShadowAndBorder) BorderStroke(
-                width = settingsState.borderWidth,
-                color = borderColor
-            ) else BorderStroke(0.dp, Color.Transparent),
+            border = BorderStroke(
+                width = animateDpAsState(
+                    if (enableAutoShadowAndBorder) settingsState.borderWidth
+                    else 0.dp
+                ).value,
+                color = animateColorAsState(
+                    if (enableAutoShadowAndBorder) borderColor
+                    else Color.Transparent
+                ).value
+            ),
             interactionSource = interactionSource,
             content = content
         )
