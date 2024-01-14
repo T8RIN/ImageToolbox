@@ -203,12 +203,14 @@ class FileControllerImpl @Inject constructor(
                 }.getOrNull()?.use { parcel ->
                     FileOutputStream(parcel.fileDescriptor).use { out ->
                         out.write(saveTarget.data)
-                        copyMetadata(
-                            initialExif = (saveTarget as? ImageSaveTarget<*>)?.metadata as ExifInterface?,
-                            fileUri = originalUri,
-                            keepMetadata = keepMetadata,
-                            originalUri = originalUri
-                        )
+                        kotlin.runCatching {
+                            copyMetadata(
+                                initialExif = (saveTarget as? ImageSaveTarget<*>)?.metadata as ExifInterface?,
+                                fileUri = originalUri,
+                                keepMetadata = keepMetadata,
+                                originalUri = originalUri
+                            )
+                        }
                     }
 
                     return SaveResult.Success(

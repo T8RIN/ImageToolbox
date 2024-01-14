@@ -59,6 +59,11 @@ inline fun <reified T> T.makeLog(
 ): T = also {
     if (it is Throwable) {
         Log.e(tag, it.localizedMessage, it)
+        Logger.makeLog(
+            tag = tag,
+            level = level,
+            dataBlock = { dataBlock(it) }
+        )
     } else {
         Logger.makeLog(
             tag = tag,

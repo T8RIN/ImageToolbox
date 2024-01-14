@@ -115,16 +115,28 @@ fun rememberImagePicker(
 ): ImagePicker {
     val context = LocalContext.current
 
+    val takePermission: (Uri) -> Unit = {
+        context.contentResolver.takePersistableUriPermission(
+            it,
+            Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+        )
+    }
+
     val photoPickerSingle = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = {
-            it?.let { onSuccess(listOf(it)) } ?: onFailure()
+            it?.let { onSuccess(listOf(it.also(takePermission))) } ?: onFailure()
         }
     )
     val photoPickerMultiple = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickMultipleVisualMedia(),
         onResult = { uris ->
-            uris.takeIf { it.isNotEmpty() }?.let { onSuccess(it) } ?: onFailure()
+            uris.takeIf {
+                it.isNotEmpty()
+            }?.let { list ->
+                onSuccess(list.map { it.also(takePermission) })
+            } ?: onFailure()
         }
     )
 
@@ -138,13 +150,15 @@ fun rememberImagePicker(
                     onSuccess(
                         List(
                             size = clipData.itemCount,
-                            init = {
-                                clipData.getItemAt(it).uri
+                            init = { index ->
+                                clipData.getItemAt(index).uri.also {
+                                    takePermission(it)
+                                }
                             }
                         )
                     )
                 } else if (data != null) {
-                    onSuccess(listOf(data))
+                    onSuccess(listOf(data.also(takePermission)))
                 } else onFailure()
             }
         )
