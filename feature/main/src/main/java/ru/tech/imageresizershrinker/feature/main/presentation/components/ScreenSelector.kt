@@ -33,6 +33,7 @@ import ru.tech.imageresizershrinker.feature.image_preview.presentation.ImagePrev
 import ru.tech.imageresizershrinker.feature.image_stitch.presentation.ImageStitchingScreen
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.LimitsResizeScreen
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.LoadNetImageScreen
+import ru.tech.imageresizershrinker.feature.main.presentation.MainScreen
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.PdfToolsScreen
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.PickColorFromImageScreen
@@ -95,7 +96,9 @@ fun ScreenSelector(
     ) { screen ->
         when (screen) {
             is Screen.Main -> {
-                MainScreen(viewModel = viewModel)
+                MainScreen(
+                    viewModel = viewModel
+                )
             }
 
             is Screen.SingleEdit -> {

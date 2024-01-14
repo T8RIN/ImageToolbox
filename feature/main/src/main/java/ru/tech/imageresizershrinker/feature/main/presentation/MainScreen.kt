@@ -1,6 +1,6 @@
 @file:Suppress("KotlinConstantConditions")
 
-package ru.tech.imageresizershrinker.feature.main.presentation.components
+package ru.tech.imageresizershrinker.feature.main.presentation
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -146,6 +146,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.feature.main.presentation.components.NavigationItem
 import ru.tech.imageresizershrinker.feature.main.presentation.components.settings.SettingsBlock
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
 
