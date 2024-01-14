@@ -58,9 +58,7 @@ fun FilenameSuffixSettingItem(
             .copy(alpha = 0.2f),
         endIcon = Icons.Rounded.CreateAlt,
         icon = Icons.Filled.Suffix,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(start = 8.dp, end = 8.dp)
+        modifier = modifier.fillMaxWidth()
     )
     if (showChangeFilenameDialog) {
         var value by remember {
