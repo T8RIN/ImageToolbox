@@ -446,7 +446,7 @@ class FileControllerImpl @Inject constructor(
         return if (treeUri == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 val type = saveTarget.imageFormat.type
-                val path = "${Environment.DIRECTORY_PICTURES}/ResizedImages"
+                val path = "${Environment.DIRECTORY_DOCUMENTS}/ResizedImages"
                 val contentValues = ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, saveTarget.filename)
                     put(
@@ -470,7 +470,7 @@ class FileControllerImpl @Inject constructor(
             } else {
                 val imagesDir = File(
                     Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES
+                        Environment.DIRECTORY_DOCUMENTS
                     ), "ResizedImages"
                 )
                 if (!imagesDir.exists()) imagesDir.mkdir()
