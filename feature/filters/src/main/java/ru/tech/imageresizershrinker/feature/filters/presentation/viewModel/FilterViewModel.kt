@@ -96,10 +96,12 @@ class FilterViewModel @Inject constructor(
                 Screen.Filter.Type.Basic(uris)
             } else it
         }
-        _basicFilterState.value = BasicFilterState(
-            uris = uris,
-            selectedUri = uris?.firstOrNull()?.also(::setBitmap)
-        )
+        _basicFilterState.update {
+            it.copy(
+                uris = uris,
+                selectedUri = uris?.firstOrNull()?.also(::setBitmap)
+            )
+        }
     }
 
     fun updateUrisSilently(removedUri: Uri) {
