@@ -123,7 +123,8 @@ object ContextUtils {
         navigate: (Screen) -> Unit,
         onGetUris: (List<Uri>) -> Unit,
         onHasPdfUri: (Uri) -> Unit,
-        notHasUris: Boolean
+        notHasUris: Boolean,
+        onWantGithubReview: () -> Unit
     ) {
         fun ClipData.clipList() = List(
             size = itemCount,
@@ -134,6 +135,11 @@ object ContextUtils {
 
         onStart()
         if (intent?.type != null && notHasUris) onColdStart()
+
+        if (intent?.action == Intent.ACTION_BUG_REPORT) {
+            onWantGithubReview()
+            return
+        }
 
         runCatching {
             val startsWithImage = intent?.type?.startsWith("image/") == true

@@ -104,7 +104,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFileName
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
-import ru.tech.imageresizershrinker.core.ui.utils.helper.showReview
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton

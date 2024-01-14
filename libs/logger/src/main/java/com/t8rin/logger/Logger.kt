@@ -57,11 +57,15 @@ inline fun <reified T> T.makeLog(
     level: Logger.Level = Logger.Level.Debug,
     dataBlock: (T) -> Any? = { it }
 ): T = also {
-    Logger.makeLog(
-        tag = tag,
-        level = level,
-        dataBlock = { dataBlock(it) }
-    )
+    if (it is Throwable) {
+        Log.e(tag, it.localizedMessage, it)
+    } else {
+        Logger.makeLog(
+            tag = tag,
+            level = level,
+            dataBlock = { dataBlock(it) }
+        )
+    }
 }
 
 inline infix fun <reified T> T.makeInfixLog(

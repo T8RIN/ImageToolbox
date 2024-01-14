@@ -37,6 +37,7 @@ import ru.tech.imageresizershrinker.core.domain.use_case.get_settings_state.GetS
 import ru.tech.imageresizershrinker.core.domain.use_case.get_settings_state.GetSettingsStateUseCase
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
 import java.io.OutputStream
 import java.net.URL
@@ -575,6 +576,17 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             settingsRepository.toggleExifWidgetInitialState()
         }
+    }
+
+    private val _showGithubReviewSheet = mutableStateOf(false)
+    val showGithubReviewSheet by _showGithubReviewSheet
+
+    fun onWantGithubReview() {
+        _showGithubReviewSheet.update { true }
+    }
+
+    fun hideReviewSheet() {
+        _showGithubReviewSheet.update { false }
     }
 
 }

@@ -34,6 +34,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
 import com.smarttoolfactory.beforeafter.OverlayStyle
+import net.engawapg.lib.zoomable.rememberZoomState
+import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -79,6 +81,8 @@ fun CompareSheet(
                             RoundedCornerShape(4.dp)
                         )
                         .weight(1f, false)
+                        .clip(RoundedCornerShape(4.dp))
+                        .zoomable(rememberZoomState(maxScale = 10f))
                 ) {
                     if (before != null && after != null) {
                         BeforeAfterImage(
@@ -92,6 +96,7 @@ fun CompareSheet(
                             onProgressChange = {
                                 progress = it
                             },
+                            enableZoom = false,
                             beforeImage = before,
                             afterImage = after,
                             beforeLabel = { },

@@ -107,9 +107,9 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFileName
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.showReview
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton

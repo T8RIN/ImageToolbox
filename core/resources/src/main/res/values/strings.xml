@@ -582,4 +582,7 @@
     <string name="side_by_side">Side By Side</string>
     <string name="toggle_tap">Toggle Tap</string>
     <string name="transparency">Transparency</string>
+    <string name="rate_app">Rate App</string>
+    <string name="rate">Rate</string>
+    <string name="rate_app_sub">This app is completely free, if you want it to become bigger, please star the project on Github 😄</string>
 </resources>

@@ -34,6 +34,8 @@ import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.parseImageFromIntent
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.notShowReviewAgain
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.widget.UpdateSheet
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderInit
@@ -49,6 +51,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.setContentWithWindowSiz
 import ru.tech.imageresizershrinker.feature.main.presentation.components.AppExitDialog
 import ru.tech.imageresizershrinker.feature.main.presentation.components.EditPresetsSheet
 import ru.tech.imageresizershrinker.feature.main.presentation.components.FirstLaunchSetupDialog
+import ru.tech.imageresizershrinker.feature.main.presentation.components.GithubReviewDialog
 import ru.tech.imageresizershrinker.feature.main.presentation.components.PermissionDialog
 import ru.tech.imageresizershrinker.feature.main.presentation.components.ScreenSelector
 import ru.tech.imageresizershrinker.feature.main.presentation.components.particles
@@ -183,6 +186,16 @@ class MainActivity : M3Activity() {
                     )
 
                     PermissionDialog()
+
+                    if (viewModel.showGithubReviewSheet) {
+                        GithubReviewDialog(
+                            onDismiss = viewModel::hideReviewSheet,
+                            onNotShowAgain = {
+                                notShowReviewAgain(this)
+                            },
+                            showNotShowAgainButton = ReviewHandler.showNotShowAgainButton
+                        )
+                    }
                 }
             }
         }
@@ -196,26 +209,17 @@ class MainActivity : M3Activity() {
 
     private fun parseImage(intent: Intent?) {
         parseImageFromIntent(
-            onStart = {
-                viewModel.hideSelectDialog()
-            },
-            onHasPdfUri = {
-                viewModel.updateHasPdfUri(it)
-            },
+            onStart = viewModel::hideSelectDialog,
+            onHasPdfUri = viewModel::updateHasPdfUri,
             onColdStart = {
                 viewModel.shouldShowExitDialog(false)
             },
-            onGetUris = {
-                viewModel.updateUris(it)
-            },
-            showToast = { message, icon ->
-                viewModel.showToast(message = message, icon = icon)
-            },
-            navigate = {
-                viewModel.navController.navigate(it)
-            },
+            onGetUris = viewModel::updateUris,
+            showToast = viewModel::showToast,
+            navigate = viewModel.navController::navigate,
             notHasUris = viewModel.uris.isNullOrEmpty(),
-            intent = intent
+            intent = intent,
+            onWantGithubReview = viewModel::onWantGithubReview
         )
     }
 }

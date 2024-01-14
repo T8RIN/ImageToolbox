@@ -65,11 +65,13 @@
                 <action android:name="com.android.camera.action.REVIEW" />
                 <action android:name="android.provider.action.REVIEW" />
                 <action android:name="android.provider.action.REVIEW_SECURE" />
+
                 <data android:scheme="content" />
                 <data android:scheme="file" />
                 <data android:mimeType="image/*" />
                 <data android:mimeType="application/pdf" />
                 <data android:mimeType="*/pdf" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
@@ -78,6 +80,11 @@
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="*/*" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_BUG_REPORT" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <intent-filter>
