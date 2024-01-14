@@ -112,7 +112,7 @@
     <string name="border_thickness">边框宽度</string>
     <string name="surface">表面</string>
     <string name="donation_sub">该应用程序完全免费。如果你想支持该项目开发，你可以点击这里</string>
-    <string name="fab_alignment">悬浮球对齐</string>
+    <string name="fab_alignment">FAB对齐</string>
     <string name="check_updates">检查更新</string>
     <string name="check_updates_sub">如果启用，更新对话框将在应用程序启动时显示</string>
     <string name="primary">主要</string>
@@ -334,7 +334,7 @@
     <string name="enable_emoji">启用表情</string>
     <string name="erase_background">擦除背景</string>
     <string name="keep_exif_sub">如果启用，将保留图像原始元数据</string>
-    <string name="trim_image">整洁的图像</string>
+    <string name="trim_image">修剪图像</string>
     <string name="trim_image_sub">图像周围的透明空间将被修剪</string>
     <string name="auto_erase_background">自动擦除背景</string>
     <string name="restore_background">恢复背景</string>
@@ -364,8 +364,8 @@
     <string name="images_order">图片顺序</string>
     <string name="blur_edges">模糊边缘</string>
     <string name="image_stitching">图片拼接</string>
-    <string name="pixelation">像素</string>
-    <string name="enhanced_pixelation">增强的像素</string>
+    <string name="pixelation">像素化</string>
+    <string name="enhanced_pixelation">增强像素化</string>
     <string name="target_color">目标颜色</string>
     <string name="draw_arrows">绘制箭头</string>
     <string name="pick_at_least_two_images">选择至少 2 张图片</string>
@@ -551,4 +551,6 @@
 \n您要下载 %2$s 数据吗？</string>
     <string name="no_connection">无网络连接，请检查并重试，以便下载训练模型</string>
     <string name="available_languages">可用语言</string>
+    <string name="use_pixel_switch_sub">将使用类似像素的开关，而不是基于谷歌自带的开关</string>
+    <string name="use_pixel_switch">使用像素开关</string>
 </resources>

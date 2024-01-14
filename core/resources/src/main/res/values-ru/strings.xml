@@ -532,7 +532,7 @@
     <string name="lanczos_sub">Метод пересэмплирования, поддерживающий высококачественную интерполяцию с использованием взвешенной функции sinc для значений пикселей</string>
     <string name="mitchell_sub">Метод пересэмплирования, использующий свертку с настраиваемыми параметрами для достижения баланса между четкостью и сглаживанием в измененном изображении</string>
     <string name="spline_sub">Использует кусочно-заданные полиномиальные функции для плавной интерполяции и приближения кривой или поверхности, обеспечивая гибкое и непрерывное представление формы</string>
-    <string name="only_clip_sub">Сохранение в хранилище не будет выполнено, и изображение при возможности будет перемещено в буфер обмена</string>
+    <string name="only_clip_sub">Сохранение в хранилище не будет выполнено, и изображение при возможности будет помещено в буфер обмена</string>
     <string name="only_clip">Только нажатие</string>
     <string name="recognize_text">Распознавание текста</string>
     <string name="accuracy">Точность: %1$d</string>
@@ -551,4 +551,12 @@
     <string name="standard">Стандарт</string>
     <string name="best">Лучший</string>
     <string name="segmentation_mode">Режим сегментации</string>
+    <string name="use_pixel_switch">Использовать переключатель Pixel</string>
+    <string name="use_pixel_switch_sub">Переключатель как в телефонах Pixel будет использоваться вместо того что предлагает material you</string>
+    <string name="saved_to_original">Перезаписан файл с именем %s в оригинальной папке</string>
+    <string name="magnifier_sub">Включает лупу над пальцем во время рисования для лучшего понимания происходящего</string>
+    <string name="force_exif_widget_inital_value_sub">EXIF переключатель будет в положении ВКЛ автоматически</string>
+    <string name="allow_multiple_languages">Разрешить несколько языков</string>
+    <string name="magnifier">Лупа</string>
+    <string name="force_exif_widget_inital_value">Начальное значение</string>
 </resources>
