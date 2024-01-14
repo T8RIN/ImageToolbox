@@ -246,7 +246,6 @@ fun RecognizeTextScreen(
     }
 
     val imageBlock = @Composable {
-        //TODO FIX
         Box(
             modifier = Modifier
                 .container()
@@ -255,7 +254,7 @@ fun RecognizeTextScreen(
         ) {
             Picture(
                 model = viewModel.uri,
-                contentScale = ContentScale.Inside,
+                contentScale = ContentScale.FillHeight,
                 modifier = Modifier.fillMaxHeight(),
                 contentDescription = null,
                 shape = MaterialTheme.shapes.medium
@@ -442,12 +441,23 @@ fun RecognizeTextScreen(
                         Marquee(
                             edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
                         ) {
-                            TopAppBarTitle(
-                                title = stringResource(R.string.recognize_text),
-                                input = viewModel.uri,
-                                isLoading = viewModel.isTextLoading,
-                                size = null
-                            )
+                            AnimatedContent(
+                                targetState = viewModel.recognitionData
+                            ) { data ->
+                                TopAppBarTitle(
+                                    title = if (data == null) {
+                                        stringResource(R.string.recognize_text)
+                                    } else {
+                                        stringResource(
+                                            R.string.accuracy,
+                                            data.accuracy
+                                        )
+                                    },
+                                    input = viewModel.uri,
+                                    isLoading = viewModel.isTextLoading,
+                                    size = null
+                                )
+                            }
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
