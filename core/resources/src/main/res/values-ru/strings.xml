@@ -559,4 +559,6 @@
     <string name="allow_multiple_languages">Разрешить несколько языков</string>
     <string name="magnifier">Лупа</string>
     <string name="force_exif_widget_inital_value">Начальное значение</string>
+    <string name="side_by_side">Бок о бок</string>
+    <string name="transparency">Прозрачность</string>
 </resources>

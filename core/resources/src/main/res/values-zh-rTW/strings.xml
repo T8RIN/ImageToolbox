@@ -445,4 +445,11 @@
     <string name="full_filter">全濾鏡</string>
     <string name="end_position">結束</string>
     <string name="center_position">中心</string>
+    <string name="highlighter">螢光筆</string>
+    <string name="pen">筆</string>
+    <string name="privacy_blur">隱私模糊</string>
+    <string name="auto_rotate_limits">自動旋轉</string>
+    <string name="buttons_shadow">按鈕</string>
+    <string name="app_bars_shadow">應用程式列</string>
+    <string name="containers_shadow">容器</string>
 </resources>
