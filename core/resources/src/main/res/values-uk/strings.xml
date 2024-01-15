@@ -77,7 +77,7 @@
     <string name="night_mode">Нічний режим</string>
     <string name="dark">Темний</string>
     <string name="light">Світлий</string>
-    <string name="system">Системний</string>
+    <string name="system">Як у системі</string>
     <string name="dynamic_colors">Динамічні кольори</string>
     <string name="allow_image_monet">Дозволити іміджеві монети</string>
     <string name="language">Мова</string>
@@ -428,4 +428,14 @@
     <string name="attention">Застереження</string>
     <string name="scale_small_images_to_large">Масштабування маленьких зображень до великих</string>
     <string name="pdf_to_images_sub">Перетворення PDF на зображення в заданому форматі</string>
+    <string name="vibration">Вібрація</string>
+    <string name="clipboard">Буфер обміну</string>
+    <string name="vibration_strength">Сила вібрації</string>
+    <string name="recognize_text_sub">Розпізнавайте текст із заданого зображення, підтримується понад 120 мов</string>
+    <string name="picture_has_no_text">На зображенні немає тексту або застосунок не знайшов його</string>
+    <string name="auto_pin_sub">Автоматично додає збережене зображення до буфера обміну, якщо ввімкнено</string>
+    <string name="only_clip_sub">Збереження в сховищі не буде виконано, і зображення за можливості буде поміщене в буфер обміну</string>
+    <string name="value_in_range">Значення в діапазоні %1$s - %2$s</string>
+    <string name="only_clip">Тільки натискання</string>
+    <string name="recognize_text">OCR (розпізнавання тексту)</string>
 </resources>
