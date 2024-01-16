@@ -251,6 +251,10 @@ or click one of the badges below.
   - Rotating
   - Flipping
   - Comparing images
+    - Slide
+    - Toggle Tap
+    - Transparency
+    - Side By Side
   - Previewing SVG, GIF and mostly all types of images
   - Saving to any specific folder
   - Randomizing output filename
