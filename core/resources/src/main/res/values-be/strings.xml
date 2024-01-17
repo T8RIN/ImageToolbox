@@ -86,7 +86,7 @@
     <string name="tonal_spot_sub">Стыль палітры па змаўчанні, ён дазваляе наладзіць усе чатыры колеры, іншыя дазваляюць усталяваць толькі асноўны колер</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">Немагчыма змяніць каляровую схему праграмы, калі ўключаны дынамічныя колеры</string>
     <string name="dynamic_colors_sub">Калі гэта ўключана, то колеры праграмы будуць прымяняцца да колераў шпалер</string>
-    <string name="allow_image_monet_sub">Калі ўключана, калі вы выбіраеце малюнак для рэдагавання, колеры праграмы будуць прымяняцца да гэтага малюнка</string>
+    <string name="allow_image_monet_sub">Калі ўключаны, то колеры праграмы будуць падладжвацца пад выбраны малюнак у рэжыме рэдагавання</string>
     <string name="monet_colors">Колеры Monet</string>
     <string name="night_mode">Начны рэжым</string>
     <string name="dynamic_colors">Дынамічныя колеры</string>
@@ -130,4 +130,21 @@
     <string name="replace_color">Замяніць колер</string>
     <string name="color_to_remove">Колер для выдалення</string>
     <string name="disabled">Адкл.</string>
+    <string name="stroke_pixelation">Пікселяцыя абводкі</string>
+    <string name="diamond_pixelation">Алмазная пікселізацыя</string>
+    <string name="allow_image_monet">Уключыць Monet</string>
+    <string name="language">Мова</string>
+    <string name="help_translate_sub">Выправіць памылкі перакладу або перакласці праект на іншыя мовы</string>
+    <string name="weak_pixel_inclusion">Слабае ўключэнне пікселяў</string>
+    <string name="use_pixel_switch">Выкарыстоўваць перамыкач Pixel</string>
+    <string name="use_pixel_switch_sub">Будзе выкарыстоўвацца перамыкач, як на тэлефонах Pixel, замест стандартнага з Material You</string>
+    <string name="allow_multiple_languages">Дазволіць некалькі моў</string>
+    <string name="enhanced_diamond_pixelation">Палепшаная алмазная пікселізацыя</string>
+    <string name="available_languages">Даступныя мовы</string>
+    <string name="downloaded_languages">Спампаваныя мовы</string>
+    <string name="border_thickness">Таўшчыня рамкі</string>
+    <string name="pixelation">Пікселізацыя</string>
+    <string name="enhanced_pixelation">Палепшаная пікселізацыя</string>
+    <string name="app_bars_shadow_sub">Уключыць адмалёўку ценяў пад панэллю дзеянняў</string>
+    <string name="app_bars_shadow">Панэлі дзеянняў</string>
 </resources>
