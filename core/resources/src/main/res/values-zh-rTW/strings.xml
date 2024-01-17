@@ -107,7 +107,7 @@
     <string name="surface">表面</string>
     <string name="donation_sub">這個應用程式是完全免費的，但如果您想支持專案開發，您可以點擊這裡</string>
     <string name="permission_sub">應用程式需要存取您的儲存區以儲存圖片，這是必要的。請在下一個對話框中授予權限</string>
-    <string name="fab_alignment">FAB 對齊</string>
+    <string name="fab_alignment">懸浮動作按鈕對齊</string>
     <string name="check_updates">檢查更新</string>
     <string name="check_updates_sub">如果啟用，更新對話框將在應用程式啟動時顯示給您</string>
     <string name="values">設定值</string>
@@ -438,7 +438,7 @@
     <string name="mask_preview_sub">所繪製的濾鏡遮罩會被渲染，以展示預期的效果大概是什麼樣子</string>
     <string name="delete_mask">刪除遮罩</string>
     <string name="inverse_fill_type">反向填充類型</string>
-    <string name="delete_mask_warn">您即將刪除所選濾鏡遮罩。此操作無法撤銷</string>
+    <string name="delete_mask_warn">您即將刪除所選濾鏡遮罩。此操作無法復原</string>
     <string name="full_filter_sub">對給定的圖像或單張圖像應用任何濾鏡鏈</string>
     <string name="inverse_fill_type_sub">如果啟用，所有非遮罩區域將進行濾鏡處理，而不是預設行為</string>
     <string name="start_position">開始</string>
@@ -518,4 +518,30 @@
     <string name="pixelation_sub">類似隱私模糊，但是像素化而非模糊</string>
     <string name="value_in_range">在 %1$s - %2$s 範圍內的值</string>
     <string name="switches_shadow">切換按鈕</string>
+    <string name="download_description">為使 Tesseract OCR 正常運作，須要將訓練資料（%1$s）下載至您的裝置中。
+\n您是否想要下載 %2$s 資料？</string>
+    <string name="no_such_directory">找不到 \"%1$s\" 目錄，我們已經將其切換至預設目錄，請再次儲存檔案</string>
+    <string name="overwrite_file_requirements">若需要覆蓋檔案，您需要使用「檔案管理器」圖片來源，嘗試重新挑選圖片，我們已變更圖片來源至所需的來源</string>
+    <string name="overwrite_files_sub">在選取的資料夾中原始的檔案將被新的儲存所取代，此選項需要圖片來源為「檔案管理器」或 GetContent，當它開啟時，將被自動設定。</string>
+    <string name="rate_app">給應用程式評分</string>
+    <string name="rate">評分</string>
+    <string name="nearest_sub">一個更簡單的增加尺寸的方法，取代每一個像素為多個相同顏色的像素</string>
+    <string name="only_clip_sub">儲存至儲存空間將不會被執行，並且圖片將僅被嘗試放入剪貼簿中</string>
+    <string name="only_clip">僅剪輯</string>
+    <string name="recognition_type">辨識類型</string>
+    <string name="accuracy">精確度：%1$d</string>
+    <string name="segmentation_mode">分割模式</string>
+    <string name="restore_background_sub">刷子將會復原背景，而不是擦除</string>
+    <string name="toggle_tap">切換輕觸</string>
+    <string name="slide">滑動</string>
+    <string name="basic_sub">最簡單的 Android 縮放模式，用於幾乎所有的應用程式</string>
+    <string name="auto_rotate_limits_sub">允許限制框採用圖片方向</string>
+    <string name="sliders_shadow">滑動塊</string>
+    <string name="sliders_shadow_sub">啟用在滑動塊後方的陰影繪製</string>
+    <string name="containers_shadow_sub">啟用在容器後方的陰影繪製</string>
+    <string name="switches_shadow_sub">啟用在切換按鈕後方的陰影繪製</string>
+    <string name="fabs_shadow_sub">啟用在懸浮動作按鈕後方的陰影繪製</string>
+    <string name="fabs_shadow">懸浮動作按鈕</string>
+    <string name="buttons_shadow_sub">啟用在預設按鈕後方的陰影繪製</string>
+    <string name="app_bars_shadow_sub">啟用在應用程式列後方的陰影繪製</string>
 </resources>
