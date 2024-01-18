@@ -563,4 +563,7 @@
     <string name="magnifier">放大镜</string>
     <string name="force_exif_widget_inital_value">强制初始值</string>
     <string name="allow_multiple_languages">允许多种语言</string>
+    <string name="rate_app">给APP评分</string>
+    <string name="rate">评分</string>
+    <string name="rate_app_sub">此应用程序完全免费，如果您希望它变得更大，请在 Github 上为项目加星😄。</string>
 </resources>

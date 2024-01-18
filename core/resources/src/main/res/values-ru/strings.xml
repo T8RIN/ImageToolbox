@@ -80,8 +80,8 @@
     <string name="system">Как в системе</string>
     <string name="dynamic_colors">Динамические цвета</string>
     <string name="customization">Кастомизация</string>
-    <string name="allow_image_monet">Тема по изображению</string>
-    <string name="allow_image_monet_sub">Если включено, то цвета приложения будут подстраиваться под выбранное изображение в режиме редактирования</string>
+    <string name="allow_image_monet">Включить Monet</string>
+    <string name="allow_image_monet_sub">Если включён, то цвета приложения будут подстраиваться под выбранное изображение в режиме редактирования</string>
     <string name="language">Язык</string>
     <string name="amoled_mode">Amoled режим</string>
     <string name="amoled_mode_sub">Если включено, то цвет поверхностей будет установлен на абсолютно тёмный в ночном режиме.</string>
@@ -465,7 +465,7 @@
     <string name="switches_shadow">Переключатели</string>
     <string name="auto_rotate_limits_sub">Позволяет ограничивающим размерам адаптироваться под ориентацию изображения</string>
     <string name="sliders_shadow_sub">Включает тени под слайдерами</string>
-    <string name="app_bars_shadow_sub">Включает тени под панелями действий</string>
+    <string name="app_bars_shadow_sub">Включить отрисовку теней под панелью действий</string>
     <string name="buttons_shadow_sub">Включает тени под кнопками</string>
     <string name="app_bars_shadow">Панели действий</string>
     <string name="switches_shadow_sub">Включает тени под переключателями</string>
@@ -552,7 +552,7 @@
     <string name="best">Лучший</string>
     <string name="segmentation_mode">Режим сегментации</string>
     <string name="use_pixel_switch">Использовать переключатель Pixel</string>
-    <string name="use_pixel_switch_sub">Переключатель как в телефонах Pixel будет использоваться вместо того что предлагает material you</string>
+    <string name="use_pixel_switch_sub">Будет использоваться переключатель, как на телефонах Pixel, вместо стандартного из Material You</string>
     <string name="saved_to_original">Перезаписан файл с именем %s в оригинальной папке</string>
     <string name="magnifier_sub">Включает лупу над пальцем во время рисования для лучшего понимания происходящего</string>
     <string name="force_exif_widget_inital_value_sub">EXIF переключатель будет в положении ВКЛ автоматически</string>

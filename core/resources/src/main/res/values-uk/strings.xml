@@ -79,9 +79,9 @@
     <string name="light">Світлий</string>
     <string name="system">Як у системі</string>
     <string name="dynamic_colors">Динамічні кольори</string>
-    <string name="allow_image_monet">Дозволити іміджеві монети</string>
+    <string name="allow_image_monet">Увімкнути Monet</string>
     <string name="language">Мова</string>
-    <string name="allow_image_monet_sub">Якщо увімкнено, коли ви вибираєте зображення для редагування, кольори програми буде застосовано до цього зображення</string>
+    <string name="allow_image_monet_sub">Якщо ввімкнено, кольори застосунку будуть підлаштовуватися під вибране зображення в режимі редагування</string>
     <string name="customization">Налаштування</string>
     <string name="amoled_mode">Режим amoled</string>
     <string name="color_red">Червоний</string>
@@ -92,7 +92,7 @@
     <string name="amoled_mode_sub">Якщо ввімкнути, колір поверхонь буде встановлено на абсолютну темряву в нічному режимі</string>
     <string name="clipboard_paste_invalid_empty">Нічого вставляти</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">Неможливо змінити колірну схему програми, якщо ввімкнено динамічні кольори</string>
-    <string name="pick_accent_color">Тема програми базуватиметься на кольорі, який ви виберете</string>
+    <string name="pick_accent_color">Тема застосунку базуватиметься на кольорі, який ви виберете</string>
     <string name="no_updates">Оновлень не знайдено</string>
     <string name="about_app">Про застосунок</string>
     <string name="issue_tracker">Відстеження проблем</string>
@@ -438,4 +438,6 @@
     <string name="value_in_range">Значення в діапазоні %1$s - %2$s</string>
     <string name="only_clip">Тільки натискання</string>
     <string name="recognize_text">OCR (розпізнавання тексту)</string>
+    <string name="app_bars_shadow">Панелі дій</string>
+    <string name="app_bars_shadow_sub">Включити малювання тіней під панеллю дій</string>
 </resources>
