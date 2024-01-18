@@ -21,6 +21,7 @@ tasks.withType<KotlinCompile>().configureEach {
 dependencies {
     compileOnly(libs.agp.gradle)
     compileOnly(libs.kotlin.gradle)
+    compileOnly(libs.detekt.gradle)
 }
 
 gradlePlugin {

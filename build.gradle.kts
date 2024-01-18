@@ -14,6 +14,7 @@ buildscript {
         classpath(libs.gms.gradle)
         classpath(libs.firebase.crashlytics.gradle)
         classpath(libs.baselineprofile.gradle)
+        classpath(libs.detekt.gradle)
     }
 }
 
