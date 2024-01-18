@@ -24,7 +24,7 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import java.util.Locale
 import javax.inject.Inject
 
-class AndroidImageGetter @Inject constructor(
+internal class AndroidImageGetter @Inject constructor(
     private val imageLoader: ImageLoader,
     @ApplicationContext private val context: Context
 ) : ImageGetter<Bitmap, ExifInterface> {

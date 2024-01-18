@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
@@ -47,7 +48,7 @@ import javax.xml.parsers.DocumentBuilderFactory
 class MainViewModel @Inject constructor(
     getSettingsStateFlowUseCase: GetSettingsStateFlowUseCase,
     val imageLoader: ImageLoader,
-    private val imageGetter: ImageGetter<Bitmap, *>,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
     private val getSettingsStateUseCase: GetSettingsStateUseCase,
     private val settingsRepository: SettingsRepository
