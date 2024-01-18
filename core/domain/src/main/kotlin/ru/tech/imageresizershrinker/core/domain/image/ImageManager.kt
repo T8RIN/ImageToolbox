@@ -41,11 +41,6 @@ interface ImageManager<I, M> {
         size: IntegerSize
     ): I?
 
-    suspend fun getImage(
-        uri: String,
-        originalSize: Boolean = true
-    ): ImageData<I, M>?
-
     fun rotate(image: I, degrees: Float): I
 
     fun flip(image: I, isFlipped: Boolean): I
@@ -71,13 +66,6 @@ interface ImageManager<I, M> {
         filters: List<Filter<I, *>> = emptyList(),
         onGetByteCount: (Int) -> Unit
     ): I
-
-    fun getImageAsync(
-        uri: String,
-        originalSize: Boolean = true,
-        onGetImage: (ImageData<I, M>) -> Unit,
-        onError: (Throwable) -> Unit
-    )
 
     suspend fun compress(
         imageData: ImageData<I, M>,
@@ -110,6 +98,18 @@ interface ImageManager<I, M> {
         maxBytes: Long
     ): ImageData<I, M>?
 
+    suspend fun getImage(
+        uri: String,
+        originalSize: Boolean = true
+    ): ImageData<I, M>?
+
+    fun getImageAsync(
+        uri: String,
+        originalSize: Boolean = true,
+        onGetImage: (ImageData<I, M>) -> Unit,
+        onError: (Throwable) -> Unit
+    )
+
     suspend fun getImageWithTransformations(
         uri: String,
         transformations: List<Transformation<I>>,
@@ -121,6 +121,8 @@ interface ImageManager<I, M> {
         filters: List<Filter<I, *>>,
         originalSize: Boolean = true
     ): ImageData<I, M>?
+
+    suspend fun getImage(data: Any, originalSize: Boolean = true): I?
 
     suspend fun shareImage(
         imageData: ImageData<I, M>,
@@ -145,8 +147,6 @@ interface ImageManager<I, M> {
         filename: String,
         onComplete: () -> Unit
     )
-
-    suspend fun getImage(data: Any, originalSize: Boolean = true): I?
 
     fun removeBackgroundFromImage(
         image: I,

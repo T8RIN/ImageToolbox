@@ -9,7 +9,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
@@ -26,7 +25,7 @@ import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.core.domain.APP_RELEASES
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.domain.model.NightMode
@@ -48,7 +47,7 @@ import javax.xml.parsers.DocumentBuilderFactory
 class MainViewModel @Inject constructor(
     getSettingsStateFlowUseCase: GetSettingsStateFlowUseCase,
     val imageLoader: ImageLoader,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap, *>,
     private val fileController: FileController,
     private val getSettingsStateUseCase: GetSettingsStateUseCase,
     private val settingsRepository: SettingsRepository
@@ -493,7 +492,7 @@ class MainViewModel @Inject constructor(
                 setThemeStyle(0)
                 if (settingsState.isInvertThemeColors) toggleInvertColors()
             } else {
-                imageManager.getImage(data = emojiUri)
+                imageGetter.getImage(data = emojiUri)
                     ?.extractPrimaryColor()
                     ?.let { primary ->
                         val colorTuple = ColorTuple(primary)

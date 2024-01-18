@@ -1,7 +1,6 @@
 package ru.tech.imageresizershrinker.core.data.image
 
 import android.annotation.TargetApi
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -37,6 +36,7 @@ import ru.tech.imageresizershrinker.core.data.image.filters.SideFadeFilter
 import ru.tech.imageresizershrinker.core.data.image.filters.StackBlurFilter
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.image.filters.FadeSide
@@ -60,7 +60,6 @@ import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.util.Locale
 import java.util.UUID
 import javax.inject.Inject
 import kotlin.math.abs
@@ -76,7 +75,8 @@ class AndroidImageManager @Inject constructor(
     private val imageLoader: ImageLoader,
     private val filterProvider: FilterProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>
 ) : ImageManager<Bitmap, ExifInterface> {
 
     override fun getFilterProvider(): FilterProvider<Bitmap> = filterProvider
@@ -152,46 +152,18 @@ class AndroidImageManager @Inject constructor(
     override suspend fun getImage(
         uri: String,
         originalSize: Boolean
-    ): ImageData<Bitmap, ExifInterface>? = withContext(Dispatchers.IO) {
-        return@withContext kotlin.runCatching {
-            imageLoader.execute(
-                ImageRequest
-                    .Builder(context)
-                    .data(uri)
-                    .apply {
-                        if (originalSize) size(Size.ORIGINAL)
-                    }
-                    .build()
-            ).drawable?.toBitmap()
-        }.getOrNull()?.let { bitmap ->
-            val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
-            val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
-            fd?.close()
-            ImageData(
-                image = bitmap,
-                imageInfo = ImageInfo(
-                    width = bitmap.width,
-                    height = bitmap.height,
-                    imageFormat = ImageFormat[getExtension(uri)]
-                ),
-                metadata = exif
-            )
-        }
-    }
+    ): ImageData<Bitmap, ExifInterface>? = imageGetter.getImage(
+        uri = uri,
+        originalSize = originalSize
+    )
 
-    override suspend fun getImage(data: Any, originalSize: Boolean): Bitmap? {
-        return runCatching {
-            imageLoader.execute(
-                ImageRequest
-                    .Builder(context)
-                    .data(data)
-                    .apply {
-                        if (originalSize) size(Size.ORIGINAL)
-                    }
-                    .build()
-            ).drawable?.toBitmap()
-        }.getOrNull()
-    }
+    override suspend fun getImage(
+        data: Any,
+        originalSize: Boolean
+    ): Bitmap? = imageGetter.getImage(
+        data = data,
+        originalSize = originalSize
+    )
 
     override suspend fun createFilteredPreview(
         image: Bitmap,
@@ -210,35 +182,12 @@ class AndroidImageManager @Inject constructor(
         originalSize: Boolean,
         onGetImage: (ImageData<Bitmap, ExifInterface>) -> Unit,
         onError: (Throwable) -> Unit
-    ) {
-        val bmp = kotlin.runCatching {
-            imageLoader.enqueue(
-                ImageRequest
-                    .Builder(context)
-                    .data(uri)
-                    .apply {
-                        if (originalSize) size(Size.ORIGINAL)
-                    }
-                    .target { drawable ->
-                        drawable.toBitmap()?.let { it ->
-                            val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
-                            val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
-                            fd?.close()
-                            ImageData(
-                                image = it,
-                                imageInfo = ImageInfo(
-                                    width = it.width,
-                                    height = it.height,
-                                    imageFormat = ImageFormat[getExtension(uri)]
-                                ),
-                                metadata = exif
-                            )
-                        }?.let(onGetImage)
-                    }.build()
-            )
-        }
-        bmp.exceptionOrNull()?.let(onError)
-    }
+    ) = imageGetter.getImageAsync(
+        uri = uri,
+        originalSize = originalSize,
+        onGetImage = onGetImage,
+        onError = onError
+    )
 
     override suspend fun resize(
         image: Bitmap,
@@ -851,34 +800,11 @@ class AndroidImageManager @Inject constructor(
         uri: String,
         transformations: List<Transformation<Bitmap>>,
         originalSize: Boolean
-    ): ImageData<Bitmap, ExifInterface>? = withContext(Dispatchers.IO) {
-        val request = ImageRequest
-            .Builder(context)
-            .data(uri)
-            .transformations(
-                transformations.map(::toCoil)
-            )
-            .apply {
-                if (originalSize) size(Size.ORIGINAL)
-            }
-            .build()
-        return@withContext runCatching {
-            imageLoader.execute(request).drawable?.toBitmap()?.let { bitmap ->
-                val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
-                val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
-                fd?.close()
-                ImageData(
-                    image = bitmap,
-                    imageInfo = ImageInfo(
-                        width = bitmap.width,
-                        height = bitmap.height,
-                        imageFormat = ImageFormat[getExtension(uri)]
-                    ),
-                    metadata = exif
-                )
-            }
-        }.getOrNull()
-    }
+    ): ImageData<Bitmap, ExifInterface>? = imageGetter.getImageWithTransformations(
+        uri = uri,
+        transformations = transformations,
+        originalSize = originalSize
+    )
 
     override suspend fun scaleByMaxBytes(
         image: Bitmap,
@@ -1293,7 +1219,7 @@ class AndroidImageManager @Inject constructor(
         }
     }
 
-    private fun Drawable.toBitmap(): Bitmap? {
+    private fun Drawable.toBitmap(): Bitmap {
         val drawable = this
         if (drawable is BitmapDrawable) {
             if (drawable.bitmap != null) {
@@ -1319,17 +1245,7 @@ class AndroidImageManager @Inject constructor(
         return bitmap
     }
 
-    private fun getExtension(uri: String): String? {
-        if (uri.endsWith(".jxl")) return "jxl"
-        return if (ContentResolver.SCHEME_CONTENT == uri.toUri().scheme) {
-            MimeTypeMap.getSingleton()
-                .getExtensionFromMimeType(
-                    context.contentResolver.getType(uri.toUri())
-                )
-        } else {
-            MimeTypeMap.getFileExtensionFromUrl(uri).lowercase(Locale.getDefault())
-        }
-    }
+    private fun getExtension(uri: String): String? = imageGetter.getExtension(uri)
 
     private suspend fun ResizeType.CenterCrop.resizeWithCenterCrop(
         image: Bitmap,

@@ -12,11 +12,13 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.core.data.image.AndroidImageCompressor
+import ru.tech.imageresizershrinker.core.data.image.AndroidImageGetter
 import ru.tech.imageresizershrinker.core.data.image.AndroidImageManager
 import ru.tech.imageresizershrinker.core.data.image.draw.AndroidImageDrawApplier
 import ru.tech.imageresizershrinker.core.data.image.filters.applier.AndroidFilterMaskApplier
 import ru.tech.imageresizershrinker.core.data.image.filters.provider.AndroidFilterProvider
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.draw.ImageDrawApplier
 import ru.tech.imageresizershrinker.core.domain.image.filters.FilterMaskApplier
@@ -37,6 +39,7 @@ object ImageModule {
         imageLoader: ImageLoader,
         filterProvider: FilterProvider<Bitmap>,
         imageCompressor: ImageCompressor<Bitmap>,
+        imageGetter: ImageGetter<Bitmap, ExifInterface>,
         settingsRepository: SettingsRepository
     ): ImageManager<Bitmap, ExifInterface> = AndroidImageManager(
         context = context,
@@ -44,8 +47,16 @@ object ImageModule {
         imageLoader = imageLoader,
         filterProvider = filterProvider,
         settingsRepository = settingsRepository,
-        imageCompressor = imageCompressor
+        imageCompressor = imageCompressor,
+        imageGetter = imageGetter
     )
+
+    @Singleton
+    @Provides
+    fun provideImageGetter(
+        imageLoader: ImageLoader,
+        @ApplicationContext context: Context,
+    ): ImageGetter<Bitmap, ExifInterface> = AndroidImageGetter(imageLoader, context)
 
     @Singleton
     @Provides
