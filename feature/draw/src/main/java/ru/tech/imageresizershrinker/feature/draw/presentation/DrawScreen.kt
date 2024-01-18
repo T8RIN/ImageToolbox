@@ -955,9 +955,5 @@ fun DrawScreen(
 
     BackHandler(onBack = onBack)
 
-    DrawLockScreenOrientation(
-        orientation = remember(viewModel.bitmap) {
-            viewModel.calculateScreenOrientationBasedOnBitmap(viewModel.bitmap)
-        }
-    )
+    DrawLockScreenOrientation()
 }

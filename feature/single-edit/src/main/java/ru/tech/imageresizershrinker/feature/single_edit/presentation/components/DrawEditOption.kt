@@ -78,7 +78,6 @@ fun DrawEditOption(
     onDismiss: () -> Unit,
     useScaffold: Boolean,
     bitmap: Bitmap?,
-    orientation: Int,
     onGetBitmap: (Bitmap) -> Unit,
     undo: () -> Unit,
     redo: () -> Unit,
@@ -315,9 +314,7 @@ fun DrawEditOption(
         )
 
         if (visible) {
-            DrawLockScreenOrientation(
-                orientation = orientation
-            )
+            DrawLockScreenOrientation()
         }
     }
 }

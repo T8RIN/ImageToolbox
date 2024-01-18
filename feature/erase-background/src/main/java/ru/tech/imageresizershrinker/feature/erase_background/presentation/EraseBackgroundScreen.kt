@@ -658,5 +658,5 @@ fun EraseBackgroundScreen(
 
     BackHandler(onBack = onBack)
 
-    DrawLockScreenOrientation(orientation = viewModel.orientation)
+    DrawLockScreenOrientation()
 }

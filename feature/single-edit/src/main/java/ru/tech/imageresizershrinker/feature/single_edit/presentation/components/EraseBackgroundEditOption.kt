@@ -76,7 +76,6 @@ fun EraseBackgroundEditOption(
     onDismiss: () -> Unit,
     useScaffold: Boolean,
     bitmap: Bitmap?,
-    orientation: Int,
     onGetBitmap: (Bitmap) -> Unit,
     clearErasing: (Boolean) -> Unit,
     undo: () -> Unit,
@@ -321,9 +320,7 @@ fun EraseBackgroundEditOption(
         }
 
         if (visible) {
-            DrawLockScreenOrientation(
-                orientation = orientation
-            )
+            DrawLockScreenOrientation()
         }
     }
 }

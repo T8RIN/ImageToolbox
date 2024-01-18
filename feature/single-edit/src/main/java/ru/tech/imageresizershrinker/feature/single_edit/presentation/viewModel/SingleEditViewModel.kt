@@ -1,6 +1,5 @@
 package ru.tech.imageresizershrinker.feature.single_edit.presentation.viewModel
 
-import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
@@ -33,6 +32,7 @@ import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
@@ -65,7 +65,7 @@ class SingleEditViewModel @Inject constructor(
     val drawUndonePaths: List<UiPathPaint> by _drawUndonePaths
 
     private val _filterList =
-        mutableStateOf(listOf<ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter<*>>())
+        mutableStateOf(listOf<UiFilter<*>>())
     val filterList by _filterList
 
     private val _selectedAspectRatio: MutableState<DomainAspectRatio> =
@@ -464,11 +464,11 @@ class SingleEditViewModel @Inject constructor(
         }
     }
 
-    fun updateOrder(value: List<ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter<*>>) {
+    fun updateOrder(value: List<UiFilter<*>>) {
         _filterList.value = value
     }
 
-    fun addFilter(filter: ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter<*>) {
+    fun addFilter(filter: UiFilter<*>) {
         _filterList.value = _filterList.value + filter
     }
 
@@ -480,16 +480,6 @@ class SingleEditViewModel @Inject constructor(
 
     fun clearFilterList() {
         _filterList.value = listOf()
-    }
-
-    fun calculateScreenOrientationBasedOnBitmap(bitmap: Bitmap?): Int {
-        if (bitmap == null) return ActivityInfo.SCREEN_ORIENTATION_USER
-        val imageRatio = bitmap.width / bitmap.height.toFloat()
-        return if (imageRatio <= 1.05f) {
-            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        } else {
-            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        }
     }
 
     fun clearDrawing(canUndo: Boolean = false) {

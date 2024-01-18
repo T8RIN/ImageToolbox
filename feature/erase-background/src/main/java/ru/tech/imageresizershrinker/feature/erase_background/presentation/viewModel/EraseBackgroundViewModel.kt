@@ -1,11 +1,9 @@
 package ru.tech.imageresizershrinker.feature.erase_background.presentation.viewModel
 
-import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
@@ -47,10 +45,6 @@ class EraseBackgroundViewModel @Inject constructor(
 
     private val _trimImage: MutableState<Boolean> = mutableStateOf(true)
     val trimImage: Boolean by _trimImage
-
-    private val _orientation: MutableState<Int> =
-        mutableIntStateOf(ActivityInfo.SCREEN_ORIENTATION_USER)
-    val orientation: Int by _orientation
 
     private val _paths = mutableStateOf(listOf<UiPathPaint>())
     val paths: List<UiPathPaint> by _paths
@@ -95,7 +89,6 @@ class EraseBackgroundViewModel @Inject constructor(
         _uri.value = uri
         autoEraseCount = 0
         viewModelScope.launch {
-            _orientation.value = calculateScreenOrientationBasedOnUri(uri)
             _paths.value = listOf()
             _lastPaths.value = listOf()
             _undonePaths.value = listOf()
@@ -125,20 +118,6 @@ class EraseBackgroundViewModel @Inject constructor(
 
     fun setMime(imageFormat: ImageFormat) {
         _imageFormat.value = imageFormat
-    }
-
-    private suspend fun calculateScreenOrientationBasedOnUri(uri: Uri): Int {
-        val bmp = imageManager
-            .getImage(
-                uri = uri.toString(),
-                originalSize = false
-            )?.image ?: return ActivityInfo.SCREEN_ORIENTATION_USER
-        val imageRatio = bmp.width / bmp.height.toFloat()
-        return if (imageRatio <= 1.05f) {
-            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        } else {
-            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        }
     }
 
     private var savingJob: Job? = null

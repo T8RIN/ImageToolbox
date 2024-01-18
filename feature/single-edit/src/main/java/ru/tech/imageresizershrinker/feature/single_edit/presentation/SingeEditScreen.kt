@@ -633,9 +633,6 @@ fun SingleEditScreen(
             viewModel.updateBitmapAfterEditing(it)
             viewModel.clearDrawing()
         },
-        orientation = remember(viewModel.previewBitmap) {
-            viewModel.calculateScreenOrientationBasedOnBitmap(viewModel.previewBitmap)
-        },
         undo = viewModel::undoDraw,
         redo = viewModel::redoDraw,
         paths = viewModel.drawPaths,
@@ -652,9 +649,6 @@ fun SingleEditScreen(
         },
         useScaffold = imageInside,
         bitmap = viewModel.previewBitmap,
-        orientation = remember(viewModel.previewBitmap) {
-            viewModel.calculateScreenOrientationBasedOnBitmap(viewModel.previewBitmap)
-        },
         onGetBitmap = viewModel::updateBitmapAfterEditing,
         clearErasing = viewModel::clearErasing,
         undo = viewModel::undoErase,

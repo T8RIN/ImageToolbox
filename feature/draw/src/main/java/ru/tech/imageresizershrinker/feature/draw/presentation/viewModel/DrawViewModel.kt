@@ -135,16 +135,6 @@ class DrawViewModel @Inject constructor(
         }
     }
 
-    fun calculateScreenOrientationBasedOnBitmap(bitmap: Bitmap?): Int {
-        if (bitmap == null) return ActivityInfo.SCREEN_ORIENTATION_USER
-        val imageRatio = bitmap.width / bitmap.height.toFloat()
-        return if (imageRatio <= 1.05f) {
-            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        } else {
-            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        }
-    }
-
     fun setSaveExif(bool: Boolean) {
         _saveExif.value = bool
     }
