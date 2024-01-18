@@ -351,8 +351,6 @@ or click one of the badges below.
 
 - [AVIF Coder](https://github.com/awxkee/avif-coder) library that provides avif, heic, heif support
 
-- [Bitmap Scaler](https://github.com/T8RIN/BitmapScaler) library that provides different scaling algorhytms
-
 <div align="center">
 
 #
