@@ -147,4 +147,13 @@
     <string name="enhanced_pixelation">Палепшаная пікселізацыя</string>
     <string name="app_bars_shadow_sub">Уключыць адмалёўку ценяў пад панэллю дзеянняў</string>
     <string name="app_bars_shadow">Панэлі дзеянняў</string>
+    <string name="check_updates_sub">Калі ўключана, дыялогавае акно абнаўлення будзе паказвацца пры запуску праграмы</string>
+    <string name="updates">Абнаўленні</string>
+    <string name="delete_mask_warn">Вы збіраецеся выдаліць выбраную маску фільтра. Гэтую аперацыю нельга адмяніць</string>
+    <string name="about_app">Аб праграме</string>
+    <string name="no_updates">Абнаўленні не знойдзены</string>
+    <string name="check_updates">Праверка наяўнасці абнаўлення</string>
+    <string name="check_for_updates">Праверыць абнаўлення</string>
+    <string name="allow_betas_sub">Праверка абнаўленняў будзе ўключаць бэта-версіі праграмы, калі яна ўключана</string>
+    <string name="foss_update_checker_warning">Гэта сродак праверкі абнаўленняў падключыцца да GitHub, каб праверыць наяўнасць новага абнаўлення</string>
 </resources>
