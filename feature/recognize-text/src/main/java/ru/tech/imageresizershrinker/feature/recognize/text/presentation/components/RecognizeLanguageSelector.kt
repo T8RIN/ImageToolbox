@@ -129,6 +129,8 @@ fun RecognizeLanguageSelector(
         onClick = {
             showDetailedLanguageSheet = true
         },
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+        shape = RoundedCornerShape(24.dp),
         icon = Icons.Outlined.Language,
         endIcon = Icons.Rounded.CreateAlt
     )
