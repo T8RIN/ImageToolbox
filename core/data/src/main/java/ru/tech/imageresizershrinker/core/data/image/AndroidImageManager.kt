@@ -1202,18 +1202,17 @@ class AndroidImageManager @Inject constructor(
                             Bitmap.createBitmap(
                                 (page.width * (preset.value / 100f)).roundToInt(),
                                 (page.height * (preset.value / 100f)).roundToInt(),
-                                getSuitableConfig()
+                                Bitmap.Config.ARGB_8888
                             )
                         )!!
                         page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
                         page.close()
 
-                        val renderedBitmap =
-                            Bitmap.createBitmap(
-                                bitmap.width,
-                                bitmap.height,
-                                getSuitableConfig(bitmap)
-                            )
+                        val renderedBitmap = Bitmap.createBitmap(
+                            bitmap.width,
+                            bitmap.height,
+                            getSuitableConfig(bitmap)
+                        )
                         Canvas(renderedBitmap).apply {
                             drawColor(Color.White.toArgb())
                             drawBitmap(bitmap, 0f, 0f, Paint().apply { isAntiAlias = true })
