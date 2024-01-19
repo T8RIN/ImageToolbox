@@ -56,7 +56,7 @@ class RecognizeTextViewModel @Inject constructor(
     private val _selectedLanguages = mutableStateOf(listOf(OCRLanguage.Default))
     val selectedLanguages by _selectedLanguages
 
-    private val _recognitionType = mutableStateOf<RecognitionType>(RecognitionType.Standard)
+    private val _recognitionType = mutableStateOf(RecognitionType.Standard)
     val recognitionType by _recognitionType
 
     private val _uri = mutableStateOf<Uri?>(null)

@@ -266,7 +266,7 @@ fun RecognizeLanguageSelector(
                                         size = downloadedLanguages.size
                                     ),
                                     color = animateColorAsState(
-                                        if (selected) MaterialTheme.colorScheme.mixedContainer
+                                        if (selected) MaterialTheme.colorScheme.mixedContainer.copy(0.8f)
                                         else MaterialTheme.colorScheme.surfaceContainerLow
                                     ).value,
                                     resultPadding = 0.dp
@@ -378,6 +378,11 @@ fun RecognizeLanguageSelector(
                         }
                     }
                     itemsIndexed(notDownloadedLanguages) { index, lang ->
+                        val selected by remember(value, lang) {
+                            derivedStateOf {
+                                lang in value
+                            }
+                        }
                         Row(
                             Modifier
                                 .animateItemPlacement()
@@ -387,14 +392,17 @@ fun RecognizeLanguageSelector(
                                         index = index,
                                         size = notDownloadedLanguages.size
                                     ),
-                                    color = MaterialTheme.colorScheme.surfaceContainerLow,
+                                    color = animateColorAsState(
+                                        if (selected) MaterialTheme.colorScheme.surfaceColorAtElevation(20.dp)
+                                        else MaterialTheme.colorScheme.surfaceContainerLow
+                                    ).value,
                                     resultPadding = 0.dp
                                 )
                                 .clickable {
                                     haptics.performHapticFeedback(
                                         HapticFeedbackType.LongPress
                                     )
-                                    onValueChangeImpl(false, currentRecognitionType, lang)
+                                    onValueChangeImpl(selected, currentRecognitionType, lang)
                                 }
                                 .padding(16.dp)
                         ) {
