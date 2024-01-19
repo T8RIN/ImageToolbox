@@ -2,8 +2,8 @@
 androidMinSdk = "21"
 androidTargetSdk = "34"
 androidCompileSdk = "34"
-versionName = "2.6.0-alpha03"
-versionCode = "109"
+versionName = "2.6.0-alpha04"
+versionCode = "110"
 jvmTarget = "17"
 compose-compiler = "1.5.8"
 
