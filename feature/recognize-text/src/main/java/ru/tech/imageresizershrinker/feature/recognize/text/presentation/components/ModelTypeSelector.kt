@@ -125,6 +125,7 @@ fun ModelTypeSelector(
     }
 }
 
+//TODO: Provide translated alternatives
 private fun SegmentationMode.normalize(): String {
     return this.name.removePrefix("PSM_").split("_").let { data ->
         val firstPart = data[0].lowercase().replaceFirstChar {
