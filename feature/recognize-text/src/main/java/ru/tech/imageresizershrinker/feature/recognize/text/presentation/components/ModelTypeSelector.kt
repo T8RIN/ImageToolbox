@@ -29,7 +29,6 @@ import androidx.compose.material.icons.automirrored.outlined.Segment
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,15 +57,10 @@ fun ModelTypeSelector(
     var showSelectionSheet by remember {
         mutableStateOf(false)
     }
-    val subtitle by remember(value) {
-        derivedStateOf {
-            value.normalize()
-        }
-    }
     PreferenceItem(
         modifier = Modifier.fillMaxWidth(),
         title = stringResource(id = R.string.segmentation_mode),
-        subtitle = subtitle,
+        subtitle = stringResource(id = value.title),
         onClick = {
             showSelectionSheet = true
         },
@@ -104,7 +98,7 @@ fun ModelTypeSelector(
             itemsIndexed(SegmentationMode.entries) { index, mode ->
                 PreferenceItem(
                     modifier = Modifier.fillMaxWidth(),
-                    title = mode.normalize(),
+                    title = stringResource(id = mode.title),
                     onClick = {
                         haptics.performHapticFeedback(
                             HapticFeedbackType.LongPress
@@ -125,16 +119,20 @@ fun ModelTypeSelector(
     }
 }
 
-//TODO: Provide translated alternatives
-private fun SegmentationMode.normalize(): String {
-    return this.name.removePrefix("PSM_").split("_").let { data ->
-        val firstPart = data[0].lowercase().replaceFirstChar {
-            it.uppercase()
-        }
-        val lastPart = data.getOrNull(1)?.lowercase()?.replaceFirstChar {
-            it.uppercase()
-        }?.let { " $it" } ?: ""
-
-        "$firstPart$lastPart"
+private inline val SegmentationMode.title: Int
+    get() = when (this) {
+        SegmentationMode.PSM_OSD_ONLY -> R.string.segmentation_mode_osd_only
+        SegmentationMode.PSM_AUTO_OSD -> R.string.segmentation_mode_auto_osd
+        SegmentationMode.PSM_AUTO_ONLY -> R.string.segmentation_mode_auto_only
+        SegmentationMode.PSM_AUTO -> R.string.segmentation_mode_auto
+        SegmentationMode.PSM_SINGLE_COLUMN -> R.string.segmentation_mode_single_column
+        SegmentationMode.PSM_SINGLE_BLOCK_VERT_TEXT -> R.string.segmentation_mode_single_block_vert_text
+        SegmentationMode.PSM_SINGLE_BLOCK -> R.string.segmentation_mode_single_block
+        SegmentationMode.PSM_SINGLE_LINE -> R.string.segmentation_mode_single_line
+        SegmentationMode.PSM_SINGLE_WORD -> R.string.segmentation_mode_single_word
+        SegmentationMode.PSM_CIRCLE_WORD -> R.string.segmentation_mode_circle_word
+        SegmentationMode.PSM_SINGLE_CHAR -> R.string.segmentation_mode_single_char
+        SegmentationMode.PSM_SPARSE_TEXT -> R.string.segmentation_mode_sparse_text
+        SegmentationMode.PSM_SPARSE_TEXT_OSD -> R.string.segmentation_mode_sparse_text_osd
+        SegmentationMode.PSM_RAW_LINE -> R.string.segmentation_mode_raw_line
     }
-}

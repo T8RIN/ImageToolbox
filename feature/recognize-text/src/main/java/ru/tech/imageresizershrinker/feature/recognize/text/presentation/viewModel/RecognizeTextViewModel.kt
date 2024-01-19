@@ -177,7 +177,9 @@ class RecognizeTextViewModel @Inject constructor(
         if (ocrLanguages.isNotEmpty()) {
             viewModelScope.launch {
                 settingsRepository.setInitialOCRLanguageCodes(
-                    ocrLanguages.map { it.code }
+                    ocrLanguages.filter {
+                        it.downloaded.isNotEmpty()
+                    }.map { it.code }
                 )
             }
             _selectedLanguages.update { ocrLanguages }

@@ -585,4 +585,18 @@
     <string name="rate_app">Rate App</string>
     <string name="rate">Rate</string>
     <string name="rate_app_sub">This app is completely free, if you want it to become bigger, please star the project on Github 😄</string>
+    <string name="segmentation_mode_osd_only">Orientation &amp; Script Detection only</string>
+    <string name="segmentation_mode_auto_osd">Auto Orientation &amp; Script Detection</string>
+    <string name="segmentation_mode_auto_only">Auto only</string>
+    <string name="segmentation_mode_auto">Auto</string>
+    <string name="segmentation_mode_single_column">Single Column</string>
+    <string name="segmentation_mode_single_block_vert_text">Single block vertical text</string>
+    <string name="segmentation_mode_single_block">Single block</string>
+    <string name="segmentation_mode_single_line">Single line</string>
+    <string name="segmentation_mode_single_word">Single word</string>
+    <string name="segmentation_mode_circle_word">Circle word</string>
+    <string name="segmentation_mode_single_char">Single char</string>
+    <string name="segmentation_mode_sparse_text">Sparse text</string>
+    <string name="segmentation_mode_sparse_text_osd">Sparse text Orientation &amp; Script Detection</string>
+    <string name="segmentation_mode_raw_line">Raw line</string>
 </resources>

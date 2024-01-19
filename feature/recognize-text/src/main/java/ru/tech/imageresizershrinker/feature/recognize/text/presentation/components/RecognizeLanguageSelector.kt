@@ -44,14 +44,16 @@ import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.DownloadDone
-import androidx.compose.material.icons.rounded.FileDownloadOff
+import androidx.compose.material.icons.rounded.DownloadForOffline
 import androidx.compose.material.icons.rounded.MultipleStop
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -255,7 +257,7 @@ fun RecognizeLanguageSelector(
                             }
                         }
                         Row(
-                            Modifier
+                            modifier = Modifier
                                 .animateItemPlacement()
                                 .fillMaxWidth()
                                 .container(
@@ -279,12 +281,21 @@ fun RecognizeLanguageSelector(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             AnimatedVisibility(visible = value.size > 1) {
-                                Checkbox(
-                                    checked = selected,
-                                    onCheckedChange = {
-                                        onValueChangeImpl(selected, currentRecognitionType, lang)
-                                    }
-                                )
+                                CompositionLocalProvider(
+                                    LocalMinimumInteractiveComponentEnforcement provides false
+                                ) {
+                                    Checkbox(
+                                        checked = selected,
+                                        onCheckedChange = {
+                                            onValueChangeImpl(
+                                                selected,
+                                                currentRecognitionType,
+                                                lang
+                                            )
+                                        },
+                                        modifier = Modifier.padding(end = 8.dp)
+                                    )
+                                }
                             }
                             Text(text = lang.name)
                             Spacer(modifier = Modifier.weight(1f))
@@ -361,7 +372,7 @@ fun RecognizeLanguageSelector(
                     if (notDownloadedLanguages.isNotEmpty()) {
                         item {
                             TitleItem(
-                                icon = Icons.Rounded.FileDownloadOff,
+                                icon = Icons.Rounded.DownloadForOffline,
                                 text = stringResource(id = R.string.available_languages)
                             )
                         }
