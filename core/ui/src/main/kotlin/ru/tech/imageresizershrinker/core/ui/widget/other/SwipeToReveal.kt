@@ -22,13 +22,13 @@ package ru.tech.imageresizershrinker.core.ui.widget.other
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.Easing
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
@@ -68,6 +68,9 @@ fun SwipeToReveal(
         RevealDirection.StartToEnd,
     ),
     alphaTransformEnabled: Boolean = false,
+    interactionSource: MutableInteractionSource = remember {
+        MutableInteractionSource()
+    },
     state: RevealState = rememberRevealState(),
     revealedContentEnd: @Composable BoxScope.() -> Unit = {},
     revealedContentStart: @Composable BoxScope.() -> Unit = {},
@@ -93,14 +96,14 @@ fun SwipeToReveal(
             ) {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(0.8f)
+                        .weight(1f)
                         .fillMaxHeight(),
                     contentAlignment = Alignment.CenterStart,
                     content = revealedContentStart
                 )
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(1f)
+                        .weight(1f)
                         .fillMaxHeight(),
                     contentAlignment = Alignment.CenterEnd,
                     content = revealedContentEnd
@@ -111,20 +114,22 @@ fun SwipeToReveal(
         Box(
             modifier = modifier
                 .then(
-                    if (enableSwipe) Modifier
-                        .offset {
-                            IntOffset(
-                                state.offset.value.roundToInt(),
-                                0
+                    if (enableSwipe) {
+                        Modifier
+                            .offset {
+                                IntOffset(
+                                    state.offset.value.roundToInt(),
+                                    0
+                                )
+                            }
+                            .revealSwipeable(
+                                state = state,
+                                maxRevealPx = maxRevealPx,
+                                maxAmountOfOverflow = maxAmountOfOverflow,
+                                directions = directions,
+                                interactionSource = interactionSource
                             )
-                        }
-                        .revealSwipeable(
-                            state = state,
-                            maxRevealPx = maxRevealPx,
-                            maxAmountOfOverflow = maxAmountOfOverflow,
-                            directions = directions
-                        )
-                    else Modifier
+                    } else Modifier
                 )
         ) {
             swipeableContent()
@@ -138,8 +143,9 @@ fun Modifier.revealSwipeable(
     maxAmountOfOverflow: Dp,
     directions: Set<RevealDirection>,
     state: RevealState,
-    enabled: Boolean = true
-) = composed {
+    enabled: Boolean = true,
+    interactionSource: MutableInteractionSource
+) = this.composed {
 
     val maxAmountOfOverflowPx = with(LocalDensity.current) { maxAmountOfOverflow.toPx() }
 
@@ -170,7 +176,8 @@ fun Modifier.revealSwipeable(
             basis = maxAmountOfOverflowPx,
             factorAtMin = minFactor,
             factorAtMax = maxFactor
-        )
+        ),
+        interactionSource = interactionSource
     )
 }
 

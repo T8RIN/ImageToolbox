@@ -599,4 +599,7 @@
     <string name="segmentation_mode_sparse_text">Sparse text</string>
     <string name="segmentation_mode_sparse_text_osd">Sparse text Orientation &amp; Script Detection</string>
     <string name="segmentation_mode_raw_line">Raw line</string>
+    <string name="delete_language_sub">Do you want to delete language \"%1$s\" OCR training data for all recognition types, or only for selected one (%2$s)?</string>
+    <string name="current">Current</string>
+    <string name="all">All</string>
 </resources>

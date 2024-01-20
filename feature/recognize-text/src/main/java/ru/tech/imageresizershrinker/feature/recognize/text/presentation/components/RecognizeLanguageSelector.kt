@@ -24,12 +24,16 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -39,13 +43,17 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.DeleteOutline
 import androidx.compose.material.icons.rounded.DownloadDone
 import androidx.compose.material.icons.rounded.DownloadForOffline
 import androidx.compose.material.icons.rounded.MultipleStop
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
@@ -59,6 +67,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -73,6 +82,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.core.ui.theme.Green
@@ -81,9 +91,14 @@ import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.GradientEdge
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
+import ru.tech.imageresizershrinker.core.ui.widget.other.RevealDirection
+import ru.tech.imageresizershrinker.core.ui.widget.other.RevealValue
+import ru.tech.imageresizershrinker.core.ui.widget.other.SwipeToReveal
+import ru.tech.imageresizershrinker.core.ui.widget.other.rememberRevealState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
@@ -92,13 +107,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.OCRLanguage
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun RecognizeLanguageSelector(
     currentRecognitionType: RecognitionType,
     value: List<OCRLanguage>,
     availableLanguages: List<OCRLanguage>,
-    onValueChange: (List<OCRLanguage>, RecognitionType) -> Unit
+    onValueChange: (List<OCRLanguage>, RecognitionType) -> Unit,
+    onDeleteLanguage: (OCRLanguage, List<RecognitionType>) -> Unit
 ) {
     val haptics = LocalHapticFeedback.current
     val settingsState = LocalSettingsState.current
@@ -153,6 +169,10 @@ fun RecognizeLanguageSelector(
                 )
             } else onValueChange(listOf(lang), type)
         }
+
+    var deleteDialogData by remember {
+        mutableStateOf<OCRLanguage?>(null)
+    }
 
     SimpleSheet(
         visible = showDetailedLanguageSheet,
@@ -258,118 +278,181 @@ fun RecognizeLanguageSelector(
                                 lang in value
                             }
                         }
-                        Row(
-                            modifier = Modifier
-                                .animateItemPlacement()
-                                .fillMaxWidth()
-                                .container(
-                                    shape = ContainerShapeDefaults.shapeForIndex(
-                                        index = index,
-                                        size = downloadedLanguages.size
-                                    ),
-                                    color = animateColorAsState(
-                                        if (selected) MaterialTheme.colorScheme.mixedContainer.copy(0.8f)
-                                        else MaterialTheme.colorScheme.surfaceContainerLow
-                                    ).value,
-                                    resultPadding = 0.dp
-                                )
-                                .clickable {
-                                    haptics.performHapticFeedback(
-                                        HapticFeedbackType.LongPress
-                                    )
-                                    onValueChangeImpl(selected, currentRecognitionType, lang)
-                                }
-                                .padding(16.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            AnimatedVisibility(visible = value.size > 1) {
-                                CompositionLocalProvider(
-                                    LocalMinimumInteractiveComponentEnforcement provides false
+                        val scope = rememberCoroutineScope()
+                        val state = rememberRevealState()
+                        val interactionSource = remember {
+                            MutableInteractionSource()
+                        }
+                        val isDragged by interactionSource.collectIsDraggedAsState()
+                        val shape = ContainerShapeDefaults.shapeForIndex(
+                            index = index,
+                            size = downloadedLanguages.size,
+                            forceDefault = isDragged
+                        )
+                        SwipeToReveal(
+                            state = state,
+                            modifier = Modifier.animateItemPlacement(),
+                            revealedContentEnd = {
+                                Box(
+                                    Modifier
+                                        .fillMaxSize()
+                                        .container(
+                                            color = MaterialTheme.colorScheme.errorContainer,
+                                            shape = shape,
+                                            autoShadowElevation = 0.dp,
+                                            resultPadding = 0.dp
+                                        )
+                                        .clickable {
+                                            scope.launch {
+                                                state.animateTo(RevealValue.Default)
+                                            }
+                                            deleteDialogData = lang
+                                        }
                                 ) {
-                                    Checkbox(
-                                        checked = selected,
-                                        onCheckedChange = {
+                                    Icon(
+                                        imageVector = Icons.Rounded.DeleteOutline,
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .padding(16.dp)
+                                            .padding(end = 8.dp)
+                                            .align(Alignment.CenterEnd),
+                                        tint = MaterialTheme.colorScheme.onErrorContainer
+                                    )
+                                }
+                            },
+                            directions = setOf(RevealDirection.EndToStart),
+                            swipeableContent = {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .container(
+                                            shape = shape,
+                                            color = animateColorAsState(
+                                                if (selected) {
+                                                    MaterialTheme
+                                                        .colorScheme
+                                                        .mixedContainer
+                                                        .copy(0.8f)
+                                                } else MaterialTheme.colorScheme.surfaceContainerLow
+                                            ).value,
+                                            resultPadding = 0.dp
+                                        )
+                                        .combinedClickable(
+                                            onLongClick = {
+                                                haptics.performHapticFeedback(
+                                                    HapticFeedbackType.LongPress
+                                                )
+                                                scope.launch {
+                                                    state.animateTo(RevealValue.FullyRevealedStart)
+                                                }
+                                            }
+                                        ) {
+                                            haptics.performHapticFeedback(
+                                                HapticFeedbackType.LongPress
+                                            )
                                             onValueChangeImpl(
                                                 selected,
                                                 currentRecognitionType,
                                                 lang
                                             )
-                                        },
-                                        modifier = Modifier.padding(end = 8.dp)
-                                    )
-                                }
-                            }
-                            Text(text = lang.name)
-                            Spacer(modifier = Modifier.weight(1f))
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                                modifier = Modifier.container()
-                            ) {
-                                RecognitionType.entries.forEach { type ->
-                                    Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        verticalArrangement = Arrangement.Center,
-                                        modifier = Modifier
-                                            .clip(CircleShape)
-                                            .clickable {
-                                                haptics.performHapticFeedback(
-                                                    HapticFeedbackType.LongPress
-                                                )
-                                                onValueChange(value, type)
-                                            }
-                                    ) {
-                                        val notDownloaded by remember(type, lang.downloaded) {
-                                            derivedStateOf {
-                                                type !in lang.downloaded
-                                            }
                                         }
-                                        val displayName by remember(type) {
-                                            derivedStateOf {
-                                                type.displayName.first().uppercase()
-                                            }
-                                        }
-                                        val green = Green
-                                        val red = Red
-                                        val color by remember(
-                                            currentRecognitionType,
-                                            red,
-                                            green,
-                                            lang.downloaded
+                                        .padding(16.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    AnimatedVisibility(visible = value.size > 1) {
+                                        CompositionLocalProvider(
+                                            LocalMinimumInteractiveComponentEnforcement provides false
                                         ) {
-                                            derivedStateOf {
-                                                when (type) {
-                                                    currentRecognitionType -> if (type in lang.downloaded) {
-                                                        green
-                                                    } else red
-
-                                                    !in lang.downloaded -> red.copy(0.3f)
-                                                    else -> green.copy(0.3f)
+                                            Checkbox(
+                                                checked = selected,
+                                                onCheckedChange = {
+                                                    onValueChangeImpl(
+                                                        selected,
+                                                        currentRecognitionType,
+                                                        lang
+                                                    )
+                                                },
+                                                modifier = Modifier.padding(end = 8.dp)
+                                            )
+                                        }
+                                    }
+                                    Text(text = lang.name)
+                                    Spacer(modifier = Modifier.weight(1f))
+                                    Row(
+                                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                        modifier = Modifier.container()
+                                    ) {
+                                        RecognitionType.entries.forEach { type ->
+                                            Column(
+                                                horizontalAlignment = Alignment.CenterHorizontally,
+                                                verticalArrangement = Arrangement.Center,
+                                                modifier = Modifier
+                                                    .clip(CircleShape)
+                                                    .clickable {
+                                                        haptics.performHapticFeedback(
+                                                            HapticFeedbackType.LongPress
+                                                        )
+                                                        onValueChange(value, type)
+                                                    }
+                                            ) {
+                                                val notDownloaded by remember(
+                                                    type,
+                                                    lang.downloaded
+                                                ) {
+                                                    derivedStateOf {
+                                                        type !in lang.downloaded
+                                                    }
                                                 }
+                                                val displayName by remember(type) {
+                                                    derivedStateOf {
+                                                        type.displayName.first().uppercase()
+                                                    }
+                                                }
+                                                val green = Green
+                                                val red = Red
+                                                val color by remember(
+                                                    currentRecognitionType,
+                                                    red,
+                                                    green,
+                                                    lang.downloaded
+                                                ) {
+                                                    derivedStateOf {
+                                                        when (type) {
+                                                            currentRecognitionType -> if (type in lang.downloaded) {
+                                                                green
+                                                            } else red
+
+                                                            !in lang.downloaded -> red.copy(0.3f)
+                                                            else -> green.copy(0.3f)
+                                                        }
+                                                    }
+                                                }
+                                                Text(
+                                                    text = displayName,
+                                                    fontSize = 12.sp
+                                                )
+                                                Spacer(modifier = Modifier.height(4.dp))
+                                                Icon(
+                                                    imageVector = if (notDownloaded) {
+                                                        Icons.Rounded.Cancel
+                                                    } else Icons.Rounded.CheckCircle,
+                                                    contentDescription = null,
+                                                    tint = animateColorAsState(color).value,
+                                                    modifier = Modifier
+                                                        .size(28.dp)
+                                                        .border(
+                                                            width = settingsState.borderWidth,
+                                                            color = MaterialTheme.colorScheme.outlineVariant(),
+                                                            shape = CircleShape
+                                                        )
+                                                )
                                             }
                                         }
-                                        Text(
-                                            text = displayName,
-                                            fontSize = 12.sp
-                                        )
-                                        Spacer(modifier = Modifier.height(4.dp))
-                                        Icon(
-                                            imageVector = if (notDownloaded) {
-                                                Icons.Rounded.Cancel
-                                            } else Icons.Rounded.CheckCircle,
-                                            contentDescription = null,
-                                            tint = animateColorAsState(color).value,
-                                            modifier = Modifier
-                                                .size(28.dp)
-                                                .border(
-                                                    width = settingsState.borderWidth,
-                                                    color = MaterialTheme.colorScheme.outlineVariant(),
-                                                    shape = CircleShape
-                                                )
-                                        )
                                     }
                                 }
-                            }
-                        }
+                            },
+                            interactionSource = interactionSource
+                        )
                     }
                     if (notDownloadedLanguages.isNotEmpty()) {
                         item {
@@ -395,8 +478,9 @@ fun RecognizeLanguageSelector(
                                         size = notDownloadedLanguages.size
                                     ),
                                     color = animateColorAsState(
-                                        if (selected) MaterialTheme.colorScheme.surfaceColorAtElevation(20.dp)
-                                        else MaterialTheme.colorScheme.surfaceContainerLow
+                                        if (selected) {
+                                            MaterialTheme.colorScheme.surfaceColorAtElevation(20.dp)
+                                        } else MaterialTheme.colorScheme.surfaceContainerLow
                                     ).value,
                                     resultPadding = 0.dp
                                 )
@@ -414,5 +498,51 @@ fun RecognizeLanguageSelector(
                 }
             }
         }
+    }
+
+    if (deleteDialogData != null) {
+        AlertDialog(
+            modifier = Modifier.alertDialogBorder(),
+            icon = { Icon(Icons.Outlined.DeleteOutline, null) },
+            title = { Text(stringResource(id = R.string.delete)) },
+            text = {
+                Text(
+                    stringResource(
+                        id = R.string.delete_language_sub,
+                        deleteDialogData?.name ?: "",
+                        currentRecognitionType.displayName
+                    )
+                )
+            },
+            onDismissRequest = {
+                deleteDialogData = null
+            },
+            confirmButton = {
+                EnhancedButton(
+                    containerColor = MaterialTheme.colorScheme.error,
+                    onClick = {
+                        deleteDialogData?.let {
+                            onDeleteLanguage(it, listOf(currentRecognitionType))
+                        }
+                        deleteDialogData = null
+                    }
+                ) {
+                    Text(stringResource(R.string.current))
+                }
+            },
+            dismissButton = {
+                EnhancedButton(
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    onClick = {
+                        deleteDialogData?.let {
+                            onDeleteLanguage(it, RecognitionType.entries)
+                        }
+                        deleteDialogData = null
+                    }
+                ) {
+                    Text(stringResource(R.string.all))
+                }
+            }
+        )
     }
 }

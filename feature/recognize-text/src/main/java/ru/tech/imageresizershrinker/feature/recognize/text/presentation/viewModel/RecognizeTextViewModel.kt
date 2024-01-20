@@ -193,4 +193,18 @@ class RecognizeTextViewModel @Inject constructor(
         _segmentationMode.update { segmentationMode }
     }
 
+    fun deleteLanguage(
+        language: OCRLanguage,
+        types: List<RecognitionType>,
+        onSuccess: () -> Unit
+    ) {
+        viewModelScope.launch {
+            imageTextReader.deleteLanguage(language, types)
+            onLanguagesSelected(selectedLanguages - language)
+            val availableTypes = language.downloaded - types.toSet()
+            availableTypes.firstOrNull()?.let(::setRecognitionType) ?: loadLanguages()
+            onSuccess()
+        }
+    }
+
 }

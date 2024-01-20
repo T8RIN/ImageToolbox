@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.recognize.text.data
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.ui.util.fastAll
-import androidx.core.os.LocaleListCompat
 import androidx.core.text.HtmlCompat
 import com.googlecode.tesseract.android.TessBaseAPI
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -192,6 +191,18 @@ internal class AndroidImageTextReader @Inject constructor(
         }
     )
 
+    override suspend fun deleteLanguage(
+        language: OCRLanguage,
+        types: List<RecognitionType>
+    ) {
+        types.forEach { type ->
+            File(
+                "${getPathFromMode(type)}/tessdata",
+                format(Constants.LANGUAGE_CODE, language.code)
+            ).delete()
+        }
+    }
+
     override suspend fun downloadTrainingData(
         type: RecognitionType,
         languageCode: String,
@@ -280,14 +291,11 @@ internal class AndroidImageTextReader @Inject constructor(
     ): String = File(context.filesDir, type.displayName).absolutePath
 
     private fun getDisplayName(lang: String?): String {
-        if (lang == null) {
+        if (lang.isNullOrEmpty()) {
             return ""
         }
 
-        val locale = when (lang) {
-            "" -> LocaleListCompat.getAdjustedDefault()[0]
-            else -> Locale.forLanguageTag(lang)
-        }
-        return locale!!.getDisplayName(locale).replaceFirstChar { it.uppercase(locale) }
+        val locale = Locale.forLanguageTag(lang)
+        return locale.getDisplayName(locale).replaceFirstChar { it.uppercase(locale) }
     }
 }

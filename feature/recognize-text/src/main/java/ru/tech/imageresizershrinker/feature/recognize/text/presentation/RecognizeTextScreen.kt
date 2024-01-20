@@ -177,7 +177,7 @@ fun RecognizeTextScreen(
     val confettiController = LocalConfettiController.current
     val toastHostState = LocalToastHost.current
 
-    var showDownloadDialogData by rememberSaveable {
+    var downloadDialogData by rememberSaveable {
         mutableStateOf<List<UiDownloadData>>(emptyList())
     }
 
@@ -189,7 +189,7 @@ fun RecognizeTextScreen(
                 }
             },
             onRequestDownload = { data ->
-                showDownloadDialogData = data.map { it.toUi() }
+                downloadDialogData = data.map { it.toUi() }
             }
         )
     }
@@ -325,6 +325,11 @@ fun RecognizeTextScreen(
                 viewModel.onLanguagesSelected(codeList)
                 viewModel.setRecognitionType(type)
                 startRecognition()
+            },
+            onDeleteLanguage = { language, types ->
+                viewModel.deleteLanguage(language, types) {
+                    startRecognition()
+                }
             }
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -390,7 +395,7 @@ fun RecognizeTextScreen(
                                 color = MaterialTheme.colorScheme.outline,
                                 modifier = Modifier.weight(1f)
                             )
-                            if (dataText.length >= 200) {
+                            if (dataText.length >= 100) {
                                 val rotation by animateFloatAsState(
                                     if (expanded) 180f
                                     else 0f
@@ -627,14 +632,14 @@ fun RecognizeTextScreen(
         visible = showZoomSheet
     )
 
-    if (showDownloadDialogData.isNotEmpty()) {
-        var downloadStarted by rememberSaveable(showDownloadDialogData) {
+    if (downloadDialogData.isNotEmpty()) {
+        var downloadStarted by rememberSaveable(downloadDialogData) {
             mutableStateOf(false)
         }
-        var progress by rememberSaveable(showDownloadDialogData) {
+        var progress by rememberSaveable(downloadDialogData) {
             mutableFloatStateOf(0f)
         }
-        var dataRemaining by rememberSaveable(showDownloadDialogData) {
+        var dataRemaining by rememberSaveable(downloadDialogData) {
             mutableStateOf("")
         }
         if (!downloadStarted) {
@@ -646,8 +651,8 @@ fun RecognizeTextScreen(
                     Text(
                         stringResource(
                             id = R.string.download_description,
-                            showDownloadDialogData.firstOrNull()?.type?.displayName ?: "",
-                            showDownloadDialogData.joinToString(separator = ", ") { it.name }
+                            downloadDialogData.firstOrNull()?.type?.displayName ?: "",
+                            downloadDialogData.joinToString(separator = ", ") { it.name }
                         )
                     )
                 },
@@ -656,17 +661,17 @@ fun RecognizeTextScreen(
                     EnhancedButton(
                         onClick = {
                             if (context.isNetworkAvailable()) {
-                                showDownloadDialogData.let { downloadData ->
+                                downloadDialogData.let { downloadData ->
                                     viewModel.downloadTrainData(
                                         type = downloadData.firstOrNull()?.type
                                             ?: RecognitionType.Standard,
-                                        languageCode = showDownloadDialogData.joinToString(separator = "+") { it.languageCode },
+                                        languageCode = downloadDialogData.joinToString(separator = "+") { it.languageCode },
                                         onProgress = { p, size ->
                                             dataRemaining = readableByteCount(size)
                                             progress = p
                                         },
                                         onComplete = {
-                                            showDownloadDialogData = emptyList()
+                                            downloadDialogData = emptyList()
                                             scope.launch {
                                                 confettiController.showEmpty()
                                             }
@@ -676,7 +681,7 @@ fun RecognizeTextScreen(
                                     downloadStarted = true
                                 }
                             } else {
-                                showDownloadDialogData = emptyList()
+                                downloadDialogData = emptyList()
                                 scope.launch {
                                     toastHostState.showToast(
                                         message = context.getString(R.string.no_connection),
@@ -694,7 +699,7 @@ fun RecognizeTextScreen(
                     EnhancedButton(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer,
                         onClick = {
-                            showDownloadDialogData = emptyList()
+                            downloadDialogData = emptyList()
                         }
                     ) {
                         Text(stringResource(R.string.close))

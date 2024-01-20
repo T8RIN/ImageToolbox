@@ -54,4 +54,9 @@ interface ImageTextReader<Image> {
         code: String
     ): OCRLanguage
 
+    suspend fun deleteLanguage(
+        language: OCRLanguage,
+        types: List<RecognitionType>
+    )
+
 }
