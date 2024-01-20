@@ -20,11 +20,9 @@ package ru.tech.imageresizershrinker.core.domain.image
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.core.domain.image.filters.provider.FilterProvider
-import ru.tech.imageresizershrinker.core.domain.model.CombiningParams
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.core.domain.model.ImageWithSize
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
@@ -172,25 +170,6 @@ interface ImageManager<I, M> {
     )
 
     suspend fun trimEmptyParts(image: I): I
-
-    suspend fun combineImages(
-        imageUris: List<String>,
-        combiningParams: CombiningParams,
-        imageScale: Float
-    ): ImageData<I, M>
-
-    suspend fun calculateCombinedImageDimensions(
-        imageUris: List<String>,
-        combiningParams: CombiningParams
-    ): IntegerSize
-
-    suspend fun createCombinedImagesPreview(
-        imageUris: List<String>,
-        combiningParams: CombiningParams,
-        imageFormat: ImageFormat,
-        quality: Float,
-        onGetByteCount: (Int) -> Unit
-    ): ImageWithSize<I>
 
     suspend fun shareUri(uri: String, type: String?)
 

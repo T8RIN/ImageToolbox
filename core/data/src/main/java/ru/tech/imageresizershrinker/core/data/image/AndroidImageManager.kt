@@ -44,7 +44,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.data.image.filters.SideFadeFilter
 import ru.tech.imageresizershrinker.core.data.image.filters.StackBlurFilter
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
@@ -52,19 +51,14 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
-import ru.tech.imageresizershrinker.core.domain.image.filters.FadeSide
 import ru.tech.imageresizershrinker.core.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.core.domain.image.filters.provider.FilterProvider
-import ru.tech.imageresizershrinker.core.domain.model.CombiningParams
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.core.domain.model.ImageWithSize
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
-import ru.tech.imageresizershrinker.core.domain.model.StitchMode
-import ru.tech.imageresizershrinker.core.domain.model.withSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.resources.R
@@ -72,10 +66,8 @@ import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.util.UUID
 import javax.inject.Inject
 import kotlin.math.abs
-import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.roundToInt
 import coil.transform.Transformation as CoilTransformation
@@ -330,7 +322,6 @@ internal class AndroidImageManager @Inject constructor(
 
     private val Bitmap.aspectRatio: Float get() = width / height.toFloat()
 
-
     override fun applyPresetBy(image: Bitmap?, preset: Preset, currentInfo: ImageInfo): ImageInfo {
         if (image == null) return currentInfo
 
@@ -426,293 +417,6 @@ internal class AndroidImageManager @Inject constructor(
             )
         }
         onComplete()
-    }
-
-    override suspend fun combineImages(
-        imageUris: List<String>,
-        combiningParams: CombiningParams,
-        imageScale: Float
-    ): ImageData<Bitmap, ExifInterface> = withContext(Dispatchers.IO) {
-        suspend fun getImageData(
-            imagesUris: List<String>,
-            isHorizontal: Boolean
-        ): ImageData<Bitmap, ExifInterface> {
-            val (size, images) = calculateCombinedImageDimensionsAndBitmaps(
-                imageUris = imagesUris,
-                isHorizontal = isHorizontal,
-                scaleSmallImagesToLarge = combiningParams.scaleSmallImagesToLarge,
-                imageSpacing = combiningParams.spacing
-            )
-
-            val bitmaps = images.map { image ->
-                if (combiningParams.scaleSmallImagesToLarge && image.shouldUpscale(
-                        isHorizontal,
-                        size
-                    )
-                ) {
-                    image.upscale(isHorizontal, size)
-                } else image
-            }
-
-            val bitmap = Bitmap.createBitmap(size.width, size.height, getSuitableConfig())
-            val canvas = Canvas(bitmap).apply {
-                drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
-                drawColor(combiningParams.backgroundColor)
-            }
-
-            var pos = 0
-            for (i in imagesUris.indices) {
-                var bmp = bitmaps[i]
-
-                combiningParams.spacing.takeIf { it < 0 && combiningParams.fadingEdgesMode != null }
-                    ?.let {
-                        val space = combiningParams.spacing.absoluteValue
-                        val bottomFilter =
-                            SideFadeFilter((if (isHorizontal) FadeSide.End else FadeSide.Bottom) to space)
-                        val topFilter =
-                            SideFadeFilter((if (isHorizontal) FadeSide.Start else FadeSide.Top) to space)
-                        val filters = if (combiningParams.fadingEdgesMode == 0) {
-                            when (i) {
-                                0 -> listOf()
-                                else -> listOf(topFilter)
-                            }
-                        } else {
-                            when (i) {
-                                0 -> listOf(bottomFilter)
-                                imagesUris.lastIndex -> listOf(topFilter)
-                                else -> listOf(topFilter, bottomFilter)
-                            }
-                        }
-                        transform(bmp, filters)?.let { bmp = it }
-                    }
-
-                if (isHorizontal) {
-                    canvas.drawBitmap(
-                        bmp,
-                        pos.toFloat(),
-                        0f,
-                        null
-                    )
-                } else {
-                    canvas.drawBitmap(
-                        bmp,
-                        0f,
-                        pos.toFloat(),
-                        null
-                    )
-                }
-                pos += if (isHorizontal) {
-                    (bmp.width + combiningParams.spacing).coerceAtLeast(1)
-                } else (bmp.height + combiningParams.spacing).coerceAtLeast(1)
-            }
-
-            return ImageData(
-                image = resize(
-                    image = bitmap,
-                    width = (size.width * imageScale).toInt(),
-                    height = (size.height * imageScale).toInt(),
-                    resizeType = ResizeType.Flexible,
-                    imageScaleMode = ImageScaleMode.NotPresent
-                )!!,
-                imageInfo = ImageInfo(
-                    width = (size.width * imageScale).toInt(),
-                    height = (size.height * imageScale).toInt(),
-                )
-            )
-        }
-
-        if (combiningParams.stitchMode.gridCellsCount().let { !(it == 0 || it > imageUris.size) }) {
-            combineImages(
-                imageUris = distributeImages(
-                    images = imageUris,
-                    cellCount = combiningParams.stitchMode.gridCellsCount()
-                ).mapNotNull { images ->
-                    val data = getImageData(
-                        imagesUris = images,
-                        isHorizontal = combiningParams.stitchMode.isHorizontal()
-                    )
-                    cacheImage(
-                        image = data.image,
-                        imageInfo = data.imageInfo,
-                        name = UUID.randomUUID().toString()
-                    )
-                },
-                combiningParams = combiningParams.copy(
-                    stitchMode = when (combiningParams.stitchMode) {
-                        is StitchMode.Grid.Horizontal -> StitchMode.Vertical
-                        else -> StitchMode.Horizontal
-                    }
-                ),
-                imageScale = imageScale
-            )
-        } else getImageData(
-            imagesUris = imageUris,
-            isHorizontal = combiningParams.stitchMode.isHorizontal()
-        )
-    }
-
-    override suspend fun calculateCombinedImageDimensions(
-        imageUris: List<String>,
-        combiningParams: CombiningParams
-    ): IntegerSize {
-        return if (combiningParams.stitchMode.gridCellsCount()
-                .let { it == 0 || it > imageUris.size }
-        ) {
-            calculateCombinedImageDimensionsAndBitmaps(
-                imageUris = imageUris,
-                isHorizontal = combiningParams.stitchMode.isHorizontal(),
-                scaleSmallImagesToLarge = combiningParams.scaleSmallImagesToLarge,
-                imageSpacing = combiningParams.spacing
-            ).first
-        } else {
-            val isHorizontalGrid = combiningParams.stitchMode.isHorizontal()
-            var size = IntegerSize(0, 0)
-            distributeImages(
-                images = imageUris,
-                cellCount = combiningParams.stitchMode.gridCellsCount()
-            ).forEach { images ->
-                calculateCombinedImageDimensionsAndBitmaps(
-                    imageUris = images,
-                    isHorizontal = !isHorizontalGrid,
-                    scaleSmallImagesToLarge = combiningParams.scaleSmallImagesToLarge,
-                    imageSpacing = combiningParams.spacing
-                ).first.let { newSize ->
-                    size = if (isHorizontalGrid) {
-                        size.copy(
-                            height = size.height + newSize.height,
-                            width = max(newSize.width, size.width)
-                        )
-                    } else {
-                        size.copy(
-                            height = max(newSize.height, size.height),
-                            width = size.width + newSize.width,
-                        )
-                    }
-                }
-            }
-            size
-        }
-    }
-
-    private suspend fun calculateCombinedImageDimensionsAndBitmaps(
-        imageUris: List<String>,
-        isHorizontal: Boolean,
-        scaleSmallImagesToLarge: Boolean,
-        imageSpacing: Int,
-    ): Pair<IntegerSize, List<Bitmap>> = withContext(Dispatchers.IO) {
-        var w = 0
-        var h = 0
-        var maxHeight = 0
-        var maxWidth = 0
-        val drawables = imageUris.mapNotNull { uri ->
-            imageLoader.execute(
-                ImageRequest
-                    .Builder(context)
-                    .data(uri)
-                    .size(Size.ORIGINAL)
-                    .build()
-            ).drawable?.toBitmap()?.apply {
-                maxWidth = max(maxWidth, width)
-                maxHeight = max(maxHeight, height)
-            }
-        }
-
-        drawables.forEachIndexed { index, image ->
-            val width = image.width
-            val height = image.height
-
-            val spacing = if (index != drawables.lastIndex) imageSpacing else 0
-
-            if (scaleSmallImagesToLarge && image.shouldUpscale(
-                    isHorizontal = isHorizontal,
-                    size = IntegerSize(maxWidth, maxHeight)
-                )
-            ) {
-                val targetHeight: Int
-                val targetWidth: Int
-
-                if (isHorizontal) {
-                    targetHeight = maxHeight
-                    targetWidth = (targetHeight * image.aspectRatio).toInt()
-                } else {
-                    targetWidth = maxWidth
-                    targetHeight = (targetWidth / image.aspectRatio).toInt()
-                }
-                if (isHorizontal) {
-                    w += (targetWidth + spacing).coerceAtLeast(1)
-                } else {
-                    h += (targetHeight + spacing).coerceAtLeast(1)
-                }
-            } else {
-                if (isHorizontal) {
-                    w += (width + spacing).coerceAtLeast(1)
-                } else {
-                    h += (height + spacing).coerceAtLeast(1)
-                }
-            }
-        }
-
-        if (isHorizontal) {
-            h = maxHeight
-        } else {
-            w = maxWidth
-        }
-
-        IntegerSize(w, h) to drawables
-    }
-
-    private fun distributeImages(
-        images: List<String>,
-        cellCount: Int
-    ): List<List<String>> {
-        val imageCount = images.size
-        val imagesPerRow = imageCount / cellCount
-        val remainingImages = imageCount % cellCount
-
-        val result = MutableList(cellCount) { imagesPerRow }
-
-        for (i in 0 until remainingImages) {
-            result[i] += 1
-        }
-
-        var offset = 0
-        return result.map { count ->
-            images.subList(
-                fromIndex = offset,
-                toIndex = offset + count
-            ).also {
-                offset += count
-            }
-        }
-    }
-
-    override suspend fun createCombinedImagesPreview(
-        imageUris: List<String>,
-        combiningParams: CombiningParams,
-        imageFormat: ImageFormat,
-        quality: Float,
-        onGetByteCount: (Int) -> Unit
-    ): ImageWithSize<Bitmap> = withContext(Dispatchers.IO) {
-        val imageSize = calculateCombinedImageDimensions(
-            imageUris = imageUris,
-            combiningParams = combiningParams
-        )
-
-        combineImages(
-            imageUris = imageUris,
-            combiningParams = combiningParams,
-            imageScale = 1f
-        ).let { (image, imageInfo, _) ->
-            return@let createPreview(
-                image = image,
-                imageInfo = imageInfo.copy(
-                    imageFormat = imageFormat,
-                    quality = quality
-                ),
-                transformations = emptyList(),
-                onGetByteCount = onGetByteCount
-            ) withSize imageSize
-        }
     }
 
     override suspend fun trimEmptyParts(image: Bitmap): Bitmap = BackgroundRemover.trim(image)
@@ -1222,33 +926,6 @@ internal class AndroidImageManager @Inject constructor(
         val shareIntent = Intent.createChooser(sendIntent, context.getString(R.string.share))
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(shareIntent)
-    }
-
-    private fun Bitmap.shouldUpscale(
-        isHorizontal: Boolean,
-        size: IntegerSize
-    ): Boolean {
-        return if (isHorizontal) this.height != size.height
-        else this.width != size.width
-    }
-
-    private suspend fun Bitmap.upscale(
-        isHorizontal: Boolean,
-        size: IntegerSize
-    ): Bitmap {
-        return if (isHorizontal) {
-            createScaledBitmap(
-                width = (size.height * aspectRatio).toInt(),
-                height = size.height,
-                imageScaleMode = ImageScaleMode.NotPresent
-            )
-        } else {
-            createScaledBitmap(
-                width = size.width,
-                height = (size.width / aspectRatio).toInt(),
-                imageScaleMode = ImageScaleMode.NotPresent
-            )
-        }
     }
 
     private fun getSuitableConfig(

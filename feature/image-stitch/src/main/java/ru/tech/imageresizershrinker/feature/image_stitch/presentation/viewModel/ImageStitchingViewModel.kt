@@ -43,12 +43,14 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.image_stitch.domain.ImageCombiner
 import javax.inject.Inject
 
 @HiltViewModel
 class ImageStitchingViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>
+    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imageCombiner: ImageCombiner<Bitmap, ExifInterface>
 ) : ViewModel() {
 
     private val _imageSize: MutableState<IntegerSize> = mutableStateOf(IntegerSize(0, 0))
@@ -98,7 +100,7 @@ class ImageStitchingViewModel @Inject constructor(
             delay(300L)
             _isImageLoading.value = true
             uris?.let { uris ->
-                imageManager.createCombinedImagesPreview(
+                imageCombiner.createCombinedImagesPreview(
                     imageUris = uris.map { it.toString() },
                     combiningParams = combiningParams,
                     imageFormat = imageInfo.imageFormat,
@@ -122,7 +124,7 @@ class ImageStitchingViewModel @Inject constructor(
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             _isSaving.value = true
-            imageManager.combineImages(
+            imageCombiner.combineImages(
                 imageUris = uris?.map { it.toString() } ?: emptyList(),
                 combiningParams = combiningParams,
                 imageScale = imageScale
@@ -162,7 +164,7 @@ class ImageStitchingViewModel @Inject constructor(
         viewModelScope.launch {
             _isSaving.value = true
             imageManager.shareImage(
-                imageData = imageManager.combineImages(
+                imageData = imageCombiner.combineImages(
                     imageUris = uris?.map { it.toString() } ?: emptyList(),
                     combiningParams = combiningParams,
                     imageScale = imageScale

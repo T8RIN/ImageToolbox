@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
+import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 
 @Composable
@@ -143,7 +144,13 @@ fun ToggleGroupButton(
                                 ),
                                 shape = shape
                             ) {
-                                Text(text = item, fontSize = 13.sp)
+                                AutoSizeText(
+                                    text = item,
+                                    style = LocalTextStyle.current.copy(
+                                        fontSize = 13.sp
+                                    ),
+                                    maxLines = 1
+                                )
                             }
                         }
                     }
