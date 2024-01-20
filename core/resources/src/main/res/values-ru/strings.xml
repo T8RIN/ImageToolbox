@@ -566,4 +566,18 @@
     <string name="rate_app_sub">Это приложение полностью бесплатно. Если вы хотите, чтобы оно стало масштабнее, поставьте звёздочку проекту на Github 😄</string>
     <string name="slide">Слайд</string>
     <string name="toggle_tap">Нажатие</string>
+    <string name="segmentation_mode_auto_only">Только автоматический</string>
+    <string name="segmentation_mode_auto">Автоматический</string>
+    <string name="segmentation_mode_single_column">Одиночная колонна</string>
+    <string name="segmentation_mode_single_word">Одно слово</string>
+    <string name="segmentation_mode_circle_word">Слово в круге</string>
+    <string name="segmentation_mode_sparse_text_osd">Ориентация разреженного текста и обнаружение скриптов</string>
+    <string name="segmentation_mode_raw_line">Необработанная линия</string>
+    <string name="segmentation_mode_osd_only">Только для определения ориентации и скрипта</string>
+    <string name="segmentation_mode_auto_osd">Автоматическая ориентация и обнаружение скрипта</string>
+    <string name="segmentation_mode_single_block_vert_text">Вертикальный текст в виде одного блока</string>
+    <string name="segmentation_mode_single_char">Одиночный символ</string>
+    <string name="segmentation_mode_single_block">Одиночный блок</string>
+    <string name="segmentation_mode_sparse_text">Разреженный текст</string>
+    <string name="segmentation_mode_single_line">Одиночная линия</string>
 </resources>
