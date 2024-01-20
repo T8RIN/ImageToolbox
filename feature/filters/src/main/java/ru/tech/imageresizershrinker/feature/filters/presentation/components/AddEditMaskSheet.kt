@@ -82,30 +82,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
-import ru.tech.imageresizershrinker.core.domain.image.draw.DrawMode
-import ru.tech.imageresizershrinker.core.domain.image.draw.DrawPathMode
-import ru.tech.imageresizershrinker.core.domain.image.draw.pt
-import ru.tech.imageresizershrinker.core.domain.image.filters.FilterMaskApplier
+import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.model.PtSaver
-import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
-import ru.tech.imageresizershrinker.core.ui.model.toUiPathPaint
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EraseModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.BrushSoftnessSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.DrawColorSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.DrawPathModeSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.LineWidthSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageHeaderState
 import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
@@ -114,13 +105,24 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
-import ru.tech.imageresizershrinker.core.ui.widget.saver.DrawPathModeSaver
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.utils.ScopedViewModelContainer
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
+import ru.tech.imageresizershrinker.feature.draw.domain.pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BitmapDrawer
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawColorSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawPathModeSaver
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawPathModeSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.PtSaver
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.toUiPathPaint
+import ru.tech.imageresizershrinker.feature.filters.domain.FilterMaskApplier
 import javax.inject.Inject
 
 @Composable
@@ -133,7 +135,6 @@ fun AddEditMaskSheet(
 ) {
     ScopedViewModelContainer<AddMaskSheetViewModel> { disposable ->
         val viewModel = this
-        val imageManager = viewModel.getImageManager()
 
         LaunchedEffect(mask, masks, targetBitmapUri) {
             viewModel.setMask(mask = mask, bitmapUri = targetBitmapUri, masks = masks)
@@ -257,7 +258,7 @@ fun AddEditMaskSheet(
                             onDrawFinish = {
                                 drawing = false
                             },
-                            imageManager = imageManager,
+                            onRequestFiltering = viewModel::filter,
                             drawPathMode = drawPathMode,
                             backgroundColor = Color.Transparent
                         )
@@ -519,7 +520,7 @@ fun AddEditMaskSheet(
             previewBitmap = null,
             onFilterPicked = { viewModel.addFilter(it.newInstance()) },
             onFilterPickedWithParams = { viewModel.addFilter(it) },
-            imageManager = imageManager
+            onRequestPreview = viewModel::filter
         )
         FilterReorderSheet(
             filterList = viewModel.filterList,
@@ -537,10 +538,11 @@ fun AddEditMaskSheet(
 
 @HiltViewModel
 private class AddMaskSheetViewModel @Inject constructor(
-    private val imageManager: ImageManager<Bitmap>,
+    private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val filterMaskApplier: FilterMaskApplier<Bitmap, Path, Color>,
-    private val imagePreviewCreator: ImagePreviewCreator<Bitmap>
+    private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
+    private val filterProvider: FilterProvider<Bitmap>
 ) : ViewModel() {
 
     private val _maskColor = mutableStateOf(Color.Red)
@@ -625,7 +627,7 @@ private class AddMaskSheetViewModel @Inject constructor(
         updatePreview()
     }
 
-    fun getImageManager(): ImageManager<Bitmap> = imageManager
+    fun getImageManager(): ImageTransformer<Bitmap> = imageTransformer
 
     fun removeFilterAtIndex(index: Int) {
         _filterList.update {
@@ -730,5 +732,20 @@ private class AddMaskSheetViewModel @Inject constructor(
         _isInverseFillType.update { !it }
         updatePreview()
     }
+
+    suspend fun filter(
+        bitmap: Bitmap,
+        filters: List<UiFilter<*>>,
+        size: IntegerSize? = null
+    ): Bitmap? = size?.let { intSize ->
+        imageTransformer.transform(
+            image = bitmap,
+            transformations = filters.map { filterProvider.filterToTransformation(it) },
+            size = intSize
+        )
+    } ?: imageTransformer.transform(
+        image = bitmap,
+        transformations = filters.map { filterProvider.filterToTransformation(it) }
+    )
 
 }

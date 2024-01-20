@@ -86,7 +86,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
@@ -119,7 +118,7 @@ private object FilterHolder {
 fun AddFiltersSheet(
     visible: MutableState<Boolean>,
     previewBitmap: Bitmap?,
-    imageManager: ImageManager<Bitmap>,
+    onRequestPreview: suspend (Bitmap, List<UiFilter<*>>, IntegerSize) -> Bitmap?,
     onFilterPicked: (UiFilter<*>) -> Unit,
     onFilterPickedWithParams: (UiFilter<*>) -> Unit
 ) {
@@ -288,10 +287,10 @@ fun AddFiltersSheet(
                 imageState = imageState.copy(position = 2)
             }
             loading = true
-            transformedBitmap = imageManager.filter(
-                image = previewBitmap,
-                filters = listOf(previewSheetData!!),
-                size = IntegerSize(2000, 2000)
+            transformedBitmap = onRequestPreview(
+                previewBitmap,
+                listOf(previewSheetData!!),
+                IntegerSize(2000, 2000)
             )
             loading = false
         }

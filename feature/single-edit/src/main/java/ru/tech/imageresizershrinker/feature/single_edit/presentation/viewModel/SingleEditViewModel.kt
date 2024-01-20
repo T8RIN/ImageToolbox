@@ -39,11 +39,12 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
@@ -54,22 +55,24 @@ import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
-import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
 import javax.inject.Inject
 
 @HiltViewModel
 class SingleEditViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageManager: ImageManager<Bitmap>,
+    private val imageTransformer: ImageTransformer<Bitmap>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val autoBackgroundRemover: AutoBackgroundRemover<Bitmap>,
-    private val shareProvider: ShareProvider<Bitmap>
+    private val shareProvider: ShareProvider<Bitmap>,
+    private val filterProvider: FilterProvider<Bitmap>
 ) : ViewModel() {
 
     private val _originalSize: MutableState<IntegerSize?> = mutableStateOf(null)
@@ -413,7 +416,7 @@ class SingleEditViewModel @Inject constructor(
 
     fun setPreset(preset: Preset) {
         setBitmapInfo(
-            imageManager.applyPresetBy(
+            imageTransformer.applyPresetBy(
                 image = bitmap,
                 preset = preset,
                 currentInfo = imageInfo
@@ -467,8 +470,6 @@ class SingleEditViewModel @Inject constructor(
     }
 
     suspend fun loadImage(uri: Uri): Bitmap? = imageGetter.getImage(data = uri)
-
-    fun getImageManager(): ImageManager<Bitmap> = imageManager
 
     fun getBackgroundRemover(): AutoBackgroundRemover<Bitmap> = autoBackgroundRemover
 
@@ -592,5 +593,17 @@ class SingleEditViewModel @Inject constructor(
             checkBitmapAndUpdate()
         }
     }
+
+    suspend fun filter(
+        bitmap: Bitmap,
+        filters: List<UiFilter<*>>
+    ): Bitmap? = imageTransformer.transform(
+        image = bitmap,
+        transformations = mapFilters(filters)
+    )
+
+    fun mapFilters(
+        filters: List<UiFilter<*>>
+    ): List<Transformation<Bitmap>> = filters.map { filterProvider.filterToTransformation(it) }
 
 }

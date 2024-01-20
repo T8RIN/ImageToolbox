@@ -38,32 +38,33 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
-import ru.tech.imageresizershrinker.core.domain.image.draw.DrawBehavior
-import ru.tech.imageresizershrinker.core.domain.image.draw.ImageDrawApplier
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
-import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
+import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
+import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
+import ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 import javax.inject.Inject
 
 @HiltViewModel
 class DrawViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageManager: ImageManager<Bitmap>,
+    private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageDrawApplier: ImageDrawApplier<Bitmap, Path, Color>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
-    private val shareProvider: ShareProvider<Bitmap>
+    private val shareProvider: ShareProvider<Bitmap>,
+    private val filterProvider: FilterProvider<Bitmap>
 ) : ViewModel() {
-
-    fun getImageManager(): ImageManager<Bitmap> = imageManager
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
@@ -316,5 +317,13 @@ class DrawViewModel @Inject constructor(
         savingJob = null
         _isSaving.value = false
     }
+
+    suspend fun filter(
+        bitmap: Bitmap,
+        filters: List<UiFilter<*>>
+    ): Bitmap? = imageTransformer.transform(
+        image = bitmap,
+        transformations = filters.map { filterProvider.filterToTransformation(it) }
+    )
 
 }

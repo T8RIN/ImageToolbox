@@ -19,8 +19,6 @@ package ru.tech.imageresizershrinker.core.data.di
 
 import android.content.Context
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.exifinterface.media.ExifInterface
 import coil.ImageLoader
 import dagger.Module
@@ -30,24 +28,19 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.core.data.image.AndroidImageCompressor
 import ru.tech.imageresizershrinker.core.data.image.AndroidImageGetter
-import ru.tech.imageresizershrinker.core.data.image.AndroidImageManager
 import ru.tech.imageresizershrinker.core.data.image.AndroidImagePreviewCreator
 import ru.tech.imageresizershrinker.core.data.image.AndroidImageScaler
+import ru.tech.imageresizershrinker.core.data.image.AndroidImageTransformer
 import ru.tech.imageresizershrinker.core.data.image.AndroidShareProvider
-import ru.tech.imageresizershrinker.core.data.image.draw.AndroidImageDrawApplier
-import ru.tech.imageresizershrinker.core.data.image.filters.applier.AndroidFilterMaskApplier
-import ru.tech.imageresizershrinker.core.data.image.filters.provider.AndroidFilterProvider
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
-import ru.tech.imageresizershrinker.core.domain.image.draw.ImageDrawApplier
-import ru.tech.imageresizershrinker.core.domain.image.filters.FilterMaskApplier
-import ru.tech.imageresizershrinker.core.domain.image.filters.provider.FilterProvider
 import ru.tech.imageresizershrinker.core.domain.repository.SettingsRepository
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import javax.inject.Singleton
 
 @Module
@@ -58,12 +51,10 @@ object ImageModule {
     @Provides
     fun provideImageManager(
         @ApplicationContext context: Context,
-        imageLoader: ImageLoader,
-        filterProvider: FilterProvider<Bitmap>
-    ): ImageManager<Bitmap> = AndroidImageManager(
+        imageLoader: ImageLoader
+    ): ImageTransformer<Bitmap> = AndroidImageTransformer(
         context = context,
-        imageLoader = imageLoader,
-        filterProvider = filterProvider
+        imageLoader = imageLoader
     )
 
     @Singleton
@@ -71,23 +62,27 @@ object ImageModule {
     fun provideImageScaler(
         settingsRepository: SettingsRepository,
         imageCompressor: ImageCompressor<Bitmap>,
-        imageManager: ImageManager<Bitmap>
+        imageTransformer: ImageTransformer<Bitmap>,
+        filterProvider: FilterProvider<Bitmap>
     ): ImageScaler<Bitmap> = AndroidImageScaler(
         settingsRepository = settingsRepository,
         imageCompressor = imageCompressor,
-        imageManager = imageManager
+        imageTransformer = imageTransformer,
+        filterProvider = filterProvider
     )
 
     @Singleton
     @Provides
     fun provideImageCompressor(
         @ApplicationContext context: Context,
-        imageManager: ImageManager<Bitmap>,
-        settingsRepository: SettingsRepository
+        imageTransformer: ImageTransformer<Bitmap>,
+        settingsRepository: SettingsRepository,
+        filterProvider: FilterProvider<Bitmap>
     ): ImageCompressor<Bitmap> = AndroidImageCompressor(
         context = context,
-        imageManager = imageManager,
-        settingsRepository = settingsRepository
+        imageTransformer = imageTransformer,
+        settingsRepository = settingsRepository,
+        filterProvider = filterProvider
     )
 
     @Singleton
@@ -102,29 +97,13 @@ object ImageModule {
 
     @Singleton
     @Provides
-    fun provideFilterProvider(
-        @ApplicationContext context: Context,
-    ): FilterProvider<Bitmap> = AndroidFilterProvider(context)
-
-    @Singleton
-    @Provides
-    fun provideImageDrawApplier(
-        imageManager: ImageManager<Bitmap>,
-        imageGetter: ImageGetter<Bitmap, ExifInterface>
-    ): ImageDrawApplier<Bitmap, Path, Color> = AndroidImageDrawApplier(
-        imageManager = imageManager,
-        imageGetter = imageGetter
-    )
-
-    @Singleton
-    @Provides
     fun provideImagePreviewCreator(
-        imageManager: ImageManager<Bitmap>,
+        imageTransformer: ImageTransformer<Bitmap>,
         imageGetter: ImageGetter<Bitmap, ExifInterface>,
         imageCompressor: ImageCompressor<Bitmap>,
         imageScaler: ImageScaler<Bitmap>
     ): ImagePreviewCreator<Bitmap> = AndroidImagePreviewCreator(
-        imageManager = imageManager,
+        imageTransformer = imageTransformer,
         imageGetter = imageGetter,
         imageCompressor = imageCompressor,
         imageScaler = imageScaler
@@ -142,16 +121,6 @@ object ImageModule {
         imageGetter = imageGetter,
         imageCompressor = imageCompressor,
         fileController = fileController
-    )
-
-    @Singleton
-    @Provides
-    fun provideFilterMaskApplier(
-        imageGetter: ImageGetter<Bitmap, ExifInterface>,
-        imageManager: ImageManager<Bitmap>
-    ): FilterMaskApplier<Bitmap, Path, Color> = AndroidFilterMaskApplier(
-        imageGetter = imageGetter,
-        imageManager = imageManager
     )
 
 }

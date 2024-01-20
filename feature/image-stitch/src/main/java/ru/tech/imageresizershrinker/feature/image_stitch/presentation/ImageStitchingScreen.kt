@@ -91,7 +91,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.DrawBackgroundSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.BackgroundColorSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
@@ -425,7 +425,7 @@ fun ImageStitchingScreen(
                                             checked = viewModel.combiningParams.scaleSmallImagesToLarge,
                                             onCheckedChange = viewModel::toggleScaleSmallImagesToLarge
                                         )
-                                        DrawBackgroundSelector(
+                                        BackgroundColorSelector(
                                             value = Color(viewModel.combiningParams.backgroundColor),
                                             onColorChange = {
                                                 viewModel.updateBackgroundSelector(it.toArgb())

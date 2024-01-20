@@ -68,8 +68,8 @@ import coil.size.Size
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
@@ -97,12 +97,13 @@ fun FilterEditOption(
     useScaffold: Boolean,
     bitmap: Bitmap?,
     onGetBitmap: (Bitmap) -> Unit,
-    imageManager: ImageManager<Bitmap>,
-    filterList: List<ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter<*>>,
+    onRequestFiltering: suspend (Bitmap, List<UiFilter<*>>) -> Bitmap?,
+    onRequestMappingFilters: (List<UiFilter<*>>) -> List<Transformation<Bitmap>>,
+    filterList: List<UiFilter<*>>,
     updateFilter: (Any, Int, (Throwable) -> Unit) -> Unit,
     removeAt: (Int) -> Unit,
-    addFilter: (ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter<*>) -> Unit,
-    updateOrder: (List<ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter<*>>) -> Unit
+    addFilter: (UiFilter<*>) -> Unit,
+    updateOrder: (List<UiFilter<*>>) -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val toastHostState = LocalToastHost.current
@@ -251,9 +252,7 @@ fun FilterEditOption(
                     shape = RectangleShape,
                     transformations = remember(filterList) {
                         derivedStateOf {
-                            filterList.map {
-                                imageManager.getFilterProvider().filterToTransformation(it).toCoil()
-                            }
+                            onRequestMappingFilters(filterList).map { it.toCoil() }
                         }
                     }.value,
                     onSuccess = {
@@ -285,7 +284,9 @@ fun FilterEditOption(
                 }
                 addFilter(it)
             },
-            imageManager = imageManager
+            onRequestPreview = { bitmap, filters, _ ->
+                onRequestFiltering(bitmap, filters)
+            }
         )
 
         FilterReorderSheet(

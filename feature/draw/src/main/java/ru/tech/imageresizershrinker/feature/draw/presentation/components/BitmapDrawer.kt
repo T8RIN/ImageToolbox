@@ -72,15 +72,10 @@ import net.engawapg.lib.zoomable.ZoomState
 import net.engawapg.lib.zoomable.ZoomableDefaults.defaultZoomOnDoubleTap
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
-import ru.tech.imageresizershrinker.core.domain.image.draw.DrawMode
-import ru.tech.imageresizershrinker.core.domain.image.draw.DrawPathMode
-import ru.tech.imageresizershrinker.core.domain.image.draw.Pt
-import ru.tech.imageresizershrinker.core.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiPixelationFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiStackBlurFilter
-import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rotateVector
@@ -89,6 +84,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCount
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.smartDelayAfterDownInMillis
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
+import ru.tech.imageresizershrinker.feature.draw.domain.Pt
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -98,7 +96,7 @@ import android.graphics.Canvas as AndroidCanvas
 @Composable
 fun BitmapDrawer(
     imageBitmap: ImageBitmap,
-    imageManager: ImageManager<Bitmap>,
+    onRequestFiltering: suspend (Bitmap, List<UiFilter<*>>) -> Bitmap?,
     paths: List<UiPathPaint>,
     brushSoftness: Pt,
     zoomState: ZoomState = rememberZoomState(maxScale = 30f),
@@ -225,7 +223,7 @@ fun BitmapDrawer(
 
             fun transformationsForMode(
                 drawMode: DrawMode
-            ): List<Filter<Bitmap, *>> = when (drawMode) {
+            ): List<UiFilter<*>> = when (drawMode) {
                 is DrawMode.PathEffect.PrivacyBlur -> {
                     listOf(
                         UiStackBlurFilter(
@@ -647,10 +645,10 @@ fun BitmapDrawer(
                             }
                             LaunchedEffect(shaderSource, invalidations) {
                                 if (shaderSource == null || invalidations <= paths.size) {
-                                    shaderSource = imageManager.filter(
-                                        image = drawImageBitmap.overlay(drawBitmap)
+                                    shaderSource = onRequestFiltering(
+                                        drawImageBitmap.overlay(drawBitmap)
                                             .asAndroidBitmap(),
-                                        filters = transformationsForMode(effect)
+                                        transformationsForMode(effect)
                                     )?.asImageBitmap()?.clipBitmap(
                                         path = path,
                                         paint = Paint().apply {
@@ -749,9 +747,9 @@ fun BitmapDrawer(
             }
 
             LaunchedEffect(outputImage, paths, backgroundColor, drawMode) {
-                pathEffectBitmap = imageManager.filter(
-                    image = outputImage.asAndroidBitmap(),
-                    filters = transformationsForMode(drawMode)
+                pathEffectBitmap = onRequestFiltering(
+                    outputImage.asAndroidBitmap(),
+                    transformationsForMode(drawMode)
                 )?.asImageBitmap()
             }
 

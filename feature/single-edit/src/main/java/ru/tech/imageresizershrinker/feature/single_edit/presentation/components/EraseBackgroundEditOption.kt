@@ -62,17 +62,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.image.draw.pt
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.model.PtSaver
-import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.AutoEraseBackgroundCard
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.BrushSoftnessSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.LineWidthSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.RecoverModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.RecoverModeCard
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.TrimImageToggle
@@ -83,6 +78,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
+import ru.tech.imageresizershrinker.feature.draw.domain.pt
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.PtSaver
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.BitmapEraser
 

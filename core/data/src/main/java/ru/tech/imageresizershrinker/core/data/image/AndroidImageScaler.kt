@@ -29,15 +29,16 @@ import com.awxkee.jxlcoder.scale.BitmapScaleMode
 import com.awxkee.jxlcoder.scale.BitmapScaler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.data.image.filters.StackBlurFilter
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.repository.SettingsRepository
+import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
@@ -47,7 +48,8 @@ import kotlin.math.roundToInt
 class AndroidImageScaler @Inject constructor(
     private val settingsRepository: SettingsRepository,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageManager: ImageManager<Bitmap>
+    private val imageTransformer: ImageTransformer<Bitmap>,
+    private val filterProvider: FilterProvider<Bitmap>
 ) : ImageScaler<Bitmap> {
 
     override suspend fun scaleImage(
@@ -223,7 +225,7 @@ class AndroidImageScaler @Inject constructor(
         imageScaleMode: ImageScaleMode
     ): Bitmap {
         if (w == image.width && h == image.height) return image
-        val bitmap = imageManager.transform(
+        val bitmap = imageTransformer.transform(
             image = image.let { bitmap ->
                 val xScale: Float = w.toFloat() / bitmap.width
                 val yScale: Float = h.toFloat() / bitmap.height
@@ -236,8 +238,11 @@ class AndroidImageScaler @Inject constructor(
                 )
             },
             transformations = listOf(
-                StackBlurFilter(
-                    value = 0.5f to blurRadius
+                filterProvider.filterToTransformation(
+                    object : Filter.StackBlur<Bitmap> {
+                        override val value: Pair<Float, Int>
+                            get() = 0.5f to blurRadius
+                    }
                 )
             )
         )

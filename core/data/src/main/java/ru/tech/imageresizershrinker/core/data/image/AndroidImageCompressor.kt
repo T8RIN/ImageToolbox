@@ -30,24 +30,27 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.repository.SettingsRepository
+import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 internal class AndroidImageCompressor @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val imageManager: ImageManager<Bitmap>,
-    settingsRepository: SettingsRepository
+    private val imageTransformer: ImageTransformer<Bitmap>,
+    settingsRepository: SettingsRepository,
+    filterProvider: FilterProvider<Bitmap>
 ) : ImageCompressor<Bitmap> {
 
     private val imageScaler: ImageScaler<Bitmap> = AndroidImageScaler(
         settingsRepository = settingsRepository,
         imageCompressor = this,
-        imageManager = imageManager
+        imageTransformer = imageTransformer,
+        filterProvider = filterProvider
     )
 
     override suspend fun compress(
@@ -99,6 +102,7 @@ internal class AndroidImageCompressor @Inject constructor(
 
             ImageFormat.Webp.Lossy -> {
                 val out = ByteArrayOutputStream()
+                @Suppress("DEPRECATION")
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     image.compress(
                         Bitmap.CompressFormat.WEBP_LOSSY,
@@ -163,7 +167,7 @@ internal class AndroidImageCompressor @Inject constructor(
         val currentImage: Bitmap
         if (applyImageTransformations) {
             currentImage = imageScaler.scaleImage(
-                image = imageManager.rotate(
+                image = imageTransformer.rotate(
                     image = image.apply { setHasAlpha(true) },
                     degrees = imageInfo.rotationDegrees
                 ),
@@ -172,7 +176,7 @@ internal class AndroidImageCompressor @Inject constructor(
                 resizeType = imageInfo.resizeType,
                 imageScaleMode = imageInfo.imageScaleMode
             )?.let {
-                imageManager.flip(
+                imageTransformer.flip(
                     image = it,
                     isFlipped = imageInfo.isFlipped
                 )

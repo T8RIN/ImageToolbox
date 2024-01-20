@@ -101,10 +101,8 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.observeAsState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.image.draw.pt
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.model.PtSaver
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -117,8 +115,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.AutoEraseBackgroundCard
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.BrushSoftnessSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.LineWidthSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.RecoverModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.RecoverModeCard
 import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.TrimImageToggle
@@ -134,6 +130,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.feature.draw.domain.pt
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.BitmapEraser
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.viewModel.EraseBackgroundViewModel
 
@@ -232,8 +229,16 @@ fun EraseBackgroundScreen(
         }
     }
 
-    var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(20.pt) }
-    var brushSoftness by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(0.pt) }
+    var strokeWidth by rememberSaveable(stateSaver = ru.tech.imageresizershrinker.feature.draw.presentation.components.PtSaver) {
+        mutableStateOf(
+            20.pt
+        )
+    }
+    var brushSoftness by rememberSaveable(stateSaver = ru.tech.imageresizershrinker.feature.draw.presentation.components.PtSaver) {
+        mutableStateOf(
+            0.pt
+        )
+    }
 
     val configuration = LocalConfiguration.current
     val sizeClass = LocalWindowSizeClass.current.widthSizeClass
@@ -450,12 +455,12 @@ fun EraseBackgroundScreen(
                 },
                 onReset = viewModel::resetImage
             )
-            LineWidthSelector(
+            ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
                 value = strokeWidth.value,
                 onValueChange = { strokeWidth = it.pt }
             )
-            BrushSoftnessSelector(
+            ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector(
                 modifier = Modifier
                     .padding(top = 8.dp, end = 16.dp, start = 16.dp),
                 value = brushSoftness.value,

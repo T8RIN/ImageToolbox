@@ -31,7 +31,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
@@ -52,7 +52,7 @@ import kotlin.random.Random
 
 @HiltViewModel
 class PdfToolsViewModel @Inject constructor(
-    private val imageManager: ImageManager<Bitmap>,
+    private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val pdfManager: PdfManager<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
@@ -208,7 +208,7 @@ class PdfToolsViewModel @Inject constructor(
             preset = presetSelected,
             onProgressChange = { _, bitmap ->
                 imageInfo.let {
-                    imageManager.applyPresetBy(
+                    imageTransformer.applyPresetBy(
                         image = bitmap,
                         preset = _presetSelected.value,
                         currentInfo = it
@@ -310,7 +310,7 @@ class PdfToolsViewModel @Inject constructor(
                         pages = _pdfToImageState.value?.pages,
                         onProgressChange = { _, bitmap ->
                             imageInfo.let {
-                                imageManager.applyPresetBy(
+                                imageTransformer.applyPresetBy(
                                     image = bitmap,
                                     preset = _presetSelected.value,
                                     currentInfo = it

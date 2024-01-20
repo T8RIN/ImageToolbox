@@ -60,7 +60,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
@@ -70,14 +71,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
-import ru.tech.imageresizershrinker.core.ui.widget.other.PathPaintPreview
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 
 @Composable
 fun MaskItem(
     mask: UiFilterMask,
-    imageManager: ImageManager<Bitmap>? = null,
+    onRequestPreview: (suspend (Bitmap, List<UiFilter<*>>, IntegerSize) -> Bitmap?)? = null,
     modifier: Modifier = Modifier,
     titleText: String,
     onMaskChange: (UiFilterMask) -> Unit,
@@ -281,11 +281,11 @@ fun MaskItem(
         }
     }
 
-    if (imageManager != null) {
+    if (onRequestPreview != null) {
         AddFiltersSheet(
             visible = showAddFilterSheet,
             previewBitmap = null,
-            imageManager = imageManager,
+            onRequestPreview = onRequestPreview,
             onFilterPicked = { filter ->
                 onMaskChange(
                     mask.copy(

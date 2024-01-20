@@ -43,4 +43,7 @@ dependencies {
 
     implementation(projects.core.domain)
     implementation(projects.core.resources)
+
+    //TODO:REMOVE
+    implementation(projects.core.filters)
 }

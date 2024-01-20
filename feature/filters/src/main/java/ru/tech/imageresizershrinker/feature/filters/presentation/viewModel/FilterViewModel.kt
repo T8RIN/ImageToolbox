@@ -37,21 +37,22 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
-import ru.tech.imageresizershrinker.core.domain.image.filters.FilterMaskApplier
-import ru.tech.imageresizershrinker.core.domain.image.filters.provider.FilterProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.filters.domain.FilterMaskApplier
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.BasicFilterState
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskingFilterState
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.UiFilterMask
@@ -67,7 +68,7 @@ class FilterViewModel @Inject constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     val filterProvider: FilterProvider<Bitmap>,
     val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
-    val imageManager: ImageManager<Bitmap>,
+    private val imageTransformer: ImageTransformer<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
 
@@ -549,5 +550,15 @@ class FilterViewModel @Inject constructor(
         _needToApplyFilters.value = true
         updateCanSave()
     }
+
+    suspend fun filter(
+        bitmap: Bitmap,
+        filters: List<UiFilter<*>>,
+        size: IntegerSize
+    ): Bitmap? = imageTransformer.transform(
+        image = bitmap,
+        transformations = filters.map { filterProvider.filterToTransformation(it) },
+        size = size
+    )
 
 }

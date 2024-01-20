@@ -128,12 +128,7 @@ import com.t8rin.dynamic.theme.observeAsState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.image.draw.DrawBehavior
-import ru.tech.imageresizershrinker.core.domain.image.draw.DrawMode
-import ru.tech.imageresizershrinker.core.domain.image.draw.DrawPathMode
-import ru.tech.imageresizershrinker.core.domain.image.draw.pt
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.model.PtSaver
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
@@ -146,16 +141,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActio
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EraseModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.DrawBackgroundSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.BackgroundColorSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.BrushSoftnessSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.DrawAlphaSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.DrawColorSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.DrawModeSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.DrawPathModeSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.LineWidthSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.OpenColorPickerCard
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
@@ -166,8 +154,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
-import ru.tech.imageresizershrinker.core.ui.widget.saver.DrawModeSaver
-import ru.tech.imageresizershrinker.core.ui.widget.saver.DrawPathModeSaver
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
@@ -175,7 +161,21 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
+import ru.tech.imageresizershrinker.feature.draw.domain.pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BitmapDrawer
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawAlphaSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawColorSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawModeSaver
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawModeSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawPathModeSaver
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawPathModeSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.OpenColorPickerCard
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.PtSaver
 import ru.tech.imageresizershrinker.feature.draw.presentation.viewModel.DrawViewModel
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
@@ -359,7 +359,7 @@ fun DrawScreen(
             )
         }
         if (viewModel.drawBehavior is DrawBehavior.Background) {
-            DrawBackgroundSelector(
+            BackgroundColorSelector(
                 value = viewModel.backgroundColor,
                 onColorChange = viewModel::updateBackgroundColor
             )
@@ -601,7 +601,7 @@ fun DrawScreen(
                     .fillMaxSize(),
                 panEnabled = panEnabled,
                 onDraw = {},
-                imageManager = viewModel.getImageManager(),
+                onRequestFiltering = viewModel::filter,
                 drawPathMode = drawPathMode,
                 backgroundColor = viewModel.backgroundColor
             )
@@ -796,7 +796,7 @@ fun DrawScreen(
                                             ),
                                     )
                                 }
-                                DrawBackgroundSelector(
+                                BackgroundColorSelector(
                                     value = sheetBackgroundColor,
                                     onColorChange = { sheetBackgroundColor = it }
                                 )

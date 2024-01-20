@@ -34,8 +34,8 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
@@ -52,7 +52,7 @@ import kotlin.math.roundToInt
 @HiltViewModel
 class CompareViewModel @Inject constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageManager: ImageManager<Bitmap>,
+    private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val fileController: FileController,
@@ -125,7 +125,7 @@ class CompareViewModel @Inject constructor(
                 _bitmapData.value?.let { (f, s) ->
                     if (f != null && s != null) {
                         _isImageLoading.value = true
-                        _bitmapData.value = with(imageManager) {
+                        _bitmapData.value = with(imageTransformer) {
                             rotate(
                                 image = rotate(
                                     image = f,

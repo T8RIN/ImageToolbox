@@ -70,9 +70,7 @@ import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.ZoomableDefaults.defaultZoomOnDoubleTap
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
-import ru.tech.imageresizershrinker.core.domain.image.draw.Pt
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.scaleToFitCanvas
@@ -85,10 +83,10 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 fun BitmapEraser(
     imageBitmap: ImageBitmap,
     imageBitmapForShader: ImageBitmap?,
-    paths: List<UiPathPaint>,
-    brushSoftness: Pt,
-    onAddPath: (UiPathPaint) -> Unit,
-    strokeWidth: Pt,
+    paths: List<ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint>,
+    brushSoftness: ru.tech.imageresizershrinker.feature.draw.domain.Pt,
+    onAddPath: (ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint) -> Unit,
+    strokeWidth: ru.tech.imageresizershrinker.feature.draw.domain.Pt,
     isRecoveryOn: Boolean = false,
     modifier: Modifier,
     onErased: (Bitmap) -> Unit = {},
@@ -267,7 +265,7 @@ fun BitmapEraser(
                                 drawPath.moveTo(lastPoint.x, lastPoint.y)
                                 drawPath.lineTo(currentDrawPosition.x, currentDrawPosition.y)
                                 onAddPath(
-                                    UiPathPaint(
+                                    ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint(
                                         path = drawPath,
                                         strokeWidth = strokeWidth,
                                         brushSoftness = brushSoftness,

@@ -35,9 +35,9 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
@@ -56,7 +56,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ResizeAndConvertViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageManager: ImageManager<Bitmap>,
+    private val imageTransformer: ImageTransformer<Bitmap>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
@@ -328,7 +328,7 @@ class ResizeAndConvertViewModel @Inject constructor(
                     imageGetter.getImage(uri.toString())?.image
                 }.getOrNull()?.let { bitmap ->
                     imageInfo.let {
-                        imageManager.applyPresetBy(
+                        imageTransformer.applyPresetBy(
                             image = bitmap,
                             preset = _presetSelected.value,
                             currentInfo = it
@@ -377,7 +377,7 @@ class ResizeAndConvertViewModel @Inject constructor(
                     width = size?.first ?: 0,
                     height = size?.second ?: 0
                 )
-                _imageInfo.value = imageManager.applyPresetBy(
+                _imageInfo.value = imageTransformer.applyPresetBy(
                     image = _bitmap.value,
                     preset = _presetSelected.value,
                     currentInfo = _imageInfo.value
@@ -389,7 +389,7 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     fun updatePreset(preset: Preset) {
         setBitmapInfo(
-            imageManager.applyPresetBy(
+            imageTransformer.applyPresetBy(
                 image = _bitmap.value,
                 preset = preset,
                 currentInfo = _imageInfo.value

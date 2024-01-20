@@ -26,14 +26,12 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.data.image.filters.SideFadeFilter
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
-import ru.tech.imageresizershrinker.core.domain.image.filters.FadeSide
 import ru.tech.imageresizershrinker.core.domain.model.CombiningParams
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
@@ -41,6 +39,8 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageWithSize
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.StitchMode
 import ru.tech.imageresizershrinker.core.domain.model.withSize
+import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
+import ru.tech.imageresizershrinker.feature.filters.data.SideFadeFilter
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.ImageCombiner
 import java.util.UUID
 import javax.inject.Inject
@@ -50,7 +50,7 @@ import kotlin.math.max
 class AndroidImageCombiner @Inject constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val imageManager: ImageManager<Bitmap>,
+    private val imageTransformer: ImageTransformer<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>
 ) : ImageCombiner<Bitmap> {
@@ -111,7 +111,7 @@ class AndroidImageCombiner @Inject constructor(
                             }
                         }
 
-                        imageManager.transform(bmp, filters)?.let { bmp = it }
+                        imageTransformer.transform(bmp, filters)?.let { bmp = it }
                     }
 
                 if (isHorizontal) {

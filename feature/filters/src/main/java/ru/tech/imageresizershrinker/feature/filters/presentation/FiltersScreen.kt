@@ -109,6 +109,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import com.t8rin.dynamic.theme.rememberAppColorTuple
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -179,6 +180,12 @@ fun FiltersScreen(
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
+    val appColorTuple = rememberAppColorTuple(
+        defaultColorTuple = settingsState.appColorTuple,
+        dynamicColor = settingsState.isDynamicColors,
+        darkTheme = settingsState.isNightMode
+    )
+
     val scope = rememberCoroutineScope()
     val confettiController = LocalConfettiController.current
     val showConfetti: () -> Unit = {
@@ -221,6 +228,7 @@ fun FiltersScreen(
         if (viewModel.canSave) showExitDialog = true
         else if (viewModel.filterType != null) {
             viewModel.clearType()
+            themeState.updateColorTuple(appColorTuple)
         } else onGoBack()
     }
 
@@ -565,7 +573,7 @@ fun FiltersScreen(
                                             MaskItem(
                                                 imageUri = viewModel.maskingFilterState.uri,
                                                 previousMasks = maskList.take(index),
-                                                imageManager = viewModel.imageManager,
+                                                onRequestPreview = viewModel::filter,
                                                 mask = mask,
                                                 titleText = stringResource(
                                                     R.string.mask_indexed,
@@ -1056,7 +1064,7 @@ fun FiltersScreen(
                                         previewBitmap = viewModel.previewBitmap,
                                         onFilterPicked = { viewModel.addFilter(it.newInstance()) },
                                         onFilterPickedWithParams = { viewModel.addFilter(it) },
-                                        imageManager = viewModel.imageManager
+                                        onRequestPreview = viewModel::filter
                                     )
 
                                     FilterReorderSheet(

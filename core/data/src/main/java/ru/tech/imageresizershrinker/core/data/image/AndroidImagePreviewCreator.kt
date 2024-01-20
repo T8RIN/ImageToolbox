@@ -26,9 +26,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
@@ -38,7 +38,7 @@ import kotlin.math.roundToInt
 internal class AndroidImagePreviewCreator @Inject constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val imageManager: ImageManager<Bitmap>,
+    private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>
 ) : ImagePreviewCreator<Bitmap> {
 
@@ -58,7 +58,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
                     image = image,
                     imageInfo = imageInfo,
                     onImageReadyToCompressInterceptor = {
-                        imageManager.transform(
+                        imageTransformer.transform(
                             image = it,
                             transformations = transformations
                         ) ?: it
@@ -68,7 +68,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
                 compressCenterCrop(
                     scaleFactor = 1f,
                     onImageReadyToCompressInterceptor = {
-                        imageManager.transform(
+                        imageTransformer.transform(
                             image = it,
                             transformations = transformations
                         ) ?: it
@@ -94,7 +94,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
                     height = height
                 ),
                 onImageReadyToCompressInterceptor = {
-                    imageManager.transform(
+                    imageTransformer.transform(
                         image = it,
                         transformations = transformations
                     ) ?: it
@@ -104,7 +104,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
             compressCenterCrop(
                 scaleFactor = scaleFactor,
                 onImageReadyToCompressInterceptor = {
-                    imageManager.transform(
+                    imageTransformer.transform(
                         image = it,
                         transformations = transformations
                     ) ?: it
@@ -150,7 +150,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
             resizeType = imageInfo.resizeType,
             imageScaleMode = imageInfo.imageScaleMode
         )?.let {
-            imageManager.flip(
+            imageTransformer.flip(
                 image = it,
                 isFlipped = imageInfo.isFlipped
             )

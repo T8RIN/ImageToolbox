@@ -596,7 +596,8 @@ fun SingleEditScreen(
         useScaffold = imageInside,
         bitmap = viewModel.previewBitmap,
         onGetBitmap = viewModel::updateBitmapAfterEditing,
-        imageManager = viewModel.getImageManager(),
+        onRequestFiltering = viewModel::filter,
+        onRequestMappingFilters = viewModel::mapFilters,
         filterList = viewModel.filterList,
         updateOrder = viewModel::updateOrder,
         updateFilter = viewModel::updateFilter,
@@ -605,7 +606,7 @@ fun SingleEditScreen(
     )
 
     DrawEditOption(
-        imageManager = viewModel.getImageManager(),
+        onRequestFiltering = viewModel::filter,
         visible = showDrawing,
         onDismiss = {
             showDrawing = false

@@ -59,39 +59,39 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
-import ru.tech.imageresizershrinker.core.domain.image.draw.DrawMode
-import ru.tech.imageresizershrinker.core.domain.image.draw.DrawPathMode
-import ru.tech.imageresizershrinker.core.domain.image.draw.pt
+import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.model.PtSaver
-import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EraseModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.BrushSoftnessSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.DrawAlphaSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.DrawColorSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.DrawModeSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.DrawPathModeSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.LineWidthSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.OpenColorPickerCard
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientation
 import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
-import ru.tech.imageresizershrinker.core.ui.widget.saver.DrawModeSaver
-import ru.tech.imageresizershrinker.core.ui.widget.saver.DrawPathModeSaver
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
+import ru.tech.imageresizershrinker.feature.draw.domain.pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BitmapDrawer
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawAlphaSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawColorSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawModeSaver
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawModeSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawPathModeSaver
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawPathModeSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.OpenColorPickerCard
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.PtSaver
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.PickColorFromImageSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DrawEditOption(
     visible: Boolean,
-    imageManager: ImageManager<Bitmap>,
+    onRequestFiltering: suspend (Bitmap, List<UiFilter<*>>) -> Bitmap?,
     onDismiss: () -> Unit,
     useScaffold: Boolean,
     bitmap: Bitmap?,
@@ -299,7 +299,7 @@ fun DrawEditOption(
                     BitmapDrawer(
                         imageBitmap = imageBitmap,
                         paths = paths,
-                        imageManager = imageManager,
+                        onRequestFiltering = onRequestFiltering,
                         strokeWidth = strokeWidth,
                         brushSoftness = brushSoftness,
                         drawColor = drawColor.copy(alpha),

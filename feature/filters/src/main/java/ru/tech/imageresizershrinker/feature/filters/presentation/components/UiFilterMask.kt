@@ -20,9 +20,9 @@ package ru.tech.imageresizershrinker.feature.filters.presentation.components
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
-import ru.tech.imageresizershrinker.core.domain.image.draw.PathPaint
-import ru.tech.imageresizershrinker.core.domain.image.filters.Filter
-import ru.tech.imageresizershrinker.core.domain.model.FilterMask
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.draw.domain.PathPaint
+import ru.tech.imageresizershrinker.feature.filters.domain.FilterMask
 
 data class UiFilterMask(
     override val filters: List<Filter<Bitmap, *>>,

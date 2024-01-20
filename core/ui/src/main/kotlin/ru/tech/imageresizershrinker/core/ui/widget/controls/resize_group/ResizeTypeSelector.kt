@@ -59,7 +59,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.DrawBackgroundSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.BackgroundColorSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.components.UseBlurredBackgroundToggle
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
@@ -172,7 +172,7 @@ fun ResizeTypeSelector(
         ) {
             AnimatedContent(targetState = useBlurredBgInsteadOfColor) { showBlurRadius ->
                 if (!showBlurRadius) {
-                    DrawBackgroundSelector(
+                    BackgroundColorSelector(
                         modifier = Modifier
                             .padding(bottom = 8.dp, end = 8.dp, start = 8.dp)
                             .container(
