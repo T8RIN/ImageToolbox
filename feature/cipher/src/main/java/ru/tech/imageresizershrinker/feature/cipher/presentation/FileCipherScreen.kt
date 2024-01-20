@@ -70,14 +70,12 @@ import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material.icons.twotone.FileOpen
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
@@ -598,139 +596,135 @@ fun FileCipherScreen(
                                             }
                                         }
                                         AnimatedVisibility(visible = viewModel.byteArray != null) {
-                                            OutlinedCard(
+                                            Column(
                                                 modifier = Modifier
                                                     .fillMaxWidth()
-                                                    .padding(top = 24.dp),
-                                                border = BorderStroke(
-                                                    settingsState.borderWidth,
-                                                    MaterialTheme.colorScheme.outlineVariant()
-                                                ),
-                                                colors = CardDefaults.cardColors(
-                                                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                        10.dp
+                                                    .padding(top = 24.dp)
+                                                    .container(
+                                                        shape = MaterialTheme.shapes.extraLarge,
+                                                        color = MaterialTheme
+                                                            .colorScheme
+                                                            .surfaceColorAtElevation(10.dp),
+                                                        resultPadding = 0.dp
                                                     )
-                                                ),
-                                                shape = MaterialTheme.shapes.extraLarge
+                                                    .padding(16.dp)
                                             ) {
-                                                Column(Modifier.padding(16.dp)) {
-                                                    Row(verticalAlignment = Alignment.CenterVertically) {
-                                                        Icon(
-                                                            Icons.Rounded.CheckCircle,
-                                                            null,
-                                                            tint = Green,
-                                                            modifier = Modifier
-                                                                .size(36.dp)
-                                                                .background(
-                                                                    color = MaterialTheme.colorScheme.surface,
-                                                                    shape = CircleShape
-                                                                )
-                                                                .border(
-                                                                    width = settingsState.borderWidth,
-                                                                    color = MaterialTheme.colorScheme.outlineVariant(),
-                                                                    shape = CircleShape
-                                                                )
-                                                                .padding(4.dp)
-                                                        )
-                                                        Spacer(modifier = Modifier.width(16.dp))
-                                                        Text(
-                                                            stringResource(R.string.file_proceed),
-                                                            fontSize = 17.sp,
-                                                            fontWeight = FontWeight.Medium
-                                                        )
-                                                    }
+                                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                                    Icon(
+                                                        Icons.Rounded.CheckCircle,
+                                                        null,
+                                                        tint = Green,
+                                                        modifier = Modifier
+                                                            .size(36.dp)
+                                                            .background(
+                                                                color = MaterialTheme.colorScheme.surface,
+                                                                shape = CircleShape
+                                                            )
+                                                            .border(
+                                                                width = settingsState.borderWidth,
+                                                                color = MaterialTheme.colorScheme.outlineVariant(),
+                                                                shape = CircleShape
+                                                            )
+                                                            .padding(4.dp)
+                                                    )
+                                                    Spacer(modifier = Modifier.width(16.dp))
                                                     Text(
-                                                        text = stringResource(R.string.store_file_desc),
-                                                        fontSize = 13.sp,
-                                                        color = LocalContentColor.current.copy(alpha = 0.7f),
-                                                        lineHeight = 14.sp,
-                                                        modifier = Modifier.padding(vertical = 16.dp)
+                                                        stringResource(R.string.file_proceed),
+                                                        fontSize = 17.sp,
+                                                        fontWeight = FontWeight.Medium
                                                     )
-                                                    var name by rememberSaveable(viewModel.byteArray) {
-                                                        mutableStateOf(
-                                                            if (viewModel.isEncrypt) {
-                                                                "enc-"
-                                                            } else {
-                                                                "dec-"
-                                                            } + (viewModel.uri?.let {
-                                                                context.getFileName(it)
-                                                            } ?: Random.nextInt())
-                                                        )
+                                                }
+                                                Text(
+                                                    text = stringResource(R.string.store_file_desc),
+                                                    fontSize = 13.sp,
+                                                    color = LocalContentColor.current.copy(alpha = 0.7f),
+                                                    lineHeight = 14.sp,
+                                                    modifier = Modifier.padding(vertical = 16.dp)
+                                                )
+                                                var name by rememberSaveable(viewModel.byteArray) {
+                                                    mutableStateOf(
+                                                        if (viewModel.isEncrypt) {
+                                                            "enc-"
+                                                        } else {
+                                                            "dec-"
+                                                        } + (viewModel.uri?.let {
+                                                            context.getFileName(it)
+                                                        } ?: Random.nextInt())
+                                                    )
+                                                }
+                                                RoundedTextField(
+                                                    modifier = Modifier
+                                                        .padding(top = 8.dp)
+                                                        .container(shape = RoundedCornerShape(24.dp))
+                                                        .padding(8.dp),
+                                                    value = name,
+                                                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                                                    singleLine = false,
+                                                    onValueChange = { name = it },
+                                                    label = {
+                                                        Text(stringResource(R.string.filename))
                                                     }
-                                                    RoundedTextField(
-                                                        modifier = Modifier
-                                                            .padding(top = 8.dp)
-                                                            .container(shape = RoundedCornerShape(24.dp))
-                                                            .padding(8.dp),
-                                                        value = name,
-                                                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                                                        singleLine = false,
-                                                        onValueChange = { name = it },
-                                                        label = {
-                                                            Text(stringResource(R.string.filename))
-                                                        }
-                                                    )
+                                                )
 
-                                                    Row(
+                                                Row(
+                                                    modifier = Modifier
+                                                        .padding(top = 24.dp)
+                                                        .fillMaxWidth()
+                                                ) {
+                                                    EnhancedButton(
+                                                        onClick = {
+                                                            saveLauncher.launch("*/*#$name")
+                                                        },
                                                         modifier = Modifier
-                                                            .padding(top = 24.dp)
-                                                            .fillMaxWidth()
+                                                            .padding(end = 8.dp)
+                                                            .fillMaxWidth(0.5f)
+                                                            .height(50.dp),
+                                                        containerColor = MaterialTheme.colorScheme.secondaryContainer
                                                     ) {
-                                                        EnhancedButton(
-                                                            onClick = {
-                                                                saveLauncher.launch("*/*#$name")
-                                                            },
-                                                            modifier = Modifier
-                                                                .padding(end = 8.dp)
-                                                                .fillMaxWidth(0.5f)
-                                                                .height(50.dp),
-                                                            containerColor = MaterialTheme.colorScheme.secondaryContainer
+                                                        Row(
+                                                            verticalAlignment = Alignment.CenterVertically,
+                                                            horizontalArrangement = Arrangement.Center
                                                         ) {
-                                                            Row(
-                                                                verticalAlignment = Alignment.CenterVertically,
-                                                                horizontalArrangement = Arrangement.Center
-                                                            ) {
-                                                                Icon(
-                                                                    Icons.Rounded.FileDownload,
-                                                                    null
-                                                                )
-                                                                Spacer(modifier = Modifier.width(8.dp))
-                                                                AutoSizeText(
-                                                                    text = stringResource(id = R.string.save),
-                                                                    maxLines = 1
-                                                                )
-                                                            }
+                                                            Icon(
+                                                                Icons.Rounded.FileDownload,
+                                                                null
+                                                            )
+                                                            Spacer(modifier = Modifier.width(8.dp))
+                                                            AutoSizeText(
+                                                                text = stringResource(id = R.string.save),
+                                                                maxLines = 1
+                                                            )
                                                         }
-                                                        EnhancedButton(
-                                                            onClick = {
-                                                                viewModel.byteArray?.let {
-                                                                    viewModel.shareFile(
-                                                                        it = it,
-                                                                        filename = name
-                                                                    ) {
-                                                                        scope.launch {
-                                                                            confettiController.showEmpty()
-                                                                        }
+                                                    }
+                                                    EnhancedButton(
+                                                        onClick = {
+                                                            viewModel.byteArray?.let {
+                                                                viewModel.shareFile(
+                                                                    it = it,
+                                                                    filename = name
+                                                                ) {
+                                                                    scope.launch {
+                                                                        confettiController.showEmpty()
                                                                     }
                                                                 }
-                                                            },
-                                                            modifier = Modifier
-                                                                .padding(start = 8.dp)
-                                                                .fillMaxWidth()
-                                                                .height(50.dp),
-                                                            containerColor = MaterialTheme.colorScheme.secondaryContainer
-                                                        ) {
-                                                            Row(
-                                                                verticalAlignment = Alignment.CenterVertically,
-                                                                horizontalArrangement = Arrangement.Center
-                                                            ) {
-                                                                Icon(Icons.Rounded.Share, null)
-                                                                Spacer(modifier = Modifier.width(8.dp))
-                                                                AutoSizeText(
-                                                                    text = stringResource(id = R.string.share),
-                                                                    maxLines = 1
-                                                                )
                                                             }
+                                                        },
+                                                        modifier = Modifier
+                                                            .padding(start = 8.dp)
+                                                            .fillMaxWidth()
+                                                            .height(50.dp),
+                                                        containerColor = MaterialTheme.colorScheme.secondaryContainer
+                                                    ) {
+                                                        Row(
+                                                            verticalAlignment = Alignment.CenterVertically,
+                                                            horizontalArrangement = Arrangement.Center
+                                                        ) {
+                                                            Icon(Icons.Rounded.Share, null)
+                                                            Spacer(modifier = Modifier.width(8.dp))
+                                                            AutoSizeText(
+                                                                text = stringResource(id = R.string.share),
+                                                                maxLines = 1
+                                                            )
                                                         }
                                                     }
                                                 }

@@ -28,10 +28,12 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -407,7 +409,12 @@ fun RecognizeTextScreen(
                                 }
                             }
                         }
-                        AnimatedContent(expanded) { showFull ->
+                        AnimatedContent(
+                            targetState = expanded,
+                            transitionSpec = {
+                                fadeIn(tween(200)) togetherWith fadeOut(tween(200))
+                            }
+                        ) { showFull ->
                             SelectionContainer {
                                 Text(
                                     text = dataText,
