@@ -55,7 +55,7 @@ room = "2.6.1"
 
 espresso = "3.5.1"
 kotlinxSerializationJson = "1.6.2"
-ksp = "1.9.22-1.0.16"
+ksp = "1.9.22-1.0.17"
 
 androidx-test-ext-junit = "1.1.5"
 documentfile = "1.0.1"
