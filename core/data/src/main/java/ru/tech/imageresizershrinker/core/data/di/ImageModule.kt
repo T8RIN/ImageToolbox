@@ -31,12 +31,14 @@ import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.core.data.image.AndroidImageCompressor
 import ru.tech.imageresizershrinker.core.data.image.AndroidImageGetter
 import ru.tech.imageresizershrinker.core.data.image.AndroidImageManager
+import ru.tech.imageresizershrinker.core.data.image.AndroidImageScaler
 import ru.tech.imageresizershrinker.core.data.image.draw.AndroidImageDrawApplier
 import ru.tech.imageresizershrinker.core.data.image.filters.applier.AndroidFilterMaskApplier
 import ru.tech.imageresizershrinker.core.data.image.filters.provider.AndroidFilterProvider
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.draw.ImageDrawApplier
 import ru.tech.imageresizershrinker.core.domain.image.filters.FilterMaskApplier
 import ru.tech.imageresizershrinker.core.domain.image.filters.provider.FilterProvider
@@ -57,16 +59,22 @@ object ImageModule {
         filterProvider: FilterProvider<Bitmap>,
         imageCompressor: ImageCompressor<Bitmap>,
         imageGetter: ImageGetter<Bitmap, ExifInterface>,
-        settingsRepository: SettingsRepository
+        imageScaler: ImageScaler<Bitmap>
     ): ImageManager<Bitmap, ExifInterface> = AndroidImageManager(
         context = context,
         fileController = fileController,
         imageLoader = imageLoader,
         filterProvider = filterProvider,
-        settingsRepository = settingsRepository,
+        imageScaler = imageScaler,
         imageCompressor = imageCompressor,
         imageGetter = imageGetter
     )
+
+    @Singleton
+    @Provides
+    fun provideImageScaler(
+        settingsRepository: SettingsRepository
+    ): ImageScaler<Bitmap> = AndroidImageScaler(settingsRepository)
 
     @Singleton
     @Provides

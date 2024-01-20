@@ -28,25 +28,20 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.graphics.pdf.PdfDocument
-import android.graphics.pdf.PdfRenderer
 import android.net.Uri
 import android.os.Build
 import android.webkit.MimeTypeMap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.FileProvider
-import androidx.core.graphics.BitmapCompat
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.size.Size
-import com.awxkee.jxlcoder.scale.BitmapScaleMode
-import com.awxkee.jxlcoder.scale.BitmapScaler
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.image.filters.SideFadeFilter
@@ -55,6 +50,7 @@ import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.image.filters.FadeSide
 import ru.tech.imageresizershrinker.core.domain.image.filters.Filter
@@ -69,7 +65,6 @@ import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.StitchMode
 import ru.tech.imageresizershrinker.core.domain.model.withSize
-import ru.tech.imageresizershrinker.core.domain.repository.SettingsRepository
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.resources.R
@@ -86,13 +81,13 @@ import kotlin.math.roundToInt
 import coil.transform.Transformation as CoilTransformation
 
 
-class AndroidImageManager @Inject constructor(
-    private val context: Context,
+internal class AndroidImageManager @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val fileController: FileController,
     private val imageLoader: ImageLoader,
     private val filterProvider: FilterProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val settingsRepository: SettingsRepository,
+    private val imageScaler: ImageScaler<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>
 ) : ImageManager<Bitmap, ExifInterface> {
 
@@ -932,27 +927,7 @@ class AndroidImageManager @Inject constructor(
 
     override suspend fun scaleUntilCanShow(
         image: Bitmap?
-    ): Bitmap? = withContext(Dispatchers.IO) {
-        if (image == null) return@withContext null
-
-        var (height, width) = image.run { height to width }
-
-        var iterations = 0
-        while (!canShow(size = height * width * 4)) {
-            height = (height * 0.85f).roundToInt()
-            width = (width * 0.85f).roundToInt()
-            iterations++
-        }
-
-        return@withContext if (iterations == 0) image
-        else resize(
-            image = image,
-            height = height,
-            width = width,
-            resizeType = ResizeType.Flexible,
-            imageScaleMode = ImageScaleMode.Bicubic
-        )
-    }
+    ): Bitmap? = imageScaler.scaleUntilCanShow(image)
 
     override suspend fun calculateImageSize(imageData: ImageData<Bitmap, ExifInterface>): Long {
         return compress(imageData).size.toLong()
@@ -1128,113 +1103,6 @@ class AndroidImageManager @Inject constructor(
         return@withContext bitmap ?: image
     }
 
-    override suspend fun convertImagesToPdf(
-        imageUris: List<String>,
-        onProgressChange: suspend (Int) -> Unit,
-        scaleSmallImagesToLarge: Boolean
-    ): ByteArray = withContext(Dispatchers.IO) {
-        val pdfDocument = PdfDocument()
-
-        val (size, images) = calculateCombinedImageDimensionsAndBitmaps(
-            imageUris = imageUris,
-            scaleSmallImagesToLarge = scaleSmallImagesToLarge,
-            isHorizontal = false,
-            imageSpacing = 0
-        )
-
-        val bitmaps = images.map { image ->
-            if (scaleSmallImagesToLarge && image.shouldUpscale(false, size)) {
-                image.upscale(false, size)
-            } else image
-        }
-
-        bitmaps.forEachIndexed { index, imageBitmap ->
-            val pageInfo = PdfDocument.PageInfo.Builder(
-                imageBitmap.width,
-                imageBitmap.height,
-                index
-            ).create()
-            val page = pdfDocument.startPage(pageInfo)
-            val canvas = page.canvas
-            canvas.drawBitmap(
-                imageBitmap,
-                0f, 0f,
-                Paint().apply {
-                    isAntiAlias = true
-                }
-            )
-            pdfDocument.finishPage(page)
-            delay(10L)
-            onProgressChange(index)
-        }
-
-        val out = ByteArrayOutputStream()
-        pdfDocument.writeTo(out)
-
-        return@withContext out.toByteArray().also {
-            out.flush()
-            out.close()
-        }
-    }
-
-    override fun convertPdfToImages(
-        pdfUri: String,
-        pages: List<Int>?,
-        preset: Preset.Numeric,
-        onGetPagesCount: suspend (Int) -> Unit,
-        onProgressChange: suspend (Int, String) -> Unit,
-        onComplete: suspend () -> Unit
-    ) = CoroutineScope(Dispatchers.Main).launch {
-        withContext(Dispatchers.IO) {
-            context.contentResolver.openFileDescriptor(
-                pdfUri.toUri(),
-                "r"
-            )?.use { fileDescriptor ->
-                val pdfRenderer = PdfRenderer(fileDescriptor)
-
-                onGetPagesCount(pages?.size ?: pdfRenderer.pageCount)
-
-                for (pageIndex in 0 until pdfRenderer.pageCount) {
-                    if (pages == null || pages.contains(pageIndex)) {
-
-                        val page = pdfRenderer.openPage(pageIndex)
-                        val bitmap = scaleUntilCanShow(
-                            Bitmap.createBitmap(
-                                (page.width * (preset.value / 100f)).roundToInt(),
-                                (page.height * (preset.value / 100f)).roundToInt(),
-                                Bitmap.Config.ARGB_8888
-                            )
-                        )!!
-                        page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
-                        page.close()
-
-                        val renderedBitmap = Bitmap.createBitmap(
-                            bitmap.width,
-                            bitmap.height,
-                            getSuitableConfig(bitmap)
-                        )
-                        Canvas(renderedBitmap).apply {
-                            drawColor(Color.White.toArgb())
-                            drawBitmap(bitmap, 0f, 0f, Paint().apply { isAntiAlias = true })
-                        }
-
-                        cacheImage(
-                            image = renderedBitmap,
-                            imageInfo = ImageInfo(
-                                width = renderedBitmap.width,
-                                height = renderedBitmap.height,
-                                imageFormat = ImageFormat.Heic
-                            ),
-                            name = "image_$pageIndex"
-                        )?.let { onProgressChange(pageIndex, it) }
-                    }
-                }
-                onComplete()
-                pdfRenderer.close()
-            }
-        }
-    }
-
     private fun Drawable.toBitmap(): Bitmap {
         val drawable = this
         if (drawable is BitmapDrawable) {
@@ -1344,47 +1212,6 @@ class AndroidImageManager @Inject constructor(
         uris: List<String>
     ) = shareImageUris(uris.map { it.toUri() })
 
-    override suspend fun getPdfPages(uri: String): List<Int> {
-        return withContext(Dispatchers.IO) {
-            runCatching {
-                context.contentResolver.openFileDescriptor(
-                    uri.toUri(),
-                    "r"
-                )?.use { fileDescriptor ->
-                    List(PdfRenderer(fileDescriptor).pageCount) { it }
-                }
-            }.getOrNull() ?: emptyList()
-        }
-    }
-
-    private val pagesBuf = hashMapOf<String, List<IntegerSize>>()
-    override suspend fun getPdfPageSizes(uri: String): List<IntegerSize> {
-        return withContext(Dispatchers.IO) {
-            if (!pagesBuf[uri].isNullOrEmpty()) {
-                pagesBuf[uri]!!
-            } else {
-                runCatching {
-                    context.contentResolver.openFileDescriptor(
-                        uri.toUri(),
-                        "r"
-                    )?.use { fileDescriptor ->
-                        val r = PdfRenderer(fileDescriptor)
-                        List(r.pageCount) {
-                            val page = r.openPage(it)
-                            page?.run {
-                                IntegerSize(width, height)
-                            }.also {
-                                page.close()
-                            }
-                        }.filterNotNull().also {
-                            pagesBuf[uri] = it
-                        }
-                    }
-                }.getOrNull() ?: emptyList()
-            }
-        }
-    }
-
     private fun shareImageUris(uris: List<Uri>) {
         val sendIntent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
             putParcelableArrayListExtra(Intent.EXTRA_STREAM, ArrayList(uris))
@@ -1438,26 +1265,11 @@ class AndroidImageManager @Inject constructor(
         width: Int,
         height: Int,
         imageScaleMode: ImageScaleMode
-    ): Bitmap {
-        if (width == this.width && height == this.height) return this
+    ): Bitmap = imageScaler.scaleImage(
+        image = this,
+        width = width,
+        height = height,
+        imageScaleMode = imageScaleMode
+    )
 
-        val mode = imageScaleMode.takeIf {
-            it != ImageScaleMode.NotPresent
-        } ?: settingsRepository.getSettingsState().defaultImageScaleMode
-
-        return mode.takeIf { it != ImageScaleMode.Default }?.let {
-            BitmapScaler.scale(
-                bitmap = this,
-                dstWidth = width,
-                dstHeight = height,
-                scaleMode = BitmapScaleMode.entries.first { e -> e.ordinal == it.value }
-            )
-        } ?: BitmapCompat.createScaledBitmap(
-            this,
-            width,
-            height,
-            null,
-            true
-        )
-    }
 }

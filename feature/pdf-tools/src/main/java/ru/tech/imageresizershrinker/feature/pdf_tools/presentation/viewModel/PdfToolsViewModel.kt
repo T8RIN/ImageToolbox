@@ -41,6 +41,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.pdf_tools.domain.PdfManager
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfToImageState
 import java.io.OutputStream
 import java.text.SimpleDateFormat
@@ -52,6 +53,7 @@ import kotlin.random.Random
 @HiltViewModel
 class PdfToolsViewModel @Inject constructor(
     private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val pdfManager: PdfManager<Bitmap>,
     private val fileController: FileController
 ) : ViewModel() {
 
@@ -161,7 +163,7 @@ class PdfToolsViewModel @Inject constructor(
         }
         viewModelScope.launch {
             newUri?.let {
-                val pages = imageManager.getPdfPages(newUri.toString())
+                val pages = pdfManager.getPdfPages(newUri.toString())
                 _pdfToImageState.update {
                     PdfToImageState(newUri, pages)
                 }
@@ -198,40 +200,36 @@ class PdfToolsViewModel @Inject constructor(
         _done.value = 0
         _left.value = 1
         _isSaving.value = false
-        savingJob = imageManager.convertPdfToImages(
+        savingJob = pdfManager.convertPdfToImages(
             pdfUri = _pdfToImageState.value?.uri.toString(),
             pages = _pdfToImageState.value?.pages,
             preset = presetSelected,
-            onProgressChange = { _, uri ->
-                runCatching {
-                    imageManager.getImage(uri)?.image
-                }.getOrNull()?.let { bitmap ->
-                    imageInfo.let {
-                        imageManager.applyPresetBy(
-                            image = bitmap,
-                            preset = _presetSelected.value,
-                            currentInfo = it
-                        )
-                    }.apply {
-                        val result = fileController.save(
-                            ImageSaveTarget(
-                                imageInfo = this,
-                                metadata = null,
-                                originalUri = uri,
-                                sequenceNumber = _done.value + 1,
-                                data = imageManager.compress(
-                                    ImageData(
-                                        image = bitmap,
-                                        imageInfo = this,
-                                        metadata = null
-                                    )
+            onProgressChange = { _, bitmap ->
+                imageInfo.let {
+                    imageManager.applyPresetBy(
+                        image = bitmap,
+                        preset = _presetSelected.value,
+                        currentInfo = it
+                    )
+                }.apply {
+                    val result = fileController.save(
+                        ImageSaveTarget(
+                            imageInfo = this,
+                            metadata = null,
+                            originalUri = "pdf",
+                            sequenceNumber = _done.value + 1,
+                            data = imageManager.compress(
+                                ImageData(
+                                    image = bitmap,
+                                    imageInfo = this,
+                                    metadata = null
                                 )
-                            ), false
-                        )
-                        if (result is SaveResult.Error.MissingPermissions) {
-                            savingJob?.cancel()
-                            return@convertPdfToImages onComplete("")
-                        }
+                            )
+                        ), false
+                    )
+                    if (result is SaveResult.Error.MissingPermissions) {
+                        savingJob?.cancel()
+                        return@convertPdfToImages onComplete("")
                     }
                 }
                 _done.value += 1
@@ -255,7 +253,7 @@ class PdfToolsViewModel @Inject constructor(
         savingJob = viewModelScope.launch {
             _isSaving.value = true
             _left.value = imagesToPdfState?.size ?: 0
-            _byteArray.value = imageManager.convertImagesToPdf(
+            _byteArray.value = pdfManager.convertImagesToPdf(
                 imageUris = imagesToPdfState?.map { it.toString() } ?: emptyList(),
                 onProgressChange = {
                     _done.value = it
@@ -286,7 +284,7 @@ class PdfToolsViewModel @Inject constructor(
                 is Screen.PdfTools.Type.ImagesToPdf -> {
                     _isSaving.value = true
                     _left.value = imagesToPdfState?.size ?: 0
-                    imageManager.convertImagesToPdf(
+                    pdfManager.convertImagesToPdf(
                         imageUris = imagesToPdfState?.map { it.toString() } ?: emptyList(),
                         onProgressChange = {
                             _done.value = it
@@ -308,27 +306,23 @@ class PdfToolsViewModel @Inject constructor(
                     _left.value = 1
                     _isSaving.value = false
                     val uris: MutableList<String?> = mutableListOf()
-                    savingJob = imageManager.convertPdfToImages(
+                    savingJob = pdfManager.convertPdfToImages(
                         pdfUri = _pdfToImageState.value?.uri.toString(),
                         pages = _pdfToImageState.value?.pages,
-                        onProgressChange = { _, uri ->
-                            runCatching {
-                                imageManager.getImage(uri)?.image
-                            }.getOrNull()?.let { bitmap ->
-                                imageInfo.let {
-                                    imageManager.applyPresetBy(
-                                        image = bitmap,
-                                        preset = _presetSelected.value,
-                                        currentInfo = it
+                        onProgressChange = { _, bitmap ->
+                            imageInfo.let {
+                                imageManager.applyPresetBy(
+                                    image = bitmap,
+                                    preset = _presetSelected.value,
+                                    currentInfo = it
+                                )
+                            }.apply {
+                                uris.add(
+                                    imageManager.cacheImage(
+                                        imageInfo = this,
+                                        image = bitmap
                                     )
-                                }.apply {
-                                    uris.add(
-                                        imageManager.cacheImage(
-                                            imageInfo = this,
-                                            image = bitmap
-                                        )
-                                    )
-                                }
+                                )
                             }
                             _done.value += 1
                         },
@@ -391,7 +385,7 @@ class PdfToolsViewModel @Inject constructor(
         presetSelectionJob = viewModelScope.launch {
             runCatching {
                 _pdfToImageState.value?.let { (uri, pages) ->
-                    val pagesSize = imageManager.getPdfPageSizes(uri.toString())
+                    val pagesSize = pdfManager.getPdfPageSizes(uri.toString())
                         .filterIndexed { index, _ -> index in pages }
                     _showOOMWarning.update {
                         pagesSize.maxOf { size ->
