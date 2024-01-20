@@ -50,7 +50,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import javax.inject.Inject
 
 class AndroidImageDrawApplier @Inject constructor(
-    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imageManager: ImageManager<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>
 ) : ImageDrawApplier<Bitmap, Path, Color> {
 

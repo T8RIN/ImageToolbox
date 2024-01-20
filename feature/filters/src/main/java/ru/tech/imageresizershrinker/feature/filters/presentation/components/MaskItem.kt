@@ -77,7 +77,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 @Composable
 fun MaskItem(
     mask: UiFilterMask,
-    imageManager: ImageManager<Bitmap, *>? = null,
+    imageManager: ImageManager<Bitmap>? = null,
     modifier: Modifier = Modifier,
     titleText: String,
     onMaskChange: (UiFilterMask) -> Unit,

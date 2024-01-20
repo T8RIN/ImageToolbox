@@ -44,7 +44,7 @@ import javax.inject.Inject
 
 class AndroidFilterMaskApplier @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>
+    private val imageManager: ImageManager<Bitmap>
 ) : FilterMaskApplier<Bitmap, Path, Color> {
 
     override suspend fun filterByMask(

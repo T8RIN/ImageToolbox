@@ -18,44 +18,35 @@
 package ru.tech.imageresizershrinker.core.ui.transformation
 
 import android.graphics.Bitmap
-import androidx.exifinterface.media.ExifInterface
 import coil.size.Size
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
-import ru.tech.imageresizershrinker.core.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import coil.transform.Transformation as CoilTransformation
 
-class ImageInfoTransformation(
-    private val imageInfo: ImageInfo,
-    private val preset: Preset = Preset.Numeric(100),
-    private val imageManager: ImageManager<Bitmap, ExifInterface>,
-    private val transformations: List<Transformation<Bitmap>> = emptyList()
+class ImageInfoTransformation @AssistedInject constructor(
+    @Assisted private val imageInfo: ImageInfo,
+    @Assisted private val preset: Preset = Preset.Numeric(100),
+    @Assisted private val transformations: List<Transformation<Bitmap>> = emptyList(),
+    private val imageManager: ImageManager<Bitmap>,
+    private val imageScaler: ImageScaler<Bitmap>,
+    private val imagePreviewCreator: ImagePreviewCreator<Bitmap>
 ) : CoilTransformation, Transformation<Bitmap> {
-
-    constructor(
-        filters: List<Filter<Bitmap, *>>,
-        imageInfo: ImageInfo,
-        preset: Preset = Preset.Numeric(100),
-        imageManager: ImageManager<Bitmap, ExifInterface>,
-    ) : this(
-        imageInfo = imageInfo,
-        preset = preset,
-        imageManager = imageManager,
-        transformations = filters.map {
-            imageManager.getFilterProvider().filterToTransformation(it)
-        }
-    )
 
     override val cacheKey: String
         get() = (imageInfo to preset to imageManager to transformations).hashCode().toString()
 
     override suspend fun transform(input: Bitmap, size: Size): Bitmap {
         val transformedInput =
-            imageManager.resize(
+            imageScaler.scaleImage(
                 image = input,
                 width = imageInfo.width,
                 height = imageInfo.height,
@@ -75,11 +66,20 @@ class ImageInfoTransformation(
                 } else it
             }
         }
-        return imageManager.createPreview(
+        return imagePreviewCreator.createPreview(
             image = transformedInput,
             imageInfo = info,
             transformations = transformations,
             onGetByteCount = {}
         )
+    }
+
+    @AssistedFactory
+    interface Factory {
+        operator fun invoke(
+            imageInfo: ImageInfo,
+            preset: Preset = Preset.Numeric(100),
+            transformations: List<Transformation<Bitmap>> = emptyList(),
+        ): ImageInfoTransformation
     }
 }

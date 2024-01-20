@@ -17,30 +17,17 @@
 
 package ru.tech.imageresizershrinker.core.domain.image
 
-import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
-import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 
-interface ImageScaler<I> {
+interface ImagePreviewCreator<I> {
 
-    suspend fun scaleImage(
+    suspend fun createPreview(
         image: I,
-        width: Int,
-        height: Int,
-        resizeType: ResizeType = ResizeType.Explicit,
-        imageScaleMode: ImageScaleMode
-    ): I?
+        imageInfo: ImageInfo,
+        transformations: List<Transformation<I>> = emptyList(),
+        onGetByteCount: (Int) -> Unit
+    ): I
 
-    suspend fun scaleUntilCanShow(
-        image: I?
-    ): I?
-
-    suspend fun scaleByMaxBytes(
-        image: I,
-        imageFormat: ImageFormat,
-        imageScaleMode: ImageScaleMode,
-        maxBytes: Long
-    ): Pair<I, ImageInfo>?
+    fun canShow(image: I): Boolean
 
 }

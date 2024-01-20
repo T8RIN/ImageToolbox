@@ -77,7 +77,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -459,9 +458,8 @@ fun LimitsResizeScreen(
 
             PickImageFromUrisSheet(
                 transformations = listOf(
-                    ImageInfoTransformation(
-                        imageInfo = ImageInfo(),
-                        imageManager = viewModel.getImageManager()
+                    viewModel.imageInfoTransformationFactory(
+                        imageInfo = ImageInfo()
                     )
                 ),
                 visible = showPickImageFromUrisSheet,

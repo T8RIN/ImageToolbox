@@ -35,12 +35,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
-import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
@@ -52,7 +51,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CropViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>
@@ -119,14 +118,12 @@ class CropViewModel @Inject constructor(
         withContext(Dispatchers.IO) {
             _isSaving.value = true
             bitmap?.let { localBitmap ->
-                val byteArray = imageManager.compress(
-                    ImageData(
-                        image = localBitmap,
-                        imageInfo = ImageInfo(
-                            imageFormat = imageFormat,
-                            width = localBitmap.width,
-                            height = localBitmap.height
-                        )
+                val byteArray = imageCompressor.compressAndTransform(
+                    image = localBitmap,
+                    imageInfo = ImageInfo(
+                        imageFormat = imageFormat,
+                        width = localBitmap.width,
+                        height = localBitmap.height
                     )
                 )
 

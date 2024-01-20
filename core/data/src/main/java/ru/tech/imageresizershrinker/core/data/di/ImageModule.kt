@@ -31,6 +31,7 @@ import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.core.data.image.AndroidImageCompressor
 import ru.tech.imageresizershrinker.core.data.image.AndroidImageGetter
 import ru.tech.imageresizershrinker.core.data.image.AndroidImageManager
+import ru.tech.imageresizershrinker.core.data.image.AndroidImagePreviewCreator
 import ru.tech.imageresizershrinker.core.data.image.AndroidImageScaler
 import ru.tech.imageresizershrinker.core.data.image.AndroidShareProvider
 import ru.tech.imageresizershrinker.core.data.image.draw.AndroidImageDrawApplier
@@ -39,6 +40,7 @@ import ru.tech.imageresizershrinker.core.data.image.filters.provider.AndroidFilt
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.draw.ImageDrawApplier
@@ -57,35 +59,46 @@ object ImageModule {
     fun provideImageManager(
         @ApplicationContext context: Context,
         imageLoader: ImageLoader,
-        filterProvider: FilterProvider<Bitmap>,
-        imageCompressor: ImageCompressor<Bitmap>,
-        imageScaler: ImageScaler<Bitmap>
-    ): ImageManager<Bitmap, ExifInterface> = AndroidImageManager(
+        filterProvider: FilterProvider<Bitmap>
+    ): ImageManager<Bitmap> = AndroidImageManager(
         context = context,
         imageLoader = imageLoader,
-        filterProvider = filterProvider,
-        imageScaler = imageScaler,
-        imageCompressor = imageCompressor
+        filterProvider = filterProvider
     )
 
     @Singleton
     @Provides
     fun provideImageScaler(
+        settingsRepository: SettingsRepository,
+        imageCompressor: ImageCompressor<Bitmap>,
+        imageManager: ImageManager<Bitmap>
+    ): ImageScaler<Bitmap> = AndroidImageScaler(
+        settingsRepository = settingsRepository,
+        imageCompressor = imageCompressor,
+        imageManager = imageManager
+    )
+
+    @Singleton
+    @Provides
+    fun provideImageCompressor(
+        @ApplicationContext context: Context,
+        imageManager: ImageManager<Bitmap>,
         settingsRepository: SettingsRepository
-    ): ImageScaler<Bitmap> = AndroidImageScaler(settingsRepository)
+    ): ImageCompressor<Bitmap> = AndroidImageCompressor(
+        context = context,
+        imageManager = imageManager,
+        settingsRepository = settingsRepository
+    )
 
     @Singleton
     @Provides
     fun provideImageGetter(
         imageLoader: ImageLoader,
         @ApplicationContext context: Context,
-    ): ImageGetter<Bitmap, ExifInterface> = AndroidImageGetter(imageLoader, context)
-
-    @Singleton
-    @Provides
-    fun provideImageCompressor(
-        @ApplicationContext context: Context,
-    ): ImageCompressor<Bitmap> = AndroidImageCompressor(context)
+    ): ImageGetter<Bitmap, ExifInterface> = AndroidImageGetter(
+        imageLoader = imageLoader,
+        context = context
+    )
 
     @Singleton
     @Provides
@@ -96,7 +109,7 @@ object ImageModule {
     @Singleton
     @Provides
     fun provideImageDrawApplier(
-        imageManager: ImageManager<Bitmap, ExifInterface>,
+        imageManager: ImageManager<Bitmap>,
         imageGetter: ImageGetter<Bitmap, ExifInterface>
     ): ImageDrawApplier<Bitmap, Path, Color> = AndroidImageDrawApplier(
         imageManager = imageManager,
@@ -105,15 +118,29 @@ object ImageModule {
 
     @Singleton
     @Provides
+    fun provideImagePreviewCreator(
+        imageManager: ImageManager<Bitmap>,
+        imageGetter: ImageGetter<Bitmap, ExifInterface>,
+        imageCompressor: ImageCompressor<Bitmap>,
+        imageScaler: ImageScaler<Bitmap>
+    ): ImagePreviewCreator<Bitmap> = AndroidImagePreviewCreator(
+        imageManager = imageManager,
+        imageGetter = imageGetter,
+        imageCompressor = imageCompressor,
+        imageScaler = imageScaler
+    )
+
+    @Singleton
+    @Provides
     fun provideShareProvider(
         @ApplicationContext context: Context,
-        imageManager: ImageManager<Bitmap, ExifInterface>,
+        imageCompressor: ImageCompressor<Bitmap>,
         imageGetter: ImageGetter<Bitmap, ExifInterface>,
         fileController: FileController
     ): ShareProvider<Bitmap> = AndroidShareProvider(
         context = context,
         imageGetter = imageGetter,
-        imageManager = imageManager,
+        imageCompressor = imageCompressor,
         fileController = fileController
     )
 
@@ -121,7 +148,7 @@ object ImageModule {
     @Provides
     fun provideFilterMaskApplier(
         imageGetter: ImageGetter<Bitmap, ExifInterface>,
-        imageManager: ImageManager<Bitmap, ExifInterface>
+        imageManager: ImageManager<Bitmap>
     ): FilterMaskApplier<Bitmap, Path, Color> = AndroidFilterMaskApplier(
         imageGetter = imageGetter,
         imageManager = imageManager

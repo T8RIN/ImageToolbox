@@ -32,12 +32,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.draw.ImageDrawApplier
-import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
@@ -52,7 +52,8 @@ import javax.inject.Inject
 class EraseBackgroundViewModel @Inject constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imageManager: ImageManager<Bitmap>,
+    private val imageCompressor: ImageCompressor<Bitmap>,
     private val fileController: FileController,
     private val imageDrawApplier: ImageDrawApplier<Bitmap, Path, Color>,
     private val autoBackgroundRemover: AutoBackgroundRemover<Bitmap>,
@@ -163,14 +164,12 @@ class EraseBackgroundViewModel @Inject constructor(
                             ),
                             originalUri = _uri.value.toString(),
                             sequenceNumber = null,
-                            data = imageManager.compress(
-                                ImageData(
-                                    image = localBitmap,
-                                    imageInfo = ImageInfo(
-                                        imageFormat = imageFormat,
-                                        width = localBitmap.width,
-                                        height = localBitmap.height
-                                    )
+                            data = imageCompressor.compressAndTransform(
+                                image = localBitmap,
+                                imageInfo = ImageInfo(
+                                    imageFormat = imageFormat,
+                                    width = localBitmap.width,
+                                    height = localBitmap.height
                                 )
                             )
                         ), keepMetadata = _saveExif.value

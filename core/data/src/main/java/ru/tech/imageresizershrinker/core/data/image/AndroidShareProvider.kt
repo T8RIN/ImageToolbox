@@ -28,10 +28,9 @@ import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
-import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
@@ -43,7 +42,7 @@ import javax.inject.Inject
 internal class AndroidShareProvider @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imageCompressor: ImageCompressor<Bitmap>,
     private val fileController: FileController
 ) : ShareProvider<Bitmap> {
 
@@ -87,7 +86,7 @@ internal class AndroidShareProvider @Inject constructor(
 
             val file = File(imagesFolder, fileController.constructImageFilename(saveTarget))
             FileOutputStream(file).use {
-                it.write(imageManager.compress(ImageData(image, imageInfo)))
+                it.write(imageCompressor.compressAndTransform(image, imageInfo))
             }
             FileProvider.getUriForFile(context, context.getString(R.string.file_provider), file)
                 .also {

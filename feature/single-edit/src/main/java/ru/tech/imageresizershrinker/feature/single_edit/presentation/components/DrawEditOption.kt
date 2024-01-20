@@ -91,7 +91,7 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.components.P
 @Composable
 fun DrawEditOption(
     visible: Boolean,
-    imageManager: ImageManager<Bitmap, *>,
+    imageManager: ImageManager<Bitmap>,
     onDismiss: () -> Unit,
     useScaffold: Boolean,
     bitmap: Bitmap?,

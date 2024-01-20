@@ -32,11 +32,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
-import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
@@ -51,7 +51,8 @@ import kotlin.math.roundToInt
 
 @HiltViewModel
 class CompareViewModel @Inject constructor(
-    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imageCompressor: ImageCompressor<Bitmap>,
+    private val imageManager: ImageManager<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val fileController: FileController,
@@ -87,7 +88,7 @@ class CompareViewModel @Inject constructor(
 
                     if (bW * bH > aH * aW) {
                         b to a?.let {
-                            imageManager.resize(
+                            imageScaler.scaleImage(
                                 image = it,
                                 width = bW,
                                 height = bH,
@@ -97,7 +98,7 @@ class CompareViewModel @Inject constructor(
                         }
                     } else if (bW * bH < aH * aW) {
                         b?.let {
-                            imageManager.resize(
+                            imageScaler.scaleImage(
                                 image = it,
                                 width = aW,
                                 height = aH,
@@ -222,14 +223,12 @@ class CompareViewModel @Inject constructor(
                             ),
                             originalUri = "",
                             sequenceNumber = null,
-                            data = imageManager.compress(
-                                ImageData(
-                                    image = localBitmap,
-                                    imageInfo = ImageInfo(
-                                        imageFormat = imageFormat,
-                                        width = localBitmap.width,
-                                        height = localBitmap.height
-                                    )
+                            data = imageCompressor.compressAndTransform(
+                                image = localBitmap,
+                                imageInfo = ImageInfo(
+                                    imageFormat = imageFormat,
+                                    width = localBitmap.width,
+                                    height = localBitmap.height
                                 )
                             )
                         ), keepMetadata = false

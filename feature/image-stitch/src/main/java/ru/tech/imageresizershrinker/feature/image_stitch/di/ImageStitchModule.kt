@@ -25,6 +25,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.feature.image_stitch.data.AndroidImageCombiner
@@ -40,13 +41,15 @@ object ImageStitchModule {
     fun provideImageCombiner(
         imageGetter: ImageGetter<Bitmap, ExifInterface>,
         imageScaler: ImageScaler<Bitmap>,
-        imageManager: ImageManager<Bitmap, ExifInterface>,
-        shareProvider: ShareProvider<Bitmap>
+        imageManager: ImageManager<Bitmap>,
+        shareProvider: ShareProvider<Bitmap>,
+        imagePreviewCreator: ImagePreviewCreator<Bitmap>
     ): ImageCombiner<Bitmap> = AndroidImageCombiner(
         imageScaler = imageScaler,
         imageGetter = imageGetter,
         imageManager = imageManager,
-        shareProvider = shareProvider
+        shareProvider = shareProvider,
+        imagePreviewCreator = imagePreviewCreator
     )
 
 }

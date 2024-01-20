@@ -119,7 +119,7 @@ private object FilterHolder {
 fun AddFiltersSheet(
     visible: MutableState<Boolean>,
     previewBitmap: Bitmap?,
-    imageManager: ImageManager<Bitmap, *>,
+    imageManager: ImageManager<Bitmap>,
     onFilterPicked: (UiFilter<*>) -> Unit,
     onFilterPickedWithParams: (UiFilter<*>) -> Unit
 ) {

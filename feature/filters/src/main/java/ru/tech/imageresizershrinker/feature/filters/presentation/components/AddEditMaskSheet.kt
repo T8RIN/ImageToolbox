@@ -83,6 +83,7 @@ import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.draw.DrawMode
 import ru.tech.imageresizershrinker.core.domain.image.draw.DrawPathMode
 import ru.tech.imageresizershrinker.core.domain.image.draw.pt
@@ -536,9 +537,10 @@ fun AddEditMaskSheet(
 
 @HiltViewModel
 private class AddMaskSheetViewModel @Inject constructor(
-    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imageManager: ImageManager<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val filterMaskApplier: FilterMaskApplier<Bitmap, Path, Color>
+    private val filterMaskApplier: FilterMaskApplier<Bitmap, Path, Color>,
+    private val imagePreviewCreator: ImagePreviewCreator<Bitmap>
 ) : ViewModel() {
 
     private val _maskColor = mutableStateOf(Color.Red)
@@ -593,7 +595,7 @@ private class AddMaskSheetViewModel @Inject constructor(
                         },
                         image = bmp
                     )?.let {
-                        imageManager.createPreview(
+                        imagePreviewCreator.createPreview(
                             image = it,
                             imageInfo = ImageInfo(
                                 width = it.width,
@@ -623,7 +625,7 @@ private class AddMaskSheetViewModel @Inject constructor(
         updatePreview()
     }
 
-    fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
+    fun getImageManager(): ImageManager<Bitmap> = imageManager
 
     fun removeFilterAtIndex(index: Int) {
         _filterList.update {

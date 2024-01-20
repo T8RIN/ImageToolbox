@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:Suppress("LocalVariableName", "DEPRECATION")
+
 
 package ru.tech.imageresizershrinker.core.data.image
 
@@ -30,13 +30,25 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
+import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.repository.SettingsRepository
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 internal class AndroidImageCompressor @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val imageManager: ImageManager<Bitmap>,
+    settingsRepository: SettingsRepository
 ) : ImageCompressor<Bitmap> {
+
+    private val imageScaler: ImageScaler<Bitmap> = AndroidImageScaler(
+        settingsRepository = settingsRepository,
+        imageCompressor = this,
+        imageManager = imageManager
+    )
 
     override suspend fun compress(
         image: Bitmap,
@@ -70,6 +82,7 @@ internal class AndroidImageCompressor @Inject constructor(
 
             ImageFormat.Webp.Lossless -> {
                 val out = ByteArrayOutputStream()
+                @Suppress("DEPRECATION")
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     image.compress(
                         Bitmap.CompressFormat.WEBP_LOSSLESS,
@@ -140,4 +153,46 @@ internal class AndroidImageCompressor @Inject constructor(
             }
         }
     }
+
+    override suspend fun compressAndTransform(
+        image: Bitmap,
+        imageInfo: ImageInfo,
+        onImageReadyToCompressInterceptor: suspend (Bitmap) -> Bitmap,
+        applyImageTransformations: Boolean
+    ): ByteArray = withContext(Dispatchers.IO) {
+        val currentImage: Bitmap
+        if (applyImageTransformations) {
+            currentImage = imageScaler.scaleImage(
+                image = imageManager.rotate(
+                    image = image.apply { setHasAlpha(true) },
+                    degrees = imageInfo.rotationDegrees
+                ),
+                width = imageInfo.width,
+                height = imageInfo.height,
+                resizeType = imageInfo.resizeType,
+                imageScaleMode = imageInfo.imageScaleMode
+            )?.let {
+                imageManager.flip(
+                    image = it,
+                    isFlipped = imageInfo.isFlipped
+                )
+            }?.let {
+                onImageReadyToCompressInterceptor(it)
+            } ?: return@withContext ByteArray(0)
+        } else currentImage = onImageReadyToCompressInterceptor(image)
+
+        return@withContext runCatching {
+            compress(
+                image = currentImage,
+                imageFormat = imageInfo.imageFormat,
+                quality = imageInfo.quality
+            )
+        }.getOrNull() ?: ByteArray(0)
+    }
+
+    override suspend fun calculateImageSize(
+        image: Bitmap,
+        imageInfo: ImageInfo
+    ): Long = compressAndTransform(image, imageInfo).size.toLong()
+
 }

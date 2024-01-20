@@ -336,6 +336,6 @@ internal class AndroidPdfManager @Inject constructor(
         width = width,
         height = height,
         imageScaleMode = imageScaleMode
-    )
+    )!!
 
 }

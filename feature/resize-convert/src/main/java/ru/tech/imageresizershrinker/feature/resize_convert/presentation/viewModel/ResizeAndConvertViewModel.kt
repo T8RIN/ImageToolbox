@@ -33,8 +33,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
@@ -47,16 +49,20 @@ import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
 
 @HiltViewModel
 class ResizeAndConvertViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imageManager: ImageManager<Bitmap>,
+    private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
+    private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
-    private val shareProvider: ShareProvider<Bitmap>
+    private val shareProvider: ShareProvider<Bitmap>,
+    val imageInfoTransformationFactory: ImageInfoTransformation.Factory
 ) : ViewModel() {
 
     private val _originalSize: MutableState<IntegerSize?> = mutableStateOf(null)
@@ -150,7 +156,7 @@ class ResizeAndConvertViewModel @Inject constructor(
             _bitmap.value?.let { bmp ->
                 val preview = updatePreview(bmp)
                 _previewBitmap.value = null
-                _shouldShowPreview.value = imageManager.canShow(preview)
+                _shouldShowPreview.value = imagePreviewCreator.canShow(preview)
                 if (shouldShowPreview) _previewBitmap.value = preview
             }
             _isImageLoading.value = false
@@ -178,7 +184,7 @@ class ResizeAndConvertViewModel @Inject constructor(
     ): Bitmap = withContext(Dispatchers.IO) {
         return@withContext imageInfo.run {
             _showWarning.value = width * height * 4L >= 10_000 * 10_000 * 3L
-            imageManager.createPreview(
+            imagePreviewCreator.createPreview(
                 image = bitmap,
                 imageInfo = this,
                 onGetByteCount = {
@@ -343,12 +349,9 @@ class ResizeAndConvertViewModel @Inject constructor(
                                 metadata = if (uris!!.size == 1) exif else null,
                                 originalUri = uri.toString(),
                                 sequenceNumber = _done.value + 1,
-                                data = imageManager.compress(
-                                    ImageData(
-                                        image = bitmap,
-                                        imageInfo = imageInfo,
-                                        metadata = if (uris!!.size == 1) exif else null
-                                    )
+                                data = imageCompressor.compressAndTransform(
+                                    image = bitmap,
+                                    imageInfo = imageInfo
                                 )
                             ), if (uris!!.size == 1) true else keepExif
                         )
@@ -432,7 +435,7 @@ class ResizeAndConvertViewModel @Inject constructor(
         }
     }
 
-    fun canShow(): Boolean = bitmap?.let { imageManager.canShow(it) } ?: false
+    fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } ?: false
 
     fun decodeBitmapFromUri(uri: Uri, onError: (Throwable) -> Unit) {
         viewModelScope.launch {
@@ -444,8 +447,6 @@ class ResizeAndConvertViewModel @Inject constructor(
             )
         }
     }
-
-    fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
 
     fun clearExif() {
         val t = _exif.value

@@ -35,19 +35,21 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.filters.FilterMaskApplier
 import ru.tech.imageresizershrinker.core.domain.image.filters.provider.FilterProvider
-import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
+import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.BasicFilterState
@@ -58,11 +60,14 @@ import javax.inject.Inject
 @HiltViewModel
 class FilterViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
+    private val imageCompressor: ImageCompressor<Bitmap>,
     private val filterMaskApplier: FilterMaskApplier<Bitmap, Path, Color>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
-    private val filterProvider: FilterProvider<Bitmap>,
+    val filterProvider: FilterProvider<Bitmap>,
+    val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
+    val imageManager: ImageManager<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
 
@@ -192,13 +197,11 @@ class FilterViewModel @Inject constructor(
                             imageInfo = imageInfo,
                             originalUri = uri.toString(),
                             sequenceNumber = _done.value + 1,
-                            data = imageManager.compress(
-                                ImageData(
-                                    image = localBitmap,
-                                    imageInfo = imageInfo.copy(
-                                        width = localBitmap.width,
-                                        height = localBitmap.height
-                                    )
+                            data = imageCompressor.compressAndTransform(
+                                image = localBitmap,
+                                imageInfo = imageInfo.copy(
+                                    width = localBitmap.width,
+                                    height = localBitmap.height
                                 )
                             )
                         ), keepMetadata = keepExif
@@ -303,7 +306,7 @@ class FilterViewModel @Inject constructor(
         _needToApplyFilters.value = true
     }
 
-    fun canShow(): Boolean = bitmap?.let { imageManager.canShow(it) } ?: false
+    fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } ?: false
 
     fun performSharing(onComplete: () -> Unit) {
         _isSaving.value = false
@@ -373,8 +376,6 @@ class FilterViewModel @Inject constructor(
         }
     }
 
-    fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
-
     fun setQuality(fl: Float) {
         _imageInfo.value = _imageInfo.value.copy(quality = fl)
         updatePreview()
@@ -389,10 +390,12 @@ class FilterViewModel @Inject constructor(
                     _isImageLoading.value = true
                     when (filterType) {
                         is Screen.Filter.Type.Basic -> {
-                            _previewBitmap.value = imageManager.createFilteredPreview(
+                            _previewBitmap.value = imagePreviewCreator.createPreview(
                                 image = bitmap,
                                 imageInfo = imageInfo,
-                                filters = _basicFilterState.value.filters,
+                                transformations = _basicFilterState.value.filters.map {
+                                    filterProvider.filterToTransformation(it)
+                                },
                                 onGetByteCount = { _bitmapSize.value = it.toLong() }
                             )
                         }
@@ -402,7 +405,7 @@ class FilterViewModel @Inject constructor(
                                 filterMasks = _maskingFilterState.value.masks,
                                 image = bitmap
                             )?.let { bmp ->
-                                imageManager.createPreview(
+                                imagePreviewCreator.createPreview(
                                     image = bmp,
                                     imageInfo = imageInfo,
                                     onGetByteCount = { _bitmapSize.value = it.toLong() }
@@ -486,13 +489,11 @@ class FilterViewModel @Inject constructor(
                                     ),
                                     originalUri = maskingFilterState.uri.toString(),
                                     sequenceNumber = null,
-                                    data = imageManager.compress(
-                                        ImageData(
-                                            image = localBitmap,
-                                            imageInfo = imageInfo.copy(
-                                                width = localBitmap.width,
-                                                height = localBitmap.height
-                                            )
+                                    data = imageCompressor.compressAndTransform(
+                                        image = localBitmap,
+                                        imageInfo = imageInfo.copy(
+                                            width = localBitmap.width,
+                                            height = localBitmap.height
                                         )
                                     )
                                 ), keepMetadata = keepExif

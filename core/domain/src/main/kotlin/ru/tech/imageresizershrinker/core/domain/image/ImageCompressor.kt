@@ -17,7 +17,9 @@
 
 package ru.tech.imageresizershrinker.core.domain.image
 
+import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 
 interface ImageCompressor<Image> {
 
@@ -26,5 +28,17 @@ interface ImageCompressor<Image> {
         imageFormat: ImageFormat,
         quality: Float
     ): ByteArray
+
+    suspend fun compressAndTransform(
+        image: Image,
+        imageInfo: ImageInfo,
+        onImageReadyToCompressInterceptor: suspend (Bitmap) -> Bitmap = { it },
+        applyImageTransformations: Boolean = true
+    ): ByteArray
+
+    suspend fun calculateImageSize(
+        image: Image,
+        imageInfo: ImageInfo
+    ): Long
 
 }

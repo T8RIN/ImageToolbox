@@ -23,7 +23,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,10 +31,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.CombiningParams
-import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -50,7 +48,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ImageStitchingViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageCombiner: ImageCombiner<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
@@ -142,11 +140,9 @@ class ImageStitchingViewModel @Inject constructor(
                             metadata = null,
                             originalUri = "Combined",
                             sequenceNumber = null,
-                            data = imageManager.compress(
-                                ImageData(
-                                    image = image,
-                                    imageInfo = imageInfo
-                                )
+                            data = imageCompressor.compressAndTransform(
+                                image = image,
+                                imageInfo = imageInfo
                             )
                         ),
                         keepMetadata = true

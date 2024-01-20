@@ -30,6 +30,7 @@ import ru.tech.imageresizershrinker.core.data.image.filters.SideFadeFilter
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.filters.FadeSide
@@ -49,8 +50,9 @@ import kotlin.math.max
 class AndroidImageCombiner @Inject constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>,
-    private val shareProvider: ShareProvider<Bitmap>
+    private val imageManager: ImageManager<Bitmap>,
+    private val shareProvider: ShareProvider<Bitmap>,
+    private val imagePreviewCreator: ImagePreviewCreator<Bitmap>
 ) : ImageCombiner<Bitmap> {
 
     override suspend fun combineImages(
@@ -137,7 +139,7 @@ class AndroidImageCombiner @Inject constructor(
                 width = (size.width * imageScale).toInt(),
                 height = (size.height * imageScale).toInt(),
                 imageScaleMode = ImageScaleMode.NotPresent
-            ) to ImageInfo(
+            )!! to ImageInfo(
                 width = (size.width * imageScale).toInt(),
                 height = (size.height * imageScale).toInt()
             )
@@ -322,7 +324,7 @@ class AndroidImageCombiner @Inject constructor(
             combiningParams = combiningParams,
             imageScale = 1f
         ).let { (image, imageInfo) ->
-            return@let imageManager.createPreview(
+            return@let imagePreviewCreator.createPreview(
                 image = image,
                 imageInfo = imageInfo.copy(
                     imageFormat = imageFormat,
@@ -352,14 +354,14 @@ class AndroidImageCombiner @Inject constructor(
                 width = (size.height * aspectRatio).toInt(),
                 height = size.height,
                 imageScaleMode = ImageScaleMode.NotPresent
-            )
+            )!!
         } else {
             imageScaler.scaleImage(
                 image = this,
                 width = size.width,
                 height = (size.width / aspectRatio).toInt(),
                 imageScaleMode = ImageScaleMode.NotPresent
-            )
+            )!!
         }
     }
 

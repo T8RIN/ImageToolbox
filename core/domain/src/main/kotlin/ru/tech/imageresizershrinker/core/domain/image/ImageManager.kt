@@ -17,17 +17,13 @@
 
 package ru.tech.imageresizershrinker.core.domain.image
 
-import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.filters.Filter
 import ru.tech.imageresizershrinker.core.domain.image.filters.provider.FilterProvider
-import ru.tech.imageresizershrinker.core.domain.model.ImageData
-import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Preset
-import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 
-interface ImageManager<I, M> {
+interface ImageManager<I> {
 
     fun getFilterProvider(): FilterProvider<I>
 
@@ -59,49 +55,10 @@ interface ImageManager<I, M> {
 
     fun flip(image: I, isFlipped: Boolean): I
 
-    suspend fun resize(
-        image: I,
-        width: Int,
-        height: Int,
-        resizeType: ResizeType,
-        imageScaleMode: ImageScaleMode
-    ): I?
-
-    suspend fun createPreview(
-        image: I,
-        imageInfo: ImageInfo,
-        transformations: List<Transformation<I>> = emptyList(),
-        onGetByteCount: (Int) -> Unit
-    ): I
-
-    suspend fun createFilteredPreview(
-        image: I,
-        imageInfo: ImageInfo,
-        filters: List<Filter<I, *>> = emptyList(),
-        onGetByteCount: (Int) -> Unit
-    ): I
-
-    suspend fun compress(
-        imageData: ImageData<I, M>,
-        onImageReadyToCompressInterceptor: suspend (I) -> I = { it },
-        applyImageTransformations: Boolean = true
-    ): ByteArray
-
-    suspend fun calculateImageSize(imageData: ImageData<I, M>): Long
-
     fun applyPresetBy(
         image: I?,
         preset: Preset,
         currentInfo: ImageInfo
     ): ImageInfo
-
-    fun canShow(image: I): Boolean
-
-    suspend fun scaleByMaxBytes(
-        image: I,
-        imageFormat: ImageFormat,
-        imageScaleMode: ImageScaleMode,
-        maxBytes: Long
-    ): ImageData<I, M>?
 
 }

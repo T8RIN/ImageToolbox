@@ -91,7 +91,6 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
@@ -602,10 +601,9 @@ fun ResizeAndConvertScreen(
 
             PickImageFromUrisSheet(
                 transformations = listOf(
-                    ImageInfoTransformation(
+                    viewModel.imageInfoTransformationFactory(
                         imageInfo = viewModel.imageInfo,
-                        preset = viewModel.presetSelected,
-                        imageManager = viewModel.getImageManager()
+                        preset = viewModel.presetSelected
                     )
                 ),
                 visible = showPickImageFromUrisSheet,

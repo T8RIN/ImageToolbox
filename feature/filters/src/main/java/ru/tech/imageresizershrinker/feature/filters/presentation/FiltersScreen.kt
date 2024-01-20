@@ -114,7 +114,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
-import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.failedToSaveImages
@@ -566,7 +565,7 @@ fun FiltersScreen(
                                             MaskItem(
                                                 imageUri = viewModel.maskingFilterState.uri,
                                                 previousMasks = maskList.take(index),
-                                                imageManager = viewModel.getImageManager(),
+                                                imageManager = viewModel.imageManager,
                                                 mask = mask,
                                                 titleText = stringResource(
                                                     R.string.mask_indexed,
@@ -1025,10 +1024,13 @@ fun FiltersScreen(
 
                                     PickImageFromUrisSheet(
                                         transformations = listOf(
-                                            ImageInfoTransformation(
+                                            viewModel.imageInfoTransformationFactory(
                                                 imageInfo = viewModel.imageInfo,
-                                                filters = filterList,
-                                                imageManager = viewModel.getImageManager()
+                                                transformations = filterList.map {
+                                                    viewModel.filterProvider.filterToTransformation(
+                                                        it
+                                                    )
+                                                }
                                             )
                                         ),
                                         visible = showPickImageFromUrisSheet,
@@ -1054,7 +1056,7 @@ fun FiltersScreen(
                                         previewBitmap = viewModel.previewBitmap,
                                         onFilterPicked = { viewModel.addFilter(it.newInstance()) },
                                         onFilterPickedWithParams = { viewModel.addFilter(it) },
-                                        imageManager = viewModel.getImageManager()
+                                        imageManager = viewModel.imageManager
                                     )
 
                                     FilterReorderSheet(

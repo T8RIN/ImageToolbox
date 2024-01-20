@@ -64,7 +64,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.exifinterface.media.ExifInterface
 import coil.size.Size
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
@@ -98,7 +97,7 @@ fun FilterEditOption(
     useScaffold: Boolean,
     bitmap: Bitmap?,
     onGetBitmap: (Bitmap) -> Unit,
-    imageManager: ImageManager<Bitmap, ExifInterface>,
+    imageManager: ImageManager<Bitmap>,
     filterList: List<ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter<*>>,
     updateFilter: (Any, Int, (Throwable) -> Unit) -> Unit,
     removeAt: (Int) -> Unit,

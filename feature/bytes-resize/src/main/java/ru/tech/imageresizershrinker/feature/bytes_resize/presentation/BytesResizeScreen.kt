@@ -88,7 +88,6 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -492,9 +491,8 @@ fun BytesResizeScreen(
 
             PickImageFromUrisSheet(
                 transformations = listOf(
-                    ImageInfoTransformation(
-                        imageInfo = ImageInfo(),
-                        imageManager = viewModel.getImageManager()
+                    viewModel.imageInfoTransformationFactory(
+                        imageInfo = ImageInfo()
                     )
                 ),
                 visible = showPickImageFromUrisSheet,

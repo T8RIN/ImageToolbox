@@ -33,11 +33,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
-import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -45,16 +44,18 @@ import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
 
 @HiltViewModel
 class LimitsResizeViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
-    private val shareProvider: ShareProvider<Bitmap>
+    private val shareProvider: ShareProvider<Bitmap>,
+    val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
 ) : ViewModel() {
 
     private val _originalSize: MutableState<IntegerSize?> = mutableStateOf(null)
@@ -158,7 +159,7 @@ class LimitsResizeViewModel @Inject constructor(
                 runCatching {
                     imageGetter.getImage(uri.toString())?.image
                 }.getOrNull()?.let { bitmap ->
-                    imageManager.resize(
+                    imageScaler.scaleImage(
                         image = bitmap,
                         width = imageInfo.width,
                         height = imageInfo.height,
@@ -175,14 +176,12 @@ class LimitsResizeViewModel @Inject constructor(
                             ),
                             originalUri = uri.toString(),
                             sequenceNumber = _done.value + 1,
-                            data = imageManager.compress(
-                                ImageData(
-                                    image = localBitmap,
-                                    imageInfo = imageInfo.copy(
-                                        width = localBitmap.width,
-                                        height = localBitmap.height,
-                                        resizeType = resizeType
-                                    )
+                            data = imageCompressor.compressAndTransform(
+                                image = localBitmap,
+                                imageInfo = imageInfo.copy(
+                                    width = localBitmap.width,
+                                    height = localBitmap.height,
+                                    resizeType = resizeType
                                 )
                             )
                         ), keepMetadata = keepExif
@@ -241,7 +240,7 @@ class LimitsResizeViewModel @Inject constructor(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
                     imageGetter.getImage(uri)?.image?.let { bitmap: Bitmap ->
-                        imageManager.resize(
+                        imageScaler.scaleImage(
                             image = bitmap,
                             width = imageInfo.width,
                             height = imageInfo.height,
@@ -285,8 +284,6 @@ class LimitsResizeViewModel @Inject constructor(
             )
         }
     }
-
-    fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
 
     fun setQuality(fl: Float) {
         _imageInfo.value = _imageInfo.value.copy(quality = fl.coerceIn(0f, 100f))

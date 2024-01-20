@@ -98,7 +98,7 @@ import android.graphics.Canvas as AndroidCanvas
 @Composable
 fun BitmapDrawer(
     imageBitmap: ImageBitmap,
-    imageManager: ImageManager<Bitmap, *>,
+    imageManager: ImageManager<Bitmap>,
     paths: List<UiPathPaint>,
     brushSoftness: Pt,
     zoomState: ZoomState = rememberZoomState(maxScale = 30f),
