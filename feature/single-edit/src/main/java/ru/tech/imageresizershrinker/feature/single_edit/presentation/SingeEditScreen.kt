@@ -641,6 +641,6 @@ fun SingleEditScreen(
         lastPaths = viewModel.eraseLastPaths,
         undonePaths = viewModel.eraseUndonePaths,
         addPath = viewModel::addPathToEraseList,
-        imageManager = viewModel.getImageManager()
+        autoBackgroundRemover = viewModel.getBackgroundRemover()
     )
 }

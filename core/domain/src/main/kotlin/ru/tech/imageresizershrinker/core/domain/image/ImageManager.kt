@@ -104,13 +104,4 @@ interface ImageManager<I, M> {
         maxBytes: Long
     ): ImageData<I, M>?
 
-    fun removeBackgroundFromImage(
-        image: I,
-        onSuccess: (I) -> Unit,
-        onFailure: (Throwable) -> Unit,
-        trimEmptyParts: Boolean = false
-    )
-
-    suspend fun trimEmptyParts(image: I): I
-
 }

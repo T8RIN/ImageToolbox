@@ -62,7 +62,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.draw.pt
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.model.PtSaver
@@ -84,6 +83,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
+import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.BitmapEraser
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -101,7 +101,7 @@ fun EraseBackgroundEditOption(
     lastPaths: List<UiPathPaint>,
     undonePaths: List<UiPathPaint>,
     addPath: (UiPathPaint) -> Unit,
-    imageManager: ImageManager<Bitmap, *>
+    autoBackgroundRemover: AutoBackgroundRemover<Bitmap>
 ) {
     val scope = rememberCoroutineScope()
     val confettiController = LocalConfettiController.current
@@ -197,7 +197,7 @@ fun EraseBackgroundEditOption(
                             scaffoldState?.bottomSheetState?.partialExpand()
                         }
                         loading = true
-                        imageManager.removeBackgroundFromImage(
+                        autoBackgroundRemover.removeBackgroundFromImage(
                             image = erasedBitmap,
                             onSuccess = {
                                 loading = false
@@ -268,7 +268,7 @@ fun EraseBackgroundEditOption(
                                 onClick = {
                                     scope.launch {
                                         onGetBitmap(
-                                            if (trimImage) imageManager.trimEmptyParts(
+                                            if (trimImage) autoBackgroundRemover.trimEmptyParts(
                                                 erasedBitmap
                                             ) else erasedBitmap
                                         )

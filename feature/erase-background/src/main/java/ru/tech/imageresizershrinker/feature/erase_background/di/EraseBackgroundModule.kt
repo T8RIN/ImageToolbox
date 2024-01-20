@@ -15,15 +15,23 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package ru.tech.imageresizershrinker.feature.erase_background.di
 
-android.namespace = "ru.tech.imageresizershrinker.feature.erase_background"
+import android.graphics.Bitmap
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ru.tech.imageresizershrinker.feature.erase_background.data.AndroidAutoBackgroundRemover
+import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
+import javax.inject.Singleton
 
-dependencies {
-    "marketImplementation"(libs.mlkit.segmentation.selfie)
+@Module
+@InstallIn(SingletonComponent::class)
+object EraseBackgroundModule {
+
+    @Provides
+    @Singleton
+    fun provideBackgroundRemover(): AutoBackgroundRemover<Bitmap> = AndroidAutoBackgroundRemover()
+
 }

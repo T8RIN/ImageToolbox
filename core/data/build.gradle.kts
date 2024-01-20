@@ -30,8 +30,6 @@ dependencies {
     api(libs.avif.coder)
     api(libs.datastore.preferences.android)
 
-    "marketImplementation"(libs.mlkit.segmentation.selfie)
-
     api(libs.jxl.coder.coil)
     api(libs.jxl.coder)
 

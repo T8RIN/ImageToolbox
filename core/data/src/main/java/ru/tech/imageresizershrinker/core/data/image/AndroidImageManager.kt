@@ -35,7 +35,6 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.size.Size
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -309,29 +308,6 @@ internal class AndroidImageManager @Inject constructor(
 
             is Preset.None -> currentInfo
         }
-    }
-
-    override suspend fun trimEmptyParts(image: Bitmap): Bitmap = BackgroundRemover.trim(image)
-
-    override fun removeBackgroundFromImage(
-        image: Bitmap,
-        onSuccess: (Bitmap) -> Unit,
-        onFailure: (Throwable) -> Unit,
-        trimEmptyParts: Boolean
-    ) {
-        kotlin.runCatching {
-            BackgroundRemover.bitmapForProcessing(
-                bitmap = image,
-                scope = CoroutineScope(Dispatchers.IO)
-            ) { result ->
-                if (result.isSuccess) {
-                    result.getOrNull()?.let {
-                        if (trimEmptyParts) trimEmptyParts(it)
-                        else it
-                    }?.let(onSuccess)
-                } else result.exceptionOrNull()?.let(onFailure)
-            }
-        }.exceptionOrNull()?.let(onFailure)
     }
 
     override suspend fun scaleByMaxBytes(

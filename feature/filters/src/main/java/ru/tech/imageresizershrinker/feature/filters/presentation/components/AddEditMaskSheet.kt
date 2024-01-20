@@ -67,7 +67,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.asImageBitmap
@@ -187,10 +186,8 @@ fun AddEditMaskSheet(
             enableBackHandler = false
         ) {
             var imageState by remember { mutableStateOf(ImageHeaderState(2)) }
-            val zoomState = rememberZoomState(maxScale = 30f)
-            LaunchedEffect(imageState) {
-                zoomState.changeScale(1f, Offset.Zero)
-            }
+            val zoomState = rememberZoomState(maxScale = 30f, key = imageState)
+
             disposable()
             if (visible.value) {
                 BackHandler {

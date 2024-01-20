@@ -45,6 +45,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
 import javax.inject.Inject
 
 @HiltViewModel
@@ -54,6 +55,7 @@ class EraseBackgroundViewModel @Inject constructor(
     private val imageManager: ImageManager<Bitmap, ExifInterface>,
     private val fileController: FileController,
     private val imageDrawApplier: ImageDrawApplier<Bitmap, Path, Color>,
+    private val autoBackgroundRemover: AutoBackgroundRemover<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
 
@@ -224,7 +226,7 @@ class EraseBackgroundViewModel @Inject constructor(
         bitmap: Bitmap
     ): Bitmap {
         if (!_trimImage.value) return bitmap
-        return imageManager.trimEmptyParts(bitmap)
+        return autoBackgroundRemover.trimEmptyParts(bitmap)
     }
 
     fun undo() {
@@ -276,7 +278,7 @@ class EraseBackgroundViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 getErasedBitmap()?.let { bitmap1 ->
                     _isErasingBG.value = true
-                    imageManager.removeBackgroundFromImage(
+                    autoBackgroundRemover.removeBackgroundFromImage(
                         image = bitmap1,
                         onSuccess = {
                             _bitmap.value = it

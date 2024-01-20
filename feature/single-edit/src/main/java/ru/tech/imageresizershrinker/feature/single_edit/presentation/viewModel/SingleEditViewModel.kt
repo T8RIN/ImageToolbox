@@ -55,6 +55,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.ui.model.UiPathPaint
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
 import javax.inject.Inject
 
 @HiltViewModel
@@ -63,6 +64,7 @@ class SingleEditViewModel @Inject constructor(
     private val imageManager: ImageManager<Bitmap, ExifInterface>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
+    private val autoBackgroundRemover: AutoBackgroundRemover<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
 
@@ -467,6 +469,8 @@ class SingleEditViewModel @Inject constructor(
     suspend fun loadImage(uri: Uri): Bitmap? = imageGetter.getImage(data = uri)
 
     fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
+
+    fun getBackgroundRemover(): AutoBackgroundRemover<Bitmap> = autoBackgroundRemover
 
     fun <T : Any> updateFilter(
         value: T,

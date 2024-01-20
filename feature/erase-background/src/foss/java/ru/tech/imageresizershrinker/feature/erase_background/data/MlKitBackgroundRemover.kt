@@ -15,37 +15,18 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.data.image
+package ru.tech.imageresizershrinker.feature.erase_background.data
 
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.segmentation.Segmentation
-import com.google.mlkit.vision.segmentation.Segmenter
-import com.google.mlkit.vision.segmentation.selfie.SelfieSegmenterOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.nio.ByteBuffer
 
-object BackgroundRemover {
-
-    private val segment: Segmenter
-    private var buffer = ByteBuffer.allocate(0)
-    private var width = 0
-    private var height = 0
-
-
-    init {
-        val segmentOptions = SelfieSegmenterOptions.Builder()
-            .setDetectorMode(SelfieSegmenterOptions.SINGLE_IMAGE_MODE)
-            .build()
-        segment = Segmentation.getClient(segmentOptions)
-    }
-
+object MlKitBackgroundRemover {
 
     /**
      * Process the image to get buffer and image height and width
@@ -59,58 +40,12 @@ object BackgroundRemover {
         trimEmptyPart: Boolean? = false,
         listener: suspend (Result<Bitmap>) -> Unit
     ) {
-        //Generate a copy of bitmap just in case the if the bitmap is immutable.
-        val copyBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
-        val input = InputImage.fromBitmap(copyBitmap, 0)
-        segment.process(input)
-            .addOnSuccessListener { segmentationMask ->
-                buffer = segmentationMask.buffer
-                width = segmentationMask.width
-                height = segmentationMask.height
-
-                scope.launch {
-                    withContext(Dispatchers.IO) {
-                        val resultBitmap = if (trimEmptyPart == true) {
-                            val bgRemovedBitmap = removeBackgroundFromImage(copyBitmap)
-                            trim(bgRemovedBitmap)
-                        } else {
-                            removeBackgroundFromImage(copyBitmap)
-                        }
-                        listener(Result.success(resultBitmap))
-                    }
-                }
+        scope.launch {
+            withContext(Dispatchers.IO) {
+                listener(Result.failure(UnsupportedOperationException("FOSS")))
             }
-            .addOnFailureListener { e ->
-                scope.launch {
-                    withContext(Dispatchers.IO) {
-                        listener(Result.failure(e))
-                    }
-                }
-            }
-    }
-
-
-    /**
-     * Change the background pixels color to transparent.
-     * */
-    private suspend fun removeBackgroundFromImage(
-        image: Bitmap
-    ): Bitmap {
-        val bitmap = CoroutineScope(Dispatchers.IO).async {
-            for (y in 0 until height) {
-                for (x in 0 until width) {
-                    val bgConfidence = ((1.0 - buffer.float) * 255).toInt()
-                    if (bgConfidence >= 100) {
-                        image.setPixel(x, y, 0)
-                    }
-                }
-            }
-            buffer.rewind()
-            return@async image
         }
-        return bitmap.await()
     }
-
 
     /**
      * trim the empty part of a bitmap.

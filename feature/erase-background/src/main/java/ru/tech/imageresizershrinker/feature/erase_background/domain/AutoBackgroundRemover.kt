@@ -15,15 +15,17 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package ru.tech.imageresizershrinker.feature.erase_background.domain
 
-android.namespace = "ru.tech.imageresizershrinker.feature.erase_background"
+interface AutoBackgroundRemover<I> {
 
-dependencies {
-    "marketImplementation"(libs.mlkit.segmentation.selfie)
+    fun removeBackgroundFromImage(
+        image: I,
+        onSuccess: (I) -> Unit,
+        onFailure: (Throwable) -> Unit,
+        trimEmptyParts: Boolean = false
+    )
+
+    suspend fun trimEmptyParts(image: I): I
+
 }
