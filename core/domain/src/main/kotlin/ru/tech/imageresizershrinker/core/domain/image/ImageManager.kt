@@ -89,8 +89,6 @@ interface ImageManager<I, M> {
 
     suspend fun calculateImageSize(imageData: ImageData<I, M>): Long
 
-    suspend fun scaleUntilCanShow(image: I?): I?
-
     fun applyPresetBy(
         image: I?,
         preset: Preset,
@@ -99,68 +97,12 @@ interface ImageManager<I, M> {
 
     fun canShow(image: I): Boolean
 
-    suspend fun getSampledImage(
-        uri: String,
-        reqWidth: Int,
-        reqHeight: Int
-    ): ImageData<I, M>?
-
     suspend fun scaleByMaxBytes(
         image: I,
         imageFormat: ImageFormat,
         imageScaleMode: ImageScaleMode,
         maxBytes: Long
     ): ImageData<I, M>?
-
-    suspend fun getImage(
-        uri: String,
-        originalSize: Boolean = true
-    ): ImageData<I, M>?
-
-    fun getImageAsync(
-        uri: String,
-        originalSize: Boolean = true,
-        onGetImage: (ImageData<I, M>) -> Unit,
-        onError: (Throwable) -> Unit
-    )
-
-    suspend fun getImageWithTransformations(
-        uri: String,
-        transformations: List<Transformation<I>>,
-        originalSize: Boolean = true
-    ): ImageData<I, M>?
-
-    suspend fun getImageWithFiltersApplied(
-        uri: String,
-        filters: List<Filter<I, *>>,
-        originalSize: Boolean = true
-    ): ImageData<I, M>?
-
-    suspend fun getImage(data: Any, originalSize: Boolean = true): I?
-
-    suspend fun shareImage(
-        imageData: ImageData<I, M>,
-        onComplete: () -> Unit,
-        name: String = "shared_image",
-    )
-
-    suspend fun cacheImage(
-        image: I,
-        imageInfo: ImageInfo,
-        name: String = "shared_image"
-    ): String?
-
-    suspend fun shareImages(
-        uris: List<String>,
-        imageLoader: suspend (String) -> ImageData<I, M>?,
-        onProgressChange: (Int) -> Unit
-    )
-
-    suspend fun shareFile(
-        byteArray: ByteArray,
-        filename: String,
-        onComplete: () -> Unit
-    )
 
     fun removeBackgroundFromImage(
         image: I,
@@ -170,9 +112,5 @@ interface ImageManager<I, M> {
     )
 
     suspend fun trimEmptyParts(image: I): I
-
-    suspend fun shareUri(uri: String, type: String?)
-
-    suspend fun shareImageUris(uris: List<String>)
 
 }

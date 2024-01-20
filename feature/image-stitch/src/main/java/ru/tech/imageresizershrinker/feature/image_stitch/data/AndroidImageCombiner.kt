@@ -31,9 +31,9 @@ import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.filters.FadeSide
 import ru.tech.imageresizershrinker.core.domain.model.CombiningParams
-import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.ImageWithSize
@@ -49,18 +49,19 @@ import kotlin.math.max
 class AndroidImageCombiner @Inject constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>
-) : ImageCombiner<Bitmap, ExifInterface> {
+    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val shareProvider: ShareProvider<Bitmap>
+) : ImageCombiner<Bitmap> {
 
     override suspend fun combineImages(
         imageUris: List<String>,
         combiningParams: CombiningParams,
         imageScale: Float
-    ): ImageData<Bitmap, ExifInterface> = withContext(Dispatchers.IO) {
+    ): Pair<Bitmap, ImageInfo> = withContext(Dispatchers.IO) {
         suspend fun getImageData(
             imagesUris: List<String>,
             isHorizontal: Boolean
-        ): ImageData<Bitmap, ExifInterface> {
+        ): Pair<Bitmap, ImageInfo> {
             val (size, images) = calculateCombinedImageDimensionsAndBitmaps(
                 imageUris = imagesUris,
                 isHorizontal = isHorizontal,
@@ -131,17 +132,14 @@ class AndroidImageCombiner @Inject constructor(
                 } else (bmp.height + combiningParams.spacing).coerceAtLeast(1)
             }
 
-            return ImageData(
-                image = imageScaler.scaleImage(
-                    image = bitmap,
-                    width = (size.width * imageScale).toInt(),
-                    height = (size.height * imageScale).toInt(),
-                    imageScaleMode = ImageScaleMode.NotPresent
-                ),
-                imageInfo = ImageInfo(
-                    width = (size.width * imageScale).toInt(),
-                    height = (size.height * imageScale).toInt(),
-                )
+            return imageScaler.scaleImage(
+                image = bitmap,
+                width = (size.width * imageScale).toInt(),
+                height = (size.height * imageScale).toInt(),
+                imageScaleMode = ImageScaleMode.NotPresent
+            ) to ImageInfo(
+                width = (size.width * imageScale).toInt(),
+                height = (size.height * imageScale).toInt()
             )
         }
 
@@ -155,9 +153,9 @@ class AndroidImageCombiner @Inject constructor(
                         imagesUris = images,
                         isHorizontal = combiningParams.stitchMode.isHorizontal()
                     )
-                    imageManager.cacheImage(
-                        image = data.image,
-                        imageInfo = data.imageInfo,
+                    shareProvider.cacheImage(
+                        image = data.first,
+                        imageInfo = data.second,
                         name = UUID.randomUUID().toString()
                     )
                 },
@@ -323,7 +321,7 @@ class AndroidImageCombiner @Inject constructor(
             imageUris = imageUris,
             combiningParams = combiningParams,
             imageScale = 1f
-        ).let { (image, imageInfo, _) ->
+        ).let { (image, imageInfo) ->
             return@let imageManager.createPreview(
                 image = image,
                 imageInfo = imageInfo.copy(

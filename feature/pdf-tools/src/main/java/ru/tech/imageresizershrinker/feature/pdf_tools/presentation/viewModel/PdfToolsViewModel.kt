@@ -32,6 +32,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
@@ -54,6 +55,7 @@ import kotlin.random.Random
 class PdfToolsViewModel @Inject constructor(
     private val imageManager: ImageManager<Bitmap, ExifInterface>,
     private val pdfManager: PdfManager<Bitmap>,
+    private val shareProvider: ShareProvider<Bitmap>,
     private val fileController: FileController
 ) : ViewModel() {
 
@@ -291,7 +293,7 @@ class PdfToolsViewModel @Inject constructor(
                         },
                         scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value
                     ).let {
-                        imageManager.shareFile(
+                        shareProvider.shareByteArray(
                             byteArray = it,
                             filename = generatePdfFilename() + ".pdf",
                             onComplete = onComplete
@@ -318,7 +320,7 @@ class PdfToolsViewModel @Inject constructor(
                                 )
                             }.apply {
                                 uris.add(
-                                    imageManager.cacheImage(
+                                    shareProvider.cacheImage(
                                         imageInfo = this,
                                         image = bitmap
                                     )
@@ -333,7 +335,7 @@ class PdfToolsViewModel @Inject constructor(
                         },
                         onComplete = {
                             _isSaving.value = false
-                            imageManager.shareImageUris(uris.filterNotNull())
+                            shareProvider.shareImageUris(uris.filterNotNull())
                             onComplete()
                         }
                     )
@@ -341,7 +343,7 @@ class PdfToolsViewModel @Inject constructor(
 
                 is Screen.PdfTools.Type.Preview -> {
                     type.pdfUri?.toString()?.let {
-                        imageManager.shareUri(
+                        shareProvider.shareUri(
                             uri = it,
                             type = null
                         )

@@ -35,7 +35,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
@@ -49,7 +52,10 @@ import javax.inject.Inject
 @HiltViewModel
 class CropViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>
+    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageScaler: ImageScaler<Bitmap>,
+    private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
 
     private val _selectedAspectRatio: MutableState<DomainAspectRatio> =
@@ -91,7 +97,7 @@ class CropViewModel @Inject constructor(
     fun updateBitmap(bitmap: Bitmap?, newBitmap: Boolean = false) {
         viewModelScope.launch {
             _isImageLoading.value = true
-            val bmp = imageManager.scaleUntilCanShow(bitmap)
+            val bmp = imageScaler.scaleUntilCanShow(bitmap)
             if (newBitmap) {
                 internalBitmap.value = bmp
             }
@@ -124,7 +130,7 @@ class CropViewModel @Inject constructor(
                     )
                 )
 
-                val decoded = imageManager.getImage(data = byteArray)
+                val decoded = imageGetter.getImage(data = byteArray)
 
                 _bitmap.value = decoded
 
@@ -196,7 +202,7 @@ class CropViewModel @Inject constructor(
         onGetBitmap: (Bitmap) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        imageManager.getImageAsync(
+        imageGetter.getImageAsync(
             uri = uri.toString(),
             originalSize = originalSize,
             onGetImage = {
@@ -214,15 +220,13 @@ class CropViewModel @Inject constructor(
             savingJob?.cancel()
             savingJob = viewModelScope.launch {
                 _isSaving.value = true
-                imageManager.shareImage(
-                    ImageData(
-                        image = bitmap,
-                        imageInfo = ImageInfo(
-                            imageFormat = imageFormat,
-                            width = bitmap.width,
-                            height = bitmap.height
-                        ),
+                shareProvider.shareImage(
+                    imageInfo = ImageInfo(
+                        imageFormat = imageFormat,
+                        width = bitmap.width,
+                        height = bitmap.height
                     ),
+                    image = bitmap,
                     onComplete = {
                         _isSaving.value = false
                         onComplete()
@@ -232,7 +236,7 @@ class CropViewModel @Inject constructor(
         }
     }
 
-    suspend fun loadImage(uri: Uri): Bitmap? = imageManager.getImage(data = uri)
+    suspend fun loadImage(uri: Uri): Bitmap? = imageGetter.getImage(data = uri)
 
     fun cancelSaving() {
         _isSaving.value = false

@@ -31,7 +31,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
@@ -41,7 +44,10 @@ import javax.inject.Inject
 @HiltViewModel
 class DeleteExifViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>
+    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageScaler: ImageScaler<Bitmap>,
+    private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
@@ -81,13 +87,13 @@ class DeleteExifViewModel @Inject constructor(
                         uris?.getOrNull(1)?.let {
                             _selectedUri.value = it
                             _bitmap.value =
-                                imageManager.getImage(it.toString(), originalSize = false)?.image
+                                imageGetter.getImage(it.toString(), originalSize = false)?.image
                         }
                     } else {
                         uris?.getOrNull(index - 1)?.let {
                             _selectedUri.value = it
                             _bitmap.value =
-                                imageManager.getImage(it.toString(), originalSize = false)?.image
+                                imageGetter.getImage(it.toString(), originalSize = false)?.image
                         }
                     }
                 }
@@ -103,7 +109,7 @@ class DeleteExifViewModel @Inject constructor(
         viewModelScope.launch {
             _isImageLoading.value = true
             _bitmap.value = bitmap
-            _previewBitmap.value = imageManager.scaleUntilCanShow(bitmap)
+            _previewBitmap.value = imageScaler.scaleUntilCanShow(bitmap)
             _isImageLoading.value = false
         }
     }
@@ -119,7 +125,7 @@ class DeleteExifViewModel @Inject constructor(
             _done.value = 0
             uris?.forEach { uri ->
                 runCatching {
-                    imageManager.getImage(uri.toString())
+                    imageGetter.getImage(uri.toString())
                 }.getOrNull()?.let {
                     val result = fileController.save(
                         ImageSaveTarget<ExifInterface>(
@@ -151,7 +157,7 @@ class DeleteExifViewModel @Inject constructor(
     fun setBitmap(uri: Uri) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                updateBitmap(imageManager.getImage(uri.toString(), originalSize = false)?.image)
+                updateBitmap(imageGetter.getImage(uri.toString(), originalSize = false)?.image)
                 _selectedUri.value = uri
             }
         }
@@ -165,7 +171,7 @@ class DeleteExifViewModel @Inject constructor(
         onGetBitmap: (Bitmap) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        imageManager.getImageAsync(
+        imageGetter.getImageAsync(
             uri = uri.toString(),
             originalSize = originalSize,
             onGetImage = {
@@ -182,10 +188,12 @@ class DeleteExifViewModel @Inject constructor(
         savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _isSaving.value = true
-            imageManager.shareImages(
+            shareProvider.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
-                    imageManager.getImage(uri)
+                    imageGetter.getImage(uri)?.let {
+                        it.image to it.imageInfo
+                    }
                 },
                 onProgressChange = {
                     if (it == -1) {

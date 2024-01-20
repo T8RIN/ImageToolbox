@@ -18,18 +18,18 @@
 package ru.tech.imageresizershrinker.feature.image_stitch.domain
 
 import ru.tech.imageresizershrinker.core.domain.model.CombiningParams
-import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.ImageWithSize
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 
-interface ImageCombiner<I, M> {
+interface ImageCombiner<I> {
 
     suspend fun combineImages(
         imageUris: List<String>,
         combiningParams: CombiningParams,
         imageScale: Float
-    ): ImageData<I, M>
+    ): Pair<I, ImageInfo>
 
     suspend fun calculateCombinedImageDimensions(
         imageUris: List<String>,

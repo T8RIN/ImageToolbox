@@ -33,8 +33,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
@@ -50,7 +53,10 @@ import javax.inject.Inject
 @HiltViewModel
 class ResizeAndConvertViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>
+    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageScaler: ImageScaler<Bitmap>,
+    private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
 
     private val _originalSize: MutableState<IntegerSize?> = mutableStateOf(null)
@@ -215,7 +221,7 @@ class ResizeAndConvertViewModel @Inject constructor(
             val bitmap = imageData.image
             val size = bitmap.width to bitmap.height
             _originalSize.value = size.run { IntegerSize(width = first, height = second) }
-            _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
+            _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
             resetValues(true)
             _imageInfo.value = imageData.imageInfo.copy(
                 width = size.first,
@@ -322,7 +328,7 @@ class ResizeAndConvertViewModel @Inject constructor(
             _done.value = 0
             uris?.forEach { uri ->
                 runCatching {
-                    imageManager.getImage(uri.toString())?.image
+                    imageGetter.getImage(uri.toString())?.image
                 }.getOrNull()?.let { bitmap ->
                     imageInfo.let {
                         imageManager.applyPresetBy(
@@ -367,13 +373,13 @@ class ResizeAndConvertViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val bitmap = imageManager.getImage(
+                val bitmap = imageGetter.getImage(
                     uri = uri.toString(),
                     originalSize = false
                 )?.image
                 val size = bitmap?.let { it.width to it.height }
                 _originalSize.value = size?.run { IntegerSize(width = first, height = second) }
-                _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
+                _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
                 _imageInfo.value = _imageInfo.value.copy(
                     width = size?.first ?: 0,
                     height = size?.second ?: 0
@@ -404,10 +410,10 @@ class ResizeAndConvertViewModel @Inject constructor(
     fun shareBitmaps(onComplete: () -> Unit) {
         viewModelScope.launch {
             _isSaving.value = true
-            imageManager.shareImages(
+            shareProvider.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
-                    imageManager.getImage(uri)?.image?.let { ImageData(it, imageInfo) }
+                    imageGetter.getImage(uri)?.image?.let { it to imageInfo }
                 },
                 onProgressChange = {
                     if (it == -1) {
@@ -430,7 +436,7 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     fun decodeBitmapFromUri(uri: Uri, onError: (Throwable) -> Unit) {
         viewModelScope.launch {
-            imageManager.getImageAsync(
+            imageGetter.getImageAsync(
                 uri = uri.toString(),
                 originalSize = true,
                 onGetImage = ::setImageData,

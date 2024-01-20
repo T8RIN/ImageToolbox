@@ -36,7 +36,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.draw.DrawBehavior
 import ru.tech.imageresizershrinker.core.domain.image.draw.ImageDrawApplier
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
@@ -53,7 +56,10 @@ import javax.inject.Inject
 class DrawViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageManager: ImageManager<Bitmap, ExifInterface>,
-    private val imageDrawApplier: ImageDrawApplier<Bitmap, Path, Color>
+    private val imageDrawApplier: ImageDrawApplier<Bitmap, Path, Color>,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageScaler: ImageScaler<Bitmap>,
+    private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
 
     fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
@@ -143,7 +149,7 @@ class DrawViewModel @Inject constructor(
     }
 
     private suspend fun calculateScreenOrientationBasedOnUri(uri: Uri): Int {
-        val bmp = imageManager.getImage(uri = uri.toString(), originalSize = false)?.image
+        val bmp = imageGetter.getImage(uri = uri.toString(), originalSize = false)?.image
         val imageRatio = (bmp?.width ?: 0) / (bmp?.height?.toFloat() ?: 1f)
         return if (imageRatio <= 1.05f) {
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -159,7 +165,7 @@ class DrawViewModel @Inject constructor(
     fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
             _isImageLoading.value = true
-            _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
+            _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
             _isImageLoading.value = false
         }
     }
@@ -173,7 +179,7 @@ class DrawViewModel @Inject constructor(
         onError: (Throwable) -> Unit
     ) {
         _isImageLoading.value = true
-        imageManager.getImageAsync(
+        imageGetter.getImageAsync(
             uri = uri.toString(),
             originalSize = originalSize,
             onGetImage = {
@@ -196,7 +202,7 @@ class DrawViewModel @Inject constructor(
                     DrawBehavior.Image(calculateScreenOrientationBasedOnUri(uri))
                 )
             }
-            imageManager.getImage(uri = uri.toString())?.imageInfo?.imageFormat?.let {
+            imageGetter.getImage(uri = uri.toString())?.imageInfo?.imageFormat?.let {
                 updateMimeType(it)
             }
         }
@@ -253,14 +259,12 @@ class DrawViewModel @Inject constructor(
         _isSaving.value = true
         savingJob = viewModelScope.launch {
             getDrawingBitmap()?.let {
-                imageManager.shareImage(
-                    ImageData(
-                        image = it,
-                        imageInfo = ImageInfo(
-                            imageFormat = imageFormat,
-                            width = it.width,
-                            height = it.height
-                        )
+                shareProvider.shareImage(
+                    image = it,
+                    imageInfo = ImageInfo(
+                        imageFormat = imageFormat,
+                        width = it.width,
+                        height = it.height
                     ),
                     onComplete = onComplete
                 )

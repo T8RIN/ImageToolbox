@@ -32,19 +32,22 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
-import ru.tech.imageresizershrinker.core.domain.model.ImageData
+import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
-import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
 class LoadNetImageViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val shareProvider: ShareProvider<Bitmap>,
+    private val imageCompressor: ImageCompressor<Bitmap>
 ) : ViewModel() {
 
     private val _bitmap = mutableStateOf<Bitmap?>(null)
@@ -68,28 +71,25 @@ class LoadNetImageViewModel @Inject constructor(
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             _isSaving.value = true
-            imageManager.getImage(data = link)?.let { bitmap ->
-                ByteArrayOutputStream().use { out ->
-                    bitmap.compress(
-                        Bitmap.CompressFormat.PNG,
-                        100,
-                        out
-                    )
-                    onComplete(
-                        fileController.save(
-                            saveTarget = ImageSaveTarget<ExifInterface>(
-                                imageInfo = ImageInfo(
-                                    width = bitmap.width,
-                                    height = bitmap.height
-                                ),
-                                originalUri = "_",
-                                sequenceNumber = null,
-                                data = out.toByteArray()
+            imageGetter.getImage(data = link)?.let { bitmap ->
+                onComplete(
+                    fileController.save(
+                        saveTarget = ImageSaveTarget<ExifInterface>(
+                            imageInfo = ImageInfo(
+                                width = bitmap.width,
+                                height = bitmap.height
                             ),
-                            keepMetadata = false
-                        )
+                            originalUri = "_",
+                            sequenceNumber = null,
+                            data = imageCompressor.compress(
+                                image = bitmap,
+                                imageFormat = ImageFormat.Png,
+                                quality = 100f
+                            )
+                        ),
+                        keepMetadata = false
                     )
-                }
+                )
             }
             _isSaving.value = false
         }
@@ -102,7 +102,7 @@ class LoadNetImageViewModel @Inject constructor(
     fun cacheImage(image: Bitmap, imageInfo: ImageInfo) {
         viewModelScope.launch {
             _isSaving.value = true
-            _tempUri.value = imageManager.cacheImage(image, imageInfo)?.toUri()
+            _tempUri.value = shareProvider.cacheImage(image, imageInfo)?.toUri()
             _isSaving.value = false
         }
     }
@@ -110,8 +110,9 @@ class LoadNetImageViewModel @Inject constructor(
     fun shareBitmap(bitmap: Bitmap, imageInfo: ImageInfo, onComplete: () -> Unit) {
         viewModelScope.launch {
             _isSaving.value = true
-            imageManager.shareImage(
-                imageData = ImageData(bitmap, imageInfo),
+            shareProvider.shareImage(
+                imageInfo = imageInfo,
+                image = bitmap,
                 onComplete = {
                     _isSaving.value = false
                     onComplete()

@@ -33,6 +33,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.CombiningParams
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
@@ -50,7 +51,8 @@ import javax.inject.Inject
 class ImageStitchingViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageManager: ImageManager<Bitmap, ExifInterface>,
-    private val imageCombiner: ImageCombiner<Bitmap, ExifInterface>
+    private val imageCombiner: ImageCombiner<Bitmap>,
+    private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
 
     private val _imageSize: MutableState<IntegerSize> = mutableStateOf(IntegerSize(0, 0))
@@ -128,7 +130,7 @@ class ImageStitchingViewModel @Inject constructor(
                 imageUris = uris?.map { it.toString() } ?: emptyList(),
                 combiningParams = combiningParams,
                 imageScale = imageScale
-            ).let { (image, ii, _) ->
+            ).let { (image, ii) ->
                 val imageInfo = ii.copy(
                     quality = imageInfo.quality,
                     imageFormat = imageInfo.imageFormat
@@ -163,21 +165,24 @@ class ImageStitchingViewModel @Inject constructor(
         _isSaving.value = false
         viewModelScope.launch {
             _isSaving.value = true
-            imageManager.shareImage(
-                imageData = imageCombiner.combineImages(
-                    imageUris = uris?.map { it.toString() } ?: emptyList(),
-                    combiningParams = combiningParams,
-                    imageScale = imageScale
-                ).let {
-                    it.copy(
-                        imageInfo = it.imageInfo.copy(
-                            quality = imageInfo.quality,
-                            imageFormat = imageInfo.imageFormat
-                        )
+            imageCombiner.combineImages(
+                imageUris = uris?.map { it.toString() } ?: emptyList(),
+                combiningParams = combiningParams,
+                imageScale = imageScale
+            ).let {
+                it.copy(
+                    second = it.second.copy(
+                        quality = imageInfo.quality,
+                        imageFormat = imageInfo.imageFormat
                     )
-                },
-                onComplete = onComplete
-            )
+                )
+            }.let { (image, imageInfo) ->
+                shareProvider.shareImage(
+                    image = image,
+                    imageInfo = imageInfo,
+                    onComplete = onComplete
+                )
+            }
             _isSaving.value = false
         }.also {
             savingJob?.cancel()

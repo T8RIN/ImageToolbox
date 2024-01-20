@@ -26,7 +26,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.DownloadData
@@ -48,7 +48,7 @@ import java.util.Locale
 import javax.inject.Inject
 
 internal class AndroidImageTextReader @Inject constructor(
-    private val imageManager: ImageManager<Bitmap, *>,
+    private val imageGetter: ImageGetter<Bitmap, *>,
     @ApplicationContext private val context: Context
 ) : ImageTextReader<Bitmap> {
 
@@ -68,7 +68,7 @@ internal class AndroidImageTextReader @Inject constructor(
         type = type,
         languageCode = languageCode,
         segmentationMode = segmentationMode,
-        image = imageManager.getImage(imageUri)?.image,
+        image = imageGetter.getImage(imageUri)?.image,
         onProgress = onProgress
     )
 

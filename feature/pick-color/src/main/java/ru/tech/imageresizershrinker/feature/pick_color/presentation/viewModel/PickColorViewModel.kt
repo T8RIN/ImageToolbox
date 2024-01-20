@@ -29,12 +29,14 @@ import androidx.lifecycle.viewModelScope
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import javax.inject.Inject
 
 @HiltViewModel
 class PickColorViewModel @Inject constructor(
-    private val imageManager: ImageManager<Bitmap, ExifInterface>
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageScaler: ImageScaler<Bitmap>
 ) : ViewModel() {
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
@@ -57,7 +59,7 @@ class PickColorViewModel @Inject constructor(
     private fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
             _isImageLoading.value = true
-            _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
+            _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
             _isImageLoading.value = false
         }
     }
@@ -72,7 +74,7 @@ class PickColorViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             runCatching {
-                updateBitmap(imageManager.getImage(uri, false))
+                updateBitmap(imageGetter.getImage(uri, false))
             }.exceptionOrNull()?.let(onError)
         }
     }

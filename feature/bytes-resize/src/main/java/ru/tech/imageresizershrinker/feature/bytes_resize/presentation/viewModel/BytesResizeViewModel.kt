@@ -33,7 +33,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
@@ -47,7 +50,10 @@ import javax.inject.Inject
 @HiltViewModel
 class BytesResizeViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imageScaler: ImageScaler<Bitmap>,
+    private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
 
     private val _imageScaleMode: MutableState<ImageScaleMode> =
@@ -129,12 +135,12 @@ class BytesResizeViewModel @Inject constructor(
                     if (index == 0) {
                         uris?.getOrNull(1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = imageManager.getImage(it.toString())?.image
+                            _bitmap.value = imageGetter.getImage(it.toString())?.image
                         }
                     } else {
                         uris?.getOrNull(index - 1)?.let {
                             _selectedUri.value = it
-                            _bitmap.value = imageManager.getImage(it.toString())?.image
+                            _bitmap.value = imageGetter.getImage(it.toString())?.image
                         }
                     }
                 }
@@ -151,7 +157,7 @@ class BytesResizeViewModel @Inject constructor(
         viewModelScope.launch {
             _isImageLoading.value = true
             _bitmap.value = bitmap
-            _previewBitmap.value = imageManager.scaleUntilCanShow(bitmap)
+            _previewBitmap.value = imageScaler.scaleUntilCanShow(bitmap)
             _isImageLoading.value = false
         }
     }
@@ -171,7 +177,7 @@ class BytesResizeViewModel @Inject constructor(
             _done.value = 0
             uris?.forEach { uri ->
                 runCatching {
-                    imageManager.getImage(uri.toString())
+                    imageGetter.getImage(uri.toString())
                 }.getOrNull()?.image?.let { bitmap ->
                     kotlin.runCatching {
                         if (handMode) {
@@ -238,7 +244,7 @@ class BytesResizeViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 updateBitmap(
-                    imageManager.getImage(
+                    imageGetter.getImage(
                         uri = uri.toString(),
                         originalSize = false
                     )?.image
@@ -274,10 +280,10 @@ class BytesResizeViewModel @Inject constructor(
         savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _isSaving.value = true
-            imageManager.shareImages(
+            shareProvider.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
-                    imageManager.getImage(uri)?.image?.let { bitmap ->
+                    imageGetter.getImage(uri)?.image?.let { bitmap ->
                         if (handMode) {
                             imageManager.scaleByMaxBytes(
                                 image = bitmap,
@@ -296,9 +302,7 @@ class BytesResizeViewModel @Inject constructor(
                             )
                         }
                     }?.let { scaled ->
-                        scaled.copy(
-                            imageInfo = scaled.imageInfo.copy(imageFormat = imageFormat)
-                        )
+                        scaled.image to scaled.imageInfo.copy(imageFormat = imageFormat)
                     }
                 },
                 onProgressChange = {
@@ -321,7 +325,7 @@ class BytesResizeViewModel @Inject constructor(
         _isImageLoading.value = false
         job = viewModelScope.launch {
             _isImageLoading.value = true
-            imageManager.scaleUntilCanShow(imageData.image)?.let {
+            imageScaler.scaleUntilCanShow(imageData.image)?.let {
                 _bitmap.value = imageData.image
                 _previewBitmap.value = it
                 _imageFormat.value = imageData.imageInfo.imageFormat
@@ -341,7 +345,7 @@ class BytesResizeViewModel @Inject constructor(
         onError: (Throwable) -> Unit
     ) {
         _isImageLoading.value = true
-        imageManager.getImageAsync(
+        imageGetter.getImageAsync(
             uri = uri.toString(),
             originalSize = true,
             onGetImage = ::setImageData,

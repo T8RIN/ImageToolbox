@@ -82,6 +82,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.draw.DrawMode
 import ru.tech.imageresizershrinker.core.domain.image.draw.DrawPathMode
@@ -537,8 +538,9 @@ fun AddEditMaskSheet(
 }
 
 @HiltViewModel
-class AddMaskSheetViewModel @Inject constructor(
+private class AddMaskSheetViewModel @Inject constructor(
     private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val filterMaskApplier: FilterMaskApplier<Bitmap, Path, Color>
 ) : ViewModel() {
 
@@ -582,7 +584,7 @@ class AddMaskSheetViewModel @Inject constructor(
             }
             if (maskPreviewModeEnabled) {
                 _previewLoading.value = true
-                imageManager.getImage(
+                imageGetter.getImage(
                     data = bitmapUri.toString(),
                     originalSize = false
                 )?.let { bmp ->
@@ -606,7 +608,7 @@ class AddMaskSheetViewModel @Inject constructor(
                     }
                 }
                 _previewLoading.value = false
-            } else _previewBitmap.value = imageManager.getImage(
+            } else _previewBitmap.value = imageGetter.getImage(
                 data = bitmapUri.toString(),
                 originalSize = false
             )?.let { bmp ->

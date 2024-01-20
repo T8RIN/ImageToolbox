@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.data.image
 
 import android.annotation.TargetApi
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
@@ -28,13 +27,9 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Build
-import android.webkit.MimeTypeMap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.core.content.FileProvider
-import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import coil.ImageLoader
 import coil.request.ImageRequest
@@ -47,7 +42,6 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.image.filters.StackBlurFilter
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
-import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
@@ -59,13 +53,8 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
-import ru.tech.imageresizershrinker.core.domain.saving.FileController
-import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
-import ru.tech.imageresizershrinker.core.resources.R
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
 import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.math.max
@@ -75,12 +64,10 @@ import coil.transform.Transformation as CoilTransformation
 
 internal class AndroidImageManager @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val fileController: FileController,
     private val imageLoader: ImageLoader,
     private val filterProvider: FilterProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageScaler: ImageScaler<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>
+    private val imageScaler: ImageScaler<Bitmap>
 ) : ImageManager<Bitmap, ExifInterface> {
 
     override fun getFilterProvider(): FilterProvider<Bitmap> = filterProvider
@@ -153,22 +140,6 @@ internal class AndroidImageManager @Inject constructor(
         size = size
     )
 
-    override suspend fun getImage(
-        uri: String,
-        originalSize: Boolean
-    ): ImageData<Bitmap, ExifInterface>? = imageGetter.getImage(
-        uri = uri,
-        originalSize = originalSize
-    )
-
-    override suspend fun getImage(
-        data: Any,
-        originalSize: Boolean
-    ): Bitmap? = imageGetter.getImage(
-        data = data,
-        originalSize = originalSize
-    )
-
     override suspend fun createFilteredPreview(
         image: Bitmap,
         imageInfo: ImageInfo,
@@ -179,18 +150,6 @@ internal class AndroidImageManager @Inject constructor(
         imageInfo = imageInfo,
         transformations = filters.map { filterProvider.filterToTransformation(it) },
         onGetByteCount = onGetByteCount
-    )
-
-    override fun getImageAsync(
-        uri: String,
-        originalSize: Boolean,
-        onGetImage: (ImageData<Bitmap, ExifInterface>) -> Unit,
-        onError: (Throwable) -> Unit
-    ) = imageGetter.getImageAsync(
-        uri = uri,
-        originalSize = originalSize,
-        onGetImage = onGetImage,
-        onError = onError
     )
 
     override suspend fun resize(
@@ -352,73 +311,6 @@ internal class AndroidImageManager @Inject constructor(
         }
     }
 
-    override suspend fun getSampledImage(
-        uri: String,
-        reqWidth: Int,
-        reqHeight: Int
-    ): ImageData<Bitmap, ExifInterface>? = withContext(Dispatchers.IO) {
-        return@withContext imageLoader.execute(
-            ImageRequest
-                .Builder(context)
-                .size(reqWidth, reqHeight)
-                .data(uri)
-                .build()
-        ).drawable?.toBitmap()?.let { bitmap ->
-            val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
-            val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
-            fd?.close()
-            ImageData(
-                image = bitmap,
-                imageInfo = ImageInfo(
-                    width = bitmap.width,
-                    height = bitmap.height,
-                    imageFormat = ImageFormat[getExtension(uri)]
-                ),
-                metadata = exif
-            )
-        }
-    }
-
-    override suspend fun getImageWithFiltersApplied(
-        uri: String,
-        filters: List<Filter<Bitmap, *>>,
-        originalSize: Boolean
-    ): ImageData<Bitmap, ExifInterface>? = getImageWithTransformations(
-        uri = uri,
-        transformations = filters.map { filterProvider.filterToTransformation(it) },
-        originalSize = originalSize
-    )
-
-    override suspend fun shareFile(
-        byteArray: ByteArray,
-        filename: String,
-        onComplete: () -> Unit
-    ) = withContext(Dispatchers.IO) {
-        val imagesFolder = File(context.cacheDir, "images")
-        val uri = kotlin.runCatching {
-            imagesFolder.mkdirs()
-            val file = File(imagesFolder, filename)
-            FileOutputStream(file).use {
-                it.write(byteArray)
-            }
-            FileProvider.getUriForFile(
-                context,
-                context.getString(R.string.file_provider),
-                file
-            )
-        }.getOrNull()
-        uri?.let {
-            shareUri(
-                uri = it.toString(),
-                type = MimeTypeMap.getSingleton()
-                    .getMimeTypeFromExtension(
-                        getExtension(uri.toString())
-                    ) ?: "*/*"
-            )
-        }
-        onComplete()
-    }
-
     override suspend fun trimEmptyParts(image: Bitmap): Bitmap = BackgroundRemover.trim(image)
 
     override fun removeBackgroundFromImage(
@@ -441,86 +333,6 @@ internal class AndroidImageManager @Inject constructor(
             }
         }.exceptionOrNull()?.let(onFailure)
     }
-
-    override suspend fun shareImages(
-        uris: List<String>,
-        imageLoader: suspend (String) -> ImageData<Bitmap, ExifInterface>?,
-        onProgressChange: (Int) -> Unit
-    ) = withContext(Dispatchers.IO) {
-        var cnt = 0
-        val uriList: MutableList<Uri> = mutableListOf()
-        uris.forEach { uri ->
-            imageLoader(uri)?.let { (image, imageInfo) ->
-                cacheImage(
-                    image = image,
-                    imageInfo = imageInfo
-                )?.let { uri ->
-                    cnt += 1
-                    uriList.add(uri.toUri())
-                }
-            }
-            onProgressChange(cnt)
-        }
-        onProgressChange(-1)
-        shareImageUris(uriList)
-    }
-
-    override suspend fun cacheImage(
-        image: Bitmap,
-        imageInfo: ImageInfo,
-        name: String
-    ): String? = withContext(Dispatchers.IO) {
-        val imagesFolder = File(context.cacheDir, "images")
-        return@withContext kotlin.runCatching {
-            imagesFolder.mkdirs()
-            val saveTarget = ImageSaveTarget<ExifInterface>(
-                imageInfo = imageInfo,
-                originalUri = "share",
-                sequenceNumber = null,
-                data = byteArrayOf()
-            )
-
-            val file = File(imagesFolder, fileController.constructImageFilename(saveTarget))
-            FileOutputStream(file).use {
-                it.write(compress(ImageData(image, imageInfo)))
-            }
-            FileProvider.getUriForFile(context, context.getString(R.string.file_provider), file)
-                .also {
-                    context.grantUriPermission(
-                        context.packageName,
-                        it,
-                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    )
-                }
-        }.getOrNull()?.toString()
-    }
-
-    override suspend fun shareImage(
-        imageData: ImageData<Bitmap, ExifInterface>,
-        onComplete: () -> Unit,
-        name: String
-    ) = withContext(Dispatchers.IO) {
-        cacheImage(
-            image = imageData.image,
-            imageInfo = imageData.imageInfo
-        )?.let {
-            shareUri(
-                uri = it,
-                type = imageData.imageInfo.imageFormat.type
-            )
-        }
-        onComplete()
-    }
-
-    override suspend fun getImageWithTransformations(
-        uri: String,
-        transformations: List<Transformation<Bitmap>>,
-        originalSize: Boolean
-    ): ImageData<Bitmap, ExifInterface>? = imageGetter.getImageWithTransformations(
-        uri = uri,
-        transformations = transformations,
-        originalSize = originalSize
-    )
 
     override suspend fun scaleByMaxBytes(
         image: Bitmap,
@@ -628,10 +440,6 @@ internal class AndroidImageManager @Inject constructor(
     private fun canShow(size: Int): Boolean {
         return size < 3096 * 3096 * 3
     }
-
-    override suspend fun scaleUntilCanShow(
-        image: Bitmap?
-    ): Bitmap? = imageScaler.scaleUntilCanShow(image)
 
     override suspend fun calculateImageSize(imageData: ImageData<Bitmap, ExifInterface>): Long {
         return compress(imageData).size.toLong()
@@ -833,8 +641,6 @@ internal class AndroidImageManager @Inject constructor(
         return bitmap
     }
 
-    private fun getExtension(uri: String): String? = imageGetter.getExtension(uri)
-
     private suspend fun ResizeType.CenterCrop.resizeWithCenterCrop(
         image: Bitmap,
         w: Int,
@@ -895,37 +701,6 @@ internal class AndroidImageManager @Inject constructor(
             Bitmap.Config.RGBA_F16 -> 8
             else -> 4
         }
-    }
-
-    override suspend fun shareUri(uri: String, type: String?) {
-        val sendIntent = Intent(Intent.ACTION_SEND).apply {
-            putExtra(Intent.EXTRA_STREAM, uri.toUri())
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            this.type = type ?: MimeTypeMap.getSingleton()
-                .getMimeTypeFromExtension(
-                    getExtension(uri)
-                ) ?: "*/*"
-        }
-        val shareIntent = Intent.createChooser(sendIntent, context.getString(R.string.share))
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        context.startActivity(shareIntent)
-    }
-
-    override suspend fun shareImageUris(
-        uris: List<String>
-    ) = shareImageUris(uris.map { it.toUri() })
-
-    private fun shareImageUris(uris: List<Uri>) {
-        val sendIntent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
-            putParcelableArrayListExtra(Intent.EXTRA_STREAM, ArrayList(uris))
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            type = "image/*"
-        }
-        val shareIntent = Intent.createChooser(sendIntent, context.getString(R.string.share))
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        context.startActivity(shareIntent)
     }
 
     private fun getSuitableConfig(

@@ -27,13 +27,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import javax.inject.Inject
 
 @HiltViewModel
 class GeneratePaletteViewModel @Inject constructor(
-    private val imageManager: ImageManager<Bitmap, ExifInterface>
+    private val imageScaler: ImageScaler<Bitmap>,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>
 ) : ViewModel() {
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
@@ -52,7 +54,7 @@ class GeneratePaletteViewModel @Inject constructor(
     fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
             _isImageLoading.value = true
-            _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
+            _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
             _isImageLoading.value = false
         }
     }
@@ -65,7 +67,7 @@ class GeneratePaletteViewModel @Inject constructor(
         onGetBitmap: (Bitmap) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        imageManager.getImageAsync(
+        imageGetter.getImageAsync(
             uri = uri.toString(),
             originalSize = originalSize,
             onGetImage = {

@@ -32,7 +32,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.draw.ImageDrawApplier
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
@@ -46,9 +49,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EraseBackgroundViewModel @Inject constructor(
+    private val imageScaler: ImageScaler<Bitmap>,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageManager: ImageManager<Bitmap, ExifInterface>,
     private val fileController: FileController,
-    private val imageDrawApplier: ImageDrawApplier<Bitmap, Path, Color>
+    private val imageDrawApplier: ImageDrawApplier<Bitmap, Path, Color>,
+    private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
 
     private val _internalBitmap: MutableState<Bitmap?> = mutableStateOf(null)
@@ -96,7 +102,7 @@ class EraseBackgroundViewModel @Inject constructor(
     fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
             _isImageLoading.value = true
-            _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
+            _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
             _internalBitmap.value = _bitmap.value
             _isImageLoading.value = false
         }
@@ -121,7 +127,7 @@ class EraseBackgroundViewModel @Inject constructor(
         onError: (Throwable) -> Unit
     ) {
         _isImageLoading.value = true
-        imageManager.getImageAsync(
+        imageGetter.getImageAsync(
             uri = uri.toString(),
             originalSize = originalSize,
             onGetImage = {
@@ -196,15 +202,13 @@ class EraseBackgroundViewModel @Inject constructor(
         viewModelScope.launch {
             getErasedBitmap()?.let { trim(it) }?.let {
                 _isSaving.value = true
-                imageManager.shareImage(
-                    ImageData(
-                        image = it,
-                        imageInfo = ImageInfo(
-                            imageFormat = imageFormat,
-                            width = it.width,
-                            height = it.height
-                        )
+                shareProvider.shareImage(
+                    imageInfo = ImageInfo(
+                        imageFormat = imageFormat,
+                        width = it.width,
+                        height = it.height
                     ),
+                    image = it,
                     onComplete = onComplete
                 )
             } ?: onComplete()

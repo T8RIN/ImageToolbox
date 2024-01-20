@@ -37,8 +37,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
@@ -57,7 +60,10 @@ import javax.inject.Inject
 @HiltViewModel
 class SingleEditViewModel @Inject constructor(
     private val fileController: FileController,
-    private val imageManager: ImageManager<Bitmap, ExifInterface>
+    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageScaler: ImageScaler<Bitmap>,
+    private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
 
     private val _originalSize: MutableState<IntegerSize?> = mutableStateOf(null)
@@ -245,7 +251,7 @@ class SingleEditViewModel @Inject constructor(
         viewModelScope.launch {
             val size = bitmap?.let { it.width to it.height }
             _originalSize.value = size?.run { IntegerSize(width = first, height = second) }
-            _bitmap.value = imageManager.scaleUntilCanShow(bitmap)
+            _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
             resetValues()
             _imageInfo.value = _imageInfo.value.copy(
                 width = size?.first ?: 0,
@@ -349,7 +355,7 @@ class SingleEditViewModel @Inject constructor(
         onError: (Throwable) -> Unit
     ) {
         _isImageLoading.value = true
-        imageManager.getImageAsync(
+        imageGetter.getImageAsync(
             uri = uri.toString(),
             originalSize = true,
             onGetImage = ::setImageData,
@@ -370,7 +376,7 @@ class SingleEditViewModel @Inject constructor(
             val size = bitmap.width to bitmap.height
             _originalSize.value = size.run { IntegerSize(width = first, height = second) }
             _bitmap.value =
-                imageManager.scaleUntilCanShow(bitmap).also { _internalBitmap.value = it }
+                imageScaler.scaleUntilCanShow(bitmap).also { _internalBitmap.value = it }
             resetValues(true)
             _imageInfo.value = imageData.imageInfo.copy(
                 width = size.first,
@@ -388,14 +394,11 @@ class SingleEditViewModel @Inject constructor(
         savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _isSaving.value = true
-            imageManager.shareImages(
+            shareProvider.shareImages(
                 uris = listOf(_uri.value.toString()),
                 imageLoader = {
-                    imageManager.getImage(uri = uri.toString())?.image?.let {
-                        ImageData(
-                            image = it,
-                            imageInfo = imageInfo
-                        )
+                    imageGetter.getImage(uri = uri.toString())?.image?.let {
+                        it to imageInfo
                     }
                 },
                 onProgressChange = { onComplete() }
@@ -461,7 +464,7 @@ class SingleEditViewModel @Inject constructor(
             _cropProperties.value.copy(cropOutlineProperty = cropOutlineProperty)
     }
 
-    suspend fun loadImage(uri: Uri): Bitmap? = imageManager.getImage(data = uri)
+    suspend fun loadImage(uri: Uri): Bitmap? = imageGetter.getImage(data = uri)
 
     fun getImageManager(): ImageManager<Bitmap, ExifInterface> = imageManager
 

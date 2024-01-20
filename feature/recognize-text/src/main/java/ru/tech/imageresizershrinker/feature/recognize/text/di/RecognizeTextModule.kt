@@ -25,7 +25,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.feature.recognize.text.data.AndroidImageTextReader
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.ImageTextReader
 import javax.inject.Singleton
@@ -39,9 +39,9 @@ internal object RecognizeTextModule {
     @Provides
     fun provideImageTextReader(
         @ApplicationContext context: Context,
-        imageManager: ImageManager<Bitmap, ExifInterface>
+        imageGetter: ImageGetter<Bitmap, ExifInterface>
     ): ImageTextReader<Bitmap> = AndroidImageTextReader(
-        imageManager = imageManager,
+        imageGetter = imageGetter,
         context = context
     )
 

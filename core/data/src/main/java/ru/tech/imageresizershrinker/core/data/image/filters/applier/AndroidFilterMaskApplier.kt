@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.exifinterface.media.ExifInterface
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.draw.DrawPathMode
 import ru.tech.imageresizershrinker.core.domain.image.draw.PathPaint
@@ -42,13 +43,14 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import javax.inject.Inject
 
 class AndroidFilterMaskApplier @Inject constructor(
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageManager: ImageManager<Bitmap, ExifInterface>
 ) : FilterMaskApplier<Bitmap, Path, Color> {
 
     override suspend fun filterByMask(
         filterMask: FilterMask<Bitmap, Path, Color>,
         imageUri: String
-    ): Bitmap? = imageManager.getImage(uri = imageUri)?.let {
+    ): Bitmap? = imageGetter.getImage(uri = imageUri)?.let {
         filterByMask(filterMask = filterMask, image = it.image)
     }
 
@@ -188,7 +190,7 @@ class AndroidFilterMaskApplier @Inject constructor(
     override suspend fun filterByMasks(
         filterMasks: List<FilterMask<Bitmap, Path, Color>>,
         imageUri: String
-    ): Bitmap? = imageManager.getImage(uri = imageUri)?.let {
+    ): Bitmap? = imageGetter.getImage(uri = imageUri)?.let {
         filterByMasks(filterMasks, it.image)
     }
 

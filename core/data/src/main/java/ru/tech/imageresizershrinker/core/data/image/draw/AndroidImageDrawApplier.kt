@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.exifinterface.media.ExifInterface
 import ru.tech.imageresizershrinker.core.data.image.filters.PixelationFilter
 import ru.tech.imageresizershrinker.core.data.image.filters.StackBlurFilter
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.image.draw.DrawBehavior
@@ -49,7 +50,8 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import javax.inject.Inject
 
 class AndroidImageDrawApplier @Inject constructor(
-    private val imageManager: ImageManager<Bitmap, ExifInterface>
+    private val imageManager: ImageManager<Bitmap, ExifInterface>,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>
 ) : ImageDrawApplier<Bitmap, Path, Color> {
 
     override suspend fun applyDrawToImage(
@@ -59,7 +61,7 @@ class AndroidImageDrawApplier @Inject constructor(
     ): Bitmap? {
         val image: Bitmap? = when (drawBehavior) {
             is DrawBehavior.Image -> {
-                imageManager.getImage(data = imageUri)
+                imageGetter.getImage(data = imageUri)
             }
 
             is DrawBehavior.Background -> {
@@ -206,7 +208,7 @@ class AndroidImageDrawApplier @Inject constructor(
         imageUri: String
     ): Bitmap? = applyEraseToImage(
         pathPaints = pathPaints,
-        image = imageManager.getImage(data = imageUri),
+        image = imageGetter.getImage(data = imageUri),
         shaderSourceUri = imageUri
     )
 
@@ -228,7 +230,7 @@ class AndroidImageDrawApplier @Inject constructor(
                     it, 0f, 0f, android.graphics.Paint()
                 )
 
-                val recoveryShader = imageManager.getImage(
+                val recoveryShader = imageGetter.getImage(
                     data = shaderSourceUri
                 )?.asImageBitmap()?.let { bmp -> ImageShader(bmp) }
 

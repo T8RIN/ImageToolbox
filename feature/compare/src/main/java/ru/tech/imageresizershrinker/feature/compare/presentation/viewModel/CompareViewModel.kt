@@ -32,7 +32,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
@@ -49,7 +52,10 @@ import kotlin.math.roundToInt
 @HiltViewModel
 class CompareViewModel @Inject constructor(
     private val imageManager: ImageManager<Bitmap, ExifInterface>,
-    private val fileController: FileController
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageScaler: ImageScaler<Bitmap>,
+    private val fileController: FileController,
+    private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
 
     private val _bitmapData: MutableState<Pair<Bitmap?, Bitmap?>?> = mutableStateOf(null)
@@ -70,8 +76,8 @@ class CompareViewModel @Inject constructor(
             var bmp1: Bitmap?
             var bmp2: Bitmap?
             withContext(Dispatchers.IO) {
-                bmp1 = imageManager.scaleUntilCanShow(newBeforeBitmap)
-                bmp2 = imageManager.scaleUntilCanShow(newAfterBitmap)
+                bmp1 = imageScaler.scaleUntilCanShow(newBeforeBitmap)
+                bmp2 = imageScaler.scaleUntilCanShow(newAfterBitmap)
             }
             _rotation.value = 0f
             _bitmapData.value = (bmp1 to bmp2)
@@ -170,7 +176,7 @@ class CompareViewModel @Inject constructor(
     suspend fun getBitmapByUri(
         uri: Uri,
         originalSize: Boolean
-    ): Bitmap? = imageManager.getImage(uri.toString(), originalSize)?.image
+    ): Bitmap? = imageGetter.getImage(uri.toString(), originalSize)?.image
 
     private var savingJob: Job? = null
 
@@ -184,14 +190,12 @@ class CompareViewModel @Inject constructor(
         savingJob = viewModelScope.launch {
             _isImageLoading.value = true
             getOverlayedImage(percent)?.let {
-                imageManager.shareImage(
-                    ImageData(
-                        image = it,
-                        imageInfo = ImageInfo(
-                            imageFormat = imageFormat,
-                            width = it.width,
-                            height = it.height
-                        )
+                shareProvider.shareImage(
+                    image = it,
+                    imageInfo = ImageInfo(
+                        imageFormat = imageFormat,
+                        width = it.width,
+                        height = it.height
                     ),
                     onComplete = onComplete
                 )

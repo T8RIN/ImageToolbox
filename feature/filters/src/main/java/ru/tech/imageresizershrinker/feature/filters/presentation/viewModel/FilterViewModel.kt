@@ -35,8 +35,12 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageManager
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.filters.FilterMaskApplier
+import ru.tech.imageresizershrinker.core.domain.image.filters.provider.FilterProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
@@ -55,7 +59,11 @@ import javax.inject.Inject
 class FilterViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageManager: ImageManager<Bitmap, ExifInterface>,
-    private val filterMaskApplier: FilterMaskApplier<Bitmap, Path, Color>
+    private val filterMaskApplier: FilterMaskApplier<Bitmap, Path, Color>,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageScaler: ImageScaler<Bitmap>,
+    private val filterProvider: FilterProvider<Bitmap>,
+    private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
 
     private val _bitmapSize = mutableStateOf<Long?>(null)
@@ -170,9 +178,11 @@ class FilterViewModel @Inject constructor(
             _left.value = _basicFilterState.value.uris?.size ?: 1
             _basicFilterState.value.uris?.forEach { uri ->
                 runCatching {
-                    imageManager.getImageWithFiltersApplied(
+                    imageGetter.getImageWithTransformations(
                         uri = uri.toString(),
-                        filters = _basicFilterState.value.filters
+                        transformations = _basicFilterState.value.filters.map {
+                            filterProvider.filterToTransformation(it)
+                        }
                     )?.image
                 }.getOrNull()?.let { bitmap ->
                     val localBitmap = bitmap
@@ -214,10 +224,10 @@ class FilterViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _isImageLoading.value = true
-                val req = imageManager.getImage(uri = uri.toString())
+                val req = imageGetter.getImage(uri = uri.toString())
                 val tempBitmap = req?.image
                 val size = tempBitmap?.let { it.width to it.height }
-                _bitmap.value = imageManager.scaleUntilCanShow(tempBitmap)
+                _bitmap.value = imageScaler.scaleUntilCanShow(tempBitmap)
                 _imageInfo.value = _imageInfo.value.copy(
                     width = size?.first ?: 0,
                     height = size?.second ?: 0,
@@ -304,13 +314,17 @@ class FilterViewModel @Inject constructor(
             when (filterType) {
                 is Screen.Filter.Type.Basic -> {
                     _left.value = _basicFilterState.value.uris?.size ?: 1
-                    imageManager.shareImages(
+                    shareProvider.shareImages(
                         uris = _basicFilterState.value.uris?.map { it.toString() } ?: emptyList(),
                         imageLoader = { uri ->
-                            imageManager.getImageWithFiltersApplied(
-                                uri,
-                                _basicFilterState.value.filters
-                            )
+                            imageGetter.getImageWithTransformations(
+                                uri = uri,
+                                transformations = _basicFilterState.value.filters.map {
+                                    filterProvider.filterToTransformation(it)
+                                }
+                            )?.let {
+                                it.image to it.imageInfo
+                            }
                         },
                         onProgressChange = {
                             if (it == -1) {
@@ -327,7 +341,7 @@ class FilterViewModel @Inject constructor(
                 is Screen.Filter.Type.Masking -> {
                     _left.value = maskingFilterState.masks.size
                     maskingFilterState.uri?.toString()?.let {
-                        imageManager.getImage(uri = it)
+                        imageGetter.getImage(uri = it)
                     }?.let {
                         maskingFilterState.masks.fold<UiFilterMask, Bitmap?>(
                             initial = it.image,
@@ -339,13 +353,11 @@ class FilterViewModel @Inject constructor(
                                 }?.also { _done.value++ }
                             }
                         )?.let { bitmap ->
-                            imageManager.shareImage(
-                                imageData = it.copy(
-                                    image = bitmap,
-                                    imageInfo = imageInfo.copy(
-                                        width = bitmap.width,
-                                        height = bitmap.height
-                                    )
+                            shareProvider.shareImage(
+                                image = bitmap,
+                                imageInfo = imageInfo.copy(
+                                    width = bitmap.width,
+                                    height = bitmap.height
                                 ),
                                 onComplete = {
                                     _isSaving.value = true
@@ -453,7 +465,7 @@ class FilterViewModel @Inject constructor(
                 _done.value = 0
                 _left.value = maskingFilterState.masks.size
                 maskingFilterState.uri?.toString()?.let {
-                    imageManager.getImage(uri = it)
+                    imageGetter.getImage(uri = it)
                 }?.let {
                     maskingFilterState.masks.fold<UiFilterMask, Bitmap?>(
                         initial = it.image,
