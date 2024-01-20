@@ -569,7 +569,7 @@
     <string name="segmentation_mode_auto_only">Только автоматический</string>
     <string name="segmentation_mode_auto">Автоматический</string>
     <string name="segmentation_mode_single_column">Одиночная колонна</string>
-    <string name="segmentation_mode_single_word">Одно-единственное слово</string>
+    <string name="segmentation_mode_single_word">Одно слово</string>
     <string name="segmentation_mode_circle_word">Слово в круге</string>
     <string name="segmentation_mode_sparse_text_osd">Ориентация разреженного текста и обнаружение скриптов</string>
     <string name="segmentation_mode_raw_line">Необработанная линия</string>
