@@ -46,22 +46,22 @@ dependencies {
     api(libs.coilSvg)
 
     //Modules
-    api(project(":libs:cropper"))
-    api(project(":libs:dynamic-theme"))
-    api(project(":libs:colordetector"))
-    api(project(":libs:beforeafter"))
-    api(project(":libs:modalsheet"))
-    api(project(":libs:gesture"))
-    api(project(":libs:screenshot"))
-    api(project(":libs:systemuicontroller"))
-    api(project(":libs:placeholder"))
-    api(project(":libs:logger"))
-    api(project(":libs:zoomable"))
-    implementation(project(":core:domain"))
-
-    api(project(":libs:colorpicker")) {
+    api(projects.libs.cropper)
+    api(projects.libs.dynamicTheme)
+    api(projects.libs.colordetector)
+    api(projects.libs.gesture)
+    api(projects.libs.beforeafter)
+    api(projects.libs.modalsheet)
+    api(projects.libs.gpuimage)
+    api(projects.libs.screenshot)
+    api(projects.libs.systemuicontroller)
+    api(projects.libs.placeholder)
+    api(projects.libs.logger)
+    api(projects.libs.zoomable)
+    api(projects.libs.colorpicker) {
         exclude("com.github.SmartToolFactory", "Compose-Color-Detector")
     }
+    api(projects.core.domain)
 
     api(libs.reorderable)
 
@@ -76,13 +76,11 @@ dependencies {
     implementation(libs.datastore.preferences.android)
 
     "marketImplementation"(libs.mlkit.segmentation.selfie)
-    "marketImplementation"(libs.firebase.crashlytics.ktx) {
-        exclude("androidx.datastore", "datastore-preferences")
-    }
+    "marketImplementation"(libs.firebase.crashlytics.ktx)
     "marketImplementation"(libs.firebase.analytics.ktx)
     "marketImplementation"(libs.review.ktx)
     "marketImplementation"(libs.app.update)
     "marketImplementation"(libs.app.update.ktx)
 
-    api(project(":core:resources"))
+    api(projects.core.resources)
 }

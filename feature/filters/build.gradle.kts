@@ -25,8 +25,8 @@ plugins {
 android.namespace = "ru.tech.imageresizershrinker.feature.filters"
 
 dependencies {
-    api(project(":core:filters"))
-    implementation(project(":feature:draw"))
-    implementation(project(":feature:pick-color"))
-    implementation(project(":feature:compare"))
+    api(projects.core.filters)
+    implementation(projects.feature.draw)
+    implementation(projects.feature.pickColor)
+    implementation(projects.feature.compare)
 }

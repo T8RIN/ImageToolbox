@@ -8,10 +8,10 @@ android.namespace = "com.smarttoolfactory.colordetector"
 dependencies {
     implementation(libs.androidx.palette.ktx)
 
-    implementation(project(":libs:gesture"))
-    implementation(project(":libs:screenshot"))
-    implementation(project(":libs:image"))
-    implementation(project(":libs:zoomable"))
+    implementation(projects.libs.gesture)
+    implementation(projects.libs.screenshot)
+    implementation(projects.libs.image)
+    implementation(projects.libs.zoomable)
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)

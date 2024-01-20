@@ -25,10 +25,10 @@ plugins {
 android.namespace = "ru.tech.imageresizershrinker.feature.single_edit"
 
 dependencies {
-    implementation(project(":feature:crop"))
-    implementation(project(":feature:erase-background"))
-    implementation(project(":feature:draw"))
-    implementation(project(":feature:filters"))
-    implementation(project(":feature:pick-color"))
-    implementation(project(":feature:compare"))
+    implementation(projects.feature.crop)
+    implementation(projects.feature.eraseBackground)
+    implementation(projects.feature.draw)
+    implementation(projects.feature.filters)
+    implementation(projects.feature.pickColor)
+    implementation(projects.feature.compare)
 }

@@ -6,7 +6,7 @@ plugins {
 android.namespace = "com.smarttoolfactory.image"
 
 dependencies {
-    implementation(project(":libs:gesture"))
+    implementation(projects.libs.gesture)
 
     implementation(platform(libs.compose.bom))
     implementation(libs.androidxCore)

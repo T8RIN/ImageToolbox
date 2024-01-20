@@ -17,8 +17,6 @@
 
 @file:Suppress("UnstableApiUsage")
 
-include(":feature:recognize-text")
-
 pluginManagement {
     repositories {
         includeBuild("build-logic")
@@ -36,7 +34,9 @@ dependencyResolutionManagement {
         maven { setUrl("https://jitpack.io") }
     }
 }
-rootProject.name = "Image Toolbox"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
+rootProject.name = "Image_Toolbox"
 
 include(":app")
 
@@ -75,6 +75,7 @@ include(":feature:cipher")
 include(":feature:limits-resize")
 include(":feature:crop")
 include(":feature:load-net-image")
+include(":feature:recognize-text")
 
 include(":core:resources")
 include(":core:data")

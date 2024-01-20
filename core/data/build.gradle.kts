@@ -40,10 +40,9 @@ dependencies {
 
     api(libs.tesseract)
 
-    implementation(project(":libs:logger"))
+    implementation(projects.libs.logger)
+    implementation(projects.libs.gpuimage)
 
-    implementation(project(":libs:gpuimage"))
-
-    implementation(project(":core:domain"))
-    implementation(project(":core:resources"))
+    implementation(projects.core.domain)
+    implementation(projects.core.resources)
 }

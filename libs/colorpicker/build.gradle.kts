@@ -5,11 +5,11 @@ plugins {
 android.namespace = "com.smarttoolfactory.colorpicker"
 
 dependencies {
-    implementation(project(":libs:gesture"))
-    implementation(project(":libs:screenshot"))
+    implementation(projects.libs.gesture)
+    implementation(projects.libs.screenshot)
+    implementation(projects.libs.extendedcolors)
+    implementation(projects.libs.colordetector)
 
-    implementation(project(":libs:extendedcolors"))
-    implementation(project(":libs:colordetector"))
     implementation(libs.compose.colorful.sliders)
 
     implementation(platform(libs.compose.bom))

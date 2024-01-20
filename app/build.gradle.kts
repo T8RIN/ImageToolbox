@@ -181,16 +181,14 @@ dependencies {
     api(libs.androidx.material.icons.extended)
     api(libs.androidx.material)
 
-    implementation(project(":core:domain"))
-    implementation(project(":core:ui"))
-    implementation(project(":core:data"))
-    implementation(project(":core:resources"))
+    implementation(projects.core.domain)
+    implementation(projects.core.ui)
+    implementation(projects.core.data)
+    implementation(projects.core.resources)
 
-    implementation(project(":feature:main"))
+    implementation(projects.feature.main)
 
-    "marketImplementation"(libs.firebase.crashlytics.ktx) {
-        exclude("androidx.datastore", "datastore-preferences")
-    }
+    "marketImplementation"(libs.firebase.crashlytics.ktx)
     "marketImplementation"(libs.firebase.analytics.ktx)
 
 }

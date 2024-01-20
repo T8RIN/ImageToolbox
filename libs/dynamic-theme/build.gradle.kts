@@ -27,6 +27,6 @@ dependencies {
     implementation(libs.androidx.palette.ktx)
     implementation(libs.androidx.ui.text)
 
-    implementation(project(":libs:systemuicontroller"))
+    implementation(projects.libs.systemuicontroller)
     implementation(libs.m3color)
 }
