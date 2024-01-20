@@ -28,4 +28,5 @@ dependencies {
     api(project(":core:filters"))
     implementation(project(":feature:draw"))
     implementation(project(":feature:pick-color"))
+    implementation(project(":feature:compare"))
 }

@@ -23,3 +23,7 @@ plugins {
 }
 
 android.namespace = "ru.tech.imageresizershrinker.feature.resize_convert"
+
+dependencies {
+    implementation(project(":feature:compare"))
+}

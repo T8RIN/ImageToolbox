@@ -145,7 +145,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.BasicFilterPreference
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.MaskFilterPreference
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.CompareSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
@@ -156,6 +155,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.core.ui.widget.utils.middleImageState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
+import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddEditMaskSheet
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddFilterButton
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddFiltersSheet

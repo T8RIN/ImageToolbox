@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.sheets
+package ru.tech.imageresizershrinker.feature.compare.presentation.components
 
 import android.graphics.Bitmap
 import androidx.compose.animation.core.animateFloatAsState
@@ -24,7 +24,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -57,6 +56,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
@@ -72,79 +72,80 @@ fun CompareSheet(
     val settingsState = LocalSettingsState.current
     var showSheet by visible
 
-    val sheetContent: @Composable ColumnScope.() -> Unit = {
-        Column(
-            Modifier.navigationBarsPadding()
-        ) {
-            data?.let { (b, a) ->
-                val before = remember(data) { b?.asImageBitmap() }
-                val after = remember(data) { a?.asImageBitmap() }
-                Box(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            start = 16.dp,
-                            end = 16.dp,
-                        )
-                        .border(
-                            settingsState.borderWidth,
-                            MaterialTheme.colorScheme.outlineVariant(),
-                            RoundedCornerShape(4.dp)
-                        )
-                        .background(
-                            MaterialTheme.colorScheme
-                                .outlineVariant()
-                                .copy(alpha = 0.1f),
-                            RoundedCornerShape(4.dp)
-                        )
-                        .weight(1f, false)
-                        .clip(RoundedCornerShape(4.dp))
-                        .zoomable(rememberZoomState(maxScale = 10f))
-                ) {
-                    if (before != null && after != null) {
-                        BeforeAfterImage(
-                            overlayStyle = OverlayStyle(),
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .clip(RoundedCornerShape(4.dp))
-                                .align(Alignment.Center)
-                                .transparencyChecker(),
-                            progress = animateFloatAsState(targetValue = progress).value,
-                            onProgressChange = {
-                                progress = it
-                            },
-                            enableZoom = false,
-                            beforeImage = before,
-                            afterImage = after,
-                            beforeLabel = { },
-                            afterLabel = { }
-                        )
-                    }
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                TitleItem(text = stringResource(R.string.compare), icon = Icons.Rounded.Compare)
-                Spacer(Modifier.weight(1f))
-                EnhancedButton(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    onClick = {
-                        showSheet = false
-                    },
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                ) {
-                    AutoSizeText(stringResource(R.string.close))
-                }
-            }
-        }
-    }
-
     if (data != null) {
         SimpleSheet(
-            sheetContent = sheetContent,
+            sheetContent = {
+                Column(
+                    Modifier.navigationBarsPadding()
+                ) {
+                    data.let { (b, a) ->
+                        val before = remember(data) { b?.asImageBitmap() }
+                        val after = remember(data) { a?.asImageBitmap() }
+                        Box(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                )
+                                .border(
+                                    settingsState.borderWidth,
+                                    MaterialTheme.colorScheme.outlineVariant(),
+                                    RoundedCornerShape(4.dp)
+                                )
+                                .background(
+                                    MaterialTheme.colorScheme
+                                        .outlineVariant()
+                                        .copy(alpha = 0.1f),
+                                    RoundedCornerShape(4.dp)
+                                )
+                                .weight(1f, false)
+                                .clip(RoundedCornerShape(4.dp))
+                                .zoomable(rememberZoomState(maxScale = 10f))
+                        ) {
+                            if (before != null && after != null) {
+                                BeforeAfterImage(
+                                    overlayStyle = OverlayStyle(),
+                                    modifier = Modifier
+                                        .padding(8.dp)
+                                        .clip(RoundedCornerShape(4.dp))
+                                        .align(Alignment.Center)
+                                        .transparencyChecker(),
+                                    progress = animateFloatAsState(targetValue = progress).value,
+                                    onProgressChange = {
+                                        progress = it
+                                    },
+                                    enableZoom = false,
+                                    beforeImage = before,
+                                    afterImage = after,
+                                    beforeLabel = { },
+                                    afterLabel = { }
+                                )
+                            }
+                        }
+                    }
+                    Row(
+                        modifier = Modifier
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        TitleItem(
+                            text = stringResource(R.string.compare),
+                            icon = Icons.Rounded.Compare
+                        )
+                        Spacer(Modifier.weight(1f))
+                        EnhancedButton(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            onClick = {
+                                showSheet = false
+                            },
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        ) {
+                            AutoSizeText(stringResource(R.string.close))
+                        }
+                    }
+                }
+            },
             visible = visible,
             dragHandle = {
                 Row(

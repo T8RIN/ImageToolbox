@@ -30,4 +30,5 @@ dependencies {
     implementation(project(":feature:draw"))
     implementation(project(":feature:filters"))
     implementation(project(":feature:pick-color"))
+    implementation(project(":feature:compare"))
 }
