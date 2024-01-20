@@ -124,12 +124,10 @@ class ResizeAndConvertViewModel @Inject constructor(
                     val index = uris?.indexOf(removedUri) ?: -1
                     if (index == 0) {
                         uris?.getOrNull(1)?.let {
-                            _selectedUri.value = it
                             setBitmap(it)
                         }
                     } else {
                         uris?.getOrNull(index - 1)?.let {
-                            _selectedUri.value = it
                             setBitmap(it)
                         }
                     }
@@ -148,18 +146,11 @@ class ResizeAndConvertViewModel @Inject constructor(
         if (resetPreset) {
             _presetSelected.value = Preset.None
         }
-        job?.cancel()
-        _isImageLoading.value = false
-        job = viewModelScope.launch {
-            _isImageLoading.value = true
-            delay(600)
-            _bitmap.value?.let { bmp ->
-                val preview = updatePreview(bmp)
-                _previewBitmap.value = null
-                _shouldShowPreview.value = imagePreviewCreator.canShow(preview)
-                if (shouldShowPreview) _previewBitmap.value = preview
-            }
-            _isImageLoading.value = false
+        _bitmap.value?.let { bmp ->
+            val preview = updatePreview(bmp)
+            _previewBitmap.value = null
+            _shouldShowPreview.value = imagePreviewCreator.canShow(preview)
+            if (shouldShowPreview) _previewBitmap.value = preview
         }
     }
 
@@ -196,7 +187,7 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     private fun setBitmapInfo(newInfo: ImageInfo) {
         if (_imageInfo.value != newInfo) {
-            _imageInfo.value = newInfo.copy(quality = imageInfo.quality)
+            _imageInfo.value = newInfo
             debouncedImageCalculation {
                 checkBitmapAndUpdate()
             }
@@ -371,9 +362,8 @@ class ResizeAndConvertViewModel @Inject constructor(
         savingJob = it
     }
 
-    fun setBitmap(
-        uri: Uri
-    ) {
+    fun setBitmap(uri: Uri) {
+        _selectedUri.value = uri
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val bitmap = imageGetter.getImage(
@@ -387,14 +377,12 @@ class ResizeAndConvertViewModel @Inject constructor(
                     width = size?.first ?: 0,
                     height = size?.second ?: 0
                 )
-                setBitmapInfo(
-                    newInfo = imageManager.applyPresetBy(
-                        image = _bitmap.value,
-                        preset = _presetSelected.value,
-                        currentInfo = _imageInfo.value
-                    )
+                _imageInfo.value = imageManager.applyPresetBy(
+                    image = _bitmap.value,
+                    preset = _presetSelected.value,
+                    currentInfo = _imageInfo.value
                 )
-                _selectedUri.value = uri
+                checkBitmapAndUpdate()
             }
         }
     }

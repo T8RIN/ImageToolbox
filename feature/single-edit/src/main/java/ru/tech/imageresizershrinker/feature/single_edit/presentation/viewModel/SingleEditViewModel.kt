@@ -153,7 +153,6 @@ class SingleEditViewModel @Inject constructor(
     private suspend fun checkBitmapAndUpdate(resetPreset: Boolean = false) {
         if (resetPreset) {
             _presetSelected.value = Preset.None
-
         }
         _bitmap.value?.let { bmp ->
             val preview = updatePreview(bmp)
