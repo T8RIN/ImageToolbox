@@ -558,12 +558,12 @@
     <string name="force_exif_widget_inital_value_sub">强制初始检查 EXIF 部件</string>
     <string name="slide">滑动</string>
     <string name="side_by_side">并排</string>
-    <string name="toggle_tap">切换点触</string>
+    <string name="toggle_tap">切换轻触</string>
     <string name="transparency">透明度</string>
     <string name="magnifier">放大镜</string>
     <string name="force_exif_widget_inital_value">强制初始值</string>
     <string name="allow_multiple_languages">允许多种语言</string>
-    <string name="rate_app">给APP评分</string>
+    <string name="rate_app">给应用程序评分</string>
     <string name="rate">评分</string>
-    <string name="rate_app_sub">此应用程序完全免费，如果您希望它变得更大，请在 Github 上为项目加星😄。</string>
+    <string name="rate_app_sub">此应用程序完全免费，如果您希望它变得更加强大，请在 Github 上为项目加星😄。</string>
 </resources>
