@@ -22,15 +22,12 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
@@ -73,13 +70,11 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Colorize
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
-import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.material.icons.rounded.Tune
-import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
@@ -128,9 +123,11 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
@@ -228,45 +225,9 @@ fun FiltersScreen(
         } else onGoBack()
     }
 
-    val showSheet = rememberSaveable { mutableStateOf(false) }
-    val zoomButton = @Composable {
-        AnimatedVisibility(
-            visible = viewModel.bitmap != null,
-            enter = fadeIn() + scaleIn(),
-            exit = fadeOut() + scaleOut()
-        ) {
-            EnhancedIconButton(
-                containerColor = Color.Transparent,
-                contentColor = LocalContentColor.current,
-                enableAutoShadowAndBorder = false,
-                onClick = {
-                    showSheet.value = true
-                }
-            ) {
-                Icon(Icons.Rounded.ZoomIn, null)
-            }
-        }
-    }
+    val showZoomSheet = rememberSaveable { mutableStateOf(false) }
 
     val showCompareSheet = rememberSaveable { mutableStateOf(false) }
-    val compareButton = @Composable {
-        AnimatedVisibility(
-            visible = viewModel.previewBitmap != null,
-            enter = fadeIn() + scaleIn(),
-            exit = fadeOut() + scaleOut()
-        ) {
-            EnhancedIconButton(
-                containerColor = Color.Transparent,
-                contentColor = LocalContentColor.current,
-                enableAutoShadowAndBorder = false,
-                onClick = {
-                    showCompareSheet.value = true
-                }
-            ) {
-                Icon(Icons.Rounded.Compare, null)
-            }
-        }
-    }
 
     val imageInside =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
@@ -332,8 +293,14 @@ fun FiltersScreen(
                 )
             }
         }
-        compareButton()
-        zoomButton()
+        CompareButton(
+            onClick = { showCompareSheet.value = true },
+            visible = viewModel.previewBitmap != null
+        )
+        ZoomButton(
+            onClick = { showZoomSheet.value = true },
+            visible = viewModel.bitmap != null,
+        )
         if (viewModel.bitmap != null && (viewModel.basicFilterState.filters.size >= 2 || viewModel.maskingFilterState.masks.size >= 2)) {
             EnhancedIconButton(
                 containerColor = Color.Transparent,
@@ -754,7 +721,7 @@ fun FiltersScreen(
 
     ZoomModalSheet(
         data = viewModel.previewBitmap,
-        visible = showSheet
+        visible = showZoomSheet
     )
 
     CompareSheet(

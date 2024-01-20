@@ -22,11 +22,6 @@ import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -48,7 +43,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
@@ -90,6 +84,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
@@ -221,25 +216,7 @@ fun DeleteExifScreen(
         }
     }
 
-    val showSheet = rememberSaveable { mutableStateOf(false) }
-    val zoomButton = @Composable {
-        AnimatedVisibility(
-            visible = viewModel.bitmap != null,
-            enter = scaleIn() + fadeIn(),
-            exit = scaleOut() + fadeOut()
-        ) {
-            EnhancedIconButton(
-                containerColor = Color.Transparent,
-                contentColor = LocalContentColor.current,
-                enableAutoShadowAndBorder = false,
-                onClick = {
-                    showSheet.value = true
-                }
-            ) {
-                Icon(Icons.Rounded.ZoomIn, null)
-            }
-        }
-    }
+    val showZoomSheet = rememberSaveable { mutableStateOf(false) }
 
     val actions: @Composable RowScope.() -> Unit = {
         if (viewModel.previewBitmap != null) {
@@ -254,7 +231,10 @@ fun DeleteExifScreen(
                 Icon(Icons.Outlined.Share, null)
             }
         }
-        zoomButton()
+        ZoomButton(
+            onClick = { showZoomSheet.value = true },
+            visible = viewModel.bitmap != null,
+        )
     }
     val buttons = @Composable {
         BottomButtonsBlock(
@@ -270,7 +250,7 @@ fun DeleteExifScreen(
 
     ZoomModalSheet(
         data = viewModel.previewBitmap,
-        visible = showSheet
+        visible = showZoomSheet
     )
 
     Surface(

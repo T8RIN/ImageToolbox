@@ -22,11 +22,8 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
@@ -53,7 +50,6 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.FrontHand
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
-import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
@@ -101,6 +97,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSwitchDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
@@ -272,29 +269,11 @@ fun BytesResizeScreen(
         )
     }
 
-    val showSheet = rememberSaveable { mutableStateOf(false) }
-    val zoomButton = @Composable {
-        AnimatedVisibility(
-            visible = viewModel.bitmap != null,
-            enter = scaleIn() + fadeIn(),
-            exit = scaleOut() + fadeOut()
-        ) {
-            EnhancedIconButton(
-                containerColor = Color.Transparent,
-                contentColor = LocalContentColor.current,
-                enableAutoShadowAndBorder = false,
-                onClick = {
-                    showSheet.value = true
-                }
-            ) {
-                Icon(Icons.Rounded.ZoomIn, null)
-            }
-        }
-    }
+    val showZoomSheet = rememberSaveable { mutableStateOf(false) }
 
     ZoomModalSheet(
         data = viewModel.previewBitmap,
-        visible = showSheet
+        visible = showZoomSheet
     )
 
     Surface(
@@ -345,7 +324,10 @@ fun BytesResizeScreen(
                         if (viewModel.bitmap == null) {
                             TopAppBarEmoji()
                         }
-                        zoomButton()
+                        ZoomButton(
+                            onClick = { showZoomSheet.value = true },
+                            visible = viewModel.bitmap != null,
+                        )
                         if (viewModel.previewBitmap != null) {
                             EnhancedIconButton(
                                 containerColor = Color.Transparent,

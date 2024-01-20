@@ -26,8 +26,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -54,11 +52,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.rounded.Save
-import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
@@ -101,7 +97,9 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageTransformBar
 import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetWidget
@@ -361,44 +359,7 @@ fun ResizeAndConvertScreen(
 
     val showZoomSheet = rememberSaveable { mutableStateOf(false) }
 
-    val zoomButton = @Composable {
-        AnimatedVisibility(
-            visible = viewModel.bitmap != null && viewModel.shouldShowPreview,
-            enter = fadeIn() + scaleIn(),
-            exit = fadeOut() + scaleOut()
-        ) {
-            EnhancedIconButton(
-                containerColor = Color.Transparent,
-                contentColor = LocalContentColor.current,
-                enableAutoShadowAndBorder = false,
-                onClick = {
-                    showZoomSheet.value = true
-                }
-            ) {
-                Icon(Icons.Rounded.ZoomIn, null)
-            }
-        }
-    }
-
     val showCompareSheet = rememberSaveable { mutableStateOf(false) }
-    val compareButton = @Composable {
-        AnimatedVisibility(
-            visible = viewModel.bitmap != null && viewModel.shouldShowPreview,
-            enter = fadeIn() + scaleIn(),
-            exit = fadeOut() + scaleOut()
-        ) {
-            EnhancedIconButton(
-                containerColor = Color.Transparent,
-                contentColor = LocalContentColor.current,
-                enableAutoShadowAndBorder = false,
-                onClick = {
-                    showCompareSheet.value = true
-                }
-            ) {
-                Icon(Icons.Rounded.Compare, null)
-            }
-        }
-    }
 
     CompareSheet(
         data = viewModel.bitmap to viewModel.previewBitmap,
@@ -534,8 +495,16 @@ fun ResizeAndConvertScreen(
                     ),
                     actions = {
                         if (viewModel.bitmap == null) TopAppBarEmoji()
-                        compareButton()
-                        zoomButton()
+                        CompareButton(
+                            onClick = { showCompareSheet.value = true },
+                            visible = viewModel.previewBitmap != null
+                                    && viewModel.bitmap != null
+                                    && viewModel.shouldShowPreview
+                        )
+                        ZoomButton(
+                            onClick = { showZoomSheet.value = true },
+                            visible = viewModel.previewBitmap != null && viewModel.shouldShowPreview
+                        )
                         if (!imageInside && !viewModel.uris.isNullOrEmpty()) actions()
                     },
                     navigationIcon = {
