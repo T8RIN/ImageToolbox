@@ -54,8 +54,8 @@ import ru.tech.imageresizershrinker.core.data.keys.Keys.RANDOMIZE_FILENAME
 import ru.tech.imageresizershrinker.core.data.keys.Keys.SAVE_FOLDER_URI
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.model.CopyToClipboardMode
-import ru.tech.imageresizershrinker.core.domain.repository.CipherRepository
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.SaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.FileParams
@@ -75,7 +75,7 @@ import kotlin.random.Random
 class FileControllerImpl @Inject constructor(
     private val context: Context,
     private val dataStore: DataStore<Preferences>,
-    private val cipherRepository: CipherRepository
+    private val randomStringGenerator: RandomStringGenerator
 ) : FileController {
 
     private var _fileParams: FileParams = FileParams(
@@ -349,7 +349,7 @@ class FileControllerImpl @Inject constructor(
 
             val file = File(
                 imagesFolder,
-                "${cipherRepository.generateRandomString(32)}.${saveTarget.imageFormat.extension}"
+                "${randomStringGenerator.generate(32)}.${saveTarget.imageFormat.extension}"
             )
             FileOutputStream(file).use {
                 it.write(saveTarget.data)
@@ -383,7 +383,7 @@ class FileControllerImpl @Inject constructor(
     ): String {
         val extension = saveTarget.imageInfo.imageFormat.extension
 
-        if (fileParams.randomizeFilename) return "${cipherRepository.generateRandomString(32)}.$extension"
+        if (fileParams.randomizeFilename) return "${randomStringGenerator.generate(32)}.$extension"
 
         val wh =
             "(" + (if (saveTarget.originalUri.toUri() == Uri.EMPTY) context.getString(R.string.width)

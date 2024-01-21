@@ -17,11 +17,11 @@
 
 @file:Suppress("PrivatePropertyName")
 
-package ru.tech.imageresizershrinker.core.data.repository
+package ru.tech.imageresizershrinker.feature.cipher.data
 
 import android.content.Context
 import android.net.Uri
-import ru.tech.imageresizershrinker.core.domain.repository.CipherRepository
+import ru.tech.imageresizershrinker.feature.cipher.domain.CipherRepository
 import java.io.DataInputStream
 import java.io.InputStream
 import java.security.MessageDigest

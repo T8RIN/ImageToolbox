@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.image_stitch.domain
 
-import ru.tech.imageresizershrinker.core.domain.model.CombiningParams
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.ImageWithSize

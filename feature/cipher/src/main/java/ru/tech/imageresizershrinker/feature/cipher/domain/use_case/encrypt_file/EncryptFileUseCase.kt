@@ -15,12 +15,15 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.model
+package ru.tech.imageresizershrinker.feature.cipher.domain.use_case.encrypt_file
 
-data class CombiningParams(
-    val stitchMode: StitchMode = StitchMode.Horizontal,
-    val spacing: Int = 0,
-    val scaleSmallImagesToLarge: Boolean = true,
-    val backgroundColor: Int = 0x00000000,
-    val fadingEdgesMode: Int? = 0
-)
+import javax.inject.Inject
+
+class EncryptFileUseCase @Inject constructor(
+    private val repository: ru.tech.imageresizershrinker.feature.cipher.domain.CipherRepository
+) {
+    suspend operator fun invoke(
+        data: ByteArray,
+        key: String
+    ): ByteArray = repository.encrypt(data, key)
+}

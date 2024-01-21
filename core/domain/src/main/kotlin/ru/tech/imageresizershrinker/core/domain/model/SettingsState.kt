@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.domain.model
 
 import ru.tech.imageresizershrinker.core.domain.Domain
-import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 
 data class SettingsState(
     val nightMode: NightMode,

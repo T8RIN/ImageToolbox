@@ -15,23 +15,15 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.model
+package ru.tech.imageresizershrinker.feature.cipher.domain.use_case.decrypt_file
 
-sealed class StitchMode {
-    data object Horizontal : StitchMode()
-    data object Vertical : StitchMode()
-    sealed class Grid : StitchMode() {
-        data class Horizontal(val rows: Int = 2) : Grid()
-        data class Vertical(val columns: Int = 2) : Grid()
-    }
+import javax.inject.Inject
 
-    fun gridCellsCount(): Int {
-        return when (this) {
-            is Grid.Horizontal -> this.rows
-            is Grid.Vertical -> this.columns
-            else -> 0
-        }
-    }
-
-    fun isHorizontal(): Boolean = this is Horizontal || this is Grid.Horizontal
+class DecryptFileUseCase @Inject constructor(
+    private val repository: ru.tech.imageresizershrinker.feature.cipher.domain.CipherRepository
+) {
+    suspend operator fun invoke(
+        data: ByteArray,
+        key: String
+    ): ByteArray = repository.decrypt(data, key)
 }

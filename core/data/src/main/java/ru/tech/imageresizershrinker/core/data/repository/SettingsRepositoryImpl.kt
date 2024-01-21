@@ -78,9 +78,9 @@ import ru.tech.imageresizershrinker.core.data.keys.Keys.THEME_CONTRAST_LEVEL
 import ru.tech.imageresizershrinker.core.data.keys.Keys.THEME_STYLE
 import ru.tech.imageresizershrinker.core.data.keys.Keys.USE_PIXEL_SWITCH
 import ru.tech.imageresizershrinker.core.data.keys.Keys.VIBRATION_STRENGTH
-import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.domain.model.FontFam
+import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.domain.model.SettingsState
@@ -96,7 +96,7 @@ import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
-class SettingsRepositoryImpl @Inject constructor(
+internal class SettingsRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val dataStore: DataStore<Preferences>
 ) : SettingsRepository {

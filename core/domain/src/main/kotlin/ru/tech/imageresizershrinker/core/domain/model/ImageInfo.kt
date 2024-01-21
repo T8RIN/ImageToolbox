@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.domain.model
 
 import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.domain.Domain
-import ru.tech.imageresizershrinker.core.domain.ImageScaleMode
 
 data class ImageInfo(
     val width: Int = 0,

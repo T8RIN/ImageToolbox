@@ -15,35 +15,32 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.data.di
+package ru.tech.imageresizershrinker.feature.cipher.di
 
-import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.core.data.saving.FileControllerImpl
-import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
+import ru.tech.imageresizershrinker.feature.cipher.data.CipherRepositoryImpl
+import ru.tech.imageresizershrinker.feature.cipher.domain.CipherRepository
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
-object SavingModule {
+object CipherModule {
 
     @Singleton
     @Provides
-    fun provideFileController(
-        @ApplicationContext context: Context,
-        dataStore: DataStore<Preferences>,
-        randomStringGenerator: RandomStringGenerator
-    ): FileController = FileControllerImpl(
-        context = context,
-        dataStore = dataStore,
-        randomStringGenerator = randomStringGenerator
-    )
+    fun provideCipherRepository(): CipherRepository = CipherRepositoryImpl()
+
+    @Singleton
+    @Provides
+    fun provideRandomStringGenerator(
+        cipherRepository: CipherRepository
+    ): RandomStringGenerator = RandomStringGenerator {
+        cipherRepository.generateRandomString(it)
+    }
 
 }

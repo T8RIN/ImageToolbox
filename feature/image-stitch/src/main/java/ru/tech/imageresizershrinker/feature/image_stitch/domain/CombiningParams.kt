@@ -15,14 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.repository
+package ru.tech.imageresizershrinker.feature.image_stitch.domain
 
-interface CipherRepository {
-
-    fun generateRandomString(len: Int): String
-
-    suspend fun decrypt(data: ByteArray, key: String): ByteArray
-
-    suspend fun encrypt(data: ByteArray, key: String): ByteArray
-
-}
+data class CombiningParams(
+    val stitchMode: StitchMode = StitchMode.Horizontal,
+    val spacing: Int = 0,
+    val scaleSmallImagesToLarge: Boolean = true,
+    val backgroundColor: Int = 0x00000000,
+    val fadingEdgesMode: Int? = 0
+)

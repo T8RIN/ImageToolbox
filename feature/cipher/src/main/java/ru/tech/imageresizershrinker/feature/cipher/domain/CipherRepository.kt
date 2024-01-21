@@ -15,15 +15,14 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.use_case.generate_random_password
+package ru.tech.imageresizershrinker.feature.cipher.domain
 
-import ru.tech.imageresizershrinker.core.domain.repository.CipherRepository
-import javax.inject.Inject
+interface CipherRepository {
 
-class GenerateRandomPasswordUseCase @Inject constructor(
-    private val repository: CipherRepository
-) {
-    operator fun invoke(
-        len: Int
-    ): String = repository.generateRandomString(len)
+    fun generateRandomString(len: Int): String
+
+    suspend fun decrypt(data: ByteArray, key: String): ByteArray
+
+    suspend fun encrypt(data: ByteArray, key: String): ByteArray
+
 }
