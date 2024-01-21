@@ -38,7 +38,6 @@ import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
-import ru.tech.imageresizershrinker.core.domain.repository.SettingsRepository
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import javax.inject.Singleton
@@ -60,7 +59,7 @@ object ImageModule {
     @Singleton
     @Provides
     fun provideImageScaler(
-        settingsRepository: SettingsRepository,
+        settingsRepository: ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository,
         imageCompressor: ImageCompressor<Bitmap>,
         imageTransformer: ImageTransformer<Bitmap>,
         filterProvider: FilterProvider<Bitmap>
@@ -76,7 +75,7 @@ object ImageModule {
     fun provideImageCompressor(
         @ApplicationContext context: Context,
         imageTransformer: ImageTransformer<Bitmap>,
-        settingsRepository: SettingsRepository,
+        settingsRepository: ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository,
         filterProvider: FilterProvider<Bitmap>
     ): ImageCompressor<Bitmap> = AndroidImageCompressor(
         context = context,

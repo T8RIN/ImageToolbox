@@ -83,4 +83,6 @@ dependencies {
     "marketImplementation"(libs.app.update.ktx)
 
     api(projects.core.resources)
+
+    implementation(projects.core.settings)
 }

@@ -36,9 +36,9 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
-import ru.tech.imageresizershrinker.core.domain.repository.SettingsRepository
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject

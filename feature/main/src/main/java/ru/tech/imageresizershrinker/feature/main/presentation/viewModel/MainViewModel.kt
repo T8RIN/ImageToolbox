@@ -48,11 +48,10 @@ import ru.tech.imageresizershrinker.core.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.domain.model.SettingsState
-import ru.tech.imageresizershrinker.core.domain.repository.SettingsRepository
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
-import ru.tech.imageresizershrinker.core.domain.use_case.get_settings_state.GetSettingsStateFlowUseCase
-import ru.tech.imageresizershrinker.core.domain.use_case.get_settings_state.GetSettingsStateUseCase
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
+import ru.tech.imageresizershrinker.core.settings.domain.use_case.GetSettingsStateFlowUseCase
+import ru.tech.imageresizershrinker.core.settings.domain.use_case.GetSettingsStateUseCase
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
@@ -68,7 +67,7 @@ class MainViewModel @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
     private val getSettingsStateUseCase: GetSettingsStateUseCase,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.data.keys
+package ru.tech.imageresizershrinker.core.settings.data
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.doublePreferencesKey
@@ -23,7 +23,7 @@ import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 
-object Keys {
+internal object Keys {
     val SAVE_FOLDER_URI = stringPreferencesKey("saveFolder")
     val NIGHT_MODE = intPreferencesKey("nightMode")
     val DYNAMIC_COLORS = booleanPreferencesKey("dynamicColors")

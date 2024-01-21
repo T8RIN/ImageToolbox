@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.repository
+package ru.tech.imageresizershrinker.core.settings.domain
 
 import kotlinx.coroutines.flow.Flow
 import ru.tech.imageresizershrinker.core.domain.model.CopyToClipboardMode

@@ -15,13 +15,21 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.use_case.backup_and_restore
+package ru.tech.imageresizershrinker.core.settings.domain.use_case
 
-import ru.tech.imageresizershrinker.core.domain.repository.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import javax.inject.Inject
 
-class CreateBackupFileUseCase @Inject constructor(
+class RestoreFromBackupFileUseCase @Inject constructor(
     private val repository: SettingsRepository
 ) {
-    suspend operator fun invoke() = repository.createBackupFile()
+    suspend operator fun invoke(
+        backupFileUri: String,
+        onSuccess: () -> Unit,
+        onFailure: (Throwable) -> Unit
+    ) = repository.restoreFromBackupFile(
+        backupFileUri = backupFileUri,
+        onSuccess = onSuccess,
+        onFailure = onFailure
+    )
 }

@@ -32,9 +32,6 @@ import android.provider.OpenableColumns
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.documentfile.provider.DocumentFile
 import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.CoroutineScope
@@ -42,26 +39,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okio.use
-import ru.tech.imageresizershrinker.core.data.keys.Keys.ADD_ORIGINAL_NAME_TO_FILENAME
-import ru.tech.imageresizershrinker.core.data.keys.Keys.ADD_SEQ_NUM_TO_FILENAME
-import ru.tech.imageresizershrinker.core.data.keys.Keys.ADD_SIZE_TO_FILENAME
-import ru.tech.imageresizershrinker.core.data.keys.Keys.COPY_TO_CLIPBOARD_MODE
-import ru.tech.imageresizershrinker.core.data.keys.Keys.FILENAME_PREFIX
-import ru.tech.imageresizershrinker.core.data.keys.Keys.FILENAME_SUFFIX
-import ru.tech.imageresizershrinker.core.data.keys.Keys.IMAGE_PICKER_MODE
-import ru.tech.imageresizershrinker.core.data.keys.Keys.OVERWRITE_FILE
-import ru.tech.imageresizershrinker.core.data.keys.Keys.RANDOMIZE_FILENAME
-import ru.tech.imageresizershrinker.core.data.keys.Keys.SAVE_FOLDER_URI
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.model.CopyToClipboardMode
+import ru.tech.imageresizershrinker.core.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.SaveTarget
-import ru.tech.imageresizershrinker.core.domain.saving.model.FileParams
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -74,40 +62,18 @@ import kotlin.random.Random
 
 class FileControllerImpl @Inject constructor(
     private val context: Context,
-    private val dataStore: DataStore<Preferences>,
+    private val settingsRepository: SettingsRepository,
     private val randomStringGenerator: RandomStringGenerator
 ) : FileController {
 
-    private var _fileParams: FileParams = FileParams(
-        treeUri = null,
-        filenamePrefix = "",
-        filenameSuffix = "",
-        addSizeInFilename = false,
-        addOriginalFilename = false,
-        addSequenceNumber = false,
-        randomizeFilename = false,
-        copyToClipboardMode = CopyToClipboardMode.Disabled,
-        overwriteFile = false
-    )
+    private var _settingsState: SettingsState = SettingsState.Default
 
-    private val fileParams get() = _fileParams
+    private val settingsState get() = _settingsState
 
     init {
         CoroutineScope(Dispatchers.IO).launch {
-            dataStore.data.collect { preferences ->
-                _fileParams = _fileParams.copy(
-                    treeUri = preferences[SAVE_FOLDER_URI]?.takeIf { it.isNotEmpty() },
-                    filenamePrefix = preferences[FILENAME_PREFIX] ?: "ResizedImage",
-                    filenameSuffix = preferences[FILENAME_SUFFIX] ?: "",
-                    addSizeInFilename = preferences[ADD_SIZE_TO_FILENAME] ?: false,
-                    addOriginalFilename = preferences[ADD_ORIGINAL_NAME_TO_FILENAME] ?: false,
-                    addSequenceNumber = preferences[ADD_SEQ_NUM_TO_FILENAME] ?: true,
-                    randomizeFilename = preferences[RANDOMIZE_FILENAME] ?: false,
-                    copyToClipboardMode = preferences[COPY_TO_CLIPBOARD_MODE]?.let {
-                        CopyToClipboardMode.fromInt(it)
-                    } ?: CopyToClipboardMode.Disabled,
-                    overwriteFile = preferences[OVERWRITE_FILE] ?: false
-                )
+            settingsRepository.getSettingsStateFlow().collect { state ->
+                _settingsState = state
             }
         }
     }
@@ -137,7 +103,7 @@ class FileControllerImpl @Inject constructor(
     }
 
     override val savingPath: String
-        get() = fileParams.treeUri?.takeIf { it.isNotEmpty() }?.toUri().toUiPath(
+        get() = settingsState.saveFolderUri?.takeIf { it.isNotEmpty() }?.toUri().toUiPath(
             context = context,
             default = context.getString(R.string.default_folder)
         )
@@ -175,7 +141,7 @@ class FileControllerImpl @Inject constructor(
         }
 
         kotlin.runCatching {
-            if (fileParams.copyToClipboardMode is CopyToClipboardMode.Enabled) {
+            if (settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled) {
                 val clipboardManager = ContextCompat.getSystemService(
                     context,
                     ClipboardManager::class.java
@@ -192,7 +158,7 @@ class FileControllerImpl @Inject constructor(
                 }
             }
 
-            if (fileParams.copyToClipboardMode is CopyToClipboardMode.Enabled.WithoutSaving) {
+            if (settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled.WithoutSaving) {
                 return SaveResult.Success(context.getString(R.string.copied))
             }
 
@@ -201,15 +167,13 @@ class FileControllerImpl @Inject constructor(
                 context.contentResolver.openFileDescriptor(originalUri, "r")
             }.isSuccess
 
-            if (fileParams.overwriteFile && hasOriginalUri) {
+            if (settingsState.overwriteFiles && hasOriginalUri) {
                 runCatching {
                     if (originalUri == Uri.EMPTY) throw IllegalStateException()
 
                     context.contentResolver.openFileDescriptor(originalUri, "wt")
                 }.onFailure {
-                    dataStore.edit {
-                        it[IMAGE_PICKER_MODE] = 2
-                    }
+                    settingsRepository.setImagePickerMode(2)
                     return SaveResult.Error.Exception(
                         Exception(
                             context.getString(
@@ -238,7 +202,7 @@ class FileControllerImpl @Inject constructor(
                     )
                 }
             } else {
-                fileParams.treeUri.takeIf {
+                settingsState.saveFolderUri.takeIf {
                     it != null
                 }?.let { treeUri ->
                     val hasDir: Boolean = treeUri.toUri().let {
@@ -246,9 +210,7 @@ class FileControllerImpl @Inject constructor(
                     }?.exists() == true
 
                     if (!hasDir) {
-                        dataStore.edit {
-                            it[SAVE_FOLDER_URI] = ""
-                        }
+                        settingsRepository.setSaveFolderUri(null)
                         return SaveResult.Error.Exception(
                             Exception(
                                 context.getString(
@@ -274,7 +236,7 @@ class FileControllerImpl @Inject constructor(
                 } else saveTarget
 
                 val savingFolder = context.getSavingFolder(
-                    treeUri = fileParams.treeUri?.takeIf { it.isNotEmpty() }?.toUri(),
+                    treeUri = settingsState.saveFolderUri?.takeIf { it.isNotEmpty() }?.toUri(),
                     saveTarget = newSaveTarget
                 )
 
@@ -383,7 +345,7 @@ class FileControllerImpl @Inject constructor(
     ): String {
         val extension = saveTarget.imageInfo.imageFormat.extension
 
-        if (fileParams.randomizeFilename) return "${randomStringGenerator.generate(32)}.$extension"
+        if (settingsState.randomizeFilename) return "${randomStringGenerator.generate(32)}.$extension"
 
         val wh =
             "(" + (if (saveTarget.originalUri.toUri() == Uri.EMPTY) context.getString(R.string.width)
@@ -391,20 +353,20 @@ class FileControllerImpl @Inject constructor(
                 R.string.height
             ).split(" ")[0] else saveTarget.imageInfo.height) + ")"
 
-        var prefix = fileParams.filenamePrefix
-        var suffix = fileParams.filenameSuffix
+        var prefix = settingsState.filenamePrefix
+        var suffix = settingsState.filenameSuffix
 
         if (prefix.isNotEmpty()) prefix = "${prefix}_"
         if (suffix.isNotEmpty()) suffix = "_$suffix"
 
-        if (fileParams.addOriginalFilename) {
+        if (settingsState.addOriginalFilename) {
             prefix += if (saveTarget.originalUri.toUri() != Uri.EMPTY) {
                 context.getFileName(saveTarget.originalUri.toUri()) ?: ""
             } else {
                 context.getString(R.string.original_filename)
             }
         }
-        if (fileParams.addSizeInFilename) prefix += wh
+        if (settingsState.addSizeInFilename) prefix += wh
 
         val timeStamp = SimpleDateFormat(
             "yyyy-MM-dd_HH-mm-ss",
@@ -412,7 +374,7 @@ class FileControllerImpl @Inject constructor(
         ).format(Date()) + "_${Random(Random.nextInt()).hashCode().toString().take(4)}"
 
         return "$prefix${
-            if (fileParams.addSequenceNumber && saveTarget.sequenceNumber != null) {
+            if (settingsState.addSequenceNumber && saveTarget.sequenceNumber != null) {
                 SimpleDateFormat(
                     "yyyy-MM-dd_HH-mm-ss",
                     Locale.getDefault()

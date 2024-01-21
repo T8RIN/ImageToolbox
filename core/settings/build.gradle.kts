@@ -15,18 +15,16 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.saving.model
+plugins {
+    alias(libs.plugins.image.toolbox.library)
+    alias(libs.plugins.image.toolbox.hilt)
+}
 
-import ru.tech.imageresizershrinker.core.domain.model.CopyToClipboardMode
+android.namespace = "ru.tech.imageresizershrinker.core.settings"
 
-data class FileParams(
-    val treeUri: String?,
-    val filenamePrefix: String,
-    val filenameSuffix: String,
-    val addSizeInFilename: Boolean,
-    val addOriginalFilename: Boolean,
-    val addSequenceNumber: Boolean,
-    val randomizeFilename: Boolean,
-    val copyToClipboardMode: CopyToClipboardMode,
-    val overwriteFile: Boolean
-)
+dependencies {
+    api(libs.datastore.preferences.android)
+
+    implementation(projects.core.domain)
+    implementation(projects.core.resources)
+}

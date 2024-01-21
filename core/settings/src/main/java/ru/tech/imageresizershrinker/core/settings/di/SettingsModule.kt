@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.data.di
+package ru.tech.imageresizershrinker.core.settings.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -25,13 +25,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.core.data.repository.SettingsRepositoryImpl
-import ru.tech.imageresizershrinker.core.domain.repository.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.data.SettingsRepositoryImpl
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+object SettingsModule {
 
     @Singleton
     @Provides

@@ -15,14 +15,13 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.data.migrations
+package ru.tech.imageresizershrinker.core.settings.data
 
 import androidx.datastore.core.DataMigration
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
-import ru.tech.imageresizershrinker.core.data.keys.Keys
 
-class BorderWidthMigration : DataMigration<Preferences> {
+internal class BorderWidthMigration : DataMigration<Preferences> {
 
     private val migrated = booleanPreferencesKey("migratedBorders")
     override suspend fun cleanUp() = Unit

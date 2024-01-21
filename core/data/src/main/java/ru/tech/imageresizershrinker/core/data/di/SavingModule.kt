@@ -18,8 +18,6 @@
 package ru.tech.imageresizershrinker.core.data.di
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,6 +26,7 @@ import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.core.data.saving.FileControllerImpl
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import javax.inject.Singleton
 
 @Module
@@ -38,11 +37,11 @@ object SavingModule {
     @Provides
     fun provideFileController(
         @ApplicationContext context: Context,
-        dataStore: DataStore<Preferences>,
+        settingsRepository: SettingsRepository,
         randomStringGenerator: RandomStringGenerator
     ): FileController = FileControllerImpl(
         context = context,
-        dataStore = dataStore,
+        settingsRepository = settingsRepository,
         randomStringGenerator = randomStringGenerator
     )
 

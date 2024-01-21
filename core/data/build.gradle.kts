@@ -45,4 +45,6 @@ dependencies {
     implementation(projects.core.resources)
 
     implementation(projects.core.filters)
+
+    implementation(projects.core.settings)
 }

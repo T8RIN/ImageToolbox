@@ -15,13 +15,13 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.use_case.get_settings_state
+package ru.tech.imageresizershrinker.core.settings.domain.use_case
 
-import ru.tech.imageresizershrinker.core.domain.repository.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import javax.inject.Inject
 
-class GetSettingsStateUseCase @Inject constructor(
+class GetSettingsStateFlowUseCase @Inject constructor(
     private val repository: SettingsRepository
 ) {
-    suspend operator fun invoke() = repository.getSettingsState()
+    operator fun invoke() = repository.getSettingsStateFlow()
 }

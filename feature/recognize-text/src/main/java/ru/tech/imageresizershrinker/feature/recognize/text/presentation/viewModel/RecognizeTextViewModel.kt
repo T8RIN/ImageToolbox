@@ -31,7 +31,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import ru.tech.imageresizershrinker.core.domain.repository.SettingsRepository
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.DownloadData
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.ImageTextReader
@@ -46,7 +45,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RecognizeTextViewModel @Inject constructor(
     private val imageTextReader: ImageTextReader<Bitmap>,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 ) : ViewModel() {
 
     private val _segmentationMode: MutableState<SegmentationMode> =

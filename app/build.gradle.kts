@@ -168,7 +168,6 @@ android {
 }
 
 dependencies {
-
     coreLibraryDesugaring(libs.desugaring)
 
     //Di
@@ -185,12 +184,12 @@ dependencies {
     implementation(projects.core.ui)
     implementation(projects.core.data)
     implementation(projects.core.resources)
+    implementation(projects.core.settings)
 
     implementation(projects.feature.main)
 
     "marketImplementation"(libs.firebase.crashlytics.ktx)
     "marketImplementation"(libs.firebase.analytics.ktx)
-
 }
 
 
