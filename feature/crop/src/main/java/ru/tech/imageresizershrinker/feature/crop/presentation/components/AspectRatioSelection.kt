@@ -52,9 +52,9 @@ import com.smarttoolfactory.cropper.model.AspectRatio
 import com.smarttoolfactory.cropper.model.CropAspectRatio
 import com.smarttoolfactory.cropper.util.createRectShape
 import com.smarttoolfactory.cropper.widget.AspectRatioSelectionCard
-import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.domain.utils.trimTrailingZero
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges

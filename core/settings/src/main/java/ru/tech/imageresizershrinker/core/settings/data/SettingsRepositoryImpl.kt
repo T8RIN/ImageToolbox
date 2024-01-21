@@ -30,12 +30,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.domain.model.CopyToClipboardMode
-import ru.tech.imageresizershrinker.core.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
-import ru.tech.imageresizershrinker.core.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.domain.model.Preset
-import ru.tech.imageresizershrinker.core.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.data.Keys.ADD_ORIGINAL_NAME_TO_FILENAME
 import ru.tech.imageresizershrinker.core.settings.data.Keys.ADD_SEQ_NUM_TO_FILENAME
@@ -86,6 +82,10 @@ import ru.tech.imageresizershrinker.core.settings.data.Keys.THEME_STYLE
 import ru.tech.imageresizershrinker.core.settings.data.Keys.USE_PIXEL_SWITCH
 import ru.tech.imageresizershrinker.core.settings.data.Keys.VIBRATION_STRENGTH
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
+import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
+import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
+import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.DataInputStream

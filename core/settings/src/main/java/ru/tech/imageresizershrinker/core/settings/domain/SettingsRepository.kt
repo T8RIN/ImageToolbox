@@ -18,11 +18,11 @@
 package ru.tech.imageresizershrinker.core.settings.domain
 
 import kotlinx.coroutines.flow.Flow
-import ru.tech.imageresizershrinker.core.domain.model.CopyToClipboardMode
-import ru.tech.imageresizershrinker.core.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
-import ru.tech.imageresizershrinker.core.domain.model.NightMode
-import ru.tech.imageresizershrinker.core.domain.model.SettingsState
+import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
+import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
+import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
+import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 
 interface SettingsRepository {
 

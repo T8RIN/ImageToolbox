@@ -30,12 +30,12 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.PaletteStyle
-import ru.tech.imageresizershrinker.core.domain.model.CopyToClipboardMode
-import ru.tech.imageresizershrinker.core.domain.model.DomainAspectRatio
-import ru.tech.imageresizershrinker.core.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
-import ru.tech.imageresizershrinker.core.domain.model.NightMode
-import ru.tech.imageresizershrinker.core.domain.model.SettingsState
+import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
+import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
+import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
+import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
+import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.emoji.Emoji
 import ru.tech.imageresizershrinker.core.ui.icons.emoji.allIcons
 import ru.tech.imageresizershrinker.core.ui.theme.defaultColorTuple

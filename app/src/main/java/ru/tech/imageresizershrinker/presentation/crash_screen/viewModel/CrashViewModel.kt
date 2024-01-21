@@ -25,7 +25,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
-import ru.tech.imageresizershrinker.core.domain.model.SettingsState
+import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.settings.domain.use_case.GetSettingsStateFlowUseCase
 import ru.tech.imageresizershrinker.core.settings.domain.use_case.GetSettingsStateUseCase
 import javax.inject.Inject

@@ -40,8 +40,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okio.use
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
-import ru.tech.imageresizershrinker.core.domain.model.CopyToClipboardMode
-import ru.tech.imageresizershrinker.core.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
@@ -50,6 +48,8 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
+import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream

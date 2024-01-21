@@ -15,9 +15,11 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.model
+package ru.tech.imageresizershrinker.core.settings.domain.model
 
 import ru.tech.imageresizershrinker.core.domain.Domain
+import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.model.Preset
 
 data class SettingsState(
     val nightMode: NightMode,

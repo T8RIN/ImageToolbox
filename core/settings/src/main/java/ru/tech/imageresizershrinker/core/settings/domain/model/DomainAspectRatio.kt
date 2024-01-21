@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.model
+package ru.tech.imageresizershrinker.core.settings.domain.model
 
 sealed class DomainAspectRatio(
     open val widthProportion: Float,

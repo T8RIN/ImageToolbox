@@ -15,18 +15,29 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.model
+package ru.tech.imageresizershrinker.core.settings.domain.model
 
-sealed class NightMode(val ordinal: Int) {
-    data object Light : NightMode(0)
-    data object Dark : NightMode(1)
-    data object System : NightMode(2)
+sealed class CopyToClipboardMode(
+    open val value: Int
+) {
+
+    data object Disabled : CopyToClipboardMode(0)
+
+    sealed class Enabled(
+        override val value: Int
+    ) : CopyToClipboardMode(value) {
+        data object WithoutSaving : Enabled(1)
+        data object WithSaving : Enabled(2)
+    }
 
     companion object {
-        fun fromOrdinal(int: Int?): NightMode = when (int) {
-            0 -> Light
-            1 -> Dark
-            else -> System
+        fun fromInt(
+            value: Int
+        ): CopyToClipboardMode = when (value) {
+            1 -> Enabled.WithoutSaving
+            2 -> Enabled.WithSaving
+            else -> Disabled
         }
     }
+
 }
