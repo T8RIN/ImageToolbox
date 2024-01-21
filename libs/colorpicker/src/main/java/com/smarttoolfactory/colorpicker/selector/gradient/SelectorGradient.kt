@@ -65,7 +65,6 @@ internal val gradientTileModeOptions = listOf("Clamp", "Repeated", "Mirror", "De
 @Composable
 fun GradientSelector(
     modifier: Modifier = Modifier,
-    color: Color,
     gradientColorState: GradientColorState,
     onBrushChange: (Brush) -> Unit
 ) {
@@ -106,7 +105,6 @@ fun GradientSelector(
 
         // Color Stops and Colors
         ColorStopSelection(
-            color = color,
             colorStops = gradientColorState.colorStops,
             onRemoveClick = { index: Int ->
                 if (gradientColorState.colorStops.size > 2) {
@@ -269,7 +267,6 @@ fun BrushDisplay(
 
 @Composable
 internal fun ColorStopSelection(
-    color: Color,
     colorStops: List<Pair<Float, Color>>,
     onRemoveClick: (Int) -> Unit,
     onAddColorStop: (Pair<Float, Color>) -> Unit,
@@ -299,7 +296,7 @@ internal fun ColorStopSelection(
             TextButton(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
-                    onAddColorStop(Pair(1f, color))
+                    onAddColorStop(Pair(1f, Color.Red))
                 }
             ) {
                 Text(

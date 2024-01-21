@@ -2,6 +2,7 @@ package com.smarttoolfactory.colorpicker.model
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,18 +17,15 @@ import androidx.compose.ui.unit.DpSize
 import com.smarttoolfactory.colorpicker.selector.gradient.GradientType
 import com.smarttoolfactory.colorpicker.ui.GradientAngle
 import com.smarttoolfactory.colorpicker.ui.GradientOffset
-import com.smarttoolfactory.extendedcolors.util.ColorUtil
 
 @Composable
 fun rememberGradientColorState(
-    color: Color = Color.Unspecified,
     size: DpSize = DpSize.Zero
 ): GradientColorState {
 
     val density = LocalDensity.current
 
     return remember {
-
         val sizePx = if (size == DpSize.Zero) {
             Size.Zero
         } else {
@@ -38,7 +36,7 @@ fun rememberGradientColorState(
                 )
             }
         }
-        GradientColorState(color, sizePx)
+        GradientColorState(sizePx)
     }
 }
 
@@ -48,15 +46,9 @@ fun rememberGradientColorState(
  * * Linear gradient uses [gradientOffset] to set offset or angle.
  * * Radial gradient uses [centerFriction] and [radiusFriction]
  */
-class GradientColorState internal constructor(initialColor: Color, size: Size) {
+class GradientColorState internal constructor(size: Size) {
 
     var size by mutableStateOf(size)
-    var color: Color = initialColor
-
-    val hexString: String
-        get() {
-            return ColorUtil.colorToHexAlpha(color)
-        }
 
     val brush: Brush
         get() {
@@ -97,11 +89,6 @@ class GradientColorState internal constructor(initialColor: Color, size: Size) {
             return brush
         }
 
-    val brushColor: BrushColor
-        get() {
-            return BrushColor(color = color, brush = brush)
-        }
-
     var gradientType: GradientType by mutableStateOf(GradientType.Linear)
     var colorStops = mutableStateListOf(
         0.0f to Color.Red,
@@ -111,5 +98,5 @@ class GradientColorState internal constructor(initialColor: Color, size: Size) {
     var tileMode by mutableStateOf(TileMode.Clamp)
     var gradientOffset by mutableStateOf(GradientOffset(GradientAngle.CW0))
     var centerFriction by mutableStateOf(Offset(.5f, .5f))
-    var radiusFriction by mutableStateOf(.5f)
+    var radiusFriction by mutableFloatStateOf(.5f)
 }
