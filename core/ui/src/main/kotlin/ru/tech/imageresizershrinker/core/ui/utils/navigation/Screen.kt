@@ -31,6 +31,7 @@ import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Draw
+import androidx.compose.material.icons.rounded.Gradient
 import androidx.compose.material.icons.rounded.Photo
 import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.PhotoSizeSelectLarge
@@ -266,6 +267,13 @@ sealed class Screen(
         subtitle = R.string.recognize_text_sub
     )
 
+    data object GradientMaker : Screen(
+        id = 18,
+        icon = Icons.Rounded.Gradient,
+        title = R.string.gradient_maker,
+        subtitle = R.string.gradient_maker_sub,
+    )
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -285,7 +293,8 @@ sealed class Screen(
                     Draw(),
                     EraseBackground(),
                     ImageStitching(),
-                    Cipher()
+                    Cipher(),
+                    GradientMaker
                 ) to Triple(
                     R.string.create,
                     Icons.Filled.AutoAwesome,
@@ -325,10 +334,11 @@ sealed class Screen(
                 PickColorFromImage(),
                 GeneratePalette(),
                 DeleteExif(),
+                GradientMaker,
                 Compare(),
                 LimitResize()
             )
         }
-        const val featuresCount = 21
+        const val featuresCount = 22
     }
 }

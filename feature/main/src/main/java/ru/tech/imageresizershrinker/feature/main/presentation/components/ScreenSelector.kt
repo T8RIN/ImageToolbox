@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.feature.draw.presentation.DrawScreen
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.EraseBackgroundScreen
 import ru.tech.imageresizershrinker.feature.filters.presentation.FiltersScreen
 import ru.tech.imageresizershrinker.feature.generate_palette.presentation.GeneratePaletteScreen
+import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.GradientMakerScreen
 import ru.tech.imageresizershrinker.feature.image_preview.presentation.ImagePreviewScreen
 import ru.tech.imageresizershrinker.feature.image_stitch.presentation.ImageStitchingScreen
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.LimitsResizeScreen
@@ -252,6 +253,10 @@ fun ScreenSelector(
                     uriState = screen.uri,
                     onGoBack = onGoBack
                 )
+            }
+
+            Screen.GradientMaker -> {
+                GradientMakerScreen(onGoBack = onGoBack)
             }
         }
     }

@@ -32,12 +32,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -56,26 +60,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.BackgroundRemoverPreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.BasicFilterPreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.BytesResizePreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.CipherPreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.ComparePreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.CropPreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.DeleteExifPreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.DrawPreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.GeneratePalettePreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.ImagePreviewPreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.ImageStitchingPreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.ImagesToPdfPreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.LimitsPreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.MaskFilterPreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.PdfToImagesPreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.PickColorPreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.PreviewPdfPreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.RecognizeTextPreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.ResizeAndConvertPreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.SingleEditPreference
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
@@ -110,6 +95,88 @@ fun ProcessImagesPreferenceSheet(
             }
         },
         sheetContent = {
+            val pdfAvailableScreens by remember(uris) {
+                derivedStateOf {
+                    listOf(
+                        Screen.Cipher(uris.firstOrNull()),
+                        Screen.PdfTools(
+                            Screen.PdfTools.Type.Preview(
+                                uris.firstOrNull()
+                            )
+                        ),
+                        Screen.PdfTools(
+                            Screen.PdfTools.Type.PdfToImages(
+                                uris.firstOrNull()
+                            )
+                        )
+                    )
+                }
+            }
+            val singleImageScreens by remember(uris) {
+                derivedStateOf {
+                    listOf(
+                        Screen.SingleEdit(uris.firstOrNull()),
+                        Screen.ResizeAndConvert(uris),
+                        Screen.ResizeByBytes(uris),
+                        Screen.Crop(uris.firstOrNull()),
+                        Screen.Filter(
+                            type = Screen.Filter.Type.Basic(uris)
+                        ),
+                        Screen.Draw(uris.firstOrNull()),
+                        Screen.RecognizeText(uris.firstOrNull()),
+                        Screen.EraseBackground(uris.firstOrNull()),
+                        Screen.Filter(
+                            type = Screen.Filter.Type.Masking(uris.firstOrNull())
+                        ),
+                        Screen.PdfTools(
+                            Screen.PdfTools.Type.ImagesToPdf(uris)
+                        ),
+                        Screen.Cipher(uris.firstOrNull()),
+                        Screen.ImagePreview(uris),
+                        Screen.PickColorFromImage(uris.firstOrNull()),
+                        Screen.GeneratePalette(uris.firstOrNull()),
+                        Screen.DeleteExif(uris),
+                        Screen.LimitResize(uris)
+                    )
+                }
+            }
+            val multipleImagesScreens by remember(uris) {
+                derivedStateOf {
+                    mutableListOf(
+                        Screen.ResizeAndConvert(uris),
+                        Screen.ResizeByBytes(uris),
+                        Screen.Filter(
+                            type = Screen.Filter.Type.Basic(uris)
+                        )
+                    ).apply {
+                        if (uris.size >= 2) add(Screen.ImageStitching(uris))
+                        add(Screen.PdfTools(Screen.PdfTools.Type.ImagesToPdf(uris)))
+                        if (uris.size == 2) add(Screen.Compare(uris))
+                        add(Screen.ImagePreview(uris))
+                        add(Screen.LimitResize(uris))
+                        Screen.DeleteExif(uris)
+                    }
+                }
+            }
+
+            val urisCorrespondingScreens by remember(
+                hasPdf,
+                uris,
+                pdfAvailableScreens,
+                singleImageScreens,
+                multipleImagesScreens
+            ) {
+                derivedStateOf {
+                    if (hasPdf) {
+                        pdfAvailableScreens
+                    } else if (uris.size <= 1) {
+                        singleImageScreens
+                    } else {
+                        multipleImagesScreens
+                    }
+                }
+            }
+
             val color = MaterialTheme.colorScheme.secondaryContainer
             Box(Modifier.fillMaxWidth()) {
                 LazyVerticalStaggeredGrid(
@@ -187,305 +254,15 @@ fun ProcessImagesPreferenceSheet(
                             }
                         }
                     }
-                    if (hasPdf) {
-                        item {
-                            CipherPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.Cipher(uris.firstOrNull())) },
-                                color = color
-                            )
-                        }
-                        item {
-                            PreviewPdfPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.PdfTools(
-                                            Screen.PdfTools.Type.Preview(
-                                                uris.firstOrNull()
-                                            )
-                                        )
-                                    )
-                                },
-                                color = color
-                            )
-                        }
-                        item {
-                            PdfToImagesPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.PdfTools(
-                                            Screen.PdfTools.Type.PdfToImages(
-                                                uris.firstOrNull()
-                                            )
-                                        )
-                                    )
-                                },
-                                color = color
-                            )
-                        }
-                    } else if (uris.size <= 1) {
-                        item {
-                            SingleEditPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.SingleEdit(uris.firstOrNull())
-                                    )
-                                },
-                                color = color
-                            )
-                        }
-                        item {
-                            ResizeAndConvertPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.ResizeAndConvert(uris)
-                                    )
-                                },
-                                color = color
-                            )
-                        }
-                        item {
-                            BytesResizePreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.ResizeByBytes(uris)
-                                    )
-                                },
-                                color = color
-                            )
-                        }
-                        item {
-                            CropPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.Crop(uris.firstOrNull())) },
-                                color = color
-                            )
-                        }
-                        item {
-                            BasicFilterPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.Filter(
-                                            type = Screen.Filter.Type.Basic(uris)
-                                        )
-                                    )
-                                },
-                                color = color
-                            )
-                        }
-                        item {
-                            DrawPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.Draw(uris.firstOrNull())) },
-                                color = color
-                            )
-                        }
-                        item {
-                            RecognizeTextPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.RecognizeText(uris.firstOrNull())
-                                    )
-                                },
-                                color = color
-                            )
-                        }
-                        item {
-                            BackgroundRemoverPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.EraseBackground(uris.firstOrNull())) },
-                                color = color
-                            )
-                        }
-                        item {
-                            MaskFilterPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.Filter(
-                                            type = Screen.Filter.Type.Masking(uris.firstOrNull())
-                                        )
-                                    )
-                                },
-                                color = color
-                            )
-                        }
-                        item {
-                            ImagesToPdfPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.PdfTools(
-                                            Screen.PdfTools.Type.ImagesToPdf(
-                                                uris
-                                            )
-                                        )
-                                    )
-                                },
-                                color = color
-                            )
-                        }
-                        item {
-                            CipherPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.Cipher(uris.firstOrNull())) },
-                                color = color
-                            )
-                        }
-                        item {
-                            ImagePreviewPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.ImagePreview(uris)
-                                    )
-                                },
-                                color = color
-                            )
-                        }
-                        item {
-                            PickColorPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.PickColorFromImage(uris.firstOrNull())
-                                    )
-                                },
-                                color = color
-                            )
-                        }
-                        item {
-                            GeneratePalettePreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.GeneratePalette(uris.firstOrNull())
-                                    )
-                                },
-                                color = color
-                            )
-                        }
-                        item {
-                            DeleteExifPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.DeleteExif(uris)) },
-                                color = color
-                            )
-                        }
-                        item {
-                            LimitsPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.LimitResize(uris)) },
-                                color = color
-                            )
-                        }
-                    } else {
-                        item {
-                            ResizeAndConvertPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.ResizeAndConvert(uris)
-                                    )
-                                },
-                                color = color
-                            )
-                        }
-                        item {
-                            BytesResizePreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.ResizeByBytes(uris)
-                                    )
-                                },
-                                color = color
-                            )
-                        }
-                        item {
-                            BasicFilterPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.Filter(
-                                            type = Screen.Filter.Type.Basic(uris)
-                                        )
-                                    )
-                                },
-                                color = color
-                            )
-                        }
-                        if (uris.size >= 2) {
-                            item {
-                                ImageStitchingPreference(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    onClick = {
-                                        navigate(Screen.ImageStitching(uris))
-                                    },
-                                    color = color
-                                )
-                            }
-                        }
-                        item {
-                            ImagesToPdfPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.PdfTools(
-                                            Screen.PdfTools.Type.ImagesToPdf(
-                                                uris
-                                            )
-                                        )
-                                    )
-                                },
-                                color = color
-                            )
-                        }
-                        if (uris.size == 2) {
-                            item {
-                                ComparePreference(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    onClick = {
-                                        navigate(
-                                            Screen.Compare(uris)
-                                        )
-                                    },
-                                    color = color
-                                )
-                            }
-                        }
-                        item {
-                            ImagePreviewPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navigate(
-                                        Screen.ImagePreview(uris)
-                                    )
-                                },
-                                color = color
-                            )
-                        }
-                        item {
-                            LimitsPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.LimitResize(uris)) },
-                                color = color
-                            )
-                        }
-                        item {
-                            DeleteExifPreference(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { navigate(Screen.DeleteExif(uris)) },
-                                color = color
-                            )
-                        }
+                    items(urisCorrespondingScreens) {
+                        PreferenceItem(
+                            onClick = { navigate(it) },
+                            icon = it.icon,
+                            title = stringResource(it.title),
+                            subtitle = stringResource(it.subtitle),
+                            color = color,
+                            modifier = Modifier.fillMaxWidth()
+                        )
                     }
                 }
             }

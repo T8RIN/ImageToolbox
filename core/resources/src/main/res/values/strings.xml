@@ -602,4 +602,6 @@
     <string name="delete_language_sub">Do you want to delete language \"%1$s\" OCR training data for all recognition types, or only for selected one (%2$s)?</string>
     <string name="current">Current</string>
     <string name="all">All</string>
+    <string name="gradient_maker">Gradient Maker</string>
+    <string name="gradient_maker_sub">Create gradient of given output size with customized colors and appearance type</string>
 </resources>

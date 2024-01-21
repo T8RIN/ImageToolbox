@@ -15,12 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.preferences.screens
+package ru.tech.imageresizershrinker.feature.filters.presentation.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Margin
+import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
@@ -32,18 +30,16 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
 @Composable
-fun LimitsPreference(
+fun MaskFilterPreference(
     onClick: () -> Unit,
-    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-    modifier: Modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 12.dp)
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
 ) {
     PreferenceItem(
         onClick = onClick,
-        icon = Icons.Outlined.Margin,
-        title = stringResource(R.string.limits_resize),
-        subtitle = stringResource(R.string.limits_resize_sub),
+        icon = Icons.Rounded.Texture,
+        title = stringResource(R.string.mask_filter),
+        subtitle = stringResource(R.string.mask_filter_sub),
         color = color,
         modifier = modifier
     )

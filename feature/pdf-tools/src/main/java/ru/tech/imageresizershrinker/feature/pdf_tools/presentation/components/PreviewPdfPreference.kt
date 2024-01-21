@@ -15,12 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.preferences.screens
+package ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Draw
+import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
@@ -32,18 +30,16 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
 @Composable
-fun DrawPreference(
+fun PreviewPdfPreference(
     onClick: () -> Unit,
-    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-    modifier: Modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 12.dp)
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
 ) {
     PreferenceItem(
         onClick = onClick,
-        icon = Icons.Rounded.Draw,
-        title = stringResource(R.string.draw),
-        subtitle = stringResource(R.string.draw_sub),
+        icon = Icons.Rounded.Preview,
+        title = stringResource(R.string.preview_pdf),
+        subtitle = stringResource(R.string.preview_pdf_sub),
         color = color,
         modifier = modifier
     )

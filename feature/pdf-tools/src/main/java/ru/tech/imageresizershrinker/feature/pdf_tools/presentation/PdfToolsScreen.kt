@@ -145,14 +145,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.PdfToImagesPreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.PreviewPdfPreference
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfToImagesPreference
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfViewer
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfViewerOrientation
+import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PreviewPdfPreference
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.viewModel.PdfToolsViewModel
 
 @OptIn(

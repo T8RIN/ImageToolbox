@@ -43,4 +43,5 @@ dependencies {
     implementation(projects.feature.imageStitch)
     implementation(projects.feature.pickColor)
     implementation(projects.feature.recognizeText)
+    implementation(projects.feature.gradientMaker)
 }

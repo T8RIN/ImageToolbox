@@ -143,8 +143,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.BasicFilterPreference
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.screens.MaskFilterPreference
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
@@ -159,8 +157,10 @@ import ru.tech.imageresizershrinker.feature.compare.presentation.components.Comp
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddEditMaskSheet
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddFilterButton
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddFiltersSheet
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.BasicFilterPreference
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterItem
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.FilterReorderSheet
+import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskFilterPreference
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskItem
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskReorderSheet
 import ru.tech.imageresizershrinker.feature.filters.presentation.viewModel.FilterViewModel
