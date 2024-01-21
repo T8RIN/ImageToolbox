@@ -17,6 +17,9 @@
 
 @file:Suppress("UnstableApiUsage")
 
+include(":feature:gradient-maker")
+
+
 include(":core:settings")
 
 
