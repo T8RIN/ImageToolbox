@@ -104,7 +104,7 @@ class BytesResizeViewModel @Inject constructor(
     private val _imageFormat = mutableStateOf(ImageFormat.Default())
     val imageFormat by _imageFormat
 
-    fun setMime(imageFormat: ImageFormat) {
+    fun setImageFormat(imageFormat: ImageFormat) {
         if (_imageFormat.value != imageFormat) {
             _imageFormat.value = imageFormat
             viewModelScope.launch {
