@@ -91,7 +91,7 @@ fun AdaptiveLayoutScreen(
         state = topAppBarState, canScroll = { !imageState.isExpanded() && !forceImagePreviewToMax }
     )
 
-    LaunchedEffect(imageState) {
+    LaunchedEffect(imageState, forceImagePreviewToMax) {
         if (imageState.isExpanded() || forceImagePreviewToMax) {
             while (topAppBarState.heightOffset > topAppBarState.heightOffsetLimit) {
                 topAppBarState.heightOffset -= 5f
@@ -164,7 +164,10 @@ fun AdaptiveLayoutScreen(
                             }
                         }
                     }
-                    val internalHeight = rememberAvailableHeight(imageState)
+                    val internalHeight = rememberAvailableHeight(
+                        imageState = imageState,
+                        expanded = forceImagePreviewToMax
+                    )
 
                     LazyColumn(
                         contentPadding = PaddingValues(

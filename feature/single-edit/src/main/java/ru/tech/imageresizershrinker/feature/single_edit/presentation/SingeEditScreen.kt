@@ -394,6 +394,7 @@ fun SingleEditScreen(
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
         },
+        forceImagePreviewToMax = showOriginal,
         isPortrait = isPortrait
     )
 

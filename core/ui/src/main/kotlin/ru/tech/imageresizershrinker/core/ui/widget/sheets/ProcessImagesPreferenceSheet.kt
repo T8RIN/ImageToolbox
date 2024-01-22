@@ -177,7 +177,6 @@ fun ProcessImagesPreferenceSheet(
                 }
             }
 
-            val color = MaterialTheme.colorScheme.secondaryContainer
             Box(Modifier.fillMaxWidth()) {
                 LazyVerticalStaggeredGrid(
                     columns = StaggeredGridCells.Adaptive(250.dp),
@@ -260,7 +259,7 @@ fun ProcessImagesPreferenceSheet(
                             icon = it.icon,
                             title = stringResource(it.title),
                             subtitle = stringResource(it.subtitle),
-                            color = color,
+                            color = MaterialTheme.colorScheme.surfaceContainerHigh,
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
