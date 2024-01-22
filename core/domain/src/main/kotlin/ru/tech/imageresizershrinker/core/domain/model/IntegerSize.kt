@@ -23,7 +23,13 @@ data class IntegerSize(
     val width: Int,
     val height: Int
 ) {
-    val aspectRatio: Float get() = width.toFloat() / height
+    val aspectRatio: Float
+        get() = runCatching {
+            val value = width.toFloat() / height
+            if (value.isNaN()) throw IllegalArgumentException()
+
+            value
+        }.getOrNull() ?: 1f
 
     operator fun times(i: Float): IntegerSize = IntegerSize(
         width = (width * i).toInt(),

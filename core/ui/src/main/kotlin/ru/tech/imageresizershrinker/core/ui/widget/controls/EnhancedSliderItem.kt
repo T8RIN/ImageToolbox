@@ -69,12 +69,13 @@ fun EnhancedSliderItem(
     contentColor: Color? = null,
     shape: Shape = RoundedCornerShape(16.dp),
     valueTextTapEnabled: Boolean = true,
+    behaveAsContainer: Boolean = true,
     additionalContent: (@Composable () -> Unit)? = null
 ) {
     val internalColor = contentColor
-        ?: if (color == MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)) contentColorFor(
-            backgroundColor = MaterialTheme.colorScheme.surfaceVariant
-        ) else contentColorFor(backgroundColor = color)
+        ?: if (color == MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)) {
+            contentColorFor(backgroundColor = MaterialTheme.colorScheme.surfaceVariant)
+        } else contentColorFor(backgroundColor = color)
 
     var showValueDialog by rememberSaveable { mutableStateOf(false) }
     var internalState by remember(value) { mutableStateOf(value) }
@@ -82,9 +83,13 @@ fun EnhancedSliderItem(
         CompositionLocalProvider(LocalContentColor provides internalColor) {
             Column(
                 modifier = modifier
-                    .container(
-                        shape = shape,
-                        color = color
+                    .then(
+                        if (behaveAsContainer) {
+                            Modifier.container(
+                                shape = shape,
+                                color = color
+                            )
+                        } else Modifier
                     )
                     .animateContentSize(),
                 verticalArrangement = Arrangement.Center,

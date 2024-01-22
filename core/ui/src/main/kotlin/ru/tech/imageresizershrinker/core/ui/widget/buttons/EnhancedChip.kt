@@ -49,7 +49,7 @@ fun EnhancedChip(
     contentPadding: PaddingValues = PaddingValues(6.dp),
     selectedColor: Color,
     selectedContentColor: Color = MaterialTheme.colorScheme.contentColorFor(selectedColor),
-    unselectedColor: Color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f),
+    unselectedColor: Color = MaterialTheme.colorScheme.surfaceContainerHigh,
     unselectedContentColor: Color = MaterialTheme.colorScheme.onSurface,
     shape: Shape = MaterialTheme.shapes.small,
     label: @Composable () -> Unit

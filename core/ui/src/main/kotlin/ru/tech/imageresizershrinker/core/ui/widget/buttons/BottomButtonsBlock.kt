@@ -62,13 +62,14 @@ fun BottomButtonsBlock(
     onPrimaryButtonClick: () -> Unit,
     primaryButtonIcon: ImageVector = Icons.Rounded.Save,
     isPrimaryButtonVisible: Boolean = true,
+    isPickImageButtonVisible: Boolean = true,
     columnarFab: (@Composable ColumnScope.() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit
 ) {
     AnimatedContent(
         targetState = targetState
     ) { (isNull, inside) ->
-        if (isNull) {
+        if (isNull && isPickImageButtonVisible) {
             EnhancedFloatingActionButton(
                 onClick = onPickImage,
                 modifier = Modifier
@@ -88,14 +89,16 @@ fun BottomButtonsBlock(
                 actions = actions,
                 floatingActionButton = {
                     Row {
-                        EnhancedFloatingActionButton(
-                            onClick = onPickImage,
-                            containerColor = MaterialTheme.colorScheme.tertiaryContainer
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.AddPhotoAlternate,
-                                contentDescription = null
-                            )
+                        AnimatedVisibility(visible = isPickImageButtonVisible) {
+                            EnhancedFloatingActionButton(
+                                onClick = onPickImage,
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.AddPhotoAlternate,
+                                    contentDescription = null
+                                )
+                            }
                         }
                         AnimatedVisibility(visible = isPrimaryButtonVisible) {
                             Row {
@@ -135,11 +138,16 @@ fun BottomButtonsBlock(
             ) {
                 Row { actions() }
                 Spacer(Modifier.height(8.dp))
-                EnhancedFloatingActionButton(
-                    onClick = onPickImage,
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
-                ) {
-                    Icon(imageVector = Icons.Rounded.AddPhotoAlternate, contentDescription = null)
+                AnimatedVisibility(visible = isPickImageButtonVisible) {
+                    EnhancedFloatingActionButton(
+                        onClick = onPickImage,
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.AddPhotoAlternate,
+                            contentDescription = null
+                        )
+                    }
                 }
                 columnarFab?.let {
                     Spacer(Modifier.height(8.dp))

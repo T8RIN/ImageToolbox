@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
@@ -60,7 +59,7 @@ fun Modifier.container(
     val settingsState = LocalSettingsState.current
     val colorScheme = MaterialTheme.colorScheme
     val color1 = if (color.isUnspecified) {
-        colorScheme.surfaceColorAtElevation(1.dp)
+        colorScheme.surfaceContainer
     } else {
         if (composeColorOnTopOfBackground) color.compositeOver(colorScheme.background)
         else color

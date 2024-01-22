@@ -61,9 +61,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EnhancedSlider(
-    modifier: Modifier,
     value: Float,
     onValueChange: (Float) -> Unit,
+    modifier: Modifier = Modifier,
     onValueChangeFinished: (() -> Unit)? = null,
     valueRange: ClosedFloatingPointRange<Float>,
     thumbShape: Shape = MaterialStarShape,

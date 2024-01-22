@@ -1,4 +1,21 @@
-package com.smarttoolfactory.colorpicker.model
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+package ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,9 +33,6 @@ import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
-import com.smarttoolfactory.colorpicker.selector.gradient.GradientType
-import com.smarttoolfactory.colorpicker.ui.GradientAngle
-import com.smarttoolfactory.colorpicker.ui.GradientOffset
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.min
@@ -29,7 +43,7 @@ import kotlin.math.sqrt
 @Composable
 fun rememberGradientColorState(
     size: DpSize = DpSize.Zero
-): GradientColorState {
+): GradientState {
 
     val density = LocalDensity.current
 
@@ -44,30 +58,31 @@ fun rememberGradientColorState(
                 )
             }
         }
-        GradientColorState(sizePx)
+        GradientState(sizePx)
     }
 }
 
-/**
- * Gradient and color state for setting and getting gradient color
- * with [gradientType] such as Linear, Radial or Sweep, [tileMode]s, and [colorStops].
- * * Linear gradient uses [gradientOffset] to set offset or angle.
- * * Radial gradient uses [centerFriction] and [radiusFriction]
- */
-class GradientColorState(size: Size = Size.Zero) {
+
+class GradientState(size: Size = Size.Zero) {
 
     var size by mutableStateOf(size)
 
-    val brush: ShaderBrush
-        get() {
+    val brush: ShaderBrush?
+        get() = getBrush(size)
 
-            val colorStops = if (colorStops.size == 1) {
-                listOf(colorStops.first(), colorStops.first()).toTypedArray()
-            } else {
-                colorStops.toTypedArray()
-            }
+    fun getBrush(size: Size): ShaderBrush? {
+        val colorStops = if (colorStops.size == 1) {
+            listOf(colorStops.first(), colorStops.first())
+        } else {
+            colorStops
+        }.sortedBy { it.first }.let { pairs ->
+            if (gradientType != GradientType.Sweep) {
+                pairs.distinctBy { it.first }
+            } else pairs
+        }.toTypedArray()
 
-            val brush: ShaderBrush = when (gradientType) {
+        val brush = runCatching {
+            when (gradientType) {
                 GradientType.Linear -> {
                     val angleRad = linearGradientAngle / 180f * PI
                     val x = cos(angleRad).toFloat()
@@ -107,12 +122,13 @@ class GradientColorState(size: Size = Size.Zero) {
                     ),
                 )
             } as ShaderBrush
+        }.getOrNull()
 
-            return brush
-        }
+        return brush
+    }
 
     var gradientType: GradientType by mutableStateOf(GradientType.Linear)
-    var colorStops = mutableStateListOf(
+    val colorStops = mutableStateListOf(
         0.0f to Color(0xff00ffa6),
         0.5f to Color(0xff79ff00),
         1.0f to Color(0xff1f5308)
@@ -120,8 +136,12 @@ class GradientColorState(size: Size = Size.Zero) {
     var tileMode by mutableStateOf(TileMode.Clamp)
 
     var linearGradientAngle by mutableFloatStateOf(0f)
-    var gradientOffset by mutableStateOf(GradientOffset(GradientAngle.CW0))
 
     var centerFriction by mutableStateOf(Offset(.5f, .5f))
     var radiusFriction by mutableFloatStateOf(.5f)
 }
+
+enum class GradientType {
+    Linear, Radial, Sweep
+}
+

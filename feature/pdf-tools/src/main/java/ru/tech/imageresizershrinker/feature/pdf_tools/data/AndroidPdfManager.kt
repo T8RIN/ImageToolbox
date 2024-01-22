@@ -123,17 +123,17 @@ internal class AndroidPdfManager @Inject constructor(
 
                 for (pageIndex in 0 until pdfRenderer.pageCount) {
                     if (pages == null || pages.contains(pageIndex)) {
-
-                        val page = pdfRenderer.openPage(pageIndex)
-                        val bitmap = imageScaler.scaleUntilCanShow(
-                            Bitmap.createBitmap(
-                                (page.width * (preset.value / 100f)).roundToInt(),
-                                (page.height * (preset.value / 100f)).roundToInt(),
-                                Bitmap.Config.ARGB_8888
-                            )
-                        )!!
-                        page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
-                        page.close()
+                        val bitmap: Bitmap
+                        pdfRenderer.openPage(pageIndex).use { page ->
+                            bitmap = imageScaler.scaleUntilCanShow(
+                                Bitmap.createBitmap(
+                                    (page.width * (preset.value / 100f)).roundToInt(),
+                                    (page.height * (preset.value / 100f)).roundToInt(),
+                                    Bitmap.Config.ARGB_8888
+                                )
+                            )!!
+                            page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
+                        }
 
                         val renderedBitmap = Bitmap.createBitmap(
                             bitmap.width,

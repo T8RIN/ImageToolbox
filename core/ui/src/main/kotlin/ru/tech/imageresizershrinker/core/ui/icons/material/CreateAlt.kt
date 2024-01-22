@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 
 val Icons.Rounded.CreateAlt: ImageVector by lazy {
     ImageVector.Builder(
-        name = "CreateAlt", defaultWidth = 18.2.dp, defaultHeight = 18.2.dp,
-        viewportWidth = 18.2f, viewportHeight = 18.2f
+        name = "CreateAlt", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
+        viewportWidth = 960.0f, viewportHeight = 960.0f
     ).apply {
         path(
             fill = SolidColor(Color(0xFF000000)),
@@ -41,33 +41,36 @@ val Icons.Rounded.CreateAlt: ImageVector by lazy {
             strokeLineMiter = 4.0f,
             pathFillType = PathFillType.NonZero
         ) {
-            moveTo(2.0f, 16.2f)
-            horizontalLineToRelative(1.4f)
-            lineToRelative(10.0f, -10.0f)
-            lineToRelative(-0.7f, -0.7f)
-            lineToRelative(-0.8f, -0.7f)
-            lineTo(2.0f, 14.9f)
-            verticalLineTo(16.2f)
+            moveTo(200.0f, 760.0f)
+            horizontalLineToRelative(57.0f)
+            lineToRelative(391.0f, -391.0f)
+            lineToRelative(-57.0f, -57.0f)
+            lineToRelative(-391.0f, 391.0f)
+            verticalLineToRelative(57.0f)
             close()
-            moveTo(0.0f, 18.2f)
-            verticalLineTo(14.0f)
-            lineTo(13.4f, 0.6f)
-            curveTo(13.7f, 0.2f, 14.2f, 0.0f, 14.8f, 0.0f)
-            curveToRelative(0.6f, 0.0f, 1.0f, 0.2f, 1.4f, 0.6f)
-            lineTo(17.6f, 2.0f)
-            curveToRelative(0.4f, 0.4f, 0.6f, 0.8f, 0.6f, 1.4f)
-            reflectiveCurveToRelative(-0.2f, 1.0f, -0.6f, 1.4f)
-            lineTo(4.2f, 18.2f)
-            horizontalLineTo(0.0f)
+            moveTo(120.0f, 840.0f)
+            verticalLineToRelative(-170.0f)
+            lineToRelative(528.0f, -527.0f)
+            quadToRelative(12.0f, -11.0f, 26.5f, -17.0f)
+            reflectiveQuadToRelative(30.5f, -6.0f)
+            quadToRelative(16.0f, 0.0f, 31.0f, 6.0f)
+            reflectiveQuadToRelative(26.0f, 18.0f)
+            lineToRelative(55.0f, 56.0f)
+            quadToRelative(12.0f, 11.0f, 17.5f, 26.0f)
+            reflectiveQuadToRelative(5.5f, 30.0f)
+            quadToRelative(0.0f, 16.0f, -5.5f, 30.5f)
+            reflectiveQuadTo(817.0f, 313.0f)
+            lineTo(290.0f, 840.0f)
+            lineTo(120.0f, 840.0f)
             close()
-            moveTo(16.1f, 3.4f)
-            lineTo(14.8f, 2.0f)
-            lineTo(16.1f, 3.4f)
+            moveTo(760.0f, 256.0f)
+            lineTo(704.0f, 200.0f)
+            lineTo(760.0f, 256.0f)
             close()
-            moveTo(13.4f, 6.2f)
-            lineToRelative(-0.7f, -0.7f)
-            lineToRelative(-0.8f, -0.7f)
-            lineTo(13.4f, 6.2f)
+            moveTo(619.0f, 341.0f)
+            lineTo(591.0f, 312.0f)
+            lineTo(648.0f, 369.0f)
+            lineTo(619.0f, 341.0f)
             close()
         }
     }.build()

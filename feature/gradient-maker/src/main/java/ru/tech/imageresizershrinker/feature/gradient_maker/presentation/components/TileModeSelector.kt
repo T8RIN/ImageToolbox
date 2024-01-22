@@ -15,51 +15,66 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.recognize.text.presentation.components
+package ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
 
 @Composable
-fun RecognitionTypeSelector(
-    value: RecognitionType,
-    onValueChange: (RecognitionType) -> Unit,
+fun TileModeSelector(
+    value: TileMode,
+    onValueChange: (TileMode) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val entries = remember {
+        listOf(
+            TileMode.Clamp,
+            TileMode.Repeated,
+            TileMode.Mirror,
+            TileMode.Decal
+        )
+    }
     Box(
         modifier = modifier
-            .container(shape = RoundedCornerShape(24.dp))
+            .container(
+                shape = RoundedCornerShape(24.dp),
+                color = MaterialTheme.colorScheme.surfaceContainer,
+            )
             .animateContentSize(),
         contentAlignment = Alignment.Center
     ) {
         ToggleGroupButton(
             modifier = Modifier.padding(8.dp),
             enabled = true,
-            items = RecognitionType.entries.map { it.translatedName },
-            selectedIndex = RecognitionType.entries.indexOf(value),
-            title = stringResource(id = R.string.recognition_type),
+            items = entries.map { it.translatedName },
+            selectedIndex = entries.indexOf(value),
+            title = stringResource(id = R.string.tile_mode),
+            fadingEdgesColor = MaterialTheme.colorScheme.surfaceContainer,
             indexChanged = {
-                onValueChange(RecognitionType.entries[it])
+                onValueChange(entries[it])
             }
         )
     }
 }
 
-private val RecognitionType.translatedName: String
+private val TileMode.translatedName: String
     @Composable
     get() = when (this) {
-        RecognitionType.Best -> stringResource(id = R.string.best)
-        RecognitionType.Fast -> stringResource(id = R.string.fast)
-        RecognitionType.Standard -> stringResource(id = R.string.standard)
+        TileMode.Repeated -> stringResource(id = R.string.tile_mode_repeated)
+        TileMode.Mirror -> stringResource(id = R.string.tile_mode_mirror)
+        TileMode.Decal -> stringResource(id = R.string.tile_mode_decal)
+        else -> stringResource(id = R.string.tile_mode_clamp)
     }

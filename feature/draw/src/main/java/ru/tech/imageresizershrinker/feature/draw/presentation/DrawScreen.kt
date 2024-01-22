@@ -417,9 +417,7 @@ fun DrawScreen(
                 .navigationBarsPadding(),
             enabled = viewModel.drawBehavior !is DrawBehavior.None,
             value = viewModel.imageFormat,
-            onValueChange = {
-                viewModel.updateMimeType(it)
-            },
+            onValueChange = viewModel::updateMimeType,
             backgroundColor = MaterialTheme.colorScheme.surfaceContainer
         )
     }

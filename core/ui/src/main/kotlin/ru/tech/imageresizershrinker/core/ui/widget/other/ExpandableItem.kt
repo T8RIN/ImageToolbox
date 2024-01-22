@@ -49,6 +49,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
@@ -62,7 +63,7 @@ fun ExpandableItem(
     expandableContent: @Composable ColumnScope.(Boolean) -> Unit,
     initialState: Boolean = false,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
-    shape: RoundedCornerShape = RoundedCornerShape(20.dp),
+    shape: Shape = RoundedCornerShape(20.dp),
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {

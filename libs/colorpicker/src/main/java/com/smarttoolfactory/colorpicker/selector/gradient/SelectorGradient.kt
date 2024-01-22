@@ -285,7 +285,6 @@ internal fun ColorStopSelection(
                     value = pair.first,
                     onRemoveClick = {
                         onRemoveClick(it)
-
                     },
                     onValueChange = { newPair: Pair<Float, Color> ->
                         onValueChange(index, newPair)

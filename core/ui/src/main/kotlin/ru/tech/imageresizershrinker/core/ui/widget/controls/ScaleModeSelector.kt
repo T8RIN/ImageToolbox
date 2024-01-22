@@ -34,7 +34,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -66,7 +65,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 @Composable
 fun ScaleModeSelector(
     modifier: Modifier = Modifier,
-    backgroundColor: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+    backgroundColor: Color = MaterialTheme.colorScheme.surfaceContainer,
     shape: Shape = RoundedCornerShape(24.dp),
     enableItemsCardBackground: Boolean = true,
     value: ImageScaleMode,
@@ -153,7 +152,6 @@ fun ScaleModeSelector(
                         MaterialTheme.colorScheme.tertiary
                     ),
                     selectedContentColor = MaterialTheme.colorScheme.onTertiary,
-                    unselectedColor = MaterialTheme.colorScheme.outlineVariant(0.01f),
                     unselectedContentColor = MaterialTheme.colorScheme.onSurface
                 )
             }

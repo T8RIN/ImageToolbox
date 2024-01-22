@@ -268,15 +268,18 @@ fun RoundedTextField(
 
 @SuppressLint("ComposableNaming")
 @Composable
-fun RoundedTextFieldColors(isError: Boolean): TextFieldColors =
+fun RoundedTextFieldColors(
+    isError: Boolean,
+    containerColor: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+): TextFieldColors =
     MaterialTheme.colorScheme.run {
-        val containerColor = if (isError) {
-            surfaceColorAtElevation(1.dp).blend(error)
+        val containerColorNew = if (isError) {
+            containerColor.blend(error)
         } else surfaceColorAtElevation(1.dp)
         TextFieldDefaults.colors(
-            focusedContainerColor = containerColor,
-            unfocusedContainerColor = containerColor,
-            disabledContainerColor = containerColor,
+            focusedContainerColor = containerColorNew,
+            unfocusedContainerColor = containerColorNew,
+            disabledContainerColor = containerColorNew,
             cursorColor = if (isError) error else primary,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,

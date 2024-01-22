@@ -604,4 +604,18 @@
     <string name="all">All</string>
     <string name="gradient_maker">Gradient Maker</string>
     <string name="gradient_maker_sub">Create gradient of given output size with customized colors and appearance type</string>
+    <string name="gradient_type_linear">Linear</string>
+    <string name="gradient_type_radial">Radial</string>
+    <string name="gradient_type_sweep">Sweep</string>
+    <string name="gradient_type">Gradient Type</string>
+    <string name="center_x">Center X</string>
+    <string name="center_y">Center Y</string>
+    <string name="tile_mode">Tile Mode</string>
+    <string name="tile_mode_repeated">Repeated</string>
+    <string name="tile_mode_mirror">Mirror</string>
+    <string name="tile_mode_clamp">Clamp</string>
+    <string name="tile_mode_decal">Decal</string>
+    <string name="color_stops">Color Stops</string>
+    <string name="add_color">Add Color</string>
+    <string name="properties">Properties</string>
 </resources>

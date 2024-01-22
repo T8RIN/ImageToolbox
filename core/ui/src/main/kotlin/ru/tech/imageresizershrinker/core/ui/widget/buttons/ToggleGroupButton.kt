@@ -51,7 +51,8 @@ fun ToggleGroupButton(
     items: List<String>,
     selectedIndex: Int,
     title: String? = null,
-    indexChanged: (Int) -> Unit
+    indexChanged: (Int) -> Unit,
+    fadingEdgesColor: Color = MaterialTheme.colorScheme.surfaceContainer
 ) {
     ToggleGroupButton(
         enabled = enabled,
@@ -65,7 +66,8 @@ fun ToggleGroupButton(
                 Text(it, textAlign = TextAlign.Center)
                 Spacer(modifier = Modifier.height(8.dp))
             }
-        }
+        },
+        fadingEdgesColor = fadingEdgesColor
     )
 }
 
@@ -77,7 +79,8 @@ fun ToggleGroupButton(
     items: List<String>,
     selectedIndex: Int,
     title: @Composable () -> Unit = {},
-    indexChanged: (Int) -> Unit
+    indexChanged: (Int) -> Unit,
+    fadingEdgesColor: Color = MaterialTheme.colorScheme.surfaceContainer
 ) {
     val settingsState = LocalSettingsState.current
     val haptics = LocalHapticFeedback.current
@@ -124,9 +127,7 @@ fun ToggleGroupButton(
                                 selected = index == selectedIndex,
                                 colors = SegmentedButtonDefaults.colors(
                                     activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
-                                    inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                        6.dp
-                                    ),
+                                    inactiveContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
                                     activeContainerColor = if (enabled) {
                                         MaterialTheme.colorScheme.secondary
                                     } else {
@@ -162,7 +163,7 @@ fun ToggleGroupButton(
                         .height(50.dp)
                         .background(
                             brush = Brush.horizontalGradient(
-                                0f to MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                                0f to fadingEdgesColor,
                                 1f to Color.Transparent
                             )
                         )
@@ -175,7 +176,7 @@ fun ToggleGroupButton(
                         .background(
                             brush = Brush.horizontalGradient(
                                 0f to Color.Transparent,
-                                1f to MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+                                1f to fadingEdgesColor
                             )
                         )
                 )

@@ -58,6 +58,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -79,6 +80,12 @@ import kotlin.random.Random
 fun ColorInfo(
     color: Int,
     onColorChange: (Int) -> Unit,
+    onSupportButtonClick: () -> Unit = {
+        onColorChange(
+            Color(Random.nextInt()).copy(alpha = Color(color).alpha).toArgb()
+        )
+    },
+    supportButtonIcon: ImageVector = Icons.Rounded.Shuffle
 ) {
     val context = LocalContext.current
     val colorPasteError = rememberSaveable { mutableStateOf<String?>(null) }
@@ -126,14 +133,10 @@ fun ColorInfo(
                     containerColor = Color.Transparent,
                     contentColor = LocalContentColor.current,
                     enableAutoShadowAndBorder = false,
-                    onClick = {
-                        onColorChange(
-                            Color(Random.nextInt()).copy(alpha = Color(color).alpha).toArgb()
-                        )
-                    }
+                    onClick = onSupportButtonClick
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.Shuffle,
+                        imageVector = supportButtonIcon,
                         contentDescription = null,
                         tint = animateColorAsState(
                             Color(color).inverse(
@@ -163,6 +166,7 @@ fun ColorInfo(
                 .padding(start = 16.dp)
                 .container(
                     shape = MaterialTheme.shapes.medium,
+                    color = MaterialTheme.colorScheme.surfaceContainer
                 ),
             colors = CardDefaults.cardColors(
                 containerColor = Color.Transparent,

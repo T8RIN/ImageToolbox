@@ -36,7 +36,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -58,7 +57,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 @Composable
 fun ExtensionGroup(
     modifier: Modifier = Modifier,
-    backgroundColor: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+    backgroundColor: Color = MaterialTheme.colorScheme.surfaceContainer,
     enabled: Boolean,
     entries: List<ImageFormat> = ImageFormat.entries,
     value: ImageFormat,
