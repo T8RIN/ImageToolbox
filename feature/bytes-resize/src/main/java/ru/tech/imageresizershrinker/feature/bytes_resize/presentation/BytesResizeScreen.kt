@@ -33,7 +33,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -90,7 +89,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.components.ImageFormatAlert
 import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.viewModel.BytesResizeViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BytesResizeScreen(
     uriState: List<Uri>?,
