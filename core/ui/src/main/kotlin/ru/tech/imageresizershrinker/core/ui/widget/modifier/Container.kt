@@ -58,7 +58,7 @@ fun Modifier.container(
     val resultShape = localContainerShape ?: shape
     val settingsState = LocalSettingsState.current
     val colorScheme = MaterialTheme.colorScheme
-    val color1 = if (color.isUnspecified) {
+    val containerColor = if (color.isUnspecified) {
         colorScheme.surfaceContainer
     } else {
         if (composeColorOnTopOfBackground) color.compositeOver(colorScheme.background)
@@ -69,19 +69,19 @@ fun Modifier.container(
 
     val genericModifier = Modifier.drawWithCache {
         val outline = resultShape.createOutline(
-            size,
-            layoutDirection,
-            density
+            size = size,
+            layoutDirection = layoutDirection,
+            density = density
         )
         onDrawWithContent {
             drawOutline(
                 outline = outline,
-                color = color1
+                color = containerColor
             )
             if (settingsState.borderWidth > 0.dp) {
                 drawOutline(
                     outline = outline,
-                    color = borderColor ?: colorScheme.outlineVariant(0.1f, color1),
+                    color = borderColor ?: colorScheme.outlineVariant(0.1f, containerColor),
                     style = Stroke(with(density) { settingsState.borderWidth.toPx() })
                 )
             }
@@ -91,12 +91,12 @@ fun Modifier.container(
 
     val cornerModifier = Modifier
         .background(
-            color = color1,
+            color = containerColor,
             shape = resultShape
         )
         .border(
             width = LocalSettingsState.current.borderWidth,
-            color = borderColor ?: colorScheme.outlineVariant(0.1f, color1),
+            color = borderColor ?: colorScheme.outlineVariant(0.1f, containerColor),
             shape = resultShape
         )
 

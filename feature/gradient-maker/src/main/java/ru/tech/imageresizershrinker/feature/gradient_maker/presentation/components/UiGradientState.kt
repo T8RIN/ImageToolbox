@@ -33,6 +33,8 @@ import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpSize
+import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientState
+import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientType
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.min
@@ -43,7 +45,7 @@ import kotlin.math.sqrt
 @Composable
 fun rememberGradientColorState(
     size: DpSize = DpSize.Zero
-): GradientState {
+): UiGradientState {
 
     val density = LocalDensity.current
 
@@ -58,19 +60,21 @@ fun rememberGradientColorState(
                 )
             }
         }
-        GradientState(sizePx)
+        UiGradientState(sizePx)
     }
 }
 
 
-class GradientState(size: Size = Size.Zero) {
+class UiGradientState(
+    size: Size = Size.Zero
+) : GradientState<ShaderBrush, Size, Color, TileMode, Offset> {
 
-    var size by mutableStateOf(size)
+    override var size by mutableStateOf(size)
 
-    val brush: ShaderBrush?
+    override val brush: ShaderBrush?
         get() = getBrush(size)
 
-    fun getBrush(size: Size): ShaderBrush? {
+    override fun getBrush(size: Size): ShaderBrush? {
         val colorStops = if (colorStops.size == 1) {
             listOf(colorStops.first(), colorStops.first())
         } else {
@@ -119,7 +123,7 @@ class GradientState(size: Size = Size.Zero) {
                     center = Offset(
                         x = size.width * centerFriction.x,
                         y = size.height * centerFriction.y
-                    ),
+                    )
                 )
             } as ShaderBrush
         }.getOrNull()
@@ -127,21 +131,16 @@ class GradientState(size: Size = Size.Zero) {
         return brush
     }
 
-    var gradientType: GradientType by mutableStateOf(GradientType.Linear)
-    val colorStops = mutableStateListOf(
+    override var gradientType: GradientType by mutableStateOf(GradientType.Linear)
+    override val colorStops = mutableStateListOf(
         0.0f to Color(0xff00ffa6),
         0.5f to Color(0xff79ff00),
         1.0f to Color(0xff1f5308)
     )
-    var tileMode by mutableStateOf(TileMode.Clamp)
+    override var tileMode by mutableStateOf(TileMode.Clamp)
 
-    var linearGradientAngle by mutableFloatStateOf(0f)
+    override var linearGradientAngle by mutableFloatStateOf(0f)
 
-    var centerFriction by mutableStateOf(Offset(.5f, .5f))
-    var radiusFriction by mutableFloatStateOf(.5f)
+    override var centerFriction by mutableStateOf(Offset(.5f, .5f))
+    override var radiusFriction by mutableFloatStateOf(.5f)
 }
-
-enum class GradientType {
-    Linear, Radial, Sweep
-}
-
