@@ -580,4 +580,23 @@
     <string name="segmentation_mode_single_block">Одиночный блок</string>
     <string name="segmentation_mode_sparse_text">Разреженный текст</string>
     <string name="segmentation_mode_single_line">Одиночная линия</string>
+    <string name="all">Все</string>
+    <string name="gradient_type_sweep">Развертка</string>
+    <string name="gradient_type">Тип градиента</string>
+    <string name="center_x">Центр X</string>
+    <string name="center_y">Центр У</string>
+    <string name="tile_mode">Режим плитки</string>
+    <string name="tile_mode_mirror">Зеркало</string>
+    <string name="tile_mode_clamp">Зажим</string>
+    <string name="tile_mode_decal">Наклейка</string>
+    <string name="color_stops">Ключевые точки</string>
+    <string name="add_color">Добавить цвет</string>
+    <string name="properties">Параметры</string>
+    <string name="delete_language_sub">Вы хотите удалить данные обучения OCR языка \"%1$s\" для всех типов распознавания или только для выбранного (%2$s)?</string>
+    <string name="current">Текущий</string>
+    <string name="tile_mode_repeated">Повтор</string>
+    <string name="gradient_maker">Создание градиентов</string>
+    <string name="gradient_maker_sub">Создайте градиент заданного размера с настраиваемыми цветами и типом внешнего вида</string>
+    <string name="gradient_type_linear">Линейный</string>
+    <string name="gradient_type_radial">Радиальный</string>
 </resources>
