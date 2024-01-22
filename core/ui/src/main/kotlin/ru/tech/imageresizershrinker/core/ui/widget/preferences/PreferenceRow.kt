@@ -35,7 +35,6 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -76,7 +75,7 @@ fun PreferenceRow(
     onClick: (() -> Unit)?
 ) {
     val internalColor = contentColor
-        ?: if (color == MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)) contentColorFor(
+        ?: if (color == MaterialTheme.colorScheme.surfaceContainer) contentColorFor(
             backgroundColor = MaterialTheme.colorScheme.surfaceVariant
         ) else contentColorFor(backgroundColor = color)
     CompositionLocalProvider(LocalContentColor provides internalColor) {

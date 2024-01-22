@@ -81,7 +81,7 @@ fun FabPreview(
                 .padding(horizontal = 8.dp, vertical = 8.dp)
                 .autoElevatedBorder(shape = shapes.small, autoElevation = elevation)
                 .clip(shapes.small)
-                .background(colorScheme.surfaceColorAtElevation(1.dp))
+                .background(colorScheme.surfaceContainer)
                 .fillMaxWidth(1f),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally

@@ -300,7 +300,7 @@ fun MainScreen(
                     },
                     modifier = Modifier
                         .zIndex(6f)
-                        .background(MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp))
+                        .background(MaterialTheme.colorScheme.surfaceContainer)
                         .drawHorizontalStroke(),
                     actions = {
                         AnimatedContent(

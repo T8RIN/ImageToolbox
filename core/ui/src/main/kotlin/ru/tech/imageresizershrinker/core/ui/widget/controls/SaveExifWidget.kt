@@ -21,7 +21,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Fingerprint
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -39,7 +38,7 @@ fun SaveExifWidget(
     imageFormat: ImageFormat,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    backgroundColor: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+    backgroundColor: Color = MaterialTheme.colorScheme.surfaceContainer,
 ) {
     val settingsState = LocalSettingsState.current
     LaunchedEffect(Unit) {

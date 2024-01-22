@@ -31,7 +31,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -50,8 +49,8 @@ fun PreferenceItem(
     endIcon: ImageVector? = null,
     autoShadowElevation: Dp = 1.dp,
     shape: Shape = RoundedCornerShape(16.dp),
-    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-    contentColor: Color = if (color == MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)) contentColorFor(
+    color: Color = MaterialTheme.colorScheme.surfaceContainer,
+    contentColor: Color = if (color == MaterialTheme.colorScheme.surfaceContainer) contentColorFor(
         backgroundColor = MaterialTheme.colorScheme.surfaceVariant
     ) else contentColorFor(backgroundColor = color),
     modifier: Modifier = Modifier

@@ -29,7 +29,6 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -73,7 +72,7 @@ fun EnhancedSliderItem(
     additionalContent: (@Composable () -> Unit)? = null
 ) {
     val internalColor = contentColor
-        ?: if (color == MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)) {
+        ?: if (color == MaterialTheme.colorScheme.surfaceContainer) {
             contentColorFor(backgroundColor = MaterialTheme.colorScheme.surfaceVariant)
         } else contentColorFor(backgroundColor = color)
 

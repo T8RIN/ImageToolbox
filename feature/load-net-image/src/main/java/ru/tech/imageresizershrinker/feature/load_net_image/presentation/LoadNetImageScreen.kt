@@ -195,7 +195,7 @@ fun LoadNetImageScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)),
+                            .background(MaterialTheme.colorScheme.surfaceContainer),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {

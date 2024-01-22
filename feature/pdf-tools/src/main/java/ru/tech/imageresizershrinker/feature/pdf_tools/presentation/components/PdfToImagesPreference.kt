@@ -20,12 +20,10 @@ package ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Collections
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
@@ -33,7 +31,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 fun PdfToImagesPreference(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+    color: Color = MaterialTheme.colorScheme.surfaceContainerHigh
 ) {
     PreferenceItem(
         onClick = onClick,

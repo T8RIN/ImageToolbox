@@ -42,7 +42,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -270,12 +269,12 @@ fun RoundedTextField(
 @Composable
 fun RoundedTextFieldColors(
     isError: Boolean,
-    containerColor: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+    containerColor: Color = MaterialTheme.colorScheme.surfaceContainer
 ): TextFieldColors =
     MaterialTheme.colorScheme.run {
         val containerColorNew = if (isError) {
             containerColor.blend(error)
-        } else surfaceColorAtElevation(1.dp)
+        } else containerColor
         TextFieldDefaults.colors(
             focusedContainerColor = containerColorNew,
             unfocusedContainerColor = containerColorNew,

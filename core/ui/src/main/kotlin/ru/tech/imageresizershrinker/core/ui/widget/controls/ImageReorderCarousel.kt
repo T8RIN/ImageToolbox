@@ -45,7 +45,6 @@ import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -223,9 +222,7 @@ fun ImageReorderCarousel(
                         brush = Brush.Companion.horizontalGradient(
                             0f to MaterialTheme
                                 .colorScheme
-                                .surfaceColorAtElevation(
-                                    1.dp
-                                ),
+                                .surfaceContainer,
                             1f to Color.Transparent
                         )
                     )
@@ -240,9 +237,7 @@ fun ImageReorderCarousel(
                             0f to Color.Transparent,
                             1f to MaterialTheme
                                 .colorScheme
-                                .surfaceColorAtElevation(
-                                    1.dp
-                                )
+                                .surfaceContainer
                         )
                     )
             )
