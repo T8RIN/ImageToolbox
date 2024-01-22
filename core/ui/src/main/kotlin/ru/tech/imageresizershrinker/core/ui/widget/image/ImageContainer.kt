@@ -46,11 +46,12 @@ fun ImageContainer(
     originalBitmap: Bitmap?,
     isLoading: Boolean,
     shouldShowPreview: Boolean,
-    animatePreviewChange: Boolean = true
+    animatePreviewChange: Boolean = true,
+    containerModifier: Modifier = Modifier.fillMaxSize()
 ) {
     if (animatePreviewChange) {
         AnimatedContent(
-            modifier = Modifier.fillMaxSize(),
+            modifier = containerModifier,
             targetState = remember(previewBitmap, isLoading, showOriginal) {
                 derivedStateOf {
                     Triple(previewBitmap, isLoading, showOriginal)
@@ -94,7 +95,7 @@ fun ImageContainer(
         }
     } else {
         AnimatedContent(
-            modifier = Modifier.fillMaxSize(),
+            modifier = containerModifier,
             targetState = remember(isLoading, showOriginal) {
                 derivedStateOf {
                     isLoading to showOriginal

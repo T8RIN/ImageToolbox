@@ -47,9 +47,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 @Composable
 fun ImageCounter(
     imageCount: Int?,
-    onRepick: () -> Unit
+    onRepick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     AnimatedVisibility(
+        modifier = modifier,
         visible = imageCount != null,
         enter = fadeIn() + expandVertically(),
         exit = fadeOut() + shrinkVertically()

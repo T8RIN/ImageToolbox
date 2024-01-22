@@ -42,6 +42,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -104,6 +105,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
@@ -281,6 +283,10 @@ fun FileCipherScreen(
                             TopAppBarEmoji()
                         }
                     )
+                    val cutout = WindowInsets
+                        .displayCutout
+                        .asPaddingValues()
+                    val direction = LayoutDirection.Ltr
                     LazyColumn(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         state = state,
@@ -296,8 +302,8 @@ fun FileCipherScreen(
                                 .asPaddingValues()
                                 .calculateBottomPadding(),
                             top = 20.dp,
-                            end = 20.dp,
-                            start = 20.dp
+                            end = 20.dp + cutout.calculateRightPadding(direction),
+                            start = 20.dp + cutout.calculateLeftPadding(direction)
                         )
                     ) {
                         item {

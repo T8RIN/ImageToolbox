@@ -76,7 +76,7 @@ fun AdaptiveLayoutScreen(
     actions: @Composable RowScope.() -> Unit,
     topAppBarPersistentActions: @Composable RowScope.() -> Unit = {},
     imagePreview: @Composable () -> Unit,
-    controls: @Composable ColumnScope.() -> Unit,
+    controls: (@Composable ColumnScope.() -> Unit)?,
     buttons: @Composable (actions: @Composable RowScope.() -> Unit) -> Unit,
     noDataControls: @Composable () -> Unit = {},
     canShowScreenData: Boolean,
@@ -152,9 +152,13 @@ fun AdaptiveLayoutScreen(
                     if (!isPortrait && canShowScreenData) {
                         Box(
                             Modifier
-                                .container(
-                                    RectangleShape,
-                                    color = MaterialTheme.colorScheme.surfaceContainer
+                                .then(
+                                    if (controls != null) {
+                                        Modifier.container(
+                                            shape = RectangleShape,
+                                            color = MaterialTheme.colorScheme.surfaceContainer
+                                        )
+                                    } else Modifier
                                 )
                                 .weight(1.2f)
                                 .padding(20.dp)
@@ -182,7 +186,10 @@ fun AdaptiveLayoutScreen(
                             end = 20.dp
                         ),
                         modifier = Modifier
-                            .weight(1f)
+                            .weight(
+                                if (controls == null) 0.01f
+                                else 1f
+                            )
                             .clipToBounds()
                     ) {
                         imageStickyHeader(
@@ -199,7 +206,7 @@ fun AdaptiveLayoutScreen(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 if (canShowScreenData) {
-                                    controls()
+                                    if (controls != null) controls()
                                 } else noDataControls()
                             }
                         }
