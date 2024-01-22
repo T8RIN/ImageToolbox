@@ -177,7 +177,7 @@ fun SingleEditScreen(
         }
     }
 
-    val imageInside =
+    val isPortrait =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
     val showZoomSheet = rememberSaveable { mutableStateOf(false) }
@@ -305,7 +305,7 @@ fun SingleEditScreen(
         },
         imagePreview = {
             ImageContainer(
-                imageInside = imageInside,
+                imageInside = isPortrait,
                 showOriginal = showOriginal,
                 previewBitmap = viewModel.previewBitmap,
                 originalBitmap = viewModel.initialBitmap,
@@ -380,11 +380,11 @@ fun SingleEditScreen(
         },
         buttons = {
             BottomButtonsBlock(
-                targetState = (viewModel.uri == Uri.EMPTY) to imageInside,
+                targetState = (viewModel.uri == Uri.EMPTY) to isPortrait,
                 onPickImage = pickImage,
                 onPrimaryButtonClick = saveBitmap,
                 actions = {
-                    if (imageInside) it()
+                    if (isPortrait) it()
                 }
             )
         },
@@ -394,7 +394,7 @@ fun SingleEditScreen(
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
         },
-        isPortrait = imageInside
+        isPortrait = isPortrait
     )
 
     ResetDialog(
@@ -418,7 +418,7 @@ fun SingleEditScreen(
     CropEditOption(
         visible = showCropper,
         onDismiss = { showCropper = false },
-        useScaffold = imageInside,
+        useScaffold = isPortrait,
         bitmap = viewModel.previewBitmap,
         onGetBitmap = viewModel::updateBitmapAfterEditing,
         cropProperties = viewModel.cropProperties,
@@ -434,7 +434,7 @@ fun SingleEditScreen(
             showFiltering = false
             viewModel.clearFilterList()
         },
-        useScaffold = imageInside,
+        useScaffold = isPortrait,
         bitmap = viewModel.previewBitmap,
         onGetBitmap = viewModel::updateBitmapAfterEditing,
         onRequestFiltering = viewModel::filter,
@@ -453,7 +453,7 @@ fun SingleEditScreen(
             showDrawing = false
             viewModel.clearDrawing()
         },
-        useScaffold = imageInside,
+        useScaffold = isPortrait,
         bitmap = viewModel.previewBitmap,
         onGetBitmap = {
             viewModel.updateBitmapAfterEditing(it)
@@ -473,7 +473,7 @@ fun SingleEditScreen(
             showEraseBackground = false
             viewModel.clearErasing()
         },
-        useScaffold = imageInside,
+        useScaffold = isPortrait,
         bitmap = viewModel.previewBitmap,
         onGetBitmap = viewModel::updateBitmapAfterEditing,
         clearErasing = viewModel::clearErasing,

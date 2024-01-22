@@ -80,6 +80,7 @@ fun AdaptiveLayoutScreen(
     buttons: @Composable (actions: @Composable RowScope.() -> Unit) -> Unit,
     noDataControls: @Composable () -> Unit = {},
     canShowScreenData: Boolean,
+    forceImagePreviewToMax: Boolean = false,
     isPortrait: Boolean
 ) {
     val settingsState = LocalSettingsState.current
@@ -87,11 +88,11 @@ fun AdaptiveLayoutScreen(
     var imageState by remember { mutableStateOf(middleImageState()) }
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
-        state = topAppBarState, canScroll = { !imageState.isExpanded() }
+        state = topAppBarState, canScroll = { !imageState.isExpanded() && !forceImagePreviewToMax }
     )
 
     LaunchedEffect(imageState) {
-        if (imageState.isExpanded()) {
+        if (imageState.isExpanded() || forceImagePreviewToMax) {
             while (topAppBarState.heightOffset > topAppBarState.heightOffsetLimit) {
                 topAppBarState.heightOffset -= 5f
                 delay(1)
