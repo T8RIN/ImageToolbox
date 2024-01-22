@@ -566,4 +566,21 @@
     <string name="rate_app">给应用程序评分</string>
     <string name="rate">评分</string>
     <string name="rate_app_sub">此应用程序完全免费，如果您希望它变得更加强大，请在 Github 上为项目加星😄。</string>
+    <string name="segmentation_mode_single_line">单行文本</string>
+    <string name="segmentation_mode_single_char">单个字符</string>
+    <string name="segmentation_mode_circle_word">环形词语</string>
+    <string name="segmentation_mode_raw_line">原始行</string>
+    <string name="current">当前</string>
+    <string name="all">所有</string>
+    <string name="segmentation_mode_osd_only">仅检测文本及其方向</string>
+    <string name="segmentation_mode_auto_only">仅自动</string>
+    <string name="segmentation_mode_single_block_vert_text">单段纵向文本</string>
+    <string name="segmentation_mode_single_block">单段文本</string>
+    <string name="segmentation_mode_auto">自动</string>
+    <string name="segmentation_mode_single_word">单个词语</string>
+    <string name="segmentation_mode_single_column">单列文本</string>
+    <string name="segmentation_mode_sparse_text">松散文本</string>
+    <string name="segmentation_mode_sparse_text_osd">检测松散文本及其方向</string>
+    <string name="segmentation_mode_auto_osd">自动检测文本及其方向</string>
+    <string name="delete_language_sub">要删除“%1$s”语言所有识别类型的 OCR 训练数据，还是只删除选中的（%2$s）？</string>
 </resources>
