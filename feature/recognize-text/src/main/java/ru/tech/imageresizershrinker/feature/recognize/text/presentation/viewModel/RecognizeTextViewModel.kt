@@ -74,7 +74,9 @@ class RecognizeTextViewModel @Inject constructor(
         get() = textLoadingProgress in 0..100
 
     private var longsJob: Job? = null
-    private fun loadLanguages() {
+    private fun loadLanguages(
+        onComplete: suspend () -> Unit = {}
+    ) {
         longsJob?.cancel()
         longsJob = viewModelScope.launch {
             delay(200L)
@@ -91,6 +93,7 @@ class RecognizeTextViewModel @Inject constructor(
                 list
             }
             _languages.update { data }
+            onComplete()
         }
     }
 
@@ -166,7 +169,13 @@ class RecognizeTextViewModel @Inject constructor(
                     languageCode = languageCode,
                     onProgress = onProgress
                 )
-                loadLanguages()
+                loadLanguages {
+                    settingsRepository.setInitialOCRLanguageCodes(
+                        selectedLanguages.filter {
+                            it.downloaded.isNotEmpty()
+                        }.map { it.code }
+                    )
+                }
                 onComplete()
             }
         }
