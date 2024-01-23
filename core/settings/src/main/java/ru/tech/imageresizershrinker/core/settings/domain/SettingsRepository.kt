@@ -139,4 +139,6 @@ interface SettingsRepository {
     suspend fun setInitialOCRLanguageCodes(list: List<String>)
 
     suspend fun getInitialOCRLanguageCodes(): List<String>
+
+    suspend fun setScreensWithBrightnessEnforcement(data: String)
 }

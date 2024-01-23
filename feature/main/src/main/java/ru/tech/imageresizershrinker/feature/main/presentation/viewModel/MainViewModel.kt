@@ -605,4 +605,17 @@ class MainViewModel @Inject constructor(
         _showGithubReviewSheet.update { false }
     }
 
+    fun updateBrightnessEnforcementScreens(screen: Screen) {
+        viewModelScope.launch {
+            val screens = settingsState.screenListWithMaxBrightnessEnforcement.let {
+                if (screen.id in it) it - screen.id
+                else it + screen.id
+            }
+
+            settingsRepository.setScreensWithBrightnessEnforcement(
+                screens.joinToString("/") { it.toString() }
+            )
+        }
+    }
+
 }

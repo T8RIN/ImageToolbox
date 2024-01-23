@@ -90,7 +90,8 @@ data class UiSettingsState(
     val defaultImageScaleMode: ImageScaleMode,
     val usePixelSwitch: Boolean,
     val magnifierEnabled: Boolean,
-    val exifWidgetInitialState: Boolean
+    val exifWidgetInitialState: Boolean,
+    val screenListWithMaxBrightnessEnforcement: List<Screen>
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -175,7 +176,14 @@ fun SettingsState.toUiState(): UiSettingsState {
         defaultImageScaleMode = defaultImageScaleMode,
         usePixelSwitch = usePixelSwitch,
         magnifierEnabled = magnifierEnabled,
-        exifWidgetInitialState = exifWidgetInitialState
+        exifWidgetInitialState = exifWidgetInitialState,
+        screenListWithMaxBrightnessEnforcement = remember(screenListWithMaxBrightnessEnforcement) {
+            derivedStateOf {
+                screenListWithMaxBrightnessEnforcement.mapNotNull {
+                    Screen.entries.find { s -> s.id == it }
+                }
+            }
+        }.value
     )
 }
 

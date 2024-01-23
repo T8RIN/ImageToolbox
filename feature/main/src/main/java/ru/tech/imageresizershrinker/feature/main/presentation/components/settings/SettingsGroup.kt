@@ -28,6 +28,7 @@ import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.IntegrationInstructions
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.PersonSearch
+import androidx.compose.material.icons.rounded.PhoneAndroid
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.SettingsBackupRestore
 import androidx.compose.material.icons.rounded.ShieldMoon
@@ -42,6 +43,7 @@ import ru.tech.imageresizershrinker.core.ui.icons.material.FolderOpen
 import ru.tech.imageresizershrinker.core.ui.icons.material.Shadow
 import ru.tech.imageresizershrinker.core.ui.icons.material.Stacks
 
+//TODO: Move to settings module
 sealed class SettingsGroup(
     val titleId: Int,
     val icon: ImageVector,
@@ -272,6 +274,15 @@ sealed class SettingsGroup(
         initialState = false
     )
 
+    data object Screen : SettingsGroup(
+        icon = Icons.Rounded.PhoneAndroid,
+        titleId = R.string.screen,
+        settingsList = listOf(
+            Setting.BrightnessEnforcement
+        ),
+        initialState = false
+    )
+
     companion object {
         val entries: List<SettingsGroup> by lazy {
             listOf(
@@ -281,6 +292,7 @@ sealed class SettingsGroup(
                 NightMode,
                 Shadows,
                 Haptics,
+                Screen,
                 Font,
                 OptionsArrangement,
                 Presets,

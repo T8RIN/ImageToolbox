@@ -618,4 +618,6 @@
     <string name="color_stops">Color Stops</string>
     <string name="add_color">Add Color</string>
     <string name="properties">Properties</string>
+    <string name="brightness_enforcement">Brightness Enforcement</string>
+    <string name="screen">Screen</string>
 </resources>

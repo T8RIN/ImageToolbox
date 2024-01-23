@@ -72,6 +72,7 @@ import ru.tech.imageresizershrinker.core.settings.data.Keys.OVERWRITE_FILE
 import ru.tech.imageresizershrinker.core.settings.data.Keys.PRESETS
 import ru.tech.imageresizershrinker.core.settings.data.Keys.RANDOMIZE_FILENAME
 import ru.tech.imageresizershrinker.core.settings.data.Keys.SAVE_FOLDER_URI
+import ru.tech.imageresizershrinker.core.settings.data.Keys.SCREENS_WITH_BRIGHTNESS_ENFORCEMENT
 import ru.tech.imageresizershrinker.core.settings.data.Keys.SCREEN_ORDER
 import ru.tech.imageresizershrinker.core.settings.data.Keys.SCREEN_SEARCH_ENABLED
 import ru.tech.imageresizershrinker.core.settings.data.Keys.SELECTED_EMOJI_INDEX
@@ -169,7 +170,12 @@ internal class SettingsRepositoryImpl @Inject constructor(
             magnifierEnabled = prefs[MAGNIFIER_ENABLED] ?: default.magnifierEnabled,
             exifWidgetInitialState = prefs[EXIF_WIDGET_INITIAL_STATE]
                 ?: default.exifWidgetInitialState,
-            initialOcrCodes = prefs[INITIAL_OCR_CODES]?.split("+") ?: default.initialOcrCodes
+            initialOcrCodes = prefs[INITIAL_OCR_CODES]?.split("+") ?: default.initialOcrCodes,
+            screenListWithMaxBrightnessEnforcement = prefs[SCREENS_WITH_BRIGHTNESS_ENFORCEMENT]?.split(
+                "/"
+            )?.mapNotNull {
+                it.toIntOrNull()
+            } ?: default.screenListWithMaxBrightnessEnforcement
         )
     }
 
@@ -555,6 +561,12 @@ internal class SettingsRepositoryImpl @Inject constructor(
     override suspend fun getInitialOCRLanguageCodes(): List<String> {
         return dataStore.data.first().let { prefs ->
             prefs[INITIAL_OCR_CODES]?.split("+") ?: default.initialOcrCodes
+        }
+    }
+
+    override suspend fun setScreensWithBrightnessEnforcement(data: String) {
+        dataStore.edit {
+            it[SCREENS_WITH_BRIGHTNESS_ENFORCEMENT] = data
         }
     }
 

@@ -461,5 +461,11 @@ fun SettingItem(
         Setting.ExifWidgetInitialState -> {
             ExifWidgetInitialStateSettingItem(onClick = { viewModel.toggleExifWidgetInitialState() })
         }
+
+        Setting.BrightnessEnforcement -> {
+            BrightnessEnforcementSettingItem(
+                updateScreens = viewModel::updateBrightnessEnforcementScreens
+            )
+        }
     }
 }

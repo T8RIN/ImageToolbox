@@ -72,4 +72,6 @@ internal object Keys {
     val MAGNIFIER_ENABLED = booleanPreferencesKey("MAGNIFIER_ENABLED")
     val EXIF_WIDGET_INITIAL_STATE = booleanPreferencesKey("EXIF_WIDGET_INITIAL_STATE")
     val INITIAL_OCR_CODES = stringPreferencesKey("INITIAL_OCR_CODES")
+    val SCREENS_WITH_BRIGHTNESS_ENFORCEMENT =
+        stringPreferencesKey("SCREENS_WITH_BRIGHTNESS_ENFORCEMENT")
 }

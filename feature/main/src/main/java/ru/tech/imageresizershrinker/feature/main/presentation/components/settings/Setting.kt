@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 
 import ru.tech.imageresizershrinker.core.resources.R
 
+//TODO: Move to settings module
 sealed class Setting(
     val title: Int,
     val subtitle: Int?
@@ -301,5 +302,10 @@ sealed class Setting(
     data object ExifWidgetInitialState : Setting(
         title = R.string.force_exif_widget_inital_value,
         subtitle = R.string.force_exif_widget_inital_value_sub
+    )
+
+    data object BrightnessEnforcement : Setting(
+        title = R.string.brightness_enforcement,
+        subtitle = null
     )
 }

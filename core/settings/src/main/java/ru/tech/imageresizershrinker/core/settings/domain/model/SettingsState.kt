@@ -70,7 +70,8 @@ data class SettingsState(
     val usePixelSwitch: Boolean,
     val magnifierEnabled: Boolean,
     val exifWidgetInitialState: Boolean,
-    val initialOcrCodes: List<String>
+    val initialOcrCodes: List<String>,
+    val screenListWithMaxBrightnessEnforcement: List<Int>
 ) : Domain {
 
     companion object {
@@ -124,7 +125,8 @@ data class SettingsState(
                 usePixelSwitch = false,
                 magnifierEnabled = true,
                 exifWidgetInitialState = false,
-                initialOcrCodes = listOf("eng")
+                initialOcrCodes = listOf("eng"),
+                screenListWithMaxBrightnessEnforcement = emptyList()
             )
         }
     }
