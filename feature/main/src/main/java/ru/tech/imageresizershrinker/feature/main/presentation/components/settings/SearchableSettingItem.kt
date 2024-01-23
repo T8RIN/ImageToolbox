@@ -35,7 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerShape
+import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
 
 @Composable
@@ -66,7 +66,7 @@ fun SearchableSettingItem(
             is Setting.NightMode -> null
             else -> RoundedCornerShape(12.dp)
         }
-        ProvideContainerShape(itemShape) {
+        ProvideContainerDefaults(itemShape) {
             SettingItem(
                 setting = setting,
                 viewModel = viewModel

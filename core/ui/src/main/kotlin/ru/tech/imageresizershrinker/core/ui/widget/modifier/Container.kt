@@ -40,6 +40,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalContainerShape
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 
@@ -58,7 +59,7 @@ fun Modifier.container(
     val resultShape = localContainerShape ?: shape
     val settingsState = LocalSettingsState.current
     val colorScheme = MaterialTheme.colorScheme
-    val containerColor = if (color.isUnspecified) {
+    val containerColor = LocalContainerColor.current ?: if (color.isUnspecified) {
         colorScheme.surfaceContainer
     } else {
         if (composeColorOnTopOfBackground) color.compositeOver(colorScheme.background)

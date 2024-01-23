@@ -49,7 +49,7 @@ import com.t8rin.modalsheet.ModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerShape
+import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,7 +67,9 @@ fun SimpleSheet(
         if (settingsState.drawContainerShadows) 16.dp
         else 0.dp
     )
-    ProvideContainerShape(null) {
+    ProvideContainerDefaults(
+        color = MaterialTheme.colorScheme.surfaceContainerHigh
+    ) {
         ModalSheet(
             cancelable = cancelable,
             nestedScrollEnabled = nestedScrollEnabled,
@@ -122,7 +124,9 @@ fun SimpleSheet(
         else 0.dp
     )
 
-    ProvideContainerShape(null) {
+    ProvideContainerDefaults(
+        color = MaterialTheme.colorScheme.surfaceContainerHigh
+    ) {
         ModalSheet(
             cancelable = cancelable,
             nestedScrollEnabled = nestedScrollEnabled,
@@ -192,7 +196,9 @@ fun SimpleSheet(
         else 0.dp
     )
 
-    ProvideContainerShape(null) {
+    ProvideContainerDefaults(
+        color = MaterialTheme.colorScheme.surfaceContainerHigh
+    ) {
         ModalSheet(
             cancelable = cancelable,
             nestedScrollEnabled = nestedScrollEnabled,

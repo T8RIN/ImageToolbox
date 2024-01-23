@@ -48,7 +48,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerShape
+import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
 
 @Composable
 fun PreferenceRow(
@@ -106,7 +106,7 @@ fun PreferenceRow(
                 ),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ProvideContainerShape(null) {
+            ProvideContainerDefaults(null) {
                 startContent?.invoke()
             }
             Column(modifier = Modifier.weight(1f)) {
@@ -142,7 +142,7 @@ fun PreferenceRow(
                 }
             }
             Spacer(Modifier.width(8.dp))
-            ProvideContainerShape(null) {
+            ProvideContainerDefaults(null) {
                 endContent?.invoke()
             }
         }

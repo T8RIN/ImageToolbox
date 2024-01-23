@@ -57,7 +57,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerShape
+import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -127,7 +127,7 @@ fun PreferenceItemOverload(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 icon?.let {
-                    ProvideContainerShape(null) {
+                    ProvideContainerDefaults(null) {
                         Row {
                             it()
                             Spacer(modifier = Modifier.width(16.dp))
@@ -168,7 +168,7 @@ fun PreferenceItemOverload(
                         }
                     }
                 }
-                ProvideContainerShape(null) {
+                ProvideContainerDefaults(null) {
                     endIcon?.invoke()
                 }
             }

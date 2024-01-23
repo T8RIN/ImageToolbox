@@ -20,15 +20,22 @@ package ru.tech.imageresizershrinker.core.ui.widget.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 
 val LocalContainerShape = compositionLocalOf<Shape?> { null }
 
+val LocalContainerColor = compositionLocalOf<Color?> { null }
+
 @Composable
-fun ProvideContainerShape(
-    shape: Shape?,
+fun ProvideContainerDefaults(
+    shape: Shape? = null,
+    color: Color? = null,
     content: @Composable () -> Unit
 ) = CompositionLocalProvider(
-    value = LocalContainerShape provides shape,
+    values = arrayOf(
+        LocalContainerShape provides shape,
+        LocalContainerColor provides color
+    ),
     content = content
 )
