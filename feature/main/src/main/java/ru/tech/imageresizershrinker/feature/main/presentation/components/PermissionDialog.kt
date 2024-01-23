@@ -38,6 +38,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.core.app.ActivityCompat
 import com.t8rin.dynamic.theme.observeAsState
+import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.needToShowStoragePermissionRequest
@@ -62,7 +63,7 @@ fun PermissionDialog() {
         showDialog = context.needToShowStoragePermissionRequest() == true
         while (showDialog) {
             showDialog = context.needToShowStoragePermissionRequest() == true
-            kotlinx.coroutines.delay(100)
+            delay(100)
         }
     }
 
