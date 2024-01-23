@@ -43,7 +43,6 @@ import ru.tech.imageresizershrinker.core.ui.icons.material.FolderOpen
 import ru.tech.imageresizershrinker.core.ui.icons.material.Shadow
 import ru.tech.imageresizershrinker.core.ui.icons.material.Stacks
 
-//TODO: Move to settings module
 sealed class SettingsGroup(
     val titleId: Int,
     val icon: ImageVector,

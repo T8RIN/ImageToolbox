@@ -22,57 +22,10 @@ package ru.tech.imageresizershrinker.core.ui.theme
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import ru.tech.imageresizershrinker.core.ui.model.UiFontFam
-
-fun fontFamilyResource(resId: Int) = FontFamily(
-    Font(
-        resId = resId,
-        weight = FontWeight.Light,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Light,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = resId,
-        weight = FontWeight.Normal,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Normal,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = resId,
-        weight = FontWeight.Medium,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Medium,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = resId,
-        weight = FontWeight.SemiBold,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.SemiBold,
-            style = FontStyle.Normal
-        )
-    ),
-    Font(
-        resId = resId,
-        weight = FontWeight.Bold,
-        variationSettings = FontVariation.Settings(
-            weight = FontWeight.Bold,
-            style = FontStyle.Normal
-        )
-    )
-)
+import ru.tech.imageresizershrinker.core.settings.presentation.UiFontFam
 
 fun Typography(
     fontRes: UiFontFam = UiFontFam.Montserrat

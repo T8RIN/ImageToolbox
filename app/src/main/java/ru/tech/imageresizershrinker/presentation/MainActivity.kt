@@ -46,7 +46,11 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olshevski.navigation.reimagined.navigate
 import nl.dionsegijn.konfetti.compose.KonfettiView
-import ru.tech.imageresizershrinker.core.ui.model.toUiState
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalEditPresetsState
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.toUiState
+import ru.tech.imageresizershrinker.core.ui.icons.emoji.Emoji
+import ru.tech.imageresizershrinker.core.ui.icons.emoji.allIcons
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
@@ -61,9 +65,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalEditPresetsState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.feature.main.presentation.components.AppExitDialog
 import ru.tech.imageresizershrinker.feature.main.presentation.components.EditPresetsSheet
@@ -92,7 +94,7 @@ class MainActivity : M3Activity() {
 
             CompositionLocalProvider(
                 LocalToastHost provides viewModel.toastHostState,
-                LocalSettingsState provides viewModel.settingsState.toUiState(),
+                LocalSettingsState provides viewModel.settingsState.toUiState(Emoji.allIcons()),
                 LocalNavController provides viewModel.navController,
                 LocalEditPresetsState provides editPresetsState,
                 LocalConfettiController provides rememberToastHostState(),

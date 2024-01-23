@@ -48,7 +48,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 
 @Composable
 fun VibrationStrengthSettingItem(

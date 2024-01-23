@@ -53,7 +53,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -15,11 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.utils
+package ru.tech.imageresizershrinker.core.settings.presentation
 
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.mutableStateOf
-import ru.tech.imageresizershrinker.core.ui.model.UiSettingsState
 
 val LocalSettingsState = compositionLocalOf<UiSettingsState> { error("SettingsState not present") }
 

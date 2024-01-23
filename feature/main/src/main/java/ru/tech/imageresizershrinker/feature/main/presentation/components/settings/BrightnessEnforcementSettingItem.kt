@@ -44,6 +44,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastAny
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -53,7 +54,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOve
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 
 
 @Composable
@@ -63,7 +63,15 @@ fun BrightnessEnforcementSettingItem(
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
-    val screenList = settingsState.screenListWithMaxBrightnessEnforcement
+    val settingsScreenList = settingsState.screenListWithMaxBrightnessEnforcement
+    val screenList by remember(settingsScreenList) {
+        derivedStateOf {
+            settingsScreenList.mapNotNull {
+                Screen.entries.find { s -> s.id == it }
+            }
+        }
+    }
+
     var showPickerSheet by rememberSaveable { mutableStateOf(false) }
 
     val context = LocalContext.current

@@ -72,10 +72,13 @@ import ru.tech.imageresizershrinker.core.domain.AUTHOR_TG
 import ru.tech.imageresizershrinker.core.domain.ISSUE_TRACKER
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.toUiState
+import ru.tech.imageresizershrinker.core.ui.icons.emoji.Emoji
+import ru.tech.imageresizershrinker.core.ui.icons.emoji.allIcons
 import ru.tech.imageresizershrinker.core.ui.icons.material.Github
 import ru.tech.imageresizershrinker.core.ui.icons.material.Robot
 import ru.tech.imageresizershrinker.core.ui.icons.material.Telegram
-import ru.tech.imageresizershrinker.core.ui.model.toUiState
 import ru.tech.imageresizershrinker.core.ui.theme.Black
 import ru.tech.imageresizershrinker.core.ui.theme.Blue
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
@@ -88,7 +91,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.presentation.CrashHandler
 import ru.tech.imageresizershrinker.presentation.MainActivity
 import ru.tech.imageresizershrinker.presentation.crash_screen.viewModel.CrashViewModel
@@ -130,7 +132,7 @@ class CrashActivity : CrashHandler() {
             }
 
             CompositionLocalProvider(
-                LocalSettingsState provides viewModel.settingsState.toUiState()
+                LocalSettingsState provides viewModel.settingsState.toUiState(Emoji.allIcons())
             ) {
                 ImageToolboxTheme {
                     val conf = LocalConfiguration.current

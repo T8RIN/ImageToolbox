@@ -52,6 +52,7 @@ import ru.tech.imageresizershrinker.core.domain.TONSpaceWallet
 import ru.tech.imageresizershrinker.core.domain.TONWallet
 import ru.tech.imageresizershrinker.core.domain.USDTWallet
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.material.Bitcoin
 import ru.tech.imageresizershrinker.core.ui.icons.material.Ton
 import ru.tech.imageresizershrinker.core.ui.icons.material.USDT
@@ -69,7 +70,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOve
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 
 
 private val topShape = RoundedCornerShape(

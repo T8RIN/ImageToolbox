@@ -23,8 +23,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.util.fastAny
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 
 @Composable
 fun ScreenBasedMaxBrightnessEnforcement(screen: Screen?) {
@@ -33,7 +33,7 @@ fun ScreenBasedMaxBrightnessEnforcement(screen: Screen?) {
     val listToForceBrightness = LocalSettingsState.current.screenListWithMaxBrightnessEnforcement
 
     DisposableEffect(screen) {
-        if (listToForceBrightness.fastAny { it::class.isInstance(screen) }) {
+        if (listToForceBrightness.fastAny { it == screen?.id }) {
             context.window.apply {
                 attributes.apply {
                     screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL

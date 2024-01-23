@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 
 @Composable
 fun ToggleGroupButton(

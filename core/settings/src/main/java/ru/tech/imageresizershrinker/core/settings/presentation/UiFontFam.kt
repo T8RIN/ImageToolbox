@@ -15,13 +15,17 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.model
+package ru.tech.imageresizershrinker.core.settings.presentation
 
 import android.os.Build
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontVariation
+import androidx.compose.ui.text.font.FontWeight
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
-import ru.tech.imageresizershrinker.core.ui.theme.fontFamilyResource
 
 sealed class UiFontFam(
     val fontFamily: FontFamily,
@@ -175,3 +179,47 @@ sealed class UiFontFam(
         }
     }
 }
+
+@OptIn(ExperimentalTextApi::class)
+private fun fontFamilyResource(resId: Int) = FontFamily(
+    Font(
+        resId = resId,
+        weight = FontWeight.Light,
+        variationSettings = FontVariation.Settings(
+            weight = FontWeight.Light,
+            style = FontStyle.Normal
+        )
+    ),
+    Font(
+        resId = resId,
+        weight = FontWeight.Normal,
+        variationSettings = FontVariation.Settings(
+            weight = FontWeight.Normal,
+            style = FontStyle.Normal
+        )
+    ),
+    Font(
+        resId = resId,
+        weight = FontWeight.Medium,
+        variationSettings = FontVariation.Settings(
+            weight = FontWeight.Medium,
+            style = FontStyle.Normal
+        )
+    ),
+    Font(
+        resId = resId,
+        weight = FontWeight.SemiBold,
+        variationSettings = FontVariation.Settings(
+            weight = FontWeight.SemiBold,
+            style = FontStyle.Normal
+        )
+    ),
+    Font(
+        resId = resId,
+        weight = FontWeight.Bold,
+        variationSettings = FontVariation.Settings(
+            weight = FontWeight.Bold,
+            style = FontStyle.Normal
+        )
+    )
+)

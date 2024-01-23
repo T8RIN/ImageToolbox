@@ -139,9 +139,10 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.APP_LINK
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.isFirstLaunch
 import ru.tech.imageresizershrinker.core.ui.icons.material.Github
 import ru.tech.imageresizershrinker.core.ui.icons.material.GooglePlay
-import ru.tech.imageresizershrinker.core.ui.model.isFirstLaunch
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
@@ -161,7 +162,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.feature.main.presentation.components.NavigationItem
 import ru.tech.imageresizershrinker.feature.main.presentation.components.settings.SettingsBlock
@@ -180,7 +180,13 @@ fun MainScreen(
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
-    val screenList = settingsState.screenList
+    val screenList by remember(settingsState.screenList) {
+        derivedStateOf {
+            settingsState.screenList.mapNotNull {
+                Screen.entries.find { s -> s.id == it }
+            }.takeIf { it.isNotEmpty() } ?: Screen.entries
+        }
+    }
 
     val scope = rememberCoroutineScope()
 

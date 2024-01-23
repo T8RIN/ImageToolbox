@@ -18,13 +18,16 @@
 plugins {
     alias(libs.plugins.image.toolbox.library)
     alias(libs.plugins.image.toolbox.hilt)
+    alias(libs.plugins.image.toolbox.compose)
 }
 
 android.namespace = "ru.tech.imageresizershrinker.core.settings"
 
 dependencies {
-    api(libs.datastore.preferences.android)
+    implementation(libs.datastore.preferences.android)
+    implementation(libs.kotlinx.collections.immutable)
 
+    implementation(projects.libs.dynamicTheme)
     implementation(projects.core.domain)
     implementation(projects.core.resources)
 }

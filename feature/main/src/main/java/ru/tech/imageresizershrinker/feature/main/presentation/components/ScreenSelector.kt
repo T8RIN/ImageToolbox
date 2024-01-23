@@ -36,10 +36,11 @@ import com.t8rin.dynamic.theme.rememberAppColorTuple
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
 import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.pop
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.findActivity
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.BytesResizeScreen
 import ru.tech.imageresizershrinker.feature.cipher.presentation.FileCipherScreen
 import ru.tech.imageresizershrinker.feature.compare.presentation.CompareScreen
@@ -82,7 +83,7 @@ fun ScreenSelector(
             if (backstack.entries.size > 1) pop()
         }
         scope.launch {
-            kotlinx.coroutines.delay(350L)
+            delay(350L)
             themeState.updateColorTuple(appColorTuple)
         }
     }

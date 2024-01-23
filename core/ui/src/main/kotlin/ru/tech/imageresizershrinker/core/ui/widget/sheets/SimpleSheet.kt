@@ -48,7 +48,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.modalsheet.ModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
 
 @OptIn(ExperimentalMaterial3Api::class)

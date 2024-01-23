@@ -33,8 +33,8 @@ import androidx.compose.ui.unit.isUnspecified
 import androidx.compose.ui.zIndex
 import com.gigamole.composeshadowsplus.common.ShadowsPlusType
 import com.gigamole.composeshadowsplus.common.shadowsPlus
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 
 fun Modifier.drawHorizontalStroke(
     top: Boolean = false,

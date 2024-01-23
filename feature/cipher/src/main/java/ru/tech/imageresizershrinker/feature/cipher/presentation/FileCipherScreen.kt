@@ -113,6 +113,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.material.ShieldKey
 import ru.tech.imageresizershrinker.core.ui.icons.material.ShieldOpen
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
@@ -137,7 +138,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.isScrollingUp
 import ru.tech.imageresizershrinker.feature.cipher.presentation.components.CipherTipSheet
 import ru.tech.imageresizershrinker.feature.cipher.presentation.viewModel.FileCipherViewModel

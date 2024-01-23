@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.model
+package ru.tech.imageresizershrinker.core.settings.presentation
 
 import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
@@ -30,17 +30,13 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.PaletteStyle
+import kotlinx.collections.immutable.ImmutableList
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
-import ru.tech.imageresizershrinker.core.ui.icons.emoji.Emoji
-import ru.tech.imageresizershrinker.core.ui.icons.emoji.allIcons
-import ru.tech.imageresizershrinker.core.ui.theme.defaultColorTuple
-import ru.tech.imageresizershrinker.core.ui.theme.toColor
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 
 data class UiSettingsState(
     val isNightMode: Boolean = false,
@@ -57,7 +53,7 @@ data class UiSettingsState(
     val imagePickerModeInt: Int = 0,
     val clearCacheOnLaunch: Boolean = true,
     val groupOptionsByTypes: Boolean = true,
-    val screenList: List<Screen> = listOf(),
+    val screenList: List<Int> = listOf(),
     val colorTupleList: List<ColorTuple>,
     val addSequenceNumber: Boolean = true,
     val saveFolderUri: Uri? = null,
@@ -91,7 +87,7 @@ data class UiSettingsState(
     val usePixelSwitch: Boolean,
     val magnifierEnabled: Boolean,
     val exifWidgetInitialState: Boolean,
-    val screenListWithMaxBrightnessEnforcement: List<Screen>
+    val screenListWithMaxBrightnessEnforcement: List<Int>
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -101,10 +97,11 @@ fun UiSettingsState.isFirstLaunch(
 } else appOpenCount <= 1f
 
 @Composable
-fun SettingsState.toUiState(): UiSettingsState {
+fun SettingsState.toUiState(
+    allEmojis: ImmutableList<Uri>
+): UiSettingsState {
     val uiIsNightMode = nightMode.isNightMode()
     val uiBorderWidth = animateDpAsState(borderWidth.dp).value
-    val allIcons = Emoji.allIcons()
 
     return UiSettingsState(
         isNightMode = uiIsNightMode,
@@ -121,23 +118,17 @@ fun SettingsState.toUiState(): UiSettingsState {
         }.value,
         fabAlignment = fabAlignment.toAlignment(),
         showDialogOnStartup = showDialogOnStartup,
-        selectedEmoji = remember(selectedEmoji, allIcons) {
+        selectedEmoji = remember(selectedEmoji, allEmojis) {
             derivedStateOf {
                 selectedEmoji?.takeIf { it != -1 }?.let {
-                    allIcons.getOrNull(it)
+                    allEmojis.getOrNull(it)
                 }
             }
         }.value,
         imagePickerModeInt = imagePickerModeInt,
         clearCacheOnLaunch = clearCacheOnLaunch,
         groupOptionsByTypes = groupOptionsByTypes,
-        screenList = remember(screenList) {
-            derivedStateOf {
-                screenList.mapNotNull {
-                    Screen.entries.find { s -> s.id == it }
-                }.takeIf { it.isNotEmpty() } ?: Screen.entries
-            }
-        }.value,
+        screenList = screenList,
         colorTupleList = colorTupleList.toColorTupleList(),
         addSequenceNumber = addSequenceNumber,
         saveFolderUri = remember(saveFolderUri) {
@@ -177,13 +168,7 @@ fun SettingsState.toUiState(): UiSettingsState {
         usePixelSwitch = usePixelSwitch,
         magnifierEnabled = magnifierEnabled,
         exifWidgetInitialState = exifWidgetInitialState,
-        screenListWithMaxBrightnessEnforcement = remember(screenListWithMaxBrightnessEnforcement) {
-            derivedStateOf {
-                screenListWithMaxBrightnessEnforcement.mapNotNull {
-                    Screen.entries.find { s -> s.id == it }
-                }
-            }
-        }.value
+        screenListWithMaxBrightnessEnforcement = screenListWithMaxBrightnessEnforcement
     )
 }
 
@@ -207,6 +192,7 @@ private fun FontFam.toUiFont(): UiFontFam {
     }
 }
 
+
 private fun String?.toColorTupleList(): List<ColorTuple> {
     val list = mutableListOf<ColorTuple>()
     this?.split("*")?.forEach { colorTuple ->
@@ -227,6 +213,8 @@ private fun String?.toColorTupleList(): List<ColorTuple> {
     }
     return list.toHashSet().toList()
 }
+
+private fun Int.toColor() = Color(this)
 
 private fun String.asColorTuple(): ColorTuple {
     val colorTuple = split("*")
@@ -250,3 +238,5 @@ private fun NightMode.isNightMode(): Boolean = when (this) {
     NightMode.System -> isSystemInDarkTheme()
     else -> this is NightMode.Dark
 }
+
+val defaultColorTuple = ColorTuple(Color(0xFF8FDB3A))

@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 
 import ru.tech.imageresizershrinker.core.resources.R
 
-//TODO: Move to settings module
 sealed class Setting(
     val title: Int,
     val subtitle: Int?

@@ -33,6 +33,7 @@ import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -62,7 +63,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 
 @Composable
 fun ScreenOrderSettingItem(
@@ -71,7 +72,13 @@ fun ScreenOrderSettingItem(
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
-    val screenList = settingsState.screenList
+    val screenList by remember(settingsState.screenList) {
+        derivedStateOf {
+            settingsState.screenList.mapNotNull {
+                Screen.entries.find { s -> s.id == it }
+            }.takeIf { it.isNotEmpty() } ?: Screen.entries
+        }
+    }
     val showArrangementSheet = rememberSaveable { mutableStateOf(false) }
 
     val toastHostState = LocalToastHost.current

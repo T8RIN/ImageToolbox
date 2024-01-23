@@ -27,10 +27,7 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
-import com.t8rin.dynamic.theme.ColorTuple
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalSettingsState
-
-val md_theme_dark_primary = Color(0xFF8FDB3A)
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 
 fun ColorScheme.outlineVariant(
     luminance: Float = 0.3f,
@@ -98,8 +95,6 @@ fun Color.harmonizeWithPrimary(
 
 
 fun Int.toColor() = Color(this)
-
-val defaultColorTuple = ColorTuple(md_theme_dark_primary)
 
 inline val Green: Color
     @Composable get() = Color(0xFFBADB94).harmonizeWithPrimary(0.2f)

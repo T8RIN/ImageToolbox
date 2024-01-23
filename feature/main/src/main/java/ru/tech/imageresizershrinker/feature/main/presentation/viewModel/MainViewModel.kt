@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
@@ -67,7 +68,7 @@ class MainViewModel @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
     private val getSettingsStateUseCase: GetSettingsStateUseCase,
-    private val settingsRepository: ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+    private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
