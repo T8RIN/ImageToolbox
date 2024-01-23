@@ -53,6 +53,7 @@ import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.core.ui.icons.material.Stacks
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -63,7 +64,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 
 @Composable
 fun ScreenOrderSettingItem(

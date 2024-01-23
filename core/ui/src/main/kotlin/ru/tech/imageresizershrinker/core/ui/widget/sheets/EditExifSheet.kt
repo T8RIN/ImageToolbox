@@ -156,7 +156,7 @@ fun EditExifSheet(
                         contentPadding = PaddingValues(8.dp),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        itemsIndexed(data) {index, (tag, value) ->
+                        itemsIndexed(data) { index, (tag, value) ->
                             Column(
                                 Modifier
                                     .fillMaxWidth()
@@ -295,7 +295,7 @@ fun EditExifSheet(
                             item {
                                 Spacer(Modifier.height(4.dp))
                             }
-                            itemsIndexed(list) { index,  tag ->
+                            itemsIndexed(list) { index, tag ->
                                 PreferenceItemOverload(
                                     title = tag,
                                     modifier = Modifier.padding(horizontal = 8.dp),

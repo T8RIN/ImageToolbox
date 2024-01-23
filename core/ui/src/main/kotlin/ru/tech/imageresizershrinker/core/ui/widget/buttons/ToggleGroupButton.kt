@@ -39,10 +39,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 
 @Composable
 fun ToggleGroupButton(

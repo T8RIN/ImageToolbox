@@ -47,13 +47,13 @@ import androidx.compose.ui.unit.dp
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

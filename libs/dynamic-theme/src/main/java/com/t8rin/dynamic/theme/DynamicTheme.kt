@@ -61,6 +61,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.listSaver
@@ -128,7 +129,7 @@ fun DynamicTheme(
         darkTheme = isDarkTheme
     )
     val configuration = LocalConfiguration.current
-    var prevOrientation by rememberSaveable { mutableStateOf(configuration.orientation) }
+    var prevOrientation by rememberSaveable { mutableIntStateOf(configuration.orientation) }
 
     LaunchedEffect(colorTuple, prevOrientation) {
         if (prevOrientation == configuration.orientation) {
