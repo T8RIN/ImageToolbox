@@ -114,23 +114,25 @@ class FileControllerImpl @Inject constructor(
         default: String,
         isTreeUri: Boolean = true
     ): String = this?.let { uri ->
-        val document = if (isTreeUri) DocumentFile.fromTreeUri(context, uri)
-        else DocumentFile.fromSingleUri(context, uri)
+        runCatching {
+            val document = if (isTreeUri) DocumentFile.fromTreeUri(context, uri)
+            else DocumentFile.fromSingleUri(context, uri)
 
-        document?.uri?.path?.split(":")
-            ?.lastOrNull()?.let { p ->
-                val endPath = p.takeIf {
-                    it.isNotEmpty()
-                }?.let { "/$it" } ?: ""
-                val startPath = if (
-                    uri.toString()
-                        .split("%")[0]
-                        .contains("primary")
-                ) context.getString(R.string.device_storage)
-                else context.getString(R.string.external_storage)
+            document?.uri?.path?.split(":")
+                ?.lastOrNull()?.let { p ->
+                    val endPath = p.takeIf {
+                        it.isNotEmpty()
+                    }?.let { "/$it" } ?: ""
+                    val startPath = if (
+                        uri.toString()
+                            .split("%")[0]
+                            .contains("primary")
+                    ) context.getString(R.string.device_storage)
+                    else context.getString(R.string.external_storage)
 
-                startPath + endPath
-            }
+                    startPath + endPath
+                }
+        }.getOrNull()
     } ?: default
 
     override suspend fun save(
@@ -218,7 +220,7 @@ class FileControllerImpl @Inject constructor(
                             Exception(
                                 context.getString(
                                     R.string.no_such_directory,
-                                    treeUri
+                                    treeUri.toUri().toUiPath(context, treeUri)
                                 )
                             )
                         )
@@ -497,17 +499,6 @@ class FileControllerImpl @Inject constructor(
                 }
             }.getOrNull() ?: tempUri
         } else this
-    }
-
-    private fun Uri.toPath(
-        context: Context,
-        isTreeUri: Boolean = true
-    ): String? {
-        return if (isTreeUri) {
-            DocumentFile.fromTreeUri(context, this)
-        } else {
-            DocumentFile.fromSingleUri(context, this)
-        }?.uri?.path?.split(":")?.lastOrNull()
     }
 
     private fun Context.getFileName(uri: Uri): String? = DocumentFile.fromSingleUri(this, uri)?.name
