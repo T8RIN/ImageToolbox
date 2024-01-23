@@ -561,7 +561,7 @@
     <string name="force_exif_widget_inital_value">Начальное значение</string>
     <string name="side_by_side">Бок о бок</string>
     <string name="transparency">Прозрачность</string>
-    <string name="rate">Оценка</string>
+    <string name="rate">Оценить</string>
     <string name="rate_app">Оцените приложение</string>
     <string name="rate_app_sub">Это приложение полностью бесплатно. Если вы хотите, чтобы оно стало масштабнее, поставьте звёздочку проекту на Github 😄</string>
     <string name="slide">Слайд</string>

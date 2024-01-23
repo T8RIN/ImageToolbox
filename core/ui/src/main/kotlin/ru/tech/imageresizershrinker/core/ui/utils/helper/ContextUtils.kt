@@ -53,11 +53,7 @@ object ContextUtils {
         val permissions = listOf(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
-        ).let {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                it + Manifest.permission.ACCESS_MEDIA_LOCATION
-            } else it
-        }
+        )
         val state = checkPermissions(permissions)
         when (state.permissionStatus.values.first()) {
             PermissionStatus.NOT_GIVEN -> {
@@ -81,14 +77,9 @@ object ContextUtils {
         val permissions = listOf(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
-        ).let {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                it + Manifest.permission.ACCESS_MEDIA_LOCATION
-            } else it
-        }
-        val show = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            !(this as Activity).hasPermissionAllowed(Manifest.permission.ACCESS_MEDIA_LOCATION)
-        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) false
+        )
+        val show = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) false
+        else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) false
         else !permissions.all { (this as Activity).hasPermissionAllowed(it) }
 
         if (!show) setPermissionsAllowed(permissions)

@@ -17,6 +17,9 @@
 
 package ru.tech.imageresizershrinker.feature.main.presentation.components
 
+import android.Manifest
+import android.app.Activity
+import android.os.Build
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Storage
 import androidx.compose.material3.AlertDialog
@@ -27,23 +30,25 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
+import androidx.core.app.ActivityCompat
 import com.t8rin.dynamic.theme.observeAsState
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.findActivity
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.needToShowStoragePermissionRequest
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.requestStoragePermission
+import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.hasPermissionAllowed
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 
 @Composable
 fun PermissionDialog() {
-    val context = LocalContext.current.findActivity()
+    val context = LocalContext.current as Activity
     val settingsState = LocalSettingsState.current
 
     var showDialog by remember { mutableStateOf(false) }
@@ -54,10 +59,27 @@ fun PermissionDialog() {
         settingsState,
         LocalLifecycleOwner.current.lifecycle.observeAsState().value
     ) {
-        showDialog = context?.needToShowStoragePermissionRequest() == true
+        showDialog = context.needToShowStoragePermissionRequest() == true
         while (showDialog) {
-            showDialog = context?.needToShowStoragePermissionRequest() == true
+            showDialog = context.needToShowStoragePermissionRequest() == true
             kotlinx.coroutines.delay(100)
+        }
+    }
+
+    var requestedOnce by rememberSaveable {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(Unit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !requestedOnce) {
+            val permission = Manifest.permission.ACCESS_MEDIA_LOCATION
+            if (!context.hasPermissionAllowed(permission)) {
+                ActivityCompat.requestPermissions(
+                    context,
+                    arrayOf(permission),
+                    0
+                )
+            }
+            requestedOnce = true
         }
     }
 
@@ -75,7 +97,7 @@ fun PermissionDialog() {
             confirmButton = {
                 EnhancedButton(
                     onClick = {
-                        context!!.requestStoragePermission()
+                        context.requestStoragePermission()
                     }
                 ) {
                     Text(stringResource(id = R.string.grant))
