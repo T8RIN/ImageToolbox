@@ -642,6 +642,9 @@ fun MainScreen(
                                                     navController.popUpTo { it == Screen.Main }
                                                     navController.navigate(screen)
                                                 },
+                                                color = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                    1.dp
+                                                ),
                                                 modifier = Modifier
                                                     .widthIn(min = 1.dp)
                                                     .fillMaxWidth()
