@@ -40,7 +40,7 @@ fun RestoreSettingItem(
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
     val filePicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent(),
+        contract = ActivityResultContracts.OpenDocument(),
         onResult = { uri ->
             uri?.let {
                 restoreBackupFrom(it)
@@ -49,7 +49,7 @@ fun RestoreSettingItem(
     )
     PreferenceItem(
         onClick = {
-            filePicker.launch("*/*")
+            filePicker.launch(arrayOf("*/*"))
         },
         shape = shape,
         modifier = modifier,

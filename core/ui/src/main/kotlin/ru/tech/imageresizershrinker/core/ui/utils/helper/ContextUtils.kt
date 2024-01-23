@@ -26,7 +26,6 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.widget.Toast
@@ -34,7 +33,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.documentfile.provider.DocumentFile
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
@@ -43,6 +41,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionStatus
 import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.askUserToRequestPermissionExplicitly
 import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.checkPermissions
+import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.hasPermissionAllowed
 import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.setPermissionsAllowed
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -51,20 +50,20 @@ import java.io.InputStreamReader
 object ContextUtils {
 
     fun Activity.requestStoragePermission() {
-        val state = checkPermissions(
-            listOf(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            )
-        )
+        val permissions = listOf(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        ).let {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                it + Manifest.permission.ACCESS_MEDIA_LOCATION
+            } else it
+        }
+        val state = checkPermissions(permissions)
         when (state.permissionStatus.values.first()) {
             PermissionStatus.NOT_GIVEN -> {
                 ActivityCompat.requestPermissions(
                     this,
-                    arrayOf(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                    ),
+                    permissions.toTypedArray(),
                     0
                 )
             }
@@ -79,24 +78,20 @@ object ContextUtils {
     }
 
     fun Context.needToShowStoragePermissionRequest(): Boolean {
-        val show = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) false
-        else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) false
-        else !(ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-            this,
+        val permissions = listOf(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED)
-
-        if (!show) {
-            setPermissionsAllowed(
-                listOf(
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-            )
+        ).let {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                it + Manifest.permission.ACCESS_MEDIA_LOCATION
+            } else it
         }
+        val show = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            !(this as Activity).hasPermissionAllowed(Manifest.permission.ACCESS_MEDIA_LOCATION)
+        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) false
+        else !permissions.all { (this as Activity).hasPermissionAllowed(it) }
+
+        if (!show) setPermissionsAllowed(permissions)
 
         return show
     }

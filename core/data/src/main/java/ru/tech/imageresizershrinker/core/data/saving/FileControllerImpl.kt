@@ -34,6 +34,7 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import androidx.exifinterface.media.ExifInterface
+import com.t8rin.logger.makeLog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -203,11 +204,13 @@ class FileControllerImpl @Inject constructor(
                 }
             } else {
                 settingsState.saveFolderUri.takeIf {
-                    it != null
+                    !it.isNullOrEmpty()
                 }?.let { treeUri ->
-                    val hasDir: Boolean = treeUri.toUri().let {
-                        DocumentFile.fromTreeUri(context, it)
-                    }?.exists() == true
+                    val hasDir: Boolean = runCatching {
+                        treeUri.toUri().let {
+                            DocumentFile.fromTreeUri(context, it)
+                        }?.exists()
+                    }.getOrNull() == true
 
                     if (!hasDir) {
                         settingsRepository.setSaveFolderUri(null)
@@ -215,10 +218,7 @@ class FileControllerImpl @Inject constructor(
                             Exception(
                                 context.getString(
                                     R.string.no_such_directory,
-                                    treeUri.toUri().toUiPath(
-                                        context,
-                                        context.getString(R.string.default_folder)
-                                    )
+                                    treeUri
                                 )
                             )
                         )
@@ -266,6 +266,7 @@ class FileControllerImpl @Inject constructor(
                 )
             }
         }.onFailure {
+            it.makeLog()
             return SaveResult.Error.Exception(it)
         }
 
@@ -289,9 +290,10 @@ class FileControllerImpl @Inject constructor(
                 ex.saveAttributes()
             }
         } else if (keepMetadata) {
+            val newUri = originalUri.tryGetLocation(context)
             val exif = context
                 .contentResolver
-                .openFileDescriptor(originalUri, "r")
+                .openFileDescriptor(newUri, "r")
                 ?.use { ExifInterface(it.fileDescriptor) }
 
             getFileDescriptorFor(fileUri)?.use {
@@ -478,6 +480,17 @@ class FileControllerImpl @Inject constructor(
                 fileUri = imageUri
             )
         }
+    }
+
+    private fun Uri.tryGetLocation(context: Context): Uri {
+        val tempUri = this
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            runCatching {
+                MediaStore.setRequireOriginal(this).also {
+                    context.contentResolver.openFileDescriptor(it, "r")?.close()
+                }
+            }.getOrNull() ?: tempUri
+        } else this
     }
 
     private fun Uri.toPath(

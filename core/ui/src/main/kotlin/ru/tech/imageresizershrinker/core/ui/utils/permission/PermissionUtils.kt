@@ -85,7 +85,7 @@ object PermissionUtils {
         startActivity(intent)
     }
 
-    private fun Activity.hasPermissionAllowed(permission: String): Boolean {
+    fun Activity.hasPermissionAllowed(permission: String): Boolean {
         return ContextCompat.checkSelfPermission(
             this,
             permission

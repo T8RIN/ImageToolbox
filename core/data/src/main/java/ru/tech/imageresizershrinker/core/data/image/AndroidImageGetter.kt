@@ -23,7 +23,9 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
+import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
@@ -61,7 +63,9 @@ internal class AndroidImageGetter @Inject constructor(
                     .build()
             ).drawable?.toBitmap()
         }.getOrNull()?.let { bitmap ->
-            val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
+            val newUri = uri.toUri().tryGetLocation(context)
+
+            val fd = context.contentResolver.openFileDescriptor(newUri, "r")
             val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
             fd?.close()
             ImageData(
@@ -107,7 +111,8 @@ internal class AndroidImageGetter @Inject constructor(
             .build()
         return@withContext runCatching {
             imageLoader.execute(request).drawable?.toBitmap()?.let { bitmap ->
-                val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
+                val newUri = uri.toUri().tryGetLocation(context)
+                val fd = context.contentResolver.openFileDescriptor(newUri, "r")
                 val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
                 fd?.close()
                 ImageData(
@@ -139,7 +144,8 @@ internal class AndroidImageGetter @Inject constructor(
                     }
                     .target { drawable ->
                         drawable.toBitmap().let { bitmap ->
-                            val fd = context.contentResolver.openFileDescriptor(uri.toUri(), "r")
+                            val newUri = uri.toUri().tryGetLocation(context)
+                            val fd = context.contentResolver.openFileDescriptor(newUri, "r")
                             val exif = fd?.fileDescriptor?.let { ExifInterface(it) }
                             fd?.close()
                             ImageData(
@@ -216,6 +222,17 @@ internal class AndroidImageGetter @Inject constructor(
                 size: Size
             ): Bitmap = transformation.transform(input, size)
         }
+    }
+
+    private fun Uri.tryGetLocation(context: Context): Uri {
+        val tempUri = this
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            runCatching {
+                MediaStore.setRequireOriginal(this).also {
+                    context.contentResolver.openFileDescriptor(it, "r")?.close()
+                }
+            }.getOrNull() ?: tempUri
+        } else this
     }
 
 }
