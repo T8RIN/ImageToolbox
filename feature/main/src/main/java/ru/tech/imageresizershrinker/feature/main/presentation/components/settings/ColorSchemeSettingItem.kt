@@ -142,7 +142,7 @@ fun ColorSchemeSettingItem(
                     modifier = Modifier
                         .size(28.dp)
                         .background(
-                            animateColorAsState(
+                            color = animateColorAsState(
                                 settingsState.appColorTuple.primary.inverse(
                                     fraction = {
                                         if (it) 0.8f
@@ -151,14 +151,14 @@ fun ColorSchemeSettingItem(
                                     darkMode = settingsState.appColorTuple.primary.luminance() < 0.3f
                                 )
                             ).value,
-                            CircleShape
+                            shape = CircleShape
                         )
                 )
                 Icon(
                     imageVector = Icons.Rounded.CreateAlt,
                     contentDescription = null,
                     tint = settingsState.appColorTuple.primary,
-                    modifier = Modifier.size(14.dp)
+                    modifier = Modifier.size(18.dp)
                 )
             }
         }

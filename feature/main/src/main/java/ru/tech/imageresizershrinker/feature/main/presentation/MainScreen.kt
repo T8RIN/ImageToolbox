@@ -270,11 +270,7 @@ fun MainScreen(
 
             CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
                 TopAppBar(
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        MaterialTheme.colorScheme.surfaceColorAtElevation(
-                            6.dp
-                        )
-                    ),
+                    colors = TopAppBarDefaults.topAppBarColors(Color.Transparent),
                     title = {
                         AnimatedContent(
                             targetState = showSettingsSearch
@@ -306,8 +302,8 @@ fun MainScreen(
                     },
                     modifier = Modifier
                         .zIndex(6f)
-                        .background(MaterialTheme.colorScheme.surfaceContainer)
-                        .drawHorizontalStroke(),
+                        .drawHorizontalStroke()
+                        .background(MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)),
                     actions = {
                         AnimatedContent(
                             targetState = showSettingsSearch to settingsSearchKeyword.isNotEmpty(),

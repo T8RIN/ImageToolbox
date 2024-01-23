@@ -67,9 +67,7 @@ fun SimpleSheet(
         if (settingsState.drawContainerShadows) 16.dp
         else 0.dp
     )
-    ProvideContainerDefaults(
-        color = MaterialTheme.colorScheme.surfaceContainerHigh
-    ) {
+    ProvideContainerDefaults {
         ModalSheet(
             cancelable = cancelable,
             nestedScrollEnabled = nestedScrollEnabled,
@@ -124,9 +122,7 @@ fun SimpleSheet(
         else 0.dp
     )
 
-    ProvideContainerDefaults(
-        color = MaterialTheme.colorScheme.surfaceContainerHigh
-    ) {
+    ProvideContainerDefaults {
         ModalSheet(
             cancelable = cancelable,
             nestedScrollEnabled = nestedScrollEnabled,
@@ -196,9 +192,7 @@ fun SimpleSheet(
         else 0.dp
     )
 
-    ProvideContainerDefaults(
-        color = MaterialTheme.colorScheme.surfaceContainerHigh
-    ) {
+    ProvideContainerDefaults {
         ModalSheet(
             cancelable = cancelable,
             nestedScrollEnabled = nestedScrollEnabled,
