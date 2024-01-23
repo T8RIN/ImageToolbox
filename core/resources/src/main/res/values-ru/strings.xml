@@ -599,4 +599,6 @@
     <string name="gradient_maker_sub">Создайте градиент заданного размера с настраиваемыми цветами и типом внешнего вида</string>
     <string name="gradient_type_linear">Линейный</string>
     <string name="gradient_type_radial">Радиальный</string>
+    <string name="brightness_enforcement">Максимальная яркость</string>
+    <string name="screen">Экран</string>
 </resources>
