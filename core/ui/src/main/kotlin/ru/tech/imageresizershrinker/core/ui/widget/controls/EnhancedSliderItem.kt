@@ -156,7 +156,7 @@ fun EnhancedSliderItem(
     ValueDialog(
         roundTo = null,
         valueRange = valueRange,
-        valueState = value.toString(),
+        valueState = internalStateTransformation(value.toFloat()).toString(),
         expanded = visible && showValueDialog,
         onDismiss = { showValueDialog = false },
         onValueUpdate = {

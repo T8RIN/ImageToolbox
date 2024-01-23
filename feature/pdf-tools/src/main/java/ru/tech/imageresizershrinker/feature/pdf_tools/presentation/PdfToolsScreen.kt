@@ -139,7 +139,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleSmallImagesToLa
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -754,15 +753,14 @@ fun PdfToolsScreen(
                             else -> {
                                 Column {
                                     Row(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .navBarsPaddingOnlyIfTheyAtTheEnd(),
+                                        modifier = Modifier.weight(1f),
                                         verticalAlignment = Alignment.CenterVertically,
                                         horizontalArrangement = Arrangement.Center
                                     ) {
                                         if (pdfType is Screen.PdfTools.Type.Preview || pdfType is Screen.PdfTools.Type.PdfToImages) {
+                                            val direction = LocalLayoutDirection.current
                                             Box(
-                                                Modifier
+                                                modifier = Modifier
                                                     .container(
                                                         shape = RectangleShape,
                                                         resultPadding = 0.dp,
@@ -776,7 +774,13 @@ fun PdfToolsScreen(
                                             ) {
                                                 if (pdfType is Screen.PdfTools.Type.Preview) {
                                                     PdfViewer(
-                                                        uriState = viewModel.pdfPreviewUri
+                                                        uriState = viewModel.pdfPreviewUri,
+                                                        contentPadding = PaddingValues(
+                                                            start = 20.dp + WindowInsets.displayCutout
+                                                                .asPaddingValues()
+                                                                .calculateStartPadding(direction),
+                                                            end = 20.dp
+                                                        )
                                                     )
                                                 } else {
                                                     Column(
@@ -837,15 +841,21 @@ fun PdfToolsScreen(
                                             }
                                         }
                                         if (!portrait) {
+                                            val direction = LocalLayoutDirection.current
                                             Column(
                                                 Modifier
                                                     .container(
                                                         shape = RectangleShape,
                                                         color = MaterialTheme.colorScheme.surfaceContainer
                                                     )
-                                                    .padding(horizontal = 20.dp)
                                                     .fillMaxHeight()
-                                                    .navigationBarsPadding(),
+                                                    .padding(horizontal = 16.dp)
+                                                    .navigationBarsPadding()
+                                                    .padding(
+                                                        end = WindowInsets.displayCutout
+                                                            .asPaddingValues()
+                                                            .calculateEndPadding(direction)
+                                                    ),
                                                 horizontalAlignment = Alignment.CenterHorizontally,
                                                 verticalArrangement = Arrangement.Center
                                             ) {

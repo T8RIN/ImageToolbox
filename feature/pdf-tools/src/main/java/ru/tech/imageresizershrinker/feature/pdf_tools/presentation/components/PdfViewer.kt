@@ -141,7 +141,8 @@ fun PdfViewer(
     selectedPages: List<Int> = emptyList(),
     updateSelectedPages: (List<Int>) -> Unit = {},
     spacing: Dp = 8.dp,
-    orientation: PdfViewerOrientation = PdfViewerOrientation.Vertical
+    orientation: PdfViewerOrientation = PdfViewerOrientation.Vertical,
+    contentPadding: PaddingValues = PaddingValues(start = 20.dp, end = 20.dp)
 ) {
     val showError: (Throwable) -> Unit = {}
 
@@ -258,7 +259,7 @@ fun PdfViewer(
                                 .zoomable(
                                     rememberZoomState(10f)
                                 ),
-                            contentPadding = PaddingValues(start = 20.dp, end = 20.dp),
+                            contentPadding = contentPadding,
                             horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
                             items(
