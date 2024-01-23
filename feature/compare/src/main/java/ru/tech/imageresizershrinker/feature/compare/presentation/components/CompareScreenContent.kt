@@ -223,9 +223,12 @@ fun CompareScreenContent(
                         visible = showButtonsAtTheStart
                     ) {
                         Row {
-                            VerticalDivider(
-                                thickness = LocalSettingsState.current.borderWidth
-                            )
+                            LocalSettingsState.current.borderWidth.takeIf {
+                                it > 0.dp
+                            }?.let {
+                                VerticalDivider(thickness = it)
+                            }
+
                             Column(
                                 modifier = Modifier
                                     .fillMaxHeight()
