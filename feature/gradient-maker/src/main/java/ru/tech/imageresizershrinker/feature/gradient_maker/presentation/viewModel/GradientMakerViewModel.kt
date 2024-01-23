@@ -87,23 +87,20 @@ class GradientMakerViewModel @Inject constructor(
         withContext(Dispatchers.IO) {
             _isSaving.value = true
             createGradientBitmap()?.let { localBitmap ->
+                val imageInfo = ImageInfo(
+                    imageFormat = imageFormat,
+                    width = localBitmap.width,
+                    height = localBitmap.height
+                )
                 onComplete(
                     fileController.save(
                         saveTarget = ImageSaveTarget<ExifInterface>(
-                            imageInfo = ImageInfo(
-                                imageFormat = imageFormat,
-                                width = localBitmap.width,
-                                height = localBitmap.height
-                            ),
+                            imageInfo = imageInfo,
                             originalUri = "Gradient",
                             sequenceNumber = null,
                             data = imageCompressor.compressAndTransform(
                                 image = localBitmap,
-                                imageInfo = ImageInfo(
-                                    imageFormat = imageFormat,
-                                    width = localBitmap.width,
-                                    height = localBitmap.height
-                                )
+                                imageInfo = imageInfo
                             )
                         ), keepMetadata = false
                     )

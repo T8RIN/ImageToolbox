@@ -137,7 +137,7 @@ fun QualityWidget(
                         onQualityChange(it.toInt().coerceIn(imageFormat.compressionRange).toFloat())
                     },
                     valueRange = imageFormat.compressionRange.let { it.first.toFloat()..it.last.toFloat() },
-                    steps = imageFormat.compressionRange.let { it.last - it.first }
+                    steps = imageFormat.compressionRange.let { it.last - it.first - 1 }
                 )
                 AnimatedVisibility(isEffort) {
                     Text(
