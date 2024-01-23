@@ -234,7 +234,7 @@ fun GradientMakerScreen(
             }
             BottomButtonsBlock(
                 targetState = (false) to isPortrait,
-                onPickImage = {},
+                onSecondaryButtonClick = {},
                 isPickImageButtonVisible = false,
                 isPrimaryButtonVisible = viewModel.brush != null,
                 onPrimaryButtonClick = saveBitmap,

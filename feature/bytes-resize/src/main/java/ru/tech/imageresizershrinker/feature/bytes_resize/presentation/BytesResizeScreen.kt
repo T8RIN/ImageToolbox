@@ -297,7 +297,7 @@ fun BytesResizeScreen(
         buttons = {
             BottomButtonsBlock(
                 targetState = (viewModel.uris.isNullOrEmpty()) to isPortrait,
-                onPickImage = pickImage,
+                onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = saveBitmaps,
                 isPrimaryButtonVisible = viewModel.canSave,
                 actions = {

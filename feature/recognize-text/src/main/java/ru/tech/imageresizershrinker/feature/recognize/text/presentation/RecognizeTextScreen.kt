@@ -292,7 +292,7 @@ fun RecognizeTextScreen(
         buttons = {
             BottomButtonsBlock(
                 targetState = (viewModel.uri == null) to isPortrait,
-                onPickImage = pickImage,
+                onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = copyText,
                 primaryButtonIcon = Icons.Rounded.CopyAll,
                 isPrimaryButtonVisible = isHaveText,

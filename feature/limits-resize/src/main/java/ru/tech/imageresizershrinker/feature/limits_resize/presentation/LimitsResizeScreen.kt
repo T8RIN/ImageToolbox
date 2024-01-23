@@ -259,7 +259,7 @@ fun LimitsResizeScreen(
     }, buttons = { actions ->
         BottomButtonsBlock(isPrimaryButtonVisible = viewModel.canSave,
             targetState = (viewModel.uris.isNullOrEmpty()) to isPortrait,
-            onPickImage = pickImage,
+            onSecondaryButtonClick = pickImage,
             onPrimaryButtonClick = saveBitmaps,
             actions = {
                 if (isPortrait) actions()

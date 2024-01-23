@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
@@ -190,6 +191,7 @@ fun AdaptiveLayoutScreen(
                                 if (controls == null) 0.01f
                                 else 1f
                             )
+                            .fillMaxHeight()
                             .clipToBounds()
                     ) {
                         imageStickyHeader(

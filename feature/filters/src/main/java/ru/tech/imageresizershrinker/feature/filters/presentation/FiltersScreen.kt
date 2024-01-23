@@ -335,7 +335,7 @@ fun FiltersScreen(
     val buttons: @Composable (filterType: Screen.Filter.Type) -> Unit = { filterType ->
         BottomButtonsBlock(
             targetState = (viewModel.basicFilterState.uris.isNullOrEmpty() && viewModel.maskingFilterState.uri == null) to imageInside,
-            onPickImage = {
+            onSecondaryButtonClick = {
                 when (filterType) {
                     is Screen.Filter.Type.Basic -> pickImagesLauncher.pickImage()
                     is Screen.Filter.Type.Masking -> pickSingleImageLauncher.pickImage()

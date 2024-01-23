@@ -298,7 +298,7 @@ fun ImageStitchingScreen(
             BottomButtonsBlock(
                 isPrimaryButtonVisible = viewModel.previewBitmap != null,
                 targetState = (viewModel.uris.isNullOrEmpty()) to isPortrait,
-                onPickImage = pickImage,
+                onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = saveBitmaps,
                 actions = {
                     if (isPortrait) actions()

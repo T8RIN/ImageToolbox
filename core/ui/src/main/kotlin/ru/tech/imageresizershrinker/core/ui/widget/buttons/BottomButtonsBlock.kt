@@ -58,7 +58,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 @Composable
 fun BottomButtonsBlock(
     targetState: Pair<Boolean, Boolean>,
-    onPickImage: () -> Unit,
+    onSecondaryButtonClick: () -> Unit,
+    secondaryButtonIcon: ImageVector = Icons.Rounded.AddPhotoAlternate,
     onPrimaryButtonClick: () -> Unit,
     primaryButtonIcon: ImageVector = Icons.Rounded.Save,
     isPrimaryButtonVisible: Boolean = true,
@@ -71,13 +72,13 @@ fun BottomButtonsBlock(
     ) { (isNull, inside) ->
         if (isNull && isPickImageButtonVisible) {
             EnhancedFloatingActionButton(
-                onClick = onPickImage,
+                onClick = onSecondaryButtonClick,
                 modifier = Modifier
                     .navigationBarsPadding()
                     .padding(16.dp),
                 content = {
                     Spacer(Modifier.width(16.dp))
-                    Icon(Icons.Rounded.AddPhotoAlternate, null)
+                    Icon(secondaryButtonIcon, null)
                     Spacer(Modifier.width(16.dp))
                     Text(stringResource(R.string.pick_image_alt))
                     Spacer(Modifier.width(16.dp))
@@ -91,11 +92,11 @@ fun BottomButtonsBlock(
                     Row {
                         AnimatedVisibility(visible = isPickImageButtonVisible) {
                             EnhancedFloatingActionButton(
-                                onClick = onPickImage,
+                                onClick = onSecondaryButtonClick,
                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer
                             ) {
                                 Icon(
-                                    imageVector = Icons.Rounded.AddPhotoAlternate,
+                                    imageVector = secondaryButtonIcon,
                                     contentDescription = null
                                 )
                             }
@@ -140,11 +141,11 @@ fun BottomButtonsBlock(
                 Spacer(Modifier.height(8.dp))
                 AnimatedVisibility(visible = isPickImageButtonVisible) {
                     EnhancedFloatingActionButton(
-                        onClick = onPickImage,
+                        onClick = onSecondaryButtonClick,
                         containerColor = MaterialTheme.colorScheme.tertiaryContainer
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.AddPhotoAlternate,
+                            imageVector = secondaryButtonIcon,
                             contentDescription = null
                         )
                     }

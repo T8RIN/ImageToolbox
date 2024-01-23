@@ -381,7 +381,7 @@ fun SingleEditScreen(
         buttons = {
             BottomButtonsBlock(
                 targetState = (viewModel.uri == Uri.EMPTY) to isPortrait,
-                onPickImage = pickImage,
+                onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = saveBitmap,
                 actions = {
                     if (isPortrait) it()

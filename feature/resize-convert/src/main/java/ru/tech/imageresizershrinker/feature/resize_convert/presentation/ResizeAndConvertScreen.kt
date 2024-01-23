@@ -397,7 +397,7 @@ fun ResizeAndConvertScreen(
         buttons = { actions ->
             BottomButtonsBlock(
                 targetState = (viewModel.uris.isNullOrEmpty()) to isPortrait,
-                onPickImage = pickImage,
+                onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = saveBitmaps,
                 actions = {
                     if (isPortrait) actions()
