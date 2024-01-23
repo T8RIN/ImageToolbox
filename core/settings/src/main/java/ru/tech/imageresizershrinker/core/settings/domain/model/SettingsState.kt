@@ -96,7 +96,7 @@ data class SettingsState(
                 addSequenceNumber = true,
                 saveFolderUri = null,
                 filenamePrefix = "ResizedImage",
-                addSizeInFilename = true,
+                addSizeInFilename = false,
                 addOriginalFilename = false,
                 randomizeFilename = false,
                 font = FontFam.Montserrat,

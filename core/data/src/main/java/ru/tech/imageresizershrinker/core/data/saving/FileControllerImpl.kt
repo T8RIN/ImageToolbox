@@ -363,7 +363,9 @@ class FileControllerImpl @Inject constructor(
 
         if (settingsState.addOriginalFilename) {
             prefix += if (saveTarget.originalUri.toUri() != Uri.EMPTY) {
-                context.getFileName(saveTarget.originalUri.toUri()) ?: ""
+                context.getFileName(
+                    saveTarget.originalUri.toUri()
+                )?.dropLastWhile { it != '.' }?.removeSuffix(".") ?: ""
             } else {
                 context.getString(R.string.original_filename)
             }
@@ -377,10 +379,14 @@ class FileControllerImpl @Inject constructor(
 
         return "$prefix${
             if (settingsState.addSequenceNumber && saveTarget.sequenceNumber != null) {
-                SimpleDateFormat(
-                    "yyyy-MM-dd_HH-mm-ss",
-                    Locale.getDefault()
-                ).format(Date()) + "_" + saveTarget.sequenceNumber
+                if (settingsState.addOriginalFilename) {
+                    saveTarget.sequenceNumber.toString()
+                } else {
+                    SimpleDateFormat(
+                        "yyyy-MM-dd_HH-mm-ss",
+                        Locale.getDefault()
+                    ).format(Date()) + "_" + saveTarget.sequenceNumber
+                }
             } else timeStamp
         }$suffix.$extension"
     }
