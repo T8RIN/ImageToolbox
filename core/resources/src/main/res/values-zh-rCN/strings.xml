@@ -585,4 +585,20 @@
     <string name="delete_language_sub">要删除“%1$s”语言所有识别类型的 OCR 训练数据，还是只删除选中的（%2$s）？</string>
     <string name="gradient_maker">渐变制作器</string>
     <string name="gradient_maker_sub">创建指定输出尺寸的渐变效果，并自定义颜色和外观类型</string>
+    <string name="gradient_type_linear">线性</string>
+    <string name="gradient_type_radial">放射式</string>
+    <string name="gradient_type_sweep">平扫式</string>
+    <string name="gradient_type">渐变类型</string>
+    <string name="center_x">中心 X</string>
+    <string name="center_y">中心 Y</string>
+    <string name="tile_mode">平铺模式</string>
+    <string name="tile_mode_repeated">重复</string>
+    <string name="tile_mode_clamp">固定</string>
+    <string name="tile_mode_decal">贴纸</string>
+    <string name="add_color">添加颜色</string>
+    <string name="properties">属性</string>
+    <string name="color_stops">颜色终止点</string>
+    <string name="brightness_enforcement">亮度强制</string>
+    <string name="tile_mode_mirror">镜像</string>
+    <string name="screen">屏幕</string>
 </resources>
