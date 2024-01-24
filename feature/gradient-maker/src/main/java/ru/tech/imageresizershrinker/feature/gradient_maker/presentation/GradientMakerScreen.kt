@@ -21,7 +21,15 @@ import android.app.Activity
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -190,7 +198,33 @@ fun GradientMakerScreen(
 
     val showCompareSheet = rememberSaveable { mutableStateOf(false) }
 
+    val screenWidth = LocalConfiguration.current.screenWidthDp
+    val easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
+
     AdaptiveLayoutScreen(
+        controlsTransitionSpec = {
+            if (targetState) {
+                slideInHorizontally(
+                    animationSpec = tween(600, easing = easing),
+                    initialOffsetX = { screenWidth }) + fadeIn(
+                    tween(300, 100)
+                ) togetherWith slideOutHorizontally(
+                    animationSpec = tween(600, easing = easing),
+                    targetOffsetX = { -screenWidth }) + fadeOut(
+                    tween(300, 100)
+                )
+            } else {
+                slideInHorizontally(
+                    animationSpec = tween(600, easing = easing),
+                    initialOffsetX = { -screenWidth }) + fadeIn(
+                    tween(300, 100)
+                ) togetherWith slideOutHorizontally(
+                    animationSpec = tween(600, easing = easing),
+                    targetOffsetX = { screenWidth }) + fadeOut(
+                    tween(300, 100)
+                )
+            } using SizeTransform(false)
+        },
         isPortrait = isPortrait,
         canShowScreenData = allowPickingImage != null,
         title = {
@@ -210,7 +244,7 @@ fun GradientMakerScreen(
                 contentColor = LocalContentColor.current,
                 enableAutoShadowAndBorder = false,
                 onClick = {
-                    viewModel.shareBitmaps { showConfetti() }
+                    viewModel.shareBitmaps(showConfetti)
                 },
                 enabled = viewModel.brush != null
             ) {

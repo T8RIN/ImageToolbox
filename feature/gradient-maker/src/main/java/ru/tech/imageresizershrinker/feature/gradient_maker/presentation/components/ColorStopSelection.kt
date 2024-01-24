@@ -248,8 +248,12 @@ private fun ColorStopSelectionItem(
                             Modifier.pointerInput(Unit) {
                                 detectTapGestures(
                                     onPress = {
-                                        scope.launch {
-                                            state.animateTo(RevealValue.FullyRevealedStart)
+                                        val time = System.currentTimeMillis()
+                                        awaitRelease()
+                                        if (System.currentTimeMillis() - time >= 200) {
+                                            scope.launch {
+                                                state.animateTo(RevealValue.FullyRevealedStart)
+                                            }
                                         }
                                     }
                                 )
