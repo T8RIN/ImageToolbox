@@ -544,4 +544,5 @@
     <string name="fabs_shadow">懸浮動作按鈕</string>
     <string name="buttons_shadow_sub">啟用在預設按鈕後方的陰影繪製</string>
     <string name="app_bars_shadow_sub">啟用在應用程式列後方的陰影繪製</string>
+    <string name="gradient_maker_type_image">漸層疊加</string>
 </resources>
