@@ -366,7 +366,8 @@ fun RecognizeTextScreen(
 
     ZoomModalSheet(
         data = viewModel.uri,
-        visible = showZoomSheet
+        visible = showZoomSheet,
+        transformations = viewModel.getTransformations()
     )
 
     if (downloadDialogData.isNotEmpty()) {

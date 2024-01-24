@@ -44,6 +44,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil.transform.Transformation
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.resources.R
@@ -59,7 +60,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @Composable
 fun ZoomModalSheet(
     data: Any?,
-    visible: MutableState<Boolean>
+    visible: MutableState<Boolean>,
+    transformations: List<Transformation> = emptyList()
 ) {
     val settingsState = LocalSettingsState.current
     var showSheet by visible
@@ -75,6 +77,7 @@ fun ZoomModalSheet(
                 shape = RectangleShape,
                 contentScale = ContentScale.Inside,
                 showTransparencyChecker = false,
+                transformations = transformations,
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)

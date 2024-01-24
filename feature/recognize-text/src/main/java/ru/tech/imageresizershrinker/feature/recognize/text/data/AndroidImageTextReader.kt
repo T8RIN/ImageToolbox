@@ -120,7 +120,12 @@ internal class AndroidImageTextReader @Inject constructor(
 
             val accuracy = api.meanConfidence()
 
-            TextRecognitionResult.Success(RecognitionData(text, accuracy))
+            TextRecognitionResult.Success(
+                RecognitionData(
+                    text = text,
+                    accuracy = if (text.isEmpty()) 0 else accuracy
+                )
+            )
         }.let {
             if (it.isSuccess) {
                 it.getOrNull()!!
