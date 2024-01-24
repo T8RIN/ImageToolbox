@@ -258,7 +258,7 @@ private fun ColorStopSelectionItem(
                     )
             ) {
                 ColorInfo(
-                    color = color.copy(1f).toArgb(),
+                    color = color.toArgb(),
                     onColorChange = {
                         onValueChange(value to Color(it))
                     },

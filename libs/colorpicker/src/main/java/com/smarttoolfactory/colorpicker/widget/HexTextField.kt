@@ -90,7 +90,6 @@ fun HexTextField(
         placeholder = placeholder,
         value = hexString.removePrefix("#"),
         onValueChange = {
-
             if (it.length <= if (useAlpha) 8 else 6) {
                 var validHex = true
 

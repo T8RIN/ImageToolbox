@@ -63,6 +63,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.smarttoolfactory.colordetector.util.ColorUtil.colorToHex
+import com.smarttoolfactory.colordetector.util.ColorUtil.colorToHexAlpha
+import com.smarttoolfactory.colordetector.util.HexUtil
+import com.smarttoolfactory.colorpicker.util.HexVisualTransformation
+import com.smarttoolfactory.colorpicker.util.hexRegexSingleChar
+import com.smarttoolfactory.colorpicker.util.hexWithAlphaRegex
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
@@ -244,14 +250,23 @@ fun ColorInfo(
                             ) {
                                 OutlinedTextField(
                                     shape = RoundedCornerShape(16.dp),
-                                    value = value,
                                     textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
                                     maxLines = 1,
-                                    onValueChange = { colorString ->
-                                        val newValue =
-                                            (colorString + "0" * (7 - colorString.length)).take(7)
-                                        if (newValue.matches(Regex("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"))) {
-                                            value = newValue
+                                    value = value.removePrefix("#"),
+                                    visualTransformation = HexVisualTransformation(true),
+                                    onValueChange = {
+                                        if (it.length <= 8) {
+                                            var validHex = true
+
+                                            for (index in it.indices) {
+                                                validHex =
+                                                    hexRegexSingleChar.matches(it[index].toString())
+                                                if (!validHex) break
+                                            }
+
+                                            if (validHex) {
+                                                value = "#${it.uppercase()}"
+                                            }
                                         }
                                     }
                                 )
@@ -261,9 +276,9 @@ fun ColorInfo(
                             EnhancedButton(
                                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                 onClick = {
-                                    val hexColor =
-                                        value.removePrefix("#").toLong(16) or 0x00000000FF000000
-                                    onColorChange(Color(hexColor).toArgb())
+                                    if (hexWithAlphaRegex.matches(value)) {
+                                        onColorChange(HexUtil.hexToColor(value).toArgb())
+                                    }
                                     expanded = false
                                 }
                             ) {
@@ -278,8 +293,13 @@ fun ColorInfo(
 }
 
 /** Receive the clipboard data. */
-private fun getFormattedColor(color: Int): String =
-    String.format("#%08X", (0xFFFFFFFF and color.toLong())).replace("#FF", "#")
+private fun getFormattedColor(color: Int): String {
+    return if (Color(color).alpha == 1f) {
+        colorToHex(Color(color))
+    } else {
+        colorToHexAlpha(Color(color))
+    }.uppercase()
+}
 
 private operator fun String.times(i: Int): String {
     var s = ""
