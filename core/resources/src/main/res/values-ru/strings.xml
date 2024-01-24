@@ -601,4 +601,7 @@
     <string name="gradient_type_radial">Радиальный</string>
     <string name="brightness_enforcement">Максимальная яркость</string>
     <string name="screen">Экран</string>
+    <string name="transformations">Трансформации</string>
+    <string name="gradient_maker_type_image">Наложение градиента</string>
+    <string name="gradient_maker_type_image_sub">Наложите любой градиент на любое изображение</string>
 </resources>
