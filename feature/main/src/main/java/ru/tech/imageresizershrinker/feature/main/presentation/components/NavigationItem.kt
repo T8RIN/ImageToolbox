@@ -32,7 +32,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material.ripple
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
@@ -148,7 +148,12 @@ fun NavigationItem(
                 Modifier
                     .layoutId(IndicatorRippleLayoutIdTag)
                     .clip(CircleShape)
-                    .indication(offsetInteractionSource, rememberRipple())
+                    .indication(
+                        interactionSource = offsetInteractionSource,
+                        indication = remember {
+                            ripple()
+                        }
+                    )
             )
         }
         val indicator = @Composable {

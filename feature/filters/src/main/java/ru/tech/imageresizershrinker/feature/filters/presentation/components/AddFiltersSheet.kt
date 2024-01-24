@@ -200,7 +200,10 @@ fun AddFiltersSheet(
         sheetContent = {
             Box {
                 Column {
-                    HorizontalPager(state = pagerState, beyondBoundsPageCount = 4) { page ->
+                    HorizontalPager(
+                        state = pagerState,
+                        outOfBoundsPageCount = 4
+                    ) { page ->
                         Column(
                             Modifier
                                 .verticalScroll(rememberScrollState())

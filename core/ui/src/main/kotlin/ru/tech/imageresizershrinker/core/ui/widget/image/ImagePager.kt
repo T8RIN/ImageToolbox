@@ -124,7 +124,7 @@ fun ImagePager(
             HorizontalPager(
                 state = state,
                 modifier = Modifier.fillMaxSize(),
-                beyondBoundsPageCount = 5
+                outOfBoundsPageCount = 5
             ) { page ->
                 Box(
                     modifier = Modifier.fillMaxSize()

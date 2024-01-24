@@ -28,7 +28,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material.ripple
 import androidx.compose.material3.SwitchColors
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
@@ -80,7 +80,12 @@ fun PixelSwitch(
                 .offset { IntOffset(x = thumbOffset.roundToPx(), y = 0) }
                 .indication(
                     interactionSource = interactionSource,
-                    indication = rememberRipple(false, 16.dp),
+                    indication = remember {
+                        ripple(
+                            bounded = false,
+                            radius = 16.dp
+                        )
+                    }
                 )
                 .align(Alignment.CenterStart)
                 .background(thumbColor, CircleShape)

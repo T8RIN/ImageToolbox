@@ -11,7 +11,7 @@ tesseract = "4.3.0"
 composeColorfulSliders = "1.2.2"
 m3color = "2024.1"
 paletteKtx = "1.0.0"
-composeVersion = "1.6.0-rc01"
+composeVersion = "1.7.0-alpha01"
 androidx-datastorePreferencesAndroid = "1.1.0-beta01"
 appUpdateKtx = "2.1.0"
 appUpdate = "2.1.0"
@@ -38,16 +38,16 @@ gms = "4.4.0"
 
 coil = "2.5.0"
 coroutines = "1.7.3"
-androidx = "1.6.1"
-androidxCore = "1.12.0"
-androidxLifecycle = "2.7.0"
+appCompat = "1.7.0-alpha03"
+androidxCore = "1.13.0-alpha04"
+androidxLifecycle = "2.8.0-alpha01"
 desugaring = "2.0.4"
 composeBom = "2023.10.01"
 decompose = "2.2.2"
-activityCompose = "1.8.2"
+activityCompose = "1.9.0-alpha02"
 kotlinxCollectionsImmutable = "0.3.7"
 scrollbar = "1.8.0"
-material3 = "1.2.0-beta02"
+material3 = "1.2.0-rc01"
 reorderable = "0.9.6"
 reviewKtx = "2.0.1"
 splashScreen = "1.0.1"
@@ -60,7 +60,7 @@ ksp = "1.9.22-1.0.17"
 androidx-test-ext-junit = "1.1.5"
 documentfile = "1.0.1"
 uiautomator = "2.2.0"
-androidxMacroBenchmark = "1.2.2"
+androidxMacroBenchmark = "1.2.3"
 
 [libraries]
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "exifinterface" }
@@ -95,8 +95,7 @@ jxl-coder-coil = { module = "com.github.awxkee:jxl-coder-coil", version.ref = "j
 jxl-coder = { module = "com.github.awxkee:jxl-coder", version.ref = "jxlCoder" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 coroutinesAndroid = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
-coroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx" }
+appCompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
 androidxCore = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
 scrollbar = { module = "com.github.nanihadesuka:LazyColumnScrollbar", version.ref = "scrollbar" }
 lifecycle-viewmodel-savedstate = { module = "androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "androidxLifecycle" }

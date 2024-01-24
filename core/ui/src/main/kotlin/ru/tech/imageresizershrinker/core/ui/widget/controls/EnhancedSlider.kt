@@ -29,7 +29,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material.ripple
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
@@ -111,10 +111,12 @@ fun EnhancedSlider(
                 .size(20.dp)
                 .indication(
                     interactionSource = interactionSource,
-                    indication = rememberRipple(
-                        bounded = false,
-                        radius = 22.dp
-                    )
+                    indication = remember {
+                        ripple(
+                            bounded = false,
+                            radius = 22.dp
+                        )
+                    }
                 )
                 .hoverable(interactionSource = interactionSource)
                 .materialShadow(
