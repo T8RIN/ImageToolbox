@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ripple
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
@@ -57,6 +56,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
+import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberRipple
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -111,12 +111,10 @@ fun EnhancedSlider(
                 .size(20.dp)
                 .indication(
                     interactionSource = interactionSource,
-                    indication = remember {
-                        ripple(
-                            bounded = false,
-                            radius = 22.dp
-                        )
-                    }
+                    indication = rememberRipple(
+                        bounded = false,
+                        radius = 22.dp
+                    )
                 )
                 .hoverable(interactionSource = interactionSource)
                 .materialShadow(

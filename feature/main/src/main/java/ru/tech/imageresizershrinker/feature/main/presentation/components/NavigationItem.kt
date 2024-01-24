@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ripple
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
@@ -66,6 +65,7 @@ import kotlinx.coroutines.flow.map
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberRipple
 import kotlin.math.roundToInt
 
 @Composable
@@ -150,9 +150,7 @@ fun NavigationItem(
                     .clip(CircleShape)
                     .indication(
                         interactionSource = offsetInteractionSource,
-                        indication = remember {
-                            ripple()
-                        }
+                        indication = rememberRipple()
                     )
             )
         }
