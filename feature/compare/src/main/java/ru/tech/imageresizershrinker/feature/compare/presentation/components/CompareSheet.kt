@@ -45,10 +45,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.beforeafter.BeforeAfterImage
+import com.smarttoolfactory.beforeafter.BeforeAfterLayout
 import com.smarttoolfactory.beforeafter.OverlayStyle
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
@@ -76,28 +78,28 @@ fun CompareSheet(
         SimpleSheet(
             sheetContent = {
                 Column(
-                    Modifier.navigationBarsPadding()
+                    modifier = Modifier.navigationBarsPadding()
                 ) {
                     data.let { (b, a) ->
                         val before = remember(data) { b?.asImageBitmap() }
                         val after = remember(data) { a?.asImageBitmap() }
                         Box(
-                            Modifier
+                            modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(
                                     start = 16.dp,
                                     end = 16.dp,
                                 )
                                 .border(
-                                    settingsState.borderWidth,
-                                    MaterialTheme.colorScheme.outlineVariant(),
-                                    RoundedCornerShape(4.dp)
+                                    width = settingsState.borderWidth,
+                                    color = MaterialTheme.colorScheme.outlineVariant(),
+                                    shape = RoundedCornerShape(4.dp)
                                 )
                                 .background(
-                                    MaterialTheme.colorScheme
+                                    color = MaterialTheme.colorScheme
                                         .outlineVariant()
                                         .copy(alpha = 0.1f),
-                                    RoundedCornerShape(4.dp)
+                                    shape = RoundedCornerShape(4.dp)
                                 )
                                 .weight(1f, false)
                                 .clip(RoundedCornerShape(4.dp))
@@ -157,4 +159,96 @@ fun CompareSheet(
             }
         )
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CompareSheet(
+    beforeContent: @Composable () -> Unit,
+    afterContent: @Composable () -> Unit,
+    visible: MutableState<Boolean>,
+    shape: Shape = RoundedCornerShape(4.dp)
+) {
+    var progress by rememberSaveable { mutableFloatStateOf(50f) }
+
+    val settingsState = LocalSettingsState.current
+    var showSheet by visible
+
+    SimpleSheet(
+        sheetContent = {
+            Column(
+                modifier = Modifier.navigationBarsPadding()
+            ) {
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = 16.dp,
+                            end = 16.dp,
+                        )
+                        .border(
+                            width = settingsState.borderWidth,
+                            color = MaterialTheme.colorScheme.outlineVariant(),
+                            shape = shape
+                        )
+                        .background(
+                            color = MaterialTheme.colorScheme
+                                .outlineVariant()
+                                .copy(alpha = 0.1f),
+                            shape = shape
+                        )
+                        .weight(1f, false)
+                        .clip(shape)
+                        .zoomable(rememberZoomState(maxScale = 10f))
+                ) {
+                    BeforeAfterLayout(
+                        overlayStyle = OverlayStyle(),
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .clip(shape)
+                            .align(Alignment.Center)
+                            .transparencyChecker(),
+                        progress = animateFloatAsState(targetValue = progress).value,
+                        onProgressChange = {
+                            progress = it
+                        },
+                        enableZoom = false,
+                        beforeContent = beforeContent,
+                        afterContent = afterContent,
+                        beforeLabel = { },
+                        afterLabel = { }
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    TitleItem(
+                        text = stringResource(R.string.compare),
+                        icon = Icons.Rounded.Compare
+                    )
+                    Spacer(Modifier.weight(1f))
+                    EnhancedButton(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        onClick = {
+                            showSheet = false
+                        },
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    ) {
+                        AutoSizeText(stringResource(R.string.close))
+                    }
+                }
+            }
+        },
+        visible = visible,
+        dragHandle = {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                BottomSheetDefaults.DragHandle()
+            }
+        }
+    )
 }

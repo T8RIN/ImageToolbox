@@ -23,3 +23,7 @@ plugins {
 }
 
 android.namespace = "ru.tech.imageresizershrinker.feature.gradient_maker"
+
+dependencies {
+    implementation(projects.feature.compare)
+}

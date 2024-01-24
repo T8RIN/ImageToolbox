@@ -79,6 +79,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.AlphaSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
@@ -94,6 +95,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.ColorStopSelection
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.GradientPropertiesSelector
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.GradientSizeSelector
@@ -188,6 +190,72 @@ fun GradientMakerScreen(
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
 
+    val showCompareSheet = rememberSaveable { mutableStateOf(false) }
+
+    val imagePreviewContent = @Composable {
+        val solidBrush = SolidColor(MaterialTheme.colorScheme.surfaceContainer)
+        val brush = viewModel.brush
+        val alpha by animateFloatAsState(
+            if (brush == null) 1f
+            else viewModel.gradientAlpha
+        )
+        AnimatedContent(
+            targetState = if (allowPickingImage == true) {
+                viewModel.imageAspectRatio
+            } else {
+                viewModel
+                    .gradientSize
+                    .aspectRatio
+                    .roundToTwoDigits()
+                    .coerceIn(0.01f..100f)
+            }
+        ) { aspectRatio ->
+            Box {
+                Box(
+                    modifier = Modifier
+                        .aspectRatio(aspectRatio)
+                        .clip(MaterialTheme.shapes.medium)
+                        .then(
+                            if (allowPickingImage != true) {
+                                Modifier.transparencyChecker()
+                            } else Modifier
+                        )
+                        .drawBehind {
+                            drawRect(
+                                brush = brush ?: solidBrush,
+                                alpha = alpha
+                            )
+                        }
+                        .onSizeChanged {
+                            viewModel.setPreviewSize(
+                                Size(
+                                    it.width.toFloat(),
+                                    it.height.toFloat()
+                                )
+                            )
+                        }
+                        .zIndex(2f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    AnimatedVisibility(visible = brush == null) {
+                        Icon(
+                            imageVector = Icons.Outlined.BrokenImage,
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxSize(0.5f)
+                        )
+                    }
+                }
+                if (allowPickingImage == true) {
+                    Picture(
+                        model = viewModel.uri,
+                        modifier = Modifier.matchParentSize(),
+                        shape = MaterialTheme.shapes.medium
+                    )
+                }
+            }
+        }
+    }
+
     AdaptiveLayoutScreen(
         isPortrait = isPortrait,
         canShowScreenData = allowPickingImage != null,
@@ -219,6 +287,10 @@ fun GradientMakerScreen(
             if (allowPickingImage == null) {
                 TopAppBarEmoji()
             }
+            CompareButton(
+                onClick = { showCompareSheet.value = true },
+                visible = viewModel.brush != null && allowPickingImage == true && viewModel.uri != Uri.EMPTY
+            )
         },
         imagePreview = {
             Box(
@@ -227,67 +299,7 @@ fun GradientMakerScreen(
                     .padding(4.dp),
                 contentAlignment = Alignment.Center
             ) {
-                val solidBrush = SolidColor(MaterialTheme.colorScheme.surfaceContainer)
-                val brush = viewModel.brush
-                val alpha by animateFloatAsState(
-                    if (brush == null) 1f
-                    else viewModel.gradientAlpha
-                )
-                AnimatedContent(
-                    targetState = if (allowPickingImage == true) {
-                        viewModel.imageAspectRatio
-                    } else {
-                        viewModel
-                            .gradientSize
-                            .aspectRatio
-                            .roundToTwoDigits()
-                            .coerceIn(0.01f..100f)
-                    }
-                ) { aspectRatio ->
-                    Box {
-                        Box(
-                            modifier = Modifier
-                                .aspectRatio(aspectRatio)
-                                .clip(MaterialTheme.shapes.medium)
-                                .then(
-                                    if (allowPickingImage != true) {
-                                        Modifier.transparencyChecker()
-                                    } else Modifier
-                                )
-                                .drawBehind {
-                                    drawRect(
-                                        brush = brush ?: solidBrush,
-                                        alpha = alpha
-                                    )
-                                }
-                                .onSizeChanged {
-                                    viewModel.setPreviewSize(
-                                        Size(
-                                            it.width.toFloat(),
-                                            it.height.toFloat()
-                                        )
-                                    )
-                                }
-                                .zIndex(2f),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            AnimatedVisibility(visible = brush == null) {
-                                Icon(
-                                    imageVector = Icons.Outlined.BrokenImage,
-                                    contentDescription = null,
-                                    modifier = Modifier.fillMaxSize(0.5f)
-                                )
-                            }
-                        }
-                        if (allowPickingImage == true) {
-                            Picture(
-                                model = viewModel.uri,
-                                modifier = Modifier.matchParentSize(),
-                                shape = MaterialTheme.shapes.medium
-                            )
-                        }
-                    }
-                }
+                imagePreviewContent()
             }
         },
         controls = {
@@ -412,6 +424,21 @@ fun GradientMakerScreen(
             if (allowPickingImage == null) 12.dp
             else 20.dp
         ).value
+    )
+
+    CompareSheet(
+        beforeContent = {
+            Picture(
+                model = viewModel.uri,
+                modifier = Modifier.aspectRatio(
+                    viewModel.imageAspectRatio
+                ),
+                shape = MaterialTheme.shapes.medium
+            )
+        },
+        afterContent = imagePreviewContent,
+        visible = showCompareSheet,
+        shape = MaterialTheme.shapes.medium
     )
 
     if (viewModel.isSaving || viewModel.isImageLoading) {
