@@ -43,7 +43,7 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 @Composable
-fun rememberGradientColorState(
+fun rememberGradientState(
     size: DpSize = DpSize.Zero
 ): UiGradientState {
 

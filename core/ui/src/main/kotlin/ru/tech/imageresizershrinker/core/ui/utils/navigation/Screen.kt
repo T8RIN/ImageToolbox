@@ -268,7 +268,7 @@ sealed class Screen(
     )
 
     data class GradientMaker(
-        val uri: Uri? = null
+        val uris: List<Uri>? = null
     ) : Screen(
         id = 18,
         icon = Icons.Rounded.Gradient,

@@ -246,7 +246,6 @@ class FilterViewModel @Inject constructor(
         }
     }
 
-
     private fun updateCanSave() {
         _canSave.value =
             _bitmap.value != null && ((_filterType.value is Screen.Filter.Type.Basic && _basicFilterState.value.filters.isNotEmpty()) || (_filterType.value is Screen.Filter.Type.Masking && _maskingFilterState.value.masks.isNotEmpty()))

@@ -326,7 +326,7 @@
     <string name="symbols">Символы</string>
     <string name="travels_and_places">Путешествия и места</string>
     <string name="background_remover_sub">Удалите фон изображения, стерев лишние участки или используя опцию «Авто»</string>
-    <string name="keep_exif_sub">Метаданные исходного изображения будут сохранены, если они включены</string>
+    <string name="keep_exif_sub">Метаданные исходного изображения будут сохранены</string>
     <string name="trim_image_sub">Прозрачное пространство вокруг изображения будет обрезано</string>
     <string name="food_and_drink">Еда и напитки</string>
     <string name="nature_and_animals">Природа и животные</string>

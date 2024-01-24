@@ -345,7 +345,7 @@
     <string name="background_remover">Background remover</string>
     <string name="background_remover_sub">Remove background from image by drawing or use Auto option</string>
     <string name="trim_image">Trim image</string>
-    <string name="keep_exif_sub">Original image metadata will be kept if enabled</string>
+    <string name="keep_exif_sub">Original image metadata will be kept</string>
     <string name="trim_image_sub">Trasparent spaces around image will be trimmed</string>
     <string name="auto_erase_background">Auto erase background</string>
     <string name="restore_image">Restore image</string>
