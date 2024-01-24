@@ -67,10 +67,6 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.AutoEraseBackgroundCard
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.RecoverModeButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.RecoverModeCard
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.TrimImageToggle
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientation
@@ -84,7 +80,11 @@ import ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWid
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.PtSaver
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.AutoEraseBackgroundCard
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.BitmapEraser
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.RecoverModeButton
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.RecoverModeCard
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.TrimImageToggle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -115,10 +115,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.AutoEraseBackgroundCard
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.RecoverModeButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.RecoverModeCard
-import ru.tech.imageresizershrinker.core.ui.widget.controls.draw.TrimImageToggle
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -131,7 +127,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.feature.draw.domain.pt
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.AutoEraseBackgroundCard
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.BitmapEraser
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.RecoverModeButton
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.RecoverModeCard
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.TrimImageToggle
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.viewModel.EraseBackgroundViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

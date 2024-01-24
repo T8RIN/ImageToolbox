@@ -59,8 +59,8 @@ fun Modifier.container(
     val resultShape = localContainerShape ?: shape
     val settingsState = LocalSettingsState.current
     val colorScheme = MaterialTheme.colorScheme
-    val containerColor = LocalContainerColor.current ?: if (color.isUnspecified) {
-        colorScheme.surfaceContainer
+    val containerColor = if (color.isUnspecified) {
+        LocalContainerColor.current ?: colorScheme.surfaceContainer
     } else {
         if (composeColorOnTopOfBackground) color.compositeOver(colorScheme.background)
         else color

@@ -17,7 +17,7 @@
 
 @file:Suppress("KotlinConstantConditions")
 
-package ru.tech.imageresizershrinker.core.ui.widget.controls.draw
+package ru.tech.imageresizershrinker.feature.erase_background.presentation.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
