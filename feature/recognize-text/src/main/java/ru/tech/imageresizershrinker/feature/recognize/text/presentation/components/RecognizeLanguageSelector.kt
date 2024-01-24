@@ -128,9 +128,13 @@ fun RecognizeLanguageSelector(
             }
         }
     }
-    val notDownloadedLanguages by remember(availableLanguages) {
+    val notDownloadedLanguages by remember(availableLanguages, value) {
         derivedStateOf {
-            availableLanguages.filter { it.downloaded.isEmpty() }
+            availableLanguages.filter {
+                it.downloaded.isEmpty()
+            }.sortedByDescending {
+                it in value
+            }
         }
     }
 

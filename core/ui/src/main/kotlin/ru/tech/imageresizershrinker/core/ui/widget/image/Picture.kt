@@ -42,7 +42,6 @@ import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageScope
 import coil.request.ImageRequest
 import coil.transform.Transformation
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.findActivity
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
@@ -71,9 +70,9 @@ fun Picture(
     shimmerEnabled: Boolean = true,
     crossfadeEnabled: Boolean = true,
     allowHardware: Boolean = true,
-    showTransparencyChecker: Boolean = true
+    showTransparencyChecker: Boolean = true,
+    isLoadingFromDifferentPlace: Boolean = false
 ) {
-    val activity = LocalContext.current.findActivity()
     val context = LocalContext.current
 
     var errorOccurred by rememberSaveable { mutableStateOf(false) }
@@ -96,7 +95,7 @@ fun Picture(
         modifier = modifier
             .clip(shape)
             .then(if (showTransparencyChecker) Modifier.transparencyChecker() else Modifier)
-            .then(if (shimmerEnabled) Modifier.shimmer(shimmerVisible) else Modifier),
+            .then(if (shimmerEnabled) Modifier.shimmer(shimmerVisible || isLoadingFromDifferentPlace) else Modifier),
         contentScale = contentScale,
         loading = {
             if (loading != null) loading(it)

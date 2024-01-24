@@ -622,4 +622,5 @@
     <string name="screen">Screen</string>
     <string name="gradient_maker_type_image">Gradient Overlay</string>
     <string name="gradient_maker_type_image_sub">Compose any gradient of top of given image</string>
+    <string name="transformations">Transformations</string>
 </resources>

@@ -455,7 +455,7 @@ class SingleEditViewModel @Inject constructor(
     ) {
         _cropProperties.value = _cropProperties.value.copy(
             aspectRatio = aspectRatio.takeIf {
-                it != AspectRatio.Original
+                domainAspectRatio != DomainAspectRatio.Original
             } ?: _bitmap.value?.let {
                 AspectRatio(it.width.toFloat() / it.height)
             } ?: aspectRatio,

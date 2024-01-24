@@ -80,6 +80,8 @@ internal class AndroidImageTextReader @Inject constructor(
         onProgress: (Int) -> Unit
     ): TextRecognitionResult = withContext(Dispatchers.IO) {
 
+        if (image == null) return@withContext TextRecognitionResult.Success(RecognitionData("", 0))
+
         val needToDownload = getNeedToDownloadLanguages(type, languageCode)
 
         if (needToDownload.isNotEmpty()) {

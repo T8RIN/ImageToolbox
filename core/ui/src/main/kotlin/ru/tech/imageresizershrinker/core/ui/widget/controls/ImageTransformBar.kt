@@ -62,6 +62,7 @@ fun ImageTransformBar(
     onRotateLeft: () -> Unit,
     onFlip: () -> Unit,
     onRotateRight: () -> Unit,
+    trailingContent: @Composable () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -106,6 +107,8 @@ fun ImageTransformBar(
                     )
                 }
             }
+
+            trailingContent()
 
             EnhancedIconButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,

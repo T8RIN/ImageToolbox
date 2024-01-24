@@ -23,3 +23,8 @@ plugins {
 }
 
 android.namespace = "ru.tech.imageresizershrinker.feature.recognize.text"
+
+dependencies {
+    implementation(projects.core.filters)
+    implementation(projects.feature.singleEdit)
+}

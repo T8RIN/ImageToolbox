@@ -18,11 +18,12 @@
 package ru.tech.imageresizershrinker.core.filters.domain
 
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 interface FilterProvider<Image> {
 
     fun filterToTransformation(
-        filter: ru.tech.imageresizershrinker.core.filters.domain.model.Filter<Image, *>
+        filter: Filter<Image, *>
     ): Transformation<Image>
 
 }
