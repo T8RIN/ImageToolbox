@@ -38,21 +38,37 @@ internal class AndroidGradientMaker : ComposeGradientMaker {
     override suspend fun createGradientBitmap(
         integerSize: IntegerSize,
         gradientState: GradientState<ShaderBrush, Size, Color, TileMode, Offset>
-    ): Bitmap? = withContext(Dispatchers.IO) {
-        val size = Size(
-            integerSize.width.coerceAtLeast(1).toFloat(),
-            integerSize.height.coerceAtLeast(1).toFloat(),
-        )
-        gradientState.getBrush(size)?.let { brush ->
+    ): Bitmap? = createGradientBitmap(
+        src = integerSize.toSize().run {
             Bitmap.createBitmap(
-                size.width.toInt(),
-                size.height.toInt(),
+                width.toInt(),
+                height.toInt(),
                 Bitmap.Config.ARGB_8888
-            ).apply {
+            )
+        },
+        gradientState = gradientState,
+        gradientAlpha = 1f
+    )
+
+    override suspend fun createGradientBitmap(
+        src: Bitmap,
+        gradientState: GradientState<ShaderBrush, Size, Color, TileMode, Offset>,
+        gradientAlpha: Float
+    ): Bitmap? = withContext(Dispatchers.IO) {
+        val size = IntegerSize(
+            src.width,
+            src.height
+        ).toSize()
+        gradientState.getBrush(size)?.let { brush ->
+            src.copy(src.config, true).apply {
+                setHasAlpha(true)
+
                 Canvas(asImageBitmap()).apply {
+                    drawImage(asImageBitmap(), Offset.Zero, Paint())
                     drawRect(
                         paint = Paint().apply {
                             shader = brush.createShader(size)
+                            alpha = gradientAlpha
                         },
                         rect = Rect(offset = Offset.Zero, size = size)
                     )
@@ -60,5 +76,10 @@ internal class AndroidGradientMaker : ComposeGradientMaker {
             }
         }
     }
+
+    private fun IntegerSize.toSize(): Size = Size(
+        width.coerceAtLeast(1).toFloat(),
+        height.coerceAtLeast(1).toFloat(),
+    )
 
 }

@@ -18,8 +18,10 @@
 package ru.tech.imageresizershrinker.feature.gradient_maker.presentation.viewModel
 
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -35,6 +37,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
@@ -53,6 +56,7 @@ class GradientMakerViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val gradientMaker: ComposeGradientMaker
 ) : ViewModel() {
 
@@ -66,8 +70,20 @@ class GradientMakerViewModel @Inject constructor(
     val centerFriction: Offset get() = gradientState.centerFriction
     val radiusFriction: Float get() = gradientState.radiusFriction
 
+    private var _gradientAlpha: MutableState<Float> = mutableFloatStateOf(1f)
+    val gradientAlpha by _gradientAlpha
+
+    private val _uri = mutableStateOf(Uri.EMPTY)
+    val uri: Uri by _uri
+
+    private val _imageAspectRatio: MutableState<Float> = mutableFloatStateOf(1f)
+    val imageAspectRatio by _imageAspectRatio
+
+    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
+    val isImageLoading: Boolean by _isImageLoading
+
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
-    val isSaving by _isSaving
+    val isSaving: Boolean by _isSaving
 
     private val _imageFormat = mutableStateOf(ImageFormat.Default())
     val imageFormat by _imageFormat
@@ -76,8 +92,27 @@ class GradientMakerViewModel @Inject constructor(
     val gradientSize by _gradientSize
 
     suspend fun createGradientBitmap(
-        integerSize: IntegerSize = gradientSize
-    ): Bitmap? = gradientMaker.createGradientBitmap(integerSize, gradientState)
+        integerSize: IntegerSize = gradientSize,
+        useBitmapOriginalSizeIfAvailable: Boolean = false
+    ): Bitmap? {
+        return if (uri == Uri.EMPTY) {
+            gradientMaker.createGradientBitmap(
+                integerSize = integerSize,
+                gradientState = gradientState
+            )
+        } else {
+            imageGetter.getImage(
+                data = uri,
+                originalSize = useBitmapOriginalSizeIfAvailable
+            )?.let {
+                gradientMaker.createGradientBitmap(
+                    src = it,
+                    gradientState = gradientState,
+                    gradientAlpha = gradientAlpha
+                )
+            }
+        }
+    }
 
     private var savingJob: Job? = null
 
@@ -86,7 +121,9 @@ class GradientMakerViewModel @Inject constructor(
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             _isSaving.value = true
-            createGradientBitmap()?.let { localBitmap ->
+            createGradientBitmap(
+                useBitmapOriginalSizeIfAvailable = true
+            )?.let { localBitmap ->
                 val imageInfo = ImageInfo(
                     imageFormat = imageFormat,
                     width = localBitmap.width,
@@ -118,7 +155,9 @@ class GradientMakerViewModel @Inject constructor(
         savingJob?.cancel()
         _isSaving.value = true
         savingJob = viewModelScope.launch {
-            createGradientBitmap()?.let {
+            createGradientBitmap(
+                useBitmapOriginalSizeIfAvailable = true
+            )?.let {
                 shareProvider.shareImage(
                     image = it,
                     imageInfo = ImageInfo(
@@ -188,6 +227,41 @@ class GradientMakerViewModel @Inject constructor(
         if (gradientState.colorStops.size > 2) {
             gradientState.colorStops.removeAt(index)
         }
+    }
+
+    fun setUri(
+        uri: Uri,
+        onError: (Throwable) -> Unit
+    ) {
+        viewModelScope.launch {
+            _uri.value = uri
+            _isImageLoading.value = true
+            imageGetter.getImageAsync(
+                uri = uri.toString(),
+                originalSize = false,
+                onGetImage = { imageData ->
+                    _imageAspectRatio.update {
+                        imageData.image.let {
+                            it.width.toFloat() / it.height
+                        }
+                    }
+                    _isImageLoading.value = false
+                    setImageFormat(imageData.imageInfo.imageFormat)
+                },
+                onError = {
+                    _isImageLoading.value = false
+                    onError(it)
+                }
+            )
+        }
+    }
+
+    fun updateGradientAlpha(value: Float) {
+        _gradientAlpha.update { value }
+    }
+
+    fun clearUri() {
+        _uri.value = Uri.EMPTY
     }
 
 }

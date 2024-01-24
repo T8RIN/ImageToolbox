@@ -26,4 +26,10 @@ interface GradientMaker<Image, Brush, Size, Color, TileMode, Offset> {
         gradientState: GradientState<Brush, Size, Color, TileMode, Offset>
     ): Image?
 
+    suspend fun createGradientBitmap(
+        src: Image,
+        gradientState: GradientState<Brush, Size, Color, TileMode, Offset>,
+        gradientAlpha: Float
+    ): Image?
+
 }

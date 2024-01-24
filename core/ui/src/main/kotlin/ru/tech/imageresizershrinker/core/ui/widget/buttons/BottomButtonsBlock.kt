@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.core.ui.widget.buttons
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -30,6 +31,7 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -43,6 +45,7 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -64,26 +67,44 @@ fun BottomButtonsBlock(
     primaryButtonIcon: ImageVector = Icons.Rounded.Save,
     isPrimaryButtonVisible: Boolean = true,
     isPickImageButtonVisible: Boolean = true,
+    showNullDataButtonAsContainer: Boolean = false,
     columnarFab: (@Composable ColumnScope.() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit
 ) {
     AnimatedContent(
         targetState = targetState
     ) { (isNull, inside) ->
-        if (isNull && isPickImageButtonVisible) {
-            EnhancedFloatingActionButton(
-                onClick = onSecondaryButtonClick,
-                modifier = Modifier
-                    .navigationBarsPadding()
-                    .padding(16.dp),
-                content = {
-                    Spacer(Modifier.width(16.dp))
-                    Icon(secondaryButtonIcon, null)
-                    Spacer(Modifier.width(16.dp))
-                    Text(stringResource(R.string.pick_image_alt))
-                    Spacer(Modifier.width(16.dp))
+        if (isNull) {
+            val button = @Composable {
+                EnhancedFloatingActionButton(
+                    onClick = onSecondaryButtonClick,
+                    modifier = Modifier
+                        .navigationBarsPadding()
+                        .padding(16.dp),
+                    content = {
+                        Spacer(Modifier.width(16.dp))
+                        Icon(secondaryButtonIcon, null)
+                        Spacer(Modifier.width(16.dp))
+                        Text(stringResource(R.string.pick_image_alt))
+                        Spacer(Modifier.width(16.dp))
+                    }
+                )
+            }
+            if (showNullDataButtonAsContainer) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .drawHorizontalStroke(true)
+                        .background(
+                            MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                3.dp
+                            )
+                        ),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    button()
                 }
-            )
+            } else button()
         } else if (inside) {
             BottomAppBar(
                 modifier = Modifier.drawHorizontalStroke(true),

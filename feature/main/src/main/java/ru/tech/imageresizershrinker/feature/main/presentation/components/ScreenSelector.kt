@@ -259,8 +259,11 @@ fun ScreenSelector(
                 )
             }
 
-            Screen.GradientMaker -> {
-                GradientMakerScreen(onGoBack = onGoBack)
+            is Screen.GradientMaker -> {
+                GradientMakerScreen(
+                    uriState = screen.uri,
+                    onGoBack = onGoBack
+                )
             }
         }
     }

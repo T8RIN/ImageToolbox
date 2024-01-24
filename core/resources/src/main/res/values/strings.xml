@@ -620,4 +620,6 @@
     <string name="properties">Properties</string>
     <string name="brightness_enforcement">Brightness Enforcement</string>
     <string name="screen">Screen</string>
+    <string name="gradient_maker_type_image">Gradient Overlay</string>
+    <string name="gradient_maker_type_image_sub">Compose any gradient of top of given image</string>
 </resources>

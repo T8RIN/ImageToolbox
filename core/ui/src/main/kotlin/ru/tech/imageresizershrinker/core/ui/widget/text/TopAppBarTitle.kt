@@ -54,7 +54,9 @@ fun <T : Any> TopAppBarTitle(
                     stringResource(R.string.loading)
                 )
             } else if (inp == null || size == null) {
-                Text(title)
+                AnimatedContent(targetState = title) {
+                    Text(it)
+                }
             } else if (size != 0L) {
                 Text(
                     stringResource(

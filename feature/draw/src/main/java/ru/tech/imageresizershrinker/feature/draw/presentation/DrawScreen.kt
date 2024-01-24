@@ -142,6 +142,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActio
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EraseModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.AlphaSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.BackgroundColorSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
@@ -167,7 +168,6 @@ import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.domain.pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BitmapDrawer
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
-import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawAlphaSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawColorSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawModeSaver
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.DrawModeSelector
@@ -381,7 +381,7 @@ fun DrawScreen(
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {
-            DrawAlphaSelector(
+            AlphaSelector(
                 value = alpha,
                 onValueChange = { alpha = it }
             )

@@ -15,8 +15,9 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.draw.presentation.components
+package ru.tech.imageresizershrinker.core.ui.widget.controls
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -28,16 +29,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 
 @Composable
-fun DrawAlphaSelector(
+fun AlphaSelector(
     value: Float,
-    onValueChange: (Float) -> Unit
+    onValueChange: (Float) -> Unit,
+    @SuppressLint("ModifierParameter")
+    modifier: Modifier = Modifier
+        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
 ) {
     EnhancedSliderItem(
-        modifier = Modifier
-            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+        modifier = modifier,
         value = value,
         icon = Icons.Rounded.Opacity,
         title = stringResource(R.string.paint_alpha),

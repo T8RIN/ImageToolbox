@@ -18,6 +18,14 @@
 package ru.tech.imageresizershrinker.core.ui.widget
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -58,6 +66,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
@@ -82,7 +91,13 @@ fun AdaptiveLayoutScreen(
     noDataControls: @Composable () -> Unit = {},
     canShowScreenData: Boolean,
     forceImagePreviewToMax: Boolean = false,
-    isPortrait: Boolean
+    isPortrait: Boolean,
+    contentPadding: Dp = 20.dp,
+    controlsTransitionSpec: AnimatedContentTransitionScope<Boolean>.() -> ContentTransform = {
+        (fadeIn(animationSpec = tween(220, delayMillis = 90)) +
+                scaleIn(initialScale = 0.92f, animationSpec = tween(220, delayMillis = 90)))
+            .togetherWith(fadeOut(animationSpec = tween(90)))
+    }
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -181,10 +196,10 @@ fun AdaptiveLayoutScreen(
                                 .asPaddingValues()
                                 .calculateBottomPadding() + WindowInsets.ime
                                 .asPaddingValues()
-                                .calculateBottomPadding() + (if (!isPortrait && canShowScreenData) 20.dp else 100.dp),
-                            top = if (!canShowScreenData || !isPortrait) 20.dp else 0.dp,
-                            start = 20.dp,
-                            end = 20.dp
+                                .calculateBottomPadding() + (if (!isPortrait && canShowScreenData) contentPadding else 100.dp),
+                            top = if (!canShowScreenData || !isPortrait) contentPadding else 0.dp,
+                            start = contentPadding,
+                            end = contentPadding
                         ),
                         modifier = Modifier
                             .weight(
@@ -202,14 +217,19 @@ fun AdaptiveLayoutScreen(
                             imageBlock = imagePreview
                         )
                         item {
-                            Column(
-                                modifier = Modifier.fillMaxSize(),
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                if (canShowScreenData) {
-                                    if (controls != null) controls()
-                                } else noDataControls()
+                            AnimatedContent(
+                                targetState = canShowScreenData,
+                                transitionSpec = controlsTransitionSpec
+                            ) { showControls ->
+                                Column(
+                                    modifier = Modifier.fillMaxSize(),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    if (showControls) {
+                                        if (controls != null) controls()
+                                    } else noDataControls()
+                                }
                             }
                         }
                     }

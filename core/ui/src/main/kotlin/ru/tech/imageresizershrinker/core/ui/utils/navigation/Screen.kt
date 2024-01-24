@@ -267,7 +267,9 @@ sealed class Screen(
         subtitle = R.string.recognize_text_sub
     )
 
-    data object GradientMaker : Screen(
+    data class GradientMaker(
+        val uri: Uri? = null
+    ) : Screen(
         id = 18,
         icon = Icons.Rounded.Gradient,
         title = R.string.gradient_maker,
@@ -294,7 +296,7 @@ sealed class Screen(
                     EraseBackground(),
                     ImageStitching(),
                     Cipher(),
-                    GradientMaker
+                    GradientMaker()
                 ) to Triple(
                     R.string.create,
                     Icons.Filled.AutoAwesome,
@@ -334,7 +336,7 @@ sealed class Screen(
                 PickColorFromImage(),
                 GeneratePalette(),
                 DeleteExif(),
-                GradientMaker,
+                GradientMaker(),
                 Compare(),
                 LimitResize()
             )

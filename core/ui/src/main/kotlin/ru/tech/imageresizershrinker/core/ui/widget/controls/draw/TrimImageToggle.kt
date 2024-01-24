@@ -29,12 +29,14 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 
+//TODO: Move to erase background module
+
 @Composable
 fun TrimImageToggle(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
-    color: Color = MaterialTheme.colorScheme.surfaceContainer,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.surfaceContainer
 ) {
     PreferenceRowSwitch(
         modifier = modifier,
