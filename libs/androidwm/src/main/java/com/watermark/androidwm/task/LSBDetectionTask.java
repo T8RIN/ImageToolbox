@@ -16,14 +16,8 @@
  */
 package com.watermark.androidwm.task;
 
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
-
-import com.watermark.androidwm.listener.DetectFinishListener;
-import com.watermark.androidwm.utils.BitmapUtils;
-
-import static com.watermark.androidwm.utils.BitmapUtils.pixel2ARGBArray;
 import static com.watermark.androidwm.utils.BitmapUtils.getBitmapPixels;
+import static com.watermark.androidwm.utils.BitmapUtils.pixel2ARGBArray;
 import static com.watermark.androidwm.utils.Constant.ERROR_BITMAP_NULL;
 import static com.watermark.androidwm.utils.Constant.ERROR_DETECT_FAILED;
 import static com.watermark.androidwm.utils.Constant.LSB_IMG_PREFIX_FLAG;
@@ -37,6 +31,12 @@ import static com.watermark.androidwm.utils.StringUtils.getBetweenStrings;
 import static com.watermark.androidwm.utils.StringUtils.intArrayToStringJ;
 import static com.watermark.androidwm.utils.StringUtils.replaceNinesJ;
 
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
+
+import com.watermark.androidwm.listener.DetectFinishListener;
+import com.watermark.androidwm.utils.BitmapUtils;
+
 /**
  * This is a task for watermark image detection.
  * In LSB mode, all the task will return a bitmap;
@@ -45,7 +45,7 @@ import static com.watermark.androidwm.utils.StringUtils.replaceNinesJ;
  */
 public class LSBDetectionTask extends AsyncTask<Bitmap, Void, DetectionReturnValue> {
 
-    private DetectFinishListener listener;
+    private final DetectFinishListener listener;
 
     public LSBDetectionTask(DetectFinishListener listener) {
         this.listener = listener;

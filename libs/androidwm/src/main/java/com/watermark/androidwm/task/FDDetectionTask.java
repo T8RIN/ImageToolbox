@@ -16,20 +16,20 @@
  */
 package com.watermark.androidwm.task;
 
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
-
-import com.watermark.androidwm.listener.DetectFinishListener;
-import com.watermark.androidwm.utils.FastDctFft;
-
-import static com.watermark.androidwm.utils.BitmapUtils.pixel2ARGBArray;
 import static com.watermark.androidwm.utils.BitmapUtils.getBitmapPixels;
+import static com.watermark.androidwm.utils.BitmapUtils.pixel2ARGBArray;
 import static com.watermark.androidwm.utils.Constant.CHUNK_SIZE;
 import static com.watermark.androidwm.utils.Constant.ERROR_BITMAP_NULL;
 import static com.watermark.androidwm.utils.Constant.ERROR_DETECT_FAILED;
 import static com.watermark.androidwm.utils.Constant.MAX_IMAGE_SIZE;
 import static com.watermark.androidwm.utils.Constant.WARNING_BIG_IMAGE;
 import static com.watermark.androidwm.utils.StringUtils.copyFromIntArray;
+
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
+
+import com.watermark.androidwm.listener.DetectFinishListener;
+import com.watermark.androidwm.utils.FastDctFft;
 
 /**
  * This is a task for watermark image detection.
@@ -40,7 +40,7 @@ import static com.watermark.androidwm.utils.StringUtils.copyFromIntArray;
 @SuppressWarnings("PMD")
 public class FDDetectionTask extends AsyncTask<Bitmap, Void, DetectionReturnValue> {
 
-    private DetectFinishListener listener;
+    private final DetectFinishListener listener;
 
     public FDDetectionTask(DetectFinishListener listener) {
         this.listener = listener;

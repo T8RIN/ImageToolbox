@@ -16,17 +16,8 @@
  */
 package com.watermark.androidwm.task;
 
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.os.AsyncTask;
-
-import com.watermark.androidwm.bean.WatermarkText;
-import com.watermark.androidwm.listener.BuildFinishListener;
-import com.watermark.androidwm.bean.AsyncTaskParams;
-import com.watermark.androidwm.utils.BitmapUtils;
-
-import static com.watermark.androidwm.utils.BitmapUtils.pixel2ARGBArray;
 import static com.watermark.androidwm.utils.BitmapUtils.getBitmapPixels;
+import static com.watermark.androidwm.utils.BitmapUtils.pixel2ARGBArray;
 import static com.watermark.androidwm.utils.Constant.ERROR_CREATE_FAILED;
 import static com.watermark.androidwm.utils.Constant.ERROR_NO_BACKGROUND;
 import static com.watermark.androidwm.utils.Constant.ERROR_NO_WATERMARKS;
@@ -39,6 +30,15 @@ import static com.watermark.androidwm.utils.StringUtils.replaceSingleDigit;
 import static com.watermark.androidwm.utils.StringUtils.stringToBinary;
 import static com.watermark.androidwm.utils.StringUtils.stringToIntArray;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.os.AsyncTask;
+
+import com.watermark.androidwm.bean.AsyncTaskParams;
+import com.watermark.androidwm.bean.WatermarkText;
+import com.watermark.androidwm.listener.BuildFinishListener;
+import com.watermark.androidwm.utils.BitmapUtils;
+
 /**
  * This is a background task for adding the specific invisible text
  * into the background image. We don't need to read every pixel's
@@ -49,7 +49,7 @@ import static com.watermark.androidwm.utils.StringUtils.stringToIntArray;
  */
 public class LSBWatermarkTask extends AsyncTask<AsyncTaskParams, Void, Bitmap> {
 
-    private BuildFinishListener<Bitmap> listener;
+    private final BuildFinishListener<Bitmap> listener;
 
     public LSBWatermarkTask(BuildFinishListener<Bitmap> callback) {
         this.listener = callback;

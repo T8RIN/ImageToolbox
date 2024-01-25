@@ -52,12 +52,12 @@ public class Watermark {
     private final WatermarkImage watermarkImg;
     private final Bitmap backgroundImg;
     private final Context context;
-    private Bitmap outputImage;
-    private Bitmap canvasBitmap;
     private final boolean isTileMode;
     private final boolean isInvisible;
     private final boolean isLSB;
     private final BuildFinishListener<Bitmap> buildFinishListener;
+    private Bitmap outputImage;
+    private Bitmap canvasBitmap;
 
     /**
      * Constructors for WatermarkImage

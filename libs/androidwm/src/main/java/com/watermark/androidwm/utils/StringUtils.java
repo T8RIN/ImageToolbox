@@ -17,13 +17,13 @@
 package com.watermark.androidwm.utils;
 
 
-import com.watermark.androidwm.listener.DetectFinishListener;
-
 import static com.watermark.androidwm.utils.Constant.ERROR_NO_WATERMARK_FOUND;
 import static com.watermark.androidwm.utils.Constant.LSB_IMG_PREFIX_FLAG;
 import static com.watermark.androidwm.utils.Constant.LSB_IMG_SUFFIX_FLAG;
 import static com.watermark.androidwm.utils.Constant.LSB_TEXT_PREFIX_FLAG;
 import static com.watermark.androidwm.utils.Constant.LSB_TEXT_SUFFIX_FLAG;
+
+import com.watermark.androidwm.listener.DetectFinishListener;
 
 /**
  * Util class for operations with {@link String}.
@@ -110,16 +110,16 @@ public class StringUtils {
         String result = null;
         if (isText) {
             try {
-                result = text.substring(text.indexOf(LSB_TEXT_PREFIX_FLAG) + LSB_TEXT_SUFFIX_FLAG.length(),
-                        text.length());
+                result = text.substring(text.indexOf(LSB_TEXT_PREFIX_FLAG) + LSB_TEXT_SUFFIX_FLAG.length()
+                );
                 result = result.substring(0, result.indexOf(LSB_TEXT_SUFFIX_FLAG));
             } catch (StringIndexOutOfBoundsException e) {
                 listener.onFailure(ERROR_NO_WATERMARK_FOUND);
             }
         } else {
             try {
-                result = text.substring(text.indexOf(LSB_IMG_PREFIX_FLAG) + LSB_IMG_SUFFIX_FLAG.length(),
-                        text.length());
+                result = text.substring(text.indexOf(LSB_IMG_PREFIX_FLAG) + LSB_IMG_SUFFIX_FLAG.length()
+                );
                 result = result.substring(0, result.indexOf(LSB_IMG_SUFFIX_FLAG));
             } catch (StringIndexOutOfBoundsException e) {
                 listener.onFailure(ERROR_NO_WATERMARK_FOUND);

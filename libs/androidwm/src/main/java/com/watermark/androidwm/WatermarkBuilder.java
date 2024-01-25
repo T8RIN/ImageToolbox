@@ -43,10 +43,10 @@ import java.util.List;
  */
 public final class WatermarkBuilder {
     private final Context context;
+    private final boolean resizeBackgroundImg;
     private Bitmap backgroundImg;
     private boolean isTileMode = false;
     private boolean isLSB = false;
-    private final boolean resizeBackgroundImg;
     private BuildFinishListener<Bitmap> buildFinishListener = null;
 
     private WatermarkImage watermarkImage;

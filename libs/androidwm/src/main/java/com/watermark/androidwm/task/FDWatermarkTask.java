@@ -17,24 +17,24 @@
 package com.watermark.androidwm.task;
 
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.os.AsyncTask;
-
-import com.watermark.androidwm.bean.WatermarkText;
-import com.watermark.androidwm.listener.BuildFinishListener;
-import com.watermark.androidwm.bean.AsyncTaskParams;
-import com.watermark.androidwm.utils.FastDctFft;
-
-import static com.watermark.androidwm.utils.BitmapUtils.pixel2ARGBArray;
 import static com.watermark.androidwm.utils.BitmapUtils.getBitmapPixels;
+import static com.watermark.androidwm.utils.BitmapUtils.pixel2ARGBArray;
 import static com.watermark.androidwm.utils.BitmapUtils.textAsBitmap;
 import static com.watermark.androidwm.utils.Constant.ERROR_CREATE_FAILED;
 import static com.watermark.androidwm.utils.Constant.ERROR_NO_BACKGROUND;
 import static com.watermark.androidwm.utils.Constant.ERROR_NO_WATERMARKS;
 import static com.watermark.androidwm.utils.Constant.ERROR_PIXELS_NOT_ENOUGH;
 import static com.watermark.androidwm.utils.StringUtils.copyFromIntArray;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.os.AsyncTask;
+
+import com.watermark.androidwm.bean.AsyncTaskParams;
+import com.watermark.androidwm.bean.WatermarkText;
+import com.watermark.androidwm.listener.BuildFinishListener;
+import com.watermark.androidwm.utils.FastDctFft;
 
 /**
  * This is a tack that use Fast Fourier Transform for an image, to
@@ -44,7 +44,7 @@ import static com.watermark.androidwm.utils.StringUtils.copyFromIntArray;
  */
 public class FDWatermarkTask extends AsyncTask<AsyncTaskParams, Void, Bitmap> {
 
-    private BuildFinishListener<Bitmap> listener;
+    private final BuildFinishListener<Bitmap> listener;
 
     public FDWatermarkTask(BuildFinishListener<Bitmap> callback) {
         this.listener = callback;
@@ -176,8 +176,8 @@ public class FDWatermarkTask extends AsyncTask<AsyncTaskParams, Void, Bitmap> {
      * @return The result of the normalization.
      */
     public double[] normalizeArray(double[] inputArray, double dataHigh,
-                                    double dataLow, double normalizedHigh,
-                                    double normalizedLow) {
+                                   double dataLow, double normalizedHigh,
+                                   double normalizedLow) {
         for (int i = 0; i < inputArray.length; i++) {
             inputArray[i] = ((inputArray[i] - dataLow)
                     / (dataHigh - dataLow))
