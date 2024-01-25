@@ -26,6 +26,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil.size.Size
+import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -75,6 +77,9 @@ class WatermarkingViewModel @Inject constructor(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 
+    private val _isMarksRepeated: MutableState<Boolean> = mutableStateOf(false)
+    val isMarksRepeated: Boolean by _isMarksRepeated
+
     private val _imageFormat = mutableStateOf(ImageFormat.Default())
     val imageFormat by _imageFormat
 
@@ -85,7 +90,7 @@ class WatermarkingViewModel @Inject constructor(
     val left by _left
 
 
-    fun updateBitmap(bitmap: Bitmap, onComplete: () -> Unit = {}) {
+    private fun updateBitmap(bitmap: Bitmap, onComplete: () -> Unit = {}) {
         viewModelScope.launch {
             _isImageLoading.value = true
             _previewBitmap.value = imageScaler.scaleUntilCanShow(bitmap)
@@ -97,7 +102,7 @@ class WatermarkingViewModel @Inject constructor(
 
     private suspend fun checkBitmapAndUpdate() {
         _previewBitmap.value = _internalBitmap.value?.let {
-            TODO()
+            getWatermarkedBitmap(it)
         }
     }
 
@@ -164,7 +169,11 @@ class WatermarkingViewModel @Inject constructor(
         savingJob = it
     }
 
-    private fun getWatermarkedBitmap(uri: String): Bitmap? = null
+    private suspend fun getWatermarkedBitmap(
+        data: Any
+    ): Bitmap? = withContext(Dispatchers.IO) {
+        null
+    }
 
     fun shareBitmaps(onComplete: () -> Unit) {
         savingJob?.cancel()
@@ -212,7 +221,7 @@ class WatermarkingViewModel @Inject constructor(
     }
 
     fun toggleMarksRepeated(boolean: Boolean) {
-        TODO()
+        _isMarksRepeated.update { boolean }
     }
 
     fun setUri(
@@ -226,6 +235,7 @@ class WatermarkingViewModel @Inject constructor(
                 uri = uri.toString(),
                 originalSize = false,
                 onGetImage = { imageData ->
+                    updateBitmap(imageData.image)
                     _isImageLoading.value = false
                     setImageFormat(imageData.imageInfo.imageFormat)
                 },
@@ -264,6 +274,19 @@ class WatermarkingViewModel @Inject constructor(
 
     fun toggleKeepExif(value: Boolean) {
         _keepExif.update { value }
+    }
+
+    fun getWatermarkTransformation(): Transformation {
+        return object : Transformation {
+            override val cacheKey: String
+                get() = previewBitmap.hashCode().toString()
+
+            override suspend fun transform(
+                input: Bitmap,
+                size: Size
+            ): Bitmap = getWatermarkedBitmap(input) ?: input
+
+        }
     }
 
 }

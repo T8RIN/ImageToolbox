@@ -128,6 +128,7 @@ fun ProcessImagesPreferenceSheet(
                         Screen.Filter(
                             type = Screen.Filter.Type.Masking(uris.firstOrNull())
                         ),
+                        Screen.Watermarking(uris),
                         Screen.GradientMaker(uris),
                         Screen.PdfTools(
                             Screen.PdfTools.Type.ImagesToPdf(uris)
@@ -154,6 +155,7 @@ fun ProcessImagesPreferenceSheet(
                         add(Screen.PdfTools(Screen.PdfTools.Type.ImagesToPdf(uris)))
                         if (uris.size == 2) add(Screen.Compare(uris))
                         add(Screen.GradientMaker(uris))
+                        add(Screen.Watermarking(uris))
                         add(Screen.ImagePreview(uris))
                         add(Screen.LimitResize(uris))
                         Screen.DeleteExif(uris)

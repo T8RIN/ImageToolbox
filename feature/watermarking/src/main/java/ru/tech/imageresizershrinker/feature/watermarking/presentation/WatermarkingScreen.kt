@@ -21,14 +21,15 @@ import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material.icons.rounded.CopyAll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -52,10 +53,12 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
+import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
@@ -125,6 +128,7 @@ fun WatermarkingScreen(
     val showZoomSheet = rememberSaveable { mutableStateOf(false) }
 
     var showOriginal by rememberSaveable { mutableStateOf(false) }
+    val showPickImageFromUrisSheet = rememberSaveable { mutableStateOf(false) }
 
     AdaptiveLayoutScreen(
         title = {
@@ -140,7 +144,7 @@ fun WatermarkingScreen(
             if (viewModel.previewBitmap == null) TopAppBarEmoji()
             ZoomButton(
                 onClick = { showZoomSheet.value = true },
-                visible = viewModel.previewBitmap == null
+                visible = viewModel.previewBitmap != null
             )
         },
         actions = {
@@ -167,7 +171,12 @@ fun WatermarkingScreen(
             )
         },
         controls = {
-
+            ImageCounter(
+                imageCount = viewModel.uris.size.takeIf { it > 1 },
+                onRepick = {
+                    showPickImageFromUrisSheet.value = true
+                }
+            )
         },
         buttons = {
             BottomButtonsBlock(
@@ -176,7 +185,6 @@ fun WatermarkingScreen(
                 onPrimaryButtonClick = {
 
                 },
-                primaryButtonIcon = Icons.Rounded.CopyAll,
                 actions = {
                     if (isPortrait) it()
                 }
@@ -187,6 +195,30 @@ fun WatermarkingScreen(
         },
         isPortrait = isPortrait,
         canShowScreenData = viewModel.previewBitmap != null
+    )
+
+    PickImageFromUrisSheet(
+        transformations = remember(viewModel.previewBitmap) {
+            derivedStateOf {
+                listOf(
+                    viewModel.getWatermarkTransformation()
+                )
+            }
+        }.value,
+        visible = showPickImageFromUrisSheet,
+        uris = viewModel.uris,
+        selectedUri = viewModel.selectedUri,
+        onUriPicked = { uri ->
+            viewModel.setUri(uri = uri) {
+                scope.launch {
+                    toastHostState.showError(context, it)
+                }
+            }
+        },
+        onUriRemoved = { uri ->
+            viewModel.updateUrisSilently(removedUri = uri)
+        },
+        columns = if (isPortrait) 2 else 4,
     )
 
     ZoomModalSheet(
