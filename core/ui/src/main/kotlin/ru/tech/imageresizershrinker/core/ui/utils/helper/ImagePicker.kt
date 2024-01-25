@@ -28,10 +28,17 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.FileProvider
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import java.io.File
+import kotlin.random.Random
 
 
 class ImagePicker(
@@ -40,6 +47,8 @@ class ImagePicker(
     private val photoPickerSingle: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
     private val photoPickerMultiple: ManagedActivityResultLauncher<PickVisualMediaRequest, List<Uri>>,
     private val getContent: ManagedActivityResultLauncher<Intent, ActivityResult>,
+    private val takePhoto: ManagedActivityResultLauncher<Uri, Boolean>,
+    private val onCreateTakePhotoUri: (Uri) -> Unit
 ) {
     fun pickImage() {
         runCatching {
@@ -75,7 +84,8 @@ class ImagePicker(
                     )
                 }
 
-                ImagePickerMode.GetContentSingle, ImagePickerMode.GetContentMultiple -> {
+                ImagePickerMode.GetContentSingle,
+                ImagePickerMode.GetContentMultiple -> {
                     val intent = Intent().apply {
                         type = "image/*"
                         action = Intent.ACTION_OPEN_DOCUMENT
@@ -91,6 +101,22 @@ class ImagePicker(
                         )
                     )
                 }
+
+                ImagePickerMode.CameraCapture -> {
+                    val imagesFolder = File(context.cacheDir, "images")
+                    runCatching {
+                        imagesFolder.mkdirs()
+                        val file = File(imagesFolder, "${Random.nextLong()}.jpg")
+                        FileProvider.getUriForFile(
+                            context,
+                            context.getString(R.string.file_provider),
+                            file
+                        )
+                    }.onSuccess {
+                        onCreateTakePhotoUri(it)
+                        takePhoto.launch(it)
+                    }
+                }
             }
         }
     }
@@ -102,7 +128,8 @@ enum class ImagePickerMode {
     GallerySingle,
     GalleryMultiple,
     GetContentSingle,
-    GetContentMultiple
+    GetContentMultiple,
+    CameraCapture
 }
 
 enum class Picker {
@@ -118,7 +145,8 @@ fun localImagePickerMode(picker: Picker = Picker.Single): ImagePickerMode {
             when (modeInt) {
                 0 -> if (multiple) ImagePickerMode.PhotoPickerMultiple else ImagePickerMode.PhotoPickerSingle
                 1 -> if (multiple) ImagePickerMode.GalleryMultiple else ImagePickerMode.GallerySingle
-                else -> if (multiple) ImagePickerMode.GetContentMultiple else ImagePickerMode.GetContentSingle
+                2 -> if (multiple) ImagePickerMode.GetContentMultiple else ImagePickerMode.GetContentSingle
+                else -> ImagePickerMode.CameraCapture
             }
         }
     }.value
@@ -166,13 +194,31 @@ fun rememberImagePicker(
             }
         )
 
+    var takePhotoUri by rememberSaveable {
+        mutableStateOf<Uri?>(null)
+    }
+    val takePhoto = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicture(),
+        onResult = {
+            val uri = takePhotoUri
+            if (it && uri != null) {
+                onSuccess(listOf(uri))
+            } else onFailure()
+            takePhotoUri = null
+        }
+    )
+
     return remember {
         ImagePicker(
             context = context,
             mode = mode,
             photoPickerSingle = photoPickerSingle,
             photoPickerMultiple = photoPickerMultiple,
-            getContent = getContent
+            getContent = getContent,
+            takePhoto = takePhoto,
+            onCreateTakePhotoUri = {
+                takePhotoUri = it
+            }
         )
     }
 }

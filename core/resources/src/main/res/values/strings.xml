@@ -623,4 +623,6 @@
     <string name="gradient_maker_type_image">Gradient Overlay</string>
     <string name="gradient_maker_type_image_sub">Compose any gradient of top of given image</string>
     <string name="transformations">Transformations</string>
+    <string name="camera">Camera</string>
+    <string name="camera_sub">Take picture and retrieve it to do whatever you want</string>
 </resources>

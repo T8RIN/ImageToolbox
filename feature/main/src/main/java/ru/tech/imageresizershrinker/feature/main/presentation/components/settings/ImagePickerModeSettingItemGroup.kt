@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BurstMode
+import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.FolderOpen
 import androidx.compose.material.icons.rounded.RadioButtonChecked
@@ -106,7 +107,7 @@ fun ImagePickerModeSettingItemGroup(
         )
         Spacer(modifier = Modifier.height(4.dp))
         PreferenceItem(
-            shape = ContainerShapeDefaults.bottomShape,
+            shape = ContainerShapeDefaults.centerShape,
             onClick = { updateImagePickerMode(2) },
             title = stringResource(R.string.file_explorer_picker),
             subtitle = stringResource(R.string.file_explorer_picker_sub),
@@ -130,6 +131,34 @@ fun ImagePickerModeSettingItemGroup(
                         else Color.Transparent
                     ).value,
                     shape = ContainerShapeDefaults.bottomShape
+                )
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        PreferenceItem(
+            shape = ContainerShapeDefaults.bottomShape,
+            onClick = { updateImagePickerMode(3) },
+            title = stringResource(R.string.camera),
+            icon = Icons.Outlined.CameraAlt,
+            subtitle = stringResource(R.string.camera_sub),
+            color = MaterialTheme.colorScheme.secondaryContainer.copy(
+                alpha = animateFloatAsState(
+                    if (settingsState.imagePickerModeInt == 3) 0.7f
+                    else 0.2f
+                ).value
+            ),
+            endIcon = if (settingsState.imagePickerModeInt == 3) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp)
+                .border(
+                    width = settingsState.borderWidth,
+                    color = animateColorAsState(
+                        if (settingsState.imagePickerModeInt == 0) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                            alpha = 0.5f
+                        )
+                        else Color.Transparent
+                    ).value,
+                    shape = ContainerShapeDefaults.topShape
                 )
         )
     }
