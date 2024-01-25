@@ -44,4 +44,5 @@ dependencies {
     implementation(projects.feature.pickColor)
     implementation(projects.feature.recognizeText)
     implementation(projects.feature.gradientMaker)
+    implementation(projects.feature.watermarking)
 }

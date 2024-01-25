@@ -62,6 +62,7 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.PickColorFro
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.RecognizeTextScreen
 import ru.tech.imageresizershrinker.feature.resize_convert.presentation.ResizeAndConvertScreen
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.SingleEditScreen
+import ru.tech.imageresizershrinker.feature.watermarking.presentation.WatermarkingScreen
 
 @Composable
 fun ScreenSelector(
@@ -261,6 +262,13 @@ fun ScreenSelector(
 
             is Screen.GradientMaker -> {
                 GradientMakerScreen(
+                    uriState = screen.uris,
+                    onGoBack = onGoBack
+                )
+            }
+
+            is Screen.Watermarking -> {
+                WatermarkingScreen(
                     uriState = screen.uris,
                     onGoBack = onGoBack
                 )

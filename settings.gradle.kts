@@ -17,12 +17,6 @@
 
 @file:Suppress("UnstableApiUsage")
 
-include(":feature:gradient-maker")
-
-
-include(":core:settings")
-
-
 pluginManagement {
     repositories {
         includeBuild("build-logic")
@@ -61,6 +55,7 @@ include(":libs:placeholder")
 include(":libs:logger")
 include(":libs:zoomable")
 include(":libs:extendedcolors")
+include(":libs:androidwm")
 
 include(":feature:main")
 include(":feature:pick-color")
@@ -82,7 +77,10 @@ include(":feature:limits-resize")
 include(":feature:crop")
 include(":feature:load-net-image")
 include(":feature:recognize-text")
+include(":feature:watermarking")
+include(":feature:gradient-maker")
 
+include(":core:settings")
 include(":core:resources")
 include(":core:data")
 include(":core:domain")

@@ -22,6 +22,7 @@ import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.WrapText
+import androidx.compose.material.icons.automirrored.rounded.BrandingWatermark
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Margin
@@ -276,6 +277,15 @@ sealed class Screen(
         subtitle = R.string.gradient_maker_sub,
     )
 
+    data class Watermarking(
+        val uris: List<Uri>? = null
+    ) : Screen(
+        id = 19,
+        icon = Icons.AutoMirrored.Rounded.BrandingWatermark,
+        title = R.string.watermarking,
+        subtitle = R.string.watermarking_sub,
+    )
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -295,8 +305,9 @@ sealed class Screen(
                     Draw(),
                     EraseBackground(),
                     ImageStitching(),
+                    Watermarking(),
+                    GradientMaker(),
                     Cipher(),
-                    GradientMaker()
                 ) to Triple(
                     R.string.create,
                     Icons.Filled.AutoAwesome,
@@ -331,6 +342,7 @@ sealed class Screen(
                 ImageStitching(),
                 PdfTools(),
                 RecognizeText(),
+                Watermarking(),
                 ImagePreview(),
                 LoadNetImage(),
                 PickColorFromImage(),
@@ -341,6 +353,6 @@ sealed class Screen(
                 LimitResize()
             )
         }
-        const val featuresCount = 22
+        const val featuresCount = 23
     }
 }
