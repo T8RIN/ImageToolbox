@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 fun EnhancedChip(
     selected: Boolean,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(6.dp),
     selectedColor: Color,
     selectedContentColor: Color = MaterialTheme.colorScheme.contentColorFor(selectedColor),
@@ -72,7 +73,7 @@ fun EnhancedChip(
         LocalContentColor provides contentColor
     ) {
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .defaultMinSize(36.dp, 36.dp)
                 .container(
                     color = color,

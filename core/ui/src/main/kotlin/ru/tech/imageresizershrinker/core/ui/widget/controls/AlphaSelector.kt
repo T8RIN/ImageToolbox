@@ -25,6 +25,8 @@ import androidx.compose.material.icons.rounded.Opacity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
@@ -36,7 +38,9 @@ fun AlphaSelector(
     onValueChange: (Float) -> Unit,
     @SuppressLint("ModifierParameter")
     modifier: Modifier = Modifier
-        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+    color: Color = MaterialTheme.colorScheme.surfaceContainer,
+    shape: Shape = RoundedCornerShape(24.dp)
 ) {
     EnhancedSliderItem(
         modifier = modifier,
@@ -52,7 +56,7 @@ fun AlphaSelector(
         onValueChange = {
             onValueChange(it.roundToTwoDigits())
         },
-        shape = RoundedCornerShape(24.dp),
-        color = MaterialTheme.colorScheme.surfaceContainer
+        shape = shape,
+        color = color
     )
 }

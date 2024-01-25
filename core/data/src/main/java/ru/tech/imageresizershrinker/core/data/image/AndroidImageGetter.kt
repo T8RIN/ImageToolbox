@@ -40,6 +40,7 @@ import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import java.util.Locale
 import javax.inject.Inject
 
@@ -88,6 +89,22 @@ internal class AndroidImageGetter @Inject constructor(
                     .data(data)
                     .apply {
                         if (originalSize) size(Size.ORIGINAL)
+                    }
+                    .build()
+            ).drawable?.toBitmap()
+        }.getOrNull()
+    }
+
+    override suspend fun getImage(data: Any, size: IntegerSize): Bitmap? {
+        return runCatching {
+            imageLoader.execute(
+                ImageRequest
+                    .Builder(context)
+                    .data(data)
+                    .apply {
+                        size(
+                            Size(size.width, size.height)
+                        )
                     }
                     .build()
             ).drawable?.toBitmap()

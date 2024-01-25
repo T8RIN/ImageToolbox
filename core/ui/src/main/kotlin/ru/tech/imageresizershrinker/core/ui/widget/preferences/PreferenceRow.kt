@@ -71,13 +71,11 @@ fun PreferenceRow(
         vertical = 8.dp
     ),
     changeAlphaWhenDisabled: Boolean = true,
+    onClick: (() -> Unit)?,
     autoShadowElevation: Dp = 1.dp,
-    onClick: (() -> Unit)?
 ) {
     val internalColor = contentColor
-        ?: if (color == MaterialTheme.colorScheme.surfaceContainer) contentColorFor(
-            backgroundColor = MaterialTheme.colorScheme.surfaceVariant
-        ) else contentColorFor(backgroundColor = color)
+        ?: contentColorFor(backgroundColor = color)
     CompositionLocalProvider(LocalContentColor provides internalColor) {
         Row(
             modifier = modifier

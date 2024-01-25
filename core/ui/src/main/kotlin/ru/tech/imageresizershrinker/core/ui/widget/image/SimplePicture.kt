@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.core.ui.widget.image
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -37,7 +38,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 fun SimplePicture(
     bitmap: Bitmap?,
     modifier: Modifier = Modifier,
-    scale: ContentScale = ContentScale.Inside,
+    scale: ContentScale = ContentScale.FillBounds,
     boxModifier: Modifier = Modifier,
     loading: Boolean = false,
     visible: Boolean = true
@@ -56,6 +57,7 @@ fun SimplePicture(
                     contentScale = scale,
                     contentDescription = null,
                     modifier = modifier
+                        .aspectRatio(it.width / it.height.toFloat())
                         .clip(MaterialTheme.shapes.medium)
                         .transparencyChecker()
                         .shimmer(loading)

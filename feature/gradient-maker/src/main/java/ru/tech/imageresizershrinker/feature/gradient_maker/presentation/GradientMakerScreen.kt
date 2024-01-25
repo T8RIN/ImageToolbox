@@ -80,6 +80,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShowOriginalButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.AlphaSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
@@ -192,6 +193,7 @@ fun GradientMakerScreen(
     val showPickImageFromUrisSheet = rememberSaveable { mutableStateOf(false) }
 
     val showCompareSheet = rememberSaveable { mutableStateOf(false) }
+    var showOriginal by rememberSaveable { mutableStateOf(false) }
 
     AdaptiveLayoutScreen(
         isPortrait = isPortrait,
@@ -211,6 +213,14 @@ fun GradientMakerScreen(
             else showExitDialog = true
         },
         actions = {
+            if (viewModel.uris.isNotEmpty()) {
+                ShowOriginalButton(
+                    canShow = true,
+                    onStateChange = {
+                        showOriginal = it
+                    }
+                )
+            }
             EnhancedIconButton(
                 containerColor = Color.Transparent,
                 contentColor = LocalContentColor.current,
@@ -241,7 +251,7 @@ fun GradientMakerScreen(
             ) {
                 GradientPreview(
                     brush = viewModel.brush,
-                    gradientAlpha = viewModel.gradientAlpha,
+                    gradientAlpha = if (showOriginal) 0f else viewModel.gradientAlpha,
                     allowPickingImage = allowPickingImage,
                     gradientSize = viewModel.gradientSize,
                     onSizeChanged = viewModel::setPreviewSize,
@@ -402,6 +412,7 @@ fun GradientMakerScreen(
                 }
             )
         },
+        forceImagePreviewToMax = showOriginal,
         contentPadding = animateDpAsState(
             if (allowPickingImage == null) 12.dp
             else 20.dp

@@ -28,6 +28,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkApplier
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkingType
@@ -42,44 +43,51 @@ class AndroidWatermarkApplier @Inject constructor(
         image: Bitmap,
         params: WatermarkParams
     ): Bitmap? = withContext(Dispatchers.IO) {
-        val builder: WatermarkBuilder? = if (params.watermarkingType == WatermarkingType.Text) {
-            WatermarkBuilder
-                .create(context, image)
-                .loadWatermarkText(
-                    WatermarkText(params.text)
-                        .setPositionX(params.positionX.toDouble())
-                        .setPositionY(params.positionY.toDouble())
-                        .setRotation(params.rotation.toDouble())
-                        .setTextAlpha(
-                            (params.alpha * 255).toInt()
-                        )
-                        .setTextSize(
-                            params.size.toDouble() * image.width / 2
-                        )
-                        .setBackgroundColor(params.textBackgroundColor)
-                        .setTextColor(params.textColor)
-                        .setTextFont(params.textFont)
-                        .setTextStyle(
-                            Paint.Style.values().first { it.ordinal == params.textStyle }
-                        )
-                )
-        } else {
-            imageGetter.getImage(
-                data = params.watermarkImageUri,
-                originalSize = false
-            )?.let { bitmap ->
+        val builder: WatermarkBuilder? = when (val type = params.watermarkingType) {
+            is WatermarkingType.Text -> {
                 WatermarkBuilder
                     .create(context, image)
-                    .loadWatermarkImage(
-                        WatermarkImage(bitmap)
+                    .loadWatermarkText(
+                        WatermarkText(type.text)
                             .setPositionX(params.positionX.toDouble())
                             .setPositionY(params.positionY.toDouble())
                             .setRotation(params.rotation.toDouble())
-                            .setImageAlpha(
+                            .setTextAlpha(
                                 (params.alpha * 255).toInt()
                             )
-                            .setSize(params.size.toDouble())
+                            .setTextSize(type.size.toDouble())
+                            .setBackgroundColor(type.backgroundColor)
+                            .setTextColor(type.color)
+                            .setTextFont(type.font)
+                            .setTextStyle(
+                                Paint.Style.values().first { it.ordinal == type.style }
+                            )
                     )
+                    .setTileMode(params.isRepeated)
+            }
+
+            is WatermarkingType.Image -> {
+                imageGetter.getImage(
+                    data = type.imageData,
+                    size = IntegerSize(
+                        (image.width * type.size).toInt(),
+                        (image.height * type.size).toInt()
+                    )
+                )?.let { bitmap ->
+                    WatermarkBuilder
+                        .create(context, image)
+                        .loadWatermarkImage(
+                            WatermarkImage(bitmap)
+                                .setPositionX(params.positionX.toDouble())
+                                .setPositionY(params.positionY.toDouble())
+                                .setRotation(params.rotation.toDouble())
+                                .setImageAlpha(
+                                    (params.alpha * 255).toInt()
+                                )
+                                .setSize(type.size.toDouble())
+                        )
+                        .setTileMode(params.isRepeated)
+                }
             }
         }
 

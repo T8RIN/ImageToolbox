@@ -45,6 +45,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkApplier
+import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
 import javax.inject.Inject
 
 
@@ -79,8 +80,9 @@ class WatermarkingViewModel @Inject constructor(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 
-    private val _isMarksRepeated: MutableState<Boolean> = mutableStateOf(false)
-    val isMarksRepeated: Boolean by _isMarksRepeated
+    private val _watermarkParams: MutableState<WatermarkParams> =
+        mutableStateOf(WatermarkParams.Default)
+    val watermarkParams by _watermarkParams
 
     private val _imageFormat = mutableStateOf(ImageFormat.Default())
     val imageFormat by _imageFormat
@@ -95,16 +97,18 @@ class WatermarkingViewModel @Inject constructor(
     private fun updateBitmap(bitmap: Bitmap, onComplete: () -> Unit = {}) {
         viewModelScope.launch {
             _isImageLoading.value = true
-            _previewBitmap.value = imageScaler.scaleUntilCanShow(bitmap)
-            _internalBitmap.update { previewBitmap }
+            _internalBitmap.value = imageScaler.scaleUntilCanShow(bitmap)
+            checkBitmapAndUpdate()
             _isImageLoading.value = false
             onComplete()
         }
     }
 
-    private suspend fun checkBitmapAndUpdate() {
-        _previewBitmap.value = _internalBitmap.value?.let {
-            getWatermarkedBitmap(it)
+    private fun checkBitmapAndUpdate() {
+        debouncedImageCalculation {
+            _previewBitmap.value = _internalBitmap.value?.let {
+                getWatermarkedBitmap(it)
+            }
         }
     }
 
@@ -172,9 +176,12 @@ class WatermarkingViewModel @Inject constructor(
     }
 
     private suspend fun getWatermarkedBitmap(
-        data: Any
+        data: Any,
+        originalSize: Boolean = false
     ): Bitmap? = withContext(Dispatchers.IO) {
-        null
+        imageGetter.getImage(data, originalSize)?.let {
+            watermarkApplier.applyWatermark(it, watermarkParams)
+        }
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {
@@ -222,8 +229,9 @@ class WatermarkingViewModel @Inject constructor(
         _imageFormat.update { imageFormat }
     }
 
-    fun toggleMarksRepeated(boolean: Boolean) {
-        _isMarksRepeated.update { boolean }
+    fun updateWatermarkParams(watermarkParams: WatermarkParams) {
+        _watermarkParams.update { watermarkParams }
+        checkBitmapAndUpdate()
     }
 
     fun setUri(
@@ -281,7 +289,7 @@ class WatermarkingViewModel @Inject constructor(
     fun getWatermarkTransformation(): Transformation {
         return object : Transformation {
             override val cacheKey: String
-                get() = previewBitmap.hashCode().toString()
+                get() = watermarkParams.hashCode().toString()
 
             override suspend fun transform(
                 input: Bitmap,

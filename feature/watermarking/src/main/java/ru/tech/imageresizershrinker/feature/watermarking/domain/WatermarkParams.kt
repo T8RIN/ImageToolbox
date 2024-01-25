@@ -17,21 +17,72 @@
 
 package ru.tech.imageresizershrinker.feature.watermarking.domain
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.core.net.toUri
+
 data class WatermarkParams(
     val positionX: Float,
     val positionY: Float,
     val rotation: Int,
-    val textColor: Int,
-    val textStyle: Int,
     val alpha: Float,
-    val size: Float,
-    val textFont: Int,
-    val textBackgroundColor: Int,
-    val watermarkImageUri: String,
-    val text: String,
+    val isRepeated: Boolean,
     val watermarkingType: WatermarkingType
-)
+) {
+    companion object {
+        val Default by lazy {
+            WatermarkParams(
+                positionX = 0f,
+                positionY = 0f,
+                rotation = 45,
+                alpha = 0.5f,
+                isRepeated = true,
+                watermarkingType = WatermarkingType.Text.Default
+            )
+        }
+    }
+}
 
-enum class WatermarkingType {
-    Text, Image
+sealed interface WatermarkingType {
+    data class Text(
+        val color: Int,
+        val style: Int,
+        val size: Float,
+        val font: Int,
+        val backgroundColor: Int,
+        val text: String,
+    ) : WatermarkingType {
+        companion object {
+            val Default by lazy {
+                Text(
+                    color = Color.Black.toArgb(),
+                    style = 0,
+                    size = 10f,
+                    font = 0,
+                    backgroundColor = Color.Transparent.toArgb(),
+                    text = "Watermark"
+                )
+            }
+        }
+    }
+
+    data class Image(
+        val imageData: Any,
+        val size: Float
+    ) : WatermarkingType {
+        companion object {
+            val Default by lazy {
+                Image(
+                    size = 0.1f,
+                    imageData = "file:///android_asset/svg/emotions/aasparkles.svg".toUri()
+                )
+            }
+        }
+    }
+
+    companion object {
+        val entries by lazy {
+            listOf(Text.Default, Image.Default)
+        }
+    }
 }

@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.domain.image
 
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 
 interface ImageGetter<I, M> {
 
@@ -40,6 +41,8 @@ interface ImageGetter<I, M> {
     ): ImageData<I, M>?
 
     suspend fun getImage(data: Any, originalSize: Boolean = true): I?
+
+    suspend fun getImage(data: Any, size: IntegerSize): I?
 
     fun getExtension(
         uri: String

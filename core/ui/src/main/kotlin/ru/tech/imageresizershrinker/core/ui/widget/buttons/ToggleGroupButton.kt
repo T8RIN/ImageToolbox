@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
@@ -52,7 +53,8 @@ fun ToggleGroupButton(
     selectedIndex: Int,
     title: String? = null,
     indexChanged: (Int) -> Unit,
-    fadingEdgesColor: Color = MaterialTheme.colorScheme.surfaceContainer
+    fadingEdgesColor: Color = MaterialTheme.colorScheme.surfaceContainer,
+    inactiveButtonColor: Color = MaterialTheme.colorScheme.surfaceContainerLow
 ) {
     ToggleGroupButton(
         enabled = enabled,
@@ -63,11 +65,16 @@ fun ToggleGroupButton(
         title = {
             title?.let {
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(it, textAlign = TextAlign.Center)
+                Text(
+                    text = it,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Medium
+                )
                 Spacer(modifier = Modifier.height(8.dp))
             }
         },
-        fadingEdgesColor = fadingEdgesColor
+        fadingEdgesColor = fadingEdgesColor,
+        inactiveButtonColor = inactiveButtonColor
     )
 }
 
@@ -80,7 +87,8 @@ fun ToggleGroupButton(
     selectedIndex: Int,
     title: @Composable () -> Unit = {},
     indexChanged: (Int) -> Unit,
-    fadingEdgesColor: Color = MaterialTheme.colorScheme.surfaceContainer
+    fadingEdgesColor: Color = MaterialTheme.colorScheme.surfaceContainer,
+    inactiveButtonColor: Color = MaterialTheme.colorScheme.surfaceContainerLow
 ) {
     val settingsState = LocalSettingsState.current
     val haptics = LocalHapticFeedback.current
@@ -127,7 +135,7 @@ fun ToggleGroupButton(
                                 selected = index == selectedIndex,
                                 colors = SegmentedButtonDefaults.colors(
                                     activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
-                                    inactiveContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                    inactiveContainerColor = inactiveButtonColor,
                                     activeContainerColor = if (enabled) {
                                         MaterialTheme.colorScheme.secondary
                                     } else {

@@ -23,7 +23,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Numbers
+import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -69,7 +69,7 @@ fun GradientTypeSelector(
             visibleContent = {
                 TitleItem(
                     text = stringResource(id = R.string.properties),
-                    icon = Icons.Rounded.Numbers
+                    icon = Icons.Outlined.Tune
                 )
             },
             expandableContent = {

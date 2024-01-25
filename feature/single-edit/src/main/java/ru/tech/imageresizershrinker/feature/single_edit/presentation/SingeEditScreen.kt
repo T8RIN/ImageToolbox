@@ -20,38 +20,25 @@ package ru.tech.imageresizershrinker.feature.single_edit.presentation
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.LocalIndication
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.indication
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -70,6 +57,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShowOriginalButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageExtraTransformBar
@@ -244,7 +232,6 @@ fun SingleEditScreen(
                 Icon(Icons.Outlined.Share, null)
             }
 
-            val interactionSource = remember { MutableInteractionSource() }
             EnhancedIconButton(
                 containerColor = Color.Transparent,
                 contentColor = LocalContentColor.current,
@@ -257,42 +244,13 @@ fun SingleEditScreen(
                     contentDescription = null
                 )
             }
-            if (viewModel.bitmap != null && viewModel.canShow()) {
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .indication(
-                            interactionSource,
-                            LocalIndication.current
-                        )
-                        .pointerInput(Unit) {
-                            detectTapGestures(
-                                onPress = {
-                                    val press = PressInteraction.Press(it)
-                                    interactionSource.emit(press)
-                                    if (viewModel.canShow()) {
-                                        showOriginal = true
-                                    }
-                                    tryAwaitRelease()
-                                    showOriginal = false
-                                    interactionSource.emit(
-                                        PressInteraction.Release(
-                                            press
-                                        )
-                                    )
-                                }
-                            )
-                        }
-                ) {
-                    Icon(
-                        Icons.Rounded.History,
-                        null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .padding(8.dp)
-                    )
-                }
+            if (viewModel.bitmap != null) {
+                ShowOriginalButton(
+                    canShow = viewModel.canShow(),
+                    onStateChange = {
+                        showOriginal = it
+                    }
+                )
             } else {
                 EnhancedIconButton(
                     containerColor = Color.Transparent,

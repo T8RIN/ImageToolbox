@@ -17,8 +17,11 @@
 
 package ru.tech.imageresizershrinker.feature.watermarking.presentation
 
+import android.app.Activity
 import android.content.res.Configuration
 import android.net.Uri
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.Icon
@@ -33,10 +36,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import coil.request.ImageRequest
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
@@ -46,12 +51,17 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.helper.failedToSaveImages
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShowOriginalButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
@@ -65,6 +75,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
+import ru.tech.imageresizershrinker.feature.watermarking.presentation.components.WatermarkParamsSelectionGroup
 import ru.tech.imageresizershrinker.feature.watermarking.presentation.viewModel.WatermarkingViewModel
 
 @Composable
@@ -79,10 +91,16 @@ fun WatermarkingScreen(
     val settingsState = LocalSettingsState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
-    val context = LocalContext.current
+    val context = LocalContext.current as Activity
 
     val confettiController = LocalConfettiController.current
     val toastHostState = LocalToastHost.current
+
+    val showConfetti: () -> Unit = {
+        scope.launch {
+            confettiController.showEmpty()
+        }
+    }
 
     LaunchedEffect(uriState) {
         uriState?.let {
@@ -131,6 +149,7 @@ fun WatermarkingScreen(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
     var showOriginal by rememberSaveable { mutableStateOf(false) }
     val showPickImageFromUrisSheet = rememberSaveable { mutableStateOf(false) }
+    val showCompareSheet = rememberSaveable { mutableStateOf(false) }
 
     AdaptiveLayoutScreen(
         title = {
@@ -146,6 +165,10 @@ fun WatermarkingScreen(
         },
         topAppBarPersistentActions = {
             if (viewModel.previewBitmap == null) TopAppBarEmoji()
+            CompareButton(
+                onClick = { showCompareSheet.value = true },
+                visible = viewModel.previewBitmap != null && viewModel.internalBitmap != null
+            )
             ZoomButton(
                 onClick = { showZoomSheet.value = true },
                 visible = viewModel.previewBitmap != null
@@ -157,19 +180,28 @@ fun WatermarkingScreen(
                 contentColor = LocalContentColor.current,
                 enableAutoShadowAndBorder = false,
                 onClick = {
-                    TODO()
+                    viewModel.shareBitmaps(showConfetti)
                 },
                 enabled = viewModel.previewBitmap != null
             ) {
                 Icon(Icons.Outlined.Share, null)
             }
+            if (viewModel.internalBitmap != null) {
+                ShowOriginalButton(
+                    canShow = true,
+                    onStateChange = {
+                        showOriginal = it
+                    }
+                )
+            }
         },
+        forceImagePreviewToMax = showOriginal,
         imagePreview = {
             ImageContainer(
                 imageInside = isPortrait,
                 showOriginal = showOriginal,
                 previewBitmap = viewModel.previewBitmap,
-                originalBitmap = viewModel.previewBitmap,
+                originalBitmap = viewModel.internalBitmap,
                 isLoading = viewModel.isImageLoading,
                 shouldShowPreview = true
             )
@@ -181,13 +213,40 @@ fun WatermarkingScreen(
                     showPickImageFromUrisSheet.value = true
                 }
             )
+            Spacer(modifier = Modifier.height(8.dp))
+            WatermarkParamsSelectionGroup(
+                value = viewModel.watermarkParams,
+                onValueChange = viewModel::updateWatermarkParams
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            SaveExifWidget(
+                checked = viewModel.keepExif,
+                imageFormat = viewModel.imageFormat,
+                onCheckedChange = viewModel::toggleKeepExif
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            ExtensionGroup(
+                enabled = true,
+                value = viewModel.imageFormat,
+                onValueChange = viewModel::setImageFormat
+            )
+            Spacer(modifier = Modifier.height(8.dp))
         },
         buttons = {
             BottomButtonsBlock(
-                targetState = (viewModel.previewBitmap == null) to isPortrait,
+                targetState = (viewModel.uris.isEmpty()) to isPortrait,
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
-
+                    viewModel.saveBitmaps { failed, savingPath ->
+                        context.failedToSaveImages(
+                            scope = scope,
+                            failed = failed,
+                            done = viewModel.done,
+                            toastHostState = toastHostState,
+                            savingPathString = savingPath,
+                            showConfetti = showConfetti
+                        )
+                    }
                 },
                 actions = {
                     if (isPortrait) it()
@@ -198,7 +257,7 @@ fun WatermarkingScreen(
             ImageNotPickedWidget(onPickImage = pickImage)
         },
         isPortrait = isPortrait,
-        canShowScreenData = viewModel.previewBitmap != null
+        canShowScreenData = viewModel.uris.isNotEmpty()
     )
 
     PickImageFromUrisSheet(
@@ -223,6 +282,11 @@ fun WatermarkingScreen(
             viewModel.updateUrisSilently(removedUri = uri)
         },
         columns = if (isPortrait) 2 else 4,
+    )
+
+    CompareSheet(
+        data = viewModel.internalBitmap to viewModel.previewBitmap,
+        visible = showCompareSheet
     )
 
     ZoomModalSheet(
