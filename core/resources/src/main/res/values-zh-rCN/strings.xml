@@ -601,4 +601,5 @@
     <string name="brightness_enforcement">亮度强制</string>
     <string name="tile_mode_mirror">镜像</string>
     <string name="screen">屏幕</string>
+    <string name="gradient_maker_type_image">渐变叠加</string>
 </resources>

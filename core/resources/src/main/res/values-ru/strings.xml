@@ -604,4 +604,6 @@
     <string name="transformations">Трансформации</string>
     <string name="gradient_maker_type_image">Наложение градиента</string>
     <string name="gradient_maker_type_image_sub">Наложите любой градиент на любое изображение</string>
+    <string name="camera">Камера</string>
+    <string name="camera_sub">Использует камеру для получения изображения, обратите внимание, что вы можете получить только одну фотографию, используя этот источник изображений</string>
 </resources>
