@@ -101,11 +101,11 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
@@ -283,10 +283,12 @@ fun FileCipherScreen(
                             TopAppBarEmoji()
                         }
                     )
-                    val cutout = WindowInsets
-                        .displayCutout
-                        .asPaddingValues()
-                    val direction = LayoutDirection.Ltr
+                    val cutout = if (viewModel.uri != null) {
+                        WindowInsets
+                            .displayCutout
+                            .asPaddingValues()
+                    } else PaddingValues()
+                    val direction = LocalLayoutDirection.current
                     LazyColumn(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         state = state,

@@ -51,7 +51,6 @@ import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -69,6 +68,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -128,7 +128,8 @@ import javax.inject.Inject
 @Composable
 fun AddEditMaskSheet(
     mask: UiFilterMask? = null,
-    visible: MutableState<Boolean>,
+    visible: Boolean,
+    onDismiss: () -> Unit,
     targetBitmapUri: Uri? = null,
     masks: List<UiFilterMask> = emptyList(),
     onMaskPicked: (UiFilterMask) -> Unit
@@ -164,6 +165,10 @@ fun AddEditMaskSheet(
         val canSave = viewModel.paths.isNotEmpty() && viewModel.filterList.isNotEmpty()
         SimpleSheet(
             visible = visible,
+            onDismiss = {
+                if (viewModel.paths.isEmpty() && viewModel.filterList.isEmpty()) onDismiss()
+                else showExitDialog = true
+            },
             cancelable = false,
             title = {
                 TitleItem(
@@ -179,7 +184,7 @@ fun AddEditMaskSheet(
                         onMaskPicked(
                             viewModel.getUiMask()
                         )
-                        visible.value = false
+                        onDismiss()
                     }
                 ) {
                     Text(stringResource(id = R.string.save))
@@ -191,10 +196,9 @@ fun AddEditMaskSheet(
             val zoomState = rememberZoomState(maxScale = 30f, key = imageState)
 
             disposable()
-            if (visible.value) {
+            if (visible) {
                 BackHandler {
-                    if (viewModel.paths.isEmpty() && viewModel.filterList.isEmpty()) visible.value =
-                        false
+                    if (viewModel.paths.isEmpty() && viewModel.filterList.isEmpty()) onDismiss()
                     else showExitDialog = true
                 }
             }
@@ -218,10 +222,16 @@ fun AddEditMaskSheet(
                     transitionSpec = { fadeIn() togetherWith fadeOut() },
                     modifier = Modifier
                         .fillMaxSize()
-                        .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
+                        .clip(
+                            if (portrait) RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)
+                            else RectangleShape
+                        )
                         .background(
                             color = MaterialTheme.colorScheme
-                                .surfaceColorAtElevation(10.dp)
+                                .surfaceColorAtElevation(
+                                    if (portrait) 10.dp
+                                    else 7.dp
+                                )
                                 .copy(0.8f)
                         )
                 ) { (imageBitmap, preview, loading) ->
@@ -272,7 +282,6 @@ fun AddEditMaskSheet(
                     Box(modifier = Modifier.weight(1.3f)) {
                         drawPreview()
                     }
-                    VerticalDivider()
                 }
                 val internalHeight = rememberAvailableHeight(imageState = imageState)
                 LazyColumn(
@@ -438,6 +447,7 @@ fun AddEditMaskSheet(
                                 end = 16.dp,
                                 top = 16.dp
                             ),
+                            color = Color.Unspecified,
                             resultModifier = Modifier.padding(16.dp),
                             applyHorPadding = false,
                             shape = RoundedCornerShape(24.dp),
@@ -529,7 +539,7 @@ fun AddEditMaskSheet(
         )
 
         ExitWithoutSavingDialog(
-            onExit = { visible.value = false },
+            onExit = onDismiss,
             onDismiss = { showExitDialog = false },
             visible = showExitDialog
         )
@@ -626,8 +636,6 @@ private class AddMaskSheetViewModel @Inject constructor(
         _maskPreviewModeEnabled.update { !it }
         updatePreview()
     }
-
-    fun getImageManager(): ImageTransformer<Bitmap> = imageTransformer
 
     fun removeFilterAtIndex(index: Int) {
         _filterList.update {

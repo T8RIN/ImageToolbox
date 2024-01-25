@@ -76,7 +76,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-@ExperimentalMaterialApi
+
 enum class ModalBottomSheetValue {
     /**
      * The bottom sheet is not visible.

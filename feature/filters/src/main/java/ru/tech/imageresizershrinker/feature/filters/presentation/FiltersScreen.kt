@@ -219,7 +219,7 @@ fun FiltersScreen(
         list.takeIf { it.isNotEmpty() }?.firstOrNull()?.let(viewModel::setMaskFilter)
     }
 
-    val showAddMaskSheet = rememberSaveable { mutableStateOf(false) }
+    var showAddMaskSheet by rememberSaveable { mutableStateOf(false) }
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
     val showAddFilterSheet = rememberSaveable { mutableStateOf(false) }
@@ -375,7 +375,7 @@ fun FiltersScreen(
                     onClick = {
                         when (filterType) {
                             is Screen.Filter.Type.Basic -> showAddFilterSheet.value = true
-                            is Screen.Filter.Type.Masking -> showAddMaskSheet.value = true
+                            is Screen.Filter.Type.Masking -> showAddMaskSheet = true
                         }
                     },
                     containerColor = MaterialTheme.colorScheme.mixedContainer
@@ -605,7 +605,7 @@ fun FiltersScreen(
                                         EnhancedButton(
                                             containerColor = MaterialTheme.colorScheme.mixedContainer,
                                             onClick = {
-                                                showAddMaskSheet.value = true
+                                                showAddMaskSheet = true
                                             },
                                             modifier = Modifier.padding(
                                                 start = 16.dp,
@@ -626,7 +626,7 @@ fun FiltersScreen(
                                 EnhancedButton(
                                     containerColor = MaterialTheme.colorScheme.mixedContainer,
                                     onClick = {
-                                        showAddMaskSheet.value = true
+                                        showAddMaskSheet = true
                                     },
                                     modifier = Modifier.padding(
                                         horizontal = 16.dp
@@ -682,6 +682,7 @@ fun FiltersScreen(
             horizontalArrangement = Arrangement.Center,
         ) {
             if (!imageInside) {
+                val direction = LocalLayoutDirection.current
                 Box(
                     Modifier
                         .container(
@@ -689,6 +690,12 @@ fun FiltersScreen(
                             color = MaterialTheme.colorScheme.surfaceContainerLow
                         )
                         .fillMaxHeight()
+                        .padding(
+                            start = WindowInsets
+                                .displayCutout
+                                .asPaddingValues()
+                                .calculateStartPadding(direction)
+                        )
                         .weight(1.2f)
                         .padding(20.dp)
                 ) {
@@ -825,7 +832,7 @@ fun FiltersScreen(
                                 is Screen.Filter.Type.Masking -> {
                                     EnhancedIconButton(
                                         containerColor = MaterialTheme.colorScheme.mixedContainer,
-                                        onClick = { showAddMaskSheet.value = true }
+                                        onClick = { showAddMaskSheet = true }
                                     ) {
                                         Icon(Icons.Rounded.Texture, null)
                                     }
@@ -1093,6 +1100,9 @@ fun FiltersScreen(
                                         visible = showAddMaskSheet,
                                         targetBitmapUri = viewModel.maskingFilterState.uri,
                                         onMaskPicked = viewModel::addMask,
+                                        onDismiss = {
+                                            showAddMaskSheet = false
+                                        },
                                         masks = viewModel.maskingFilterState.masks
                                     )
 

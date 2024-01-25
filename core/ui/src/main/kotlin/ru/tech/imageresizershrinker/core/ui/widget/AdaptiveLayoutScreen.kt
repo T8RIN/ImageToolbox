@@ -18,14 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.ContentTransform
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,6 +28,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.ime
@@ -66,6 +60,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
@@ -92,12 +87,7 @@ fun AdaptiveLayoutScreen(
     canShowScreenData: Boolean,
     forceImagePreviewToMax: Boolean = false,
     isPortrait: Boolean,
-    contentPadding: Dp = 20.dp,
-    controlsTransitionSpec: AnimatedContentTransitionScope<Boolean>.() -> ContentTransform = {
-        (fadeIn(animationSpec = tween(220, delayMillis = 90)) +
-                scaleIn(initialScale = 0.92f, animationSpec = tween(220, delayMillis = 90)))
-            .togetherWith(fadeOut(animationSpec = tween(90)))
-    }
+    contentPadding: Dp = 20.dp
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -158,7 +148,7 @@ fun AdaptiveLayoutScreen(
                     },
                     actions = {
                         topAppBarPersistentActions()
-                        if (!isPortrait && canShowScreenData) actions()
+                        if (!isPortrait) actions()
                     }
                 )
                 Row(
@@ -166,6 +156,7 @@ fun AdaptiveLayoutScreen(
                     horizontalArrangement = Arrangement.Center,
                 ) {
                     if (!isPortrait && canShowScreenData) {
+                        val direction = LocalLayoutDirection.current
                         Box(
                             Modifier
                                 .then(
@@ -176,12 +167,18 @@ fun AdaptiveLayoutScreen(
                                         )
                                     } else Modifier
                                 )
+                                .fillMaxHeight()
+                                .padding(
+                                    start = WindowInsets
+                                        .displayCutout
+                                        .asPaddingValues()
+                                        .calculateStartPadding(direction)
+                                )
                                 .weight(1.2f)
-                                .padding(20.dp)
+                                .padding(20.dp),
+                            contentAlignment = Alignment.Center
                         ) {
-                            Box(Modifier.align(Alignment.Center)) {
-                                imagePreview()
-                            }
+                            imagePreview()
                         }
                     }
                     val internalHeight = rememberAvailableHeight(
@@ -217,19 +214,14 @@ fun AdaptiveLayoutScreen(
                             imageBlock = imagePreview
                         )
                         item {
-                            AnimatedContent(
-                                targetState = canShowScreenData,
-                                transitionSpec = controlsTransitionSpec
-                            ) { showControls ->
-                                Column(
-                                    modifier = Modifier.fillMaxSize(),
-                                    verticalArrangement = Arrangement.Center,
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    if (showControls) {
-                                        if (controls != null) controls()
-                                    } else noDataControls()
-                                }
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                if (canShowScreenData) {
+                                    if (controls != null) controls()
+                                } else noDataControls()
                             }
                         }
                     }
@@ -249,5 +241,12 @@ fun AdaptiveLayoutScreen(
 
             BackHandler { onGoBack() }
         }
+    }
+}
+
+@Composable
+fun BoxWrapper(content: @Composable () -> Unit) {
+    Box {
+        content()
     }
 }

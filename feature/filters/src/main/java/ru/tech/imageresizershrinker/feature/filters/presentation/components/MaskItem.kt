@@ -77,13 +77,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @Composable
 fun MaskItem(
     mask: UiFilterMask,
-    onRequestPreview: (suspend (Bitmap, List<UiFilter<*>>, IntegerSize) -> Bitmap?)? = null,
     modifier: Modifier = Modifier,
+    onRequestPreview: (suspend (Bitmap, List<UiFilter<*>>, IntegerSize) -> Bitmap?)? = null,
     titleText: String,
     onMaskChange: (UiFilterMask) -> Unit,
     previewOnly: Boolean = false,
     backgroundColor: Color = MaterialTheme.colorScheme
-        .surfaceContainer,
+        .surfaceContainerLow,
     showDragHandle: Boolean,
     onLongPress: (() -> Unit)? = null,
     onRemove: () -> Unit,
@@ -92,7 +92,7 @@ fun MaskItem(
 ) {
     var showMaskRemoveDialog by rememberSaveable { mutableStateOf(false) }
     val showAddFilterSheet = rememberSaveable { mutableStateOf(false) }
-    val showEditMaskSheet = rememberSaveable { mutableStateOf(false) }
+    var showEditMaskSheet by rememberSaveable { mutableStateOf(false) }
     val settingsState = LocalSettingsState.current
     Box {
         Row(
@@ -162,7 +162,7 @@ fun MaskItem(
                             containerColor = Color.Transparent,
                             contentColor = LocalContentColor.current,
                             enableAutoShadowAndBorder = false,
-                            onClick = { showEditMaskSheet.value = true }
+                            onClick = { showEditMaskSheet = true }
                         ) {
                             Icon(Icons.Rounded.CreateAlt, null)
                         }
@@ -308,6 +308,9 @@ fun MaskItem(
         visible = showEditMaskSheet,
         targetBitmapUri = imageUri,
         masks = previousMasks,
+        onDismiss = {
+            showEditMaskSheet = false
+        },
         onMaskPicked = onMaskChange
     )
 }

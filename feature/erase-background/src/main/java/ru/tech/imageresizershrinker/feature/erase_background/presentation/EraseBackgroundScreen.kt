@@ -37,6 +37,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -299,6 +300,7 @@ fun EraseBackgroundScreen(
             }.value,
             transitionSpec = { fadeIn() togetherWith fadeOut() }
         ) { imageBitmap ->
+            val direction = LocalLayoutDirection.current
             val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
             BitmapEraser(
                 imageBitmapForShader = viewModel.internalBitmap?.asImageBitmap(),
@@ -309,6 +311,12 @@ fun EraseBackgroundScreen(
                 onAddPath = viewModel::addPath,
                 isRecoveryOn = viewModel.isRecoveryOn,
                 modifier = Modifier
+                    .padding(
+                        start = WindowInsets
+                            .displayCutout
+                            .asPaddingValues()
+                            .calculateStartPadding(direction)
+                    )
                     .padding(16.dp)
                     .aspectRatio(aspectRatio, portrait)
                     .fillMaxSize(),

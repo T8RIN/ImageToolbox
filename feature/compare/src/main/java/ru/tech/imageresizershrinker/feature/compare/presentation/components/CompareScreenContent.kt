@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -193,10 +194,17 @@ fun CompareScreenContent(
                 }
             } else {
                 Row {
+                    val direction = LocalLayoutDirection.current
                     Box(
                         modifier = Modifier
                             .weight(0.8f)
                             .then(zoomModifier)
+                            .padding(
+                                start = WindowInsets
+                                    .displayCutout
+                                    .asPaddingValues()
+                                    .calculateStartPadding(direction)
+                            )
                             .padding(20.dp)
                     ) {
                         Box(
@@ -249,7 +257,6 @@ fun CompareScreenContent(
                             }
                         }
                     }
-                    val direction = LocalLayoutDirection.current
                     Column(
                         Modifier
                             .container(

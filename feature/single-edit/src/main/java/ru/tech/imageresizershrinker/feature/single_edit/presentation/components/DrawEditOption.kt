@@ -28,7 +28,11 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -57,6 +61,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
@@ -136,9 +141,13 @@ fun DrawEditOption(
 
         val secondaryControls = @Composable {
             Row(
-                Modifier
-                    .padding(16.dp)
-                    .then(if (!useScaffold) Modifier.container(shape = CircleShape) else Modifier)
+                modifier = Modifier.then(
+                    if (!useScaffold) {
+                        Modifier
+                            .padding(16.dp)
+                            .container(shape = CircleShape)
+                    } else Modifier
+                )
             ) {
                 switch()
                 Spacer(Modifier.width(8.dp))
@@ -243,7 +252,8 @@ fun DrawEditOption(
                         bottom = 16.dp
                     ),
                     value = drawPathMode,
-                    onValueChange = { drawPathMode = it }
+                    onValueChange = { drawPathMode = it },
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer
                 )
             },
             fabButtons = null,
@@ -289,6 +299,7 @@ fun DrawEditOption(
                 )
             }
         ) {
+            val direction = LocalLayoutDirection.current
             Box(contentAlignment = Alignment.Center) {
                 remember(bitmap) {
                     derivedStateOf {
@@ -307,6 +318,12 @@ fun DrawEditOption(
                         isEraserOn = isEraserOn,
                         drawMode = drawMode,
                         modifier = Modifier
+                            .padding(
+                                start = WindowInsets
+                                    .displayCutout
+                                    .asPaddingValues()
+                                    .calculateStartPadding(direction)
+                            )
                             .padding(16.dp)
                             .aspectRatio(aspectRatio, !useScaffold)
                             .fillMaxSize(),

@@ -788,7 +788,8 @@ fun PdfToolsScreen(
                                                             Modifier
                                                                 .fillMaxSize()
                                                                 .verticalScroll(rememberScrollState())
-                                                        } else Modifier
+                                                        } else Modifier,
+                                                        horizontalAlignment = Alignment.CenterHorizontally
                                                     ) {
                                                         var pagesCount by remember {
                                                             mutableIntStateOf(
@@ -804,7 +805,14 @@ fun PdfToolsScreen(
                                                                         )
                                                                     )
                                                                     .fillMaxWidth()
-                                                            } else Modifier.fillMaxWidth(),
+                                                            } else {
+                                                                Modifier.fillMaxWidth()
+                                                            }.padding(
+                                                                start = WindowInsets
+                                                                    .displayCutout
+                                                                    .asPaddingValues()
+                                                                    .calculateStartPadding(direction)
+                                                            ),
                                                             onGetPagesCount = { pagesCount = it },
                                                             uriState = viewModel.pdfToImageState?.uri,
                                                             orientation = PdfViewerOrientation.Grid,
@@ -825,6 +833,7 @@ fun PdfToolsScreen(
                                         }
 
                                         if (pdfType !is Screen.PdfTools.Type.Preview && !portrait || pdfType is Screen.PdfTools.Type.ImagesToPdf) {
+                                            val direction = LocalLayoutDirection.current
                                             Box(
                                                 modifier = Modifier
                                                     .weight(0.7f)
@@ -832,9 +841,14 @@ fun PdfToolsScreen(
                                                     .clipToBounds()
                                             ) {
                                                 Column(
-                                                    modifier = Modifier.verticalScroll(
-                                                        rememberScrollState()
-                                                    )
+                                                    modifier = Modifier
+                                                        .verticalScroll(rememberScrollState())
+                                                        .padding(
+                                                            start = WindowInsets
+                                                                .displayCutout
+                                                                .asPaddingValues()
+                                                                .calculateStartPadding(direction)
+                                                        )
                                                 ) {
                                                     controls(pdfType)
                                                 }

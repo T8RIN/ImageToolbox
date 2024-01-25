@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.single_edit.presentation.components
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,12 +26,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -59,15 +59,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,13 +85,13 @@ fun FullscreenEditOption(
     content: @Composable () -> Unit
 ) {
     val scope = rememberCoroutineScope()
-    val settingsState = LocalSettingsState.current
 
     var showExitDialog by remember(visible) { mutableStateOf(false) }
     val internalOnDismiss = {
         if (!canGoBack) showExitDialog = true
         else onDismiss()
     }
+    val direction = LocalLayoutDirection.current
     AnimatedVisibility(
         visible = visible
     ) {
@@ -193,43 +191,42 @@ fun FullscreenEditOption(
                         }
                     }
                     Row(
-                        modifier = Modifier.navBarsPaddingOnlyIfTheyAtTheEnd(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box(
                             Modifier
+                                .container(
+                                    shape = RectangleShape,
+                                    color = MaterialTheme.colorScheme.surfaceContainer,
+                                    resultPadding = 0.dp
+                                )
                                 .weight(0.8f)
                                 .fillMaxHeight()
                                 .clipToBounds()
                         ) {
                             content()
                         }
-                        Box(
-                            Modifier
-                                .fillMaxHeight()
-                                .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                .background(MaterialTheme.colorScheme.outlineVariant())
-                                .padding(start = 20.dp)
-                        )
 
                         if (showControls) {
                             Column(
                                 modifier = Modifier
                                     .weight(0.7f)
-                                    .verticalScroll(rememberScrollState()),
+                                    .verticalScroll(rememberScrollState())
+                                    .then(
+                                        if (fabButtons == null) {
+                                            Modifier.padding(
+                                                end = WindowInsets.displayCutout
+                                                    .asPaddingValues()
+                                                    .calculateEndPadding(direction)
+                                            )
+                                        } else Modifier
+                                    ),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 controls(null)
                             }
                         }
                         fabButtons?.let {
-                            Box(
-                                Modifier
-                                    .fillMaxHeight()
-                                    .width(settingsState.borderWidth.coerceAtLeast(0.25.dp))
-                                    .background(MaterialTheme.colorScheme.outlineVariant())
-                                    .padding(start = 20.dp)
-                            )
                             Column(
                                 Modifier
                                     .container(
@@ -238,6 +235,11 @@ fun FullscreenEditOption(
                                         resultPadding = 0.dp
                                     )
                                     .padding(horizontal = 20.dp)
+                                    .padding(
+                                        end = WindowInsets.displayCutout
+                                            .asPaddingValues()
+                                            .calculateEndPadding(direction)
+                                    )
                                     .fillMaxHeight()
                                     .navigationBarsPadding(),
                                 horizontalAlignment = Alignment.CenterHorizontally,

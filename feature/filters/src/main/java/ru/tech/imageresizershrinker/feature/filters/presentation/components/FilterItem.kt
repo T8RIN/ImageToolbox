@@ -79,13 +79,13 @@ fun <T> FilterItem(
     filter: UiFilter<T>,
     showDragHandle: Boolean,
     onRemove: () -> Unit,
+    modifier: Modifier = Modifier,
     onLongPress: (() -> Unit)? = null,
     previewOnly: Boolean = false,
     onFilterChange: (value: Any) -> Unit,
-    modifier: Modifier = Modifier,
     backgroundColor: Color = MaterialTheme
         .colorScheme
-        .surfaceContainer,
+        .surfaceContainerLow,
     shape: Shape = MaterialTheme.shapes.extraLarge
 ) {
     val settingsState = LocalSettingsState.current

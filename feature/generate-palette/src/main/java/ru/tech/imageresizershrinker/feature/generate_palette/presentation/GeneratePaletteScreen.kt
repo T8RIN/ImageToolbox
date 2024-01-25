@@ -30,6 +30,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -78,6 +84,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -309,6 +316,7 @@ fun GeneratePaletteScreen(
                     val bmp = remember(b) { b.asImageBitmap() }
 
                     if (landscape) {
+                        val direction = LocalLayoutDirection.current
                         Row {
                             Image(
                                 bitmap = bmp,
@@ -317,6 +325,12 @@ fun GeneratePaletteScreen(
                                     .fillMaxHeight()
                                     .padding(16.dp)
                                     .navBarsPaddingOnlyIfTheyAtTheBottom()
+                                    .padding(
+                                        start = WindowInsets
+                                            .displayCutout
+                                            .asPaddingValues()
+                                            .calculateStartPadding(direction)
+                                    )
                                     .container()
                                     .padding(4.dp)
                                     .clip(RoundedCornerShape(8.dp))
@@ -328,6 +342,11 @@ fun GeneratePaletteScreen(
                                 Modifier
                                     .weight(1f)
                                     .verticalScroll(scrollState)
+                                    .padding(
+                                        end = WindowInsets.displayCutout
+                                            .asPaddingValues()
+                                            .calculateEndPadding(direction)
+                                    )
                             ) {
                                 PaletteColorsCountSelector(
                                     modifier = Modifier.padding(top = 16.dp),
@@ -428,6 +447,11 @@ fun GeneratePaletteScreen(
             onClick = pickImage,
             modifier = Modifier
                 .navigationBarsPadding()
+                .then(
+                    if (viewModel.bitmap != null) {
+                        Modifier.displayCutoutPadding()
+                    } else Modifier
+                )
                 .padding(12.dp)
                 .align(if (!landscape || viewModel.bitmap == null) settingsState.fabAlignment else Alignment.BottomEnd)
         ) {

@@ -188,6 +188,7 @@ fun SimpleSheet(
     title: (@Composable () -> Unit)? = null,
     visible: Boolean,
     onDismiss: (Boolean) -> Unit,
+    enableBackHandler: Boolean = true,
     sheetContent: @Composable ColumnScope.() -> Unit,
 ) {
     val settingsState = LocalSettingsState.current
@@ -225,7 +226,7 @@ fun SimpleSheet(
             visible = visible,
             onVisibleChange = onDismiss,
             content = {
-                if (visible) BackHandler { onDismiss(false) }
+                if (visible && enableBackHandler) BackHandler { onDismiss(false) }
                 Column(
                     modifier = Modifier.weight(1f, false),
                     horizontalAlignment = Alignment.CenterHorizontally,

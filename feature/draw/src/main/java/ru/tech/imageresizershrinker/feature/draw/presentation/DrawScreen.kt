@@ -583,6 +583,7 @@ fun DrawScreen(
             }.value,
             transitionSpec = { fadeIn() togetherWith fadeOut() }
         ) { imageBitmap ->
+            val direction = LocalLayoutDirection.current
             val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
             BitmapDrawer(
                 imageBitmap = imageBitmap,
@@ -594,6 +595,12 @@ fun DrawScreen(
                 isEraserOn = isEraserOn,
                 drawMode = drawMode,
                 modifier = Modifier
+                    .padding(
+                        start = WindowInsets
+                            .displayCutout
+                            .asPaddingValues()
+                            .calculateStartPadding(direction)
+                    )
                     .padding(16.dp)
                     .aspectRatio(aspectRatio, portrait)
                     .fillMaxSize(),

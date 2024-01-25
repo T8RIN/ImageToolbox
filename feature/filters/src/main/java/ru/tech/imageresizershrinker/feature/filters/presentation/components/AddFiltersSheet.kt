@@ -213,6 +213,7 @@ fun AddFiltersSheet(
                             filters[page].forEach { filter ->
                                 PreferenceItemOverload(
                                     title = stringResource(filter.title),
+                                    color = Color.Unspecified,
                                     icon = if (previewBitmap != null) {
                                         {
                                             Row(verticalAlignment = Alignment.CenterVertically) {

@@ -34,6 +34,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -81,6 +86,7 @@ import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -513,7 +519,7 @@ fun PickColorFromImageScreen(
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .padding(16.dp)
-                                    .navBarsPaddingOnlyIfTheyAtTheEnd()
+                                    .navBarsPaddingOnlyIfTheyAtTheBottom()
                                     .container(resultPadding = 8.dp)
                                     .clip(RoundedCornerShape(12.dp))
                                     .transparencyChecker(),
@@ -521,7 +527,7 @@ fun PickColorFromImageScreen(
                             )
                         }
                     } else {
-                        Row(Modifier.navBarsPaddingOnlyIfTheyAtTheEnd()) {
+                        Row {
                             Box(
                                 Modifier
                                     .weight(0.8f)
@@ -531,6 +537,7 @@ fun PickColorFromImageScreen(
                                     AnimatedContent(
                                         targetState = it
                                     ) { bitmap ->
+                                        val direction = LocalLayoutDirection.current
                                         ImageColorDetector(
                                             panEnabled = panEnabled,
                                             imageBitmap = bitmap.asImageBitmap(),
@@ -538,6 +545,12 @@ fun PickColorFromImageScreen(
                                             modifier = Modifier
                                                 .fillMaxSize()
                                                 .navBarsPaddingOnlyIfTheyAtTheBottom()
+                                                .padding(
+                                                    start = WindowInsets
+                                                        .displayCutout
+                                                        .asPaddingValues()
+                                                        .calculateStartPadding(direction)
+                                                )
                                                 .container(resultPadding = 8.dp)
                                                 .clip(RoundedCornerShape(12.dp))
                                                 .transparencyChecker(),
@@ -546,6 +559,7 @@ fun PickColorFromImageScreen(
                                     }
                                 }
                             }
+                            val direction = LocalLayoutDirection.current
                             Column(
                                 Modifier
                                     .container(
@@ -555,6 +569,11 @@ fun PickColorFromImageScreen(
                                     )
                                     .fillMaxHeight()
                                     .padding(horizontal = 20.dp)
+                                    .padding(
+                                        end = WindowInsets.displayCutout
+                                            .asPaddingValues()
+                                            .calculateEndPadding(direction)
+                                    )
                                     .navigationBarsPadding(),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center

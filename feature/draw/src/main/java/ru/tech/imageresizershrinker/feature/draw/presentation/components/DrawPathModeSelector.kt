@@ -85,14 +85,16 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DrawPathModeSelector(
     modifier: Modifier,
-    values: List<ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode> = ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.entries,
-    value: ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode,
-    onValueChange: (ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode) -> Unit
+    values: List<DrawPathMode> = DrawPathMode.entries,
+    value: DrawPathMode,
+    onValueChange: (DrawPathMode) -> Unit,
+    containerColor: Color = MaterialTheme.colorScheme.surfaceContainerHigh
 ) {
     val haptics = LocalHapticFeedback.current
     val state = rememberSaveable { mutableStateOf(false) }
@@ -102,7 +104,7 @@ fun DrawPathModeSelector(
         modifier = modifier
             .container(
                 shape = RoundedCornerShape(24.dp),
-                color = MaterialTheme.colorScheme.surfaceContainer
+                color = containerColor
             ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -189,7 +191,7 @@ fun DrawPathModeSelector(
                     .height(50.dp)
                     .background(
                         brush = Brush.horizontalGradient(
-                            0f to MaterialTheme.colorScheme.surfaceContainer,
+                            0f to containerColor,
                             1f to Color.Transparent
                         )
                     )
@@ -202,7 +204,7 @@ fun DrawPathModeSelector(
                     .background(
                         brush = Brush.horizontalGradient(
                             0f to Color.Transparent,
-                            1f to MaterialTheme.colorScheme.surfaceContainer
+                            1f to containerColor
                         )
                     )
             )
@@ -258,47 +260,47 @@ fun DrawPathModeSelector(
     )
 }
 
-private fun ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.getSubtitle(): Int =
+private fun DrawPathMode.getSubtitle(): Int =
     when (this) {
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow_sub
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.DoublePointingArrow -> R.string.double_arrow_sub
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Free -> R.string.free_drawing_sub
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Line -> R.string.line_sub
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.LinePointingArrow -> R.string.line_arrow_sub
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.PointingArrow -> R.string.arrow_sub
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.OutlinedOval -> R.string.outlined_oval_sub
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.OutlinedRect -> R.string.outlined_rect_sub
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Oval -> R.string.oval_sub
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Rect -> R.string.rect_sub
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Lasso -> R.string.lasso_sub
+        DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow_sub
+        DrawPathMode.DoublePointingArrow -> R.string.double_arrow_sub
+        DrawPathMode.Free -> R.string.free_drawing_sub
+        DrawPathMode.Line -> R.string.line_sub
+        DrawPathMode.LinePointingArrow -> R.string.line_arrow_sub
+        DrawPathMode.PointingArrow -> R.string.arrow_sub
+        DrawPathMode.OutlinedOval -> R.string.outlined_oval_sub
+        DrawPathMode.OutlinedRect -> R.string.outlined_rect_sub
+        DrawPathMode.Oval -> R.string.oval_sub
+        DrawPathMode.Rect -> R.string.rect_sub
+        DrawPathMode.Lasso -> R.string.lasso_sub
     }
 
-private fun ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.getTitle(): Int =
+private fun DrawPathMode.getTitle(): Int =
     when (this) {
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.DoublePointingArrow -> R.string.double_arrow
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Free -> R.string.free_drawing
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Line -> R.string.line
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.LinePointingArrow -> R.string.line_arrow
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.PointingArrow -> R.string.arrow
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.OutlinedOval -> R.string.outlined_oval
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.OutlinedRect -> R.string.outlined_rect
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Oval -> R.string.oval
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Rect -> R.string.rect
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Lasso -> R.string.lasso
+        DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow
+        DrawPathMode.DoublePointingArrow -> R.string.double_arrow
+        DrawPathMode.Free -> R.string.free_drawing
+        DrawPathMode.Line -> R.string.line
+        DrawPathMode.LinePointingArrow -> R.string.line_arrow
+        DrawPathMode.PointingArrow -> R.string.arrow
+        DrawPathMode.OutlinedOval -> R.string.outlined_oval
+        DrawPathMode.OutlinedRect -> R.string.outlined_rect
+        DrawPathMode.Oval -> R.string.oval
+        DrawPathMode.Rect -> R.string.rect
+        DrawPathMode.Lasso -> R.string.lasso
     }
 
-private fun ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.getIcon(): ImageVector =
+private fun DrawPathMode.getIcon(): ImageVector =
     when (this) {
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.DoubleLinePointingArrow -> Icons.Rounded.LineDoubleArrow
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.DoublePointingArrow -> Icons.Rounded.FreeDoubleArrow
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Free -> Icons.Rounded.FreeDraw
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Line -> Icons.Rounded.Line
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.LinePointingArrow -> Icons.Rounded.LineArrow
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.PointingArrow -> Icons.Rounded.FreeArrow
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.OutlinedOval -> Icons.Rounded.RadioButtonUnchecked
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.OutlinedRect -> Icons.Rounded.CheckBoxOutlineBlank
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Oval -> Icons.Rounded.Circle
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Rect -> Icons.Rounded.Square
-        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Lasso -> Icons.Rounded.Lasso
+        DrawPathMode.DoubleLinePointingArrow -> Icons.Rounded.LineDoubleArrow
+        DrawPathMode.DoublePointingArrow -> Icons.Rounded.FreeDoubleArrow
+        DrawPathMode.Free -> Icons.Rounded.FreeDraw
+        DrawPathMode.Line -> Icons.Rounded.Line
+        DrawPathMode.LinePointingArrow -> Icons.Rounded.LineArrow
+        DrawPathMode.PointingArrow -> Icons.Rounded.FreeArrow
+        DrawPathMode.OutlinedOval -> Icons.Rounded.RadioButtonUnchecked
+        DrawPathMode.OutlinedRect -> Icons.Rounded.CheckBoxOutlineBlank
+        DrawPathMode.Oval -> Icons.Rounded.Circle
+        DrawPathMode.Rect -> Icons.Rounded.Square
+        DrawPathMode.Lasso -> Icons.Rounded.Lasso
     }

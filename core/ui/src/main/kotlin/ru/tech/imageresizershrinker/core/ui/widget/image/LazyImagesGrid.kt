@@ -25,6 +25,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -49,6 +52,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -73,15 +77,7 @@ fun LazyImagesGrid(
     width: Dp = 150.dp,
     showTransparencyChecker: Boolean = true,
     color: Color = MaterialTheme.colorScheme.secondaryContainer,
-    contentPadding: PaddingValues = PaddingValues(
-        bottom = 88.dp + WindowInsets
-            .navigationBars
-            .asPaddingValues()
-            .calculateBottomPadding(),
-        top = 12.dp,
-        end = 12.dp,
-        start = 12.dp
-    )
+    contentPadding: PaddingValues? = null
 ) {
     val pickImageLauncher =
         rememberImagePicker(
@@ -99,6 +95,8 @@ fun LazyImagesGrid(
     var showImagePreviewDialog by rememberSaveable { mutableStateOf(false) }
     var selectedUri by rememberSaveable { mutableStateOf<String?>(null) }
 
+    val cutout = WindowInsets.displayCutout.asPaddingValues()
+    val direction = LocalLayoutDirection.current
 
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Adaptive(width),
@@ -109,7 +107,15 @@ fun LazyImagesGrid(
             Alignment.CenterHorizontally
         ),
         state = state,
-        contentPadding = contentPadding
+        contentPadding = contentPadding ?: PaddingValues(
+            bottom = 88.dp + WindowInsets
+                .navigationBars
+                .asPaddingValues()
+                .calculateBottomPadding(),
+            top = 12.dp,
+            end = 12.dp + cutout.calculateEndPadding(direction),
+            start = 12.dp + cutout.calculateStartPadding(direction)
+        )
     ) {
         data?.forEachIndexed { index, it ->
             item(

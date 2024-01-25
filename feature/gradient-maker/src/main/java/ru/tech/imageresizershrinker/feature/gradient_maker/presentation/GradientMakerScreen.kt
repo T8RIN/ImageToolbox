@@ -21,20 +21,18 @@ import android.app.Activity
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -61,6 +59,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
@@ -198,33 +197,7 @@ fun GradientMakerScreen(
 
     val showCompareSheet = rememberSaveable { mutableStateOf(false) }
 
-    val screenWidth = LocalConfiguration.current.screenWidthDp
-    val easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
-
     AdaptiveLayoutScreen(
-        controlsTransitionSpec = {
-            if (targetState) {
-                slideInHorizontally(
-                    animationSpec = tween(600, easing = easing),
-                    initialOffsetX = { screenWidth }) + fadeIn(
-                    tween(300, 100)
-                ) togetherWith slideOutHorizontally(
-                    animationSpec = tween(600, easing = easing),
-                    targetOffsetX = { -screenWidth }) + fadeOut(
-                    tween(300, 100)
-                )
-            } else {
-                slideInHorizontally(
-                    animationSpec = tween(600, easing = easing),
-                    initialOffsetX = { -screenWidth }) + fadeIn(
-                    tween(300, 100)
-                ) togetherWith slideOutHorizontally(
-                    animationSpec = tween(600, easing = easing),
-                    targetOffsetX = { screenWidth }) + fadeOut(
-                    tween(300, 100)
-                )
-            } using SizeTransform(false)
-        },
         isPortrait = isPortrait,
         canShowScreenData = allowPickingImage != null,
         title = {
@@ -375,7 +348,17 @@ fun GradientMakerScreen(
                     preference2()
                 }
             } else {
-                Row {
+                val direction = LocalLayoutDirection.current
+                Row(
+                    modifier = Modifier.padding(
+                        WindowInsets.displayCutout.asPaddingValues().let {
+                            PaddingValues(
+                                start = it.calculateStartPadding(direction),
+                                end = it.calculateEndPadding(direction)
+                            )
+                        }
+                    )
+                ) {
                     preference1.withModifier(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.width(8.dp))
                     preference2.withModifier(modifier = Modifier.weight(1f))
