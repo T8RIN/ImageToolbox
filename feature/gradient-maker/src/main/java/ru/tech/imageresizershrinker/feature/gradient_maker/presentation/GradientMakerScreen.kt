@@ -154,10 +154,6 @@ fun GradientMakerScreen(
     }
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
-    val onBack = {
-        if (allowPickingImage == null) onGoBack()
-        else showExitDialog = true
-    }
 
     LaunchedEffect(uriState) {
         uriState?.let {
@@ -210,7 +206,10 @@ fun GradientMakerScreen(
                 size = null
             )
         },
-        onGoBack = onBack,
+        onGoBack = {
+            if (allowPickingImage == null) onGoBack()
+            else showExitDialog = true
+        },
         actions = {
             EnhancedIconButton(
                 containerColor = Color.Transparent,

@@ -44,6 +44,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkApplier
 import javax.inject.Inject
 
 
@@ -53,7 +54,8 @@ class WatermarkingViewModel @Inject constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val imageScaler: ImageScaler<Bitmap>
+    private val imageScaler: ImageScaler<Bitmap>,
+    private val watermarkApplier: WatermarkApplier<Bitmap>
 ) : ViewModel() {
 
     private val _internalBitmap: MutableState<Bitmap?> = mutableStateOf(null)

@@ -52,9 +52,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
+import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
@@ -126,7 +128,7 @@ fun WatermarkingScreen(
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
     val showZoomSheet = rememberSaveable { mutableStateOf(false) }
-
+    var showExitDialog by rememberSaveable { mutableStateOf(false) }
     var showOriginal by rememberSaveable { mutableStateOf(false) }
     val showPickImageFromUrisSheet = rememberSaveable { mutableStateOf(false) }
 
@@ -139,7 +141,9 @@ fun WatermarkingScreen(
                 size = null
             )
         },
-        onGoBack = onGoBack,
+        onGoBack = {
+            showExitDialog = true
+        },
         topAppBarPersistentActions = {
             if (viewModel.previewBitmap == null) TopAppBarEmoji()
             ZoomButton(
@@ -224,5 +228,19 @@ fun WatermarkingScreen(
     ZoomModalSheet(
         data = viewModel.previewBitmap,
         visible = showZoomSheet
+    )
+
+    if (viewModel.isSaving) {
+        LoadingDialog(
+            done = viewModel.done,
+            left = viewModel.left,
+            onCancelLoading = viewModel::cancelSaving
+        )
+    }
+
+    ExitWithoutSavingDialog(
+        onExit = onGoBack,
+        onDismiss = { showExitDialog = false },
+        visible = showExitDialog
     )
 }
