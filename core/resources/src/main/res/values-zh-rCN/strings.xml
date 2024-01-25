@@ -333,7 +333,7 @@
     <string name="symbols">符号</string>
     <string name="enable_emoji">启用表情</string>
     <string name="erase_background">擦除背景</string>
-    <string name="keep_exif_sub">如果启用，将保留图像原始元数据</string>
+    <string name="keep_exif_sub">原始图像元数据将被保留</string>
     <string name="trim_image">修剪图像</string>
     <string name="trim_image_sub">图像周围的透明空间将被修剪</string>
     <string name="auto_erase_background">自动擦除背景</string>
@@ -602,4 +602,8 @@
     <string name="tile_mode_mirror">镜像</string>
     <string name="screen">屏幕</string>
     <string name="gradient_maker_type_image">渐变叠加</string>
+    <string name="transformations">转换</string>
+    <string name="camera">相机</string>
+    <string name="camera_sub">使用相机拍照，注意该图像源只能获取一张图像</string>
+    <string name="gradient_maker_type_image_sub">合成给定图像顶部的任意梯度</string>
 </resources>
