@@ -177,6 +177,9 @@ or click one of the badges below.
 - Background Removal
   - By drawing
   - Automatic
+- Watermarking
+  - By Text
+  - By Image
 - Drawing on Image/Background
   - Pen
   - Neon
@@ -247,6 +250,8 @@ or click one of the badges below.
 - Color Utils
   - Palette generation
   - Picking color from image
+  - Gradient creation
+  - Overlaying image with gradient
 - Additional Features
   - Rotating
   - Flipping
