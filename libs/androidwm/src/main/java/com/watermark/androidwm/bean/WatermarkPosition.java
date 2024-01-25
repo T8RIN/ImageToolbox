@@ -16,7 +16,7 @@
  */
 package com.watermark.androidwm.bean;
 
-import android.support.annotation.FloatRange;
+import androidx.annotation.FloatRange;
 
 /**
  * It's a class for saving the position of watermark.

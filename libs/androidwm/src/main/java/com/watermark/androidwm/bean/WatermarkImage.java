@@ -16,16 +16,17 @@
  */
 package com.watermark.androidwm.bean;
 
+import static com.watermark.androidwm.utils.BitmapUtils.resizeBitmap;
+import static com.watermark.androidwm.utils.Constant.MAX_IMAGE_SIZE;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.FloatRange;
 import android.widget.ImageView;
 
-import static com.watermark.androidwm.utils.BitmapUtils.resizeBitmap;
-import static com.watermark.androidwm.utils.Constant.MAX_IMAGE_SIZE;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.FloatRange;
 
 /**
  * It's a wrapper of the watermark image.

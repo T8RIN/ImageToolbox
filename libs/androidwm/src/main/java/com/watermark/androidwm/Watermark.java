@@ -16,6 +16,9 @@
  */
 package com.watermark.androidwm;
 
+import static com.watermark.androidwm.utils.BitmapUtils.resizeBitmap;
+import static com.watermark.androidwm.utils.BitmapUtils.textAsBitmap;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -24,9 +27,10 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Shader;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.watermark.androidwm.bean.AsyncTaskParams;
 import com.watermark.androidwm.bean.WatermarkImage;
@@ -38,25 +42,22 @@ import com.watermark.androidwm.utils.BitmapUtils;
 
 import java.util.List;
 
-import static com.watermark.androidwm.utils.BitmapUtils.resizeBitmap;
-import static com.watermark.androidwm.utils.BitmapUtils.textAsBitmap;
-
 /**
  * The main class for watermark processing library.
  *
  * @author huangyz0918 (huangyz0918@gmail.com)
  */
 public class Watermark {
-    private WatermarkText watermarkText;
-    private WatermarkImage watermarkImg;
-    private Bitmap backgroundImg;
-    private Context context;
+    private final WatermarkText watermarkText;
+    private final WatermarkImage watermarkImg;
+    private final Bitmap backgroundImg;
+    private final Context context;
     private Bitmap outputImage;
     private Bitmap canvasBitmap;
-    private boolean isTileMode;
-    private boolean isInvisible;
-    private boolean isLSB;
-    private BuildFinishListener<Bitmap> buildFinishListener;
+    private final boolean isTileMode;
+    private final boolean isInvisible;
+    private final boolean isLSB;
+    private final BuildFinishListener<Bitmap> buildFinishListener;
 
     /**
      * Constructors for WatermarkImage

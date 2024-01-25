@@ -16,13 +16,17 @@
  */
 package com.watermark.androidwm;
 
+import static com.watermark.androidwm.utils.BitmapUtils.resizeBitmap;
+import static com.watermark.androidwm.utils.Constant.MAX_IMAGE_SIZE;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
 import android.widget.ImageView;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 
 import com.watermark.androidwm.bean.WatermarkImage;
 import com.watermark.androidwm.bean.WatermarkPosition;
@@ -32,20 +36,17 @@ import com.watermark.androidwm.listener.BuildFinishListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.watermark.androidwm.utils.BitmapUtils.resizeBitmap;
-import static com.watermark.androidwm.utils.Constant.MAX_IMAGE_SIZE;
-
 /**
  * A builder class for setting default structural classes for watermark to use.
  *
  * @author huangyz0918 (huangyz0918@gmail.com)
  */
 public final class WatermarkBuilder {
-    private Context context;
+    private final Context context;
     private Bitmap backgroundImg;
     private boolean isTileMode = false;
     private boolean isLSB = false;
-    private boolean resizeBackgroundImg;
+    private final boolean resizeBackgroundImg;
     private BuildFinishListener<Bitmap> buildFinishListener = null;
 
     private WatermarkImage watermarkImage;

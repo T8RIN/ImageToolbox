@@ -19,10 +19,11 @@ package com.watermark.androidwm.bean;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.annotation.ColorInt;
-import android.support.annotation.FontRes;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.FontRes;
 
 /**
  * It's a wrapper of the watermark text.
