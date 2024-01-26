@@ -22,6 +22,7 @@ import static com.watermark.androidwm.utils.Constant.MAX_IMAGE_SIZE;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.widget.ImageView;
 
@@ -53,6 +54,8 @@ public final class WatermarkBuilder {
     private WatermarkText watermarkText;
     private List<WatermarkText> watermarkTexts = new ArrayList<>();
     private List<WatermarkImage> watermarkBitmaps = new ArrayList<>();
+
+    private PorterDuff.Mode porterDuffMode = PorterDuff.Mode.SRC_OVER;
 
     /**
      * Constructors for WatermarkBuilder
@@ -281,6 +284,11 @@ public final class WatermarkBuilder {
         return this;
     }
 
+    public WatermarkBuilder setPorterDuffMode(PorterDuff.Mode mode) {
+        this.porterDuffMode = mode;
+        return this;
+    }
+
     /**
      * set a listener for building progress.
      */
@@ -300,6 +308,7 @@ public final class WatermarkBuilder {
                 isTileMode,
                 true,
                 isLSB,
+                porterDuffMode,
                 buildFinishListener
         );
     }
@@ -338,6 +347,7 @@ public final class WatermarkBuilder {
                 isTileMode,
                 false,
                 isLSB,
+                porterDuffMode,
                 buildFinishListener
         );
     }

@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.feature.watermarking.data
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Paint
+import android.graphics.PorterDuff
 import androidx.exifinterface.media.ExifInterface
 import com.watermark.androidwm.WatermarkBuilder
 import com.watermark.androidwm.bean.WatermarkImage
@@ -64,6 +65,9 @@ class AndroidWatermarkApplier @Inject constructor(
                             )
                     )
                     .setTileMode(params.isRepeated)
+                    .setPorterDuffMode(
+                        PorterDuff.Mode.values().first { it.ordinal == params.overlayMode }
+                    )
             }
 
             is WatermarkingType.Image -> {
@@ -87,6 +91,9 @@ class AndroidWatermarkApplier @Inject constructor(
                                 .setSize(type.size.toDouble())
                         )
                         .setTileMode(params.isRepeated)
+                        .setPorterDuffMode(
+                            PorterDuff.Mode.values().first { it.ordinal == params.overlayMode }
+                        )
                 }
             }
         }

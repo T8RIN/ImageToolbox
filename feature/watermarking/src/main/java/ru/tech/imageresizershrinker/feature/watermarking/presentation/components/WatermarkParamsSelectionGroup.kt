@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.watermarking.presentation.components
 
+import android.graphics.PorterDuff
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -172,6 +173,71 @@ fun WatermarkParamsSelectionGroup(
                     shape = RoundedCornerShape(20.dp),
                     color = MaterialTheme.colorScheme.surfaceContainerLow
                 )
+                Spacer(modifier = Modifier.height(4.dp))
+                Column(
+                    modifier = Modifier.container(
+                        shape = RoundedCornerShape(20.dp),
+                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                    )
+                ) {
+                    Text(
+                        fontWeight = FontWeight.Medium,
+                        text = stringResource(R.string.overlay_mode),
+                        modifier = Modifier.padding(top = 16.dp, start = 16.dp)
+                    )
+                    val listState = rememberLazyListState()
+                    val modes: List<PorterDuff.Mode> = remember {
+                        mutableListOf<PorterDuff.Mode>().apply {
+                            add(PorterDuff.Mode.SRC_OVER)
+                            addAll(
+                                PorterDuff.Mode
+                                    .values()
+                                    .toList() - listOf(
+                                    PorterDuff.Mode.SRC_OVER,
+                                    PorterDuff.Mode.CLEAR,
+                                    PorterDuff.Mode.SRC,
+                                    PorterDuff.Mode.DST
+                                )
+                            )
+                        }
+                    }
+                    LazyRow(
+                        state = listState,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fadingEdges(listState),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        contentPadding = PaddingValues(8.dp)
+                    ) {
+                        items(modes) {
+                            val selected by remember(it, value) {
+                                derivedStateOf {
+                                    value.overlayMode == it.ordinal
+                                }
+                            }
+                            EnhancedChip(
+                                selected = selected,
+                                onClick = {
+                                    onValueChange(
+                                        value.copy(overlayMode = it.ordinal)
+                                    )
+                                },
+                                selectedColor = MaterialTheme.colorScheme.tertiary,
+                                contentPadding = PaddingValues(
+                                    horizontal = 12.dp,
+                                    vertical = 8.dp
+                                ),
+                                modifier = Modifier.height(36.dp)
+                            ) {
+                                AutoSizeText(
+                                    text = it.name,
+                                    maxLines = 1
+                                )
+                            }
+                        }
+                    }
+                }
                 Spacer(modifier = Modifier.height(4.dp))
                 val selectedIndex by remember(value.watermarkingType) {
                     derivedStateOf {

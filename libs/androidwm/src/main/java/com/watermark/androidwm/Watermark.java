@@ -25,6 +25,8 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.widget.ImageView;
@@ -52,6 +54,8 @@ public class Watermark {
     private final WatermarkImage watermarkImg;
     private final Bitmap backgroundImg;
     private final Context context;
+
+    private final PorterDuff.Mode porterDuffMode;
     private final boolean isTileMode;
     private final boolean isInvisible;
     private final boolean isLSB;
@@ -72,6 +76,7 @@ public class Watermark {
               boolean isTileMode,
               boolean isInvisible,
               boolean isLSB,
+              PorterDuff.Mode porterDuffMode,
               @Nullable BuildFinishListener<Bitmap> buildFinishListener) {
 
         this.context = context;
@@ -80,6 +85,7 @@ public class Watermark {
         this.backgroundImg = backgroundImg;
         this.watermarkText = inputText;
         this.isInvisible = isInvisible;
+        this.porterDuffMode = porterDuffMode;
         this.buildFinishListener = buildFinishListener;
         this.isLSB = isLSB;
 
@@ -130,6 +136,7 @@ public class Watermark {
                 }
             } else {
                 Paint watermarkPaint = new Paint();
+                watermarkPaint.setXfermode(new PorterDuffXfermode(porterDuffMode));
                 watermarkPaint.setAlpha(watermarkImg.getAlpha());
                 Bitmap newBitmap = Bitmap.createBitmap(backgroundImg.getWidth(),
                         backgroundImg.getHeight(), backgroundImg.getConfig());
@@ -192,6 +199,7 @@ public class Watermark {
             } else {
                 Paint watermarkPaint = new Paint();
                 watermarkPaint.setAlpha(watermarkText.getTextAlpha());
+                watermarkPaint.setXfermode(new PorterDuffXfermode(porterDuffMode));
                 Bitmap newBitmap = Bitmap.createBitmap(backgroundImg.getWidth(),
                         backgroundImg.getHeight(), backgroundImg.getConfig());
                 Canvas watermarkCanvas = new Canvas(newBitmap);

@@ -27,6 +27,7 @@ data class WatermarkParams(
     val rotation: Int,
     val alpha: Float,
     val isRepeated: Boolean,
+    val overlayMode: Int,
     val watermarkingType: WatermarkingType
 ) {
     companion object {
@@ -37,6 +38,7 @@ data class WatermarkParams(
                 rotation = 45,
                 alpha = 0.5f,
                 isRepeated = true,
+                overlayMode = 3,
                 watermarkingType = WatermarkingType.Text.Default
             )
         }
