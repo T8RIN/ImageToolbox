@@ -34,6 +34,7 @@ import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkApplier
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkingType
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 internal class AndroidWatermarkApplier @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -55,7 +56,7 @@ internal class AndroidWatermarkApplier @Inject constructor(
                             .setPositionY(params.positionY.toDouble())
                             .setRotation(params.rotation.toDouble())
                             .setTextAlpha(
-                                (params.alpha * 255).toInt()
+                                (params.alpha * 255).roundToInt()
                             )
                             .setTextSize(type.size.toDouble())
                             .setBackgroundColor(type.backgroundColor)
@@ -87,7 +88,7 @@ internal class AndroidWatermarkApplier @Inject constructor(
                                 .setPositionY(params.positionY.toDouble())
                                 .setRotation(params.rotation.toDouble())
                                 .setImageAlpha(
-                                    (params.alpha * 255).toInt()
+                                    (params.alpha * 255).roundToInt()
                                 )
                                 .setSize(type.size.toDouble())
                         )
