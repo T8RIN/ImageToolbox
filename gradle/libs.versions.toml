@@ -2,8 +2,8 @@
 androidMinSdk = "21"
 androidTargetSdk = "34"
 androidCompileSdk = "34"
-versionName = "2.6.0-beta01"
-versionCode = "111"
+versionName = "2.6.0-beta02"
+versionCode = "112"
 jvmTarget = "17"
 compose-compiler = "1.5.8"
 
@@ -32,7 +32,7 @@ detekt = "1.23.4"
 detektCompose = "0.3.10"
 
 kotlin = "1.9.22"
-agp = "8.2.1"
+agp = "8.2.2"
 hilt = "2.50"
 gms = "4.4.0"
 
@@ -42,8 +42,7 @@ appCompat = "1.7.0-alpha03"
 androidxCore = "1.13.0-alpha04"
 androidxLifecycle = "2.8.0-alpha01"
 desugaring = "2.0.4"
-composeBom = "2023.10.01"
-decompose = "2.2.2"
+composeBom = "2024.01.00"
 activityCompose = "1.9.0-alpha02"
 kotlinxCollectionsImmutable = "0.3.7"
 scrollbar = "1.8.0"
@@ -51,10 +50,8 @@ material3 = "1.2.0-rc01"
 reorderable = "0.9.6"
 reviewKtx = "2.0.1"
 splashScreen = "1.0.1"
-room = "2.6.1"
 
 espresso = "3.5.1"
-kotlinxSerializationJson = "1.6.2"
 ksp = "1.9.22-1.0.17"
 
 androidx-test-ext-junit = "1.1.5"
@@ -103,33 +100,22 @@ mlkit-segmentation-selfie = { module = "com.google.mlkit:segmentation-selfie", v
 reorderable = { module = "org.burnoutcrew.composereorderable:reorderable", version.ref = "reorderable" }
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "reviewKtx" }
 splashScreen = { module = "androidx.core:core-splashscreen", version.ref = "splashScreen" }
-decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
-decomposeExtensions = { module = "com.arkivanov.decompose:extensions-compose-jetpack", version.ref = "decompose" }
-kotlinxSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 activityCompose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
-runtimeKtx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
 viewModelKtx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidxLifecycle" }
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
-dagger = { module = "com.google.dagger:dagger", version.ref = "hilt" }
-room = { module = "androidx.room:room-runtime", version.ref = "room" }
-roomKtx = { module = "androidx.room:room-ktx", version.ref = "room" }
 
 espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 
-roomCompiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
-compose-animation-graphics = { group = "androidx.compose.animation", name = "animation-graphics" }
 compose-animation-core = { module = "androidx.compose.animation:animation-core", version.ref = "composeVersion" }
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }
 compose-material = { group = "androidx.compose.material", name = "material" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3" }
-kotlin-reflection = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "documentfile" }
 uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
