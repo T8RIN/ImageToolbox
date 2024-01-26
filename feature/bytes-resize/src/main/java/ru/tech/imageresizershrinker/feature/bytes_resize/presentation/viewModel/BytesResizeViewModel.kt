@@ -34,7 +34,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
@@ -46,16 +45,16 @@ import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.bytes_resize.domain.BytesImageScaler
 import javax.inject.Inject
 
-//TODO: Move bytes resize to current module
 
 @HiltViewModel
 class BytesResizeViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageScaler: ImageScaler<Bitmap>,
+    private val imageScaler: BytesImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
 ) : ViewModel() {

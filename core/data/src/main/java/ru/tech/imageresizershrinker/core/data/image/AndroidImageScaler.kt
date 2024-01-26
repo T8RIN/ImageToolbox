@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.data.image
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PorterDuff
@@ -29,25 +28,19 @@ import com.awxkee.jxlcoder.scale.BitmapScaleMode
 import com.awxkee.jxlcoder.scale.BitmapScaler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
-import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
-import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-class AndroidImageScaler @Inject constructor(
+internal class AndroidImageScaler @Inject constructor(
     private val settingsRepository: SettingsRepository,
-    private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>
 ) : ImageScaler<Bitmap> {
@@ -58,7 +51,7 @@ class AndroidImageScaler @Inject constructor(
         height: Int,
         resizeType: ResizeType,
         imageScaleMode: ImageScaleMode
-    ): Bitmap? = withContext(Dispatchers.IO) {
+    ): Bitmap = withContext(Dispatchers.IO) {
 
         val widthInternal = width.takeIf { it > 0 } ?: image.width
         val heightInternal = height.takeIf { it > 0 } ?: image.height
@@ -77,15 +70,6 @@ class AndroidImageScaler @Inject constructor(
                 flexibleResize(
                     image = image,
                     max = max(widthInternal, heightInternal),
-                    imageScaleMode = imageScaleMode
-                )
-            }
-
-            is ResizeType.Limits -> {
-                resizeType.resizeWithLimits(
-                    image = image,
-                    width = widthInternal,
-                    height = heightInternal,
                     imageScaleMode = imageScaleMode
                 )
             }
@@ -126,95 +110,6 @@ class AndroidImageScaler @Inject constructor(
 
     private fun canShow(size: Int): Boolean {
         return size < 3096 * 3096 * 3
-    }
-
-    override suspend fun scaleByMaxBytes(
-        image: Bitmap,
-        imageFormat: ImageFormat,
-        imageScaleMode: ImageScaleMode,
-        maxBytes: Long
-    ): Pair<Bitmap, ImageInfo>? = withContext(Dispatchers.IO) {
-        val maxBytes1 =
-            maxBytes - maxBytes
-                .times(0.04f)
-                .roundToInt()
-                .coerceIn(
-                    minimumValue = 256,
-                    maximumValue = 512
-                )
-
-        return@withContext kotlin.runCatching {
-            if (
-                imageCompressor.calculateImageSize(
-                    image = image,
-                    imageInfo = ImageInfo(imageFormat = imageFormat)
-                ) > maxBytes1
-            ) {
-                var streamLength = maxBytes1
-                var compressQuality = 100
-                val bmpStream = ByteArrayOutputStream()
-                var newSize = image.width to image.height
-
-                while (streamLength >= maxBytes1) {
-                    compressQuality -= 1
-
-                    if (compressQuality < 20) break
-
-                    bmpStream.use {
-                        it.flush()
-                        it.reset()
-                    }
-                    bmpStream.write(
-                        imageCompressor.compressAndTransform(
-                            image = image,
-                            imageInfo = ImageInfo(
-                                quality = compressQuality.toFloat(),
-                                imageFormat = imageFormat
-                            )
-                        )
-                    )
-                    streamLength = (bmpStream.toByteArray().size).toLong()
-                }
-
-                if (compressQuality < 20) {
-                    compressQuality = 20
-                    while (streamLength >= maxBytes1) {
-                        bmpStream.use {
-                            it.flush()
-                            it.reset()
-                        }
-                        val temp = scaleImage(
-                            image = image,
-                            width = (newSize.first * 0.98).toInt(),
-                            height = (newSize.second * 0.98).toInt(),
-                            imageScaleMode = imageScaleMode
-                        )
-                        bmpStream.write(
-                            temp?.let {
-                                newSize = it.width to it.height
-                                imageCompressor.compressAndTransform(
-                                    image = image,
-                                    imageInfo = ImageInfo(
-                                        quality = compressQuality.toFloat(),
-                                        imageFormat = imageFormat,
-                                        width = newSize.first,
-                                        height = newSize.second
-                                    )
-                                )
-                            }
-                        )
-                        streamLength = (bmpStream.toByteArray().size).toLong()
-                    }
-                }
-                BitmapFactory.decodeStream(ByteArrayInputStream(bmpStream.toByteArray())) to compressQuality
-            } else null
-        }.getOrNull()?.let {
-            it.first to ImageInfo(
-                width = it.first.width,
-                height = it.first.height,
-                quality = it.second.toFloat()
-            )
-        }
     }
 
     private suspend fun ResizeType.CenterCrop.resizeWithCenterCrop(
@@ -303,8 +198,6 @@ class AndroidImageScaler @Inject constructor(
         )
     }
 
-    private val Bitmap.aspectRatio: Float get() = width / height.toFloat()
-
     private suspend fun flexibleResize(
         image: Bitmap,
         max: Int,
@@ -321,64 +214,6 @@ class AndroidImageScaler @Inject constructor(
                 createScaledBitmap(image, max, targetHeight, imageScaleMode)
             }
         }.getOrNull() ?: image
-    }
-
-    private suspend fun ResizeType.Limits.resizeWithLimits(
-        image: Bitmap,
-        width: Int,
-        height: Int,
-        imageScaleMode: ImageScaleMode
-    ): Bitmap? {
-        val limitWidth: Int
-        val limitHeight: Int
-
-        if (autoRotateLimitBox && image.aspectRatio < 1f) {
-            limitWidth = height
-            limitHeight = width
-        } else {
-            limitWidth = width
-            limitHeight = height
-        }
-        val limitAspectRatio = limitWidth / limitHeight.toFloat()
-
-        if (image.height > limitHeight || image.width > limitWidth) {
-            if (image.aspectRatio > limitAspectRatio) {
-                return scaleImage(
-                    image = image,
-                    width = limitWidth,
-                    height = limitWidth,
-                    resizeType = ResizeType.Flexible,
-                    imageScaleMode = imageScaleMode
-                )
-            } else if (image.aspectRatio < limitAspectRatio) {
-                return scaleImage(
-                    image = image,
-                    width = limitHeight,
-                    height = limitHeight,
-                    imageScaleMode = imageScaleMode
-                )
-            } else {
-                return scaleImage(
-                    image = image,
-                    width = limitWidth,
-                    height = limitHeight,
-                    imageScaleMode = imageScaleMode
-                )
-            }
-        } else {
-            return when (this) {
-                is ResizeType.Limits.Recode -> image
-
-                is ResizeType.Limits.Zoom -> scaleImage(
-                    image = image,
-                    width = limitWidth,
-                    height = limitHeight,
-                    imageScaleMode = imageScaleMode
-                )
-
-                is ResizeType.Limits.Skip -> null
-            }
-        }
     }
 
 }

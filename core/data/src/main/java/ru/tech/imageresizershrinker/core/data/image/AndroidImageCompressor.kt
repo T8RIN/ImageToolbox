@@ -34,24 +34,14 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 internal class AndroidImageCompressor @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageTransformer: ImageTransformer<Bitmap>,
-    settingsRepository: SettingsRepository,
-    filterProvider: FilterProvider<Bitmap>
+    private val imageScaler: ImageScaler<Bitmap>
 ) : ImageCompressor<Bitmap> {
-
-    private val imageScaler: ImageScaler<Bitmap> = AndroidImageScaler(
-        settingsRepository = settingsRepository,
-        imageCompressor = this,
-        imageTransformer = imageTransformer,
-        filterProvider = filterProvider
-    )
 
     override suspend fun compress(
         image: Bitmap,
@@ -175,14 +165,14 @@ internal class AndroidImageCompressor @Inject constructor(
                 height = imageInfo.height,
                 resizeType = imageInfo.resizeType,
                 imageScaleMode = imageInfo.imageScaleMode
-            )?.let {
+            ).let {
                 imageTransformer.flip(
                     image = it,
                     isFlipped = imageInfo.isFlipped
                 )
-            }?.let {
+            }.let {
                 onImageReadyToCompressInterceptor(it)
-            } ?: return@withContext ByteArray(0)
+            }
         } else currentImage = onImageReadyToCompressInterceptor(image)
 
         return@withContext runCatching {

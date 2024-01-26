@@ -15,23 +15,28 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.image
+package ru.tech.imageresizershrinker.feature.limits_resize.domain
 
-import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
-import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 
-interface ImageScaler<I> {
+sealed class LimitsResizeType(
+    val autoRotateLimitBox: Boolean
+) {
 
-    suspend fun scaleImage(
-        image: I,
-        width: Int,
-        height: Int,
-        resizeType: ResizeType = ResizeType.Explicit,
-        imageScaleMode: ImageScaleMode = ImageScaleMode.Default
-    ): I
+    fun copy(autoRotateLimitBox: Boolean) = when (this) {
+        is Recode -> Recode(autoRotateLimitBox)
+        is Skip -> Skip(autoRotateLimitBox)
+        is Zoom -> Zoom(autoRotateLimitBox)
+    }
 
-    suspend fun scaleUntilCanShow(
-        image: I?
-    ): I?
+    class Skip(
+        autoRotateLimitBox: Boolean = false
+    ) : LimitsResizeType(autoRotateLimitBox)
 
+    class Recode(
+        autoRotateLimitBox: Boolean = false
+    ) : LimitsResizeType(autoRotateLimitBox)
+
+    class Zoom(
+        autoRotateLimitBox: Boolean = false
+    ) : LimitsResizeType(autoRotateLimitBox)
 }

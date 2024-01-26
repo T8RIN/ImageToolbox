@@ -32,16 +32,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.feature.limits_resize.domain.LimitsResizeType
 
 @Composable
 fun LimitsResizeSelector(
     enabled: Boolean,
-    value: ResizeType.Limits,
-    onValueChange: (ResizeType.Limits) -> Unit
+    value: LimitsResizeType,
+    onValueChange: (LimitsResizeType) -> Unit
 ) {
     ToggleGroupButton(
         modifier = Modifier
@@ -70,16 +70,16 @@ fun LimitsResizeSelector(
             stringResource(R.string.zoom)
         ),
         selectedIndex = when (value) {
-            is ResizeType.Limits.Skip -> 0
-            is ResizeType.Limits.Recode -> 1
-            is ResizeType.Limits.Zoom -> 2
+            is LimitsResizeType.Skip -> 0
+            is LimitsResizeType.Recode -> 1
+            is LimitsResizeType.Zoom -> 2
         },
         indexChanged = {
             onValueChange(
                 when (it) {
-                    0 -> ResizeType.Limits.Skip(value.autoRotateLimitBox)
-                    1 -> ResizeType.Limits.Recode(value.autoRotateLimitBox)
-                    else -> ResizeType.Limits.Zoom(value.autoRotateLimitBox)
+                    0 -> LimitsResizeType.Skip(value.autoRotateLimitBox)
+                    1 -> LimitsResizeType.Recode(value.autoRotateLimitBox)
+                    else -> LimitsResizeType.Zoom(value.autoRotateLimitBox)
                 }
             )
         }

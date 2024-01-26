@@ -15,23 +15,19 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.image
+package ru.tech.imageresizershrinker.feature.limits_resize.domain
 
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
-import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 
-interface ImageScaler<I> {
+interface LimitsImageScaler<I> : ImageScaler<I> {
 
     suspend fun scaleImage(
         image: I,
         width: Int,
         height: Int,
-        resizeType: ResizeType = ResizeType.Explicit,
-        imageScaleMode: ImageScaleMode = ImageScaleMode.Default
-    ): I
-
-    suspend fun scaleUntilCanShow(
-        image: I?
+        resizeType: LimitsResizeType,
+        imageScaleMode: ImageScaleMode
     ): I?
 
 }

@@ -34,28 +34,26 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.limits_resize.domain.LimitsImageScaler
+import ru.tech.imageresizershrinker.feature.limits_resize.domain.LimitsResizeType
 import javax.inject.Inject
-
-//TODO: Move limits resize to current module
 
 @HiltViewModel
 class LimitsResizeViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val imageScaler: ImageScaler<Bitmap>,
+    private val imageScaler: LimitsImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
 ) : ViewModel() {
@@ -93,8 +91,8 @@ class LimitsResizeViewModel @Inject constructor(
     private val _imageInfo: MutableState<ImageInfo> = mutableStateOf(ImageInfo())
     val imageInfo by _imageInfo
 
-    private val _resizeType: MutableState<ResizeType.Limits> =
-        mutableStateOf(ResizeType.Limits.Recode())
+    private val _resizeType: MutableState<LimitsResizeType> =
+        mutableStateOf(LimitsResizeType.Recode())
     val resizeType by _resizeType
 
     fun setMime(imageFormat: ImageFormat) {
@@ -173,8 +171,7 @@ class LimitsResizeViewModel @Inject constructor(
                         ImageSaveTarget<ExifInterface>(
                             imageInfo = imageInfo.copy(
                                 width = localBitmap.width,
-                                height = localBitmap.height,
-                                resizeType = resizeType
+                                height = localBitmap.height
                             ),
                             originalUri = uri.toString(),
                             sequenceNumber = _done.value + 1,
@@ -182,8 +179,7 @@ class LimitsResizeViewModel @Inject constructor(
                                 image = localBitmap,
                                 imageInfo = imageInfo.copy(
                                     width = localBitmap.width,
-                                    height = localBitmap.height,
-                                    resizeType = resizeType
+                                    height = localBitmap.height
                                 )
                             )
                         ), keepMetadata = keepExif
@@ -252,8 +248,7 @@ class LimitsResizeViewModel @Inject constructor(
                     }?.let {
                         it to imageInfo.copy(
                             width = it.width,
-                            height = it.height,
-                            resizeType = resizeType
+                            height = it.height
                         )
                     }
                 },
@@ -291,7 +286,7 @@ class LimitsResizeViewModel @Inject constructor(
         _imageInfo.value = _imageInfo.value.copy(quality = fl.coerceIn(0f, 100f))
     }
 
-    fun setResizeType(resizeType: ResizeType.Limits) {
+    fun setResizeType(resizeType: LimitsResizeType) {
         _resizeType.value = resizeType
     }
 

@@ -15,23 +15,20 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.image
+package ru.tech.imageresizershrinker.feature.bytes_resize.domain
 
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
-import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 
-interface ImageScaler<I> {
+interface BytesImageScaler<I> : ImageScaler<I> {
 
-    suspend fun scaleImage(
+    suspend fun scaleByMaxBytes(
         image: I,
-        width: Int,
-        height: Int,
-        resizeType: ResizeType = ResizeType.Explicit,
-        imageScaleMode: ImageScaleMode = ImageScaleMode.Default
-    ): I
-
-    suspend fun scaleUntilCanShow(
-        image: I?
-    ): I?
+        imageFormat: ImageFormat,
+        imageScaleMode: ImageScaleMode,
+        maxBytes: Long
+    ): Pair<I, ImageInfo>?
 
 }
