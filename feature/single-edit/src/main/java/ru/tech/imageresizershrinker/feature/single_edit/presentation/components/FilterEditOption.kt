@@ -125,7 +125,6 @@ fun FilterEditOption(
         var tempColor by remember { mutableStateOf(Color.Black) }
 
         FullscreenEditOption(
-            sheetSize = -1f,
             showControls = filterList.isNotEmpty(),
             canGoBack = stateBitmap == bitmap,
             visible = visible,

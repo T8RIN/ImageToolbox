@@ -34,7 +34,6 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -95,13 +94,15 @@ fun CropEditOption(
                 AspectRatioSelection(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 16.dp),
+                        .padding(horizontal = 16.dp),
                     selectedAspectRatio = selectedAspectRatio,
                     onAspectRatioChange = setCropAspectRatio
                 )
-                HorizontalDivider()
                 CropMaskSelection(
-                    onCropMaskChange = { setCropMask(it) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    onCropMaskChange = setCropMask,
                     selectedItem = cropProperties.cropOutlineProperty,
                     loadImage = {
                         loadImage(it)?.asImageBitmap()

@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -59,6 +60,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -75,7 +77,6 @@ fun FullscreenEditOption(
     onDismiss: () -> Unit,
     useScaffold: Boolean,
     modifier: Modifier = Modifier,
-    sheetSize: Float = 0.6f,
     showControls: Boolean = true,
     controls: @Composable (BottomSheetScaffoldState?) -> Unit,
     fabButtons: (@Composable () -> Unit)?,
@@ -98,6 +99,7 @@ fun FullscreenEditOption(
         Surface(Modifier.fillMaxSize()) {
             Column {
                 if (useScaffold) {
+                    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
                     BottomSheetScaffold(
                         topBar = {
                             topAppBar {
@@ -118,11 +120,7 @@ fun FullscreenEditOption(
                         sheetShape = RectangleShape,
                         sheetContent = {
                             Column(
-                                modifier.then(
-                                    if (showControls && sheetSize > 0f) Modifier.fillMaxHeight(
-                                        sheetSize
-                                    ) else Modifier
-                                )
+                                modifier.heightIn(max = screenHeight * 0.7f)
                             ) {
                                 BottomAppBar(
                                     modifier = Modifier.drawHorizontalStroke(true),
