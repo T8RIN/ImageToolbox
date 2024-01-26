@@ -634,7 +634,4 @@
     <string name="watermark_type">Watermark Type</string>
     <string name="watermarking_image_sub">This image will be used as pattern for watermarking</string>
     <string name="text_color">Text Color</string>
-    <string name="stroke">Stroke</string>
-    <string name="fill_and_stroke">Fill and Stroke</string>
-    <string name="text_style">Text Style</string>
 </resources>
