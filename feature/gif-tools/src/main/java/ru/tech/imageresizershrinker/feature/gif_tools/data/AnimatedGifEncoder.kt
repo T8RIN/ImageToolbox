@@ -143,8 +143,7 @@ internal class AnimatedGifEncoder(val out: OutputStream) {
      * OutputStream, the stream is not closed.
      */
     fun finish(): Boolean {
-        if (!started)
-            return false
+        if (!started) return false
         var ok = true
         started = false
         try {
@@ -205,10 +204,8 @@ internal class AnimatedGifEncoder(val out: OutputStream) {
     fun setSize(w: Int, h: Int) {
         width = w
         height = h
-        if (width < 1)
-            width = 320
-        if (height < 1)
-            height = 240
+        if (width < 1) width = 320
+        if (height < 1) height = 240
         sizeSet = true
     }
 

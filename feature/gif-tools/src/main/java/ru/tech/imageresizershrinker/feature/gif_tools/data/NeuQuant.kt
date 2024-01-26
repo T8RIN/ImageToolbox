@@ -33,15 +33,12 @@ package ru.tech.imageresizershrinker.feature.gif_tools.data
 * -----------------------------------------------------------------------
 */
 internal class NeuQuant(
-    private var thepicture: ByteArray,
-    private var lengthcount: Int,
-    private var samplefac: Int
+    private var thepicture: ByteArray, private var lengthcount: Int, private var samplefac: Int
 ) {
     /* number of colours used */
     private val netsize: Int = 256
 
-    /* four primes near 500 - assume no image has a length so large */
-    /* that it is divisible by all four primes */
+    /* four primes near 500 - assume no image has a length so large *//* that it is divisible by all four primes */
     private val prime1: Int = 499
 
     private val prime2: Int = 491
@@ -77,8 +74,7 @@ internal class NeuQuant(
 
     private val betagamma: Int = (intbias shl (gammashift - betashift))
 
-    /* defs for decreasing radius factor */
-    /*
+    /* defs for decreasing radius factor *//*
     * for 256 cols, radius
     * starts
     */
@@ -178,22 +174,19 @@ internal class NeuQuant(
             while (i < netsize) {
                 p = network[i]
                 smallpos = i
-                smallval = p[1] /* index on g */
-                /* find smallest in i..netsize-1 */
+                smallval = p[1] /* index on g *//* find smallest in i..netsize-1 */
                 run {
                     j = i + 1
                     while (j < netsize) {
                         q = network[j]
-                        if (q[1] < smallval) {
-                            /* index on g */
+                        if (q[1] < smallval) {/* index on g */
                             smallpos = j
                             smallval = q[1] /* index on g */
                         }
                         j++
                     }
                 }
-                q = network[smallpos]
-                /* swap p (i) and q (smallpos) entries */
+                q = network[smallpos]/* swap p (i) and q (smallpos) entries */
                 if (i != smallpos) {
                     j = q[0]
                     q[0] = p[0]
@@ -207,8 +200,7 @@ internal class NeuQuant(
                     j = q[3]
                     q[3] = p[3]
                     p[3] = j
-                }
-                /* smallval entry is now in position i */
+                }/* smallval entry is now in position i */
                 if (smallval != previouscol) {
                     netindex[previouscol] = (startpos + i) shr 1
                     run {
@@ -246,8 +238,7 @@ internal class NeuQuant(
         var rad: Int
         var delta: Int
 
-        if (lengthcount < minpicturebytes)
-            samplefac = 1
+        if (lengthcount < minpicturebytes) samplefac = 1
         alphadec = 30 + ((samplefac - 1) / 3)
         var pix = 0
         val samplePixels: Int = lengthcount / (3 * samplefac)
@@ -265,18 +256,13 @@ internal class NeuQuant(
             }
         }
 
-        val step: Int = if (lengthcount < minpicturebytes)
-            3
-        else if ((lengthcount % prime1) != 0)
-            3 * prime1
+        val step: Int = if (lengthcount < minpicturebytes) 3
+        else if ((lengthcount % prime1) != 0) 3 * prime1
         else {
-            if ((lengthcount % prime2) != 0)
-                3 * prime2
+            if ((lengthcount % prime2) != 0) 3 * prime2
             else {
-                if ((lengthcount % prime3) != 0)
-                    3 * prime3
-                else
-                    3 * prime4
+                if ((lengthcount % prime3) != 0) 3 * prime3
+                else 3 * prime4
             }
         }
 
@@ -288,22 +274,18 @@ internal class NeuQuant(
             j = contest(b, g, r)
 
             altersingle(alpha, j, b, g, r)
-            if (rad != 0)
-                alterneigh(rad, j, b, g, r) /* alter neighbours */
+            if (rad != 0) alterneigh(rad, j, b, g, r) /* alter neighbours */
 
             pix += step
-            if (pix >= lengthcount)
-                pix -= lengthcount
+            if (pix >= lengthcount) pix -= lengthcount
 
             i++
-            if (delta == 0)
-                delta = 1
+            if (delta == 0) delta = 1
             if (i % delta == 0) {
                 alpha -= alpha / alphadec
                 radius -= radius / radiusdec
                 rad = radius shr radiusbiasshift
-                if (rad <= 1)
-                    rad = 0
+                if (rad <= 1) rad = 0
                 run {
                     val rad2 = rad * rad
                     for (index in 0..<rad) {
@@ -338,20 +320,16 @@ internal class NeuQuant(
             if (i < netsize) {
                 p = network[i]
                 dist = p[1] - g /* inx key */
-                if (dist >= bestd)
-                    i = netsize /* stop iter */
+                if (dist >= bestd) i = netsize /* stop iter */
                 else {
                     i++
-                    if (dist < 0)
-                        dist = -dist
+                    if (dist < 0) dist = -dist
                     a = p[0] - b
-                    if (a < 0)
-                        a = -a
+                    if (a < 0) a = -a
                     dist += a
                     if (dist < bestd) {
                         a = p[2] - r
-                        if (a < 0)
-                            a = -a
+                        if (a < 0) a = -a
                         dist += a
                         if (dist < bestd) {
                             bestd = dist
@@ -363,20 +341,16 @@ internal class NeuQuant(
             if (j >= 0) {
                 p = network[j]
                 dist = g - p[1] /* inx key - reverse dif */
-                if (dist >= bestd)
-                    j = -1 /* stop iter */
+                if (dist >= bestd) j = -1 /* stop iter */
                 else {
                     j--
-                    if (dist < 0)
-                        dist = -dist
+                    if (dist < 0) dist = -dist
                     a = p[0] - b
-                    if (a < 0)
-                        a = -a
+                    if (a < 0) a = -a
                     dist += a
                     if (dist < bestd) {
                         a = p[2] - r
-                        if (a < 0)
-                            a = -a
+                        if (a < 0) a = -a
                         dist += a
                         if (dist < bestd) {
                             bestd = dist
@@ -423,11 +397,9 @@ internal class NeuQuant(
         var p: IntArray
 
         lo = i - rad
-        if (lo < -1)
-            lo = -1
+        if (lo < -1) lo = -1
         hi = i + rad
-        if (hi > netsize)
-            hi = netsize
+        if (hi > netsize) hi = netsize
 
         var j: Int = i + 1
         var k: Int = i - 1
@@ -460,8 +432,7 @@ internal class NeuQuant(
      * Move neuron i towards biased (b,g,r) by factor alpha
      * ----------------------------------------------------
      */
-    private fun altersingle(alpha: Int, i: Int, b: Int, g: Int, r: Int) {
-        /* alter hit neuron */
+    private fun altersingle(alpha: Int, i: Int, b: Int, g: Int, r: Int) {/* alter hit neuron */
         val n = network[i]
         n[0] = n[0] - (alpha * (n[0] - b)) / initalpha
         n[1] = n[1] - (alpha * (n[1] - g)) / initalpha
@@ -473,10 +444,7 @@ internal class NeuQuant(
      */
     private fun contest(b: Int, g: Int, r: Int): Int {
 
-        /* finds closest neuron (min dist) and updates freq */
-        /* finds best neuron (min dist-bias) and returns position */
-        /* for frequently chosen neurons, freq[i] is high and bias[i] is negative */
-        /* bias[i] = gamma*((1/netsize)-freq[i]) */
+        /* finds closest neuron (min dist) and updates freq *//* finds best neuron (min dist-bias) and returns position *//* for frequently chosen neurons, freq[i] is high and bias[i] is negative *//* bias[i] = gamma*((1/netsize)-freq[i]) */
 
         var dist: Int
         var a: Int
@@ -496,15 +464,12 @@ internal class NeuQuant(
         for (i in 0..<netsize) {
             n = network[i]
             dist = n[0] - b
-            if (dist < 0)
-                dist = -dist
+            if (dist < 0) dist = -dist
             a = n[1] - g
-            if (a < 0)
-                a = -a
+            if (a < 0) a = -a
             dist += a
             a = n[2] - r
-            if (a < 0)
-                a = -a
+            if (a < 0) a = -a
             dist += a
             if (dist < bestd) {
                 bestd = dist

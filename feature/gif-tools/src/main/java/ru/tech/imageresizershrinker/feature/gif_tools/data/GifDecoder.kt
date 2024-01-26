@@ -393,8 +393,7 @@ class GifDecoder {
      * Decodes LZW image data into pixel array. Adapted from John Cristy's BitmapMagick.
      */
     private fun decodeBitmapData(
-        frame: GifFrame?,
-        dstPixels: ByteArray?
+        frame: GifFrame?, dstPixels: ByteArray?
     ) {
         var tempDstPixels = dstPixels
 

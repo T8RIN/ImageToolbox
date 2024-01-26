@@ -10,10 +10,7 @@ package ru.tech.imageresizershrinker.feature.gif_tools.data
 import java.io.OutputStream
 
 internal class LZWEncoder(
-    private val imgW: Int,
-    private val imgH: Int,
-    pixAry: ByteArray,
-    colorDepth: Int
+    private val imgW: Int, private val imgH: Int, pixAry: ByteArray, colorDepth: Int
 ) {
 
     private val pixelArray: IntArray
@@ -102,8 +99,7 @@ internal class LZWEncoder(
     // characters, flush the packet to disk.
     fun char_out(c: Byte, outs: OutputStream) {
         accum[a_count++] = c
-        if (a_count >= 254)
-            flush_char(outs)
+        if (a_count >= 254) flush_char(outs)
     }
 
     // Clear out the hash table
@@ -170,8 +166,7 @@ internal class LZWEncoder(
                 continue
             } else if (htab[i] >= 0) {
                 disp = hsizeReg - i // secondary hash (after G. Knott)
-                if (i == 0)
-                    disp = 1
+                if (i == 0) disp = 1
                 do {
                     i -= disp
                     if (i < 0) {
@@ -188,8 +183,7 @@ internal class LZWEncoder(
             if (free_ent < maxmaxcode) {
                 codetab[i] = free_ent++ // code -> hashtable
                 htab[i] = fcode
-            } else
-                cl_block(outs)
+            } else cl_block(outs)
         }
         // Put out the final code.
         output(ent, outs)
