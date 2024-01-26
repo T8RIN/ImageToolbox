@@ -76,7 +76,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
+import ru.tech.imageresizershrinker.feature.watermarking.presentation.components.WatermarkDataSelector
 import ru.tech.imageresizershrinker.feature.watermarking.presentation.components.WatermarkParamsSelectionGroup
+import ru.tech.imageresizershrinker.feature.watermarking.presentation.components.WatermarkingTypeSelector
 import ru.tech.imageresizershrinker.feature.watermarking.presentation.viewModel.WatermarkingViewModel
 
 @Composable
@@ -214,7 +216,17 @@ fun WatermarkingScreen(
                 }
             )
             Spacer(modifier = Modifier.height(8.dp))
+            WatermarkingTypeSelector(
+                value = viewModel.watermarkParams,
+                onValueChange = viewModel::updateWatermarkParams
+            )
+            Spacer(modifier = Modifier.height(8.dp))
             WatermarkParamsSelectionGroup(
+                value = viewModel.watermarkParams,
+                onValueChange = viewModel::updateWatermarkParams
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            WatermarkDataSelector(
                 value = viewModel.watermarkParams,
                 onValueChange = viewModel::updateWatermarkParams
             )

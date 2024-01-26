@@ -29,17 +29,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.TextRotationAngleup
 import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material.icons.rounded.Repeat
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,34 +46,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.UiFontFam
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
-import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.theme.Typography
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
-import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRow
 import ru.tech.imageresizershrinker.core.ui.widget.controls.AlphaSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
-import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkingType
@@ -243,58 +229,11 @@ fun WatermarkParamsSelectionGroup(
                     }
                 }
                 Spacer(modifier = Modifier.height(4.dp))
-                val selectedIndex by remember(value.watermarkingType) {
-                    derivedStateOf {
-                        WatermarkingType
-                            .entries
-                            .indexOfFirst {
-                                value.watermarkingType::class.java.isInstance(it)
-                            }
-                    }
-                }
-                ToggleGroupButton(
-                    modifier = Modifier
-                        .container(
-                            shape = RoundedCornerShape(20.dp),
-                            color = MaterialTheme.colorScheme.surfaceContainerLow
-                        ),
-                    enabled = true,
-                    items = WatermarkingType.entries.map { it.translatedName },
-                    selectedIndex = selectedIndex,
-                    title = stringResource(id = R.string.watermark_type),
-                    fadingEdgesColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                    indexChanged = {
-                        onValueChange(value.copy(watermarkingType = WatermarkingType.entries[it]))
-                    },
-                    inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh
-                )
-                Spacer(modifier = Modifier.height(4.dp))
                 AnimatedVisibility(visible = value.watermarkingType is WatermarkingType.Text) {
                     val type = value.watermarkingType as? WatermarkingType.Text
                         ?: return@AnimatedVisibility
+
                     Column {
-                        RoundedTextField(
-                            modifier = Modifier
-                                .container(
-                                    shape = RoundedCornerShape(20.dp),
-                                    color = MaterialTheme.colorScheme.surfaceContainerLow
-                                )
-                                .padding(8.dp),
-                            value = type.text,
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                            singleLine = false,
-                            onValueChange = {
-                                onValueChange(
-                                    value.copy(
-                                        watermarkingType = type.copy(text = it)
-                                    )
-                                )
-                            },
-                            label = {
-                                Text(stringResource(R.string.text))
-                            }
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
                         Column(
                             modifier = Modifier.container(
                                 shape = RoundedCornerShape(20.dp),
@@ -435,71 +374,27 @@ fun WatermarkParamsSelectionGroup(
                 AnimatedVisibility(visible = value.watermarkingType is WatermarkingType.Image) {
                     val type = value.watermarkingType as? WatermarkingType.Image
                         ?: return@AnimatedVisibility
-                    val pickImageLauncher = rememberImagePicker(
-                        mode = localImagePickerMode(Picker.Single)
-                    ) { list ->
-                        list.firstOrNull()?.let {
+
+                    EnhancedSliderItem(
+                        value = type.size,
+                        title = stringResource(id = R.string.size, ""),
+                        internalStateTransformation = {
+                            it.roundToTwoDigits()
+                        },
+                        onValueChange = {
                             onValueChange(
                                 value.copy(
-                                    watermarkingType = type.copy(imageData = it)
+                                    watermarkingType = type.copy(size = it)
                                 )
                             )
-                        }
-                    }
-                    Column {
-                        PreferenceItemOverload(
-                            title = stringResource(id = R.string.image),
-                            subtitle = stringResource(id = R.string.watermarking_image_sub),
-                            onClick = {
-                                pickImageLauncher.pickImage()
-                            },
-                            icon = {
-                                Picture(
-                                    contentScale = ContentScale.Inside,
-                                    model = type.imageData,
-                                    shape = CloverShape,
-                                    modifier = Modifier.size(48.dp)
-                                )
-                            },
-                            endIcon = {
-                                Icon(
-                                    imageVector = Icons.Rounded.CreateAlt,
-                                    contentDescription = null
-                                )
-                            },
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(20.dp),
-                            color = MaterialTheme.colorScheme.surfaceContainerLow
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        EnhancedSliderItem(
-                            value = type.size,
-                            title = stringResource(id = R.string.size, ""),
-                            internalStateTransformation = {
-                                it.roundToTwoDigits()
-                            },
-                            onValueChange = {
-                                onValueChange(
-                                    value.copy(
-                                        watermarkingType = type.copy(size = it)
-                                    )
-                                )
-                            },
-                            valueRange = 0.01f..1f,
-                            shape = RoundedCornerShape(20.dp),
-                            color = MaterialTheme.colorScheme.surfaceContainerLow
-                        )
-                    }
+                        },
+                        valueRange = 0.01f..1f,
+                        shape = RoundedCornerShape(20.dp),
+                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                    )
                 }
             }
         },
         shape = RoundedCornerShape(cornerSize)
     )
 }
-
-private val WatermarkingType.translatedName: String
-    @Composable
-    get() = when (this) {
-        is WatermarkingType.Text -> stringResource(R.string.text)
-        is WatermarkingType.Image -> stringResource(R.string.image)
-    }
