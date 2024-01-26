@@ -36,6 +36,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.TextRotationAngleup
 import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material.icons.rounded.Repeat
 import androidx.compose.material3.Icon
@@ -111,37 +112,40 @@ fun WatermarkParamsSelectionGroup(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 AnimatedVisibility(visible = !value.isRepeated) {
-                    EnhancedSliderItem(
-                        value = value.positionX,
-                        title = stringResource(id = R.string.offset_x),
-                        internalStateTransformation = {
-                            it.roundToTwoDigits()
-                        },
-                        onValueChange = {
-                            onValueChange(value.copy(positionX = it))
-                        },
-                        valueRange = 0f..1f,
-                        shape = RoundedCornerShape(20.dp),
-                        color = MaterialTheme.colorScheme.surfaceContainerLow,
-                        modifier = Modifier.padding(bottom = 4.dp)
-                    )
-                    EnhancedSliderItem(
-                        value = value.positionY,
-                        title = stringResource(id = R.string.offset_y),
-                        internalStateTransformation = {
-                            it.roundToTwoDigits()
-                        },
-                        onValueChange = {
-                            onValueChange(value.copy(positionY = it))
-                        },
-                        valueRange = 0f..1f,
-                        shape = RoundedCornerShape(20.dp),
-                        color = MaterialTheme.colorScheme.surfaceContainerLow,
-                        modifier = Modifier.padding(bottom = 4.dp)
-                    )
+                    Column {
+                        EnhancedSliderItem(
+                            value = value.positionX,
+                            title = stringResource(id = R.string.offset_x),
+                            internalStateTransformation = {
+                                it.roundToTwoDigits()
+                            },
+                            onValueChange = {
+                                onValueChange(value.copy(positionX = it))
+                            },
+                            valueRange = 0f..1f,
+                            shape = RoundedCornerShape(20.dp),
+                            color = MaterialTheme.colorScheme.surfaceContainerLow
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        EnhancedSliderItem(
+                            value = value.positionY,
+                            title = stringResource(id = R.string.offset_y),
+                            internalStateTransformation = {
+                                it.roundToTwoDigits()
+                            },
+                            onValueChange = {
+                                onValueChange(value.copy(positionY = it))
+                            },
+                            valueRange = 0f..1f,
+                            shape = RoundedCornerShape(20.dp),
+                            color = MaterialTheme.colorScheme.surfaceContainerLow,
+                            modifier = Modifier.padding(bottom = 4.dp)
+                        )
+                    }
                 }
                 EnhancedSliderItem(
                     value = value.rotation,
+                    icon = Icons.Outlined.TextRotationAngleup,
                     title = stringResource(id = R.string.angle),
                     valueRange = 0f..360f,
                     internalStateTransformation = { it.roundToInt() },
