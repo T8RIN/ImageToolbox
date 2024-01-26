@@ -10,7 +10,10 @@ package ru.tech.imageresizershrinker.feature.gif_tools.data
 import java.io.OutputStream
 
 internal class LZWEncoder(
-    private val imgW: Int, private val imgH: Int, pixAry: ByteArray, colorDepth: Int
+    private val imgW: Int,
+    private val imgH: Int,
+    pixAry: ByteArray,
+    colorDepth: Int
 ) {
 
     private val pixelArray: IntArray

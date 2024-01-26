@@ -33,7 +33,9 @@ package ru.tech.imageresizershrinker.feature.gif_tools.data
 * -----------------------------------------------------------------------
 */
 internal class NeuQuant(
-    private var thepicture: ByteArray, private var lengthcount: Int, private var samplefac: Int
+    private var thepicture: ByteArray,
+    private var lengthcount: Int,
+    private var samplefac: Int
 ) {
     /* number of colours used */
     private val netsize: Int = 256
