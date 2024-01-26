@@ -75,7 +75,7 @@ fun ZoomModalSheet(
                 model = data,
                 contentDescription = null,
                 shape = RectangleShape,
-                contentScale = ContentScale.FillBounds,
+                contentScale = ContentScale.Inside,
                 showTransparencyChecker = false,
                 transformations = transformations,
                 modifier = Modifier

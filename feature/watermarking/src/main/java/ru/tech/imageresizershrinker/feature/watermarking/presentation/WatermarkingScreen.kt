@@ -260,14 +260,16 @@ fun WatermarkingScreen(
         canShowScreenData = viewModel.uris.isNotEmpty()
     )
 
+    val transformations by remember(viewModel.previewBitmap) {
+        derivedStateOf {
+            listOf(
+                viewModel.getWatermarkTransformation()
+            )
+        }
+    }
+
     PickImageFromUrisSheet(
-        transformations = remember(viewModel.previewBitmap) {
-            derivedStateOf {
-                listOf(
-                    viewModel.getWatermarkTransformation()
-                )
-            }
-        }.value,
+        transformations = transformations,
         visible = showPickImageFromUrisSheet,
         uris = viewModel.uris,
         selectedUri = viewModel.selectedUri,
@@ -290,8 +292,9 @@ fun WatermarkingScreen(
     )
 
     ZoomModalSheet(
-        data = viewModel.previewBitmap,
-        visible = showZoomSheet
+        data = viewModel.selectedUri,
+        visible = showZoomSheet,
+        transformations = transformations
     )
 
     if (viewModel.isSaving) {

@@ -27,6 +27,7 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.size.Size
+import coil.size.pxOrElse
 import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -40,6 +41,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
@@ -304,7 +306,12 @@ class WatermarkingViewModel @Inject constructor(
             override suspend fun transform(
                 input: Bitmap,
                 size: Size
-            ): Bitmap = getWatermarkedBitmap(input) ?: input
+            ): Bitmap = imageScaler.scaleImage(
+                getWatermarkedBitmap(input) ?: input,
+                size.width.pxOrElse { 1 },
+                size.height.pxOrElse { 1 },
+                resizeType = ResizeType.Flexible
+            ) ?: input
 
         }
     }
