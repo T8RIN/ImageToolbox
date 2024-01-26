@@ -48,7 +48,8 @@ class ImagePicker(
     private val photoPickerMultiple: ManagedActivityResultLauncher<PickVisualMediaRequest, List<Uri>>,
     private val getContent: ManagedActivityResultLauncher<Intent, ActivityResult>,
     private val takePhoto: ManagedActivityResultLauncher<Uri, Boolean>,
-    private val onCreateTakePhotoUri: (Uri) -> Unit
+    private val onCreateTakePhotoUri: (Uri) -> Unit,
+    private val imageExtension: String
 ) {
     fun pickImage() {
         runCatching {
@@ -71,7 +72,7 @@ class ImagePicker(
                             Intent.ACTION_PICK,
                             MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                         ).apply {
-                            type = "image/*"
+                            type = "image/$imageExtension"
                             if (mode == ImagePickerMode.GalleryMultiple) {
                                 putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                             }
@@ -87,7 +88,7 @@ class ImagePicker(
                 ImagePickerMode.GetContentSingle,
                 ImagePickerMode.GetContentMultiple -> {
                     val intent = Intent().apply {
-                        type = "image/*"
+                        type = "image/$imageExtension"
                         action = Intent.ACTION_OPEN_DOCUMENT
                         putExtra(
                             Intent.EXTRA_ALLOW_MULTIPLE,
@@ -155,6 +156,7 @@ fun localImagePickerMode(picker: Picker = Picker.Single): ImagePickerMode {
 @Composable
 fun rememberImagePicker(
     mode: ImagePickerMode,
+    imageExtension: String = "*",
     onFailure: () -> Unit = {},
     onSuccess: (List<Uri>) -> Unit,
 ): ImagePicker {
@@ -208,7 +210,7 @@ fun rememberImagePicker(
         }
     )
 
-    return remember {
+    return remember(imageExtension) {
         ImagePicker(
             context = context,
             mode = mode,
@@ -218,7 +220,8 @@ fun rememberImagePicker(
             takePhoto = takePhoto,
             onCreateTakePhotoUri = {
                 takePhotoUri = it
-            }
+            },
+            imageExtension = imageExtension
         )
     }
 }
