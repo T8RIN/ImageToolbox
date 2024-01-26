@@ -187,43 +187,32 @@ class CropViewModel @Inject constructor(
         _isImageLoading.value = false
     }
 
-    fun setUri(uri: Uri) {
+    fun setUri(uri: Uri, onError: (Throwable) -> Unit) {
         _uri.value = uri
-    }
-
-    fun decodeBitmapByUri(
-        uri: Uri,
-        originalSize: Boolean = true,
-        onGetMimeType: (ImageFormat) -> Unit,
-        onGetExif: (ExifInterface?) -> Unit,
-        onGetBitmap: (Bitmap) -> Unit,
-        onError: (Throwable) -> Unit
-    ) {
         imageGetter.getImageAsync(
             uri = uri.toString(),
-            originalSize = originalSize,
+            originalSize = true,
             onGetImage = {
-                onGetBitmap(it.image)
-                onGetExif(it.metadata)
-                onGetMimeType(it.imageInfo.imageFormat)
+                updateBitmap(it.image, true)
+                updateMimeType(it.imageInfo.imageFormat)
             },
             onError = onError
         )
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
-        _bitmap.value?.let { bitmap ->
-            _isSaving.value = false
-            savingJob?.cancel()
-            savingJob = viewModelScope.launch {
-                _isSaving.value = true
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            bitmap?.let { localBitmap ->
                 shareProvider.shareImage(
                     imageInfo = ImageInfo(
                         imageFormat = imageFormat,
-                        width = bitmap.width,
-                        height = bitmap.height
+                        width = localBitmap.width,
+                        height = localBitmap.height
                     ),
-                    image = bitmap,
+                    image = localBitmap,
                     onComplete = {
                         _isSaving.value = false
                         onComplete()

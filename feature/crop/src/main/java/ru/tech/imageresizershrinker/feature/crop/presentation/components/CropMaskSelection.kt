@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -44,7 +45,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -66,6 +69,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import kotlin.math.roundToInt
 
 @Composable
@@ -73,7 +77,9 @@ fun CropMaskSelection(
     modifier: Modifier = Modifier,
     selectedItem: CropOutlineProperty,
     loadImage: suspend (Uri) -> ImageBitmap?,
-    onCropMaskChange: (CropOutlineProperty) -> Unit
+    onCropMaskChange: (CropOutlineProperty) -> Unit,
+    color: Color = Color.Unspecified,
+    shape: Shape = RoundedCornerShape(24.dp)
 ) {
     var cornerRadius by rememberSaveable { mutableIntStateOf(20) }
 
@@ -101,15 +107,21 @@ fun CropMaskSelection(
         }
 
 
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier.container(
+            color = color,
+            shape = shape
+        )
+    ) {
         Text(
             text = stringResource(id = R.string.crop_mask),
             modifier = Modifier
                 .padding(start = 8.dp, end = 8.dp, top = 16.dp),
             fontWeight = FontWeight.Medium
         )
+        val listState = rememberLazyListState()
         LazyRow(
-            modifier = modifier,
             horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally),
             contentPadding = PaddingValues(
                 start = 16.dp,
@@ -120,7 +132,9 @@ fun CropMaskSelection(
                     .asPaddingValues()
                     .calculateEndPadding(LocalLayoutDirection.current)
             ),
-            verticalAlignment = Alignment.CenterVertically
+            state = listState,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fadingEdges(listState)
         ) {
             itemsIndexed(outlineProperties) { _, item ->
                 val selected = selectedItem.cropOutline.id == item.cropOutline.id

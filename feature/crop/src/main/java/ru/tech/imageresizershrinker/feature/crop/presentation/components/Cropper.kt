@@ -43,7 +43,7 @@ fun Cropper(
     crop: Boolean,
     imageCropStarted: () -> Unit,
     imageCropFinished: (Bitmap) -> Unit,
-    cropProperties: CropProperties,
+    cropProperties: CropProperties
 ) {
     Column {
         AnimatedContent(
@@ -68,7 +68,7 @@ fun Cropper(
                 ),
                 onCropSuccess = { image ->
                     imageCropFinished(image.asAndroidBitmap())
-                },
+                }
             )
         }
     }

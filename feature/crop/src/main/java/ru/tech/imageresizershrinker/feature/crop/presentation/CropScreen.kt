@@ -56,7 +56,6 @@ import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
@@ -153,22 +152,11 @@ fun CropScreen(
 
     LaunchedEffect(uriState) {
         uriState?.let {
-            viewModel.setUri(it)
-            viewModel.decodeBitmapByUri(
-                uri = it,
-                onGetMimeType = viewModel::updateMimeType,
-                onGetExif = {},
-                onGetBitmap = { bmp ->
-                    viewModel.updateBitmap(
-                        bitmap = bmp, newBitmap = true
-                    )
-                },
-                onError = {
-                    scope.launch {
-                        toastHostState.showError(context, it)
-                    }
+            viewModel.setUri(it) { t ->
+                scope.launch {
+                    toastHostState.showError(context, t)
                 }
-            )
+            }
         }
     }
     LaunchedEffect(viewModel.bitmap) {
@@ -184,22 +172,11 @@ fun CropScreen(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
-                viewModel.setUri(it)
-                viewModel.decodeBitmapByUri(
-                    uri = it,
-                    onGetMimeType = viewModel::updateMimeType,
-                    onGetExif = {},
-                    onGetBitmap = { bmp ->
-                        viewModel.updateBitmap(
-                            bitmap = bmp, newBitmap = true
-                        )
-                    },
-                    onError = {
-                        scope.launch {
-                            toastHostState.showError(context, it)
-                        }
+                viewModel.setUri(it) { t ->
+                    scope.launch {
+                        toastHostState.showError(context, t)
                     }
-                )
+                }
             }
         }
 
@@ -239,27 +216,29 @@ fun CropScreen(
 
     val controls: @Composable () -> Unit = {
         Column(Modifier.verticalScroll(rememberScrollState())) {
+            Spacer(modifier = Modifier.height(16.dp))
             AspectRatioSelection(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 16.dp),
+                    .padding(horizontal = 16.dp),
                 selectedAspectRatio = viewModel.selectedAspectRatio,
                 onAspectRatioChange = { domainAspect, aspect ->
                     viewModel.setCropAspectRatio(domainAspect, aspect)
                 }
             )
-            HorizontalDivider()
+            Spacer(modifier = Modifier.height(8.dp))
             CropMaskSelection(
                 onCropMaskChange = { viewModel.setCropMask(it) },
                 selectedItem = viewModel.cropProperties.cropOutlineProperty,
                 loadImage = {
                     viewModel.loadImage(it)?.asImageBitmap()
-                }
+                },
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
-            HorizontalDivider()
+            Spacer(modifier = Modifier.height(8.dp))
             ExtensionGroup(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(horizontal = 16.dp)
                     .navigationBarsPadding(),
                 entries = if (viewModel.cropProperties.cropOutlineProperty.outlineType == OutlineType.Rect) {
                     ImageFormat.entries
@@ -270,6 +249,7 @@ fun CropScreen(
                     viewModel.updateMimeType(it)
                 }
             )
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 
@@ -383,6 +363,7 @@ fun CropScreen(
                         }
                     )
                 }
+
                 viewModel.bitmap?.let { bitmap ->
                     if (portrait) {
                         Cropper(
@@ -528,7 +509,7 @@ fun CropScreen(
             sheetDragHandle = null,
             sheetShape = RectangleShape,
             sheetContent = {
-                Column(Modifier.heightIn(screenHeight * 0.7f)) {
+                Column(Modifier.heightIn(max = screenHeight * 0.7f)) {
                     BottomAppBar(
                         modifier = Modifier.drawHorizontalStroke(true),
                         actions = {

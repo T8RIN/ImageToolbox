@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CropFree
 import androidx.compose.material.icons.outlined.Image
@@ -43,6 +44,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -73,14 +75,19 @@ fun AspectRatioSelection(
             .asPaddingValues()
             .calculateEndPadding(LocalLayoutDirection.current)
     ),
-    enableFadingEdges: Boolean = false,
-    onAspectRatioChange: (DomainAspectRatio, AspectRatio) -> Unit
+    enableFadingEdges: Boolean = true,
+    onAspectRatioChange: (DomainAspectRatio, AspectRatio) -> Unit,
+    color: Color = Color.Unspecified,
+    shape: Shape = RoundedCornerShape(24.dp)
 ) {
     val aspectRatios = aspectRatios()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
+        modifier = modifier.container(
+            color = color,
+            shape = shape
+        )
     ) {
         Text(
             text = stringResource(id = R.string.aspect_ratio),

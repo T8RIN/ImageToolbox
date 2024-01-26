@@ -133,9 +133,15 @@ internal class AndroidImageTransformer @Inject constructor(
     }
 
     override suspend fun rotate(image: Bitmap, degrees: Float): Bitmap {
-        //TODO: Add free rotation( maybe :) )
-        val matrix = Matrix().apply { postRotate(degrees) }
-        return Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)
+        return if (degrees % 90 == 0f) {
+            val matrix = Matrix().apply { postRotate(degrees) }
+            Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)
+        } else {
+            val matrix = Matrix().apply {
+                setRotate(degrees, image.width.toFloat() / 2, image.height.toFloat() / 2)
+            }
+            Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)
+        }
     }
 
     private fun Drawable.toBitmap(): Bitmap {
