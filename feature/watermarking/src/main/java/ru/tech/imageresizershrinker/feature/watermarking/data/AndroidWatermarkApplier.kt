@@ -78,11 +78,11 @@ class AndroidWatermarkApplier @Inject constructor(
                         (image.width * type.size).toInt(),
                         (image.height * type.size).toInt()
                     )
-                )?.let { bitmap ->
+                )?.let { watermarkSource ->
                     WatermarkBuilder
                         .create(context, image, !originalSize)
                         .loadWatermarkImage(
-                            WatermarkImage(bitmap)
+                            WatermarkImage(watermarkSource)
                                 .setPositionX(params.positionX.toDouble())
                                 .setPositionY(params.positionY.toDouble())
                                 .setRotation(params.rotation.toDouble())
