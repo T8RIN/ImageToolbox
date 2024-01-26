@@ -21,6 +21,7 @@ interface WatermarkApplier<I> {
 
     suspend fun applyWatermark(
         image: I,
+        originalSize: Boolean,
         params: WatermarkParams
     ): I?
 

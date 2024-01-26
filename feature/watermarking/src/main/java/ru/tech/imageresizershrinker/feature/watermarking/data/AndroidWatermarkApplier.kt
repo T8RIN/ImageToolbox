@@ -42,12 +42,13 @@ class AndroidWatermarkApplier @Inject constructor(
 
     override suspend fun applyWatermark(
         image: Bitmap,
+        originalSize: Boolean,
         params: WatermarkParams
     ): Bitmap? = withContext(Dispatchers.IO) {
         val builder: WatermarkBuilder? = when (val type = params.watermarkingType) {
             is WatermarkingType.Text -> {
                 WatermarkBuilder
-                    .create(context, image)
+                    .create(context, image, !originalSize)
                     .loadWatermarkText(
                         WatermarkText(type.text)
                             .setPositionX(params.positionX.toDouble())
@@ -79,7 +80,7 @@ class AndroidWatermarkApplier @Inject constructor(
                     )
                 )?.let { bitmap ->
                     WatermarkBuilder
-                        .create(context, image)
+                        .create(context, image, !originalSize)
                         .loadWatermarkImage(
                             WatermarkImage(bitmap)
                                 .setPositionX(params.positionX.toDouble())

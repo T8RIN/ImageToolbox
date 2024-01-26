@@ -141,7 +141,10 @@ class WatermarkingViewModel @Inject constructor(
             _done.value = 0
             _left.value = uris.size
             uris.forEach { uri ->
-                getWatermarkedBitmap(uri.toString())?.let { localBitmap ->
+                getWatermarkedBitmap(
+                    data = uri.toString(),
+                    originalSize = true
+                )?.let { localBitmap ->
                     val imageInfo = ImageInfo(
                         imageFormat = imageFormat,
                         width = localBitmap.width,
@@ -179,8 +182,12 @@ class WatermarkingViewModel @Inject constructor(
         data: Any,
         originalSize: Boolean = false
     ): Bitmap? = withContext(Dispatchers.IO) {
-        imageGetter.getImage(data, originalSize)?.let {
-            watermarkApplier.applyWatermark(it, watermarkParams)
+        imageGetter.getImage(data, originalSize)?.let { image ->
+            watermarkApplier.applyWatermark(
+                image = image,
+                originalSize = originalSize,
+                params = watermarkParams
+            )
         }
     }
 
@@ -195,7 +202,10 @@ class WatermarkingViewModel @Inject constructor(
             shareProvider.shareImages(
                 uris.map { it.toString() },
                 imageLoader = { uri ->
-                    getWatermarkedBitmap(uri)?.let {
+                    getWatermarkedBitmap(
+                        data = uri,
+                        originalSize = true
+                    )?.let {
                         it to ImageInfo(
                             width = it.width,
                             height = it.height,
