@@ -24,8 +24,10 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Crop
@@ -91,6 +93,7 @@ fun CropEditOption(
             onDismiss = onDismiss,
             useScaffold = useScaffold,
             controls = {
+                Spacer(modifier = Modifier.height(16.dp))
                 AspectRatioSelection(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -98,6 +101,7 @@ fun CropEditOption(
                     selectedAspectRatio = selectedAspectRatio,
                     onAspectRatioChange = setCropAspectRatio
                 )
+                Spacer(modifier = Modifier.height(8.dp))
                 CropMaskSelection(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -108,6 +112,7 @@ fun CropEditOption(
                         loadImage(it)?.asImageBitmap()
                     }
                 )
+                Spacer(modifier = Modifier.height(16.dp))
             },
             fabButtons = {
                 var job by remember { mutableStateOf<Job?>(null) }
