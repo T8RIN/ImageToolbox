@@ -17,6 +17,9 @@
 
 @file:Suppress("UnstableApiUsage")
 
+include(":feature:gif-tools")
+
+
 pluginManagement {
     repositories {
         includeBuild("build-logic")
