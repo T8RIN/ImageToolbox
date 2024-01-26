@@ -606,4 +606,14 @@
     <string name="camera">相机</string>
     <string name="camera_sub">使用相机拍照，注意该图像源只能获取一张图像</string>
     <string name="gradient_maker_type_image_sub">合成给定图像顶部的任意梯度</string>
+    <string name="watermarking_sub">用自定义文字/图像水印覆盖图片</string>
+    <string name="offset_y">偏移 Y</string>
+    <string name="watermark_type">水印类型</string>
+    <string name="text_color">文本颜色</string>
+    <string name="watermarking">水印</string>
+    <string name="repeat_watermark">重复水印</string>
+    <string name="repeat_watermark_sub">在图片上重复水印，而不是在给定位置重复单个水印</string>
+    <string name="offset_x">偏移 X</string>
+    <string name="overlay_mode">叠加模式</string>
+    <string name="watermarking_image_sub">该图片将作为水印图案使用</string>
 </resources>

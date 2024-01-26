@@ -615,4 +615,5 @@
     <string name="offset_y">Смещение У</string>
     <string name="watermark_type">Тип водяного знака</string>
     <string name="text_color">Цвет текста</string>
+    <string name="overlay_mode">Режим наложения</string>
 </resources>

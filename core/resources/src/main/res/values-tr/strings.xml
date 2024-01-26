@@ -292,4 +292,9 @@
     <string name="secondary_customization">İkincil özelleştirme</string>
     <string name="fallback_option">Yedek seçenek</string>
     <string name="edit_screenshot">Ekran görüntüsünü düzenle</string>
+    <string name="saved_to_without_filename">%1$s klasörüne kaydedildi</string>
+    <string name="defaultt">Varsayılan</string>
+    <string name="end_position">Son</string>
+    <string name="start_position">Başlangıç</string>
+    <string name="check_for_updates">Güncellemeleri kontrol edin</string>
 </resources>
