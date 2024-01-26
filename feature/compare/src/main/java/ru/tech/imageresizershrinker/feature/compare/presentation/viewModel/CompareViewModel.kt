@@ -33,13 +33,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
-import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
@@ -54,7 +51,6 @@ class CompareViewModel @Inject constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val imageScaler: ImageScaler<Bitmap>,
     private val fileController: FileController,
     private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
@@ -70,49 +66,6 @@ class CompareViewModel @Inject constructor(
 
     private val _compareType: MutableState<CompareType> = mutableStateOf(CompareType.Slide)
     val compareType by _compareType
-
-    fun updateBitmapData(newBeforeBitmap: Bitmap?, newAfterBitmap: Bitmap?) {
-        viewModelScope.launch {
-            _isImageLoading.value = true
-            var bmp1: Bitmap?
-            var bmp2: Bitmap?
-            withContext(Dispatchers.IO) {
-                bmp1 = imageScaler.scaleUntilCanShow(newBeforeBitmap)
-                bmp2 = imageScaler.scaleUntilCanShow(newAfterBitmap)
-            }
-            _rotation.value = 0f
-            _bitmapData.value = (bmp1 to bmp2)
-                .let { (b, a) ->
-                    val (bW, bH) = b?.run { width to height } ?: (0 to 0)
-                    val (aW, aH) = a?.run { width to height } ?: (0 to 0)
-
-                    if (bW * bH > aH * aW) {
-                        b to a?.let {
-                            imageScaler.scaleImage(
-                                image = it,
-                                width = bW,
-                                height = bH,
-                                resizeType = ResizeType.Flexible,
-                                imageScaleMode = ImageScaleMode.NotPresent
-                            )
-                        }
-                    } else if (bW * bH < aH * aW) {
-                        b?.let {
-                            imageScaler.scaleImage(
-                                image = it,
-                                width = aW,
-                                height = aH,
-                                resizeType = ResizeType.Flexible,
-                                imageScaleMode = ImageScaleMode.NotPresent
-                            )
-                        } to a
-                    } else {
-                        b to a
-                    }
-                }
-            _isImageLoading.value = false
-        }
-    }
 
     fun rotate() {
         val old = _rotation.value
@@ -157,14 +110,14 @@ class CompareViewModel @Inject constructor(
         }
     }
 
-    fun updateBitmapDataAsync(
-        loader: suspend () -> Pair<Bitmap?, Bitmap?>,
+    fun updateUris(
+        uris: Pair<Uri, Uri>,
         onError: () -> Unit,
         onSuccess: () -> Unit
     ) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val data = loader()
+                val data = getBitmapByUri(uris.first) to getBitmapByUri(uris.first)
                 if (data.first == null || data.second == null) onError()
                 else {
                     _bitmapData.value = data
@@ -174,10 +127,9 @@ class CompareViewModel @Inject constructor(
         }
     }
 
-    suspend fun getBitmapByUri(
-        uri: Uri,
-        originalSize: Boolean
-    ): Bitmap? = imageGetter.getImage(uri.toString(), originalSize)?.image
+    private suspend fun getBitmapByUri(
+        uri: Uri
+    ): Bitmap? = imageGetter.getImage(uri.toString(), false)?.image
 
     private var savingJob: Job? = null
 

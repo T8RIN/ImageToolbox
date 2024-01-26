@@ -112,23 +112,21 @@ fun CompareScreen(
     }
 
     LaunchedEffect(comparableUris) {
-        comparableUris?.let { (before, after) ->
-            val newBeforeBitmap = viewModel.getBitmapByUri(before, originalSize = false)
-            val newAfterBitmap = viewModel.getBitmapByUri(after, originalSize = false)
-            if (newAfterBitmap != null && newBeforeBitmap != null) {
-                viewModel.updateBitmapData(
-                    newBeforeBitmap = newBeforeBitmap,
-                    newAfterBitmap = newAfterBitmap
-                )
-                compareProgress = 50f
-            } else {
-                scope.launch {
-                    toastHostState.showToast(
-                        context.getString(R.string.something_went_wrong),
-                        Icons.Rounded.ErrorOutline
-                    )
+        comparableUris?.let {
+            viewModel.updateUris(
+                onSuccess = {
+                    compareProgress = 50f
+                },
+                uris = it,
+                onError = {
+                    scope.launch {
+                        toastHostState.showToast(
+                            context.getString(R.string.something_went_wrong),
+                            Icons.Rounded.ErrorOutline
+                        )
+                    }
                 }
-            }
+            )
         }
     }
 
@@ -144,15 +142,12 @@ fun CompareScreen(
                     )
                 }
             } else {
-                viewModel.updateBitmapDataAsync(
+                viewModel.updateUris(
                     onSuccess = {
                         compareProgress = 50f
-                    }, loader = {
-                        viewModel.getBitmapByUri(
-                            uris[0],
-                            originalSize = false,
-                        ) to viewModel.getBitmapByUri(uris[1], originalSize = false)
-                    }, onError = {
+                    },
+                    uris = it[0] to it[1],
+                    onError = {
                         scope.launch {
                             toastHostState.showToast(
                                 context.getString(R.string.something_went_wrong),
