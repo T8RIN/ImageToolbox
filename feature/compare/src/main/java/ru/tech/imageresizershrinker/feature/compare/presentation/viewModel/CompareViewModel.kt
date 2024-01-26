@@ -117,7 +117,7 @@ class CompareViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val data = getBitmapByUri(uris.first) to getBitmapByUri(uris.first)
+                val data = getBitmapByUri(uris.first) to getBitmapByUri(uris.second)
                 if (data.first == null || data.second == null) onError()
                 else {
                     _bitmapData.value = data

@@ -54,7 +54,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.extractPrimaryColor
-import com.t8rin.logger.makeLog
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -102,7 +101,6 @@ fun CompareScreen(
     var compareProgress by rememberSaveable { mutableFloatStateOf(50f) }
 
     LaunchedEffect(viewModel.bitmapData) {
-        viewModel.bitmapData.makeLog()
         viewModel.bitmapData?.let { (b, a) ->
             if (allowChangeColor && a != null && b != null) {
                 delay(100L) //delay to perform screen rotation
