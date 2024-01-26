@@ -231,7 +231,7 @@ fun WatermarkParamsSelectionGroup(
                                 modifier = Modifier.height(36.dp)
                             ) {
                                 AutoSizeText(
-                                    text = it.name,
+                                    text = it.name.replace("_", " "),
                                     maxLines = 1
                                 )
                             }
