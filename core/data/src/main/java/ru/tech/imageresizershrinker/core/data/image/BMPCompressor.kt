@@ -20,7 +20,7 @@ package ru.tech.imageresizershrinker.core.data.image
 import android.graphics.Bitmap
 import java.nio.ByteBuffer
 
-object BMPCompressor {
+internal object BMPCompressor {
 
     fun compress(image: Bitmap): ByteArray {
         val BMP_WIDTH_OF_TIMES = 4

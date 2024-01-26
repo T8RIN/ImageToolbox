@@ -31,7 +31,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object SavingModule {
+internal object SavingModule {
 
     @Singleton
     @Provides

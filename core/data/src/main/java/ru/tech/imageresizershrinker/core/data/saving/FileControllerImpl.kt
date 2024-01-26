@@ -61,7 +61,7 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 
-class FileControllerImpl @Inject constructor(
+internal class FileControllerImpl @Inject constructor(
     private val context: Context,
     private val settingsRepository: SettingsRepository,
     private val randomStringGenerator: RandomStringGenerator

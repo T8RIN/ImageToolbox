@@ -45,7 +45,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ImageModule {
+internal object ImageModule {
 
     @Singleton
     @Provides
