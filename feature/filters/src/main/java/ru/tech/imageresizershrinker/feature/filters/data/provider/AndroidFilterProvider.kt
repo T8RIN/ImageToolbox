@@ -86,7 +86,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.feature.filters.data.ZoomBlurFilter
 import javax.inject.Inject
 
-class AndroidFilterProvider @Inject constructor(
+internal class AndroidFilterProvider @Inject constructor(
     private val context: Context
 ) : FilterProvider<Bitmap> {
 

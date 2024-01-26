@@ -48,6 +48,8 @@ import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformati
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
 
+//TODO: Move bytes resize to current module
+
 @HiltViewModel
 class BytesResizeViewModel @Inject constructor(
     private val fileController: FileController,

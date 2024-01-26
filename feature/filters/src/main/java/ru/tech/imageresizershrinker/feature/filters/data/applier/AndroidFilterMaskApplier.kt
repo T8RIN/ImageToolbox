@@ -43,7 +43,7 @@ import ru.tech.imageresizershrinker.feature.filters.domain.FilterMask
 import ru.tech.imageresizershrinker.feature.filters.domain.FilterMaskApplier
 import javax.inject.Inject
 
-class AndroidFilterMaskApplier @Inject constructor(
+internal class AndroidFilterMaskApplier @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>

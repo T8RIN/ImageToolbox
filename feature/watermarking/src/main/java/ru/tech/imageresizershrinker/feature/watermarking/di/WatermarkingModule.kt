@@ -32,7 +32,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object WatermarkingModule {
+internal object WatermarkingModule {
 
     @Singleton
     @Provides

@@ -48,7 +48,7 @@ import ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier
 import ru.tech.imageresizershrinker.feature.draw.domain.PathPaint
 import javax.inject.Inject
 
-class AndroidImageDrawApplier @Inject constructor(
+internal class AndroidImageDrawApplier @Inject constructor(
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val filterProvider: FilterProvider<Bitmap>

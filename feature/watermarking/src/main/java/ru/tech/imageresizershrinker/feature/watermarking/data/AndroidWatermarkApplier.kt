@@ -35,7 +35,7 @@ import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkingType
 import javax.inject.Inject
 
-class AndroidWatermarkApplier @Inject constructor(
+internal class AndroidWatermarkApplier @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>
 ) : WatermarkApplier<Bitmap> {

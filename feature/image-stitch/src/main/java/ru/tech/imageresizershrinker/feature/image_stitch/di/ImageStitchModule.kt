@@ -34,7 +34,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ImageStitchModule {
+internal object ImageStitchModule {
 
     @Singleton
     @Provides

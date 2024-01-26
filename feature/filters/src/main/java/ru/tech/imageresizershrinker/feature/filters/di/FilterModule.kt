@@ -38,7 +38,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object FilterModule {
+internal object FilterModule {
 
     @Singleton
     @Provides

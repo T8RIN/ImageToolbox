@@ -47,7 +47,7 @@ import javax.inject.Inject
 import kotlin.math.absoluteValue
 import kotlin.math.max
 
-class AndroidImageCombiner @Inject constructor(
+internal class AndroidImageCombiner @Inject constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageTransformer: ImageTransformer<Bitmap>,

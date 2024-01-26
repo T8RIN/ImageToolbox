@@ -19,18 +19,14 @@
 
 package ru.tech.imageresizershrinker.feature.cipher.data
 
-import android.content.Context
-import android.net.Uri
 import ru.tech.imageresizershrinker.feature.cipher.domain.CipherRepository
-import java.io.DataInputStream
-import java.io.InputStream
 import java.security.MessageDigest
 import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
-class CipherRepositoryImpl : CipherRepository {
+internal class CipherRepositoryImpl : CipherRepository {
 
     private val HASHING_ALGORITHM = "SHA-256"
     private val ENCRYPTION_STANDARD = "AES/GCM/NoPadding"
@@ -79,23 +75,4 @@ class CipherRepositoryImpl : CipherRepository {
         return cipher.doFinal(data)
     }
 
-}
-
-private fun InputStream.toByteArray(): ByteArray {
-    val bytes = ByteArray(this.available())
-    val dis = DataInputStream(this)
-    dis.readFully(bytes)
-    return bytes
-}
-
-suspend fun CipherRepository.encrypt(context: Context, uri: Uri, key: String): ByteArray? {
-    return context.contentResolver.openInputStream(uri)?.use {
-        encrypt(it.toByteArray(), key)
-    }
-}
-
-suspend fun CipherRepository.decrypt(context: Context, uri: Uri, key: String): ByteArray? {
-    return context.contentResolver.openInputStream(uri)?.use {
-        decrypt(it.toByteArray(), key)
-    }
 }

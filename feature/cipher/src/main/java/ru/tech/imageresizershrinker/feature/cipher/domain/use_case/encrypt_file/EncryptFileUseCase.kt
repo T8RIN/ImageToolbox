@@ -17,10 +17,11 @@
 
 package ru.tech.imageresizershrinker.feature.cipher.domain.use_case.encrypt_file
 
+import ru.tech.imageresizershrinker.feature.cipher.domain.CipherRepository
 import javax.inject.Inject
 
 class EncryptFileUseCase @Inject constructor(
-    private val repository: ru.tech.imageresizershrinker.feature.cipher.domain.CipherRepository
+    private val repository: CipherRepository
 ) {
     suspend operator fun invoke(
         data: ByteArray,

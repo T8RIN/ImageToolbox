@@ -28,7 +28,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object EraseBackgroundModule {
+internal object EraseBackgroundModule {
 
     @Provides
     @Singleton
