@@ -25,7 +25,9 @@ import android.graphics.Paint;
 import java.io.IOException;
 import java.io.OutputStream;
 
-/** @noinspection ALL*/
+/**
+ * @noinspection ALL
+ */
 public class GifEncoder {
 
     protected int width; // image size
@@ -517,7 +519,9 @@ public class GifEncoder {
  * that this copyright notice remain intact.
  */
 
-//	 Ported to Java 12/00 K Weiner
+/**
+ * @noinspection ConstantValue
+ */ //	 Ported to Java 12/00 K Weiner
 class NeuQuant {
 
     protected static final int netsize = 256; /* number of colours used */
@@ -560,8 +564,6 @@ class NeuQuant {
     protected static final int intbias = (((int) 1) << intbiasshift);
 
     protected static final int gammashift = 10; /* gamma = 1024 */
-
-    protected static final int gamma = (((int) 1) << gammashift);
 
     protected static final int betashift = 10;
 
@@ -750,8 +752,6 @@ class NeuQuant {
         for (i = 0; i < rad; i++)
             radpower[i] = alpha * (((rad * rad - i * i) * radbias) / (rad * rad));
 
-        // fprintf(stderr,"beginning 1D learning: initial radius=%d\n", rad);
-
         if (lengthcount < minpicturebytes)
             step = 3;
         else if ((lengthcount % prime1) != 0)
@@ -769,7 +769,7 @@ class NeuQuant {
 
         i = 0;
         while (i < samplepixels) {
-            b = (p[pix + 0] & 0xff) << netbiasshift;
+            b = (p[pix] & 0xff) << netbiasshift;
             g = (p[pix + 1] & 0xff) << netbiasshift;
             r = (p[pix + 2] & 0xff) << netbiasshift;
             j = contest(b, g, r);
@@ -922,7 +922,7 @@ class NeuQuant {
                     p[0] -= (a * (p[0] - b)) / alpharadbias;
                     p[1] -= (a * (p[1] - g)) / alpharadbias;
                     p[2] -= (a * (p[2] - r)) / alpharadbias;
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 } // prevents 1.3 miscompilation
             }
             if (k > lo) {
@@ -931,7 +931,7 @@ class NeuQuant {
                     p[0] -= (a * (p[0] - b)) / alpharadbias;
                     p[1] -= (a * (p[1] - g)) / alpharadbias;
                     p[2] -= (a * (p[2] - r)) / alpharadbias;
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
             }
         }
@@ -1009,11 +1009,12 @@ class LZWEncoder {
 
     private static final int EOF = -1;
 
-    private int imgW, imgH;
+    private final int imgW;
+    private final int imgH;
 
-    private byte[] pixAry;
+    private final byte[] pixAry;
 
-    private int initCodeSize;
+    private final int initCodeSize;
 
     private int remaining;
 
@@ -1098,7 +1099,7 @@ class LZWEncoder {
 
     int cur_bits = 0;
 
-    int masks[] = {0x0000, 0x0001, 0x0003, 0x0007, 0x000F, 0x001F, 0x003F, 0x007F, 0x00FF, 0x01FF,
+    int[] masks = {0x0000, 0x0001, 0x0003, 0x0007, 0x000F, 0x001F, 0x003F, 0x007F, 0x00FF, 0x01FF,
             0x03FF, 0x07FF, 0x0FFF, 0x1FFF, 0x3FFF, 0x7FFF, 0xFFFF};
 
     // Number of characters so far in this 'packet'
