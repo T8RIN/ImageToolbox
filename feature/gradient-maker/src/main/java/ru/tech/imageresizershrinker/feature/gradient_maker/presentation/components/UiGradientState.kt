@@ -75,14 +75,15 @@ class UiGradientState(
         get() = getBrush(size)
 
     override fun getBrush(size: Size): ShaderBrush? {
-        val colorStops = if (colorStops.size == 1) {
-            listOf(colorStops.first(), colorStops.first())
-        } else {
-            colorStops
-        }.sortedBy { it.first }.let { pairs ->
+
+        val colorStops = colorStops.sortedBy { it.first }.let { pairs ->
             if (gradientType != GradientType.Sweep) {
                 pairs.distinctBy { it.first }
             } else pairs
+        }.let {
+            if (it.size == 1) {
+                listOf(it.first(), it.first())
+            } else it
         }.toTypedArray()
 
         val brush = runCatching {
