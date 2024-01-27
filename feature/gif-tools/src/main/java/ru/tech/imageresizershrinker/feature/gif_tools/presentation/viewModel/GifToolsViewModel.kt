@@ -92,7 +92,15 @@ class GifToolsViewModel @Inject constructor(
     private var gifData: ByteArray? = null
 
     fun setType(type: Screen.GifTools.Type) {
-        _type.update { type }
+        when (type) {
+            is Screen.GifTools.Type.GifToImage -> {
+                type.gifUri?.let { setGifUri(it) } ?: _type.update { null }
+            }
+
+            is Screen.GifTools.Type.ImageToGif -> {
+                _type.update { type }
+            }
+        }
     }
 
     fun setImageUris(uris: List<Uri>) {

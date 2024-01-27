@@ -177,7 +177,12 @@ object ContextUtils {
 
                     Intent.ACTION_SEND_MULTIPLE -> {
                         intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
-                            onGetUris(it)
+                            if (intent.type?.contains("gif") == true) {
+                                onHasExtraImageType("gif")
+                                it.firstOrNull()?.let { uri ->
+                                    onGetUris(listOf(uri))
+                                }
+                            } else onGetUris(it)
                         }
                     }
 
