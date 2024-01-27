@@ -629,4 +629,7 @@
     <string name="gif_type_to_gif_sub">Преобразование пакета изображений в GIF-файл</string>
     <string name="use_size_of_first_frame_sub">Замените указанный размер размерами первого кадра</string>
     <string name="gif_type_to_image">GIF в изображения</string>
+    <string name="original_image_preview_alpha">Прозрачность предпросмотра исходного изображения</string>
+    <string name="use_lasso">Использовать Лассо</string>
+    <string name="use_lasso_sub">Использует для стирания Лассо, как в режиме рисования</string>
 </resources>
