@@ -79,8 +79,8 @@ class MainViewModel @Inject constructor(
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
 
-    private val _hasPdfUri = mutableStateOf<Uri?>(null)
-    val hasPdfUri by _hasPdfUri
+    private val _extraImageType = mutableStateOf<String?>(null)
+    val extraImageType by _extraImageType
 
     private val _showSelectDialog = mutableStateOf(false)
     val showSelectDialog by _showSelectDialog
@@ -331,10 +331,8 @@ class MainViewModel @Inject constructor(
         if (uris != null) _showSelectDialog.value = true
     }
 
-    fun updateHasPdfUri(uri: Uri?) {
-        _hasPdfUri.value = uri
-
-        if (uri != null) _showSelectDialog.value = true
+    fun updateExtraImageType(type: String?) {
+        _extraImageType.value = type
     }
 
     fun showToast(

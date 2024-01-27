@@ -52,72 +52,81 @@ class ImagePicker(
     private val imageExtension: String
 ) {
     fun pickImage() {
+        val cameraAction = {
+            val imagesFolder = File(context.cacheDir, "images")
+            runCatching {
+                imagesFolder.mkdirs()
+                val file = File(imagesFolder, "${Random.nextLong()}.jpg")
+                FileProvider.getUriForFile(
+                    context,
+                    context.getString(R.string.file_provider),
+                    file
+                )
+            }.onSuccess {
+                onCreateTakePhotoUri(it)
+                takePhoto.launch(it)
+            }
+        }
+        val singlePhotoPickerAction = {
+            photoPickerSingle.launch(
+                PickVisualMediaRequest(
+                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                )
+            )
+        }
+        val multiplePhotoPickerAction = {
+            photoPickerMultiple.launch(
+                PickVisualMediaRequest(
+                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                )
+            )
+        }
+        val galleryAction = {
+            val intent =
+                Intent(
+                    Intent.ACTION_PICK,
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                ).apply {
+                    type = "image/$imageExtension"
+                    if (mode == ImagePickerMode.GalleryMultiple) {
+                        putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                    }
+                }
+            getContent.launch(
+                Intent.createChooser(
+                    intent,
+                    context.getString(R.string.pick_image)
+                )
+            )
+        }
+        val getContentAction = {
+            val intent = Intent().apply {
+                type = "image/$imageExtension"
+                action = Intent.ACTION_OPEN_DOCUMENT
+                putExtra(
+                    Intent.EXTRA_ALLOW_MULTIPLE,
+                    mode == ImagePickerMode.GetContentMultiple
+                )
+            }
+            getContent.launch(
+                Intent.createChooser(
+                    intent,
+                    context.getString(R.string.pick_image)
+                )
+            )
+        }
+
         runCatching {
             when (mode) {
-                ImagePickerMode.PhotoPickerSingle -> photoPickerSingle.launch(
-                    PickVisualMediaRequest(
-                        ActivityResultContracts.PickVisualMedia.ImageOnly
-                    )
-                )
+                ImagePickerMode.PhotoPickerSingle -> singlePhotoPickerAction()
+                ImagePickerMode.PhotoPickerMultiple -> multiplePhotoPickerAction()
+                ImagePickerMode.CameraCapture -> cameraAction()
 
-                ImagePickerMode.PhotoPickerMultiple -> photoPickerMultiple.launch(
-                    PickVisualMediaRequest(
-                        ActivityResultContracts.PickVisualMedia.ImageOnly
-                    )
-                )
-
-                ImagePickerMode.GallerySingle, ImagePickerMode.GalleryMultiple -> {
-                    val intent =
-                        Intent(
-                            Intent.ACTION_PICK,
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                        ).apply {
-                            type = "image/$imageExtension"
-                            if (mode == ImagePickerMode.GalleryMultiple) {
-                                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                            }
-                        }
-                    getContent.launch(
-                        Intent.createChooser(
-                            intent,
-                            context.getString(R.string.pick_image)
-                        )
-                    )
-                }
+                ImagePickerMode.GallerySingle,
+                ImagePickerMode.GalleryMultiple -> galleryAction()
 
                 ImagePickerMode.GetContentSingle,
-                ImagePickerMode.GetContentMultiple -> {
-                    val intent = Intent().apply {
-                        type = "image/$imageExtension"
-                        action = Intent.ACTION_OPEN_DOCUMENT
-                        putExtra(
-                            Intent.EXTRA_ALLOW_MULTIPLE,
-                            mode == ImagePickerMode.GetContentMultiple
-                        )
-                    }
-                    getContent.launch(
-                        Intent.createChooser(
-                            intent,
-                            context.getString(R.string.pick_image)
-                        )
-                    )
-                }
-
-                ImagePickerMode.CameraCapture -> {
-                    val imagesFolder = File(context.cacheDir, "images")
-                    runCatching {
-                        imagesFolder.mkdirs()
-                        val file = File(imagesFolder, "${Random.nextLong()}.jpg")
-                        FileProvider.getUriForFile(
-                            context,
-                            context.getString(R.string.file_provider),
-                            file
-                        )
-                    }.onSuccess {
-                        onCreateTakePhotoUri(it)
-                        takePhoto.launch(it)
-                    }
-                }
+                ImagePickerMode.GetContentMultiple -> getContentAction()
             }
         }
     }
@@ -156,7 +165,7 @@ fun localImagePickerMode(picker: Picker = Picker.Single): ImagePickerMode {
 @Composable
 fun rememberImagePicker(
     mode: ImagePickerMode,
-    imageExtension: String = "*",
+    imageExtension: String = DefaultExtension,
     onFailure: () -> Unit = {},
     onSuccess: (List<Uri>) -> Unit,
 ): ImagePicker {
@@ -225,3 +234,5 @@ fun rememberImagePicker(
         )
     }
 }
+
+private const val DefaultExtension: String = "*"

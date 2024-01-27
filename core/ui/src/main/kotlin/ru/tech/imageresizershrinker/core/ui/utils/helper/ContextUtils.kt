@@ -125,7 +125,7 @@ object ContextUtils {
         showToast: (message: String, icon: ImageVector) -> Unit,
         navigate: (Screen) -> Unit,
         onGetUris: (List<Uri>) -> Unit,
-        onHasPdfUri: (Uri) -> Unit,
+        onHasExtraImageType: (String) -> Unit,
         notHasUris: Boolean,
         onWantGithubReview: () -> Unit
     ) {
@@ -167,6 +167,9 @@ object ContextUtils {
                             if (intent.getStringExtra("screen") == Screen.PickColorFromImage::class.simpleName) {
                                 navigate(Screen.PickColorFromImage(it))
                             } else {
+                                if (intent.type?.contains("gif") == true) {
+                                    onHasExtraImageType("gif")
+                                }
                                 onGetUris(listOf(it))
                             }
                         }
@@ -179,7 +182,12 @@ object ContextUtils {
                     }
 
                     else -> {
-                        intent.data?.let { onGetUris(listOf(it)) }
+                        intent.data?.let {
+                            if (intent.type?.contains("gif") == true) {
+                                onHasExtraImageType("gif")
+                            }
+                            onGetUris(listOf(it))
+                        }
                     }
                 }
             } else if (intent?.type != null) {
@@ -190,7 +198,10 @@ object ContextUtils {
                     uri?.let {
                         if (intent.action == Intent.ACTION_VIEW) {
                             navigate(Screen.PdfTools(Screen.PdfTools.Type.Preview(it)))
-                        } else onHasPdfUri(uri)
+                        } else {
+                            onHasExtraImageType("pdf")
+                            onGetUris(listOf(uri))
+                        }
                     }
                 } else {
                     intent.getStringExtra(Intent.EXTRA_TEXT)?.let {

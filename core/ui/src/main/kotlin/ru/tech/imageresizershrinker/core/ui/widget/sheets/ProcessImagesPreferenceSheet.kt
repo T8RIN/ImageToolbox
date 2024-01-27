@@ -67,7 +67,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @Composable
 fun ProcessImagesPreferenceSheet(
     uris: List<Uri>,
-    hasPdf: Boolean = false,
+    extraImageType: String? = null,
     visible: MutableState<Boolean>,
     navController: NavController<Screen> = LocalNavController.current,
     navigate: (Screen) -> Unit = { screen ->
@@ -95,6 +95,18 @@ fun ProcessImagesPreferenceSheet(
             }
         },
         sheetContent = {
+            val gifAvailableScreens by remember(uris) {
+                derivedStateOf {
+                    listOf(
+                        Screen.Cipher(uris.firstOrNull()),
+                        Screen.GifTools(
+                            Screen.GifTools.Type.GifToImage(
+                                uris.firstOrNull()
+                            )
+                        )
+                    )
+                }
+            }
             val pdfAvailableScreens by remember(uris) {
                 derivedStateOf {
                     listOf(
@@ -133,6 +145,7 @@ fun ProcessImagesPreferenceSheet(
                         Screen.PdfTools(
                             Screen.PdfTools.Type.ImagesToPdf(uris)
                         ),
+                        Screen.GifTools(),
                         Screen.Cipher(uris.firstOrNull()),
                         Screen.ImagePreview(uris),
                         Screen.PickColorFromImage(uris.firstOrNull()),
@@ -156,6 +169,7 @@ fun ProcessImagesPreferenceSheet(
                         if (uris.size == 2) add(Screen.Compare(uris))
                         add(Screen.GradientMaker(uris))
                         add(Screen.Watermarking(uris))
+                        add(Screen.GifTools())
                         add(Screen.ImagePreview(uris))
                         add(Screen.LimitResize(uris))
                         Screen.DeleteExif(uris)
@@ -164,15 +178,17 @@ fun ProcessImagesPreferenceSheet(
             }
 
             val urisCorrespondingScreens by remember(
-                hasPdf,
+                extraImageType,
                 uris,
                 pdfAvailableScreens,
                 singleImageScreens,
                 multipleImagesScreens
             ) {
                 derivedStateOf {
-                    if (hasPdf) {
+                    if (extraImageType == "pdf") {
                         pdfAvailableScreens
+                    } else if (extraImageType == "gif") {
+                        gifAvailableScreens
                     } else if (uris.size <= 1) {
                         singleImageScreens
                     } else {
@@ -233,7 +249,7 @@ fun ProcessImagesPreferenceSheet(
                                     }
                                 }
                             }
-                        if (!hasPdf) {
+                        if (extraImageType != "pdf") {
                             if (uris.size in 1..2) {
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),

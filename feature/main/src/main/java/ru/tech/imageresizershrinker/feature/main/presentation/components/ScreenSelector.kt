@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.feature.draw.presentation.DrawScreen
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.EraseBackgroundScreen
 import ru.tech.imageresizershrinker.feature.filters.presentation.FiltersScreen
 import ru.tech.imageresizershrinker.feature.generate_palette.presentation.GeneratePaletteScreen
+import ru.tech.imageresizershrinker.feature.gif_tools.presentation.GifToolsScreen
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.GradientMakerScreen
 import ru.tech.imageresizershrinker.feature.image_preview.presentation.ImagePreviewScreen
 import ru.tech.imageresizershrinker.feature.image_stitch.presentation.ImageStitchingScreen
@@ -270,6 +271,13 @@ fun ScreenSelector(
             is Screen.Watermarking -> {
                 WatermarkingScreen(
                     uriState = screen.uris,
+                    onGoBack = onGoBack
+                )
+            }
+
+            is Screen.GifTools -> {
+                GifToolsScreen(
+                    typeState = screen.type,
                     onGoBack = onGoBack
                 )
             }

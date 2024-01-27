@@ -774,6 +774,7 @@ fun PdfToolsScreen(
                                             ) {
                                                 if (pdfType is Screen.PdfTools.Type.Preview) {
                                                     PdfViewer(
+                                                        modifier = Modifier.fillMaxWidth(),
                                                         uriState = viewModel.pdfPreviewUri,
                                                         contentPadding = PaddingValues(
                                                             start = 20.dp + WindowInsets.displayCutout
@@ -843,11 +844,17 @@ fun PdfToolsScreen(
                                                 Column(
                                                     modifier = Modifier
                                                         .verticalScroll(rememberScrollState())
-                                                        .padding(
-                                                            start = WindowInsets
-                                                                .displayCutout
-                                                                .asPaddingValues()
-                                                                .calculateStartPadding(direction)
+                                                        .then(
+                                                            if (pdfType is Screen.PdfTools.Type.ImagesToPdf) {
+                                                                Modifier.padding(
+                                                                    start = WindowInsets
+                                                                        .displayCutout
+                                                                        .asPaddingValues()
+                                                                        .calculateStartPadding(
+                                                                            direction
+                                                                        )
+                                                                )
+                                                            } else Modifier
                                                         )
                                                 ) {
                                                     controls(pdfType)

@@ -45,4 +45,5 @@ dependencies {
     implementation(projects.feature.recognizeText)
     implementation(projects.feature.gradientMaker)
     implementation(projects.feature.watermarking)
+    implementation(projects.feature.gifTools)
 }

@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -41,6 +42,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -64,7 +66,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -136,9 +137,12 @@ class CrashActivity : CrashHandler() {
             ) {
                 ImageToolboxTheme {
                     val conf = LocalConfiguration.current
-                    val size = min(conf.screenWidthDp.dp, conf.screenHeightDp.dp)
-                    Surface(modifier = Modifier.fillMaxSize()) {
-                        Box {
+                    Surface(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Box(
+                            modifier = Modifier.displayCutoutPadding()
+                        ) {
                             Column(
                                 modifier = Modifier
                                     .fillMaxSize()
@@ -151,7 +155,7 @@ class CrashActivity : CrashHandler() {
                                     imageVector = Icons.Rounded.Robot,
                                     contentDescription = null,
                                     modifier = Modifier
-                                        .size(size * 0.3f)
+                                        .size(80.dp)
                                         .statusBarsPadding()
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
@@ -163,10 +167,13 @@ class CrashActivity : CrashHandler() {
                                     modifier = Modifier.padding(16.dp)
                                 )
                                 Spacer(modifier = Modifier.height(24.dp))
+                                val screenWidth = LocalConfiguration.current.screenWidthDp.dp
                                 Row(
-                                    Modifier
+                                    modifier = Modifier
                                         .padding(horizontal = 16.dp)
-                                        .fillMaxWidth()
+                                        .fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Center,
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     EnhancedButton(
                                         onClick = {
@@ -180,7 +187,8 @@ class CrashActivity : CrashHandler() {
                                         },
                                         modifier = Modifier
                                             .padding(end = 8.dp)
-                                            .fillMaxWidth(0.5f)
+                                            .weight(1f)
+                                            .widthIn(max = screenWidth / 2f)
                                             .height(50.dp),
                                         containerColor = Blue,
                                         contentColor = White,
@@ -215,6 +223,7 @@ class CrashActivity : CrashHandler() {
                                         },
                                         modifier = Modifier
                                             .weight(1f)
+                                            .widthIn(max = screenWidth / 2f)
                                             .height(50.dp),
                                         containerColor = Black,
                                         contentColor = White,

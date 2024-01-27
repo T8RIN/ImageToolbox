@@ -155,10 +155,8 @@ class MainActivity : M3Activity() {
                             updatePresets = viewModel::setPresets
                         )
                         ProcessImagesPreferenceSheet(
-                            uris = viewModel.hasPdfUri?.let {
-                                listOf(it)
-                            } ?: viewModel.uris ?: emptyList(),
-                            hasPdf = viewModel.hasPdfUri != null,
+                            uris = viewModel.uris ?: emptyList(),
+                            extraImageType = viewModel.extraImageType,
                             visible = showSelectSheet
                         )
                     }
@@ -227,7 +225,7 @@ class MainActivity : M3Activity() {
     private fun parseImage(intent: Intent?) {
         parseImageFromIntent(
             onStart = viewModel::hideSelectDialog,
-            onHasPdfUri = viewModel::updateHasPdfUri,
+            onHasExtraImageType = viewModel::updateExtraImageType,
             onColdStart = {
                 viewModel.shouldShowExitDialog(false)
             },

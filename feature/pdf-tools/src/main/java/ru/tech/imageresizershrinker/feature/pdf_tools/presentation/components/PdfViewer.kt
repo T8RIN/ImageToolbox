@@ -33,8 +33,6 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -44,13 +42,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -81,12 +77,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.hapticfeedback.HapticFeedback
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -96,9 +88,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.round
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.toIntRect
 import coil.memory.MemoryCache
 import coil.request.ImageRequest
 import com.t8rin.dynamic.theme.observeAsState
@@ -116,6 +106,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
@@ -129,7 +120,7 @@ enum class PdfViewerOrientation {
 @Composable
 fun PdfViewer(
     uriState: Uri?,
-    modifier: Modifier = Modifier.fillMaxWidth(),
+    modifier: Modifier,
     selectAllToggle: MutableState<Boolean> = remember {
         mutableStateOf(false)
     },
@@ -340,13 +331,15 @@ fun PdfViewer(
                             state = state,
                             modifier = Modifier
                                 .fillMaxSize()
-                                .dragHandler(key = uri,
+                                .dragHandler(
+                                    key = uri,
                                     lazyGridState = state,
                                     isVertical = true,
                                     haptics = LocalHapticFeedback.current,
                                     selectedItems = selectedItems,
                                     autoScrollSpeed = autoScrollSpeed,
-                                    autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }),
+                                    autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
+                                ),
                             verticalArrangement = Arrangement.spacedBy(
                                 spacing,
                                 Alignment.CenterVertically
@@ -392,13 +385,15 @@ fun PdfViewer(
                             state = state,
                             modifier = Modifier
                                 .fillMaxSize()
-                                .dragHandler(key = uri,
+                                .dragHandler(
+                                    key = uri,
                                     lazyGridState = state,
                                     isVertical = false,
                                     haptics = LocalHapticFeedback.current,
                                     selectedItems = selectedItems,
                                     autoScrollSpeed = autoScrollSpeed,
-                                    autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }),
+                                    autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
+                                ),
                             verticalArrangement = Arrangement.spacedBy(
                                 spacing,
                                 Alignment.CenterVertically
@@ -605,95 +600,6 @@ private fun PdfPage(
         }
     }
 
-}
-
-private fun Modifier.dragHandler(
-    key: Any?,
-    isVertical: Boolean,
-    lazyGridState: LazyGridState,
-    haptics: HapticFeedback,
-    selectedItems: MutableState<Set<Int>>,
-    autoScrollSpeed: MutableState<Float>,
-    autoScrollThreshold: Float
-): Modifier {
-    fun LazyGridState.gridItemKeyAtPosition(hitPoint: Offset): Int? {
-        val find = layoutInfo.visibleItemsInfo.find { itemInfo ->
-            itemInfo.size.toIntRect().contains(hitPoint.round() - itemInfo.offset)
-        }
-        val itemKey = find?.key
-        return itemKey?.toString()?.takeLastWhile { it != '-' }?.toIntOrNull()
-    }
-
-    return this
-        .pointerInput(key) {
-            detectTapGestures { offset ->
-                lazyGridState
-                    .gridItemKeyAtPosition(offset)
-                    ?.let { key ->
-                        if (selectedItems.value.contains(key)) {
-                            selectedItems.update { it - key }
-                        } else {
-                            selectedItems.update { it + key }
-                        }
-                    }
-            }
-        }
-        .pointerInput(key) {
-            var initialKey: Int? = null
-            var currentKey: Int? = null
-            detectDragGesturesAfterLongPress(
-                onDragStart = { offset ->
-                    lazyGridState
-                        .gridItemKeyAtPosition(offset)
-                        ?.let { key ->
-                            if (!selectedItems.value.contains(key)) {
-                                haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-                                initialKey = key
-                                currentKey = key
-                                selectedItems.update { it + key }
-                            }
-                        }
-                },
-                onDragCancel = {
-                    initialKey = null
-                    autoScrollSpeed.value = 0f
-                },
-                onDragEnd = {
-                    initialKey = null
-                    autoScrollSpeed.value = 0f
-                },
-                onDrag = { change, _ ->
-                    if (initialKey != null) {
-                        val distFromBottom = if (isVertical) {
-                            lazyGridState.layoutInfo.viewportSize.height - change.position.y
-                        } else lazyGridState.layoutInfo.viewportSize.width - change.position.x
-                        val distFromTop = if (isVertical) {
-                            change.position.y
-                        } else change.position.x
-                        autoScrollSpeed.value = when {
-                            distFromBottom < autoScrollThreshold -> autoScrollThreshold - distFromBottom
-                            distFromTop < autoScrollThreshold -> -(autoScrollThreshold - distFromTop)
-                            else -> 0f
-                        }
-
-                        lazyGridState
-                            .gridItemKeyAtPosition(change.position)
-                            ?.let { key ->
-                                if (currentKey != key) {
-                                    selectedItems.update {
-                                        it
-                                            .minus(initialKey!!..currentKey!!)
-                                            .minus(currentKey!!..initialKey!!)
-                                            .plus(initialKey!!..key)
-                                            .plus(key..initialKey!!)
-                                    }
-                                    currentKey = key
-                                }
-                            }
-                    }
-                }
-            )
-        }
 }
 
 private fun IntegerSize.flexibleResize(w: Int, h: Int): IntegerSize {

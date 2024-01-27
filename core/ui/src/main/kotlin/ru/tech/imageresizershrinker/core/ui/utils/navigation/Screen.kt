@@ -32,6 +32,8 @@ import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Draw
+import androidx.compose.material.icons.rounded.Gif
+import androidx.compose.material.icons.rounded.GifBox
 import androidx.compose.material.icons.rounded.Gradient
 import androidx.compose.material.icons.rounded.Photo
 import androidx.compose.material.icons.rounded.PhotoFilter
@@ -62,37 +64,53 @@ sealed class Screen(
     @StringRes val title: Int,
     @StringRes val subtitle: Int
 ) : Parcelable {
-    data object Main : Screen(-1, null, 0, 0)
 
-    class SingleEdit(val uri: Uri? = null) : Screen(
+    data object Main : Screen(
+        id = -1,
+        icon = null,
+        title = 0,
+        subtitle = 0
+    )
+
+    data class SingleEdit(
+        val uri: Uri? = null
+    ) : Screen(
         id = 0,
         icon = Icons.Rounded.CreateAlt,
         title = R.string.single_edit,
         subtitle = R.string.single_edit_sub
     )
 
-    class ResizeAndConvert(val uris: List<Uri>? = null) : Screen(
+    data class ResizeAndConvert(
+        val uris: List<Uri>? = null
+    ) : Screen(
         id = 1,
         icon = Icons.Filled.Resize,
         title = R.string.resize_and_convert,
         subtitle = R.string.resize_and_convert_sub
     )
 
-    class ResizeByBytes(val uris: List<Uri>? = null) : Screen(
+    data class ResizeByBytes(
+        val uris: List<Uri>? = null
+    ) : Screen(
         id = 2,
         icon = Icons.Filled.Interface,
         title = R.string.by_bytes_resize,
         subtitle = R.string.by_bytes_resize_sub
     )
 
-    class Crop(val uri: Uri? = null) : Screen(
+    data class Crop(
+        val uri: Uri? = null
+    ) : Screen(
         id = 3,
         icon = Icons.Rounded.Crop,
         title = R.string.crop,
         subtitle = R.string.crop_sub
     )
 
-    class Filter(val type: Type? = null) : Screen(
+    data class Filter(
+        val type: Type? = null
+    ) : Screen(
         id = 4,
         icon = Icons.Rounded.PhotoFilter,
         title = R.string.filter,
@@ -132,84 +150,106 @@ sealed class Screen(
         }
     }
 
-    class Draw(val uri: Uri? = null) : Screen(
+    data class Draw(
+        val uri: Uri? = null
+    ) : Screen(
         id = 5,
         icon = Icons.Rounded.Draw,
         title = R.string.draw,
         subtitle = R.string.draw_sub
     )
 
-    class Cipher(val uri: Uri? = null) : Screen(
+    data class Cipher(
+        val uri: Uri? = null
+    ) : Screen(
         id = 6,
         icon = Icons.Rounded.Security,
         title = R.string.cipher,
         subtitle = R.string.cipher_sub
     )
 
-    class EraseBackground(val uri: Uri? = null) : Screen(
+    data class EraseBackground(
+        val uri: Uri? = null
+    ) : Screen(
         id = 7,
         icon = Icons.Filled.Transparency,
         title = R.string.background_remover,
         subtitle = R.string.background_remover_sub
     )
 
-    class ImagePreview(val uris: List<Uri>? = null) : Screen(
+    data class ImagePreview(
+        val uris: List<Uri>? = null
+    ) : Screen(
         id = 8,
         icon = Icons.Rounded.Photo,
         title = R.string.image_preview,
         subtitle = R.string.image_preview_sub
     )
 
-    class ImageStitching(val uris: List<Uri>? = null) : Screen(
+    data class ImageStitching(
+        val uris: List<Uri>? = null
+    ) : Screen(
         id = 9,
         icon = Icons.Outlined.Puzzle,
         title = R.string.image_stitching,
         subtitle = R.string.image_stitching_sub
     )
 
-    class LoadNetImage(val url: String = "") : Screen(
+    data class LoadNetImage(
+        val url: String = ""
+    ) : Screen(
         id = 10,
         icon = Icons.Rounded.Public,
         title = R.string.load_image_from_net,
         subtitle = R.string.load_image_from_net_sub
     )
 
-    class PickColorFromImage(val uri: Uri? = null) : Screen(
+    data class PickColorFromImage(
+        val uri: Uri? = null
+    ) : Screen(
         id = 11,
         icon = Icons.Rounded.Colorize,
         title = R.string.pick_color,
         subtitle = R.string.pick_color_sub
     )
 
-    class GeneratePalette(val uri: Uri? = null) : Screen(
+    data class GeneratePalette(
+        val uri: Uri? = null
+    ) : Screen(
         id = 12,
         icon = Icons.Rounded.PaletteSwatch,
         title = R.string.generate_palette,
         subtitle = R.string.palette_sub
     )
 
-    class DeleteExif(val uris: List<Uri>? = null) : Screen(
+    data class DeleteExif(
+        val uris: List<Uri>? = null
+    ) : Screen(
         id = 13,
         icon = Icons.Rounded.FingerprintOff,
         title = R.string.delete_exif,
         subtitle = R.string.delete_exif_sub
     )
 
-    class Compare(val uris: List<Uri>? = null) : Screen(
+    data class Compare(
+        val uris: List<Uri>? = null
+    ) : Screen(
         id = 14,
         icon = Icons.Rounded.Compare,
         title = R.string.compare,
         subtitle = R.string.compare_sub
     )
 
-    class LimitResize(val uris: List<Uri>? = null) : Screen(
+    data class LimitResize(
+        val uris: List<Uri>? = null
+    ) : Screen(
         id = 15,
         icon = Icons.Outlined.Margin,
         title = R.string.limits_resize,
         subtitle = R.string.limits_resize_sub
     )
 
-    class PdfTools(
+    data class PdfTools(
         val type: Type? = null
     ) : Screen(
         id = 16,
@@ -259,7 +299,7 @@ sealed class Screen(
         }
     }
 
-    class RecognizeText(
+    data class RecognizeText(
         val uri: Uri? = null
     ) : Screen(
         id = 17,
@@ -285,6 +325,48 @@ sealed class Screen(
         title = R.string.watermarking,
         subtitle = R.string.watermarking_sub,
     )
+
+    class GifTools(
+        val type: Type? = null
+    ) : Screen(
+        id = 20,
+        icon = Icons.Rounded.GifBox,
+        title = R.string.gif_tools,
+        subtitle = R.string.gif_tools_sub
+    ) {
+        @Parcelize
+        sealed class Type(
+            @StringRes val title: Int,
+            @StringRes val subtitle: Int,
+            @IgnoredOnParcel val icon: ImageVector? = null
+        ) : Parcelable {
+
+            class GifToImage(
+                val gifUri: Uri? = null
+            ) : Type(
+                title = R.string.gif_type_to_image,
+                subtitle = R.string.gif_type_to_image_sub,
+                icon = Icons.Rounded.Collections
+            )
+
+            class ImageToGif(
+                val imageUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.gif_type_to_gif,
+                subtitle = R.string.gif_type_to_gif_sub,
+                icon = Icons.Rounded.Gif
+            )
+
+            companion object {
+                val entries by lazy {
+                    listOf(
+                        GifToImage(),
+                        ImageToGif()
+                    )
+                }
+            }
+        }
+    }
 
     companion object {
         val typedEntries by lazy {
@@ -318,6 +400,7 @@ sealed class Screen(
                     RecognizeText(),
                     PdfTools(),
                     Compare(),
+                    GifTools(),
                     ImagePreview(),
                     LoadNetImage(),
                     GeneratePalette(),
@@ -343,6 +426,7 @@ sealed class Screen(
                 PdfTools(),
                 RecognizeText(),
                 Watermarking(),
+                GifTools(),
                 ImagePreview(),
                 LoadNetImage(),
                 PickColorFromImage(),
@@ -353,6 +437,6 @@ sealed class Screen(
                 LimitResize()
             )
         }
-        const val featuresCount = 23
+        const val featuresCount = 25
     }
 }

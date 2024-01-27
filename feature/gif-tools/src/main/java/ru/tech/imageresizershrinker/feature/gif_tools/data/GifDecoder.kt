@@ -739,8 +739,8 @@ class GifDecoder {
         mainPixels = ByteArray(width * height)
         mainScratch = IntArray(width * height)
         copyScratch = IntArray(width * height)
-        previousImage = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
-        currentImage = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+        previousImage = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        currentImage = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
     }
 
     /**

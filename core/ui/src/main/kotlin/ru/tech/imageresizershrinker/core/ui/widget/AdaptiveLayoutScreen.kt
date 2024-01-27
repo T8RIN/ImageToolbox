@@ -87,7 +87,10 @@ fun AdaptiveLayoutScreen(
     canShowScreenData: Boolean,
     forceImagePreviewToMax: Boolean = false,
     isPortrait: Boolean,
-    contentPadding: Dp = 20.dp
+    contentPadding: Dp = 20.dp,
+    showImagePreviewAsStickyHeader: Boolean = true,
+    autoClearFocus: Boolean = false,
+    placeImagePreview: Boolean = true
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -109,11 +112,13 @@ fun AdaptiveLayoutScreen(
     val focus = LocalFocusManager.current
     Surface(
         color = MaterialTheme.colorScheme.background,
-        modifier = Modifier.pointerInput(Unit) {
-            detectTapGestures {
-                focus.clearFocus()
+        modifier = if (autoClearFocus) {
+            Modifier.pointerInput(Unit) {
+                detectTapGestures {
+                    focus.clearFocus()
+                }
             }
-        }
+        } else Modifier
     ) {
         Box(
             Modifier
@@ -147,45 +152,52 @@ fun AdaptiveLayoutScreen(
                         }
                     },
                     actions = {
+                        if (!isPortrait && canShowScreenData) actions()
                         topAppBarPersistentActions()
-                        if (!isPortrait) actions()
                     }
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {
+                    val direction = LocalLayoutDirection.current
                     if (!isPortrait && canShowScreenData) {
-                        val direction = LocalLayoutDirection.current
-                        Box(
-                            Modifier
-                                .then(
-                                    if (controls != null) {
-                                        Modifier.container(
-                                            shape = RectangleShape,
-                                            color = MaterialTheme.colorScheme.surfaceContainer
-                                        )
-                                    } else Modifier
-                                )
-                                .fillMaxHeight()
-                                .padding(
-                                    start = WindowInsets
-                                        .displayCutout
-                                        .asPaddingValues()
-                                        .calculateStartPadding(direction)
-                                )
-                                .weight(1.2f)
-                                .padding(20.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            imagePreview()
+                        if (placeImagePreview) {
+                            Box(
+                                modifier = Modifier
+                                    .then(
+                                        if (controls != null) {
+                                            Modifier.container(
+                                                shape = RectangleShape,
+                                                color = MaterialTheme.colorScheme.surfaceContainer
+                                            )
+                                        } else Modifier
+                                    )
+                                    .fillMaxHeight()
+                                    .padding(
+                                        start = WindowInsets
+                                            .displayCutout
+                                            .asPaddingValues()
+                                            .calculateStartPadding(direction)
+                                    )
+                                    .weight(1.2f)
+                                    .padding(20.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                imagePreview()
+                            }
                         }
                     }
                     val internalHeight = rememberAvailableHeight(
                         imageState = imageState,
                         expanded = forceImagePreviewToMax
                     )
-
+                    val cutout = if (!placeImagePreview) {
+                        WindowInsets
+                            .displayCutout
+                            .asPaddingValues()
+                            .calculateStartPadding(direction)
+                    } else 0.dp
                     LazyColumn(
                         contentPadding = PaddingValues(
                             bottom = WindowInsets
@@ -195,7 +207,7 @@ fun AdaptiveLayoutScreen(
                                 .asPaddingValues()
                                 .calculateBottomPadding() + (if (!isPortrait && canShowScreenData) contentPadding else 100.dp),
                             top = if (!canShowScreenData || !isPortrait) contentPadding else 0.dp,
-                            start = contentPadding,
+                            start = contentPadding + cutout,
                             end = contentPadding
                         ),
                         modifier = Modifier
@@ -206,13 +218,15 @@ fun AdaptiveLayoutScreen(
                             .fillMaxHeight()
                             .clipToBounds()
                     ) {
-                        imageStickyHeader(
-                            visible = isPortrait && canShowScreenData,
-                            internalHeight = internalHeight,
-                            imageState = imageState,
-                            onStateChange = { imageState = it },
-                            imageBlock = imagePreview
-                        )
+                        if (showImagePreviewAsStickyHeader && placeImagePreview) {
+                            imageStickyHeader(
+                                visible = isPortrait && canShowScreenData,
+                                internalHeight = internalHeight,
+                                imageState = imageState,
+                                onStateChange = { imageState = it },
+                                imageBlock = imagePreview
+                            )
+                        }
                         item {
                             Column(
                                 modifier = Modifier.fillMaxSize(),
@@ -220,6 +234,7 @@ fun AdaptiveLayoutScreen(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 if (canShowScreenData) {
+                                    if (!showImagePreviewAsStickyHeader && isPortrait && placeImagePreview) imagePreview()
                                     if (controls != null) controls()
                                 } else noDataControls()
                             }

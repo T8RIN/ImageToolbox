@@ -635,4 +635,17 @@
     <string name="watermarking_image_sub">This image will be used as pattern for watermarking</string>
     <string name="text_color">Text Color</string>
     <string name="overlay_mode">Overlay Mode</string>
+    <string name="gif_tools">GIF Tools</string>
+    <string name="gif_tools_sub">Convert images to GIF picture or extract frames from given GIF image</string>
+    <string name="gif_type_to_image">GIF to images</string>
+    <string name="gif_type_to_image_sub">Convert GIF file to batch of pictures</string>
+    <string name="gif_type_to_gif_sub">Convert batch of images to GIF file</string>
+    <string name="gif_type_to_gif">Images to GIF</string>
+    <string name="select_gif_image_to_start">Pick GIF image to start</string>
+    <string name="use_size_of_first_frame">Use size of First frame</string>
+    <string name="use_size_of_first_frame_sub">Replace specified size with first frame dimensions</string>
+    <string name="repeat_count">Repeat Count</string>
+    <string name="frame_delay">Frame Delay</string>
+    <string name="millis">millis</string>
+    <string name="fps">FPS</string>
 </resources>

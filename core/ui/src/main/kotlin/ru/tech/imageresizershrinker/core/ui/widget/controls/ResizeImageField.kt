@@ -51,7 +51,6 @@ fun ResizeImageField(
     ) {
         Row {
             RoundedTextField(
-                enabled = originalSize != null,
                 value = imageInfo.width.takeIf { it != 0 }.let { it ?: "" }.toString(),
                 onValueChange = { value ->
                     onWidthChange(
@@ -80,7 +79,6 @@ fun ResizeImageField(
                     )
             )
             RoundedTextField(
-                enabled = originalSize != null,
                 value = imageInfo.height.takeIf { it != 0 }.let { it ?: "" }.toString(),
                 onValueChange = { value ->
                     onHeightChange(
