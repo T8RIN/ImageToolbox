@@ -624,7 +624,7 @@
     <string name="frame_delay">Задержка кадра</string>
     <string name="millis">мсек</string>
     <string name="fps">FPS</string>
-    <string name="gif_tools">Инструменты GIF</string>
+    <string name="gif_tools">GIF инструменты</string>
     <string name="gif_type_to_image_sub">Преобразуйте GIF-файл в пакет изображений</string>
     <string name="gif_type_to_gif_sub">Преобразование пакета изображений в GIF-файл</string>
     <string name="use_size_of_first_frame_sub">Замените указанный размер размерами первого кадра</string>
