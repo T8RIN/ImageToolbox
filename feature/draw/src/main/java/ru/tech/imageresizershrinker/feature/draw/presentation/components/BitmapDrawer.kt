@@ -377,7 +377,7 @@ fun BitmapDrawer(
                             }
 
                             if (currentDrawPosition.isSpecified && previousDrawPosition.isSpecified) {
-                                drawPath.quadraticBezierTo(
+                                drawPath.quadraticTo(
                                     previousDrawPosition.x,
                                     previousDrawPosition.y,
                                     (previousDrawPosition.x + currentDrawPosition.x) / 2,
@@ -409,7 +409,7 @@ fun BitmapDrawer(
                                 DrawPathMode.DoublePointingArrow -> {
                                     if (previousDrawPosition.isSpecified && currentDrawPosition.isSpecified) {
                                         drawPath = pathWithoutTransformations
-                                        drawPath.quadraticBezierTo(
+                                        drawPath.quadraticTo(
                                             previousDrawPosition.x,
                                             previousDrawPosition.y,
                                             (previousDrawPosition.x + currentDrawPosition.x) / 2,

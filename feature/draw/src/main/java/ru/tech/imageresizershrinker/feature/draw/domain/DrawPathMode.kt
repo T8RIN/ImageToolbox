@@ -31,8 +31,6 @@ sealed class DrawPathMode(open val ordinal: Int) {
     data object Rect : DrawPathMode(8)
     data object Oval : DrawPathMode(9)
 
-    //TODO data object DoubleLinePointingArrowWithText: DrawPathMode(5)
-
     companion object {
         val entries by lazy {
             listOf(

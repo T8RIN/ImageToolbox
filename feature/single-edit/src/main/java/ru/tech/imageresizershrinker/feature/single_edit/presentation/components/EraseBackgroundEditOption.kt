@@ -53,6 +53,7 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -87,9 +88,11 @@ import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathP
 import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.AutoEraseBackgroundCard
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.BitmapEraser
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.OriginalImagePreviewAlphaSelector
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.RecoverModeButton
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.RecoverModeCard
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.TrimImageToggle
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.UseLassoSelector
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -136,6 +139,12 @@ fun EraseBackgroundEditOption(
         var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(20.pt) }
         var brushSoftness by rememberSaveable(stateSaver = PtSaver) {
             mutableStateOf(0.pt)
+        }
+        var useLasso by rememberSaveable {
+            mutableStateOf(false)
+        }
+        var originalImagePreviewAlpha by rememberSaveable {
+            mutableFloatStateOf(0.2f)
         }
 
         var trimImage by rememberSaveable { mutableStateOf(true) }
@@ -228,6 +237,20 @@ fun EraseBackgroundEditOption(
                         bitmapState = bitmap
                         autoErased = true
                     }
+                )
+                OriginalImagePreviewAlphaSelector(
+                    value = originalImagePreviewAlpha,
+                    onValueChange = {
+                        originalImagePreviewAlpha = it
+                    },
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
+                )
+                UseLassoSelector(
+                    value = useLasso,
+                    onValueChange = {
+                        useLasso = it
+                    },
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
                 )
                 LineWidthSelector(
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
@@ -331,6 +354,8 @@ fun EraseBackgroundEditOption(
                             .aspectRatio(aspectRatio, !useScaffold)
                             .fillMaxSize(),
                         panEnabled = panEnabled,
+                        useLasso = useLasso,
+                        originalImagePreviewAlpha = originalImagePreviewAlpha,
                         onErased = { erasedBitmap = it }
                     )
                 }

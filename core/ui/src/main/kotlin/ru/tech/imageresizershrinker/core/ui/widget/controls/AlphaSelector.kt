@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
@@ -40,13 +41,15 @@ fun AlphaSelector(
     modifier: Modifier = Modifier
         .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
     color: Color = MaterialTheme.colorScheme.surfaceContainer,
-    shape: Shape = RoundedCornerShape(24.dp)
+    shape: Shape = RoundedCornerShape(24.dp),
+    title: String = stringResource(R.string.paint_alpha),
+    icon: ImageVector = Icons.Rounded.Opacity
 ) {
     EnhancedSliderItem(
         modifier = modifier,
         value = value,
-        icon = Icons.Rounded.Opacity,
-        title = stringResource(R.string.paint_alpha),
+        icon = icon,
+        title = title,
         sliderModifier = Modifier
             .padding(top = 14.dp, start = 12.dp, end = 12.dp, bottom = 10.dp),
         valueRange = 0.01f..1f,

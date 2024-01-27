@@ -40,6 +40,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.isSpecified
 import androidx.compose.ui.geometry.isUnspecified
@@ -78,15 +79,20 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.scaleToFitCanvas
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCountWithOffset
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.smartDelayAfterDownInMillis
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
+import ru.tech.imageresizershrinker.feature.draw.domain.Pt
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 
 @Composable
 fun BitmapEraser(
     imageBitmap: ImageBitmap,
     imageBitmapForShader: ImageBitmap?,
-    paths: List<ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint>,
-    brushSoftness: ru.tech.imageresizershrinker.feature.draw.domain.Pt,
-    onAddPath: (ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint) -> Unit,
-    strokeWidth: ru.tech.imageresizershrinker.feature.draw.domain.Pt,
+    paths: List<UiPathPaint>,
+    brushSoftness: Pt,
+    useLasso: Boolean,
+    originalImagePreviewAlpha: Float,
+    onAddPath: (UiPathPaint) -> Unit,
+    strokeWidth: Pt,
     isRecoveryOn: Boolean = false,
     modifier: Modifier,
     onErased: (Bitmap) -> Unit = {},
@@ -159,7 +165,6 @@ fun BitmapEraser(
             val imageWidth = constraints.maxWidth
             val imageHeight = constraints.maxHeight
 
-
             val drawImageBitmap = remember(constraints) {
                 imageBitmap
                     .asAndroidBitmap()
@@ -199,16 +204,23 @@ fun BitmapEraser(
                 Canvas(erasedBitmap)
             }
 
-            val paint = remember { Paint() }
-
             val canvasSize = remember(canvas.nativeCanvas) {
                 IntegerSize(canvas.nativeCanvas.width, canvas.nativeCanvas.height)
             }
 
-            val drawPaint = remember(strokeWidth, isRecoveryOn, brushSoftness, canvasSize) {
+            val drawPaint = remember(
+                strokeWidth,
+                isRecoveryOn,
+                brushSoftness,
+                canvasSize,
+                useLasso
+            ) {
                 Paint().apply {
+                    style = if (useLasso) {
+                        PaintingStyle.Fill
+                    } else PaintingStyle.Stroke
+
                     blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
-                    style = PaintingStyle.Stroke
                     strokeCap = StrokeCap.Round
                     shader = if (isRecoveryOn) shaderBitmap?.let { ImageShader(it) } else shader
                     this.strokeWidth = strokeWidth.toPx(canvasSize)
@@ -244,7 +256,7 @@ fun BitmapEraser(
                             previousPosition = currentDrawPosition
                         }
                         if (previousPosition.isSpecified && currentDrawPosition.isSpecified) {
-                            drawPath.quadraticBezierTo(
+                            drawPath.quadraticTo(
                                 previousPosition.x,
                                 previousPosition.y,
                                 (previousPosition.x + currentDrawPosition.x) / 2,
@@ -265,12 +277,15 @@ fun BitmapEraser(
                                 drawPath.moveTo(lastPoint.x, lastPoint.y)
                                 drawPath.lineTo(currentDrawPosition.x, currentDrawPosition.y)
                                 onAddPath(
-                                    ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint(
+                                    UiPathPaint(
                                         path = drawPath,
                                         strokeWidth = strokeWidth,
                                         brushSoftness = brushSoftness,
                                         isErasing = isRecoveryOn,
-                                        canvasSize = canvasSize
+                                        canvasSize = canvasSize,
+                                        drawPathMode = if (useLasso) {
+                                            DrawPathMode.Lasso
+                                        } else DrawPathMode.Free
                                     )
                                 )
                             }
@@ -290,41 +305,42 @@ fun BitmapEraser(
                 with(canvas.nativeCanvas) {
                     drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
 
-
                     drawImageRect(
                         image = drawImageBitmap,
                         dstSize = IntSize(canvasSize.width, canvasSize.height),
-                        paint = paint
+                        paint = Paint()
                     )
 
-                    paths.forEach { (nonScaledPath, stroke, radius, _, isRecoveryOn, _, size) ->
+                    paths.forEach { (nonScaledPath, stroke, radius, _, isRecoveryOn, _, size, mode) ->
                         val path = nonScaledPath.scaleToFitCanvas(
                             currentSize = canvasSize,
                             oldSize = size
                         )
-                        this.drawPath(
-                            path.asAndroidPath(),
-                            Paint().apply {
-                                blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
-                                style = PaintingStyle.Stroke
-                                strokeCap = StrokeCap.Round
-                                shader =
-                                    if (isRecoveryOn) shaderBitmap?.let { ImageShader(it) } else shader
-                                this.strokeWidth = stroke.toPx(canvasSize)
-                                strokeJoin = StrokeJoin.Round
-                                isAntiAlias = true
-                            }.asFrameworkPaint().apply {
-                                if (radius.value > 0f) {
-                                    maskFilter =
-                                        BlurMaskFilter(
-                                            radius.toPx(canvasSize),
-                                            BlurMaskFilter.Blur.NORMAL
-                                        )
-                                }
+                        val paint = Paint().apply {
+                            style = if (mode is DrawPathMode.Lasso) {
+                                PaintingStyle.Fill
+                            } else PaintingStyle.Stroke
+                            blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
+                            strokeCap = StrokeCap.Round
+                            shader =
+                                if (isRecoveryOn) shaderBitmap?.let { ImageShader(it) } else shader
+                            this.strokeWidth = stroke.toPx(canvasSize)
+                            strokeJoin = StrokeJoin.Round
+                            isAntiAlias = true
+                        }.asFrameworkPaint().apply {
+                            if (radius.value > 0f) {
+                                maskFilter =
+                                    BlurMaskFilter(
+                                        radius.toPx(canvasSize),
+                                        BlurMaskFilter.Blur.NORMAL
+                                    )
                             }
+                        }
+                        drawPath(
+                            path.asAndroidPath(),
+                            paint
                         )
                     }
-
                     drawPath(
                         drawPath.asAndroidPath(),
                         drawPaint
@@ -375,6 +391,19 @@ fun BitmapEraser(
                     )
                     .clip(RoundedCornerShape(2.dp))
                     .transparencyChecker()
+                    .drawBehind {
+                        if (originalImagePreviewAlpha != 0f) {
+                            drawContext.canvas.apply {
+                                drawImageRect(
+                                    image = drawImageBitmap,
+                                    dstSize = IntSize(canvasSize.width, canvasSize.height),
+                                    paint = Paint().apply {
+                                        alpha = originalImagePreviewAlpha
+                                    }
+                                )
+                            }
+                        }
+                    }
                     .border(
                         width = 1.dp,
                         color = MaterialTheme.colorScheme.outlineVariant(),

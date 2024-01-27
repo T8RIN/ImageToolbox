@@ -44,6 +44,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier
 import ru.tech.imageresizershrinker.feature.draw.domain.PathPaint
 import javax.inject.Inject
@@ -105,16 +106,16 @@ internal class AndroidImageDrawApplier @Inject constructor(
                         oldSize = size
                     )
                     val isRect = listOf(
-                        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.OutlinedRect,
-                        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.OutlinedOval,
-                        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Rect,
-                        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Oval
+                        DrawPathMode.OutlinedRect,
+                        DrawPathMode.OutlinedOval,
+                        DrawPathMode.Rect,
+                        DrawPathMode.Oval
                     ).any { pathMode::class.isInstance(it) }
 
                     val isFilled = listOf(
-                        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Rect,
-                        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Oval,
-                        ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Lasso
+                        DrawPathMode.Rect,
+                        DrawPathMode.Oval,
+                        DrawPathMode.Lasso
                     ).any { pathMode::class.isInstance(it) }
 
                     if (effect is DrawMode.PathEffect && !isErasing) {
@@ -234,7 +235,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                     data = shaderSourceUri
                 )?.asImageBitmap()?.let { bmp -> ImageShader(bmp) }
 
-                pathPaints.forEach { (nonScaledPath, stroke, radius, _, isRecoveryOn, _, size) ->
+                pathPaints.forEach { (nonScaledPath, stroke, radius, _, isRecoveryOn, _, size, mode) ->
                     val path = nonScaledPath.scaleToFitCanvas(
                         currentSize = canvasSize,
                         oldSize = size
@@ -242,12 +243,14 @@ internal class AndroidImageDrawApplier @Inject constructor(
                     this.drawPath(
                         path.asAndroidPath(),
                         Paint().apply {
+                            style = if (mode is DrawPathMode.Lasso) {
+                                PaintingStyle.Fill
+                            } else PaintingStyle.Stroke
                             if (isRecoveryOn) {
                                 shader = recoveryShader
                             } else {
                                 blendMode = BlendMode.Clear
                             }
-                            style = PaintingStyle.Stroke
                             strokeCap = StrokeCap.Round
                             this.strokeWidth = stroke.toPx(canvasSize)
                             strokeJoin = StrokeJoin.Round

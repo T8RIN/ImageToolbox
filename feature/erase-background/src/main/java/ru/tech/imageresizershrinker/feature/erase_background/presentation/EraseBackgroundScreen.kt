@@ -79,6 +79,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -128,11 +129,16 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.feature.draw.domain.pt
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.PtSaver
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.AutoEraseBackgroundCard
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.BitmapEraser
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.OriginalImagePreviewAlphaSelector
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.RecoverModeButton
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.RecoverModeCard
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.TrimImageToggle
+import ru.tech.imageresizershrinker.feature.erase_background.presentation.components.UseLassoSelector
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.viewModel.EraseBackgroundViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -230,15 +236,23 @@ fun EraseBackgroundScreen(
         }
     }
 
-    var strokeWidth by rememberSaveable(stateSaver = ru.tech.imageresizershrinker.feature.draw.presentation.components.PtSaver) {
+    var strokeWidth by rememberSaveable(stateSaver = PtSaver) {
         mutableStateOf(
             20.pt
         )
     }
-    var brushSoftness by rememberSaveable(stateSaver = ru.tech.imageresizershrinker.feature.draw.presentation.components.PtSaver) {
+    var brushSoftness by rememberSaveable(stateSaver = PtSaver) {
         mutableStateOf(
             0.pt
         )
+    }
+
+    var useLasso by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    var originalImagePreviewAlpha by rememberSaveable {
+        mutableFloatStateOf(0.2f)
     }
 
     val configuration = LocalConfiguration.current
@@ -321,7 +335,8 @@ fun EraseBackgroundScreen(
                     .aspectRatio(aspectRatio, portrait)
                     .fillMaxSize(),
                 panEnabled = panEnabled,
-                onErased = {}
+                originalImagePreviewAlpha = originalImagePreviewAlpha,
+                useLasso = useLasso
             )
         }
     }
@@ -463,12 +478,26 @@ fun EraseBackgroundScreen(
                 },
                 onReset = viewModel::resetImage
             )
-            ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector(
+            OriginalImagePreviewAlphaSelector(
+                value = originalImagePreviewAlpha,
+                onValueChange = {
+                    originalImagePreviewAlpha = it
+                },
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
+            )
+            UseLassoSelector(
+                value = useLasso,
+                onValueChange = {
+                    useLasso = it
+                },
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
+            )
+            LineWidthSelector(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
                 value = strokeWidth.value,
                 onValueChange = { strokeWidth = it.pt }
             )
-            ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector(
+            BrushSoftnessSelector(
                 modifier = Modifier
                     .padding(top = 8.dp, end = 16.dp, start = 16.dp),
                 value = brushSoftness.value,

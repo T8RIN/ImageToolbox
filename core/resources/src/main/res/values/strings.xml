@@ -648,4 +648,7 @@
     <string name="frame_delay">Frame Delay</string>
     <string name="millis">millis</string>
     <string name="fps">FPS</string>
+    <string name="use_lasso">Use Lasso</string>
+    <string name="use_lasso_sub">Uses Lasso like in drawing mode to perform erasing</string>
+    <string name="original_image_preview_alpha">Original Image Preview Alpha</string>
 </resources>
