@@ -680,7 +680,8 @@ fun DrawScreen(
                                 icon = Icons.Rounded.Image,
                                 title = stringResource(R.string.draw_on_image),
                                 subtitle = stringResource(R.string.draw_on_image_sub),
-                                modifier = Modifier.fillMaxWidth()
+                                modifier = Modifier.fillMaxWidth(),
+                                color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
                             )
                         }
                         item {
@@ -689,7 +690,8 @@ fun DrawScreen(
                                 icon = Icons.Rounded.FormatPaint,
                                 title = stringResource(R.string.draw_on_background),
                                 subtitle = stringResource(R.string.draw_on_background_sub),
-                                modifier = Modifier.fillMaxWidth()
+                                modifier = Modifier.fillMaxWidth(),
+                                color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
                             )
                         }
                     }

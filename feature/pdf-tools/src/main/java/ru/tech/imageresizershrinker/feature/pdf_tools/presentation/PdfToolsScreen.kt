@@ -715,7 +715,10 @@ fun PdfToolsScreen(
                                                     icon = it.icon,
                                                     title = stringResource(it.title),
                                                     subtitle = stringResource(it.subtitle),
-                                                    modifier = Modifier.fillMaxWidth()
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                        1.dp
+                                                    )
                                                 )
                                             }
                                         }
