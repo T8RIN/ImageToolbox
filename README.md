@@ -171,6 +171,7 @@ or click one of the badges below.
   - 120+ languages
   - 3 Type of data: Fast, Standard, Best
   - Segmentation Mode Selection
+  - Multiple languages at the same time
 - EXIF metadata editing/deleting
 - Loading images from internet
 - Image Stitching
@@ -216,6 +217,9 @@ or click one of the badges below.
     * Hermite
     * Spline
     * Hann
+- GIF conversion
+  * GIF to images
+  * Images to GIF
 - Image Shrinking
   - Quality compressing
   - Preset shrinking
@@ -245,7 +249,7 @@ or click one of the badges below.
   - JPG
   - PNG
   - JXL
-  - SVG, GIF to WEBP, PNG, JPEG, JPG, HEIF, HEIC, AVIF, JXL
+  - SVG and GIF to WEBP, PNG, JPEG, JPG, HEIF, HEIC, AVIF, JXL
   - Telegram sticker PNG format
 - Color Utils
   - Palette generation
