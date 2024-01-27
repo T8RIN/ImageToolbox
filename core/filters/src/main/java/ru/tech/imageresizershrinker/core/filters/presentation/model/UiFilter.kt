@@ -43,7 +43,6 @@ sealed class UiFilter<T>(
         value = value
     )
 
-    //TODO: Replace this shit to interface implementation
     fun <T : Any> copy(value: T): UiFilter<*> {
         if (this.value == null) return newInstance()
         if (this.value!!::class.simpleName != value::class.simpleName) return newInstance()
