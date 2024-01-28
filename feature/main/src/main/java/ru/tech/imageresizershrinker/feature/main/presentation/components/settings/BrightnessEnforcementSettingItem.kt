@@ -59,7 +59,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @Composable
 fun BrightnessEnforcementSettingItem(
     updateScreens: (Screen) -> Unit,
-    shape: Shape = ContainerShapeDefaults.defaultShape,
+    shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current

@@ -307,4 +307,14 @@ sealed class Setting(
         title = R.string.brightness_enforcement,
         subtitle = null
     )
+
+    data object Confetti : Setting(
+        title = R.string.confetti,
+        subtitle = R.string.confetti_sub
+    )
+
+    data object SecureMode : Setting(
+        title = R.string.secure_mode,
+        subtitle = R.string.secure_mode_sub
+    )
 }

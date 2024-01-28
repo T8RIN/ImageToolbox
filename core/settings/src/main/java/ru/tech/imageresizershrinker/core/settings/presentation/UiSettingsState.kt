@@ -48,7 +48,7 @@ data class UiSettingsState(
     val borderWidth: Dp = (-1).dp,
     val presets: List<Int> = listOf(),
     val fabAlignment: Alignment = Alignment.BottomCenter,
-    val showDialogOnStartup: Boolean = true,
+    val showUpdateDialogOnStartup: Boolean = true,
     val selectedEmoji: Uri?,
     val imagePickerModeInt: Int = 0,
     val clearCacheOnLaunch: Boolean = true,
@@ -87,7 +87,9 @@ data class UiSettingsState(
     val usePixelSwitch: Boolean,
     val magnifierEnabled: Boolean,
     val exifWidgetInitialState: Boolean,
-    val screenListWithMaxBrightnessEnforcement: List<Int>
+    val screenListWithMaxBrightnessEnforcement: List<Int>,
+    val isConfettiEnabled: Boolean,
+    val isSecureMode: Boolean
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -117,7 +119,7 @@ fun SettingsState.toUiState(
             }
         }.value,
         fabAlignment = fabAlignment.toAlignment(),
-        showDialogOnStartup = showDialogOnStartup,
+        showUpdateDialogOnStartup = showUpdateDialogOnStartup,
         selectedEmoji = remember(selectedEmoji, allEmojis) {
             derivedStateOf {
                 selectedEmoji?.takeIf { it != -1 }?.let {
@@ -168,7 +170,9 @@ fun SettingsState.toUiState(
         usePixelSwitch = usePixelSwitch,
         magnifierEnabled = magnifierEnabled,
         exifWidgetInitialState = exifWidgetInitialState,
-        screenListWithMaxBrightnessEnforcement = screenListWithMaxBrightnessEnforcement
+        screenListWithMaxBrightnessEnforcement = screenListWithMaxBrightnessEnforcement,
+        isConfettiEnabled = isConfettiEnabled,
+        isSecureMode = isSecureMode
     )
 }
 

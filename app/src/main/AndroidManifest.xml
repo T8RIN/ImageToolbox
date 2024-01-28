@@ -67,7 +67,7 @@
             android:value="false" />
 
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.AppActivity"
             android:exported="true"
             android:launchMode="singleInstance">
 

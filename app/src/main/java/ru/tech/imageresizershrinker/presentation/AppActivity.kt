@@ -21,6 +21,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.compose.BackHandler
 import androidx.activity.viewModels
 import androidx.compose.animation.fadeIn
@@ -76,7 +77,7 @@ import ru.tech.imageresizershrinker.feature.main.presentation.components.particl
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
 
 @AndroidEntryPoint
-class MainActivity : M3Activity() {
+class AppActivity : M3Activity() {
 
     private val viewModel by viewModels<MainViewModel>()
 
@@ -90,6 +91,20 @@ class MainActivity : M3Activity() {
             val editPresetsState = rememberSaveable { mutableStateOf(false) }
 
             EnhancedSliderInit()
+
+            val isSecureMode = viewModel.settingsState.isSecureMode
+            LaunchedEffect(isSecureMode) {
+                if (isSecureMode) {
+                    window.setFlags(
+                        WindowManager.LayoutParams.FLAG_SECURE,
+                        WindowManager.LayoutParams.FLAG_SECURE
+                    )
+                } else {
+                    window.clearFlags(
+                        WindowManager.LayoutParams.FLAG_SECURE
+                    )
+                }
+            }
 
             CompositionLocalProvider(
                 LocalToastHost provides viewModel.toastHostState,
@@ -172,19 +187,21 @@ class MainActivity : M3Activity() {
                         visible = showUpdateSheet
                     )
 
-                    ToastHost(
-                        hostState = LocalConfettiController.current,
-                        transitionSpec = {
-                            fadeIn() togetherWith fadeOut()
-                        },
-                        toast = {
-                            val primary = MaterialTheme.colorScheme.primary
-                            KonfettiView(
-                                modifier = Modifier.fillMaxSize(),
-                                parties = remember { particles(primary) }
-                            )
-                        }
-                    )
+                    if (viewModel.settingsState.isConfettiEnabled) {
+                        ToastHost(
+                            hostState = LocalConfettiController.current,
+                            transitionSpec = {
+                                fadeIn() togetherWith fadeOut()
+                            },
+                            toast = {
+                                val primary = MaterialTheme.colorScheme.primary
+                                KonfettiView(
+                                    modifier = Modifier.fillMaxSize(),
+                                    parties = remember { particles(primary) }
+                                )
+                            }
+                        )
+                    }
 
                     ToastHost(
                         hostState = LocalToastHost.current

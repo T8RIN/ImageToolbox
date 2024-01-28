@@ -467,5 +467,13 @@ fun SettingItem(
                 updateScreens = viewModel::updateBrightnessEnforcementScreens
             )
         }
+
+        Setting.Confetti -> {
+            ConfettiSettingItem(viewModel::toggleConfettiEnabled)
+        }
+
+        Setting.SecureMode -> {
+            SecureModeSettingItem(viewModel::toggleSecureMode)
+        }
     }
 }

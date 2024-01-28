@@ -42,7 +42,7 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.presentation.MainActivity
+import ru.tech.imageresizershrinker.presentation.AppActivity
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -135,7 +135,7 @@ class ScreenshotService : Service() {
 
                     if (intent?.getStringExtra("screen") != "shot") {
                         applicationContext.startActivity(
-                            Intent(applicationContext, MainActivity::class.java).apply {
+                            Intent(applicationContext, AppActivity::class.java).apply {
                                 putExtra("screen", intent?.getStringExtra("screen"))
                                 type = "image/png"
                                 putExtra(Intent.EXTRA_STREAM, uri)

@@ -240,7 +240,7 @@ class MainViewModel @Inject constructor(
     ) {
         if (settingsState.appOpenCount < 2 && !newRequest) return
 
-        val showDialog = settingsState.showDialogOnStartup
+        val showDialog = settingsState.showUpdateDialogOnStartup
         if (installedFromMarket) {
             if (showDialog) {
                 _showUpdateDialog.value = newRequest
@@ -614,6 +614,18 @@ class MainViewModel @Inject constructor(
             settingsRepository.setScreensWithBrightnessEnforcement(
                 screens.joinToString("/") { it.toString() }
             )
+        }
+    }
+
+    fun toggleConfettiEnabled(value: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.toggleConfettiEnabled()
+        }
+    }
+
+    fun toggleSecureMode(value: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.toggleSecureMode()
         }
     }
 

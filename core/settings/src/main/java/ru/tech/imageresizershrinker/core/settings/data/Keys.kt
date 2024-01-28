@@ -74,4 +74,6 @@ internal object Keys {
     val INITIAL_OCR_CODES = stringPreferencesKey("INITIAL_OCR_CODES")
     val SCREENS_WITH_BRIGHTNESS_ENFORCEMENT =
         stringPreferencesKey("SCREENS_WITH_BRIGHTNESS_ENFORCEMENT")
+    val CONFETTI_ENABLED = booleanPreferencesKey("CONFETTI_ENABLED")
+    val SECURE_MODE = booleanPreferencesKey("SECURE_MODE")
 }

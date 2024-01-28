@@ -78,6 +78,7 @@ sealed class SettingsGroup(
             Setting.AllowImageMonet,
             Setting.EmojisCount,
             Setting.BorderThickness,
+            Setting.Confetti,
             Setting.UsePixelSwitch,
             Setting.FabAlignment
         ),
@@ -277,7 +278,8 @@ sealed class SettingsGroup(
         icon = Icons.Rounded.PhoneAndroid,
         titleId = R.string.screen,
         settingsList = listOf(
-            Setting.BrightnessEnforcement
+            Setting.BrightnessEnforcement,
+            Setting.SecureMode
         ),
         initialState = false
     )

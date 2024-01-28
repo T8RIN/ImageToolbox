@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.core.settings.data.Keys.APP_OPEN_COUNT
 import ru.tech.imageresizershrinker.core.settings.data.Keys.AUTO_CACHE_CLEAR
 import ru.tech.imageresizershrinker.core.settings.data.Keys.BORDER_WIDTH
 import ru.tech.imageresizershrinker.core.settings.data.Keys.COLOR_TUPLES
+import ru.tech.imageresizershrinker.core.settings.data.Keys.CONFETTI_ENABLED
 import ru.tech.imageresizershrinker.core.settings.data.Keys.COPY_TO_CLIPBOARD_MODE
 import ru.tech.imageresizershrinker.core.settings.data.Keys.DRAW_APPBAR_SHADOWS
 import ru.tech.imageresizershrinker.core.settings.data.Keys.DRAW_BUTTON_SHADOWS
@@ -75,6 +76,7 @@ import ru.tech.imageresizershrinker.core.settings.data.Keys.SAVE_FOLDER_URI
 import ru.tech.imageresizershrinker.core.settings.data.Keys.SCREENS_WITH_BRIGHTNESS_ENFORCEMENT
 import ru.tech.imageresizershrinker.core.settings.data.Keys.SCREEN_ORDER
 import ru.tech.imageresizershrinker.core.settings.data.Keys.SCREEN_SEARCH_ENABLED
+import ru.tech.imageresizershrinker.core.settings.data.Keys.SECURE_MODE
 import ru.tech.imageresizershrinker.core.settings.data.Keys.SELECTED_EMOJI_INDEX
 import ru.tech.imageresizershrinker.core.settings.data.Keys.SELECTED_FONT_INDEX
 import ru.tech.imageresizershrinker.core.settings.data.Keys.SHOW_UPDATE_DIALOG
@@ -113,7 +115,8 @@ internal class SettingsRepositoryImpl @Inject constructor(
             isAmoledMode = prefs[AMOLED_MODE] ?: default.isAmoledMode,
             appColorTuple = prefs[APP_COLOR_TUPLE] ?: default.appColorTuple,
             borderWidth = prefs[BORDER_WIDTH] ?: default.borderWidth,
-            showDialogOnStartup = prefs[SHOW_UPDATE_DIALOG] ?: default.showDialogOnStartup,
+            showUpdateDialogOnStartup = prefs[SHOW_UPDATE_DIALOG]
+                ?: default.showUpdateDialogOnStartup,
             selectedEmoji = prefs[SELECTED_EMOJI_INDEX] ?: default.selectedEmoji,
             screenList = prefs[SCREEN_ORDER]?.split("/")?.map {
                 it.toInt()
@@ -175,20 +178,22 @@ internal class SettingsRepositoryImpl @Inject constructor(
                 "/"
             )?.mapNotNull {
                 it.toIntOrNull()
-            } ?: default.screenListWithMaxBrightnessEnforcement
+            } ?: default.screenListWithMaxBrightnessEnforcement,
+            isConfettiEnabled = prefs[CONFETTI_ENABLED] ?: default.isConfettiEnabled,
+            isSecureMode = prefs[SECURE_MODE] ?: default.isSecureMode
         )
     }
 
     override suspend fun toggleAddSequenceNumber() {
         dataStore.edit {
-            val v = it[ADD_SEQ_NUM_TO_FILENAME] ?: true
+            val v = it[ADD_SEQ_NUM_TO_FILENAME] ?: default.addSequenceNumber
             it[ADD_SEQ_NUM_TO_FILENAME] = !v
         }
     }
 
     override suspend fun toggleAddOriginalFilename() {
         dataStore.edit {
-            val v = it[ADD_ORIGINAL_NAME_TO_FILENAME] ?: false
+            val v = it[ADD_ORIGINAL_NAME_TO_FILENAME] ?: default.addOriginalFilename
             it[ADD_ORIGINAL_NAME_TO_FILENAME] = !v
         }
     }
@@ -207,7 +212,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun toggleAddFileSize() {
         dataStore.edit {
-            val v = it[ADD_SIZE_TO_FILENAME] ?: false
+            val v = it[ADD_SIZE_TO_FILENAME] ?: default.addSizeInFilename
             it[ADD_SIZE_TO_FILENAME] = !v
         }
     }
@@ -226,7 +231,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun toggleShowDialog() {
         dataStore.edit {
-            val v = it[SHOW_UPDATE_DIALOG] ?: true
+            val v = it[SHOW_UPDATE_DIALOG] ?: default.showUpdateDialogOnStartup
             it[SHOW_UPDATE_DIALOG] = !v
         }
     }
@@ -250,7 +255,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun toggleDynamicColors() {
         dataStore.edit {
-            val v = it[DYNAMIC_COLORS] ?: true
+            val v = it[DYNAMIC_COLORS] ?: default.isDynamicColors
             it[DYNAMIC_COLORS] = !v
         }
     }
@@ -263,14 +268,14 @@ internal class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun toggleAllowImageMonet() {
         dataStore.edit {
-            val v = it[ALLOW_IMAGE_MONET] ?: true
+            val v = it[ALLOW_IMAGE_MONET] ?: default.allowChangeColorByImage
             it[ALLOW_IMAGE_MONET] = !v
         }
     }
 
     override suspend fun toggleAmoledMode() {
         dataStore.edit {
-            val v = it[AMOLED_MODE] ?: false
+            val v = it[AMOLED_MODE] ?: default.isAmoledMode
             it[AMOLED_MODE] = !v
         }
     }
@@ -307,21 +312,21 @@ internal class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun toggleClearCacheOnLaunch() {
         dataStore.edit {
-            val v = it[AUTO_CACHE_CLEAR] ?: true
+            val v = it[AUTO_CACHE_CLEAR] ?: default.clearCacheOnLaunch
             it[AUTO_CACHE_CLEAR] = !v
         }
     }
 
     override suspend fun toggleGroupOptionsByTypes() {
         dataStore.edit {
-            val v = it[GROUP_OPTIONS_BY_TYPE] ?: true
+            val v = it[GROUP_OPTIONS_BY_TYPE] ?: default.groupOptionsByTypes
             it[GROUP_OPTIONS_BY_TYPE] = !v
         }
     }
 
     override suspend fun toggleRandomizeFilename() {
         dataStore.edit {
-            val v = it[RANDOMIZE_FILENAME] ?: true
+            val v = it[RANDOMIZE_FILENAME] ?: default.randomizeFilename
             it[RANDOMIZE_FILENAME] = !v
         }
     }
@@ -397,70 +402,70 @@ internal class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun toggleAllowCrashlytics() {
         dataStore.edit {
-            val v = it[ALLOW_CRASHLYTICS] ?: true
+            val v = it[ALLOW_CRASHLYTICS] ?: default.allowCollectCrashlytics
             it[ALLOW_CRASHLYTICS] = !v
         }
     }
 
     override suspend fun toggleAllowAnalytics() {
         dataStore.edit {
-            val v = it[ALLOW_ANALYTICS] ?: true
+            val v = it[ALLOW_ANALYTICS] ?: default.allowCollectAnalytics
             it[ALLOW_ANALYTICS] = !v
         }
     }
 
     override suspend fun toggleAllowBetas() {
         dataStore.edit {
-            val v = it[ALLOW_BETAS] ?: true
+            val v = it[ALLOW_BETAS] ?: default.allowBetas
             it[ALLOW_BETAS] = !v
         }
     }
 
     override suspend fun toggleDrawContainerShadows() {
         dataStore.edit {
-            val v = it[DRAW_CONTAINER_SHADOWS] ?: true
+            val v = it[DRAW_CONTAINER_SHADOWS] ?: default.drawContainerShadows
             it[DRAW_CONTAINER_SHADOWS] = !v
         }
     }
 
     override suspend fun toggleDrawButtonShadows() {
         dataStore.edit {
-            val v = it[DRAW_BUTTON_SHADOWS] ?: true
+            val v = it[DRAW_BUTTON_SHADOWS] ?: default.drawButtonShadows
             it[DRAW_BUTTON_SHADOWS] = !v
         }
     }
 
     override suspend fun toggleDrawSliderShadows() {
         dataStore.edit {
-            val v = it[DRAW_SLIDER_SHADOWS] ?: true
+            val v = it[DRAW_SLIDER_SHADOWS] ?: default.drawSliderShadows
             it[DRAW_SLIDER_SHADOWS] = !v
         }
     }
 
     override suspend fun toggleDrawSwitchShadows() {
         dataStore.edit {
-            val v = it[DRAW_SWITCH_SHADOWS] ?: true
+            val v = it[DRAW_SWITCH_SHADOWS] ?: default.drawSwitchShadows
             it[DRAW_SWITCH_SHADOWS] = !v
         }
     }
 
     override suspend fun toggleDrawFabShadows() {
         dataStore.edit {
-            val v = it[DRAW_FAB_SHADOWS] ?: true
+            val v = it[DRAW_FAB_SHADOWS] ?: default.drawFabShadows
             it[DRAW_FAB_SHADOWS] = !v
         }
     }
 
     override suspend fun registerAppOpen() {
         dataStore.edit {
-            val v = it[APP_OPEN_COUNT] ?: 0
+            val v = it[APP_OPEN_COUNT] ?: default.appOpenCount
             it[APP_OPEN_COUNT] = v + 1
         }
     }
 
     override suspend fun toggleLockDrawOrientation() {
         dataStore.edit {
-            val v = it[LOCK_DRAW_ORIENTATION] ?: true
+            val v = it[LOCK_DRAW_ORIENTATION] ?: default.lockDrawOrientation
             it[LOCK_DRAW_ORIENTATION] = !v
         }
     }
@@ -479,21 +484,21 @@ internal class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun toggleInvertColors() {
         dataStore.edit {
-            val v = it[INVERT_THEME] ?: false
+            val v = it[INVERT_THEME] ?: default.isInvertThemeColors
             it[INVERT_THEME] = !v
         }
     }
 
     override suspend fun toggleScreensSearchEnabled() {
         dataStore.edit {
-            val v = it[SCREEN_SEARCH_ENABLED] ?: false
+            val v = it[SCREEN_SEARCH_ENABLED] ?: default.screensSearchEnabled
             it[SCREEN_SEARCH_ENABLED] = !v
         }
     }
 
     override suspend fun toggleDrawAppBarShadows() {
         dataStore.edit {
-            val v = it[DRAW_APPBAR_SHADOWS] ?: true
+            val v = it[DRAW_APPBAR_SHADOWS] ?: default.drawAppBarShadows
             it[DRAW_APPBAR_SHADOWS] = !v
         }
     }
@@ -512,7 +517,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun toggleOverwriteFiles() {
         dataStore.edit {
-            val v = it[OVERWRITE_FILE] ?: false
+            val v = it[OVERWRITE_FILE] ?: default.overwriteFiles
             it[OVERWRITE_FILE] = !v
 
             it[IMAGE_PICKER_MODE] = 2
@@ -533,21 +538,21 @@ internal class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun toggleUsePixelSwitch() {
         dataStore.edit {
-            val v = it[USE_PIXEL_SWITCH] ?: false
+            val v = it[USE_PIXEL_SWITCH] ?: default.usePixelSwitch
             it[USE_PIXEL_SWITCH] = !v
         }
     }
 
     override suspend fun toggleMagnifierEnabled() {
         dataStore.edit {
-            val v = it[MAGNIFIER_ENABLED] ?: false
+            val v = it[MAGNIFIER_ENABLED] ?: default.magnifierEnabled
             it[MAGNIFIER_ENABLED] = !v
         }
     }
 
     override suspend fun toggleExifWidgetInitialState() {
         dataStore.edit {
-            val v = it[EXIF_WIDGET_INITIAL_STATE] ?: false
+            val v = it[EXIF_WIDGET_INITIAL_STATE] ?: default.exifWidgetInitialState
             it[EXIF_WIDGET_INITIAL_STATE] = !v
         }
     }
@@ -567,6 +572,20 @@ internal class SettingsRepositoryImpl @Inject constructor(
     override suspend fun setScreensWithBrightnessEnforcement(data: String) {
         dataStore.edit {
             it[SCREENS_WITH_BRIGHTNESS_ENFORCEMENT] = data
+        }
+    }
+
+    override suspend fun toggleConfettiEnabled() {
+        dataStore.edit {
+            val v = it[CONFETTI_ENABLED] ?: default.isConfettiEnabled
+            it[CONFETTI_ENABLED] = !v
+        }
+    }
+
+    override suspend fun toggleSecureMode() {
+        dataStore.edit {
+            val v = it[SECURE_MODE] ?: default.isSecureMode
+            it[SECURE_MODE] = !v
         }
     }
 

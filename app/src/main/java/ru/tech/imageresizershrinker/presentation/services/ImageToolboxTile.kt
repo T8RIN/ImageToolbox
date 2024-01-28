@@ -25,7 +25,7 @@ import android.os.Build
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.presentation.MainActivity
+import ru.tech.imageresizershrinker.presentation.AppActivity
 
 
 @RequiresApi(Build.VERSION_CODES.N)
@@ -35,7 +35,7 @@ class ImageToolboxTile : TileService() {
     override fun onClick() {
         super.onClick()
         runCatching {
-            val intent = Intent(applicationContext, MainActivity::class.java)
+            val intent = Intent(applicationContext, AppActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
             val pendingIntent =

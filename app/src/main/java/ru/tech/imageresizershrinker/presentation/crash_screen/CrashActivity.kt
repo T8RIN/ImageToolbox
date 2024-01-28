@@ -21,6 +21,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedVisibility
@@ -56,6 +57,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -92,8 +94,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.presentation.AppActivity
 import ru.tech.imageresizershrinker.presentation.CrashHandler
-import ru.tech.imageresizershrinker.presentation.MainActivity
 import ru.tech.imageresizershrinker.presentation.crash_screen.viewModel.CrashViewModel
 
 @AndroidEntryPoint
@@ -132,11 +134,24 @@ class CrashActivity : CrashHandler() {
                 }
             }
 
+            val isSecureMode = viewModel.settingsState.isSecureMode
+            LaunchedEffect(isSecureMode) {
+                if (isSecureMode) {
+                    window.setFlags(
+                        WindowManager.LayoutParams.FLAG_SECURE,
+                        WindowManager.LayoutParams.FLAG_SECURE
+                    )
+                } else {
+                    window.clearFlags(
+                        WindowManager.LayoutParams.FLAG_SECURE
+                    )
+                }
+            }
+
             CompositionLocalProvider(
                 LocalSettingsState provides viewModel.settingsState.toUiState(Emoji.allIcons())
             ) {
                 ImageToolboxTheme {
-                    val conf = LocalConfiguration.current
                     Surface(
                         modifier = Modifier.fillMaxSize()
                     ) {
@@ -308,7 +323,7 @@ class CrashActivity : CrashHandler() {
                                         startActivity(
                                             Intent(
                                                 this@CrashActivity,
-                                                MainActivity::class.java
+                                                AppActivity::class.java
                                             )
                                         )
                                     },

@@ -69,7 +69,7 @@ fun Context.FirstLaunchSetupDialog(
         )
     }
     LaunchedEffect(Unit) {
-        if (settingsState.showDialogOnStartup && BuildConfig.FLAVOR == "foss") {
+        if (settingsState.showUpdateDialogOnStartup && BuildConfig.FLAVOR == "foss") {
             toggleShowUpdateDialog()
         }
     }
@@ -123,7 +123,7 @@ fun Context.FirstLaunchSetupDialog(
                             ),
                             title = stringResource(R.string.check_updates),
                             subtitle = stringResource(R.string.check_updates_sub),
-                            checked = settingsState.showDialogOnStartup,
+                            checked = settingsState.showUpdateDialogOnStartup,
                             onClick = {
                                 toggleShowUpdateDialog()
                             },

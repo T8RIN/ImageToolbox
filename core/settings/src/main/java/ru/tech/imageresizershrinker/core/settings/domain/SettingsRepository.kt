@@ -141,4 +141,8 @@ interface SettingsRepository {
     suspend fun getInitialOCRLanguageCodes(): List<String>
 
     suspend fun setScreensWithBrightnessEnforcement(data: String)
+
+    suspend fun toggleConfettiEnabled()
+
+    suspend fun toggleSecureMode()
 }

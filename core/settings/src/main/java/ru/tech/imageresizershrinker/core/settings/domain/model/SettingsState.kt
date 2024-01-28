@@ -35,7 +35,7 @@ data class SettingsState(
     val selectedEmoji: Int?,
     val imagePickerModeInt: Int,
     val clearCacheOnLaunch: Boolean,
-    val showDialogOnStartup: Boolean,
+    val showUpdateDialogOnStartup: Boolean,
     val groupOptionsByTypes: Boolean,
     val screenList: List<Int>,
     val colorTupleList: String?,
@@ -71,7 +71,9 @@ data class SettingsState(
     val magnifierEnabled: Boolean,
     val exifWidgetInitialState: Boolean,
     val initialOcrCodes: List<String>,
-    val screenListWithMaxBrightnessEnforcement: List<Int>
+    val screenListWithMaxBrightnessEnforcement: List<Int>,
+    val isConfettiEnabled: Boolean,
+    val isSecureMode: Boolean
 ) : Domain {
 
     companion object {
@@ -89,7 +91,7 @@ data class SettingsState(
                 selectedEmoji = 0,
                 imagePickerModeInt = 0,
                 clearCacheOnLaunch = true,
-                showDialogOnStartup = true,
+                showUpdateDialogOnStartup = true,
                 groupOptionsByTypes = true,
                 screenList = emptyList(),
                 colorTupleList = null,
@@ -126,8 +128,11 @@ data class SettingsState(
                 magnifierEnabled = true,
                 exifWidgetInitialState = false,
                 initialOcrCodes = listOf("eng"),
-                screenListWithMaxBrightnessEnforcement = emptyList()
+                screenListWithMaxBrightnessEnforcement = emptyList(),
+                isConfettiEnabled = true,
+                isSecureMode = false
             )
         }
     }
+
 }
