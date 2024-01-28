@@ -39,7 +39,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefault
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
 
 @Composable
-fun SearchableSettingItem(
+internal fun SearchableSettingItem(
     modifier: Modifier = Modifier,
     group: SettingsGroup,
     setting: Setting,

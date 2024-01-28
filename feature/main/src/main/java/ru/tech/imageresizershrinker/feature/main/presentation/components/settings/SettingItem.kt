@@ -45,7 +45,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
 
 @Composable
-fun SettingItem(
+internal fun SettingItem(
     setting: Setting,
     viewModel: MainViewModel
 ) {
