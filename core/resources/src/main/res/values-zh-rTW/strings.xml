@@ -616,4 +616,20 @@
     <string name="watermarking_sub">用自定義文字/影象水印覆蓋圖片</string>
     <string name="repeat_watermark">重複水印</string>
     <string name="watermarking_image_sub">該圖片將作為水印圖案使用</string>
+    <string name="gif_tools">GIF工具</string>
+    <string name="gif_tools_sub">將影象轉換為 GIF 圖片，或從給定的 GIF 影象中提取幀</string>
+    <string name="gif_type_to_image">GIF 轉換為影像</string>
+    <string name="gif_type_to_image_sub">GIF 檔案轉換為批量圖片</string>
+    <string name="gif_type_to_gif_sub">批量影象轉換為 GIF 檔案</string>
+    <string name="gif_type_to_gif">影像轉換為 GIF</string>
+    <string name="select_gif_image_to_start">選擇 GIF 影像以開始</string>
+    <string name="use_size_of_first_frame">使用第一幀的尺寸</string>
+    <string name="use_size_of_first_frame_sub">用第一幀尺寸替換指定尺寸</string>
+    <string name="repeat_count">重複次數</string>
+    <string name="millis">毫秒</string>
+    <string name="fps">幀率</string>
+    <string name="use_lasso">使用套索</string>
+    <string name="use_lasso_sub">像在绘图模式中一样使用套索来执行擦除操作</string>
+    <string name="original_image_preview_alpha">原始影象預覽 Alpha</string>
+    <string name="frame_delay">幀延遲</string>
 </resources>
