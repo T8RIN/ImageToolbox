@@ -68,6 +68,9 @@ class GifToolsViewModel @Inject constructor(
     private val _isLoading: MutableState<Boolean> = mutableStateOf(false)
     val isLoading by _isLoading
 
+    private val _isLoadingGifImages: MutableState<Boolean> = mutableStateOf(false)
+    val isLoadingGifImages by _isLoadingGifImages
+
     private val _params: MutableState<GifParams> = mutableStateOf(GifParams.Default)
     val params by _params
 
@@ -120,12 +123,16 @@ class GifToolsViewModel @Inject constructor(
         collectionJob?.cancel()
         collectionJob = viewModelScope.launch(Dispatchers.IO) {
             _isLoading.update { true }
+            _isLoadingGifImages.update { true }
             gifConverter.extractFramesFromGif(
                 gifUri = uri.toString(),
                 imageFormat = imageFormat,
                 gifFrames = GifFrames.All,
                 quality = params.quality
-            ).collect { nextUri ->
+            ).onCompletion {
+                _isLoading.update { false }
+                _isLoadingGifImages.update { false }
+            }.collect { nextUri ->
                 if (isLoading) {
                     _isLoading.update { false }
                 }
@@ -334,7 +341,12 @@ class GifToolsViewModel @Inject constructor(
             when (val type = _type.value) {
                 is Screen.GifTools.Type.GifToImage -> {
                     _left.value = -1
-                    shareProvider.shareImageUris(convertedImageUris)
+                    val positions =
+                        gifFrames.getFramePositions(convertedImageUris.size).map { it - 1 }
+                    val uris = convertedImageUris.filterIndexed { index, _ ->
+                        index in positions
+                    }
+                    shareProvider.shareImageUris(uris)
                     onComplete()
                 }
 

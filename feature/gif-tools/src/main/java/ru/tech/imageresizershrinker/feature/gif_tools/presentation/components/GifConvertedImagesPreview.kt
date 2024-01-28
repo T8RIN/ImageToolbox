@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.gif_tools.presentation.components
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
@@ -73,6 +74,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
+import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifFrames
 
 @Composable
@@ -81,6 +83,7 @@ fun GifConvertedImagesPreview(
     gifFrames: GifFrames,
     onGifFramesChange: (GifFrames) -> Unit,
     isPortrait: Boolean,
+    isLoadingGifImages: Boolean,
     spacing: Dp = 8.dp
 ) {
     val state = rememberLazyGridState()
@@ -187,6 +190,18 @@ fun GifConvertedImagesPreview(
                         uri = uri
                     )
                 }
+                item {
+                    AnimatedVisibility(isLoadingGifImages) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .aspectRatio(1f),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Loading()
+                        }
+                    }
+                }
             }
         } else {
             LazyVerticalGrid(
@@ -233,6 +248,18 @@ fun GifConvertedImagesPreview(
                         index = index,
                         uri = uri
                     )
+                }
+                item {
+                    AnimatedVisibility(isLoadingGifImages) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .aspectRatio(1f),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Loading()
+                        }
+                    }
                 }
             }
         }

@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.feature.gif_tools.presentation
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -127,7 +128,6 @@ fun GifToolsScreen(
     onGoBack: () -> Unit,
     viewModel: GifToolsViewModel = hiltViewModel()
 ) {
-
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHost.current
 
@@ -155,7 +155,7 @@ fun GifToolsScreen(
         imageExtension = "gif"
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
-            if (context.getFileName(it).toString().contains("gif")) {
+            if (it.isGif(context)) {
                 viewModel.setGifUri(it)
             } else {
                 scope.launch {
@@ -317,7 +317,8 @@ fun GifToolsScreen(
                                     imageUris = viewModel.convertedImageUris,
                                     gifFrames = viewModel.gifFrames,
                                     onGifFramesChange = viewModel::updateGifFrames,
-                                    isPortrait = isPortrait
+                                    isPortrait = isPortrait,
+                                    isLoadingGifImages = viewModel.isLoadingGifImages
                                 )
                             }
 
@@ -574,6 +575,11 @@ fun GifToolsScreen(
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )
+}
+
+private fun Uri.isGif(context: Context): Boolean {
+    return context.getFileName(this).toString().endsWith(".gif")
+        .or(context.contentResolver.getType(this)?.contains("gif") == true)
 }
 
 private class CreateDocument : ActivityResultContracts.CreateDocument("*/*") {
