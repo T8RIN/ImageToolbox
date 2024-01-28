@@ -561,10 +561,17 @@ fun MainScreen(
                                                 selected = selected,
                                                 onClick = { currentPage = index },
                                                 icon = {
-                                                    Icon(
-                                                        if (selected) data.second else data.third,
-                                                        null
-                                                    )
+                                                    AnimatedContent(
+                                                        targetState = selected,
+                                                        transitionSpec = {
+                                                            fadeIn() togetherWith fadeOut()
+                                                        }
+                                                    ) { selected ->
+                                                        Icon(
+                                                            imageVector = if (selected) data.second else data.third,
+                                                            contentDescription = null
+                                                        )
+                                                    }
                                                 },
                                                 label = {
                                                     Text(stringResource(data.first))
@@ -720,10 +727,17 @@ fun MainScreen(
                                             selected = selected,
                                             onClick = { currentPage = index },
                                             icon = {
-                                                Icon(
-                                                    if (selected) data.second else data.third,
-                                                    null
-                                                )
+                                                AnimatedContent(
+                                                    targetState = selected,
+                                                    transitionSpec = {
+                                                        fadeIn() togetherWith fadeOut()
+                                                    }
+                                                ) { selected ->
+                                                    Icon(
+                                                        imageVector = if (selected) data.second else data.third,
+                                                        contentDescription = null
+                                                    )
+                                                }
                                             },
                                             label = {
                                                 Text(stringResource(data.first))
