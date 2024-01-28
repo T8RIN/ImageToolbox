@@ -22,7 +22,9 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.mutableStateOf
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,22 +35,23 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.adjustFontSize
-import ru.tech.imageresizershrinker.core.ui.widget.activity.SettingsStateEntryPoint
 import ru.tech.imageresizershrinker.presentation.crash_screen.CrashActivity
 
 @AndroidEntryPoint
 open class M3Activity : AppCompatActivity() {
 
-    private lateinit var settingsState: SettingsState
+    private val settingsState = mutableStateOf(SettingsState.Default)
+
+    fun getSettingsState(): SettingsState = settingsState.value
 
     override fun attachBaseContext(newBase: Context) {
-        settingsState = runBlocking {
+        settingsState.value = runBlocking {
             EntryPointAccessors
                 .fromApplication(newBase, SettingsStateEntryPoint::class.java)
                 .getSettingsStateUseCase()
         }
         val newOverride = Configuration(newBase.resources?.configuration)
-        settingsState.fontScale?.let { newOverride.fontScale = it }
+        settingsState.value.fontScale?.let { newOverride.fontScale = it }
         applyOverrideConfiguration(newOverride)
         super.attachBaseContext(newBase)
     }
@@ -56,14 +59,25 @@ open class M3Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        adjustFontSize(settingsState.fontScale)
+        adjustFontSize(settingsState.value.fontScale)
         enableEdgeToEdge()
-        GlobalExceptionHandler.setAllowCollectCrashlytics(settingsState.allowCollectCrashlytics)
+        GlobalExceptionHandler.setAllowCollectCrashlytics(settingsState.value.allowCollectCrashlytics)
         GlobalExceptionHandler.initialize(
             applicationContext = applicationContext,
             activityToBeLaunched = CrashActivity::class.java,
         )
-        Firebase.analytics.setAnalyticsCollectionEnabled(settingsState.allowCollectCrashlytics)
+        Firebase.analytics.setAnalyticsCollectionEnabled(settingsState.value.allowCollectCrashlytics)
+        lifecycleScope.launch {
+            EntryPointAccessors
+                .fromApplication(
+                    this@M3Activity.applicationContext,
+                    SettingsStateEntryPoint::class.java
+                )
+                .getSettingsStateFlowUseCase()
+                .collect {
+                    settingsState.value = it
+                }
+        }
     }
 
     override fun recreate() {

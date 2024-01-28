@@ -23,7 +23,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
@@ -96,13 +95,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.AppActivity
 import ru.tech.imageresizershrinker.presentation.CrashHandler
-import ru.tech.imageresizershrinker.presentation.crash_screen.viewModel.CrashViewModel
 
 @AndroidEntryPoint
 class CrashActivity : CrashHandler() {
-
-
-    private val viewModel by viewModels<CrashViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,7 +110,6 @@ class CrashActivity : CrashHandler() {
         val deviceInfo =
             "Device: ${Build.MODEL} (${Build.BRAND} - ${Build.DEVICE}), SDK: ${Build.VERSION.SDK_INT} (${Build.VERSION.RELEASE}), App: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\n\n"
         val body = "$deviceInfo$ex"
-
 
         setContent {
             val toastHostState = rememberToastHostState()
@@ -134,7 +128,9 @@ class CrashActivity : CrashHandler() {
                 }
             }
 
-            val isSecureMode = viewModel.settingsState.isSecureMode
+            val settingsState = getSettingsState()
+
+            val isSecureMode = settingsState.isSecureMode
             LaunchedEffect(isSecureMode) {
                 if (isSecureMode) {
                     window.setFlags(
@@ -149,19 +145,17 @@ class CrashActivity : CrashHandler() {
             }
 
             CompositionLocalProvider(
-                LocalSettingsState provides viewModel.settingsState.toUiState(Emoji.allIcons())
+                LocalSettingsState provides settingsState.toUiState(Emoji.allIcons())
             ) {
                 ImageToolboxTheme {
                     Surface(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        Box(
-                            modifier = Modifier.displayCutoutPadding()
-                        ) {
+                        Box {
                             Column(
                                 modifier = Modifier
-                                    .fillMaxSize()
-                                    .verticalScroll(rememberScrollState()),
+                                    .verticalScroll(rememberScrollState())
+                                    .displayCutoutPadding(),
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
@@ -314,6 +308,7 @@ class CrashActivity : CrashHandler() {
                                 Modifier
                                     .padding(8.dp)
                                     .navigationBarsPadding()
+                                    .displayCutoutPadding()
                                     .align(Alignment.BottomCenter)
                             ) {
                                 EnhancedFloatingActionButton(

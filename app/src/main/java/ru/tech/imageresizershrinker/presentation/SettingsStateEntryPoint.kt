@@ -15,15 +15,17 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.activity
+package ru.tech.imageresizershrinker.presentation
 
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ru.tech.imageresizershrinker.core.settings.domain.use_case.GetSettingsStateFlowUseCase
 import ru.tech.imageresizershrinker.core.settings.domain.use_case.GetSettingsStateUseCase
 
 @EntryPoint
 @InstallIn(SingletonComponent::class)
 interface SettingsStateEntryPoint {
     val getSettingsStateUseCase: GetSettingsStateUseCase
+    val getSettingsStateFlowUseCase: GetSettingsStateFlowUseCase
 }

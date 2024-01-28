@@ -133,11 +133,11 @@ fun MainScreen(
     } else {
         Row {
             content.withModifier(
-                Modifier.weight(1f)
+                modifier = Modifier.weight(1f)
             )
             if (settingsState.borderWidth > 0.dp) {
                 Spacer(
-                    Modifier
+                    modifier = Modifier
                         .fillMaxHeight()
                         .width(settingsState.borderWidth)
                         .background(
@@ -149,7 +149,7 @@ fun MainScreen(
                 )
             }
             drawerContent.withModifier(
-                Modifier.container(
+                modifier = Modifier.container(
                     shape = RectangleShape,
                     color = MaterialTheme.colorScheme.surfaceColorAtElevation(
                         1.dp
