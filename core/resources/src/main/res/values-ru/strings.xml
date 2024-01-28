@@ -608,7 +608,7 @@
     <string name="camera_sub">Использует камеру для получения изображения, обратите внимание, что вы можете получить только одну фотографию, используя этот источник изображений</string>
     <string name="repeat_watermark">Повтор водяного знака</string>
     <string name="offset_x">Смещение Х</string>
-    <string name="watermarking_image_sub">Это изображение будет использоваться в качестве шаблона для водяного знака</string>
+    <string name="watermarking_image_sub">Это изображние будет использоваться в качестве шаблона для водяного знака</string>
     <string name="watermarking">Наложение водяного знака</string>
     <string name="repeat_watermark_sub">Накладывает водяной знак на все изображение вместо заданной точки</string>
     <string name="watermarking_sub">Наложите водяные знаки на изображения в виде текста или других изображений</string>
@@ -632,4 +632,8 @@
     <string name="original_image_preview_alpha">Прозрачность предпросмотра исходного изображения</string>
     <string name="use_lasso">Использовать Лассо</string>
     <string name="use_lasso_sub">Использует для стирания Лассо, как в режиме рисования</string>
+    <string name="secure_mode">Приватный режим</string>
+    <string name="secure_mode_sub">Скрывает контент при выходе, так же экран приложения не может быть захвачен или записан</string>
+    <string name="confetti">Конфетти</string>
+    <string name="confetti_sub">Конфетти будет показано при сохранении и других важных действиях</string>
 </resources>
