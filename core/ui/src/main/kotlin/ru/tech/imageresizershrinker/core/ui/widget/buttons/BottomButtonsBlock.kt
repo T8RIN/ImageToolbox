@@ -66,7 +66,7 @@ fun BottomButtonsBlock(
     onPrimaryButtonClick: () -> Unit,
     primaryButtonIcon: ImageVector = Icons.Rounded.Save,
     isPrimaryButtonVisible: Boolean = true,
-    isPickImageButtonVisible: Boolean = true,
+    isSecondaryButtonVisible: Boolean = true,
     showNullDataButtonAsContainer: Boolean = false,
     columnarFab: (@Composable ColumnScope.() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit
@@ -111,7 +111,7 @@ fun BottomButtonsBlock(
                 actions = actions,
                 floatingActionButton = {
                     Row {
-                        AnimatedVisibility(visible = isPickImageButtonVisible) {
+                        AnimatedVisibility(visible = isSecondaryButtonVisible) {
                             EnhancedFloatingActionButton(
                                 onClick = onSecondaryButtonClick,
                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer
@@ -160,7 +160,7 @@ fun BottomButtonsBlock(
             ) {
                 Row { actions() }
                 Spacer(Modifier.height(8.dp))
-                AnimatedVisibility(visible = isPickImageButtonVisible) {
+                AnimatedVisibility(visible = isSecondaryButtonVisible) {
                     EnhancedFloatingActionButton(
                         onClick = onSecondaryButtonClick,
                         containerColor = MaterialTheme.colorScheme.tertiaryContainer

@@ -165,6 +165,12 @@ fun LoadNetImageScreen(
         }
     }
 
+    var imageState: AsyncImagePainter.State by remember {
+        mutableStateOf(
+            AsyncImagePainter.State.Empty
+        )
+    }
+
     AdaptiveLayoutScreen(
         title = {
             Text(
@@ -212,11 +218,6 @@ fun LoadNetImageScreen(
             }
         },
         imagePreview = {
-            var state: AsyncImagePainter.State by remember {
-                mutableStateOf(
-                    AsyncImagePainter.State.Empty
-                )
-            }
             AnimatedContent(
                 targetState = scaleType,
                 modifier = Modifier.fillMaxSize()
@@ -256,12 +257,11 @@ fun LoadNetImageScreen(
                     },
                     onState = {
                         if (it is AsyncImagePainter.State.Error) {
-                            viewModel.updateBitmap(it.result.drawable?.toBitmap())
-                        }
-                        if (it is AsyncImagePainter.State.Success) {
+                            viewModel.updateBitmap(null)
+                        } else if (it is AsyncImagePainter.State.Success) {
                             viewModel.updateBitmap(it.result.drawable.toBitmap())
                         }
-                        state = it
+                        imageState = it
                     },
                 )
             }
@@ -332,6 +332,8 @@ fun LoadNetImageScreen(
                         wantToEdit.value = true
                     }
                 },
+                isPrimaryButtonVisible = imageState is AsyncImagePainter.State.Success,
+                isSecondaryButtonVisible = imageState is AsyncImagePainter.State.Success,
                 secondaryButtonIcon = Icons.Rounded.CreateAlt,
                 onPrimaryButtonClick = saveBitmap,
                 actions = {
