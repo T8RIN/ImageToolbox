@@ -634,6 +634,6 @@
     <string name="use_lasso">使用套索</string>
     <string name="confetti_sub">在保存、分享和其他主要操作时会显示纸屑特效</string>
     <string name="secure_mode">安全模式</string>
-    <string name="confetti">纸屑</string>
+    <string name="confetti">纸屑特效</string>
     <string name="secure_mode_sub">退出时隐藏内容，并且屏幕也无法捕捉或录制</string>
 </resources>
