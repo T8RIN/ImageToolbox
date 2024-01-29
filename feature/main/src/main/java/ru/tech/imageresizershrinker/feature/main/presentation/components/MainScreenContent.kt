@@ -49,7 +49,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -146,7 +145,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 
 @Composable
-internal fun ScreenContent(
+internal fun MainScreenContent(
     layoutDirection: LayoutDirection,
     isSheetSlideable: Boolean,
     sideSheetState: DrawerState,
@@ -298,8 +297,10 @@ internal fun ScreenContent(
                 )
 
                 Row(Modifier.weight(1f)) {
+                    val showNavRail =
+                        !isSheetSlideable && settingsState.groupOptionsByTypes && screenSearchKeyword.isEmpty() && !sheetExpanded
                     AnimatedVisibility(
-                        visible = !isSheetSlideable && settingsState.groupOptionsByTypes && screenSearchKeyword.isEmpty() && !sheetExpanded,
+                        visible = showNavRail,
                         enter = fadeIn() + expandHorizontally(),
                         exit = fadeOut() + shrinkHorizontally()
                     ) {
@@ -385,10 +386,9 @@ internal fun ScreenContent(
                         }
                     }
 
-                    val cutout =
-                        if (!settingsState.groupOptionsByTypes || screenSearchKeyword.isNotEmpty()) {
-                            WindowInsets.displayCutout.asPaddingValues()
-                        } else PaddingValues()
+                    val cutout = if (!showNavRail) {
+                        WindowInsets.displayCutout.asPaddingValues()
+                    } else PaddingValues()
 
                     AnimatedContent(
                         targetState = currentScreenList.isNotEmpty(),
@@ -418,9 +418,7 @@ internal fun ScreenContent(
                                         } else 0.dp
                                     } else 0.dp,
                                     top = 12.dp,
-                                    end = 12.dp + cutout.calculateEndPadding(
-                                        LocalLayoutDirection.current
-                                    ),
+                                    end = 12.dp,
                                     start = 12.dp + cutout.calculateStartPadding(
                                         LocalLayoutDirection.current
                                     )

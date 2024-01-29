@@ -55,8 +55,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
-import ru.tech.imageresizershrinker.feature.main.presentation.components.DrawerContent
-import ru.tech.imageresizershrinker.feature.main.presentation.components.ScreenContent
+import ru.tech.imageresizershrinker.feature.main.presentation.components.MainScreenContent
+import ru.tech.imageresizershrinker.feature.main.presentation.components.MainScreenDrawerContent
 import ru.tech.imageresizershrinker.feature.main.presentation.components.settings.SettingsBlock
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
 
@@ -75,7 +75,7 @@ fun MainScreen(
 
     val drawerContent = remember {
         movableContentOf {
-            DrawerContent(
+            MainScreenDrawerContent(
                 sideSheetState = sideSheetState,
                 isSheetSlideable = isSheetSlideable,
                 sheetExpanded = sheetExpanded,
@@ -95,7 +95,7 @@ fun MainScreen(
         val context = LocalContext.current
         val toastHost = LocalToastHost.current
         val scope = rememberCoroutineScope()
-        ScreenContent(
+        MainScreenContent(
             layoutDirection = layoutDirection,
             isSheetSlideable = isSheetSlideable,
             sideSheetState = sideSheetState,

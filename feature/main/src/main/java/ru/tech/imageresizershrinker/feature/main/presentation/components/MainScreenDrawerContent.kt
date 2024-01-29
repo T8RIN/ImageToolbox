@@ -80,7 +80,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.SearchBar
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 
 @Composable
-internal fun DrawerContent(
+internal fun MainScreenDrawerContent(
     sideSheetState: DrawerState,
     isSheetSlideable: Boolean,
     sheetExpanded: Boolean,
