@@ -523,6 +523,7 @@ fun PickColorFromImageScreen(
                                     .container(resultPadding = 8.dp)
                                     .clip(RoundedCornerShape(12.dp))
                                     .transparencyChecker(),
+                                isMagnifierEnabled = settingsState.magnifierEnabled,
                                 onColorChange = viewModel::updateColor
                             )
                         }
@@ -554,6 +555,7 @@ fun PickColorFromImageScreen(
                                                 .container(resultPadding = 8.dp)
                                                 .clip(RoundedCornerShape(12.dp))
                                                 .transparencyChecker(),
+                                            isMagnifierEnabled = settingsState.magnifierEnabled,
                                             onColorChange = viewModel::updateColor
                                         )
                                     }

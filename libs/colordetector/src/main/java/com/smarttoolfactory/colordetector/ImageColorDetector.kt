@@ -5,7 +5,9 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.magnifier
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -28,6 +30,7 @@ import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastAny
 import com.smarttoolfactory.colordetector.util.calculateColorInPixel
@@ -47,26 +50,51 @@ fun ImageColorDetector(
     color: Color,
     panEnabled: Boolean = false,
     imageBitmap: ImageBitmap,
+    isMagnifierEnabled: Boolean,
     onColorChange: (Color) -> Unit
 ) {
-
-    var offset by remember {
+    var pickerOffset by remember {
         mutableStateOf(Offset.Unspecified)
     }
 
     val zoomState = rememberZoomState(maxScale = 20f)
 
-    var pointersCount by remember { mutableIntStateOf(0) }
+    val magnifierEnabled by remember(zoomState.scale) {
+        derivedStateOf {
+            zoomState.scale <= 3f && !panEnabled && isMagnifierEnabled
+        }
+    }
+    var globalTouchPosition by remember { mutableStateOf(Offset.Unspecified) }
+    var globalTouchPointersCount by remember { mutableIntStateOf(0) }
 
     ImageWithConstraints(
         modifier = modifier
-            .observePointersCount {
-                pointersCount = it
+            .observePointersCountWithOffset { size, offset ->
+                globalTouchPointersCount = size
+                globalTouchPosition = offset
             }
+            .then(
+                if (magnifierEnabled) {
+                    Modifier.magnifier(
+                        sourceCenter = {
+                            if (pickerOffset.isSpecified) {
+                                globalTouchPosition
+                            } else Offset.Unspecified
+                        },
+                        magnifierCenter = {
+                            globalTouchPosition - Offset(0f, 200f)
+                        },
+                        size = DpSize(height = 100.dp, width = 100.dp),
+                        zoom = 2f / zoomState.scale,
+                        cornerRadius = 50.dp,
+                        elevation = 2.dp
+                    )
+                } else Modifier
+            )
             .zoomable(
                 zoomState = zoomState,
                 enabled = { _, _ ->
-                    (pointersCount >= 2 || panEnabled)
+                    (globalTouchPointersCount >= 2 || panEnabled)
                 },
                 enableOneFingerZoom = panEnabled,
                 onDoubleTap = { pos ->
@@ -103,26 +131,26 @@ fun ImageColorDetector(
                     .size(imageWidth, imageHeight)
                     .pointerMotionEvents(
                         onDown = {
-                            touchStartedWithOnePointer = pointersCount <= 1
+                            touchStartedWithOnePointer = globalTouchPointersCount <= 1
 
-                            if (touchStartedWithOnePointer) offset = updateOffset(it)
+                            if (touchStartedWithOnePointer) pickerOffset = updateOffset(it)
                         },
                         onMove = {
-                            if (touchStartedWithOnePointer) offset = updateOffset(it)
+                            if (touchStartedWithOnePointer) pickerOffset = updateOffset(it)
                         },
                         onUp = {
-                            if (touchStartedWithOnePointer) offset = updateOffset(it)
+                            if (touchStartedWithOnePointer) pickerOffset = updateOffset(it)
                         },
                         delayAfterDownInMillis = 20
                     )
             )
         }
 
-        if (offset.isSpecified && offset.isFinite) {
+        if (pickerOffset.isSpecified && pickerOffset.isFinite) {
             onColorChange(
                 calculateColorInPixel(
-                    offsetX = offset.x,
-                    offsetY = offset.y,
+                    offsetX = pickerOffset.x,
+                    offsetY = pickerOffset.y,
                     startImageX = 0f,
                     startImageY = 0f,
                     rect = rect,
@@ -138,7 +166,7 @@ fun ImageColorDetector(
                 .size(imageWidth, imageHeight),
             selectedColor = color,
             zoom = zoomState.scale,
-            offset = offset
+            offset = pickerOffset
         )
     }
 
@@ -177,18 +205,21 @@ internal fun ColorSelectionDrawing(
 }
 
 
-private fun Modifier.observePointersCount(
+fun Modifier.observePointersCountWithOffset(
     enabled: Boolean = true,
-    onChange: (Int) -> Unit
+    onChange: (Int, Offset) -> Unit
 ) = this then if (enabled) Modifier.pointerInput(Unit) {
     onEachGesture {
         val context = currentCoroutineContext()
         awaitPointerEventScope {
             do {
                 val event = awaitPointerEvent()
-                onChange(event.changes.size)
+                onChange(
+                    event.changes.size,
+                    event.changes.firstOrNull()?.position ?: Offset.Unspecified
+                )
             } while (event.changes.any { it.pressed } && context.isActive)
-            onChange(0)
+            onChange(0, Offset.Unspecified)
         }
     }
 } else Modifier

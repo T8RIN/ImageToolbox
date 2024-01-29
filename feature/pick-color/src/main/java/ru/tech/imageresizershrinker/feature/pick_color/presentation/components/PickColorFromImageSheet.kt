@@ -98,6 +98,7 @@ fun PickColorFromImageSheet(
                         color = color,
                         imageBitmap = it,
                         onColorChange = onColorChange,
+                        isMagnifierEnabled = settingsState.magnifierEnabled,
                         modifier = Modifier
                             .padding(16.dp)
                             .align(Alignment.Center)
