@@ -193,6 +193,7 @@ private fun FontFam.toUiFont(): UiFontFam {
         FontFam.Catterdale -> UiFontFam.Catterdale
         FontFam.FRM32 -> UiFontFam.FRM32
         FontFam.TokeelyBrookings -> UiFontFam.TokeelyBrookings
+        FontFam.Nunito -> UiFontFam.Nunito
     }
 }
 

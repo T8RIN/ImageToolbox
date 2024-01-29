@@ -143,6 +143,12 @@ sealed class UiFontFam(
         variable = false
     )
 
+    data object Nunito : UiFontFam(
+        fontRes = R.font.nunito_variable,
+        name = "Nunito",
+        variable = true
+    )
+
     fun asDomain(): FontFam {
         return when (this) {
             Caveat -> FontFam.Caveat
@@ -160,6 +166,7 @@ sealed class UiFontFam(
             Catterdale -> FontFam.Catterdale
             FRM32 -> FontFam.FRM32
             TokeelyBrookings -> FontFam.TokeelyBrookings
+            Nunito -> FontFam.Nunito
         }
     }
 
@@ -180,6 +187,7 @@ sealed class UiFontFam(
                 Catterdale,
                 FRM32,
                 TokeelyBrookings,
+                Nunito,
                 System
             )
         }

@@ -24,6 +24,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.compose.BackHandler
 import androidx.activity.viewModels
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -187,7 +188,7 @@ class AppActivity : M3Activity() {
                         visible = showUpdateSheet
                     )
 
-                    if (viewModel.settingsState.isConfettiEnabled) {
+                    AnimatedVisibility(viewModel.settingsState.isConfettiEnabled) {
                         ToastHost(
                             hostState = LocalConfettiController.current,
                             transitionSpec = {

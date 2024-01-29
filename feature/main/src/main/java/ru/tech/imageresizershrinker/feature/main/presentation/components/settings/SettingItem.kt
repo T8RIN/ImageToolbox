@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.main.presentation.components.settings
 
 import android.app.Activity
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -32,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
@@ -49,7 +51,7 @@ internal fun SettingItem(
     setting: Setting,
     viewModel: MainViewModel
 ) {
-    val context = LocalContext.current
+    val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHost.current
     val scope = rememberCoroutineScope()
     val confettiController = LocalConfettiController.current
@@ -314,6 +316,9 @@ internal fun SettingItem(
                         onSuccess = {
                             scope.launch {
                                 confettiController.showEmpty()
+                                //Wait for confetti to appear, then trigger font scale adjustment
+                                delay(300L)
+                                context.recreate()
                             }
                             scope.launch {
                                 toastHostState.showToast(
