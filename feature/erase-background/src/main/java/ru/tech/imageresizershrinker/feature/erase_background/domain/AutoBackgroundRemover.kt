@@ -22,8 +22,7 @@ interface AutoBackgroundRemover<I> {
     fun removeBackgroundFromImage(
         image: I,
         onSuccess: (I) -> Unit,
-        onFailure: (Throwable) -> Unit,
-        trimEmptyParts: Boolean = false
+        onFailure: (Throwable) -> Unit
     )
 
     suspend fun trimEmptyParts(image: I): I

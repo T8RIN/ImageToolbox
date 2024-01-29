@@ -18,18 +18,65 @@
 package ru.tech.imageresizershrinker.feature.erase_background.data
 
 import android.graphics.Bitmap
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
 
 internal class AndroidAutoBackgroundRemover : AutoBackgroundRemover<Bitmap> {
-    override suspend fun trimEmptyParts(image: Bitmap): Bitmap = MlKitBackgroundRemover.trim(image)
+
+    override suspend fun trimEmptyParts(
+        image: Bitmap
+    ): Bitmap = CoroutineScope(Dispatchers.Default)
+        .async {
+            var firstX = 0
+            var firstY = 0
+            var lastX = image.width
+            var lastY = image.height
+            val pixels = IntArray(image.width * image.height)
+            image.getPixels(pixels, 0, image.width, 0, 0, image.width, image.height)
+            loop@ for (x in 0 until image.width) {
+                for (y in 0 until image.height) {
+                    if (pixels[x + y * image.width] != Color.Transparent.toArgb()) {
+                        firstX = x
+                        break@loop
+                    }
+                }
+            }
+            loop@ for (y in 0 until image.height) {
+                for (x in firstX until image.width) {
+                    if (pixels[x + y * image.width] != Color.Transparent.toArgb()) {
+                        firstY = y
+                        break@loop
+                    }
+                }
+            }
+            loop@ for (x in image.width - 1 downTo firstX) {
+                for (y in image.height - 1 downTo firstY) {
+                    if (pixels[x + y * image.width] != Color.Transparent.toArgb()) {
+                        lastX = x
+                        break@loop
+                    }
+                }
+            }
+            loop@ for (y in image.height - 1 downTo firstY) {
+                for (x in image.width - 1 downTo firstX) {
+                    if (pixels[x + y * image.width] != Color.Transparent.toArgb()) {
+                        lastY = y
+                        break@loop
+                    }
+                }
+            }
+            return@async Bitmap.createBitmap(image, firstX, firstY, lastX - firstX, lastY - firstY)
+        }
+        .await()
 
     override fun removeBackgroundFromImage(
         image: Bitmap,
         onSuccess: (Bitmap) -> Unit,
-        onFailure: (Throwable) -> Unit,
-        trimEmptyParts: Boolean
+        onFailure: (Throwable) -> Unit
     ) {
         kotlin.runCatching {
             MlKitBackgroundRemover.bitmapForProcessing(
@@ -37,12 +84,10 @@ internal class AndroidAutoBackgroundRemover : AutoBackgroundRemover<Bitmap> {
                 scope = CoroutineScope(Dispatchers.IO)
             ) { result ->
                 if (result.isSuccess) {
-                    result.getOrNull()?.let {
-                        if (trimEmptyParts) trimEmptyParts(it)
-                        else it
-                    }?.let(onSuccess)
+                    result.getOrNull()?.let(onSuccess)
                 } else result.exceptionOrNull()?.let(onFailure)
             }
         }.exceptionOrNull()?.let(onFailure)
     }
+
 }

@@ -42,6 +42,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
 import javax.inject.Inject
@@ -52,7 +53,7 @@ class EraseBackgroundViewModel @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val fileController: FileController,
-    private val imageDrawApplier: ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier<Bitmap, Path, Color>,
+    private val imageDrawApplier: ImageDrawApplier<Bitmap, Path, Color>,
     private val autoBackgroundRemover: AutoBackgroundRemover<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
@@ -193,12 +194,15 @@ class EraseBackgroundViewModel @Inject constructor(
                 image = _bitmap.value,
                 shaderSourceUri = _uri.value.toString()
             )
+        }?.let {
+            if (trimImage) autoBackgroundRemover.trimEmptyParts(it)
+            else it
         }
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
         viewModelScope.launch {
-            getErasedBitmap()?.let { trim(it) }?.let {
+            getErasedBitmap()?.let {
                 _isSaving.value = true
                 shareProvider.shareImage(
                     imageInfo = ImageInfo(
@@ -216,13 +220,6 @@ class EraseBackgroundViewModel @Inject constructor(
             savingJob?.cancel()
             savingJob = it
         }
-    }
-
-    private suspend fun trim(
-        bitmap: Bitmap
-    ): Bitmap {
-        if (!_trimImage.value) return bitmap
-        return autoBackgroundRemover.trimEmptyParts(bitmap)
     }
 
     fun undo() {
