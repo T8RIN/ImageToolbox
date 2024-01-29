@@ -636,4 +636,6 @@
     <string name="secure_mode_sub">Скрывает контент при выходе, так же экран приложения не может быть захвачен или записан</string>
     <string name="confetti">Конфетти</string>
     <string name="confetti_sub">Конфетти будет показано при сохранении и других важных действиях</string>
+    <string name="exit">Выйти</string>
+    <string name="preview_closing">Если вы оставите предварительный просмотр сейчас, вам придется добавить изображения снова</string>
 </resources>
