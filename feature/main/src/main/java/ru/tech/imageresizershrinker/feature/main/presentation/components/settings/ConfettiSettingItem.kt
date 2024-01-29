@@ -21,12 +21,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Celebration
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 
@@ -36,6 +40,8 @@ fun ConfettiSettingItem(
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
+    val confettiController = LocalConfettiController.current
+    val scope = rememberCoroutineScope()
     val settingsState = LocalSettingsState.current
     PreferenceRowSwitch(
         modifier = modifier,
@@ -43,7 +49,16 @@ fun ConfettiSettingItem(
         title = stringResource(R.string.confetti),
         subtitle = stringResource(R.string.confetti_sub),
         checked = settingsState.isConfettiEnabled,
-        onClick = onClick,
+        onClick = { isEnabled ->
+            onClick(isEnabled)
+            if (isEnabled) {
+                scope.launch {
+                    //Wait for setting to be applied
+                    delay(200L)
+                    confettiController.showEmpty()
+                }
+            }
+        },
         startIcon = Icons.Outlined.Celebration
     )
 }
