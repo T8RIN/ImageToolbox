@@ -27,7 +27,7 @@ import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import java.lang.Integer.max
 
 abstract class GPUFilterTransformation(
-    private val context: Context
+    private val context: Context,
 ) : Transformation, ru.tech.imageresizershrinker.core.domain.image.Transformation<Bitmap> {
 
     /**

@@ -21,13 +21,14 @@ import android.content.Context
 import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageSharpenFilter
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 class SharpenFilter(
     private val context: Context,
     override val value: Float = 0f,
-) : GPUFilterTransformation(context),
-    ru.tech.imageresizershrinker.core.filters.domain.model.Filter.Sharpen<Bitmap> {
+) : GPUFilterTransformation(context), Filter.Sharpen<Bitmap> {
+
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 

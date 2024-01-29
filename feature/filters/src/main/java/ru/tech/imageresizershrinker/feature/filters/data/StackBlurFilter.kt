@@ -20,19 +20,20 @@ package ru.tech.imageresizershrinker.feature.filters.data
 import android.graphics.Bitmap
 import coil.size.Size
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
 class StackBlurFilter(
     override val value: Pair<Float, Int> = 0.5f to 25,
-) : Transformation<Bitmap>,
-    ru.tech.imageresizershrinker.core.filters.domain.model.Filter.StackBlur<Bitmap> {
+) : Transformation<Bitmap>, Filter.StackBlur<Bitmap> {
+
     override val cacheKey: String
         get() = (value).hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,
-        size: Size
+        size: Size,
     ): Bitmap = input.stackBlur(value.first, value.second)
 }
 

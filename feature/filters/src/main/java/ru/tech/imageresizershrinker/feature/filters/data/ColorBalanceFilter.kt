@@ -17,11 +17,11 @@
 
 package ru.tech.imageresizershrinker.feature.filters.data
 
-
 import android.content.Context
 import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageColorBalanceFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 class ColorBalanceFilter(
@@ -31,8 +31,8 @@ class ColorBalanceFilter(
         0.0f, 0.0f, 0.0f,
         0.0f, 0.0f, 0.0f
     ),
-) : GPUFilterTransformation(context),
-    ru.tech.imageresizershrinker.core.filters.domain.model.Filter.ColorBalance<Bitmap> {
+) : GPUFilterTransformation(context), Filter.ColorBalance<Bitmap> {
+
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 

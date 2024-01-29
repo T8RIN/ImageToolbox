@@ -21,13 +21,14 @@ import android.content.Context
 import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageExposureFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 class ExposureFilter(
     private val context: Context,
     override val value: Float = 0f,
-) : GPUFilterTransformation(context),
-    ru.tech.imageresizershrinker.core.filters.domain.model.Filter.Exposure<Bitmap> {
+) : GPUFilterTransformation(context), Filter.Exposure<Bitmap> {
+
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 

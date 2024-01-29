@@ -22,13 +22,14 @@ import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageRGBFilter
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 class RGBFilter(
     private val context: Context,
     override val value: Color = Color.White,
-) : GPUFilterTransformation(context),
-    ru.tech.imageresizershrinker.core.filters.domain.model.Filter.RGB<Bitmap, Color> {
+) : GPUFilterTransformation(context), Filter.RGB<Bitmap, Color> {
+
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 

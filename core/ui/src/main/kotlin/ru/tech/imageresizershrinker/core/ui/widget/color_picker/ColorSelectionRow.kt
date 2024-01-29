@@ -66,6 +66,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun ColorSelectionRow(
+    modifier: Modifier = Modifier,
     defaultColors: List<Color> = ColorSelectionRowDefaults.colorList,
     allowAlpha: Boolean = false,
     allowScroll: Boolean = true,
@@ -85,7 +86,7 @@ fun ColorSelectionRow(
 
     LazyRow(
         state = listState,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(1.2.dp * 40 + 32.dp)
             .fadingEdges(listState),

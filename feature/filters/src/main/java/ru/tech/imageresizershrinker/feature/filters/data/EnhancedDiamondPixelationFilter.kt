@@ -20,13 +20,14 @@ package ru.tech.imageresizershrinker.feature.filters.data
 import android.graphics.Bitmap
 import coil.size.Size
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.feature.filters.data.pixelation.Pixelate
 import ru.tech.imageresizershrinker.feature.filters.data.pixelation.PixelateLayer
 
 class EnhancedDiamondPixelationFilter(
     override val value: Float = 48f,
-) : ru.tech.imageresizershrinker.core.filters.domain.model.Filter.EnhancedDiamondPixelation<Bitmap>,
-    Transformation<Bitmap> {
+) : Filter.EnhancedDiamondPixelation<Bitmap>, Transformation<Bitmap> {
+
     override val cacheKey: String
         get() = (value).hashCode().toString()
 

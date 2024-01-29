@@ -67,7 +67,7 @@ interface Filter<Image, Value> {
     interface SwirlDistortion<Image> : Filter<Image, Pair<Float, Float>>
     interface Toon<Image> : Filter<Image, Pair<Float, Float>>
     interface Vibrance<Image> : Filter<Image, Float>
-    interface Vignette<Image> : Filter<Image, Pair<Float, Float>>
+    interface Vignette<Image, Color> : Filter<Image, Triple<Float, Float, Color>>
     interface WeakPixel<Image> : Filter<Image, Unit>
     interface WhiteBalance<Image> : Filter<Image, Pair<Float, Float>>
     interface ZoomBlur<Image> : Filter<Image, Triple<Float, Float, Float>>

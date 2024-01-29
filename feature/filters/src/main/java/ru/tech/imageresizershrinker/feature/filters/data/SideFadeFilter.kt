@@ -28,12 +28,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import coil.size.Size
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 class SideFadeFilter(
-    override val value: Pair<ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide, Int> = ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide.Start to 60
-) : Transformation<Bitmap>,
-    ru.tech.imageresizershrinker.core.filters.domain.model.Filter.SideFade<Bitmap> {
+    override val value: Pair<FadeSide, Int> = FadeSide.Start to 60,
+) : Transformation<Bitmap>, Filter.SideFade<Bitmap> {
     override val cacheKey: String
         get() = value.hashCode().toString()
 
@@ -44,9 +45,9 @@ class SideFadeFilter(
         return bitmap
     }
 
-    private fun ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide.getPaint(
+    private fun FadeSide.getPaint(
         bmp: Bitmap,
-        length: Int
+        length: Int,
     ): Paint {
         val paint = Paint().apply {
             xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
@@ -63,7 +64,7 @@ class SideFadeFilter(
         val startColor: Int
         val endColor: Int
         when (this) {
-            ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide.Start -> {
+            FadeSide.Start -> {
                 //left
                 g1x = 0f
                 g1y = height / 2
@@ -73,7 +74,7 @@ class SideFadeFilter(
                 endColor = Color.Black.toArgb()
             }
 
-            ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide.Top -> {
+            FadeSide.Top -> {
                 //top
                 g1x = width / 2
                 g1y = 0f
@@ -83,7 +84,7 @@ class SideFadeFilter(
                 endColor = Color.Black.toArgb()
             }
 
-            ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide.End -> {
+            FadeSide.End -> {
                 //right
                 g1x = width
                 g1y = height / 2
@@ -93,7 +94,7 @@ class SideFadeFilter(
                 endColor = Color.Black.toArgb()
             }
 
-            ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide.Bottom -> {
+            FadeSide.Bottom -> {
                 //bottom
                 g1x = width / 2
                 g1y = height

@@ -20,19 +20,19 @@ package ru.tech.imageresizershrinker.feature.filters.data
 import android.graphics.Bitmap
 import coil.size.Size
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import kotlin.math.roundToInt
 
 
 class FastBlurFilter(
     override val value: Pair<Float, Int> = 0.5f to 25,
-) : ru.tech.imageresizershrinker.core.filters.domain.model.Filter.FastBlur<Bitmap>,
-    Transformation<Bitmap> {
+) : Filter.FastBlur<Bitmap>, Transformation<Bitmap> {
     override val cacheKey: String
         get() = (value).hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,
-        size: Size
+        size: Size,
     ): Bitmap = input.fastBlur(value.first, value.second)
 
 }

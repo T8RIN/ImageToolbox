@@ -87,7 +87,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.ZoomBlurFilter
 import javax.inject.Inject
 
 internal class AndroidFilterProvider @Inject constructor(
-    private val context: Context
+    private val context: Context,
 ) : FilterProvider<Bitmap> {
 
     override fun filterToTransformation(filter: Filter<Bitmap, *>): Transformation<Bitmap> {
@@ -148,7 +148,11 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.SwirlDistortion -> SwirlDistortionFilter(context, value)
                 is Filter.Toon -> ToonFilter(context, value)
                 is Filter.Vibrance -> VibranceFilter(context, value)
-                is Filter.Vignette -> VignetteFilter(context, value)
+                is Filter.Vignette<*, *> -> VignetteFilter(
+                    context,
+                    value as Triple<Float, Float, Color>
+                )
+
                 is Filter.WeakPixel -> WeakPixelFilter(context)
                 is Filter.WhiteBalance -> WhiteBalanceFilter(context, value)
                 is Filter.ZoomBlur -> ZoomBlurFilter(context, value)

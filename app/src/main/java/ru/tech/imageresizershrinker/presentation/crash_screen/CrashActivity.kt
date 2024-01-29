@@ -154,6 +154,7 @@ class CrashActivity : CrashHandler() {
                         Box {
                             Column(
                                 modifier = Modifier
+                                    .align(Alignment.Center)
                                     .verticalScroll(rememberScrollState())
                                     .displayCutoutPadding(),
                                 verticalArrangement = Arrangement.Center,

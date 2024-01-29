@@ -49,7 +49,7 @@ object Pixelate {
         inBounds: Rect?,
         out: Bitmap,
         outBounds: Rect?,
-        vararg layers: PixelateLayer
+        vararg layers: PixelateLayer,
     ) {
         var bounds = outBounds
         val paint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG or Paint.FILTER_BITMAP_FLAG)
@@ -65,7 +65,7 @@ object Pixelate {
         canvas: Canvas,
         outBounds: Rect,
         paint: Paint,
-        vararg layers: PixelateLayer
+        vararg layers: PixelateLayer,
     ) {
         val inWidth = inBounds?.width() ?: input.width
         val inHeight = inBounds?.height() ?: input.height

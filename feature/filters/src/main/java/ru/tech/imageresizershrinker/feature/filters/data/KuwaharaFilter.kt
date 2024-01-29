@@ -21,13 +21,14 @@ import android.content.Context
 import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageKuwaharaFilter
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 class KuwaharaFilter(
     private val context: Context,
     override val value: Float = 3f,
-) : GPUFilterTransformation(context),
-    ru.tech.imageresizershrinker.core.filters.domain.model.Filter.Kuwahara<Bitmap> {
+) : GPUFilterTransformation(context), Filter.Kuwahara<Bitmap> {
+
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 

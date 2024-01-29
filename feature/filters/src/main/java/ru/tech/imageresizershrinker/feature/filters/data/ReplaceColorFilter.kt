@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import coil.size.Size
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -32,14 +33,13 @@ class ReplaceColorFilter(
         second = Color(red = 0.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f),
         third = Color(red = 1.0f, green = 1.0f, blue = 1.0f, alpha = 1.0f)
     ),
-) : ru.tech.imageresizershrinker.core.filters.domain.model.Filter.ReplaceColor<Bitmap, Color>,
-    Transformation<Bitmap> {
+) : Filter.ReplaceColor<Bitmap, Color>, Transformation<Bitmap> {
     override val cacheKey: String
         get() = (value).hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,
-        size: Size
+        size: Size,
     ): Bitmap = input.replaceColor(value.second, value.third, value.first)
 }
 

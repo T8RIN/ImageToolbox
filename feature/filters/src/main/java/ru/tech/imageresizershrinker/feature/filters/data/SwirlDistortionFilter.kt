@@ -22,13 +22,14 @@ import android.graphics.Bitmap
 import android.graphics.PointF
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageSwirlFilter
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 class SwirlDistortionFilter(
     private val context: Context,
     override val value: Pair<Float, Float> = 0.5f to 1f,
-) : GPUFilterTransformation(context),
-    ru.tech.imageresizershrinker.core.filters.domain.model.Filter.SwirlDistortion<Bitmap> {
+) : GPUFilterTransformation(context), Filter.SwirlDistortion<Bitmap> {
+
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 

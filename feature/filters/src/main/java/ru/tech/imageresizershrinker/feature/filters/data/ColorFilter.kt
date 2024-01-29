@@ -27,12 +27,12 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.createBitmap
 import coil.size.Size
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 class ColorFilter(
     override val value: Color = Color.Transparent,
-) : ru.tech.imageresizershrinker.core.filters.domain.model.Filter.Color<Bitmap, Color>,
-    Transformation<Bitmap> {
+) : Filter.Color<Bitmap, Color>, Transformation<Bitmap> {
     override val cacheKey: String
         get() = (value).hashCode().toString()
 

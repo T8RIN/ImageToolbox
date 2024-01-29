@@ -21,13 +21,14 @@ import android.content.Context
 import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageHalftoneFilter
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 class HalftoneFilter(
     private val context: Context,
     override val value: Float = 0.005f,
-) : GPUFilterTransformation(context),
-    ru.tech.imageresizershrinker.core.filters.domain.model.Filter.Halftone<Bitmap> {
+) : GPUFilterTransformation(context), Filter.Halftone<Bitmap> {
+
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 

@@ -20,14 +20,14 @@ package ru.tech.imageresizershrinker.feature.filters.data
 import android.graphics.Bitmap
 import coil.size.Size
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.feature.filters.data.pixelation.Pixelate
 import ru.tech.imageresizershrinker.feature.filters.data.pixelation.PixelateLayer
 
 
 class EnhancedCirclePixelationFilter(
     override val value: Float = 32f,
-) : ru.tech.imageresizershrinker.core.filters.domain.model.Filter.EnhancedCirclePixelation<Bitmap>,
-    Transformation<Bitmap> {
+) : Filter.EnhancedCirclePixelation<Bitmap>, Transformation<Bitmap> {
     override val cacheKey: String
         get() = (value).hashCode().toString()
 

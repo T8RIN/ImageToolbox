@@ -46,19 +46,19 @@ import javax.inject.Inject
 internal class AndroidFilterMaskApplier @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageTransformer: ImageTransformer<Bitmap>,
-    private val filterProvider: FilterProvider<Bitmap>
+    private val filterProvider: FilterProvider<Bitmap>,
 ) : FilterMaskApplier<Bitmap, Path, Color> {
 
     override suspend fun filterByMask(
         filterMask: FilterMask<Bitmap, Path, Color>,
-        imageUri: String
+        imageUri: String,
     ): Bitmap? = imageGetter.getImage(uri = imageUri)?.let {
         filterByMask(filterMask = filterMask, image = it.image)
     }
 
     override suspend fun filterByMask(
         filterMask: FilterMask<Bitmap, Path, Color>,
-        image: Bitmap
+        image: Bitmap,
     ): Bitmap? {
         if (filterMask.filters.isEmpty()) return image
 
@@ -85,7 +85,7 @@ internal class AndroidFilterMaskApplier @Inject constructor(
 
     private fun Bitmap.clipBitmap(
         pathPaints: List<PathPaint<Path, Color>>,
-        inverse: Boolean
+        inverse: Boolean,
     ): Bitmap {
         val bitmap = Bitmap.createBitmap(this.width, this.height, this.config)
             .apply { setHasAlpha(true) }
@@ -177,7 +177,7 @@ internal class AndroidFilterMaskApplier @Inject constructor(
     private fun Path.scaleToFitCanvas(
         currentSize: IntegerSize,
         oldSize: IntegerSize,
-        onGetScale: (Float, Float) -> Unit = { _, _ -> }
+        onGetScale: (Float, Float) -> Unit = { _, _ -> },
     ): android.graphics.Path {
         val sx = currentSize.width.toFloat() / oldSize.width
         val sy = currentSize.height.toFloat() / oldSize.height
@@ -193,14 +193,14 @@ internal class AndroidFilterMaskApplier @Inject constructor(
 
     override suspend fun filterByMasks(
         filterMasks: List<FilterMask<Bitmap, Path, Color>>,
-        imageUri: String
+        imageUri: String,
     ): Bitmap? = imageGetter.getImage(uri = imageUri)?.let {
         filterByMasks(filterMasks, it.image)
     }
 
     override suspend fun filterByMasks(
         filterMasks: List<FilterMask<Bitmap, Path, Color>>,
-        image: Bitmap
+        image: Bitmap,
     ): Bitmap? = filterMasks.fold<FilterMask<Bitmap, Path, Color>, Bitmap?>(
         initial = image,
         operation = { bmp, mask ->

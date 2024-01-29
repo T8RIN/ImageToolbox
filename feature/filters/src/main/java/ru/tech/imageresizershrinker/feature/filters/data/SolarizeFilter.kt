@@ -21,13 +21,14 @@ import android.content.Context
 import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageSolarizeFilter
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 class SolarizeFilter(
     private val context: Context,
     override val value: Float = 0.5f,
-) : GPUFilterTransformation(context),
-    ru.tech.imageresizershrinker.core.filters.domain.model.Filter.Solarize<Bitmap> {
+) : GPUFilterTransformation(context), Filter.Solarize<Bitmap> {
+
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 

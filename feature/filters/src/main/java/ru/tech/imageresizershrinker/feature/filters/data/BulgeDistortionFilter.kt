@@ -22,13 +22,14 @@ import android.graphics.Bitmap
 import android.graphics.PointF
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageBulgeDistortionFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 class BulgeDistortionFilter(
     private val context: Context,
     override val value: Pair<Float, Float> = 0.25f to 0.5f,
-) : GPUFilterTransformation(context),
-    ru.tech.imageresizershrinker.core.filters.domain.model.Filter.BulgeDistortion<Bitmap> {
+) : GPUFilterTransformation(context), Filter.BulgeDistortion<Bitmap> {
+
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 

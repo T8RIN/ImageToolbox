@@ -21,13 +21,14 @@ import android.content.Context
 import android.graphics.Bitmap
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageDilationFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 class DilationFilter(
     private val context: Context,
     override val value: Float = 1f,
-) : GPUFilterTransformation(context),
-    ru.tech.imageresizershrinker.core.filters.domain.model.Filter.Dilation<Bitmap> {
+) : GPUFilterTransformation(context), Filter.Dilation<Bitmap> {
+
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 

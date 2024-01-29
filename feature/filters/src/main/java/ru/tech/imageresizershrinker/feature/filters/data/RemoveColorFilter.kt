@@ -21,17 +21,17 @@ import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import coil.size.Size
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 class RemoveColorFilter(
     override val value: Pair<Float, Color> = 0f to Color(0xFF000000),
-) : ru.tech.imageresizershrinker.core.filters.domain.model.Filter.RemoveColor<Bitmap, Color>,
-    Transformation<Bitmap> {
+) : Filter.RemoveColor<Bitmap, Color>, Transformation<Bitmap> {
     override val cacheKey: String
         get() = (value).hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,
-        size: Size
+        size: Size,
     ): Bitmap = ReplaceColorFilter(
         value = Triple(
             first = value.first,
