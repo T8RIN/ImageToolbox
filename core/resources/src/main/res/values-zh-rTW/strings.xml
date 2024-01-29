@@ -632,4 +632,8 @@
     <string name="use_lasso_sub">像在绘图模式中一样使用套索来执行擦除操作</string>
     <string name="original_image_preview_alpha">原始影象預覽 Alpha</string>
     <string name="frame_delay">幀延遲</string>
+    <string name="confetti">五彩紙屑</string>
+    <string name="confetti_sub">五彩紙屑將顯示在保存、分享和其他主要操作上</string>
+    <string name="secure_mode">安全模式</string>
+    <string name="secure_mode_sub">退出時隱藏內容，也無法捕捉或錄製螢幕</string>
 </resources>
