@@ -25,6 +25,7 @@ import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.expandVertically
@@ -34,6 +35,8 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -449,7 +452,19 @@ internal fun ScreenContent(
                                             title = stringResource(screen.title),
                                             subtitle = stringResource(screen.subtitle),
                                             icon = {
-                                                Icon(screen.icon!!, null)
+                                                AnimatedContent(
+                                                    targetState = screen.icon,
+                                                    transitionSpec = {
+                                                        (slideInVertically() + fadeIn() + scaleIn())
+                                                            .togetherWith(slideOutVertically { it / 2 } + fadeOut() + scaleOut())
+                                                            .using(SizeTransform(false))
+                                                    }
+                                                ) { icon ->
+                                                    Icon(
+                                                        imageVector = icon!!,
+                                                        contentDescription = null
+                                                    )
+                                                }
                                             },
                                             interactionSource = interactionSource
                                         )
