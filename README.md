@@ -301,6 +301,7 @@ or click one of the badges below.
   - Catterdale
   - FRM32
   - Tokeely Brookings
+  - Nunito
 - In app font scale changing
 
 (Yes, the app supports dynamic coloring based on wallpapers for every android version)
