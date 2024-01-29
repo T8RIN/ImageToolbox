@@ -33,6 +33,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -43,6 +44,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -80,6 +82,7 @@ fun ImagePager(
     selectedUri: Uri?,
     uris: List<Uri>?,
     onUriSelected: (Uri?) -> Unit,
+    onShare: (Uri) -> Unit,
     onDismiss: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -166,25 +169,46 @@ fun ImagePager(
                         enter = fadeIn() + scaleIn(),
                         exit = fadeOut() + scaleOut()
                     ) {
-                        Box(
+                        Row(
                             modifier = Modifier
-                                .minimumInteractiveComponentSize()
-                                .size(40.dp)
                                 .background(
                                     MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
                                     CircleShape
-                                )
-                                .clip(CircleShape)
-                                .clickable {
-                                    wantToEdit.value = true
-                                },
-                            contentAlignment = Alignment.Center
+                                ),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Icon(
-                                imageVector = Icons.Rounded.CreateAlt,
-                                contentDescription = null,
-                                tint = White
-                            )
+                            Box(
+                                modifier = Modifier
+                                    .minimumInteractiveComponentSize()
+                                    .size(40.dp)
+                                    .clip(CircleShape)
+                                    .clickable {
+                                        selectedUri?.let { onShare(it) }
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Share,
+                                    contentDescription = null,
+                                    tint = White
+                                )
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .minimumInteractiveComponentSize()
+                                    .size(40.dp)
+                                    .clip(CircleShape)
+                                    .clickable {
+                                        wantToEdit.value = true
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.CreateAlt,
+                                    contentDescription = null,
+                                    tint = White
+                                )
+                            }
                         }
                     }
                 },
@@ -193,11 +217,12 @@ fun ImagePager(
                         Box(
                             modifier = Modifier
                                 .minimumInteractiveComponentSize()
-                                .size(40.dp)
+                                .size(48.dp)
                                 .background(
                                     MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
                                     CircleShape
                                 )
+                                .padding(4.dp)
                                 .clip(CircleShape)
                                 .clickable {
                                     onDismiss()

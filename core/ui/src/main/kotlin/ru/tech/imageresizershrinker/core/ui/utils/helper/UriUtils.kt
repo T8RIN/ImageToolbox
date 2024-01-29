@@ -17,10 +17,16 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.helper
 
+import android.app.Activity
 import android.content.Context
 import android.net.Uri
+import android.provider.DocumentsContract
 import androidx.documentfile.provider.DocumentFile
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.resources.R
+import java.util.LinkedList
+
 
 fun Uri?.toUiPath(context: Context, default: String): String = this?.let { uri ->
     DocumentFile
@@ -40,3 +46,53 @@ fun Uri?.toUiPath(context: Context, default: String): String = this?.let { uri -
             startPath + endPath
         }
 } ?: default
+
+suspend fun Activity.listFilesInDirectory(rootUri: Uri): List<Uri> = withContext(Dispatchers.IO) {
+    var childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(
+        rootUri,
+        DocumentsContract.getTreeDocumentId(rootUri)
+    )
+
+    val files: MutableList<Pair<Uri, Long>> = LinkedList()
+
+    val dirNodes: MutableList<Uri> = LinkedList()
+    dirNodes.add(childrenUri)
+    while (dirNodes.isNotEmpty()) {
+        childrenUri = dirNodes.removeAt(0)
+
+        contentResolver.query(
+            childrenUri,
+            arrayOf(
+                DocumentsContract.Document.COLUMN_DOCUMENT_ID,
+                DocumentsContract.Document.COLUMN_LAST_MODIFIED,
+                DocumentsContract.Document.COLUMN_MIME_TYPE,
+            ),
+            null,
+            null,
+            null
+        ).use {
+            while (it!!.moveToNext()) {
+                val docId = it.getString(0)
+                val lastModified = it.getLong(1)
+                val mime = it.getString(2)
+                if (isDirectory(mime)) {
+                    val newNode = DocumentsContract.buildChildDocumentsUriUsingTree(rootUri, docId)
+                    dirNodes.add(newNode)
+                } else {
+                    files.add(
+                        DocumentsContract.buildDocumentUriUsingTree(
+                            rootUri,
+                            docId
+                        ) to lastModified
+                    )
+                }
+            }
+        }
+    }
+
+    return@withContext files.sortedBy { it.second }.map { it.first }
+}
+
+private fun isDirectory(mimeType: String): Boolean {
+    return DocumentsContract.Document.MIME_TYPE_DIR == mimeType
+}

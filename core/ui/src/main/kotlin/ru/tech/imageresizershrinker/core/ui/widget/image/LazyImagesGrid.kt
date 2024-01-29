@@ -72,6 +72,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
 fun LazyImagesGrid(
     data: List<Uri>?,
     onAddImages: ((List<Uri>) -> Unit)?,
+    onShareImage: (Uri) -> Unit,
     modifier: Modifier = Modifier,
     state: LazyStaggeredGridState = rememberLazyStaggeredGridState(),
     width: Dp = 150.dp,
@@ -175,6 +176,7 @@ fun LazyImagesGrid(
             onUriSelected = {
                 selectedUri = it?.toString()
             },
+            onShare = onShareImage,
             onDismiss = { showImagePreviewDialog = false }
         )
     }

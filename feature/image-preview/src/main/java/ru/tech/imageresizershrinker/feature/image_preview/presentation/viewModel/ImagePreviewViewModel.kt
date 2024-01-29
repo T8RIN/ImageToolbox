@@ -17,15 +17,21 @@
 
 package ru.tech.imageresizershrinker.feature.image_preview.presentation.viewModel
 
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import javax.inject.Inject
 
 @HiltViewModel
-class ImagePreviewViewModel @Inject constructor() : ViewModel() {
+class ImagePreviewViewModel @Inject constructor(
+    private val shareProvider: ShareProvider<Bitmap>
+) : ViewModel() {
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
@@ -33,6 +39,13 @@ class ImagePreviewViewModel @Inject constructor() : ViewModel() {
     fun updateUris(uris: List<Uri>?) {
         _uris.value = null
         _uris.value = uris
+    }
+
+    fun shareImage(uri: Uri, onComplete: () -> Unit) {
+        viewModelScope.launch {
+            shareProvider.shareUri(uri.toString(), null)
+            onComplete()
+        }
     }
 
 }

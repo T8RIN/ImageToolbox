@@ -17,11 +17,16 @@
 
 package ru.tech.imageresizershrinker.feature.image_preview.presentation
 
+import android.app.Activity
 import android.net.Uri
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -35,6 +40,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.outlined.FolderOpen
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -47,17 +53,26 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.helper.listFilesInDirectory
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
@@ -65,6 +80,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.image.LazyImagesGrid
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.feature.image_preview.presentation.viewModel.ImagePreviewViewModel
@@ -83,17 +99,52 @@ fun ImagePreviewScreen(
         }
     }
 
-    val pickImageLauncher =
-        rememberImagePicker(
-            mode = localImagePickerMode(Picker.Multiple)
-        ) { list ->
+    val confettiController = LocalConfettiController.current
+    val scope = rememberCoroutineScope()
+    val showConfetti: () -> Unit = {
+        scope.launch {
+            confettiController.showEmpty()
+        }
+    }
+
+    val pickImageLauncher = rememberImagePicker(
+        mode = localImagePickerMode(Picker.Multiple),
+        onSuccess = { list ->
             list.takeIf { it.isNotEmpty() }?.let {
                 viewModel.updateUris(list)
             }
         }
+    )
+
+    var isLoadingImages by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    var previousFolder by rememberSaveable {
+        mutableStateOf<Uri?>(null)
+    }
+    val context = LocalContext.current as Activity
+    val openDirectoryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocumentTree(),
+        onResult = { treeUri ->
+            treeUri?.let { uri ->
+                scope.launch {
+                    isLoadingImages = true
+                    previousFolder = uri
+                    val uris = context.listFilesInDirectory(uri)
+                    viewModel.updateUris(uris)
+                    isLoadingImages = false
+                }
+            }
+        }
+    )
 
     val pickImage = {
         pickImageLauncher.pickImage()
+    }
+
+    val pickDirectory = {
+        openDirectoryLauncher.launch(previousFolder)
     }
 
     val gridState = rememberLazyStaggeredGridState()
@@ -140,54 +191,80 @@ fun ImagePreviewScreen(
                         TopAppBarEmoji()
                     }
                 )
-                if (viewModel.uris.isNullOrEmpty()) {
-                    Column(
-                        Modifier
-                            .fillMaxSize()
-                            .verticalScroll(rememberScrollState()),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        ImageNotPickedWidget(
-                            onPickImage = pickImage,
-                            modifier = Modifier.padding(
-                                PaddingValues(
-                                    bottom = 88.dp + WindowInsets
-                                        .navigationBars
-                                        .asPaddingValues()
-                                        .calculateBottomPadding(),
-                                    top = 12.dp,
-                                    end = 12.dp,
-                                    start = 12.dp
+                AnimatedVisibility(
+                    visible = !isLoadingImages,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    if (viewModel.uris.isNullOrEmpty()) {
+                        Column(
+                            Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState()),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            ImageNotPickedWidget(
+                                onPickImage = pickImage,
+                                modifier = Modifier.padding(
+                                    PaddingValues(
+                                        bottom = 88.dp + WindowInsets
+                                            .navigationBars
+                                            .asPaddingValues()
+                                            .calculateBottomPadding(),
+                                        top = 12.dp,
+                                        end = 12.dp,
+                                        start = 12.dp
+                                    )
                                 )
                             )
+                        }
+                    } else {
+                        LazyImagesGrid(
+                            data = viewModel.uris,
+                            onAddImages = viewModel::updateUris,
+                            modifier = Modifier.fillMaxSize(),
+                            onShareImage = {
+                                viewModel.shareImage(it, showConfetti)
+                            },
+                            state = gridState
                         )
                     }
-                } else {
-                    LazyImagesGrid(
-                        data = viewModel.uris,
-                        onAddImages = viewModel::updateUris,
-                        modifier = Modifier.fillMaxSize(),
-                        state = gridState
-                    )
                 }
             }
 
-            EnhancedFloatingActionButton(
-                onClick = pickImage,
+            Row(
                 modifier = Modifier
                     .navigationBarsPadding()
                     .padding(16.dp)
-                    .align(settingsState.fabAlignment),
-                content = {
-                    Spacer(Modifier.width(16.dp))
-                    Icon(Icons.Rounded.AddPhotoAlternate, null)
-                    Spacer(Modifier.width(16.dp))
-                    Text(stringResource(R.string.pick_image_alt))
-                    Spacer(Modifier.width(16.dp))
-                }
-            )
+                    .align(settingsState.fabAlignment)
+            ) {
+                EnhancedFloatingActionButton(
+                    onClick = pickImage,
+                    content = {
+                        Spacer(Modifier.width(16.dp))
+                        Icon(Icons.Rounded.AddPhotoAlternate, null)
+                        Spacer(Modifier.width(16.dp))
+                        Text(stringResource(R.string.pick_image_alt))
+                        Spacer(Modifier.width(16.dp))
+                    }
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                EnhancedFloatingActionButton(
+                    onClick = pickDirectory,
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    content = {
+                        Icon(
+                            imageVector = Icons.Outlined.FolderOpen,
+                            contentDescription = null
+                        )
+                    }
+                )
+            }
 
             BackHandler { onGoBack() }
         }
+    }
+
+    if (isLoadingImages) {
+        LoadingDialog(canCancel = false)
     }
 }
