@@ -19,7 +19,7 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.automirrored.rounded.ManageSearch
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -50,7 +50,7 @@ fun ScreenSearchSettingItem(
         title = stringResource(R.string.search_option),
         startContent = {
             Icon(
-                imageVector = Icons.Outlined.Search,
+                imageVector = Icons.AutoMirrored.Rounded.ManageSearch,
                 contentDescription = null,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )

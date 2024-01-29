@@ -75,8 +75,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ManageSearch
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Badge
@@ -263,7 +263,7 @@ internal fun MainScreenContent(
                                 onClick = { showScreenSearch = true && canSearchScreens }
                             ) {
                                 Icon(
-                                    imageVector = Icons.Rounded.Search,
+                                    imageVector = Icons.AutoMirrored.Rounded.ManageSearch,
                                     contentDescription = null
                                 )
                             }
