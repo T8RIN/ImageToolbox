@@ -94,7 +94,7 @@ fun DrawPathModeSelector(
     values: List<DrawPathMode> = DrawPathMode.entries,
     value: DrawPathMode,
     onValueChange: (DrawPathMode) -> Unit,
-    containerColor: Color = MaterialTheme.colorScheme.surfaceContainerHigh
+    containerColor: Color = MaterialTheme.colorScheme.surfaceContainer
 ) {
     val haptics = LocalHapticFeedback.current
     val state = rememberSaveable { mutableStateOf(false) }
