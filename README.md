@@ -251,6 +251,11 @@ or click one of the badges below.
   - JXL
   - SVG and GIF to WEBP, PNG, JPEG, JPG, HEIF, HEIC, AVIF, JXL
   - Telegram sticker PNG format
+- Comparing images
+  - Slide
+  - Toggle Tap
+  - Transparency
+  - Side By Side
 - Color Utils
   - Palette generation
   - Picking color from image
@@ -259,11 +264,6 @@ or click one of the badges below.
 - Additional Features
   - Rotating
   - Flipping
-  - Comparing images
-    - Slide
-    - Toggle Tap
-    - Transparency
-    - Side By Side
   - Previewing SVG, GIF and mostly all types of images
   - Saving to any specific folder
   - Randomizing output filename
