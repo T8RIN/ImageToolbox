@@ -655,4 +655,6 @@
     <string name="confetti_sub">Confetti will be shown on saving, sharing and other primary actions</string>
     <string name="secure_mode">Secure Mode</string>
     <string name="secure_mode_sub">Hides content on exit, also the screen can\'t be captured or recorded</string>
+    <string name="exit">Exit</string>
+    <string name="preview_closing">If you leave preview now, you\'ll need to add the images again</string>
 </resources>

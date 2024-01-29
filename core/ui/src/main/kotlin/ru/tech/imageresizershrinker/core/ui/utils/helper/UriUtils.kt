@@ -90,7 +90,7 @@ suspend fun Activity.listFilesInDirectory(rootUri: Uri): List<Uri> = withContext
         }
     }
 
-    return@withContext files.sortedBy { it.second }.map { it.first }
+    return@withContext files.sortedByDescending { it.second }.map { it.first }
 }
 
 private fun isDirectory(mimeType: String): Boolean {

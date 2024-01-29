@@ -40,6 +40,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.outlined.ImageSearch
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -77,6 +78,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.image.LazyImagesGrid
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
@@ -92,6 +94,14 @@ fun ImagePreviewScreen(
     onGoBack: () -> Unit,
     viewModel: ImagePreviewViewModel = hiltViewModel()
 ) {
+    var showExitDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+    val onBack = {
+        if (viewModel.uris.isNullOrEmpty()) onGoBack()
+        else showExitDialog = true
+    }
+
     val settingsState = LocalSettingsState.current
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
@@ -260,11 +270,20 @@ fun ImagePreviewScreen(
                 )
             }
 
-            BackHandler { onGoBack() }
+            BackHandler(onBack = onBack)
         }
     }
 
     if (isLoadingImages) {
         LoadingDialog(canCancel = false)
     }
+
+    ExitWithoutSavingDialog(
+        onExit = onGoBack,
+        onDismiss = { showExitDialog = false },
+        visible = showExitDialog,
+        title = stringResource(id = R.string.image_preview),
+        text = stringResource(id = R.string.preview_closing),
+        icon = Icons.Outlined.ImageSearch
+    )
 }

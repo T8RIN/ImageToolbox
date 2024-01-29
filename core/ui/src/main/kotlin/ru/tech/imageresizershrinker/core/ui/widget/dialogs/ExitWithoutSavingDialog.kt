@@ -25,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import ru.tech.imageresizershrinker.core.resources.R
@@ -35,7 +36,10 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 fun ExitWithoutSavingDialog(
     onExit: () -> Unit,
     onDismiss: () -> Unit,
-    visible: Boolean
+    visible: Boolean,
+    text: String = stringResource(R.string.image_not_saved_sub),
+    title: String = stringResource(R.string.image_not_saved),
+    icon: ImageVector = Icons.Outlined.Save
 ) {
     if (visible) {
         AlertDialog(
@@ -49,7 +53,7 @@ fun ExitWithoutSavingDialog(
                         onExit()
                     }
                 ) {
-                    Text(stringResource(R.string.close))
+                    Text(stringResource(R.string.exit))
                 }
             },
             confirmButton = {
@@ -59,14 +63,19 @@ fun ExitWithoutSavingDialog(
                     Text(stringResource(R.string.stay))
                 }
             },
-            title = { Text(stringResource(R.string.image_not_saved)) },
+            title = { Text(text = title) },
             text = {
                 Text(
-                    stringResource(R.string.image_not_saved_sub),
+                    text = text,
                     textAlign = TextAlign.Center
                 )
             },
-            icon = { Icon(Icons.Outlined.Save, null) }
+            icon = {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null
+                )
+            }
         )
     }
 }
