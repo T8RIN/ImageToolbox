@@ -32,6 +32,7 @@ import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olshevski.navigation.reimagined.navController
 import kotlinx.coroutines.Dispatchers
@@ -267,7 +268,8 @@ class MainViewModel @Inject constructor(
                                 }
                             }
 
-                            if (isNeedUpdate(
+                            if (
+                                isNeedUpdate(
                                     currentName = BuildConfig.VERSION_NAME,
                                     updateName = tag
                                 )
@@ -286,8 +288,57 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun isNeedUpdate(currentName: String, updateName: String): Boolean {
-        fun String.toVersionCode(): Int {
+    private fun isNeedUpdateTest() {
+        if (BuildConfig.DEBUG) {
+            val updateVersions = listOf(
+                "2.6.0",
+                "2.7.0",
+                "2.6.0-rc1",
+                "2.6.0-rc01",
+                "3.0.0",
+                "2.6.0-beta02",
+                BuildConfig.VERSION_NAME,
+                "2.6.1",
+                "2.6.1-alpha01",
+                "2.6.0-rc02",
+                "2.5.1"
+            )
+            val currentVersions = listOf(
+                BuildConfig.VERSION_NAME,
+                "2.6.0-beta03",
+                "2.5.0",
+                "2.5.1",
+                "2.6.0",
+                "2.6.2"
+            )
+            val allowBetas = listOf(false, true)
+
+            allowBetas.forEach { betas ->
+                currentVersions.forEach { current ->
+                    updateVersions.forEach { update ->
+                        val needUpdate = isNeedUpdate(
+                            currentName = current,
+                            updateName = update,
+                            allowBetas = betas
+                        )
+                        "$current -> $update = $needUpdate, for betaAllowed = $betas".makeLog("Test_Updates")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun isNeedUpdate(
+        currentName: String,
+        updateName: String,
+        allowBetas: Boolean = settingsState.allowBetas
+    ): Boolean {
+
+        val betaList = listOf(
+            "alpha", "beta", "rc"
+        )
+
+        fun String.toVersionCodeString(): String {
             return replace(
                 regex = Regex("0\\d"),
                 transform = {
@@ -296,25 +347,30 @@ class MainViewModel @Inject constructor(
             ).replace("-", "")
                 .replace(".", "")
                 .replace("_", "")
+                .let { version ->
+                    if (betaList.any { it in version }) version
+                    else version + "4"
+                }
                 .replace("alpha", "1")
                 .replace("beta", "2")
                 .replace("rc", "3")
                 .replace("foss", "")
                 .replace("jxl", "")
-                .toIntOrNull() ?: -1
         }
 
-        val betaList = listOf(
-            "alpha", "beta", "rc"
-        )
+        val currentVersionCodeString = currentName.toVersionCodeString()
+        val updateVersionCodeString = updateName.toVersionCodeString()
 
-        val updateVersionCode = updateName.toVersionCode()
-        val currentVersionCode = currentName.toVersionCode()
+        val maxLength = maxOf(currentVersionCodeString.length, updateVersionCodeString.length)
+
+        val currentVersionCode = currentVersionCodeString.padEnd(maxLength, '0').toIntOrNull() ?: -1
+        val updateVersionCode = updateVersionCodeString.padEnd(maxLength, '0').toIntOrNull() ?: -1
+
         return if (!updateName.startsWith(currentName)) {
             if (betaList.all { it !in updateName }) {
                 updateVersionCode > currentVersionCode
             } else {
-                if (settingsState.allowBetas || betaList.any { it in currentName }) {
+                if (allowBetas || betaList.any { it in currentName }) {
                     updateVersionCode > currentVersionCode
                 } else false
             }
