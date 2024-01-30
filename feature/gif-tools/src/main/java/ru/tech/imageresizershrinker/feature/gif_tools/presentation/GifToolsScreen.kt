@@ -52,6 +52,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FilterFrames
+import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
 import androidx.compose.material.icons.outlined.RepeatOne
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.outlined.Share
@@ -393,6 +394,13 @@ fun GifToolsScreen(
                         checked = viewModel.params.size == null,
                         onClick = viewModel::setUseOriginalSize,
                         applyHorPadding = false,
+                        startContent = {
+                            Icon(
+                                imageVector = Icons.Outlined.PhotoSizeSelectLarge,
+                                contentDescription = null,
+                                modifier = Modifier.padding(end = 16.dp)
+                            )
+                        },
                         resultModifier = Modifier.padding(16.dp),
                         modifier = Modifier.fillMaxWidth(),
                         color = Color.Unspecified,
