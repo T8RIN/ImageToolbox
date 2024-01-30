@@ -139,7 +139,7 @@ internal class AndroidImageCombiner @Inject constructor(
                 width = (size.width * imageScale).toInt(),
                 height = (size.height * imageScale).toInt(),
                 imageScaleMode = ImageScaleMode.NotPresent
-            )!! to ImageInfo(
+            ) to ImageInfo(
                 width = (size.width * imageScale).toInt(),
                 height = (size.height * imageScale).toInt()
             )
@@ -354,14 +354,14 @@ internal class AndroidImageCombiner @Inject constructor(
                 width = (size.height * aspectRatio).toInt(),
                 height = size.height,
                 imageScaleMode = ImageScaleMode.NotPresent
-            )!!
+            )
         } else {
             imageScaler.scaleImage(
                 image = this,
                 width = size.width,
                 height = (size.width / aspectRatio).toInt(),
                 imageScaleMode = ImageScaleMode.NotPresent
-            )!!
+            )
         }
     }
 

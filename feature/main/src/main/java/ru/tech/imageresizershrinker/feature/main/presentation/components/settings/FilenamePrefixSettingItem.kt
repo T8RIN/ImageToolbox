@@ -75,9 +75,7 @@ fun FilenamePrefixSettingItem(
             .copy(alpha = 0.2f),
         endIcon = Icons.Rounded.CreateAlt,
         icon = Icons.Filled.Prefix,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 8.dp, end = 8.dp)
+        modifier = modifier
     )
     if (showChangeFilenameDialog) {
         var value by remember {

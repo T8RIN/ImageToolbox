@@ -311,7 +311,7 @@ class WatermarkingViewModel @Inject constructor(
                 size.width.pxOrElse { 1 },
                 size.height.pxOrElse { 1 },
                 resizeType = ResizeType.Flexible
-            ) ?: input
+            )
 
         }
     }

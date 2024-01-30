@@ -52,7 +52,7 @@ class ImageInfoTransformation @AssistedInject constructor(
                 height = imageInfo.height,
                 resizeType = ResizeType.Flexible,
                 imageScaleMode = ImageScaleMode.NotPresent
-            )!!
+            )
         var info = imageInfo
         if (!preset.isEmpty()) {
             val currentInfo = info.copy()

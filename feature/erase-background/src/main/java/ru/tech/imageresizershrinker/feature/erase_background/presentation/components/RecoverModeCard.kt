@@ -44,6 +44,7 @@ fun RecoverModeCard(
     PreferenceRowSwitch(
         modifier = Modifier
             .padding(start = 16.dp, end = 16.dp, top = 8.dp),
+        enabled = enabled,
         title = stringResource(R.string.restore_background),
         subtitle = stringResource(R.string.restore_background_sub),
         startIcon = Icons.Rounded.Brush,
