@@ -252,16 +252,27 @@ class SingleEditViewModel @Inject constructor(
         }
     }
 
-    fun updateBitmapAfterEditing(bitmap: Bitmap?) {
+    fun updateBitmapAfterEditing(
+        bitmap: Bitmap?,
+        saveOriginalSize: Boolean = false
+    ) {
         viewModelScope.launch {
-            val size = bitmap?.let { it.width to it.height }
-            _originalSize.value = size?.run { IntegerSize(width = first, height = second) }
+            if (!saveOriginalSize) {
+                val size = bitmap?.let { it.width to it.height }
+                _originalSize.value = size?.run { IntegerSize(width = first, height = second) }
+            }
             _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
-            resetValues()
-            _imageInfo.value = _imageInfo.value.copy(
-                width = size?.first ?: 0,
-                height = size?.second ?: 0
-            )
+            if (!saveOriginalSize) {
+                _imageInfo.value = _imageInfo.value.copy(
+                    width = bitmap?.width ?: 0,
+                    height = bitmap?.height ?: 0
+                )
+            }
+            debouncedImageCalculation {
+                checkBitmapAndUpdate(
+                    resetPreset = true
+                )
+            }
         }
     }
 
@@ -380,8 +391,9 @@ class SingleEditViewModel @Inject constructor(
             val bitmap = imageData.image
             val size = bitmap.width to bitmap.height
             _originalSize.value = size.run { IntegerSize(width = first, height = second) }
-            _bitmap.value =
-                imageScaler.scaleUntilCanShow(bitmap).also { _internalBitmap.value = it }
+            _bitmap.value = imageScaler.scaleUntilCanShow(bitmap).also {
+                _internalBitmap.value = it
+            }
             resetValues(true)
             _imageInfo.value = imageData.imageInfo.copy(
                 width = size.first,

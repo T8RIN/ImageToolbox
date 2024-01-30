@@ -395,7 +395,9 @@ fun SingleEditScreen(
         },
         useScaffold = isPortrait,
         bitmap = viewModel.previewBitmap,
-        onGetBitmap = viewModel::updateBitmapAfterEditing,
+        onGetBitmap = {
+            viewModel.updateBitmapAfterEditing(it, true)
+        },
         onRequestFiltering = viewModel::filter,
         onRequestMappingFilters = viewModel::mapFilters,
         filterList = viewModel.filterList,
@@ -415,7 +417,7 @@ fun SingleEditScreen(
         useScaffold = isPortrait,
         bitmap = viewModel.previewBitmap,
         onGetBitmap = {
-            viewModel.updateBitmapAfterEditing(it)
+            viewModel.updateBitmapAfterEditing(it, true)
             viewModel.clearDrawing()
         },
         undo = viewModel::undoDraw,
@@ -434,7 +436,9 @@ fun SingleEditScreen(
         },
         useScaffold = isPortrait,
         bitmap = viewModel.previewBitmap,
-        onGetBitmap = viewModel::updateBitmapAfterEditing,
+        onGetBitmap = {
+            viewModel.updateBitmapAfterEditing(it, true)
+        },
         clearErasing = viewModel::clearErasing,
         undo = viewModel::undoErase,
         redo = viewModel::redoErase,
