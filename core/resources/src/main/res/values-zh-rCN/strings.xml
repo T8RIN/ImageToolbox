@@ -636,4 +636,6 @@
     <string name="secure_mode">安全模式</string>
     <string name="confetti">纸屑特效</string>
     <string name="secure_mode_sub">退出时隐藏内容，并且屏幕也无法捕捉或录制</string>
+    <string name="exit">退出</string>
+    <string name="preview_closing">如果现在离开预览，则需要重新添加图像</string>
 </resources>
