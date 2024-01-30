@@ -393,6 +393,7 @@ fun GifToolsScreen(
                         checked = viewModel.params.size == null,
                         onClick = viewModel::setUseOriginalSize,
                         applyHorPadding = false,
+                        resultModifier = Modifier.padding(16.dp),
                         modifier = Modifier.fillMaxWidth(),
                         color = Color.Unspecified,
                         shape = RoundedCornerShape(24.dp)
