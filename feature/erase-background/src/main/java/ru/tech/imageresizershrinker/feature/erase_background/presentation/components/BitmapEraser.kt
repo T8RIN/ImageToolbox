@@ -165,29 +165,35 @@ fun BitmapEraser(
             val imageWidth = constraints.maxWidth
             val imageHeight = constraints.maxHeight
 
-            val drawImageBitmap = remember(constraints) {
-                imageBitmap
-                    .asAndroidBitmap()
-                    .createScaledBitmap(
-                        width = imageWidth,
-                        height = imageHeight
-                    )
-                    .asImageBitmap()
+            val drawImageBitmap by remember(imageWidth, imageHeight) {
+                derivedStateOf {
+                    imageBitmap
+                        .asAndroidBitmap()
+                        .createScaledBitmap(
+                            width = imageWidth,
+                            height = imageHeight
+                        )
+                        .asImageBitmap()
+                }
             }
 
-            val shaderBitmap = remember(imageBitmapForShader, constraints) {
-                imageBitmapForShader
-                    ?.asAndroidBitmap()
-                    ?.createScaledBitmap(
-                        imageWidth,
-                        imageHeight
-                    )
-                    ?.asImageBitmap()
+            val shaderBitmap by remember(imageBitmapForShader, imageWidth, imageHeight) {
+                derivedStateOf {
+                    imageBitmapForShader
+                        ?.asAndroidBitmap()
+                        ?.createScaledBitmap(
+                            imageWidth,
+                            imageHeight
+                        )
+                        ?.asImageBitmap()
+                }
             }
 
-            val erasedBitmap: ImageBitmap = remember(constraints) {
-                Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
-                    .asImageBitmap()
+            val erasedBitmap: ImageBitmap by remember(imageWidth, imageHeight) {
+                derivedStateOf {
+                    Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
+                        .asImageBitmap()
+                }
             }
 
             val outputImage by remember(invalidations) {
@@ -200,35 +206,44 @@ fun BitmapEraser(
                 onErased(outputImage.asAndroidBitmap())
             }
 
-            val canvas: Canvas = remember(constraints) {
-                Canvas(erasedBitmap)
+            val canvas: Canvas by remember(imageHeight, imageWidth, erasedBitmap) {
+                derivedStateOf {
+                    Canvas(erasedBitmap)
+                }
             }
 
-            val canvasSize = remember(canvas.nativeCanvas) {
-                IntegerSize(canvas.nativeCanvas.width, canvas.nativeCanvas.height)
+            val canvasSize by remember(canvas.nativeCanvas) {
+                derivedStateOf {
+                    IntegerSize(canvas.nativeCanvas.width, canvas.nativeCanvas.height)
+                }
             }
 
-            val drawPaint = remember(
+            val drawPaint by remember(
                 strokeWidth,
                 isRecoveryOn,
                 brushSoftness,
                 canvasSize,
                 useLasso
             ) {
-                Paint().apply {
-                    style = if (useLasso) {
-                        PaintingStyle.Fill
-                    } else PaintingStyle.Stroke
+                derivedStateOf {
+                    Paint().apply {
+                        style = if (useLasso) {
+                            PaintingStyle.Fill
+                        } else PaintingStyle.Stroke
 
-                    blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
-                    strokeCap = StrokeCap.Round
-                    shader = if (isRecoveryOn) shaderBitmap?.let { ImageShader(it) } else shader
-                    this.strokeWidth = strokeWidth.toPx(canvasSize)
-                    strokeJoin = StrokeJoin.Round
-                    isAntiAlias = true
-                }.asFrameworkPaint().apply {
-                    if (brushSoftness.value > 0f) maskFilter =
-                        BlurMaskFilter(brushSoftness.toPx(canvasSize), BlurMaskFilter.Blur.NORMAL)
+                        blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
+                        strokeCap = StrokeCap.Round
+                        shader = if (isRecoveryOn) shaderBitmap?.let { ImageShader(it) } else shader
+                        this.strokeWidth = strokeWidth.toPx(canvasSize)
+                        strokeJoin = StrokeJoin.Round
+                        isAntiAlias = true
+                    }.asFrameworkPaint().apply {
+                        if (brushSoftness.value > 0f) maskFilter =
+                            BlurMaskFilter(
+                                brushSoftness.toPx(canvasSize),
+                                BlurMaskFilter.Blur.NORMAL
+                            )
+                    }
                 }
             }
 
@@ -305,41 +320,54 @@ fun BitmapEraser(
                 with(canvas.nativeCanvas) {
                     drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
 
+                    val imagePaint = remember { Paint() }
                     drawImageRect(
                         image = drawImageBitmap,
                         dstSize = IntSize(canvasSize.width, canvasSize.height),
-                        paint = Paint()
+                        paint = imagePaint
                     )
 
                     paths.forEach { (nonScaledPath, stroke, radius, _, isRecoveryOn, _, size, mode) ->
-                        val path = nonScaledPath.scaleToFitCanvas(
-                            currentSize = canvasSize,
-                            oldSize = size
-                        )
-                        val paint = Paint().apply {
-                            style = if (mode is DrawPathMode.Lasso) {
-                                PaintingStyle.Fill
-                            } else PaintingStyle.Stroke
-                            blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
-                            strokeCap = StrokeCap.Round
-                            shader =
-                                if (isRecoveryOn) shaderBitmap?.let { ImageShader(it) } else shader
-                            this.strokeWidth = stroke.toPx(canvasSize)
-                            strokeJoin = StrokeJoin.Round
-                            isAntiAlias = true
-                        }.asFrameworkPaint().apply {
-                            if (radius.value > 0f) {
-                                maskFilter =
-                                    BlurMaskFilter(
-                                        radius.toPx(canvasSize),
-                                        BlurMaskFilter.Blur.NORMAL
-                                    )
+                        val path by remember(nonScaledPath, size, canvasSize) {
+                            derivedStateOf {
+                                nonScaledPath.scaleToFitCanvas(
+                                    currentSize = canvasSize,
+                                    oldSize = size
+                                ).asAndroidPath()
                             }
                         }
-                        drawPath(
-                            path.asAndroidPath(),
-                            paint
-                        )
+                        val paint by remember(
+                            mode,
+                            isRecoveryOn,
+                            shaderBitmap,
+                            stroke,
+                            canvasSize,
+                            radius
+                        ) {
+                            derivedStateOf {
+                                Paint().apply {
+                                    style = if (mode is DrawPathMode.Lasso) {
+                                        PaintingStyle.Fill
+                                    } else PaintingStyle.Stroke
+                                    blendMode = if (isRecoveryOn) blendMode else BlendMode.Clear
+                                    strokeCap = StrokeCap.Round
+
+                                    if (isRecoveryOn) shader = shaderBitmap?.let { ImageShader(it) }
+                                    this.strokeWidth = stroke.toPx(canvasSize)
+                                    strokeJoin = StrokeJoin.Round
+                                    isAntiAlias = true
+                                }.asFrameworkPaint().apply {
+                                    if (radius.value > 0f) {
+                                        maskFilter =
+                                            BlurMaskFilter(
+                                                radius.toPx(canvasSize),
+                                                BlurMaskFilter.Blur.NORMAL
+                                            )
+                                    }
+                                }
+                            }
+                        }
+                        drawPath(path, paint)
                     }
                     drawPath(
                         drawPath.asAndroidPath(),

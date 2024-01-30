@@ -31,5 +31,12 @@ internal fun Project.configureCompose(
         composeOptions {
             kotlinCompilerExtensionVersion = libs.findVersion("compose.compiler").get().toString()
         }
+        kotlinOptions {
+            freeCompilerArgs += listOf(
+                "-P",
+                "plugin:androidx.compose.compiler.plugins.kotlin:stabilityConfigurationPath=" +
+                        "${project.projectDir.absolutePath}/compose_compiler_config.conf"
+            )
+        }
     }
 }

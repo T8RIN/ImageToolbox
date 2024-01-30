@@ -106,9 +106,9 @@ fun BitmapDrawer(
     drawMode: DrawMode,
     modifier: Modifier,
     drawPathMode: DrawPathMode = DrawPathMode.Free,
-    onDrawStart: (Bitmap) -> Unit = {},
+    onDrawStart: () -> Unit = {},
     onDraw: (Bitmap) -> Unit = {},
-    onDrawFinish: (Bitmap) -> Unit = {},
+    onDrawFinish: () -> Unit = {},
     backgroundColor: Color,
     panEnabled: Boolean,
     drawColor: Color
@@ -171,31 +171,48 @@ fun BitmapDrawer(
             val imageWidth = constraints.maxWidth
             val imageHeight = constraints.maxHeight
 
-            val drawImageBitmap = remember(constraints, backgroundColor) {
-                imageBitmap.asAndroidBitmap().createScaledBitmap(
-                    width = imageWidth,
-                    height = imageHeight
-                ).apply {
-                    val canvas = AndroidCanvas(this)
-                    val paint = android.graphics.Paint().apply {
-                        color = backgroundColor.toArgb()
-                    }
-                    canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
-                }.asImageBitmap()
+            val drawImageBitmap by remember(imageWidth, imageHeight, backgroundColor) {
+                derivedStateOf {
+                    imageBitmap.asAndroidBitmap().createScaledBitmap(
+                        width = imageWidth,
+                        height = imageHeight
+                    ).apply {
+                        val canvas = AndroidCanvas(this)
+                        val paint = android.graphics.Paint().apply {
+                            color = backgroundColor.toArgb()
+                        }
+                        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+                    }.asImageBitmap()
+                }
             }
 
-            val drawBitmap: ImageBitmap = remember(constraints) {
-                Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
-                    .asImageBitmap()
+            val drawBitmap: ImageBitmap by remember(imageWidth, imageHeight) {
+                derivedStateOf {
+                    Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
+                        .asImageBitmap()
+                }
             }
 
-            val drawPathBitmap: ImageBitmap = remember(constraints) {
-                Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
-                    .asImageBitmap()
+            val drawPathBitmap: ImageBitmap by remember(imageWidth, imageHeight) {
+                derivedStateOf {
+                    Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
+                        .asImageBitmap()
+                }
             }
 
             var invalidations by remember {
                 mutableIntStateOf(0)
+            }
+
+            LaunchedEffect(
+                paths,
+                drawMode,
+                backgroundColor,
+                drawPathMode,
+                imageWidth,
+                imageHeight
+            ) {
+                invalidations++
             }
 
             val outputImage by remember(invalidations) {
@@ -209,16 +226,22 @@ fun BitmapDrawer(
                 onDraw(outImage)
             }
 
-            val canvas: Canvas = remember(constraints) {
-                Canvas(drawBitmap)
+            val canvas: Canvas by remember(drawBitmap, imageHeight, imageWidth) {
+                derivedStateOf {
+                    Canvas(drawBitmap)
+                }
             }
 
-            val drawPathCanvas: Canvas = remember(constraints) {
-                Canvas(drawPathBitmap)
+            val drawPathCanvas: Canvas by remember(drawPathBitmap, imageWidth, imageHeight) {
+                derivedStateOf {
+                    Canvas(drawPathBitmap)
+                }
             }
 
-            val canvasSize = remember(canvas.nativeCanvas) {
-                IntegerSize(canvas.nativeCanvas.width, canvas.nativeCanvas.height)
+            val canvasSize by remember(canvas.nativeCanvas) {
+                derivedStateOf {
+                    IntegerSize(canvas.nativeCanvas.width, canvas.nativeCanvas.height)
+                }
             }
 
             fun transformationsForMode(
@@ -254,16 +277,16 @@ fun BitmapDrawer(
                 else -> emptyList()
             }
 
-            val drawPaint =
-                remember(
-                    strokeWidth,
-                    isEraserOn,
-                    drawColor,
-                    brushSoftness,
-                    drawMode,
-                    canvasSize,
-                    drawPathMode
-                ) {
+            val drawPaint by remember(
+                strokeWidth,
+                isEraserOn,
+                drawColor,
+                brushSoftness,
+                drawMode,
+                canvasSize,
+                drawPathMode
+            ) {
+                derivedStateOf {
                     val isRect = listOf(
                         DrawPathMode.OutlinedRect,
                         DrawPathMode.OutlinedOval,
@@ -323,6 +346,7 @@ fun BitmapDrawer(
                         }
                     }
                 }
+            }
 
             var drawPath by remember(
                 drawMode,
@@ -342,22 +366,12 @@ fun BitmapDrawer(
                 drawPathMode
             ) { mutableStateOf(Path()) }
 
-            LaunchedEffect(
-                paths,
-                drawMode,
-                backgroundColor,
-                drawPathMode,
-                constraints
-            ) {
-                invalidations++
-            }
-
             canvas.apply {
                 when (motionEvent) {
 
                     MotionEvent.Down -> {
                         if (currentDrawPosition.isSpecified) {
-                            onDrawStart(outputImage.overlay(drawPathBitmap).asAndroidBitmap())
+                            onDrawStart()
                             drawPath.moveTo(currentDrawPosition.x, currentDrawPosition.y)
                             previousDrawPosition = currentDrawPosition
                             pathWithoutTransformations = drawPath
@@ -609,7 +623,7 @@ fun BitmapDrawer(
 
                             pathWithoutTransformations = Path()
                         }
-                        onDrawFinish(outputImage.overlay(drawPathBitmap).asAndroidBitmap())
+                        onDrawFinish()
                     }
 
                     else -> Unit
@@ -620,24 +634,40 @@ fun BitmapDrawer(
                     drawColor(backgroundColor.toArgb())
 
                     paths.forEach { (nonScaledPath, nonScaledStroke, radius, drawColor, isErasing, effect, size, pathMode) ->
-                        val stroke = nonScaledStroke.toPx(canvasSize)
-                        val path = nonScaledPath.scaleToFitCanvas(
-                            currentSize = canvasSize,
-                            oldSize = size
-                        )
-                        val isRect = listOf(
-                            DrawPathMode.OutlinedRect,
-                            DrawPathMode.OutlinedOval,
-                            DrawPathMode.Rect,
-                            DrawPathMode.Oval,
-                            DrawPathMode.Lasso
-                        ).any { pathMode::class.isInstance(it) }
+                        val stroke by remember(nonScaledPath, canvasSize) {
+                            derivedStateOf {
+                                nonScaledStroke.toPx(canvasSize)
+                            }
+                        }
+                        val path by remember(nonScaledPath, canvasSize, size) {
+                            derivedStateOf {
+                                nonScaledPath.scaleToFitCanvas(
+                                    currentSize = canvasSize,
+                                    oldSize = size
+                                ).asAndroidPath()
+                            }
+                        }
+                        val isRect by remember(pathMode) {
+                            derivedStateOf {
+                                listOf(
+                                    DrawPathMode.OutlinedRect,
+                                    DrawPathMode.OutlinedOval,
+                                    DrawPathMode.Rect,
+                                    DrawPathMode.Oval,
+                                    DrawPathMode.Lasso
+                                ).any { pathMode::class.isInstance(it) }
+                            }
+                        }
 
-                        val isFilled = listOf(
-                            DrawPathMode.Rect,
-                            DrawPathMode.Oval,
-                            DrawPathMode.Lasso
-                        ).any { pathMode::class.isInstance(it) }
+                        val isFilled by remember {
+                            derivedStateOf {
+                                listOf(
+                                    DrawPathMode.Rect,
+                                    DrawPathMode.Oval,
+                                    DrawPathMode.Lasso
+                                ).any { pathMode::class.isInstance(it) }
+                            }
+                        }
 
                         if (effect is DrawMode.PathEffect && !isErasing) {
                             var shaderSource by remember(backgroundColor) {
@@ -650,7 +680,7 @@ fun BitmapDrawer(
                                             .asAndroidBitmap(),
                                         transformationsForMode(effect)
                                     )?.asImageBitmap()?.clipBitmap(
-                                        path = path,
+                                        path = path.asComposePath(),
                                         paint = Paint().apply {
                                             if (isFilled) {
                                                 style = PaintingStyle.Fill
@@ -678,83 +708,93 @@ fun BitmapDrawer(
                                 LaunchedEffect(shaderSource) {
                                     drawPath = Path()
                                 }
+                                val imagePaint = remember { Paint() }
                                 drawImage(
                                     image = shaderSource!!,
                                     topLeftOffset = Offset.Zero,
-                                    paint = Paint()
+                                    paint = imagePaint
                                 )
                             }
                         } else {
-                            drawPath(
-                                path.asAndroidPath(),
-                                Paint().apply {
-                                    blendMode = if (!isErasing) blendMode else BlendMode.Clear
-                                    if (isErasing) {
-                                        style = PaintingStyle.Stroke
-                                        this.strokeWidth = stroke
-                                        strokeCap = StrokeCap.Round
-                                        strokeJoin = StrokeJoin.Round
-                                    } else {
-                                        if (isFilled) {
-                                            style = PaintingStyle.Fill
-                                        } else {
+                            val pathPaint by remember(
+                                isErasing,
+                                isFilled,
+                                stroke,
+                                isRect,
+                                effect,
+                                drawColor,
+                                radius,
+                                canvasSize
+                            ) {
+                                derivedStateOf {
+                                    Paint().apply {
+                                        blendMode = if (!isErasing) blendMode else BlendMode.Clear
+                                        if (isErasing) {
                                             style = PaintingStyle.Stroke
                                             this.strokeWidth = stroke
-                                            if (effect is DrawMode.Highlighter || isRect) {
-                                                strokeCap = StrokeCap.Square
+                                            strokeCap = StrokeCap.Round
+                                            strokeJoin = StrokeJoin.Round
+                                        } else {
+                                            if (isFilled) {
+                                                style = PaintingStyle.Fill
                                             } else {
-                                                strokeCap = StrokeCap.Round
-                                                strokeJoin = StrokeJoin.Round
+                                                style = PaintingStyle.Stroke
+                                                this.strokeWidth = stroke
+                                                if (effect is DrawMode.Highlighter || isRect) {
+                                                    strokeCap = StrokeCap.Square
+                                                } else {
+                                                    strokeCap = StrokeCap.Round
+                                                    strokeJoin = StrokeJoin.Round
+                                                }
                                             }
                                         }
-                                    }
-                                    color = drawColor
-                                    alpha = drawColor.alpha
-                                }.asFrameworkPaint().apply {
-                                    if (effect is DrawMode.Neon && !isErasing) {
-                                        this.color = Color.White.toArgb()
-                                        setShadowLayer(
-                                            radius.toPx(canvasSize),
-                                            0f,
-                                            0f,
-                                            drawColor
-                                                .copy(alpha = .8f)
-                                                .toArgb()
-                                        )
-                                    } else if (radius.value > 0f) {
-                                        maskFilter =
-                                            BlurMaskFilter(
+                                        color = drawColor
+                                        alpha = drawColor.alpha
+                                    }.asFrameworkPaint().apply {
+                                        if (effect is DrawMode.Neon && !isErasing) {
+                                            this.color = Color.White.toArgb()
+                                            setShadowLayer(
                                                 radius.toPx(canvasSize),
-                                                BlurMaskFilter.Blur.NORMAL
+                                                0f,
+                                                0f,
+                                                drawColor
+                                                    .copy(alpha = .8f)
+                                                    .toArgb()
                                             )
+                                        } else if (radius.value > 0f) {
+                                            maskFilter =
+                                                BlurMaskFilter(
+                                                    radius.toPx(canvasSize),
+                                                    BlurMaskFilter.Blur.NORMAL
+                                                )
+                                        }
                                     }
                                 }
-                            )
+                            }
+                            drawPath(path, pathPaint)
                         }
                     }
 
                     if (drawMode !is DrawMode.PathEffect || isEraserOn) {
-                        drawPath(
-                            drawPath.asAndroidPath(),
-                            drawPaint
-                        )
+                        val androidPath by remember(drawPath) {
+                            derivedStateOf {
+                                drawPath.asAndroidPath()
+                            }
+                        }
+                        drawPath(androidPath, drawPaint)
                     }
                 }
             }
 
-            var pathEffectBitmap by remember {
+            var shaderBitmap by remember {
                 mutableStateOf<ImageBitmap?>(null)
             }
 
             LaunchedEffect(outputImage, paths, backgroundColor, drawMode) {
-                pathEffectBitmap = onRequestFiltering(
+                shaderBitmap = onRequestFiltering(
                     outputImage.asAndroidBitmap(),
                     transformationsForMode(drawMode)
-                )?.asImageBitmap()
-            }
-
-            val shaderBitmap = remember(pathEffectBitmap) {
-                pathEffectBitmap?.asAndroidBitmap()?.createScaledBitmap(
+                )?.createScaledBitmap(
                     width = imageWidth,
                     height = imageHeight
                 )?.asImageBitmap()
@@ -765,48 +805,58 @@ fun BitmapDrawer(
                     with(nativeCanvas) {
                         drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
 
-                        val isRect = listOf(
-                            DrawPathMode.OutlinedRect,
-                            DrawPathMode.OutlinedOval,
-                            DrawPathMode.Rect,
-                            DrawPathMode.Oval,
-                            DrawPathMode.Lasso
-                        ).any { drawPathMode::class.isInstance(it) }
-
-                        val isFilled = listOf(
-                            DrawPathMode.Rect,
-                            DrawPathMode.Oval,
-                            DrawPathMode.Lasso
-                        ).any { drawPathMode::class.isInstance(it) }
-
-                        val paint = Paint().apply {
-                            if (isFilled) {
-                                style = PaintingStyle.Fill
-                            } else {
-                                style = PaintingStyle.Stroke
-                                this.strokeWidth = strokeWidth.toPx(canvasSize)
-                                if (isRect) {
-                                    strokeCap = StrokeCap.Square
-                                } else {
-                                    strokeCap = StrokeCap.Round
-                                    strokeJoin = StrokeJoin.Round
-                                }
+                        val isRect by remember(drawPathMode) {
+                            derivedStateOf {
+                                listOf(
+                                    DrawPathMode.OutlinedRect,
+                                    DrawPathMode.OutlinedOval,
+                                    DrawPathMode.Rect,
+                                    DrawPathMode.Oval,
+                                    DrawPathMode.Lasso
+                                ).any { drawPathMode::class.isInstance(it) }
                             }
-
-                            color = Color.Transparent
-                            blendMode = BlendMode.Clear
                         }
-                        val newPath = drawPath.copy().asAndroidPath()
+
+                        val isFilled by remember(drawPathMode) {
+                            derivedStateOf {
+                                listOf(
+                                    DrawPathMode.Rect,
+                                    DrawPathMode.Oval,
+                                    DrawPathMode.Lasso
+                                ).any { drawPathMode::class.isInstance(it) }
+                            }
+                        }
+
+                        val paint by remember(isFilled, strokeWidth, canvasSize, isRect) {
+                            derivedStateOf {
+                                Paint().apply {
+                                    if (isFilled) {
+                                        style = PaintingStyle.Fill
+                                    } else {
+                                        style = PaintingStyle.Stroke
+                                        this.strokeWidth = strokeWidth.toPx(canvasSize)
+                                        if (isRect) {
+                                            strokeCap = StrokeCap.Square
+                                        } else {
+                                            strokeCap = StrokeCap.Round
+                                            strokeJoin = StrokeJoin.Round
+                                        }
+                                    }
+
+                                    color = Color.Transparent
+                                    blendMode = BlendMode.Clear
+                                }.asFrameworkPaint()
+                            }
+                        }
+                        val newPath = drawPath.copy().asAndroidPath().apply {
+                            fillType = android.graphics.Path.FillType.INVERSE_WINDING
+                        }
+                        val imagePaint = remember { Paint() }
 
                         drawImage(
-                            shaderBitmap, Offset.Zero, Paint()
+                            shaderBitmap!!, Offset.Zero, imagePaint
                         )
-                        drawPath(
-                            newPath.apply {
-                                fillType = android.graphics.Path.FillType.INVERSE_WINDING
-                            },
-                            paint.asFrameworkPaint()
-                        )
+                        drawPath(newPath, paint)
                     }
                 }
             }
@@ -846,6 +896,11 @@ fun BitmapDrawer(
                 delayAfterDownInMillis = smartDelayAfterDownInMillis(globalTouchPointersCount)
             )
 
+            val previewBitmap by remember(invalidations) {
+                derivedStateOf {
+                    outputImage.overlay(drawPathBitmap)
+                }
+            }
             Image(
                 modifier = Modifier
                     .matchParentSize()
@@ -860,11 +915,7 @@ fun BitmapDrawer(
                         color = MaterialTheme.colorScheme.outlineVariant(),
                         RoundedCornerShape(2.dp)
                     ),
-                bitmap = remember(invalidations) {
-                    derivedStateOf {
-                        outputImage.overlay(drawPathBitmap)
-                    }
-                }.value,
+                bitmap = previewBitmap,
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds
             )
