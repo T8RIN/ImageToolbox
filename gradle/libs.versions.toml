@@ -4,7 +4,7 @@ androidTargetSdk = "34"
 androidCompileSdk = "34"
 
 versionName = "2.6.0"
-versionCode = "115"
+versionCode = "116"
 
 jvmTarget = "17"
 compose-compiler = "1.5.8"
