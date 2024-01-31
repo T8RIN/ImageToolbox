@@ -658,4 +658,7 @@
     <string name="random_dithering">Случайный дизеринг</string>
     <string name="simple_threshold_dithering">Простой пороговый дизеринг</string>
     <string name="email">Почта</string>
+    <string name="median_blur">Медианное размытие</string>
+    <string name="sigma">Сигма</string>
+    <string name="spatial_sigma">Пространственная сигма</string>
 </resources>
