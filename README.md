@@ -144,6 +144,7 @@ or click one of the badges below.
   - [x] Fast Blur
   - [x] Bilateral Blur
   - [x] Zoom Blur
+  - [x] Median Blur
   - [x] Pixelation
   - [x] Enhanced Pixelation
   - [x] Stroke Pixelation
