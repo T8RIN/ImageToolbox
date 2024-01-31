@@ -17,30 +17,22 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.controls
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
@@ -51,10 +43,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.icons.material.QualityHigh
+import ru.tech.imageresizershrinker.core.ui.icons.material.QualityLow
+import ru.tech.imageresizershrinker.core.ui.icons.material.QualityMedium
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.value.ValueDialog
-import ru.tech.imageresizershrinker.core.ui.widget.value.ValueText
-import kotlin.math.roundToInt
+
+//TODO: Add jxl speed handling
 
 @Composable
 fun QualityWidget(
@@ -70,6 +64,16 @@ fun QualityWidget(
 
     val compressingLiteral = if (isQuality) "%" else ""
 
+    val currentIcon by remember(quality) {
+        derivedStateOf {
+            when {
+                imageFormat.isHighQuality(quality) -> Icons.Rounded.QualityHigh
+                imageFormat.isMidQuality(quality) -> Icons.Rounded.QualityMedium
+                else -> Icons.Rounded.QualityLow
+            }
+        }
+    }
+
     AnimatedVisibility(
         visible = visible,
         enter = fadeIn() + expandVertically(),
@@ -84,61 +88,23 @@ fun QualityWidget(
                 } else Color.Unspecified
             )
         ) {
-            Column(
-                modifier = Modifier
-                    .container(shape = RoundedCornerShape(24.dp)),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+            EnhancedSliderItem(
+                value = quality,
+                title = if (!isEffort) {
+                    stringResource(R.string.quality)
+                } else stringResource(R.string.effort),
+                icon = currentIcon,
+                valueRange = imageFormat.compressionRange.let { it.first.toFloat()..it.last.toFloat() },
+                steps = imageFormat.compressionRange.let { it.last - it.first - 1 },
+                internalStateTransformation = {
+                    it.toInt().coerceIn(imageFormat.compressionRange).toFloat()
+                },
+                onValueChange = {
+                    onQualityChange(it)
+                },
+                valueSuffix = " $compressingLiteral",
+                shape = RoundedCornerShape(24.dp)
             ) {
-                Spacer(Modifier.height(8.dp))
-                Row(
-                    modifier = Modifier.padding(start = 16.dp, end = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    AnimatedContent(isEffort, modifier = Modifier.weight(1f)) { effort ->
-                        Text(
-                            text = if (!effort) stringResource(R.string.quality) else stringResource(
-                                R.string.effort
-                            ),
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-                    AnimatedContent(compressingLiteral) { literal ->
-                        var showValueDialog by remember { mutableStateOf(false) }
-                        ValueText(
-                            modifier = Modifier,
-                            value = quality.roundToInt().coerceIn(imageFormat.compressionRange),
-                            valueSuffix = literal,
-                            onClick = {
-                                showValueDialog = true
-                            }
-                        )
-                        ValueDialog(
-                            roundTo = 0,
-                            valueState = quality.toString(),
-                            onValueUpdate = {
-                                onQualityChange(
-                                    it.toInt().coerceIn(imageFormat.compressionRange).toFloat()
-                                )
-                            },
-                            valueRange = imageFormat.compressionRange.let { it.first.toFloat()..it.last.toFloat() },
-                            expanded = visible && showValueDialog,
-                            onDismiss = { showValueDialog = false },
-                        )
-                    }
-                }
-                Spacer(Modifier.weight(1f))
-                EnhancedSlider(
-                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 6.dp),
-                    enabled = enabled,
-                    value = quality,
-                    onValueChange = {
-                        onQualityChange(it.toInt().coerceIn(imageFormat.compressionRange).toFloat())
-                    },
-                    valueRange = imageFormat.compressionRange.let { it.first.toFloat()..it.last.toFloat() },
-                    steps = imageFormat.compressionRange.let { it.last - it.first - 1 }
-                )
                 AnimatedVisibility(isEffort) {
                     Text(
                         text = stringResource(
@@ -159,4 +125,14 @@ fun QualityWidget(
             }
         }
     }
+}
+
+private fun ImageFormat.isHighQuality(quality: Float): Boolean {
+    val range = compressionRange.run { endInclusive - start }
+    return quality > range * (4 / 5f)
+}
+
+private fun ImageFormat.isMidQuality(quality: Float): Boolean {
+    val range = compressionRange.run { endInclusive - start }
+    return quality > range * (2 / 5f)
 }

@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.controls
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
@@ -98,16 +99,18 @@ fun EnhancedSliderItem(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(bottom = 8.dp)
                 ) {
-                    if (icon != null) {
-                        Icon(
-                            imageVector = icon,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(
-                                    top = topContentPadding,
-                                    start = 12.dp
-                                )
-                        )
+                    AnimatedContent(icon) { icon ->
+                        if (icon != null) {
+                            Icon(
+                                imageVector = icon,
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .padding(
+                                        top = topContentPadding,
+                                        start = 12.dp
+                                    )
+                            )
+                        }
                     }
                     Text(
                         text = title,
@@ -134,21 +137,29 @@ fun EnhancedSliderItem(
                         }
                     )
                 }
-                EnhancedSlider(
-                    modifier = sliderModifier,
-                    value = internalState.toFloat(),
-                    onValueChange = {
-                        internalState = internalStateTransformation(it)
-                        onValueChange(it)
-                    },
-                    onValueChangeFinished = onValueChangeFinished?.let {
-                        {
-                            it(internalState.toFloat())
-                        }
-                    },
-                    valueRange = valueRange,
-                    steps = steps
-                )
+                AnimatedContent(
+                    targetState = Triple(
+                        valueRange,
+                        steps,
+                        sliderModifier
+                    )
+                ) { (valueRange, steps, sliderModifier) ->
+                    EnhancedSlider(
+                        modifier = sliderModifier,
+                        value = internalState.toFloat(),
+                        onValueChange = {
+                            internalState = internalStateTransformation(it)
+                            onValueChange(it)
+                        },
+                        onValueChangeFinished = onValueChangeFinished?.let {
+                            {
+                                it(internalState.toFloat())
+                            }
+                        },
+                        valueRange = valueRange,
+                        steps = steps
+                    )
+                }
                 additionalContent?.invoke()
             }
         }
