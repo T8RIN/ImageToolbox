@@ -636,4 +636,6 @@
     <string name="confetti_sub">五彩紙屑將顯示在保存、分享和其他主要操作上</string>
     <string name="secure_mode">安全模式</string>
     <string name="secure_mode_sub">退出時隱藏內容，也無法捕捉或錄製螢幕</string>
+    <string name="exit">退出</string>
+    <string name="preview_closing">如果現在離開預覽，則需要重新新增影象</string>
 </resources>
