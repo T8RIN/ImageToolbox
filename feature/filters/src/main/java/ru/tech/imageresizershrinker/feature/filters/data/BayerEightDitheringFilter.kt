@@ -19,11 +19,11 @@ package ru.tech.imageresizershrinker.feature.filters.data
 
 import android.graphics.Bitmap
 import coil.size.Size
-import com.android.nQuant.Dithering
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.filters.data.dither.Dithering
 
 class BayerEightDitheringFilter(
     override val value: Pair<Float, Boolean> = 200f to false,
