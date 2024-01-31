@@ -249,7 +249,7 @@
     <string name="paint_color">颜料颜色</string>
     <string name="draw_on_image">在图像上绘画</string>
     <string name="draw_on_image_sub">选择一张图像并在上面绘画</string>
-    <string name="paint_alpha">颜料透明度</string>
+    <string name="paint_alpha">水印透明度</string>
     <string name="draw_on_background">在纯色背景上绘制</string>
     <string name="draw_on_background_sub">选择背景色并在该背景上进行绘制</string>
     <string name="background_color">背景色</string>
@@ -616,7 +616,7 @@
     <string name="offset_x">偏移 X</string>
     <string name="overlay_mode">叠加模式</string>
     <string name="watermarking_image_sub">该图片将作为水印图案使用</string>
-    <string name="gif_tools">GIF工具</string>
+    <string name="gif_tools">GIF 工具</string>
     <string name="gif_type_to_image">GIF 转换为图像</string>
     <string name="gif_type_to_image_sub">GIF 文件转换为批量图片</string>
     <string name="gif_type_to_gif">图像转换为 GIF</string>
