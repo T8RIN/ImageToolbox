@@ -1,4 +1,3 @@
-
 /*
  * ImageToolbox is an image editor for android
  * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
@@ -16,28 +15,28 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.data
+package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
-import coil.size.Size
-import com.android.nQuant.Dithering
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
+import ru.tech.imageresizershrinker.core.resources.R
 
-class BayerTwoDitheringFilter(
+class UiBayerFourDitheringFilter(
     override val value: Pair<Float, Boolean> = 200f to false,
-) : Filter.BayerTwoDithering<Bitmap>, Transformation<Bitmap> {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: Size
-    ): Bitmap = withContext(Dispatchers.IO) {
-        Dithering(value.first.toInt(), value.second).dither(Dithering.Type.BayerTwo, input)
-    }
-
-}
+) : UiFilter<Pair<Float, Boolean>>(
+    title = R.string.bayer_four_dithering,
+    value = value,
+    paramsInfo = listOf(
+        FilterParam(
+            title = R.string.threshold,
+            valueRange = 1f..255f,
+            roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.gray_scale,
+            valueRange = 0f..0f,
+            roundTo = 0
+        )
+    )
+), Filter.BayerFourDithering<Bitmap>

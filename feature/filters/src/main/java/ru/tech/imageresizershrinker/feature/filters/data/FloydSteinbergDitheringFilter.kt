@@ -1,4 +1,3 @@
-
 /*
  * ImageToolbox is an image editor for android
  * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
@@ -26,9 +25,9 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-class BayerTwoDitheringFilter(
+class FloydSteinbergDitheringFilter(
     override val value: Pair<Float, Boolean> = 200f to false,
-) : Filter.BayerTwoDithering<Bitmap>, Transformation<Bitmap> {
+) : Filter.FloydSteinbergDithering<Bitmap>, Transformation<Bitmap> {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -37,7 +36,7 @@ class BayerTwoDitheringFilter(
         input: Bitmap,
         size: Size
     ): Bitmap = withContext(Dispatchers.IO) {
-        Dithering(value.first.toInt(), value.second).dither(Dithering.Type.BayerTwo, input)
+        Dithering(value.first.toInt(), value.second).dither(Dithering.Type.FloydSteinberg, input)
     }
 
 }

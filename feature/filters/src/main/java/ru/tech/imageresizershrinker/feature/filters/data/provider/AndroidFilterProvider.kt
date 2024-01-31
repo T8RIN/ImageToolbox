@@ -25,12 +25,17 @@ import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.filters.data.AtkinsonDitheringFilter
+import ru.tech.imageresizershrinker.feature.filters.data.BayerEightDitheringFilter
+import ru.tech.imageresizershrinker.feature.filters.data.BayerFourDitheringFilter
+import ru.tech.imageresizershrinker.feature.filters.data.BayerThreeDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.BayerTwoDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.BilaterialBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.BlackAndWhiteFilter
 import ru.tech.imageresizershrinker.feature.filters.data.BoxBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.BrightnessFilter
 import ru.tech.imageresizershrinker.feature.filters.data.BulgeDistortionFilter
+import ru.tech.imageresizershrinker.feature.filters.data.BurkesDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.CGAColorSpaceFilter
 import ru.tech.imageresizershrinker.feature.filters.data.CirclePixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.ColorBalanceFilter
@@ -47,7 +52,9 @@ import ru.tech.imageresizershrinker.feature.filters.data.EnhancedDiamondPixelati
 import ru.tech.imageresizershrinker.feature.filters.data.EnhancedPixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.ExposureFilter
 import ru.tech.imageresizershrinker.feature.filters.data.FalseColorFilter
+import ru.tech.imageresizershrinker.feature.filters.data.FalseFloydSteinbergDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.FastBlurFilter
+import ru.tech.imageresizershrinker.feature.filters.data.FloydSteinbergDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.GammaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.GaussianBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.GlassSphereRefractionFilter
@@ -55,8 +62,10 @@ import ru.tech.imageresizershrinker.feature.filters.data.HalftoneFilter
 import ru.tech.imageresizershrinker.feature.filters.data.HazeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.HighlightsAndShadowsFilter
 import ru.tech.imageresizershrinker.feature.filters.data.HueFilter
+import ru.tech.imageresizershrinker.feature.filters.data.JarvisJudiceNinkeDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.KuwaharaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.LaplacianFilter
+import ru.tech.imageresizershrinker.feature.filters.data.LeftToRightDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.LookupFilter
 import ru.tech.imageresizershrinker.feature.filters.data.LuminanceThresholdFilter
 import ru.tech.imageresizershrinker.feature.filters.data.MonochromeFilter
@@ -67,12 +76,15 @@ import ru.tech.imageresizershrinker.feature.filters.data.PixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.PosterizeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.QuantizierFilter
 import ru.tech.imageresizershrinker.feature.filters.data.RGBFilter
+import ru.tech.imageresizershrinker.feature.filters.data.RandomDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.RemoveColorFilter
 import ru.tech.imageresizershrinker.feature.filters.data.ReplaceColorFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SaturationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SepiaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SharpenFilter
-import ru.tech.imageresizershrinker.feature.filters.data.SideFadeFilter
+import ru.tech.imageresizershrinker.feature.filters.data.SierraDitheringFilter
+import ru.tech.imageresizershrinker.feature.filters.data.SierraLiteDitheringFilter
+import ru.tech.imageresizershrinker.feature.filters.data.SimpleThresholdDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SketchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SmoothToonFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SobelEdgeDetectionFilter
@@ -80,8 +92,10 @@ import ru.tech.imageresizershrinker.feature.filters.data.SolarizeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SphereRefractionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.StackBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.StrokePixelationFilter
+import ru.tech.imageresizershrinker.feature.filters.data.StuckiDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SwirlDistortionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.ToonFilter
+import ru.tech.imageresizershrinker.feature.filters.data.TwoRowSierraDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.VibranceFilter
 import ru.tech.imageresizershrinker.feature.filters.data.VignetteFilter
 import ru.tech.imageresizershrinker.feature.filters.data.WeakPixelFilter
@@ -156,18 +170,26 @@ internal class AndroidFilterProvider @Inject constructor(
                     value as Triple<Float, Float, Color>
                 )
 
-                is Filter.Quantizier -> QuantizierFilter(value)
                 is Filter.WeakPixel -> WeakPixelFilter(context)
                 is Filter.WhiteBalance -> WhiteBalanceFilter(context, value)
                 is Filter.ZoomBlur -> ZoomBlurFilter(context, value)
+                is Filter.Quantizier -> QuantizierFilter(value)
                 is Filter.BayerTwoDithering -> BayerTwoDitheringFilter(value)
-                is Filter.BayerEightDithering -> TODO()
-                is Filter.BayerFourDithering -> TODO()
-                is Filter.BayerThreeDithering -> TODO()
-                is Filter.FloydSteinbergDithering -> TODO()
-                is Filter.JarvisJudiceNinkeDithering -> TODO()
-                is Filter.RandomDithering -> TODO()
-                is Filter.SideFade -> SideFadeFilter(value)
+                is Filter.BayerThreeDithering -> BayerThreeDitheringFilter(value)
+                is Filter.BayerFourDithering -> BayerFourDitheringFilter(value)
+                is Filter.BayerEightDithering -> BayerEightDitheringFilter(value)
+                is Filter.FloydSteinbergDithering -> FloydSteinbergDitheringFilter(value)
+                is Filter.JarvisJudiceNinkeDithering -> JarvisJudiceNinkeDitheringFilter(value)
+                is Filter.SierraDithering -> SierraDitheringFilter(value)
+                is Filter.TwoRowSierraDithering -> TwoRowSierraDitheringFilter(value)
+                is Filter.SierraLiteDithering -> SierraLiteDitheringFilter(value)
+                is Filter.AtkinsonDithering -> AtkinsonDitheringFilter(value)
+                is Filter.StuckiDithering -> StuckiDitheringFilter(value)
+                is Filter.BurkesDithering -> BurkesDitheringFilter(value)
+                is Filter.FalseFloydSteinbergDithering -> FalseFloydSteinbergDitheringFilter(value)
+                is Filter.LeftToRightDithering -> LeftToRightDitheringFilter(value)
+                is Filter.RandomDithering -> RandomDitheringFilter(value)
+                is Filter.SimpleThresholdDithering -> SimpleThresholdDitheringFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

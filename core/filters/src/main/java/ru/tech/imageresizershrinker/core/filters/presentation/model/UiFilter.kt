@@ -107,7 +107,22 @@ sealed class UiFilter<T>(
             is UiReplaceColorFilter -> UiReplaceColorFilter(value as Triple<Float, Color, Color>)
             is UiRemoveColorFilter -> UiRemoveColorFilter(value as Pair<Float, Color>)
             is UiQuantizierFilter -> UiQuantizierFilter(value as Float)
-            is UiBayerTwoDithering -> UiBayerTwoDithering(value as Pair<Float, Boolean>)
+            is UiBayerTwoDitheringFilter -> UiBayerTwoDitheringFilter(value as Pair<Float, Boolean>)
+            is UiAtkinsonDitheringFilter -> UiAtkinsonDitheringFilter(value as Pair<Float, Boolean>)
+            is UiBayerEightDitheringFilter -> UiBayerEightDitheringFilter(value as Pair<Float, Boolean>)
+            is UiBayerFourDitheringFilter -> UiBayerFourDitheringFilter(value as Pair<Float, Boolean>)
+            is UiBayerThreeDitheringFilter -> UiBayerThreeDitheringFilter(value as Pair<Float, Boolean>)
+            is UiBurkesDitheringFilter -> UiBurkesDitheringFilter(value as Pair<Float, Boolean>)
+            is UiFalseFloydSteinbergDitheringFilter -> UiFalseFloydSteinbergDitheringFilter(value as Pair<Float, Boolean>)
+            is UiFloydSteinbergDitheringFilter -> UiFloydSteinbergDitheringFilter(value as Pair<Float, Boolean>)
+            is UiJarvisJudiceNinkeDitheringFilter -> UiJarvisJudiceNinkeDitheringFilter(value as Pair<Float, Boolean>)
+            is UiLeftToRightDitheringFilter -> UiLeftToRightDitheringFilter(value as Pair<Float, Boolean>)
+            is UiRandomDitheringFilter -> UiRandomDitheringFilter(value as Pair<Float, Boolean>)
+            is UiSierraDitheringFilter -> UiSierraDitheringFilter(value as Pair<Float, Boolean>)
+            is UiSierraLiteDitheringFilter -> UiSierraLiteDitheringFilter(value as Pair<Float, Boolean>)
+            is UiSimpleThresholdDitheringFilter -> UiSimpleThresholdDitheringFilter(value as Pair<Float, Boolean>)
+            is UiStuckiDitheringFilter -> UiStuckiDitheringFilter(value as Pair<Float, Boolean>)
+            is UiTwoRowSierraDitheringFilter -> UiTwoRowSierraDitheringFilter(value as Pair<Float, Boolean>)
         }
     }
 
@@ -173,7 +188,22 @@ sealed class UiFilter<T>(
             is UiReplaceColorFilter -> UiReplaceColorFilter()
             is UiRemoveColorFilter -> UiRemoveColorFilter()
             is UiQuantizierFilter -> UiQuantizierFilter()
-            is UiBayerTwoDithering -> UiBayerTwoDithering()
+            is UiBayerTwoDitheringFilter -> UiBayerTwoDitheringFilter()
+            is UiAtkinsonDitheringFilter -> UiAtkinsonDitheringFilter()
+            is UiBayerEightDitheringFilter -> UiBayerEightDitheringFilter()
+            is UiBayerFourDitheringFilter -> UiBayerFourDitheringFilter()
+            is UiBayerThreeDitheringFilter -> UiBayerThreeDitheringFilter()
+            is UiBurkesDitheringFilter -> UiBurkesDitheringFilter()
+            is UiFalseFloydSteinbergDitheringFilter -> UiFalseFloydSteinbergDitheringFilter()
+            is UiFloydSteinbergDitheringFilter -> UiFloydSteinbergDitheringFilter()
+            is UiJarvisJudiceNinkeDitheringFilter -> UiJarvisJudiceNinkeDitheringFilter()
+            is UiLeftToRightDitheringFilter -> UiLeftToRightDitheringFilter()
+            is UiRandomDitheringFilter -> UiRandomDitheringFilter()
+            is UiSierraDitheringFilter -> UiSierraDitheringFilter()
+            is UiSierraLiteDitheringFilter -> UiSierraLiteDitheringFilter()
+            is UiSimpleThresholdDitheringFilter -> UiSimpleThresholdDitheringFilter()
+            is UiStuckiDitheringFilter -> UiStuckiDitheringFilter()
+            is UiTwoRowSierraDitheringFilter -> UiTwoRowSierraDitheringFilter()
         }
     }
 
@@ -252,8 +282,23 @@ sealed class UiFilter<T>(
                     UiGlassSphereRefractionFilter()
                 ),
                 listOf(
-                    UiQuantizierFilter(),
-                    UiBayerTwoDithering()
+                    UiBayerTwoDitheringFilter(),
+                    UiBayerThreeDitheringFilter(),
+                    UiBayerFourDitheringFilter(),
+                    UiBayerEightDitheringFilter(),
+                    UiFloydSteinbergDitheringFilter(),
+                    UiJarvisJudiceNinkeDitheringFilter(),
+                    UiSierraDitheringFilter(),
+                    UiTwoRowSierraDitheringFilter(),
+                    UiSierraLiteDitheringFilter(),
+                    UiAtkinsonDitheringFilter(),
+                    UiStuckiDitheringFilter(),
+                    UiBurkesDitheringFilter(),
+                    UiFalseFloydSteinbergDitheringFilter(),
+                    UiLeftToRightDitheringFilter(),
+                    UiRandomDitheringFilter(),
+                    UiSimpleThresholdDitheringFilter(),
+                    UiQuantizierFilter()
                 )
             )
         }
@@ -321,7 +366,23 @@ fun Filter<Bitmap, *>.toUiFilter(): UiFilter<*> = when (this) {
     is Filter.WeakPixel -> UiWeakPixelFilter()
     is Filter.WhiteBalance -> UiWhiteBalanceFilter(value)
     is Filter.ZoomBlur -> UiZoomBlurFilter(value)
-
+    is Filter.Quantizier -> UiQuantizierFilter(value)
+    is Filter.BayerTwoDithering -> UiBayerTwoDitheringFilter(value)
+    is Filter.BayerThreeDithering -> UiBayerThreeDitheringFilter(value)
+    is Filter.BayerFourDithering -> UiBayerFourDitheringFilter(value)
+    is Filter.BayerEightDithering -> UiBayerEightDitheringFilter(value)
+    is Filter.FloydSteinbergDithering -> UiFloydSteinbergDitheringFilter(value)
+    is Filter.JarvisJudiceNinkeDithering -> UiJarvisJudiceNinkeDitheringFilter(value)
+    is Filter.SierraDithering -> UiSierraDitheringFilter(value)
+    is Filter.TwoRowSierraDithering -> UiTwoRowSierraDitheringFilter(value)
+    is Filter.SierraLiteDithering -> UiSierraLiteDitheringFilter(value)
+    is Filter.AtkinsonDithering -> UiAtkinsonDitheringFilter(value)
+    is Filter.StuckiDithering -> UiStuckiDitheringFilter(value)
+    is Filter.BurkesDithering -> UiBurkesDitheringFilter(value)
+    is Filter.FalseFloydSteinbergDithering -> UiFalseFloydSteinbergDitheringFilter(value)
+    is Filter.LeftToRightDithering -> UiLeftToRightDitheringFilter(value)
+    is Filter.RandomDithering -> UiRandomDitheringFilter(value)
+    is Filter.SimpleThresholdDithering -> UiSimpleThresholdDitheringFilter(value)
     else -> throw IllegalArgumentException("No UiFilter implementation for interface ${this::class.simpleName}")
 }
 

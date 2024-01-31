@@ -659,6 +659,21 @@
     <string name="preview_closing">If you leave preview now, you\'ll need to add the images again</string>
     <string name="dithering">Dithering</string>
     <string name="quantizier">Quantizier</string>
-    <string name="bayer_two_by_two_dithering">Bayer Two By Two Dithering</string>
     <string name="gray_scale">Gray Scale</string>
+    <string name="bayer_two_dithering">Bayer Two By Two Dithering</string>
+    <string name="bayer_three_dithering">Bayer Three By Three Dithering</string>
+    <string name="bayer_four_dithering">Bayer Four By Four Dithering</string>
+    <string name="bayer_eight_dithering">Bayer Eight By Eight Dithering</string>
+    <string name="floyd_steinberg_dithering">Floyd Steinberg Dithering</string>
+    <string name="jarvis_judice_ninke_dithering">Jarvis Judice Ninke Dithering</string>
+    <string name="sierra_dithering">Sierra Dithering</string>
+    <string name="two_row_sierra_dithering">Two Row Sierra Dithering</string>
+    <string name="sierra_lite_dithering">Sierra Lite Dithering</string>
+    <string name="atkinson_dithering">Atkinson Dithering</string>
+    <string name="stucki_dithering">Stucki Dithering</string>
+    <string name="burkes_dithering">Burkes Dithering</string>
+    <string name="false_floyd_steinberg_dithering">False Floyd Steinberg Dithering</string>
+    <string name="left_to_right_dithering">Left To Right Dithering</string>
+    <string name="random_dithering">Random Dithering</string>
+    <string name="simple_threshold_dithering">Simple Threshold Dithering</string>
 </resources>

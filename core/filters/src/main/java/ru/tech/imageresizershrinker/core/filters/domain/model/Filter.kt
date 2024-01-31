@@ -89,4 +89,13 @@ interface Filter<Image, Value> {
     interface RandomDithering<Image> : Filter<Image, Pair<Float, Boolean>>
     interface FloydSteinbergDithering<Image> : Filter<Image, Pair<Float, Boolean>>
     interface JarvisJudiceNinkeDithering<Image> : Filter<Image, Pair<Float, Boolean>>
+    interface SierraDithering<Image> : Filter<Image, Pair<Float, Boolean>>
+    interface TwoRowSierraDithering<Image> : Filter<Image, Pair<Float, Boolean>>
+    interface SierraLiteDithering<Image> : Filter<Image, Pair<Float, Boolean>>
+    interface AtkinsonDithering<Image> : Filter<Image, Pair<Float, Boolean>>
+    interface StuckiDithering<Image> : Filter<Image, Pair<Float, Boolean>>
+    interface BurkesDithering<Image> : Filter<Image, Pair<Float, Boolean>>
+    interface FalseFloydSteinbergDithering<Image> : Filter<Image, Pair<Float, Boolean>>
+    interface LeftToRightDithering<Image> : Filter<Image, Pair<Float, Boolean>>
+    interface SimpleThresholdDithering<Image> : Filter<Image, Pair<Float, Boolean>>
 }
