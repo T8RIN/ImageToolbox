@@ -1,4 +1,5 @@
 Image Toolbox with these ✨ Features: 
+
 - Batch processing
 - Applying filter chains (More than 45 various filters)
 - AES-256 GCM No Padding files encryption and decryption
