@@ -91,6 +91,7 @@
                 <data android:scheme="content" />
                 <data android:scheme="file" />
                 <data android:mimeType="image/*" />
+                <data android:pathSuffix=".jxl" />
                 <data android:mimeType="application/octet-stream" />
                 <data android:mimeType="application/pdf" />
                 <data android:mimeType="*/pdf" />
@@ -100,10 +101,14 @@
             </intent-filter>
 
             <intent-filter>
-                <data android:scheme="file" />
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="*/*" />
+
+                <data android:mimeType="image/*" />
+                <data android:mimeType="application/octet-stream" />
+                <data android:pathSuffix=".jxl" />
+                <data android:mimeType="application/pdf" />
+                <data android:mimeType="*/pdf" />
             </intent-filter>
 
             <intent-filter>
@@ -112,31 +117,47 @@
             </intent-filter>
 
             <intent-filter>
-                <data android:scheme="file" />
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="*/*" />
+
+                <data android:mimeType="image/*" />
+                <data android:mimeType="application/octet-stream" />
+                <data android:pathSuffix=".jxl" />
+                <data android:mimeType="application/pdf" />
+                <data android:mimeType="*/pdf" />
             </intent-filter>
 
             <intent-filter>
-                <data android:scheme="file" />
                 <action android:name="android.intent.action.EDIT" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="*/*" />
+
+                <data android:mimeType="image/*" />
+                <data android:mimeType="application/octet-stream" />
+                <data android:pathSuffix=".jxl" />
+                <data android:mimeType="application/pdf" />
+                <data android:mimeType="*/pdf" />
             </intent-filter>
 
             <intent-filter>
-                <data android:scheme="file" />
                 <action android:name="android.intent.action.INSERT_OR_EDIT" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="*/*" />
+
+                <data android:mimeType="image/*" />
+                <data android:mimeType="application/octet-stream" />
+                <data android:pathSuffix=".jxl" />
+                <data android:mimeType="application/pdf" />
+                <data android:mimeType="*/pdf" />
             </intent-filter>
 
             <intent-filter>
-                <data android:scheme="file" />
                 <action android:name="android.intent.action.INSERT" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="*/*" />
+
+                <data android:mimeType="image/*" />
+                <data android:mimeType="application/octet-stream" />
+                <data android:pathSuffix=".jxl" />
+                <data android:mimeType="application/pdf" />
+                <data android:mimeType="*/pdf" />
             </intent-filter>
         </activity>
         <activity android:name=".presentation.crash_screen.CrashActivity" />
