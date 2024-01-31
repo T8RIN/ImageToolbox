@@ -163,6 +163,23 @@ or click one of the badges below.
   - [x] Lookup
   - [x] Color Replacement
   - [x] Color Removance 
+  - [x] Bayer Two
+  - [x] Bayer Three
+  - [x] Bayer Four
+  - [x] Bayer Eight
+  - [x] Floyd Steinberg
+  - [x] Jarvis Judice Ninke
+  - [x] Sierra
+  - [x] Two Row Sierra
+  - [x] Sierra Lite
+  - [x] Atkinson
+  - [x] Stucki
+  - [x] Burkes
+  - [x] False Floyd Steinberg
+  - [x] Left To Right
+  - [x] Random
+  - [x] Simple Threshold
+  - [x] Quanitizer 
 
   </details>
 
