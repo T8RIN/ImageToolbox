@@ -99,7 +99,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 60 various filters)
+- Applying filter chains (More than 70 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -163,6 +163,23 @@ or click one of the badges below.
   - [x] Lookup
   - [x] Color Replacement
   - [x] Color Removance 
+  - [x] Bayer Two Dithering
+  - [x] Bayer Three Dithering
+  - [x] Bayer Four Dithering
+  - [x] Bayer Eight Dithering
+  - [x] Floyd Steinberg Dithering
+  - [x] Jarvis Judice Ninke Dithering
+  - [x] Sierra Dithering
+  - [x] Two Row Sierra Dithering
+  - [x] Sierra Lite Dithering
+  - [x] Atkinson Dithering
+  - [x] Stucki Dithering
+  - [x] Burkes Dithering
+  - [x] False Floyd Steinberg Dithering
+  - [x] Left To Right Dithering
+  - [x] Random Dithering
+  - [x] Simple Threshold Dithering
+  - [x] Quanitizer 
 
   </details>
 
