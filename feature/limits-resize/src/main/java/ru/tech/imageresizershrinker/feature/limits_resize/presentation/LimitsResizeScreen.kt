@@ -218,9 +218,11 @@ fun LimitsResizeScreen(
             onHeightChange = viewModel::updateHeight
         )
         Spacer(Modifier.size(8.dp))
-        SaveExifWidget(imageFormat = viewModel.imageInfo.imageFormat,
+        SaveExifWidget(
+            imageFormat = viewModel.imageInfo.imageFormat,
             checked = viewModel.keepExif,
-            onCheckedChange = { viewModel.setKeepExif(!viewModel.keepExif) })
+            onCheckedChange = viewModel::setKeepExif
+        )
         if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) Spacer(
             Modifier.size(8.dp)
         )

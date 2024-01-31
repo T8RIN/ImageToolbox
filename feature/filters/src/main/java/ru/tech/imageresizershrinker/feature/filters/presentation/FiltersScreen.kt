@@ -483,11 +483,7 @@ fun FiltersScreen(
                         SaveExifWidget(
                             imageFormat = viewModel.imageInfo.imageFormat,
                             checked = viewModel.keepExif,
-                            onCheckedChange = {
-                                viewModel.setKeepExif(
-                                    !viewModel.keepExif
-                                )
-                            }
+                            onCheckedChange = viewModel::setKeepExif
                         )
                         if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) Spacer(
                             Modifier.size(8.dp)
@@ -609,11 +605,7 @@ fun FiltersScreen(
                         SaveExifWidget(
                             imageFormat = viewModel.imageInfo.imageFormat,
                             checked = viewModel.keepExif,
-                            onCheckedChange = {
-                                viewModel.setKeepExif(
-                                    !viewModel.keepExif
-                                )
-                            }
+                            onCheckedChange = viewModel::setKeepExif
                         )
                         if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) Spacer(
                             Modifier.size(8.dp)

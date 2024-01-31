@@ -277,7 +277,7 @@ fun BytesResizeScreen(
             SaveExifWidget(
                 imageFormat = viewModel.imageFormat,
                 checked = viewModel.keepExif,
-                onCheckedChange = { viewModel.setKeepExif(!viewModel.keepExif) }
+                onCheckedChange = viewModel::setKeepExif
             )
             if (viewModel.imageFormat.canChangeCompressionValue) Spacer(
                 Modifier.size(8.dp)
