@@ -657,4 +657,5 @@
     <string name="left_to_right_dithering">Дизеринг слева направо</string>
     <string name="random_dithering">Случайный дизеринг</string>
     <string name="simple_threshold_dithering">Простой пороговый дизеринг</string>
+    <string name="email">Почта</string>
 </resources>
