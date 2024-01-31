@@ -5,22 +5,19 @@ import android.graphics.Color;
 public class BitmapUtilities {
     static final char BYTE_MAX = -Byte.MIN_VALUE + Byte.MAX_VALUE;
 
-    static int getColorIndex(final int c, boolean hasSemiTransparency, boolean hasTransparency)
-    {
-        if(hasSemiTransparency)
+    static int getColorIndex(final int c, boolean hasSemiTransparency, boolean hasTransparency) {
+        if (hasSemiTransparency)
             return (Color.alpha(c) & 0xF0) << 8 | (Color.red(c) & 0xF0) << 4 | (Color.green(c) & 0xF0) | (Color.blue(c) >> 4);
         if (hasTransparency)
             return (Color.alpha(c) & 0x80) << 8 | (Color.red(c) & 0xF8) << 7 | (Color.green(c) & 0xF8) << 2 | (Color.blue(c) >> 3);
         return (Color.red(c) & 0xF8) << 8 | (Color.green(c) & 0xFC) << 3 | (Color.blue(c) >> 3);
     }
 
-    static double sqr(double value)
-    {
+    static double sqr(double value) {
         return value * value;
     }
 
-    static int[] calcDitherPixel(int c, int[] clamp, int[] rowerr, int cursor, boolean noBias)
-    {
+    static int[] calcDitherPixel(int c, int[] clamp, int[] rowerr, int cursor, boolean noBias) {
         int[] ditherPixel = new int[4];
         if (noBias) {
             ditherPixel[0] = clamp[((rowerr[cursor] + 0x1008) >> 4) + Color.red(c)];
@@ -37,8 +34,7 @@ public class BitmapUtilities {
         return ditherPixel;
     }
 
-    static int[] quantize_image(final int width, final int height, final int[] pixels, final Integer[] palette, final Ditherable ditherable, final boolean hasSemiTransparency, final boolean dither)
-    {
+    static int[] quantize_image(final int width, final int height, final int[] pixels, final Integer[] palette, final Ditherable ditherable, final boolean hasSemiTransparency, final boolean dither) {
         int[] qPixels = new int[pixels.length];
         int nMaxColors = palette.length;
 
@@ -83,13 +79,12 @@ public class BitmapUtilities {
                     int a_pix = ditherPixel[3];
 
                     int c1 = Color.argb(a_pix, r_pix, g_pix, b_pix);
-                    if(noBias && a_pix > 0xF0) {
+                    if (noBias && a_pix > 0xF0) {
                         int offset = ditherable.getColorIndex(c1);
                         if (lookup[offset] == 0)
                             lookup[offset] = (Color.alpha(c) == 0) ? 1 : ditherable.nearestColorIndex(palette, c1, i + j) + 1;
                         qPixels[pixelIndex] = palette[lookup[offset] - 1];
-                    }
-                    else {
+                    } else {
                         short qIndex = (Color.alpha(c) == 0) ? 0 : ditherable.nearestColorIndex(palette, c1, i + j);
                         qPixels[pixelIndex] = palette[qIndex];
                     }
@@ -132,7 +127,9 @@ public class BitmapUtilities {
                     pixelIndex += width + 1;
 
                 dir *= -1;
-                int[] temp = row0; row0 = row1; row1 = temp;
+                int[] temp = row0;
+                row0 = row1;
+                row1 = temp;
             }
             return qPixels;
         }

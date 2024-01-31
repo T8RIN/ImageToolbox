@@ -9,26 +9,23 @@ import static com.android.nQuant.BitmapUtilities.BYTE_MAX;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class PnnQuantizer {
+    private static final float[][] coeffs = new float[][]{
+            {0.299f, 0.587f, 0.114f},
+            {-0.14713f, -0.28886f, 0.436f},
+            {0.615f, -0.51499f, -0.10001f}
+    };
     protected short alphaThreshold = 0xF;
     protected boolean hasSemiTransparency = false;
     protected int m_transparentPixelIndex = -1;
     protected int width, height;
     protected int[] pixels = null;
     protected Integer m_transparentColor = Color.argb(0, BYTE_MAX, BYTE_MAX, BYTE_MAX);
-
     protected double PR = 0.299, PG = 0.587, PB = 0.114, PA = .3333;
     protected double ratio = .5, weight = 1;
-    private static final float[][] coeffs = new float[][]{
-            {0.299f, 0.587f, 0.114f},
-            {-0.14713f, -0.28886f, 0.436f},
-            {0.615f, -0.51499f, -0.10001f}
-    };
-
     protected Map<Integer, int[]> closestMap = new HashMap<>();
     protected Map<Integer, Short> nearestMap = new HashMap<>();
 
@@ -41,12 +38,6 @@ public class PnnQuantizer {
         height = bitmap.getHeight();
         pixels = new int[width * height];
         bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
-    }
-
-    private static final class Pnnbin {
-        double ac = 0, rc = 0, gc = 0, bc = 0;
-        float cnt = 0, err = 0;
-        int nn, fw, bk, tm, mtm;
     }
 
     private void find_nn(Pnnbin[] bins, int idx) {
@@ -108,11 +99,6 @@ public class PnnQuantizer {
         }
         bin1.err = (float) err;
         bin1.nn = nn;
-    }
-
-    @FunctionalInterface
-    protected interface QuanFn {
-        float get(float cnt);
     }
 
     protected QuanFn getQuanFn(int nMaxColors, short quan_rt) {
@@ -182,6 +168,7 @@ public class PnnQuantizer {
 
             bins[j].cnt = quanFn.get(bins[j].cnt);
         }
+        assert bins[j] != null;
         bins[j].cnt = quanFn.get(bins[j].cnt);
 
         int h, l, l2;
@@ -203,7 +190,7 @@ public class PnnQuantizer {
         /* Merge bins which increase error the least */
         int extbins = maxbins - nMaxColors;
         for (int i = 0; i < extbins; ) {
-            Pnnbin tb = null;
+            Pnnbin tb;
             /* Use heap to find which bins to merge */
             for (; ; ) {
                 int b1 = heap[1];
@@ -451,6 +438,17 @@ public class PnnQuantizer {
 
     public boolean hasAlpha() {
         return m_transparentPixelIndex > -1;
+    }
+
+    @FunctionalInterface
+    protected interface QuanFn {
+        float get(float cnt);
+    }
+
+    private static final class Pnnbin {
+        double ac = 0, rc = 0, gc = 0, bc = 0;
+        float cnt = 0, err = 0;
+        int nn, fw, bk, tm, mtm;
     }
 
 }

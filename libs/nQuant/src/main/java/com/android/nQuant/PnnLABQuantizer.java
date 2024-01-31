@@ -6,31 +6,22 @@ import android.graphics.Color;
 import com.android.nQuant.CIELABConvertor.Lab;
 import com.android.nQuant.CIELABConvertor.MutableDouble;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 public class PnnLABQuantizer extends PnnQuantizer {
-    protected float[] saliencies;
-    private final Map<Integer, Lab> pixelMap = new HashMap<>();
-
-    private static Random random = new Random();
-
-    public PnnLABQuantizer(Bitmap bitmap) {
-        super(bitmap);
-    }
-
     private static final float[][] coeffs = new float[][]{
             {0.299f, 0.587f, 0.114f},
             {-0.14713f, -0.28886f, 0.436f},
             {0.615f, -0.51499f, -0.10001f}
     };
+    private static final Random random = new Random();
+    private final Map<Integer, Lab> pixelMap = new HashMap<>();
+    protected float[] saliencies;
 
-    private static final class Pnnbin {
-        float ac = 0, Lc = 0, Ac = 0, Bc = 0, err = 0;
-        float cnt = 0;
-        int nn, fw, bk, tm, mtm;
+    public PnnLABQuantizer(Bitmap bitmap) {
+        super(bitmap);
     }
 
     private Lab getLab(final int c) {
@@ -215,6 +206,7 @@ public class PnnLABQuantizer extends PnnQuantizer {
 
             bins[j].cnt = quanFn.get(bins[j].cnt);
         }
+        assert bins[j] != null;
         bins[j].cnt = quanFn.get(bins[j].cnt);
 
         final boolean texicab = proportional > .0275;
@@ -509,6 +501,12 @@ public class PnnLABQuantizer extends PnnQuantizer {
         pixelMap.clear();
 
         return qPixels;
+    }
+
+    private static final class Pnnbin {
+        float ac = 0, Lc = 0, Ac = 0, Bc = 0, err = 0;
+        float cnt = 0;
+        int nn, fw, bk, tm, mtm;
     }
 
 }

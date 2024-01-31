@@ -1,4 +1,3 @@
-
 /*
  * ImageToolbox is an image editor for android
  * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
