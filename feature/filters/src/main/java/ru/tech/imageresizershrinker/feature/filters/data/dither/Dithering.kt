@@ -44,7 +44,13 @@ class Dithering(
         SimpleThreshold
     }
 
+
     fun dither(type: Type, src: Bitmap): Bitmap {
+
+        if (src.config !in listOf(Bitmap.Config.ARGB_8888)) {
+            throw IllegalArgumentException("Bitmap config should consist of 32 bits")
+        }
+
         return when (type) {
             Type.BayerTwo -> ordered2By2Bayer(src)
             Type.BayerThree -> ordered3By3Bayer(src)
