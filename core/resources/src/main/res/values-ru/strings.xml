@@ -638,4 +638,23 @@
     <string name="confetti_sub">Конфетти будет показано при сохранении и других важных действиях</string>
     <string name="exit">Выйти</string>
     <string name="preview_closing">Если вы оставите предварительный просмотр сейчас, вам придется добавить изображения снова</string>
+    <string name="dithering">Дизеринг</string>
+    <string name="quantizier">Квантизатор</string>
+    <string name="gray_scale">Серые тона</string>
+    <string name="bayer_two_dithering">Дизеринг Байера два на два</string>
+    <string name="bayer_three_dithering">Дизеринг Байера три на три</string>
+    <string name="bayer_four_dithering">Дизеринг по Байеру четыре на четыре</string>
+    <string name="bayer_eight_dithering">Дизеринг Байера восемь на восемь</string>
+    <string name="floyd_steinberg_dithering">Дизеринг Флойда Стейнберга</string>
+    <string name="jarvis_judice_ninke_dithering">Дизеринг Джарвиса Джуди Нинке</string>
+    <string name="sierra_dithering">Дизеринг Сиерры</string>
+    <string name="two_row_sierra_dithering">Двухрядный дизеринг Сиерры</string>
+    <string name="sierra_lite_dithering">Упрощенный дизеринг Сиерры</string>
+    <string name="atkinson_dithering">Дизеринг Аткинсона</string>
+    <string name="stucki_dithering">Дизеринг Стуки</string>
+    <string name="burkes_dithering">Дизеринг Бёркса</string>
+    <string name="false_floyd_steinberg_dithering">Ложный дизеринг Флойда Стейнберга</string>
+    <string name="left_to_right_dithering">Дизеринг слева направо</string>
+    <string name="random_dithering">Случайный дизеринг</string>
+    <string name="simple_threshold_dithering">Простой пороговый дизеринг</string>
 </resources>
