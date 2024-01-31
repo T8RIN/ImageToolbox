@@ -19,13 +19,19 @@ package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiBoxBlurFilter(
-    override val value: Float = 1f,
+    override val value: Float = 10f,
 ) : UiFilter<Float>(
     title = R.string.box_blur,
     value = value,
-    valueRange = 0f..100f
+    paramsInfo = listOf(
+        FilterParam(
+            valueRange = 0f..100f,
+            roundTo = 0
+        )
+    )
 ), Filter.BoxBlur<Bitmap>

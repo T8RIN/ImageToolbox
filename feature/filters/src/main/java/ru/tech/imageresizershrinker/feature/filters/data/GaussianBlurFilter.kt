@@ -17,20 +17,23 @@
 
 package ru.tech.imageresizershrinker.feature.filters.data
 
-import android.content.Context
 import android.graphics.Bitmap
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageGaussianBlurFilter
+import coil.size.Size
+import com.awxkee.jxlcoder.processing.BitmapProcessor
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 class GaussianBlurFilter(
-    private val context: Context,
-    override val value: Float = 1f,
-) : GPUFilterTransformation(context), Filter.GaussianBlur<Bitmap> {
+    override val value: Pair<Float, Float> = 25f to 10f,
+) : Transformation<Bitmap>, Filter.GaussianBlur<Bitmap> {
 
     override val cacheKey: String
-        get() = (value to context).hashCode().toString()
+        get() = value.hashCode().toString()
 
-    override fun createFilter(): GPUImageFilter = GPUImageGaussianBlurFilter(value)
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap = BitmapProcessor.gaussBlur(input, value.first, value.second)
+
 }

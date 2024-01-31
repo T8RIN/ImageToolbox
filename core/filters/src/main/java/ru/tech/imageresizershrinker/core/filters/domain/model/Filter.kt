@@ -21,7 +21,7 @@ package ru.tech.imageresizershrinker.core.filters.domain.model
 interface Filter<Image, Value> {
     val value: Value
 
-    interface BilaterialBlur<Image> : Filter<Image, Float>
+    interface BilaterialBlur<Image> : Filter<Image, Triple<Float, Float, Float>>
     interface BlackAndWhite<Image> : Filter<Image, Unit>
     interface BoxBlur<Image> : Filter<Image, Float>
     interface Brightness<Image> : Filter<Image, Float>
@@ -39,7 +39,7 @@ interface Filter<Image, Value> {
     interface FalseColor<Image, Color> : Filter<Image, Pair<Color, Color>>
     interface FastBlur<Image> : Filter<Image, Pair<Float, Int>>
     interface Gamma<Image> : Filter<Image, Float>
-    interface GaussianBlur<Image> : Filter<Image, Float>
+    interface GaussianBlur<Image> : Filter<Image, Pair<Float, Float>>
     interface GlassSphereRefraction<Image> : Filter<Image, Pair<Float, Float>>
     interface Halftone<Image> : Filter<Image, Float>
     interface Haze<Image> : Filter<Image, Pair<Float, Float>>
@@ -98,4 +98,5 @@ interface Filter<Image, Value> {
     interface FalseFloydSteinbergDithering<Image> : Filter<Image, Pair<Float, Boolean>>
     interface LeftToRightDithering<Image> : Filter<Image, Pair<Float, Boolean>>
     interface SimpleThresholdDithering<Image> : Filter<Image, Pair<Float, Boolean>>
+    interface MedianBlur<Image> : Filter<Image, Float>
 }

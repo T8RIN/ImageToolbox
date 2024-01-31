@@ -15,32 +15,23 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.filters.presentation.model
-
+package ru.tech.imageresizershrinker.feature.filters.data
 
 import android.graphics.Bitmap
+import coil.size.Size
+import com.awxkee.jxlcoder.processing.BitmapProcessor
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
-import ru.tech.imageresizershrinker.core.resources.R
 
+class MedianBlurFilter(
+    override val value: Float = 10f
+) : Transformation<Bitmap>, Filter.MedianBlur<Bitmap> {
+    override val cacheKey: String
+        get() = value.hashCode().toString()
 
-class UiBilaterialBlurFilter(
-    override val value: Triple<Float, Float, Float> = Triple(25f, 10f, 3f),
-) : UiFilter<Triple<Float, Float, Float>>(
-    title = R.string.bilaterial_blur,
-    value = value,
-    paramsInfo = listOf(
-        FilterParam(
-            title = R.string.radius,
-            valueRange = 0f..100f
-        ),
-        FilterParam(
-            title = R.string.sigma,
-            valueRange = 1f..100f
-        ),
-        FilterParam(
-            title = R.string.spatial_sigma,
-            valueRange = 1f..100f
-        )
-    )
-), Filter.BilaterialBlur<Bitmap>
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap = BitmapProcessor.medianBlur(input, value.toInt())
+
+}

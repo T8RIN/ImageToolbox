@@ -67,8 +67,8 @@ sealed class UiFilter<T>(
             is UiSobelEdgeDetectionFilter -> UiSobelEdgeDetectionFilter(value as Float)
             is UiHalftoneFilter -> UiHalftoneFilter(value as Float)
             is UiCGAColorSpaceFilter -> UiCGAColorSpaceFilter()
-            is UiGaussianBlurFilter -> UiGaussianBlurFilter(value as Float)
-            is UiBilaterialBlurFilter -> UiBilaterialBlurFilter(value as Float)
+            is UiGaussianBlurFilter -> UiGaussianBlurFilter(value as Pair<Float, Float>)
+            is UiBilaterialBlurFilter -> UiBilaterialBlurFilter(value as Triple<Float, Float, Float>)
             is UiBoxBlurFilter -> UiBoxBlurFilter(value as Float)
             is UiEmbossFilter -> UiEmbossFilter(value as Float)
             is UiLaplacianFilter -> UiLaplacianFilter()
@@ -123,6 +123,7 @@ sealed class UiFilter<T>(
             is UiSimpleThresholdDitheringFilter -> UiSimpleThresholdDitheringFilter(value as Pair<Float, Boolean>)
             is UiStuckiDitheringFilter -> UiStuckiDitheringFilter(value as Pair<Float, Boolean>)
             is UiTwoRowSierraDitheringFilter -> UiTwoRowSierraDitheringFilter(value as Pair<Float, Boolean>)
+            is UiMedianBlurFilter -> UiMedianBlurFilter(value as Float)
         }
     }
 
@@ -204,6 +205,7 @@ sealed class UiFilter<T>(
             is UiSimpleThresholdDitheringFilter -> UiSimpleThresholdDitheringFilter()
             is UiStuckiDitheringFilter -> UiStuckiDitheringFilter()
             is UiTwoRowSierraDitheringFilter -> UiTwoRowSierraDitheringFilter()
+            is UiMedianBlurFilter -> UiMedianBlurFilter()
         }
     }
 
@@ -265,6 +267,7 @@ sealed class UiFilter<T>(
                     UiFastBlurFilter(),
                     UiStackBlurFilter(),
                     UiZoomBlurFilter(),
+                    UiMedianBlurFilter()
                 ),
                 listOf(
                     UiPixelationFilter(),
@@ -383,6 +386,7 @@ fun Filter<Bitmap, *>.toUiFilter(): UiFilter<*> = when (this) {
     is Filter.LeftToRightDithering -> UiLeftToRightDitheringFilter(value)
     is Filter.RandomDithering -> UiRandomDitheringFilter(value)
     is Filter.SimpleThresholdDithering -> UiSimpleThresholdDitheringFilter(value)
+    is Filter.MedianBlur -> UiMedianBlurFilter(value)
     else -> throw IllegalArgumentException("No UiFilter implementation for interface ${this::class.simpleName}")
 }
 

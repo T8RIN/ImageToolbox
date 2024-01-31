@@ -675,4 +675,7 @@
     <string name="left_to_right_dithering">Left To Right Dithering</string>
     <string name="random_dithering">Random Dithering</string>
     <string name="simple_threshold_dithering">Simple Threshold Dithering</string>
+    <string name="sigma">Sigma</string>
+    <string name="spatial_sigma">Spatial Sigma</string>
+    <string name="median_blur">Median Blur</string>
 </resources>

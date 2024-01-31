@@ -17,30 +17,20 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-
 import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
-
-class UiBilaterialBlurFilter(
-    override val value: Triple<Float, Float, Float> = Triple(25f, 10f, 3f),
-) : UiFilter<Triple<Float, Float, Float>>(
-    title = R.string.bilaterial_blur,
+class UiMedianBlurFilter(
+    override val value: Float = 10f
+) : UiFilter<Float>(
+    title = R.string.median_blur,
     value = value,
     paramsInfo = listOf(
         FilterParam(
-            title = R.string.radius,
-            valueRange = 0f..100f
-        ),
-        FilterParam(
-            title = R.string.sigma,
-            valueRange = 1f..100f
-        ),
-        FilterParam(
-            title = R.string.spatial_sigma,
-            valueRange = 1f..100f
+            valueRange = 0f..25f,
+            roundTo = 0
         )
     )
-), Filter.BilaterialBlur<Bitmap>
+), Filter.MedianBlur<Bitmap>

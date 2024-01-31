@@ -68,6 +68,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.LaplacianFilter
 import ru.tech.imageresizershrinker.feature.filters.data.LeftToRightDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.LookupFilter
 import ru.tech.imageresizershrinker.feature.filters.data.LuminanceThresholdFilter
+import ru.tech.imageresizershrinker.feature.filters.data.MedianBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.MonochromeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.NegativeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.NonMaximumSuppressionFilter
@@ -110,9 +111,9 @@ internal class AndroidFilterProvider @Inject constructor(
     override fun filterToTransformation(filter: Filter<Bitmap, *>): Transformation<Bitmap> {
         filter.run {
             return when (this) {
-                is Filter.BilaterialBlur -> BilaterialBlurFilter(context, value)
+                is Filter.BilaterialBlur -> BilaterialBlurFilter(value)
                 is Filter.BlackAndWhite -> BlackAndWhiteFilter(context)
-                is Filter.BoxBlur -> BoxBlurFilter(context, value)
+                is Filter.BoxBlur -> BoxBlurFilter(value)
                 is Filter.Brightness -> BrightnessFilter(context, value)
                 is Filter.BulgeDistortion -> BulgeDistortionFilter(context, value)
                 is Filter.CGAColorSpace -> CGAColorSpaceFilter(context)
@@ -133,7 +134,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.FalseColor<*, *> -> FalseColorFilter(context, value as Pair<Color, Color>)
                 is Filter.FastBlur -> FastBlurFilter(value)
                 is Filter.Gamma -> GammaFilter(context, value)
-                is Filter.GaussianBlur -> GaussianBlurFilter(context, value)
+                is Filter.GaussianBlur -> GaussianBlurFilter(value)
                 is Filter.GlassSphereRefraction -> GlassSphereRefractionFilter(context, value)
                 is Filter.Halftone -> HalftoneFilter(context, value)
                 is Filter.Haze -> HazeFilter(context, value)
@@ -190,6 +191,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.LeftToRightDithering -> LeftToRightDitheringFilter(value)
                 is Filter.RandomDithering -> RandomDitheringFilter(value)
                 is Filter.SimpleThresholdDithering -> SimpleThresholdDitheringFilter(value)
+                is Filter.MedianBlur -> MedianBlurFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

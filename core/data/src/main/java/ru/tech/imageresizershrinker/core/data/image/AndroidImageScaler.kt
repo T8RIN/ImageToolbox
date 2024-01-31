@@ -24,8 +24,8 @@ import android.graphics.PorterDuff
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.BitmapCompat
-import com.awxkee.jxlcoder.scale.BitmapScaleMode
-import com.awxkee.jxlcoder.scale.BitmapScaler
+import com.awxkee.jxlcoder.processing.BitmapProcessor
+import com.awxkee.jxlcoder.processing.BitmapScaleMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
@@ -183,7 +183,7 @@ internal class AndroidImageScaler @Inject constructor(
         } ?: settingsRepository.getSettingsState().defaultImageScaleMode
 
         return mode.takeIf { it != ImageScaleMode.Default }?.let {
-            BitmapScaler.scale(
+            BitmapProcessor.scale(
                 bitmap = image,
                 dstWidth = width,
                 dstHeight = height,

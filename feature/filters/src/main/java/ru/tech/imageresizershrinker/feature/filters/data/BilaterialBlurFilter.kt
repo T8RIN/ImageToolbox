@@ -17,18 +17,25 @@
 
 package ru.tech.imageresizershrinker.feature.filters.data
 
-import android.content.Context
 import android.graphics.Bitmap
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageBilateralBlurFilter
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
+import coil.size.Size
+import com.awxkee.jxlcoder.processing.BitmapProcessor
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 class BilaterialBlurFilter(
-    private val context: Context,
-    override val value: Float = -8f,
-) : GPUFilterTransformation(context), Filter.BilaterialBlur<Bitmap> {
+    override val value: Triple<Float, Float, Float> = Triple(25f, 10f, 3f),
+) : Transformation<Bitmap>, Filter.BilaterialBlur<Bitmap> {
     override val cacheKey: String
-        get() = (value to context).hashCode().toString()
+        get() = value.hashCode().toString()
 
-    override fun createFilter(): GPUImageFilter = GPUImageBilateralBlurFilter(-value)
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap = BitmapProcessor.bilateralBlur(
+        bitmap = input,
+        radius = value.first,
+        sigma = value.second,
+        spatialSigma = value.third
+    )
 }
