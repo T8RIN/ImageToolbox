@@ -29,7 +29,7 @@ class UiMedianBlurFilter(
     value = value,
     paramsInfo = listOf(
         FilterParam(
-            valueRange = 0f..25f,
+            valueRange = 0f..20f,
             roundTo = 0
         )
     )

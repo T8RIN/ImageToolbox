@@ -100,6 +100,7 @@
             </intent-filter>
 
             <intent-filter>
+                <data android:scheme="file" />
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="*/*" />
@@ -111,24 +112,28 @@
             </intent-filter>
 
             <intent-filter>
+                <data android:scheme="file" />
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="*/*" />
             </intent-filter>
 
             <intent-filter>
+                <data android:scheme="file" />
                 <action android:name="android.intent.action.EDIT" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="*/*" />
             </intent-filter>
 
             <intent-filter>
+                <data android:scheme="file" />
                 <action android:name="android.intent.action.INSERT_OR_EDIT" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="*/*" />
             </intent-filter>
 
             <intent-filter>
+                <data android:scheme="file" />
                 <action android:name="android.intent.action.INSERT" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="*/*" />
