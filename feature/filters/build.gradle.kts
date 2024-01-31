@@ -29,4 +29,5 @@ dependencies {
     implementation(projects.feature.draw)
     implementation(projects.feature.pickColor)
     implementation(projects.feature.compare)
+    implementation(projects.libs.nQuant)
 }

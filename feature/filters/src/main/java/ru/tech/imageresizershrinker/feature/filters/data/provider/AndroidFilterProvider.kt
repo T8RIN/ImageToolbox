@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.filters.QuantizierFilter
 import ru.tech.imageresizershrinker.feature.filters.data.BilaterialBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.BlackAndWhiteFilter
 import ru.tech.imageresizershrinker.feature.filters.data.BoxBlurFilter
@@ -152,6 +153,8 @@ internal class AndroidFilterProvider @Inject constructor(
                     context,
                     value as Triple<Float, Float, Color>
                 )
+
+                is Filter.Quantizier -> QuantizierFilter(value)
 
                 is Filter.WeakPixel -> WeakPixelFilter(context)
                 is Filter.WhiteBalance -> WhiteBalanceFilter(context, value)

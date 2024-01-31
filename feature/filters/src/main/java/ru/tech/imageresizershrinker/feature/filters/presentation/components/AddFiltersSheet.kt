@@ -48,6 +48,7 @@ import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Animation
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Done
+import androidx.compose.material.icons.rounded.EditRoad
 import androidx.compose.material.icons.rounded.FilterHdr
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.LensBlur
@@ -167,7 +168,8 @@ fun AddFiltersSheet(
                             Icons.Rounded.FilterHdr to stringResource(R.string.effect),
                             Icons.Rounded.LensBlur to stringResource(R.string.blur),
                             Icons.Rounded.Cube to stringResource(R.string.pixelation),
-                            Icons.Rounded.Animation to stringResource(R.string.distortion)
+                            Icons.Rounded.Animation to stringResource(R.string.distortion),
+                            Icons.Rounded.EditRoad to stringResource(R.string.dithering)
                         ).forEachIndexed { index, (icon, title) ->
                             val selected = pagerState.currentPage == index
                             Tab(

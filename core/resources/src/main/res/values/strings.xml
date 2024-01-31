@@ -657,4 +657,7 @@
     <string name="secure_mode_sub">Hides content on exit, also the screen can\'t be captured or recorded</string>
     <string name="exit">Exit</string>
     <string name="preview_closing">If you leave preview now, you\'ll need to add the images again</string>
+    <string name="dithering">Dithering</string>
+    <string name="quantizier">Quantizier</string>
+    <string name="bayer_two_by_two_dithering">Bayer Two By Two Dithering</string>
 </resources>

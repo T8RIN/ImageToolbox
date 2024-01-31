@@ -106,6 +106,8 @@ sealed class UiFilter<T>(
             is UiEnhancedDiamondPixelationFilter -> UiEnhancedDiamondPixelationFilter(value as Float)
             is UiReplaceColorFilter -> UiReplaceColorFilter(value as Triple<Float, Color, Color>)
             is UiRemoveColorFilter -> UiRemoveColorFilter(value as Pair<Float, Color>)
+            is UiQuantizierFilter -> UiQuantizierFilter(value as Float)
+            is UiBayerTwoDithering -> UiBayerTwoDithering(value as Float)
         }
     }
 
@@ -170,6 +172,8 @@ sealed class UiFilter<T>(
             is UiEnhancedDiamondPixelationFilter -> UiEnhancedDiamondPixelationFilter()
             is UiReplaceColorFilter -> UiReplaceColorFilter()
             is UiRemoveColorFilter -> UiRemoveColorFilter()
+            is UiQuantizierFilter -> UiQuantizierFilter()
+            is UiBayerTwoDithering -> UiBayerTwoDithering()
         }
     }
 
@@ -246,6 +250,10 @@ sealed class UiFilter<T>(
                     UiBulgeDistortionFilter(),
                     UiSphereRefractionFilter(),
                     UiGlassSphereRefractionFilter()
+                ),
+                listOf(
+                    UiQuantizierFilter(),
+                    UiBayerTwoDithering()
                 )
             )
         }
