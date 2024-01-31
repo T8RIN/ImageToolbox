@@ -15,19 +15,29 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.filters.presentation.model
+package ru.tech.imageresizershrinker.feature.filters.data
 
 import android.graphics.Bitmap
+import coil.size.Size
+import com.android.nQuant.PnnLABQuantizer
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
-import ru.tech.imageresizershrinker.core.resources.R
 
-class UiQuantizierFilter(
+
+class QuantizierFilter(
     override val value: Float = 64f,
-) : UiFilter<Float>(
-    title = R.string.quantizier,
-    value = value,
-    paramsInfo = listOf(
-        FilterParam(valueRange = 2f..256f, roundTo = 0)
-    )
-), Filter.Quantizier<Bitmap>
+) : Filter.Quantizier<Bitmap>, Transformation<Bitmap> {
+
+    override val cacheKey: String
+        get() = value.hashCode().toString()
+
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap = withContext(Dispatchers.IO) {
+        PnnLABQuantizer(input).convert(value.toInt(), true)
+    }
+
+}

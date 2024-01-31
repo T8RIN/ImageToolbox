@@ -15,29 +15,28 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters
+package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
-import coil.size.Size
-import com.android.nQuant.PnnLABQuantizer
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
+import ru.tech.imageresizershrinker.core.resources.R
 
-
-class QuantizierFilter(
-    override val value: Float = 64f,
-) : Filter.Quantizier<Bitmap>, Transformation<Bitmap> {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: Size
-    ): Bitmap = withContext(Dispatchers.IO) {
-        PnnLABQuantizer(input).convert(value.toInt(), true)
-    }
-
-}
+class UiBayerTwoDithering(
+    override val value: Pair<Float, Boolean> = 200f to false,
+) : UiFilter<Pair<Float, Boolean>>(
+    title = R.string.bayer_two_by_two_dithering,
+    value = value,
+    paramsInfo = listOf(
+        FilterParam(
+            title = R.string.threshold,
+            valueRange = 1f..255f,
+            roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.gray_scale,
+            valueRange = 0f..0f,
+            roundTo = 0
+        )
+    )
+), Filter.BayerTwoDithering<Bitmap>

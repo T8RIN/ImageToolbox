@@ -25,7 +25,7 @@ import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.feature.filters.QuantizierFilter
+import ru.tech.imageresizershrinker.feature.filters.data.BayerTwoDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.BilaterialBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.BlackAndWhiteFilter
 import ru.tech.imageresizershrinker.feature.filters.data.BoxBlurFilter
@@ -65,6 +65,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.NonMaximumSuppressionFi
 import ru.tech.imageresizershrinker.feature.filters.data.OpacityFilter
 import ru.tech.imageresizershrinker.feature.filters.data.PixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.PosterizeFilter
+import ru.tech.imageresizershrinker.feature.filters.data.QuantizierFilter
 import ru.tech.imageresizershrinker.feature.filters.data.RGBFilter
 import ru.tech.imageresizershrinker.feature.filters.data.RemoveColorFilter
 import ru.tech.imageresizershrinker.feature.filters.data.ReplaceColorFilter
@@ -155,10 +156,10 @@ internal class AndroidFilterProvider @Inject constructor(
                 )
 
                 is Filter.Quantizier -> QuantizierFilter(value)
-
                 is Filter.WeakPixel -> WeakPixelFilter(context)
                 is Filter.WhiteBalance -> WhiteBalanceFilter(context, value)
                 is Filter.ZoomBlur -> ZoomBlurFilter(context, value)
+                is Filter.BayerTwoDithering -> BayerTwoDitheringFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

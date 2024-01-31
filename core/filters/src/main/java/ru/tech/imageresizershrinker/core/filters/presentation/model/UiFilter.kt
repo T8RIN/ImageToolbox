@@ -107,7 +107,7 @@ sealed class UiFilter<T>(
             is UiReplaceColorFilter -> UiReplaceColorFilter(value as Triple<Float, Color, Color>)
             is UiRemoveColorFilter -> UiRemoveColorFilter(value as Pair<Float, Color>)
             is UiQuantizierFilter -> UiQuantizierFilter(value as Float)
-            is UiBayerTwoDithering -> UiBayerTwoDithering(value as Float)
+            is UiBayerTwoDithering -> UiBayerTwoDithering(value as Pair<Float, Boolean>)
         }
     }
 

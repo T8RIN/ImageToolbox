@@ -82,5 +82,5 @@ interface Filter<Image, Value> {
     interface RemoveColor<Image, Color> : Filter<Image, Pair<Float, Color>>
     interface SideFade<Image> : Filter<Image, Pair<FadeSide, Int>>
     interface Quantizier<Image> : Filter<Image, Float>
-    interface BayerTwoDithering<Image> : Filter<Image, Float>
+    interface BayerTwoDithering<Image> : Filter<Image, Pair<Float, Boolean>>
 }

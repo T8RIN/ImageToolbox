@@ -86,10 +86,9 @@ public class Dithering {
     private Bitmap ordered2By2Bayer(Bitmap src) {
         Bitmap out = Bitmap.createBitmap(src.getWidth(), src.getHeight(), src.getConfig());
 
-        int[] rgb = new int[3];
         int alpha, red, green, blue;
         int pixel;
-        int gray;
+        int[] rgb = new int[3];
 
         int[][] matrix = {
                 {1, 3},
@@ -108,32 +107,34 @@ public class Dithering {
                 green = Color.green(pixel);
                 blue = Color.blue(pixel);
 
-                gray = red;
-                gray = gray + (gray * matrix[x % 2][y % 2]) / 5;
+                if (!isGrayScale) {
+                    rgb[0] = red;
+                    rgb[1] = green;
+                    rgb[2] = blue;
 
-                rgb[0] = red;
-                rgb[1] = green;
-                rgb[2] = blue;
+                    for (int i = 0; i < 3; i++) {
+                        int channelValue = rgb[i] + (rgb[i] * matrix[x % 2][y % 2]) / 5;
 
-                for (int i = 0; i < 3; i++) {
-                    rgb[i] = rgb[i] + (rgb[i] * matrix[x % 2][y % 2]) / 5;
-
-                    if (rgb[i] < threshold) {
-                        rgb[i] = 0;
-                    } else {
-                        rgb[i] = 255;
+                        if (channelValue < threshold) {
+                            rgb[i] = 0;
+                        } else {
+                            rgb[i] = 255;
+                        }
                     }
-                }
 
-                if (gray < threshold) {
-                    gray = 0;
+                    out.setPixel(x, y, Color.argb(alpha, rgb[0], rgb[1], rgb[2]));
                 } else {
-                    gray = 255;
-                }
+                    int gray = red;
+                    gray = gray + (gray * matrix[x % 2][y % 2]) / 5;
 
-                if (isGrayScale) {
+                    if (gray < threshold) {
+                        gray = 0;
+                    } else {
+                        gray = 255;
+                    }
+
                     out.setPixel(x, y, Color.argb(alpha, gray, gray, gray));
-                } else out.setPixel(x, y, Color.argb(alpha, red, green, blue));
+                }
             }
         }
 
@@ -149,12 +150,12 @@ public class Dithering {
      *
      *  (1/10)
      */
-    private Bitmap ordered3By3Bayer(Bitmap src) {
+    public Bitmap ordered3By3Bayer(Bitmap src) {
         Bitmap out = Bitmap.createBitmap(src.getWidth(), src.getHeight(), src.getConfig());
 
-        int alpha, red;
+        int alpha, red, green, blue;
         int pixel;
-        int gray;
+        int[] rgb = new int[3];
 
         int[][] matrix = {
                 {3, 7, 4},
@@ -171,24 +172,42 @@ public class Dithering {
 
                 alpha = Color.alpha(pixel);
                 red = Color.red(pixel);
+                green = Color.green(pixel);
+                blue = Color.blue(pixel);
 
-                gray = red;
+                if (isGrayScale) {
+                    int gray = red;
+                    gray = gray + (gray * matrix[x % 3][y % 3]) / 10;
 
-                gray = gray + (gray * matrix[x % 3][y % 3]) / 10;
+                    if (gray < threshold) {
+                        gray = 0;
+                    } else {
+                        gray = 255;
+                    }
 
-                if (gray < threshold) {
-                    gray = 0;
+                    out.setPixel(x, y, Color.argb(alpha, gray, gray, gray));
                 } else {
-                    gray = 255;
-                }
+                    rgb[0] = red;
+                    rgb[1] = green;
+                    rgb[2] = blue;
 
-                out.setPixel(x, y, Color.argb(alpha, gray, gray, gray));
+                    for (int i = 0; i < 3; i++) {
+                        int channelValue = rgb[i] + (rgb[i] * matrix[x % 3][y % 3]) / 10;
+
+                        if (channelValue < threshold) {
+                            rgb[i] = 0;
+                        } else {
+                            rgb[i] = 255;
+                        }
+                    }
+
+                    out.setPixel(x, y, Color.argb(alpha, rgb[0], rgb[1], rgb[2]));
+                }
             }
         }
 
         return out;
     }
-
 
     /*
      * 4 by 4 Bayer Ordered Dithering
@@ -199,12 +218,12 @@ public class Dithering {
      *  16 8 14 6
      *  (1/17)
      */
-    private Bitmap ordered4By4Bayer(Bitmap src) {
+    public Bitmap ordered4By4Bayer(Bitmap src) {
         Bitmap out = Bitmap.createBitmap(src.getWidth(), src.getHeight(), src.getConfig());
 
-        int alpha, red;
+        int alpha, red, green, blue;
         int pixel;
-        int gray;
+        int[] rgb = new int[3];
 
         int[][] matrix = {
                 {1, 9, 3, 11},
@@ -221,24 +240,42 @@ public class Dithering {
 
                 alpha = Color.alpha(pixel);
                 red = Color.red(pixel);
+                green = Color.green(pixel);
+                blue = Color.blue(pixel);
 
-                gray = red;
+                if (isGrayScale) {
+                    int gray = red;
+                    gray = gray + (gray * matrix[x % 4][y % 4]) / 17;
 
-                gray = gray + (gray * matrix[x % 4][y % 4]) / 17;
+                    if (gray < threshold) {
+                        gray = 0;
+                    } else {
+                        gray = 255;
+                    }
 
-                if (gray < threshold) {
-                    gray = 0;
+                    out.setPixel(x, y, Color.argb(alpha, gray, gray, gray));
                 } else {
-                    gray = 255;
-                }
+                    rgb[0] = red;
+                    rgb[1] = green;
+                    rgb[2] = blue;
 
-                out.setPixel(x, y, Color.argb(alpha, gray, gray, gray));
+                    for (int i = 0; i < 3; i++) {
+                        int channelValue = rgb[i] + (rgb[i] * matrix[x % 4][y % 4]) / 17;
+
+                        if (channelValue < threshold) {
+                            rgb[i] = 0;
+                        } else {
+                            rgb[i] = 255;
+                        }
+                    }
+
+                    out.setPixel(x, y, Color.argb(alpha, rgb[0], rgb[1], rgb[2]));
+                }
             }
         }
 
         return out;
     }
-
 
     /*
      * 8 by 8 Bayer Ordered Dithering
@@ -254,12 +291,12 @@ public class Dithering {
      *
      *  (1/65)
      */
-    private Bitmap ordered8By8Bayer(Bitmap src) {
+    public Bitmap ordered8By8Bayer(Bitmap src) {
         Bitmap out = Bitmap.createBitmap(src.getWidth(), src.getHeight(), src.getConfig());
 
-        int alpha, red;
+        int alpha, red, green, blue;
         int pixel;
-        int gray;
+        int[] rgb = new int[3];
 
         int[][] matrix = {
                 {1, 49, 13, 61, 4, 52, 16, 64},
@@ -281,18 +318,37 @@ public class Dithering {
 
                 alpha = Color.alpha(pixel);
                 red = Color.red(pixel);
+                green = Color.green(pixel);
+                blue = Color.blue(pixel);
 
-                gray = red;
+                if (isGrayScale) {
+                    int gray = red;
+                    gray = gray + (gray * matrix[x % 8][y % 8]) / 65;
 
-                gray = gray + (gray * matrix[x % 8][y % 8]) / 65;
+                    if (gray < threshold) {
+                        gray = 0;
+                    } else {
+                        gray = 255;
+                    }
 
-                if (gray < threshold) {
-                    gray = 0;
+                    out.setPixel(x, y, Color.argb(alpha, gray, gray, gray));
                 } else {
-                    gray = 255;
-                }
+                    rgb[0] = red;
+                    rgb[1] = green;
+                    rgb[2] = blue;
 
-                out.setPixel(x, y, Color.argb(alpha, gray, gray, gray));
+                    for (int i = 0; i < 3; i++) {
+                        int channelValue = rgb[i] + (rgb[i] * matrix[x % 8][y % 8]) / 65;
+
+                        if (channelValue < threshold) {
+                            rgb[i] = 0;
+                        } else {
+                            rgb[i] = 255;
+                        }
+                    }
+
+                    out.setPixel(x, y, Color.argb(alpha, rgb[0], rgb[1], rgb[2]));
+                }
             }
         }
 
