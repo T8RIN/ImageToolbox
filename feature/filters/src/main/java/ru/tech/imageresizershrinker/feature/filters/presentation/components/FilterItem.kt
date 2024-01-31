@@ -556,24 +556,25 @@ fun <T> FilterItem(
                                                 }
                                             )
                                         }
-                                    }
-                                EnhancedSlider(
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            start = 12.dp,
-                                            end = 12.dp,
-                                            bottom = 8.dp
+                                        EnhancedSlider(
+                                            modifier = Modifier
+                                                .padding(
+                                                    top = 16.dp,
+                                                    start = 12.dp,
+                                                    end = 12.dp,
+                                                    bottom = 8.dp
+                                                )
+                                                .offset(y = (-2).dp),
+                                            enabled = !previewOnly,
+                                            value = sliderState1,
+                                            onValueChange = {
+                                                sliderState1 =
+                                                    it.roundTo(filter.paramsInfo[0].roundTo)
+                                                onFilterChange(sliderState1 to booleanState2)
+                                            },
+                                            valueRange = filter.paramsInfo[0].valueRange
                                         )
-                                        .offset(y = (-2).dp),
-                                    enabled = !previewOnly,
-                                    value = sliderState1,
-                                    onValueChange = {
-                                        sliderState1 = it.roundTo(filter.paramsInfo[0].roundTo)
-                                        onFilterChange(sliderState1 to booleanState2)
-                                    },
-                                    valueRange = filter.paramsInfo[0].valueRange
-                                )
+                                    }
                                 filter.paramsInfo[1].takeIf { it.title != null }
                                     ?.let { (title, _, _) ->
                                         PreferenceRowSwitch(

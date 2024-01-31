@@ -18,7 +18,7 @@
 package ru.tech.imageresizershrinker.core.filters.domain.model
 
 
-interface Filter<Image, Value> {
+sealed interface Filter<Image, Value> {
     val value: Value
 
     interface BilaterialBlur<Image> : Filter<Image, Float>
@@ -83,4 +83,10 @@ interface Filter<Image, Value> {
     interface SideFade<Image> : Filter<Image, Pair<FadeSide, Int>>
     interface Quantizier<Image> : Filter<Image, Float>
     interface BayerTwoDithering<Image> : Filter<Image, Pair<Float, Boolean>>
+    interface BayerThreeDithering<Image> : Filter<Image, Pair<Float, Boolean>>
+    interface BayerFourDithering<Image> : Filter<Image, Pair<Float, Boolean>>
+    interface BayerEightDithering<Image> : Filter<Image, Pair<Float, Boolean>>
+    interface RandomDithering<Image> : Filter<Image, Pair<Float, Boolean>>
+    interface FloydSteinbergDithering<Image> : Filter<Image, Pair<Float, Boolean>>
+    interface JarvisJudiceNinkeDithering<Image> : Filter<Image, Pair<Float, Boolean>>
 }

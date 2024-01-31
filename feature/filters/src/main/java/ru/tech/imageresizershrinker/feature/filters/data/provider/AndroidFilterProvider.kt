@@ -160,8 +160,13 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.WhiteBalance -> WhiteBalanceFilter(context, value)
                 is Filter.ZoomBlur -> ZoomBlurFilter(context, value)
                 is Filter.BayerTwoDithering -> BayerTwoDitheringFilter(value)
-
-                else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
+                is Filter.BayerEightDithering -> TODO()
+                is Filter.BayerFourDithering -> TODO()
+                is Filter.BayerThreeDithering -> TODO()
+                is Filter.FloydSteinbergDithering -> TODO()
+                is Filter.JarvisJudiceNinkeDithering -> TODO()
+                is Filter.RandomDithering -> TODO()
+                is Filter.SideFade -> TODO()
             }
         }
     }
