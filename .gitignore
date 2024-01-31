@@ -8,3 +8,4 @@
 .externalNativeBuild
 .cxx
 /.idea
+/libs/nQuant/build
