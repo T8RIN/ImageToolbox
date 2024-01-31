@@ -18,7 +18,7 @@
 package ru.tech.imageresizershrinker.core.filters.domain.model
 
 
-sealed interface Filter<Image, Value> {
+interface Filter<Image, Value> {
     val value: Value
 
     interface BilaterialBlur<Image> : Filter<Image, Float>

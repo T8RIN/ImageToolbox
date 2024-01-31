@@ -72,6 +72,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.ReplaceColorFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SaturationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SepiaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SharpenFilter
+import ru.tech.imageresizershrinker.feature.filters.data.SideFadeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SketchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SmoothToonFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SobelEdgeDetectionFilter
@@ -166,7 +167,9 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.FloydSteinbergDithering -> TODO()
                 is Filter.JarvisJudiceNinkeDithering -> TODO()
                 is Filter.RandomDithering -> TODO()
-                is Filter.SideFade -> TODO()
+                is Filter.SideFade -> SideFadeFilter(value)
+
+                else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }
         }
     }
