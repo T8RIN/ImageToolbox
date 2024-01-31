@@ -106,12 +106,11 @@
     <string name="help_translate">Help translate</string>
     <string name="help_translate_sub">Correct translation mistakes or localize project to another languages</string>
     <string name="nothing_found_by_search">Nothing found by your query</string>
-    <!--    <string name="processing">Processing</string>-->
     <string name="search_here">Search here</string>
     <string name="dynamic_colors_sub">If enabled, then app colors will be adopted to wallpaper colors</string>
     <string name="failed_to_save">Failed to save %d image(s)</string>
     <string name="telegram" translatable="false">Telegram</string>
-    <string name="email" translatable="false">Email</string>
+    <string name="email">Email</string>
     <string name="github" translatable="false">GitHub</string>
     <string name="developer_email" translatable="false">t8rin@bk.ru</string>
     <string name="primary">Primary</string>
