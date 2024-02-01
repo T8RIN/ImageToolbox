@@ -213,13 +213,14 @@ private val ImageScaleMode.title: String
     get() = when (this) {
         ImageScaleMode.Bilinear -> stringResource(id = R.string.bilinear)
         ImageScaleMode.Catmull -> stringResource(id = R.string.catmull)
-        ImageScaleMode.Bicubic -> stringResource(id = R.string.bicubic)
+        ImageScaleMode.Spline -> stringResource(id = R.string.spline)
         ImageScaleMode.Hann -> stringResource(id = R.string.hann)
         ImageScaleMode.Hermite -> stringResource(id = R.string.hermite)
         ImageScaleMode.Lanczos -> stringResource(id = R.string.lanczos)
         ImageScaleMode.Mitchell -> stringResource(id = R.string.mitchell)
         ImageScaleMode.Nearest -> stringResource(id = R.string.nearest)
-        ImageScaleMode.Spline -> stringResource(id = R.string.spline)
+        ImageScaleMode.Bicubic -> stringResource(id = R.string.bicubic)
+        ImageScaleMode.BSpline -> stringResource(id = R.string.b_spline)
         else -> stringResource(id = R.string.basic)
     }
 
@@ -235,5 +236,6 @@ private val ImageScaleMode.subtitle: String
         ImageScaleMode.Mitchell -> stringResource(id = R.string.mitchell_sub)
         ImageScaleMode.Nearest -> stringResource(id = R.string.nearest_sub)
         ImageScaleMode.Spline -> stringResource(id = R.string.spline_sub)
+        ImageScaleMode.BSpline -> stringResource(id = R.string.b_spline_sub)
         else -> stringResource(id = R.string.basic_sub)
     }

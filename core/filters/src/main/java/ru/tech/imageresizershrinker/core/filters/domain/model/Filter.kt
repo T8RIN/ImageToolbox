@@ -98,5 +98,5 @@ interface Filter<Image, Value> {
     interface FalseFloydSteinbergDithering<Image> : Filter<Image, Pair<Float, Boolean>>
     interface LeftToRightDithering<Image> : Filter<Image, Pair<Float, Boolean>>
     interface SimpleThresholdDithering<Image> : Filter<Image, Pair<Float, Boolean>>
-    interface MedianBlur<Image> : Filter<Image, Float>
+    interface MedianBlur<Image> : Filter<Image, Pair<Float, Int>>
 }

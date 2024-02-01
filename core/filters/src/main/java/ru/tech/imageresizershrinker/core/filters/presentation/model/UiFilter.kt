@@ -123,7 +123,7 @@ sealed class UiFilter<T>(
             is UiSimpleThresholdDitheringFilter -> UiSimpleThresholdDitheringFilter(value as Pair<Float, Boolean>)
             is UiStuckiDitheringFilter -> UiStuckiDitheringFilter(value as Pair<Float, Boolean>)
             is UiTwoRowSierraDitheringFilter -> UiTwoRowSierraDitheringFilter(value as Pair<Float, Boolean>)
-            is UiMedianBlurFilter -> UiMedianBlurFilter(value as Float)
+            is UiMedianBlurFilter -> UiMedianBlurFilter(value as Pair<Float, Int>)
         }
     }
 

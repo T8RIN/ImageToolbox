@@ -23,14 +23,12 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiMedianBlurFilter(
-    override val value: Float = 10f
-) : UiFilter<Float>(
+    override val value: Pair<Float, Int> = 0.5f to 10
+) : UiFilter<Pair<Float, Int>>(
     title = R.string.median_blur,
     value = value,
     paramsInfo = listOf(
-        FilterParam(
-            valueRange = 0f..20f,
-            roundTo = 0
-        )
+        FilterParam(R.string.scale, 0.1f..1f, 2),
+        FilterParam(R.string.radius, 0f..30f, 0)
     )
 ), Filter.MedianBlur<Bitmap>

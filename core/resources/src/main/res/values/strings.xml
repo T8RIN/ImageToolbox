@@ -678,4 +678,7 @@
     <string name="sigma">Sigma</string>
     <string name="spatial_sigma">Spatial Sigma</string>
     <string name="median_blur">Median Blur</string>
+    <string name="b_spline">B Spline</string>
+    <string name="b_spline_sub">Utilizes piecewise-defined bicubic polynomial functions to smoothly interpolate and approximate a curve or surface, flexible and continuous shape representation</string>
+
 </resources>

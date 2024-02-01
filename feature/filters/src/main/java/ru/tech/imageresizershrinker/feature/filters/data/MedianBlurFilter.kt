@@ -22,16 +22,23 @@ import coil.size.Size
 import com.awxkee.jxlcoder.processing.BitmapProcessor
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
 
 class MedianBlurFilter(
-    override val value: Float = 10f
+    override val value: Pair<Float, Int> = 0.5f to 10
 ) : Transformation<Bitmap>, Filter.MedianBlur<Bitmap> {
+
     override val cacheKey: String
         get() = value.hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = BitmapProcessor.medianBlur(input, value.toInt())
+    ): Bitmap = input.createScaledBitmap(
+        (input.width * value.first).toInt(),
+        (input.height * value.first).toInt()
+    ).let {
+        BitmapProcessor.medianBlur(it, value.second)
+    }.createScaledBitmap(input.width, input.height)
 
 }
