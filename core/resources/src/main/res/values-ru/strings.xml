@@ -665,4 +665,11 @@
     <string name="tilt_shift">Наклон-смещение</string>
     <string name="b_spline">Би Сплайн</string>
     <string name="b_spline_sub">Использует кусочно-определенные функции бикубического полинома для плавной интерполяции и аппроксимации кривой или поверхности, гибкое и непрерывное представление формы</string>
+    <string name="shuffle">Перемешивание</string>
+    <string name="glitch">Сбой</string>
+    <string name="seed">Зерно</string>
+    <string name="amount">Количество</string>
+    <string name="anaglyph">Анаглиф</string>
+    <string name="noise">Шум</string>
+    <string name="pixel_sort">Сортировка Пикселей</string>
 </resources>
