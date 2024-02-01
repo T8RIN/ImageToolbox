@@ -460,4 +460,9 @@
     <string name="switches_shadow">Przełączniki</string>
     <string name="both">Oba</string>
     <string name="jxl_sub">Format JXL nie jest oficjalnie obsługiwany przez Androida, więc coś może nie działać. Zapisywanie będzie działać tylko w przypadku wybrania niestandardowego katalogu wyjściowego. Jest to wersja eksperymentalna, błędy tutaj nie zostaną naprawione, chyba że Google doda obsługę JXL. Ta wersja może wyświetlać obrazy JXL</string>
+    <string name="fabs_shadow">Pływające przyciski</string>
+    <string name="buttons_shadow">Przyciski</string>
+    <string name="sliders_shadow_sub">Włącza rysowanie cieni za suwakami</string>
+    <string name="switches_shadow_sub">Włącza rysowanie cienia za przełącznikami</string>
+    <string name="fabs_shadow_sub">Umożliwia rysowanie cieni za pływającymi przyciskami</string>
 </resources>
