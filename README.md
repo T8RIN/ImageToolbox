@@ -234,6 +234,7 @@ or click one of the badges below.
     * Catmull
     * Hermite
     * Spline
+    * BSpline
     * Hann
 - GIF conversion
   * GIF to images
@@ -285,6 +286,8 @@ or click one of the badges below.
   - Previewing SVG, GIF and mostly all types of images
   - Saving to any specific folder
   - Randomizing output filename
+  
+**And More!**
 
 #
 
