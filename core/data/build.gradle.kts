@@ -30,7 +30,9 @@ dependencies {
     api(libs.avif.coder)
     api(libs.datastore.preferences.android)
 
-    api(libs.jxl.coder.coil)
+    api(libs.jxl.coder.coil) {
+        exclude(module = "com.github.awxkee:jxl-coder")
+    }
     api(libs.jxl.coder)
 
     api(libs.androidx.exifinterface)
