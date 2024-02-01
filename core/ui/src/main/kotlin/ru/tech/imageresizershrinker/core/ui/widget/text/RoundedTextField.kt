@@ -184,9 +184,6 @@ fun RoundedTextField(
         }
     }
 
-    //TODO: Remove when library will be fixed
-    KeyboardFocusHandler()
-
     val scope = rememberCoroutineScope()
     LaunchedEffect(isError) {
         borderColor.animateTo(if (focused) focusedColor else unfocusedColor)

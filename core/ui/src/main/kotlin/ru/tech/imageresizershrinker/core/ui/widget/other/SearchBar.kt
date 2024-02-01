@@ -40,7 +40,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
-import ru.tech.imageresizershrinker.core.ui.widget.text.KeyboardFocusHandler
 
 @Composable
 fun SearchBar(
@@ -51,9 +50,6 @@ fun SearchBar(
     val focusRequester = remember { FocusRequester() }
     val localFocusManager = LocalFocusManager.current
     val state = rememberScrollState()
-
-    //TODO: Remove when library will be fixed
-    KeyboardFocusHandler()
 
     LaunchedEffect(windowInfo) {
         snapshotFlow {
