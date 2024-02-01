@@ -205,7 +205,7 @@
     <string name="box_blur">Размытие прямоугольника</string>
     <string name="start">Начало</string>
     <string name="end">Конец</string>
-    <string name="stack_blur">Медленное размытие</string>
+    <string name="stack_blur">Размытие Стэком</string>
     <string name="scale">Увеличение</string>
     <string name="radius">Радиус</string>
     <string name="distortion">Искажение</string>
@@ -661,4 +661,8 @@
     <string name="median_blur">Медианное размытие</string>
     <string name="sigma">Сигма</string>
     <string name="spatial_sigma">Пространственная сигма</string>
+    <string name="native_stack_blur">Нативное Размытие Стэком</string>
+    <string name="tilt_shift">Наклон-смещение</string>
+    <string name="b_spline">Би Сплайн</string>
+    <string name="b_spline_sub">Использует кусочно-определенные функции бикубического полинома для плавной интерполяции и аппроксимации кривой или поверхности, гибкое и непрерывное представление формы</string>
 </resources>
