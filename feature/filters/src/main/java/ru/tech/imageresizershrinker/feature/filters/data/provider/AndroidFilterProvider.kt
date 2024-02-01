@@ -70,6 +70,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.LookupFilter
 import ru.tech.imageresizershrinker.feature.filters.data.LuminanceThresholdFilter
 import ru.tech.imageresizershrinker.feature.filters.data.MedianBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.MonochromeFilter
+import ru.tech.imageresizershrinker.feature.filters.data.NativeStackBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.NegativeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.NonMaximumSuppressionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.OpacityFilter
@@ -95,6 +96,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.StackBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.StrokePixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.StuckiDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SwirlDistortionFilter
+import ru.tech.imageresizershrinker.feature.filters.data.TiltShiftFilter
 import ru.tech.imageresizershrinker.feature.filters.data.ToonFilter
 import ru.tech.imageresizershrinker.feature.filters.data.TwoRowSierraDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.VibranceFilter
@@ -192,6 +194,8 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.RandomDithering -> RandomDitheringFilter(value)
                 is Filter.SimpleThresholdDithering -> SimpleThresholdDitheringFilter(value)
                 is Filter.MedianBlur -> MedianBlurFilter(value)
+                is Filter.NativeStackBlur -> NativeStackBlurFilter(value)
+                is Filter.TiltShift -> TiltShiftFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

@@ -114,12 +114,12 @@ private fun Bitmap.stackBlur(scale: Float, radius: Int): Bitmap {
         rinsum = 0
         i = -radius
         while (i <= radius) {
-            p = pix[yi + Math.min(wm, Math.max(i, 0))]
+            p = pix[yi + wm.coerceAtMost(i.coerceAtLeast(0))]
             sir = stack[i + radius]
             sir[0] = p and 0xff0000 shr 16
             sir[1] = p and 0x00ff00 shr 8
             sir[2] = p and 0x0000ff
-            rbs = r1 - Math.abs(i)
+            rbs = r1 - abs(i)
             rsum += sir[0] * rbs
             gsum += sir[1] * rbs
             bsum += sir[2] * rbs

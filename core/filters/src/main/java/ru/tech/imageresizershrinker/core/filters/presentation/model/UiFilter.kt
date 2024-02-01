@@ -24,6 +24,7 @@ import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
+import ru.tech.imageresizershrinker.core.filters.domain.model.TiltShiftParams
 
 sealed class UiFilter<T>(
     @StringRes val title: Int,
@@ -124,6 +125,8 @@ sealed class UiFilter<T>(
             is UiStuckiDitheringFilter -> UiStuckiDitheringFilter(value as Pair<Float, Boolean>)
             is UiTwoRowSierraDitheringFilter -> UiTwoRowSierraDitheringFilter(value as Pair<Float, Boolean>)
             is UiMedianBlurFilter -> UiMedianBlurFilter(value as Pair<Float, Int>)
+            is UiNativeStackBlurFilter -> UiNativeStackBlurFilter(value as Float)
+            is UiTiltShiftFilter -> UiTiltShiftFilter(value as TiltShiftParams)
         }
     }
 
@@ -206,6 +209,8 @@ sealed class UiFilter<T>(
             is UiStuckiDitheringFilter -> UiStuckiDitheringFilter()
             is UiTwoRowSierraDitheringFilter -> UiTwoRowSierraDitheringFilter()
             is UiMedianBlurFilter -> UiMedianBlurFilter()
+            is UiNativeStackBlurFilter -> UiNativeStackBlurFilter()
+            is UiTiltShiftFilter -> UiTiltShiftFilter()
         }
     }
 
@@ -261,13 +266,15 @@ sealed class UiFilter<T>(
                     UiLuminanceThresholdFilter()
                 ),
                 listOf(
+                    UiTiltShiftFilter(),
                     UiGaussianBlurFilter(),
                     UiBoxBlurFilter(),
                     UiBilaterialBlurFilter(),
                     UiFastBlurFilter(),
                     UiStackBlurFilter(),
                     UiZoomBlurFilter(),
-                    UiMedianBlurFilter()
+                    UiMedianBlurFilter(),
+                    UiNativeStackBlurFilter()
                 ),
                 listOf(
                     UiPixelationFilter(),
@@ -387,6 +394,9 @@ fun Filter<Bitmap, *>.toUiFilter(): UiFilter<*> = when (this) {
     is Filter.RandomDithering -> UiRandomDitheringFilter(value)
     is Filter.SimpleThresholdDithering -> UiSimpleThresholdDitheringFilter(value)
     is Filter.MedianBlur -> UiMedianBlurFilter(value)
+    is Filter.NativeStackBlur -> UiNativeStackBlurFilter(value)
+    is Filter.TiltShift -> UiTiltShiftFilter(value)
+
     else -> throw IllegalArgumentException("No UiFilter implementation for interface ${this::class.simpleName}")
 }
 

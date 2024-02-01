@@ -70,6 +70,7 @@ fun EnhancedSliderItem(
     shape: Shape = RoundedCornerShape(16.dp),
     valueTextTapEnabled: Boolean = true,
     behaveAsContainer: Boolean = true,
+    enabled: Boolean = true,
     additionalContent: (@Composable () -> Unit)? = null
 ) {
     val internalColor = contentColor
@@ -118,14 +119,17 @@ fun EnhancedSliderItem(
                             .padding(
                                 top = topContentPadding,
                                 end = 16.dp,
-                                start = 16.dp
+                                start = if (behaveAsContainer) 16.dp
+                                else 6.dp
                             )
                             .weight(1f),
                         lineHeight = 18.sp,
-                        fontWeight = FontWeight.Medium
+                        fontWeight = if (behaveAsContainer) {
+                            FontWeight.Medium
+                        } else FontWeight.Normal
                     )
                     ValueText(
-                        enabled = valueTextTapEnabled,
+                        enabled = valueTextTapEnabled && enabled,
                         value = internalStateTransformation(internalState.toFloat()),
                         valueSuffix = valueSuffix,
                         modifier = Modifier.padding(
@@ -146,6 +150,7 @@ fun EnhancedSliderItem(
                 ) { (valueRange, steps, sliderModifier) ->
                     EnhancedSlider(
                         modifier = sliderModifier,
+                        enabled = enabled,
                         value = internalState.toFloat(),
                         onValueChange = {
                             internalState = internalStateTransformation(it)

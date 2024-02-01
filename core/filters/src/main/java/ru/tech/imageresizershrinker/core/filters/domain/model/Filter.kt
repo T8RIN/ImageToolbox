@@ -99,4 +99,6 @@ interface Filter<Image, Value> {
     interface LeftToRightDithering<Image> : Filter<Image, Pair<Float, Boolean>>
     interface SimpleThresholdDithering<Image> : Filter<Image, Pair<Float, Boolean>>
     interface MedianBlur<Image> : Filter<Image, Pair<Float, Int>>
+    interface NativeStackBlur<Image> : Filter<Image, Float>
+    interface TiltShift<Image> : Filter<Image, TiltShiftParams>
 }

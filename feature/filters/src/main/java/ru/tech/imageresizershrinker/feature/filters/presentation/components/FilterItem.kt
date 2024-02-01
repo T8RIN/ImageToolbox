@@ -19,7 +19,9 @@ package ru.tech.imageresizershrinker.feature.filters.presentation.components
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -34,12 +36,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -57,6 +60,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.filters.domain.model.TiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiColorFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiRGBFilter
@@ -67,6 +71,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRow
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSlider
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -118,10 +123,19 @@ fun <T> FilterItem(
                     .padding(start = 20.dp)
             )
         }
+        val interactionSource = remember {
+            MutableInteractionSource()
+        }
         Column(
             Modifier
                 .weight(1f)
                 .alpha(if (previewOnly) 0.5f else 1f)
+                .clickable(
+                    enabled = previewOnly,
+                    interactionSource = interactionSource,
+                    indication = null,
+                    onClick = {}
+                )
         ) {
             var sliderValue by remember(filter) {
                 mutableFloatStateOf(
@@ -144,7 +158,7 @@ fun <T> FilterItem(
                             )
                             .weight(1f)
                     )
-                    if (filter.value.toString().contains("Color") && !previewOnly) {
+                    if (!filter.value.isSingle() && !previewOnly) {
                         EnhancedIconButton(
                             containerColor = Color.Transparent,
                             contentColor = LocalContentColor.current,
@@ -272,112 +286,52 @@ fun <T> FilterItem(
                         val value = filter.value as Pair<*, *>
                         when {
                             value.first is Number && value.second is Number -> {
-                                var sliderState1 by remember(value) { mutableFloatStateOf((value.first as Number).toFloat()) }
-                                var sliderState2 by remember(value) { mutableFloatStateOf((value.second as Number).toFloat()) }
+                                val sliderState1: MutableState<Float> =
+                                    remember(value) { mutableFloatStateOf((value.first as Number).toFloat()) }
+                                val sliderState2: MutableState<Float> =
+                                    remember(value) { mutableFloatStateOf((value.second as Number).toFloat()) }
 
-                                Spacer(Modifier.height(8.dp))
-                                filter.paramsInfo[0].takeIf { it.title != null }
-                                    ?.let { (title, valueRange, roundTo) ->
-                                        Row(verticalAlignment = Alignment.CenterVertically) {
-                                            Row(Modifier.weight(1f)) {
-                                                Text(
-                                                    text = stringResource(title!!),
-                                                    modifier = Modifier
-                                                        .padding(
-                                                            top = 16.dp,
-                                                            end = 16.dp,
-                                                            start = 16.dp
-                                                        )
-                                                        .weight(1f)
-                                                )
-                                            }
-                                            var showValueDialog by remember { mutableStateOf(false) }
-                                            ValueText(
-                                                value = sliderState1,
-                                                onClick = { showValueDialog = true }
-                                            )
-                                            ValueDialog(
-                                                roundTo = roundTo,
-                                                valueRange = valueRange,
-                                                valueState = sliderState1.toString(),
-                                                expanded = showValueDialog && !previewOnly,
-                                                onDismiss = { showValueDialog = false },
-                                                onValueUpdate = {
-                                                    sliderState1 = it
-                                                    onFilterChange(it to sliderState2)
-                                                }
-                                            )
+                                LaunchedEffect(
+                                    sliderState1.value,
+                                    sliderState2.value
+                                ) {
+                                    onFilterChange(
+                                        sliderState1.value to sliderState2.value
+                                    )
+                                }
+
+                                val paramsInfo by remember(filter) {
+                                    derivedStateOf {
+                                        filter.paramsInfo.mapIndexedNotNull { index, filterParam ->
+                                            if (filterParam.title == null) return@mapIndexedNotNull null
+                                            when (index) {
+                                                0 -> sliderState1
+                                                else -> sliderState2
+                                            } to filterParam
                                         }
                                     }
-                                EnhancedSlider(
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            start = 12.dp,
-                                            end = 12.dp,
-                                            bottom = 8.dp
+                                }
+
+                                Column(
+                                    modifier = Modifier.padding(8.dp)
+                                ) {
+                                    paramsInfo.forEach { (state, info) ->
+                                        val (title, valueRange, roundTo) = info
+                                        EnhancedSliderItem(
+                                            enabled = !previewOnly,
+                                            value = state.value,
+                                            title = stringResource(title!!),
+                                            valueRange = valueRange,
+                                            onValueChange = {
+                                                state.value = it
+                                            },
+                                            internalStateTransformation = {
+                                                it.roundTo(roundTo)
+                                            },
+                                            behaveAsContainer = false
                                         )
-                                        .offset(y = (-2).dp),
-                                    enabled = !previewOnly,
-                                    value = sliderState1,
-                                    onValueChange = {
-                                        sliderState1 = it.roundTo(filter.paramsInfo[0].roundTo)
-                                        onFilterChange(sliderState1 to sliderState2)
-                                    },
-                                    valueRange = filter.paramsInfo[0].valueRange
-                                )
-                                filter.paramsInfo[1].takeIf { it.title != null }
-                                    ?.let { (title, valueRange, roundTo) ->
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            Row(Modifier.weight(1f)) {
-                                                Text(
-                                                    text = stringResource(title!!),
-                                                    modifier = Modifier
-                                                        .padding(
-                                                            top = 16.dp,
-                                                            end = 16.dp,
-                                                            start = 16.dp
-                                                        )
-                                                        .weight(1f)
-                                                )
-                                            }
-                                            var showValueDialog by remember { mutableStateOf(false) }
-                                            ValueText(
-                                                value = sliderState2,
-                                                onClick = { showValueDialog = true }
-                                            )
-                                            ValueDialog(
-                                                roundTo = roundTo,
-                                                valueRange = valueRange,
-                                                valueState = sliderState2.toString(),
-                                                expanded = showValueDialog && !previewOnly,
-                                                onDismiss = { showValueDialog = false },
-                                                onValueUpdate = {
-                                                    sliderState2 = it
-                                                    onFilterChange(sliderState1 to it)
-                                                }
-                                            )
-                                        }
                                     }
-                                EnhancedSlider(
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            start = 12.dp,
-                                            end = 12.dp,
-                                            bottom = 8.dp
-                                        )
-                                        .offset(y = (-2).dp),
-                                    enabled = !previewOnly,
-                                    value = sliderState2,
-                                    onValueChange = {
-                                        sliderState2 = it.roundTo(filter.paramsInfo[1].roundTo)
-                                        onFilterChange(sliderState1 to sliderState2)
-                                    },
-                                    valueRange = filter.paramsInfo[1].valueRange
-                                )
+                                }
                             }
 
                             value.first is Color && value.second is Color -> {
@@ -392,7 +346,6 @@ fun <T> FilterItem(
                                     var color2 by remember(value) { mutableStateOf(value.second as Color) }
 
                                     Column {
-                                        HorizontalDivider()
                                         Text(
                                             text = stringResource(R.string.first_color),
                                             modifier = Modifier
@@ -411,7 +364,6 @@ fun <T> FilterItem(
                                             }
                                         )
                                         Spacer(Modifier.height(8.dp))
-                                        HorizontalDivider()
                                         Text(
                                             text = stringResource(R.string.second_color),
                                             modifier = Modifier
@@ -437,56 +389,27 @@ fun <T> FilterItem(
                                 var sliderState1 by remember { mutableFloatStateOf((value.first as Number).toFloat()) }
                                 var color1 by remember(value) { mutableStateOf(value.second as Color) }
 
-                                Spacer(Modifier.height(8.dp))
-                                filter.paramsInfo[0].takeIf { it.title != null }
-                                    ?.let { (title, valueRange, roundTo) ->
-                                        Row(verticalAlignment = Alignment.CenterVertically) {
-                                            Row(Modifier.weight(1f)) {
-                                                Text(
-                                                    text = stringResource(title!!),
-                                                    modifier = Modifier
-                                                        .padding(
-                                                            top = 16.dp,
-                                                            end = 16.dp,
-                                                            start = 16.dp
-                                                        )
-                                                        .weight(1f)
-                                                )
-                                            }
-                                            var showValueDialog by remember { mutableStateOf(false) }
-                                            ValueText(
-                                                value = sliderState1,
-                                                onClick = { showValueDialog = true }
-                                            )
-                                            ValueDialog(
-                                                roundTo = roundTo,
-                                                valueRange = valueRange,
-                                                valueState = sliderState1.toString(),
-                                                expanded = showValueDialog && !previewOnly,
-                                                onDismiss = { showValueDialog = false },
-                                                onValueUpdate = {
-                                                    sliderState1 = it
-                                                    onFilterChange(sliderState1 to color1)
-                                                }
-                                            )
-                                        }
-                                    }
-                                EnhancedSlider(
+                                EnhancedSliderItem(
                                     modifier = Modifier
                                         .padding(
-                                            top = 16.dp,
-                                            start = 12.dp,
-                                            end = 12.dp,
-                                            bottom = 8.dp
-                                        )
-                                        .offset(y = (-2).dp),
+                                            top = 8.dp,
+                                            start = 8.dp,
+                                            end = 8.dp
+                                        ),
                                     enabled = !previewOnly,
                                     value = sliderState1,
+                                    title = filter.paramsInfo[0].title?.let {
+                                        stringResource(it)
+                                    } ?: "",
                                     onValueChange = {
-                                        sliderState1 = it.roundTo(filter.paramsInfo[0].roundTo)
+                                        sliderState1 = it
                                         onFilterChange(sliderState1 to color1)
                                     },
-                                    valueRange = filter.paramsInfo[0].valueRange
+                                    internalStateTransformation = {
+                                        it.roundTo(filter.paramsInfo[0].roundTo)
+                                    },
+                                    valueRange = filter.paramsInfo[0].valueRange,
+                                    behaveAsContainer = false
                                 )
                                 Box(
                                     modifier = Modifier.padding(
@@ -496,7 +419,6 @@ fun <T> FilterItem(
                                     )
                                 ) {
                                     Column {
-                                        HorizontalDivider()
                                         Text(
                                             text = stringResource(filter.paramsInfo[1].title!!),
                                             modifier = Modifier
@@ -523,58 +445,28 @@ fun <T> FilterItem(
                                 var sliderState1 by remember(value) { mutableFloatStateOf((value.first as Number).toFloat()) }
                                 var booleanState2 by remember(value) { mutableStateOf(value.second as Boolean) }
 
-                                Spacer(Modifier.height(8.dp))
-                                filter.paramsInfo[0].takeIf { it.title != null }
-                                    ?.let { (title, valueRange, roundTo) ->
-                                        Row(verticalAlignment = Alignment.CenterVertically) {
-                                            Row(Modifier.weight(1f)) {
-                                                Text(
-                                                    text = stringResource(title!!),
-                                                    modifier = Modifier
-                                                        .padding(
-                                                            top = 16.dp,
-                                                            end = 16.dp,
-                                                            start = 16.dp
-                                                        )
-                                                        .weight(1f)
-                                                )
-                                            }
-                                            var showValueDialog by remember { mutableStateOf(false) }
-                                            ValueText(
-                                                value = sliderState1,
-                                                onClick = { showValueDialog = true }
-                                            )
-                                            ValueDialog(
-                                                roundTo = roundTo,
-                                                valueRange = valueRange,
-                                                valueState = sliderState1.toString(),
-                                                expanded = showValueDialog && !previewOnly,
-                                                onDismiss = { showValueDialog = false },
-                                                onValueUpdate = {
-                                                    sliderState1 = it
-                                                    onFilterChange(it to booleanState2)
-                                                }
-                                            )
-                                        }
-                                        EnhancedSlider(
-                                            modifier = Modifier
-                                                .padding(
-                                                    top = 16.dp,
-                                                    start = 12.dp,
-                                                    end = 12.dp,
-                                                    bottom = 8.dp
-                                                )
-                                                .offset(y = (-2).dp),
-                                            enabled = !previewOnly,
-                                            value = sliderState1,
-                                            onValueChange = {
-                                                sliderState1 =
-                                                    it.roundTo(filter.paramsInfo[0].roundTo)
-                                                onFilterChange(sliderState1 to booleanState2)
-                                            },
-                                            valueRange = filter.paramsInfo[0].valueRange
-                                        )
-                                    }
+                                EnhancedSliderItem(
+                                    modifier = Modifier
+                                        .padding(
+                                            top = 8.dp,
+                                            start = 8.dp,
+                                            end = 8.dp
+                                        ),
+                                    enabled = !previewOnly,
+                                    value = sliderState1,
+                                    title = filter.paramsInfo[0].title?.let {
+                                        stringResource(it)
+                                    } ?: "",
+                                    onValueChange = {
+                                        sliderState1 = it
+                                        onFilterChange(sliderState1 to booleanState2)
+                                    },
+                                    internalStateTransformation = {
+                                        it.roundTo(filter.paramsInfo[0].roundTo)
+                                    },
+                                    valueRange = filter.paramsInfo[0].valueRange,
+                                    behaveAsContainer = false
+                                )
                                 filter.paramsInfo[1].takeIf { it.title != null }
                                     ?.let { (title, _, _) ->
                                         PreferenceRowSwitch(
@@ -606,327 +498,111 @@ fun <T> FilterItem(
                         val value = filter.value as Triple<*, *, *>
                         when {
                             value.first is Number && value.second is Number && value.third is Number -> {
-                                var sliderState1 by remember(value) { mutableFloatStateOf((value.first as Number).toFloat()) }
-                                var sliderState2 by remember(value) { mutableFloatStateOf((value.second as Number).toFloat()) }
-                                var sliderState3 by remember(value) { mutableFloatStateOf((value.third as Number).toFloat()) }
+                                val sliderState1: MutableState<Float> =
+                                    remember(value) { mutableFloatStateOf((value.first as Number).toFloat()) }
+                                val sliderState2: MutableState<Float> =
+                                    remember(value) { mutableFloatStateOf((value.second as Number).toFloat()) }
+                                val sliderState3: MutableState<Float> =
+                                    remember(value) { mutableFloatStateOf((value.second as Number).toFloat()) }
 
-                                Spacer(Modifier.height(8.dp))
-                                filter.paramsInfo[0].takeIf { it.title != null }
-                                    ?.let { (title, valueRange, roundTo) ->
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            Row(Modifier.weight(1f)) {
-                                                Text(
-                                                    text = stringResource(title!!),
-                                                    modifier = Modifier
-                                                        .padding(
-                                                            top = 16.dp,
-                                                            end = 16.dp,
-                                                            start = 16.dp
-                                                        )
-                                                        .weight(1f)
-                                                )
-                                            }
-                                            var showValueDialog by remember { mutableStateOf(false) }
-                                            ValueText(
-                                                value = sliderState1,
-                                                onClick = { showValueDialog = true }
-                                            )
-                                            ValueDialog(
-                                                valueRange = valueRange,
-                                                roundTo = roundTo,
-                                                valueState = sliderState1.toString(),
-                                                expanded = showValueDialog && !previewOnly,
-                                                onDismiss = { showValueDialog = false },
-                                                onValueUpdate = {
-                                                    sliderState1 = it
-                                                    onFilterChange(
-                                                        Triple(
-                                                            it,
-                                                            sliderState2,
-                                                            sliderState3
-                                                        )
-                                                    )
-                                                }
-                                            )
+                                LaunchedEffect(
+                                    sliderState1.value,
+                                    sliderState2.value,
+                                    sliderState3.value
+                                ) {
+                                    onFilterChange(
+                                        Triple(
+                                            sliderState1.value,
+                                            sliderState2.value,
+                                            sliderState3.value
+                                        )
+                                    )
+                                }
+
+                                val paramsInfo by remember(filter) {
+                                    derivedStateOf {
+                                        filter.paramsInfo.mapIndexedNotNull { index, filterParam ->
+                                            if (filterParam.title == null) return@mapIndexedNotNull null
+                                            when (index) {
+                                                0 -> sliderState1
+                                                1 -> sliderState2
+                                                else -> sliderState3
+                                            } to filterParam
                                         }
                                     }
-                                EnhancedSlider(
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            start = 12.dp,
-                                            end = 12.dp,
-                                            bottom = 8.dp
+                                }
+
+                                Column(
+                                    modifier = Modifier.padding(8.dp)
+                                ) {
+                                    paramsInfo.forEach { (state, info) ->
+                                        val (title, valueRange, roundTo) = info
+                                        EnhancedSliderItem(
+                                            enabled = !previewOnly,
+                                            value = state.value,
+                                            title = stringResource(title!!),
+                                            valueRange = valueRange,
+                                            onValueChange = {
+                                                state.value = it
+                                            },
+                                            internalStateTransformation = {
+                                                it.roundTo(roundTo)
+                                            },
+                                            behaveAsContainer = false
                                         )
-                                        .offset(y = (-2).dp),
-                                    enabled = !previewOnly,
-                                    value = sliderState1,
-                                    onValueChange = {
-                                        sliderState1 = it.roundTo(filter.paramsInfo[0].roundTo)
-                                        onFilterChange(
-                                            Triple(
-                                                sliderState1,
-                                                sliderState2,
-                                                sliderState3
-                                            )
-                                        )
-                                    },
-                                    valueRange = filter.paramsInfo[0].valueRange
-                                )
-                                filter.paramsInfo[1].takeIf { it.title != null }
-                                    ?.let { (title, valueRange, roundTo) ->
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            Row(Modifier.weight(1f)) {
-                                                Text(
-                                                    text = stringResource(title!!),
-                                                    modifier = Modifier
-                                                        .padding(
-                                                            top = 8.dp,
-                                                            end = 16.dp,
-                                                            start = 16.dp
-                                                        )
-                                                        .weight(1f)
-                                                )
-                                            }
-                                            var showValueDialog by remember { mutableStateOf(false) }
-                                            ValueText(
-                                                value = sliderState2,
-                                                onClick = { showValueDialog = true }
-                                            )
-                                            ValueDialog(
-                                                valueRange = valueRange,
-                                                roundTo = roundTo,
-                                                valueState = sliderState2.toString(),
-                                                expanded = showValueDialog && !previewOnly,
-                                                onDismiss = { showValueDialog = false },
-                                                onValueUpdate = {
-                                                    sliderState2 = it
-                                                    onFilterChange(
-                                                        Triple(
-                                                            sliderState1,
-                                                            it,
-                                                            sliderState3
-                                                        )
-                                                    )
-                                                }
-                                            )
-                                        }
                                     }
-                                EnhancedSlider(
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            start = 12.dp,
-                                            end = 12.dp,
-                                            bottom = 8.dp
-                                        )
-                                        .offset(y = (-2).dp),
-                                    enabled = !previewOnly,
-                                    value = sliderState2,
-                                    onValueChange = {
-                                        sliderState2 = it.roundTo(filter.paramsInfo[1].roundTo)
-                                        onFilterChange(
-                                            Triple(
-                                                sliderState1,
-                                                sliderState2,
-                                                sliderState3
-                                            )
-                                        )
-                                    },
-                                    valueRange = filter.paramsInfo[1].valueRange
-                                )
-                                filter.paramsInfo[2].takeIf { it.title != null }
-                                    ?.let { (title, valueRange, roundTo) ->
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            Row(Modifier.weight(1f)) {
-                                                Text(
-                                                    text = stringResource(title!!),
-                                                    modifier = Modifier
-                                                        .padding(
-                                                            top = 8.dp,
-                                                            end = 16.dp,
-                                                            start = 16.dp
-                                                        )
-                                                        .weight(1f)
-                                                )
-                                            }
-                                            var showValueDialog by remember { mutableStateOf(false) }
-                                            ValueText(
-                                                value = sliderState3,
-                                                onClick = { showValueDialog = true }
-                                            )
-                                            ValueDialog(
-                                                valueRange = valueRange,
-                                                roundTo = roundTo,
-                                                valueState = sliderState3.toString(),
-                                                expanded = showValueDialog && !previewOnly,
-                                                onDismiss = { showValueDialog = false },
-                                                onValueUpdate = {
-                                                    sliderState3 = it
-                                                    onFilterChange(
-                                                        Triple(
-                                                            sliderState1,
-                                                            sliderState2,
-                                                            it
-                                                        )
-                                                    )
-                                                }
-                                            )
-                                        }
-                                    }
-                                EnhancedSlider(
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            start = 12.dp,
-                                            end = 12.dp,
-                                            bottom = 8.dp
-                                        )
-                                        .offset(y = (-2).dp),
-                                    enabled = !previewOnly,
-                                    value = sliderState3,
-                                    onValueChange = {
-                                        sliderState3 = it.roundTo(filter.paramsInfo[2].roundTo)
-                                        onFilterChange(
-                                            Triple(
-                                                sliderState1,
-                                                sliderState2,
-                                                sliderState3
-                                            )
-                                        )
-                                    },
-                                    valueRange = filter.paramsInfo[2].valueRange
-                                )
+                                }
                             }
 
                             value.first is Number && value.second is Number && value.third is Color -> {
-                                var sliderState1 by remember(value) { mutableFloatStateOf((value.first as Number).toFloat()) }
-                                var sliderState2 by remember(value) { mutableFloatStateOf((value.second as Number).toFloat()) }
+                                val sliderState1: MutableState<Float> =
+                                    remember(value) { mutableFloatStateOf((value.first as Number).toFloat()) }
+                                val sliderState2: MutableState<Float> =
+                                    remember(value) { mutableFloatStateOf((value.second as Number).toFloat()) }
                                 var color3 by remember(value) { mutableStateOf(value.third as Color) }
 
-                                Spacer(Modifier.height(8.dp))
-                                filter.paramsInfo[0].takeIf { it.title != null }
-                                    ?.let { (title, valueRange, roundTo) ->
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            Row(Modifier.weight(1f)) {
-                                                Text(
-                                                    text = stringResource(title!!),
-                                                    modifier = Modifier
-                                                        .padding(
-                                                            top = 16.dp,
-                                                            end = 16.dp,
-                                                            start = 16.dp
-                                                        )
-                                                        .weight(1f)
-                                                )
-                                            }
-                                            var showValueDialog by remember { mutableStateOf(false) }
-                                            ValueText(
-                                                value = sliderState1,
-                                                onClick = { showValueDialog = true }
-                                            )
-                                            ValueDialog(
-                                                valueRange = valueRange,
-                                                roundTo = roundTo,
-                                                valueState = sliderState1.toString(),
-                                                expanded = showValueDialog && !previewOnly,
-                                                onDismiss = { showValueDialog = false },
-                                                onValueUpdate = {
-                                                    sliderState1 = it
-                                                    onFilterChange(
-                                                        Triple(
-                                                            it,
-                                                            sliderState2,
-                                                            color3
-                                                        )
-                                                    )
-                                                }
-                                            )
+                                LaunchedEffect(
+                                    sliderState1.value,
+                                    sliderState2.value,
+                                    color3
+                                ) {
+                                    onFilterChange(
+                                        Triple(sliderState1.value, sliderState2.value, color3)
+                                    )
+                                }
+
+                                val paramsInfo by remember(filter) {
+                                    derivedStateOf {
+                                        filter.paramsInfo.mapIndexedNotNull { index, filterParam ->
+                                            if (filterParam.title == null || index > 1) return@mapIndexedNotNull null
+                                            when (index) {
+                                                0 -> sliderState1
+                                                else -> sliderState2
+                                            } to filterParam
                                         }
                                     }
-                                EnhancedSlider(
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            start = 12.dp,
-                                            end = 12.dp,
-                                            bottom = 8.dp
+                                }
+
+                                Column(
+                                    modifier = Modifier.padding(8.dp)
+                                ) {
+                                    paramsInfo.forEach { (state, info) ->
+                                        val (title, valueRange, roundTo) = info
+                                        EnhancedSliderItem(
+                                            enabled = !previewOnly,
+                                            value = state.value,
+                                            title = stringResource(title!!),
+                                            valueRange = valueRange,
+                                            onValueChange = {
+                                                state.value = it
+                                            },
+                                            internalStateTransformation = {
+                                                it.roundTo(roundTo)
+                                            },
+                                            behaveAsContainer = false
                                         )
-                                        .offset(y = (-2).dp),
-                                    enabled = !previewOnly,
-                                    value = sliderState1,
-                                    onValueChange = {
-                                        sliderState1 = it.roundTo(filter.paramsInfo[0].roundTo)
-                                        onFilterChange(Triple(sliderState1, sliderState2, color3))
-                                    },
-                                    valueRange = filter.paramsInfo[0].valueRange
-                                )
-                                filter.paramsInfo[1].takeIf { it.title != null }
-                                    ?.let { (title, valueRange, roundTo) ->
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            Row(Modifier.weight(1f)) {
-                                                Text(
-                                                    text = stringResource(title!!),
-                                                    modifier = Modifier
-                                                        .padding(
-                                                            top = 8.dp,
-                                                            end = 16.dp,
-                                                            start = 16.dp
-                                                        )
-                                                        .weight(1f)
-                                                )
-                                            }
-                                            var showValueDialog by remember { mutableStateOf(false) }
-                                            ValueText(
-                                                value = sliderState2,
-                                                onClick = { showValueDialog = true }
-                                            )
-                                            ValueDialog(
-                                                valueRange = valueRange,
-                                                roundTo = roundTo,
-                                                valueState = sliderState2.toString(),
-                                                expanded = showValueDialog && !previewOnly,
-                                                onDismiss = { showValueDialog = false },
-                                                onValueUpdate = {
-                                                    sliderState2 = it
-                                                    onFilterChange(
-                                                        Triple(
-                                                            sliderState1,
-                                                            it,
-                                                            color3
-                                                        )
-                                                    )
-                                                }
-                                            )
-                                        }
                                     }
-                                EnhancedSlider(
-                                    modifier = Modifier
-                                        .padding(
-                                            top = 16.dp,
-                                            start = 12.dp,
-                                            end = 12.dp,
-                                            bottom = 8.dp
-                                        )
-                                        .offset(y = (-2).dp),
-                                    enabled = !previewOnly,
-                                    value = sliderState2,
-                                    onValueChange = {
-                                        sliderState2 = it.roundTo(filter.paramsInfo[1].roundTo)
-                                        onFilterChange(Triple(sliderState1, sliderState2, color3))
-                                    },
-                                    valueRange = filter.paramsInfo[1].valueRange
-                                )
+                                }
                                 Text(
                                     text = stringResource(filter.paramsInfo[2].title!!),
                                     modifier = Modifier.padding(16.dp)
@@ -937,7 +613,6 @@ fun <T> FilterItem(
                                     allowAlpha = false,
                                     onValueChange = { color ->
                                         color3 = color
-                                        onFilterChange(Triple(sliderState1, sliderState2, color3))
                                     },
                                     contentPadding = PaddingValues(horizontal = 16.dp)
                                 )
@@ -948,62 +623,27 @@ fun <T> FilterItem(
                                 var color1 by remember(value) { mutableStateOf(value.second as Color) }
                                 var color2 by remember(value) { mutableStateOf(value.third as Color) }
 
-                                Spacer(Modifier.height(8.dp))
-                                filter.paramsInfo[0].takeIf { it.title != null }
-                                    ?.let { (title, valueRange, roundTo) ->
-                                        Row(verticalAlignment = Alignment.CenterVertically) {
-                                            Row(Modifier.weight(1f)) {
-                                                Text(
-                                                    text = stringResource(title!!),
-                                                    modifier = Modifier
-                                                        .padding(
-                                                            top = 16.dp,
-                                                            end = 16.dp,
-                                                            start = 16.dp
-                                                        )
-                                                        .weight(1f)
-                                                )
-                                            }
-                                            var showValueDialog by remember { mutableStateOf(false) }
-                                            ValueText(
-                                                value = sliderState1,
-                                                onClick = { showValueDialog = true }
-                                            )
-                                            ValueDialog(
-                                                roundTo = roundTo,
-                                                valueRange = valueRange,
-                                                valueState = sliderState1.toString(),
-                                                expanded = showValueDialog && !previewOnly,
-                                                onDismiss = { showValueDialog = false },
-                                                onValueUpdate = {
-                                                    sliderState1 = it
-                                                    onFilterChange(
-                                                        Triple(
-                                                            sliderState1,
-                                                            color1,
-                                                            color2
-                                                        )
-                                                    )
-                                                }
-                                            )
-                                        }
-                                    }
-                                EnhancedSlider(
+                                EnhancedSliderItem(
                                     modifier = Modifier
                                         .padding(
-                                            top = 16.dp,
-                                            start = 12.dp,
-                                            end = 12.dp,
-                                            bottom = 8.dp
-                                        )
-                                        .offset(y = (-2).dp),
+                                            top = 8.dp,
+                                            start = 8.dp,
+                                            end = 8.dp
+                                        ),
                                     enabled = !previewOnly,
                                     value = sliderState1,
+                                    title = filter.paramsInfo[0].title?.let {
+                                        stringResource(it)
+                                    } ?: "",
                                     onValueChange = {
-                                        sliderState1 = it.roundTo(filter.paramsInfo[0].roundTo)
+                                        sliderState1 = it
                                         onFilterChange(Triple(sliderState1, color1, color2))
                                     },
-                                    valueRange = filter.paramsInfo[0].valueRange
+                                    internalStateTransformation = {
+                                        it.roundTo(filter.paramsInfo[0].roundTo)
+                                    },
+                                    valueRange = filter.paramsInfo[0].valueRange,
+                                    behaveAsContainer = false
                                 )
                                 Box(
                                     modifier = Modifier.padding(
@@ -1013,7 +653,6 @@ fun <T> FilterItem(
                                     )
                                 ) {
                                     Column {
-                                        HorizontalDivider()
                                         Text(
                                             text = stringResource(filter.paramsInfo[1].title!!),
                                             modifier = Modifier
@@ -1033,7 +672,6 @@ fun <T> FilterItem(
                                             }
                                         )
                                         Spacer(Modifier.height(8.dp))
-                                        HorizontalDivider()
                                         Text(
                                             text = stringResource(filter.paramsInfo[2].title!!),
                                             modifier = Modifier
@@ -1053,23 +691,83 @@ fun <T> FilterItem(
                                             }
                                         )
                                     }
-                                    if (previewOnly) {
-                                        Box(
-                                            Modifier
-                                                .matchParentSize()
-                                                .pointerInput(Unit) {
-                                                    detectTapGestures { }
-                                                }
-                                        )
-                                    }
                                 }
+                            }
+                        }
+                    }
+
+                    is TiltShiftParams -> {
+                        val value = filter.value as TiltShiftParams
+
+                        val blurRadius: MutableState<Float> =
+                            remember(value) { mutableFloatStateOf((value.blurRadius as Number).toFloat()) }
+                        val sigma: MutableState<Float> =
+                            remember(value) { mutableFloatStateOf((value.sigma as Number).toFloat()) }
+                        val anchorX: MutableState<Float> =
+                            remember(value) { mutableFloatStateOf((value.anchorX as Number).toFloat()) }
+                        val anchorY: MutableState<Float> =
+                            remember(value) { mutableFloatStateOf((value.anchorY as Number).toFloat()) }
+                        val holeRadius: MutableState<Float> =
+                            remember(value) { mutableFloatStateOf((value.holeRadius as Number).toFloat()) }
+
+                        LaunchedEffect(
+                            blurRadius.value,
+                            sigma.value,
+                            anchorX.value,
+                            anchorY.value,
+                            holeRadius.value
+                        ) {
+                            onFilterChange(
+                                TiltShiftParams(
+                                    blurRadius = blurRadius.value,
+                                    sigma = sigma.value,
+                                    anchorX = anchorX.value,
+                                    anchorY = anchorY.value,
+                                    holeRadius = holeRadius.value
+                                )
+                            )
+                        }
+
+                        val paramsInfo by remember(filter) {
+                            derivedStateOf {
+                                filter.paramsInfo.mapIndexedNotNull { index, filterParam ->
+                                    if (filterParam.title == null) return@mapIndexedNotNull null
+                                    when (index) {
+                                        0 -> blurRadius
+                                        1 -> sigma
+                                        2 -> anchorX
+                                        3 -> anchorY
+                                        else -> holeRadius
+                                    } to filterParam
+                                }
+                            }
+                        }
+
+                        Column(
+                            modifier = Modifier.padding(8.dp)
+                        ) {
+                            paramsInfo.forEach { (state, info) ->
+                                val (title, valueRange, roundTo) = info
+                                EnhancedSliderItem(
+                                    enabled = !previewOnly,
+                                    value = state.value,
+                                    title = stringResource(title!!),
+                                    valueRange = valueRange,
+                                    onValueChange = {
+                                        state.value = it
+                                    },
+                                    internalStateTransformation = {
+                                        it.roundTo(roundTo)
+                                    },
+                                    behaveAsContainer = false
+                                )
                             }
                         }
                     }
                 }
             }
         }
-        if (!filter.value.toString().contains("Color") && !previewOnly) {
+        if (filter.value.isSingle() && !previewOnly) {
             Box(
                 Modifier
                     .height(if (filter.value is Unit) 32.dp else 64.dp)
@@ -1086,6 +784,17 @@ fun <T> FilterItem(
                 Icon(Icons.Rounded.RemoveCircleOutline, null)
             }
         }
+    }
+}
+
+private fun Any?.isSingle(): Boolean {
+    return when (this) {
+        null -> return false
+        is Pair<*, *> -> false
+        is Triple<*, *, *> -> false
+        is Color -> false
+        is TiltShiftParams -> false
+        else -> true
     }
 }
 
