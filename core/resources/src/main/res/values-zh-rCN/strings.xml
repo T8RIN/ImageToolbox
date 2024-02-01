@@ -661,4 +661,8 @@
     <string name="sigma">Sigma</string>
     <string name="spatial_sigma">空间 Sigma</string>
     <string name="median_blur">中值模糊</string>
+    <string name="b_spline">B 样条</string>
+    <string name="b_spline_sub">利用片断定义的双三次多项式函数平滑插值和近似曲线或曲面，灵活且连续地表示形状</string>
+    <string name="native_stack_blur">原生堆栈模糊</string>
+    <string name="tilt_shift">倾斜移位</string>
 </resources>
