@@ -17,9 +17,6 @@
 
 @file:Suppress("UnstableApiUsage")
 
-include(":feature:gif-tools")
-
-
 pluginManagement {
     repositories {
         includeBuild("build-logic")
@@ -83,6 +80,7 @@ include(":feature:load-net-image")
 include(":feature:recognize-text")
 include(":feature:watermarking")
 include(":feature:gradient-maker")
+include(":feature:gif-tools")
 
 include(":core:settings")
 include(":core:resources")

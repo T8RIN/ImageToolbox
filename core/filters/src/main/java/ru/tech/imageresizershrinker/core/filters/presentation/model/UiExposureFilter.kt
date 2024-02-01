@@ -27,5 +27,5 @@ class UiExposureFilter(
 ) : UiFilter<Float>(
     title = R.string.exposure,
     value = value,
-    valueRange = -10f..10f
+    valueRange = -4f..4f
 ), Filter.Exposure<Bitmap>

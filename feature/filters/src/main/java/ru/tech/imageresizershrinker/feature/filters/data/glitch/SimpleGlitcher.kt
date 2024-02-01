@@ -20,7 +20,7 @@ package ru.tech.imageresizershrinker.feature.filters.data.glitch
 import kotlin.math.floor
 
 
-internal class Glitcher(
+internal class SimpleGlitcher(
     private val amount: Int = 20,
     private val seed: Int = 15,
     private val iterations: Int = 9

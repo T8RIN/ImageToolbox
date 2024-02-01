@@ -28,7 +28,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.feature.filters.data.glitch.Glitcher
+import ru.tech.imageresizershrinker.feature.filters.data.glitch.SimpleGlitcher
 
 class GlitchFilter @AssistedInject internal constructor(
     @Assisted override val value: Triple<Float, Float, Float> = Triple(20f, 15f, 9f),
@@ -42,7 +42,7 @@ class GlitchFilter @AssistedInject internal constructor(
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = Glitcher(
+    ): Bitmap = SimpleGlitcher(
         amount = value.first.toInt(),
         seed = value.second.toInt(),
         iterations = value.third.toInt()
