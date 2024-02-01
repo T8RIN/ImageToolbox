@@ -40,7 +40,7 @@ class TiltShiftFilter(
         sigma = value.sigma,
         anchorX = value.anchorX,
         anchorY = value.anchorY,
-        tension = value.holeRadius
+        tiltRadius = value.holeRadius
     )
 
 }
