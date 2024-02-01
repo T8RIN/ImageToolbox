@@ -101,4 +101,5 @@ interface Filter<Image, Value> {
     interface MedianBlur<Image> : Filter<Image, Pair<Float, Int>>
     interface NativeStackBlur<Image> : Filter<Image, Float>
     interface TiltShift<Image> : Filter<Image, TiltShiftParams>
+    interface Glitch<Image> : Filter<Image, Triple<Float, Float, Float>>
 }

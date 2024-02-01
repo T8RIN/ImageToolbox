@@ -127,6 +127,7 @@ sealed class UiFilter<T>(
             is UiMedianBlurFilter -> UiMedianBlurFilter(value as Pair<Float, Int>)
             is UiNativeStackBlurFilter -> UiNativeStackBlurFilter(value as Float)
             is UiTiltShiftFilter -> UiTiltShiftFilter(value as TiltShiftParams)
+            is UiGlitchFilter -> UiGlitchFilter(value as Triple<Float, Float, Float>)
         }
     }
 
@@ -211,6 +212,7 @@ sealed class UiFilter<T>(
             is UiMedianBlurFilter -> UiMedianBlurFilter()
             is UiNativeStackBlurFilter -> UiNativeStackBlurFilter()
             is UiTiltShiftFilter -> UiTiltShiftFilter()
+            is UiGlitchFilter -> UiGlitchFilter()
         }
     }
 
@@ -286,6 +288,7 @@ sealed class UiFilter<T>(
                     UiStrokePixelationFilter()
                 ),
                 listOf(
+                    UiGlitchFilter(),
                     UiSwirlDistortionFilter(),
                     UiBulgeDistortionFilter(),
                     UiSphereRefractionFilter(),
@@ -396,6 +399,7 @@ fun Filter<Bitmap, *>.toUiFilter(): UiFilter<*> = when (this) {
     is Filter.MedianBlur -> UiMedianBlurFilter(value)
     is Filter.NativeStackBlur -> UiNativeStackBlurFilter(value)
     is Filter.TiltShift -> UiTiltShiftFilter(value)
+    is Filter.Glitch -> UiGlitchFilter(value)
 
     else -> throw IllegalArgumentException("No UiFilter implementation for interface ${this::class.simpleName}")
 }

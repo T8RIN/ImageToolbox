@@ -387,7 +387,7 @@ fun <T> FilterItemContent(
                         val sliderState2: MutableState<Float> =
                             remember(value) { mutableFloatStateOf((value.second as Number).toFloat()) }
                         val sliderState3: MutableState<Float> =
-                            remember(value) { mutableFloatStateOf((value.second as Number).toFloat()) }
+                            remember(value) { mutableFloatStateOf((value.third as Number).toFloat()) }
 
                         LaunchedEffect(
                             sliderState1.value,

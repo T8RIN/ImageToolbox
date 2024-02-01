@@ -58,6 +58,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.FloydSteinbergDithering
 import ru.tech.imageresizershrinker.feature.filters.data.GammaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.GaussianBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.GlassSphereRefractionFilter
+import ru.tech.imageresizershrinker.feature.filters.data.GlitchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.HalftoneFilter
 import ru.tech.imageresizershrinker.feature.filters.data.HazeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.HighlightsAndShadowsFilter
@@ -108,6 +109,7 @@ import javax.inject.Inject
 
 internal class AndroidFilterProvider @Inject constructor(
     private val context: Context,
+    private val glitchFilterFactory: GlitchFilter.Factory
 ) : FilterProvider<Bitmap> {
 
     override fun filterToTransformation(filter: Filter<Bitmap, *>): Transformation<Bitmap> {
@@ -196,6 +198,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.MedianBlur -> MedianBlurFilter(value)
                 is Filter.NativeStackBlur -> NativeStackBlurFilter(value)
                 is Filter.TiltShift -> TiltShiftFilter(value)
+                is Filter.Glitch -> glitchFilterFactory(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

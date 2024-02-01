@@ -30,6 +30,7 @@ import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
+import ru.tech.imageresizershrinker.feature.filters.data.GlitchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.applier.AndroidFilterMaskApplier
 import ru.tech.imageresizershrinker.feature.filters.data.provider.AndroidFilterProvider
 import ru.tech.imageresizershrinker.feature.filters.domain.FilterMaskApplier
@@ -44,7 +45,11 @@ internal object FilterModule {
     @Provides
     fun provideFilterProvider(
         @ApplicationContext context: Context,
-    ): FilterProvider<Bitmap> = AndroidFilterProvider(context)
+        glitchFilterFactory: GlitchFilter.Factory
+    ): FilterProvider<Bitmap> = AndroidFilterProvider(
+        context = context,
+        glitchFilterFactory = glitchFilterFactory
+    )
 
     @Singleton
     @Provides

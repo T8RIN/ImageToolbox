@@ -682,5 +682,8 @@
     <string name="b_spline_sub">Utilizes piecewise-defined bicubic polynomial functions to smoothly interpolate and approximate a curve or surface, flexible and continuous shape representation</string>
     <string name="native_stack_blur">Native Stack Blur</string>
     <string name="tilt_shift">Tilt Shift</string>
+    <string name="glitch">Glitch</string>
+    <string name="amount">Amount</string>
+    <string name="seed">Seed</string>
 
 </resources>
