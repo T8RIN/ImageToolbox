@@ -417,7 +417,8 @@ fun AddEditMaskSheet(
                                     )
                                 },
                                 value = drawPathMode,
-                                onValueChange = { drawPathMode = it }
+                                onValueChange = { drawPathMode = it },
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
                             )
                             LineWidthSelector(
                                 modifier = Modifier.padding(
