@@ -45,7 +45,7 @@ fun Modifier.fadingEdges(
     scrollFactor: Float = 1.25f,
     enabled: Boolean = true,
     length: Dp = 16.dp
-) = composed {
+) = this.composed {
     if (!enabled) Modifier
     else {
         val fillType = if (color.isSpecified) {
