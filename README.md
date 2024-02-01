@@ -181,7 +181,11 @@ or click one of the badges below.
   - [x] Random Dithering
   - [x] Simple Threshold Dithering
   - [x] Quanitizer
-  - [x] Glitch Effect 
+  - [x] Glitch Effect
+  - [x] Anaglyph
+  - [x] Noise
+  - [x] Pixel Sort
+  - [x] Shuffle
 
   </details>
 
