@@ -17,6 +17,8 @@
 
 package ru.tech.imageresizershrinker.feature.filters.data.glitch
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlin.math.floor
 
 
@@ -25,41 +27,45 @@ internal class SimpleGlitcher(
     private val seed: Int = 15,
     private val iterations: Int = 9
 ) {
-    private lateinit var imageByte: ByteArray
-
-    private var jpgHeaderLength = 0
-    fun glitch(bitmap: ByteArray): ByteArray {
-        imageByte = bitmap
-        jpgHeaderLength = jpegHeaderSize
-        repeat(times = iterations, action = ::glitchJpegBytes)
-        return imageByte
+    suspend fun glitch(bitmap: ByteArray): ByteArray = withContext(Dispatchers.IO) {
+        val imageByteArray = bitmap.clone()
+        val jpgHeaderLength = getJpegHeaderSize(imageByteArray)
+        repeat(
+            times = iterations
+        ) {
+            glitchJpegBytes(
+                pos = it,
+                imageByteArray = imageByteArray,
+                jpgHeaderLength = jpgHeaderLength
+            )
+        }
+        imageByteArray
     }
 
-    private fun glitchJpegBytes(i: Int) {
-        val maxIndex = imageByte.size - jpgHeaderLength - 4f
-        val pxMin = maxIndex / iterations * i
-        val pxMax = maxIndex / iterations * (i + 1)
+    private fun glitchJpegBytes(pos: Int, imageByteArray: ByteArray, jpgHeaderLength: Int) {
+        val maxIndex = imageByteArray.size - jpgHeaderLength - 4f
+        val pxMin = maxIndex / iterations * pos
+        val pxMax = maxIndex / iterations * (pos + 1)
         val delta = pxMax - pxMin
         var pxIndex = pxMin + delta * seed / 100f
         if (pxIndex > maxIndex) {
             pxIndex = maxIndex
         }
         val index = floor((jpgHeaderLength + pxIndex).toDouble()).toInt()
-        imageByte[index] = floor((amount / 100f * 256f).toDouble()).toInt().toByte()
+        imageByteArray[index] = floor((amount / 100f * 256f).toDouble()).toInt().toByte()
     }
 
-    private val jpegHeaderSize: Int
-        get() {
-            var result = 417
-            var i = 0
-            val len = imageByte.size
-            while (i < len) {
-                if (imageByte[i].toInt() == 255 && imageByte[i + 1].toInt() == 218) {
-                    result = i + 2
-                    break
-                }
-                i++
+    private fun getJpegHeaderSize(imageByteArray: ByteArray): Int {
+        var result = 417
+        var i = 0
+        val len = imageByteArray.size
+        while (i < len) {
+            if (imageByteArray[i].toInt() == 255 && imageByteArray[i + 1].toInt() == 218) {
+                result = i + 2
+                break
             }
-            return result
+            i++
         }
+        return result
+    }
 }

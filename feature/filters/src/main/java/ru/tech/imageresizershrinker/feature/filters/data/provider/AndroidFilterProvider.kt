@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.filters.data.AnaglyphFilter
 import ru.tech.imageresizershrinker.feature.filters.data.AtkinsonDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.BayerEightDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.BayerFourDitheringFilter
@@ -73,8 +74,10 @@ import ru.tech.imageresizershrinker.feature.filters.data.MedianBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.MonochromeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.NativeStackBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.NegativeFilter
+import ru.tech.imageresizershrinker.feature.filters.data.NoiseFilter
 import ru.tech.imageresizershrinker.feature.filters.data.NonMaximumSuppressionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.OpacityFilter
+import ru.tech.imageresizershrinker.feature.filters.data.PixelSortFilter
 import ru.tech.imageresizershrinker.feature.filters.data.PixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.PosterizeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.QuantizierFilter
@@ -85,6 +88,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.ReplaceColorFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SaturationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SepiaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SharpenFilter
+import ru.tech.imageresizershrinker.feature.filters.data.ShuffleFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SierraDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SierraLiteDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SimpleThresholdDitheringFilter
@@ -199,6 +203,10 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.NativeStackBlur -> NativeStackBlurFilter(value)
                 is Filter.TiltShift -> TiltShiftFilter(value)
                 is Filter.Glitch -> glitchFilterFactory(value)
+                is Filter.Shuffle -> ShuffleFilter(value)
+                is Filter.Anaglyph -> AnaglyphFilter(value)
+                is Filter.PixelSort -> PixelSortFilter(value)
+                is Filter.Noise -> NoiseFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

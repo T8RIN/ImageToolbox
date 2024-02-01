@@ -18,6 +18,8 @@ package ru.tech.imageresizershrinker.feature.filters.data.dither
 
 import android.graphics.Bitmap
 import android.graphics.Color
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlin.math.abs
 
 class Dithering(
@@ -45,13 +47,13 @@ class Dithering(
     }
 
 
-    fun dither(type: Type, src: Bitmap): Bitmap {
+    suspend fun dither(type: Type, src: Bitmap): Bitmap = withContext(Dispatchers.IO) {
 
         if (src.config !in listOf(Bitmap.Config.ARGB_8888)) {
             throw IllegalArgumentException("Bitmap config should consist of 32 bits")
         }
 
-        return when (type) {
+        when (type) {
             Type.BayerTwo -> ordered2By2Bayer(src)
             Type.BayerThree -> ordered3By3Bayer(src)
             Type.BayerFour -> ordered4By4Bayer(src)

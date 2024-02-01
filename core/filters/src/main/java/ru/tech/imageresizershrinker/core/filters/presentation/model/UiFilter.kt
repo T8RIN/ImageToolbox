@@ -128,6 +128,10 @@ sealed class UiFilter<T>(
             is UiNativeStackBlurFilter -> UiNativeStackBlurFilter(value as Float)
             is UiTiltShiftFilter -> UiTiltShiftFilter(value as TiltShiftParams)
             is UiGlitchFilter -> UiGlitchFilter(value as Triple<Float, Float, Float>)
+            is UiShuffleFilter -> UiShuffleFilter()
+            is UiAnaglyphFilter -> UiAnaglyphFilter(value as Float)
+            is UiPixelSortFilter -> UiPixelSortFilter()
+            is UiNoiseFilter -> UiNoiseFilter(value as Float)
         }
     }
 
@@ -213,6 +217,10 @@ sealed class UiFilter<T>(
             is UiNativeStackBlurFilter -> UiNativeStackBlurFilter()
             is UiTiltShiftFilter -> UiTiltShiftFilter()
             is UiGlitchFilter -> UiGlitchFilter()
+            is UiShuffleFilter -> UiShuffleFilter()
+            is UiAnaglyphFilter -> UiAnaglyphFilter()
+            is UiPixelSortFilter -> UiPixelSortFilter()
+            is UiNoiseFilter -> UiNoiseFilter()
         }
     }
 
@@ -289,6 +297,10 @@ sealed class UiFilter<T>(
                 ),
                 listOf(
                     UiGlitchFilter(),
+                    UiShuffleFilter(),
+                    UiAnaglyphFilter(),
+                    UiPixelSortFilter(),
+                    UiNoiseFilter(),
                     UiSwirlDistortionFilter(),
                     UiBulgeDistortionFilter(),
                     UiSphereRefractionFilter(),
@@ -400,6 +412,10 @@ fun Filter<Bitmap, *>.toUiFilter(): UiFilter<*> = when (this) {
     is Filter.NativeStackBlur -> UiNativeStackBlurFilter(value)
     is Filter.TiltShift -> UiTiltShiftFilter(value)
     is Filter.Glitch -> UiGlitchFilter(value)
+    is Filter.Shuffle -> UiShuffleFilter(value)
+    is Filter.Anaglyph -> UiAnaglyphFilter(value)
+    is Filter.PixelSort -> UiPixelSortFilter(value)
+    is Filter.Noise -> UiNoiseFilter(value)
 
     else -> throw IllegalArgumentException("No UiFilter implementation for interface ${this::class.simpleName}")
 }

@@ -30,9 +30,11 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.Shader
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.Random
 
-object SmartGlitcher {
+internal object SmartGlitcher {
 
     private val leftArray = floatArrayOf(
         1.0f,
@@ -155,7 +157,7 @@ object SmartGlitcher {
         0.0f
     )
 
-    fun noise(image: Bitmap, threshold: Int): Bitmap {
+    suspend fun noise(image: Bitmap, threshold: Int): Bitmap = withContext(Dispatchers.IO) {
         val w = image.width
         val h = image.height
         val arrayLen = (w * h)
@@ -176,18 +178,18 @@ object SmartGlitcher {
         val vv = image.copy(image.config, true)
         vv!!.setPixels(intArrayM, 0, w, 0, 0, w, h)
 
-        return vv
+        vv
     }
 
-    fun shuffle(image: Bitmap): Bitmap {
-        return generateBitmap(image) { shuffleRow(it) }
+    suspend fun shuffle(image: Bitmap): Bitmap = withContext(Dispatchers.IO) {
+        generateBitmap(image) { shuffleRow(it) }
     }
 
-    fun pixelSort(image: Bitmap): Bitmap {
-        return generateBitmap(image) { it.sorted() }
+    suspend fun pixelSort(image: Bitmap): Bitmap = withContext(Dispatchers.IO) {
+        generateBitmap(image) { it.sorted() }
     }
 
-    fun anaglyph(image: Bitmap, percentage: Int): Bitmap {
+    suspend fun anaglyph(image: Bitmap, percentage: Int): Bitmap = withContext(Dispatchers.IO) {
         val anaglyphPaint = Paint()
         val anaglyphShader = BitmapShader(image, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
 
@@ -225,7 +227,7 @@ object SmartGlitcher {
 
         c.drawBitmap(image, 0f, 0f, anaglyphPaint)
 
-        return bitmap
+        bitmap
     }
 
     private fun shuffleRow(row: List<Int>): List<Int> {
