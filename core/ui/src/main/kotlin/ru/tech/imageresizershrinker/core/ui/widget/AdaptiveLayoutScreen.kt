@@ -89,7 +89,7 @@ fun AdaptiveLayoutScreen(
     isPortrait: Boolean,
     contentPadding: Dp = 20.dp,
     showImagePreviewAsStickyHeader: Boolean = true,
-    autoClearFocus: Boolean = false,
+    autoClearFocus: Boolean = true,
     placeImagePreview: Boolean = true
 ) {
     val settingsState = LocalSettingsState.current
