@@ -180,7 +180,8 @@ or click one of the badges below.
   - [x] Left To Right Dithering
   - [x] Random Dithering
   - [x] Simple Threshold Dithering
-  - [x] Quanitizer 
+  - [x] Quanitizer
+  - [x] Glitch Effect 
 
   </details>
 
