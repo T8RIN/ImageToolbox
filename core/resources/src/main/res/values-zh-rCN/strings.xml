@@ -642,4 +642,23 @@
     <string name="quantizier">量化器</string>
     <string name="gray_scale">灰阶</string>
     <string name="dithering">抖动</string>
+    <string name="bayer_four_dithering">Bayer 四对四抖动算法</string>
+    <string name="sierra_dithering">Sierra 抖动算法</string>
+    <string name="two_row_sierra_dithering">双列 Sierra 抖动算法</string>
+    <string name="false_floyd_steinberg_dithering">虚假 Floyd Steinberg 抖动算法</string>
+    <string name="left_to_right_dithering">从左到右抖动</string>
+    <string name="random_dithering">随机抖动</string>
+    <string name="simple_threshold_dithering">简单阈值抖动</string>
+    <string name="bayer_eight_dithering">Bayer 八对八抖动算法</string>
+    <string name="bayer_two_dithering">Bayer 二对二抖动算法</string>
+    <string name="jarvis_judice_ninke_dithering">Jarvis Judice Ninke 抖动算法</string>
+    <string name="floyd_steinberg_dithering">Floyd Steinberg 抖动算法</string>
+    <string name="bayer_three_dithering">Bayer 三对三抖动算法</string>
+    <string name="sierra_lite_dithering">Sierra 轻型抖动算法</string>
+    <string name="atkinson_dithering">Atkinson 抖动算法</string>
+    <string name="stucki_dithering">Stucki 抖动算法</string>
+    <string name="burkes_dithering">Burkes 抖动算法</string>
+    <string name="sigma">Sigma</string>
+    <string name="spatial_sigma">空间 Sigma</string>
+    <string name="median_blur">中值模糊</string>
 </resources>
