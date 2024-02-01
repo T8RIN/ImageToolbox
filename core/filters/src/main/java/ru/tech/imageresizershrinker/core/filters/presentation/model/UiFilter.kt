@@ -268,13 +268,13 @@ sealed class UiFilter<T>(
                 listOf(
                     UiTiltShiftFilter(),
                     UiGaussianBlurFilter(),
+                    UiNativeStackBlurFilter(),
                     UiBoxBlurFilter(),
                     UiBilaterialBlurFilter(),
-                    UiFastBlurFilter(),
                     UiStackBlurFilter(),
+                    UiFastBlurFilter(),
                     UiZoomBlurFilter(),
-                    UiMedianBlurFilter(),
-                    UiNativeStackBlurFilter()
+                    UiMedianBlurFilter()
                 ),
                 listOf(
                     UiPixelationFilter(),
