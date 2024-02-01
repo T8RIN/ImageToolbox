@@ -302,8 +302,7 @@
     <string name="store_file_desc">Zapisz ten plik na swoim urządzeniu lub użyj okna udostępniania, aby umieścić go w dowolnym miejscu</string>
     <string name="features">Funkcje</string>
     <string name="implementation">Implementacja</string>
-    <string name="file_size_sub">Maksymalny rozmiar pliku jest ograniczony przez system operacyjny Android i dostępną pamięć RAM, co zależy od Twojego urządzenia.
-\nUwaga: pamięć RAM to nie miejsce na dane.</string>
+    <string name="file_size_sub">Maksymalny rozmiar pliku jest ograniczony przez system operacyjny Android i dostępną pamięć RAM, co zależy od Twojego urządzenia. \nUwaga: pamięć RAM to nie miejsce na dane.</string>
     <string name="tools">Narzędzia</string>
     <string name="auto_cache_clearing">Automatyczne czyszczenie pamięci podręcznej</string>
     <string name="auto_cache_clearing_sub">Jeśli ta opcja jest włączona, pamięć podręczna aplikacji zostanie wyczyszczona podczas uruchamiania aplikacji</string>
@@ -679,8 +678,7 @@
     <string name="secure_mode">Tryb bezpieczny</string>
     <string name="exit">Wyjdź</string>
     <string name="preview_closing">Jeśli teraz opuścisz podgląd, będziesz musiał ponownie dodać obrazy</string>
-    <string name="download_description">Do poprawnego działania aplikacji Tesseract OCR konieczne jest pobranie na urządzenie dodatkowych danych szkoleniowych (%1$s).
-\nCzy chcesz pobrać dane %2$s?</string>
+    <string name="download_description">Do poprawnego działania aplikacji Tesseract OCR konieczne jest pobranie na urządzenie dodatkowych danych szkoleniowych (%1$s). \nCzy chcesz pobrać dane %2$s?</string>
     <string name="no_connection">Brak połączenia, sprawdź i spróbuj ponownie, aby pobrać modele trenujące</string>
     <string name="available_languages">Dostępne języki</string>
     <string name="segmentation_mode">Tryb segmentacji</string>
