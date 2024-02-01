@@ -206,9 +206,7 @@ fun <T> FilterItem(
                                 }.value,
                                 allowAlpha = filter !is UiRGBFilter,
                                 allowScroll = !previewOnly,
-                                onValueChange = { color ->
-                                    onFilterChange(color)
-                                }
+                                onValueChange = onFilterChange
                             )
                         }
                     }
