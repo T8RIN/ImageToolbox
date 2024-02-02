@@ -182,10 +182,12 @@ or click one of the badges below.
   - [x] Simple Threshold Dithering
   - [x] Quanitizer
   - [x] Glitch Effect
+  - [x] Enhanced Glitch Effect
   - [x] Anaglyph
   - [x] Noise
   - [x] Pixel Sort
   - [x] Shuffle
+  - [x] Tent Blur
 
   </details>
 
