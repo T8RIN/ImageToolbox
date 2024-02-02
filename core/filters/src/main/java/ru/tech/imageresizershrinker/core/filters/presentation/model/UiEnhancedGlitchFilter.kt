@@ -33,7 +33,7 @@ class UiEnhancedGlitchFilter(
         FilterParam(R.string.channel_shift_y, -1f..1f, 2),
         FilterParam(R.string.corruption_size, 0f..1f, 2),
         FilterParam(R.string.amount, 1f..100f, 0),
-        FilterParam(R.string.corruption_shift_x, 0f..1f, 2),
-        FilterParam(R.string.corruption_shift_y, 0f..1f, 2)
+        FilterParam(R.string.corruption_shift_x, -1f..1f, 2),
+        FilterParam(R.string.corruption_shift_y, -1f..1f, 2)
     )
 ), Filter.EnhancedGlitch<Bitmap>
