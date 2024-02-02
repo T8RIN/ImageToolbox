@@ -672,4 +672,16 @@
     <string name="anaglyph">Анаглиф</string>
     <string name="noise">Шум</string>
     <string name="pixel_sort">Сортировка Пикселей</string>
+    <string name="channel_shift_x">Сдвиг канала по X</string>
+    <string name="tent_blur">Размытие тентом</string>
+    <string name="side_fade">Боковое затухание</string>
+    <string name="side">Сторона</string>
+    <string name="corruption_shift_y">Сдвиг сбоя по У</string>
+    <string name="top">Верх</string>
+    <string name="enhanced_glitch">Улучшенный Сбой</string>
+    <string name="channel_shift_y">Сдвиг канала по У</string>
+    <string name="corruption_shift_x">Сдвиг сбоя по Х</string>
+    <string name="corruption_size">Размер сбоя</string>
+    <string name="bottom">Низ</string>
+    <string name="strength">Сила</string>
 </resources>
