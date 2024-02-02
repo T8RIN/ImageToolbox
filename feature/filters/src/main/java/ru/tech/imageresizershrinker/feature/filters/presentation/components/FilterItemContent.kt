@@ -785,13 +785,13 @@ fun <T> FilterItemContent(
                             text = stringResource(title!!),
                             modifier = Modifier.padding(
                                 top = 8.dp,
-                                start = 8.dp,
-                                end = 8.dp,
+                                start = 12.dp,
+                                end = 12.dp,
                             )
                         )
                         ToggleGroupButton(
                             fadingEdgesColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                            inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
+                            inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                             items = FadeSide.entries.map { it.translatedName },
                             selectedIndex = FadeSide.entries.indexOf(sideFade),
                             indexChanged = {
