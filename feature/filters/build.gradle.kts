@@ -30,4 +30,5 @@ dependencies {
     implementation(projects.feature.pickColor)
     implementation(projects.feature.compare)
     implementation(projects.libs.nQuant)
+    implementation(libs.aire)
 }

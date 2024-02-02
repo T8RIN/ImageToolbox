@@ -19,23 +19,25 @@ package ru.tech.imageresizershrinker.feature.filters.data
 
 import android.graphics.Bitmap
 import coil.size.Size
-import com.awxkee.jxlcoder.processing.BitmapProcessor
+import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 class BilaterialBlurFilter(
     override val value: Triple<Float, Float, Float> = Triple(25f, 10f, 3f),
 ) : Transformation<Bitmap>, Filter.BilaterialBlur<Bitmap> {
+
     override val cacheKey: String
         get() = value.hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = BitmapProcessor.bilateralBlur(
+    ): Bitmap = Aire.bilateralBlur(
         bitmap = input,
-        radius = value.first,
-        sigma = value.second,
+        radius = value.first.toInt(),
+        rangeSigma = value.second,
         spatialSigma = value.third
     )
+
 }

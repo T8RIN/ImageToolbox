@@ -15,25 +15,13 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.data
+package ru.tech.imageresizershrinker.core.filters.domain.model
 
-import android.graphics.Bitmap
-import coil.size.Size
-import com.awxkee.aire.Aire
-import ru.tech.imageresizershrinker.core.domain.image.Transformation
-import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-
-
-class BoxBlurFilter(
-    override val value: Float = 10f,
-) : Transformation<Bitmap>, Filter.BoxBlur<Bitmap> {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: Size
-    ): Bitmap = Aire.boxBlur(input, value.toInt())
-
-}
+data class GlitchParams(
+    val channelsShiftX: Float = -0.08f,
+    val channelsShiftY: Float = -0.08f,
+    val corruptionSize: Float = 0.01f,
+    val corruptionCount: Int = 60,
+    val corruptionShiftX: Float = -0.05f,
+    val corruptionShiftY: Float = 0.0f,
+)

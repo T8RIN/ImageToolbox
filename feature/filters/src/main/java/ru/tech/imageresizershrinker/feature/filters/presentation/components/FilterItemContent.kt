@@ -45,6 +45,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.TiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiColorFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
@@ -634,6 +635,80 @@ fun <T> FilterItemContent(
                                 2 -> anchorX
                                 3 -> anchorY
                                 else -> holeRadius
+                            } to filterParam
+                        }
+                    }
+                }
+
+                Column(
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    paramsInfo.forEach { (state, info) ->
+                        val (title, valueRange, roundTo) = info
+                        EnhancedSliderItem(
+                            enabled = !previewOnly,
+                            value = state.value,
+                            title = stringResource(title!!),
+                            valueRange = valueRange,
+                            onValueChange = {
+                                state.value = it
+                            },
+                            internalStateTransformation = {
+                                it.roundTo(roundTo)
+                            },
+                            behaveAsContainer = false
+                        )
+                    }
+                }
+            }
+
+            is GlitchParams -> {
+                val value = filter.value as GlitchParams
+
+                val channelsShiftX: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.channelsShiftX as Number).toFloat()) }
+                val channelsShiftY: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.channelsShiftY as Number).toFloat()) }
+                val corruptionSize: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.corruptionSize as Number).toFloat()) }
+                val corruptionCount: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.corruptionCount as Number).toFloat()) }
+                val corruptionShiftX: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.corruptionShiftX as Number).toFloat()) }
+                val corruptionShiftY: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.corruptionShiftY as Number).toFloat()) }
+
+                LaunchedEffect(
+                    channelsShiftX.value,
+                    channelsShiftY.value,
+                    corruptionSize.value,
+                    corruptionCount.value,
+                    corruptionShiftX.value,
+                    corruptionShiftY.value
+                ) {
+                    onFilterChange(
+                        GlitchParams(
+                            channelsShiftX = channelsShiftX.value,
+                            channelsShiftY = channelsShiftY.value,
+                            corruptionSize = corruptionSize.value,
+                            corruptionCount = corruptionCount.value.toInt(),
+                            corruptionShiftX = corruptionShiftX.value,
+                            corruptionShiftY = corruptionShiftY.value
+                        )
+                    )
+                }
+
+                val paramsInfo by remember(filter) {
+                    derivedStateOf {
+                        filter.paramsInfo.mapIndexedNotNull { index, filterParam ->
+                            if (filterParam.title == null) return@mapIndexedNotNull null
+                            when (index) {
+                                0 -> channelsShiftX
+                                1 -> channelsShiftY
+                                2 -> corruptionSize
+                                3 -> corruptionCount
+                                4 -> corruptionShiftX
+                                else -> corruptionShiftY
                             } to filterParam
                         }
                     }

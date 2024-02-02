@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.DilationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.EmbossFilter
 import ru.tech.imageresizershrinker.feature.filters.data.EnhancedCirclePixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.EnhancedDiamondPixelationFilter
+import ru.tech.imageresizershrinker.feature.filters.data.EnhancedGlitchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.EnhancedPixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.ExposureFilter
 import ru.tech.imageresizershrinker.feature.filters.data.FalseColorFilter
@@ -207,6 +208,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.Anaglyph -> AnaglyphFilter(value)
                 is Filter.PixelSort -> PixelSortFilter(value)
                 is Filter.Noise -> NoiseFilter(value)
+                is Filter.EnhancedGlitch -> EnhancedGlitchFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

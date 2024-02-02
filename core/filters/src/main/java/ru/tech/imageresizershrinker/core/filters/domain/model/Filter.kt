@@ -106,4 +106,5 @@ interface Filter<Image, Value> {
     interface Shuffle<Image> : Filter<Image, Unit>
     interface PixelSort<Image> : Filter<Image, Unit>
     interface Anaglyph<Image> : Filter<Image, Float>
+    interface EnhancedGlitch<Image> : Filter<Image, GlitchParams>
 }

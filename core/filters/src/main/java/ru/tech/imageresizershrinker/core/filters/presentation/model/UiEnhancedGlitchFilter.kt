@@ -17,31 +17,23 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-
 import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
+import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
 import ru.tech.imageresizershrinker.core.resources.R
 
-
-class UiBilaterialBlurFilter(
-    override val value: Triple<Float, Float, Float> = Triple(25f, 10f, 3f),
-) : UiFilter<Triple<Float, Float, Float>>(
-    title = R.string.bilaterial_blur,
+class UiEnhancedGlitchFilter(
+    override val value: GlitchParams = GlitchParams()
+) : UiFilter<GlitchParams>(
+    title = R.string.enhanced_glitch,
     value = value,
     paramsInfo = listOf(
-        FilterParam(
-            title = R.string.radius,
-            valueRange = 0f..100f,
-            roundTo = 0
-        ),
-        FilterParam(
-            title = R.string.sigma,
-            valueRange = 1f..100f
-        ),
-        FilterParam(
-            title = R.string.spatial_sigma,
-            valueRange = 1f..100f
-        )
+        FilterParam(R.string.channel_shift_x, -1f..1f, 2),
+        FilterParam(R.string.channel_shift_y, -1f..1f, 2),
+        FilterParam(R.string.corruption_size, 0f..1f, 2),
+        FilterParam(R.string.amount, 1f..100f, 0),
+        FilterParam(R.string.corruption_shift_x, 0f..1f, 2),
+        FilterParam(R.string.corruption_shift_y, 0f..1f, 2)
     )
-), Filter.BilaterialBlur<Bitmap>
+), Filter.EnhancedGlitch<Bitmap>

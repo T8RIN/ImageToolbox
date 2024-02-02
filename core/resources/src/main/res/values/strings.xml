@@ -689,5 +689,11 @@
     <string name="noise">Noise</string>
     <string name="pixel_sort">Pixel Sort</string>
     <string name="shuffle">Shuffle</string>
+    <string name="enhanced_glitch">Enhanced Glitch</string>
+    <string name="channel_shift_x">Channel Shift X</string>
+    <string name="channel_shift_y">Channel Shift Y</string>
+    <string name="corruption_size">Corruption Size</string>
+    <string name="corruption_shift_x">Corruption Shift X</string>
+    <string name="corruption_shift_y">Corruption Shift Y</string>
 
 </resources>

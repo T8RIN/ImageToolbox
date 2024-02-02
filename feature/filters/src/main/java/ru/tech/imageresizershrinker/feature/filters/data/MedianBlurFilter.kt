@@ -19,7 +19,7 @@ package ru.tech.imageresizershrinker.feature.filters.data
 
 import android.graphics.Bitmap
 import coil.size.Size
-import com.awxkee.jxlcoder.processing.BitmapProcessor
+import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
@@ -38,7 +38,7 @@ class MedianBlurFilter(
         (input.width * value.first).toInt(),
         (input.height * value.first).toInt()
     ).let {
-        BitmapProcessor.medianBlur(it, value.second)
+        Aire.medianBlur(it, value.second)
     }.createScaledBitmap(input.width, input.height)
 
 }

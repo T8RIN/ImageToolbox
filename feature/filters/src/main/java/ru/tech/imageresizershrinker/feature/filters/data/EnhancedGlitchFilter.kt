@@ -22,11 +22,11 @@ import coil.size.Size
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.filters.domain.model.TiltShiftParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
 
-class TiltShiftFilter(
-    override val value: TiltShiftParams = TiltShiftParams.Default
-) : Transformation<Bitmap>, Filter.TiltShift<Bitmap> {
+class EnhancedGlitchFilter(
+    override val value: GlitchParams = GlitchParams()
+) : Transformation<Bitmap>, Filter.EnhancedGlitch<Bitmap> {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -34,13 +34,14 @@ class TiltShiftFilter(
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = Aire.tiltShift(
+    ): Bitmap = Aire.glitch(
         bitmap = input,
-        radius = value.blurRadius,
-        sigma = value.sigma,
-        anchorX = value.anchorX,
-        anchorY = value.anchorY,
-        tiltRadius = value.holeRadius
+        channelsShiftX = value.channelsShiftX,
+        channelsShiftY = value.corruptionShiftY,
+        corruptionSize = value.corruptionSize,
+        corruptionCount = value.corruptionCount,
+        corruptionShiftX = value.channelsShiftX,
+        corruptionShiftY = value.corruptionShiftY
     )
 
 }

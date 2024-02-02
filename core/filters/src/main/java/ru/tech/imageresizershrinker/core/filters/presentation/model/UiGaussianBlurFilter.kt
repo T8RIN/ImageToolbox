@@ -32,7 +32,8 @@ class UiGaussianBlurFilter(
     paramsInfo = listOf(
         FilterParam(
             title = R.string.radius,
-            valueRange = 0f..100f
+            valueRange = 0f..100f,
+            roundTo = 0
         ),
         FilterParam(
             title = R.string.sigma,

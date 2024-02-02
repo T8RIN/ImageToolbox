@@ -24,6 +24,7 @@ import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
+import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.TiltShiftParams
 
 sealed class UiFilter<T>(
@@ -132,6 +133,7 @@ sealed class UiFilter<T>(
             is UiAnaglyphFilter -> UiAnaglyphFilter(value as Float)
             is UiPixelSortFilter -> UiPixelSortFilter()
             is UiNoiseFilter -> UiNoiseFilter(value as Float)
+            is UiEnhancedGlitchFilter -> UiEnhancedGlitchFilter(value as GlitchParams)
         }
     }
 
@@ -221,6 +223,7 @@ sealed class UiFilter<T>(
             is UiAnaglyphFilter -> UiAnaglyphFilter()
             is UiPixelSortFilter -> UiPixelSortFilter()
             is UiNoiseFilter -> UiNoiseFilter()
+            is UiEnhancedGlitchFilter -> UiEnhancedGlitchFilter()
         }
     }
 
@@ -296,6 +299,7 @@ sealed class UiFilter<T>(
                     UiStrokePixelationFilter()
                 ),
                 listOf(
+                    UiEnhancedGlitchFilter(),
                     UiGlitchFilter(),
                     UiShuffleFilter(),
                     UiAnaglyphFilter(),
@@ -416,6 +420,7 @@ fun Filter<Bitmap, *>.toUiFilter(): UiFilter<*> = when (this) {
     is Filter.Anaglyph -> UiAnaglyphFilter(value)
     is Filter.PixelSort -> UiPixelSortFilter(value)
     is Filter.Noise -> UiNoiseFilter(value)
+    is Filter.EnhancedGlitch -> UiEnhancedGlitchFilter(value)
 
     else -> throw IllegalArgumentException("No UiFilter implementation for interface ${this::class.simpleName}")
 }

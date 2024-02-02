@@ -18,6 +18,7 @@ androidx-datastorePreferencesAndroid = "1.1.0-beta01"
 appUpdateKtx = "2.1.0"
 appUpdate = "2.1.0"
 avifCoder = "1.5.12"
+aire = "0.9.0"
 jxlCoderCoil = "1.8.8"
 jxlCoder = "1.8.8"
 shadowGadgets = "2.1.0"
@@ -62,6 +63,7 @@ uiautomator = "2.2.0"
 androidxMacroBenchmark = "1.2.3"
 
 [libraries]
+aire = { module = "com.github.awxkee:aire", version.ref = "aire" }
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "exifinterface" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
 androidx-material3-window-sizeclass = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3" }
