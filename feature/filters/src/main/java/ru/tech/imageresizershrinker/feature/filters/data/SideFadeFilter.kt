@@ -30,18 +30,38 @@ import coil.size.Size
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
+import kotlin.math.roundToInt
 
 
 class SideFadeFilter(
-    override val value: Pair<FadeSide, Int> = FadeSide.Start to 60,
+    override val value: SideFadeParams = SideFadeParams.Relative(FadeSide.Start, 0.5f),
 ) : Transformation<Bitmap>, Filter.SideFade<Bitmap> {
+
     override val cacheKey: String
         get() = value.hashCode().toString()
 
-    override suspend fun transform(input: Bitmap, size: Size): Bitmap {
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap {
         val bitmap = input.copy(input.config, true).apply { setHasAlpha(true) }
+        val fadeSize: Int = when (value) {
+            is SideFadeParams.Absolute -> value.size
+            is SideFadeParams.Relative -> {
+                when (value.side) {
+                    FadeSide.Start, FadeSide.End -> {
+                        bitmap.width * value.scale
+                    }
+
+                    FadeSide.Bottom, FadeSide.Top -> {
+                        bitmap.height * value.scale
+                    }
+                }.roundToInt()
+            }
+        }
         val canvas = Canvas(bitmap)
-        canvas.drawPaint(value.first.getPaint(input, value.second))
+        canvas.drawPaint(value.side.getPaint(input, fadeSize))
         return bitmap
     }
 

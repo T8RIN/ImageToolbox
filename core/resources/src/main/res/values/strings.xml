@@ -696,5 +696,10 @@
     <string name="corruption_shift_x">Corruption Shift X</string>
     <string name="corruption_shift_y">Corruption Shift Y</string>
     <string name="tent_blur">Tent Blur</string>
+    <string name="side_fade">Side Fade</string>
+    <string name="side">Side</string>
+    <string name="top">Top</string>
+    <string name="bottom">Bottom</string>
+    <string name="strength">Strength</string>
 
 </resources>

@@ -90,6 +90,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.SaturationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SepiaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SharpenFilter
 import ru.tech.imageresizershrinker.feature.filters.data.ShuffleFilter
+import ru.tech.imageresizershrinker.feature.filters.data.SideFadeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SierraDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SierraLiteDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SimpleThresholdDitheringFilter
@@ -211,6 +212,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.Noise -> NoiseFilter(value)
                 is Filter.EnhancedGlitch -> EnhancedGlitchFilter(value)
                 is Filter.TentBlur -> TentBlurFilter(value)
+                is Filter.SideFade -> SideFadeFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

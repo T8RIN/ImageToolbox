@@ -80,7 +80,7 @@ interface Filter<Image, Value> {
     interface EnhancedDiamondPixelation<Image> : Filter<Image, Float>
     interface ReplaceColor<Image, Color> : Filter<Image, Triple<Float, Color, Color>>
     interface RemoveColor<Image, Color> : Filter<Image, Pair<Float, Color>>
-    interface SideFade<Image> : Filter<Image, Pair<FadeSide, Int>>
+    interface SideFade<Image> : Filter<Image, SideFadeParams>
     interface Quantizier<Image> : Filter<Image, Float>
     interface BayerTwoDithering<Image> : Filter<Image, Pair<Float, Boolean>>
     interface BayerThreeDithering<Image> : Filter<Image, Pair<Float, Boolean>>

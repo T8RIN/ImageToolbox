@@ -38,6 +38,7 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageWithSize
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.withSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
+import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
 import ru.tech.imageresizershrinker.feature.filters.data.SideFadeFilter
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.CombiningParams
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.ImageCombiner
@@ -94,10 +95,22 @@ internal class AndroidImageCombiner @Inject constructor(
                 combiningParams.spacing.takeIf { it < 0 && combiningParams.fadingEdgesMode != null }
                     ?.let {
                         val space = combiningParams.spacing.absoluteValue
-                        val bottomFilter =
-                            SideFadeFilter((if (isHorizontal) FadeSide.End else FadeSide.Bottom) to space)
-                        val topFilter =
-                            SideFadeFilter((if (isHorizontal) FadeSide.Start else FadeSide.Top) to space)
+                        val bottomFilter = SideFadeFilter(
+                            SideFadeParams.Absolute(
+                                side = if (isHorizontal) {
+                                    FadeSide.End
+                                } else FadeSide.Bottom,
+                                size = space
+                            )
+                        )
+                        val topFilter = SideFadeFilter(
+                            SideFadeParams.Absolute(
+                                side = if (isHorizontal) {
+                                    FadeSide.Start
+                                } else FadeSide.Top,
+                                size = space
+                            )
+                        )
                         val filters = if (combiningParams.fadingEdgesMode == 0) {
                             when (i) {
                                 0 -> listOf()

@@ -29,6 +29,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,14 +46,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.NEAREST_ODD_ROUNDING
+import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.TiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiColorFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiRGBFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRow
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSlider
@@ -736,9 +740,78 @@ fun <T> FilterItemContent(
                     }
                 }
             }
+
+            is SideFadeParams.Relative -> {
+                val value = filter.value as SideFadeParams.Relative
+
+                var scale by remember(value) { mutableFloatStateOf(value.scale) }
+                var sideFade by remember(value) { mutableStateOf(value.side) }
+
+                LaunchedEffect(
+                    scale, sideFade
+                ) {
+                    onFilterChange(
+                        SideFadeParams.Relative(
+                            side = sideFade,
+                            scale = scale
+                        )
+                    )
+                }
+
+                EnhancedSliderItem(
+                    modifier = Modifier
+                        .padding(
+                            top = 8.dp,
+                            start = 8.dp,
+                            end = 8.dp
+                        ),
+                    enabled = !previewOnly,
+                    value = scale,
+                    title = filter.paramsInfo[0].title?.let {
+                        stringResource(it)
+                    } ?: "",
+                    onValueChange = {
+                        scale = it
+                    },
+                    internalStateTransformation = {
+                        it.roundTo(filter.paramsInfo[0].roundTo)
+                    },
+                    valueRange = filter.paramsInfo[0].valueRange,
+                    behaveAsContainer = false
+                )
+                filter.paramsInfo[1].takeIf { it.title != null }
+                    ?.let { (title, _, _) ->
+                        Text(
+                            text = stringResource(title!!),
+                            modifier = Modifier.padding(
+                                top = 8.dp,
+                                start = 8.dp,
+                                end = 8.dp,
+                            )
+                        )
+                        ToggleGroupButton(
+                            fadingEdgesColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                            inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
+                            items = FadeSide.entries.map { it.translatedName },
+                            selectedIndex = FadeSide.entries.indexOf(sideFade),
+                            indexChanged = {
+                                sideFade = FadeSide.entries[it]
+                            }
+                        )
+                    }
+            }
         }
     }
 }
+
+private val FadeSide.translatedName: String
+    @Composable
+    get() = when (this) {
+        FadeSide.Start -> stringResource(R.string.start)
+        FadeSide.End -> stringResource(R.string.end)
+        FadeSide.Top -> stringResource(R.string.top)
+        FadeSide.Bottom -> stringResource(R.string.bottom)
+    }
 
 private fun roundToNearestOdd(
     number: Float

@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.TiltShiftParams
 
 sealed class UiFilter<T>(
@@ -135,6 +136,7 @@ sealed class UiFilter<T>(
             is UiNoiseFilter -> UiNoiseFilter(value as Float)
             is UiEnhancedGlitchFilter -> UiEnhancedGlitchFilter(value as GlitchParams)
             is UiTentBlurFilter -> UiTentBlurFilter(value as Float)
+            is UiSideFadeFilter -> UiSideFadeFilter(value as SideFadeParams)
         }
     }
 
@@ -226,6 +228,7 @@ sealed class UiFilter<T>(
             is UiNoiseFilter -> UiNoiseFilter()
             is UiEnhancedGlitchFilter -> UiEnhancedGlitchFilter()
             is UiTentBlurFilter -> UiTentBlurFilter()
+            is UiSideFadeFilter -> UiSideFadeFilter()
         }
     }
 
@@ -270,6 +273,7 @@ sealed class UiFilter<T>(
                     UiKuwaharaFilter(),
                     UiDilationFilter(),
                     UiOpacityFilter(),
+                    UiSideFadeFilter(),
                     UiToonFilter(),
                     UiSmoothToonFilter(),
                     UiSketchFilter(),
@@ -425,6 +429,7 @@ fun Filter<Bitmap, *>.toUiFilter(): UiFilter<*> = when (this) {
     is Filter.Noise -> UiNoiseFilter(value)
     is Filter.EnhancedGlitch -> UiEnhancedGlitchFilter(value)
     is Filter.TentBlur -> UiTentBlurFilter(value)
+    is Filter.SideFade -> UiSideFadeFilter(value)
 
     else -> throw IllegalArgumentException("No UiFilter implementation for interface ${this::class.simpleName}")
 }

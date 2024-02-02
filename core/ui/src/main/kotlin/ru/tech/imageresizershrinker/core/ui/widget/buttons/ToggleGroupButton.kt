@@ -48,7 +48,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 @Composable
 fun ToggleGroupButton(
     @SuppressLint("ModifierParameter") modifier: Modifier = defaultModifier,
-    enabled: Boolean,
+    enabled: Boolean = true,
     items: List<String>,
     selectedIndex: Int,
     title: String? = null,
