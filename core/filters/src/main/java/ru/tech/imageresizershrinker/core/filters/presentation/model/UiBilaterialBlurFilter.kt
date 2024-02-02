@@ -25,16 +25,11 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiBilaterialBlurFilter(
-    override val value: Triple<Float, Float, Float> = Triple(25f, 10f, 3f),
+    override val value: Triple<Float, Float, Float> = Triple(10f, 3f, 12f),
 ) : UiFilter<Triple<Float, Float, Float>>(
     title = R.string.bilaterial_blur,
     value = value,
     paramsInfo = listOf(
-        FilterParam(
-            title = R.string.radius,
-            valueRange = 0f..100f,
-            roundTo = 0
-        ),
         FilterParam(
             title = R.string.sigma,
             valueRange = 1f..100f
@@ -42,6 +37,11 @@ class UiBilaterialBlurFilter(
         FilterParam(
             title = R.string.spatial_sigma,
             valueRange = 1f..100f
-        )
+        ),
+        FilterParam(
+            title = R.string.radius,
+            valueRange = 1f..15f,
+            roundTo = 0
+        ),
     )
 ), Filter.BilaterialBlur<Bitmap>
