@@ -665,4 +665,11 @@
     <string name="b_spline_sub">利用片断定义的双三次多项式函数平滑插值和近似曲线或曲面，灵活且连续地表示形状</string>
     <string name="native_stack_blur">原生堆栈模糊</string>
     <string name="tilt_shift">倾斜移位</string>
+    <string name="pixel_sort">像素排序</string>
+    <string name="glitch">毛刺</string>
+    <string name="amount">数量</string>
+    <string name="seed">种子</string>
+    <string name="noise">噪音</string>
+    <string name="anaglyph">浮雕</string>
+    <string name="shuffle">随机播放</string>
 </resources>
