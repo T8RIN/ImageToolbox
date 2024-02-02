@@ -551,8 +551,8 @@
 \n您要下载 %2$s 数据吗？</string>
     <string name="no_connection">无网络连接，请检查并重试，以便下载训练模型</string>
     <string name="available_languages">可用语言</string>
-    <string name="use_pixel_switch_sub">将使用类似像素的开关，而不是基于谷歌自带的开关</string>
-    <string name="use_pixel_switch">使用像素开关</string>
+    <string name="use_pixel_switch_sub">将使用类似 Pixel 的开关，而不是 Google 质感设计的开关</string>
+    <string name="use_pixel_switch">使用 Pixel 开关</string>
     <string name="saved_to_original">在原始目标位置覆盖了名称为 %s 的文件</string>
     <string name="magnifier_sub">在绘图模式下，在手指顶部启用放大镜，以提高易用性</string>
     <string name="force_exif_widget_inital_value_sub">强制初始检查 EXIF 部件</string>
@@ -665,4 +665,11 @@
     <string name="b_spline_sub">利用片断定义的双三次多项式函数平滑插值和近似曲线或曲面，灵活且连续地表示形状</string>
     <string name="native_stack_blur">原生堆栈模糊</string>
     <string name="tilt_shift">倾斜移位</string>
+    <string name="pixel_sort">像素排序</string>
+    <string name="glitch">毛刺</string>
+    <string name="amount">数量</string>
+    <string name="seed">种子</string>
+    <string name="noise">噪音</string>
+    <string name="anaglyph">浮雕</string>
+    <string name="shuffle">随机播放</string>
 </resources>
