@@ -99,7 +99,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 70 various filters)
+- Applying filter chains (More than 80 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -188,6 +188,7 @@ or click one of the badges below.
   - [x] Pixel Sort
   - [x] Shuffle
   - [x] Tent Blur
+  - [x] Side Fade
 
   </details>
 
