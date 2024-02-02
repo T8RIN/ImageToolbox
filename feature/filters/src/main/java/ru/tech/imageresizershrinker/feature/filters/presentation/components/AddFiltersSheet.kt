@@ -83,7 +83,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -136,7 +138,7 @@ fun AddFiltersSheet(
     }
 
     val filters = UiFilter.groupedEntries
-
+    val haptics = LocalHapticFeedback.current
     val pagerState = rememberPagerState(pageCount = { filters.size })
 
     SimpleSheet(
@@ -179,6 +181,9 @@ fun AddFiltersSheet(
                                     .clip(CircleShape),
                                 selected = selected,
                                 onClick = {
+                                    haptics.performHapticFeedback(
+                                        HapticFeedbackType.LongPress
+                                    )
                                     scope.launch {
                                         pagerState.animateScrollToPage(index)
                                     }
@@ -224,6 +229,9 @@ fun AddFiltersSheet(
                                                         .size(36.dp)
                                                         .clip(CircleShape)
                                                         .clickable {
+                                                            haptics.performHapticFeedback(
+                                                                HapticFeedbackType.LongPress
+                                                            )
                                                             previewSheetData = filter
                                                             showPreviewState.value = true
                                                         },
