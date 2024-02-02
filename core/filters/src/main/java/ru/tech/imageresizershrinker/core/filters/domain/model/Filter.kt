@@ -107,4 +107,5 @@ interface Filter<Image, Value> {
     interface PixelSort<Image> : Filter<Image, Unit>
     interface Anaglyph<Image> : Filter<Image, Float>
     interface EnhancedGlitch<Image> : Filter<Image, GlitchParams>
+    interface TentBlur<Image> : Filter<Image, Float>
 }

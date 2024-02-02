@@ -102,6 +102,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.StackBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.StrokePixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.StuckiDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.SwirlDistortionFilter
+import ru.tech.imageresizershrinker.feature.filters.data.TentBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.TiltShiftFilter
 import ru.tech.imageresizershrinker.feature.filters.data.ToonFilter
 import ru.tech.imageresizershrinker.feature.filters.data.TwoRowSierraDitheringFilter
@@ -209,6 +210,7 @@ internal class AndroidFilterProvider @Inject constructor(
                 is Filter.PixelSort -> PixelSortFilter(value)
                 is Filter.Noise -> NoiseFilter(value)
                 is Filter.EnhancedGlitch -> EnhancedGlitchFilter(value)
+                is Filter.TentBlur -> TentBlurFilter(value)
 
                 else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
             }

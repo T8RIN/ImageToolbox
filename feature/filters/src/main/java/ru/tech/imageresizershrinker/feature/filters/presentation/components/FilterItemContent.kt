@@ -46,6 +46,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.NEAREST_ODD_ROUNDING
 import ru.tech.imageresizershrinker.core.filters.domain.model.TiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiColorFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
@@ -739,5 +740,14 @@ fun <T> FilterItemContent(
     }
 }
 
-private fun Float.roundTo(digits: Int = 2) =
-    (this * 10f.pow(digits)).roundToInt() / (10f.pow(digits))
+private fun roundToNearestOdd(
+    number: Float
+): Float = number.roundToInt().let {
+    if (it % 2 != 0) it
+    else it + 1
+}.toFloat()
+
+private fun Float.roundTo(
+    digits: Int
+): Float = if (digits == NEAREST_ODD_ROUNDING) roundToNearestOdd(this)
+else (this * 10f.pow(digits)).roundToInt() / (10f.pow(digits))

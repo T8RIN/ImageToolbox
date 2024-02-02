@@ -695,5 +695,6 @@
     <string name="corruption_size">Corruption Size</string>
     <string name="corruption_shift_x">Corruption Shift X</string>
     <string name="corruption_shift_y">Corruption Shift Y</string>
+    <string name="tent_blur">Tent Blur</string>
 
 </resources>

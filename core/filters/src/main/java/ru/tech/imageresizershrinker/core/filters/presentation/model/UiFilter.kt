@@ -134,6 +134,7 @@ sealed class UiFilter<T>(
             is UiPixelSortFilter -> UiPixelSortFilter()
             is UiNoiseFilter -> UiNoiseFilter(value as Float)
             is UiEnhancedGlitchFilter -> UiEnhancedGlitchFilter(value as GlitchParams)
+            is UiTentBlurFilter -> UiTentBlurFilter(value as Float)
         }
     }
 
@@ -224,6 +225,7 @@ sealed class UiFilter<T>(
             is UiPixelSortFilter -> UiPixelSortFilter()
             is UiNoiseFilter -> UiNoiseFilter()
             is UiEnhancedGlitchFilter -> UiEnhancedGlitchFilter()
+            is UiTentBlurFilter -> UiTentBlurFilter()
         }
     }
 
@@ -284,6 +286,7 @@ sealed class UiFilter<T>(
                     UiNativeStackBlurFilter(),
                     UiBoxBlurFilter(),
                     UiBilaterialBlurFilter(),
+                    UiTentBlurFilter(),
                     UiStackBlurFilter(),
                     UiFastBlurFilter(),
                     UiZoomBlurFilter(),
@@ -421,6 +424,7 @@ fun Filter<Bitmap, *>.toUiFilter(): UiFilter<*> = when (this) {
     is Filter.PixelSort -> UiPixelSortFilter(value)
     is Filter.Noise -> UiNoiseFilter(value)
     is Filter.EnhancedGlitch -> UiEnhancedGlitchFilter(value)
+    is Filter.TentBlur -> UiTentBlurFilter(value)
 
     else -> throw IllegalArgumentException("No UiFilter implementation for interface ${this::class.simpleName}")
 }
