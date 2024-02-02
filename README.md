@@ -188,6 +188,7 @@ or click one of the badges below.
   - [x] Pixel Sort
   - [x] Shuffle
   - [x] Tent Blur
+  - [x] Side Fade
 
   </details>
 
