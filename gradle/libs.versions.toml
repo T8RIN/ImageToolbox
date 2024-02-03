@@ -3,8 +3,8 @@ androidMinSdk = "21"
 androidTargetSdk = "34"
 androidCompileSdk = "34"
 
-versionName = "2.6.1"
-versionCode = "117"
+versionName = "2.6.1-alpha01"
+versionCode = "118"
 
 jvmTarget = "17"
 compose-compiler = "1.5.8"
@@ -63,6 +63,7 @@ uiautomator = "2.2.0"
 androidxMacroBenchmark = "1.2.3"
 
 [libraries]
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 aire = { module = "com.github.awxkee:aire", version.ref = "aire" }
 androidx-exifinterface = { module = "androidx.exifinterface:exifinterface", version.ref = "exifinterface" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }

@@ -22,6 +22,16 @@
 -keepclassmembers class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator CREATOR;
 }
+
+-keep class * implements ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
+-keepclassmembers class * implements ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter {
+    <init>(...);
+}
+-keep class * implements ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+-keepclassmembers class * implements ru.tech.imageresizershrinker.core.filters.domain.model.Filter {
+    <init>(...);
+}
+
 # Please add these rules to your existing keep rules in order to suppress warnings.
 # This is generated automatically by the Android Gradle plugin.
 -dontwarn org.bouncycastle.jsse.BCSSLParameters

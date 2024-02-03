@@ -136,17 +136,6 @@ android {
         compose = true
     }
 
-    packaging {
-        resources {
-            excludes += setOf(
-                "META-INF/*.kotlin_module",
-                "kotlin/*.kotlin_builtins",
-                "kotlin/**/*.kotlin_builtins",
-                "CERT.SF",
-                "publicsuffixes.gz"
-            )
-        }
-    }
     splits {
         abi {
             isEnable = true
