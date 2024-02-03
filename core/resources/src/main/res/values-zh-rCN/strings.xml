@@ -672,4 +672,16 @@
     <string name="noise">噪音</string>
     <string name="anaglyph">浮雕</string>
     <string name="shuffle">随机播放</string>
+    <string name="channel_shift_x">通道偏移 X</string>
+    <string name="channel_shift_y">通道偏移 Y</string>
+    <string name="corruption_size">故障规模</string>
+    <string name="corruption_shift_x">故障转移 X</string>
+    <string name="tent_blur">帐篷模糊</string>
+    <string name="side_fade">侧面淡化</string>
+    <string name="side">侧边</string>
+    <string name="top">顶部</string>
+    <string name="enhanced_glitch">增强毛刺</string>
+    <string name="corruption_shift_y">故障转移 Y</string>
+    <string name="bottom">底部</string>
+    <string name="strength">强度</string>
 </resources>
