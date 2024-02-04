@@ -701,5 +701,10 @@
     <string name="top">Top</string>
     <string name="bottom">Bottom</string>
     <string name="strength">Strength</string>
+    <string name="erode">Erode</string>
+    <string name="anisotropic_diffusion">Anisotropic Diffusion</string>
+    <string name="diffusion">Diffusion</string>
+    <string name="conduction">Conduction</string>
+    <string name="horizontal_wind_stagger">Horizontal Wind Stagger</string>
 
 </resources>

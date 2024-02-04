@@ -58,7 +58,7 @@ interface Filter<Image, Value> {
     interface Saturation<Image> : Filter<Image, Float>
     interface Sepia<Image> : Filter<Image, Float>
     interface Sharpen<Image> : Filter<Image, Float>
-    interface Sketch<Image> : Filter<Image, Unit>
+    interface Sketch<Image> : Filter<Image, Float>
     interface SmoothToon<Image> : Filter<Image, Triple<Float, Float, Float>>
     interface SobelEdgeDetection<Image> : Filter<Image, Float>
     interface Solarize<Image> : Filter<Image, Float>
@@ -108,4 +108,7 @@ interface Filter<Image, Value> {
     interface Anaglyph<Image> : Filter<Image, Float>
     interface EnhancedGlitch<Image> : Filter<Image, GlitchParams>
     interface TentBlur<Image> : Filter<Image, Float>
+    interface Erode<Image> : Filter<Image, Float>
+    interface AnisotropicDiffusion<Image> : Filter<Image, Triple<Int, Float, Float>>
+    interface HorizontalWindStagger<Image, Color> : Filter<Image, Triple<Float, Int, Color>>
 }

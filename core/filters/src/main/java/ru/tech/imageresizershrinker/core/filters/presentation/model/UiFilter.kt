@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
+import android.content.Context
 import android.graphics.Bitmap
 import androidx.annotation.StringRes
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -88,6 +89,7 @@ sealed class UiFilter<T>(
                     UiLaplacianFilter(),
                     UiVignetteFilter(),
                     UiKuwaharaFilter(),
+                    UiErodeFilter(),
                     UiDilationFilter(),
                     UiOpacityFilter(),
                     UiSideFadeFilter(),
@@ -111,6 +113,7 @@ sealed class UiFilter<T>(
                     UiStackBlurFilter(),
                     UiFastBlurFilter(),
                     UiZoomBlurFilter(),
+                    UiAnisotropicDiffusionFilter(),
                     UiMedianBlurFilter()
                 ),
                 listOf(
@@ -128,6 +131,7 @@ sealed class UiFilter<T>(
                     UiShuffleFilter(),
                     UiAnaglyphFilter(),
                     UiPixelSortFilter(),
+                    UiHorizontalWindStaggerFilter(),
                     UiNoiseFilter(),
                     UiSwirlDistortionFilter(),
                     UiBulgeDistortionFilter(),
@@ -154,6 +158,12 @@ sealed class UiFilter<T>(
                     UiQuantizierFilter()
                 )
             )
+        }
+
+        fun groupedEntries(
+            context: Context
+        ) = groupedEntries.map { list ->
+            list.sortedBy { context.getString(it.title) }
         }
     }
 

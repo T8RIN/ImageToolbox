@@ -17,20 +17,23 @@
 
 package ru.tech.imageresizershrinker.feature.filters.data
 
-import android.content.Context
 import android.graphics.Bitmap
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageDilationFilter
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
+import coil.size.Size
+import com.awxkee.aire.Aire
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 class DilationFilter(
-    private val context: Context,
-    override val value: Float = 1f,
-) : GPUFilterTransformation(context), Filter.Dilation<Bitmap> {
+    override val value: Float = 5f
+) : Transformation<Bitmap>, Filter.Dilation<Bitmap> {
 
     override val cacheKey: String
-        get() = (value to context).hashCode().toString()
+        get() = value.hashCode().toString()
 
-    override fun createFilter(): GPUImageFilter = GPUImageDilationFilter(value.toInt())
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap = Aire.dilate(input, value.toInt())
+
 }

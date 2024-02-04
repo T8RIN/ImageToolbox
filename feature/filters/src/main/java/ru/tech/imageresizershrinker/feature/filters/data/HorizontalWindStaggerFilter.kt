@@ -18,15 +18,16 @@
 package ru.tech.imageresizershrinker.feature.filters.data
 
 import android.graphics.Bitmap
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import coil.size.Size
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-
-class SketchFilter(
-    override val value: Float = 5f,
-) : Transformation<Bitmap>, Filter.Sketch<Bitmap> {
+class HorizontalWindStaggerFilter(
+    override val value: Triple<Float, Int, Color> = Triple(0.2f, 90, Color.Black)
+) : Transformation<Bitmap>, Filter.HorizontalWindStagger<Bitmap, Color> {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -34,6 +35,11 @@ class SketchFilter(
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = Aire.removeShadows(input, value.toInt())
+    ): Bitmap = Aire.horizontalWindStagger(
+        bitmap = input,
+        windStrength = value.first,
+        streamsCount = value.second,
+        clearColor = value.third.toArgb()
+    )
 
 }

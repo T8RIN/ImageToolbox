@@ -26,6 +26,7 @@ import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.feature.filters.data.AnaglyphFilter
+import ru.tech.imageresizershrinker.feature.filters.data.AnisotropicDiffusionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.AtkinsonDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.BayerEightDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.BayerFourDitheringFilter
@@ -52,6 +53,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.EnhancedCirclePixelatio
 import ru.tech.imageresizershrinker.feature.filters.data.EnhancedDiamondPixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.EnhancedGlitchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.EnhancedPixelationFilter
+import ru.tech.imageresizershrinker.feature.filters.data.ErodeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.ExposureFilter
 import ru.tech.imageresizershrinker.feature.filters.data.FalseColorFilter
 import ru.tech.imageresizershrinker.feature.filters.data.FalseFloydSteinbergDitheringFilter
@@ -64,6 +66,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.GlitchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.HalftoneFilter
 import ru.tech.imageresizershrinker.feature.filters.data.HazeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.HighlightsAndShadowsFilter
+import ru.tech.imageresizershrinker.feature.filters.data.HorizontalWindStaggerFilter
 import ru.tech.imageresizershrinker.feature.filters.data.HueFilter
 import ru.tech.imageresizershrinker.feature.filters.data.JarvisJudiceNinkeDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.KuwaharaFilter
@@ -137,7 +140,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Convolution3x3 -> Convolution3x3Filter(context, value)
             is Filter.Crosshatch -> CrosshatchFilter(context, value)
             is Filter.DiamondPixelation -> DiamondPixelationFilter(value)
-            is Filter.Dilation -> DilationFilter(context, value)
+            is Filter.Dilation -> DilationFilter(value)
             is Filter.Emboss -> EmbossFilter(context, value)
             is Filter.EnhancedCirclePixelation -> EnhancedCirclePixelationFilter(value)
             is Filter.EnhancedDiamondPixelation -> EnhancedDiamondPixelationFilter(value)
@@ -168,7 +171,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Saturation -> SaturationFilter(context, value)
             is Filter.Sepia -> SepiaFilter(context, value)
             is Filter.Sharpen -> SharpenFilter(context, value)
-            is Filter.Sketch -> SketchFilter(context, value)
+            is Filter.Sketch -> SketchFilter(value)
             is Filter.SmoothToon -> SmoothToonFilter(context, value)
             is Filter.SobelEdgeDetection -> SobelEdgeDetectionFilter(context, value)
             is Filter.Solarize -> SolarizeFilter(context, value)
@@ -214,6 +217,9 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.EnhancedGlitch -> EnhancedGlitchFilter(value)
             is Filter.TentBlur -> TentBlurFilter(value)
             is Filter.SideFade -> SideFadeFilter(value)
+            is Filter.Erode -> ErodeFilter(value)
+            is Filter.AnisotropicDiffusion -> AnisotropicDiffusionFilter(value)
+            is Filter.HorizontalWindStagger<*, *> -> HorizontalWindStaggerFilter(value as Triple<Float, Int, Color>)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

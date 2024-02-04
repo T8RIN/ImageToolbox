@@ -19,13 +19,29 @@ package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
-
-class UiSketchFilter(
-    override val value: Float = 5f,
-) : UiFilter<Float>(
-    title = R.string.sketch,
+class UiAnisotropicDiffusionFilter(
+    override val value: Triple<Int, Float, Float> = Triple(20, 0.1f, 0.01f)
+) : UiFilter<Triple<Int, Float, Float>>(
+    title = R.string.anisotropic_diffusion,
     value = value,
-    valueRange = 3f..7f
-), Filter.Sketch<Bitmap>
+    paramsInfo = listOf(
+        FilterParam(
+            title = R.string.repeat_count,
+            valueRange = 1f..100f,
+            roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.conduction,
+            valueRange = 0.1f..1f,
+            roundTo = 2
+        ),
+        FilterParam(
+            title = R.string.diffusion,
+            valueRange = 0.01f..1f,
+            roundTo = 2
+        )
+    )
+), Filter.AnisotropicDiffusion<Bitmap>

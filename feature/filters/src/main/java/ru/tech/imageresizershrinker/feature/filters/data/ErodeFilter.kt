@@ -23,10 +23,9 @@ import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-
-class SketchFilter(
-    override val value: Float = 5f,
-) : Transformation<Bitmap>, Filter.Sketch<Bitmap> {
+class ErodeFilter(
+    override val value: Float = 5f
+) : Transformation<Bitmap>, Filter.Erode<Bitmap> {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -34,6 +33,6 @@ class SketchFilter(
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = Aire.removeShadows(input, value.toInt())
+    ): Bitmap = Aire.erode(input, value.toInt())
 
 }

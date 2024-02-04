@@ -18,14 +18,30 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
+import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
-
-class UiSketchFilter(
-    override val value: Float = 5f,
-) : UiFilter<Float>(
-    title = R.string.sketch,
+class UiHorizontalWindStaggerFilter(
+    override val value: Triple<Float, Int, Color> = Triple(0.2f, 90, Color.Black)
+) : UiFilter<Triple<Float, Int, Color>>(
+    title = R.string.horizontal_wind_stagger,
     value = value,
-    valueRange = 3f..7f
-), Filter.Sketch<Bitmap>
+    paramsInfo = listOf(
+        FilterParam(
+            title = R.string.strength,
+            valueRange = 0f..100f,
+            roundTo = 1
+        ),
+        FilterParam(
+            title = R.string.amount,
+            valueRange = 10f..200f,
+            roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.color,
+            valueRange = 0f..0f
+        )
+    )
+), Filter.HorizontalWindStagger<Bitmap, Color>

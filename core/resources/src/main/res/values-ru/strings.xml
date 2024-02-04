@@ -212,7 +212,7 @@
     <string name="swirl">Водоворот</string>
     <string name="kuwahara">Сглаживание Кувахары</string>
     <string name="angle">Угол</string>
-    <string name="dilation">Дилатация</string>
+    <string name="dilation">Дилация</string>
     <string name="refractive_index">Показатель преломления</string>
     <string name="color_matrix">Цветовая матрица</string>
     <string name="bulge">Выпуклость</string>

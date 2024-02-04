@@ -85,6 +85,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -137,7 +138,10 @@ fun AddFiltersSheet(
         }
     }
 
-    val filters = UiFilter.groupedEntries
+    val context = LocalContext.current
+    val filters = remember(context) {
+        UiFilter.groupedEntries(context)
+    }
     val haptics = LocalHapticFeedback.current
     val pagerState = rememberPagerState(pageCount = { filters.size })
 

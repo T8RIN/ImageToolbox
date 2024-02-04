@@ -23,10 +23,9 @@ import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-
-class SketchFilter(
-    override val value: Float = 5f,
-) : Transformation<Bitmap>, Filter.Sketch<Bitmap> {
+class AnisotropicDiffusionFilter(
+    override val value: Triple<Int, Float, Float> = Triple(20, 0.1f, 0.01f)
+) : Transformation<Bitmap>, Filter.AnisotropicDiffusion<Bitmap> {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -34,6 +33,11 @@ class SketchFilter(
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = Aire.removeShadows(input, value.toInt())
+    ): Bitmap = Aire.anisotropicDiffusion(
+        bitmap = input,
+        numOfSteps = value.first,
+        conduction = value.second,
+        diffusion = value.third
+    )
 
 }

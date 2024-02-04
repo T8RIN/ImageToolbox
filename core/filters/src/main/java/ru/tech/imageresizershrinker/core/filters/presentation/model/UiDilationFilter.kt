@@ -24,11 +24,11 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiDilationFilter(
-    override val value: Float = 1f,
+    override val value: Float = 5f,
 ) : UiFilter<Float>(
     title = R.string.dilation,
     value = value,
     paramsInfo = listOf(
-        FilterParam(null, 0f..4f, 0)
+        FilterParam(null, 1f..15f, 0)
     )
 ), Filter.Dilation<Bitmap>

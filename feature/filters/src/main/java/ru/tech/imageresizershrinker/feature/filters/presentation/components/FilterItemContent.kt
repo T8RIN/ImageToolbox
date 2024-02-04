@@ -500,7 +500,7 @@ fun <T> FilterItemContent(
                         ColorSelectionRow(
                             value = color3,
                             allowScroll = !previewOnly,
-                            allowAlpha = false,
+                            allowAlpha = true,
                             onValueChange = { color ->
                                 color3 = color
                             },
