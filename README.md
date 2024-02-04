@@ -201,6 +201,10 @@ or click one of the badges below.
   - [x] Marble
   - [x] Oil
   - [x] Water Effect
+  - [x] Hable Filmic Tone Mapping
+  - [x] Aces Hill Tone Mapping
+  - [x] Hejl Burgess Tone Mapping
+  - [x] Perlin Distortion
 
   </details>
 
