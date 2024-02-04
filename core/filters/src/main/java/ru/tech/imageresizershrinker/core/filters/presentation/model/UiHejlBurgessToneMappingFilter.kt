@@ -26,5 +26,5 @@ class UiHejlBurgessToneMappingFilter(
 ) : UiFilter<Float>(
     title = R.string.heji_burgess_tone_mapping,
     value = value,
-    valueRange = -4f..4f
+    valueRange = 0f..4f
 ), Filter.HejlBurgessToneMapping<Bitmap>
