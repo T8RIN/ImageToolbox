@@ -99,7 +99,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 80 various filters)
+- Applying filter chains (More than 100 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -142,7 +142,7 @@ or click one of the badges below.
   - [x] Box Blur
   - [x] Stack Blur
   - [x] Fast Blur
-  - [x] Bilateral Blur
+  - [x] Bilaterial Blur
   - [x] Zoom Blur
   - [x] Median Blur
   - [x] Pixelation
@@ -180,15 +180,27 @@ or click one of the badges below.
   - [x] Left To Right Dithering
   - [x] Random Dithering
   - [x] Simple Threshold Dithering
-  - [x] Quanitizer
+  - [x] Quantizier
   - [x] Glitch Effect
   - [x] Enhanced Glitch Effect
   - [x] Anaglyph
   - [x] Noise
   - [x] Pixel Sort
-  - [x] Shuffle
+  - [x] Shuffle Pixels
   - [x] Tent Blur
   - [x] Side Fade
+  - [x] Erode
+  - [x] Anisotropic Diffusion
+  - [x] Horizontal Wind Stagger
+  - [x] Fast Bilaterial Blur
+  - [x] Poisson Blur
+  - [x] Logarithmic Tone Mapping
+  - [x] Aces Filmic Tone Mapping
+  - [x] Crystallize
+  - [x] Fractal Glass
+  - [x] Marble
+  - [x] Oil
+  - [x] Water Effect
 
   </details>
 
