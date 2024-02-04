@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.filters.presentation.components
 
 import android.content.res.Configuration
 import android.graphics.Bitmap
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -178,6 +179,11 @@ fun AddFiltersSheet(
                             Icons.Rounded.EditRoad to stringResource(R.string.dithering)
                         ).forEachIndexed { index, (icon, title) ->
                             val selected = pagerState.currentPage == index
+                            val color by animateColorAsState(
+                                if (selected) {
+                                    MaterialTheme.colorScheme.primary
+                                } else MaterialTheme.colorScheme.onSurface
+                            )
                             Tab(
                                 unselectedContentColor = MaterialTheme.colorScheme.onSurface,
                                 modifier = Modifier
@@ -196,12 +202,15 @@ fun AddFiltersSheet(
                                     Icon(
                                         imageVector = icon,
                                         contentDescription = null,
-                                        tint = if (selected) {
-                                            MaterialTheme.colorScheme.primary
-                                        } else MaterialTheme.colorScheme.onSurface
+                                        tint = color
                                     )
                                 },
-                                text = { Text(title) }
+                                text = {
+                                    Text(
+                                        text = title,
+                                        color = color
+                                    )
+                                }
                             )
                         }
                     }
