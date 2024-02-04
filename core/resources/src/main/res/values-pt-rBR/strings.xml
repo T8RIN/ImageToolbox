@@ -433,4 +433,5 @@
     <string name="pdf_tools_sub">Opere com arquivos PDF: visualize, converta em lote de imagens ou crie um a partir de determinadas imagens</string>
     <string name="mask_indexed">Máscara %d</string>
     <string name="pdf_to_images_sub">Converta PDF em imagens em determinado formato de saída</string>
+    <string name="email">Email</string>
 </resources>
