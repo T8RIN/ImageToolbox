@@ -714,5 +714,14 @@
     <string name="stroke_color">Stroke Color</string>
     <string name="fractal_glass">Fractal Glass</string>
     <string name="amplitude">Amplitude</string>
+    <string name="marble">Marble</string>
+    <string name="turbulence">Turbulence</string>
+    <string name="oil">Oil</string>
+    <string name="water_effect">Water Effect</string>
+    <string name="just_size">Size</string>
+    <string name="frequency_x">Frequency X</string>
+    <string name="frequency_y">Frequency Y</string>
+    <string name="amplitude_x">Amplitude X</string>
+    <string name="amplitude_y">Amplitude Y</string>
 
 </resources>

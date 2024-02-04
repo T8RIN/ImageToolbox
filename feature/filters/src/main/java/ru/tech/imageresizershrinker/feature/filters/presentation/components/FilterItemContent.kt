@@ -51,6 +51,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.NEAREST_ODD_ROUNDING
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.TiltShiftParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.WaterParams
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiColorFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiRGBFilter
@@ -799,6 +800,75 @@ fun <T> FilterItemContent(
                             }
                         )
                     }
+            }
+
+            is WaterParams -> {
+                val value = filter.value as WaterParams
+
+                val fractionSize: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf(value.fractionSize) }
+                val frequencyX: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf(value.frequencyX) }
+                val frequencyY: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf(value.frequencyY) }
+                val amplitudeX: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf(value.amplitudeX) }
+                val amplitudeY: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf(value.amplitudeY) }
+
+                LaunchedEffect(
+                    fractionSize.value,
+                    frequencyX.value,
+                    frequencyY.value,
+                    amplitudeX.value,
+                    amplitudeY.value
+                ) {
+                    onFilterChange(
+                        WaterParams(
+                            fractionSize = fractionSize.value,
+                            frequencyX = frequencyX.value,
+                            frequencyY = frequencyY.value,
+                            amplitudeX = amplitudeX.value,
+                            amplitudeY = amplitudeY.value
+                        )
+                    )
+                }
+
+                val paramsInfo by remember(filter) {
+                    derivedStateOf {
+                        filter.paramsInfo.mapIndexedNotNull { index, filterParam ->
+                            if (filterParam.title == null) return@mapIndexedNotNull null
+                            when (index) {
+                                0 -> fractionSize
+                                1 -> frequencyX
+                                2 -> frequencyY
+                                3 -> amplitudeX
+                                else -> amplitudeY
+                            } to filterParam
+                        }
+                    }
+                }
+
+                Column(
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    paramsInfo.forEach { (state, info) ->
+                        val (title, valueRange, roundTo) = info
+                        EnhancedSliderItem(
+                            enabled = !previewOnly,
+                            value = state.value,
+                            title = stringResource(title!!),
+                            valueRange = valueRange,
+                            onValueChange = {
+                                state.value = it
+                            },
+                            internalStateTransformation = {
+                                it.roundTo(roundTo)
+                            },
+                            behaveAsContainer = false
+                        )
+                    }
+                }
             }
         }
     }

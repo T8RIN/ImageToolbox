@@ -15,12 +15,28 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.filters.domain.model
+package ru.tech.imageresizershrinker.feature.filters.data
 
-data class WaterParams(
-    val fractionSize: Float = 0.2f,
-    val frequencyX: Float = 2f,
-    val frequencyY: Float = 2f,
-    val amplitudeX: Float = 0.5f,
-    val amplitudeY: Float = 0.5f,
-)
+import android.graphics.Bitmap
+import coil.size.Size
+import com.awxkee.aire.Aire
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+
+class OilFilter(
+    override val value: Pair<Int, Float> = 4 to 1f
+) : Transformation<Bitmap>, Filter.Oil<Bitmap> {
+
+    override val cacheKey: String
+        get() = value.hashCode().toString()
+
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap = Aire.oil(
+        bitmap = input,
+        radius = value.first,
+        levels = value.second
+    )
+
+}

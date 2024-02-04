@@ -79,12 +79,14 @@ import ru.tech.imageresizershrinker.feature.filters.data.LeftToRightDitheringFil
 import ru.tech.imageresizershrinker.feature.filters.data.LogarithmicToneMappingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.LookupFilter
 import ru.tech.imageresizershrinker.feature.filters.data.LuminanceThresholdFilter
+import ru.tech.imageresizershrinker.feature.filters.data.MarbleFilter
 import ru.tech.imageresizershrinker.feature.filters.data.MedianBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.MonochromeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.NativeStackBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.NegativeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.NoiseFilter
 import ru.tech.imageresizershrinker.feature.filters.data.NonMaximumSuppressionFilter
+import ru.tech.imageresizershrinker.feature.filters.data.OilFilter
 import ru.tech.imageresizershrinker.feature.filters.data.OpacityFilter
 import ru.tech.imageresizershrinker.feature.filters.data.PixelSortFilter
 import ru.tech.imageresizershrinker.feature.filters.data.PixelationFilter
@@ -118,6 +120,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.ToonFilter
 import ru.tech.imageresizershrinker.feature.filters.data.TwoRowSierraDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.VibranceFilter
 import ru.tech.imageresizershrinker.feature.filters.data.VignetteFilter
+import ru.tech.imageresizershrinker.feature.filters.data.WaterEffectFilter
 import ru.tech.imageresizershrinker.feature.filters.data.WeakPixelFilter
 import ru.tech.imageresizershrinker.feature.filters.data.WhiteBalanceFilter
 import ru.tech.imageresizershrinker.feature.filters.data.ZoomBlurFilter
@@ -232,6 +235,9 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.AcesFilmicToneMapping -> AcesFilmicToneMappingFilter(value)
             is Filter.Crystallize<*, *> -> CrystallizeFilter(value as Pair<Float, Color>)
             is Filter.FractalGlass -> FractalGlassFilter(value)
+            is Filter.Marble -> MarbleFilter(value)
+            is Filter.Oil -> OilFilter(value)
+            is Filter.WaterEffect -> WaterEffectFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }
