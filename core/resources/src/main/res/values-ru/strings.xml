@@ -684,4 +684,9 @@
     <string name="corruption_size">Размер сбоя</string>
     <string name="bottom">Низ</string>
     <string name="strength">Сила</string>
+    <string name="anisotropic_diffusion">Анизотропная диффузия</string>
+    <string name="horizontal_wind_stagger">Горизонтальное колебание ветра</string>
+    <string name="erode">Эрозия</string>
+    <string name="diffusion">Диффузия</string>
+    <string name="conduction">Проводимость</string>
 </resources>
