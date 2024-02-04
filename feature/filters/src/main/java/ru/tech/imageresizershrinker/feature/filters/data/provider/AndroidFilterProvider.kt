@@ -47,6 +47,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.ColorMatrixFilter
 import ru.tech.imageresizershrinker.feature.filters.data.ContrastFilter
 import ru.tech.imageresizershrinker.feature.filters.data.Convolution3x3Filter
 import ru.tech.imageresizershrinker.feature.filters.data.CrosshatchFilter
+import ru.tech.imageresizershrinker.feature.filters.data.CrystallizeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.DiamondPixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.DilationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.EmbossFilter
@@ -61,6 +62,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.FalseFloydSteinbergDith
 import ru.tech.imageresizershrinker.feature.filters.data.FastBilaterialBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.FastBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.FloydSteinbergDitheringFilter
+import ru.tech.imageresizershrinker.feature.filters.data.FractalGlassFilter
 import ru.tech.imageresizershrinker.feature.filters.data.GammaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.GaussianBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.GlassSphereRefractionFilter
@@ -228,6 +230,8 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.PoissonBlur -> PoissonBlurFilter(value)
             is Filter.LogarithmicToneMapping -> LogarithmicToneMappingFilter(value)
             is Filter.AcesFilmicToneMapping -> AcesFilmicToneMappingFilter(value)
+            is Filter.Crystallize<*, *> -> CrystallizeFilter(value as Pair<Float, Color>)
+            is Filter.FractalGlass -> FractalGlassFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

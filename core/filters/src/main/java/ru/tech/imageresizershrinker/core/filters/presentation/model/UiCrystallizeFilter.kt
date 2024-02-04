@@ -18,13 +18,17 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
+import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
-class UiLogarithmicToneMappingFilter(
-    override val value: Float = 1f,
-) : UiFilter<Float>(
-    title = R.string.logarithmic_tone_mapping,
+class UiCrystallizeFilter(
+    override val value: Pair<Float, Color> = 1f to Color.Transparent
+) : UiFilter<Pair<Float, Color>>(
+    title = R.string.crystallize,
     value = value,
-    valueRange = 0f..4f
-), Filter.LogarithmicToneMapping<Bitmap>
+    paramsInfo = listOf(
+        R.string.amount paramTo 0.01f..2f,
+        R.string.stroke_color paramTo 0f..0f
+    )
+), Filter.Crystallize<Bitmap, Color>

@@ -15,16 +15,30 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.filters.presentation.model
+package ru.tech.imageresizershrinker.feature.filters.data
 
 import android.graphics.Bitmap
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import coil.size.Size
+import com.awxkee.aire.Aire
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.resources.R
 
-class UiLogarithmicToneMappingFilter(
-    override val value: Float = 1f,
-) : UiFilter<Float>(
-    title = R.string.logarithmic_tone_mapping,
-    value = value,
-    valueRange = 0f..4f
-), Filter.LogarithmicToneMapping<Bitmap>
+class CrystallizeFilter(
+    override val value: Pair<Float, Color> = 1f to Color.Transparent
+) : Transformation<Bitmap>, Filter.Crystallize<Bitmap, Color> {
+
+    override val cacheKey: String
+        get() = value.hashCode().toString()
+
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap = Aire.crystallize(
+        bitmap = input,
+        numClusters = (input.width * input.height * 0.01f * value.first).toInt(),
+        strokeColor = value.second.toArgb()
+    )
+
+}

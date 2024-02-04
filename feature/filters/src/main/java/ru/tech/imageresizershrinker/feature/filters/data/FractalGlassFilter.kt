@@ -15,16 +15,28 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.filters.presentation.model
+package ru.tech.imageresizershrinker.feature.filters.data
 
 import android.graphics.Bitmap
+import coil.size.Size
+import com.awxkee.aire.Aire
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.resources.R
 
-class UiLogarithmicToneMappingFilter(
-    override val value: Float = 1f,
-) : UiFilter<Float>(
-    title = R.string.logarithmic_tone_mapping,
-    value = value,
-    valueRange = 0f..4f
-), Filter.LogarithmicToneMapping<Bitmap>
+class FractalGlassFilter(
+    override val value: Pair<Float, Float> = 0.02f to 0.02f
+) : Transformation<Bitmap>, Filter.FractalGlass<Bitmap> {
+
+    override val cacheKey: String
+        get() = value.hashCode().toString()
+
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap = Aire.fractalGlass(
+        bitmap = input,
+        glassSize = value.first,
+        amplitude = value.second
+    )
+
+}

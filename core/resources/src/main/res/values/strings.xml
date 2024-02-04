@@ -710,5 +710,9 @@
     <string name="poisson_blur">Poisson Blur</string>
     <string name="logarithmic_tone_mapping">Logarithmic Tone Mapping</string>
     <string name="aces_filmic_tone_mapping">Aces Filmic Tone Mapping</string>
+    <string name="crystallize">Crystallize</string>
+    <string name="stroke_color">Stroke Color</string>
+    <string name="fractal_glass">Fractal Glass</string>
+    <string name="amplitude">Amplitude</string>
 
 </resources>

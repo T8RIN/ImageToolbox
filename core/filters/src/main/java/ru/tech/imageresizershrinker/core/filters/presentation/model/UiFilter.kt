@@ -121,6 +121,7 @@ sealed class UiFilter<T>(
                     UiMedianBlurFilter()
                 ),
                 listOf(
+                    UiCrystallizeFilter(),
                     UiPixelationFilter(),
                     UiEnhancedPixelationFilter(),
                     UiDiamondPixelationFilter(),
@@ -131,6 +132,7 @@ sealed class UiFilter<T>(
                 ),
                 listOf(
                     UiEnhancedGlitchFilter(),
+                    UiFractalGlassFilter(),
                     UiGlitchFilter(),
                     UiShuffleFilter(),
                     UiAnaglyphFilter(),

@@ -115,7 +115,7 @@ interface Filter<Image, Value> {
     interface PoissonBlur<Image> : Filter<Image, Float>
     interface LogarithmicToneMapping<Image> : Filter<Image, Float>
     interface AcesFilmicToneMapping<Image> : Filter<Image, Float>
-    interface Crystallize<Image, Color> : Filter<Image, Pair<Int, Color>>
+    interface Crystallize<Image, Color> : Filter<Image, Pair<Float, Color>>
     interface FractalGlass<Image> : Filter<Image, Pair<Float, Float>>
     interface Marble<Image> : Filter<Image, Triple<Float, Float, Float>>
     interface Oil<Image> : Filter<Image, Pair<Int, Float>>

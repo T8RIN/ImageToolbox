@@ -21,10 +21,13 @@ import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
-class UiLogarithmicToneMappingFilter(
-    override val value: Float = 1f,
-) : UiFilter<Float>(
-    title = R.string.logarithmic_tone_mapping,
+class UiFractalGlassFilter(
+    override val value: Pair<Float, Float> = 0.02f to 0.02f
+) : UiFilter<Pair<Float, Float>>(
+    title = R.string.fractal_glass,
     value = value,
-    valueRange = 0f..4f
-), Filter.LogarithmicToneMapping<Bitmap>
+    paramsInfo = listOf(
+        R.string.strength paramTo 0f..1f,
+        R.string.amplitude paramTo 0f..1f
+    )
+), Filter.FractalGlass<Bitmap>
