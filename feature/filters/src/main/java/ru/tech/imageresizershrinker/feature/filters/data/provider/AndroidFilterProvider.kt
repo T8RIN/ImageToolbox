@@ -26,6 +26,7 @@ import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.feature.filters.data.AcesFilmicToneMappingFilter
+import ru.tech.imageresizershrinker.feature.filters.data.AcesHillToneMappingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.AnaglyphFilter
 import ru.tech.imageresizershrinker.feature.filters.data.AnisotropicDiffusionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.AtkinsonDitheringFilter
@@ -67,8 +68,10 @@ import ru.tech.imageresizershrinker.feature.filters.data.GammaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.GaussianBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.GlassSphereRefractionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.GlitchFilter
+import ru.tech.imageresizershrinker.feature.filters.data.HableFilmicToneMappingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.HalftoneFilter
 import ru.tech.imageresizershrinker.feature.filters.data.HazeFilter
+import ru.tech.imageresizershrinker.feature.filters.data.HejlBurgessToneMappingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.HighlightsAndShadowsFilter
 import ru.tech.imageresizershrinker.feature.filters.data.HorizontalWindStaggerFilter
 import ru.tech.imageresizershrinker.feature.filters.data.HueFilter
@@ -88,6 +91,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.NoiseFilter
 import ru.tech.imageresizershrinker.feature.filters.data.NonMaximumSuppressionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.OilFilter
 import ru.tech.imageresizershrinker.feature.filters.data.OpacityFilter
+import ru.tech.imageresizershrinker.feature.filters.data.PerlinDistortionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.PixelSortFilter
 import ru.tech.imageresizershrinker.feature.filters.data.PixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.PoissonBlurFilter
@@ -238,6 +242,10 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Marble -> MarbleFilter(value)
             is Filter.Oil -> OilFilter(value)
             is Filter.WaterEffect -> WaterEffectFilter(value)
+            is Filter.PerlinDistortion -> PerlinDistortionFilter(value)
+            is Filter.HableFilmicToneMapping -> HableFilmicToneMappingFilter(value)
+            is Filter.AcesHillToneMapping -> AcesHillToneMappingFilter(value)
+            is Filter.HejlBurgessToneMapping -> HejlBurgessToneMappingFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

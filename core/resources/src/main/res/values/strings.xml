@@ -723,5 +723,9 @@
     <string name="frequency_y">Frequency Y</string>
     <string name="amplitude_x">Amplitude X</string>
     <string name="amplitude_y">Amplitude Y</string>
+    <string name="perlin_distortion">Perlin Distortion</string>
+    <string name="aces_hill_tone_mapping">Aces Hill Tone Mapping</string>
+    <string name="hable_filmic_tone_mapping">Hable Filmic Tone Mapping</string>
+    <string name="heji_burgess_tone_mapping">Hejl Burgess Tone Mapping</string>
 
 </resources>

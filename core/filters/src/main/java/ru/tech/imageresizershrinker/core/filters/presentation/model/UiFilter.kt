@@ -80,7 +80,10 @@ sealed class UiFilter<T>(
                     UiSolarizeFilter(),
                     UiHazeFilter(),
                     UiLogarithmicToneMappingFilter(),
-                    UiAcesFilmicToneMappingFilter()
+                    UiAcesFilmicToneMappingFilter(),
+                    UiAcesHillToneMappingFilter(),
+                    UiHableFilmicToneMappingFilter(),
+                    UiHejlBurgessToneMappingFilter()
                 ),
                 listOf(
                     UiSharpenFilter(),
@@ -138,6 +141,7 @@ sealed class UiFilter<T>(
                     UiShuffleFilter(),
                     UiMarbleFilter(),
                     UiWaterEffectFilter(),
+                    UiPerlinDistortionFilter(),
                     UiAnaglyphFilter(),
                     UiPixelSortFilter(),
                     UiHorizontalWindStaggerFilter(),

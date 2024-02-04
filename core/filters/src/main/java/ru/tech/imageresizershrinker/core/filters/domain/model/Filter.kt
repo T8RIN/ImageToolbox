@@ -120,4 +120,8 @@ interface Filter<Image, Value> {
     interface Marble<Image> : Filter<Image, Triple<Float, Float, Float>>
     interface Oil<Image> : Filter<Image, Pair<Int, Float>>
     interface WaterEffect<Image> : Filter<Image, WaterParams>
+    interface HableFilmicToneMapping<Image> : Filter<Image, Float>
+    interface AcesHillToneMapping<Image> : Filter<Image, Float>
+    interface HejlBurgessToneMapping<Image> : Filter<Image, Float>
+    interface PerlinDistortion<Image> : Filter<Image, Triple<Float, Float, Float>>
 }
