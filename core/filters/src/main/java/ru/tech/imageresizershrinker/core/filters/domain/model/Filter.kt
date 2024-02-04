@@ -111,4 +111,13 @@ interface Filter<Image, Value> {
     interface Erode<Image> : Filter<Image, Float>
     interface AnisotropicDiffusion<Image> : Filter<Image, Triple<Int, Float, Float>>
     interface HorizontalWindStagger<Image, Color> : Filter<Image, Triple<Float, Int, Color>>
+    interface FastBilaterialBlur<Image> : Filter<Image, Pair<Float, Float>>
+    interface PoissonBlur<Image> : Filter<Image, Float>
+    interface LogarithmicToneMapping<Image> : Filter<Image, Float>
+    interface AcesFilmicToneMapping<Image> : Filter<Image, Float>
+    interface Crystallize<Image, Color> : Filter<Image, Pair<Int, Color>>
+    interface FractalGlass<Image> : Filter<Image, Pair<Float, Float>>
+    interface Marble<Image> : Filter<Image, Triple<Float, Float, Float>>
+    interface Oil<Image> : Filter<Image, Pair<Int, Float>>
+    interface WaterEffect<Image> : Filter<Image, WaterParams>
 }

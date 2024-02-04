@@ -78,7 +78,9 @@ sealed class UiFilter<T>(
                     UiGammaFilter(),
                     UiHighlightsAndShadowsFilter(),
                     UiSolarizeFilter(),
-                    UiHazeFilter()
+                    UiHazeFilter(),
+                    UiLogarithmicToneMappingFilter(),
+                    UiAcesFilmicToneMappingFilter()
                 ),
                 listOf(
                     UiSharpenFilter(),
@@ -114,6 +116,8 @@ sealed class UiFilter<T>(
                     UiFastBlurFilter(),
                     UiZoomBlurFilter(),
                     UiAnisotropicDiffusionFilter(),
+                    UiFastBilaterialBlurFilter(),
+                    UiPoissonBlurFilter(),
                     UiMedianBlurFilter()
                 ),
                 listOf(

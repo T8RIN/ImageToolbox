@@ -706,5 +706,9 @@
     <string name="diffusion">Diffusion</string>
     <string name="conduction">Conduction</string>
     <string name="horizontal_wind_stagger">Horizontal Wind Stagger</string>
+    <string name="fast_bilaterial_blur">Fast Bilaterial Blur</string>
+    <string name="poisson_blur">Poisson Blur</string>
+    <string name="logarithmic_tone_mapping">Logarithmic Tone Mapping</string>
+    <string name="aces_filmic_tone_mapping">Aces Filmic Tone Mapping</string>
 
 </resources>

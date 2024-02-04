@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.filters.data.AcesFilmicToneMappingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.AnaglyphFilter
 import ru.tech.imageresizershrinker.feature.filters.data.AnisotropicDiffusionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.AtkinsonDitheringFilter
@@ -57,6 +58,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.ErodeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.ExposureFilter
 import ru.tech.imageresizershrinker.feature.filters.data.FalseColorFilter
 import ru.tech.imageresizershrinker.feature.filters.data.FalseFloydSteinbergDitheringFilter
+import ru.tech.imageresizershrinker.feature.filters.data.FastBilaterialBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.FastBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.FloydSteinbergDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.GammaFilter
@@ -72,6 +74,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.JarvisJudiceNinkeDither
 import ru.tech.imageresizershrinker.feature.filters.data.KuwaharaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.LaplacianFilter
 import ru.tech.imageresizershrinker.feature.filters.data.LeftToRightDitheringFilter
+import ru.tech.imageresizershrinker.feature.filters.data.LogarithmicToneMappingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.LookupFilter
 import ru.tech.imageresizershrinker.feature.filters.data.LuminanceThresholdFilter
 import ru.tech.imageresizershrinker.feature.filters.data.MedianBlurFilter
@@ -83,6 +86,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.NonMaximumSuppressionFi
 import ru.tech.imageresizershrinker.feature.filters.data.OpacityFilter
 import ru.tech.imageresizershrinker.feature.filters.data.PixelSortFilter
 import ru.tech.imageresizershrinker.feature.filters.data.PixelationFilter
+import ru.tech.imageresizershrinker.feature.filters.data.PoissonBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.PosterizeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.QuantizierFilter
 import ru.tech.imageresizershrinker.feature.filters.data.RGBFilter
@@ -220,6 +224,10 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Erode -> ErodeFilter(value)
             is Filter.AnisotropicDiffusion -> AnisotropicDiffusionFilter(value)
             is Filter.HorizontalWindStagger<*, *> -> HorizontalWindStaggerFilter(value as Triple<Float, Int, Color>)
+            is Filter.FastBilaterialBlur -> FastBilaterialBlurFilter(value)
+            is Filter.PoissonBlur -> PoissonBlurFilter(value)
+            is Filter.LogarithmicToneMapping -> LogarithmicToneMappingFilter(value)
+            is Filter.AcesFilmicToneMapping -> AcesFilmicToneMappingFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }
