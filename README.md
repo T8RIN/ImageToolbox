@@ -205,6 +205,7 @@ or click one of the badges below.
   - [x] Aces Hill Tone Mapping
   - [x] Hejl Burgess Tone Mapping
   - [x] Perlin Distortion
+  - [x] Grayscale 
 
   </details>
 
