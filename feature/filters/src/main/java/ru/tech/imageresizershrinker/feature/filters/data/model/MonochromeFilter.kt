@@ -20,9 +20,9 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import coil.size.Size
+import jp.co.cyberagent.android.gpuimage.GPUImageNativeLibrary
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.feature.filters.data.glitch.SmartGlitcher
 
 
 internal class MonochromeFilter(
@@ -40,10 +40,16 @@ internal class MonochromeFilter(
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = SmartGlitcher.monochrome(
-        input = input,
-        intensity = value.first,
-        filterColor = value.second
-    )
+    ): Bitmap {
+        val out = input.copy(input.config, true)
+        GPUImageNativeLibrary.monochrome(
+            out,
+            value.first,
+            value.second.red,
+            value.second.green,
+            value.second.blue
+        )
+        return out
+    }
 
 }

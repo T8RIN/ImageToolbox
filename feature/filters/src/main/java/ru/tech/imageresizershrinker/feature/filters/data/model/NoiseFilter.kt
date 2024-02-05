@@ -19,9 +19,9 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import coil.size.Size
+import jp.co.cyberagent.android.gpuimage.GPUImageNativeLibrary
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.feature.filters.data.glitch.SmartGlitcher
 
 internal class NoiseFilter(
     override val value: Float = 128f
@@ -33,6 +33,10 @@ internal class NoiseFilter(
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = SmartGlitcher.noise(input, value.toInt())
+    ): Bitmap {
+        val out = input.copy(input.config, true)
+        GPUImageNativeLibrary.noise(out, value.toInt())
+        return out
+    }
 
 }

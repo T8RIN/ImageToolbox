@@ -25,7 +25,9 @@ public class GPUImageNativeLibrary {
 
     public static native void YUVtoRBGA(byte[] yuv, int width, int height, int[] out);
 
-    public static native void YUVtoARBG(byte[] yuv, int width, int height, int[] out);
-
     public static native void adjustBitmap(Bitmap srcBitmap);
+
+    public static native void noise(Bitmap srcBitmap, int threshold);
+
+    public static native void monochrome(Bitmap srcBitmap, float intensity, float red, float green, float blue);
 }

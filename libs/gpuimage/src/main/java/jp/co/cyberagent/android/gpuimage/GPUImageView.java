@@ -405,12 +405,9 @@ public class GPUImageView extends FrameLayout {
 
         // Take picture on OpenGL thread
         final Bitmap resultBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        gpuImage.runOnGLThread(new Runnable() {
-            @Override
-            public void run() {
-                GPUImageNativeLibrary.adjustBitmap(resultBitmap);
-                waiter.release();
-            }
+        gpuImage.runOnGLThread(() -> {
+            GPUImageNativeLibrary.adjustBitmap(resultBitmap);
+            waiter.release();
         });
         requestRender();
         waiter.acquire();
