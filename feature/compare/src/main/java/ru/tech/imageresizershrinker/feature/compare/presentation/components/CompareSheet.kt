@@ -80,39 +80,33 @@ fun CompareSheet(
                 Column(
                     modifier = Modifier.navigationBarsPadding()
                 ) {
-                    data.let { (b, a) ->
-                        val before = remember(data) { b?.asImageBitmap() }
-                        val after = remember(data) { a?.asImageBitmap() }
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    start = 16.dp,
-                                    end = 16.dp,
-                                )
-                                .border(
-                                    width = settingsState.borderWidth,
-                                    color = MaterialTheme.colorScheme.outlineVariant(),
-                                    shape = RoundedCornerShape(4.dp)
-                                )
-                                .background(
-                                    color = MaterialTheme.colorScheme
-                                        .outlineVariant()
-                                        .copy(alpha = 0.1f),
-                                    shape = RoundedCornerShape(4.dp)
-                                )
-                                .weight(1f, false)
-                                .clip(RoundedCornerShape(4.dp))
-                                .zoomable(rememberZoomState(maxScale = 10f))
-                        ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .padding(horizontal = 16.dp)
+                            .border(
+                                settingsState.borderWidth,
+                                MaterialTheme.colorScheme.outlineVariant(),
+                                RoundedCornerShape(4.dp)
+                            )
+                            .clip(RoundedCornerShape(4.dp))
+                            .background(
+                                MaterialTheme.colorScheme
+                                    .outlineVariant()
+                                    .copy(alpha = 0.1f)
+                            )
+                            .transparencyChecker()
+                            .zoomable(rememberZoomState(maxScale = 10f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        data.let { (b, a) ->
+                            val before = remember(data) { b?.asImageBitmap() }
+                            val after = remember(data) { a?.asImageBitmap() }
                             if (before != null && after != null) {
                                 BeforeAfterImage(
                                     overlayStyle = OverlayStyle(),
-                                    modifier = Modifier
-                                        .padding(8.dp)
-                                        .clip(RoundedCornerShape(4.dp))
-                                        .align(Alignment.Center)
-                                        .transparencyChecker(),
+                                    modifier = Modifier.clip(RoundedCornerShape(4.dp)),
                                     progress = animateFloatAsState(targetValue = progress).value,
                                     onProgressChange = {
                                         progress = it
@@ -180,34 +174,28 @@ fun CompareSheet(
                 modifier = Modifier.navigationBarsPadding()
             ) {
                 Box(
-                    Modifier
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .padding(
-                            start = 16.dp,
-                            end = 16.dp,
-                        )
+                        .weight(1f)
+                        .padding(horizontal = 16.dp)
                         .border(
-                            width = settingsState.borderWidth,
-                            color = MaterialTheme.colorScheme.outlineVariant(),
-                            shape = shape
+                            settingsState.borderWidth,
+                            MaterialTheme.colorScheme.outlineVariant(),
+                            RoundedCornerShape(4.dp)
                         )
+                        .clip(RoundedCornerShape(4.dp))
                         .background(
-                            color = MaterialTheme.colorScheme
+                            MaterialTheme.colorScheme
                                 .outlineVariant()
-                                .copy(alpha = 0.1f),
-                            shape = shape
+                                .copy(alpha = 0.1f)
                         )
-                        .weight(1f, false)
-                        .clip(shape)
-                        .zoomable(rememberZoomState(maxScale = 10f))
+                        .transparencyChecker()
+                        .zoomable(rememberZoomState(maxScale = 10f)),
+                    contentAlignment = Alignment.Center
                 ) {
                     BeforeAfterLayout(
                         overlayStyle = OverlayStyle(),
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .clip(shape)
-                            .align(Alignment.Center)
-                            .transparencyChecker(),
+                        modifier = Modifier.clip(shape),
                         progress = animateFloatAsState(targetValue = progress).value,
                         onProgressChange = {
                             progress = it
