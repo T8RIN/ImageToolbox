@@ -103,8 +103,6 @@ interface Filter<Image, Value> {
     interface TiltShift<Image> : Filter<Image, TiltShiftParams>
     interface Glitch<Image> : Filter<Image, Triple<Float, Float, Float>>
     interface Noise<Image> : Filter<Image, Float>
-    interface Shuffle<Image> : Filter<Image, Unit>
-    interface PixelSort<Image> : Filter<Image, Unit>
     interface Anaglyph<Image> : Filter<Image, Float>
     interface EnhancedGlitch<Image> : Filter<Image, GlitchParams>
     interface TentBlur<Image> : Filter<Image, Float>

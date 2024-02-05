@@ -93,7 +93,6 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.NonMaximumSuppres
 import ru.tech.imageresizershrinker.feature.filters.data.model.OilFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.OpacityFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PerlinDistortionFilter
-import ru.tech.imageresizershrinker.feature.filters.data.model.PixelSortFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PoissonBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PosterizeFilter
@@ -105,7 +104,6 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.ReplaceColorFilte
 import ru.tech.imageresizershrinker.feature.filters.data.model.SaturationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SepiaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SharpenFilter
-import ru.tech.imageresizershrinker.feature.filters.data.model.ShuffleFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SideFadeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SierraDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SierraLiteDitheringFilter
@@ -224,9 +222,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.NativeStackBlur -> NativeStackBlurFilter(value)
             is Filter.TiltShift -> TiltShiftFilter(value)
             is Filter.Glitch -> glitchFilterFactory(value)
-            is Filter.Shuffle -> ShuffleFilter(value)
             is Filter.Anaglyph -> AnaglyphFilter(value)
-            is Filter.PixelSort -> PixelSortFilter(value)
             is Filter.Noise -> NoiseFilter(value)
             is Filter.EnhancedGlitch -> EnhancedGlitchFilter(value)
             is Filter.TentBlur -> TentBlurFilter(value)

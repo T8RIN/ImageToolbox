@@ -186,14 +186,6 @@ internal object SmartGlitcher {
         vv
     }
 
-    suspend fun shuffle(image: Bitmap): Bitmap = withContext(Dispatchers.IO) {
-        generateBitmap(image) { shuffleRow(it) }
-    }
-
-    suspend fun pixelSort(image: Bitmap): Bitmap = withContext(Dispatchers.IO) {
-        generateBitmap(image) { it.sorted() }
-    }
-
     suspend fun anaglyph(image: Bitmap, percentage: Int): Bitmap = withContext(Dispatchers.IO) {
         val anaglyphPaint = Paint()
         val anaglyphShader = BitmapShader(image, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
@@ -235,11 +227,6 @@ internal object SmartGlitcher {
         bitmap
     }
 
-    private fun shuffleRow(row: List<Int>): List<Int> {
-        val offset = Random().nextInt(row.size / 2)
-        return List(row.size) { ri -> row[(ri + offset) % row.size] }
-    }
-
     private suspend fun generateBitmap(
         image: Bitmap,
         action: (List<Int>) -> List<Int>
@@ -264,7 +251,6 @@ internal object SmartGlitcher {
 
         return@withContext rr
     }
-
 
     suspend fun monochrome(
         input: Bitmap,
