@@ -689,4 +689,25 @@
     <string name="erode">Эрозия</string>
     <string name="diffusion">Диффузия</string>
     <string name="conduction">Проводимость</string>
+    <string name="aces_filmic_tone_mapping">Кинематографичное отображение тонов ACES</string>
+    <string name="amplitude_x">Амплитуда Х</string>
+    <string name="aces_hill_tone_mapping">Холмистое отображение тонов ACES</string>
+    <string name="heji_burgess_tone_mapping">Отображение тонов Хейла Берджесса</string>
+    <string name="fast_bilaterial_blur">Быстрое двухстороннее размытие</string>
+    <string name="poisson_blur">Пуассоновое размытие</string>
+    <string name="logarithmic_tone_mapping">Логарифмическое отображение тонов</string>
+    <string name="crystallize">Кристаллизация</string>
+    <string name="stroke_color">Цвет обводки</string>
+    <string name="fractal_glass">Фрактальное стекло</string>
+    <string name="turbulence">Турбулентность</string>
+    <string name="amplitude">Амплитуда</string>
+    <string name="marble">Мрамор</string>
+    <string name="oil">Масло</string>
+    <string name="water_effect">Эффект воды</string>
+    <string name="just_size">Размер</string>
+    <string name="frequency_y">Частота У</string>
+    <string name="perlin_distortion">Искажение Перлина</string>
+    <string name="frequency_x">Частота Х</string>
+    <string name="amplitude_y">Амплитуда У</string>
+    <string name="hable_filmic_tone_mapping">Кинематографическое отображение тонов Хэйбла</string>
 </resources>
