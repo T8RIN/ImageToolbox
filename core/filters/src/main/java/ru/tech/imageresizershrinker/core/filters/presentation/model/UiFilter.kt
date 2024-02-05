@@ -182,9 +182,14 @@ sealed class UiFilter<T>(
 
 }
 
-fun Filter<Bitmap, *>.toUiFilter(): UiFilter<*> = UiFilter::class.sealedSubclasses.first {
+private val sealedValues = UiFilter::class.sealedSubclasses
+
+fun Filter<Bitmap, *>.toUiFilter(): UiFilter<*> = sealedValues.first {
     it.java.isAssignableFrom(this::class.java)
-}.primaryConstructor!!.run { callBy(mapOf(parameters[0] to value)) }
+}.primaryConstructor!!.run {
+    if (parameters.isNotEmpty()) callBy(mapOf(parameters[0] to value))
+    else callBy(emptyMap())
+}
 
 infix fun Int.paramTo(valueRange: ClosedFloatingPointRange<Float>) = FilterParam(
     title = this,
