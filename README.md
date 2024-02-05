@@ -428,7 +428,13 @@ And __[follow](https://github.com/t8rin)__ me for my next creations! 🤩
 
 # ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=t8rin/ImageResizer&type=Date)](https://star-history.com/#t8rin/ImageResizer&Date)
+<a href="https://star-history.com/#T8RIN/ImageToolbox&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=T8RIN/ImageToolbox&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=T8RIN/ImageToolbox&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=T8RIN/ImageToolbox&type=Date" />
+  </picture>
+</a>
 
 # 📢 Contributors
 
