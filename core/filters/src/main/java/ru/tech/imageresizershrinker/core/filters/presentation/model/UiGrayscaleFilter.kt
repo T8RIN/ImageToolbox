@@ -18,30 +18,27 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
-class UiMonochromeFilter(
-    override val value: Pair<Float, Color> = 1f to Color(
-        red = 0.6f,
-        green = 0.45f,
-        blue = 0.3f,
-        alpha = 1.0f
-    ),
-) : UiFilter<Pair<Float, Color>>(
-    title = R.string.monochrome,
+class UiGrayscaleFilter(
+    override val value: Triple<Float, Float, Float> = Triple(0.299f, 0.587f, 0.114f)
+) : UiFilter<Triple<Float, Float, Float>>(
+    title = R.string.gray_scale,
     value = value,
     paramsInfo = listOf(
         FilterParam(
-            title = R.string.strength,
-            valueRange = 0f..1f,
-            roundTo = 2
+            title = R.string.color_red,
+            valueRange = 0f..1f
         ),
         FilterParam(
-            title = R.string.color,
-            valueRange = 0f..0f
+            title = R.string.color_green,
+            valueRange = 0f..1f
+        ),
+        FilterParam(
+            title = R.string.color_blue,
+            valueRange = 0f..1f
         )
     )
-), Filter.Monochrome<Bitmap, Color>
+), Filter.Grayscale<Bitmap>

@@ -63,6 +63,7 @@ sealed class UiFilter<T>(
                     UiRemoveColorFilter(),
                     UiFalseColorFilter(),
                     UiCGAColorSpaceFilter(),
+                    UiGrayscaleFilter(),
                     UiMonochromeFilter(),
                     UiSepiaFilter(),
                     UiNegativeFilter(),

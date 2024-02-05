@@ -28,6 +28,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.feature.image_stitch.data.AndroidImageCombiner
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.ImageCombiner
 import javax.inject.Singleton
@@ -43,12 +44,14 @@ internal object ImageStitchModule {
         imageScaler: ImageScaler<Bitmap>,
         imageTransformer: ImageTransformer<Bitmap>,
         shareProvider: ShareProvider<Bitmap>,
+        filterProvider: FilterProvider<Bitmap>,
         imagePreviewCreator: ImagePreviewCreator<Bitmap>
     ): ImageCombiner<Bitmap> = AndroidImageCombiner(
         imageScaler = imageScaler,
         imageGetter = imageGetter,
         imageTransformer = imageTransformer,
         shareProvider = shareProvider,
+        filterProvider = filterProvider,
         imagePreviewCreator = imagePreviewCreator
     )
 

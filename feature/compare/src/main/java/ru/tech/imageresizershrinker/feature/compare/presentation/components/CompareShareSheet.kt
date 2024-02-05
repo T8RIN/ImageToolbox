@@ -57,7 +57,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 
 @Composable
-fun CompareShareSheet(
+internal fun CompareShareSheet(
     visible: Boolean,
     onVisibleChange: (Boolean) -> Unit,
     onSaveBitmap: (ImageFormat) -> Unit,

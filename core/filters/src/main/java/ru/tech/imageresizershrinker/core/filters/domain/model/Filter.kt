@@ -49,7 +49,7 @@ interface Filter<Image, Value> {
     interface Laplacian<Image> : Filter<Image, Unit>
     interface Lookup<Image> : Filter<Image, Float>
     interface LuminanceThreshold<Image> : Filter<Image, Float>
-    interface Monochrome<Image> : Filter<Image, Float>
+    interface Monochrome<Image, Color> : Filter<Image, Pair<Float, Color>>
     interface Negative<Image> : Filter<Image, Unit>
     interface NonMaximumSuppression<Image> : Filter<Image, Unit>
     interface Opacity<Image> : Filter<Image, Float>
@@ -124,4 +124,5 @@ interface Filter<Image, Value> {
     interface AcesHillToneMapping<Image> : Filter<Image, Float>
     interface HejlBurgessToneMapping<Image> : Filter<Image, Float>
     interface PerlinDistortion<Image> : Filter<Image, Triple<Float, Float, Float>>
+    interface Grayscale<Image> : Filter<Image, Triple<Float, Float, Float>>
 }

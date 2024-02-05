@@ -15,33 +15,27 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.filters.presentation.model
+package ru.tech.imageresizershrinker.feature.filters.data.model
 
+import android.content.Context
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
+import android.graphics.PointF
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageBulgeDistortionFilter
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
-import ru.tech.imageresizershrinker.core.resources.R
 
-class UiMonochromeFilter(
-    override val value: Pair<Float, Color> = 1f to Color(
-        red = 0.6f,
-        green = 0.45f,
-        blue = 0.3f,
-        alpha = 1.0f
-    ),
-) : UiFilter<Pair<Float, Color>>(
-    title = R.string.monochrome,
-    value = value,
-    paramsInfo = listOf(
-        FilterParam(
-            title = R.string.strength,
-            valueRange = 0f..1f,
-            roundTo = 2
-        ),
-        FilterParam(
-            title = R.string.color,
-            valueRange = 0f..0f
-        )
+
+internal class BulgeDistortionFilter(
+    private val context: Context,
+    override val value: Pair<Float, Float> = 0.25f to 0.5f,
+) : GPUFilterTransformation(context), Filter.BulgeDistortion<Bitmap> {
+
+    override val cacheKey: String
+        get() = (value to context).hashCode().toString()
+
+    override fun createFilter(): GPUImageFilter = GPUImageBulgeDistortionFilter(
+        /* radius = */ value.first,
+        /* scale = */value.second,
+        /* center = */PointF(0.5f, 0.5f)
     )
-), Filter.Monochrome<Bitmap, Color>
+}

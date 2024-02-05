@@ -30,8 +30,8 @@ import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
-import ru.tech.imageresizershrinker.feature.filters.data.GlitchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.applier.AndroidFilterMaskApplier
+import ru.tech.imageresizershrinker.feature.filters.data.model.GlitchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.provider.AndroidFilterProvider
 import ru.tech.imageresizershrinker.feature.filters.domain.FilterMaskApplier
 import javax.inject.Singleton
