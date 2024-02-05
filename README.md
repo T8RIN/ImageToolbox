@@ -185,8 +185,6 @@ or click one of the badges below.
   - [x] Enhanced Glitch Effect
   - [x] Anaglyph
   - [x] Noise
-  - [x] Pixel Sort
-  - [x] Shuffle Pixels
   - [x] Tent Blur
   - [x] Side Fade
   - [x] Erode
