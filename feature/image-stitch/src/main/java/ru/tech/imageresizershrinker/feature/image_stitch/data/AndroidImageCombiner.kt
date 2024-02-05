@@ -36,6 +36,7 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.ImageWithSize
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.domain.model.withSize
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
@@ -330,7 +331,7 @@ internal class AndroidImageCombiner @Inject constructor(
         imageUris: List<String>,
         combiningParams: CombiningParams,
         imageFormat: ImageFormat,
-        quality: Float,
+        quality: Quality,
         onGetByteCount: (Int) -> Unit
     ): ImageWithSize<Bitmap> = withContext(Dispatchers.IO) {
         val imageSize = calculateCombinedImageDimensions(

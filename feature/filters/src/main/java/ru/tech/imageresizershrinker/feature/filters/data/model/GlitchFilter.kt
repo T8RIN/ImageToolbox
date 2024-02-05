@@ -27,6 +27,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.feature.filters.data.glitch.SimpleGlitcher
 
@@ -50,7 +51,7 @@ internal class GlitchFilter @AssistedInject internal constructor(
         imageCompressor.compress(
             image = input,
             imageFormat = ImageFormat.Jpeg,
-            quality = 100f,
+            quality = Quality.Base(100),
         )
     ).let {
         imageGetter.getImage(it) ?: input

@@ -20,13 +20,14 @@ package ru.tech.imageresizershrinker.core.domain.image
 import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.Quality
 
 interface ImageCompressor<Image> {
 
     suspend fun compress(
         image: Image,
         imageFormat: ImageFormat,
-        quality: Float
+        quality: Quality
     ): ByteArray
 
     suspend fun compressAndTransform(

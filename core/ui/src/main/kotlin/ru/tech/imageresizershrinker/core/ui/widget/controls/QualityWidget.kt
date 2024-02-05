@@ -22,14 +22,18 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Speed
+import androidx.compose.material.icons.rounded.Stream
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -42,35 +46,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.QualityHigh
 import ru.tech.imageresizershrinker.core.ui.icons.material.QualityLow
 import ru.tech.imageresizershrinker.core.ui.icons.material.QualityMedium
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
-//TODO: Add jxl speed handling
-
 @Composable
 fun QualityWidget(
     imageFormat: ImageFormat,
     enabled: Boolean,
-    quality: Float,
-    onQualityChange: (Float) -> Unit
+    quality: Quality,
+    onQualityChange: (Quality) -> Unit
 ) {
     val visible = imageFormat.canChangeCompressionValue
 
-    val isQuality = imageFormat.compressionType is ImageFormat.Companion.CompressionType.Quality
-    val isEffort = imageFormat.compressionType is ImageFormat.Companion.CompressionType.Effort
-
-    val compressingLiteral = if (isQuality) "%" else ""
-
-    val currentIcon by remember(quality) {
-        derivedStateOf {
-            when {
-                imageFormat.isHighQuality(quality) -> Icons.Rounded.QualityHigh
-                imageFormat.isMidQuality(quality) -> Icons.Rounded.QualityMedium
-                else -> Icons.Rounded.QualityLow
-            }
+    LaunchedEffect(imageFormat, quality) {
+        if (imageFormat is ImageFormat.Jxl && quality !is Quality.Jxl) {
+            onQualityChange(Quality.Jxl(qualityValue = quality.qualityValue))
         }
     }
 
@@ -88,38 +82,105 @@ fun QualityWidget(
                 } else Color.Unspecified
             )
         ) {
-            EnhancedSliderItem(
-                value = quality,
-                title = if (!isEffort) {
-                    stringResource(R.string.quality)
-                } else stringResource(R.string.effort),
-                icon = currentIcon,
-                valueRange = imageFormat.compressionRange.let { it.first.toFloat()..it.last.toFloat() },
-                steps = imageFormat.compressionRange.let { it.last - it.first - 1 },
-                internalStateTransformation = {
-                    it.toInt().coerceIn(imageFormat.compressionRange).toFloat()
-                },
-                onValueChange = {
-                    onQualityChange(it)
-                },
-                valueSuffix = " $compressingLiteral",
-                shape = RoundedCornerShape(24.dp)
+            Column(
+                modifier = Modifier.container(RoundedCornerShape(24.dp))
             ) {
-                AnimatedVisibility(isEffort) {
-                    Text(
-                        text = stringResource(
-                            R.string.effort_sub,
-                            imageFormat.compressionRange.first,
-                            imageFormat.compressionRange.last
-                        ),
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Center,
-                        lineHeight = 12.sp,
-                        color = LocalContentColor.current.copy(0.5f),
-                        modifier = Modifier
-                            .padding(4.dp)
-                            .container(RoundedCornerShape(20.dp))
-                            .padding(4.dp)
+                imageFormat.compressionTypes.forEach { type ->
+                    val currentIcon by remember(quality) {
+                        derivedStateOf {
+                            when {
+                                imageFormat.isHighQuality(quality.qualityValue) -> Icons.Rounded.QualityHigh
+                                imageFormat.isMidQuality(quality.qualityValue) -> Icons.Rounded.QualityMedium
+                                else -> Icons.Rounded.QualityLow
+                            }
+                        }
+                    }
+
+                    val isQuality = type is ImageFormat.Companion.CompressionType.Quality
+                    val isEffort = type is ImageFormat.Companion.CompressionType.Effort
+
+                    val compressingLiteral = if (isQuality) "%" else ""
+
+                    EnhancedSliderItem(
+                        value = when (type) {
+                            is ImageFormat.Companion.CompressionType.Effort -> {
+                                when (quality) {
+                                    is Quality.Base -> quality.qualityValue
+                                    is Quality.Jxl -> quality.effort
+                                }
+                            }
+
+                            is ImageFormat.Companion.CompressionType.Quality -> quality.qualityValue
+                        },
+                        title = if (isQuality) {
+                            stringResource(R.string.quality)
+                        } else stringResource(R.string.effort),
+                        icon = if (isQuality) currentIcon else Icons.Rounded.Stream,
+                        valueRange = type.compressionRange.let { it.first.toFloat()..it.last.toFloat() },
+                        steps = type.compressionRange.let { it.last - it.first - 1 },
+                        internalStateTransformation = {
+                            it.toInt().coerceIn(type.compressionRange).toFloat()
+                        },
+                        onValueChange = {
+                            when (type) {
+                                is ImageFormat.Companion.CompressionType.Effort -> {
+                                    onQualityChange(
+                                        when (quality) {
+                                            is Quality.Base -> quality.copy(qualityValue = it.toInt())
+                                            is Quality.Jxl -> quality.copy(effort = it.toInt())
+                                        }
+                                    )
+                                }
+
+                                is ImageFormat.Companion.CompressionType.Quality -> {
+                                    onQualityChange(
+                                        when (quality) {
+                                            is Quality.Base -> quality.copy(qualityValue = it.toInt())
+                                            is Quality.Jxl -> quality.copy(qualityValue = it.toInt())
+                                        }
+                                    )
+                                }
+                            }
+                        },
+                        valueSuffix = " $compressingLiteral",
+                        behaveAsContainer = false
+                    ) {
+                        AnimatedVisibility(isEffort) {
+                            Text(
+                                text = stringResource(
+                                    R.string.effort_sub,
+                                    type.compressionRange.first,
+                                    type.compressionRange.last
+                                ),
+                                fontSize = 12.sp,
+                                textAlign = TextAlign.Center,
+                                lineHeight = 12.sp,
+                                color = LocalContentColor.current.copy(0.5f),
+                                modifier = Modifier
+                                    .padding(4.dp)
+                                    .container(RoundedCornerShape(20.dp))
+                                    .padding(4.dp)
+                            )
+                        }
+                    }
+                }
+                AnimatedVisibility(imageFormat is ImageFormat.Jxl) {
+                    val jxlQuality = quality as? Quality.Jxl
+                    EnhancedSliderItem(
+                        value = jxlQuality?.speed ?: 0,
+                        title = stringResource(R.string.speed),
+                        icon = Icons.Rounded.Speed,
+                        valueRange = 0f..4f,
+                        steps = 4,
+                        internalStateTransformation = {
+                            it.toInt().coerceIn(0..4).toFloat()
+                        },
+                        onValueChange = {
+                            jxlQuality?.copy(
+                                speed = it.toInt()
+                            )?.let(onQualityChange)
+                        },
+                        behaveAsContainer = false
                     )
                 }
             }
@@ -127,12 +188,12 @@ fun QualityWidget(
     }
 }
 
-private fun ImageFormat.isHighQuality(quality: Float): Boolean {
-    val range = compressionRange.run { endInclusive - start }
+private fun ImageFormat.isHighQuality(quality: Int): Boolean {
+    val range = compressionTypes[0].compressionRange.run { endInclusive - start }
     return quality > range * (4 / 5f)
 }
 
-private fun ImageFormat.isMidQuality(quality: Float): Boolean {
-    val range = compressionRange.run { endInclusive - start }
+private fun ImageFormat.isMidQuality(quality: Int): Boolean {
+    val range = compressionTypes[0].compressionRange.run { endInclusive - start }
     return quality > range * (2 / 5f)
 }

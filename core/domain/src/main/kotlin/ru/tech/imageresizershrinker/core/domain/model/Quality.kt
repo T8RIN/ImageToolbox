@@ -15,27 +15,23 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.gif_tools.domain
+package ru.tech.imageresizershrinker.core.domain.model
 
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.domain.model.Quality
+import androidx.annotation.IntRange
 
-data class GifParams(
-    val size: IntegerSize?,
-    val repeatCount: Int,
-    val delay: Int,
-    val fps: Int,
-    val quality: Quality
+sealed class Quality(
+    open val qualityValue: Int
 ) {
-    companion object {
-        val Default by lazy {
-            GifParams(
-                size = null,
-                repeatCount = 1,
-                delay = 0,
-                fps = 12,
-                quality = Quality.Base(50)
-            )
-        }
-    }
+    data class Jxl(
+        @IntRange(from = 0, to = 100)
+        override val qualityValue: Int = 100,
+        @IntRange(from = 1, to = 9)
+        val effort: Int = 7,
+        @IntRange(from = 0, to = 5)
+        val speed: Int = 2
+    ) : Quality(qualityValue)
+
+    data class Base(
+        override val qualityValue: Int = 100
+    ) : Quality(qualityValue)
 }

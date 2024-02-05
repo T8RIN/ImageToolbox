@@ -38,6 +38,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
@@ -317,8 +318,8 @@ class GifToolsViewModel @Inject constructor(
         _imageFormat.update { imageFormat }
     }
 
-    fun setQuality(value: Float) {
-        _params.update { it.copy(quality = value) }
+    fun setQuality(quality: Quality) {
+        _params.update { it.copy(quality = quality) }
     }
 
     fun updateParams(params: GifParams) {

@@ -23,7 +23,7 @@ import ru.tech.imageresizershrinker.core.domain.Domain
 data class ImageInfo(
     val width: Int = 0,
     val height: Int = 0,
-    val quality: Float = 100f,
+    val quality: Quality = Quality.Base(),
     val imageFormat: ImageFormat = ImageFormat.Default(),
     val resizeType: ResizeType = ResizeType.Explicit,
     val rotationDegrees: Float = 0f,
@@ -33,6 +33,6 @@ data class ImageInfo(
 ) : Domain {
     fun haveChanges(original: Bitmap?): Boolean {
         if (original == null) return false
-        return quality != 100f || rotationDegrees != 0f || isFlipped || width != original.width || height != original.height
+        return quality.qualityValue != 100 || rotationDegrees != 0f || isFlipped || width != original.width || height != original.height
     }
 }

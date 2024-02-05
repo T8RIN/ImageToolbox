@@ -36,6 +36,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.Preset
+import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
@@ -399,7 +400,14 @@ class PdfToolsViewModel @Inject constructor(
     fun selectPreset(preset: Preset.Numeric) {
         _presetSelected.update { preset }
         preset.value()?.takeIf { it <= 100f }?.let { quality ->
-            _imageInfo.update { it.copy(quality = quality.toFloat()) }
+            _imageInfo.update {
+                it.copy(
+                    quality = when (val q = it.quality) {
+                        is Quality.Base -> q.copy(qualityValue = quality)
+                        is Quality.Jxl -> q.copy(qualityValue = quality)
+                    }
+                )
+            }
         }
         checkForOOM()
     }
@@ -417,9 +425,9 @@ class PdfToolsViewModel @Inject constructor(
         }
     }
 
-    fun setQuality(value: Float) {
+    fun setQuality(quality: Quality) {
         _imageInfo.update {
-            it.copy(quality = value)
+            it.copy(quality = quality)
         }
     }
 

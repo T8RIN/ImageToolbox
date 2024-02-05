@@ -44,6 +44,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
@@ -376,8 +377,8 @@ class FilterViewModel @Inject constructor(
         }
     }
 
-    fun setQuality(fl: Float) {
-        _imageInfo.value = _imageInfo.value.copy(quality = fl)
+    fun setQuality(quality: Quality) {
+        _imageInfo.value = _imageInfo.value.copy(quality = quality)
         updatePreview()
     }
 

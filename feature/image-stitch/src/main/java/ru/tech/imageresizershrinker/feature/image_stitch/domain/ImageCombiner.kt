@@ -21,6 +21,7 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.ImageWithSize
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.Quality
 
 interface ImageCombiner<I> {
 
@@ -39,7 +40,7 @@ interface ImageCombiner<I> {
         imageUris: List<String>,
         combiningParams: CombiningParams,
         imageFormat: ImageFormat,
-        quality: Float,
+        quality: Quality,
         onGetByteCount: (Int) -> Unit
     ): ImageWithSize<I>
 

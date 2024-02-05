@@ -512,7 +512,7 @@ fun PdfToolsScreen(
                 QualityWidget(
                     imageFormat = viewModel.imageInfo.imageFormat,
                     enabled = true,
-                    quality = viewModel.imageInfo.quality.coerceIn(0f, 100f),
+                    quality = viewModel.imageInfo.quality,
                     onQualityChange = viewModel::setQuality
                 )
                 Spacer(

@@ -33,6 +33,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifConverter
 import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifFrames
 import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifParams
@@ -50,7 +51,7 @@ internal class AndroidGifConverter @Inject constructor(
         gifUri: String,
         imageFormat: ImageFormat,
         gifFrames: GifFrames,
-        quality: Float,
+        quality: Quality,
         onGetFramesCount: (frames: Int) -> Unit
     ): Flow<String> = flow {
         val bytes = runCatching {
@@ -102,7 +103,7 @@ internal class AndroidGifConverter @Inject constructor(
             repeat = params.repeatCount
             delay = params.delay
             setQuality(
-                (100 - ((params.quality - 1) * (100 / 19f))).toInt()
+                (100 - ((params.quality.qualityValue - 1) * (100 / 19f))).toInt()
             )
             setFrameRate(params.fps.toFloat())
             start(out)

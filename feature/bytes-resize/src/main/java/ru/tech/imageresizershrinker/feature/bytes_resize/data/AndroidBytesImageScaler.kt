@@ -26,6 +26,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.feature.bytes_resize.domain.BytesImageScaler
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -77,7 +78,9 @@ internal class AndroidBytesImageScaler @Inject constructor(
                         imageCompressor.compressAndTransform(
                             image = image,
                             imageInfo = ImageInfo(
-                                quality = compressQuality.toFloat(),
+                                quality = if (imageFormat is ImageFormat.Jxl) {
+                                    Quality.Jxl(compressQuality)
+                                } else Quality.Base(compressQuality),
                                 imageFormat = imageFormat
                             )
                         )
@@ -104,7 +107,9 @@ internal class AndroidBytesImageScaler @Inject constructor(
                                 imageCompressor.compressAndTransform(
                                     image = image,
                                     imageInfo = ImageInfo(
-                                        quality = compressQuality.toFloat(),
+                                        quality = if (imageFormat is ImageFormat.Jxl) {
+                                            Quality.Jxl(compressQuality)
+                                        } else Quality.Base(compressQuality),
                                         imageFormat = imageFormat,
                                         width = newSize.first,
                                         height = newSize.second
@@ -117,11 +122,13 @@ internal class AndroidBytesImageScaler @Inject constructor(
                 }
                 BitmapFactory.decodeStream(ByteArrayInputStream(bmpStream.toByteArray())) to compressQuality
             } else null
-        }.getOrNull()?.let {
-            it.first to ImageInfo(
-                width = it.first.width,
-                height = it.first.height,
-                quality = it.second.toFloat()
+        }.getOrNull()?.let { (bitmap, compressQuality) ->
+            bitmap to ImageInfo(
+                width = bitmap.width,
+                height = bitmap.height,
+                quality = if (imageFormat is ImageFormat.Jxl) {
+                    Quality.Jxl(compressQuality)
+                } else Quality.Base(compressQuality)
             )
         }
     }

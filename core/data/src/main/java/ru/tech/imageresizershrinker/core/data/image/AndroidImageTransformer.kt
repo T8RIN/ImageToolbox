@@ -36,6 +36,7 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Preset
+import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import javax.inject.Inject
 import kotlin.math.abs
@@ -111,12 +112,15 @@ internal class AndroidImageTransformer @Inject constructor(
                     height = 512,
                     imageFormat = ImageFormat.Png,
                     resizeType = ResizeType.Flexible,
-                    quality = 100f
+                    quality = Quality.Base(100)
                 )
             }
 
             is Preset.Numeric -> currentInfo.copy(
-                quality = preset.value.toFloat(),
+                quality = when (val quality = currentInfo.quality) {
+                    is Quality.Base -> quality.copy(qualityValue = preset.value)
+                    is Quality.Jxl -> quality.copy(qualityValue = preset.value)
+                },
                 width = image.width().calc(preset.value),
                 height = image.height().calc(preset.value),
             )

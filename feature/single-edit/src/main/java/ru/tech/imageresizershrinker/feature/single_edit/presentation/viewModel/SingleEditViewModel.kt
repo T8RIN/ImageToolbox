@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Preset
+import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
@@ -331,9 +332,9 @@ class SingleEditViewModel @Inject constructor(
         }
     }
 
-    fun setQuality(quality: Float) {
+    fun setQuality(quality: Quality) {
         if (_imageInfo.value.quality != quality) {
-            _imageInfo.value = _imageInfo.value.copy(quality = quality.coerceIn(0f, 100f))
+            _imageInfo.value = _imageInfo.value.copy(quality = quality)
             debouncedImageCalculation {
                 checkBitmapAndUpdate()
             }

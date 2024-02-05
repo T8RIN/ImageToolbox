@@ -307,7 +307,7 @@ fun SingleEditScreen(
             QualityWidget(
                 imageFormat = imageInfo.imageFormat,
                 enabled = viewModel.bitmap != null,
-                quality = imageInfo.quality.coerceIn(0f, 100f),
+                quality = imageInfo.quality,
                 onQualityChange = viewModel::setQuality
             )
             Spacer(Modifier.height(8.dp))

@@ -25,8 +25,7 @@ sealed class ImageFormat(
     val type: String,
     val canChangeCompressionValue: Boolean,
     val canWriteExif: Boolean = false,
-    val compressionRange: IntRange = 0..100,
-    val compressionType: CompressionType = CompressionType.Quality
+    val compressionTypes: List<CompressionType> = listOf(CompressionType.Quality(0..100))
 ) : Domain {
     data object Png : ImageFormat(
         title = "PNG",
@@ -54,23 +53,23 @@ sealed class ImageFormat(
 
     sealed class Webp(
         title: String,
-        compressionType: CompressionType
+        compressionTypes: List<CompressionType>
     ) : ImageFormat(
         extension = "webp",
         type = "image/webp",
         canChangeCompressionValue = true,
         title = title,
         canWriteExif = true,
-        compressionType = compressionType
+        compressionTypes = compressionTypes
     ) {
         data object Lossless : Webp(
             title = "WEBP Lossless",
-            compressionType = CompressionType.Effort
+            compressionTypes = listOf(CompressionType.Effort(0..100))
         )
 
         data object Lossy : Webp(
             title = "WEBP Lossy",
-            compressionType = CompressionType.Quality
+            compressionTypes = listOf(CompressionType.Quality(0..100))
         )
     }
 
@@ -102,23 +101,43 @@ sealed class ImageFormat(
         canChangeCompressionValue = true
     )
 
-    sealed class Jxl(title: String) : ImageFormat(
+    sealed class Jxl(
+        title: String,
+        compressionTypes: List<CompressionType>
+    ) : ImageFormat(
         extension = "jxl",
         type = "image/jxl",
         canChangeCompressionValue = true,
         title = title,
-        compressionRange = 1..9,
-        compressionType = CompressionType.Effort
+        compressionTypes = compressionTypes
     ) {
-        data object Lossless : Jxl(title = "JXL Lossless")
+        data object Lossless : Jxl(
+            title = "JXL Lossless",
+            compressionTypes = listOf(
+                CompressionType.Effort(1..9)
+            )
+        )
 
-        data object Lossy : Jxl(title = "JXL Lossy")
+        data object Lossy : Jxl(
+            title = "JXL Lossy",
+            compressionTypes = listOf(
+                CompressionType.Quality(0..100),
+                CompressionType.Effort(1..9)
+            )
+        )
     }
 
     companion object {
-        sealed class CompressionType {
-            data object Quality : CompressionType()
-            data object Effort : CompressionType()
+        sealed class CompressionType(
+            open val compressionRange: IntRange = 0..100
+        ) {
+            data class Quality(
+                override val compressionRange: IntRange = 0..100
+            ) : CompressionType(compressionRange)
+
+            data class Effort(
+                override val compressionRange: IntRange = 0..100
+            ) : CompressionType(compressionRange)
         }
 
         fun Default(): ImageFormat = Jpg

@@ -37,6 +37,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
@@ -84,7 +85,7 @@ class LoadNetImageViewModel @Inject constructor(
                             data = imageCompressor.compress(
                                 image = bitmap,
                                 imageFormat = ImageFormat.Png,
-                                quality = 100f
+                                quality = Quality.Base(100)
                             )
                         ),
                         keepMetadata = false

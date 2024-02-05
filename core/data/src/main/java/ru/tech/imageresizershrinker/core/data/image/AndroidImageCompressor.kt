@@ -25,6 +25,7 @@ import android.os.Build
 import com.awxkee.jxlcoder.JxlCoder
 import com.awxkee.jxlcoder.JxlColorSpace
 import com.awxkee.jxlcoder.JxlCompressionOption
+import com.awxkee.jxlcoder.JxlDecodingSpeed
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -34,6 +35,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.Quality
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
@@ -46,7 +48,7 @@ internal class AndroidImageCompressor @Inject constructor(
     override suspend fun compress(
         image: Bitmap,
         imageFormat: ImageFormat,
-        quality: Float
+        quality: Quality
     ): ByteArray = withContext(Dispatchers.IO) {
         val heifCoder = HeifCoder(context)
         val jxlCoder = JxlCoder()
@@ -57,7 +59,7 @@ internal class AndroidImageCompressor @Inject constructor(
                 val out = ByteArrayOutputStream()
                 image.compress(
                     Bitmap.CompressFormat.JPEG,
-                    quality.toInt().coerceIn(imageFormat.compressionRange),
+                    quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
                     out
                 )
                 out.toByteArray()
@@ -67,7 +69,7 @@ internal class AndroidImageCompressor @Inject constructor(
                 val out = ByteArrayOutputStream()
                 image.compress(
                     Bitmap.CompressFormat.PNG,
-                    quality.toInt().coerceIn(imageFormat.compressionRange),
+                    quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
                     out
                 )
                 out.toByteArray()
@@ -79,12 +81,12 @@ internal class AndroidImageCompressor @Inject constructor(
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     image.compress(
                         Bitmap.CompressFormat.WEBP_LOSSLESS,
-                        quality.toInt().coerceIn(imageFormat.compressionRange),
+                        quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
                         out
                     )
                 } else image.compress(
                     Bitmap.CompressFormat.WEBP,
-                    quality.toInt().coerceIn(imageFormat.compressionRange),
+                    quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
                     out
                 )
                 out.toByteArray()
@@ -96,12 +98,12 @@ internal class AndroidImageCompressor @Inject constructor(
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     image.compress(
                         Bitmap.CompressFormat.WEBP_LOSSY,
-                        quality.toInt().coerceIn(imageFormat.compressionRange),
+                        quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
                         out
                     )
                 } else image.compress(
                     Bitmap.CompressFormat.WEBP,
-                    quality.toInt().coerceIn(imageFormat.compressionRange),
+                    quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
                     out
                 )
                 out.toByteArray()
@@ -110,39 +112,35 @@ internal class AndroidImageCompressor @Inject constructor(
             ImageFormat.Avif -> {
                 heifCoder.encodeAvif(
                     bitmap = image,
-                    quality = quality.toInt().coerceIn(imageFormat.compressionRange)
+                    quality = quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange)
                 )
             }
 
             ImageFormat.Heic -> {
                 heifCoder.encodeHeic(
                     bitmap = image,
-                    quality = quality.toInt().coerceIn(imageFormat.compressionRange)
+                    quality = quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
                 )
             }
 
             ImageFormat.Heif -> {
                 heifCoder.encodeHeic(
                     bitmap = image,
-                    quality = quality.toInt().coerceIn(imageFormat.compressionRange)
+                    quality = quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
                 )
             }
 
-            ImageFormat.Jxl.Lossless -> {
+            ImageFormat.Jxl.Lossless, ImageFormat.Jxl.Lossy -> {
+                val jxlQuality = quality as Quality.Jxl
                 jxlCoder.encode(
                     bitmap = image,
                     colorSpace = JxlColorSpace.RGBA,
-                    compressionOption = JxlCompressionOption.LOSSLESS,
-                    effort = quality.toInt().coerceIn(imageFormat.compressionRange)
-                )
-            }
-
-            ImageFormat.Jxl.Lossy -> {
-                jxlCoder.encode(
-                    bitmap = image,
-                    colorSpace = JxlColorSpace.RGBA,
-                    compressionOption = JxlCompressionOption.LOSSY,
-                    effort = quality.toInt().coerceIn(imageFormat.compressionRange)
+                    compressionOption = if (imageFormat is ImageFormat.Jxl.Lossless) {
+                        JxlCompressionOption.LOSSLESS
+                    } else JxlCompressionOption.LOSSY,
+                    quality = jxlQuality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
+                    effort = jxlQuality.effort.coerceIn(imageFormat.compressionTypes[1].compressionRange),
+                    decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == jxlQuality.speed }
                 )
             }
         }
