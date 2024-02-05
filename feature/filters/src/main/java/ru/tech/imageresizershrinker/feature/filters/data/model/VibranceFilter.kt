@@ -17,20 +17,26 @@
 
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
-import android.content.Context
 import android.graphics.Bitmap
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageVibranceFilter
+import coil.size.Size
+import com.awxkee.aire.Aire
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 internal class VibranceFilter(
-    private val context: Context,
-    override val value: Float = 0f,
-) : GPUFilterTransformation(context), Filter.Vibrance<Bitmap> {
+    override val value: Float = 10f,
+) : Transformation<Bitmap>, Filter.Vibrance<Bitmap> {
 
     override val cacheKey: String
-        get() = (value to context).hashCode().toString()
+        get() = value.hashCode().toString()
 
-    override fun createFilter(): GPUImageFilter = GPUImageVibranceFilter(value)
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap = Aire.vibrance(
+        bitmap = input,
+        vibrance = value
+    )
+
 }

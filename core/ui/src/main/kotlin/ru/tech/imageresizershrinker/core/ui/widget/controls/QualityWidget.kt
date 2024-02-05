@@ -171,7 +171,7 @@ fun QualityWidget(
                         title = stringResource(R.string.speed),
                         icon = Icons.Rounded.Speed,
                         valueRange = 0f..4f,
-                        steps = 4,
+                        steps = 3,
                         internalStateTransformation = {
                             it.toInt().coerceIn(0..4).toFloat()
                         },

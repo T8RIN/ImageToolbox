@@ -62,7 +62,7 @@ fun PixelSwitch(
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
-                enabled = true,
+                enabled = enabled,
                 onClickLabel = null,
                 role = Role.Switch,
                 onClick = { onCheckedChange?.invoke(!checked) }

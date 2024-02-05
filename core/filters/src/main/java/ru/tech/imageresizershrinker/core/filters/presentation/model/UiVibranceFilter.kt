@@ -24,9 +24,9 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiVibranceFilter(
-    override val value: Float = 0f,
+    override val value: Float = 10f,
 ) : UiFilter<Float>(
     title = R.string.vibrance,
     value = value,
-    valueRange = -1f..1f
+    valueRange = -20f..20f
 ), Filter.Vibrance<Bitmap>

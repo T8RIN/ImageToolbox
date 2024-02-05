@@ -57,7 +57,6 @@ sealed class UiFilter<T>(
                     UiHueFilter(),
                     UiColorFilter(),
                     UiSaturationFilter(),
-                    UiVibranceFilter(),
                     UiRGBFilter(),
                     UiReplaceColorFilter(),
                     UiRemoveColorFilter(),
@@ -74,6 +73,7 @@ sealed class UiFilter<T>(
                 listOf(
                     UiBrightnessFilter(),
                     UiContrastFilter(),
+                    UiVibranceFilter(),
                     UiExposureFilter(),
                     UiWhiteBalanceFilter(),
                     UiGammaFilter(),

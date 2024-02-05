@@ -192,7 +192,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.StrokePixelation -> StrokePixelationFilter(value)
             is Filter.SwirlDistortion -> SwirlDistortionFilter(context, value)
             is Filter.Toon -> ToonFilter(context, value)
-            is Filter.Vibrance -> VibranceFilter(context, value)
+            is Filter.Vibrance -> VibranceFilter(value)
             is Filter.Vignette<*, *> -> VignetteFilter(
                 context,
                 value as Triple<Float, Float, Color>
