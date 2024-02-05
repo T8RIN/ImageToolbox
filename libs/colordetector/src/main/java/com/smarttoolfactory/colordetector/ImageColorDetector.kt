@@ -74,7 +74,7 @@ fun ImageColorDetector(
                 globalTouchPosition = offset
             }
             .then(
-                if (magnifierEnabled) {
+                if (magnifierEnabled && globalTouchPointersCount == 1) {
                     Modifier.magnifier(
                         sourceCenter = {
                             if (pickerOffset.isSpecified) {

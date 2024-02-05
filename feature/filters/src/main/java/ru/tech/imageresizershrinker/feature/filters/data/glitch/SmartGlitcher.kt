@@ -30,9 +30,14 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.Shader
+import androidx.annotation.FloatRange
+import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.graphics.toArgb
+import androidx.core.graphics.ColorUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Random
+import androidx.compose.ui.graphics.Color as ComposeColor
 
 internal object SmartGlitcher {
 
@@ -235,7 +240,10 @@ internal object SmartGlitcher {
         return List(row.size) { ri -> row[(ri + offset) % row.size] }
     }
 
-    private fun generateBitmap(image: Bitmap, action: (List<Int>) -> List<Int>): Bitmap {
+    private suspend fun generateBitmap(
+        image: Bitmap,
+        action: (List<Int>) -> List<Int>
+    ): Bitmap = withContext(Dispatchers.IO) {
         val r = List(image.width) { row ->
             List(
                 image.height
@@ -248,14 +256,42 @@ internal object SmartGlitcher {
 
         val rr = Bitmap.createBitmap(image.width, image.height, Bitmap.Config.ARGB_8888)
 
-
         for (i in 0 until rr.height - 1) {
             for (j in 0 until rr.width - 1) {
                 rr.setPixel(j, i, rShuffle[j][i])
             }
         }
 
-        return rr
+        return@withContext rr
     }
+
+
+    suspend fun monochrome(
+        input: Bitmap,
+        intensity: Float,
+        filterColor: ComposeColor
+    ): Bitmap = withContext(Dispatchers.IO) {
+        if (intensity > 0f) {
+            generateBitmap(input) { pixels ->
+                pixels.map {
+                    val pixel = ComposeColor(it)
+                    val luma = pixel.luminance()
+                    val outColor = ComposeColor(
+                        red = if (luma < 0.5f) (2f * luma * filterColor.red) else (1f - 2f * (1f - luma) * (1f - filterColor.red)),
+                        green = if (luma < 0.5f) (2f * luma * filterColor.green) else (1f - 2f * (1f - luma) * (1f - filterColor.green)),
+                        blue = if (luma < 0.5f) (2f * luma * filterColor.blue) else (1f - 2f * (1f - luma) * (1f - filterColor.blue)),
+                        alpha = pixel.alpha
+                    )
+
+                    outColor.blend(pixel, intensity)
+                }
+            }
+        } else input
+    }
+
+    private fun ComposeColor.blend(
+        color: ComposeColor,
+        @FloatRange(from = 0.0, to = 1.0) fraction: Float
+    ) = ColorUtils.blendARGB(this.toArgb(), color.toArgb(), fraction)
 
 }

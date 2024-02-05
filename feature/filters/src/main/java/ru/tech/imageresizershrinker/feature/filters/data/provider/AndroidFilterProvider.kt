@@ -173,7 +173,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Laplacian -> LaplacianFilter(context)
             is Filter.Lookup -> LookupFilter(context, value)
             is Filter.LuminanceThreshold -> LuminanceThresholdFilter(context, value)
-            is Filter.Monochrome<*, *> -> MonochromeFilter(context, value as Pair<Float, Color>)
+            is Filter.Monochrome<*, *> -> MonochromeFilter(value as Pair<Float, Color>)
             is Filter.Negative -> NegativeFilter(context)
             is Filter.NonMaximumSuppression -> NonMaximumSuppressionFilter(context)
             is Filter.Opacity -> OpacityFilter(context, value)
