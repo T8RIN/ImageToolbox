@@ -283,7 +283,7 @@ internal object SmartGlitcher {
                         alpha = pixel.alpha
                     )
 
-                    outColor.blend(pixel, intensity)
+                    pixel.blend(outColor, intensity)
                 }
             }
         } else input
