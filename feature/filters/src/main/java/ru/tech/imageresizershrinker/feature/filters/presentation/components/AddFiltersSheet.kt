@@ -112,6 +112,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
@@ -176,15 +177,19 @@ fun AddFiltersSheet(
     var searchKeyword by rememberSaveable {
         mutableStateOf("")
     }
-    val filtersForSearch by remember(searchKeyword) {
-        derivedStateOf {
-            groupedFilters.flatten().filter {
-                context.getString(it.title).contains(
-                    other = searchKeyword,
-                    ignoreCase = true
-                )
-            }.sortedBy { context.getString(it.title) }
-        }
+    var filtersForSearch by remember {
+        mutableStateOf(
+            groupedFilters.flatten().sortedBy { context.getString(it.title) }
+        )
+    }
+    LaunchedEffect(searchKeyword) {
+        delay(400L) // Debounce calculations
+        filtersForSearch = groupedFilters.flatten().filter {
+            context.getString(it.title).contains(
+                other = searchKeyword,
+                ignoreCase = true
+            )
+        }.sortedBy { context.getString(it.title) }
     }
 
     SimpleSheet(

@@ -709,5 +709,5 @@
     <string name="perlin_distortion">Искажение Перлина</string>
     <string name="frequency_x">Частота Х</string>
     <string name="amplitude_y">Амплитуда У</string>
-    <string name="hable_filmic_tone_mapping">Кинематографическое отображение тонов Хэйбла</string>
+    <string name="hable_filmic_tone_mapping">Кинематографичное отображение тонов Хэйбла</string>
 </resources>

@@ -20,10 +20,12 @@ package ru.tech.imageresizershrinker.core.ui.widget.sheets
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -36,6 +38,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -68,40 +72,50 @@ fun ZoomModalSheet(
 
     val sheetContent: @Composable ColumnScope.() -> Unit = {
         val zoomState = rememberZoomState(maxScale = 10f)
+        var aspectRatio by remember(data) {
+            mutableFloatStateOf(1f)
+        }
         Column(
-            Modifier.navigationBarsPadding()
+            modifier = Modifier.navigationBarsPadding()
         ) {
-            Picture(
-                model = data,
-                contentDescription = null,
-                shape = RectangleShape,
-                contentScale = ContentScale.Inside,
-                showTransparencyChecker = false,
-                transformations = transformations,
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f)
-                    .padding(
-                        start = 16.dp,
-                        end = 16.dp,
-                    )
-                    .clip(RoundedCornerShape(4.dp))
+                    .weight(1f, false)
+                    .padding(horizontal = 16.dp)
                     .border(
                         settingsState.borderWidth,
                         MaterialTheme.colorScheme.outlineVariant(),
                         RoundedCornerShape(4.dp)
                     )
+                    .clip(RoundedCornerShape(4.dp))
                     .background(
                         MaterialTheme.colorScheme
                             .outlineVariant()
-                            .copy(alpha = 0.1f),
-                        RoundedCornerShape(4.dp)
+                            .copy(alpha = 0.1f)
                     )
                     .transparencyChecker()
                     .zoomable(
                         zoomState = zoomState
-                    )
-            )
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Picture(
+                    model = data,
+                    contentDescription = null,
+                    onSuccess = {
+                        aspectRatio = it.result.drawable.run {
+                            intrinsicWidth / intrinsicHeight.toFloat()
+                        }
+                    },
+                    contentScale = ContentScale.FillBounds,
+                    showTransparencyChecker = false,
+                    transformations = transformations,
+                    shape = RectangleShape,
+                    modifier = Modifier.aspectRatio(aspectRatio)
+
+                )
+            }
             Row(
                 modifier = Modifier.padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically

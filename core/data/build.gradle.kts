@@ -34,6 +34,7 @@ dependencies {
         exclude(module = "com.github.awxkee:jxl-coder")
     }
     api(libs.jxl.coder)
+    api(libs.aire)
 
     api(libs.androidx.exifinterface)
     api(libs.androidx.documentfile)
