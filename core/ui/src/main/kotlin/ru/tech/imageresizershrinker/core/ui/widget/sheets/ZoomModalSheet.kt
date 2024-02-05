@@ -81,7 +81,7 @@ fun ZoomModalSheet(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f, false)
+                    .weight(1f)
                     .padding(horizontal = 16.dp)
                     .border(
                         settingsState.borderWidth,
