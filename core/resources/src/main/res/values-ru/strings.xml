@@ -713,4 +713,22 @@
     <string name="dehaze">Удаление тумана</string>
     <string name="speed">Скорость</string>
     <string name="omega">Омега</string>
+    <string name="color_matrix_4x4">Цветовая матрица 4х4</string>
+    <string name="simple_effects">Простые эффекты</string>
+    <string name="tritonomaly">Тритономалия</string>
+    <string name="deutaromaly">Дейтераномалия</string>
+    <string name="browni">Брауни</string>
+    <string name="cool">Прохладный</string>
+    <string name="tritanopia">Тританопия</string>
+    <string name="deutaronotopia">Дейтаронотопия</string>
+    <string name="protanopia">Протанопия</string>
+    <string name="achromatomaly">Ахроматомалия</string>
+    <string name="color_matrix_3x3">Цветовая матрица 3x3</string>
+    <string name="polaroid">Полароид</string>
+    <string name="protonomaly">Протаномалия</string>
+    <string name="vintage">Винтаж</string>
+    <string name="night_vision">Ночное видение</string>
+    <string name="coda_chrome">Кода Хром</string>
+    <string name="achromatopsia">Ахроматопсия</string>
+    <string name="warm">Теплый</string>
 </resources>
