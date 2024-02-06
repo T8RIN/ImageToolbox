@@ -672,4 +672,7 @@
     <string name="gif_type_to_image">GIF do obrazów</string>
     <string name="floyd_steinberg_dithering">Rozpraszanie Floyd Steinberg</string>
     <string name="b_spline_sub">Wykorzystuje zdefiniowane fragmentarycznie funkcje wielomianu dwumianowego do płynnej interpolacji i aproksymacji krzywej lub powierzchni, elastycznej i ciągłej reprezentacji kształtu</string>
+    <string name="enhanced_glitch">Rozszerzony Glitch</string>
+    <string name="channel_shift_x">Przesuń kanał X</string>
+    <string name="channel_shift_y">Przesuń kanał Y</string>
 </resources>
