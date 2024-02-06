@@ -15,7 +15,7 @@
   <img alt="material" src="https://img.shields.io/static/v1?style=for-the-badge&message=Material+You&color=lightblue&logoColor=333&logo=material-design&label="/></a>
   </br>
   </br>
-  <a href="https://github.com/T8RIN/ImageResizer/actions">
+  <a href="https://github.com/T8RIN/ImageToolbox/actions">
   <img alt="GitHub commits since tagged version (branch)" src="https://img.shields.io/github/commits-since/t8rin/ImageResizer/v1.0?color=palegreen&label=Commits&style=for-the-badge">
   <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/t8rin/imageresizer?style=for-the-badge&color=37ABB5">
   <img src="https://wakatime.com/badge/user/7fa5ec35-3afd-4c14-984e-6ea7daf545c7.svg?style=for-the-badge"/>
@@ -402,9 +402,12 @@ or click one of the badges below.
 - [GPU Image](https://github.com/cats-oss/android-gpuimage) for creating and applying filters to the
   images.
 
-- [SmartToolFactory](https://github.com/SmartToolFactory) provides a bunch of helpful libraries
+- [SmartToolFactory](https://github.com/SmartToolFactory) provides a bunch of helpful libraries.
 
-- [AVIF Coder](https://github.com/awxkee/avif-coder) library that provides avif, heic, heif support
+- [AVIF Coder](https://github.com/awxkee/avif-coder) and [JXL Coder](https://github.com/awxkee/jxl-coder) libraries which provide avif, heic, heif and jxl support.
+
+- [Aire](https://github.com/awxkee/aire) for creating and applying filters to the images on CPU using native cpp code.
+
 
 <div align="center">
 
