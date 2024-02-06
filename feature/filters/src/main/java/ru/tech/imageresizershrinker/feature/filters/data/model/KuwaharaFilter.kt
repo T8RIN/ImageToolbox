@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class KuwaharaFilter(
     private val context: Context,
-    override val value: Float = 3f,
+    override val value: Float = 9f,
 ) : GPUFilterTransformation(context), Filter.Kuwahara<Bitmap> {
 
     override val cacheKey: String

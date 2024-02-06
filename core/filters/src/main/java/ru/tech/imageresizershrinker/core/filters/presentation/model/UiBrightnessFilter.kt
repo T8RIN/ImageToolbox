@@ -23,9 +23,9 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiBrightnessFilter(
-    override val value: Float = 0f,
+    override val value: Float = 0.5f,
 ) : UiFilter<Float>(
     title = R.string.brightness,
     value = value,
-    valueRange = (-1f)..1f
+    valueRange = -1f..1f
 ), Filter.Brightness<Bitmap>

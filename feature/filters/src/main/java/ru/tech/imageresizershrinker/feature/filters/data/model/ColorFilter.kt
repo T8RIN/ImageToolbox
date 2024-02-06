@@ -33,7 +33,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
 
 
 internal class ColorFilter(
-    override val value: FilterValueWrapper<Color> = Color.Transparent.wrap(),
+    override val value: FilterValueWrapper<Color> = Color.Green.copy(0.3f).wrap(),
 ) : Filter.Color<Bitmap, Color>, Transformation<Bitmap> {
     override val cacheKey: String
         get() = (value).hashCode().toString()

@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class GammaFilter(
     private val context: Context,
-    override val value: Float = 1f,
+    override val value: Float = 1.5f,
 ) : GPUFilterTransformation(context), Filter.Gamma<Bitmap> {
 
     override val cacheKey: String

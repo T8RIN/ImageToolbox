@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class ExposureFilter(
     private val context: Context,
-    override val value: Float = 0f,
+    override val value: Float = 1f,
 ) : GPUFilterTransformation(context), Filter.Exposure<Bitmap> {
 
     override val cacheKey: String

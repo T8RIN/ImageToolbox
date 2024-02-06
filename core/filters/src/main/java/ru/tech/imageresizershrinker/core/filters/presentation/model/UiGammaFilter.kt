@@ -23,7 +23,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiGammaFilter(
-    override val value: Float = 1f,
+    override val value: Float = 1.5f,
 ) : UiFilter<Float>(
     title = R.string.gamma,
     value = value,

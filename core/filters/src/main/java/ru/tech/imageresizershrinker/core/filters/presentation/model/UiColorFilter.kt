@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiColorFilter(
-    override val value: FilterValueWrapper<Color> = Color.Transparent.wrap(),
+    override val value: FilterValueWrapper<Color> = Color.Green.copy(0.3f).wrap(),
 ) : UiFilter<FilterValueWrapper<Color>>(
     title = R.string.color_filter,
     value = value

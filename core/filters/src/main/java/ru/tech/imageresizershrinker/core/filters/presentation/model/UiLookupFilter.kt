@@ -24,7 +24,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiLookupFilter(
-    override val value: Float = 0f,
+    override val value: Float = 1f,
 ) : UiFilter<Float>(
     title = R.string.lookup,
     value = value,

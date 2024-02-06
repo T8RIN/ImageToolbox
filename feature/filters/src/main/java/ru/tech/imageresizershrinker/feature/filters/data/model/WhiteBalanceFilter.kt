@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class WhiteBalanceFilter(
     private val context: Context,
-    override val value: Pair<Float, Float> = 5000.0f to 0.0f,
+    override val value: Pair<Float, Float> = 7000.0f to 100f,
 ) : GPUFilterTransformation(context), Filter.WhiteBalance<Bitmap> {
 
     override val cacheKey: String

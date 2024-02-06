@@ -24,7 +24,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiKuwaharaFilter(
-    override val value: Float = 3f,
+    override val value: Float = 9f,
 ) : UiFilter<Float>(
     title = R.string.kuwahara,
     value = value,

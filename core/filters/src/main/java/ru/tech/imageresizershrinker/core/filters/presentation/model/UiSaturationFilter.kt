@@ -23,7 +23,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiSaturationFilter(
-    override val value: Float = 1f,
+    override val value: Float = 2f,
 ) : UiFilter<Float>(
     title = R.string.saturation,
     value = value,

@@ -24,7 +24,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiOpacityFilter(
-    override val value: Float = 1f,
+    override val value: Float = 0.5f,
 ) : UiFilter<Float>(
     title = R.string.opacity,
     value = value,

@@ -23,7 +23,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiSharpenFilter(
-    override val value: Float = 0f,
+    override val value: Float = 2f,
 ) : UiFilter<Float>(
     title = R.string.sharpen,
     value = value,

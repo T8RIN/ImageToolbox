@@ -24,7 +24,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiContrastFilter(
-    override val value: Float = 1f,
+    override val value: Float = 2f,
 ) : UiFilter<Float>(
     title = R.string.contrast,
     value = value,

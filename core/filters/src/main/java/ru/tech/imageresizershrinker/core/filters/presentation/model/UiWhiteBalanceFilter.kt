@@ -24,7 +24,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiWhiteBalanceFilter(
-    override val value: Pair<Float, Float> = 5000.0f to 0.0f,
+    override val value: Pair<Float, Float> = 7000.0f to 100f,
 ) : UiFilter<Pair<Float, Float>>(
     title = R.string.white_balance,
     value = value,

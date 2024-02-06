@@ -23,7 +23,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiExposureFilter(
-    override val value: Float = 0f,
+    override val value: Float = 1f,
 ) : UiFilter<Float>(
     title = R.string.exposure,
     value = value,
