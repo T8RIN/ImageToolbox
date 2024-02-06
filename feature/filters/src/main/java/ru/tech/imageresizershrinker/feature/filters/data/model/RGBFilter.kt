@@ -23,17 +23,19 @@ import androidx.compose.ui.graphics.Color
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageRGBFilter
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
+import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
 
 
 internal class RGBFilter(
     private val context: Context,
-    override val value: Color = Color.White,
+    override val value: FilterValueWrapper<Color> = Color.White.wrap(),
 ) : GPUFilterTransformation(context), Filter.RGB<Bitmap, Color> {
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 
     override fun createFilter(): GPUImageFilter = GPUImageRGBFilter(
-        value.red, value.green, value.blue
+        value.wrapped.red, value.wrapped.green, value.wrapped.blue
     )
 }

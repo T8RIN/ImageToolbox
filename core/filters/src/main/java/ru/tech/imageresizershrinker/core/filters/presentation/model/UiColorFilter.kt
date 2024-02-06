@@ -20,12 +20,14 @@ package ru.tech.imageresizershrinker.core.filters.presentation.model
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
+import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
 import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiColorFilter(
-    override val value: Color = Color.Transparent,
-) : UiFilter<Color>(
+    override val value: FilterValueWrapper<Color> = Color.Transparent.wrap(),
+) : UiFilter<FilterValueWrapper<Color>>(
     title = R.string.color_filter,
-    value = Color.Transparent
+    value = value
 ), Filter.Color<Bitmap, Color>

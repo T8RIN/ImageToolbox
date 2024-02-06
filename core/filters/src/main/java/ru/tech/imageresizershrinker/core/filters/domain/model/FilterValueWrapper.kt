@@ -15,19 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.filters.presentation.model
+package ru.tech.imageresizershrinker.core.filters.domain.model
 
-import android.graphics.Bitmap
-import androidx.compose.ui.graphics.Color
-import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
-import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
-import ru.tech.imageresizershrinker.core.resources.R
+data class FilterValueWrapper<V : Any>(
+    val wrapped: V
+)
 
-
-class UiRGBFilter(
-    override val value: FilterValueWrapper<Color> = Color.White.wrap(),
-) : UiFilter<FilterValueWrapper<Color>>(
-    title = R.string.rgb_filter,
-    value = value,
-), Filter.RGB<Bitmap, Color>
+fun <T : Any> T.wrap(): FilterValueWrapper<T> = FilterValueWrapper(this)

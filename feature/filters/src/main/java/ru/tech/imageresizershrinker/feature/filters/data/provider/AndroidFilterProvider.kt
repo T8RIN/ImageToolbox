@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
 import ru.tech.imageresizershrinker.feature.filters.data.model.AcesFilmicToneMappingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.AcesHillToneMappingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.AchromatomalyFilter
@@ -163,7 +164,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.CGAColorSpace -> CGAColorSpaceFilter(context)
             is Filter.CirclePixelation -> CirclePixelationFilter(value)
             is Filter.ColorBalance -> ColorBalanceFilter(context, value)
-            is Filter.Color -> ColorFilter(value as Color)
+            is Filter.Color<*, *> -> ColorFilter(value as FilterValueWrapper<Color>)
             is Filter.ColorMatrix4x4 -> ColorMatrix4x4Filter(context, value)
             is Filter.Contrast -> ContrastFilter(value)
             is Filter.Convolution3x3 -> Convolution3x3Filter(context, value)
@@ -195,7 +196,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Posterize -> PosterizeFilter(context, value)
             is Filter.RemoveColor<*, *> -> RemoveColorFilter(value as Pair<Float, Color>)
             is Filter.ReplaceColor<*, *> -> ReplaceColorFilter(value as Triple<Float, Color, Color>)
-            is Filter.RGB -> RGBFilter(context, value as Color)
+            is Filter.RGB<*, *> -> RGBFilter(context, value as FilterValueWrapper<Color>)
             is Filter.Saturation -> SaturationFilter(value)
             is Filter.Sepia -> SepiaFilter(value)
             is Filter.Sharpen -> SharpenFilter(context, value)

@@ -28,7 +28,7 @@ interface Filter<Image, Value> {
     interface BulgeDistortion<Image> : Filter<Image, Pair<Float, Float>>
     interface CGAColorSpace<Image> : Filter<Image, Unit>
     interface ColorBalance<Image> : Filter<Image, FloatArray>
-    interface Color<Image, Color> : Filter<Image, Color>
+    interface Color<Image, Color : Any> : Filter<Image, FilterValueWrapper<Color>>
     interface ColorMatrix4x4<Image> : Filter<Image, FloatArray>
     interface Contrast<Image> : Filter<Image, Float>
     interface Convolution3x3<Image> : Filter<Image, FloatArray>
@@ -53,7 +53,7 @@ interface Filter<Image, Value> {
     interface NonMaximumSuppression<Image> : Filter<Image, Unit>
     interface Opacity<Image> : Filter<Image, Float>
     interface Posterize<Image> : Filter<Image, Float>
-    interface RGB<Image, Color> : Filter<Image, Color>
+    interface RGB<Image, Color : Any> : Filter<Image, FilterValueWrapper<Color>>
     interface Saturation<Image> : Filter<Image, Float>
     interface Sepia<Image> : Filter<Image, Unit>
     interface Sharpen<Image> : Filter<Image, Float>

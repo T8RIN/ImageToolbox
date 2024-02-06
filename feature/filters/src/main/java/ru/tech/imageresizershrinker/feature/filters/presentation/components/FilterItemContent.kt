@@ -47,11 +47,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
 import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.NEAREST_ODD_ROUNDING
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.TiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.WaterParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiColorFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiRGBFilter
@@ -79,28 +81,34 @@ fun <T> FilterItemContent(
         modifier = modifier
     ) {
         when (filter.value) {
-            is Color -> {
-                Box(
-                    modifier = Modifier.padding(
-                        start = 16.dp,
-                        top = 16.dp,
-                        end = 16.dp
-                    )
-                ) {
-                    ColorSelectionRow(
-                        value = filter.value as Color,
-                        defaultColors = remember(filter) {
-                            derivedStateOf {
-                                ColorSelectionRowDefaults.colorList.map {
-                                    if (filter is UiColorFilter) it.copy(0.5f)
-                                    else it
+            is FilterValueWrapper<*> -> {
+                when (val wrapped = (filter.value as FilterValueWrapper<*>).wrapped) {
+                    is Color -> {
+                        Box(
+                            modifier = Modifier.padding(
+                                start = 16.dp,
+                                top = 16.dp,
+                                end = 16.dp
+                            )
+                        ) {
+                            ColorSelectionRow(
+                                value = wrapped,
+                                defaultColors = remember(filter) {
+                                    derivedStateOf {
+                                        ColorSelectionRowDefaults.colorList.map {
+                                            if (filter is UiColorFilter) it.copy(0.5f)
+                                            else it
+                                        }
+                                    }
+                                }.value,
+                                allowAlpha = filter !is UiRGBFilter,
+                                allowScroll = !previewOnly,
+                                onValueChange = {
+                                    onFilterChange(it.wrap())
                                 }
-                            }
-                        }.value,
-                        allowAlpha = filter !is UiRGBFilter,
-                        allowScroll = !previewOnly,
-                        onValueChange = onFilterChange
-                    )
+                            )
+                        }
+                    }
                 }
             }
 

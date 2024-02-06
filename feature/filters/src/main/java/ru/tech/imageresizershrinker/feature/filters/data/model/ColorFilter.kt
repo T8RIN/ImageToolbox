@@ -28,10 +28,12 @@ import androidx.core.graphics.createBitmap
 import coil.size.Size
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
+import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
 
 
 internal class ColorFilter(
-    override val value: Color = Color.Transparent,
+    override val value: FilterValueWrapper<Color> = Color.Transparent.wrap(),
 ) : Filter.Color<Bitmap, Color>, Transformation<Bitmap> {
     override val cacheKey: String
         get() = (value).hashCode().toString()
@@ -45,7 +47,7 @@ internal class ColorFilter(
         val canvas = Canvas(output)
         val paint = Paint()
         paint.isAntiAlias = true
-        paint.colorFilter = PorterDuffColorFilter(value.toArgb(), PorterDuff.Mode.SRC_ATOP)
+        paint.colorFilter = PorterDuffColorFilter(value.wrapped.toArgb(), PorterDuff.Mode.SRC_ATOP)
         canvas.drawBitmap(input, 0f, 0f, paint)
 
         return output

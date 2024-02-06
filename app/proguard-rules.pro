@@ -31,6 +31,11 @@
 -keepclassmembers class * implements ru.tech.imageresizershrinker.core.filters.domain.model.Filter {
     <init>(...);
 }
+-keepclassmembers class ru.tech.imageresizershrinker.core.filters.** {
+    <init>(...);
+}
+-keep class ru.tech.imageresizershrinker.core.filters.**
+-keep class ru.tech.imageresizershrinker.core.filters.*
 
 # Please add these rules to your existing keep rules in order to suppress warnings.
 # This is generated automatically by the Android Gradle plugin.

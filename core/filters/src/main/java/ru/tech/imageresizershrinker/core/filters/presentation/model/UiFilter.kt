@@ -45,7 +45,9 @@ sealed class UiFilter<T>(
     fun <T : Any> copy(value: T): UiFilter<*> {
         if (this.value == null) return newInstance()
         if (this.value!!::class.simpleName != value::class.simpleName) return newInstance()
-        return this::class.primaryConstructor!!.run { callBy(mapOf(parameters[0] to value)) }
+        return this::class.primaryConstructor!!.run {
+            callBy(mapOf(parameters[0] to value))
+        }
     }
 
     fun newInstance(): UiFilter<*> = this::class.primaryConstructor!!.callBy(emptyMap())
