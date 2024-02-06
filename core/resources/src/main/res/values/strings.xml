@@ -746,4 +746,6 @@
     <string name="tritanopia">Tritanopia</string>
     <string name="deutaronotopia">Deutaronotopia</string>
     <string name="protanopia">Protanopia</string>
+    <string name="achromatomaly">Achromatomaly</string>
+    <string name="achromatopsia">Achromatopsia</string>
 </resources>

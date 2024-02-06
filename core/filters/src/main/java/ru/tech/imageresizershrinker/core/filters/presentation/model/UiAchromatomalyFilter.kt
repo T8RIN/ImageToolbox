@@ -22,6 +22,6 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiAchromatomalyFilter : UiFilter<Unit>(
-    title = R.string.sepia,
+    title = R.string.achromatomaly,
     value = Unit
 ), Filter.Achromatomaly<Bitmap>
