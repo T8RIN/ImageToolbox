@@ -245,7 +245,8 @@ fun EmojiSheet(
                                     EmojiItem(
                                         emoji = emoji.toString(),
                                         fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-                                        fontScale = 1f
+                                        fontScale = 1f,
+                                        isFullQuality = false
                                     )
                                 }
                             }

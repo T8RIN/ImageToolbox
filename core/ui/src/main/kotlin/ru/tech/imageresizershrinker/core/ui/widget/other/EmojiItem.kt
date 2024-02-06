@@ -29,10 +29,12 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
@@ -51,23 +53,31 @@ fun EmojiItem(
     modifier: Modifier = Modifier,
     fontSize: TextUnit = LocalTextStyle.current.fontSize,
     fontScale: Float,
+    isFullQuality: Boolean = true,
     onNoEmoji: @Composable (size: Dp) -> Unit = {}
 ) {
     val context = LocalContext.current
     val dens = LocalDensity.current
-    val density = remember(dens) {
-        Density(
-            density = dens.density,
-            fontScale = fontScale
-        )
+    val density by remember(dens, fontScale) {
+        derivedStateOf {
+            Density(
+                density = dens.density,
+                fontScale = fontScale
+            )
+        }
     }
-    var shimmering by remember { mutableStateOf(true) }
+    var shimmering by rememberSaveable { mutableStateOf(true) }
     val painter = rememberAsyncImagePainter(
         model = remember(emoji) {
             derivedStateOf {
                 ImageRequest.Builder(context)
                     .data(emoji)
+                    .memoryCacheKey(emoji)
+                    .diskCacheKey(emoji)
                     .listener(
+                        onStart = {
+                            shimmering = true
+                        },
                         onSuccess = { _, _ ->
                             shimmering = false
                         }
@@ -76,7 +86,10 @@ fun EmojiItem(
                     .build()
             }
         }.value,
-        imageLoader = LocalImageLoader.current
+        imageLoader = LocalImageLoader.current,
+        filterQuality = if (isFullQuality) {
+            FilterQuality.High
+        } else FilterQuality.None
     )
 
     AnimatedContent(
@@ -95,18 +108,25 @@ fun EmojiItem(
                 Icon(
                     painter = painter,
                     contentDescription = null,
-                    modifier = Modifier
-                        .size(size + 4.dp)
-                        .offset(1.dp, 1.dp)
-                        .padding(2.dp),
+                    modifier = remember(size) {
+                        Modifier
+                            .size(size + 4.dp)
+                            .offset(1.dp, 1.dp)
+                            .padding(2.dp)
+                    },
                     tint = Color(0, 0, 0, 40)
                 )
                 Icon(
                     painter = painter,
                     contentDescription = null,
-                    modifier = Modifier
-                        .size(size + 4.dp)
-                        .clip(CloverShape)
+                    modifier = remember(
+                        key1 = size,
+                        calculation = {
+                            Modifier
+                                .size(size + 4.dp)
+                                .clip(CloverShape)
+                        }
+                    )
                         .shimmer(shimmering)
                         .padding(2.dp),
                     tint = Color.Unspecified

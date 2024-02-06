@@ -19,25 +19,27 @@ package ru.tech.imageresizershrinker.core.ui.widget.modifier
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.placeholder
 import com.google.accompanist.placeholder.shimmer
 import ru.tech.imageresizershrinker.core.ui.theme.harmonizeWithPrimary
 
-@Composable
 fun Modifier.shimmer(
     visible: Boolean,
-    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(16.dp)
-) = then(
+    color: Color = Color.Unspecified
+) = this.composed {
     Modifier.placeholder(
         visible = visible,
-        color = color,
+        color = color.takeOrElse {
+            MaterialTheme.colorScheme.surfaceColorAtElevation(16.dp)
+        },
         highlight = PlaceholderHighlight.shimmer(
             highlightColor = color.harmonizeWithPrimary(0.5f)
         )
     )
-)
+}
