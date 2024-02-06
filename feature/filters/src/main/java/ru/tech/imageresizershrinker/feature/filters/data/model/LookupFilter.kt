@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class LookupFilter(
     private val context: Context,
-    override val value: Float = 1f,
+    override val value: Float = -1f,
 ) : GPUFilterTransformation(context), Filter.Lookup<Bitmap> {
 
     override val cacheKey: String
