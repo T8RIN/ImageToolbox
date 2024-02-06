@@ -63,6 +63,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.emoji.EmojiData
@@ -90,6 +91,7 @@ fun EmojiSheet(
     val state = rememberLazyGridState()
 
     LaunchedEffect(showSheet) {
+        delay(200)
         if (selectedEmojiIndex >= 0) {
             state.animateScrollToItem(selectedEmojiIndex)
         }
