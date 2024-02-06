@@ -710,4 +710,7 @@
     <string name="frequency_x">Частота Х</string>
     <string name="amplitude_y">Амплитуда У</string>
     <string name="hable_filmic_tone_mapping">Кинематографичное отображение тонов Хэйбла</string>
+    <string name="dehaze">Удаление тумана</string>
+    <string name="speed">Скорость</string>
+    <string name="omega">Омега</string>
 </resources>
