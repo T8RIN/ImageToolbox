@@ -99,7 +99,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 100 various filters)
+- Applying filter chains (More than 120 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -160,7 +160,7 @@ or click one of the badges below.
   - [x] Non Maximum Suppression
   - [x] Opacity
   - [x] Weak Pixel Inclusion Filter
-  - [x] Color Matrix
+  - [x] Color Matrix 4x4
   - [x] Lookup
   - [x] Color Replacement
   - [x] Color Removance 
@@ -204,7 +204,23 @@ or click one of the badges below.
   - [x] Hejl Burgess Tone Mapping
   - [x] Perlin Distortion
   - [x] Grayscale
-  - [x] Dehaze 
+  - [x] Dehaze
+  - [x] Color Matrix 3x3
+  - [x] Achromatomaly
+  - [x] Achromatopsia
+  - [x] Browni
+  - [x] CodaChrome
+  - [x] Cool
+  - [x] Deutaromaly
+  - [x] Deutaronotopia
+  - [x] Night Vision
+  - [x] Polaroid
+  - [x] Protanopia
+  - [x] Protonomaly
+  - [x] Tritanopia
+  - [x] Tritonomaly
+  - [x] Vintage
+  - [x] Warm
 
   </details>
 
