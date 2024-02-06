@@ -645,7 +645,7 @@
     <string name="bayer_four_dithering">Bayer 四对四抖动算法</string>
     <string name="sierra_dithering">Sierra 抖动算法</string>
     <string name="two_row_sierra_dithering">双列 Sierra 抖动算法</string>
-    <string name="false_floyd_steinberg_dithering">虚假 Floyd Steinberg 抖动算法</string>
+    <string name="false_floyd_steinberg_dithering">假 Floyd Steinberg 抖动算法</string>
     <string name="left_to_right_dithering">从左到右抖动</string>
     <string name="random_dithering">随机抖动</string>
     <string name="simple_threshold_dithering">简单阈值抖动</string>
@@ -710,4 +710,7 @@
     <string name="frequency_x">频率 X</string>
     <string name="frequency_y">频率 Y</string>
     <string name="heji_burgess_tone_mapping">Hejl Burgess 色调映射</string>
+    <string name="dehaze">Dehaze</string>
+    <string name="speed">速度</string>
+    <string name="omega">Omega</string>
 </resources>
