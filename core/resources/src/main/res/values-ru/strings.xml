@@ -718,7 +718,7 @@
     <string name="tritonomaly">Тритономалия</string>
     <string name="deutaromaly">Дейтераномалия</string>
     <string name="browni">Брауни</string>
-    <string name="cool">Прохладный</string>
+    <string name="cool">Холод</string>
     <string name="tritanopia">Тританопия</string>
     <string name="deutaronotopia">Дейтаронотопия</string>
     <string name="protanopia">Протанопия</string>
@@ -730,5 +730,5 @@
     <string name="night_vision">Ночное видение</string>
     <string name="coda_chrome">Кода Хром</string>
     <string name="achromatopsia">Ахроматопсия</string>
-    <string name="warm">Теплый</string>
+    <string name="warm">Тепло</string>
 </resources>
