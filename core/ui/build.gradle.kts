@@ -38,6 +38,7 @@ dependencies {
 
     //Konfetti
     api(libs.konfetti.compose)
+    api(libs.snowfall)
 
     //Coil
     api(libs.coil)

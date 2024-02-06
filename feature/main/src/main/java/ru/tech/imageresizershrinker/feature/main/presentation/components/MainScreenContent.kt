@@ -151,6 +151,7 @@ internal fun MainScreenContent(
     sideSheetState: DrawerState,
     sheetExpanded: Boolean,
     isGrid: Boolean,
+    onShowSnowfall: () -> Unit,
     onTryGetUpdate: () -> Unit,
     updateAvailable: Boolean
 ) {
@@ -238,7 +239,9 @@ internal fun MainScreenContent(
                                         modifier = Modifier
                                             .padding(horizontal = 2.dp)
                                             .padding(bottom = 12.dp)
-                                            .scaleOnTap {}
+                                            .scaleOnTap {
+                                                onShowSnowfall()
+                                            }
                                     )
                                     Spacer(Modifier.width(12.dp))
                                     TopAppBarEmoji()
