@@ -182,20 +182,23 @@ internal class AndroidImageScaler @Inject constructor(
             it != ImageScaleMode.NotPresent
         } ?: settingsRepository.getSettingsState().defaultImageScaleMode
 
-        return mode.takeIf { it != ImageScaleMode.Default }?.let {
+        return if (mode is ImageScaleMode.Default) {
+            BitmapCompat.createScaledBitmap(
+                image,
+                width,
+                height,
+                null,
+                true
+            )
+        } else {
             Aire.scale(
                 bitmap = image,
                 dstWidth = width,
                 dstHeight = height,
-                scaleMode = BitmapScaleMode.entries.first { e -> e.ordinal == it.value }
+                scaleMode = BitmapScaleMode.entries.first { e -> e.ordinal == mode.value },
+                antialias = true
             )
-        } ?: BitmapCompat.createScaledBitmap(
-            image,
-            width,
-            height,
-            null,
-            true
-        )
+        }
     }
 
     private suspend fun flexibleResize(
