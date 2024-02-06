@@ -80,6 +80,7 @@ sealed class UiFilter<T>(
                     UiHighlightsAndShadowsFilter(),
                     UiSolarizeFilter(),
                     UiHazeFilter(),
+                    UiDehazeFilter(),
                     UiLogarithmicToneMappingFilter(),
                     UiAcesFilmicToneMappingFilter(),
                     UiAcesHillToneMappingFilter(),

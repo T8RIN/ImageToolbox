@@ -49,6 +49,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.ContrastFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.Convolution3x3Filter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CrosshatchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CrystallizeFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.DehazeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.DiamondPixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.DilationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EmbossFilter
@@ -244,6 +245,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.AcesHillToneMapping -> AcesHillToneMappingFilter(value)
             is Filter.HejlBurgessToneMapping -> HejlBurgessToneMappingFilter(value)
             is Filter.Grayscale -> GrayscaleFilter(value)
+            is Filter.Dehaze -> DehazeFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

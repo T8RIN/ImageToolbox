@@ -123,4 +123,5 @@ interface Filter<Image, Value> {
     interface HejlBurgessToneMapping<Image> : Filter<Image, Float>
     interface PerlinDistortion<Image> : Filter<Image, Triple<Float, Float, Float>>
     interface Grayscale<Image> : Filter<Image, Triple<Float, Float, Float>>
+    interface Dehaze<Image> : Filter<Image, Pair<Int, Float>>
 }

@@ -728,5 +728,6 @@
     <string name="hable_filmic_tone_mapping">Hable Filmic Tone Mapping</string>
     <string name="heji_burgess_tone_mapping">Hejl Burgess Tone Mapping</string>
     <string name="speed">Speed</string>
-
+    <string name="dehaze">Dehaze</string>
+    <string name="omega">Omega</string>
 </resources>

@@ -23,10 +23,9 @@ import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-
-internal class VibranceFilter(
-    override val value: Float = 3f,
-) : Transformation<Bitmap>, Filter.Vibrance<Bitmap> {
+internal class DehazeFilter(
+    override val value: Pair<Int, Float> = 17 to 0.45f
+) : Transformation<Bitmap>, Filter.Dehaze<Bitmap> {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -34,9 +33,10 @@ internal class VibranceFilter(
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = Aire.vibrance(
+    ): Bitmap = Aire.dehaze(
         bitmap = input,
-        vibrance = value
+        radius = value.first,
+        omega = value.second,
     )
 
 }
