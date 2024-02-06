@@ -22,11 +22,7 @@ import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
-
-class UiSepiaFilter(
-    override val value: Float = 0f,
-) : UiFilter<Float>(
+class UiSepiaFilter : UiFilter<Unit>(
     title = R.string.sepia,
-    value = value,
-    valueRange = 0f..1f
+    value = Unit
 ), Filter.Sepia<Bitmap>

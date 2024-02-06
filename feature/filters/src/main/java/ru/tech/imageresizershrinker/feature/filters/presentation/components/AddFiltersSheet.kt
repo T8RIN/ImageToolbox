@@ -71,6 +71,7 @@ import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Slideshow
+import androidx.compose.material.icons.rounded.Speed
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -217,6 +218,7 @@ fun AddFiltersSheet(
                             }
                         ) {
                             listOf(
+                                Icons.Rounded.Speed to stringResource(id = R.string.simple_effects),
                                 Icons.Rounded.FormatColorFill to stringResource(id = R.string.color),
                                 Icons.Rounded.Light to stringResource(R.string.light_aka_illumination),
                                 Icons.Rounded.FilterHdr to stringResource(R.string.effect),

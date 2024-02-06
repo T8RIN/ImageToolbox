@@ -15,25 +15,13 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.data.model
+package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
-import coil.size.Size
-import com.awxkee.aire.ColorMatrices
-import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.resources.R
 
-
-internal class SepiaFilter(
-    override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Sepia<Bitmap> {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: Size
-    ): Bitmap = ColorMatrix3x3Filter(ColorMatrices.SEPIA).transform(input, size)
-
-}
+class UiAchromatomalyFilter : UiFilter<Unit>(
+    title = R.string.sepia,
+    value = Unit
+), Filter.Achromatomaly<Bitmap>

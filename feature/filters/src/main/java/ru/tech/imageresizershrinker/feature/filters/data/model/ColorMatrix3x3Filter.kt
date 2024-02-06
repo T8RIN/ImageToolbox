@@ -19,14 +19,17 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import coil.size.Size
-import com.awxkee.aire.ColorMatrices
+import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-
-internal class SepiaFilter(
-    override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Sepia<Bitmap> {
+internal class ColorMatrix3x3Filter(
+    override val value: FloatArray = floatArrayOf(
+        1.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 0.0f, 1.0f,
+    ),
+) : Transformation<Bitmap>, Filter.ColorMatrix3x3<Bitmap> {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -34,6 +37,9 @@ internal class SepiaFilter(
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = ColorMatrix3x3Filter(ColorMatrices.SEPIA).transform(input, size)
+    ): Bitmap = Aire.colorMatrix(
+        bitmap = input,
+        colorMatrix = value
+    )
 
 }

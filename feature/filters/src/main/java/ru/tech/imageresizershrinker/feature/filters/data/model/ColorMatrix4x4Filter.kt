@@ -17,23 +17,25 @@
 
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
+import android.content.Context
 import android.graphics.Bitmap
-import coil.size.Size
-import com.awxkee.aire.ColorMatrices
-import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageColorMatrixFilter
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
-internal class SepiaFilter(
-    override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Sepia<Bitmap> {
+internal class ColorMatrix4x4Filter(
+    private val context: Context,
+    override val value: FloatArray = floatArrayOf(
+        1.0f, 0.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 1.0f, 0.0f,
+        0.0f, 0.0f, 0.0f, 1.0f
+    ),
+) : GPUFilterTransformation(context), Filter.ColorMatrix4x4<Bitmap> {
 
     override val cacheKey: String
-        get() = value.hashCode().toString()
+        get() = (value to context).hashCode().toString()
 
-    override suspend fun transform(
-        input: Bitmap,
-        size: Size
-    ): Bitmap = ColorMatrix3x3Filter(ColorMatrices.SEPIA).transform(input, size)
-
+    override fun createFilter(): GPUImageFilter = GPUImageColorMatrixFilter(1f, value)
 }

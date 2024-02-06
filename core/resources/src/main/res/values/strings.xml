@@ -730,4 +730,20 @@
     <string name="speed">Speed</string>
     <string name="dehaze">Dehaze</string>
     <string name="omega">Omega</string>
+    <string name="color_matrix_4x4">Color Matrix 4x4</string>
+    <string name="color_matrix_3x3">Color Matrix 3x3</string>
+    <string name="simple_effects">Simple Effects</string>
+    <string name="polaroid">Polaroid</string>
+    <string name="tritonomaly">Tritonomaly</string>
+    <string name="deutaromaly">Deutaromaly</string>
+    <string name="protonomaly">Protonomaly</string>
+    <string name="vintage">Vintage</string>
+    <string name="browni">Browni</string>
+    <string name="coda_chrome">Coda Chrome</string>
+    <string name="night_vision">Night Vision</string>
+    <string name="warm">Warm</string>
+    <string name="cool">Cool</string>
+    <string name="tritanopia">Tritanopia</string>
+    <string name="deutaronotopia">Deutaronotopia</string>
+    <string name="protanopia">Protanopia</string>
 </resources>

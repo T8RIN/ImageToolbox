@@ -51,8 +51,32 @@ sealed class UiFilter<T>(
     fun newInstance(): UiFilter<*> = this::class.primaryConstructor!!.callBy(emptyMap())
 
     companion object {
-        val groupedEntries by lazy {
+        private val groupedEntries by lazy {
             listOf(
+                listOf(
+                    UiSepiaFilter(),
+                    UiNegativeFilter(),
+                    UiBlackAndWhiteFilter(),
+                    UiCGAColorSpaceFilter(),
+                    UiLaplacianFilter(),
+                    UiNonMaximumSuppressionFilter(),
+                    UiWeakPixelFilter(),
+                    UiTritanopiaFilter(),
+                    UiDeutaronotopiaFilter(),
+                    UiProtanopiaFilter(),
+                    UiTritonomalyFilter(),
+                    UiDeutaromalyFilter(),
+                    UiProtonomalyFilter(),
+                    UiVintageFilter(),
+                    UiBrowniFilter(),
+                    UiCodaChromeFilter(),
+                    UiNightVisionFilter(),
+                    UiWarmFilter(),
+                    UiCoolFilter(),
+                    UiPolaroidFilter(),
+                    UiAchromatopsiaFilter(),
+                    UiAchromatomalyFilter()
+                ),
                 listOf(
                     UiHueFilter(),
                     UiColorFilter(),
@@ -61,13 +85,10 @@ sealed class UiFilter<T>(
                     UiReplaceColorFilter(),
                     UiRemoveColorFilter(),
                     UiFalseColorFilter(),
-                    UiCGAColorSpaceFilter(),
                     UiGrayscaleFilter(),
                     UiMonochromeFilter(),
-                    UiSepiaFilter(),
-                    UiNegativeFilter(),
-                    UiBlackAndWhiteFilter(),
-                    UiColorMatrixFilter(),
+                    UiColorMatrix4x4Filter(),
+                    UiColorMatrix3x3Filter(),
                     UiColorBalanceFilter()
                 ),
                 listOf(
@@ -94,7 +115,6 @@ sealed class UiFilter<T>(
                     UiHalftoneFilter(),
                     UiOilFilter(),
                     UiEmbossFilter(),
-                    UiLaplacianFilter(),
                     UiVignetteFilter(),
                     UiKuwaharaFilter(),
                     UiErodeFilter(),
@@ -106,8 +126,6 @@ sealed class UiFilter<T>(
                     UiSketchFilter(),
                     UiPosterizeFilter(),
                     UiLookupFilter(),
-                    UiNonMaximumSuppressionFilter(),
-                    UiWeakPixelFilter(),
                     UiConvolution3x3Filter(),
                     UiThresholdFilter()
                 ),

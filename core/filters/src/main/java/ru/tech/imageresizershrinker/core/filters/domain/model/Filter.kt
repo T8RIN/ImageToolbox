@@ -29,7 +29,7 @@ interface Filter<Image, Value> {
     interface CGAColorSpace<Image> : Filter<Image, Unit>
     interface ColorBalance<Image> : Filter<Image, FloatArray>
     interface Color<Image, Color> : Filter<Image, Color>
-    interface ColorMatrix<Image> : Filter<Image, FloatArray>
+    interface ColorMatrix4x4<Image> : Filter<Image, FloatArray>
     interface Contrast<Image> : Filter<Image, Float>
     interface Convolution3x3<Image> : Filter<Image, FloatArray>
     interface Crosshatch<Image> : Filter<Image, Pair<Float, Float>>
@@ -55,7 +55,7 @@ interface Filter<Image, Value> {
     interface Posterize<Image> : Filter<Image, Float>
     interface RGB<Image, Color> : Filter<Image, Color>
     interface Saturation<Image> : Filter<Image, Float>
-    interface Sepia<Image> : Filter<Image, Float>
+    interface Sepia<Image> : Filter<Image, Unit>
     interface Sharpen<Image> : Filter<Image, Float>
     interface Sketch<Image> : Filter<Image, Float>
     interface SmoothToon<Image> : Filter<Image, Triple<Float, Float, Float>>
@@ -124,4 +124,20 @@ interface Filter<Image, Value> {
     interface Grayscale<Image> : Filter<Image, Triple<Float, Float, Float>>
     interface Dehaze<Image> : Filter<Image, Pair<Int, Float>>
     interface Threshold<Image> : Filter<Image, Float>
+    interface ColorMatrix3x3<Image> : Filter<Image, FloatArray>
+    interface Polaroid<Image> : Filter<Image, Unit>
+    interface Cool<Image> : Filter<Image, Unit>
+    interface Warm<Image> : Filter<Image, Unit>
+    interface NightVision<Image> : Filter<Image, Unit>
+    interface CodaChrome<Image> : Filter<Image, Unit>
+    interface Browni<Image> : Filter<Image, Unit>
+    interface Vintage<Image> : Filter<Image, Unit>
+    interface Protonomaly<Image> : Filter<Image, Unit>
+    interface Deutaromaly<Image> : Filter<Image, Unit>
+    interface Tritonomaly<Image> : Filter<Image, Unit>
+    interface Protanopia<Image> : Filter<Image, Unit>
+    interface Deutaronotopia<Image> : Filter<Image, Unit>
+    interface Tritanopia<Image> : Filter<Image, Unit>
+    interface Achromatopsia<Image> : Filter<Image, Unit>
+    interface Achromatomaly<Image> : Filter<Image, Unit>
 }

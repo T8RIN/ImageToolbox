@@ -17,25 +17,22 @@
 
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
-import android.content.Context
 import android.graphics.Bitmap
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageColorMatrixFilter
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
+import coil.size.Size
+import com.awxkee.aire.ColorMatrices
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-
-internal class ColorMatrixFilter(
-    private val context: Context,
-    override val value: FloatArray = floatArrayOf(
-        1.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 1.0f
-    ),
-) : GPUFilterTransformation(context), Filter.ColorMatrix<Bitmap> {
+internal class CodaChromeFilter(
+    override val value: Unit = Unit
+) : Transformation<Bitmap>, Filter.CodaChrome<Bitmap> {
 
     override val cacheKey: String
-        get() = (value to context).hashCode().toString()
+        get() = value.hashCode().toString()
 
-    override fun createFilter(): GPUImageFilter = GPUImageColorMatrixFilter(1f, value)
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap = ColorMatrix3x3Filter(ColorMatrices.CODA_CHROME).transform(input, size)
+
 }

@@ -23,10 +23,9 @@ import com.awxkee.aire.ColorMatrices
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-
-internal class SepiaFilter(
+internal class AchromatomalyFilter(
     override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.Sepia<Bitmap> {
+) : Transformation<Bitmap>, Filter.Achromatomaly<Bitmap> {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -34,6 +33,6 @@ internal class SepiaFilter(
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = ColorMatrix3x3Filter(ColorMatrices.SEPIA).transform(input, size)
+    ): Bitmap = ColorMatrix3x3Filter(ColorMatrices.Assistance.ACHROMATOMALY).transform(input, size)
 
 }
