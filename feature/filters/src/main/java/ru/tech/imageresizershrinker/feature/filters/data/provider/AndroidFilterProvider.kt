@@ -83,7 +83,6 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.LaplacianFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LeftToRightDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LogarithmicToneMappingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LookupFilter
-import ru.tech.imageresizershrinker.feature.filters.data.model.LuminanceThresholdFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MarbleFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MedianBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MonochromeFilter
@@ -119,6 +118,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.StrokePixelationF
 import ru.tech.imageresizershrinker.feature.filters.data.model.StuckiDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SwirlDistortionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TentBlurFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.ThresholdFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TiltShiftFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ToonFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TwoRowSierraDitheringFilter
@@ -142,14 +142,14 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.BilaterialBlur -> BilaterialBlurFilter(value)
             is Filter.BlackAndWhite -> BlackAndWhiteFilter(context)
             is Filter.BoxBlur -> BoxBlurFilter(value)
-            is Filter.Brightness -> BrightnessFilter(context, value)
+            is Filter.Brightness -> BrightnessFilter(value)
             is Filter.BulgeDistortion -> BulgeDistortionFilter(context, value)
             is Filter.CGAColorSpace -> CGAColorSpaceFilter(context)
             is Filter.CirclePixelation -> CirclePixelationFilter(value)
             is Filter.ColorBalance -> ColorBalanceFilter(context, value)
             is Filter.Color -> ColorFilter(value as Color)
             is Filter.ColorMatrix -> ColorMatrixFilter(context, value)
-            is Filter.Contrast -> ContrastFilter(context, value)
+            is Filter.Contrast -> ContrastFilter(value)
             is Filter.Convolution3x3 -> Convolution3x3Filter(context, value)
             is Filter.Crosshatch -> CrosshatchFilter(context, value)
             is Filter.DiamondPixelation -> DiamondPixelationFilter(value)
@@ -171,7 +171,6 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Kuwahara -> KuwaharaFilter(context, value)
             is Filter.Laplacian -> LaplacianFilter(context)
             is Filter.Lookup -> LookupFilter(context, value)
-            is Filter.LuminanceThreshold -> LuminanceThresholdFilter(context, value)
             is Filter.Monochrome<*, *> -> MonochromeFilter(value as Pair<Float, Color>)
             is Filter.Negative -> NegativeFilter(context)
             is Filter.NonMaximumSuppression -> NonMaximumSuppressionFilter(context)
@@ -181,7 +180,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.RemoveColor<*, *> -> RemoveColorFilter(value as Pair<Float, Color>)
             is Filter.ReplaceColor<*, *> -> ReplaceColorFilter(value as Triple<Float, Color, Color>)
             is Filter.RGB -> RGBFilter(context, value as Color)
-            is Filter.Saturation -> SaturationFilter(context, value)
+            is Filter.Saturation -> SaturationFilter(value)
             is Filter.Sepia -> SepiaFilter(context, value)
             is Filter.Sharpen -> SharpenFilter(context, value)
             is Filter.Sketch -> SketchFilter(value)
@@ -246,6 +245,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.HejlBurgessToneMapping -> HejlBurgessToneMappingFilter(value)
             is Filter.Grayscale -> GrayscaleFilter(value)
             is Filter.Dehaze -> DehazeFilter(value)
+            is Filter.Threshold -> ThresholdFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

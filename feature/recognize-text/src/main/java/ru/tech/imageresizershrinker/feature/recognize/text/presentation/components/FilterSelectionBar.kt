@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
 @Composable
 fun FilterSelectionBar(
@@ -60,7 +61,7 @@ fun FilterSelectionBar(
             Triple(
                 addedFilters.filterIsInstance<Filter.Contrast<Bitmap>>().isNotEmpty(),
                 addedFilters.filterIsInstance<Filter.Sharpen<Bitmap>>().isNotEmpty(),
-                addedFilters.filterIsInstance<Filter.LuminanceThreshold<Bitmap>>().isNotEmpty()
+                addedFilters.filterIsInstance<Filter.Threshold<Bitmap>>().isNotEmpty()
             )
         }
     }.value
@@ -117,9 +118,10 @@ fun FilterSelectionBar(
                     .padding(12.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
+                AutoSizeText(
                     text = stringResource(id = R.string.contrast),
-                    color = contentColorFor(contrastColor)
+                    color = contentColorFor(contrastColor),
+                    maxLines = 1
                 )
             }
             Spacer(modifier = Modifier.width(4.dp))
@@ -140,9 +142,10 @@ fun FilterSelectionBar(
                     .padding(12.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
+                AutoSizeText(
                     text = stringResource(id = R.string.sharpen),
-                    color = contentColorFor(sharpnessColor)
+                    color = contentColorFor(sharpnessColor),
+                    maxLines = 1
                 )
             }
             Spacer(modifier = Modifier.width(4.dp))
@@ -168,9 +171,10 @@ fun FilterSelectionBar(
                     .padding(12.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
+                AutoSizeText(
                     text = stringResource(id = R.string.threshold),
-                    color = contentColorFor(thresholdColor)
+                    color = contentColorFor(thresholdColor),
+                    maxLines = 1
                 )
             }
         }

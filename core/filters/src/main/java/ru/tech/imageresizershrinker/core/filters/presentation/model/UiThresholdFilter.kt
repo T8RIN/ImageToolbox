@@ -15,22 +15,23 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.data.model
+package ru.tech.imageresizershrinker.core.filters.presentation.model
 
-import android.content.Context
 import android.graphics.Bitmap
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageLuminanceThresholdFilter
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
+import ru.tech.imageresizershrinker.core.resources.R
 
-
-internal class LuminanceThresholdFilter(
-    private val context: Context,
-    override val value: Float = 0.5f,
-) : GPUFilterTransformation(context), Filter.LuminanceThreshold<Bitmap> {
-
-    override val cacheKey: String
-        get() = (value to context).hashCode().toString()
-
-    override fun createFilter(): GPUImageFilter = GPUImageLuminanceThresholdFilter(value)
-}
+class UiThresholdFilter(
+    override val value: Float = 128f,
+) : UiFilter<Float>(
+    title = R.string.luminance_threshold,
+    value = value,
+    paramsInfo = listOf(
+        FilterParam(
+            title = null,
+            valueRange = 0f..255f,
+            roundTo = 0
+        )
+    )
+), Filter.Threshold<Bitmap>

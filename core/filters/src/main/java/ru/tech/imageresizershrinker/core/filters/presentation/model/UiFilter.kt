@@ -109,7 +109,7 @@ sealed class UiFilter<T>(
                     UiNonMaximumSuppressionFilter(),
                     UiWeakPixelFilter(),
                     UiConvolution3x3Filter(),
-                    UiLuminanceThresholdFilter()
+                    UiThresholdFilter()
                 ),
                 listOf(
                     UiTiltShiftFilter(),

@@ -48,7 +48,6 @@ interface Filter<Image, Value> {
     interface Kuwahara<Image> : Filter<Image, Float>
     interface Laplacian<Image> : Filter<Image, Unit>
     interface Lookup<Image> : Filter<Image, Float>
-    interface LuminanceThreshold<Image> : Filter<Image, Float>
     interface Monochrome<Image, Color> : Filter<Image, Pair<Float, Color>>
     interface Negative<Image> : Filter<Image, Unit>
     interface NonMaximumSuppression<Image> : Filter<Image, Unit>
@@ -124,4 +123,5 @@ interface Filter<Image, Value> {
     interface PerlinDistortion<Image> : Filter<Image, Triple<Float, Float, Float>>
     interface Grayscale<Image> : Filter<Image, Triple<Float, Float, Float>>
     interface Dehaze<Image> : Filter<Image, Pair<Int, Float>>
+    interface Threshold<Image> : Filter<Image, Float>
 }

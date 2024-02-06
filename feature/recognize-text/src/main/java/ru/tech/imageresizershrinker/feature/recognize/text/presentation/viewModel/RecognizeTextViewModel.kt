@@ -101,9 +101,9 @@ class RecognizeTextViewModel @Inject constructor(
             get() = 4f
     }
 
-    private val thresholdFilterInstance = object : Filter.LuminanceThreshold<Bitmap> {
+    private val thresholdFilterInstance = object : Filter.Threshold<Bitmap> {
         override val value: Float
-            get() = 0.5f
+            get() = 128f
     }
 
     private val filtersOrder = listOf(

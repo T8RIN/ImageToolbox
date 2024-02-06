@@ -15,18 +15,27 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.filters.presentation.model
-
+package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
+import coil.size.Size
+import com.awxkee.aire.Aire
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.resources.R
 
+internal class ThresholdFilter(
+    override val value: Float = 128f
+) : Transformation<Bitmap>, Filter.Threshold<Bitmap> {
 
-class UiLuminanceThresholdFilter(
-    override val value: Float = 0.5f,
-) : UiFilter<Float>(
-    title = R.string.luminance_threshold,
-    value = value,
-    valueRange = 0f..1f
-), Filter.LuminanceThreshold<Bitmap>
+    override val cacheKey: String
+        get() = value.hashCode().toString()
+
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap = Aire.threshold(
+        bitmap = input,
+        level = value.toInt()
+    )
+
+}
