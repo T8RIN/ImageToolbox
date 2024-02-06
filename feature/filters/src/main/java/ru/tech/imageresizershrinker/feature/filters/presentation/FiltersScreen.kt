@@ -533,6 +533,7 @@ fun FiltersScreen(
                                                 imageUri = viewModel.maskingFilterState.uri,
                                                 previousMasks = maskList.take(index),
                                                 onRequestPreview = viewModel::filter,
+                                                onRequestFilterMapping = viewModel::filterToTransformation,
                                                 mask = mask,
                                                 titleText = stringResource(
                                                     R.string.mask_indexed,
@@ -1029,6 +1030,7 @@ fun FiltersScreen(
                                         previewBitmap = viewModel.previewBitmap,
                                         onFilterPicked = { viewModel.addFilter(it.newInstance()) },
                                         onFilterPickedWithParams = { viewModel.addFilter(it) },
+                                        onRequestFilterMapping = viewModel::filterToTransformation,
                                         onRequestPreview = viewModel::filter
                                     )
 

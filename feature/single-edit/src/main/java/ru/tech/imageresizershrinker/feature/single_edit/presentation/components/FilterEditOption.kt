@@ -69,12 +69,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.size.Size
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
+import ru.tech.imageresizershrinker.core.filters.presentation.utils.toCoil
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
@@ -298,6 +298,9 @@ fun FilterEditOption(
                 }
                 addFilter(it)
             },
+            onRequestFilterMapping = {
+                onRequestMappingFilters(listOf(it)).first().toCoil()
+            },
             onRequestPreview = { bitmap, filters, _ ->
                 onRequestFiltering(bitmap, filters)
             }
@@ -315,17 +318,5 @@ fun FilterEditOption(
             onColorChange = { tempColor = it },
             color = tempColor
         )
-    }
-}
-
-private fun Transformation<Bitmap>.toCoil(): coil.transform.Transformation {
-    return object : coil.transform.Transformation {
-        override val cacheKey: String
-            get() = this@toCoil.cacheKey
-
-        override suspend fun transform(
-            input: Bitmap,
-            size: Size
-        ): Bitmap = this@toCoil.transform(input, size)
     }
 }

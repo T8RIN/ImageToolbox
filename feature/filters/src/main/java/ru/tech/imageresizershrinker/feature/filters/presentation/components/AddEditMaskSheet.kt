@@ -77,6 +77,7 @@ import androidx.compose.ui.unit.dp
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -90,6 +91,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
+import ru.tech.imageresizershrinker.core.filters.presentation.utils.toCoil
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -531,6 +533,7 @@ fun AddEditMaskSheet(
             previewBitmap = null,
             onFilterPicked = { viewModel.addFilter(it.newInstance()) },
             onFilterPickedWithParams = { viewModel.addFilter(it) },
+            onRequestFilterMapping = viewModel::filterToTransformation,
             onRequestPreview = viewModel::filter
         )
         FilterReorderSheet(
@@ -756,5 +759,9 @@ private class AddMaskSheetViewModel @Inject constructor(
         image = bitmap,
         transformations = filters.map { filterProvider.filterToTransformation(it) }
     )
+
+    fun filterToTransformation(
+        uiFilter: UiFilter<*>
+    ): Transformation = filterProvider.filterToTransformation(uiFilter).toCoil()
 
 }

@@ -29,6 +29,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -101,10 +102,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -113,6 +116,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.blue
+import androidx.core.graphics.green
+import androidx.core.graphics.red
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.transform.Transformation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -120,7 +129,10 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.material.Cube
+import ru.tech.imageresizershrinker.core.ui.theme.StrongBlack
+import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.SimplePicture
@@ -128,6 +140,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleDragHandle
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
@@ -144,13 +157,13 @@ private object FilterHolder {
     val previewSheetData: MutableState<UiFilter<*>?> = mutableStateOf(null)
 }
 
-
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AddFiltersSheet(
     visible: MutableState<Boolean>,
     previewBitmap: Bitmap?,
     onRequestPreview: suspend (Bitmap, List<UiFilter<*>>, IntegerSize) -> Bitmap?,
+    onRequestFilterMapping: ((UiFilter<*>) -> Transformation)?,
     onFilterPicked: (UiFilter<*>) -> Unit,
     onFilterPickedWithParams: (UiFilter<*>) -> Unit
 ) {
@@ -159,9 +172,12 @@ fun AddFiltersSheet(
     var previewSheetData by FilterHolder.previewSheetData
     val showPreviewState = remember { mutableStateOf(false) }
 
-    LaunchedEffect(previewBitmap) {
+    LaunchedEffect(previewBitmap, previewSheetData) {
         if (previewBitmap == null) {
             previewSheetData = null
+        }
+        while (previewSheetData == null && showPreviewState.value) {
+            showPreviewState.value = false
         }
     }
 
@@ -296,6 +312,7 @@ fun AddFiltersSheet(
                                             visible.value = false
                                             onFilterPicked(filter)
                                         },
+                                        onRequestFilterMapping = onRequestFilterMapping,
                                         shape = ContainerShapeDefaults.shapeForIndex(
                                             index = index,
                                             size = filters.size
@@ -363,6 +380,7 @@ fun AddFiltersSheet(
                                         visible.value = false
                                         onFilterPicked(filter)
                                     },
+                                    onRequestFilterMapping = onRequestFilterMapping,
                                     shape = ContainerShapeDefaults.shapeForIndex(
                                         index = index,
                                         size = filters.size
@@ -518,7 +536,10 @@ fun AddFiltersSheet(
                             containerColor = Color.Transparent,
                             contentColor = LocalContentColor.current,
                             enableAutoShadowAndBorder = false,
-                            onClick = { previewSheetData = null }
+                            onClick = {
+                                previewSheetData = null
+                                showPreviewState.value = false
+                            }
                         ) {
                             Icon(Icons.Rounded.Close, null)
                         }
@@ -623,7 +644,10 @@ fun AddFiltersSheet(
                                     modifier = Modifier.padding(horizontal = 16.dp),
                                     filter = it,
                                     showDragHandle = false,
-                                    onRemove = { previewSheetData = null },
+                                    onRemove = {
+                                        previewSheetData = null
+                                        showPreviewState.value = false
+                                    },
                                     onFilterChange = { v ->
                                         previewSheetData = previewSheetData?.copy(v)
                                     }
@@ -653,45 +677,98 @@ private fun FilterSelectionItem(
     previewBitmap: Bitmap?,
     onLongClick: () -> Unit,
     onClick: () -> Unit,
+    onRequestFilterMapping: ((UiFilter<*>) -> Transformation)?,
     shape: Shape
 ) {
     val haptics = LocalHapticFeedback.current
     val settingsState = LocalSettingsState.current
+
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val model = remember(filter) {
+        if (onRequestFilterMapping != null) {
+            ImageRequest.Builder(context)
+                .data(R.drawable.filter_preview_source)
+                .transformations(onRequestFilterMapping(filter))
+                .diskCacheKey(filter::class.simpleName)
+                .memoryCacheKey(filter::class.simpleName)
+                .crossfade(true)
+                .size(300, 300)
+                .build()
+        } else null
+    }
+    var isBitmapDark by remember {
+        mutableStateOf(true)
+    }
+    val painter = rememberAsyncImagePainter(
+        model = model,
+        onSuccess = {
+            scope.launch {
+                isBitmapDark = calculateBrightnessEstimate(it.result.drawable.toBitmap()) < 110
+            }
+        }
+    )
+
     PreferenceItemOverload(
         title = stringResource(filter.title),
         color = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp),
-        icon = if (previewBitmap != null) {
-            {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        Modifier
-                            .size(36.dp)
-                            .clip(CircleShape)
-                            .clickable {
-                                haptics.performHapticFeedback(
-                                    HapticFeedbackType.LongPress
-                                )
-                                onLongClick()
-                            },
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(Icons.Rounded.Slideshow, null)
+        icon = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(contentAlignment = Alignment.Center) {
+                    if (onRequestFilterMapping != null) {
+                        Image(
+                            painter = painter,
+                            contentScale = ContentScale.Crop,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(48.dp)
+                                .scale(1.2f)
+                                .clip(MaterialTheme.shapes.medium)
+                                .transparencyChecker()
+                        )
                     }
-                    Spacer(Modifier.width(16.dp))
-                    Box(
-                        Modifier
-                            .height(36.dp)
-                            .width(
-                                settingsState.borderWidth.coerceAtLeast(
-                                    0.25.dp
-                                )
+                    if (previewBitmap != null) {
+                        Box(
+                            modifier = Modifier
+                                .size(36.dp)
+                                .clip(CircleShape)
+                                .clickable {
+                                    haptics.performHapticFeedback(
+                                        HapticFeedbackType.LongPress
+                                    )
+                                    onLongClick()
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Slideshow,
+                                contentDescription = null,
+                                tint = if (isBitmapDark) StrongBlack
+                                else White,
+                                modifier = Modifier.scale(1.2f)
                             )
-                            .background(MaterialTheme.colorScheme.outlineVariant())
-
-                    )
+                            Icon(
+                                imageVector = Icons.Rounded.Slideshow,
+                                contentDescription = null,
+                                tint = if (isBitmapDark) White
+                                else StrongBlack
+                            )
+                        }
+                    }
                 }
+                Spacer(Modifier.width(16.dp))
+                Box(
+                    modifier = Modifier
+                        .height(36.dp)
+                        .width(
+                            settingsState.borderWidth.coerceAtLeast(
+                                0.25.dp
+                            )
+                        )
+                        .background(MaterialTheme.colorScheme.outlineVariant())
+                )
             }
-        } else null,
+        },
         endIcon = {
             Icon(
                 imageVector = Icons.Rounded.AddCircleOutline,
@@ -700,6 +777,30 @@ private fun FilterSelectionItem(
         },
         shape = shape,
         onLongClick = onLongClick,
-        onClick = onClick
+        onClick = onClick,
     )
+}
+
+private fun calculateBrightnessEstimate(
+    bitmap: Bitmap,
+    pixelSpacing: Int = 1
+): Int {
+    var r = 0
+    var b = 0
+    var g = 0
+    val height = bitmap.height
+    val width = bitmap.width
+    var n = 0
+    val pixels = IntArray(width * height)
+    bitmap.getPixels(pixels, 0, width, 0, 0, width, height)
+    var i = 0
+    while (i < pixels.size) {
+        val color = pixels[i]
+        r += color.red
+        b += color.green
+        g += color.blue
+        n++
+        i += pixelSpacing
+    }
+    return (r + g + b) / (n * 3)
 }

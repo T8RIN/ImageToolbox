@@ -108,8 +108,11 @@ inline val Blue: Color
 inline val Black: Color
     @Composable get() = Color(0xFF142329).harmonizeWithPrimary(0.2f)
 
+inline val StrongBlack: Color
+    @Composable get() = Color(0xFF141414).harmonizeWithPrimary(0.07f)
+
 inline val White: Color
-    @Composable get() = Color(0xFFFFFFFF).harmonizeWithPrimary(0.05f)
+    @Composable get() = Color(0xFFFFFFFF).harmonizeWithPrimary(0.07f)
 
 inline val BitcoinColor: Color
     @Composable get() = Color(0xFFF7931A).harmonizeWithPrimary(0.2f)

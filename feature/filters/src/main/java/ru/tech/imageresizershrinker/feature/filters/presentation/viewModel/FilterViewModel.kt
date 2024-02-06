@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -50,6 +51,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
+import ru.tech.imageresizershrinker.core.filters.presentation.utils.toCoil
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -560,5 +562,9 @@ class FilterViewModel @Inject constructor(
         transformations = filters.map { filterProvider.filterToTransformation(it) },
         size = size
     )
+
+    fun filterToTransformation(
+        uiFilter: UiFilter<*>
+    ): Transformation = filterProvider.filterToTransformation(uiFilter).toCoil()
 
 }

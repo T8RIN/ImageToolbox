@@ -45,6 +45,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.presentation.utils.toCoil
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -267,15 +268,6 @@ class RecognizeTextViewModel @Inject constructor(
             input: Bitmap,
             size: Size
         ): Bitmap = transformation.transform(input, size)
-    }
-
-    private fun Transformation<Bitmap>.toCoil(): CoilTransformation = object : CoilTransformation {
-        override val cacheKey: String
-            get() = this@toCoil.cacheKey
-
-        override suspend fun transform(input: Bitmap, size: Size): Bitmap =
-            this@toCoil.transform(input, size)
-
     }
 
     fun setRecognitionType(recognitionType: RecognitionType) {

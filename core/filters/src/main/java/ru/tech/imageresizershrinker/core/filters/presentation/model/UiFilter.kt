@@ -112,9 +112,7 @@ sealed class UiFilter<T>(
                 ),
                 listOf(
                     UiSharpenFilter(),
-                    UiCrosshatchFilter(),
                     UiSobelEdgeDetectionFilter(),
-                    UiHalftoneFilter(),
                     UiOilFilter(),
                     UiEmbossFilter(),
                     UiVignetteFilter(),
@@ -172,6 +170,8 @@ sealed class UiFilter<T>(
                     UiGlassSphereRefractionFilter()
                 ),
                 listOf(
+                    UiHalftoneFilter(),
+                    UiCrosshatchFilter(),
                     UiBayerTwoDitheringFilter(),
                     UiBayerThreeDitheringFilter(),
                     UiBayerFourDitheringFilter(),

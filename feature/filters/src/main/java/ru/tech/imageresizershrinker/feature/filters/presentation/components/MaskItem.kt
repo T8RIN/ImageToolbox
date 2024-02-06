@@ -60,6 +60,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.transform.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
@@ -78,6 +79,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 fun MaskItem(
     mask: UiFilterMask,
     modifier: Modifier = Modifier,
+    onRequestFilterMapping: ((UiFilter<*>) -> Transformation)? = null,
     onRequestPreview: (suspend (Bitmap, List<UiFilter<*>>, IntegerSize) -> Bitmap?)? = null,
     titleText: String,
     onMaskChange: (UiFilterMask) -> Unit,
@@ -293,6 +295,7 @@ fun MaskItem(
                     )
                 )
             },
+            onRequestFilterMapping = onRequestFilterMapping,
             onFilterPickedWithParams = { filter ->
                 onMaskChange(
                     mask.copy(
