@@ -203,6 +203,7 @@ fun AddFiltersSheet(
                     ) {
                         PrimaryScrollableTabRow(
                             divider = {},
+                            edgePadding = 16.dp,
                             containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp),
                             selectedTabIndex = pagerState.currentPage,
                             indicator = { tabPositions ->
