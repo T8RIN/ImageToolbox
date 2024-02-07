@@ -23,9 +23,9 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 
 class UiGammaFilter(
-    override val value: Float = 1.5f,
+    override val value: Float = 1f,
 ) : UiFilter<Float>(
     title = R.string.gamma,
     value = value,
-    valueRange = 0f..3f
+    valueRange = 0f..2f
 ), Filter.Gamma<Bitmap>

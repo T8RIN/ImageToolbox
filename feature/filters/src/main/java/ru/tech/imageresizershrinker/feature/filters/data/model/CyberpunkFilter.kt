@@ -19,14 +19,14 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import coil.size.Size
-import com.awxkee.aire.Aire
+import com.awxkee.aire.ColorMatrices
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
-internal class GammaFilter(
-    override val value: Float = 1.5f,
-) : Transformation<Bitmap>, Filter.Gamma<Bitmap> {
+internal class CyberpunkFilter(
+    override val value: Unit = Unit
+) : Transformation<Bitmap>, Filter.Cyberpunk<Bitmap> {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -34,9 +34,6 @@ internal class GammaFilter(
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = Aire.gamma(
-        bitmap = input,
-        gamma = value
-    )
+    ): Bitmap = ColorMatrix3x3Filter(ColorMatrices.CYBERPUNK).transform(input, size)
 
 }

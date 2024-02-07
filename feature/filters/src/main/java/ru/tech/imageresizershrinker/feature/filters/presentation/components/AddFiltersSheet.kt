@@ -170,25 +170,21 @@ fun AddFiltersSheet(
     val scope = rememberCoroutineScope()
 
     var previewSheetData by FilterHolder.previewSheetData
-    val showPreviewState = remember { mutableStateOf(false) }
 
     LaunchedEffect(
         previewBitmap,
-        previewSheetData,
-        visible.value,
-        showPreviewState.value
+        previewSheetData
     ) {
         if (previewBitmap == null) {
             previewSheetData = null
         }
-        while (previewSheetData == null && showPreviewState.value || !visible.value) {
-            showPreviewState.value = false
-        }
     }
 
     val context = LocalContext.current
-    val groupedFilters = remember(context) {
-        UiFilter.groupedEntries(context)
+    val groupedFilters by remember(context) {
+        derivedStateOf {
+            UiFilter.groupedEntries(context)
+        }
     }
     val haptics = LocalHapticFeedback.current
     val pagerState = rememberPagerState(pageCount = { groupedFilters.size })
@@ -311,7 +307,6 @@ fun AddFiltersSheet(
                                         previewBitmap = previewBitmap,
                                         onLongClick = {
                                             previewSheetData = filter
-                                            showPreviewState.value = true
                                         },
                                         onClick = {
                                             visible.value = false
@@ -379,7 +374,6 @@ fun AddFiltersSheet(
                                     previewBitmap = previewBitmap,
                                     onLongClick = {
                                         previewSheetData = filter
-                                        showPreviewState.value = true
                                     },
                                     onClick = {
                                         visible.value = false
@@ -516,7 +510,6 @@ fun AddFiltersSheet(
     var imageState by remember { mutableStateOf(middleImageState()) }
     var loading by remember { mutableStateOf(false) }
     LaunchedEffect(previewSheetData) {
-        showPreviewState.value = previewSheetData != null && previewBitmap != null
         if (previewBitmap != null && previewSheetData != null) {
             if (previewSheetData?.value is Unit) {
                 imageState = imageState.copy(position = 2)
@@ -543,7 +536,6 @@ fun AddFiltersSheet(
                             enableAutoShadowAndBorder = false,
                             onClick = {
                                 previewSheetData = null
-                                showPreviewState.value = false
                             }
                         ) {
                             Icon(Icons.Rounded.Close, null)
@@ -560,11 +552,11 @@ fun AddFiltersSheet(
                             contentColor = LocalContentColor.current,
                             enableAutoShadowAndBorder = false,
                             onClick = {
-                                previewSheetData = null
-                                visible.value = false
                                 previewSheetData?.let {
                                     onFilterPickedWithParams(it)
                                 }
+                                previewSheetData = null
+                                visible.value = false
                             }
                         ) {
                             Icon(Icons.Rounded.Done, null)
@@ -651,7 +643,6 @@ fun AddFiltersSheet(
                                     showDragHandle = false,
                                     onRemove = {
                                         previewSheetData = null
-                                        showPreviewState.value = false
                                     },
                                     onFilterChange = { v ->
                                         previewSheetData = previewSheetData?.copy(v)
@@ -672,7 +663,10 @@ fun AddFiltersSheet(
                 }
             }
         },
-        visible = showPreviewState
+        visible = previewSheetData != null,
+        onDismiss = {
+            previewSheetData = null
+        }
     )
 }
 

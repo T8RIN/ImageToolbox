@@ -750,4 +750,22 @@
     <string name="achromatopsia">Achromatopsia</string>
     <string name="grain">Grain</string>
     <string name="unsharp">Unsharp</string>
+    <string name="pastel">Pastel</string>
+    <string name="orange_haze">Orange Haze</string>
+    <string name="pink_dream">Pink Dream</string>
+    <string name="golden_hour">Golden Hour</string>
+    <string name="hot_summer">Hot Summer</string>
+    <string name="purple_mist">Purple Mist</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="colorful_swirl">Colorful Swirl</string>
+    <string name="soft_spring_light">Soft Spring Light</string>
+    <string name="autumn_tones">Autumn Tones</string>
+    <string name="lavender_dream">Lavender Dream</string>
+    <string name="cyberpunk">Cyberpunk</string>
+    <string name="lemonade_light">Lemonade Light</string>
+    <string name="spectral_fire">Spectral Fire</string>
+    <string name="night_magic">Night Magic</string>
+    <string name="fantasy_landscape">Fantasy Landscape</string>
+    <string name="color_explosion">Color Explosion</string>
+    <string name="electric_gradient">Electric Gradient</string>
 </resources>

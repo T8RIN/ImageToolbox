@@ -15,28 +15,14 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.data.model
+package ru.tech.imageresizershrinker.core.filters.presentation.model
+
 
 import android.graphics.Bitmap
-import coil.size.Size
-import com.awxkee.aire.Aire
-import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.resources.R
 
-
-internal class GammaFilter(
-    override val value: Float = 1.5f,
-) : Transformation<Bitmap>, Filter.Gamma<Bitmap> {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: Size
-    ): Bitmap = Aire.gamma(
-        bitmap = input,
-        gamma = value
-    )
-
-}
+class UiPurpleMistFilter : UiFilter<Unit>(
+    title = R.string.purple_mist,
+    value = Unit
+), Filter.PurpleMist<Bitmap>

@@ -142,4 +142,22 @@ interface Filter<Image, Value> {
     interface Achromatomaly<Image> : Filter<Image, Unit>
     interface Grain<Image> : Filter<Image, Float>
     interface Unsharp<Image> : Filter<Image, Float>
+    interface Pastel<Image> : Filter<Image, Unit>
+    interface OrangeHaze<Image> : Filter<Image, Unit>
+    interface PinkDream<Image> : Filter<Image, Unit>
+    interface GoldenHour<Image> : Filter<Image, Unit>
+    interface HotSummer<Image> : Filter<Image, Unit>
+    interface PurpleMist<Image> : Filter<Image, Unit>
+    interface Sunrise<Image> : Filter<Image, Unit>
+    interface ColorfulSwirl<Image> : Filter<Image, Unit>
+    interface SoftSpringLight<Image> : Filter<Image, Unit>
+    interface AutumnTones<Image> : Filter<Image, Unit>
+    interface LavenderDream<Image> : Filter<Image, Unit>
+    interface Cyberpunk<Image> : Filter<Image, Unit>
+    interface LemonadeLight<Image> : Filter<Image, Unit>
+    interface SpectralFire<Image> : Filter<Image, Unit>
+    interface NightMagic<Image> : Filter<Image, Unit>
+    interface FantasyLandscape<Image> : Filter<Image, Unit>
+    interface ColorExplosion<Image> : Filter<Image, Unit>
+    interface ElectricGradient<Image> : Filter<Image, Unit>
 }
