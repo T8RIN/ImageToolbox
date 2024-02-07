@@ -26,9 +26,11 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -45,6 +47,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.has
 import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.setPermissionsAllowed
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.util.Locale
 
 
 object ContextUtils {
@@ -248,6 +251,17 @@ object ContextUtils {
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(shareIntent)
     }
+
+    fun Context.getStringLocalized(
+        @StringRes
+        resId: Int,
+        locale: Locale,
+        vararg formatArgs: Any
+    ): String = createConfigurationContext(
+        Configuration(resources.configuration).apply {
+            setLocale(Locale.ENGLISH)
+        }
+    ).getText(resId).toString().format(locale, formatArgs)
 
     /** Receive the clipboard data. */
     fun Context.pasteColorFromClipboard(

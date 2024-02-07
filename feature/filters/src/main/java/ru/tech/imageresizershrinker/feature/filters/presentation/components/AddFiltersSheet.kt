@@ -132,6 +132,7 @@ import ru.tech.imageresizershrinker.core.ui.icons.material.Cube
 import ru.tech.imageresizershrinker.core.ui.theme.StrongBlack
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringLocalized
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -151,6 +152,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.utils.middleImageState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
+import java.util.Locale
 
 
 private object FilterHolder {
@@ -201,11 +203,19 @@ fun AddFiltersSheet(
         )
     }
     LaunchedEffect(searchKeyword) {
+        if (!visible.value) return@LaunchedEffect
         delay(400L) // Debounce calculations
         filtersForSearch = groupedFilters.flatten().filter {
             context.getString(it.title).contains(
                 other = searchKeyword,
                 ignoreCase = true
+            ).or(
+                context.getStringLocalized(
+                    it.title, Locale.ENGLISH
+                ).contains(
+                    other = searchKeyword,
+                    ignoreCase = true
+                )
             )
         }.sortedBy { context.getString(it.title) }
     }
