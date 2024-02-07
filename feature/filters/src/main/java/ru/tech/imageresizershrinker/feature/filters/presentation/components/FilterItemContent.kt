@@ -115,7 +115,7 @@ fun <T> FilterItemContent(
             is FloatArray -> {
                 val value = filter.value as FloatArray
                 val rows = filter.paramsInfo[0].valueRange.start.toInt().absoluteValue
-                var text by rememberSaveable(filter) {
+                var text by rememberSaveable(value) {
                     mutableStateOf(
                         value.let {
                             var string = ""
@@ -135,7 +135,7 @@ fun <T> FilterItemContent(
                     onValueChange = { text = it },
                     onLoseFocusTransformation = {
                         val matrix = filter.newInstance().value as FloatArray
-                        split(", ").mapIndexed { index, num ->
+                        this.trim { it.isWhitespace() }.split(",").mapIndexed { index, num ->
                             num.toFloatOrNull()?.let {
                                 matrix[index] = it
                             }
@@ -150,7 +150,7 @@ fun <T> FilterItemContent(
                             enableAutoShadowAndBorder = false,
                             onClick = {
                                 val matrix = filter.newInstance().value as FloatArray
-                                text.split(", ").mapIndexed { index, num ->
+                                text.trim { it.isWhitespace() }.split(",").mapIndexed { index, num ->
                                     num.toFloatOrNull()?.let {
                                         matrix[index] = it
                                     }

@@ -172,11 +172,16 @@ fun AddFiltersSheet(
     var previewSheetData by FilterHolder.previewSheetData
     val showPreviewState = remember { mutableStateOf(false) }
 
-    LaunchedEffect(previewBitmap, previewSheetData) {
+    LaunchedEffect(
+        previewBitmap,
+        previewSheetData,
+        visible.value,
+        showPreviewState.value
+    ) {
         if (previewBitmap == null) {
             previewSheetData = null
         }
-        while (previewSheetData == null && showPreviewState.value) {
+        while (previewSheetData == null && showPreviewState.value || !visible.value) {
             showPreviewState.value = false
         }
     }
@@ -555,11 +560,11 @@ fun AddFiltersSheet(
                             contentColor = LocalContentColor.current,
                             enableAutoShadowAndBorder = false,
                             onClick = {
-                                previewSheetData?.let {
-                                    onFilterPickedWithParams(it.copy(it.value!!))
-                                }
                                 previewSheetData = null
                                 visible.value = false
+                                previewSheetData?.let {
+                                    onFilterPickedWithParams(it)
+                                }
                             }
                         ) {
                             Icon(Icons.Rounded.Done, null)
