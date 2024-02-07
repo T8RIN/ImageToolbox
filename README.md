@@ -99,7 +99,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 120 various filters)
+- Applying filter chains (More than 140 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -223,6 +223,24 @@ or click one of the badges below.
   - [x] Warm
   - [x] Grain
   - [x] Unsharp
+  - [x] Pastel
+  - [x] Orange Haze
+  - [x] Pink Dream
+  - [x] Golden Hour
+  - [x] Hot Summer
+  - [x] Purple Mist
+  - [x] Sunrise
+  - [x] Colorful Swirl
+  - [x] Soft Spring Light
+  - [x] Autumn Tones
+  - [x] Lavender Dream
+  - [x] Cyberpunk
+  - [x] Lemonade Light
+  - [x] Spectral Fire
+  - [x] Night Magic
+  - [x] Fantasy Landscape
+  - [x] Color Explosion
+  - [x] Electric Gradient
 
   </details>
 
