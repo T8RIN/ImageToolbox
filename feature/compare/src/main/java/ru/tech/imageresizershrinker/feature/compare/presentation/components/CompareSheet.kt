@@ -19,8 +19,6 @@ package ru.tech.imageresizershrinker.feature.compare.presentation.components
 
 import android.graphics.Bitmap
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,9 +53,9 @@ import com.smarttoolfactory.beforeafter.OverlayStyle
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -71,7 +69,6 @@ fun CompareSheet(
 ) {
     var progress by rememberSaveable { mutableFloatStateOf(50f) }
 
-    val settingsState = LocalSettingsState.current
     var showSheet by visible
 
     if (data != null) {
@@ -85,16 +82,12 @@ fun CompareSheet(
                             .fillMaxWidth()
                             .weight(1f)
                             .padding(horizontal = 16.dp)
-                            .border(
-                                settingsState.borderWidth,
-                                MaterialTheme.colorScheme.outlineVariant(),
-                                RoundedCornerShape(4.dp)
-                            )
-                            .clip(RoundedCornerShape(4.dp))
-                            .background(
-                                MaterialTheme.colorScheme
+                            .container(
+                                shape = RoundedCornerShape(4.dp),
+                                color = MaterialTheme.colorScheme
                                     .outlineVariant()
-                                    .copy(alpha = 0.1f)
+                                    .copy(alpha = 0.1f),
+                                resultPadding = 0.dp
                             )
                             .transparencyChecker()
                             .zoomable(rememberZoomState(maxScale = 10f)),
@@ -165,7 +158,6 @@ fun CompareSheet(
 ) {
     var progress by rememberSaveable { mutableFloatStateOf(50f) }
 
-    val settingsState = LocalSettingsState.current
     var showSheet by visible
 
     SimpleSheet(
@@ -178,16 +170,12 @@ fun CompareSheet(
                         .fillMaxWidth()
                         .weight(1f)
                         .padding(horizontal = 16.dp)
-                        .border(
-                            settingsState.borderWidth,
-                            MaterialTheme.colorScheme.outlineVariant(),
-                            RoundedCornerShape(4.dp)
-                        )
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(
-                            MaterialTheme.colorScheme
+                        .container(
+                            shape = RoundedCornerShape(4.dp),
+                            color = MaterialTheme.colorScheme
                                 .outlineVariant()
-                                .copy(alpha = 0.1f)
+                                .copy(alpha = 0.1f),
+                            resultPadding = 0.dp
                         )
                         .transparencyChecker()
                         .zoomable(rememberZoomState(maxScale = 10f)),

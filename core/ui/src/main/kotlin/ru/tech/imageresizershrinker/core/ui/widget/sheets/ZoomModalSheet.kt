@@ -17,8 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.sheets
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,7 +41,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
@@ -52,10 +49,10 @@ import coil.transform.Transformation
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -67,7 +64,6 @@ fun ZoomModalSheet(
     visible: MutableState<Boolean>,
     transformations: List<Transformation> = emptyList()
 ) {
-    val settingsState = LocalSettingsState.current
     var showSheet by visible
 
     val sheetContent: @Composable ColumnScope.() -> Unit = {
@@ -83,16 +79,12 @@ fun ZoomModalSheet(
                     .fillMaxWidth()
                     .weight(1f)
                     .padding(horizontal = 16.dp)
-                    .border(
-                        settingsState.borderWidth,
-                        MaterialTheme.colorScheme.outlineVariant(),
-                        RoundedCornerShape(4.dp)
-                    )
-                    .clip(RoundedCornerShape(4.dp))
-                    .background(
-                        MaterialTheme.colorScheme
+                    .container(
+                        shape = RoundedCornerShape(4.dp),
+                        color = MaterialTheme.colorScheme
                             .outlineVariant()
-                            .copy(alpha = 0.1f)
+                            .copy(alpha = 0.1f),
+                        resultPadding = 0.dp
                     )
                     .transparencyChecker()
                     .zoomable(
@@ -113,7 +105,6 @@ fun ZoomModalSheet(
                     transformations = transformations,
                     shape = RectangleShape,
                     modifier = Modifier.aspectRatio(aspectRatio)
-
                 )
             }
             Row(

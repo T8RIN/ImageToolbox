@@ -22,15 +22,21 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.ContentPaste
+import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -48,6 +54,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -55,6 +62,7 @@ import com.smarttoolfactory.colordetector.ImageColorDetector
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
@@ -79,18 +87,10 @@ fun PickColorFromImageSheet(
 
     var panEnabled by rememberSaveable { mutableStateOf(false) }
 
-    val switch = @Composable {
-        PanModeButton(
-            selected = panEnabled,
-            onClick = { panEnabled = !panEnabled }
-        )
-    }
-
     SimpleSheet(
         sheetContent = {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
+            Column(
+                modifier = Modifier.navigationBarsPadding()
             ) {
                 remember(bitmap) { bitmap?.asImageBitmap() }?.let {
                     ImageColorDetector(
@@ -99,100 +99,146 @@ fun PickColorFromImageSheet(
                         imageBitmap = it,
                         onColorChange = onColorChange,
                         isMagnifierEnabled = settingsState.magnifierEnabled,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .align(Alignment.Center)
-                            .container(resultPadding = 8.dp)
-                            .clip(RoundedCornerShape(12.dp))
+                        boxModifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .container(
+                                shape = RoundedCornerShape(4.dp),
+                                color = MaterialTheme.colorScheme
+                                    .outlineVariant()
+                                    .copy(alpha = 0.1f),
+                                resultPadding = 0.dp
+                            )
                             .transparencyChecker()
                     )
                 } ?: Box(
-                    Modifier
-                        .padding(16.dp)
-                        .align(Alignment.Center)
-                        .container(resultPadding = 8.dp)
-                        .clip(RoundedCornerShape(12.dp))
+                    modifier = Modifier
+                        .weight(1f)
                         .fillMaxWidth()
-                        .fillMaxHeight(0.5f)
+                        .padding(horizontal = 16.dp)
+                        .container(
+                            shape = RoundedCornerShape(4.dp),
+                            color = MaterialTheme.colorScheme
+                                .outlineVariant()
+                                .copy(alpha = 0.1f),
+                            resultPadding = 0.dp
+                        )
                         .shimmer(true)
                 )
-            }
-        },
-        confirmButton = {
-            switch()
-        },
-        title = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .padding(end = 16.dp)
-                        .container(color = MaterialTheme.colorScheme.surfaceColorAtElevation(14.dp))
-                        .padding(4.dp)
-                ) {
-                    Box(
-                        Modifier
-                            .padding(end = 16.dp)
-                            .background(
-                                color = animateColorAsState(color).value,
-                                shape = RoundedCornerShape(12.dp)
-                            )
-                            .size(40.dp)
-                            .border(
-                                width = settingsState.borderWidth,
-                                color = MaterialTheme.colorScheme.outlineVariant(
-                                    onTopOf = animateColorAsState(color).value
-                                ),
-                                shape = RoundedCornerShape(11.dp)
-                            )
-                            .clip(RoundedCornerShape(12.dp))
-                            .clickable {
-                                context.copyToClipboard(
-                                    context.getString(R.string.color),
-                                    color.toHex()
-                                )
-                                scope.launch {
-                                    toastHostState.showToast(
-                                        icon = Icons.Rounded.ContentPaste,
-                                        message = context.getString(R.string.color_copied)
-                                    )
-                                }
-                            }
-                    )
 
-                    Text(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(8.dp))
-                            .clickable {
-                                context.copyToClipboard(
-                                    context.getString(R.string.color),
-                                    color.toHex()
-                                )
-                                scope.launch {
-                                    toastHostState.showToast(
-                                        icon = Icons.Rounded.ContentPaste,
-                                        message = context.getString(R.string.color_copied)
+                Row(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .padding(end = 16.dp)
+                                .container(
+                                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                        14.dp
                                     )
-                                }
+                                )
+                                .padding(4.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .padding(end = 16.dp)
+                                    .background(
+                                        color = animateColorAsState(color).value,
+                                        shape = RoundedCornerShape(12.dp)
+                                    )
+                                    .size(40.dp)
+                                    .border(
+                                        width = settingsState.borderWidth,
+                                        color = MaterialTheme.colorScheme.outlineVariant(
+                                            onTopOf = animateColorAsState(color).value
+                                        ),
+                                        shape = RoundedCornerShape(11.dp)
+                                    )
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .clickable {
+                                        context.copyToClipboard(
+                                            context.getString(R.string.color),
+                                            color.toHex()
+                                        )
+                                        scope.launch {
+                                            toastHostState.showToast(
+                                                icon = Icons.Rounded.ContentPaste,
+                                                message = context.getString(R.string.color_copied)
+                                            )
+                                        }
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.ContentCopy,
+                                    contentDescription = null,
+                                    tint = animateColorAsState(
+                                        color.inverse(
+                                            fraction = { cond ->
+                                                if (cond) 0.8f
+                                                else 0.5f
+                                            },
+                                            darkMode = color.luminance() < 0.3f
+                                        )
+                                    ).value,
+                                    modifier = Modifier.size(20.dp)
+                                )
                             }
-                            .background(MaterialTheme.colorScheme.secondaryContainer)
-                            .border(
-                                settingsState.borderWidth,
-                                MaterialTheme.colorScheme.outlineVariant(
-                                    onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                                ),
-                                RoundedCornerShape(8.dp)
+
+                            Text(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .clickable {
+                                        context.copyToClipboard(
+                                            context.getString(R.string.color),
+                                            color.toHex()
+                                        )
+                                        scope.launch {
+                                            toastHostState.showToast(
+                                                icon = Icons.Rounded.ContentPaste,
+                                                message = context.getString(R.string.color_copied)
+                                            )
+                                        }
+                                    }
+                                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                                    .border(
+                                        settingsState.borderWidth,
+                                        MaterialTheme.colorScheme.outlineVariant(
+                                            onTopOf = MaterialTheme.colorScheme.secondaryContainer
+                                        ),
+                                        RoundedCornerShape(8.dp)
+                                    )
+                                    .padding(horizontal = 8.dp),
+                                text = color.toHex(),
+                                style = LocalTextStyle.current.copy(
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                                )
                             )
-                            .padding(horizontal = 8.dp),
-                        text = color.toHex(),
-                        style = LocalTextStyle.current.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSecondaryContainer
-                        )
+                        }
+                    }
+                    Spacer(Modifier.weight(1f))
+                    PanModeButton(
+                        selected = panEnabled,
+                        onClick = { panEnabled = !panEnabled }
                     )
                 }
+            }
+        },
+        dragHandle = {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                BottomSheetDefaults.DragHandle()
             }
         },
         visible = visible

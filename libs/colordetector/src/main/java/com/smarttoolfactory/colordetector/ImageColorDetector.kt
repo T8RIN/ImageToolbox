@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -51,6 +52,7 @@ fun ImageColorDetector(
     panEnabled: Boolean = false,
     imageBitmap: ImageBitmap,
     isMagnifierEnabled: Boolean,
+    boxModifier: Modifier = Modifier,
     onColorChange: (Color) -> Unit
 ) {
     var pickerOffset by remember {
@@ -67,8 +69,8 @@ fun ImageColorDetector(
     var globalTouchPosition by remember { mutableStateOf(Offset.Unspecified) }
     var globalTouchPointersCount by remember { mutableIntStateOf(0) }
 
-    ImageWithConstraints(
-        modifier = modifier
+    Box(
+        modifier = boxModifier
             .observePointersCountWithOffset { size, offset ->
                 globalTouchPointersCount = size
                 globalTouchPosition = offset
@@ -101,75 +103,79 @@ fun ImageColorDetector(
                     if (panEnabled) zoomState.defaultZoomOnDoubleTap(pos)
                 }
             ),
-        imageBitmap = imageBitmap
+        contentAlignment = Alignment.Center
     ) {
+        ImageWithConstraints(
+            modifier = modifier,
+            imageBitmap = imageBitmap
+        ) {
 
-        val density = LocalDensity.current.density
+            val density = LocalDensity.current.density
 
-        val size = rememberUpdatedState(
-            newValue = Size(
-                width = imageWidth.value * density,
-                height = imageHeight.value * density
-            )
-        )
-
-        fun updateOffset(pointerInputChange: PointerInputChange): Offset {
-            val offsetX = pointerInputChange.position.x
-                .coerceIn(0f, size.value.width)
-            val offsetY = pointerInputChange.position.y
-                .coerceIn(0f, size.value.height)
-            pointerInputChange.consume()
-            return Offset(offsetX, offsetY)
-        }
-
-        if (!panEnabled) {
-            var touchStartedWithOnePointer by remember {
-                mutableStateOf(false)
-            }
-            Box(
-                modifier = Modifier
-                    .size(imageWidth, imageHeight)
-                    .pointerMotionEvents(
-                        onDown = {
-                            touchStartedWithOnePointer = globalTouchPointersCount <= 1
-
-                            if (touchStartedWithOnePointer) pickerOffset = updateOffset(it)
-                        },
-                        onMove = {
-                            if (touchStartedWithOnePointer) pickerOffset = updateOffset(it)
-                        },
-                        onUp = {
-                            if (touchStartedWithOnePointer) pickerOffset = updateOffset(it)
-                        },
-                        delayAfterDownInMillis = 20
-                    )
-            )
-        }
-
-        if (pickerOffset.isSpecified && pickerOffset.isFinite) {
-            onColorChange(
-                calculateColorInPixel(
-                    offsetX = pickerOffset.x,
-                    offsetY = pickerOffset.y,
-                    startImageX = 0f,
-                    startImageY = 0f,
-                    rect = rect,
+            val size = rememberUpdatedState(
+                newValue = Size(
                     width = imageWidth.value * density,
-                    height = imageHeight.value * density,
-                    bitmap = imageBitmap.asAndroidBitmap()
+                    height = imageHeight.value * density
                 )
             )
+
+            fun updateOffset(pointerInputChange: PointerInputChange): Offset {
+                val offsetX = pointerInputChange.position.x
+                    .coerceIn(0f, size.value.width)
+                val offsetY = pointerInputChange.position.y
+                    .coerceIn(0f, size.value.height)
+                pointerInputChange.consume()
+                return Offset(offsetX, offsetY)
+            }
+
+            if (!panEnabled) {
+                var touchStartedWithOnePointer by remember {
+                    mutableStateOf(false)
+                }
+                Box(
+                    modifier = Modifier
+                        .size(imageWidth, imageHeight)
+                        .pointerMotionEvents(
+                            onDown = {
+                                touchStartedWithOnePointer = globalTouchPointersCount <= 1
+
+                                if (touchStartedWithOnePointer) pickerOffset = updateOffset(it)
+                            },
+                            onMove = {
+                                if (touchStartedWithOnePointer) pickerOffset = updateOffset(it)
+                            },
+                            onUp = {
+                                if (touchStartedWithOnePointer) pickerOffset = updateOffset(it)
+                            },
+                            delayAfterDownInMillis = 20
+                        )
+                )
+            }
+
+            if (pickerOffset.isSpecified && pickerOffset.isFinite) {
+                onColorChange(
+                    calculateColorInPixel(
+                        offsetX = pickerOffset.x,
+                        offsetY = pickerOffset.y,
+                        startImageX = 0f,
+                        startImageY = 0f,
+                        rect = rect,
+                        width = imageWidth.value * density,
+                        height = imageHeight.value * density,
+                        bitmap = imageBitmap.asAndroidBitmap()
+                    )
+                )
+            }
+
+            ColorSelectionDrawing(
+                modifier = Modifier
+                    .size(imageWidth, imageHeight),
+                selectedColor = color,
+                zoom = zoomState.scale,
+                offset = pickerOffset
+            )
         }
-
-        ColorSelectionDrawing(
-            modifier = Modifier
-                .size(imageWidth, imageHeight),
-            selectedColor = color,
-            zoom = zoomState.scale,
-            offset = pickerOffset
-        )
     }
-
 }
 
 @Composable
