@@ -160,4 +160,12 @@ interface Filter<Image, Value> {
     interface FantasyLandscape<Image> : Filter<Image, Unit>
     interface ColorExplosion<Image> : Filter<Image, Unit>
     interface ElectricGradient<Image> : Filter<Image, Unit>
+    interface CaramelDarkness<Image> : Filter<Image, Unit>
+    interface FuturisticGradient<Image> : Filter<Image, Unit>
+    interface GreenSun<Image> : Filter<Image, Unit>
+    interface RainbowWorld<Image> : Filter<Image, Unit>
+    interface DeepPurple<Image> : Filter<Image, Unit>
+    interface SpacePortal<Image> : Filter<Image, Unit>
+    interface RedSwirl<Image> : Filter<Image, Unit>
+    interface DigitalCode<Image> : Filter<Image, Unit>
 }

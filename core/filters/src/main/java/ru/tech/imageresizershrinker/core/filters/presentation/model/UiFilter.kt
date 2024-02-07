@@ -98,6 +98,14 @@ sealed class UiFilter<T>(
                     UiFantasyLandscapeFilter(),
                     UiColorExplosionFilter(),
                     UiElectricGradientFilter(),
+                    UiCaramelDarknessFilter(),
+                    UiFuturisticGradientFilter(),
+                    UiGreenSunFilter(),
+                    UiRainbowWorldFilter(),
+                    UiDeepPurpleFilter(),
+                    UiSpacePortalFilter(),
+                    UiRedSwirlFilter(),
+                    UiDigitalCodeFilter()
                 ),
                 listOf(
                     UiHueFilter(),

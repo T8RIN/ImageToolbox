@@ -768,4 +768,12 @@
     <string name="fantasy_landscape">Fantasy Landscape</string>
     <string name="color_explosion">Color Explosion</string>
     <string name="electric_gradient">Electric Gradient</string>
+    <string name="caramel_darkness">Caramel Darkness</string>
+    <string name="futuristic_gradient">Futuristic Gradient</string>
+    <string name="green_sun">Green Sun</string>
+    <string name="rainbow_world">Rainbow World</string>
+    <string name="deep_purple">Deep Purple</string>
+    <string name="space_portal">Space Portal</string>
+    <string name="red_swirl">Red Swirl</string>
+    <string name="digital_code">Digital Code</string>
 </resources>
