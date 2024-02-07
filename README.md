@@ -222,6 +222,7 @@ or click one of the badges below.
   - [x] Vintage
   - [x] Warm
   - [x] Grain
+  - [x] Unsharp
 
   </details>
 
