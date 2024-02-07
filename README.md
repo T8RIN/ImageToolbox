@@ -99,7 +99,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 140 various filters)
+- Applying filter chains (More than 150 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -241,6 +241,14 @@ or click one of the badges below.
   - [x] Fantasy Landscape
   - [x] Color Explosion
   - [x] Electric Gradient
+  - [x] Caramel Darkness
+  - [x] Futuristic Gradient
+  - [x] Green Sun
+  - [x] Rainbow World
+  - [x] Deep Purple
+  - [x] Space Portal
+  - [x] Red Swirl
+  - [x] Digital Code
 
   </details>
 
