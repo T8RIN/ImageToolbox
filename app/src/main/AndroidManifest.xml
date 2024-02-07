@@ -53,6 +53,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
+        android:hasFragileUserData="true"
         android:label="@string/app_launcher_name"
         android:largeHeap="true"
         android:localeConfig="@xml/locales_config"

@@ -45,6 +45,9 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.presentation.model.UiContrastFilter
+import ru.tech.imageresizershrinker.core.filters.presentation.model.UiSharpenFilter
+import ru.tech.imageresizershrinker.core.filters.presentation.model.UiThresholdFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.toCoil
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
@@ -92,20 +95,11 @@ class RecognizeTextViewModel @Inject constructor(
     private val _languages: MutableState<List<OCRLanguage>> = mutableStateOf(emptyList())
     val languages by _languages
 
-    private val contrastFilterInstance = object : Filter.Contrast<Bitmap> {
-        override val value: Float
-            get() = 4f
-    }
+    private val contrastFilterInstance = UiContrastFilter()
 
-    private val sharpenFilterInstance = object : Filter.Sharpen<Bitmap> {
-        override val value: Float
-            get() = 4f
-    }
+    private val sharpenFilterInstance = UiSharpenFilter()
 
-    private val thresholdFilterInstance = object : Filter.Threshold<Bitmap> {
-        override val value: Float
-            get() = 128f
-    }
+    private val thresholdFilterInstance = UiThresholdFilter()
 
     private val filtersOrder = listOf(
         contrastFilterInstance,

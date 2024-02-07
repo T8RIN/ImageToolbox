@@ -28,5 +28,5 @@ class UiContrastFilter(
 ) : UiFilter<Float>(
     title = R.string.contrast,
     value = value,
-    valueRange = 0f..4f
+    valueRange = 0f..2f
 ), Filter.Contrast<Bitmap>
