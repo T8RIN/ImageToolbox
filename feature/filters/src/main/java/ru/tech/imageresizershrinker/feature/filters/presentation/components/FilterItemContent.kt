@@ -150,11 +150,12 @@ fun <T> FilterItemContent(
                             enableAutoShadowAndBorder = false,
                             onClick = {
                                 val matrix = filter.newInstance().value as FloatArray
-                                text.trim { it.isWhitespace() }.split(",").mapIndexed { index, num ->
-                                    num.toFloatOrNull()?.let {
-                                        matrix[index] = it
+                                text.trim { it.isWhitespace() }.split(",")
+                                    .mapIndexed { index, num ->
+                                        num.toFloatOrNull()?.let {
+                                            matrix[index] = it
+                                        }
                                     }
-                                }
                                 onFilterChange(matrix)
                             }
                         ) {
