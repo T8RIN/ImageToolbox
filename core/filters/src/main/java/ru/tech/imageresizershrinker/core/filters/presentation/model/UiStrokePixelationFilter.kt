@@ -22,7 +22,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiStrokePixelationFilter(
-    override val value: Float = 32f,
+    override val value: Float = 20f,
 ) : UiFilter<Float>(
     title = R.string.stroke_pixelation,
     value = value,

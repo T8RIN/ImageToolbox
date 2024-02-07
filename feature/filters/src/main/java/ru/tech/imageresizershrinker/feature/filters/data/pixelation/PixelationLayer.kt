@@ -20,7 +20,7 @@
 package ru.tech.imageresizershrinker.feature.filters.data.pixelation
 
 
-class PixelateLayer private constructor(var shape: Shape) {
+class PixelateLayer private constructor(val shape: Shape) {
     var enableDominantColor = false
     var resolution = 16f
     var size: Float? = null
@@ -48,11 +48,6 @@ class PixelateLayer private constructor(var shape: Shape) {
         fun setOffset(size: Float): Builder {
             layer.offsetX = size
             layer.offsetY = size
-            return this
-        }
-
-        fun setShape(shape: Shape): Builder {
-            layer.shape = shape
             return this
         }
 

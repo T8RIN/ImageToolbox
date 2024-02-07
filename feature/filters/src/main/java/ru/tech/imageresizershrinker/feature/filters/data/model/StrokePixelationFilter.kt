@@ -25,7 +25,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.pixelation.Pixelate
 import ru.tech.imageresizershrinker.feature.filters.data.pixelation.PixelateLayer
 
 internal class StrokePixelationFilter(
-    override val value: Float = 32f,
+    override val value: Float = 20f,
 ) : Filter.StrokePixelation<Bitmap>, Transformation<Bitmap> {
     override val cacheKey: String
         get() = (value).hashCode().toString()
