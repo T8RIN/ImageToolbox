@@ -31,7 +31,7 @@ fun Modifier.rotateAnimation(
     range: IntRange = 0..180,
     duration: Int = 1000,
     enabled: Boolean = true
-) = composed {
+) = this.composed {
     val infiniteTransition = rememberInfiniteTransition()
 
     val rotation by infiniteTransition.animateFloat(
@@ -43,6 +43,6 @@ fun Modifier.rotateAnimation(
         )
     )
 
-    if (enabled) rotate(rotation)
+    if (enabled) Modifier.rotate(rotation)
     else this
 }

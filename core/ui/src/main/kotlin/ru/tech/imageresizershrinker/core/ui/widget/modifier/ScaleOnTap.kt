@@ -37,12 +37,13 @@ fun Modifier.scaleOnTap(
     max: Float = 1.3f,
     onHold: () -> Unit = {},
     onRelease: (time: Long) -> Unit
-) = composed {
+) = this.composed {
     var scaleState by remember(initial) { mutableFloatStateOf(initial) }
     val scale by animateFloatAsState(scaleState)
     val haptics = LocalHapticFeedback.current
 
-    scale(scale)
+    Modifier
+        .scale(scale)
         .pointerInput(Unit) {
             detectTapGestures(
                 onPress = {

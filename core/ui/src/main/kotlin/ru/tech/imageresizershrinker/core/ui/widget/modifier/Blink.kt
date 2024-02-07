@@ -48,9 +48,9 @@ fun Modifier.blink(
         }
     }
 
-    if (enabled) drawWithContent {
+    if (enabled) Modifier.drawWithContent {
         drawContent()
         drawRect(animatable.value, size = this.size)
     }
-    else this
+    else Modifier
 }

@@ -31,7 +31,7 @@ fun Modifier.pulsate(
     range: ClosedFloatingPointRange<Float> = 0.95f..1.05f,
     duration: Int = 1000,
     enabled: Boolean = true
-) = composed {
+) = this.composed {
     val infiniteTransition = rememberInfiniteTransition()
 
     val scale by infiniteTransition.animateFloat(
@@ -43,6 +43,6 @@ fun Modifier.pulsate(
         )
     )
 
-    if (enabled) scale(scale)
+    if (enabled) Modifier.scale(scale)
     else this
 }

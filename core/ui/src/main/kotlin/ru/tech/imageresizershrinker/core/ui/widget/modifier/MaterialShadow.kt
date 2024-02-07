@@ -42,7 +42,7 @@ fun Modifier.materialShadow(
     elevation: Dp,
     enabled: Boolean = true,
     isClipped: Boolean = true
-) = composed {
+) = this.composed {
     val isConcavePath by remember(shape) {
         derivedStateOf {
             shape.createOutline(

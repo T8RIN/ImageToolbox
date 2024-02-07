@@ -39,7 +39,7 @@ fun Modifier.autoElevatedBorder(
     shape: Shape? = null,
     color: Color = Color.Unspecified,
     autoElevation: Dp = 6.dp
-) = composed {
+) = this.composed {
     val h = if (height.isUnspecified) {
         LocalSettingsState.current.borderWidth.takeIf { it > 0.dp }
     } else null
@@ -49,7 +49,7 @@ fun Modifier.autoElevatedBorder(
     if (h == null) {
         Modifier
     } else {
-        border(
+        Modifier.border(
             width = h,
             color = if (color.isSpecified) color
             else {

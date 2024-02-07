@@ -23,6 +23,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -35,6 +36,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -50,13 +52,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.AddCircleOutline
@@ -141,6 +142,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleDragHandle
@@ -203,8 +205,12 @@ fun AddFiltersSheet(
         )
     }
     LaunchedEffect(searchKeyword) {
-        if (!visible.value) return@LaunchedEffect
         delay(400L) // Debounce calculations
+        if (searchKeyword.isEmpty()) {
+            filtersForSearch = groupedFilters.flatten().sortedBy { context.getString(it.title) }
+            return@LaunchedEffect
+        }
+
         filtersForSearch = groupedFilters.flatten().filter {
             context.getString(it.title).contains(
                 other = searchKeyword,
@@ -302,16 +308,15 @@ fun AddFiltersSheet(
             ) { isSearching ->
                 if (isSearching) {
                     AnimatedContent(
-                        targetState = filtersForSearch
-                    ) { filters ->
-                        if (filters.isNotEmpty()) {
-                            Column(
-                                Modifier
-                                    .verticalScroll(rememberScrollState())
-                                    .padding(vertical = 16.dp),
-                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                        targetState = filtersForSearch.isNotEmpty()
+                    ) { isNotEmpty ->
+                        if (isNotEmpty) {
+                            LazyColumn(
+                                verticalArrangement = Arrangement.spacedBy(4.dp),
+                                modifier = Modifier.animateContentSize(),
+                                contentPadding = PaddingValues(16.dp)
                             ) {
-                                filters.forEachIndexed { index, filter ->
+                                itemsIndexed(filtersForSearch) { index, filter ->
                                     FilterSelectionItem(
                                         filter = filter,
                                         previewBitmap = previewBitmap,
@@ -325,8 +330,9 @@ fun AddFiltersSheet(
                                         onRequestFilterMapping = onRequestFilterMapping,
                                         shape = ContainerShapeDefaults.shapeForIndex(
                                             index = index,
-                                            size = filters.size
-                                        )
+                                            size = filtersForSearch.size
+                                        ),
+                                        modifier = Modifier.animateItemPlacement()
                                     )
                                 }
                             }
@@ -372,13 +378,11 @@ fun AddFiltersSheet(
                                 groupedFilters[page]
                             }
                         }
-                        Column(
-                            Modifier
-                                .verticalScroll(rememberScrollState())
-                                .padding(vertical = 16.dp),
-                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        LazyColumn(
+                            verticalArrangement = Arrangement.spacedBy(4.dp),
+                            contentPadding = PaddingValues(16.dp)
                         ) {
-                            filters.forEachIndexed { index, filter ->
+                            itemsIndexed(filters) { index, filter ->
                                 FilterSelectionItem(
                                     filter = filter,
                                     previewBitmap = previewBitmap,
@@ -393,7 +397,8 @@ fun AddFiltersSheet(
                                     shape = ContainerShapeDefaults.shapeForIndex(
                                         index = index,
                                         size = filters.size
-                                    )
+                                    ),
+                                    modifier = Modifier.animateItemPlacement()
                                 )
                             }
                         }
@@ -687,7 +692,8 @@ private fun FilterSelectionItem(
     onLongClick: () -> Unit,
     onClick: () -> Unit,
     onRequestFilterMapping: ((UiFilter<*>) -> Transformation)?,
-    shape: Shape
+    shape: Shape,
+    modifier: Modifier
 ) {
     val haptics = LocalHapticFeedback.current
     val settingsState = LocalSettingsState.current
@@ -710,9 +716,16 @@ private fun FilterSelectionItem(
     var isBitmapDark by remember {
         mutableStateOf(true)
     }
+    var loading by remember {
+        mutableStateOf(false)
+    }
     val painter = rememberAsyncImagePainter(
         model = model,
+        onLoading = {
+            loading = true
+        },
         onSuccess = {
+            loading = false
             scope.launch {
                 isBitmapDark = calculateBrightnessEstimate(it.result.drawable.toBitmap()) < 110
             }
@@ -735,6 +748,7 @@ private fun FilterSelectionItem(
                                 .scale(1.2f)
                                 .clip(MaterialTheme.shapes.medium)
                                 .transparencyChecker()
+                                .shimmer(loading)
                         )
                     }
                     if (previewBitmap != null) {
@@ -785,6 +799,7 @@ private fun FilterSelectionItem(
                 contentDescription = null
             )
         },
+        modifier = modifier.fillMaxWidth(),
         shape = shape,
         onLongClick = onLongClick,
         onClick = onClick,

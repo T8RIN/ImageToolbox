@@ -54,7 +54,7 @@ fun Modifier.container(
     composeColorOnTopOfBackground: Boolean = true,
     isShadowClip: Boolean = false,
     isStandaloneContainer: Boolean = true
-) = composed {
+) = this.composed {
     val localContainerShape = LocalContainerShape.current
     val resultShape = localContainerShape ?: shape
     val settingsState = LocalSettingsState.current
@@ -101,7 +101,7 @@ fun Modifier.container(
             shape = resultShape
         )
 
-    this
+    Modifier
         .materialShadow(
             shape = resultShape,
             elevation = animateDpAsState(

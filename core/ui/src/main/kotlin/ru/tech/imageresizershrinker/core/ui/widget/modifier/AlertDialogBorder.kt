@@ -30,8 +30,9 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 
-fun Modifier.alertDialogBorder() = composed {
-    navigationBarsPadding()
+fun Modifier.alertDialogBorder() = this.composed {
+    Modifier
+        .navigationBarsPadding()
         .statusBarsPadding()
         .displayCutoutPadding()
         .autoElevatedBorder(

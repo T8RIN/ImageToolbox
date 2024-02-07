@@ -41,7 +41,7 @@ fun Modifier.drawHorizontalStroke(
     height: Dp = Dp.Unspecified,
     autoElevation: Dp = 6.dp,
     enabled: Boolean = true
-) = composed {
+) = this.composed {
     if (!enabled) return@composed Modifier
 
     val settingsState = LocalSettingsState.current
@@ -73,7 +73,8 @@ fun Modifier.drawHorizontalStroke(
         shadow
     } else {
         val heightPx = with(LocalDensity.current) { h.toPx() }
-        zIndex(100f)
+        Modifier
+            .zIndex(100f)
             .drawWithContent {
                 drawContent()
                 drawRect(
