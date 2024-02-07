@@ -7,7 +7,7 @@ versionName = "2.6.1-alpha02"
 versionCode = "119"
 
 jvmTarget = "17"
-compose-compiler = "1.5.8"
+compose-compiler = "1.5.9"
 
 tesseract = "4.3.0"
 composeColorfulSliders = "1.2.2"
