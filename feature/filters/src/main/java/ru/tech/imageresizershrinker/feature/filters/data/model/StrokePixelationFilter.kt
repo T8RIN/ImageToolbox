@@ -68,7 +68,7 @@ internal class StrokePixelationFilter(
                 it.config
             ).applyCanvas {
                 drawColor(value.second.toArgb())
-                drawBitmap(it, Matrix(), Paint().apply { isFilterBitmap = true })
+                drawBitmap(it, Matrix(), Paint())
             }
         }
     }
