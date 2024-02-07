@@ -140,4 +140,6 @@ interface Filter<Image, Value> {
     interface Tritanopia<Image> : Filter<Image, Unit>
     interface Achromatopsia<Image> : Filter<Image, Unit>
     interface Achromatomaly<Image> : Filter<Image, Unit>
+    interface Grain<Image> : Filter<Image, Float>
+    interface Unsharp<Image> : Filter<Image, Float>
 }

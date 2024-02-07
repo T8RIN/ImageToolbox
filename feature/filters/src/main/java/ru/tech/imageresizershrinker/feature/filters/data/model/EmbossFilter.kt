@@ -17,20 +17,25 @@
 
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
-import android.content.Context
 import android.graphics.Bitmap
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageEmbossFilter
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
+import coil.size.Size
+import com.awxkee.aire.Aire
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 internal class EmbossFilter(
-    private val context: Context,
     override val value: Float = 1f,
-) : GPUFilterTransformation(context), Filter.Emboss<Bitmap> {
+) : Transformation<Bitmap>, Filter.Emboss<Bitmap> {
 
     override val cacheKey: String
-        get() = (value to context).hashCode().toString()
+        get() = value.hashCode().toString()
 
-    override fun createFilter(): GPUImageFilter = GPUImageEmbossFilter(value)
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap = Aire.emboss(
+        bitmap = input,
+        intensity = value
+    )
 }

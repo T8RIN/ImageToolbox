@@ -78,6 +78,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.GammaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GaussianBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GlassSphereRefractionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GlitchFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.GrainFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.GrayscaleFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.HableFilmicToneMappingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.HalftoneFilter
@@ -137,6 +138,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.ToonFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TritanopiaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TritonomalyFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TwoRowSierraDitheringFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.UnsharpFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.VibranceFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.VignetteFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.VintageFilter
@@ -171,7 +173,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Crosshatch -> CrosshatchFilter(context, value)
             is Filter.DiamondPixelation -> DiamondPixelationFilter(value)
             is Filter.Dilation -> DilationFilter(value)
-            is Filter.Emboss -> EmbossFilter(context, value)
+            is Filter.Emboss -> EmbossFilter(value)
             is Filter.EnhancedCirclePixelation -> EnhancedCirclePixelationFilter(value)
             is Filter.EnhancedDiamondPixelation -> EnhancedDiamondPixelationFilter(value)
             is Filter.EnhancedPixelation -> EnhancedPixelationFilter(value)
@@ -199,7 +201,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.RGB<*, *> -> RGBFilter(context, value as FilterValueWrapper<Color>)
             is Filter.Saturation -> SaturationFilter(value)
             is Filter.Sepia -> SepiaFilter(value)
-            is Filter.Sharpen -> SharpenFilter(context, value)
+            is Filter.Sharpen -> SharpenFilter(value)
             is Filter.Sketch -> SketchFilter(value)
             is Filter.SmoothToon -> SmoothToonFilter(context, value)
             is Filter.SobelEdgeDetection -> SobelEdgeDetectionFilter(context, value)
@@ -279,6 +281,8 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Tritonomaly -> TritonomalyFilter(value)
             is Filter.Vintage -> VintageFilter(value)
             is Filter.Warm -> WarmFilter(value)
+            is Filter.Grain -> GrainFilter(value)
+            is Filter.Unsharp -> UnsharpFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

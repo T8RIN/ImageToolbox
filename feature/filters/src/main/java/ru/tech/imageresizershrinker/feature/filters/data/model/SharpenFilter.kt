@@ -17,20 +17,26 @@
 
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
-import android.content.Context
 import android.graphics.Bitmap
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageSharpenFilter
+import coil.size.Size
+import com.awxkee.aire.Aire
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
 internal class SharpenFilter(
-    private val context: Context,
-    override val value: Float = 2f,
-) : GPUFilterTransformation(context), Filter.Sharpen<Bitmap> {
+    override val value: Float = 1f,
+) : Transformation<Bitmap>, Filter.Sharpen<Bitmap> {
 
     override val cacheKey: String
-        get() = (value to context).hashCode().toString()
+        get() = value.hashCode().toString()
 
-    override fun createFilter(): GPUImageFilter = GPUImageSharpenFilter(value)
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap = Aire.sharpness(
+        bitmap = input,
+        intensity = value
+    )
+
 }

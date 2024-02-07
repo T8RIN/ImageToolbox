@@ -748,4 +748,6 @@
     <string name="protanopia">Protanopia</string>
     <string name="achromatomaly">Achromatomaly</string>
     <string name="achromatopsia">Achromatopsia</string>
+    <string name="grain">Grain</string>
+    <string name="unsharp">Unsharp</string>
 </resources>

@@ -21,11 +21,10 @@ import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.resources.R
 
-
-class UiSharpenFilter(
-    override val value: Float = 1f,
+class UiGrainFilter(
+    override val value: Float = 0.75f,
 ) : UiFilter<Float>(
-    title = R.string.sharpen,
+    title = R.string.grain,
     value = value,
-    valueRange = -1f..1f
-), Filter.Sharpen<Bitmap>
+    valueRange = 0f..2f
+), Filter.Grain<Bitmap>

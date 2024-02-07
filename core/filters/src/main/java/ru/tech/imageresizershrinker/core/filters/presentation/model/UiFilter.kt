@@ -112,6 +112,8 @@ sealed class UiFilter<T>(
                 ),
                 listOf(
                     UiSharpenFilter(),
+                    UiUnsharpFilter(),
+                    UiGrainFilter(),
                     UiSobelEdgeDetectionFilter(),
                     UiOilFilter(),
                     UiEmbossFilter(),
