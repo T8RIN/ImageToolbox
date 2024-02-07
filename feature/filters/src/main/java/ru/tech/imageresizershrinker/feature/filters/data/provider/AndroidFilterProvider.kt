@@ -40,6 +40,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.BayerThreeDitheri
 import ru.tech.imageresizershrinker.feature.filters.data.model.BayerTwoDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BilaterialBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BlackAndWhiteFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.BokehFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BoxBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BrightnessFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.BrowniFilter
@@ -333,6 +334,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.SpacePortal -> SpacePortalFilter(value)
             is Filter.RedSwirl -> RedSwirlFilter(value)
             is Filter.DigitalCode -> DigitalCodeFilter(value)
+            is Filter.Bokeh -> BokehFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

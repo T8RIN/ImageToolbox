@@ -144,6 +144,7 @@ sealed class UiFilter<T>(
                     UiGrainFilter(),
                     UiSobelEdgeDetectionFilter(),
                     UiOilFilter(),
+                    UiBokehFilter(),
                     UiEmbossFilter(),
                     UiVignetteFilter(),
                     UiKuwaharaFilter(),

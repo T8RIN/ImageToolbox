@@ -167,4 +167,5 @@ interface Filter<Image, Value> {
     interface SpacePortal<Image> : Filter<Image, Unit>
     interface RedSwirl<Image> : Filter<Image, Unit>
     interface DigitalCode<Image> : Filter<Image, Unit>
+    interface Bokeh<Image> : Filter<Image, Triple<Int, Int, Int>>
 }
