@@ -56,7 +56,6 @@ include(":libs:logger")
 include(":libs:zoomable")
 include(":libs:extendedcolors")
 include(":libs:androidwm")
-include(":libs:nQuant")
 
 include(":feature:main")
 include(":feature:pick-color")

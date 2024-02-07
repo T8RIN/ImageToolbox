@@ -130,7 +130,6 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.PosterizeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ProtanopiaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ProtonomalyFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PurpleMistFilter
-import ru.tech.imageresizershrinker.feature.filters.data.model.QuantizierFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.RGBFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.RainbowWorldFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.RandomDitheringFilter
@@ -246,7 +245,6 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.WeakPixel -> WeakPixelFilter(context)
             is Filter.WhiteBalance -> WhiteBalanceFilter(context, value)
             is Filter.ZoomBlur -> ZoomBlurFilter(context, value)
-            is Filter.Quantizier -> QuantizierFilter(value)
             is Filter.BayerTwoDithering -> BayerTwoDitheringFilter(value)
             is Filter.BayerThreeDithering -> BayerThreeDitheringFilter(value)
             is Filter.BayerFourDithering -> BayerFourDitheringFilter(value)

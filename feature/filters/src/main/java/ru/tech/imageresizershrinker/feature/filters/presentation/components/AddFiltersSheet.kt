@@ -688,6 +688,7 @@ private fun FilterSelectionItem(
         if (onRequestFilterMapping != null) {
             ImageRequest.Builder(context)
                 .data(R.drawable.filter_preview_source)
+                .error(R.drawable.filter_preview_source)
                 .transformations(onRequestFilterMapping(filter))
                 .diskCacheKey(filter::class.simpleName)
                 .memoryCacheKey(filter::class.simpleName)
