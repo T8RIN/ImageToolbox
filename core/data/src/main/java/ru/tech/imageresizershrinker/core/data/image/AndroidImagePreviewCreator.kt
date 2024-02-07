@@ -149,14 +149,14 @@ internal class AndroidImagePreviewCreator @Inject constructor(
             height = (imageInfo.height * scaleFactor).roundToInt(),
             resizeType = imageInfo.resizeType,
             imageScaleMode = imageInfo.imageScaleMode
-        )?.let {
+        ).let {
             imageTransformer.flip(
                 image = it,
                 isFlipped = imageInfo.isFlipped
             )
-        }?.let {
+        }.let {
             onImageReadyToCompressInterceptor(it)
-        } ?: return@withContext ByteArray(0)
+        }
 
         return@withContext runCatching {
             imageCompressor.compress(

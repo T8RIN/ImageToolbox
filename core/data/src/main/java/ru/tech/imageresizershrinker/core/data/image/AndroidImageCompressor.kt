@@ -130,16 +130,26 @@ internal class AndroidImageCompressor @Inject constructor(
                 )
             }
 
-            ImageFormat.Jxl.Lossless, ImageFormat.Jxl.Lossy -> {
+            ImageFormat.Jxl.Lossy -> {
                 val jxlQuality = quality as Quality.Jxl
                 jxlCoder.encode(
                     bitmap = image,
                     colorSpace = JxlColorSpace.RGBA,
-                    compressionOption = if (imageFormat is ImageFormat.Jxl.Lossless) {
-                        JxlCompressionOption.LOSSLESS
-                    } else JxlCompressionOption.LOSSY,
+                    compressionOption = JxlCompressionOption.LOSSY,
                     quality = jxlQuality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
                     effort = jxlQuality.effort.coerceIn(imageFormat.compressionTypes[1].compressionRange),
+                    decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == jxlQuality.speed }
+                )
+            }
+
+            ImageFormat.Jxl.Lossless -> {
+                val jxlQuality = quality as Quality.Jxl
+                jxlCoder.encode(
+                    bitmap = image,
+                    colorSpace = JxlColorSpace.RGBA,
+                    compressionOption = JxlCompressionOption.LOSSLESS,
+                    quality = 100,
+                    effort = jxlQuality.effort.coerceIn(imageFormat.compressionTypes[0].compressionRange),
                     decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == jxlQuality.speed }
                 )
             }
@@ -173,13 +183,18 @@ internal class AndroidImageCompressor @Inject constructor(
             }
         } else currentImage = onImageReadyToCompressInterceptor(image)
 
-        return@withContext runCatching {
-            compress(
-                image = currentImage,
-                imageFormat = imageInfo.imageFormat,
-                quality = imageInfo.quality
-            )
-        }.getOrNull() ?: ByteArray(0)
+        return@withContext compress(
+            image = currentImage,
+            imageFormat = imageInfo.imageFormat,
+            quality = imageInfo.quality
+        )
+//        runCatching {
+//            compress(
+//                image = currentImage,
+//                imageFormat = imageInfo.imageFormat,
+//                quality = imageInfo.quality
+//            )
+//        }.getOrNull() ?: ByteArray(0)
     }
 
     override suspend fun calculateImageSize(
