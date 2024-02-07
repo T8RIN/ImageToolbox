@@ -18,13 +18,24 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
+import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
 class UiStrokePixelationFilter(
-    override val value: Float = 20f,
-) : UiFilter<Float>(
+    override val value: Pair<Float, Color> = 20f to Color.Black,
+) : UiFilter<Pair<Float, Color>>(
     title = R.string.stroke_pixelation,
     value = value,
-    valueRange = 5f..75f
-), Filter.StrokePixelation<Bitmap>
+    paramsInfo = listOf(
+        FilterParam(
+            title = R.string.pixel_size,
+            valueRange = 5f..75f
+        ),
+        FilterParam(
+            title = R.string.background_color,
+            valueRange = 0f..0f
+        )
+    )
+), Filter.StrokePixelation<Bitmap, Color>

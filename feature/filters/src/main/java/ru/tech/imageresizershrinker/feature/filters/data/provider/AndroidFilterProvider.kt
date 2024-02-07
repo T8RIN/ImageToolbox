@@ -233,7 +233,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Solarize -> SolarizeFilter(context, value)
             is Filter.SphereRefraction -> SphereRefractionFilter(context, value)
             is Filter.StackBlur -> StackBlurFilter(value)
-            is Filter.StrokePixelation -> StrokePixelationFilter(value)
+            is Filter.StrokePixelation<*, *> -> StrokePixelationFilter(value as Pair<Float, Color>)
             is Filter.SwirlDistortion -> SwirlDistortionFilter(context, value)
             is Filter.Toon -> ToonFilter(context, value)
             is Filter.Vibrance -> VibranceFilter(value)

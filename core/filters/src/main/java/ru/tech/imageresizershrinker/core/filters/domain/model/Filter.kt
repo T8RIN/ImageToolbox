@@ -72,7 +72,7 @@ interface Filter<Image, Value> {
     interface ZoomBlur<Image> : Filter<Image, Triple<Float, Float, Float>>
     interface Pixelation<Image> : Filter<Image, Float>
     interface EnhancedPixelation<Image> : Filter<Image, Float>
-    interface StrokePixelation<Image> : Filter<Image, Float>
+    interface StrokePixelation<Image, Color> : Filter<Image, Pair<Float, Color>>
     interface CirclePixelation<Image> : Filter<Image, Float>
     interface DiamondPixelation<Image> : Filter<Image, Float>
     interface EnhancedCirclePixelation<Image> : Filter<Image, Float>

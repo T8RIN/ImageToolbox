@@ -18,6 +18,11 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
+import android.graphics.Matrix
+import android.graphics.Paint
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.core.graphics.applyCanvas
 import coil.size.Size
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -25,36 +30,46 @@ import ru.tech.imageresizershrinker.feature.filters.data.pixelation.Pixelate
 import ru.tech.imageresizershrinker.feature.filters.data.pixelation.PixelateLayer
 
 internal class StrokePixelationFilter(
-    override val value: Float = 20f,
-) : Filter.StrokePixelation<Bitmap>, Transformation<Bitmap> {
+    override val value: Pair<Float, Color> = 20f to Color.Black,
+) : Filter.StrokePixelation<Bitmap, Color>, Transformation<Bitmap> {
     override val cacheKey: String
         get() = (value).hashCode().toString()
 
     override suspend fun transform(input: Bitmap, size: Size): Bitmap {
+        val pixelSize = value.first
         return Pixelate.fromBitmap(
             input = input,
             layers = arrayOf(
                 PixelateLayer.Builder(PixelateLayer.Shape.Circle)
-                    .setResolution(value)
-                    .setSize(value / 5)
-                    .setOffset(value / 4)
+                    .setResolution(pixelSize)
+                    .setSize(pixelSize / 5)
+                    .setOffset(pixelSize / 4)
                     .build(),
                 PixelateLayer.Builder(PixelateLayer.Shape.Circle)
-                    .setResolution(value)
-                    .setSize(value / 4)
-                    .setOffset(value / 2)
+                    .setResolution(pixelSize)
+                    .setSize(pixelSize / 4)
+                    .setOffset(pixelSize / 2)
                     .build(),
                 PixelateLayer.Builder(PixelateLayer.Shape.Circle)
-                    .setResolution(value)
-                    .setSize(value / 3)
-                    .setOffset(value / 1.3f)
+                    .setResolution(pixelSize)
+                    .setSize(pixelSize / 3)
+                    .setOffset(pixelSize / 1.3f)
                     .build(),
                 PixelateLayer.Builder(PixelateLayer.Shape.Circle)
-                    .setResolution(value)
-                    .setSize(value / 4)
+                    .setResolution(pixelSize)
+                    .setSize(pixelSize / 4)
                     .setOffset(0f)
                     .build()
             )
-        )
+        ).let {
+            Bitmap.createBitmap(
+                it.width,
+                it.height,
+                it.config
+            ).applyCanvas {
+                drawColor(value.second.toArgb())
+                drawBitmap(it, Matrix(), Paint().apply { isFilterBitmap = true })
+            }
+        }
     }
 }
