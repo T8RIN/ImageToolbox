@@ -144,7 +144,6 @@ sealed class UiFilter<T>(
                     UiGrainFilter(),
                     UiSobelEdgeDetectionFilter(),
                     UiOilFilter(),
-                    UiBokehFilter(),
                     UiEmbossFilter(),
                     UiVignetteFilter(),
                     UiKuwaharaFilter(),
@@ -177,6 +176,7 @@ sealed class UiFilter<T>(
                 ),
                 listOf(
                     UiCrystallizeFilter(),
+                    UiBokehFilter(),
                     UiPixelationFilter(),
                     UiEnhancedPixelationFilter(),
                     UiDiamondPixelationFilter(),

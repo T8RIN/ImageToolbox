@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
 import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
@@ -853,6 +854,70 @@ fun <T> FilterItemContent(
                                 2 -> frequencyY
                                 3 -> amplitudeX
                                 else -> amplitudeY
+                            } to filterParam
+                        }
+                    }
+                }
+
+                Column(
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    paramsInfo.forEach { (state, info) ->
+                        val (title, valueRange, roundTo) = info
+                        EnhancedSliderItem(
+                            enabled = !previewOnly,
+                            value = state.value,
+                            title = stringResource(title!!),
+                            valueRange = valueRange,
+                            onValueChange = {
+                                state.value = it
+                            },
+                            internalStateTransformation = {
+                                it.roundTo(roundTo)
+                            },
+                            behaveAsContainer = false
+                        )
+                    }
+                }
+            }
+
+            is BokehParams -> {
+                val value = filter.value as BokehParams
+
+                val radius: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf(value.radius.toFloat()) }
+                val angle: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf(value.angle.toFloat()) }
+                val amount: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf(value.amount.toFloat()) }
+                val scale: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf(value.scale) }
+
+                LaunchedEffect(
+                    radius.value,
+                    angle.value,
+                    amount.value,
+                    scale.value
+                ) {
+                    onFilterChange(
+                        BokehParams(
+                            radius = radius.value.toInt(),
+                            angle = angle.value.toInt(),
+                            amount = amount.value.toInt(),
+                            scale = scale.value
+                        )
+                    )
+                }
+
+                val paramsInfo by remember(filter) {
+                    derivedStateOf {
+                        filter.paramsInfo.mapIndexedNotNull { index, filterParam ->
+                            if (filterParam.title == null) return@mapIndexedNotNull null
+                            when (index) {
+                                0 -> radius
+                                1 -> angle
+                                2 -> amount
+                                else -> scale
                             } to filterParam
                         }
                     }

@@ -21,10 +21,12 @@ import android.graphics.Bitmap
 import coil.size.Size
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
 
 internal class BokehFilter(
-    override val value: Triple<Int, Int, Int> = Triple(10, 45, 6)
+    override val value: BokehParams = BokehParams.Default
 ) : Transformation<Bitmap>, Filter.Bokeh<Bitmap> {
 
     override val cacheKey: String
@@ -33,11 +35,16 @@ internal class BokehFilter(
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = Aire.bokeh(
-        bitmap = input,
-        radius = value.first,
-        angle = value.second * Math.PI.toFloat() / 180,
-        sides = value.third
-    )
+    ): Bitmap = input.createScaledBitmap(
+        (input.width * value.scale).toInt(),
+        (input.height * value.scale).toInt()
+    ).let<Bitmap, Bitmap> {
+        Aire.bokeh(
+            bitmap = it,
+            radius = value.radius,
+            angle = value.angle * Math.PI.toFloat() / 180,
+            sides = value.amount
+        )
+    }.createScaledBitmap(input.width, input.height)
 
 }
