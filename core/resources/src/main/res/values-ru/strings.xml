@@ -760,4 +760,8 @@
     <string name="deep_purple">Глубокий фиолетовый</string>
     <string name="red_swirl">Красный вихрь</string>
     <string name="bokeh">Боке</string>
+    <string name="emoji_selection_error">Невозможно выбрать эмодзи, пока включен их случайный выбор</string>
+    <string name="random_emojis_sub">Эмодзи будет постоянно меняться случайным образом, а не использовать выбранный</string>
+    <string name="random_emojis">Случайные эмодзи</string>
+    <string name="random_emojis_error">Невозможно использовать случайный выбор эмодзи, пока они отключены</string>
 </resources>
