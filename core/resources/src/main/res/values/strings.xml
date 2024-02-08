@@ -777,4 +777,8 @@
     <string name="red_swirl">Red Swirl</string>
     <string name="digital_code">Digital Code</string>
     <string name="bokeh">Bokeh</string>
+    <string name="random_emojis_sub">App bar emoji will be continuously changed by random instead of using selected one</string>
+    <string name="random_emojis">Random Emojis</string>
+    <string name="random_emojis_error">Can\'t use random emoji picking while emojis disabled</string>
+    <string name="emoji_selection_error">Can\'t select an emoji while picking random one enabled</string>
 </resources>

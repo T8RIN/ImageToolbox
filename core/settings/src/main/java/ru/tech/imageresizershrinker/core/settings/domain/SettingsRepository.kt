@@ -145,4 +145,6 @@ interface SettingsRepository {
     suspend fun toggleConfettiEnabled()
 
     suspend fun toggleSecureMode()
+
+    suspend fun toggleUseRandomEmojis()
 }

@@ -685,4 +685,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun toggleUseRandomEmojis(value: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.toggleUseRandomEmojis()
+        }
+    }
+
 }

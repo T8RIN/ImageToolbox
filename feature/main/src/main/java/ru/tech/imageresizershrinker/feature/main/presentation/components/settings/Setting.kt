@@ -317,4 +317,9 @@ sealed class Setting(
         title = R.string.secure_mode,
         subtitle = R.string.secure_mode_sub
     )
+
+    data object UseRandomEmojis : Setting(
+        title = R.string.random_emojis,
+        subtitle = R.string.random_emojis_sub
+    )
 }

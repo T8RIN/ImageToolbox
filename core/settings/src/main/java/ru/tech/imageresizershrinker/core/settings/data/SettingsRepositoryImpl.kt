@@ -83,6 +83,7 @@ import ru.tech.imageresizershrinker.core.settings.data.Keys.SHOW_UPDATE_DIALOG
 import ru.tech.imageresizershrinker.core.settings.data.Keys.THEME_CONTRAST_LEVEL
 import ru.tech.imageresizershrinker.core.settings.data.Keys.THEME_STYLE
 import ru.tech.imageresizershrinker.core.settings.data.Keys.USE_PIXEL_SWITCH
+import ru.tech.imageresizershrinker.core.settings.data.Keys.USE_RANDOM_EMOJIS
 import ru.tech.imageresizershrinker.core.settings.data.Keys.VIBRATION_STRENGTH
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
@@ -180,7 +181,8 @@ internal class SettingsRepositoryImpl @Inject constructor(
                 it.toIntOrNull()
             } ?: default.screenListWithMaxBrightnessEnforcement,
             isConfettiEnabled = prefs[CONFETTI_ENABLED] ?: default.isConfettiEnabled,
-            isSecureMode = prefs[SECURE_MODE] ?: default.isSecureMode
+            isSecureMode = prefs[SECURE_MODE] ?: default.isSecureMode,
+            useRandomEmojis = prefs[USE_RANDOM_EMOJIS] ?: default.useRandomEmojis
         )
     }
 
@@ -586,6 +588,13 @@ internal class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[SECURE_MODE] ?: default.isSecureMode
             it[SECURE_MODE] = !v
+        }
+    }
+
+    override suspend fun toggleUseRandomEmojis() {
+        dataStore.edit {
+            val v = it[USE_RANDOM_EMOJIS] ?: default.useRandomEmojis
+            it[USE_RANDOM_EMOJIS] = !v
         }
     }
 

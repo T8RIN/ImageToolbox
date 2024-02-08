@@ -72,6 +72,7 @@ fun PreferenceRow(
     ),
     changeAlphaWhenDisabled: Boolean = true,
     onClick: (() -> Unit)?,
+    onDisabledClick: (() -> Unit)? = null,
     autoShadowElevation: Dp = 1.dp,
 ) {
     val internalColor = contentColor
@@ -92,9 +93,13 @@ fun PreferenceRow(
                 )
                 .then(
                     onClick
-                        ?.takeIf { enabled }
                         ?.let {
-                            Modifier.clickable { onClick() }
+                            if (enabled) {
+                                Modifier.clickable { onClick() }
+                            } else Modifier.then(
+                                if (onDisabledClick != null) Modifier.clickable { onDisabledClick() }
+                                else Modifier
+                            )
                         } ?: Modifier
                 )
                 .then(resultModifier)

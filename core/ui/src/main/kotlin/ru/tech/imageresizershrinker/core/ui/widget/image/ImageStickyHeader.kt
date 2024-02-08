@@ -206,9 +206,9 @@ fun LazyListScope.imageStickyHeader(
                                 inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant(
                                     onTopOf = MaterialTheme.colorScheme.tertiaryContainer
                                 ).copy(0.5f),
-                                activeTrackColor = MaterialTheme.colorScheme.tertiary.copy(0.5f)
+                                activeTrackColor = MaterialTheme.colorScheme.tertiary.copy(0.5f),
+                                thumbColor = MaterialTheme.colorScheme.onTertiary
                             ),
-                            thumbColor = MaterialTheme.colorScheme.onTertiary,
                             steps = 3,
                             valueRange = 0f..4f
                         )

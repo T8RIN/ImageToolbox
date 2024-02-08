@@ -480,5 +480,9 @@ internal fun SettingItem(
         Setting.SecureMode -> {
             SecureModeSettingItem(viewModel::toggleSecureMode)
         }
+
+        Setting.UseRandomEmojis -> {
+            UseRandomEmojisSettingItem(viewModel::toggleUseRandomEmojis)
+        }
     }
 }

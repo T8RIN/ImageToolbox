@@ -29,19 +29,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.emoji.Emoji
 import ru.tech.imageresizershrinker.core.ui.icons.emoji.allIcons
 import ru.tech.imageresizershrinker.core.ui.icons.emoji.allIconsCategorized
 import ru.tech.imageresizershrinker.core.ui.icons.material.Cool
+import ru.tech.imageresizershrinker.core.ui.icons.material.Robot
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -50,6 +54,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.EmojiItem
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.feature.main.presentation.components.EmojiSheet
 
@@ -61,6 +66,10 @@ fun EmojiSettingItem(
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp),
     shape: Shape = ContainerShapeDefaults.bottomShape
 ) {
+    val settingsState = LocalSettingsState.current
+    val toastHost = LocalToastHost.current
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
     var showShoeDescriptionDialog by rememberSaveable { mutableStateOf("") }
     val showEmojiDialog = rememberSaveable { mutableStateOf(false) }
     PreferenceRow(
@@ -78,6 +87,15 @@ fun EmojiSettingItem(
                 contentDescription = null,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
+        },
+        enabled = !settingsState.useRandomEmojis,
+        onDisabledClick = {
+            scope.launch {
+                toastHost.showToast(
+                    message = context.getString(R.string.emoji_selection_error),
+                    icon = Icons.Rounded.Robot
+                )
+            }
         },
         endContent = {
             val emoji = LocalSettingsState.current.selectedEmoji

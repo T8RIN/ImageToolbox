@@ -17,16 +17,11 @@
 
 package ru.tech.imageresizershrinker.feature.main.presentation.components.settings
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.EmojiEmotions
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -35,52 +30,38 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.material.Robot
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
+import ru.tech.imageresizershrinker.core.ui.icons.material.RobotExcited
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-fun EmojisCountSettingItem(
-    updateEmojisCount: (Int) -> Unit,
+fun UseRandomEmojisSettingItem(
+    onClick: (Boolean) -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
-    modifier: Modifier = Modifier
-        .padding(horizontal = 8.dp)
+    modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
+    val settingsState = LocalSettingsState.current
     val toastHost = LocalToastHost.current
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    val settingsState = LocalSettingsState.current
-    EnhancedSliderItem(
-        modifier = modifier.then(
-            if (settingsState.selectedEmoji == null) {
-                Modifier
-                    .clip(RoundedCornerShape(4.dp))
-                    .clickable {
-                        scope.launch {
-                            toastHost.showToast(
-                                message = context.getString(R.string.random_emojis_error),
-                                icon = Icons.Rounded.Robot
-                            )
-                        }
-                    }
-            } else Modifier
-        ),
+
+    PreferenceRowSwitch(
+        modifier = modifier,
         shape = shape,
-        color = MaterialTheme.colorScheme
-            .secondaryContainer
-            .copy(alpha = 0.2f),
-        value = settingsState.emojisCount.coerceAtLeast(1),
-        title = stringResource(R.string.emojis_count),
-        icon = Icons.Outlined.EmojiEmotions,
-        valueRange = 1f..5f,
-        steps = 3,
+        title = stringResource(R.string.random_emojis),
+        subtitle = stringResource(R.string.random_emojis_sub),
+        checked = settingsState.useRandomEmojis,
         enabled = settingsState.selectedEmoji != null,
-        onValueChange = {},
-        internalStateTransformation = {
-            it.toInt()
+        onClick = onClick,
+        onDisabledClick = {
+            scope.launch {
+                toastHost.showToast(
+                    message = context.getString(R.string.random_emojis_error),
+                    icon = Icons.Rounded.Robot
+                )
+            }
         },
-        onValueChangeFinished = {
-            updateEmojisCount(it.toInt())
-        }
+        startIcon = Icons.Outlined.RobotExcited
     )
 }

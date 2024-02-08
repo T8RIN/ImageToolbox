@@ -80,6 +80,7 @@ sealed class SettingsGroup(
             Setting.BorderThickness,
             Setting.Confetti,
             Setting.UsePixelSwitch,
+            Setting.UseRandomEmojis,
             Setting.FabAlignment
         ),
         initialState = false

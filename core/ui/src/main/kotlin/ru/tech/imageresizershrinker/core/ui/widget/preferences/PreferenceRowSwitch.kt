@@ -57,6 +57,7 @@ fun PreferenceRowSwitch(
         vertical = 8.dp
     ),
     changeAlphaWhenDisabled: Boolean = true,
+    onDisabledClick: (() -> Unit)? = null,
     onClick: (Boolean) -> Unit
 ) {
     val haptics = LocalHapticFeedback.current
@@ -73,6 +74,7 @@ fun PreferenceRowSwitch(
         color = color,
         subtitle = subtitle,
         startContent = startContent,
+        onDisabledClick = onDisabledClick,
         onClick = {
             haptics.performHapticFeedback(
                 HapticFeedbackType.LongPress
@@ -115,6 +117,7 @@ fun PreferenceRowSwitch(
     color: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
         alpha = 0.2f
     ),
+    onDisabledClick: (() -> Unit)? = null,
     changeAlphaWhenDisabled: Boolean = true,
     contentColor: Color? = null,
     shape: Shape = RoundedCornerShape(16.dp),
@@ -132,6 +135,7 @@ fun PreferenceRowSwitch(
         color = color,
         contentColor = contentColor,
         shape = shape,
+        onDisabledClick = onDisabledClick,
         startContent = startIcon?.let {
             {
                 Icon(

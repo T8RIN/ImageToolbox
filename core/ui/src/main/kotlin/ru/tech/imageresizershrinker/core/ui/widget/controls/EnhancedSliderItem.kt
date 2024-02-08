@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.core.ui.widget.controls
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,6 +40,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -91,6 +93,9 @@ fun EnhancedSliderItem(
                                 color = color
                             )
                         } else Modifier
+                    )
+                    .alpha(
+                        animateFloatAsState(if (enabled) 1f else 0.5f).value
                     )
                     .animateContentSize(),
                 verticalArrangement = Arrangement.Center,

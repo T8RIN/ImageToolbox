@@ -73,7 +73,8 @@ data class SettingsState(
     val initialOcrCodes: List<String>,
     val screenListWithMaxBrightnessEnforcement: List<Int>,
     val isConfettiEnabled: Boolean,
-    val isSecureMode: Boolean
+    val isSecureMode: Boolean,
+    val useRandomEmojis: Boolean
 ) : Domain {
 
     companion object {
@@ -130,7 +131,8 @@ data class SettingsState(
                 initialOcrCodes = listOf("eng"),
                 screenListWithMaxBrightnessEnforcement = emptyList(),
                 isConfettiEnabled = true,
-                isSecureMode = false
+                isSecureMode = false,
+                useRandomEmojis = false
             )
         }
     }

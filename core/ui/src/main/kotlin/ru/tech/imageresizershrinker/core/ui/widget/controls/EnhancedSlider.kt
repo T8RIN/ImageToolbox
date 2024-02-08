@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.controls
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -36,6 +37,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.SliderState
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -46,7 +48,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -67,15 +68,15 @@ fun EnhancedSlider(
     onValueChangeFinished: (() -> Unit)? = null,
     valueRange: ClosedFloatingPointRange<Float>,
     thumbShape: Shape = MaterialStarShape,
-    thumbColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     steps: Int = 0,
     enabled: Boolean = true,
     colors: SliderColors = SliderDefaults.colors(
         activeTickColor = MaterialTheme.colorScheme.inverseSurface,
         inactiveTickColor = MaterialTheme.colorScheme.surface,
         activeTrackColor = MaterialTheme.colorScheme.primaryContainer,
-        inactiveTrackColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(0.15f),
-        thumbColor = thumbColor
+        inactiveTrackColor = SwitchDefaults.colors().disabledCheckedTrackColor,
+        disabledThumbColor = SwitchDefaults.colors().disabledCheckedThumbColor,
+        thumbColor = MaterialTheme.colorScheme.onPrimaryContainer
     ),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
@@ -95,6 +96,10 @@ fun EnhancedSlider(
             compositions++
         }
     }
+
+    val thumbColor by animateColorAsState(
+        if (enabled) colors.thumbColor else colors.disabledThumbColor
+    )
 
     val thumb: @Composable (SliderState) -> Unit = {
         val interaction by interactionSource.interactions.collectAsState(initial = null)

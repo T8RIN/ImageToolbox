@@ -21,6 +21,7 @@ import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,6 +39,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 
+@Stable
 data class UiSettingsState(
     val isNightMode: Boolean = false,
     val isDynamicColors: Boolean = true,
@@ -89,7 +91,8 @@ data class UiSettingsState(
     val exifWidgetInitialState: Boolean,
     val screenListWithMaxBrightnessEnforcement: List<Int>,
     val isConfettiEnabled: Boolean,
-    val isSecureMode: Boolean
+    val isSecureMode: Boolean,
+    val useRandomEmojis: Boolean
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -101,80 +104,93 @@ fun UiSettingsState.isFirstLaunch(
 @Composable
 fun SettingsState.toUiState(
     allEmojis: ImmutableList<Uri>
-): UiSettingsState {
-    val uiIsNightMode = nightMode.isNightMode()
-    val uiBorderWidth = animateDpAsState(borderWidth.dp).value
-
-    return UiSettingsState(
-        isNightMode = uiIsNightMode,
-        isDynamicColors = isDynamicColors,
-        allowChangeColorByImage = allowChangeColorByImage,
-        emojisCount = emojisCount,
-        isAmoledMode = isAmoledMode,
-        appColorTuple = appColorTuple.asColorTuple(),
-        borderWidth = uiBorderWidth,
-        presets = remember(presets) {
-            derivedStateOf {
-                presets.mapNotNull { it.value() }
+): UiSettingsState = UiSettingsState(
+    isNightMode = nightMode.isNightMode(),
+    isDynamicColors = isDynamicColors,
+    allowChangeColorByImage = allowChangeColorByImage,
+    emojisCount = emojisCount,
+    isAmoledMode = isAmoledMode,
+    appColorTuple = remember(appColorTuple) {
+        derivedStateOf {
+            appColorTuple.asColorTuple()
+        }
+    }.value,
+    borderWidth = animateDpAsState(borderWidth.dp).value,
+    presets = remember(presets) {
+        derivedStateOf {
+            presets.mapNotNull { it.value() }
+        }
+    }.value,
+    fabAlignment = fabAlignment.toAlignment(),
+    showUpdateDialogOnStartup = showUpdateDialogOnStartup,
+    selectedEmoji = remember(selectedEmoji, allEmojis, useRandomEmojis, this) {
+        derivedStateOf {
+            selectedEmoji?.takeIf { it != -1 }?.let {
+                if (useRandomEmojis) allEmojis.random()
+                else allEmojis.getOrNull(it)
             }
-        }.value,
-        fabAlignment = fabAlignment.toAlignment(),
-        showUpdateDialogOnStartup = showUpdateDialogOnStartup,
-        selectedEmoji = remember(selectedEmoji, allEmojis) {
-            derivedStateOf {
-                selectedEmoji?.takeIf { it != -1 }?.let {
-                    allEmojis.getOrNull(it)
-                }
-            }
-        }.value,
-        imagePickerModeInt = imagePickerModeInt,
-        clearCacheOnLaunch = clearCacheOnLaunch,
-        groupOptionsByTypes = groupOptionsByTypes,
-        screenList = screenList,
-        colorTupleList = colorTupleList.toColorTupleList(),
-        addSequenceNumber = addSequenceNumber,
-        saveFolderUri = remember(saveFolderUri) {
-            derivedStateOf {
-                saveFolderUri?.toUri()?.takeIf { it != Uri.EMPTY }
-            }
-        }.value,
-        filenamePrefix = filenamePrefix,
-        addSizeInFilename = addSizeInFilename,
-        addOriginalFilename = addOriginalFilename,
-        randomizeFilename = randomizeFilename,
-        font = font.toUiFont(),
-        fontScale = fontScale?.takeIf { it > 0 },
-        allowCollectCrashlytics = allowCollectCrashlytics,
-        allowCollectAnalytics = allowCollectAnalytics,
-        allowBetas = allowBetas,
-        drawContainerShadows = drawContainerShadows,
-        drawButtonShadows = drawButtonShadows,
-        drawFabShadows = drawFabShadows,
-        drawSliderShadows = drawSliderShadows,
-        drawSwitchShadows = drawSwitchShadows,
-        drawAppBarShadows = drawAppBarShadows,
-        appOpenCount = appOpenCount,
-        aspectRatios = aspectRatios,
-        lockDrawOrientation = lockDrawOrientation,
-        themeContrastLevel = themeContrastLevel,
-        themeStyle = PaletteStyle
-            .entries
-            .getOrNull(themeStyle) ?: PaletteStyle.TonalSpot,
-        isInvertThemeColors = isInvertThemeColors,
-        screensSearchEnabled = screensSearchEnabled,
-        copyToClipboardMode = copyToClipboardMode,
-        hapticsStrength = hapticsStrength,
-        overwriteFiles = overwriteFiles,
-        filenameSuffix = filenameSuffix,
-        defaultImageScaleMode = defaultImageScaleMode,
-        usePixelSwitch = usePixelSwitch,
-        magnifierEnabled = magnifierEnabled,
-        exifWidgetInitialState = exifWidgetInitialState,
-        screenListWithMaxBrightnessEnforcement = screenListWithMaxBrightnessEnforcement,
-        isConfettiEnabled = isConfettiEnabled,
-        isSecureMode = isSecureMode
-    )
-}
+        }
+    }.value,
+    imagePickerModeInt = imagePickerModeInt,
+    clearCacheOnLaunch = clearCacheOnLaunch,
+    groupOptionsByTypes = groupOptionsByTypes,
+    screenList = screenList,
+    colorTupleList = remember(colorTupleList) {
+        derivedStateOf {
+            colorTupleList.toColorTupleList()
+        }
+    }.value,
+    addSequenceNumber = addSequenceNumber,
+    saveFolderUri = remember(saveFolderUri) {
+        derivedStateOf {
+            saveFolderUri?.toUri()?.takeIf { it != Uri.EMPTY }
+        }
+    }.value,
+    filenamePrefix = filenamePrefix,
+    addSizeInFilename = addSizeInFilename,
+    addOriginalFilename = addOriginalFilename,
+    randomizeFilename = randomizeFilename,
+    font = remember(font) {
+        derivedStateOf {
+            font.toUiFont()
+        }
+    }.value,
+    fontScale = fontScale?.takeIf { it > 0 },
+    allowCollectCrashlytics = allowCollectCrashlytics,
+    allowCollectAnalytics = allowCollectAnalytics,
+    allowBetas = allowBetas,
+    drawContainerShadows = drawContainerShadows,
+    drawButtonShadows = drawButtonShadows,
+    drawFabShadows = drawFabShadows,
+    drawSliderShadows = drawSliderShadows,
+    drawSwitchShadows = drawSwitchShadows,
+    drawAppBarShadows = drawAppBarShadows,
+    appOpenCount = appOpenCount,
+    aspectRatios = aspectRatios,
+    lockDrawOrientation = lockDrawOrientation,
+    themeContrastLevel = themeContrastLevel,
+    themeStyle = remember(themeStyle) {
+        derivedStateOf {
+            PaletteStyle
+                .entries
+                .getOrNull(themeStyle) ?: PaletteStyle.TonalSpot
+        }
+    }.value,
+    isInvertThemeColors = isInvertThemeColors,
+    screensSearchEnabled = screensSearchEnabled,
+    copyToClipboardMode = copyToClipboardMode,
+    hapticsStrength = hapticsStrength,
+    overwriteFiles = overwriteFiles,
+    filenameSuffix = filenameSuffix,
+    defaultImageScaleMode = defaultImageScaleMode,
+    usePixelSwitch = usePixelSwitch,
+    magnifierEnabled = magnifierEnabled,
+    exifWidgetInitialState = exifWidgetInitialState,
+    screenListWithMaxBrightnessEnforcement = screenListWithMaxBrightnessEnforcement,
+    isConfettiEnabled = isConfettiEnabled,
+    isSecureMode = isSecureMode,
+    useRandomEmojis = useRandomEmojis
+)
 
 private fun FontFam.toUiFont(): UiFontFam {
     return when (this) {

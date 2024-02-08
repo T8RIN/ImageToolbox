@@ -76,4 +76,5 @@ internal object Keys {
         stringPreferencesKey("SCREENS_WITH_BRIGHTNESS_ENFORCEMENT")
     val CONFETTI_ENABLED = booleanPreferencesKey("CONFETTI_ENABLED")
     val SECURE_MODE = booleanPreferencesKey("SECURE_MODE")
+    val USE_RANDOM_EMOJIS = booleanPreferencesKey("USE_RANDOM_EMOJIS")
 }
