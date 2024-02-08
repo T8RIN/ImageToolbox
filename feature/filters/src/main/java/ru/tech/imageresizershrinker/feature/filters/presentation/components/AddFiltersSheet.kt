@@ -371,7 +371,7 @@ fun AddFiltersSheet(
                 } else {
                     HorizontalPager(
                         state = pagerState,
-                        outOfBoundsPageCount = 4
+                        outOfBoundsPageCount = 1
                     ) { page ->
                         val filters by remember(page) {
                             derivedStateOf {
