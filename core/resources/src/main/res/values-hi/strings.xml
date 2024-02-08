@@ -375,4 +375,8 @@
     <string name="output_image_scale">आउटपुट छवि स्केल</string>
     <string name="scale_small_images_to_large">छोटी छवियों को बड़े आकार में स्केल करें</string>
     <string name="regular">नियमित</string>
+    <string name="email">ईमेल</string>
+    <string name="pixelation">पिक्सेल करना</string>
+    <string name="blur_edges_sub">सक्षम होने पर एक रंग की बजाय इसके चारों ओर स्थान भरने के लिए छवि के नीचे धुंधले किनारों को भरता है</string>
+    <string name="blur_edges">किनारे धुंधले</string>
 </resources>
