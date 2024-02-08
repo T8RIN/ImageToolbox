@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="stay">रहना</string>
-    <string name="close">बंद करना</string>
+    <string name="stay">रहें</string>
+    <string name="close">बंद करें</string>
     <string name="reset_image">छवि रीसेट करें</string>
-    <string name="reset_image_sub">छवि परिवर्तन प्रारंभ मानों में रोलबैक होंगे</string>
+    <string name="reset_image_sub">सभी परिवर्तन हटकर छवि मूल अवस्था में आ जाएगी</string>
     <string name="values_reset">मान ठीक से रीसेट करें</string>
     <string name="reset">रीसेट</string>
     <string name="compare_sub">दी गई दो छवियों की तुलना करें</string>
@@ -20,31 +20,31 @@
     <string name="height">ऊँचाई %1$s</string>
     <string name="quality">गुणवत्ता</string>
     <string name="extension">विस्तार</string>
-    <string name="resize_type">आकार बदलें प्रकार</string>
+    <string name="resize_type">आकार बदलने का प्रकार</string>
     <string name="explicit">मुखर</string>
     <string name="flexible">लचीला</string>
     <string name="pick_image_alt">छवि चुनें</string>
     <string name="app_closing_sub">क्या आप वाकई ऐप को बंद करना चाहते हैं\?</string>
-    <string name="app_closing">ऐप बंद करना</string>
+    <string name="app_closing">ऐप बंद हो रहा है</string>
     <string name="something_went_wrong">कुछ गलत हो गया</string>
-    <string name="restart_app">ऐप को रीस्टार्ट करें</string>
+    <string name="restart_app">ऐप को पुनः खोलें</string>
     <string name="copied">क्लिपबोर्ड पर नकल</string>
     <string name="exception">अपवाद</string>
     <string name="edit_exif">EXIF संपादित करें</string>
     <string name="ok">ठीक</string>
     <string name="no_exif">कोई EXIF डेटा नहीं मिला</string>
-    <string name="add_tag">टैग जोड़ो</string>
-    <string name="save">बचाना</string>
+    <string name="add_tag">टैग जोड़े</string>
+    <string name="save">संचित करें</string>
     <string name="clear">साफ़</string>
     <string name="clear_exif">EXIF साफ़ करें</string>
-    <string name="cancel">रद्द करना</string>
+    <string name="cancel">रद्द</string>
     <string name="clear_exif_sub">छवि का सभी EXIF डेटा साफ़ कर दिया जाएगा, यह क्रिया पूर्ववत नहीं की जा सकती!</string>
     <string name="presets">प्रीसेट</string>
     <string name="crop">काटना</string>
     <string name="image_not_saved">सहेजा जा रहा है</string>
     <string name="image_not_saved_sub">यदि आप अभी छोड़ते हैं, तो सहेजे न गए सभी परिवर्तन खो जाएंगे</string>
     <string name="check_source_code">सोर्स कोड</string>
-    <string name="check_source_code_sub">नवीनतम अपडेट प्राप्त करें, मुद्दों पर चर्चा करें और बहुत कुछ</string>
+    <string name="check_source_code_sub">नवीनतम अपडेट प्राप्त करें, मुद्दों पर चर्चा करें और भी बहुत कुछ</string>
     <string name="single_edit">एकल आकार</string>
     <string name="single_edit_sub">दी गई एक छवि के विनिर्देशों को बदलें</string>
     <string name="pick_color">रंग उठाओ</string>
@@ -379,4 +379,11 @@
     <string name="pixelation">पिक्सेल करना</string>
     <string name="blur_edges_sub">सक्षम होने पर एक रंग की बजाय इसके चारों ओर स्थान भरने के लिए छवि के नीचे धुंधले किनारों को भरता है</string>
     <string name="blur_edges">किनारे धुंधले</string>
+    <string name="enhanced_pixelation">पिक्सेल की उन्नति</string>
+    <string name="replace_color">रंग बदलें</string>
+    <string name="tolerance">असहिष्णुता</string>
+    <string name="color_to_replace">बदलने लायक रंग</string>
+    <string name="target_color">लक्षित रंग</string>
+    <string name="color_to_remove">निकालने लायक रंग</string>
+    <string name="remove_color">रंग हटाए</string>
 </resources>
