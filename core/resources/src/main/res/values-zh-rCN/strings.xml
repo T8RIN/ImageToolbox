@@ -759,4 +759,5 @@
     <string name="orange_haze">橙色迷雾</string>
     <string name="spectral_fire">光谱火焰</string>
     <string name="space_portal">空间传送</string>
+    <string name="bokeh">虚化</string>
 </resources>
