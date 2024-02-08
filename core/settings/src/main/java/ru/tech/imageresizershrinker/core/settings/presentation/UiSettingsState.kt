@@ -103,7 +103,8 @@ fun UiSettingsState.isFirstLaunch(
 
 @Composable
 fun SettingsState.toUiState(
-    allEmojis: ImmutableList<Uri>
+    allEmojis: ImmutableList<Uri>,
+    randomEmojiKey: Any? = null
 ): UiSettingsState = UiSettingsState(
     isNightMode = nightMode.isNightMode(),
     isDynamicColors = isDynamicColors,
@@ -123,7 +124,7 @@ fun SettingsState.toUiState(
     }.value,
     fabAlignment = fabAlignment.toAlignment(),
     showUpdateDialogOnStartup = showUpdateDialogOnStartup,
-    selectedEmoji = remember(selectedEmoji, allEmojis, useRandomEmojis, this) {
+    selectedEmoji = remember(selectedEmoji, allEmojis, useRandomEmojis, randomEmojiKey) {
         derivedStateOf {
             selectedEmoji?.takeIf { it != -1 }?.let {
                 if (useRandomEmojis) allEmojis.random()

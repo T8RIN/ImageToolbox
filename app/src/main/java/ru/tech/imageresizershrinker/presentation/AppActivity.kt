@@ -34,6 +34,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -45,6 +46,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olshevski.navigation.reimagined.navigate
+import kotlinx.coroutines.delay
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalEditPresetsState
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
@@ -106,9 +108,21 @@ class AppActivity : M3Activity() {
                 }
             }
 
+            var randomEmojiKey by remember {
+                mutableIntStateOf(0)
+            }
+            val backstack = viewModel.navController.backstack.entries
+            LaunchedEffect(backstack) {
+                delay(200L) // Delay for transition
+                randomEmojiKey++
+            }
+
             CompositionLocalProvider(
                 LocalToastHost provides viewModel.toastHostState,
-                LocalSettingsState provides viewModel.settingsState.toUiState(Emoji.allIcons()),
+                LocalSettingsState provides viewModel.settingsState.toUiState(
+                    allEmojis = Emoji.allIcons(),
+                    randomEmojiKey = randomEmojiKey
+                ),
                 LocalNavController provides viewModel.navController,
                 LocalEditPresetsState provides editPresetsState,
                 LocalConfettiController provides rememberToastHostState(),
@@ -128,14 +142,14 @@ class AppActivity : M3Activity() {
 
                 LaunchedEffect(showSelectSheet.value) {
                     if (!showSelectSheet.value) {
-                        kotlinx.coroutines.delay(600)
+                        delay(600)
                         viewModel.hideSelectDialog()
                         viewModel.updateUris(null)
                     }
                 }
                 LaunchedEffect(showUpdateSheet.value) {
                     if (!showUpdateSheet.value) {
-                        kotlinx.coroutines.delay(600)
+                        delay(600)
                         viewModel.cancelledUpdate()
                     }
                 }

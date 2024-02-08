@@ -274,14 +274,58 @@ fun ProcessImagesPreferenceSheet(
                         }
                     }
                     items(urisCorrespondingScreens) {
-                        PreferenceItem(
-                            onClick = { navigate(it) },
-                            icon = it.icon,
-                            title = stringResource(it.title),
-                            subtitle = stringResource(it.subtitle),
-                            color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                        val basePreference = @Composable {
+                            PreferenceItem(
+                                onClick = { navigate(it) },
+                                icon = it.icon,
+                                title = stringResource(it.title),
+                                subtitle = stringResource(it.subtitle),
+                                color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                        when (it) {
+                            is Screen.GifTools -> {
+                                if (it.type != null) {
+                                    PreferenceItem(
+                                        onClick = { navigate(it) },
+                                        icon = it.type.icon,
+                                        title = stringResource(it.type.title),
+                                        subtitle = stringResource(it.type.subtitle),
+                                        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                } else basePreference()
+                            }
+
+                            is Screen.PdfTools -> {
+                                if (it.type != null) {
+                                    PreferenceItem(
+                                        onClick = { navigate(it) },
+                                        icon = it.type.icon,
+                                        title = stringResource(it.type.title),
+                                        subtitle = stringResource(it.type.subtitle),
+                                        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                } else basePreference()
+                            }
+
+                            is Screen.Filter -> {
+                                if (it.type != null) {
+                                    PreferenceItem(
+                                        onClick = { navigate(it) },
+                                        icon = it.type.icon,
+                                        title = stringResource(it.type.title),
+                                        subtitle = stringResource(it.type.subtitle),
+                                        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                } else basePreference()
+                            }
+
+                            else -> basePreference()
+                        }
                     }
                 }
             }

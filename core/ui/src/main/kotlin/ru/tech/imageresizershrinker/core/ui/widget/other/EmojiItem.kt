@@ -18,6 +18,11 @@
 package ru.tech.imageresizershrinker.core.ui.widget.other
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -94,7 +99,10 @@ fun EmojiItem(
 
     AnimatedContent(
         targetState = emoji to fontSize,
-        modifier = modifier
+        modifier = modifier,
+        transitionSpec = {
+            fadeIn() + scaleIn(initialScale = 0.85f) togetherWith fadeOut() + scaleOut(targetScale = 0.85f)
+        }
     ) { (emoji, fontSize) ->
         val size by remember(fontSize, density) {
             derivedStateOf {
