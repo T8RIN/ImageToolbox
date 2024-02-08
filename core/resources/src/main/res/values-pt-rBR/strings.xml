@@ -451,7 +451,6 @@
     <string name="free_drawing_sub">Desenha o caminho como valor de entrada</string>
     <string name="line_arrow_sub">Desenha uma seta apontando do ponto inicial ao ponto final como uma linha</string>
     <string name="arrow_sub">Desenha uma seta apontando de um determinado caminho</string>
-    <string name="double_arrow_sub"></string>
     <string name="rect_sub">Desenha um retângulo do ponto inicial ao ponto final</string>
     <string name="mask_color">Cor da máscara</string>
     <string name="mask_preview">Visualização da máscara</string>
