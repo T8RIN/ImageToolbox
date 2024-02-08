@@ -168,4 +168,5 @@ interface Filter<Image, Value> {
     interface RedSwirl<Image> : Filter<Image, Unit>
     interface DigitalCode<Image> : Filter<Image, Unit>
     interface Bokeh<Image> : Filter<Image, BokehParams>
+    interface Neon<Image, Color : Any> : Filter<Image, Triple<Float, Float, Color>>
 }

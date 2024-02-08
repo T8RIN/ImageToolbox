@@ -29,7 +29,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
 
 internal class RGBFilter(
     private val context: Context,
-    override val value: FilterValueWrapper<Color> = Color.Red.wrap(),
+    override val value: FilterValueWrapper<Color> = Color.Green.wrap(),
 ) : GPUFilterTransformation(context), Filter.RGB<Bitmap, Color> {
 
     override val cacheKey: String

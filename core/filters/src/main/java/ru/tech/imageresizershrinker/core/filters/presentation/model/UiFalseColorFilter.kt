@@ -25,14 +25,11 @@ import ru.tech.imageresizershrinker.core.resources.R
 
 class UiFalseColorFilter(
     override val value: Pair<Color, Color> = Color(
-        red = 0f,
-        green = 0f,
-        blue = 0.5f
-    ) to Color(
-        red = 1f,
-        green = 0f,
-        blue = 0f
-    ),
+        red = 1.0f,
+        green = 0.596f,
+        blue = 0.0f,
+        alpha = 1.0f
+    ) to Color(red = 0.914f, green = 0.118f, blue = 0.388f, alpha = 1.0f),
 ) : UiFilter<Pair<Color, Color>>(
     title = R.string.false_color,
     value = value,

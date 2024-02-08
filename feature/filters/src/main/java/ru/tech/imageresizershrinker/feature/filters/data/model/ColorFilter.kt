@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -33,7 +34,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
 
 
 internal class ColorFilter(
-    override val value: FilterValueWrapper<Color> = Color.Green.copy(0.3f).wrap(),
+    override val value: FilterValueWrapper<Color> = Color.Yellow.copy(0.3f).wrap(),
 ) : Filter.Color<Bitmap, Color>, Transformation<Bitmap> {
     override val cacheKey: String
         get() = (value).hashCode().toString()
@@ -52,4 +53,24 @@ internal class ColorFilter(
 
         return output
     }
+}
+
+internal class NeonFilter(
+    private val context: Context,
+    override val value: Triple<Float, Float, Color> = Triple(1f, 0.26f, Color.Magenta)
+) : Filter.Neon<Bitmap, Color>, Transformation<Bitmap> {
+    override val cacheKey: String
+        get() = (value).hashCode().toString()
+
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap = listOf(
+        SharpenFilter(value.second),
+        SobelEdgeDetectionFilter(context, value.first),
+        RGBFilter(context, value.third.wrap())
+    ).fold(input) { acc, filter ->
+        filter.transform(acc, size)
+    }
+
 }

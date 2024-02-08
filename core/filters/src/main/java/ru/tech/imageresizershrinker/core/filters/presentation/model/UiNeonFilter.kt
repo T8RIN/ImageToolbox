@@ -20,14 +20,27 @@ package ru.tech.imageresizershrinker.core.filters.presentation.model
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
-import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
-
-class UiColorFilter(
-    override val value: FilterValueWrapper<Color> = Color.Yellow.copy(0.3f).wrap(),
-) : UiFilter<FilterValueWrapper<Color>>(
-    title = R.string.color_filter,
-    value = value
-), Filter.Color<Bitmap, Color>
+class UiNeonFilter(
+    override val value: Triple<Float, Float, Color> = Triple(1f, 0.26f, Color.Magenta),
+) : UiFilter<Triple<Float, Float, Color>>(
+    title = R.string.neon,
+    value = value,
+    paramsInfo = listOf(
+        FilterParam(
+            title = R.string.amount,
+            valueRange = 1f..25f,
+            roundTo = 0
+        ),
+        FilterParam(
+            title = R.string.strength,
+            valueRange = 0f..1f
+        ),
+        FilterParam(
+            title = R.string.color,
+            valueRange = 0f..0f
+        )
+    )
+), Filter.Neon<Bitmap, Color>

@@ -114,6 +114,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.MedianBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MonochromeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NativeStackBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NegativeFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.NeonFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NightMagicFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NightVisionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NoiseFilter
@@ -335,6 +336,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.RedSwirl -> RedSwirlFilter(value)
             is Filter.DigitalCode -> DigitalCodeFilter(value)
             is Filter.Bokeh -> BokehFilter(value)
+            is Filter.Neon<*, *> -> NeonFilter(context, value as Triple<Float, Float, Color>)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

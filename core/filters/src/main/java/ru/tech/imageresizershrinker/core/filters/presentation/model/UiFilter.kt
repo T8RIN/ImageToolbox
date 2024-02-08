@@ -110,6 +110,7 @@ sealed class UiFilter<T>(
                 listOf(
                     UiHueFilter(),
                     UiColorFilter(),
+                    UiNeonFilter(),
                     UiSaturationFilter(),
                     UiRGBFilter(),
                     UiReplaceColorFilter(),

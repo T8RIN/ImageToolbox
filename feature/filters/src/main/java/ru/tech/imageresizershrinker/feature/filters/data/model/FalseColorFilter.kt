@@ -28,14 +28,11 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 internal class FalseColorFilter(
     private val context: Context,
     override val value: Pair<Color, Color> = Color(
-        red = 0f,
-        green = 0f,
-        blue = 0.5f
-    ) to Color(
-        red = 1f,
-        green = 0f,
-        blue = 0f
-    ),
+        red = 1.0f,
+        green = 0.596f,
+        blue = 0.0f,
+        alpha = 1.0f
+    ) to Color(red = 0.914f, green = 0.118f, blue = 0.388f, alpha = 1.0f),
 ) : GPUFilterTransformation(context), Filter.FalseColor<Bitmap, Color> {
 
     override val cacheKey: String
