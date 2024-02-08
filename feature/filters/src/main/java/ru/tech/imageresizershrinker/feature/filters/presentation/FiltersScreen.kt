@@ -69,6 +69,7 @@ import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.material.icons.rounded.Tune
+import androidx.compose.material3.Badge
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
@@ -82,6 +83,7 @@ import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -106,6 +108,7 @@ import com.t8rin.dynamic.theme.rememberAppColorTuple
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
@@ -133,6 +136,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsLandscapePadding
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -141,6 +145,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
+import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
@@ -721,14 +726,51 @@ fun FiltersScreen(
                     scrollBehavior = scrollBehavior,
                     modifier = Modifier.drawHorizontalStroke(),
                     title = {
-                        TopAppBarTitle(
-                            title = viewModel.filterType?.let {
+                        AnimatedContent(
+                            targetState = viewModel.filterType?.let {
                                 stringResource(it.title)
-                            } ?: stringResource(R.string.filter),
-                            input = viewModel.bitmap,
-                            isLoading = viewModel.isImageLoading,
-                            size = viewModel.bitmapSize ?: 0L
-                        )
+                            }
+                        ) { title ->
+                            if (title == null) {
+                                val text by remember {
+                                    derivedStateOf {
+                                        UiFilter.groupedEntries.flatten().size.toString()
+                                    }
+                                }
+                                Marquee(
+                                    edgeColor = MaterialTheme.colorScheme
+                                        .surfaceColorAtElevation(3.dp)
+                                ) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Text(
+                                            text = stringResource(R.string.filter)
+                                        )
+                                        Badge(
+                                            content = {
+                                                Text(
+                                                    text = text
+                                                )
+                                            },
+                                            containerColor = MaterialTheme.colorScheme.tertiary,
+                                            contentColor = MaterialTheme.colorScheme.onTertiary,
+                                            modifier = Modifier
+                                                .padding(horizontal = 2.dp)
+                                                .padding(bottom = 12.dp)
+                                                .scaleOnTap {
+                                                    showConfetti()
+                                                }
+                                        )
+                                    }
+                                }
+                            } else {
+                                TopAppBarTitle(
+                                    title = title,
+                                    input = viewModel.bitmap,
+                                    isLoading = viewModel.isImageLoading,
+                                    size = viewModel.bitmapSize ?: 0L
+                                )
+                            }
+                        }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(

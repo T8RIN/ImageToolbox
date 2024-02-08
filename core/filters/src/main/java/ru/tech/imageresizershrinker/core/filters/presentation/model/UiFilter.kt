@@ -55,7 +55,7 @@ sealed class UiFilter<T>(
     fun newInstance(): UiFilter<*> = this::class.primaryConstructor!!.callBy(emptyMap())
 
     companion object {
-        private val groupedEntries by lazy {
+        val groupedEntries by lazy {
             listOf(
                 listOf(
                     UiSepiaFilter(),
