@@ -34,6 +34,6 @@ internal class DilationFilter(
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = Aire.dilate(input, value.toInt())
+    ): Bitmap = Aire.dilate(input, Aire.getStructuringKernel(value.toInt()))
 
 }
