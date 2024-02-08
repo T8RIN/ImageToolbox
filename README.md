@@ -249,7 +249,8 @@ or click one of the badges below.
   - [x] Space Portal
   - [x] Red Swirl
   - [x] Digital Code
-  - [x] Bokeh 
+  - [x] Bokeh
+  - [x] Neon
 
   </details>
 
