@@ -782,4 +782,5 @@
     <string name="random_emojis_error">Can\'t use random emoji picking while emojis disabled</string>
     <string name="emoji_selection_error">Can\'t select an emoji while picking random one enabled</string>
     <string name="old_tv">Old Tv</string>
+    <string name="shuffle_blur">Shuffle Blur</string>
 </resources>

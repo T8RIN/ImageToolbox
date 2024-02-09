@@ -170,5 +170,5 @@ interface Filter<Image, Value> {
     interface Bokeh<Image> : Filter<Image, BokehParams>
     interface Neon<Image, Color : Any> : Filter<Image, Triple<Float, Float, Color>>
     interface OldTv<Image> : Filter<Image, Unit>
-    interface Shuffle<Image> : Filter<Image, Float>
+    interface ShuffleBlur<Image> : Filter<Image, Pair<Int, Float>>
 }

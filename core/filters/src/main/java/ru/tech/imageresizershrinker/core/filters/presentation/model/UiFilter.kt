@@ -162,6 +162,7 @@ sealed class UiFilter<T>(
                     UiThresholdFilter()
                 ),
                 listOf(
+                    UiShuffleBlurFilter(),
                     UiTiltShiftFilter(),
                     UiGaussianBlurFilter(),
                     UiNativeStackBlurFilter(),
@@ -192,7 +193,6 @@ sealed class UiFilter<T>(
                     UiFractalGlassFilter(),
                     UiGlitchFilter(),
                     UiMarbleFilter(),
-                    UiShuffleFilter(),
                     UiWaterEffectFilter(),
                     UiPerlinDistortionFilter(),
                     UiAnaglyphFilter(),
