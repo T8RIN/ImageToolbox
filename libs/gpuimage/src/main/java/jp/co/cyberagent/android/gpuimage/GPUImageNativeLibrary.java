@@ -30,4 +30,6 @@ public class GPUImageNativeLibrary {
     public static native void noise(Bitmap srcBitmap, int threshold);
 
     public static native void monochrome(Bitmap srcBitmap, float intensity, float red, float green, float blue);
+
+    public static native void shuffle(Bitmap srcBitmap, float threshold, float strength);
 }

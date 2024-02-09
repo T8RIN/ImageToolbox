@@ -15,26 +15,22 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.data.model
+package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
-import coil.size.Size
-import jp.co.cyberagent.android.gpuimage.GPUImageNativeLibrary
-import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
+import ru.tech.imageresizershrinker.core.resources.R
 
-internal class NoiseFilter(
-    override val value: Float = 128f
-) : Transformation<Bitmap>, Filter.Noise<Bitmap> {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: Size
-    ): Bitmap = input.copy(input.config, true).apply {
-        GPUImageNativeLibrary.noise(this, value.toInt())
-    }
-
-}
+class UiShuffleFilter(
+    override val value: Float = 0.5f
+) : UiFilter<Float>(
+    title = R.string.shuffle,
+    value = value,
+    paramsInfo = listOf(
+        FilterParam(
+            valueRange = 0f..1f,
+            roundTo = 2
+        )
+    )
+), Filter.Shuffle<Bitmap>

@@ -192,6 +192,7 @@ sealed class UiFilter<T>(
                     UiFractalGlassFilter(),
                     UiGlitchFilter(),
                     UiMarbleFilter(),
+                    UiShuffleFilter(),
                     UiWaterEffectFilter(),
                     UiPerlinDistortionFilter(),
                     UiAnaglyphFilter(),

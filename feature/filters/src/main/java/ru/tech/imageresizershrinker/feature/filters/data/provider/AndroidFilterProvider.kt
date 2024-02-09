@@ -138,6 +138,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.ReplaceColorFilte
 import ru.tech.imageresizershrinker.feature.filters.data.model.SaturationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SepiaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SharpenFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.ShuffleFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SideFadeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SierraDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SierraLiteDitheringFilter
@@ -331,6 +332,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Bokeh -> BokehFilter(value)
             is Filter.Neon<*, *> -> NeonFilter(context, value.cast())
             is Filter.OldTv -> OldTvFilter(context, value)
+            is Filter.Shuffle -> ShuffleFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

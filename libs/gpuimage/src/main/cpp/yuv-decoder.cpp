@@ -150,11 +150,15 @@ Java_jp_co_cyberagent_android_gpuimage_GPUImageNativeLibrary_noise(
 }
 extern "C"
 JNIEXPORT void JNICALL
-Java_jp_co_cyberagent_android_gpuimage_GPUImageNativeLibrary_monochrome(JNIEnv *jenv, jclass clazz,
-                                                                        jobject src,
-                                                                        jfloat intensity,
-                                                                        jfloat red,
-                                                                        jfloat green, jfloat blue) {
+Java_jp_co_cyberagent_android_gpuimage_GPUImageNativeLibrary_monochrome(
+        JNIEnv *jenv,
+        jclass clazz,
+        jobject src,
+        jfloat intensity,
+        jfloat red,
+        jfloat green,
+        jfloat blue
+) {
     srand(time(NULL));
     unsigned char *srcByteBuffer;
     int result = 0;
@@ -220,4 +224,81 @@ float SRGBToLinear(float v) {
     } else {
         return pow((v + 0.055f) / 1.055f, 2.4f);
     }
+}
+
+float luminance(float red, float green, float blue) {
+    float r = SRGBToLinear(red / 255.0f);
+    float g = SRGBToLinear(green / 255.0f);
+    float b = SRGBToLinear(blue / 255.0f);
+
+    return 0.2125f * r + 0.7154f * g + 0.0721 * b;
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_jp_co_cyberagent_android_gpuimage_GPUImageNativeLibrary_shuffle(
+        JNIEnv *jenv,
+        jclass clazz,
+        jobject src,
+        jfloat threshold,
+        jfloat strength
+) {
+    srand(time(NULL));
+    unsigned char *srcByteBuffer;
+    int result = 0;
+    int i, j;
+    AndroidBitmapInfo srcInfo;
+
+    result = AndroidBitmap_getInfo(jenv, src, &srcInfo);
+    if (result != ANDROID_BITMAP_RESULT_SUCCESS) {
+        return;
+    }
+
+    result = AndroidBitmap_lockPixels(jenv, src, (void **) &srcByteBuffer);
+    if (result != ANDROID_BITMAP_RESULT_SUCCESS) {
+        return;
+    }
+
+    int width = srcInfo.width;
+    int height = srcInfo.height;
+
+    for (int y = 0; y < height; ++y) {
+        auto pixels = reinterpret_cast<uint8_t *>(reinterpret_cast<uint8_t *>(srcByteBuffer) +
+                                                  y * srcInfo.stride);
+        int x = 0;
+
+        for (; x < width; ++x) {
+            float luma = luminance(pixels[0], pixels[1], pixels[2]);
+
+            bool overflows = (threshold >= 0) ? (luma <= threshold) : (luma > abs(threshold));
+
+            if (overflows) {
+                long startY = y - (random() % y) * strength;
+                long endY = y + (random() % y) * strength;
+                long startX = x - (random() % x) * strength;
+                long endX = x + (random() % x) * strength;
+
+                long ranY = startY + (random() % (endY - startY + 1));
+                long ranX = startX + (random() % (endX - startX + 1));
+
+                int newX = std::clamp(ranX, 0l, width - 1l);
+                int newY = std::clamp(ranY, 0l, height - 1l);
+                auto newPixels = reinterpret_cast<uint8_t *>(
+                        reinterpret_cast<uint8_t *>(srcByteBuffer) +
+                        newY * srcInfo.stride);
+                newPixels += 4 * newX;
+
+                long newR = newPixels[0];
+                long newG = newPixels[1];
+                long newB = newPixels[2];
+
+                pixels[0] = std::clamp(newR, 0l, 255l);
+                pixels[1] = std::clamp(newG, 0l, 255l);
+                pixels[2] = std::clamp(newB, 0l, 255l);
+            }
+
+            pixels += 4;
+        }
+    }
+    AndroidBitmap_unlockPixels(jenv, src);
 }

@@ -23,9 +23,9 @@ import jp.co.cyberagent.android.gpuimage.GPUImageNativeLibrary
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-internal class NoiseFilter(
-    override val value: Float = 128f
-) : Transformation<Bitmap>, Filter.Noise<Bitmap> {
+internal class ShuffleFilter(
+    override val value: Float = 0.5f
+) : Transformation<Bitmap>, Filter.Shuffle<Bitmap> {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -34,7 +34,7 @@ internal class NoiseFilter(
         input: Bitmap,
         size: Size
     ): Bitmap = input.copy(input.config, true).apply {
-        GPUImageNativeLibrary.noise(this, value.toInt())
+        GPUImageNativeLibrary.shuffle(this, 1f, value)
     }
 
 }
