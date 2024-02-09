@@ -252,6 +252,7 @@ or click one of the badges below.
   - [x] Bokeh
   - [x] Neon
   - [x] Old Tv
+  - [x] Shuffle Blur 
 
   </details>
 
