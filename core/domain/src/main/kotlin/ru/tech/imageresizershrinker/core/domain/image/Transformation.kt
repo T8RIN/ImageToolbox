@@ -41,3 +41,16 @@ interface Transformation<T> {
      */
     suspend fun transform(input: T, size: Size): T
 }
+
+interface ChainTransformation<T> : Transformation<T> {
+
+    fun getTransformations(): List<Transformation<T>>
+
+    override suspend fun transform(
+        input: T,
+        size: Size
+    ): T = getTransformations().fold(input) { acc, filter ->
+        filter.transform(acc, size)
+    }
+
+}

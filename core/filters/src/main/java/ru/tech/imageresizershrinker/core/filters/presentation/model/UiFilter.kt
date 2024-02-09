@@ -105,7 +105,8 @@ sealed class UiFilter<T>(
                     UiDeepPurpleFilter(),
                     UiSpacePortalFilter(),
                     UiRedSwirlFilter(),
-                    UiDigitalCodeFilter()
+                    UiDigitalCodeFilter(),
+                    UiOldTvFilter()
                 ),
                 listOf(
                     UiHueFilter(),

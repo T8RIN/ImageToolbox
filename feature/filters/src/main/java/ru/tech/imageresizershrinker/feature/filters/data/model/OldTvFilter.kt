@@ -23,20 +23,19 @@ import androidx.compose.ui.graphics.Color
 import ru.tech.imageresizershrinker.core.domain.image.ChainTransformation
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
 
-internal class NeonFilter(
+internal class OldTvFilter(
     private val context: Context,
-    override val value: Triple<Float, Float, Color> = Triple(1f, 0.26f, Color.Magenta)
-) : Filter.Neon<Bitmap, Color>, ChainTransformation<Bitmap> {
+    override val value: Unit
+) : Filter.OldTv<Bitmap>, ChainTransformation<Bitmap> {
 
     override val cacheKey: String
         get() = (value).hashCode().toString()
 
     override fun getTransformations(): List<Transformation<Bitmap>> = listOf(
-        SharpenFilter(value.second),
-        SobelEdgeDetectionFilter(context, value.first),
-        RGBFilter(context, value.third.wrap())
+        GrainFilter(0.36f),
+        HazeFilter(context, 0f to 0.3f),
+        MonochromeFilter(1f to Color(0xFF1C3A00))
     )
 
 }

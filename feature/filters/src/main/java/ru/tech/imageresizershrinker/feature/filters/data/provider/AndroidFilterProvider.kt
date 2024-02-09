@@ -116,6 +116,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.NightVisionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NoiseFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NonMaximumSuppressionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.OilFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.OldTvFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.OpacityFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.OrangeHazeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PastelFilter
@@ -329,6 +330,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.DigitalCode -> DigitalCodeFilter(value)
             is Filter.Bokeh -> BokehFilter(value)
             is Filter.Neon<*, *> -> NeonFilter(context, value.cast())
+            is Filter.OldTv -> OldTvFilter(context, value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

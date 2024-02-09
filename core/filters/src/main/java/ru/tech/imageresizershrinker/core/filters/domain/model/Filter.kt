@@ -169,4 +169,5 @@ interface Filter<Image, Value> {
     interface DigitalCode<Image> : Filter<Image, Unit>
     interface Bokeh<Image> : Filter<Image, BokehParams>
     interface Neon<Image, Color : Any> : Filter<Image, Triple<Float, Float, Color>>
+    interface OldTv<Image> : Filter<Image, Unit>
 }
