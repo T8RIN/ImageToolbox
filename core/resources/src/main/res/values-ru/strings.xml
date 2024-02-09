@@ -764,4 +764,5 @@
     <string name="random_emojis_sub">Эмодзи будет постоянно меняться случайным образом, а не использовать выбранный</string>
     <string name="random_emojis">Случайные эмодзи</string>
     <string name="random_emojis_error">Невозможно использовать случайный выбор эмодзи, пока они отключены</string>
+    <string name="old_tv">Старый телевизор</string>
 </resources>
