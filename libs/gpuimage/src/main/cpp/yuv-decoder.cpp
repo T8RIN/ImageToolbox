@@ -265,18 +265,17 @@ Java_jp_co_cyberagent_android_gpuimage_GPUImageNativeLibrary_shuffle(
     for (int y = 0; y < height; ++y) {
         auto pixels = reinterpret_cast<uint8_t *>(reinterpret_cast<uint8_t *>(srcByteBuffer) +
                                                   y * srcInfo.stride);
-        int x = 0;
 
-        for (; x < width; ++x) {
+        for (int x = 0; x < width; ++x) {
             float luma = luminance(pixels[0], pixels[1], pixels[2]);
 
             bool overflows = (threshold >= 0) ? (luma <= threshold) : (luma > abs(threshold));
 
             if (overflows) {
-                long startY = y - (random() % y) * strength;
-                long endY = y + (random() % y) * strength;
-                long startX = x - (random() % x) * strength;
-                long endX = x + (random() % x) * strength;
+                long startY = y - (random() % (y + 1)) * strength;
+                long endY = y + (random() % (y + 1)) * strength;
+                long startX = x - (random() % (x + 1)) * strength;
+                long endX = x + (random() % (x + 1)) * strength;
 
                 long ranY = startY + (random() % (endY - startY + 1));
                 long ranX = startX + (random() % (endX - startX + 1));
