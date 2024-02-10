@@ -175,8 +175,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.ZoomBlurFilter
 import javax.inject.Inject
 
 internal class AndroidFilterProvider @Inject constructor(
-    private val context: Context,
-    private val glitchFilterFactory: GlitchFilter.Factory
+    private val context: Context
 ) : FilterProvider<Bitmap> {
 
     override fun filterToTransformation(
@@ -260,7 +259,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.MedianBlur -> MedianBlurFilter(value)
             is Filter.NativeStackBlur -> NativeStackBlurFilter(value)
             is Filter.TiltShift -> TiltShiftFilter(value)
-            is Filter.Glitch -> glitchFilterFactory(value)
+            is Filter.Glitch -> GlitchFilter(value)
             is Filter.Anaglyph -> AnaglyphFilter(value)
             is Filter.Noise -> NoiseFilter(value)
             is Filter.EnhancedGlitch -> EnhancedGlitchFilter(value)

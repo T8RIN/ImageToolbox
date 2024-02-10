@@ -18,23 +18,17 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import androidx.exifinterface.media.ExifInterface
+import android.graphics.BitmapFactory
 import coil.size.Size
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
-import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
-import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
-import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.feature.filters.data.glitch.SimpleGlitcher
+import java.io.ByteArrayOutputStream
 
-internal class GlitchFilter @AssistedInject internal constructor(
-    @Assisted override val value: Triple<Float, Float, Float> = Triple(20f, 15f, 9f),
-    private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>
+internal class GlitchFilter(
+    override val value: Triple<Float, Float, Float> = Triple(20f, 15f, 9f),
 ) : Transformation<Bitmap>, Filter.Glitch<Bitmap> {
 
     override val cacheKey: String
@@ -48,20 +42,16 @@ internal class GlitchFilter @AssistedInject internal constructor(
         seed = value.second.toInt(),
         iterations = value.third.toInt()
     ).glitch(
-        imageCompressor.compress(
-            image = input,
-            imageFormat = ImageFormat.Jpeg,
-            quality = Quality.Base(100),
-        )
+        withContext(Dispatchers.IO) {
+            ByteArrayOutputStream().use {
+                input.compress(Bitmap.CompressFormat.JPEG, 100, it)
+                it.toByteArray()
+            }
+        }
     ).let {
-        imageGetter.getImage(it) ?: input
-    }
-
-    @AssistedFactory
-    interface Factory {
-        operator fun invoke(
-            value: Triple<Float, Float, Float>
-        ): GlitchFilter
+        withContext(Dispatchers.IO) {
+            BitmapFactory.decodeByteArray(it, 0, it.size)
+        }
     }
 
 }

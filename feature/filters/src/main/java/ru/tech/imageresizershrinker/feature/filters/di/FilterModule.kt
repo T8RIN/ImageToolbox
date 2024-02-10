@@ -31,7 +31,6 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.feature.filters.data.applier.AndroidFilterMaskApplier
-import ru.tech.imageresizershrinker.feature.filters.data.model.GlitchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.provider.AndroidFilterProvider
 import ru.tech.imageresizershrinker.feature.filters.domain.FilterMaskApplier
 import javax.inject.Singleton
@@ -45,11 +44,7 @@ internal object FilterModule {
     @Provides
     fun provideFilterProvider(
         @ApplicationContext context: Context,
-        glitchFilterFactory: GlitchFilter.Factory
-    ): FilterProvider<Bitmap> = AndroidFilterProvider(
-        context = context,
-        glitchFilterFactory = glitchFilterFactory
-    )
+    ): FilterProvider<Bitmap> = AndroidFilterProvider(context)
 
     @Singleton
     @Provides
