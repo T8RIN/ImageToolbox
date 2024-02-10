@@ -764,4 +764,5 @@
     <string name="random_emojis_error">禁用表情符号时，无法使用随机表情符号选取功能</string>
     <string name="emoji_selection_error">启用随机选择时，无法选择表情符号</string>
     <string name="random_emojis_sub">应用栏顶部表情符号将持续随机更换，而不是使用选定的表情符号</string>
+    <string name="old_tv">老式电视</string>
 </resources>
