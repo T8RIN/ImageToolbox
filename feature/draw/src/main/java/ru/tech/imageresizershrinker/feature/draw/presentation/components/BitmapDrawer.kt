@@ -374,7 +374,7 @@ fun BitmapDrawer(
                             onDrawStart()
                             drawPath.moveTo(currentDrawPosition.x, currentDrawPosition.y)
                             previousDrawPosition = currentDrawPosition
-                            pathWithoutTransformations = drawPath
+                            pathWithoutTransformations = drawPath.copy()
                         } else {
                             drawPath = Path()
                             pathWithoutTransformations = Path()
@@ -421,6 +421,15 @@ fun BitmapDrawer(
 
                                 DrawPathMode.PointingArrow,
                                 DrawPathMode.DoublePointingArrow -> {
+                                    if (previousDrawPosition.isUnspecified && currentDrawPosition.isSpecified) {
+                                        drawPath = Path()
+                                        drawPath.moveTo(
+                                            currentDrawPosition.x,
+                                            currentDrawPosition.y
+                                        )
+                                        pathWithoutTransformations = drawPath.copy()
+                                        previousDrawPosition = currentDrawPosition
+                                    }
                                     if (previousDrawPosition.isSpecified && currentDrawPosition.isSpecified) {
                                         drawPath = pathWithoutTransformations
                                         drawPath.quadraticTo(
