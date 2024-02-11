@@ -766,4 +766,6 @@
     <string name="random_emojis_error">Невозможно использовать случайный выбор эмодзи, пока они отключены</string>
     <string name="old_tv">Старый телевизор</string>
     <string name="shuffle_blur">Размытие перемешиванием</string>
+    <string name="no_favorite_filters">Избранные фильтры пока не добавлены</string>
+    <string name="favorite">Избранное</string>
 </resources>
