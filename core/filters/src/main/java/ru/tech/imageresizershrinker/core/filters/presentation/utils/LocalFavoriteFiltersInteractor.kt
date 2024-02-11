@@ -17,12 +17,14 @@
 
 package ru.tech.imageresizershrinker.core.filters.presentation.utils
 
+import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.flow.map
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
@@ -33,7 +35,14 @@ val LocalFavoriteFiltersInteractor = compositionLocalOf<FavoriteFiltersInteracto
 }
 
 @Composable
-fun ProvidableCompositionLocal<FavoriteFiltersInteractor<Bitmap>>.getFavoriteFiltersAsUiState(): State<List<UiFilter<*>>> =
-    current.getFavoriteFilters()
-        .map { list -> list.map { it.toUiFilter() } }
-        .collectAsState(emptyList())
+fun ProvidableCompositionLocal<FavoriteFiltersInteractor<Bitmap>>.getFavoriteFiltersAsUiState(
+    context: Context = LocalContext.current
+): State<List<UiFilter<*>>> = current.getFavoriteFilters()
+    .map { list ->
+        list.map {
+            it.toUiFilter()
+        }.sortedBy {
+            context.getString(it.title)
+        }
+    }
+    .collectAsState(emptyList())
