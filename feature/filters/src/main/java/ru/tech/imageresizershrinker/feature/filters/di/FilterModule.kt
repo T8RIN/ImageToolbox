@@ -21,6 +21,10 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.exifinterface.media.ExifInterface
 import dagger.Module
 import dagger.Provides
@@ -29,7 +33,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
+import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
+import ru.tech.imageresizershrinker.feature.filters.data.FavoriteFiltersInteractorImpl
 import ru.tech.imageresizershrinker.feature.filters.data.applier.AndroidFilterMaskApplier
 import ru.tech.imageresizershrinker.feature.filters.data.provider.AndroidFilterProvider
 import ru.tech.imageresizershrinker.feature.filters.domain.FilterMaskApplier
@@ -57,4 +63,21 @@ internal object FilterModule {
         imageTransformer = imageTransformer,
         filterProvider = filterProvider
     )
+
+    @FilterInteractorDataStore
+    @Singleton
+    @Provides
+    fun provideFilterInteractorDataStore(
+        @ApplicationContext context: Context
+    ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
+        produceFile = { context.preferencesDataStoreFile("favorite_filters") },
+    )
+
+    @Singleton
+    @Provides
+    fun provideFavoriteFiltersInteractor(
+        @FilterInteractorDataStore dataStore: DataStore<Preferences>
+    ): FavoriteFiltersInteractor<Bitmap> = FavoriteFiltersInteractorImpl(dataStore)
+
+
 }

@@ -783,4 +783,6 @@
     <string name="emoji_selection_error">Can\'t select an emoji while picking random one enabled</string>
     <string name="old_tv">Old Tv</string>
     <string name="shuffle_blur">Shuffle Blur</string>
+    <string name="favorite">Favorite</string>
+    <string name="no_favorite_filters">No favorite filters added yet</string>
 </resources>

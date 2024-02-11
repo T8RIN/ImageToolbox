@@ -15,19 +15,15 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package ru.tech.imageresizershrinker.core.filters.domain
 
-android.namespace = "ru.tech.imageresizershrinker.feature.filters"
+import kotlinx.coroutines.flow.Flow
+import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-dependencies {
-    api(projects.core.filters)
-    implementation(projects.feature.draw)
-    implementation(projects.feature.pickColor)
-    implementation(projects.feature.compare)
-    implementation(libs.kotlin.reflect)
+interface FavoriteFiltersInteractor<Image> {
+
+    fun getFavoriteFilters(): Flow<List<Filter<Image, *>>>
+
+    suspend fun toggleFavorite(filter: Filter<Image, *>)
+
 }

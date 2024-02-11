@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.presentation
 
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
@@ -48,6 +49,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import nl.dionsegijn.konfetti.compose.KonfettiView
+import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
+import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalEditPresetsState
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.toUiState
@@ -77,11 +80,15 @@ import ru.tech.imageresizershrinker.feature.main.presentation.components.Permiss
 import ru.tech.imageresizershrinker.feature.main.presentation.components.ScreenSelector
 import ru.tech.imageresizershrinker.feature.main.presentation.components.particles
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AppActivity : M3Activity() {
 
     private val viewModel by viewModels<MainViewModel>()
+
+    @Inject
+    lateinit var filtersInteractor: FavoriteFiltersInteractor<Bitmap>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -127,7 +134,8 @@ class AppActivity : M3Activity() {
                 LocalEditPresetsState provides editPresetsState,
                 LocalConfettiController provides rememberToastHostState(),
                 LocalImageLoader provides viewModel.imageLoader,
-                LocalHapticFeedback provides customHapticFeedback(viewModel.settingsState.hapticsStrength)
+                LocalHapticFeedback provides customHapticFeedback(viewModel.settingsState.hapticsStrength),
+                LocalFavoriteFiltersInteractor provides filtersInteractor
             ) {
                 val showSelectSheet = rememberSaveable(viewModel.showSelectDialog) {
                     mutableStateOf(viewModel.showSelectDialog)

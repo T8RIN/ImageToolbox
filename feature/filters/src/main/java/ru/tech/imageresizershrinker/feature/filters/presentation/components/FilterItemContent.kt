@@ -72,7 +72,7 @@ import kotlin.math.pow
 import kotlin.math.roundToInt
 
 @Composable
-fun <T> FilterItemContent(
+internal fun <T> FilterItemContent(
     filter: UiFilter<T>,
     onFilterChange: (value: Any) -> Unit,
     modifier: Modifier = Modifier,

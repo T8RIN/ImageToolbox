@@ -157,6 +157,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:filters"))
     coreLibraryDesugaring(libs.desugaring)
 
     //Di
