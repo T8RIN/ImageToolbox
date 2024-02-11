@@ -396,4 +396,25 @@
     <string name="deep_purple">डीप पर्पल</string>
     <string name="red_swirl">रेड स्वर्ल</string>
     <string name="space_portal">स्पेस पोर्टल</string>
+    <string name="enhanced_diamond_pixelation">बेहतरीन डायमंड पिक्सलेसन</string>
+    <string name="diamond_pixelation">डायमंड पिक्सलेशन</string>
+    <string name="circle_pixelation">गोलिय पिक्सलेशन</string>
+    <string name="enhanced_circle_pixelation">बेहतरीन गोलिय पिक्सलेशन</string>
+    <string name="night_magic">रात्रि जादू</string>
+    <string name="green_sun">हरा सूर्य</string>
+    <string name="pixel_size">पिक्सल साइज</string>
+    <string name="lock_draw_orientation">चित्र ओरिएंटेशन लॉक करे</string>
+    <string name="tonal_spot_sub">मुलस्तिथि पेलेट स्टाइल, आपको चारो कलर को कस्टमाइज करने की अनुमति देता है, अन्य सिर्फ आपको मुख्य कलर सेट करने की अनुमती देते है</string>
+    <string name="color_explosion">रंग विस्फोट</string>
+    <string name="neutral_sub">शैली जो मोनोक्रोम से थोड़ा ज्यादा रंगीन हे</string>
+    <string name="rainbow_world">सतरंगी दुनिया</string>
+    <string name="recode">पुन:कोड</string>
+    <string name="lock_draw_orientation_sub">अगर ड्रॉइंग मोड़ में सक्रिय रहा तो स्क्रीन नही घूमेगी</string>
+    <string name="check_for_updates">अपडेट के लिये जांचें</string>
+    <string name="neutral">तटस्थ</string>
+    <string name="vibrant">चमकीला</string>
+    <string name="expressive">अर्थपूर्ण</string>
+    <string name="rainbow">मेघधनुष</string>
+    <string name="fruit_salad">फल सलाड</string>
+    <string name="content">सामग्री</string>
 </resources>
