@@ -29,7 +29,8 @@ data class ImageInfo(
     val rotationDegrees: Float = 0f,
     val isFlipped: Boolean = false,
     val sizeInBytes: Int = 0,
-    val imageScaleMode: ImageScaleMode = ImageScaleMode.Default
+    val imageScaleMode: ImageScaleMode = ImageScaleMode.Default,
+    val originalSize: IntegerSize = IntegerSize.Undefined
 ) : Domain {
     fun haveChanges(original: Bitmap?): Boolean {
         if (original == null) return false

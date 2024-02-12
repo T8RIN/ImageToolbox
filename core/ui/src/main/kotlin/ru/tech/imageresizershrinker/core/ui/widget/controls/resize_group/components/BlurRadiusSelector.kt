@@ -24,6 +24,7 @@ import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
@@ -34,6 +35,7 @@ import kotlin.math.roundToInt
 fun BlurRadiusSelector(
     modifier: Modifier,
     value: Int,
+    color: Color = MaterialTheme.colorScheme.surfaceContainer,
     valueRange: ClosedFloatingPointRange<Float> = 5f..100f,
     onValueChange: (Int) -> Unit
 ) {
@@ -57,6 +59,6 @@ fun BlurRadiusSelector(
             onValueChange(it.roundToInt())
         },
         shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.surfaceContainer
+        color = color
     )
 }

@@ -45,4 +45,12 @@ data class IntegerSize(
     )
 
     fun isZero(): Boolean = width == 0 || height == 0
+
+    fun isDefined(): Boolean = this != Undefined
+
+    companion object {
+        val Undefined by lazy {
+            IntegerSize(-1, -1)
+        }
+    }
 }

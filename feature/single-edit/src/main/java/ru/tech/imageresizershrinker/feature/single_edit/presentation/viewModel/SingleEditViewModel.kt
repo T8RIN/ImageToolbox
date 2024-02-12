@@ -241,7 +241,8 @@ class SingleEditViewModel @Inject constructor(
         _imageInfo.value = ImageInfo(
             width = _internalBitmap.value?.width ?: 0,
             height = _internalBitmap.value?.height ?: 0,
-            imageFormat = imageInfo.imageFormat
+            imageFormat = imageInfo.imageFormat,
+            originalSize = originalSize ?: IntegerSize.Undefined
         )
         if (newBitmapComes) {
             _bitmap.value = _internalBitmap.value
@@ -354,7 +355,11 @@ class SingleEditViewModel @Inject constructor(
 
     fun setResizeType(type: ResizeType) {
         if (_imageInfo.value.resizeType != type) {
-            _imageInfo.value = _imageInfo.value.copy(resizeType = type)
+            _imageInfo.update {
+                it.copy(
+                    resizeType = type.withOriginalSizeIfCrop(originalSize)
+                )
+            }
             debouncedImageCalculation {
                 checkBitmapAndUpdate(
                     resetPreset = false
@@ -398,7 +403,8 @@ class SingleEditViewModel @Inject constructor(
             resetValues(true)
             _imageInfo.value = imageData.imageInfo.copy(
                 width = size.first,
-                height = size.second
+                height = size.second,
+                originalSize = originalSize ?: IntegerSize.Undefined
             )
             checkBitmapAndUpdate(
                 resetPreset = _presetSelected.value == Preset.Telegram && imageData.imageInfo.imageFormat != ImageFormat.Png

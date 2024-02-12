@@ -54,6 +54,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -73,6 +74,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @Composable
 fun ResizeTypeSelector(
     modifier: Modifier = Modifier,
+    originalSize: IntegerSize,
     enabled: Boolean,
     value: ResizeType,
     onValueChange: (ResizeType) -> Unit
@@ -93,7 +95,8 @@ fun ResizeTypeSelector(
             ResizeType.CenterCrop(
                 canvasColor = canvasColor.toArgb()
                     .takeIf { !useBlurredBgInsteadOfColor },
-                blurRadius = blurRadius
+                blurRadius = blurRadius,
+                originalSize = originalSize
             )
         }
     }
@@ -177,7 +180,7 @@ fun ResizeTypeSelector(
                             .padding(bottom = 8.dp, end = 8.dp, start = 8.dp)
                             .container(
                                 shape = RoundedCornerShape(16.dp),
-                                color = MaterialTheme.colorScheme.surfaceContainer
+                                color = MaterialTheme.colorScheme.surfaceContainerLow
                             ),
                         value = canvasColor,
                         onColorChange = {
@@ -189,6 +192,7 @@ fun ResizeTypeSelector(
                     BlurRadiusSelector(
                         modifier = Modifier.padding(bottom = 8.dp, end = 8.dp, start = 8.dp),
                         value = blurRadius,
+                        color = MaterialTheme.colorScheme.surfaceContainerLow,
                         onValueChange = {
                             blurRadius = it
                             updateResizeType()

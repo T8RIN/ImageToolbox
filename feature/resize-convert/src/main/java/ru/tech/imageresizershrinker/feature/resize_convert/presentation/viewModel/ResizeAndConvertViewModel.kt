@@ -201,7 +201,8 @@ class ResizeAndConvertViewModel @Inject constructor(
             height = _bitmap.value?.height ?: 0,
             imageFormat = if (saveMime) {
                 imageInfo.imageFormat
-            } else ImageFormat.Default()
+            } else ImageFormat.Default(),
+            originalSize = originalSize ?: IntegerSize.Undefined
         )
         debouncedImageCalculation {
             checkBitmapAndUpdate(
@@ -223,7 +224,8 @@ class ResizeAndConvertViewModel @Inject constructor(
             resetValues(true)
             _imageInfo.value = imageData.imageInfo.copy(
                 width = size.first,
-                height = size.second
+                height = size.second,
+                originalSize = originalSize ?: IntegerSize.Undefined
             )
             checkBitmapAndUpdate(
                 resetPreset = _presetSelected.value == Preset.Telegram && imageData.imageInfo.imageFormat != ImageFormat.Png
@@ -305,7 +307,11 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     fun setResizeType(type: ResizeType) {
         if (_imageInfo.value.resizeType != type) {
-            _imageInfo.value = _imageInfo.value.copy(resizeType = type)
+            _imageInfo.update {
+                it.copy(
+                    resizeType = type.withOriginalSizeIfCrop(originalSize)
+                )
+            }
             debouncedImageCalculation {
                 checkBitmapAndUpdate()
             }
@@ -369,14 +375,15 @@ class ResizeAndConvertViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 val bitmap = imageGetter.getImage(
                     uri = uri.toString(),
-                    originalSize = false
+                    originalSize = true
                 )?.image
                 val size = bitmap?.let { it.width to it.height }
                 _originalSize.value = size?.run { IntegerSize(width = first, height = second) }
                 _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
                 _imageInfo.value = _imageInfo.value.copy(
                     width = size?.first ?: 0,
-                    height = size?.second ?: 0
+                    height = size?.second ?: 0,
+                    originalSize = originalSize ?: IntegerSize.Undefined
                 )
                 _imageInfo.value = imageTransformer.applyPresetBy(
                     image = _bitmap.value,

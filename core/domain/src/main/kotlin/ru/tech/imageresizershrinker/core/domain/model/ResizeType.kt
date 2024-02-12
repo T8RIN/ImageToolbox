@@ -25,8 +25,16 @@ sealed class ResizeType : Domain {
 
     data class CenterCrop(
         val canvasColor: Int? = 0,
-        val blurRadius: Int = 35
+        val blurRadius: Int = 35,
+        val originalSize: IntegerSize = IntegerSize.Undefined,
+        val scaleFactor: Float = 1f
     ) : ResizeType()
+
+    fun withOriginalSizeIfCrop(
+        originalSize: IntegerSize?
+    ): ResizeType = if (this is CenterCrop) {
+        copy(originalSize = originalSize ?: IntegerSize.Undefined)
+    } else this
 
     companion object {
         val entries by lazy {

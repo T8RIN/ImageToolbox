@@ -346,6 +346,7 @@ fun ResizeAndConvertScreen(
             ResizeTypeSelector(
                 enabled = viewModel.bitmap != null,
                 value = imageInfo.resizeType,
+                originalSize = imageInfo.originalSize,
                 onValueChange = viewModel::setResizeType
             )
             Spacer(Modifier.height(8.dp))

@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.core.ui.transformation
 
 import android.graphics.Bitmap
 import coil.size.Size
+import com.t8rin.logger.makeLog
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -45,14 +46,24 @@ class ImageInfoTransformation @AssistedInject constructor(
         get() = (imageInfo to preset to imageTransformer to transformations).hashCode().toString()
 
     override suspend fun transform(input: Bitmap, size: Size): Bitmap {
-        val transformedInput =
+        val transformedInput = imageInfo.originalSize.makeLog("COCK").takeIf {
+            it.isDefined()
+        }?.let { (width, height) ->
             imageScaler.scaleImage(
                 image = input,
-                width = imageInfo.width,
-                height = imageInfo.height,
+                width = width,
+                height = height,
                 resizeType = ResizeType.Flexible,
                 imageScaleMode = ImageScaleMode.NotPresent
             )
+        } ?: imageScaler.scaleImage(
+            image = input,
+            width = imageInfo.width,
+            height = imageInfo.height,
+            resizeType = ResizeType.Flexible,
+            imageScaleMode = ImageScaleMode.NotPresent
+        )
+
         var info = imageInfo
         if (!preset.isEmpty()) {
             val currentInfo = info.copy()

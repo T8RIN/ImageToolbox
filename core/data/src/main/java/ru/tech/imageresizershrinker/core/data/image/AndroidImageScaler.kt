@@ -18,14 +18,14 @@
 package ru.tech.imageresizershrinker.core.data.image
 
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.core.graphics.BitmapCompat
+import androidx.core.graphics.applyCanvas
 import com.awxkee.aire.Aire
 import com.awxkee.aire.BitmapScaleMode
+import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
@@ -77,9 +77,10 @@ internal class AndroidImageScaler @Inject constructor(
             is ResizeType.CenterCrop -> {
                 resizeType.resizeWithCenterCrop(
                     image = image,
-                    w = widthInternal,
-                    h = heightInternal,
-                    imageScaleMode = imageScaleMode
+                    targetWidth = widthInternal,
+                    targetHeight = heightInternal,
+                    imageScaleMode = imageScaleMode,
+                    scaleFactor = resizeType.scaleFactor
                 )
             }
         }
@@ -114,21 +115,24 @@ internal class AndroidImageScaler @Inject constructor(
 
     private suspend fun ResizeType.CenterCrop.resizeWithCenterCrop(
         image: Bitmap,
-        w: Int,
-        h: Int,
-        scaleFactor: Float = 1f,
+        targetWidth: Int,
+        targetHeight: Int,
+        scaleFactor: Float,
         imageScaleMode: ImageScaleMode
     ): Bitmap {
-        if (w == image.width && h == image.height) return image
+        val mTargetWidth = (targetWidth / scaleFactor).roundToInt()
+        val mTargetHeight = (targetHeight / scaleFactor).roundToInt()
+
+        if (mTargetWidth == originalSize.width && mTargetHeight == originalSize.height) return image
         val bitmap = imageTransformer.transform(
             image = image.let { bitmap ->
-                val xScale: Float = w.toFloat() / bitmap.width
-                val yScale: Float = h.toFloat() / bitmap.height
+                val xScale: Float = mTargetWidth.toFloat() / originalSize.width
+                val yScale: Float = mTargetHeight.toFloat() / originalSize.height
                 val scale = xScale.coerceAtLeast(yScale)
                 createScaledBitmap(
                     bitmap,
-                    width = (scale * bitmap.width).toInt(),
-                    height = (scale * bitmap.height).toInt(),
+                    width = (scale * originalSize.width).toInt(),
+                    height = (scale * originalSize.height).toInt(),
                     imageScaleMode = imageScaleMode
                 )
             },
@@ -141,14 +145,23 @@ internal class AndroidImageScaler @Inject constructor(
                 )
             )
         )
+
+        scaleFactor.makeLog("COCK") { "SCALE ======= $it" }
+
         val drawImage = createScaledBitmap(
             image = image,
-            width = (image.width * scaleFactor).toInt(),
-            height = (image.height * scaleFactor).toInt(),
+            width = (originalSize.width * scaleFactor).roundToInt(),
+            height = (originalSize.height * scaleFactor).roundToInt(),
             imageScaleMode = imageScaleMode
-        )
-        val canvas = Bitmap.createBitmap(w, h, drawImage.config).apply { setHasAlpha(true) }
-        Canvas(canvas).apply {
+        ).makeLog("COCK-drawing") { it.width to it.height }
+
+        return Bitmap.createBitmap(
+            mTargetWidth,
+            mTargetHeight,
+            drawImage.config
+        ).makeLog("COCK-canvas") { it.width to it.height }.apply {
+            setHasAlpha(true)
+        }.applyCanvas {
             drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
             this@resizeWithCenterCrop.canvasColor?.let {
                 drawColor(it)
@@ -167,7 +180,6 @@ internal class AndroidImageScaler @Inject constructor(
                 Paint()
             )
         }
-        return canvas
     }
 
     private suspend fun createScaledBitmap(
@@ -182,23 +194,13 @@ internal class AndroidImageScaler @Inject constructor(
             it != ImageScaleMode.NotPresent
         } ?: settingsRepository.getSettingsState().defaultImageScaleMode
 
-        return if (mode is ImageScaleMode.Default) {
-            BitmapCompat.createScaledBitmap(
-                image,
-                width,
-                height,
-                null,
-                true
-            )
-        } else {
-            Aire.scale(
-                bitmap = image,
-                dstWidth = width,
-                dstHeight = height,
-                scaleMode = BitmapScaleMode.entries.first { e -> e.ordinal == mode.value },
-                antialias = true
-            )
-        }
+        return Aire.scale(
+            bitmap = image,
+            dstWidth = width,
+            dstHeight = height,
+            scaleMode = BitmapScaleMode.entries.first { e -> e.ordinal == mode.value },
+            antialias = true
+        )
     }
 
     private suspend fun flexibleResize(

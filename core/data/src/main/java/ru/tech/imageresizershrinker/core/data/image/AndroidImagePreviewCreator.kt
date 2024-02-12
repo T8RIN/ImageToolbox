@@ -53,18 +53,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
         var height = imageInfo.height
 
         launch {
-            if (imageInfo.resizeType !is ResizeType.CenterCrop) {
-                imageCompressor.compressAndTransform(
-                    image = image,
-                    imageInfo = imageInfo,
-                    onImageReadyToCompressInterceptor = {
-                        imageTransformer.transform(
-                            image = it,
-                            transformations = transformations
-                        ) ?: it
-                    }
-                )
-            } else {
+            if (imageInfo.resizeType is ResizeType.CenterCrop) {
                 compressCenterCrop(
                     scaleFactor = 1f,
                     onImageReadyToCompressInterceptor = {
@@ -76,6 +65,17 @@ internal class AndroidImagePreviewCreator @Inject constructor(
                     image = image,
                     imageInfo = imageInfo
                 )
+            } else {
+                imageCompressor.compressAndTransform(
+                    image = image,
+                    imageInfo = imageInfo,
+                    onImageReadyToCompressInterceptor = {
+                        imageTransformer.transform(
+                            image = it,
+                            transformations = transformations
+                        ) ?: it
+                    }
+                )
             }.let { onGetByteCount(it.size) }
         }
 
@@ -86,21 +86,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
             scaleFactor *= 0.85f
         }
 
-        val bytes = if (imageInfo.resizeType !is ResizeType.CenterCrop) {
-            imageCompressor.compressAndTransform(
-                image = image,
-                imageInfo = imageInfo.copy(
-                    width = width,
-                    height = height
-                ),
-                onImageReadyToCompressInterceptor = {
-                    imageTransformer.transform(
-                        image = it,
-                        transformations = transformations
-                    ) ?: it
-                }
-            )
-        } else {
+        val bytes = if (imageInfo.resizeType is ResizeType.CenterCrop) {
             compressCenterCrop(
                 scaleFactor = scaleFactor,
                 onImageReadyToCompressInterceptor = {
@@ -115,14 +101,26 @@ internal class AndroidImagePreviewCreator @Inject constructor(
                     height = height
                 )
             )
+        } else {
+            imageCompressor.compressAndTransform(
+                image = image,
+                imageInfo = imageInfo.copy(
+                    width = width,
+                    height = height
+                ),
+                onImageReadyToCompressInterceptor = {
+                    imageTransformer.transform(
+                        image = it,
+                        transformations = transformations
+                    ) ?: it
+                }
+            )
         }
         val bitmap = imageGetter.getImage(bytes)
         return@withContext bitmap ?: image
     }
 
-    override fun canShow(image: Bitmap): Boolean {
-        return canShow(image.size())
-    }
+    override fun canShow(image: Bitmap): Boolean = canShow(image.size())
 
     private fun canShow(size: Int): Boolean {
         return size < 3096 * 3096 * 3
@@ -147,7 +145,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
             image = image,
             width = (imageInfo.width * scaleFactor).roundToInt(),
             height = (imageInfo.height * scaleFactor).roundToInt(),
-            resizeType = imageInfo.resizeType,
+            resizeType = (imageInfo.resizeType as ResizeType.CenterCrop).copy(scaleFactor = scaleFactor),
             imageScaleMode = imageInfo.imageScaleMode
         ).let {
             imageTransformer.flip(

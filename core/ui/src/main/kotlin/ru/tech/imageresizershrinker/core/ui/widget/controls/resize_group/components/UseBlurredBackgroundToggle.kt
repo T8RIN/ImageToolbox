@@ -40,7 +40,7 @@ fun UseBlurredBackgroundToggle(
         subtitle = stringResource(R.string.blur_edges_sub),
         checked = checked,
         shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.surfaceContainer,
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
         onClick = onCheckedChange,
         startIcon = Icons.Rounded.BlurLinear
     )
