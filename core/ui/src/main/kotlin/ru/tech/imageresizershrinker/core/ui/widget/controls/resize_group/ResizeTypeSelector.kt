@@ -54,7 +54,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -74,7 +73,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @Composable
 fun ResizeTypeSelector(
     modifier: Modifier = Modifier,
-    originalSize: IntegerSize,
     enabled: Boolean,
     value: ResizeType,
     onValueChange: (ResizeType) -> Unit
@@ -95,8 +93,7 @@ fun ResizeTypeSelector(
             ResizeType.CenterCrop(
                 canvasColor = canvasColor.toArgb()
                     .takeIf { !useBlurredBgInsteadOfColor },
-                blurRadius = blurRadius,
-                originalSize = originalSize
+                blurRadius = blurRadius
             )
         }
     }

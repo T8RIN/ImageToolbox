@@ -25,7 +25,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.applyCanvas
 import com.awxkee.aire.Aire
 import com.awxkee.aire.BitmapScaleMode
-import com.t8rin.logger.makeLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
@@ -130,7 +129,7 @@ internal class AndroidImageScaler @Inject constructor(
                 val yScale: Float = mTargetHeight.toFloat() / originalSize.height
                 val scale = xScale.coerceAtLeast(yScale)
                 createScaledBitmap(
-                    bitmap,
+                    image = bitmap,
                     width = (scale * originalSize.width).toInt(),
                     height = (scale * originalSize.height).toInt(),
                     imageScaleMode = imageScaleMode
@@ -146,20 +145,18 @@ internal class AndroidImageScaler @Inject constructor(
             )
         )
 
-        scaleFactor.makeLog("COCK") { "SCALE ======= $it" }
-
         val drawImage = createScaledBitmap(
             image = image,
             width = (originalSize.width * scaleFactor).roundToInt(),
             height = (originalSize.height * scaleFactor).roundToInt(),
             imageScaleMode = imageScaleMode
-        ).makeLog("COCK-drawing") { it.width to it.height }
+        )
 
         return Bitmap.createBitmap(
             mTargetWidth,
             mTargetHeight,
             drawImage.config
-        ).makeLog("COCK-canvas") { it.width to it.height }.apply {
+        ).apply {
             setHasAlpha(true)
         }.applyCanvas {
             drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)

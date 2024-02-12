@@ -22,6 +22,9 @@ package ru.tech.imageresizershrinker.core.data.image
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
+import coil.ImageLoader
+import coil.request.ImageRequest
+import coil.size.Size
 import com.awxkee.jxlcoder.JxlCoder
 import com.awxkee.jxlcoder.JxlColorSpace
 import com.awxkee.jxlcoder.JxlCompressionOption
@@ -36,11 +39,13 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.Quality
+import ru.tech.imageresizershrinker.core.domain.model.sizeTo
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 internal class AndroidImageCompressor @Inject constructor(
     @ApplicationContext private val context: Context,
+    private val imageLoader: ImageLoader,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>
 ) : ImageCompressor<Bitmap> {
@@ -164,6 +169,14 @@ internal class AndroidImageCompressor @Inject constructor(
     ): ByteArray = withContext(Dispatchers.IO) {
         val currentImage: Bitmap
         if (applyImageTransformations) {
+            val size = imageInfo.originalUri?.let {
+                imageLoader.execute(
+                    ImageRequest.Builder(context)
+                        .data(it)
+                        .size(Size.ORIGINAL)
+                        .build()
+                ).drawable?.run { intrinsicWidth sizeTo intrinsicHeight }
+            }
             currentImage = imageScaler.scaleImage(
                 image = imageTransformer.rotate(
                     image = image.apply { setHasAlpha(true) },
@@ -171,7 +184,7 @@ internal class AndroidImageCompressor @Inject constructor(
                 ),
                 width = imageInfo.width,
                 height = imageInfo.height,
-                resizeType = imageInfo.resizeType,
+                resizeType = imageInfo.resizeType.withOriginalSizeIfCrop(size),
                 imageScaleMode = imageInfo.imageScaleMode
             ).let {
                 imageTransformer.flip(
@@ -188,13 +201,6 @@ internal class AndroidImageCompressor @Inject constructor(
             imageFormat = imageInfo.imageFormat,
             quality = imageInfo.quality
         )
-//        runCatching {
-//            compress(
-//                image = currentImage,
-//                imageFormat = imageInfo.imageFormat,
-//                quality = imageInfo.quality
-//            )
-//        }.getOrNull() ?: ByteArray(0)
     }
 
     override suspend fun calculateImageSize(

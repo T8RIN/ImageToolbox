@@ -202,7 +202,7 @@ class ResizeAndConvertViewModel @Inject constructor(
             imageFormat = if (saveMime) {
                 imageInfo.imageFormat
             } else ImageFormat.Default(),
-            originalSize = originalSize ?: IntegerSize.Undefined
+            originalUri = selectedUri?.toString()
         )
         debouncedImageCalculation {
             checkBitmapAndUpdate(
@@ -224,8 +224,7 @@ class ResizeAndConvertViewModel @Inject constructor(
             resetValues(true)
             _imageInfo.value = imageData.imageInfo.copy(
                 width = size.first,
-                height = size.second,
-                originalSize = originalSize ?: IntegerSize.Undefined
+                height = size.second
             )
             checkBitmapAndUpdate(
                 resetPreset = _presetSelected.value == Preset.Telegram && imageData.imageInfo.imageFormat != ImageFormat.Png
@@ -339,7 +338,7 @@ class ResizeAndConvertViewModel @Inject constructor(
                             image = bitmap,
                             preset = _presetSelected.value,
                             currentInfo = it
-                        )
+                        ).copy(originalUri = uri.toString())
                     }.apply {
                         val result = fileController.save(
                             ImageSaveTarget(
@@ -349,7 +348,7 @@ class ResizeAndConvertViewModel @Inject constructor(
                                 sequenceNumber = _done.value + 1,
                                 data = imageCompressor.compressAndTransform(
                                     image = bitmap,
-                                    imageInfo = imageInfo
+                                    imageInfo = this
                                 )
                             ), if (uris!!.size == 1) true else keepExif
                         )
@@ -383,7 +382,7 @@ class ResizeAndConvertViewModel @Inject constructor(
                 _imageInfo.value = _imageInfo.value.copy(
                     width = size?.first ?: 0,
                     height = size?.second ?: 0,
-                    originalSize = originalSize ?: IntegerSize.Undefined
+                    originalUri = uri.toString()
                 )
                 _imageInfo.value = imageTransformer.applyPresetBy(
                     image = _bitmap.value,
@@ -435,6 +434,9 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     fun decodeBitmapFromUri(uri: Uri, onError: (Throwable) -> Unit) {
         viewModelScope.launch {
+            _imageInfo.update {
+                it.copy(originalUri = uri.toString())
+            }
             imageGetter.getImageAsync(
                 uri = uri.toString(),
                 originalSize = true,

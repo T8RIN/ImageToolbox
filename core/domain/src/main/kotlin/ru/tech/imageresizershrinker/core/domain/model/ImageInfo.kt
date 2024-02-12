@@ -30,7 +30,7 @@ data class ImageInfo(
     val isFlipped: Boolean = false,
     val sizeInBytes: Int = 0,
     val imageScaleMode: ImageScaleMode = ImageScaleMode.Default,
-    val originalSize: IntegerSize = IntegerSize.Undefined
+    val originalUri: String? = null
 ) : Domain {
     fun haveChanges(original: Bitmap?): Boolean {
         if (original == null) return false

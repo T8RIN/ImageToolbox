@@ -73,10 +73,12 @@ internal object ImageModule {
     @Provides
     fun provideImageCompressor(
         @ApplicationContext context: Context,
+        imageLoader: ImageLoader,
         imageTransformer: ImageTransformer<Bitmap>,
         imageScaler: ImageScaler<Bitmap>
     ): ImageCompressor<Bitmap> = AndroidImageCompressor(
         context = context,
+        imageLoader = imageLoader,
         imageTransformer = imageTransformer,
         imageScaler = imageScaler
     )

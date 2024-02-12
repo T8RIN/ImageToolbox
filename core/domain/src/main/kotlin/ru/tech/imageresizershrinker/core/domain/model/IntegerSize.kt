@@ -54,3 +54,5 @@ data class IntegerSize(
         }
     }
 }
+
+infix fun Int.sizeTo(int: Int): IntegerSize = IntegerSize(this, int)
