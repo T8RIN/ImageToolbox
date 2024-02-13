@@ -211,6 +211,12 @@ sealed class UiFontFam(
         variable = false
     )
 
+    data object Unisource : UiFontFam(
+        fontRes = R.font.unisource_regular,
+        name = "Unisource",
+        variable = false
+    )
+
     fun asDomain(): FontFam {
         return when (this) {
             Caveat -> FontFam.Caveat
@@ -239,6 +245,7 @@ sealed class UiFontFam(
             Axotrel -> FontFam.Axotrel
             LcdMoving -> FontFam.LcdMoving
             LcdOctagon -> FontFam.LcdOctagon
+            Unisource -> FontFam.Unisource
         }
     }
 
@@ -270,6 +277,7 @@ sealed class UiFontFam(
                 Axotrel,
                 LcdOctagon,
                 LcdMoving,
+                Unisource,
                 System
             ).sortedBy { it.name }
         }
@@ -304,6 +312,7 @@ fun FontFam.toUiFont(): UiFontFam {
         FontFam.Axotrel -> UiFontFam.Axotrel
         FontFam.LcdMoving -> UiFontFam.LcdMoving
         FontFam.LcdOctagon -> UiFontFam.LcdOctagon
+        FontFam.Unisource -> UiFontFam.Unisource
     }
 }
 

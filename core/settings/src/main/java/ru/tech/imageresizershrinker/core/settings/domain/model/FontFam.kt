@@ -45,6 +45,7 @@ sealed class FontFam(val ordinal: Int) : Domain {
     data object Axotrel : FontFam(23)
     data object LcdOctagon : FontFam(24)
     data object LcdMoving : FontFam(25)
+    data object Unisource : FontFam(26)
     data object System : FontFam(0)
 
     companion object {
@@ -74,6 +75,7 @@ sealed class FontFam(val ordinal: Int) : Domain {
             23 -> Axotrel
             24 -> LcdOctagon
             25 -> LcdMoving
+            26 -> Unisource
             else -> System
         }
     }
