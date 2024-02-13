@@ -239,8 +239,8 @@ class SingleEditViewModel @Inject constructor(
 
     fun resetValues(newBitmapComes: Boolean = false) {
         _imageInfo.value = ImageInfo(
-            width = _internalBitmap.value?.width ?: 0,
-            height = _internalBitmap.value?.height ?: 0,
+            width = _originalSize.value?.width ?: 0,
+            height = _originalSize.value?.height ?: 0,
             imageFormat = imageInfo.imageFormat,
             originalUri = uri.toString()
         )

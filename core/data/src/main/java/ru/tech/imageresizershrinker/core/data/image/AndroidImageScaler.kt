@@ -30,6 +30,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -121,6 +122,13 @@ internal class AndroidImageScaler @Inject constructor(
     ): Bitmap {
         val mTargetWidth = (targetWidth / scaleFactor).roundToInt()
         val mTargetHeight = (targetHeight / scaleFactor).roundToInt()
+
+        val originalSize = if (!originalSize.isDefined()) {
+            IntegerSize(
+                (image.width * scaleFactor).roundToInt(),
+                (image.height * scaleFactor).roundToInt()
+            )
+        } else originalSize
 
         if (mTargetWidth == originalSize.width && mTargetHeight == originalSize.height) return image
         val bitmap = imageTransformer.transform(

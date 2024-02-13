@@ -197,8 +197,8 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     fun resetValues(saveMime: Boolean = false, resetPreset: Boolean = true) {
         _imageInfo.value = ImageInfo(
-            width = _bitmap.value?.width ?: 0,
-            height = _bitmap.value?.height ?: 0,
+            width = _originalSize.value?.width ?: 0,
+            height = _originalSize.value?.height ?: 0,
             imageFormat = if (saveMime) {
                 imageInfo.imageFormat
             } else ImageFormat.Default(),
