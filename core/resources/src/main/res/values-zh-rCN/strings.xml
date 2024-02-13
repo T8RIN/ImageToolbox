@@ -766,4 +766,6 @@
     <string name="random_emojis_sub">应用栏顶部表情符号将持续随机更换，而不是使用选定的表情符号</string>
     <string name="old_tv">老式电视</string>
     <string name="shuffle_blur">随机模糊</string>
+    <string name="favorite">收藏夹</string>
+    <string name="no_favorite_filters">尚未添加收藏夹过滤器</string>
 </resources>
