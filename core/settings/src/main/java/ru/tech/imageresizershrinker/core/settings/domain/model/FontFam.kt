@@ -35,11 +35,16 @@ sealed class FontFam(val ordinal: Int) : Domain {
     data object FRM32 : FontFam(13)
     data object TokeelyBrookings : FontFam(14)
     data object Nunito : FontFam(15)
+    data object Nothing : FontFam(16)
+    data object PatchyCrypt : FontFam(17)
+    data object WOPRTweaked : FontFam(18)
+    data object AlegreyaSans : FontFam(19)
+    data object MinecraftGnu : FontFam(20)
     data object System : FontFam(0)
 
     companion object {
         fun fromOrdinal(int: Int?): FontFam = when (int) {
-            1, null -> Montserrat
+            1 -> Montserrat
             2 -> Caveat
             3 -> Comfortaa
             4 -> Handjet
@@ -54,6 +59,11 @@ sealed class FontFam(val ordinal: Int) : Domain {
             13 -> FRM32
             14 -> TokeelyBrookings
             15 -> Nunito
+            16 -> Nothing
+            17 -> PatchyCrypt
+            18 -> WOPRTweaked
+            19 -> AlegreyaSans
+            20 -> MinecraftGnu
             else -> System
         }
     }

@@ -35,7 +35,6 @@ import kotlinx.collections.immutable.ImmutableList
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
-import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 
@@ -192,28 +191,6 @@ fun SettingsState.toUiState(
     isSecureMode = isSecureMode,
     useRandomEmojis = useRandomEmojis
 )
-
-private fun FontFam.toUiFont(): UiFontFam {
-    return when (this) {
-        FontFam.Caveat -> UiFontFam.Caveat
-        FontFam.Comfortaa -> UiFontFam.Comfortaa
-        FontFam.System -> UiFontFam.System
-        FontFam.Handjet -> UiFontFam.Handjet
-        FontFam.Jura -> UiFontFam.Jura
-        FontFam.Montserrat -> UiFontFam.Montserrat
-        FontFam.Podkova -> UiFontFam.Podkova
-        FontFam.Tektur -> UiFontFam.Tektur
-        FontFam.YsabeauSC -> UiFontFam.YsabeauSC
-        FontFam.DejaVu -> UiFontFam.DejaVu
-        FontFam.BadScript -> UiFontFam.BadScript
-        FontFam.RuslanDisplay -> UiFontFam.RuslanDisplay
-        FontFam.Catterdale -> UiFontFam.Catterdale
-        FontFam.FRM32 -> UiFontFam.FRM32
-        FontFam.TokeelyBrookings -> UiFontFam.TokeelyBrookings
-        FontFam.Nunito -> UiFontFam.Nunito
-    }
-}
-
 
 private fun String?.toColorTupleList(): List<ColorTuple> {
     val list = mutableListOf<ColorTuple>()

@@ -149,6 +149,36 @@ sealed class UiFontFam(
         variable = true
     )
 
+    data object Nothing : UiFontFam(
+        fontRes = R.font.nothing_font_regular,
+        name = "Nothing",
+        variable = false
+    )
+
+    data object PatchyCrypt : UiFontFam(
+        fontRes = R.font.patchy_crypt_regular,
+        name = "Patchy Crypt",
+        variable = false
+    )
+
+    data object WOPRTweaked : UiFontFam(
+        fontRes = R.font.wopr_tweaked_regular,
+        name = "WOPR Tweaked",
+        variable = false
+    )
+
+    data object AlegreyaSans : UiFontFam(
+        fontRes = R.font.alegreya_sans_regular,
+        name = "Alegreya Sans",
+        variable = false
+    )
+
+    data object MinecraftGnu : UiFontFam(
+        fontRes = R.font.minecraft_gnu_regular,
+        name = "Minecraft GNU",
+        variable = false
+    )
+
     fun asDomain(): FontFam {
         return when (this) {
             Caveat -> FontFam.Caveat
@@ -167,6 +197,11 @@ sealed class UiFontFam(
             FRM32 -> FontFam.FRM32
             TokeelyBrookings -> FontFam.TokeelyBrookings
             Nunito -> FontFam.Nunito
+            Nothing -> FontFam.Nothing
+            PatchyCrypt -> FontFam.PatchyCrypt
+            WOPRTweaked -> FontFam.WOPRTweaked
+            AlegreyaSans -> FontFam.AlegreyaSans
+            MinecraftGnu -> FontFam.MinecraftGnu
         }
     }
 
@@ -188,9 +223,40 @@ sealed class UiFontFam(
                 FRM32,
                 TokeelyBrookings,
                 Nunito,
+                Nothing,
+                PatchyCrypt,
+                WOPRTweaked,
+                AlegreyaSans,
+                MinecraftGnu,
                 System
             )
         }
+    }
+}
+
+fun FontFam.toUiFont(): UiFontFam {
+    return when (this) {
+        FontFam.Caveat -> UiFontFam.Caveat
+        FontFam.Comfortaa -> UiFontFam.Comfortaa
+        FontFam.System -> UiFontFam.System
+        FontFam.Handjet -> UiFontFam.Handjet
+        FontFam.Jura -> UiFontFam.Jura
+        FontFam.Montserrat -> UiFontFam.Montserrat
+        FontFam.Podkova -> UiFontFam.Podkova
+        FontFam.Tektur -> UiFontFam.Tektur
+        FontFam.YsabeauSC -> UiFontFam.YsabeauSC
+        FontFam.DejaVu -> UiFontFam.DejaVu
+        FontFam.BadScript -> UiFontFam.BadScript
+        FontFam.RuslanDisplay -> UiFontFam.RuslanDisplay
+        FontFam.Catterdale -> UiFontFam.Catterdale
+        FontFam.FRM32 -> UiFontFam.FRM32
+        FontFam.TokeelyBrookings -> UiFontFam.TokeelyBrookings
+        FontFam.Nunito -> UiFontFam.Nunito
+        FontFam.Nothing -> UiFontFam.Nothing
+        FontFam.PatchyCrypt -> UiFontFam.PatchyCrypt
+        FontFam.WOPRTweaked -> UiFontFam.WOPRTweaked
+        FontFam.AlegreyaSans -> UiFontFam.AlegreyaSans
+        FontFam.MinecraftGnu -> UiFontFam.MinecraftGnu
     }
 }
 
