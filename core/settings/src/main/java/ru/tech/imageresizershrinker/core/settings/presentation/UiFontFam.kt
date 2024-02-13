@@ -155,12 +155,6 @@ sealed class UiFontFam(
         variable = false
     )
 
-    data object PatchyCrypt : UiFontFam(
-        fontRes = R.font.patchy_crypt_regular,
-        name = "Patchy Crypt",
-        variable = false
-    )
-
     data object WOPRTweaked : UiFontFam(
         fontRes = R.font.wopr_tweaked_regular,
         name = "WOPR Tweaked",
@@ -198,7 +192,6 @@ sealed class UiFontFam(
             TokeelyBrookings -> FontFam.TokeelyBrookings
             Nunito -> FontFam.Nunito
             Nothing -> FontFam.Nothing
-            PatchyCrypt -> FontFam.PatchyCrypt
             WOPRTweaked -> FontFam.WOPRTweaked
             AlegreyaSans -> FontFam.AlegreyaSans
             MinecraftGnu -> FontFam.MinecraftGnu
@@ -224,7 +217,6 @@ sealed class UiFontFam(
                 TokeelyBrookings,
                 Nunito,
                 Nothing,
-                PatchyCrypt,
                 WOPRTweaked,
                 AlegreyaSans,
                 MinecraftGnu,
@@ -253,7 +245,6 @@ fun FontFam.toUiFont(): UiFontFam {
         FontFam.TokeelyBrookings -> UiFontFam.TokeelyBrookings
         FontFam.Nunito -> UiFontFam.Nunito
         FontFam.Nothing -> UiFontFam.Nothing
-        FontFam.PatchyCrypt -> UiFontFam.PatchyCrypt
         FontFam.WOPRTweaked -> UiFontFam.WOPRTweaked
         FontFam.AlegreyaSans -> UiFontFam.AlegreyaSans
         FontFam.MinecraftGnu -> UiFontFam.MinecraftGnu

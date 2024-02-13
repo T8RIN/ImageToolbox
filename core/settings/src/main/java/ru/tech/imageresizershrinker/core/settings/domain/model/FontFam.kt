@@ -36,10 +36,9 @@ sealed class FontFam(val ordinal: Int) : Domain {
     data object TokeelyBrookings : FontFam(14)
     data object Nunito : FontFam(15)
     data object Nothing : FontFam(16)
-    data object PatchyCrypt : FontFam(17)
-    data object WOPRTweaked : FontFam(18)
-    data object AlegreyaSans : FontFam(19)
-    data object MinecraftGnu : FontFam(20)
+    data object WOPRTweaked : FontFam(17)
+    data object AlegreyaSans : FontFam(18)
+    data object MinecraftGnu : FontFam(19)
     data object System : FontFam(0)
 
     companion object {
@@ -60,10 +59,9 @@ sealed class FontFam(val ordinal: Int) : Domain {
             14 -> TokeelyBrookings
             15 -> Nunito
             16 -> Nothing
-            17 -> PatchyCrypt
-            18 -> WOPRTweaked
-            19 -> AlegreyaSans
-            20 -> MinecraftGnu
+            17 -> WOPRTweaked
+            18 -> AlegreyaSans
+            19 -> MinecraftGnu
             else -> System
         }
     }
