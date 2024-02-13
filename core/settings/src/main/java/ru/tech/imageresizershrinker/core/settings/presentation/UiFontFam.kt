@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package ru.tech.imageresizershrinker.core.settings.presentation
 
 import android.os.Build
@@ -173,6 +175,24 @@ sealed class UiFontFam(
         variable = false
     )
 
+    data object GraniteFixed : UiFontFam(
+        fontRes = R.font.granite_fixed_regular,
+        name = "Granite Fixed",
+        variable = false
+    )
+
+    data object NokiaPixel : UiFontFam(
+        fontRes = R.font.nokia_pixel_regular,
+        name = "Nokia Pixel",
+        variable = false
+    )
+
+    data object Ztivalia : UiFontFam(
+        fontRes = R.font.ztivalia_regular,
+        name = "Ztivalia",
+        variable = false
+    )
+
     fun asDomain(): FontFam {
         return when (this) {
             Caveat -> FontFam.Caveat
@@ -195,6 +215,9 @@ sealed class UiFontFam(
             WOPRTweaked -> FontFam.WOPRTweaked
             AlegreyaSans -> FontFam.AlegreyaSans
             MinecraftGnu -> FontFam.MinecraftGnu
+            GraniteFixed -> FontFam.GraniteFixed
+            NokiaPixel -> FontFam.NokiaPixel
+            Ztivalia -> FontFam.Ztivalia
         }
     }
 
@@ -220,6 +243,9 @@ sealed class UiFontFam(
                 WOPRTweaked,
                 AlegreyaSans,
                 MinecraftGnu,
+                GraniteFixed,
+                NokiaPixel,
+                Ztivalia,
                 System
             )
         }
@@ -248,6 +274,9 @@ fun FontFam.toUiFont(): UiFontFam {
         FontFam.WOPRTweaked -> UiFontFam.WOPRTweaked
         FontFam.AlegreyaSans -> UiFontFam.AlegreyaSans
         FontFam.MinecraftGnu -> UiFontFam.MinecraftGnu
+        FontFam.GraniteFixed -> UiFontFam.GraniteFixed
+        FontFam.NokiaPixel -> UiFontFam.NokiaPixel
+        FontFam.Ztivalia -> UiFontFam.Ztivalia
     }
 }
 
