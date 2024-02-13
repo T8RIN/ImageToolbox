@@ -193,6 +193,24 @@ sealed class UiFontFam(
         variable = false
     )
 
+    data object Axotrel : UiFontFam(
+        fontRes = R.font.axotrel_regular,
+        name = "Axotrel",
+        variable = false
+    )
+
+    data object LcdOctagon : UiFontFam(
+        fontRes = R.font.lcd_octagon_regular,
+        name = "LCD Octagon",
+        variable = false
+    )
+
+    data object LcdMoving : UiFontFam(
+        fontRes = R.font.lcd_moving_regular,
+        name = "LCD Moving",
+        variable = false
+    )
+
     fun asDomain(): FontFam {
         return when (this) {
             Caveat -> FontFam.Caveat
@@ -218,6 +236,9 @@ sealed class UiFontFam(
             GraniteFixed -> FontFam.GraniteFixed
             NokiaPixel -> FontFam.NokiaPixel
             Ztivalia -> FontFam.Ztivalia
+            Axotrel -> FontFam.Axotrel
+            LcdMoving -> FontFam.LcdMoving
+            LcdOctagon -> FontFam.LcdOctagon
         }
     }
 
@@ -246,8 +267,11 @@ sealed class UiFontFam(
                 GraniteFixed,
                 NokiaPixel,
                 Ztivalia,
+                Axotrel,
+                LcdOctagon,
+                LcdMoving,
                 System
-            )
+            ).sortedBy { it.name }
         }
     }
 }
@@ -277,6 +301,9 @@ fun FontFam.toUiFont(): UiFontFam {
         FontFam.GraniteFixed -> UiFontFam.GraniteFixed
         FontFam.NokiaPixel -> UiFontFam.NokiaPixel
         FontFam.Ztivalia -> UiFontFam.Ztivalia
+        FontFam.Axotrel -> UiFontFam.Axotrel
+        FontFam.LcdMoving -> UiFontFam.LcdMoving
+        FontFam.LcdOctagon -> UiFontFam.LcdOctagon
     }
 }
 

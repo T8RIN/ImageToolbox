@@ -48,7 +48,10 @@ fun PickFontFamilySheet(
                 columns = StaggeredGridCells.Adaptive(250.dp),
                 contentPadding = PaddingValues(16.dp),
                 verticalItemSpacing = 8.dp,
-                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
+                horizontalArrangement = Arrangement.spacedBy(
+                    alignment = Alignment.CenterHorizontally,
+                    space = 8.dp
+                )
             ) {
                 items(UiFontFam.entries) { font ->
                     FontSelectionItem(
