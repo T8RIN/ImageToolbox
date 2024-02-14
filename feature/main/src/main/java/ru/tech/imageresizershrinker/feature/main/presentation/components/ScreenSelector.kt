@@ -30,7 +30,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
@@ -39,7 +38,6 @@ import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.findActivity
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.BytesResizeScreen
 import ru.tech.imageresizershrinker.feature.cipher.presentation.FileCipherScreen
@@ -69,7 +67,6 @@ import ru.tech.imageresizershrinker.feature.watermarking.presentation.Watermarki
 fun ScreenSelector(
     viewModel: MainViewModel
 ) {
-    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val navController = viewModel.navController
     val settingsState = LocalSettingsState.current
@@ -170,11 +167,7 @@ fun ScreenSelector(
             is Screen.ImagePreview -> {
                 ImagePreviewScreen(
                     uriState = screen.uris,
-                    onGoBack = {
-                        if (screen.uris != null) {
-                            context.findActivity()?.finishAffinity()
-                        } else onGoBack()
-                    }
+                    onGoBack = onGoBack
                 )
             }
 
@@ -246,11 +239,7 @@ fun ScreenSelector(
             is Screen.PdfTools -> {
                 PdfToolsScreen(
                     type = screen.type,
-                    onGoBack = {
-                        if (screen.type != null) {
-                            context.findActivity()?.finishAffinity()
-                        } else onGoBack()
-                    }
+                    onGoBack = onGoBack
                 )
             }
 
