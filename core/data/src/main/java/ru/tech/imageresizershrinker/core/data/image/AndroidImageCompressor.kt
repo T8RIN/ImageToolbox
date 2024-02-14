@@ -58,7 +58,7 @@ internal class AndroidImageCompressor @Inject constructor(
         val heifCoder = HeifCoder(context)
         val jxlCoder = JxlCoder()
 
-        return@withContext when (imageFormat) {
+        when (imageFormat) {
             ImageFormat.Bmp -> BMPCompressor.compress(image)
             ImageFormat.Jpeg, ImageFormat.Jpg -> {
                 val out = ByteArrayOutputStream()
