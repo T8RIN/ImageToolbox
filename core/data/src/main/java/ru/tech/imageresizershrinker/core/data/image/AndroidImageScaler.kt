@@ -18,8 +18,8 @@
 package ru.tech.imageresizershrinker.core.data.image
 
 import android.graphics.Bitmap
-import android.graphics.Paint
 import android.graphics.PorterDuff
+import android.graphics.RectF
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.applyCanvas
@@ -178,11 +178,18 @@ internal class AndroidImageScaler @Inject constructor(
                     null
                 )
             }
+            val left = (width - drawImage.width) / 2f
+            val top = (height - drawImage.height) / 2f
             drawBitmap(
                 drawImage,
-                (width - drawImage.width) / 2f,
-                (height - drawImage.height) / 2f,
-                Paint()
+                null,
+                RectF(
+                    left,
+                    top,
+                    drawImage.width + left,
+                    drawImage.height + top
+                ),
+                null
             )
         }
     }

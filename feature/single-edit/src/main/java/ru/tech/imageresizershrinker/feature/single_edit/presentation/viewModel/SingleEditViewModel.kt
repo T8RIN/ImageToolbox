@@ -198,7 +198,9 @@ class SingleEditViewModel @Inject constructor(
                             sequenceNumber = null,
                             data = imageCompressor.compressAndTransform(
                                 image = bitmap,
-                                imageInfo = imageInfo
+                                imageInfo = imageInfo.copy(
+                                    originalUri = uri.toString()
+                                )
                             )
                         ),
                         keepMetadata = true
@@ -422,9 +424,9 @@ class SingleEditViewModel @Inject constructor(
             _isSaving.value = true
             shareProvider.shareImages(
                 uris = listOf(_uri.value.toString()),
-                imageLoader = {
-                    imageGetter.getImage(uri = uri.toString())?.image?.let {
-                        it to imageInfo
+                imageLoader = { uri ->
+                    imageGetter.getImage(uri = uri)?.image?.let {
+                        it to imageInfo.copy(originalUri = uri)
                     }
                 },
                 onProgressChange = { onComplete() }
@@ -436,14 +438,16 @@ class SingleEditViewModel @Inject constructor(
     fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } ?: false
 
     fun setPreset(preset: Preset) {
-        setBitmapInfo(
-            imageTransformer.applyPresetBy(
-                image = bitmap,
-                preset = preset,
-                currentInfo = imageInfo
+        viewModelScope.launch {
+            setBitmapInfo(
+                imageTransformer.applyPresetBy(
+                    image = bitmap,
+                    preset = preset,
+                    currentInfo = imageInfo
+                )
             )
-        )
-        _presetSelected.value = preset
+            _presetSelected.value = preset
+        }
     }
 
     fun clearExif() {

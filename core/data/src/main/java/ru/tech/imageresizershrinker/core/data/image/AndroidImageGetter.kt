@@ -74,7 +74,8 @@ internal class AndroidImageGetter @Inject constructor(
                 imageInfo = ImageInfo(
                     width = bitmap.width,
                     height = bitmap.height,
-                    imageFormat = ImageFormat[getExtension(uri)]
+                    imageFormat = ImageFormat[getExtension(uri)],
+                    originalUri = uri
                 ),
                 metadata = exif
             )
@@ -139,7 +140,8 @@ internal class AndroidImageGetter @Inject constructor(
                     imageInfo = ImageInfo(
                         width = bitmap.width,
                         height = bitmap.height,
-                        imageFormat = ImageFormat[getExtension(uri)]
+                        imageFormat = ImageFormat[getExtension(uri)],
+                        originalUri = uri
                     ),
                     metadata = exif
                 )
@@ -172,7 +174,8 @@ internal class AndroidImageGetter @Inject constructor(
                                 imageInfo = ImageInfo(
                                     width = bitmap.width,
                                     height = bitmap.height,
-                                    imageFormat = ImageFormat[getExtension(uri)]
+                                    imageFormat = ImageFormat[getExtension(uri)],
+                                    originalUri = uri
                                 ),
                                 metadata = exif
                             )

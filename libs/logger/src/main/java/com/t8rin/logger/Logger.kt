@@ -90,6 +90,6 @@ inline fun <reified T> T.makeLog(
     }
 }
 
-inline infix fun <reified T> T.makeInfixLog(
+inline infix fun <reified T> T.makeLog(
     tag: String
 ): T = makeLog(tag) { this }

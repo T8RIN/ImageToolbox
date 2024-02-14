@@ -39,7 +39,7 @@ interface ImageTransformer<I> {
 
     suspend fun flip(image: I, isFlipped: Boolean): I
 
-    fun applyPresetBy(
+    suspend fun applyPresetBy(
         image: I?,
         preset: Preset,
         currentInfo: ImageInfo

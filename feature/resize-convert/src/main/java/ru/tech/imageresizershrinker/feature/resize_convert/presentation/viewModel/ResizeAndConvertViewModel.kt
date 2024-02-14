@@ -333,24 +333,27 @@ class ResizeAndConvertViewModel @Inject constructor(
                 runCatching {
                     imageGetter.getImage(uri.toString())?.image
                 }.getOrNull()?.let { bitmap ->
-                    imageInfo.let {
+                    imageInfo.copy(
+                        originalUri = uri.toString()
+                    ).let {
                         imageTransformer.applyPresetBy(
                             image = bitmap,
                             preset = _presetSelected.value,
                             currentInfo = it
-                        ).copy(originalUri = uri.toString())
-                    }.apply {
+                        )
+                    }.let { imageInfo ->
                         val result = fileController.save(
-                            ImageSaveTarget(
-                                imageInfo = this,
+                            saveTarget = ImageSaveTarget(
+                                imageInfo = imageInfo,
                                 metadata = if (uris!!.size == 1) exif else null,
                                 originalUri = uri.toString(),
                                 sequenceNumber = _done.value + 1,
                                 data = imageCompressor.compressAndTransform(
                                     image = bitmap,
-                                    imageInfo = this
+                                    imageInfo = imageInfo
                                 )
-                            ), if (uris!!.size == 1) true else keepExif
+                            ),
+                            keepMetadata = if (uris!!.size == 1) true else keepExif
                         )
                         if (result is SaveResult.Error.MissingPermissions) {
                             return@withContext onComplete("")
@@ -372,6 +375,7 @@ class ResizeAndConvertViewModel @Inject constructor(
         _selectedUri.value = uri
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
+                _isImageLoading.update { true }
                 val bitmap = imageGetter.getImage(
                     uri = uri.toString(),
                     originalSize = true
@@ -390,19 +394,22 @@ class ResizeAndConvertViewModel @Inject constructor(
                     currentInfo = _imageInfo.value
                 )
                 checkBitmapAndUpdate()
+                _isImageLoading.update { false }
             }
         }
     }
 
     fun updatePreset(preset: Preset) {
-        setBitmapInfo(
-            imageTransformer.applyPresetBy(
-                image = _bitmap.value,
-                preset = preset,
-                currentInfo = _imageInfo.value
+        viewModelScope.launch {
+            setBitmapInfo(
+                imageTransformer.applyPresetBy(
+                    image = _bitmap.value,
+                    preset = preset,
+                    currentInfo = _imageInfo.value
+                )
             )
-        )
-        _presetSelected.value = preset
+            _presetSelected.value = preset
+        }
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {
@@ -411,7 +418,9 @@ class ResizeAndConvertViewModel @Inject constructor(
             shareProvider.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
                 imageLoader = { uri ->
-                    imageGetter.getImage(uri)?.image?.let { it to imageInfo }
+                    imageGetter.getImage(uri)?.image?.let {
+                        it to imageInfo.copy(originalUri = uri)
+                    }
                 },
                 onProgressChange = {
                     if (it == -1) {

@@ -42,7 +42,7 @@ class ImageInfoTransformation @AssistedInject constructor(
 ) : CoilTransformation, Transformation<Bitmap> {
 
     override val cacheKey: String
-        get() = (imageInfo to preset to imageTransformer to transformations).hashCode().toString()
+        get() = (imageInfo to preset to transformations).hashCode().toString()
 
     override suspend fun transform(input: Bitmap, size: Size): Bitmap {
         val transformedInput = imageScaler.scaleImage(
@@ -53,18 +53,24 @@ class ImageInfoTransformation @AssistedInject constructor(
             imageScaleMode = ImageScaleMode.NotPresent
         )
 
-        var info = imageInfo
-        if (!preset.isEmpty()) {
-            val currentInfo = info.copy()
-            info = imageTransformer.applyPresetBy(
+        val info = if (!preset.isEmpty()) {
+            imageTransformer.applyPresetBy(
                 image = transformedInput,
                 preset = preset,
-                currentInfo = info
+                currentInfo = imageInfo.copy(
+                    originalUri = null
+                )
             ).let {
-                if (it.quality != currentInfo.quality) {
-                    it.copy(quality = currentInfo.quality)
+                if (it.quality != imageInfo.quality) {
+                    it.copy(quality = imageInfo.quality)
                 } else it
             }
+        } else {
+            imageInfo
+        }.run {
+            copy(
+                originalUri = null
+            )
         }
         return imagePreviewCreator.createPreview(
             image = transformedInput,

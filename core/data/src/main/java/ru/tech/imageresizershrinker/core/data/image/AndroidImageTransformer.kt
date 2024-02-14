@@ -38,6 +38,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
+import ru.tech.imageresizershrinker.core.domain.model.sizeTo
 import javax.inject.Inject
 import kotlin.math.abs
 import coil.transform.Transformation as CoilTransformation
@@ -96,16 +97,28 @@ internal class AndroidImageTransformer @Inject constructor(
         return@withContext imageLoader.execute(request).drawable?.toBitmap()
     }
 
-    override fun applyPresetBy(image: Bitmap?, preset: Preset, currentInfo: ImageInfo): ImageInfo {
-        if (image == null) return currentInfo
+    override suspend fun applyPresetBy(
+        image: Bitmap?,
+        preset: Preset,
+        currentInfo: ImageInfo
+    ): ImageInfo = withContext(Dispatchers.IO) {
+        if (image == null) return@withContext currentInfo
 
+        val size = currentInfo.originalUri?.let {
+            imageLoader.execute(
+                ImageRequest.Builder(context)
+                    .data(it)
+                    .size(Size.ORIGINAL)
+                    .build()
+            ).drawable?.run { intrinsicWidth sizeTo intrinsicHeight }
+        } ?: IntegerSize(image.width, image.height)
 
         val rotated = abs(currentInfo.rotationDegrees) % 180 != 0f
-        fun Bitmap.width() = if (rotated) height else width
-        fun Bitmap.height() = if (rotated) width else height
+        fun calcWidth() = if (rotated) size.height else size.width
+        fun calcHeight() = if (rotated) size.width else size.height
         fun Int.calc(cnt: Int): Int = (this * (cnt / 100f)).toInt()
 
-        return when (preset) {
+        when (preset) {
             is Preset.Telegram -> {
                 currentInfo.copy(
                     width = 512,
@@ -121,8 +134,8 @@ internal class AndroidImageTransformer @Inject constructor(
                     is Quality.Base -> quality.copy(qualityValue = preset.value)
                     is Quality.Jxl -> quality.copy(qualityValue = preset.value)
                 },
-                width = image.width().calc(preset.value),
-                height = image.height().calc(preset.value),
+                width = calcWidth().calc(preset.value),
+                height = calcHeight().calc(preset.value),
             )
 
             is Preset.None -> currentInfo
