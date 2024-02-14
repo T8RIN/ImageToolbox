@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="image_too_large_preview">سۈرەت بەك چوڭ، ئالدىن كۆرگىلى بولمايدۇ، لېكىن يەنىلا ساقلاشنى سىناپ باقىمىز</string>
+    <string name="pick_image">رەسىمنى تاللاپ باشلاڭ</string>
+    <string name="height">ئېگىزلىك %1$s</string>
+    <string name="quality">سۈپىتى</string>
+    <string name="extension">فورماتى</string>
+    <string name="resize_type">تارايتىش تىپى</string>
+    <string name="explicit">مەجبۇر</string>
+    <string name="flexible">ئۆزى ماسلىشىش</string>
+    <string name="reset_image">قايتا ئۆزگەرتىش</string>
+    <string name="reset_image_sub">رەسىمنى دەسلەپكى ھالىتىگە قايتۇرۇش</string>
+    <string name="values_reset">دەسلەپكى ھالىتىگە قايىتتى</string>
+    <string name="reset">قايتا كىلەي</string>
+    <string name="something_went_wrong">ۋايجان~بىريەلىرى بىرقاندايا بۇنىڭ</string>
+    <string name="restart_app">ئەپنى ئەسلى ھالىتىگە قايتۇرۇش</string>
+    <string name="copied">چاپلاق تاختىسىغا كۆچۈرۈلدى</string>
+    <string name="exception">نەزەردىن ساقىت قىلىش تۈرى</string>
+    <string name="edit_exif">EXIFئۇچۇرىنى ئۆزگەرتىش</string>
+    <string name="ok" tools:ignore="ButtonCase,Typos">مۇقۇملاشتۇرۇش</string>
+    <string name="no_exif">EXIFئۇچۇرى يوقكەن</string>
+    <string name="add_tag">بەلگە قوشۇش</string>
+    <string name="save">ساقلاش</string>
+    <string name="clear">قۇرقداش</string>
+    <string name="clear_exif">EXIFئۇچۇرىنى قۇرۇقداش</string>
+    <string name="cancel">بولدىلا</string>
+    <string name="clear_exif_sub">‏‏‏‪‫رەسىمنىڭ EXIFئۇچۇرى يۇيۇلۇپ،ئەسلىگەكەلتۈرگىلى بولمايدۇ</string>
+    <string name="smth_went_wrong">خاتالىق كۆرۈلدى: %1$s</string>
+    <string name="size">چوڭ كىچىكلىكى %1$s</string>
+    <string name="loading">يۈكلىنىۋاتىدۇ…</string>
+    <string name="width">كەڭلىك %1$s</string>
+    <string name="pick_image_alt">رەسىم تاللاش</string>
+    <string name="close">ئۆچۈرۈش</string>
+    <string name="app_closing_sub">راستىنلا چېكىنەمسىز؟</string>
+    <string name="app_closing">ئەپتىن چېكىنىش</string>
+    <string name="stay">بولدىلا</string>
+</resources>

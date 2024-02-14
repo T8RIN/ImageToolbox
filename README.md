@@ -395,6 +395,17 @@ or click one of the badges below.
   - FRM32
   - Tokeely Brookings
   - Nunito
+  - Nothing
+  - WOPR Tweaked
+  - Alegreya Sans
+  - Minecraft Gnu
+  - Granite Fixed
+  - Nokia Pixel
+  - Ztivalia
+  - Axotrel
+  - Lcd Octagon
+  - Lcd Moving
+  - Unisource
 - In app font scale changing
 
 (Yes, the app supports dynamic coloring based on wallpapers for every android version)
