@@ -484,5 +484,12 @@ internal fun SettingItem(
         Setting.UseRandomEmojis -> {
             UseRandomEmojisSettingItem(viewModel::toggleUseRandomEmojis)
         }
+
+        Setting.IconShape -> {
+            IconShapeSettingItem(
+                value = viewModel.settingsState.iconShape,
+                onValueChange = viewModel::setIconShape
+            )
+        }
     }
 }

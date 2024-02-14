@@ -56,6 +56,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.settings.presentation.toUiState
 import ru.tech.imageresizershrinker.core.ui.icons.emoji.Emoji
 import ru.tech.imageresizershrinker.core.ui.icons.emoji.allIcons
+import ru.tech.imageresizershrinker.core.ui.shapes.IconShapesList
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
@@ -128,6 +129,7 @@ class AppActivity : M3Activity() {
                 LocalToastHost provides viewModel.toastHostState,
                 LocalSettingsState provides viewModel.settingsState.toUiState(
                     allEmojis = Emoji.allIcons(),
+                    allIconShapes = IconShapesList,
                     randomEmojiKey = randomEmojiKey
                 ),
                 LocalNavController provides viewModel.navController,

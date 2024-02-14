@@ -56,6 +56,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
 
@@ -78,6 +79,7 @@ fun PreferenceItemOverload(
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp),
+    drawStartIconContainer: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
     val haptics = LocalHapticFeedback.current
@@ -123,13 +125,19 @@ fun PreferenceItemOverload(
             )
         ) {
             Row(
-                Modifier.padding(16.dp),
+                modifier = Modifier.padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 icon?.let {
                     ProvideContainerDefaults(null) {
                         Row {
-                            it()
+                            IconShapeContainer(
+                                enabled = drawStartIconContainer,
+                                underlyingColor = color,
+                                content = {
+                                    icon()
+                                }
+                            )
                             Spacer(modifier = Modifier.width(16.dp))
                         }
                     }

@@ -64,6 +64,7 @@ sealed class SettingsGroup(
         titleId = R.string.customization,
         settingsList = listOf(
             Setting.ColorScheme,
+            Setting.AllowImageMonet,
             Setting.DynamicColors,
             Setting.AmoledMode,
             Setting.Emoji
@@ -75,7 +76,7 @@ sealed class SettingsGroup(
         icon = Icons.TwoTone.Palette,
         titleId = R.string.secondary_customization,
         settingsList = listOf(
-            Setting.AllowImageMonet,
+            Setting.IconShape,
             Setting.EmojisCount,
             Setting.BorderThickness,
             Setting.Confetti,

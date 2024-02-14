@@ -916,6 +916,7 @@ private fun FilterSelectionItem(
         shape = shape,
         onLongClick = onLongClick,
         onClick = onClick,
+        drawStartIconContainer = false
     )
 }
 

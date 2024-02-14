@@ -89,6 +89,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFileName
@@ -365,27 +366,26 @@ fun GifToolsScreen(
                         onNeedToRemoveImageAt = viewModel::removeImageAt
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    AnimatedContent(targetState = viewModel.params.size) { size ->
-                        if (size != null) {
-                            ResizeImageField(
-                                imageInfo = ImageInfo(size.width, size.height),
-                                originalSize = null,
-                                onWidthChange = {
-                                    viewModel.updateParams(
-                                        viewModel.params.copy(
-                                            size = size.copy(width = it)
-                                        )
+                    val size = viewModel.params.size ?: IntegerSize.Undefined
+                    AnimatedVisibility(size.isDefined()) {
+                        ResizeImageField(
+                            imageInfo = ImageInfo(size.width, size.height),
+                            originalSize = null,
+                            onWidthChange = {
+                                viewModel.updateParams(
+                                    viewModel.params.copy(
+                                        size = size.copy(width = it)
                                     )
-                                },
-                                onHeightChange = {
-                                    viewModel.updateParams(
-                                        viewModel.params.copy(
-                                            size = size.copy(height = it)
-                                        )
+                                )
+                            },
+                            onHeightChange = {
+                                viewModel.updateParams(
+                                    viewModel.params.copy(
+                                        size = size.copy(height = it)
                                     )
-                                }
-                            )
-                        }
+                                )
+                            }
+                        )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     PreferenceRowSwitch(

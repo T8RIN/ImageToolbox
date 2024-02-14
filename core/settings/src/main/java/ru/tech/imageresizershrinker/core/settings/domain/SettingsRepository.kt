@@ -147,4 +147,6 @@ interface SettingsRepository {
     suspend fun toggleSecureMode()
 
     suspend fun toggleUseRandomEmojis()
+
+    suspend fun setIconShape(iconShape: Int)
 }

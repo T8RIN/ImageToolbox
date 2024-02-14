@@ -786,4 +786,6 @@
     <string name="favorite">Favorite</string>
     <string name="no_favorite_filters">No favorite filters added yet</string>
     <string name="image_format">Image Format</string>
+    <string name="icon_shape_sub">Adds container with selected shape under the leading icons of cards</string>
+    <string name="icon_shape">Icon Shape</string>
 </resources>

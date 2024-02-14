@@ -62,6 +62,7 @@ import ru.tech.imageresizershrinker.core.settings.data.Keys.FILENAME_PREFIX
 import ru.tech.imageresizershrinker.core.settings.data.Keys.FILENAME_SUFFIX
 import ru.tech.imageresizershrinker.core.settings.data.Keys.FONT_SCALE
 import ru.tech.imageresizershrinker.core.settings.data.Keys.GROUP_OPTIONS_BY_TYPE
+import ru.tech.imageresizershrinker.core.settings.data.Keys.ICON_SHAPE
 import ru.tech.imageresizershrinker.core.settings.data.Keys.IMAGE_PICKER_MODE
 import ru.tech.imageresizershrinker.core.settings.data.Keys.IMAGE_SCALE_MODE
 import ru.tech.imageresizershrinker.core.settings.data.Keys.INITIAL_OCR_CODES
@@ -182,7 +183,8 @@ internal class SettingsRepositoryImpl @Inject constructor(
             } ?: default.screenListWithMaxBrightnessEnforcement,
             isConfettiEnabled = prefs[CONFETTI_ENABLED] ?: default.isConfettiEnabled,
             isSecureMode = prefs[SECURE_MODE] ?: default.isSecureMode,
-            useRandomEmojis = prefs[USE_RANDOM_EMOJIS] ?: default.useRandomEmojis
+            useRandomEmojis = prefs[USE_RANDOM_EMOJIS] ?: default.useRandomEmojis,
+            iconShape = (prefs[ICON_SHAPE] ?: default.iconShape)?.takeIf { it >= 0 },
         )
     }
 
@@ -595,6 +597,12 @@ internal class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[USE_RANDOM_EMOJIS] ?: default.useRandomEmojis
             it[USE_RANDOM_EMOJIS] = !v
+        }
+    }
+
+    override suspend fun setIconShape(iconShape: Int) {
+        dataStore.edit {
+            it[ICON_SHAPE] = iconShape
         }
     }
 

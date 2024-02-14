@@ -91,7 +91,8 @@ data class UiSettingsState(
     val screenListWithMaxBrightnessEnforcement: List<Int>,
     val isConfettiEnabled: Boolean,
     val isSecureMode: Boolean,
-    val useRandomEmojis: Boolean
+    val useRandomEmojis: Boolean,
+    val iconShape: IconShape?
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -103,6 +104,7 @@ fun UiSettingsState.isFirstLaunch(
 @Composable
 fun SettingsState.toUiState(
     allEmojis: ImmutableList<Uri>,
+    allIconShapes: ImmutableList<IconShape>,
     randomEmojiKey: Any? = null
 ): UiSettingsState = UiSettingsState(
     isNightMode = nightMode.isNightMode(),
@@ -189,7 +191,14 @@ fun SettingsState.toUiState(
     screenListWithMaxBrightnessEnforcement = screenListWithMaxBrightnessEnforcement,
     isConfettiEnabled = isConfettiEnabled,
     isSecureMode = isSecureMode,
-    useRandomEmojis = useRandomEmojis
+    useRandomEmojis = useRandomEmojis,
+    iconShape = remember(iconShape) {
+        derivedStateOf {
+            iconShape?.let {
+                allIconShapes.getOrNull(it)
+            }
+        }
+    }.value
 )
 
 private fun String?.toColorTupleList(): List<ColorTuple> {

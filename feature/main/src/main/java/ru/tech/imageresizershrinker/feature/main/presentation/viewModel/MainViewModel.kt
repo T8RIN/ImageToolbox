@@ -691,4 +691,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun setIconShape(iconShape: Int) {
+        viewModelScope.launch {
+            settingsRepository.setIconShape(iconShape)
+        }
+    }
+
 }

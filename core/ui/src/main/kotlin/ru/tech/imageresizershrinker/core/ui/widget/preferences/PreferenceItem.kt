@@ -25,6 +25,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -53,27 +54,33 @@ fun PreferenceItem(
     contentColor: Color = if (color == MaterialTheme.colorScheme.surfaceContainer) contentColorFor(
         backgroundColor = MaterialTheme.colorScheme.surfaceVariant
     ) else contentColorFor(backgroundColor = color),
+    drawStartIconContainer: Boolean = true,
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
 ) {
-    val _icon: (@Composable () -> Unit)? = if (icon == null) null else {
+    val targetIcon: (@Composable () -> Unit)? = if (icon == null) null else {
         {
             AnimatedContent(
                 targetState = icon,
                 transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
             ) { icon ->
-                Icon(imageVector = icon, contentDescription = null)
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null
+                )
             }
         }
     }
-    val _icon2: (@Composable () -> Unit)? = if (endIcon == null) null else {
+    val targetEndIcon: (@Composable () -> Unit)? = if (endIcon == null) null else {
         {
-            AnimatedContent(
-                targetState = endIcon,
-                transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
-            ) { endIcon ->
-                Icon(imageVector = endIcon, contentDescription = null)
+            Box {
+                AnimatedContent(
+                    targetState = endIcon,
+                    transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
+                ) { endIcon ->
+                    Icon(imageVector = endIcon, contentDescription = null)
+                }
             }
         }
     }
@@ -85,10 +92,11 @@ fun PreferenceItem(
         enabled = enabled,
         title = title,
         subtitle = subtitle,
-        icon = _icon,
-        endIcon = _icon2,
+        icon = targetIcon,
+        endIcon = targetEndIcon,
         shape = shape,
         color = color,
-        modifier = modifier
+        modifier = modifier,
+        drawStartIconContainer = drawStartIconContainer
     )
 }

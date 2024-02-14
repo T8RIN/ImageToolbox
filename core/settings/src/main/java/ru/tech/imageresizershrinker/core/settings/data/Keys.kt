@@ -77,4 +77,5 @@ internal object Keys {
     val CONFETTI_ENABLED = booleanPreferencesKey("CONFETTI_ENABLED")
     val SECURE_MODE = booleanPreferencesKey("SECURE_MODE")
     val USE_RANDOM_EMOJIS = booleanPreferencesKey("USE_RANDOM_EMOJIS")
+    val ICON_SHAPE = intPreferencesKey("ICON_SHAPE")
 }

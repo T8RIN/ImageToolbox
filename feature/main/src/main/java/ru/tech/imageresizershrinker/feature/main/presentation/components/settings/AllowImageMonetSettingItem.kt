@@ -33,7 +33,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun AllowImageMonetSettingItem(
-    shape: Shape = ContainerShapeDefaults.topShape,
+    shape: Shape = ContainerShapeDefaults.centerShape,
     onClick: (Boolean) -> Unit,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {

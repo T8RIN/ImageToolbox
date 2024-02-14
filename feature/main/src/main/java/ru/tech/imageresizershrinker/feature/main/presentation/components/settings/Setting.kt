@@ -124,13 +124,13 @@ sealed class Setting(
     )
 
     data object EmojisCount : Setting(
-        title = R.string.emoji,
-        subtitle = R.string.emoji_sub
+        title = R.string.emojis_count,
+        subtitle = null
     )
 
     data object Emoji : Setting(
-        title = R.string.emojis_count,
-        subtitle = null
+        title = R.string.emoji,
+        subtitle = R.string.emoji_sub
     )
 
     data object ContainerShadows : Setting(
@@ -321,5 +321,10 @@ sealed class Setting(
     data object UseRandomEmojis : Setting(
         title = R.string.random_emojis,
         subtitle = R.string.random_emojis_sub
+    )
+
+    data object IconShape : Setting(
+        title = R.string.icon_shape,
+        subtitle = R.string.icon_shape_sub
     )
 }

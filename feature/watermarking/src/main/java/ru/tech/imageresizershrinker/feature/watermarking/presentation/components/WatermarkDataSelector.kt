@@ -125,7 +125,8 @@ fun WatermarkDataSelector(
             },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(20.dp),
-            color = MaterialTheme.colorScheme.surfaceContainerLow
+            color = MaterialTheme.colorScheme.surfaceContainerLow,
+            drawStartIconContainer = false
         )
     }
 }

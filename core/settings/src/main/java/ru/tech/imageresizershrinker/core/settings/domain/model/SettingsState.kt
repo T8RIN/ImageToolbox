@@ -74,7 +74,8 @@ data class SettingsState(
     val screenListWithMaxBrightnessEnforcement: List<Int>,
     val isConfettiEnabled: Boolean,
     val isSecureMode: Boolean,
-    val useRandomEmojis: Boolean
+    val useRandomEmojis: Boolean,
+    val iconShape: Int?
 ) : Domain {
 
     companion object {
@@ -132,7 +133,8 @@ data class SettingsState(
                 screenListWithMaxBrightnessEnforcement = emptyList(),
                 isConfettiEnabled = true,
                 isSecureMode = false,
-                useRandomEmojis = false
+                useRandomEmojis = false,
+                iconShape = 0
             )
         }
     }
