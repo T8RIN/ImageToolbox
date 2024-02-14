@@ -21,14 +21,16 @@ import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -265,22 +267,29 @@ fun BytesResizeScreen(
                     )
                 }
             }
-            Spacer(Modifier.size(8.dp))
+            Spacer(Modifier.height(8.dp))
             SaveExifWidget(
                 imageFormat = viewModel.imageFormat,
                 checked = viewModel.keepExif,
                 onCheckedChange = viewModel::setKeepExif
             )
-            if (viewModel.imageFormat.canChangeCompressionValue) Spacer(
-                Modifier.size(8.dp)
+            AnimatedVisibility(
+                visible = viewModel.imageFormat.canChangeCompressionValue
+            ) {
+                Spacer(Modifier.height(8.dp))
+            }
+            ImageFormatAlert(
+                format = viewModel.imageFormat,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
             )
-            ImageFormatAlert(viewModel.imageFormat)
             ExtensionGroup(
                 enabled = viewModel.bitmap != null,
                 value = viewModel.imageFormat,
                 onValueChange = viewModel::setImageFormat
             )
-            Spacer(Modifier.size(8.dp))
+            Spacer(Modifier.height(8.dp))
             ScaleModeSelector(
                 value = viewModel.imageScaleMode,
                 onValueChange = viewModel::setImageScaleMode

@@ -785,4 +785,5 @@
     <string name="shuffle_blur">Shuffle Blur</string>
     <string name="favorite">Favorite</string>
     <string name="no_favorite_filters">No favorite filters added yet</string>
+    <string name="image_format">Image Format</string>
 </resources>

@@ -86,7 +86,7 @@ fun ExtensionGroup(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(R.string.extension),
+                text = stringResource(R.string.image_format),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp),

@@ -18,19 +18,13 @@
 package ru.tech.imageresizershrinker.feature.bytes_resize.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -39,33 +33,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
-fun ImageFormatAlert(format: ImageFormat) {
-    val settingsState = LocalSettingsState.current
+fun ImageFormatAlert(
+    format: ImageFormat,
+    modifier: Modifier = Modifier
+) {
     AnimatedVisibility(
-        visible = !format.canChangeCompressionValue,
-        enter = scaleIn() + fadeIn(),
-        exit = scaleOut() + fadeOut()
+        visible = !format.canChangeCompressionValue
     ) {
-        Card(
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.errorContainer.copy(
-                    alpha = 0.7f
-                ),
-                contentColor = MaterialTheme.colorScheme.onErrorContainer
-            ),
-            modifier = Modifier
-                .padding(16.dp)
-                .border(
-                    settingsState.borderWidth,
-                    MaterialTheme.colorScheme.onErrorContainer.copy(
+        Box(
+            modifier = modifier
+                .container(
+                    shape = RoundedCornerShape(20.dp),
+                    borderColor = MaterialTheme.colorScheme.onErrorContainer.copy(
                         0.4f
                     ),
-                    RoundedCornerShape(24.dp)
+                    color = MaterialTheme.colorScheme.errorContainer.copy(
+                        alpha = 0.7f
+                    )
                 ),
-            shape = RoundedCornerShape(24.dp)
+            contentAlignment = Alignment.Center
         ) {
             Text(
                 text = stringResource(R.string.warning_bytes, format.title),
@@ -74,7 +63,7 @@ fun ImageFormatAlert(format: ImageFormat) {
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.SemiBold,
                 lineHeight = 14.sp,
-                color = LocalContentColor.current.copy(alpha = 0.5f)
+                color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.5f)
             )
         }
     }

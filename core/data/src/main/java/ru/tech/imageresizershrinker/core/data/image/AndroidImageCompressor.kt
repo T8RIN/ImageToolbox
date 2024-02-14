@@ -136,7 +136,7 @@ internal class AndroidImageCompressor @Inject constructor(
             }
 
             ImageFormat.Jxl.Lossy -> {
-                val jxlQuality = quality as Quality.Jxl
+                val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl(quality.qualityValue)
                 jxlCoder.encode(
                     bitmap = image,
                     colorSpace = JxlColorSpace.RGBA,
@@ -148,7 +148,7 @@ internal class AndroidImageCompressor @Inject constructor(
             }
 
             ImageFormat.Jxl.Lossless -> {
-                val jxlQuality = quality as Quality.Jxl
+                val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl(quality.qualityValue)
                 jxlCoder.encode(
                     bitmap = image,
                     colorSpace = JxlColorSpace.RGBA,
