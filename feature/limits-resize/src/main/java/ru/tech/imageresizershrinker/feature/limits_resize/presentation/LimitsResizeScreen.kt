@@ -101,15 +101,11 @@ fun LimitsResizeScreen(
 
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
-            viewModel.updateUris(uris)
-            viewModel.decodeBitmapFromUri(
-                uri = uris[0],
-                onError = {
-                    scope.launch {
-                        toastHostState.showError(context, it)
-                    }
+            viewModel.updateUris(uris) {
+                scope.launch {
+                    toastHostState.showError(context, it)
                 }
-            )
+            }
         }
     }
     LaunchedEffect(viewModel.bitmap) {
@@ -120,22 +116,17 @@ fun LimitsResizeScreen(
         }
     }
 
-    val pickImageLauncher =
-        rememberImagePicker(
-            mode = localImagePickerMode(Picker.Multiple)
-        ) { list ->
-            list.takeIf { it.isNotEmpty() }?.let { uris ->
-                viewModel.updateUris(list)
-                viewModel.decodeBitmapFromUri(
-                    uri = uris[0],
-                    onError = {
-                        scope.launch {
-                            toastHostState.showError(context, it)
-                        }
-                    }
-                )
+    val pickImageLauncher = rememberImagePicker(
+        mode = localImagePickerMode(Picker.Multiple)
+    ) { list ->
+        list.takeIf { it.isNotEmpty() }?.let { uris ->
+            viewModel.updateUris(uris) {
+                scope.launch {
+                    toastHostState.showError(context, it)
+                }
             }
         }
+    }
 
     val pickImage = {
         pickImageLauncher.pickImage()
@@ -173,104 +164,119 @@ fun LimitsResizeScreen(
         data = viewModel.previewBitmap, visible = showZoomSheet
     )
 
-    AdaptiveLayoutScreen(title = {
-        TopAppBarTitle(
-            title = stringResource(R.string.limits_resize),
-            input = viewModel.bitmap,
-            isLoading = viewModel.isImageLoading,
-            size = viewModel.selectedUri?.fileSize(LocalContext.current) ?: 0L
-        )
-    }, onGoBack = onBack, actions = {
-        if (viewModel.previewBitmap != null) {
-            EnhancedIconButton(
-                containerColor = Color.Transparent,
-                contentColor = LocalContentColor.current,
-                enableAutoShadowAndBorder = false,
-                onClick = {
-                    viewModel.shareBitmaps { showConfetti() }
-                },
-                enabled = viewModel.canSave
-            ) {
-                Icon(Icons.Outlined.Share, null)
+    AdaptiveLayoutScreen(
+        title = {
+            TopAppBarTitle(
+                title = stringResource(R.string.limits_resize),
+                input = viewModel.bitmap,
+                isLoading = viewModel.isImageLoading,
+                size = viewModel.selectedUri?.fileSize(LocalContext.current) ?: 0L
+            )
+        },
+        onGoBack = onBack,
+        actions = {
+            if (viewModel.previewBitmap != null) {
+                EnhancedIconButton(
+                    containerColor = Color.Transparent,
+                    contentColor = LocalContentColor.current,
+                    enableAutoShadowAndBorder = false,
+                    onClick = {
+                        viewModel.shareBitmaps { showConfetti() }
+                    },
+                    enabled = viewModel.canSave
+                ) {
+                    Icon(Icons.Outlined.Share, null)
+                }
             }
-        }
-        ZoomButton(
-            onClick = { showZoomSheet.value = true },
-            visible = viewModel.bitmap != null,
-        )
-    }, imagePreview = {
-        ImageContainer(
-            imageInside = isPortrait,
-            showOriginal = false,
-            previewBitmap = viewModel.previewBitmap,
-            originalBitmap = viewModel.bitmap,
-            isLoading = viewModel.isImageLoading,
-            shouldShowPreview = true
-        )
-    }, controls = {
-        ImageCounter(imageCount = viewModel.uris?.size?.takeIf { it > 1 }, onRepick = {
-            showPickImageFromUrisSheet.value = true
-        })
-        ResizeImageField(
-            imageInfo = viewModel.imageInfo,
-            originalSize = viewModel.originalSize,
-            onWidthChange = viewModel::updateWidth,
-            onHeightChange = viewModel::updateHeight
-        )
-        Spacer(Modifier.size(8.dp))
-        SaveExifWidget(
-            imageFormat = viewModel.imageInfo.imageFormat,
-            checked = viewModel.keepExif,
-            onCheckedChange = viewModel::setKeepExif
-        )
-        if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) Spacer(
-            Modifier.size(8.dp)
-        )
-        QualityWidget(
-            imageFormat = viewModel.imageInfo.imageFormat,
-            enabled = viewModel.bitmap != null,
-            quality = viewModel.imageInfo.quality,
-            onQualityChange = viewModel::setQuality
-        )
-        Spacer(Modifier.size(8.dp))
-        ExtensionGroup(
-            enabled = viewModel.bitmap != null,
-            value = viewModel.imageInfo.imageFormat,
-            onValueChange = viewModel::setMime
-        )
-        Spacer(Modifier.size(8.dp))
-        AutoRotateLimitBoxToggle(
-            value = viewModel.resizeType.autoRotateLimitBox,
-            onClick = viewModel::toggleAutoRotateLimitBox
-        )
-        Spacer(Modifier.size(8.dp))
-        LimitsResizeSelector(
-            enabled = viewModel.bitmap != null,
-            value = viewModel.resizeType,
-            onValueChange = viewModel::setResizeType
-        )
-        Spacer(Modifier.height(8.dp))
-        ScaleModeSelector(
-            value = viewModel.imageInfo.imageScaleMode,
-            onValueChange = viewModel::setImageScaleMode
-        )
-    }, noDataControls = {
-        if (!viewModel.isImageLoading) {
-            ImageNotPickedWidget(onPickImage = pickImage)
-        }
-    }, buttons = { actions ->
-        BottomButtonsBlock(isPrimaryButtonVisible = viewModel.canSave,
-            targetState = (viewModel.uris.isNullOrEmpty()) to isPortrait,
-            onSecondaryButtonClick = pickImage,
-            onPrimaryButtonClick = saveBitmaps,
-            actions = {
-                if (isPortrait) actions()
-            })
-    }, topAppBarPersistentActions = {
-        if (viewModel.bitmap == null) {
-            TopAppBarEmoji()
-        }
-    }, canShowScreenData = viewModel.bitmap != null, isPortrait = isPortrait
+            ZoomButton(
+                onClick = { showZoomSheet.value = true },
+                visible = viewModel.bitmap != null,
+            )
+        },
+        imagePreview = {
+            ImageContainer(
+                imageInside = isPortrait,
+                showOriginal = false,
+                previewBitmap = viewModel.previewBitmap,
+                originalBitmap = viewModel.bitmap,
+                isLoading = viewModel.isImageLoading,
+                shouldShowPreview = true
+            )
+        },
+        controls = {
+            ImageCounter(
+                imageCount = viewModel.uris?.size?.takeIf { it > 1 },
+                onRepick = {
+                    showPickImageFromUrisSheet.value = true
+                }
+            )
+            ResizeImageField(
+                imageInfo = viewModel.imageInfo,
+                originalSize = viewModel.originalSize,
+                onWidthChange = viewModel::updateWidth,
+                onHeightChange = viewModel::updateHeight
+            )
+            Spacer(Modifier.size(8.dp))
+            SaveExifWidget(
+                imageFormat = viewModel.imageInfo.imageFormat,
+                checked = viewModel.keepExif,
+                onCheckedChange = viewModel::setKeepExif
+            )
+            if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) Spacer(
+                Modifier.size(8.dp)
+            )
+            QualityWidget(
+                imageFormat = viewModel.imageInfo.imageFormat,
+                enabled = viewModel.bitmap != null,
+                quality = viewModel.imageInfo.quality,
+                onQualityChange = viewModel::setQuality
+            )
+            Spacer(Modifier.size(8.dp))
+            ExtensionGroup(
+                enabled = viewModel.bitmap != null,
+                value = viewModel.imageInfo.imageFormat,
+                onValueChange = viewModel::setMime
+            )
+            Spacer(Modifier.size(8.dp))
+            AutoRotateLimitBoxToggle(
+                value = viewModel.resizeType.autoRotateLimitBox,
+                onClick = viewModel::toggleAutoRotateLimitBox
+            )
+            Spacer(Modifier.size(8.dp))
+            LimitsResizeSelector(
+                enabled = viewModel.bitmap != null,
+                value = viewModel.resizeType,
+                onValueChange = viewModel::setResizeType
+            )
+            Spacer(Modifier.height(8.dp))
+            ScaleModeSelector(
+                value = viewModel.imageInfo.imageScaleMode,
+                onValueChange = viewModel::setImageScaleMode
+            )
+        },
+        noDataControls = {
+            if (!viewModel.isImageLoading) {
+                ImageNotPickedWidget(onPickImage = pickImage)
+            }
+        },
+        buttons = { actions ->
+            BottomButtonsBlock(
+                isPrimaryButtonVisible = viewModel.canSave,
+                targetState = (viewModel.uris.isNullOrEmpty()) to isPortrait,
+                onSecondaryButtonClick = pickImage,
+                onPrimaryButtonClick = saveBitmaps,
+                actions = {
+                    if (isPortrait) actions()
+                }
+            )
+        },
+        topAppBarPersistentActions = {
+            if (viewModel.bitmap == null) {
+                TopAppBarEmoji()
+            }
+        },
+        canShowScreenData = viewModel.bitmap != null,
+        isPortrait = isPortrait
     )
 
     if (viewModel.isSaving) {

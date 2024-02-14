@@ -121,10 +121,25 @@ class BytesResizeViewModel @Inject constructor(
         }
     }
 
-    fun updateUris(uris: List<Uri>?) {
+    fun updateUris(
+        uris: List<Uri>?,
+        onError: (Throwable) -> Unit
+    ) {
         _uris.value = null
         _uris.value = uris
         _selectedUri.value = uris?.firstOrNull()
+        if (uris != null) {
+            _isImageLoading.value = true
+            imageGetter.getImageAsync(
+                uri = uris[0].toString(),
+                originalSize = true,
+                onGetImage = ::setImageData,
+                onError = {
+                    _isImageLoading.value = false
+                    onError(it)
+                }
+            )
+        }
     }
 
     fun updateUrisSilently(removedUri: Uri) {
@@ -335,22 +350,6 @@ class BytesResizeViewModel @Inject constructor(
             }
             _isImageLoading.value = false
         }
-    }
-
-    fun decodeBitmapByUri(
-        uri: Uri,
-        onError: (Throwable) -> Unit
-    ) {
-        _isImageLoading.value = true
-        imageGetter.getImageAsync(
-            uri = uri.toString(),
-            originalSize = true,
-            onGetImage = ::setImageData,
-            onError = {
-                _isImageLoading.value = false
-                onError(it)
-            }
-        )
     }
 
     fun cancelSaving() {

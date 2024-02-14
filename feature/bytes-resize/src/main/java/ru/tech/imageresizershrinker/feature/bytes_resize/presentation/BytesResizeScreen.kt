@@ -112,15 +112,11 @@ fun BytesResizeScreen(
 
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
-            viewModel.updateUris(uris)
-            viewModel.decodeBitmapByUri(
-                uri = uris[0],
-                onError = {
-                    scope.launch {
-                        toastHostState.showError(context, it)
-                    }
+            viewModel.updateUris(uris) {
+                scope.launch {
+                    toastHostState.showError(context, it)
                 }
-            )
+            }
         }
     }
     LaunchedEffect(viewModel.bitmap) {
@@ -136,15 +132,11 @@ fun BytesResizeScreen(
             mode = localImagePickerMode(Picker.Multiple)
         ) { list ->
             list.takeIf { it.isNotEmpty() }?.let { uris ->
-                viewModel.updateUris(list)
-                viewModel.decodeBitmapByUri(
-                    uri = uris[0],
-                    onError = {
-                        scope.launch {
-                            toastHostState.showError(context, it)
-                        }
+                viewModel.updateUris(uris) {
+                    scope.launch {
+                        toastHostState.showError(context, it)
                     }
-                )
+                }
             }
         }
 

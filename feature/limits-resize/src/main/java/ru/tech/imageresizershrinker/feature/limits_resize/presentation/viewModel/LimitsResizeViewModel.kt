@@ -100,10 +100,23 @@ class LimitsResizeViewModel @Inject constructor(
         _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
     }
 
-    fun updateUris(uris: List<Uri>?) {
+    fun updateUris(uris: List<Uri>?, onError: (Throwable) -> Unit) {
         _uris.value = null
         _uris.value = uris
         _selectedUri.value = uris?.firstOrNull()
+        if (uris != null) {
+            viewModelScope.launch {
+                imageGetter.getImageAsync(
+                    uri = uris[0].toString(),
+                    originalSize = true,
+                    onGetImage = {
+                        updateBitmap(it.image)
+                        setMime(it.imageInfo.imageFormat)
+                    },
+                    onError = onError
+                )
+            }
+        }
     }
 
     fun updateUrisSilently(removedUri: Uri) {
@@ -266,20 +279,6 @@ class LimitsResizeViewModel @Inject constructor(
         }.also {
             savingJob?.cancel()
             savingJob = it
-        }
-    }
-
-    fun decodeBitmapFromUri(uri: Uri, onError: (Throwable) -> Unit) {
-        viewModelScope.launch {
-            imageGetter.getImageAsync(
-                uri = uri.toString(),
-                originalSize = true,
-                onGetImage = {
-                    updateBitmap(it.image)
-                    setMime(it.imageInfo.imageFormat)
-                },
-                onError = onError
-            )
         }
     }
 
