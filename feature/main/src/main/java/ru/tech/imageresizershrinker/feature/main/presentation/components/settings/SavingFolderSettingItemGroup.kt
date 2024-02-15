@@ -31,9 +31,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FolderOff
+import androidx.compose.material.icons.outlined.FolderShared
 import androidx.compose.material.icons.outlined.FolderSpecial
-import androidx.compose.material.icons.rounded.AddCircleOutline
-import androidx.compose.material.icons.rounded.FolderSpecial
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -45,7 +44,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
@@ -87,7 +85,7 @@ fun SavingFolderSettingItemGroup(
                     else 0.2f
                 ).value
             ),
-            endIcon = if (currentFolderUri != null) Icons.Outlined.FolderSpecial else Icons.Rounded.FolderSpecial,
+            startIcon = Icons.Outlined.FolderSpecial,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp)
@@ -127,7 +125,7 @@ fun SavingFolderSettingItemGroup(
                     else 0.2f
                 ).value
             ),
-            endIcon = if (currentFolderUri != null) Icons.Rounded.CreateAlt else Icons.Rounded.AddCircleOutline,
+            startIcon = Icons.Outlined.FolderShared,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp)
