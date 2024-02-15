@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -58,13 +59,16 @@ fun VibrationStrengthSettingItem(
     shape: Shape = ContainerShapeDefaults.defaultShape
 ) {
     val settingsState = LocalSettingsState.current
+    val color = MaterialTheme
+        .colorScheme
+        .secondaryContainer
+        .copy(alpha = 0.2f)
+
     Box(
         modifier
             .container(
                 shape = shape,
-                color = MaterialTheme.colorScheme
-                    .secondaryContainer
-                    .copy(alpha = 0.2f)
+                color = color
             )
             .animateContentSize()
     ) {
@@ -86,9 +90,15 @@ fun VibrationStrengthSettingItem(
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Power,
-                        contentDescription = null,
+                    IconShapeContainer(
+                        enabled = true,
+                        underlyingColor = color,
+                        content = {
+                            Icon(
+                                imageVector = Icons.Outlined.Power,
+                                contentDescription = null
+                            )
+                        },
                         modifier = Modifier.padding(
                             top = 16.dp,
                             start = 12.dp

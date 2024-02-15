@@ -393,15 +393,7 @@ fun GifToolsScreen(
                         subtitle = stringResource(id = R.string.use_size_of_first_frame_sub),
                         checked = viewModel.params.size == null,
                         onClick = viewModel::setUseOriginalSize,
-                        applyHorPadding = false,
-                        startContent = {
-                            Icon(
-                                imageVector = Icons.Outlined.PhotoSizeSelectLarge,
-                                contentDescription = null,
-                                modifier = Modifier.padding(end = 16.dp)
-                            )
-                        },
-                        resultModifier = Modifier.padding(16.dp),
+                        startIcon = Icons.Outlined.PhotoSizeSelectLarge,
                         modifier = Modifier.fillMaxWidth(),
                         color = Color.Unspecified,
                         shape = RoundedCornerShape(24.dp)

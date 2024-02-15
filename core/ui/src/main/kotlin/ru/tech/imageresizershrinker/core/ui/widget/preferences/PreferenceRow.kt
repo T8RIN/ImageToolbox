@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -42,11 +43,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
 
@@ -71,6 +74,7 @@ fun PreferenceRow(
         vertical = 8.dp
     ),
     changeAlphaWhenDisabled: Boolean = true,
+    drawStartIconContainer: Boolean = false,
     onClick: (() -> Unit)?,
     onDisabledClick: (() -> Unit)? = null,
     autoShadowElevation: Dp = 1.dp,
@@ -109,8 +113,19 @@ fun PreferenceRow(
                 ),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ProvideContainerDefaults(null) {
-                startContent?.invoke()
+            startContent?.let { content ->
+                ProvideContainerDefaults(null) {
+                    if (drawStartIconContainer) {
+                        IconShapeContainer(
+                            enabled = true,
+                            underlyingColor = color,
+                            content = {
+                                content()
+                            },
+                            modifier = Modifier.padding(end = 16.dp)
+                        )
+                    } else content()
+                }
             }
             Column(modifier = Modifier.weight(1f)) {
                 AnimatedContent(
@@ -150,4 +165,64 @@ fun PreferenceRow(
             }
         }
     }
+}
+
+
+@Composable
+fun PreferenceRow(
+    modifier: Modifier = Modifier,
+    title: String,
+    enabled: Boolean = true,
+    subtitle: String? = null,
+    autoShadowElevation: Dp = 1.dp,
+    color: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
+        alpha = 0.2f
+    ),
+    drawStartIconContainer: Boolean = true,
+    onDisabledClick: (() -> Unit)? = null,
+    changeAlphaWhenDisabled: Boolean = true,
+    contentColor: Color? = null,
+    shape: Shape = RoundedCornerShape(16.dp),
+    startIcon: ImageVector?,
+    endContent: (@Composable () -> Unit)? = null,
+    onClick: () -> Unit
+) {
+    PreferenceRow(
+        modifier = modifier,
+        title = title,
+        enabled = enabled,
+        subtitle = subtitle,
+        changeAlphaWhenDisabled = changeAlphaWhenDisabled,
+        autoShadowElevation = autoShadowElevation,
+        color = color,
+        contentColor = contentColor,
+        shape = shape,
+        onDisabledClick = onDisabledClick,
+        drawStartIconContainer = false,
+        startContent = startIcon?.let {
+            {
+                IconShapeContainer(
+                    enabled = drawStartIconContainer,
+                    underlyingColor = color,
+                    content = {
+                        Icon(
+                            imageVector = startIcon,
+                            contentDescription = null
+                        )
+                    },
+                    modifier = Modifier.padding(end = 16.dp)
+                )
+            }
+        },
+        endContent = endContent,
+        resultModifier = if (endContent != null) {
+            Modifier.padding(
+                top = 8.dp,
+                start = 16.dp,
+                bottom = 8.dp
+            )
+        } else Modifier.padding(16.dp),
+        applyHorPadding = false,
+        onClick = onClick
+    )
 }

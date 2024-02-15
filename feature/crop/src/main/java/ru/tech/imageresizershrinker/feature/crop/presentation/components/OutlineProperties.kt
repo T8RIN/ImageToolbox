@@ -133,7 +133,7 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                 override val id: Int
                     get() = 12
                 override val title: String
-                    get() = "DavidStar"
+                    get() = "MaterialStar"
 
             }
         ),

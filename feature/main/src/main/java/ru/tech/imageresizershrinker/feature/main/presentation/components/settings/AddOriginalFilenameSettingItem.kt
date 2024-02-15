@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Difference
 import androidx.compose.material.icons.outlined.ErrorOutline
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -52,7 +51,6 @@ fun AddOriginalFilenameSettingItem(
     PreferenceRowSwitch(
         shape = shape,
         enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles,
-        applyHorPadding = false,
         modifier = modifier
             .alpha(
                 animateFloatAsState(
@@ -60,18 +58,8 @@ fun AddOriginalFilenameSettingItem(
                     else 0.5f
                 ).value
             ),
-        resultModifier = Modifier.padding(
-            horizontal = 16.dp,
-            vertical = 8.dp
-        ),
         autoShadowElevation = if (enabled) 1.dp else 0.dp,
-        startContent = {
-            Icon(
-                imageVector = Icons.Outlined.Difference,
-                contentDescription = null,
-                modifier = Modifier.padding(end = 16.dp)
-            )
-        },
+        startIcon = Icons.Outlined.Difference,
         onClick = {
             if (enabled) onClick(it)
             else scope.launch {

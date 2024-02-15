@@ -33,7 +33,7 @@ val HeartShape: Shape = object : Shape {
         val path = Path().apply {
             val height = size.height
             val width = size.width
-            lineTo(0.5f * width, 0.25f * height)
+            moveTo(0.5f * width, 0.25f * height)
             cubicTo(
                 0.5f * width,
                 0.225f * height,

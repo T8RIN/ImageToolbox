@@ -76,6 +76,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -134,7 +135,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -416,12 +417,12 @@ fun FileCipherScreen(
                                         }
 
                                         viewModel.uri?.let { uri ->
-                                            PreferenceRow(
+                                            PreferenceItem(
                                                 modifier = Modifier.padding(top = 16.dp),
                                                 title = context.getFileName(uri)
                                                     ?: stringResource(R.string.something_went_wrong),
                                                 onClick = null,
-                                                titleFontStyle = androidx.compose.material3.LocalTextStyle.current.copy(
+                                                titleFontStyle = LocalTextStyle.current.copy(
                                                     lineHeight = 16.sp,
                                                     fontSize = 15.sp
                                                 ),
@@ -433,18 +434,7 @@ fun FileCipherScreen(
                                                         )
                                                     )
                                                 },
-                                                applyHorPadding = false,
-                                                startContent = {
-                                                    Icon(
-                                                        Icons.AutoMirrored.Rounded.InsertDriveFile,
-                                                        null,
-                                                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                                                        modifier = Modifier.padding(
-                                                            horizontal = 16.dp,
-                                                            vertical = 8.dp
-                                                        )
-                                                    )
-                                                }
+                                                icon = Icons.AutoMirrored.Rounded.InsertDriveFile
                                             )
 
                                             EnhancedButton(

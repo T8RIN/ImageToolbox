@@ -55,7 +55,6 @@ fun CurrentVersionCodeSettingItem(
 ) {
     val settingsState = LocalSettingsState.current
     PreferenceRow(
-        applyHorPadding = false,
         shape = shape,
         modifier = Modifier
             .pulsate(
@@ -67,13 +66,7 @@ fun CurrentVersionCodeSettingItem(
         subtitle = remember {
             "${BuildConfig.VERSION_NAME}${if (BuildConfig.FLAVOR == "foss") "-foss" else ""} (${BuildConfig.VERSION_CODE})"
         },
-        startContent = {
-            Icon(
-                imageVector = Icons.Outlined.Verified,
-                contentDescription = null,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-        },
+        startIcon = Icons.Outlined.Verified,
         endContent = {
             Icon(
                 painter = painterResource(R.drawable.ic_launcher_monochrome),

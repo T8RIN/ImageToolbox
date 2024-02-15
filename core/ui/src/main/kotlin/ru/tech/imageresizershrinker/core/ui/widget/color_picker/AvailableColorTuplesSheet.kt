@@ -256,15 +256,7 @@ fun AvailableColorTuplesSheet(
                     checked = settingsState.isInvertThemeColors,
                     color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     modifier = Modifier,
-                    resultModifier = Modifier.padding(end = 16.dp, top = 8.dp, bottom = 8.dp),
-                    startContent = {
-                        Icon(
-                            imageVector = Icons.Rounded.InvertColors,
-                            contentDescription = null,
-                            modifier = Modifier.padding(horizontal = 16.dp)
-                        )
-                    },
-                    applyHorPadding = false,
+                    startIcon = Icons.Rounded.InvertColors,
                     shape = RoundedCornerShape(4.dp),
                     onClick = { onToggleInvertColors() }
                 )

@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.ui.shapes
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
@@ -47,32 +48,39 @@ val IconShapesList by lazy {
 fun IconShapeContainer(
     enabled: Boolean,
     underlyingColor: Color,
+    modifier: Modifier = Modifier,
     iconShape: IconShape? = LocalSettingsState.current.iconShape,
     content: @Composable (Boolean) -> Unit = {}
 ) {
-    Box(
-        modifier = if (enabled && iconShape != null) {
-            Modifier.container(
-                shape = iconShape.shape,
-                color = underlyingColor.inverse(
-                    fraction = { if (it) 0.15f else 0.1f }
-                ),
-                resultPadding = iconShape.padding
-            )
-        } else Modifier,
-        contentAlignment = Alignment.Center
-    ) {
+    AnimatedContent(
+        targetState = iconShape,
+        modifier = modifier
+    ) { iconShapeAnimated ->
         Box(
-            modifier = if (enabled && iconShape != null) {
-                Modifier
-                    .size(iconShape.iconSize)
-                    .offset(
-                        y = if (iconShape.shape == PentagonShape) 2.dp
-                        else 0.dp
-                    )
-            } else Modifier
+            modifier = if (enabled && iconShapeAnimated != null) {
+                Modifier.container(
+                    shape = iconShapeAnimated.shape,
+                    color = underlyingColor.inverse(
+                        fraction = { if (it) 0.15f else 0.1f }
+                    ),
+                    autoShadowElevation = 0.5.dp,
+                    resultPadding = iconShapeAnimated.padding
+                )
+            } else Modifier,
+            contentAlignment = Alignment.Center
         ) {
-            content(iconShape == null)
+            Box(
+                modifier = if (enabled && iconShapeAnimated != null) {
+                    Modifier
+                        .size(iconShapeAnimated.iconSize)
+                        .offset(
+                            y = if (iconShapeAnimated.shape == PentagonShape) 2.dp
+                            else 0.dp
+                        )
+                } else Modifier
+            ) {
+                content(iconShapeAnimated == null)
+            }
         }
     }
 }

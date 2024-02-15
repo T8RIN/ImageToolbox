@@ -74,20 +74,13 @@ fun EmojiSettingItem(
     val showEmojiDialog = rememberSaveable { mutableStateOf(false) }
     PreferenceRow(
         modifier = modifier,
-        applyHorPadding = false,
         shape = shape,
         title = stringResource(R.string.emoji),
         subtitle = stringResource(R.string.emoji_sub),
         onClick = {
             showEmojiDialog.value = true
         },
-        startContent = {
-            Icon(
-                imageVector = Icons.Outlined.Cool,
-                contentDescription = null,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-        },
+        startIcon = Icons.Outlined.Cool,
         enabled = !settingsState.useRandomEmojis,
         onDisabledClick = {
             scope.launch {

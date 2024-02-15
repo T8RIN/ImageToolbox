@@ -38,7 +38,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.rounded.Language
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -59,7 +58,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -73,26 +72,14 @@ fun ChangeLanguageSettingItem(
     val context = LocalContext.current
     val showDialog = rememberSaveable { mutableStateOf(false) }
     Column(Modifier.animateContentSize()) {
-        PreferenceRow(
+        PreferenceItem(
             shape = shape,
             modifier = modifier.padding(bottom = 1.dp),
-            applyHorPadding = false,
             title = stringResource(R.string.language),
-            resultModifier = Modifier.padding(top = 16.dp, bottom = 16.dp, end = 16.dp),
             subtitle = context.getCurrentLocaleString(),
-            startContent = {
-                Icon(
-                    imageVector = Icons.Outlined.Language,
-                    contentDescription = null,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-            },
-            endContent = {
-                Icon(
-                    imageVector = Icons.Rounded.CreateAlt,
-                    contentDescription = null,
-                )
-            },
+            icon = Icons.Outlined.Language,
+            endIcon = Icons.Rounded.CreateAlt,
+            color = MaterialTheme.colorScheme.secondaryContainer.copy(0.2f),
             onClick = {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !ContextUtils.isMiUi()) {
                     kotlin.runCatching {

@@ -18,9 +18,7 @@
 package ru.tech.imageresizershrinker.feature.main.presentation.components.settings
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -42,22 +40,9 @@ fun CrashlyticsSettingItem(
     PreferenceRowSwitch(
         shape = shape,
         modifier = modifier,
-        applyHorPadding = false,
-        resultModifier = Modifier.padding(
-            horizontal = 16.dp,
-            vertical = 8.dp
-        ),
         title = stringResource(R.string.crashlytics),
         subtitle = stringResource(id = R.string.crashlytics_sub),
-        startContent = {
-            Icon(
-                Icons.Rounded.Crashlytics,
-                null,
-                modifier = Modifier
-                    .padding(end = 16.dp)
-                    .size(20.dp)
-            )
-        },
+        startIcon = Icons.Rounded.Crashlytics,
         checked = settingsState.allowCollectCrashlytics,
         onClick = onClick
     )

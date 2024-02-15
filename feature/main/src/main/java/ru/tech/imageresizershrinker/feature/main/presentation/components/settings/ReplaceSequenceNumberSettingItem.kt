@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -41,22 +40,11 @@ fun ReplaceSequenceNumberSettingItem(
     PreferenceRowSwitch(
         shape = shape,
         modifier = modifier,
-        applyHorPadding = false,
         onClick = onClick,
         enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles,
         title = stringResource(R.string.replace_sequence_number),
         subtitle = stringResource(R.string.replace_sequence_number_sub),
         checked = settingsState.addSequenceNumber,
-        resultModifier = Modifier.padding(
-            horizontal = 16.dp,
-            vertical = 8.dp
-        ),
-        startContent = {
-            Icon(
-                imageVector = Icons.Filled.Numeric,
-                contentDescription = null,
-                modifier = Modifier.padding(end = 16.dp)
-            )
-        }
+        startIcon = Icons.Filled.Numeric
     )
 }

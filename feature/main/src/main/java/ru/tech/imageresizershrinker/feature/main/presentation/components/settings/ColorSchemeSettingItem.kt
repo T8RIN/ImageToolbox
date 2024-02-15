@@ -81,7 +81,6 @@ fun ColorSchemeSettingItem(
 
     val showPickColorSheet = rememberSaveable { mutableStateOf(false) }
     PreferenceRow(
-        applyHorPadding = false,
         modifier = modifier
             .alpha(
                 animateFloatAsState(
@@ -92,13 +91,7 @@ fun ColorSchemeSettingItem(
         autoShadowElevation = if (enabled) 1.dp else 0.dp,
         shape = shape,
         title = stringResource(R.string.color_scheme),
-        startContent = {
-            Icon(
-                imageVector = Icons.Outlined.Theme,
-                contentDescription = null,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-        },
+        startIcon = Icons.Outlined.Theme,
         subtitle = stringResource(R.string.pick_accent_color),
         onClick = {
             if (enabled) showPickColorSheet.value = true

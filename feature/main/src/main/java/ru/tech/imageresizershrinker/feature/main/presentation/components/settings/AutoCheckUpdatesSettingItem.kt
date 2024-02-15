@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.NewReleases
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -46,18 +45,10 @@ fun AutoCheckUpdatesSettingItem(
     PreferenceRowSwitch(
         shape = shape,
         modifier = modifier,
-        applyHorPadding = false,
-        resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
         title = stringResource(R.string.check_updates),
         subtitle = stringResource(R.string.check_updates_sub),
         checked = settingsState.showUpdateDialogOnStartup,
         onClick = onClick,
-        startContent = {
-            Icon(
-                Icons.Outlined.NewReleases,
-                null,
-                modifier = Modifier.padding(end = 16.dp)
-            )
-        }
+        startIcon = Icons.Outlined.NewReleases
     )
 }

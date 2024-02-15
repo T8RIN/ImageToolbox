@@ -51,6 +51,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -79,6 +80,11 @@ fun PreferenceItemOverload(
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp),
+    titleFontStyle: TextStyle = LocalTextStyle.current.copy(
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Medium,
+        lineHeight = 18.sp
+    ),
     drawStartIconContainer: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
@@ -153,9 +159,7 @@ fun PreferenceItemOverload(
                     ) { title ->
                         Text(
                             text = title,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium,
-                            lineHeight = 18.sp
+                            style = titleFontStyle
                         )
                     }
                     AnimatedContent(

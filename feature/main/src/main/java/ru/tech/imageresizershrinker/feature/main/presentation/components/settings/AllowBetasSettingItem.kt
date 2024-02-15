@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -40,22 +39,11 @@ fun AllowBetasSettingItem(
     val settingsState = LocalSettingsState.current
     PreferenceRowSwitch(
         modifier = modifier,
-        applyHorPadding = false,
-        resultModifier = Modifier.padding(
-            horizontal = 16.dp,
-            vertical = 8.dp
-        ),
         shape = shape,
         title = stringResource(R.string.allow_betas),
         subtitle = stringResource(R.string.allow_betas_sub),
         checked = settingsState.allowBetas,
         onClick = onClick,
-        startContent = {
-            Icon(
-                Icons.Rounded.Beta,
-                null,
-                modifier = Modifier.padding(end = 16.dp)
-            )
-        }
+        startIcon = Icons.Rounded.Beta
     )
 }

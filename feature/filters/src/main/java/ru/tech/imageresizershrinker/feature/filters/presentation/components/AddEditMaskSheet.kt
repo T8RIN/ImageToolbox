@@ -355,11 +355,6 @@ fun AddEditMaskSheet(
                                     else Color.Unspecified,
                                 ).value,
                                 shape = RoundedCornerShape(24.dp),
-                                resultModifier = Modifier.padding(
-                                    top = 16.dp,
-                                    bottom = 16.dp,
-                                    end = 16.dp
-                                ),
                                 contentColor = animateColorAsState(
                                     if (maskPreviewModeEnabled) MaterialTheme.colorScheme.primary
                                     else MaterialTheme.colorScheme.onSurface
@@ -368,13 +363,7 @@ fun AddEditMaskSheet(
                                     viewModel.togglePreviewMode()
                                 },
                                 checked = maskPreviewModeEnabled,
-                                startContent = {
-                                    Icon(
-                                        Icons.Rounded.Preview,
-                                        null,
-                                        Modifier.padding(horizontal = 16.dp)
-                                    )
-                                }
+                                startIcon = Icons.Rounded.Preview
                             )
                         }
 
