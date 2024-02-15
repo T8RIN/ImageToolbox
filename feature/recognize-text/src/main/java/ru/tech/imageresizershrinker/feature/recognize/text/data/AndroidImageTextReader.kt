@@ -302,7 +302,11 @@ internal class AndroidImageTextReader @Inject constructor(
             return ""
         }
 
-        val locale = Locale.forLanguageTag(lang)
+        val locale = Locale.forLanguageTag(
+            if (lang.contains("chi_sim")) "zh-CN"
+            else if (lang.contains("chi_tra")) "zh-TW"
+            else lang
+        )
         return locale.getDisplayName(locale).replaceFirstChar { it.uppercase(locale) }
     }
 }

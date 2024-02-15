@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--language keys mapped to tessertact training data -->
     <string-array name="key_ocr_engine_language_value">
         <item>afr</item>
@@ -8,7 +7,6 @@
         <item>ara</item>
         <item>asm</item>
         <item>aze</item>
-        <item>aze_cyrl</item>
         <item>bel</item>
         <item>ben</item>
         <item>bod</item>
@@ -18,16 +16,12 @@
         <item>ceb</item>
         <item>ces</item>
         <item>chi_sim</item>
-        <item>chi_sim_vert</item>
         <item>chi_tra</item>
-        <item>chi_tra_vert</item>
         <item>chr</item>
         <item>cos</item>
         <item>cym</item>
         <item>dan</item>
-        <item>dan_frak</item>
         <item>deu</item>
-        <item>deu_frak</item>
         <item>div</item>
         <item>dzo</item>
         <item>ell</item>
@@ -60,19 +54,15 @@
         <item>ind</item>
         <item>isl</item>
         <item>ita</item>
-        <item>ita_old</item>
         <item>jav</item>
         <item>jpn</item>
-        <item>jpn_vert</item>
         <item>kan</item>
         <item>kat</item>
-        <item>kat_old</item>
         <item>kaz</item>
         <item>khm</item>
         <item>kir</item>
         <item>kmr</item>
         <item>kor</item>
-        <item>kor_vert</item>
         <item>kur</item>
         <item>lao</item>
         <item>lat</item>
@@ -94,7 +84,6 @@
         <item>ori</item>
         <item>osd</item>
         <item>pan</item>
-        <item>pdf.ttf</item>
         <item>pol</item>
         <item>por</item>
         <item>pus</item>
@@ -104,14 +93,11 @@
         <item>san</item>
         <item>sin</item>
         <item>slk</item>
-        <item>slk_frak</item>
         <item>slv</item>
         <item>snd</item>
         <item>spa</item>
-        <item>spa_old</item>
         <item>sqi</item>
         <item>srp</item>
-        <item>srp_latn</item>
         <item>sun</item>
         <item>swa</item>
         <item>swe</item>
@@ -129,7 +115,6 @@
         <item>ukr</item>
         <item>urd</item>
         <item>uzb</item>
-        <item>uzb_cyrl</item>
         <item>vie</item>
         <item>yid</item>
         <item>yor</item>

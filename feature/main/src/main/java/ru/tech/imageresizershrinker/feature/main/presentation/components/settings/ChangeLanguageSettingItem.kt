@@ -50,10 +50,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
-import org.xmlpull.v1.XmlPullParser
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.utils.LocaleConfigCompat
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils
+import ru.tech.imageresizershrinker.core.ui.utils.toList
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -139,12 +140,12 @@ private fun PickLanguageSheet(
                         .padding(12.dp)
                 ) {
                     entries.entries.forEachIndexed { index, locale ->
-                        val isSelected = selected == locale.value
+                        val isSelected =
+                            selected == locale.value || (selected.isEmpty() && index == 0)
                         PreferenceItemOverload(
                             modifier = Modifier.fillMaxWidth(),
                             onClick = {
                                 onSelect(locale.key)
-                                visible.value = false
                             },
                             resultModifier = Modifier.padding(
                                 start = 16.dp,
@@ -167,7 +168,6 @@ private fun PickLanguageSheet(
                                     selected = isSelected,
                                     onClick = {
                                         onSelect(locale.key)
-                                        visible.value = false
                                     }
                                 )
                             },
@@ -192,22 +192,14 @@ private fun PickLanguageSheet(
 }
 
 private fun Context.getLanguages(): Map<String, String> {
-    val languages = mutableListOf("" to getString(R.string.system))
-    val parser = resources.getXml(R.xml.locales_config)
-    var eventType = parser.eventType
-    while (eventType != XmlPullParser.END_DOCUMENT) {
-        if (eventType == XmlPullParser.START_TAG && parser.name == "locale") {
-            for (i in 0 until parser.attributeCount) {
-                if (parser.getAttributeName(i) == "name") {
-                    val langTag = parser.getAttributeValue(i)
-                    val displayName = getDisplayName(langTag)
-                    if (displayName.isNotEmpty()) {
-                        languages.add(Pair(langTag, displayName))
-                    }
+    val languages = mutableListOf("" to getString(R.string.system)).apply {
+        addAll(
+            LocaleConfigCompat(this@getLanguages)
+                .supportedLocales!!.toList()
+                .map {
+                    it.toLanguageTag() to it.getDisplayName(it).replaceFirstChar(Char::uppercase)
                 }
-            }
-        }
-        eventType = parser.next()
+        )
     }
 
     return languages.let { tags ->

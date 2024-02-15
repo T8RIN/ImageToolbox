@@ -44,47 +44,11 @@ android {
         versionCode = libs.versions.versionCode.get().toIntOrNull()
         versionName = libs.versions.versionName.get()
 
-        resourceConfigurations += setOf(
-            "en",
-            "af",
-            "ar",
-            "be",
-            "bn",
-            "cs",
-            "da",
-            "de",
-            "es",
-            "eu",
-            "fa",
-            "fil",
-            "fr",
-            "hi",
-            "hu",
-            "ia",
-            "in",
-            "it",
-            "iw",
-            "ja",
-            "kk",
-            "kn",
-            "ko",
-            "nl",
-            "pl",
-            "pt",
-            "pt-rBR",
-            "ro",
-            "ru",
-            "sk",
-            "sr",
-            "te",
-            "th",
-            "tr",
-            "uk",
-            "vi",
-            "zh-rCN",
-            "zh-rTW"
-        )
         archivesName.set("image-toolbox-$versionName${if (isFoss) "-foss" else ""}")
+    }
+
+    androidResources {
+        generateLocaleConfig = true
     }
 
     flavorDimensions += "app"

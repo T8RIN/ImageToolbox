@@ -56,7 +56,6 @@
         android:hasFragileUserData="true"
         android:label="@string/app_launcher_name"
         android:largeHeap="true"
-        android:localeConfig="@xml/locales_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ImageResizer.Launcher"
