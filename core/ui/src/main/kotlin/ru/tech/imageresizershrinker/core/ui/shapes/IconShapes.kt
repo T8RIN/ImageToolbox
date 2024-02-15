@@ -21,6 +21,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,10 +59,12 @@ fun IconShapeContainer(
     ) { iconShapeAnimated ->
         Box(
             modifier = if (enabled && iconShapeAnimated != null) {
+                val color = MaterialTheme.colorScheme.surfaceTint
                 Modifier.container(
                     shape = iconShapeAnimated.shape,
                     color = underlyingColor.inverse(
-                        fraction = { if (it) 0.15f else 0.1f }
+                        fraction = { if (it) 0.2f else 0.15f },
+                        color = { color }
                     ),
                     autoShadowElevation = 0.5.dp,
                     resultPadding = iconShapeAnimated.padding

@@ -79,6 +79,14 @@ fun Color.inverse(
 ): Color = if (darkMode) blend(Color.White, fraction(true))
 else blend(Color.Black, fraction(false))
 
+@Composable
+fun Color.inverse(
+    fraction: (Boolean) -> Float = { 0.5f },
+    color: (Boolean) -> Color,
+    darkMode: Boolean = LocalSettingsState.current.isNightMode,
+): Color = if (darkMode) blend(color(true), fraction(true))
+else blend(color(true), fraction(false))
+
 
 fun Int.blend(
     color: Color,
