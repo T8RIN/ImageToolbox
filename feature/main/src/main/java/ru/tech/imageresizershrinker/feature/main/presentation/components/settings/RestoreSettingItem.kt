@@ -58,6 +58,6 @@ fun RestoreSettingItem(
             .copy(alpha = 0.2f),
         title = stringResource(R.string.restore),
         subtitle = stringResource(R.string.restore_sub),
-        endIcon = Icons.Rounded.DownloadFile
+        icon = Icons.Rounded.DownloadFile
     )
 }

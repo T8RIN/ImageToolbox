@@ -22,15 +22,18 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ViewSidebar
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
@@ -50,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -64,13 +68,15 @@ fun FabAlignmentSettingItem(
     shape: Shape = ContainerShapeDefaults.bottomShape
 ) {
     val settingsState = LocalSettingsState.current
+    val color = MaterialTheme.colorScheme
+        .secondaryContainer
+        .copy(alpha = 0.2f)
+
     Box(
         modifier
             .container(
                 shape = shape,
-                color = MaterialTheme.colorScheme
-                    .secondaryContainer
-                    .copy(alpha = 0.2f)
+                color = color
             )
             .animateContentSize()
     ) {
@@ -98,59 +104,65 @@ fun FabAlignmentSettingItem(
                 mutableFloatStateOf(derivedValue.toFloat())
             }
             Column(
-                Modifier
-                    .weight(1f)
-                    .heightIn(min = 136.dp)
+                modifier = Modifier.weight(1f)
             ) {
-                Text(
-                    text = stringResource(R.string.fab_alignment),
-                    modifier = Modifier
-                        .padding(
-                            top = 12.dp,
-                            end = 12.dp,
-                            start = 12.dp
-                        ),
-                    lineHeight = 18.sp,
-                    fontWeight = FontWeight.Medium
-                )
-                AnimatedContent(
-                    targetState = sliderValue,
-                    transitionSpec = {
-                        fadeIn() togetherWith fadeOut()
-                    }
-                ) { value ->
-                    Text(
-                        text = stringResource(
-                            when (value.roundToInt()) {
-                                0 -> R.string.start_position
-                                1 -> R.string.center_position
-                                else -> R.string.end_position
-                            }
-                        ),
-                        color = MaterialTheme.colorScheme.onSurface.copy(
-                            alpha = 0.5f
-                        ),
-                        modifier = Modifier.padding(
-                            top = 8.dp,
-                            start = 12.dp,
-                            bottom = 8.dp,
-                            end = 12.dp
-                        ),
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Normal,
-                        lineHeight = 14.sp,
+                Row(
+                    modifier = Modifier.padding(end = 12.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    IconShapeContainer(
+                        enabled = true,
+                        underlyingColor = color,
+                        content = {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Outlined.ViewSidebar,
+                                contentDescription = null
+                            )
+                        },
+                        modifier = Modifier.padding(end = 16.dp, start = 8.dp)
                     )
+                    Column {
+                        Text(
+                            text = stringResource(R.string.fab_alignment),
+                            lineHeight = 18.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                        AnimatedContent(
+                            targetState = sliderValue,
+                            transitionSpec = {
+                                fadeIn() togetherWith fadeOut()
+                            }
+                        ) { value ->
+                            Text(
+                                text = stringResource(
+                                    when (value.roundToInt()) {
+                                        0 -> R.string.start_position
+                                        1 -> R.string.center_position
+                                        else -> R.string.end_position
+                                    }
+                                ),
+                                color = MaterialTheme.colorScheme.onSurface.copy(
+                                    alpha = 0.5f
+                                ),
+                                modifier = Modifier.padding(
+                                    top = 2.dp,
+                                    bottom = 8.dp
+                                ),
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Normal,
+                                lineHeight = 14.sp,
+                            )
+                        }
+                    }
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 EnhancedSlider(
                     modifier = Modifier
                         .padding(
-                            start = 12.dp,
-                            end = 12.dp,
-                            bottom = 4.dp,
-                            top = 4.dp
-                        )
-                        .offset(y = (-2).dp),
+                            start = 8.dp,
+                            end = 16.dp,
+                            top = 8.dp
+                        ),
                     value = sliderValue,
                     onValueChange = {
                         sliderValue = it
@@ -171,7 +183,9 @@ fun FabAlignmentSettingItem(
             }
             FabPreview(
                 alignment = settingsState.fabAlignment,
-                modifier = Modifier.width(74.dp)
+                modifier = Modifier
+                    .width(75.dp)
+                    .height(110.dp)
             )
         }
     }

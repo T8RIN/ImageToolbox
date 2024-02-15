@@ -43,6 +43,7 @@ val IconShapesList by lazy {
         IconShape(RoundedCornerShape(35)),
         IconShape(RoundedCornerShape(45)),
         IconShape(CutCornerShape(25)),
+        IconShape(CutCornerShape(35), 8.dp, 22.dp),
         IconShape(CutCornerShape(50), 10.dp, 18.dp),
         IconShape(CloverShape, 4.dp),
         IconShape(MaterialStarShape, 6.dp, 22.dp),

@@ -65,7 +65,7 @@ fun VibrationStrengthSettingItem(
         .copy(alpha = 0.2f)
 
     Box(
-        modifier
+        modifier = modifier
             .container(
                 shape = shape,
                 color = color
@@ -73,7 +73,7 @@ fun VibrationStrengthSettingItem(
             .animateContentSize()
     ) {
         Row(
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(
                     start = 4.dp,
@@ -86,7 +86,9 @@ fun VibrationStrengthSettingItem(
             var sliderValue by remember(settingsState.hapticsStrength) {
                 mutableFloatStateOf(settingsState.hapticsStrength.toFloat())
             }
-            Column {
+            Column(
+                modifier = Modifier.padding(4.dp)
+            ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -100,15 +102,13 @@ fun VibrationStrengthSettingItem(
                             )
                         },
                         modifier = Modifier.padding(
-                            top = 16.dp,
-                            start = 12.dp
+                            start = 8.dp
                         )
                     )
                     Text(
                         text = stringResource(R.string.vibration_strength),
                         modifier = Modifier
                             .padding(
-                                top = 16.dp,
                                 end = 16.dp,
                                 start = 16.dp
                             )
@@ -127,7 +127,7 @@ fun VibrationStrengthSettingItem(
                             color = MaterialTheme.colorScheme.onSurface.copy(
                                 alpha = 0.5f
                             ),
-                            modifier = Modifier.padding(top = 16.dp, end = 16.dp),
+                            modifier = Modifier.padding(end = 16.dp),
                             lineHeight = 18.sp
                         )
                     }
@@ -135,10 +135,7 @@ fun VibrationStrengthSettingItem(
                 EnhancedSlider(
                     modifier = Modifier
                         .padding(
-                            top = 14.dp,
-                            start = 12.dp,
-                            end = 12.dp,
-                            bottom = 10.dp
+                            top = 12.dp
                         ),
                     value = sliderValue,
                     onValueChange = {

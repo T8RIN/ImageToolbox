@@ -53,7 +53,7 @@ fun ResetSettingsSettingItem(
             .copy(alpha = 0.8f),
         title = stringResource(R.string.reset),
         subtitle = stringResource(R.string.reset_settings_sub),
-        endIcon = Icons.Rounded.RestartAlt
+        icon = Icons.Rounded.RestartAlt
     )
     ResetDialog(
         visible = showResetDialog,
