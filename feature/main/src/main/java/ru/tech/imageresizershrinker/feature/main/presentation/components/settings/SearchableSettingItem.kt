@@ -56,7 +56,6 @@ internal fun SearchableSettingItem(
             modifier = Modifier.padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Spacer(Modifier.width(8.dp))
             IconShapeContainer(
                 enabled = true,
                 underlyingColor = MaterialTheme.colorScheme.surfaceContainer,

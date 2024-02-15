@@ -21,6 +21,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,6 +37,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 val IconShapesList by lazy {
     persistentListOf(
         IconShape(SquircleShape),
+        IconShape(RoundedCornerShape(15)),
         IconShape(CloverShape, 4.dp),
         IconShape(MaterialStarShape, 6.dp, 22.dp),
         IconShape(OvalShape, 6.dp),

@@ -77,6 +77,7 @@ fun PreferenceItemOverload(
     contentColor: Color = if (color == MaterialTheme.colorScheme.surfaceContainer) contentColorFor(
         backgroundColor = MaterialTheme.colorScheme.surfaceVariant
     ) else contentColorFor(backgroundColor = color),
+    resultModifier: Modifier = Modifier.padding(16.dp),
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp),
@@ -131,7 +132,7 @@ fun PreferenceItemOverload(
             )
         ) {
             Row(
-                modifier = Modifier.padding(16.dp),
+                modifier = resultModifier,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 icon?.let {
