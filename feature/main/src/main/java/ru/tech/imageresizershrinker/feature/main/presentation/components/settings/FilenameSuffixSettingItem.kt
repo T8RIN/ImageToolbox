@@ -74,7 +74,7 @@ fun FilenameSuffixSettingItem(
             .secondaryContainer
             .copy(alpha = 0.2f),
         endIcon = Icons.Rounded.CreateAlt,
-        icon = Icons.Filled.Suffix,
+        startIcon = Icons.Filled.Suffix,
         modifier = modifier.fillMaxWidth()
     )
     if (showChangeFilenameDialog) {

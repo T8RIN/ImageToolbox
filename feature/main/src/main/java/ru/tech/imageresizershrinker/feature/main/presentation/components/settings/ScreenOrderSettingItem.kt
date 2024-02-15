@@ -106,7 +106,7 @@ fun ScreenOrderSettingItem(
                 )
             }
         },
-        icon = Icons.Outlined.DataArray,
+        startIcon = Icons.Outlined.DataArray,
         title = stringResource(R.string.order),
         subtitle = stringResource(R.string.order_sub),
         color = MaterialTheme.colorScheme
@@ -162,7 +162,7 @@ fun ScreenOrderSettingItem(
                                     .shadow(elevation, RoundedCornerShape(16.dp)),
                                 title = stringResource(screen.title),
                                 subtitle = stringResource(screen.subtitle),
-                                icon = screen.icon,
+                                startIcon = screen.icon,
                                 endIcon = Icons.Rounded.DragHandle,
                                 color = MaterialTheme.colorScheme.surfaceColorAtElevation(
                                     tonalElevation

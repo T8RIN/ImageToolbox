@@ -35,7 +35,7 @@ fun BasicFilterPreference(
 ) {
     PreferenceItem(
         onClick = onClick,
-        icon = Icons.Rounded.PhotoFilter,
+        startIcon = Icons.Rounded.PhotoFilter,
         title = stringResource(R.string.filter),
         subtitle = stringResource(R.string.filter_sub),
         color = color,

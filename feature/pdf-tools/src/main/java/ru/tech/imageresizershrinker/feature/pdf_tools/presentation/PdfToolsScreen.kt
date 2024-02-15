@@ -712,7 +712,7 @@ fun PdfToolsScreen(
                                                             }
                                                         }
                                                     },
-                                                    icon = it.icon,
+                                                    startIcon = it.icon,
                                                     title = stringResource(it.title),
                                                     subtitle = stringResource(it.subtitle),
                                                     modifier = Modifier.fillMaxWidth(),

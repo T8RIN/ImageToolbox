@@ -68,6 +68,6 @@ fun BackupSettingItem(
             .copy(alpha = 0.2f),
         title = stringResource(R.string.backup),
         subtitle = stringResource(R.string.backup_sub),
-        icon = Icons.Rounded.UploadFile
+        startIcon = Icons.Rounded.UploadFile
     )
 }

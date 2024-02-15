@@ -55,7 +55,7 @@ fun ChangeFontSettingItem(
         color = MaterialTheme.colorScheme
             .secondaryContainer
             .copy(alpha = 0.2f),
-        icon = Icons.Rounded.FontFamily,
+        startIcon = Icons.Rounded.FontFamily,
         endIcon = Icons.Rounded.CreateAlt,
         modifier = modifier
     )

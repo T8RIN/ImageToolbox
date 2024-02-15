@@ -77,7 +77,7 @@ fun ChangeLanguageSettingItem(
             modifier = modifier.padding(bottom = 1.dp),
             title = stringResource(R.string.language),
             subtitle = context.getCurrentLocaleString(),
-            icon = Icons.Outlined.Language,
+            startIcon = Icons.Outlined.Language,
             endIcon = Icons.Rounded.CreateAlt,
             color = MaterialTheme.colorScheme.secondaryContainer.copy(0.2f),
             onClick = {

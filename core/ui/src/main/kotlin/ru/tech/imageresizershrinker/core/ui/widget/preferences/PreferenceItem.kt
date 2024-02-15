@@ -50,7 +50,7 @@ fun PreferenceItem(
     title: String,
     enabled: Boolean = true,
     subtitle: String? = null,
-    icon: ImageVector? = null,
+    startIcon: ImageVector? = null,
     endIcon: ImageVector? = null,
     autoShadowElevation: Dp = 1.dp,
     shape: Shape = RoundedCornerShape(16.dp),
@@ -68,10 +68,10 @@ fun PreferenceItem(
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
 ) {
-    val targetIcon: (@Composable () -> Unit)? = if (icon == null) null else {
+    val targetIcon: (@Composable () -> Unit)? = if (startIcon == null) null else {
         {
             AnimatedContent(
-                targetState = icon,
+                targetState = startIcon,
                 transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
             ) { icon ->
                 Icon(
@@ -101,7 +101,7 @@ fun PreferenceItem(
         enabled = enabled,
         title = title,
         subtitle = subtitle,
-        icon = targetIcon,
+        startIcon = targetIcon,
         endIcon = targetEndIcon,
         shape = shape,
         color = color,

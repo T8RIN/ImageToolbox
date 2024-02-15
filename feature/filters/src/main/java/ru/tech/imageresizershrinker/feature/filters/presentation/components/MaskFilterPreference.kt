@@ -35,7 +35,7 @@ fun MaskFilterPreference(
 ) {
     PreferenceItem(
         onClick = onClick,
-        icon = Icons.Rounded.Texture,
+        startIcon = Icons.Rounded.Texture,
         title = stringResource(R.string.mask_filter),
         subtitle = stringResource(R.string.mask_filter_sub),
         color = color,

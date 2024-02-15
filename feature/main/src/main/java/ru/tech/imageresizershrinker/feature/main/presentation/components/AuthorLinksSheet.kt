@@ -110,7 +110,7 @@ fun AuthorLinksSheet(
                         endIcon = Icons.Rounded.Link,
                         shape = topShape,
                         title = stringResource(R.string.telegram),
-                        icon = Icons.Rounded.Telegram,
+                        startIcon = Icons.Rounded.Telegram,
                         subtitle = stringResource(R.string.app_developer_nick)
                     )
                     Spacer(Modifier.height(4.dp))
@@ -127,7 +127,7 @@ fun AuthorLinksSheet(
                         endIcon = Icons.Rounded.Link,
                         shape = centerShape,
                         title = stringResource(R.string.github),
-                        icon = Icons.Rounded.Github,
+                        startIcon = Icons.Rounded.Github,
                         subtitle = stringResource(R.string.app_developer_nick)
                     )
                     Spacer(Modifier.height(4.dp))
@@ -142,7 +142,7 @@ fun AuthorLinksSheet(
                         shape = bottomShape,
                         endIcon = Icons.Rounded.Link,
                         title = stringResource(R.string.email),
-                        icon = Icons.Rounded.AlternateEmail,
+                        startIcon = Icons.Rounded.AlternateEmail,
                         subtitle = stringResource(R.string.developer_email)
                     )
                     Spacer(Modifier.height(16.dp))

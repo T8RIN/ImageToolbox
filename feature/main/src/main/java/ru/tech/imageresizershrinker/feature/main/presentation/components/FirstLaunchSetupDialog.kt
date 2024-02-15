@@ -100,7 +100,7 @@ fun Context.FirstLaunchSetupDialog(
                             PreferenceItem(
                                 title = stringResource(id = R.string.attention),
                                 subtitle = stringResource(R.string.foss_update_checker_warning),
-                                icon = Icons.Rounded.Webhook,
+                                startIcon = Icons.Rounded.Webhook,
                                 shape = ContainerShapeDefaults.defaultShape,
                                 modifier = Modifier.padding(bottom = 8.dp),
                                 color = MaterialTheme.colorScheme.surfaceContainerHighest

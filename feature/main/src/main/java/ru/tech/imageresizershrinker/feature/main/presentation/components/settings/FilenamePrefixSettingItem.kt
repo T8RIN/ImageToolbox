@@ -74,7 +74,7 @@ fun FilenamePrefixSettingItem(
             .secondaryContainer
             .copy(alpha = 0.2f),
         endIcon = Icons.Rounded.CreateAlt,
-        icon = Icons.Filled.Prefix,
+        startIcon = Icons.Filled.Prefix,
         modifier = modifier
     )
     if (showChangeFilenameDialog) {

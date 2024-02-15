@@ -819,7 +819,7 @@ private fun FilterSelectionItem(
     PreferenceItemOverload(
         title = stringResource(filter.title),
         color = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp),
-        icon = {
+        startIcon = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(contentAlignment = Alignment.Center) {
                     if (onRequestFilterMapping != null) {

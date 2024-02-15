@@ -277,7 +277,7 @@ fun ProcessImagesPreferenceSheet(
                         val basePreference = @Composable {
                             PreferenceItem(
                                 onClick = { navigate(it) },
-                                icon = it.icon,
+                                startIcon = it.icon,
                                 title = stringResource(it.title),
                                 subtitle = stringResource(it.subtitle),
                                 color = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -289,7 +289,7 @@ fun ProcessImagesPreferenceSheet(
                                 if (it.type != null) {
                                     PreferenceItem(
                                         onClick = { navigate(it) },
-                                        icon = it.type.icon,
+                                        startIcon = it.type.icon,
                                         title = stringResource(it.type.title),
                                         subtitle = stringResource(it.type.subtitle),
                                         color = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -302,7 +302,7 @@ fun ProcessImagesPreferenceSheet(
                                 if (it.type != null) {
                                     PreferenceItem(
                                         onClick = { navigate(it) },
-                                        icon = it.type.icon,
+                                        startIcon = it.type.icon,
                                         title = stringResource(it.type.title),
                                         subtitle = stringResource(it.type.subtitle),
                                         color = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -315,7 +315,7 @@ fun ProcessImagesPreferenceSheet(
                                 if (it.type != null) {
                                     PreferenceItem(
                                         onClick = { navigate(it) },
-                                        icon = it.type.icon,
+                                        startIcon = it.type.icon,
                                         title = stringResource(it.type.title),
                                         subtitle = stringResource(it.type.subtitle),
                                         color = MaterialTheme.colorScheme.surfaceContainerHigh,

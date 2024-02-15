@@ -50,7 +50,7 @@ fun PresetsSettingItem(
         color = MaterialTheme.colorScheme
             .secondaryContainer
             .copy(alpha = 0.2f),
-        icon = Icons.Outlined.Numbers,
+        startIcon = Icons.Outlined.Numbers,
         endIcon = Icons.Rounded.CreateAlt,
         modifier = modifier
     )

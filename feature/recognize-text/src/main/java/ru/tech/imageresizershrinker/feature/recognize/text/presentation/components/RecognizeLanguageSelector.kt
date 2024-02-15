@@ -151,7 +151,7 @@ fun RecognizeLanguageSelector(
         },
         color = MaterialTheme.colorScheme.surfaceContainerHigh,
         shape = RoundedCornerShape(24.dp),
-        icon = Icons.Outlined.Language,
+        startIcon = Icons.Outlined.Language,
         endIcon = Icons.Rounded.CreateAlt
     )
 

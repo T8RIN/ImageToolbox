@@ -70,7 +70,7 @@ fun PreferenceItemOverload(
     enabled: Boolean = true,
     subtitle: String? = null,
     autoShadowElevation: Dp = 1.dp,
-    icon: (@Composable () -> Unit)? = null,
+    startIcon: (@Composable () -> Unit)? = null,
     endIcon: (@Composable () -> Unit)? = null,
     shape: Shape = RoundedCornerShape(16.dp),
     color: Color = MaterialTheme.colorScheme.surfaceContainer,
@@ -135,14 +135,14 @@ fun PreferenceItemOverload(
                 modifier = resultModifier,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                icon?.let {
+                startIcon?.let {
                     ProvideContainerDefaults(null) {
                         Row {
                             IconShapeContainer(
                                 enabled = drawStartIconContainer,
                                 underlyingColor = color,
                                 content = {
-                                    icon()
+                                    startIcon()
                                 }
                             )
                             Spacer(modifier = Modifier.width(16.dp))

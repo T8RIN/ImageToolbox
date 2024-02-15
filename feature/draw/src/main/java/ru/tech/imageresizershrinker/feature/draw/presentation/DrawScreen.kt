@@ -677,7 +677,7 @@ fun DrawScreen(
                         item {
                             PreferenceItem(
                                 onClick = pickImage,
-                                icon = Icons.Rounded.Image,
+                                startIcon = Icons.Rounded.Image,
                                 title = stringResource(R.string.draw_on_image),
                                 subtitle = stringResource(R.string.draw_on_image_sub),
                                 modifier = Modifier.fillMaxWidth(),
@@ -687,7 +687,7 @@ fun DrawScreen(
                         item {
                             PreferenceItem(
                                 onClick = { showBackgroundDrawingSetup.value = true },
-                                icon = Icons.Rounded.FormatPaint,
+                                startIcon = Icons.Rounded.FormatPaint,
                                 title = stringResource(R.string.draw_on_background),
                                 subtitle = stringResource(R.string.draw_on_background_sub),
                                 modifier = Modifier.fillMaxWidth(),

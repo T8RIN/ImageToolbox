@@ -157,7 +157,7 @@ fun DonateSheet(
                             Icon(imageVector = Icons.Rounded.ContentCopy, contentDescription = null)
                         },
                         title = stringResource(R.string.ton_space),
-                        icon = {
+                        startIcon = {
                             Icon(
                                 imageVector = Icons.Rounded.Ton,
                                 contentDescription = null,
@@ -194,7 +194,7 @@ fun DonateSheet(
                             Icon(imageVector = Icons.Rounded.ContentCopy, contentDescription = null)
                         },
                         title = stringResource(R.string.ton),
-                        icon = {
+                        startIcon = {
                             Icon(
                                 imageVector = Icons.Rounded.Ton,
                                 contentDescription = null,
@@ -229,7 +229,7 @@ fun DonateSheet(
                         },
                         endIcon = Icons.Rounded.ContentCopy,
                         title = stringResource(R.string.bitcoin),
-                        icon = Icons.Filled.Bitcoin,
+                        startIcon = Icons.Filled.Bitcoin,
                         subtitle = BitcoinWallet
                     )
                     Spacer(Modifier.height(4.dp))
@@ -256,7 +256,7 @@ fun DonateSheet(
                         },
                         endIcon = Icons.Rounded.ContentCopy,
                         title = stringResource(R.string.usdt),
-                        icon = Icons.Filled.USDT,
+                        startIcon = Icons.Filled.USDT,
                         subtitle = USDTWallet
                     )
                     Spacer(Modifier.height(16.dp))

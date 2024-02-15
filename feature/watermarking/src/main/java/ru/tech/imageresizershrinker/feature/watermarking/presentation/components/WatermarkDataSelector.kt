@@ -109,7 +109,7 @@ fun WatermarkDataSelector(
             onClick = {
                 pickImageLauncher.pickImage()
             },
-            icon = {
+            startIcon = {
                 Picture(
                     contentScale = ContentScale.Inside,
                     model = type.imageData,

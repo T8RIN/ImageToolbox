@@ -54,7 +54,7 @@ fun ImagePickerModeSettingItemGroup(
             shape = ContainerShapeDefaults.topShape,
             onClick = { updateImagePickerMode(0) },
             title = stringResource(R.string.photo_picker),
-            icon = Icons.Outlined.BurstMode,
+            startIcon = Icons.Outlined.BurstMode,
             subtitle = stringResource(R.string.photo_picker_sub),
             color = MaterialTheme.colorScheme.secondaryContainer.copy(
                 alpha = animateFloatAsState(
@@ -82,7 +82,7 @@ fun ImagePickerModeSettingItemGroup(
             shape = ContainerShapeDefaults.centerShape,
             onClick = { updateImagePickerMode(1) },
             title = stringResource(R.string.gallery_picker),
-            icon = Icons.Outlined.Image,
+            startIcon = Icons.Outlined.Image,
             subtitle = stringResource(R.string.gallery_picker_sub),
             color = MaterialTheme.colorScheme.secondaryContainer.copy(
                 alpha = animateFloatAsState(
@@ -111,7 +111,7 @@ fun ImagePickerModeSettingItemGroup(
             onClick = { updateImagePickerMode(2) },
             title = stringResource(R.string.file_explorer_picker),
             subtitle = stringResource(R.string.file_explorer_picker_sub),
-            icon = Icons.Rounded.FolderOpen,
+            startIcon = Icons.Rounded.FolderOpen,
             color = MaterialTheme.colorScheme.secondaryContainer.copy(
                 alpha = animateFloatAsState(
                     if (settingsState.imagePickerModeInt == 2) 0.7f
@@ -138,7 +138,7 @@ fun ImagePickerModeSettingItemGroup(
             shape = ContainerShapeDefaults.bottomShape,
             onClick = { updateImagePickerMode(3) },
             title = stringResource(R.string.camera),
-            icon = Icons.Outlined.CameraAlt,
+            startIcon = Icons.Outlined.CameraAlt,
             subtitle = stringResource(R.string.camera_sub),
             color = MaterialTheme.colorScheme.secondaryContainer.copy(
                 alpha = animateFloatAsState(

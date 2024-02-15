@@ -66,7 +66,7 @@ fun PaletteStyleSelection(
         shape = shape,
         color = MaterialTheme.colorScheme.surfaceContainerHigh,
         modifier = modifier,
-        icon = Icons.Rounded.Swatch,
+        startIcon = Icons.Rounded.Swatch,
         endIcon = Icons.Rounded.CreateAlt,
         onClick = {
             showPaletteStyleSelectionSheet.value = true

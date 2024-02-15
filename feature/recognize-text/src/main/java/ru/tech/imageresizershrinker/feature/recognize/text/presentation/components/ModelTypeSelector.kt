@@ -65,7 +65,7 @@ fun ModelTypeSelector(
             showSelectionSheet = true
         },
         shape = RoundedCornerShape(24.dp),
-        icon = Icons.AutoMirrored.Outlined.Segment,
+        startIcon = Icons.AutoMirrored.Outlined.Segment,
         endIcon = Icons.Rounded.CreateAlt
     )
 

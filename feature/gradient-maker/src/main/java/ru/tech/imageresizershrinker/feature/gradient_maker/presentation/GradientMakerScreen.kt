@@ -332,7 +332,7 @@ fun GradientMakerScreen(
                 PreferenceItem(
                     title = stringResource(screen.title),
                     subtitle = stringResource(screen.subtitle),
-                    icon = screen.icon,
+                    startIcon = screen.icon,
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
                     onClick = {
@@ -344,7 +344,7 @@ fun GradientMakerScreen(
                 PreferenceItem(
                     title = stringResource(R.string.gradient_maker_type_image),
                     subtitle = stringResource(R.string.gradient_maker_type_image_sub),
-                    icon = Icons.Rounded.Collections,
+                    startIcon = Icons.Rounded.Collections,
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
                     onClick = pickImage

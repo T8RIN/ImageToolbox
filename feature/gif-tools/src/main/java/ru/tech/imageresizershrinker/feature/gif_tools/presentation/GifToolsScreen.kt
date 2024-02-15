@@ -509,7 +509,7 @@ fun GifToolsScreen(
                 PreferenceItem(
                     title = stringResource(types[0].title),
                     subtitle = stringResource(types[0].subtitle),
-                    icon = types[0].icon,
+                    startIcon = types[0].icon,
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
                     onClick = {
@@ -521,7 +521,7 @@ fun GifToolsScreen(
                 PreferenceItem(
                     title = stringResource(types[1].title),
                     subtitle = stringResource(types[1].subtitle),
-                    icon = types[1].icon,
+                    startIcon = types[1].icon,
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
                     onClick = {

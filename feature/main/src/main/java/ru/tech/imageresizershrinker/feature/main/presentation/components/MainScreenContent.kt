@@ -452,7 +452,7 @@ internal fun MainScreenContent(
                                             shape = RoundedCornerShape(cornerSize),
                                             title = stringResource(screen.title),
                                             subtitle = stringResource(screen.subtitle),
-                                            icon = {
+                                            startIcon = {
                                                 AnimatedContent(
                                                     targetState = screen.icon,
                                                     transitionSpec = {

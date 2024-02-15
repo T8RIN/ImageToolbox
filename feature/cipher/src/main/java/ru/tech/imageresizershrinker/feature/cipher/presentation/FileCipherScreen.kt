@@ -434,7 +434,7 @@ fun FileCipherScreen(
                                                         )
                                                     )
                                                 },
-                                                icon = Icons.AutoMirrored.Rounded.InsertDriveFile
+                                                startIcon = Icons.AutoMirrored.Rounded.InsertDriveFile
                                             )
 
                                             EnhancedButton(

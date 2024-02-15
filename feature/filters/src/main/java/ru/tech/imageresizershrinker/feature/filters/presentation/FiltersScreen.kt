@@ -924,7 +924,7 @@ fun FiltersScreen(
                                                         is Screen.Filter.Type.Masking -> pickSingleImageLauncher.pickImage()
                                                     }
                                                 },
-                                                icon = it.icon,
+                                                startIcon = it.icon,
                                                 title = stringResource(it.title),
                                                 subtitle = stringResource(it.subtitle),
                                                 modifier = Modifier.fillMaxWidth(),
