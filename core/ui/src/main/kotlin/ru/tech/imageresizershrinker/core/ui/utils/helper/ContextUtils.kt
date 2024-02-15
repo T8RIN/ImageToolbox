@@ -255,13 +255,10 @@ object ContextUtils {
     fun Context.getStringLocalized(
         @StringRes
         resId: Int,
-        locale: Locale,
-        vararg formatArgs: Any
+        locale: Locale
     ): String = createConfigurationContext(
-        Configuration(resources.configuration).apply {
-            setLocale(Locale.ENGLISH)
-        }
-    ).getText(resId).toString().format(locale, formatArgs)
+        Configuration(resources.configuration).apply { setLocale(locale) }
+    ).getText(resId).toString()
 
     /** Receive the clipboard data. */
     fun Context.pasteColorFromClipboard(
