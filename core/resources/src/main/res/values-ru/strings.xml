@@ -768,4 +768,5 @@
     <string name="shuffle_blur">Размытие перемешиванием</string>
     <string name="no_favorite_filters">Избранные фильтры пока не добавлены</string>
     <string name="favorite">Избранное</string>
+    <string name="image_format">Формат Изображения</string>
 </resources>
