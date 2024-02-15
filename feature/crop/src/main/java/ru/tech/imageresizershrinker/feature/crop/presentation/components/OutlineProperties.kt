@@ -32,6 +32,7 @@ import com.smarttoolfactory.cropper.model.RoundedCornerCropShape
 import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import com.smarttoolfactory.cropper.settings.Paths
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
+import ru.tech.imageresizershrinker.core.ui.shapes.HeartShape
 import ru.tech.imageresizershrinker.core.ui.shapes.KotlinShape
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.shapes.OctagonShape
@@ -146,6 +147,18 @@ fun outlineProperties(): List<CropOutlineProperty> = remember {
                     get() = 13
                 override val title: String
                     get() = "Kotlin"
+
+            }
+        ),
+        CropOutlineProperty(
+            OutlineType.Custom,
+            object : CropShape {
+                override val shape: Shape
+                    get() = HeartShape
+                override val id: Int
+                    get() = 14
+                override val title: String
+                    get() = "Enhanced Heart"
 
             }
         ),
