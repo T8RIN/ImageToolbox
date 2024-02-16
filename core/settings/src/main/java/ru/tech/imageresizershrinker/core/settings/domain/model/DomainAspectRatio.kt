@@ -45,6 +45,7 @@ sealed class DomainAspectRatio(
                 Numeric(widthProportion = 2f, heightProportion = 3f),
                 Numeric(widthProportion = 1f, heightProportion = 2f),
                 Numeric(widthProportion = 5f, heightProportion = 3f),
+                Numeric(widthProportion = 5f, heightProportion = 4f),
                 Numeric(widthProportion = 4f, heightProportion = 3f),
                 Numeric(widthProportion = 21f, heightProportion = 9f),
                 Numeric(widthProportion = 18.5f, heightProportion = 9f),
@@ -53,6 +54,7 @@ sealed class DomainAspectRatio(
                 Numeric(widthProportion = 1.91f, heightProportion = 1f),
                 Numeric(widthProportion = 3f, heightProportion = 2f),
                 Numeric(widthProportion = 3f, heightProportion = 4f),
+                Numeric(widthProportion = 4f, heightProportion = 5f),
                 Numeric(widthProportion = 3f, heightProportion = 5f),
                 Numeric(widthProportion = 2f, heightProportion = 1f)
             )

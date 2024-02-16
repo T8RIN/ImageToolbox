@@ -45,12 +45,14 @@ val IconShapesList by lazy {
         IconShape(CutCornerShape(25)),
         IconShape(CutCornerShape(35), 8.dp, 22.dp),
         IconShape(CutCornerShape(50), 10.dp, 18.dp),
-        IconShape(CloverShape, 4.dp),
+        IconShape(CloverShape),
         IconShape(MaterialStarShape, 6.dp, 22.dp),
+        IconShape(SmallMaterialStarShape, 6.dp, 22.dp),
         IconShape(OvalShape, 6.dp),
         IconShape(PentagonShape, 6.dp, 22.dp),
         IconShape(OctagonShape, 6.dp, 22.dp),
         IconShape(HeartShape, 10.dp, 18.dp),
+        IconShape(SimpleHeartShape, 12.dp, 16.dp),
     )
 }
 
@@ -86,8 +88,11 @@ fun IconShapeContainer(
                     Modifier
                         .size(iconShapeAnimated.iconSize)
                         .offset(
-                            y = if (iconShapeAnimated.shape == PentagonShape) 2.dp
-                            else 0.dp
+                            y = when (iconShapeAnimated.shape) {
+                                PentagonShape -> 2.dp
+                                SimpleHeartShape -> (-1.5).dp
+                                else -> 0.dp
+                            }
                         )
                 } else Modifier
             ) {
