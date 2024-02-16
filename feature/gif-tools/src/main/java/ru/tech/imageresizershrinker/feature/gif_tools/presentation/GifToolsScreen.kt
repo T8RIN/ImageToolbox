@@ -56,7 +56,6 @@ import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
 import androidx.compose.material.icons.outlined.RepeatOne
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material.icons.outlined.Timelapse
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Gif
 import androidx.compose.material.icons.rounded.Save
@@ -417,23 +416,6 @@ fun GifToolsScreen(
                             viewModel.updateParams(
                                 viewModel.params.copy(
                                     repeatCount = it.roundToInt()
-                                )
-                            )
-                        },
-                        shape = RoundedCornerShape(24.dp)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    EnhancedSliderItem(
-                        value = viewModel.params.delay,
-                        icon = Icons.Outlined.Timelapse,
-                        title = stringResource(id = R.string.frame_delay),
-                        valueSuffix = " " + stringResource(id = R.string.millis),
-                        valueRange = 0f..4000f,
-                        internalStateTransformation = { it.roundToInt() },
-                        onValueChange = {
-                            viewModel.updateParams(
-                                viewModel.params.copy(
-                                    delay = it.roundToInt()
                                 )
                             )
                         },

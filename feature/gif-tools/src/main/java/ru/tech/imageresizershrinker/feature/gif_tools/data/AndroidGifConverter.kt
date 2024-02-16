@@ -101,7 +101,6 @@ internal class AndroidGifConverter @Inject constructor(
                 height = size.height
             }
             repeat = params.repeatCount
-            delay = params.delay
             setQuality(
                 (100 - ((params.quality.qualityValue - 1) * (100 / 19f))).toInt()
             )
