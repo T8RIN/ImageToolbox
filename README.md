@@ -328,7 +328,9 @@ or click one of the badges below.
     - Clover
     - Material Star
     - Kotlin Logo
+    - Small Material Star
     - Heart
+    - Enhanced Heart
     - Star
     - Image Mask
 - Format Conversion
@@ -367,6 +369,12 @@ or click one of the badges below.
 
 # 🌟 UI tweaks
 
+- Selectiong Emoji for top app bar
+- Ability to use Pixel like switch instead of Material You
+- Secure Mode for app
+- Maximum brightness for selected screens
+- In app language changing
+- Enabling or Disabling confetti
 - Custom app color scheme
   - Different palette styles
   - Predefined schemes
@@ -379,6 +387,18 @@ or click one of the badges below.
 - AMOLED mode
 - Monet implementation (Dynamic colors) even for Android versions less than 12 by [Dynamic Theme](https://github.com/T8RIN/DynamicTheme)
 - Image based color scheme
+- Icons Background shape selection
+  - Rounded Corners
+  - Cut Corners
+  - Oval
+  - Squircle
+  - Octagon
+  - Rounded Pentagon
+  - Clover
+  - Material Star
+  - Small Material Star
+  - Heart
+  - Enhanced Heart
 - Custom fonts
   - Montserrat
   - Comfortaa
@@ -407,6 +427,7 @@ or click one of the badges below.
   - Lcd Moving
   - Unisource
 - In app font scale changing
+- Changing between options list and grouped view
 
 (Yes, the app supports dynamic coloring based on wallpapers for every android version)
 
