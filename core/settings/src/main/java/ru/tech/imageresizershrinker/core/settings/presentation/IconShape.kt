@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.settings.presentation
 
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -25,4 +26,21 @@ data class IconShape(
     val shape: Shape,
     val padding: Dp = 4.dp,
     val iconSize: Dp = 24.dp
-)
+) {
+    fun takeOrElseFrom(
+        iconShapesList: List<IconShape>
+    ): IconShape = if (this == Random) iconShapesList
+        .filter { it != Random }
+        .random()
+    else this
+
+    companion object {
+        val Random by lazy {
+            IconShape(
+                shape = RectangleShape,
+                padding = 0.dp,
+                iconSize = 0.dp
+            )
+        }
+    }
+}

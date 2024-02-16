@@ -32,6 +32,7 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FormatShapes
 import androidx.compose.material.icons.rounded.Block
+import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -215,23 +216,36 @@ private fun IconShapePreview(
     iconShape: IconShape? = LocalSettingsState.current.iconShape
 ) {
     val color = MaterialTheme.colorScheme.onSurfaceVariant
-    if (iconShape != null) {
-        Box(
-            modifier = Modifier
-                .size(30.dp)
-                .container(
-                    borderWidth = 2.dp,
-                    borderColor = color,
-                    color = Color.Transparent,
-                    shape = iconShape.shape
-                )
-        )
-    } else {
-        Icon(
-            imageVector = Icons.Rounded.Block,
-            contentDescription = null,
-            tint = color,
-            modifier = Modifier.size(30.dp)
-        )
+    when (iconShape) {
+        null -> {
+            Icon(
+                imageVector = Icons.Rounded.Block,
+                contentDescription = null,
+                tint = color,
+                modifier = Modifier.size(30.dp)
+            )
+        }
+
+        IconShape.Random -> {
+            Icon(
+                imageVector = Icons.Rounded.Shuffle,
+                contentDescription = null,
+                tint = color,
+                modifier = Modifier.size(30.dp)
+            )
+        }
+
+        else -> {
+            Box(
+                modifier = Modifier
+                    .size(30.dp)
+                    .container(
+                        borderWidth = 2.dp,
+                        borderColor = color,
+                        color = Color.Transparent,
+                        shape = iconShape.shape
+                    )
+            )
+        }
     }
 }

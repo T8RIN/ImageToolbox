@@ -25,6 +25,8 @@ import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,6 +55,7 @@ val IconShapesList by lazy {
         IconShape(OctagonShape, 6.dp, 22.dp),
         IconShape(HeartShape, 10.dp, 18.dp),
         IconShape(SimpleHeartShape, 12.dp, 16.dp),
+        IconShape.Random
     )
 }
 
@@ -65,7 +68,11 @@ fun IconShapeContainer(
     content: @Composable (Boolean) -> Unit = {}
 ) {
     AnimatedContent(
-        targetState = iconShape,
+        targetState = remember(iconShape) {
+            derivedStateOf {
+                iconShape?.takeOrElseFrom(IconShapesList)
+            }
+        }.value,
         modifier = modifier
     ) { iconShapeAnimated ->
         Box(
