@@ -769,4 +769,6 @@
     <string name="no_favorite_filters">Избранные фильтры пока не добавлены</string>
     <string name="favorite">Избранное</string>
     <string name="image_format">Формат Изображения</string>
+    <string name="icon_shape_sub">Добавляет контейнер с выбранной фигурой под ведущие значки карточек.</string>
+    <string name="icon_shape">Форма иконки</string>
 </resources>
