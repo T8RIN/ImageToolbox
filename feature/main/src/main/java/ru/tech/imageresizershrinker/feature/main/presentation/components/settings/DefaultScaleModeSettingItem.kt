@@ -67,8 +67,7 @@ fun DefaultScaleModeSettingItem(
                         imageVector = Icons.Outlined.Numbers,
                         contentDescription = null
                     )
-                },
-                modifier = Modifier.padding(end = 16.dp)
+                }
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(

@@ -68,7 +68,7 @@ fun ExtensionGroup(
         .compositeOver(MaterialTheme.colorScheme.surface)
 
     LaunchedEffect(value, entries) {
-        if (value !in entries) onValueChange(ImageFormat.Png)
+        if (value !in entries) onValueChange(ImageFormat.PngLossless)
     }
 
     ProvideTextStyle(

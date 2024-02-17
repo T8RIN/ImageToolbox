@@ -31,6 +31,13 @@ sealed class Quality(
         val speed: Int = 2
     ) : Quality(qualityValue)
 
+    data class PngLossy(
+        @IntRange(from = 1, to = 1024)
+        val maxColors: Int = 512,
+        @IntRange(from = 0, to = 9)
+        val compressionLevel: Int = 7,
+    ) : Quality(compressionLevel)
+
     data class Base(
         override val qualityValue: Int = 100
     ) : Quality(qualityValue)

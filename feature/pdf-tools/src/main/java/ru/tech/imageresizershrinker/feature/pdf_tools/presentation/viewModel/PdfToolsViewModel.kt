@@ -405,6 +405,7 @@ class PdfToolsViewModel @Inject constructor(
                     quality = when (val q = it.quality) {
                         is Quality.Base -> q.copy(qualityValue = quality)
                         is Quality.Jxl -> q.copy(qualityValue = quality)
+                        else -> q
                     }
                 )
             }

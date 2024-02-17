@@ -84,7 +84,7 @@ class LoadNetImageViewModel @Inject constructor(
                             sequenceNumber = null,
                             data = imageCompressor.compress(
                                 image = bitmap,
-                                imageFormat = ImageFormat.Png,
+                                imageFormat = ImageFormat.PngLossless,
                                 quality = Quality.Base(100)
                             )
                         ),

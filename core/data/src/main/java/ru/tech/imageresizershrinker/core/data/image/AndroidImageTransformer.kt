@@ -123,7 +123,7 @@ internal class AndroidImageTransformer @Inject constructor(
                 currentInfo.copy(
                     width = 512,
                     height = 512,
-                    imageFormat = ImageFormat.Png,
+                    imageFormat = ImageFormat.PngLossless,
                     resizeType = ResizeType.Flexible,
                     quality = Quality.Base(100)
                 )
@@ -133,6 +133,7 @@ internal class AndroidImageTransformer @Inject constructor(
                 quality = when (val quality = currentInfo.quality) {
                     is Quality.Base -> quality.copy(qualityValue = preset.value)
                     is Quality.Jxl -> quality.copy(qualityValue = preset.value)
+                    else -> quality
                 },
                 width = calcWidth().calc(preset.value),
                 height = calcHeight().calc(preset.value),

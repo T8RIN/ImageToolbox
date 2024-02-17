@@ -27,6 +27,10 @@ import androidx.core.net.toUri
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.size.Size
+import com.awxkee.aire.Aire
+import com.awxkee.aire.AireColorMapper
+import com.awxkee.aire.AirePaletteDithering
+import com.awxkee.aire.AireQuantize
 import com.awxkee.jxlcoder.JxlCoder
 import com.awxkee.jxlcoder.JxlColorSpace
 import com.awxkee.jxlcoder.JxlCompressionOption
@@ -76,14 +80,16 @@ internal class AndroidImageCompressor @Inject constructor(
                 out.toByteArray()
             }
 
-            ImageFormat.Png -> {
-                val out = ByteArrayOutputStream()
-                image.compress(
-                    Bitmap.CompressFormat.PNG,
-                    quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
-                    out
+            ImageFormat.PngLossy -> {
+                val pngLossyQuality = quality as? Quality.PngLossy ?: Quality.PngLossy()
+                Aire.toPNG(
+                    bitmap = image,
+                    maxColors = pngLossyQuality.maxColors,
+                    quantize = AireQuantize.XIAOLING_WU,
+                    dithering = AirePaletteDithering.JARVIS_JUDICE_NINKE,
+                    colorMapper = AireColorMapper.COVER_TREE,
+                    compressionLevel = pngLossyQuality.compressionLevel.coerceIn(0..9)
                 )
-                out.toByteArray()
             }
 
             ImageFormat.Webp.Lossless -> {
@@ -163,6 +169,16 @@ internal class AndroidImageCompressor @Inject constructor(
                     effort = jxlQuality.effort.coerceIn(imageFormat.compressionTypes[0].compressionRange),
                     decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == jxlQuality.speed }
                 )
+            }
+
+            ImageFormat.PngLossless -> {
+                val out = ByteArrayOutputStream()
+                image.compress(
+                    Bitmap.CompressFormat.PNG,
+                    quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
+                    out
+                )
+                out.toByteArray()
             }
         }
     }
