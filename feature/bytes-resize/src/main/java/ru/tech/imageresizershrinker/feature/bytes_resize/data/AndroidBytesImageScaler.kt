@@ -29,7 +29,6 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.feature.bytes_resize.domain.BytesImageScaler
-import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -45,87 +44,68 @@ internal class AndroidBytesImageScaler @Inject constructor(
         imageScaleMode: ImageScaleMode,
         maxBytes: Long
     ): Pair<Bitmap, ImageInfo>? = withContext(Dispatchers.IO) {
-        val maximumBytes = maxBytes - maxBytes
-            .times(0.04f)
-            .roundToInt()
-            .coerceIn(
-                minimumValue = 256,
-                maximumValue = 512
-            )
-
-        return@withContext runCatching {
+        runCatching {
             if (
                 imageCompressor.calculateImageSize(
                     image = image,
-                    imageInfo = ImageInfo(imageFormat = imageFormat)
-                ) > maximumBytes
+                    imageInfo = ImageInfo(
+                        width = image.width,
+                        height = image.height,
+                        imageFormat = imageFormat
+                    )
+                ) > maxBytes
             ) {
-                var streamLength = maximumBytes
-                var compressQuality = 100
+                var outArray = ByteArray(maxBytes.toInt())
+                var compressQuality: Int
                 var lowQuality = 15
                 var highQuality = 100
-                val bmpStream = ByteArrayOutputStream()
                 var newSize = image.width to image.height
 
                 while (lowQuality <= highQuality) {
                     compressQuality = (lowQuality + highQuality) / 2
 
-                    bmpStream.use {
-                        it.flush()
-                        it.reset()
-                    }
-                    bmpStream.write(
-                        imageCompressor.compressAndTransform(
-                            image = image,
-                            imageInfo = ImageInfo(
-                                quality = if (imageFormat is ImageFormat.Jxl) {
-                                    Quality.Jxl(compressQuality)
-                                } else Quality.Base(compressQuality),
-                                imageFormat = imageFormat
-                            )
+                    outArray = imageCompressor.compressAndTransform(
+                        image = image,
+                        imageInfo = ImageInfo(
+                            quality = if (imageFormat is ImageFormat.Jxl) {
+                                Quality.Jxl(compressQuality)
+                            } else Quality.Base(compressQuality),
+                            imageFormat = imageFormat
                         )
                     )
-                    streamLength = bmpStream.toByteArray().size.toLong()
 
-                    if (streamLength < maximumBytes) {
+                    if (outArray.size < maxBytes) {
                         lowQuality = compressQuality + 1
                     } else {
                         highQuality = compressQuality - 1
                     }
                 }
 
-                while (streamLength > maximumBytes && compressQuality < 15) {
-                    compressQuality = 15
-                    bmpStream.use {
-                        it.flush()
-                        it.reset()
-                    }
+                compressQuality = 15
+
+                while (outArray.size > maxBytes) {
                     val temp = scaleImage(
                         image = image,
-                        width = (newSize.first * 0.9).toInt(),
-                        height = (newSize.second * 0.9).toInt(),
+                        width = (newSize.first * 0.9f).roundToInt(),
+                        height = (newSize.second * 0.9f).roundToInt(),
                         imageScaleMode = imageScaleMode
                     )
-                    bmpStream.write(
-                        temp.let {
-                            newSize = it.width to it.height
-                            imageCompressor.compressAndTransform(
-                                image = image,
-                                imageInfo = ImageInfo(
-                                    quality = if (imageFormat is ImageFormat.Jxl) {
-                                        Quality.Jxl(compressQuality)
-                                    } else Quality.Base(compressQuality),
-                                    imageFormat = imageFormat,
-                                    width = newSize.first,
-                                    height = newSize.second
-                                )
-                            )
-                        }
+                    newSize = temp.width to temp.height
+
+                    outArray = imageCompressor.compressAndTransform(
+                        image = image,
+                        imageInfo = ImageInfo(
+                            quality = if (imageFormat is ImageFormat.Jxl) {
+                                Quality.Jxl(compressQuality)
+                            } else Quality.Base(compressQuality),
+                            imageFormat = imageFormat,
+                            width = newSize.first,
+                            height = newSize.second
+                        )
                     )
-                    streamLength = bmpStream.toByteArray().size.toLong()
                 }
 
-                imageGetter.getImage(bmpStream.toByteArray())!! to compressQuality
+                imageGetter.getImage(outArray)!! to compressQuality
             } else null
         }.getOrNull()?.let { (bitmap, compressQuality) ->
             bitmap to ImageInfo(
