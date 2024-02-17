@@ -243,21 +243,16 @@ Java_jp_co_cyberagent_android_gpuimage_GPUImageNativeLibrary_shuffle(
         jfloat threshold,
         jfloat strength
 ) {
-    srand(time(NULL));
+    srand(std::chrono::system_clock::now().time_since_epoch().count());
     unsigned char *srcByteBuffer;
-    int result = 0;
-    int i, j;
+    int result;
     AndroidBitmapInfo srcInfo;
 
     result = AndroidBitmap_getInfo(jenv, src, &srcInfo);
-    if (result != ANDROID_BITMAP_RESULT_SUCCESS) {
-        return;
-    }
+    if (result != ANDROID_BITMAP_RESULT_SUCCESS) return;
 
     result = AndroidBitmap_lockPixels(jenv, src, (void **) &srcByteBuffer);
-    if (result != ANDROID_BITMAP_RESULT_SUCCESS) {
-        return;
-    }
+    if (result != ANDROID_BITMAP_RESULT_SUCCESS) return;
 
     int width = srcInfo.width;
     int height = srcInfo.height;
@@ -272,16 +267,16 @@ Java_jp_co_cyberagent_android_gpuimage_GPUImageNativeLibrary_shuffle(
             bool overflows = (threshold >= 0) ? (luma <= threshold) : (luma > abs(threshold));
 
             if (overflows) {
-                long startY = y - (random() % (y + 1)) * strength;
-                long endY = y + (random() % (y + 1)) * strength;
-                long startX = x - (random() % (x + 1)) * strength;
-                long endX = x + (random() % (x + 1)) * strength;
+                int startY = y - (rand() % (y + 1)) * strength;
+                int endY = y + (rand() % (y + 1)) * strength;
+                int startX = x - (rand() % (x + 1)) * strength;
+                int endX = x + (rand() % (x + 1)) * strength;
 
-                long ranY = startY + (random() % (endY - startY + 1));
-                long ranX = startX + (random() % (endX - startX + 1));
+                int ranY = startY + (rand() % (endY - startY + 1));
+                int ranX = startX + (rand() % (endX - startX + 1));
 
-                int newX = std::clamp(ranX, 0l, width - 1l);
-                int newY = std::clamp(ranY, 0l, height - 1l);
+                int newX = std::clamp(ranX, 0, width - 1);
+                int newY = std::clamp(ranY, 0, height - 1);
                 auto newPixels = reinterpret_cast<uint8_t *>(
                         reinterpret_cast<uint8_t *>(srcByteBuffer) +
                         newY * srcInfo.stride);
