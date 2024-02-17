@@ -22,6 +22,8 @@ package ru.tech.imageresizershrinker.core.data.image
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
+import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.size.Size
@@ -33,6 +35,7 @@ import com.radzivon.bartoshyk.avif.coder.HeifCoder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.fileSize
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
@@ -40,7 +43,10 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.domain.model.sizeTo
+import ru.tech.imageresizershrinker.core.resources.R
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
 internal class AndroidImageCompressor @Inject constructor(
@@ -206,6 +212,30 @@ internal class AndroidImageCompressor @Inject constructor(
     override suspend fun calculateImageSize(
         image: Bitmap,
         imageInfo: ImageInfo
-    ): Long = compressAndTransform(image, imageInfo).size.toLong()
+    ): Long = compressAndTransform(image, imageInfo).let {
+        cacheByteArray(
+            byteArray = it,
+            filename = "temp.${imageInfo.imageFormat.extension}"
+        )?.toUri()?.fileSize(context) ?: it.size
+    }.toLong()
+
+    private fun cacheByteArray(
+        byteArray: ByteArray,
+        filename: String
+    ): String? {
+        val imagesFolder = File(context.cacheDir, "files")
+        return runCatching {
+            imagesFolder.mkdirs()
+            val file = File(imagesFolder, filename)
+            FileOutputStream(file).use {
+                it.write(byteArray)
+            }
+            FileProvider.getUriForFile(
+                context,
+                context.getString(R.string.file_provider),
+                file
+            )
+        }.getOrNull()?.toString()
+    }
 
 }

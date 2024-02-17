@@ -18,17 +18,22 @@
 package ru.tech.imageresizershrinker.core.data.image
 
 import android.annotation.TargetApi
+import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.fileSize
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
@@ -36,10 +41,12 @@ import javax.inject.Inject
 import kotlin.math.roundToInt
 
 internal class AndroidImagePreviewCreator @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageTransformer: ImageTransformer<Bitmap>,
-    private val imageScaler: ImageScaler<Bitmap>
+    private val imageScaler: ImageScaler<Bitmap>,
+    private val shareProvider: ShareProvider<Bitmap>
 ) : ImagePreviewCreator<Bitmap> {
 
     override suspend fun createPreview(
@@ -76,7 +83,14 @@ internal class AndroidImagePreviewCreator @Inject constructor(
                         ) ?: it
                     }
                 )
-            }.let { onGetByteCount(it.size) }
+            }.let {
+                onGetByteCount(
+                    shareProvider.cacheByteArray(
+                        byteArray = it,
+                        filename = "temp.${imageInfo.imageFormat.extension}"
+                    )?.toUri()?.fileSize(context) ?: it.size
+                )
+            }
         }
 
         var scaleFactor = 1f

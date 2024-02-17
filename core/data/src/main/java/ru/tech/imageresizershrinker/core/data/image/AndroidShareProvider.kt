@@ -148,13 +148,12 @@ internal class AndroidShareProvider @Inject constructor(
         context.startActivity(shareIntent)
     }
 
-    override suspend fun shareByteArray(
+    override suspend fun cacheByteArray(
         byteArray: ByteArray,
-        filename: String,
-        onComplete: () -> Unit
-    ) = withContext(Dispatchers.IO) {
-        val imagesFolder = File(context.cacheDir, "images")
-        val uri = kotlin.runCatching {
+        filename: String
+    ): String? {
+        val imagesFolder = File(context.cacheDir, "files")
+        return runCatching {
             imagesFolder.mkdirs()
             val file = File(imagesFolder, filename)
             FileOutputStream(file).use {
@@ -165,13 +164,23 @@ internal class AndroidShareProvider @Inject constructor(
                 context.getString(R.string.file_provider),
                 file
             )
-        }.getOrNull()
-        uri?.let {
+        }.getOrNull()?.toString()
+    }
+
+    override suspend fun shareByteArray(
+        byteArray: ByteArray,
+        filename: String,
+        onComplete: () -> Unit
+    ) = withContext(Dispatchers.IO) {
+        cacheByteArray(
+            byteArray = byteArray,
+            filename = filename
+        )?.let {
             shareUri(
-                uri = it.toString(),
+                uri = it,
                 type = MimeTypeMap.getSingleton()
                     .getMimeTypeFromExtension(
-                        imageGetter.getExtension(uri.toString())
+                        imageGetter.getExtension(it)
                     ) ?: "*/*"
             )
         }

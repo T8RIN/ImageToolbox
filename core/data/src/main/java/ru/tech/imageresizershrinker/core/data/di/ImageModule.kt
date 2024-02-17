@@ -96,15 +96,19 @@ internal object ImageModule {
     @Singleton
     @Provides
     fun provideImagePreviewCreator(
+        @ApplicationContext context: Context,
         imageTransformer: ImageTransformer<Bitmap>,
         imageGetter: ImageGetter<Bitmap, ExifInterface>,
         imageCompressor: ImageCompressor<Bitmap>,
-        imageScaler: ImageScaler<Bitmap>
+        imageScaler: ImageScaler<Bitmap>,
+        shareProvider: ShareProvider<Bitmap>
     ): ImagePreviewCreator<Bitmap> = AndroidImagePreviewCreator(
         imageTransformer = imageTransformer,
         imageGetter = imageGetter,
         imageCompressor = imageCompressor,
-        imageScaler = imageScaler
+        imageScaler = imageScaler,
+        shareProvider = shareProvider,
+        context = context
     )
 
     @Singleton
