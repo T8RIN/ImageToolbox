@@ -779,4 +779,8 @@
     <string name="favorite">पसंदीदा</string>
     <string name="no_favorite_filters">अभी तक कोई पसंदीदा फ़िल्टर नहीं जोड़ा गया है</string>
     <string name="image_format">छवि प्रारूप</string>
+    <string name="cannot_change_image_format">फ़ाइलों को अधिलेखित करते समय छवि प्रारूप नहीं बदल सकता विकल्प सक्षम</string>
+    <string name="emoji_as_color_scheme">रंग योजना के रूप में इमोजी</string>
+    <string name="emoji_as_color_scheme_sub">मैन्युअल रूप से परिभाषित एक के बजाय ऐप रंग योजना के रूप में इमोजी प्राथमिक रंग का उपयोग करता है</string>
+    <string name="images_overwritten">मूल गंतव्य पर ओवरराइट की गई छवियां</string>
 </resources>

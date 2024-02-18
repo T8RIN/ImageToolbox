@@ -779,4 +779,8 @@
     <string name="shuffle_blur">Mieszaj rozmycie</string>
     <string name="no_favorite_filters">Nie dodano jeszcze żadnych ulubionych filtrów</string>
     <string name="image_format">Format obrazu</string>
+    <string name="images_overwritten">Obrazy nadpisane w oryginalnym miejscu docelowym</string>
+    <string name="emoji_as_color_scheme">Emoji jako schemat kolorów</string>
+    <string name="cannot_change_image_format">Nie można zmienić formatu obrazu, gdy włączona jest opcja nadpisywania plików</string>
+    <string name="emoji_as_color_scheme_sub">Używa koloru podstawowego emoji jako schematu kolorów aplikacji zamiast ręcznie zdefiniowanego</string>
 </resources>
