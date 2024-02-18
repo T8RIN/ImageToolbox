@@ -70,6 +70,7 @@ fun ColorSchemeSettingItem(
     updateThemeContrast: (Float) -> Unit,
     updateColorTuple: (ColorTuple) -> Unit,
     updateColorTuples: (List<ColorTuple>) -> Unit,
+    onToggleUseEmojiAsPrimaryColor: () -> Unit,
     shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp),
 ) {
@@ -184,6 +185,7 @@ fun ColorSchemeSettingItem(
         onUpdateColorTuples = {
             updateColorTuples(it)
         },
+        onToggleUseEmojiAsPrimaryColor = onToggleUseEmojiAsPrimaryColor,
         onPickTheme = { updateColorTuple(it) }
     )
 }

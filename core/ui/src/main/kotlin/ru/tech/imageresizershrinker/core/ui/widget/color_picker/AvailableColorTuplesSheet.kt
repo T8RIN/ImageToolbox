@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.core.ui.widget.color_picker
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -45,6 +46,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.EmojiEmotions
 import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Contrast
 import androidx.compose.material.icons.rounded.Delete
@@ -53,6 +55,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -65,6 +68,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
@@ -111,10 +115,11 @@ fun AvailableColorTuplesSheet(
     updateThemeContrast: (Float) -> Unit,
     onThemeStyleSelected: (PaletteStyle) -> Unit,
     onToggleInvertColors: () -> Unit,
+    onToggleUseEmojiAsPrimaryColor: () -> Unit,
     onUpdateColorTuples: (List<ColorTuple>) -> Unit,
 ) {
     val showEditColorPicker = rememberSaveable { mutableStateOf(false) }
-    //TODO add emoji color scheme
+
     val settingsState = LocalSettingsState.current
     SimpleSheet(
         visible = visible,
@@ -240,6 +245,8 @@ fun AvailableColorTuplesSheet(
             val portrait =
                 LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
+            val isPickersEnabled = !settingsState.useEmojiAsPrimaryColor
+
             val palette = @Composable {
                 PaletteStyleSelection(
                     onThemeStyleSelected = onThemeStyleSelected,
@@ -251,7 +258,7 @@ fun AvailableColorTuplesSheet(
                     )
                 )
             }
-            val switch = @Composable {
+            val invertColors = @Composable {
                 PreferenceRowSwitch(
                     title = stringResource(R.string.invert_colors),
                     subtitle = stringResource(R.string.invert_colors_sub),
@@ -263,7 +270,19 @@ fun AvailableColorTuplesSheet(
                     onClick = { onToggleInvertColors() }
                 )
             }
-            val slider = @Composable {
+            val emojiAsPrimary = @Composable {
+                PreferenceRowSwitch(
+                    title = stringResource(R.string.emoji_as_color_scheme),
+                    subtitle = stringResource(R.string.emoji_as_color_scheme_sub),
+                    checked = settingsState.useEmojiAsPrimaryColor,
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    modifier = Modifier,
+                    startIcon = Icons.Outlined.EmojiEmotions,
+                    shape = RoundedCornerShape(4.dp),
+                    onClick = { onToggleUseEmojiAsPrimaryColor() }
+                )
+            }
+            val contrast = @Composable {
                 EnhancedSliderItem(
                     color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     value = settingsState.themeContrastLevel.toFloat().roundToTwoDigits(),
@@ -366,16 +385,16 @@ fun AvailableColorTuplesSheet(
             ) {
                 if (!portrait) {
                     Column(
-                        Modifier
+                        modifier = Modifier
                             .verticalScroll(rememberScrollState())
                             .weight(0.8f)
-                            .padding(16.dp)
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         palette()
-                        Spacer(Modifier.height(4.dp))
-                        switch()
-                        Spacer(Modifier.height(4.dp))
-                        slider()
+                        invertColors()
+                        emojiAsPrimary()
+                        contrast()
                     }
                 }
                 LazyVerticalGrid(
@@ -397,51 +416,60 @@ fun AvailableColorTuplesSheet(
                         item(
                             span = { GridItemSpan(maxLineSpan) }
                         ) {
-                            switch()
+                            invertColors()
                         }
                         item(
                             span = { GridItemSpan(maxLineSpan) }
                         ) {
-                            slider()
+                            emojiAsPrimary()
+                        }
+                        item(
+                            span = { GridItemSpan(maxLineSpan) }
+                        ) {
+                            contrast()
                         }
                     }
                     item(
                         span = { GridItemSpan(maxLineSpan) }
                     ) {
-                        defaultValues()
+                        DisableContainer(isPickersEnabled, defaultValues)
                     }
                     items(colorTupleList) { colorTuple ->
-                        ColorTuplePreview(
-                            colorTuple = colorTuple,
-                            appColorTuple = currentColorTuple,
-                            onClick = { onPickTheme(colorTuple) }
-                        )
+                        DisableContainer(isPickersEnabled) {
+                            ColorTuplePreview(
+                                colorTuple = colorTuple,
+                                appColorTuple = currentColorTuple,
+                                onClick = { onPickTheme(colorTuple) }
+                            )
+                        }
                     }
                     item {
-                        ColorTupleItem(
-                            colorTuple = ColorTuple(
-                                primary = MaterialTheme.colorScheme.secondary,
-                                secondary = MaterialTheme.colorScheme.secondary,
-                                tertiary = MaterialTheme.colorScheme.secondary
-                            ),
-                            modifier = Modifier
-                                .aspectRatio(1f)
-                                .container(
-                                    shape = MaterialStarShape,
-                                    color = MaterialTheme.colorScheme.surfaceVariant,
-                                    borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
-                                    resultPadding = 0.dp
+                        DisableContainer(isPickersEnabled) {
+                            ColorTupleItem(
+                                colorTuple = ColorTuple(
+                                    primary = MaterialTheme.colorScheme.secondary,
+                                    secondary = MaterialTheme.colorScheme.secondary,
+                                    tertiary = MaterialTheme.colorScheme.secondary
+                                ),
+                                modifier = Modifier
+                                    .aspectRatio(1f)
+                                    .container(
+                                        shape = MaterialStarShape,
+                                        color = MaterialTheme.colorScheme.surfaceVariant,
+                                        borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
+                                        resultPadding = 0.dp
+                                    )
+                                    .clickable { openColorPicker() }
+                                    .padding(3.dp),
+                                backgroundColor = Color.Transparent
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.AddCircleOutline,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSecondary,
+                                    modifier = Modifier.size(24.dp)
                                 )
-                                .clickable { openColorPicker() }
-                                .padding(3.dp),
-                            backgroundColor = Color.Transparent
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.AddCircleOutline,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSecondary,
-                                modifier = Modifier.size(24.dp)
-                            )
+                            }
                         }
                     }
                 }
@@ -469,5 +497,27 @@ fun AvailableColorTuplesSheet(
 
     if (settingsState.isDynamicColors) {
         visible.value = false
+    }
+}
+
+@Composable
+private fun DisableContainer(
+    enabled: Boolean,
+    content: @Composable () -> Unit
+) {
+    Box(
+        modifier = Modifier.alpha(
+            animateFloatAsState(
+                if (enabled) 1f else 0.5f
+            ).value
+        )
+    ) {
+        content()
+        if (!enabled) {
+            Surface(
+                color = Color.Transparent,
+                modifier = Modifier.matchParentSize()
+            ) {}
+        }
     }
 }

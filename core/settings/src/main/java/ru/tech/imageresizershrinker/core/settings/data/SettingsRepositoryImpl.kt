@@ -83,6 +83,7 @@ import ru.tech.imageresizershrinker.core.settings.data.Keys.SELECTED_FONT_INDEX
 import ru.tech.imageresizershrinker.core.settings.data.Keys.SHOW_UPDATE_DIALOG
 import ru.tech.imageresizershrinker.core.settings.data.Keys.THEME_CONTRAST_LEVEL
 import ru.tech.imageresizershrinker.core.settings.data.Keys.THEME_STYLE
+import ru.tech.imageresizershrinker.core.settings.data.Keys.USE_EMOJI_AS_PRIMARY_COLOR
 import ru.tech.imageresizershrinker.core.settings.data.Keys.USE_PIXEL_SWITCH
 import ru.tech.imageresizershrinker.core.settings.data.Keys.USE_RANDOM_EMOJIS
 import ru.tech.imageresizershrinker.core.settings.data.Keys.VIBRATION_STRENGTH
@@ -185,6 +186,8 @@ internal class SettingsRepositoryImpl @Inject constructor(
             isSecureMode = prefs[SECURE_MODE] ?: default.isSecureMode,
             useRandomEmojis = prefs[USE_RANDOM_EMOJIS] ?: default.useRandomEmojis,
             iconShape = (prefs[ICON_SHAPE] ?: default.iconShape)?.takeIf { it >= 0 },
+            useEmojiAsPrimaryColor = prefs[USE_EMOJI_AS_PRIMARY_COLOR]
+                ?: default.useEmojiAsPrimaryColor
         )
     }
 
@@ -603,6 +606,13 @@ internal class SettingsRepositoryImpl @Inject constructor(
     override suspend fun setIconShape(iconShape: Int) {
         dataStore.edit {
             it[ICON_SHAPE] = iconShape
+        }
+    }
+
+    override suspend fun toggleUseEmojiAsPrimaryColor() {
+        dataStore.edit {
+            val v = it[USE_EMOJI_AS_PRIMARY_COLOR] ?: default.useEmojiAsPrimaryColor
+            it[USE_EMOJI_AS_PRIMARY_COLOR] = !v
         }
     }
 

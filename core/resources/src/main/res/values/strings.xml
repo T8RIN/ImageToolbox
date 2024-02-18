@@ -798,4 +798,6 @@
     <string name="color_anomaly">Color Anomaly</string>
     <string name="images_overwritten">Images overwritten at original destination</string>
     <string name="cannot_change_image_format">Cannot change image format while overwrite files option enabled</string>
+    <string name="emoji_as_color_scheme">Emoji as Color Scheme</string>
+    <string name="emoji_as_color_scheme_sub">Uses emoji primary color as app color scheme instead of manually defined one</string>
 </resources>

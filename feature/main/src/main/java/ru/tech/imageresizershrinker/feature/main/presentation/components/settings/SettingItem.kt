@@ -170,7 +170,8 @@ internal fun SettingItem(
                 setThemeStyle = viewModel::setThemeStyle,
                 updateThemeContrast = viewModel::updateThemeContrast,
                 updateColorTuple = viewModel::setColorTuple,
-                updateColorTuples = viewModel::updateColorTuples
+                updateColorTuples = viewModel::updateColorTuples,
+                onToggleUseEmojiAsPrimaryColor = viewModel::toggleUseEmojiAsPrimaryColor
             )
         }
 

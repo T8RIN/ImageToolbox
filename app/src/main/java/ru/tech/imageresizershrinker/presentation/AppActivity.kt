@@ -130,7 +130,8 @@ class AppActivity : M3Activity() {
                 LocalSettingsState provides viewModel.settingsState.toUiState(
                     allEmojis = Emoji.allIcons(),
                     allIconShapes = IconShapesList,
-                    randomEmojiKey = randomEmojiKey
+                    randomEmojiKey = randomEmojiKey,
+                    getEmojiColorTuple = viewModel::getColorTupleFromEmoji
                 ),
                 LocalNavController provides viewModel.navController,
                 LocalEditPresetsState provides editPresetsState,

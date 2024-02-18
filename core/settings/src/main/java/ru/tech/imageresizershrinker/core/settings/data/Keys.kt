@@ -78,4 +78,5 @@ internal object Keys {
     val SECURE_MODE = booleanPreferencesKey("SECURE_MODE")
     val USE_RANDOM_EMOJIS = booleanPreferencesKey("USE_RANDOM_EMOJIS")
     val ICON_SHAPE = intPreferencesKey("ICON_SHAPE")
+    val USE_EMOJI_AS_PRIMARY_COLOR = booleanPreferencesKey("USE_EMOJI_AS_PRIMARY_COLOR")
 }
