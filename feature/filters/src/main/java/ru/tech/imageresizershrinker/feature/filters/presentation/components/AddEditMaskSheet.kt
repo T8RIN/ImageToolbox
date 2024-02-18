@@ -354,14 +354,13 @@ fun AddEditMaskSheet(
                                     if (maskPreviewModeEnabled) MaterialTheme.colorScheme.onPrimary
                                     else Color.Unspecified,
                                 ).value,
+                                modifier = Modifier.padding(horizontal = 16.dp),
                                 shape = RoundedCornerShape(24.dp),
                                 contentColor = animateColorAsState(
                                     if (maskPreviewModeEnabled) MaterialTheme.colorScheme.primary
                                     else MaterialTheme.colorScheme.onSurface
                                 ).value,
-                                onClick = {
-                                    viewModel.togglePreviewMode()
-                                },
+                                onClick = viewModel::togglePreviewMode,
                                 checked = maskPreviewModeEnabled,
                                 startIcon = Icons.Rounded.Preview
                             )
@@ -625,8 +624,8 @@ private class AddMaskSheetViewModel @Inject constructor(
         }
     }
 
-    fun togglePreviewMode() {
-        _maskPreviewModeEnabled.update { !it }
+    fun togglePreviewMode(value: Boolean) {
+        _maskPreviewModeEnabled.update { value }
         updatePreview()
     }
 
