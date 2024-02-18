@@ -470,7 +470,7 @@
     <string name="outlined_rect_sub">प्रारंभ बिंदु से अंत बिंदु तक उल्लिखित रेक्ट खींचता है</string>
     <string name="mask_color">मुखौटा रंग</string>
     <string name="mask_preview">मुखौटा पूर्वावलोकन</string>
-    <string name="value_in_range">रेंज में मूल्य %1$एस - %2$एस</string>
+    <string name="value_in_range">रेंज में वैल्यू %1$s - %2$s</string>
     <string name="icon_shape">चिह्न आकार</string>
     <string name="vibrant_sub">एक जोर से विषय, रंगीनता प्राथमिक पैलेट के लिए अधिकतम है, दूसरों के लिए वृद्धि हुई है</string>
     <string name="monochrome_sub">एक मोनोक्रोम थीम, रंग विशुद्ध रूप से काले / सफेद / ग्रे हैं</string>
@@ -539,7 +539,7 @@
     <string name="overwrite_files">फ़ाइलों को अधिलेखित करें</string>
     <string name="empty">खाली</string>
     <string name="suffix">प्रत्यय</string>
-    <string name="no_such_directory">कोई\" %1$एस \" निर्देशिका नहीं मिली, हमने इसे डिफ़ॉल्ट रूप से स्विच किया, कृपया फ़ाइल को फिर से सहेजें</string>
+    <string name="no_such_directory">कोई\" %1$s \" निर्देशिका नहीं मिली, हमने इसे डिफ़ॉल्ट रूप से स्विच किया, कृपया फ़ाइल को फिर से सहेजें</string>
     <string name="overwrite_files_sub">मूल फ़ाइल को चयनित फ़ोल्डर में सहेजने के बजाय नए के साथ बदल दिया जाएगा, इस विकल्प को छवि स्रोत की आवश्यकता है \"एक्सप्लोरर\" या सामग्री प्राप्त करें, इसे टॉगल करते समय, यह स्वचालित रूप से सेट हो जाएगा</string>
     <string name="bicubic">बाइक्यूबिक</string>
     <string name="bilinear_sub">रैखिक (या बिलिनियर, दो आयामों में) प्रक्षेप आमतौर पर एक छवि के आकार को बदलने के लिए अच्छा होता है, लेकिन विवरणों के कुछ अवांछनीय नरम होने का कारण बनता है और अभी भी कुछ हद तक दांतेदार हो सकता है</string>
@@ -549,7 +549,7 @@
     <string name="mitchell_sub">स्केल की गई छवि में तीखेपन और एंटी-अलियासिंग के बीच संतुलन प्राप्त करने के लिए समायोज्य मापदंडों के साथ एक कनवल्शन फिल्टर का उपयोग करने वाली पुन: नमूनाकरण विधि</string>
     <string name="spline_sub">एक वक्र या सतह, लचीले और निरंतर आकार प्रतिनिधित्व को सुचारू रूप से प्रक्षेपित और अनुमानित करने के लिए टुकड़े-टुकड़े परिभाषित बहुपद कार्यों का उपयोग करता है</string>
     <string name="color_anomaly">रंग विसंगति</string>
-    <string name="saved_to_original">मूल गंतव्य पर नाम के साथ ओवरराइट फ़ाइल</string>
+    <string name="saved_to_original">मूल गंतव्य पर नाम %s के साथ ओवरराइट फ़ाइल</string>
     <string name="use_pixel_switch">पिक्सेल स्विच का उपयोग करें</string>
     <string name="use_pixel_switch_sub">पिक्सेल की तरह स्विच आप एक आधारित गूगल की सामग्री के बजाय इस्तेमाल किया जाएगा</string>
     <string name="allow_multiple_languages">कई भाषाओं की अनुमति दें</string>
@@ -566,7 +566,7 @@
     <string name="camera_sub">तस्वीर लेने के लिए कैमरे का उपयोग करता है, ध्यान दें कि इस छवि स्रोत से केवल एक छवि प्राप्त करना संभव है</string>
     <string name="gif_tools">जीआईएफ उपकरण</string>
     <string name="gif_tools_sub">छवियों को जीआईएफ चित्र में बदलें या दिए गए जीआईएफ छवि से फ्रेम निकालें</string>
-    <string name="delete_language_sub">क्या आप सभी मान्यता प्रकारों के लिए भाषा \"%1$एस\" ओसीआर प्रशिक्षण डेटा को हटाना चाहते हैं, या केवल चयनित एक (%2$एस) के लिए?</string>
+    <string name="delete_language_sub">क्या आप सभी मान्यता प्रकारों के लिए भाषा \"%1$s\" ओसीआर प्रशिक्षण डेटा को हटाना चाहते हैं, या केवल चयनित एक (%2$s) के लिए?</string>
     <string name="gif_type_to_gif_sub">छवियों के बैच को जीआईएफ फ़ाइल में बदलें</string>
     <string name="use_size_of_first_frame">पहले फ्रेम के आकार का उपयोग करें</string>
     <string name="confetti_sub">कंफ़ेद्दी को सहेजने, साझा करने और अन्य प्राथमिक कार्यों पर दिखाया जाएगा</string>
@@ -666,14 +666,14 @@
     <string name="recognize_text">ओसीआर (पाठ को पहचानें)</string>
     <string name="recognize_text_sub">दी गई छवि से पाठ को पहचानें, 120 + भाषाओं का समर्थन किया</string>
     <string name="picture_has_no_text">चित्र में कोई पाठ नहीं है, या ऐप को यह नहीं मिला</string>
-    <string name="accuracy">शुद्धता: %1 $ डी</string>
+    <string name="accuracy">शुद्धता: %1$d</string>
     <string name="recognition_type">मान्यता प्रकार</string>
     <string name="fast">फास्ट</string>
     <string name="standard">मानक</string>
     <string name="best">सबसे अच्छा</string>
     <string name="no_data">कोई डेटा नहीं</string>
-    <string name="download_description">टेसरैक्ट ओसीआर के समुचित कार्य के लिए अतिरिक्त प्रशिक्षण डेटा (%1$एस) को आपके डिवाइस पर डाउनलोड करने की आवश्यकता है ।
-\nक्या आप %2$एस डेटा डाउनलोड करना चाहते हैं?</string>
+    <string name="download_description">टेसरैक्ट ओसीआर के समुचित कार्य के लिए अतिरिक्त प्रशिक्षण डेटा (%1$s) को आपके डिवाइस पर डाउनलोड करने की आवश्यकता है ।
+\nक्या आप %2$s डेटा डाउनलोड करना चाहते हैं?</string>
     <string name="download">डाउनलोड करें</string>
     <string name="no_connection">कोई कनेक्शन नहीं, इसे जांचें और ट्रेन मॉडल डाउनलोड करने के लिए फिर से प्रयास करें</string>
     <string name="downloaded_languages">डाउनलोड की गई भाषाएँ</string>
