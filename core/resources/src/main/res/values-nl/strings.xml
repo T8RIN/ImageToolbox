@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="size">Formaat %1$s</string>
-    <string name="pick_image">Kies afbeelding om te beginnen</string>
-    <string name="smth_went_wrong">Er ging iets verkeerd:%1$s</string>
-    <string name="loading">Laden…</string>
-    <string name="image_too_large_preview">Afbeelding is te groot om als voorvertoning weer te geven, maar zal in ieder geval worden gedaan.</string>
-</resources>
