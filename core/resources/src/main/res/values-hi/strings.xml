@@ -329,7 +329,7 @@
     <string name="restore">पुनर्स्थापना</string>
     <string name="trim_image_sub">छवि के चारों ओर पारदर्शी स्थान को ट्रिम कर दिया जाएगा</string>
     <string name="tg_chat_sub">ऐप पर चर्चा करें और अन्य उपयोगकर्ताओं से प्रतिक्रिया प्राप्त करें। आप यहां बीटा अपडेट और अंतर्दृष्टि भी प्राप्त कर सकते हैं।</string>
-    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !\?</string>
+    <string name="alphabet_and_numbers">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789 !?</string>
     <string name="erase_background">पृष्ठभूमि मिटाएं</string>
     <string name="restore_image">छवि पुनर्स्थापित करें</string>
     <string name="jxl_sub">JXL प्रारूप आधिकारिक तौर पर एंड्रॉइड द्वारा समर्थित नहीं है, इसलिए कुछ काम नहीं कर सकता है। सहेज तभी जायेगा जब आप तदनुकूल आउटपुट डायरेक्टरी चुनेंगे। यह एक प्रायोगिक संस्करण है, यहां बग तब तक ठीक नहीं किए जाएंगे जब तक कि Google JXL समर्थन नहीं जोड़ता। यह संस्करण JXL छवियां देख सकता है</string>
