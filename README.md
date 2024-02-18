@@ -252,7 +252,12 @@ or click one of the badges below.
   - [x] Bokeh
   - [x] Neon
   - [x] Old Tv
-  - [x] Shuffle Blur 
+  - [x] Shuffle Blur
+  - [x] Mobius
+  - [x] Uchimura
+  - [x] Aldridge
+  - [x] Drago
+  - [x] Color Anomaly 
 
   </details>
 
@@ -340,7 +345,8 @@ or click one of the badges below.
   - WEBP
   - JPEG
   - JPG
-  - PNG
+  - PNG Lossless
+  - PNG Lossy
   - JXL
   - SVG and GIF to WEBP, PNG, JPEG, JPG, HEIF, HEIC, AVIF, JXL
   - Telegram sticker PNG format
