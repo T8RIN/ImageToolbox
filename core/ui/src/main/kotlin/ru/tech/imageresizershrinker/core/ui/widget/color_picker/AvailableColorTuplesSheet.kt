@@ -126,9 +126,7 @@ fun AvailableColorTuplesSheet(
         visible = visible,
         endConfirmButtonPadding = 0.dp,
         dragHandle = {
-            SimpleDragHandle(
-                showDragHandle = false
-            ) {
+            SimpleDragHandle {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
