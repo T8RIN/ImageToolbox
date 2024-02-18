@@ -39,7 +39,10 @@ import com.awxkee.jxlcoder.JxlCompressionOption
 import com.awxkee.jxlcoder.JxlDecodingSpeed
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.fileSize
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
@@ -63,8 +66,18 @@ internal class AndroidImageCompressor @Inject constructor(
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val settingsRepository: SettingsRepository
+    settingsRepository: SettingsRepository
 ) : ImageCompressor<Bitmap> {
+
+    private var overwriteFiles: Boolean = false
+
+    init {
+        settingsRepository
+            .getSettingsStateFlow()
+            .onEach {
+                overwriteFiles = it.overwriteFiles
+            }.launchIn(CoroutineScope(Dispatchers.IO))
+    }
 
     override suspend fun compress(
         image: Bitmap,
@@ -231,10 +244,9 @@ internal class AndroidImageCompressor @Inject constructor(
                 }
             )
 
-        val imageFormat =
-            if (settingsRepository.getSettingsState().overwriteFiles && extension != null) {
-                ImageFormat[extension]
-            } else imageInfo.imageFormat
+        val imageFormat = if (overwriteFiles && extension != null) {
+            ImageFormat[extension]
+        } else imageInfo.imageFormat
 
         return@withContext compress(
             image = currentImage,
