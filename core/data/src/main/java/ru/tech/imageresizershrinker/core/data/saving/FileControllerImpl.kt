@@ -27,6 +27,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import androidx.core.content.ContextCompat
@@ -427,8 +428,13 @@ internal class FileControllerImpl @Inject constructor(
         }.getOrNull() ?: "0 B"
     }
 
-    private fun getFileDescriptorFor(uri: Uri?) =
-        uri?.let { context.contentResolver.openFileDescriptor(uri, "rw") }
+    private fun getFileDescriptorFor(
+        uri: Uri?
+    ): ParcelFileDescriptor? = runCatching {
+        uri?.let {
+            context.contentResolver.openFileDescriptor(uri, "rw")
+        }
+    }.getOrNull()
 
     private fun Context.getSavingFolder(
         treeUri: Uri?,

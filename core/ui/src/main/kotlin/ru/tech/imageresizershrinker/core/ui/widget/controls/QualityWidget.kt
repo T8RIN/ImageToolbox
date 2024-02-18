@@ -195,9 +195,9 @@ fun QualityWidget(
                         value = pngLossyQuality?.maxColors ?: 0,
                         title = stringResource(R.string.max_colors_count),
                         icon = Icons.Rounded.ColorLens,
-                        valueRange = 1f..1024f,
+                        valueRange = 2f..1024f,
                         internalStateTransformation = {
-                            it.toInt().coerceIn(1..1024).toFloat()
+                            it.toInt().coerceIn(2..1024).toFloat()
                         },
                         onValueChange = {
                             pngLossyQuality?.copy(

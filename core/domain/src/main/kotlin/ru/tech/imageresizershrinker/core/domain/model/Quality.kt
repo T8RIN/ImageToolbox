@@ -32,7 +32,7 @@ sealed class Quality(
     ) : Quality(qualityValue)
 
     data class PngLossy(
-        @IntRange(from = 1, to = 1024)
+        @IntRange(from = 2, to = 1024)
         val maxColors: Int = 512,
         @IntRange(from = 0, to = 9)
         val compressionLevel: Int = 7,

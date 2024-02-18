@@ -38,17 +38,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
@@ -74,6 +77,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -103,6 +107,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDial
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageHeaderState
 import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
@@ -190,6 +195,25 @@ fun AddEditMaskSheet(
                     }
                 ) {
                     Text(stringResource(id = R.string.save))
+                }
+            },
+            dragHandle = {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .drawHorizontalStroke(autoElevation = 3.dp)
+                        .zIndex(Float.MAX_VALUE)
+                        .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
+                        .padding(8.dp)
+                ) {
+                    IconButton(
+                        onClick = {
+                            if (viewModel.paths.isEmpty() && viewModel.filterList.isEmpty()) onDismiss()
+                            else showExitDialog = true
+                        }
+                    ) {
+                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                    }
                 }
             },
             enableBackHandler = false

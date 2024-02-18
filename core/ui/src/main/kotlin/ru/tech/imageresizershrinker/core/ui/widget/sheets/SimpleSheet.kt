@@ -46,6 +46,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.modalsheet.ModalSheet
+import com.t8rin.modalsheet.ModalSheetState
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
@@ -227,6 +228,73 @@ fun SimpleSheet(
             onVisibleChange = onDismiss,
             content = {
                 if (visible && enableBackHandler) BackHandler { onDismiss(false) }
+                Column(
+                    modifier = Modifier.weight(1f, false),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    content = sheetContent
+                )
+                if (confirmButton != null && title != null) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .drawHorizontalStroke(true, autoElevation = 6.dp)
+                            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
+                            .navigationBarsPadding()
+                            .padding(16.dp)
+                            .padding(end = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        title()
+                        Spacer(modifier = Modifier.weight(1f))
+                        confirmButton()
+                    }
+                }
+            }
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SimpleSheet(
+    nestedScrollEnabled: Boolean = false,
+    sheetState: ModalSheetState,
+    confirmButton: (@Composable RowScope.() -> Unit)? = null,
+    dragHandle: @Composable ColumnScope.() -> Unit = { SimpleDragHandle() },
+    title: (@Composable () -> Unit)? = null,
+    onDismiss: () -> Unit,
+    sheetContent: @Composable ColumnScope.() -> Unit,
+) {
+    val settingsState = LocalSettingsState.current
+    val autoElevation by animateDpAsState(
+        if (settingsState.drawContainerShadows) 16.dp
+        else 0.dp
+    )
+
+    ProvideContainerDefaults(
+        color = MaterialTheme.colorScheme.surfaceContainerHigh
+    ) {
+        ModalSheet(
+            sheetState = sheetState,
+            nestedScrollEnabled = nestedScrollEnabled,
+            dragHandle = dragHandle,
+            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
+            sheetModifier = Modifier
+                .statusBarsPadding()
+                .offset(y = (settingsState.borderWidth + 1.dp))
+                .autoElevatedBorder(
+                    shape = BottomSheetDefaults.ExpandedShape,
+                    autoElevation = autoElevation
+                )
+                .autoElevatedBorder(
+                    height = 0.dp,
+                    shape = BottomSheetDefaults.ExpandedShape,
+                    autoElevation = autoElevation
+                )
+                .animateContentSize(),
+            elevation = 0.dp,
+            onDismiss = onDismiss,
+            content = {
                 Column(
                     modifier = Modifier.weight(1f, false),
                     horizontalAlignment = Alignment.CenterHorizontally,
