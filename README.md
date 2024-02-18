@@ -257,7 +257,8 @@ or click one of the badges below.
   - [x] Uchimura
   - [x] Aldridge
   - [x] Drago
-  - [x] Color Anomaly 
+  - [x] Color Anomaly
+  - [x] Quantizier 
 
   </details>
 
