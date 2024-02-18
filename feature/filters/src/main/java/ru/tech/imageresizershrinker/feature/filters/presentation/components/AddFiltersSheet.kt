@@ -333,6 +333,7 @@ fun AddFiltersSheet(
                                 itemsIndexed(filtersForSearch) { index, filter ->
                                     FilterSelectionItem(
                                         filter = filter,
+                                        isFavoritePage = false,
                                         previewBitmap = previewBitmap,
                                         favoriteFilters = favoriteFilters,
                                         onLongClick = {
@@ -386,7 +387,7 @@ fun AddFiltersSheet(
                 } else {
                     HorizontalPager(
                         state = pagerState,
-                        outOfBoundsPageCount = 1
+                        outOfBoundsPageCount = 2
                     ) { page ->
                         val filters by remember(page) {
                             derivedStateOf {
@@ -416,6 +417,7 @@ fun AddFiltersSheet(
                                             index = index,
                                             size = filters.size
                                         ),
+                                        isFavoritePage = false,
                                         modifier = Modifier.animateItemPlacement()
                                     )
                                 }
@@ -462,6 +464,7 @@ fun AddFiltersSheet(
                                         itemsIndexed(favoriteFilters) { index, filter ->
                                             FilterSelectionItem(
                                                 filter = filter,
+                                                isFavoritePage = true,
                                                 previewBitmap = previewBitmap,
                                                 favoriteFilters = favoriteFilters,
                                                 onLongClick = {
@@ -769,6 +772,7 @@ fun AddFiltersSheet(
 @Composable
 private fun FilterSelectionItem(
     filter: UiFilter<*>,
+    isFavoritePage: Boolean,
     previewBitmap: Bitmap?,
     favoriteFilters: List<UiFilter<*>>,
     onLongClick: () -> Unit,
@@ -892,23 +896,25 @@ private fun FilterSelectionItem(
                     }
                 }
                 AnimatedContent(
-                    targetState = inFavorite,
+                    targetState = inFavorite to isFavoritePage,
                     transitionSpec = {
                         (fadeIn() + scaleIn(initialScale = 0.85f))
                             .togetherWith(fadeOut() + scaleOut(targetScale = 0.85f))
                     }
-                ) { isInFavorite ->
-                    if (isInFavorite) {
-                        Icon(
-                            imageVector = Icons.Rounded.BookmarkRemove,
-                            contentDescription = null
-                        )
-                    } else {
-                        Icon(
-                            imageVector = Icons.Rounded.BookmarkBorder,
-                            contentDescription = null
-                        )
+                ) { (isInFavorite, isFavPage) ->
+                    val icon by remember(isInFavorite, isFavPage) {
+                        derivedStateOf {
+                            when {
+                                isFavPage && isInFavorite -> Icons.Rounded.BookmarkRemove
+                                isInFavorite -> Icons.Rounded.Bookmark
+                                else -> Icons.Rounded.BookmarkBorder
+                            }
+                        }
                     }
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null
+                    )
                 }
             }
         },
