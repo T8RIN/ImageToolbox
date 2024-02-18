@@ -37,7 +37,7 @@ internal class TiltShiftFilter(
         size: IntegerSize
     ): Bitmap = Aire.tiltShift(
         bitmap = input,
-        radius = value.blurRadius.roundToInt().toFloat(),
+        radius = value.blurRadius.roundToInt(),
         sigma = value.sigma,
         anchorX = value.anchorX,
         anchorY = value.anchorY,
