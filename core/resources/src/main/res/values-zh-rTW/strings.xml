@@ -771,4 +771,12 @@
     <string name="favorite">最喜歡的</string>
     <string name="no_favorite_filters">尚未添加最喜歡的過濾器</string>
     <string name="image_format">影像格式</string>
+    <string name="drago">德拉戈</string>
+    <string name="aldridge">奧爾德里奇</string>
+    <string name="cutoff">隔斷</string>
+    <string name="uchimura">內村</string>
+    <string name="mobius">莫比烏斯</string>
+    <string name="peak">頂峰</string>
+    <string name="color_anomaly">顏色異常</string>
+    <string name="transition">過渡</string>
 </resources>
