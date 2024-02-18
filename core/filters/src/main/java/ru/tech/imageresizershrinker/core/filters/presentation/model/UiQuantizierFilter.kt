@@ -15,28 +15,23 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.data.model
+package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
-import com.awxkee.aire.Aire
-import ru.tech.imageresizershrinker.core.domain.image.Transformation
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
+import ru.tech.imageresizershrinker.core.resources.R
 
-
-internal class VibranceFilter(
-    override val value: Float = 3f,
-) : Transformation<Bitmap>, Filter.Vibrance<Bitmap> {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: IntegerSize
-    ): Bitmap = Aire.vibrance(
-        bitmap = input,
-        vibrance = value
+class UiQuantizierFilter(
+    override val value: Float = 256f
+) : UiFilter<Float>(
+    title = R.string.quantizier,
+    value = value,
+    paramsInfo = listOf(
+        FilterParam(
+            title = null,
+            valueRange = 2f..4096f,
+            roundTo = 0
+        )
     )
-
-}
+), Filter.Quantizier<Bitmap>

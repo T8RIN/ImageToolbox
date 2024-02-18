@@ -226,7 +226,8 @@ sealed class UiFilter<T>(
                     UiFalseFloydSteinbergDitheringFilter(),
                     UiLeftToRightDitheringFilter(),
                     UiRandomDitheringFilter(),
-                    UiSimpleThresholdDitheringFilter()
+                    UiSimpleThresholdDitheringFilter(),
+                    UiQuantizierFilter()
                 )
             )
         }

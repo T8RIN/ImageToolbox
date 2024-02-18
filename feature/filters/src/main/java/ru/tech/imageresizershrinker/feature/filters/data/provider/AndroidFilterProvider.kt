@@ -134,6 +134,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.PosterizeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ProtanopiaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ProtonomalyFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PurpleMistFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.QuantizierFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.RGBFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.RainbowWorldFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.RandomDitheringFilter
@@ -343,6 +344,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Drago -> DragoFilter(value)
             is Filter.Uchimura -> UchimuraFilter(value)
             is Filter.ColorAnomaly -> ColorAnomalyFilter(value)
+            is Filter.Quantizier -> QuantizierFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

@@ -176,4 +176,5 @@ interface Filter<Image, Value> {
     interface Aldridge<Image> : Filter<Image, Pair<Float, Float>>
     interface Drago<Image> : Filter<Image, Pair<Float, Float>>
     interface ColorAnomaly<Image> : Filter<Image, Float>
+    interface Quantizier<Image> : Filter<Image, Float>
 }

@@ -19,14 +19,14 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
+import com.awxkee.aire.AireColorMapper
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-
-internal class VibranceFilter(
-    override val value: Float = 3f,
-) : Transformation<Bitmap>, Filter.Vibrance<Bitmap> {
+internal class QuantizierFilter(
+    override val value: Float = 256f
+) : Transformation<Bitmap>, Filter.Quantizier<Bitmap> {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -34,9 +34,10 @@ internal class VibranceFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.vibrance(
+    ): Bitmap = Aire.palette(
         bitmap = input,
-        vibrance = value
+        maxColors = value.toInt(),
+        colorMapper = AireColorMapper.COVER_TREE
     )
 
 }
