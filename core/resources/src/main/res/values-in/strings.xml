@@ -723,8 +723,7 @@
     <string name="standard">Standar</string>
     <string name="best">Terbaik</string>
     <string name="no_data">Tidak ada data</string>
-    <string name="download_description">Agar Tesseract OCR berfungsi dengan baik, data pelatihan tambahan (%1$s) perlu diunduh ke perangkat Anda.
-\nApakah Anda ingin mengunduh data %2$s?</string>
+    <string name="download_description">Agar Tesseract OCR berfungsi dengan baik, data pelatihan tambahan (%1$s) perlu diunduh ke perangkat Anda. \nApakah Anda ingin mengunduh data %2$s?</string>
     <string name="download">Unduh</string>
     <string name="no_connection">Tidak ada koneksi, periksa dan coba lagi untuk mendownload model kereta</string>
     <string name="downloaded_languages">Bahasa yang Diunduh</string>
