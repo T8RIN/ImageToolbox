@@ -30,12 +30,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
 import ru.tech.imageresizershrinker.core.settings.presentation.IconShape
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalContainerColor
 
 val IconShapesList by lazy {
     persistentListOf(
@@ -67,6 +69,10 @@ fun IconShapeContainer(
     iconShape: IconShape? = LocalSettingsState.current.iconShape,
     content: @Composable (Boolean) -> Unit = {}
 ) {
+    val realUnderlyingColor = underlyingColor.takeOrElse {
+        LocalContainerColor.current ?: MaterialTheme.colorScheme.surfaceContainer
+    }
+
     AnimatedContent(
         targetState = remember(iconShape) {
             derivedStateOf {
@@ -80,7 +86,7 @@ fun IconShapeContainer(
                 val color = MaterialTheme.colorScheme.surfaceTint
                 Modifier.container(
                     shape = iconShapeAnimated.shape,
-                    color = underlyingColor.inverse(
+                    color = realUnderlyingColor.inverse(
                         fraction = { if (it) 0.2f else 0.15f },
                         color = { color }
                     ),
