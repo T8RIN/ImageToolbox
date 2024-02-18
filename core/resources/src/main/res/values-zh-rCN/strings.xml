@@ -771,4 +771,12 @@
     <string name="image_format">图片格式</string>
     <string name="icon_shape_sub">在卡片的前导图标下添加具有选定形状的容器</string>
     <string name="icon_shape">图标形状</string>
+    <string name="uchimura">内村</string>
+    <string name="mobius">莫比乌斯</string>
+    <string name="peak">峰值</string>
+    <string name="drago">Drago</string>
+    <string name="aldridge">Aldridge</string>
+    <string name="color_anomaly">色彩异常</string>
+    <string name="transition">过渡</string>
+    <string name="cutoff">截止</string>
 </resources>
