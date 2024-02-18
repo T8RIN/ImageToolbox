@@ -112,7 +112,7 @@ fun SettingsState.toUiState(
     getEmojiColorTuple: (String, (ColorTuple?) -> Unit) -> Unit = { _, _ -> },
     randomEmojiKey: Any? = null
 ): UiSettingsState {
-    val selectedEmojiIndex by remember(selectedEmoji, useRandomEmojis, randomEmojiKey) {
+    val selectedEmojiIndex by remember(selectedEmoji, useRandomEmojis, randomEmojiKey, this) {
         derivedStateOf {
             selectedEmoji?.takeIf { it != -1 }?.let {
                 if (useRandomEmojis) allEmojis.indices.random()
