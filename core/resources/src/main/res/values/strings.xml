@@ -788,4 +788,12 @@
     <string name="image_format">Image Format</string>
     <string name="icon_shape_sub">Adds container with selected shape under the leading icons of cards</string>
     <string name="icon_shape">Icon Shape</string>
+    <string name="drago">Drago</string>
+    <string name="aldridge">Aldridge</string>
+    <string name="cutoff">Cutoff</string>
+    <string name="uchimura">Uchimura</string>
+    <string name="mobius">Mobius</string>
+    <string name="transition">Transition</string>
+    <string name="peak">Peak</string>
+    <string name="color_anomaly">Color Anomaly</string>
 </resources>

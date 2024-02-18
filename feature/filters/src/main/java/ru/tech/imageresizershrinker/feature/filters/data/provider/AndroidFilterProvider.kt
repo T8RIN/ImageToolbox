@@ -26,6 +26,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.AcesFilmicToneMap
 import ru.tech.imageresizershrinker.feature.filters.data.model.AcesHillToneMappingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.AchromatomalyFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.AchromatopsiaFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.AldridgeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.AnaglyphFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.AnisotropicDiffusionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.AtkinsonDitheringFilter
@@ -46,6 +47,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.CGAColorSpaceFilt
 import ru.tech.imageresizershrinker.feature.filters.data.model.CaramelDarknessFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CirclePixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CodaChromeFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.ColorAnomalyFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorBalanceFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorExplosionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorFilter
@@ -65,6 +67,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.DeutaronotopiaFil
 import ru.tech.imageresizershrinker.feature.filters.data.model.DiamondPixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.DigitalCodeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.DilationFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.DragoFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ElectricGradientFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EmbossFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedCirclePixelationFilter
@@ -107,6 +110,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.LogarithmicToneMa
 import ru.tech.imageresizershrinker.feature.filters.data.model.LookupFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MarbleFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MedianBlurFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.MobiusFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MonochromeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NativeStackBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NegativeFilter
@@ -163,6 +167,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.ToonFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TritanopiaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TritonomalyFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TwoRowSierraDitheringFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.UchimuraFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.UnsharpFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.VibranceFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.VignetteFilter
@@ -332,6 +337,11 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Neon<*, *> -> NeonFilter(context, value.cast())
             is Filter.OldTv -> OldTvFilter(context, value)
             is Filter.ShuffleBlur -> ShuffleBlurFilter(value)
+            is Filter.Mobius -> MobiusFilter(value)
+            is Filter.Aldridge -> AldridgeFilter(value)
+            is Filter.Drago -> DragoFilter(value)
+            is Filter.Uchimura -> UchimuraFilter(value)
+            is Filter.ColorAnomaly -> ColorAnomalyFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

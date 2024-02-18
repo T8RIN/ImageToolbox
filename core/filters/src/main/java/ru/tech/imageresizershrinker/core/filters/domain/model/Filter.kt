@@ -171,4 +171,9 @@ interface Filter<Image, Value> {
     interface Neon<Image, Color : Any> : Filter<Image, Triple<Float, Float, Color>>
     interface OldTv<Image> : Filter<Image, Unit>
     interface ShuffleBlur<Image> : Filter<Image, Pair<Int, Float>>
+    interface Mobius<Image> : Filter<Image, Triple<Float, Float, Float>>
+    interface Uchimura<Image> : Filter<Image, Float>
+    interface Aldridge<Image> : Filter<Image, Pair<Float, Float>>
+    interface Drago<Image> : Filter<Image, Pair<Float, Float>>
+    interface ColorAnomaly<Image> : Filter<Image, Float>
 }

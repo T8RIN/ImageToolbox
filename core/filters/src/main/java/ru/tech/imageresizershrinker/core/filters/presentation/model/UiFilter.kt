@@ -121,7 +121,8 @@ sealed class UiFilter<T>(
                     UiMonochromeFilter(),
                     UiColorMatrix4x4Filter(),
                     UiColorMatrix3x3Filter(),
-                    UiColorBalanceFilter()
+                    UiColorBalanceFilter(),
+                    UiColorAnomalyFilter()
                 ),
                 listOf(
                     UiBrightnessFilter(),
@@ -138,7 +139,11 @@ sealed class UiFilter<T>(
                     UiAcesFilmicToneMappingFilter(),
                     UiAcesHillToneMappingFilter(),
                     UiHableFilmicToneMappingFilter(),
-                    UiHejlBurgessToneMappingFilter()
+                    UiHejlBurgessToneMappingFilter(),
+                    UiMobiusFilter(),
+                    UiAldridgeFilter(),
+                    UiUchimuraFilter(),
+                    UiDragoFilter()
                 ),
                 listOf(
                     UiSharpenFilter(),
