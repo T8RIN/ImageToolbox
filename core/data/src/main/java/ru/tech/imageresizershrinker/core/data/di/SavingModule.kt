@@ -17,32 +17,20 @@
 
 package ru.tech.imageresizershrinker.core.data.di
 
-import android.content.Context
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.core.data.saving.FileControllerImpl
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
-import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object SavingModule {
+internal interface SavingModule {
 
     @Singleton
-    @Provides
-    fun provideFileController(
-        @ApplicationContext context: Context,
-        settingsRepository: SettingsRepository,
-        randomStringGenerator: RandomStringGenerator
-    ): FileController = FileControllerImpl(
-        context = context,
-        settingsRepository = settingsRepository,
-        randomStringGenerator = randomStringGenerator
-    )
+    @Binds
+    fun provideFileController(controller: FileControllerImpl): FileController
 
 }

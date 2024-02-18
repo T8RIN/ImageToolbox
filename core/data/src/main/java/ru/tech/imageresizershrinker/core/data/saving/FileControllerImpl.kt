@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.data.saving
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.ContentValues
@@ -36,6 +37,7 @@ import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import androidx.exifinterface.media.ExifInterface
 import com.t8rin.logger.makeLog
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -63,7 +65,7 @@ import kotlin.random.Random
 
 
 internal class FileControllerImpl @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val settingsRepository: SettingsRepository,
     private val randomStringGenerator: RandomStringGenerator
 ) : FileController {
@@ -136,6 +138,7 @@ internal class FileControllerImpl @Inject constructor(
         }.getOrNull()
     } ?: default
 
+    @SuppressLint("StringFormatInvalid")
     override suspend fun save(
         saveTarget: SaveTarget,
         keepMetadata: Boolean
@@ -259,12 +262,19 @@ internal class FileControllerImpl @Inject constructor(
                 val filename = newSaveTarget.filename ?: ""
 
                 return SaveResult.Success(
-                    if (savingPath.isNotEmpty() && filename.isNotEmpty()) {
-                        context.getString(
-                            R.string.saved_to,
-                            savingPath,
-                            filename
-                        )
+                    if (savingPath.isNotEmpty()) {
+                        if (filename.isNotEmpty()) {
+                            context.getString(
+                                R.string.saved_to,
+                                savingPath,
+                                filename
+                            )
+                        } else {
+                            context.getString(
+                                R.string.saved_to_without_filename,
+                                savingPath
+                            )
+                        }
                     } else null
                 )
             }

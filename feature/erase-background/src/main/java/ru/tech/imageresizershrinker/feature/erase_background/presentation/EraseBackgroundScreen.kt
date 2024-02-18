@@ -115,7 +115,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
@@ -123,7 +123,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientation
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
@@ -149,7 +149,7 @@ fun EraseBackgroundScreen(
     viewModel: EraseBackgroundViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val context = LocalContext.current as ComponentActivity
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
@@ -514,12 +514,11 @@ fun EraseBackgroundScreen(
                 onCheckedChange = viewModel::setSaveExif,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
             )
-            ExtensionGroup(
+            ImageFormatSelector(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
                     .navigationBarsPadding(),
                 entries = ImageFormat.alphaContainedEntries,
-                enabled = true,
                 value = viewModel.imageFormat,
                 onValueChange = {
                     viewModel.setMime(it)

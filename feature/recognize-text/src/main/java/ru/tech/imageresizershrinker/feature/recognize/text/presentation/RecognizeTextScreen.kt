@@ -76,7 +76,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageTransformBar
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
@@ -115,7 +115,7 @@ fun RecognizeTextScreen(
     val context = LocalContext.current
 
     val confettiController = LocalConfettiController.current
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
 
     var downloadDialogData by rememberSaveable {
         mutableStateOf<List<UiDownloadData>>(emptyList())

@@ -37,7 +37,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.ui.icons.material.Robot
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 
 @Composable
 fun EmojisCountSettingItem(
@@ -46,7 +46,7 @@ fun EmojisCountSettingItem(
     modifier: Modifier = Modifier
         .padding(horizontal = 8.dp)
 ) {
-    val toastHost = LocalToastHost.current
+    val toastHost = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val settingsState = LocalSettingsState.current

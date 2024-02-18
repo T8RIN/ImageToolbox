@@ -23,6 +23,6 @@ sealed interface SaveResult {
 
     sealed interface Error : SaveResult {
         data object MissingPermissions : Error
-        class Exception(val throwable: Throwable) : Error
+        data class Exception(val throwable: Throwable) : Error
     }
 }

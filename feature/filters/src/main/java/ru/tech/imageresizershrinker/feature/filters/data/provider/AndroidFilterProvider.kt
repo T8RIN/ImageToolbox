@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.filters.data.provider
 
 import android.content.Context
 import android.graphics.Bitmap
+import dagger.hilt.android.qualifiers.ApplicationContext
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -180,7 +181,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.ZoomBlurFilter
 import javax.inject.Inject
 
 internal class AndroidFilterProvider @Inject constructor(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) : FilterProvider<Bitmap> {
 
     override fun filterToTransformation(

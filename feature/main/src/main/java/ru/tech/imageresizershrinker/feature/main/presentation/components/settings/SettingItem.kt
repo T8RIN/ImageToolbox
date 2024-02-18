@@ -41,7 +41,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiControll
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
@@ -52,7 +52,7 @@ internal fun SettingItem(
     viewModel: MainViewModel
 ) {
     val context = LocalContext.current as ComponentActivity
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val confettiController = LocalConfettiController.current
 

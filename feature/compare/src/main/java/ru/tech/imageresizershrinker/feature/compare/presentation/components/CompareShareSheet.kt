@@ -47,7 +47,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -94,12 +94,12 @@ internal fun CompareShareSheet(
                         )
                     }
                     Spacer(Modifier.height(16.dp))
-                    ExtensionGroup(
+                    ImageFormatSelector(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
-                        enabled = true,
                         value = imageFormat,
+                        forceEnabled = true,
                         onValueChange = { imageFormat = it }
                     )
                     Spacer(Modifier.height(8.dp))

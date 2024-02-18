@@ -131,7 +131,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
@@ -140,7 +140,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDial
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -168,7 +168,7 @@ fun PdfToolsScreen(
     }
 
     val context = LocalContext.current as Activity
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val confettiController = LocalConfettiController.current
 
@@ -518,8 +518,7 @@ fun PdfToolsScreen(
                 Spacer(
                     Modifier.height(8.dp)
                 )
-                ExtensionGroup(
-                    enabled = true,
+                ImageFormatSelector(
                     value = viewModel.imageInfo.imageFormat,
                     onValueChange = viewModel::updateImageFormat
                 )

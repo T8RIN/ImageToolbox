@@ -132,7 +132,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -163,7 +163,7 @@ fun FileCipherScreen(
 
     val context = LocalContext.current
     val settingsState = LocalSettingsState.current
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val confettiController = LocalConfettiController.current
 

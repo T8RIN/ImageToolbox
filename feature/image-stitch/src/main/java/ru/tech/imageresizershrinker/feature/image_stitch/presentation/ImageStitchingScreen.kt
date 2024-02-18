@@ -65,7 +65,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.BackgroundColorSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleSmallImagesToLargeToggle
@@ -74,7 +74,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
@@ -95,7 +95,7 @@ fun ImageStitchingScreen(
     val settingsState = LocalSettingsState.current
 
     val context = LocalContext.current as ComponentActivity
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
@@ -287,8 +287,7 @@ fun ImageStitchingScreen(
                     quality = viewModel.imageInfo.quality,
                     onQualityChange = viewModel::setQuality
                 )
-                ExtensionGroup(
-                    enabled = !viewModel.uris.isNullOrEmpty(),
+                ImageFormatSelector(
                     value = viewModel.imageInfo.imageFormat,
                     onValueChange = viewModel::setMime
                 )

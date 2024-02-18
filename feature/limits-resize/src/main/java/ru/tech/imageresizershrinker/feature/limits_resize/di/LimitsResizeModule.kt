@@ -18,23 +18,20 @@
 package ru.tech.imageresizershrinker.feature.limits_resize.di
 
 import android.graphics.Bitmap
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.feature.limits_resize.data.AndroidLimitsImageScaler
 import ru.tech.imageresizershrinker.feature.limits_resize.domain.LimitsImageScaler
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal class LimitsResizeModule {
+internal interface LimitsResizeModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideScaler(
-        imageScaler: ImageScaler<Bitmap>
-    ): LimitsImageScaler<Bitmap> = AndroidLimitsImageScaler(imageScaler)
+    fun provideScaler(scaler: AndroidLimitsImageScaler): LimitsImageScaler<Bitmap>
 
 }

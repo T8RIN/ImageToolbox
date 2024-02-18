@@ -46,7 +46,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
@@ -57,7 +57,7 @@ fun SavingFolderSettingItemGroup(
 ) {
     Column(modifier) {
         val context = LocalContext.current
-        val toastHostState = LocalToastHost.current
+        val toastHostState = LocalToastHostState.current
         val scope = rememberCoroutineScope()
         val settingsState = LocalSettingsState.current
         val currentFolderUri = settingsState.saveFolderUri

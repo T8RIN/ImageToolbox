@@ -17,8 +17,8 @@
 
 package ru.tech.imageresizershrinker.feature.gradient_maker.di
 
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.feature.gradient_maker.data.AndroidGradientMaker
@@ -27,10 +27,10 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal class GradientMakerModule {
+internal interface GradientMakerModule {
 
     @Singleton
-    @Provides
-    fun provideGradientMaker(): ComposeGradientMaker = AndroidGradientMaker()
+    @Binds
+    fun provideGradientMaker(maker: AndroidGradientMaker): ComposeGradientMaker
 
 }

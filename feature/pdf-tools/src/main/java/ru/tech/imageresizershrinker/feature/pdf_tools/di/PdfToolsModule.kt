@@ -17,15 +17,11 @@
 
 package ru.tech.imageresizershrinker.feature.pdf_tools.di
 
-import android.content.Context
 import android.graphics.Bitmap
-import coil.ImageLoader
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.feature.pdf_tools.data.AndroidPdfManager
 import ru.tech.imageresizershrinker.feature.pdf_tools.domain.PdfManager
 import javax.inject.Singleton
@@ -33,18 +29,10 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object PdfToolsModule {
+internal interface PdfToolsModule {
 
     @Singleton
-    @Provides
-    fun providePdfManager(
-        @ApplicationContext context: Context,
-        imageLoader: ImageLoader,
-        imageScaler: ImageScaler<Bitmap>
-    ): PdfManager<Bitmap> = AndroidPdfManager(
-        context = context,
-        imageLoader = imageLoader,
-        imageScaler = imageScaler
-    )
+    @Binds
+    fun providePdfManager(manager: AndroidPdfManager): PdfManager<Bitmap>
 
 }

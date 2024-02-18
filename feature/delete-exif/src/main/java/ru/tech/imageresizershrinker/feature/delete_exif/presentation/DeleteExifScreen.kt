@@ -64,7 +64,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
@@ -81,7 +81,7 @@ fun DeleteExifScreen(
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current as ComponentActivity
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
@@ -146,13 +146,13 @@ fun DeleteExifScreen(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val saveBitmaps: () -> Unit = {
-        viewModel.saveBitmaps { failed, savingPath ->
+        viewModel.saveBitmaps { results, savingPath ->
             context.failedToSaveImages(
                 scope = scope,
-                failed = failed,
-                done = viewModel.done,
+                results = results,
                 toastHostState = toastHostState,
                 savingPathString = savingPath,
+                isOverwritten = settingsState.overwriteFiles,
                 showConfetti = showConfetti
             )
         }

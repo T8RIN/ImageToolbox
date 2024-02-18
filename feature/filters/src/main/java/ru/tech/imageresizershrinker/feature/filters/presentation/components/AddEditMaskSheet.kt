@@ -109,7 +109,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
@@ -154,7 +154,7 @@ fun AddEditMaskSheet(
         val showAddFilterSheet = rememberSaveable { mutableStateOf(false) }
 
         val context = LocalContext.current as ComponentActivity
-        val toastHostState = LocalToastHost.current
+        val toastHostState = LocalToastHostState.current
         val scope = rememberCoroutineScope()
 
         var showExitDialog by remember { mutableStateOf(false) }

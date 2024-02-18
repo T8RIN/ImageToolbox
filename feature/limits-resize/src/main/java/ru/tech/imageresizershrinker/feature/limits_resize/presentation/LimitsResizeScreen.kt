@@ -57,7 +57,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
@@ -67,7 +67,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
@@ -87,7 +87,7 @@ fun LimitsResizeScreen(
     val settingsState = LocalSettingsState.current
 
     val context = LocalContext.current as ComponentActivity
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
@@ -140,13 +140,13 @@ fun LimitsResizeScreen(
     }
 
     val saveBitmaps: () -> Unit = {
-        viewModel.saveBitmaps { failed, savingPath ->
+        viewModel.saveBitmaps { results, savingPath ->
             context.failedToSaveImages(
                 scope = scope,
-                failed = failed,
-                done = viewModel.done,
+                results = results,
                 toastHostState = toastHostState,
                 savingPathString = savingPath,
+                isOverwritten = settingsState.overwriteFiles,
                 showConfetti = showConfetti
             )
         }
@@ -232,8 +232,7 @@ fun LimitsResizeScreen(
                 onQualityChange = viewModel::setQuality
             )
             Spacer(Modifier.size(8.dp))
-            ExtensionGroup(
-                enabled = viewModel.bitmap != null,
+            ImageFormatSelector(
                 value = viewModel.imageInfo.imageFormat,
                 onValueChange = viewModel::setMime
             )

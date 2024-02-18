@@ -67,7 +67,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.widget.UpdateSheet
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderInit
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.customHapticFeedback
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -126,7 +126,7 @@ class AppActivity : M3Activity() {
             }
 
             CompositionLocalProvider(
-                LocalToastHost provides viewModel.toastHostState,
+                LocalToastHostState provides viewModel.toastHostState,
                 LocalSettingsState provides viewModel.settingsState.toUiState(
                     allEmojis = Emoji.allIcons(),
                     allIconShapes = IconShapesList,
@@ -229,7 +229,7 @@ class AppActivity : M3Activity() {
                     } else confettiController.currentToastData?.dismiss()
 
                     ToastHost(
-                        hostState = LocalToastHost.current
+                        hostState = LocalToastHostState.current
                     )
 
                     SideEffect {

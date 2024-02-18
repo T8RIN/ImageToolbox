@@ -60,14 +60,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShowOriginalButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
@@ -96,7 +96,7 @@ fun WatermarkingScreen(
     val context = LocalContext.current as Activity
 
     val confettiController = LocalConfettiController.current
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
 
     val showConfetti: () -> Unit = {
         scope.launch {
@@ -238,8 +238,7 @@ fun WatermarkingScreen(
                 onCheckedChange = viewModel::toggleKeepExif
             )
             Spacer(modifier = Modifier.height(8.dp))
-            ExtensionGroup(
-                enabled = true,
+            ImageFormatSelector(
                 value = viewModel.imageFormat,
                 onValueChange = viewModel::setImageFormat
             )
@@ -250,13 +249,13 @@ fun WatermarkingScreen(
                 targetState = (viewModel.uris.isEmpty()) to isPortrait,
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
-                    viewModel.saveBitmaps { failed, savingPath ->
+                    viewModel.saveBitmaps { results, savingPath ->
                         context.failedToSaveImages(
                             scope = scope,
-                            failed = failed,
-                            done = viewModel.done,
+                            results = results,
                             toastHostState = toastHostState,
                             savingPathString = savingPath,
+                            isOverwritten = settingsState.overwriteFiles,
                             showConfetti = showConfetti
                         )
                     }

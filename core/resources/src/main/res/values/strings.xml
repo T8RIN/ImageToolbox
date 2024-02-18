@@ -796,4 +796,6 @@
     <string name="transition">Transition</string>
     <string name="peak">Peak</string>
     <string name="color_anomaly">Color Anomaly</string>
+    <string name="images_overwritten">Images overwritten at original destination</string>
+    <string name="cannot_change_image_format">Cannot change image format while overwrite files option enabled</string>
 </resources>

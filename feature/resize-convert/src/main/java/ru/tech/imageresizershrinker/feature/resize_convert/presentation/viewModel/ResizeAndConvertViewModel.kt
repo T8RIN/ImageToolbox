@@ -110,11 +110,24 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     private var job: Job? = null
 
-    fun updateUris(uris: List<Uri>?) {
+    fun updateUris(uris: List<Uri>?, onError: (Throwable) -> Unit) {
         _uris.value = null
         _uris.value = uris
         _selectedUri.value = uris?.firstOrNull()
         _presetSelected.value = Preset.None
+        uris?.firstOrNull()?.let { uri ->
+            viewModelScope.launch {
+                _imageInfo.update {
+                    it.copy(originalUri = uri.toString())
+                }
+                imageGetter.getImageAsync(
+                    uri = uri.toString(),
+                    originalSize = true,
+                    onGetImage = ::setImageData,
+                    onError = onError
+                )
+            }
+        }
     }
 
     fun updateUrisSilently(removedUri: Uri) {
@@ -324,10 +337,11 @@ class ResizeAndConvertViewModel @Inject constructor(
     private var savingJob: Job? = null
 
     fun saveBitmaps(
-        onComplete: (path: String) -> Unit
+        onComplete: (List<SaveResult>, path: String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             _isSaving.value = true
+            val results = mutableListOf<SaveResult>()
             _done.value = 0
             uris?.forEach { uri ->
                 runCatching {
@@ -342,27 +356,29 @@ class ResizeAndConvertViewModel @Inject constructor(
                             currentInfo = it
                         )
                     }.let { imageInfo ->
-                        val result = fileController.save(
-                            saveTarget = ImageSaveTarget(
-                                imageInfo = imageInfo,
-                                metadata = if (uris!!.size == 1) exif else null,
-                                originalUri = uri.toString(),
-                                sequenceNumber = _done.value + 1,
-                                data = imageCompressor.compressAndTransform(
-                                    image = bitmap,
-                                    imageInfo = imageInfo
-                                )
-                            ),
-                            keepMetadata = if (uris!!.size == 1) true else keepExif
+                        results.add(
+                            fileController.save(
+                                saveTarget = ImageSaveTarget(
+                                    imageInfo = imageInfo,
+                                    metadata = if (uris!!.size == 1) exif else null,
+                                    originalUri = uri.toString(),
+                                    sequenceNumber = _done.value + 1,
+                                    data = imageCompressor.compressAndTransform(
+                                        image = bitmap,
+                                        imageInfo = imageInfo
+                                    )
+                                ),
+                                keepMetadata = if (uris!!.size == 1) true else keepExif
+                            )
                         )
-                        if (result is SaveResult.Error.MissingPermissions) {
-                            return@withContext onComplete("")
-                        }
                     }
-                }
+                } ?: results.add(
+                    SaveResult.Error.Exception(Throwable())
+                )
+
                 _done.value += 1
             }
-            onComplete(fileController.savingPath)
+            onComplete(results, fileController.savingPath)
             _isSaving.value = false
         }
     }.also {
@@ -446,20 +462,6 @@ class ResizeAndConvertViewModel @Inject constructor(
     }
 
     fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } ?: false
-
-    fun decodeBitmapFromUri(uri: Uri, onError: (Throwable) -> Unit) {
-        viewModelScope.launch {
-            _imageInfo.update {
-                it.copy(originalUri = uri.toString())
-            }
-            imageGetter.getImageAsync(
-                uri = uri.toString(),
-                originalSize = true,
-                onGetImage = ::setImageData,
-                onError = onError
-            )
-        }
-    }
 
     fun clearExif() {
         val t = _exif.value

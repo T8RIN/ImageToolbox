@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.cipher.di
 
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,18 +30,20 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object CipherModule {
+internal interface CipherModule {
 
     @Singleton
-    @Provides
-    fun provideCipherRepository(): CipherRepository = CipherRepositoryImpl()
+    @Binds
+    fun provideCipherRepository(repositoryImpl: CipherRepositoryImpl): CipherRepository
 
-    @Singleton
-    @Provides
-    fun provideRandomStringGenerator(
-        cipherRepository: CipherRepository
-    ): RandomStringGenerator = RandomStringGenerator {
-        cipherRepository.generateRandomString(it)
+    companion object {
+        @Singleton
+        @Provides
+        fun provideRandomStringGenerator(
+            cipherRepository: CipherRepository
+        ): RandomStringGenerator = RandomStringGenerator {
+            cipherRepository.generateRandomString(it)
+        }
     }
 
 }

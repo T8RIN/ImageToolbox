@@ -20,32 +20,20 @@ package ru.tech.imageresizershrinker.feature.draw.di
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
-import androidx.exifinterface.media.ExifInterface
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
-import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.feature.draw.data.AndroidImageDrawApplier
 import ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object DrawModule {
+internal interface DrawModule {
 
     @Singleton
-    @Provides
-    fun provideImageDrawApplier(
-        imageTransformer: ImageTransformer<Bitmap>,
-        imageGetter: ImageGetter<Bitmap, ExifInterface>,
-        filterProvider: FilterProvider<Bitmap>
-    ): ImageDrawApplier<Bitmap, Path, Color> = AndroidImageDrawApplier(
-        imageTransformer = imageTransformer,
-        imageGetter = imageGetter,
-        filterProvider = filterProvider
-    )
+    @Binds
+    fun provideImageDrawApplier(imageDrawApplier: AndroidImageDrawApplier): ImageDrawApplier<Bitmap, Path, Color>
 
 }

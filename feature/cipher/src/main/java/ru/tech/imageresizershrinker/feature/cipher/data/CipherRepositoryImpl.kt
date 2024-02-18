@@ -25,8 +25,9 @@ import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
+import javax.inject.Inject
 
-internal class CipherRepositoryImpl : CipherRepository {
+internal class CipherRepositoryImpl @Inject constructor() : CipherRepository {
 
     private val HASHING_ALGORITHM = "SHA-256"
     private val ENCRYPTION_STANDARD = "AES/GCM/NoPadding"

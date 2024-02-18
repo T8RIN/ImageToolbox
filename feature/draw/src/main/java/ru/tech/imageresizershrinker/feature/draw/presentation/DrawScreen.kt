@@ -144,14 +144,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EraseModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.AlphaSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.BackgroundColorSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientation
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -189,7 +189,7 @@ fun DrawScreen(
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current as ComponentActivity
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
@@ -411,11 +411,11 @@ fun DrawScreen(
             onCheckedChange = viewModel::setSaveExif,
             backgroundColor = MaterialTheme.colorScheme.surfaceContainer
         )
-        ExtensionGroup(
+        ImageFormatSelector(
             modifier = Modifier
                 .padding(16.dp)
                 .navigationBarsPadding(),
-            enabled = viewModel.drawBehavior !is DrawBehavior.None,
+            forceEnabled = viewModel.drawBehavior is DrawBehavior.Background,
             value = viewModel.imageFormat,
             onValueChange = viewModel::updateMimeType,
             backgroundColor = MaterialTheme.colorScheme.surfaceContainer

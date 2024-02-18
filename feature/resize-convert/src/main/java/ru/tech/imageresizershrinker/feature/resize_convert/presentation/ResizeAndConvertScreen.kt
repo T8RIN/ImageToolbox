@@ -34,7 +34,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.RestartAlt
-import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -58,6 +57,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.helper.failedToSaveImages
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -66,7 +66,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShowOriginalButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageTransformBar
 import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
@@ -80,7 +80,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.EditExifSheet
@@ -98,7 +98,7 @@ fun ResizeAndConvertScreen(
     viewModel: ResizeAndConvertViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val themeState = LocalDynamicThemeState.current
 
     val settingsState = LocalSettingsState.current
@@ -114,15 +114,11 @@ fun ResizeAndConvertScreen(
 
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let {
-            viewModel.updateUris(it)
-            viewModel.decodeBitmapFromUri(
-                uri = it[0],
-                onError = {
-                    scope.launch {
-                        toastHostState.showError(context, it)
-                    }
+            viewModel.updateUris(it) {
+                scope.launch {
+                    toastHostState.showError(context, it)
                 }
-            )
+            }
         }
     }
     LaunchedEffect(viewModel.bitmap) {
@@ -138,15 +134,11 @@ fun ResizeAndConvertScreen(
             mode = localImagePickerMode(Picker.Multiple)
         ) { list ->
             list.takeIf { it.isNotEmpty() }?.let {
-                viewModel.updateUris(list)
-                viewModel.decodeBitmapFromUri(
-                    uri = it[0],
-                    onError = {
-                        scope.launch {
-                            toastHostState.showError(context, it)
-                        }
+                viewModel.updateUris(list) {
+                    scope.launch {
+                        toastHostState.showError(context, it)
                     }
-                )
+                }
             }
         }
 
@@ -155,19 +147,15 @@ fun ResizeAndConvertScreen(
     }
 
     val saveBitmaps: () -> Unit = {
-        viewModel.saveBitmaps { savingPath ->
-            if (savingPath.isNotEmpty()) {
-                scope.launch {
-                    toastHostState.showToast(
-                        context.getString(
-                            R.string.saved_to_without_filename,
-                            savingPath
-                        ),
-                        Icons.Rounded.Save
-                    )
-                }
-                showConfetti()
-            }
+        viewModel.saveBitmaps { results, savingPath ->
+            context.failedToSaveImages(
+                scope = scope,
+                results = results,
+                toastHostState = toastHostState,
+                savingPathString = savingPath,
+                isOverwritten = settingsState.overwriteFiles,
+                showConfetti = showConfetti
+            )
         }
     }
 
@@ -337,8 +325,7 @@ fun ResizeAndConvertScreen(
                 onQualityChange = viewModel::setQuality
             )
             Spacer(Modifier.height(8.dp))
-            ExtensionGroup(
-                enabled = viewModel.bitmap != null,
+            ImageFormatSelector(
                 value = imageInfo.imageFormat,
                 onValueChange = viewModel::setImageFormat
             )

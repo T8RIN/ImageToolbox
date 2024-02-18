@@ -70,7 +70,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 
 @Composable
@@ -83,7 +83,7 @@ fun PickColorFromImageSheet(
     val context = LocalContext.current
     val settingsState = LocalSettingsState.current
     val scope = rememberCoroutineScope()
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
 
     var panEnabled by rememberSaveable { mutableStateOf(false) }
 

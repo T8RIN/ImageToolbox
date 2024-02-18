@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
@@ -44,7 +44,7 @@ fun AddOriginalFilenameSettingItem(
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
     val scope = rememberCoroutineScope()
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val context = LocalContext.current
     val settingsState = LocalSettingsState.current
     val enabled = settingsState.imagePickerModeInt != 0

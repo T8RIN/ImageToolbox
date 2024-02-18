@@ -23,7 +23,9 @@ import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -33,56 +35,69 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Architecture
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ExtensionGroup(
+fun ImageFormatSelector(
     modifier: Modifier = Modifier,
     backgroundColor: Color = MaterialTheme.colorScheme.surfaceContainer,
-    enabled: Boolean,
     entries: List<ImageFormat> = ImageFormat.entries,
+    forceEnabled: Boolean = false,
     value: ImageFormat,
     onValueChange: (ImageFormat) -> Unit
 ) {
-    val disColor = MaterialTheme.colorScheme.onSurface
-        .copy(alpha = 0.38f)
-        .compositeOver(MaterialTheme.colorScheme.surface)
+    val enabled = !LocalSettingsState.current.overwriteFiles || forceEnabled
+    val context = LocalContext.current
+    val toastHostState = LocalToastHostState.current
+    val scope = rememberCoroutineScope()
+
+    val cannotChangeFormat: () -> Unit = {
+        scope.launch {
+            toastHostState.showToast(
+                context.getString(R.string.cannot_change_image_format),
+                Icons.Rounded.Architecture
+            )
+        }
+    }
 
     LaunchedEffect(value, entries) {
         if (value !in entries) onValueChange(ImageFormat.PngLossless)
     }
 
-    ProvideTextStyle(
-        value = TextStyle(
-            color = if (!enabled) disColor
-            else Color.Unspecified
-        )
-    ) {
+    Box {
         Column(
             modifier = modifier
                 .container(
                     shape = RoundedCornerShape(24.dp),
                     color = backgroundColor
-                ),
+                )
+                .alpha(if (enabled) 1f else 0.5f),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -121,7 +136,9 @@ fun ExtensionGroup(
                     items.forEach {
                         EnhancedChip(
                             onClick = {
-                                onValueChange(it)
+                                if (enabled) {
+                                    onValueChange(it)
+                                } else cannotChangeFormat()
                             },
                             selected = it == value,
                             label = {
@@ -133,6 +150,18 @@ fun ExtensionGroup(
                     }
                 }
             }
+        }
+        if (!enabled) {
+            Surface(
+                color = Color.Transparent,
+                modifier = Modifier
+                    .matchParentSize()
+                    .pointerInput(Unit) {
+                        detectTapGestures {
+                            cannotChangeFormat()
+                        }
+                    }
+            ) {}
         }
     }
 }

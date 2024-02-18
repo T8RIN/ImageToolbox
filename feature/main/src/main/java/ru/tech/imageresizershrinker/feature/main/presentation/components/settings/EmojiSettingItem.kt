@@ -54,7 +54,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.EmojiItem
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.feature.main.presentation.components.EmojiSheet
 
@@ -67,7 +67,7 @@ fun EmojiSettingItem(
     shape: Shape = ContainerShapeDefaults.bottomShape
 ) {
     val settingsState = LocalSettingsState.current
-    val toastHost = LocalToastHost.current
+    val toastHost = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     var showShoeDescriptionDialog by rememberSaveable { mutableStateOf("") }

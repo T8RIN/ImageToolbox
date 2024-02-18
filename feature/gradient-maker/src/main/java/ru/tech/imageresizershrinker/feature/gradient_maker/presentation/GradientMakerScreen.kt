@@ -82,7 +82,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShowOriginalButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.AlphaSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
@@ -90,7 +90,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -131,7 +131,7 @@ fun GradientMakerScreen(
     val showConfetti: () -> Unit = {
         scope.launch { confettiController.showEmpty() }
     }
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
 
     var allowPickingImage by rememberSaveable {
         mutableStateOf<Boolean?>(null)
@@ -317,9 +317,9 @@ fun GradientMakerScreen(
                 onCheckedChange = viewModel::toggleKeepExif
             )
             Spacer(Modifier.height(8.dp))
-            ExtensionGroup(
+            ImageFormatSelector(
                 value = viewModel.imageFormat,
-                enabled = true,
+                forceEnabled = allowPickingImage == false,
                 onValueChange = viewModel::setImageFormat,
                 backgroundColor = MaterialTheme.colorScheme.surfaceContainer
             )
@@ -387,13 +387,13 @@ fun GradientMakerScreen(
                                 context = context
                             )
                         },
-                        onResult = { failed, savingPath ->
+                        onResult = { results, savingPath ->
                             context.failedToSaveImages(
                                 scope = scope,
-                                failed = failed,
-                                done = viewModel.done,
+                                results = results,
                                 toastHostState = toastHostState,
                                 savingPathString = savingPath,
+                                isOverwritten = settingsState.overwriteFiles,
                                 showConfetti = showConfetti
                             )
                         }

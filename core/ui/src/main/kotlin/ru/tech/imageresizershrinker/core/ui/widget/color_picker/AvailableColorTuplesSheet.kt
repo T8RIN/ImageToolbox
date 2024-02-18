@@ -114,13 +114,15 @@ fun AvailableColorTuplesSheet(
     onUpdateColorTuples: (List<ColorTuple>) -> Unit,
 ) {
     val showEditColorPicker = rememberSaveable { mutableStateOf(false) }
-
+    //TODO add emoji color scheme
     val settingsState = LocalSettingsState.current
     SimpleSheet(
         visible = visible,
         endConfirmButtonPadding = 0.dp,
         dragHandle = {
-            SimpleDragHandle {
+            SimpleDragHandle(
+                showDragHandle = false
+            ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,

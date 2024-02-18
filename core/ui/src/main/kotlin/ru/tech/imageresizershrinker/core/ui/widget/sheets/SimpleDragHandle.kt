@@ -41,6 +41,7 @@ fun SimpleDragHandle(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp),
     drawStroke: Boolean = true,
+    showDragHandle: Boolean = true,
     content: @Composable ColumnScope.() -> Unit = {},
 ) {
     Column(
@@ -59,7 +60,7 @@ fun SimpleDragHandle(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            BottomSheetDefaults.DragHandle()
+            if (showDragHandle) BottomSheetDefaults.DragHandle()
         }
         content()
     }

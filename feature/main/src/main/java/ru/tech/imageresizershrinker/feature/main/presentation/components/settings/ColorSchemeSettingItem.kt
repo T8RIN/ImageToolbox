@@ -59,7 +59,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.color_picker.AvailableColorTu
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorTuplePicker
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -73,7 +73,7 @@ fun ColorSchemeSettingItem(
     shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp),
 ) {
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val settingsState = LocalSettingsState.current

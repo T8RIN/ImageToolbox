@@ -163,11 +163,11 @@ class LimitsResizeViewModel @Inject constructor(
     private var savingJob: Job? = null
 
     fun saveBitmaps(
-        onResult: (Int, String) -> Unit
+        onResult: (List<SaveResult>, String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             _isSaving.value = true
-            var failed = 0
+            val results = mutableListOf<SaveResult>()
             _done.value = 0
             uris?.forEach { uri ->
                 runCatching {
@@ -181,34 +181,32 @@ class LimitsResizeViewModel @Inject constructor(
                         imageScaleMode = imageInfo.imageScaleMode
                     )
                 }?.let { localBitmap ->
-                    val result = fileController.save(
-                        ImageSaveTarget<ExifInterface>(
-                            imageInfo = imageInfo.copy(
-                                width = localBitmap.width,
-                                height = localBitmap.height
-                            ),
-                            originalUri = uri.toString(),
-                            sequenceNumber = _done.value + 1,
-                            data = imageCompressor.compressAndTransform(
-                                image = localBitmap,
+                    results.add(
+                        fileController.save(
+                            ImageSaveTarget<ExifInterface>(
                                 imageInfo = imageInfo.copy(
                                     width = localBitmap.width,
                                     height = localBitmap.height
+                                ),
+                                originalUri = uri.toString(),
+                                sequenceNumber = _done.value + 1,
+                                data = imageCompressor.compressAndTransform(
+                                    image = localBitmap,
+                                    imageInfo = imageInfo.copy(
+                                        width = localBitmap.width,
+                                        height = localBitmap.height
+                                    )
                                 )
-                            )
-                        ), keepMetadata = keepExif
+                            ), keepMetadata = keepExif
+                        )
                     )
-                    if (result is SaveResult.Error.MissingPermissions) {
-                        return@withContext onResult(-1, "")
-                    }
-                } ?: {
-                    failed += 1
-                }
-
+                } ?: results.add(
+                    SaveResult.Error.Exception(Throwable())
+                )
 
                 _done.value += 1
             }
-            onResult(failed, fileController.savingPath)
+            onResult(results, fileController.savingPath)
             _isSaving.value = false
         }
     }.also {

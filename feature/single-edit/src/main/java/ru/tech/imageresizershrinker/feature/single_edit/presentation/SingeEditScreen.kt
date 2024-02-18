@@ -59,8 +59,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShowOriginalButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageExtraTransformBar
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageTransformBar
 import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
@@ -72,7 +72,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.EditExifSheet
@@ -93,7 +93,7 @@ fun SingleEditScreen(
     viewModel: SingleEditViewModel = hiltViewModel(),
 ) {
     val settingsState = LocalSettingsState.current
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val context = LocalContext.current as ComponentActivity
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
@@ -311,8 +311,7 @@ fun SingleEditScreen(
                 onQualityChange = viewModel::setQuality
             )
             Spacer(Modifier.height(8.dp))
-            ExtensionGroup(
-                enabled = viewModel.bitmap != null,
+            ImageFormatSelector(
                 value = imageInfo.imageFormat,
                 onValueChange = viewModel::setImageFormat
             )

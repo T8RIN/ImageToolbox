@@ -81,7 +81,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
@@ -100,7 +100,7 @@ fun LoadNetImageScreen(
     val themeState = LocalDynamicThemeState.current
     val settingsState = LocalSettingsState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
 
     val confettiController = LocalConfettiController.current
 

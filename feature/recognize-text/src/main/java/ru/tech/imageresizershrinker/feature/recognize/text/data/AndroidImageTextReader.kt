@@ -21,6 +21,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.ui.util.fastAll
 import androidx.core.text.HtmlCompat
+import androidx.exifinterface.media.ExifInterface
 import com.googlecode.tesseract.android.TessBaseAPI
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -48,7 +49,7 @@ import java.util.Locale
 import javax.inject.Inject
 
 internal class AndroidImageTextReader @Inject constructor(
-    private val imageGetter: ImageGetter<Bitmap, *>,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     @ApplicationContext private val context: Context
 ) : ImageTextReader<Bitmap> {
 

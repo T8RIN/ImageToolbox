@@ -134,7 +134,7 @@ class GradientMakerViewModel @Inject constructor(
 
     fun saveBitmaps(
         onStandaloneGradientSaveResult: (SaveResult) -> Unit,
-        onResult: (Int, String) -> Unit
+        onResult: (List<SaveResult>, String) -> Unit
     ) = viewModelScope.launch {
         _left.value = -1
         withContext(Dispatchers.IO) {
@@ -164,7 +164,7 @@ class GradientMakerViewModel @Inject constructor(
                     )
                 }
             } else {
-                var failed = 0
+                val results = mutableListOf<SaveResult>()
                 _done.value = 0
                 _left.value = uris.size
                 uris.forEach { uri ->
@@ -177,26 +177,26 @@ class GradientMakerViewModel @Inject constructor(
                             width = localBitmap.width,
                             height = localBitmap.height
                         )
-                        val result = fileController.save(
-                            saveTarget = ImageSaveTarget<ExifInterface>(
-                                imageInfo = imageInfo,
-                                originalUri = uri.toString(),
-                                sequenceNumber = _done.value + 1,
-                                data = imageCompressor.compressAndTransform(
-                                    image = localBitmap,
-                                    imageInfo = imageInfo
-                                )
-                            ), keepMetadata = keepExif
+                        results.add(
+                            fileController.save(
+                                saveTarget = ImageSaveTarget<ExifInterface>(
+                                    imageInfo = imageInfo,
+                                    originalUri = uri.toString(),
+                                    sequenceNumber = _done.value + 1,
+                                    data = imageCompressor.compressAndTransform(
+                                        image = localBitmap,
+                                        imageInfo = imageInfo
+                                    )
+                                ), keepMetadata = keepExif
+                            )
                         )
-                        if (result is SaveResult.Error.MissingPermissions) {
-                            return@withContext onResult(-1, "")
-                        }
-                    } ?: {
-                        failed += 1
-                    }
+                    } ?: results.add(
+                        SaveResult.Error.Exception(Throwable())
+                    )
+
                     _done.value += 1
                 }
-                onResult(failed, fileController.savingPath)
+                onResult(results, fileController.savingPath)
             }
             _isSaving.value = false
         }

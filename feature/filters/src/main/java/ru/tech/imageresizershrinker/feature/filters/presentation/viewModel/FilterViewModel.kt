@@ -178,11 +178,11 @@ class FilterViewModel @Inject constructor(
     private var savingJob: Job? = null
 
     fun saveBitmaps(
-        onResult: (Int, String) -> Unit
+        onResult: (List<SaveResult>, String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             _isSaving.value = true
-            var failed = 0
+            val results = mutableListOf<SaveResult>()
             _done.value = 0
             _left.value = _basicFilterState.value.uris?.size ?: 1
             _basicFilterState.value.uris?.forEach { uri ->
@@ -196,29 +196,29 @@ class FilterViewModel @Inject constructor(
                 }.getOrNull()?.let { bitmap ->
                     val localBitmap = bitmap
 
-                    val result = fileController.save(
-                        saveTarget = ImageSaveTarget<ExifInterface>(
-                            imageInfo = imageInfo,
-                            originalUri = uri.toString(),
-                            sequenceNumber = _done.value + 1,
-                            data = imageCompressor.compressAndTransform(
-                                image = localBitmap,
-                                imageInfo = imageInfo.copy(
-                                    width = localBitmap.width,
-                                    height = localBitmap.height
+                    results.add(
+                        fileController.save(
+                            saveTarget = ImageSaveTarget<ExifInterface>(
+                                imageInfo = imageInfo,
+                                originalUri = uri.toString(),
+                                sequenceNumber = _done.value + 1,
+                                data = imageCompressor.compressAndTransform(
+                                    image = localBitmap,
+                                    imageInfo = imageInfo.copy(
+                                        width = localBitmap.width,
+                                        height = localBitmap.height
+                                    )
                                 )
-                            )
-                        ), keepMetadata = keepExif
+                            ), keepMetadata = keepExif
+                        )
                     )
-                    if (result is SaveResult.Error.MissingPermissions) {
-                        return@withContext onResult(-1, "")
-                    }
-                } ?: {
-                    failed += 1
-                }
+                } ?: results.add(
+                    SaveResult.Error.Exception(Throwable())
+                )
+
                 _done.value += 1
             }
-            onResult(failed, fileController.savingPath)
+            onResult(results, fileController.savingPath)
             _isSaving.value = false
         }
     }.also {

@@ -119,35 +119,34 @@ class DeleteExifViewModel @Inject constructor(
     private var savingJob: Job? = null
 
     fun saveBitmaps(
-        onResult: (Int, String) -> Unit
+        onResult: (List<SaveResult>, String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             _isSaving.value = true
-            var failed = 0
+            val results = mutableListOf<SaveResult>()
             _done.value = 0
             uris?.forEach { uri ->
                 runCatching {
                     imageGetter.getImage(uri.toString())
                 }.getOrNull()?.let {
-                    val result = fileController.save(
-                        ImageSaveTarget<ExifInterface>(
-                            imageInfo = it.imageInfo,
-                            originalUri = uri.toString(),
-                            sequenceNumber = _done.value,
-                            data = imageCompressor.compressAndTransform(it.image, it.imageInfo)
-                        ),
-                        keepMetadata = false
+                    results.add(
+                        fileController.save(
+                            ImageSaveTarget<ExifInterface>(
+                                imageInfo = it.imageInfo,
+                                originalUri = uri.toString(),
+                                sequenceNumber = _done.value,
+                                data = imageCompressor.compressAndTransform(it.image, it.imageInfo)
+                            ),
+                            keepMetadata = false
+                        )
                     )
-                    if (result is SaveResult.Error.MissingPermissions) {
-                        return@withContext onResult(-1, "")
-                    }
-                } ?: {
-                    failed += 1
-                }
+                } ?: results.add(
+                    SaveResult.Error.Exception(Throwable())
+                )
 
                 _done.value += 1
             }
-            onResult(failed, fileController.savingPath)
+            onResult(results, fileController.savingPath)
             _isSaving.value = false
         }
     }.also {

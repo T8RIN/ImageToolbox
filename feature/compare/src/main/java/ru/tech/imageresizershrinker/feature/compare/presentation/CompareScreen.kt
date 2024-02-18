@@ -67,7 +67,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareScreenContent
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareScreenTopAppBar
@@ -86,7 +86,7 @@ fun CompareScreen(
     val settingsState = LocalSettingsState.current
 
     val context = LocalContext.current
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 

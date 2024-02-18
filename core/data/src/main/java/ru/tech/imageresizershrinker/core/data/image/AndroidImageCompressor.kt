@@ -22,8 +22,10 @@ package ru.tech.imageresizershrinker.core.data.image
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
+import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import androidx.exifinterface.media.ExifInterface
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.size.Size
@@ -41,6 +43,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.fileSize
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
@@ -48,6 +51,7 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.domain.model.sizeTo
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -57,7 +61,9 @@ internal class AndroidImageCompressor @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageLoader: ImageLoader,
     private val imageTransformer: ImageTransformer<Bitmap>,
-    private val imageScaler: ImageScaler<Bitmap>
+    private val imageScaler: ImageScaler<Bitmap>,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val settingsRepository: SettingsRepository
 ) : ImageCompressor<Bitmap> {
 
     override suspend fun compress(
@@ -218,9 +224,21 @@ internal class AndroidImageCompressor @Inject constructor(
             }
         } else currentImage = onImageReadyToCompressInterceptor(image)
 
+        val extension = MimeTypeMap.getSingleton()
+            .getMimeTypeFromExtension(
+                imageInfo.originalUri?.let {
+                    imageGetter.getExtension(it)
+                }
+            )
+
+        val imageFormat =
+            if (settingsRepository.getSettingsState().overwriteFiles && extension != null) {
+                ImageFormat[extension]
+            } else imageInfo.imageFormat
+
         return@withContext compress(
             image = currentImage,
-            imageFormat = imageInfo.imageFormat,
+            imageFormat = imageFormat,
             quality = imageInfo.quality
         )
     }

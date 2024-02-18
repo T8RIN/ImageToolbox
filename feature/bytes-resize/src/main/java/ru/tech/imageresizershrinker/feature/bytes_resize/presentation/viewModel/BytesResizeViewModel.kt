@@ -185,11 +185,11 @@ class BytesResizeViewModel @Inject constructor(
     private var savingJob: Job? = null
 
     fun saveBitmaps(
-        onResult: (Int, String) -> Unit
+        onResult: (List<SaveResult>, String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             _isSaving.value = true
-            var failed = 0
+            val results = mutableListOf<SaveResult>()
             _done.value = 0
             uris?.forEach { uri ->
                 runCatching {
@@ -213,12 +213,11 @@ class BytesResizeViewModel @Inject constructor(
                                 imageScaleMode = imageScaleMode
                             )
                         }
-                    }.let { result ->
-                        if (result.isSuccess && result.getOrNull() != null) {
-                            val scaled = result.getOrNull()!!
-                            val localBitmap = scaled.first
+                    }.getOrNull()?.let { scaled ->
+                        val localBitmap = scaled.first
 
-                            val saveResult = fileController.save(
+                        results.add(
+                            fileController.save(
                                 ImageSaveTarget<ExifInterface>(
                                     imageInfo = ImageInfo(
                                         imageFormat = imageFormat,
@@ -237,15 +236,14 @@ class BytesResizeViewModel @Inject constructor(
                                 ),
                                 keepMetadata = keepExif
                             )
-                            if (saveResult is SaveResult.Error.MissingPermissions) {
-                                return@withContext onResult(-1, "")
-                            }
-                        } else failed += 1
+                        )
                     }
-                }
+                } ?: results.add(
+                    SaveResult.Error.Exception(Throwable())
+                )
                 _done.value += 1
             }
-            onResult(failed, fileController.savingPath)
+            onResult(results, fileController.savingPath)
             _isSaving.value = false
         }
     }.also {

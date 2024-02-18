@@ -90,6 +90,7 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFileName
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -102,7 +103,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
@@ -111,7 +112,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -130,7 +131,7 @@ fun GifToolsScreen(
     viewModel: GifToolsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
 
     val scope = rememberCoroutineScope()
     val confettiController = LocalConfettiController.current
@@ -336,8 +337,7 @@ fun GifToolsScreen(
             when (val type = viewModel.type) {
                 is Screen.GifTools.Type.GifToImage -> {
                     Spacer(modifier = Modifier.height(16.dp))
-                    ExtensionGroup(
-                        enabled = true,
+                    ImageFormatSelector(
                         value = viewModel.imageFormat,
                         onValueChange = viewModel::setImageFormat
                     )
@@ -449,6 +449,7 @@ fun GifToolsScreen(
             else 20.dp
         ).value,
         buttons = {
+            val settingsState = LocalSettingsState.current
             BottomButtonsBlock(
                 targetState = (viewModel.type == null) to isPortrait,
                 onSecondaryButtonClick = {
@@ -462,13 +463,13 @@ fun GifToolsScreen(
                         onGifSaveResult = { name ->
                             savePdfLauncher.launch("image/gif#$name.gif")
                         },
-                        onResult = { failed, savingPath ->
+                        onResult = { results, savingPath ->
                             context.failedToSaveImages(
                                 scope = scope,
-                                failed = failed,
-                                done = viewModel.done,
+                                results = results,
                                 toastHostState = toastHostState,
                                 savingPathString = savingPath,
+                                isOverwritten = settingsState.overwriteFiles,
                                 showConfetti = showConfetti
                             )
                         }
