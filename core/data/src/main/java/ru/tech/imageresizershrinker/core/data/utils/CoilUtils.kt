@@ -15,19 +15,38 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.filters.presentation.utils
+package ru.tech.imageresizershrinker.core.data.utils
 
 import android.graphics.Bitmap
 import coil.size.Size
+import coil.size.pxOrElse
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import coil.transform.Transformation as CoilTransformation
 
+fun Size.asDomain(): IntegerSize = if (this == Size.ORIGINAL) IntegerSize.Undefined
+else IntegerSize(width.pxOrElse { 1 }, height.pxOrElse { 1 })
+
+fun IntegerSize.asCoil(): Size = if (this == IntegerSize.Undefined) Size.ORIGINAL
+else Size(width, height)
 
 fun Transformation<Bitmap>.toCoil(): CoilTransformation = object : CoilTransformation {
     override val cacheKey: String
         get() = this@toCoil.cacheKey
 
-    override suspend fun transform(input: Bitmap, size: Size): Bitmap =
-        this@toCoil.transform(input, size)
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap = this@toCoil.transform(input, size.asDomain())
 
+}
+
+fun CoilTransformation.asDomain(): Transformation<Bitmap> = object : Transformation<Bitmap> {
+    override val cacheKey: String
+        get() = this@asDomain.cacheKey
+
+    override suspend fun transform(
+        input: Bitmap,
+        size: IntegerSize
+    ): Bitmap = this@asDomain.transform(input, size.asCoil())
 }

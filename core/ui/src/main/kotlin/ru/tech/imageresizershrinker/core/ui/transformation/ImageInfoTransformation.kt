@@ -31,6 +31,7 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
+import ru.tech.imageresizershrinker.core.ui.utils.helper.asCoil
 import kotlin.math.roundToInt
 import coil.transform.Transformation as CoilTransformation
 
@@ -45,6 +46,11 @@ class ImageInfoTransformation @AssistedInject constructor(
 
     override val cacheKey: String
         get() = (imageInfo to preset to transformations).hashCode().toString()
+
+    override suspend fun transform(
+        input: Bitmap,
+        size: IntegerSize
+    ): Bitmap = transform(input, size.asCoil())
 
     override suspend fun transform(input: Bitmap, size: Size): Bitmap {
         val transformedInput = imageScaler.scaleImage(

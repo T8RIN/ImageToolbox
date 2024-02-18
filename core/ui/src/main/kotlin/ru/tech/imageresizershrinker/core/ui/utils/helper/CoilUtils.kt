@@ -15,25 +15,38 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.data.model
+package ru.tech.imageresizershrinker.core.ui.utils.helper
 
 import android.graphics.Bitmap
-import com.awxkee.aire.ColorMatrices
+import coil.size.Size
+import coil.size.pxOrElse
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import coil.transform.Transformation as CoilTransformation
 
+fun Size.asDomain(): IntegerSize = if (this == Size.ORIGINAL) IntegerSize.Undefined
+else IntegerSize(width.pxOrElse { 1 }, height.pxOrElse { 1 })
 
-internal class LavenderDreamFilter(
-    override val value: Unit = Unit
-) : Transformation<Bitmap>, Filter.LavenderDream<Bitmap> {
+fun IntegerSize.asCoil(): Size = if (this == IntegerSize.Undefined) Size.ORIGINAL
+else Size(width, height)
 
+fun Transformation<Bitmap>.toCoil(): CoilTransformation = object : CoilTransformation {
     override val cacheKey: String
-        get() = value.hashCode().toString()
+        get() = this@toCoil.cacheKey
+
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap = this@toCoil.transform(input, size.asDomain())
+
+}
+
+fun CoilTransformation.asDomain(): Transformation<Bitmap> = object : Transformation<Bitmap> {
+    override val cacheKey: String
+        get() = this@asDomain.cacheKey
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = ColorMatrix3x3Filter(ColorMatrices.LAVENDER_DREAM).transform(input, size)
-
+    ): Bitmap = this@asDomain.transform(input, size.asCoil())
 }

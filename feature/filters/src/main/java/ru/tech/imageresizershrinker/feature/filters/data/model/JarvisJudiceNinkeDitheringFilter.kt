@@ -18,10 +18,10 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import coil.size.Size
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.feature.filters.data.dither.Dithering
 
@@ -34,7 +34,7 @@ internal class JarvisJudiceNinkeDitheringFilter(
 
     override suspend fun transform(
         input: Bitmap,
-        size: Size
+        size: IntegerSize
     ): Bitmap = withContext(Dispatchers.IO) {
         Dithering(value.first.toInt(), value.second).dither(Dithering.Type.JarvisJudiceNinke, input)
     }

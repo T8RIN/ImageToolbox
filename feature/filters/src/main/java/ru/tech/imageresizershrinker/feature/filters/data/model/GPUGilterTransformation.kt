@@ -21,21 +21,27 @@ import android.content.Context
 import android.graphics.Bitmap
 import coil.size.Size
 import coil.size.pxOrElse
-import coil.transform.Transformation
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
+import ru.tech.imageresizershrinker.core.data.utils.asCoil
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import java.lang.Integer.max
+import coil.transform.Transformation as CoilTransformation
 
 internal abstract class GPUFilterTransformation(
     private val context: Context,
-) : Transformation, ru.tech.imageresizershrinker.core.domain.image.Transformation<Bitmap> {
+) : CoilTransformation, Transformation<Bitmap> {
 
     /**
      * Create the [GPUImageFilter] to apply to this [Transformation]
      */
     abstract fun createFilter(): GPUImageFilter
 
-    override suspend fun transform(input: Bitmap, size: Size): Bitmap {
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap {
         val gpuImage = GPUImage(context)
         gpuImage.setImage(
             flexibleResize(
@@ -49,6 +55,11 @@ internal abstract class GPUFilterTransformation(
         gpuImage.setFilter(createFilter())
         return gpuImage.bitmapWithFilterApplied
     }
+
+    override suspend fun transform(
+        input: Bitmap,
+        size: IntegerSize
+    ): Bitmap = transform(input, size.asCoil())
 }
 
 private fun flexibleResize(image: Bitmap, max: Int): Bitmap {

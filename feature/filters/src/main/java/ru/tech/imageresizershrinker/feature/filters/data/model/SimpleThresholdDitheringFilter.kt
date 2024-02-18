@@ -18,7 +18,7 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import coil.size.Size
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
@@ -34,7 +34,7 @@ internal class SimpleThresholdDitheringFilter(
 
     override suspend fun transform(
         input: Bitmap,
-        size: Size
+        size: IntegerSize
     ): Bitmap = withContext(Dispatchers.IO) {
         Dithering(value.first.toInt(), value.second).dither(Dithering.Type.SimpleThreshold, input)
     }

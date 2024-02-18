@@ -20,8 +20,8 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import coil.size.Size
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -39,7 +39,7 @@ internal class ReplaceColorFilter(
 
     override suspend fun transform(
         input: Bitmap,
-        size: Size,
+        size: IntegerSize
     ): Bitmap = input.replaceColor(value.second, value.third, value.first)
 }
 

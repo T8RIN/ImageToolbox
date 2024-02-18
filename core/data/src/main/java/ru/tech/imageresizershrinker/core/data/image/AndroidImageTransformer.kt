@@ -30,6 +30,7 @@ import coil.size.Size
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.asDomain
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
@@ -57,7 +58,7 @@ internal class AndroidImageTransformer @Inject constructor(
             override suspend fun transform(
                 input: Bitmap,
                 size: Size
-            ): Bitmap = transformation.transform(input, size)
+            ): Bitmap = transformation.transform(input, size.asDomain())
         }
     }
 
