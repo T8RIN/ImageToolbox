@@ -26,5 +26,5 @@ class UiUchimuraFilter(
 ) : UiFilter<Float>(
     title = R.string.uchimura,
     value = value,
-    valueRange = 0f..4f
+    valueRange = 0f..2f
 ), Filter.Uchimura<Bitmap>

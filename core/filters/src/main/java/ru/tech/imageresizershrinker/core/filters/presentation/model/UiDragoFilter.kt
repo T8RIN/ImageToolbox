@@ -30,7 +30,7 @@ class UiDragoFilter(
     paramsInfo = listOf(
         FilterParam(
             title = R.string.exposure,
-            valueRange = 0f..4f
+            valueRange = 0f..2f
         ),
         R.string.threshold paramTo 0f..500f
     )

@@ -30,7 +30,7 @@ class UiMobiusFilter(
     paramsInfo = listOf(
         FilterParam(
             title = R.string.exposure,
-            valueRange = 0f..4f
+            valueRange = 0f..2f
         ),
         FilterParam(
             title = R.string.transition,
