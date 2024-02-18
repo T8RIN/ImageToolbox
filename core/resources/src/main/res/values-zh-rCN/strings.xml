@@ -779,4 +779,8 @@
     <string name="color_anomaly">色彩异常</string>
     <string name="transition">过渡</string>
     <string name="cutoff">截止</string>
+    <string name="images_overwritten">在原位置覆盖图像</string>
+    <string name="cannot_change_image_format">启用覆盖文件选项时无法更改图像格式</string>
+    <string name="emoji_as_color_scheme">使用表情符号作为配色方案</string>
+    <string name="emoji_as_color_scheme_sub">使用表情符号的主色调作为应用程序配色方案，代替手动定义的配色方案</string>
 </resources>
