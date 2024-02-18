@@ -21,7 +21,6 @@ import android.app.Activity
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.Save
-import com.t8rin.logger.makeLog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
@@ -39,8 +38,6 @@ fun Activity.failedToSaveImages(
     isOverwritten: Boolean,
     showConfetti: () -> Unit
 ) {
-    results.makeLog("COCK")
-
     val failed = results.count { it is SaveResult.Error }
     val done = results.count { it is SaveResult.Success }
 
