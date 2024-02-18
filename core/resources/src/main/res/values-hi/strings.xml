@@ -479,7 +479,7 @@
     <string name="mask_filter">मास्क फ़िल्टर</string>
     <string name="masks">मास्क</string>
     <string name="add_mask">मास्क जोड़ें</string>
-    <string name="mask_indexed">मास्क % डी</string>
+    <string name="mask_indexed">मास्क %d</string>
     <string name="mask_preview_sub">खींचा फिल्टर मास्क आप अनुमानित परिणाम दिखाने के लिए प्रदान किया जाएगा</string>
     <string name="simple_variants">सरल वेरिएंट</string>
     <string name="highlighter">हाइलाइटर</string>
