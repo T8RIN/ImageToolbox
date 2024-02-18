@@ -426,8 +426,7 @@
     <string name="standard">தரநிலை</string>
     <string name="best">சிறந்த</string>
     <string name="no_data">தகவல் இல்லை</string>
-    <string name="download_description">Tesseract OCR சரியாகச் செயல்பட, கூடுதல் பயிற்சித் தரவு (%1$s) உங்கள் சாதனத்தில் பதிவிறக்கம் செய்யப்பட வேண்டும்.
-\nநீங்கள் %2$s தரவைப் பதிவிறக்க விரும்புகிறீர்களா?</string>
+    <string name="download_description">Tesseract OCR சரியாகச் செயல்பட, கூடுதல் பயிற்சித் தரவு (%1$s) உங்கள் சாதனத்தில் பதிவிறக்கம் செய்யப்பட வேண்டும். \nநீங்கள் %2$s தரவைப் பதிவிறக்க விரும்புகிறீர்களா?</string>
     <string name="download">பதிவிறக்க Tamil</string>
     <string name="no_connection">இணைப்பு இல்லை, அதைச் சரிபார்த்து, ரயில் மாடல்களைப் பதிவிறக்க மீண்டும் முயற்சிக்கவும்</string>
     <string name="downloaded_languages">பதிவிறக்கம் செய்யப்பட்ட மொழிகள்</string>
