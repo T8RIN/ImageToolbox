@@ -324,4 +324,463 @@
     <string name="randomize_filename_sub">إذا تم تمكين اسم ملف الإخراج فسيكون عشوائيًا بشكل تام</string>
     <string name="restore_sub">استعادة إعدادات التطبيق من الملف الذي تم إنشاؤه مسبقًا</string>
     <string name="presets_sub_bytes">يحدد الإعداد المسبق هنا النسبة المئوية لملف الإخراج، أي إذا حددت 50 إعدادًا مسبقًا على صورة بحجم 5 ميجابايت، فستحصل على صورة بحجم 2.5 ميجابايت بعد الحفظ</string>
+    <string name="enhanced_pixelation">تعزيز البكسل</string>
+    <string name="diamond_pixelation">بكسل الماس</string>
+    <string name="draw_mode">وضع الرسم</string>
+    <string name="trim_image_sub">سيتم قطع المساحات الشفافة حول الصورة</string>
+    <string name="auto_erase_background">مسح الخلفية تلقائيًا</string>
+    <string name="pipette">ماصة</string>
+    <string name="restore_background">استعادة الخلفية</string>
+    <string name="keep_exif_sub">سيتم الاحتفاظ بالبيانات الوصفية للصورة الأصلية</string>
+    <string name="updates">التحديثات</string>
+    <string name="allow_betas">السماح بالإصدارات التجريبية</string>
+    <string name="segmentation_mode_osd_only">الاتجاه &amp; اكتشاف البرنامج النصي فقط</string>
+    <string name="segmentation_mode_auto_osd">التوجيه التلقائي &amp; اكتشاف البرنامج النصي</string>
+    <string name="segmentation_mode_auto_only">السيارات فقط</string>
+    <string name="segmentation_mode_auto">آلي</string>
+    <string name="segmentation_mode_single_block">كتلة واحدة</string>
+    <string name="segmentation_mode_single_line">سطر واحد</string>
+    <string name="segmentation_mode_single_word">كلمة واحدة</string>
+    <string name="segmentation_mode_circle_word">كلمة الدائرة</string>
+    <string name="segmentation_mode_single_char">حرف واحد</string>
+    <string name="segmentation_mode_sparse_text_osd">اتجاه النص المتفرق &amp; اكتشاف البرنامج النصي</string>
+    <string name="segmentation_mode_raw_line">خط خام</string>
+    <string name="glitch">خلل</string>
+    <string name="amount">كمية</string>
+    <string name="seed">بذرة</string>
+    <string name="delete_mask_warn">أنت على وشك حذف قناع الفلتر المحدد. هذه العملية لا يمكن التراجع عنها</string>
+    <string name="delete_mask">حذف القناع</string>
+    <string name="no_such_directory">لم يتم العثور على دليل \"%1$s\"، لقد قمنا بتحويله إلى الدليل الافتراضي، يرجى حفظ الملف مرة أخرى</string>
+    <string name="clipboard">الحافظة</string>
+    <string name="overwrite_file_requirements">لاستبدال الملفات، تحتاج إلى استخدام مصدر الصورة \"Explorer\"، حاول إعادة اختيار الصور، لقد قمنا بتغيير مصدر الصورة إلى المصدر المطلوب</string>
+    <string name="empty">فارغ</string>
+    <string name="search_option">يبحث</string>
+    <string name="free">حر</string>
+    <string name="images_overwritten">تمت الكتابة فوق الصور في الوجهة الأصلية</string>
+    <string name="activities">أنشطة</string>
+    <string name="jxl_sub">تنسيق JXL غير مدعوم رسميًا بواسطة Android لذا قد لا يعمل شيء ما. لن يعمل الحفظ إلا إذا اخترت دليل الإخراج المخصص. هذه نسخة تجريبية، لن يتم إصلاح الأخطاء هنا إلا إذا أضافت Google دعم JXL. يمكن لهذا الإصدار عرض صور JXL</string>
+    <string name="draw_arrows_sub">إذا تم تمكين مسار الرسم فسيتم تمثيله كسهم يشير</string>
+    <string name="crop_description">سيتم اقتصاص الصور من المنتصف حسب الحجم الذي تم إدخاله. سيتم توسيع اللوحة القماشية بلون الخلفية المحدد إذا كانت الصورة أصغر من الأبعاد المدخلة.</string>
+    <string name="donation">هبة</string>
+    <string name="horizontal">أفقي</string>
+    <string name="vertical">رَأسِيّ</string>
+    <string name="scale_small_images_to_large_sub">سيتم تغيير حجم الصور الصغيرة إلى أكبر صورة في التسلسل إذا تم تمكينها</string>
+    <string name="blur_edges_sub">يرسم حواف غير واضحة أسفل الصورة الأصلية لملء الفراغات حولها بدلاً من لون واحد إذا تم تمكينه</string>
+    <string name="stroke_pixelation">بكسل السكتة الدماغية</string>
+    <string name="enhanced_diamond_pixelation">تعزيز بكسل الماس</string>
+    <string name="tolerance">تسامح</string>
+    <string name="color_to_replace">اللون للاستبدال</string>
+    <string name="target_color">اللون المستهدف</string>
+    <string name="color_to_remove">اللون المراد إزالته</string>
+    <string name="lock_draw_orientation_sub">إذا تم تمكينه في وضع الرسم، فلن تدور الشاشة</string>
+    <string name="palette_style">نمط اللوحة</string>
+    <string name="tonal_spot">بقعة نغمية</string>
+    <string name="neutral">حيادي</string>
+    <string name="vibrant">نابض بالحياة</string>
+    <string name="expressive">معبرة</string>
+    <string name="rainbow">قوس المطر</string>
+    <string name="fruit_salad">سلطة فواكه</string>
+    <string name="fidelity">الاخلاص</string>
+    <string name="content">محتوى</string>
+    <string name="tonal_spot_sub">نمط اللوحة الافتراضي، فهو يسمح بتخصيص جميع الألوان الأربعة، والبعض الآخر يسمح لك بتعيين اللون الرئيسي فقط</string>
+    <string name="neutral_sub">نمط لوني أكثر قليلاً من اللون الأحادي</string>
+    <string name="vibrant_sub">سمة عالية، والألوان هي الحد الأقصى للوحة الأساسية، وزيادة للآخرين</string>
+    <string name="playful_scheme">سمة مرحة - لا يظهر تدرج اللون المصدر في السمة</string>
+    <string name="monochrome_sub">موضوع أحادي اللون، الألوان هي أسود / أبيض / رمادي بحت</string>
+    <string name="content_sub">مخطط يضع اللون المصدر في Scheme.primaryContainer</string>
+    <string name="fidelity_sub">مخطط مشابه جدًا لنظام المحتوى</string>
+    <string name="disabled">عاجز</string>
+    <string name="both">كلاهما</string>
+    <string name="invert_colors_sub">يستبدل ألوان السمة بالألوان السلبية إذا تم تمكينها</string>
+    <string name="search_option_sub">تمكين القدرة على البحث من خلال جميع الخيارات المتاحة على الشاشة الرئيسية</string>
+    <string name="mask_preview_sub">سيتم عرض قناع الفلتر المرسوم ليظهر لك النتيجة التقريبية</string>
+    <string name="inverse_fill_type_sub">إذا تم تمكينه، فسيتم تصفية كافة المناطق غير المقنعة بدلاً من السلوك الافتراضي</string>
+    <string name="simple_variants">المتغيرات البسيطة</string>
+    <string name="highlighter">قلم تمييز</string>
+    <string name="pen">قلم</string>
+    <string name="privacy_blur">طمس الخصوصية</string>
+    <string name="neon_sub">أضف بعض التأثير المتوهج إلى رسوماتك</string>
+    <string name="pen_sub">الافتراضي واحد، أبسط - فقط اللون</string>
+    <string name="pixelation_sub">يشبه تمويه الخصوصية، ولكنه يتقطّع بدلاً من التعتيم</string>
+    <string name="switches_shadow">مفاتيح</string>
+    <string name="fabs_shadow">القوات المسلحة البوروندية</string>
+    <string name="buttons_shadow">أزرار</string>
+    <string name="sliders_shadow_sub">لتمكين رسم الظل خلف أشرطة التمرير</string>
+    <string name="switches_shadow_sub">لتمكين رسم الظل خلف المفاتيح</string>
+    <string name="fabs_shadow_sub">لتمكين رسم الظل خلف أزرار الإجراءات العائمة</string>
+    <string name="buttons_shadow_sub">تمكين رسم الظل خلف الأزرار الافتراضية</string>
+    <string name="app_bars_shadow">أشرطة التطبيقات</string>
+    <string name="app_bars_shadow_sub">لتمكين رسم الظل خلف أشرطة التطبيقات</string>
+    <string name="auto_rotate_limits">الدوران التلقائي</string>
+    <string name="auto_rotate_limits_sub">يسمح باعتماد مربع الحد لتوجيه الصورة</string>
+    <string name="free_drawing">الرسم الحر</string>
+    <string name="double_arrow">سهم مزدوج</string>
+    <string name="double_line_arrow_sub">يرسم سهمًا مزدوجًا من نقطة البداية إلى نقطة النهاية كخط</string>
+    <string name="stitch_mode">وضع الغرزة</string>
+    <string name="rows_count">عدد الصفوف</string>
+    <string name="columns_count">عدد الأعمدة</string>
+    <string name="auto_pin">دبوس تلقائي</string>
+    <string name="auto_pin_sub">يضيف الصورة المحفوظة تلقائيًا إلى الحافظة إذا تم تمكينها</string>
+    <string name="vibration">اهتزاز</string>
+    <string name="vibration_strength">قوة الاهتزاز</string>
+    <string name="overwrite_files">الكتابة فوق الملفات</string>
+    <string name="overwrite_files_sub">سيتم استبدال الملف الأصلي بملف جديد بدلاً من حفظه في المجلد المحدد، ويجب أن يكون هذا الخيار هو مصدر الصورة \"Explorer\" أو GetContent، وعند تبديل هذا، سيتم تعيينه تلقائيًا</string>
+    <string name="suffix">لاحقة</string>
+    <string name="bicubic">بيكوبيك</string>
+    <string name="spline">خدد</string>
+    <string name="bilinear_sub">عادةً ما يكون الاستيفاء الخطي (أو ثنائي الخط، في بعدين) جيدًا لتغيير حجم الصورة، ولكنه يسبب بعض التخفيف غير المرغوب فيه للتفاصيل ويمكن أن يظل متعرجًا إلى حد ما</string>
+    <string name="bicubic_sub">تتضمن طرق القياس الأفضل إعادة أخذ العينات من Lanczos ومرشحات Mitchell-Netravali</string>
+    <string name="nearest_sub">إحدى أبسط الطرق لزيادة الحجم هي استبدال كل بكسل بعدد من البكسلات من نفس اللون</string>
+    <string name="basic_sub">أبسط وضع للتحجيم على نظام Android يُستخدم في جميع التطبيقات تقريبًا</string>
+    <string name="catmull_sub">طريقة لاستكمال وإعادة تشكيل مجموعة من نقاط التحكم بسلاسة، تُستخدم عادةً في رسومات الكمبيوتر لإنشاء منحنيات ناعمة</string>
+    <string name="hann_sub">غالبًا ما يتم تطبيق وظيفة النوافذ في معالجة الإشارات لتقليل التسرب الطيفي وتحسين دقة تحليل التردد عن طريق تضييق حواف الإشارة</string>
+    <string name="hermite_sub">تقنية الاستيفاء الرياضي التي تستخدم القيم والمشتقات عند نقاط نهاية مقطع المنحنى لإنشاء منحنى سلس ومستمر</string>
+    <string name="lanczos_sub">طريقة إعادة التشكيل التي تحافظ على الاستيفاء عالي الجودة من خلال تطبيق دالة المزامنة الموزونة على قيم البكسل</string>
+    <string name="mitchell_sub">طريقة إعادة التشكيل التي تستخدم مرشح التفاف مع معلمات قابلة للتعديل لتحقيق التوازن بين الحدة والصقل في الصورة ذات الحجم الكبير</string>
+    <string name="spline_sub">يستخدم الدوال متعددة الحدود المحددة لاستكمال وتقريب المنحنى أو السطح بسلاسة، وتمثيل الشكل المرن والمستمر</string>
+    <string name="only_clip_sub">لن يتم إجراء الحفظ في وحدة التخزين، وستتم محاولة وضع الصورة في الحافظة فقط</string>
+    <string name="no_data">لايوجد بيانات</string>
+    <string name="use_pixel_switch_sub">سيتم استخدام مفتاح يشبه البكسل بدلاً من مادة Google التي تعتمد عليها</string>
+    <string name="saved_to_original">تمت الكتابة فوق الملف بالاسم %s في الوجهة الأصلية</string>
+    <string name="magnifier_sub">لتمكين المكبر الموجود أعلى الإصبع في أوضاع الرسم لتسهيل الوصول إليه</string>
+    <string name="force_exif_widget_inital_value">قوة القيمة الأولية</string>
+    <string name="force_exif_widget_inital_value_sub">يفرض فحص عنصر واجهة المستخدم exif في البداية</string>
+    <string name="allow_multiple_languages">السماح بعدة لغات</string>
+    <string name="slide">الانزلاق</string>
+    <string name="side_by_side">جنباألى جنب</string>
+    <string name="segmentation_mode_single_column">عمود فردي</string>
+    <string name="segmentation_mode_single_block_vert_text">نص عمودي كتلة واحدة</string>
+    <string name="segmentation_mode_sparse_text">نص متفرق</string>
+    <string name="delete_language_sub">هل تريد حذف بيانات تدريب التعرف الضوئي على الحروف \"%1$s\" اللغوية لجميع أنواع التعرف، أم للنوع المحدد فقط (%2$s)؟</string>
+    <string name="current">حاضِر</string>
+    <string name="all">الجميع</string>
+    <string name="gradient_maker_sub">قم بإنشاء تدرج لحجم الإخراج المحدد بألوان مخصصة ونوع المظهر</string>
+    <string name="tile_mode_clamp">المشبك</string>
+    <string name="tile_mode_decal">صائق</string>
+    <string name="color_stops">توقف اللون</string>
+    <string name="add_color">أضف اللون</string>
+    <string name="properties">ملكيات</string>
+    <string name="watermarking_sub">قم بتغطية الصور بعلامات مائية نصية/صورة قابلة للتخصيص</string>
+    <string name="repeat_watermark_sub">يكرر العلامة المائية على الصورة بدلاً من العلامة المائية في موضع معين</string>
+    <string name="offset_x">الإزاحة X</string>
+    <string name="offset_y">إزاحة Y</string>
+    <string name="watermark_type">نوع العلامة المائية</string>
+    <string name="watermarking_image_sub">سيتم استخدام هذه الصورة كنموذج للعلامة المائية</string>
+    <string name="text_color">لون الخط</string>
+    <string name="gif_tools">أدوات GIF</string>
+    <string name="gif_tools_sub">تحويل الصور إلى صورة GIF أو استخراج الإطارات من صورة GIF معينة</string>
+    <string name="gif_type_to_image">GIF للصور</string>
+    <string name="gif_type_to_image_sub">تحويل ملف GIF إلى مجموعة من الصور</string>
+    <string name="gif_type_to_gif_sub">تحويل مجموعة من الصور إلى ملف GIF</string>
+    <string name="gif_type_to_gif">الصور إلى GIF</string>
+    <string name="select_gif_image_to_start">اختر صورة GIF للبدء</string>
+    <string name="use_size_of_first_frame">استخدام حجم الإطار الأول</string>
+    <string name="use_size_of_first_frame_sub">استبدل الحجم المحدد بأبعاد الإطار الأول</string>
+    <string name="repeat_count">تكرار العد</string>
+    <string name="frame_delay">تأخير الإطار</string>
+    <string name="millis">ملي</string>
+    <string name="fps">إطارا في الثانية</string>
+    <string name="confetti">قصاصات ورق ملون</string>
+    <string name="confetti_sub">سيتم عرض قصاصات الورق عند الحفظ والمشاركة والإجراءات الأساسية الأخرى</string>
+    <string name="secure_mode">وضع آمن</string>
+    <string name="secure_mode_sub">يخفي المحتوى عند الخروج، كما لا يمكن التقاط الشاشة أو تسجيلها</string>
+    <string name="bayer_three_dithering">باير ثلاثة بثلاثة التردد</string>
+    <string name="bayer_four_dithering">باير أربعة بأربعة التردد</string>
+    <string name="two_row_sierra_dithering">ثبات سييرا ذو صفين</string>
+    <string name="sierra_lite_dithering">ثبات سييرا لايت</string>
+    <string name="atkinson_dithering">أتكينسون تذبذب</string>
+    <string name="false_floyd_steinberg_dithering">التردد الكاذب فلويد شتاينبرغ</string>
+    <string name="left_to_right_dithering">التردد من اليسار إلى اليمين</string>
+    <string name="random_dithering">ثبات عشوائي</string>
+    <string name="simple_threshold_dithering">ثبات العتبة البسيطة</string>
+    <string name="b_spline_sub">يستخدم وظائف متعددة الحدود ثنائية التكعيبية لاستكمال وتقريب المنحنى أو السطح بسلاسة، وتمثيل الشكل المرن والمستمر</string>
+    <string name="native_stack_blur">طمس المكدس الأصلي</string>
+    <string name="anaglyph">النقش</string>
+    <string name="noise">ضوضاء</string>
+    <string name="pixel_sort">فرز البكسل</string>
+    <string name="shuffle">خلط</string>
+    <string name="enhanced_glitch">خلل معزز</string>
+    <string name="channel_shift_x">تحويل القناة X</string>
+    <string name="channel_shift_y">تحويل القناة Y</string>
+    <string name="corruption_size">حجم الفساد</string>
+    <string name="corruption_shift_x">تحول الفساد X</string>
+    <string name="corruption_shift_y">تحول الفساد Y</string>
+    <string name="tent_blur">طمس الخيمة</string>
+    <string name="side_fade">تتلاشى الجانب</string>
+    <string name="side">جانب</string>
+    <string name="top">قمة</string>
+    <string name="bottom">قاع</string>
+    <string name="strength">قوة</string>
+    <string name="amplitude">السعة</string>
+    <string name="marble">رخام</string>
+    <string name="simple_effects">تأثيرات بسيطة</string>
+    <string name="polaroid">بولارويد</string>
+    <string name="tritonomaly">شلل تريتونومي</string>
+    <string name="deutaromaly">شلل ثنائي</string>
+    <string name="protonomaly">بروتونومالي</string>
+    <string name="vintage">كلاسيكي</string>
+    <string name="night_vision">الرؤية الليلية</string>
+    <string name="warm">دافيء</string>
+    <string name="cool">رائع</string>
+    <string name="tritanopia">تريتانوبيا</string>
+    <string name="deutaronotopia">ديوتارونوتوبيا</string>
+    <string name="achromatomaly">شلل لوني</string>
+    <string name="achromatopsia">الأكروماتوبسيا</string>
+    <string name="golden_hour">الساعة الذهبية</string>
+    <string name="hot_summer">صيف حار</string>
+    <string name="autumn_tones">نغمات الخريف</string>
+    <string name="fantasy_landscape">المناظر الطبيعية الخيالية</string>
+    <string name="color_explosion">انفجار اللون</string>
+    <string name="electric_gradient">التدرج الكهربائي</string>
+    <string name="caramel_darkness">كراميل الظلام</string>
+    <string name="futuristic_gradient">التدرج المستقبلي</string>
+    <string name="green_sun">الشمس الخضراء</string>
+    <string name="digital_code">الكود الرقمي</string>
+    <string name="icon_shape">شكل الأيقونة</string>
+    <string name="drago">دراجو</string>
+    <string name="aldridge">الدريدج</string>
+    <string name="cutoff">قطع</string>
+    <string name="uchimura">اوتشيمورا</string>
+    <string name="mobius">موبيوس</string>
+    <string name="transition">انتقال</string>
+    <string name="peak">قمة</string>
+    <string name="color_anomaly">شذوذ اللون</string>
+    <string name="cannot_change_image_format">لا يمكن تغيير تنسيق الصورة أثناء تمكين خيار الكتابة فوق الملفات</string>
+    <string name="emoji_as_color_scheme">الرموز التعبيرية كنظام ألوان</string>
+    <string name="emoji_as_color_scheme_sub">يستخدم اللون الأساسي للرموز التعبيرية كنظام ألوان للتطبيق بدلاً من اللون المحدد يدويًا</string>
+    <string name="background_remover">مزيل الخلفية</string>
+    <string name="trim_image">تقليم الصورة</string>
+    <string name="erase_mode">وضع المسح</string>
+    <string name="circle_pixelation">بكسل الدائرة</string>
+    <string name="enhanced_circle_pixelation">تعزيز بكسل الدائرة</string>
+    <string name="replace_color">استبدال اللون</string>
+    <string name="remove_color">إزالة اللون</string>
+    <string name="recode">إعادة ترميز</string>
+    <string name="erode">تقلص</string>
+    <string name="anisotropic_diffusion">انتشار متباين الخواص</string>
+    <string name="diffusion">انتشار</string>
+    <string name="conduction">التوصيل</string>
+    <string name="horizontal_wind_stagger">الرياح الأفقية ترنح</string>
+    <string name="aces_filmic_tone_mapping">رسم خرائط النغمات السينمائية من ACES</string>
+    <string name="aces_hill_tone_mapping">ACES هيل لهجة رسم الخرائط</string>
+    <string name="fast_bilaterial_blur">طمس ثنائي سريع</string>
+    <string name="poisson_blur">بواسون طمس</string>
+    <string name="logarithmic_tone_mapping">رسم خرائط النغمة اللوغاريتمية</string>
+    <string name="crystallize">تبلور</string>
+    <string name="stroke_color">حلقه ملونه</string>
+    <string name="fractal_glass">زجاج كسورية</string>
+    <string name="turbulence">الاضطراب</string>
+    <string name="oil">زيت</string>
+    <string name="water_effect">تأثير الماء</string>
+    <string name="just_size">مقاس</string>
+    <string name="frequency_x">التردد X</string>
+    <string name="frequency_y">التردد Y</string>
+    <string name="amplitude_x">السعة X</string>
+    <string name="amplitude_y">السعة Y</string>
+    <string name="perlin_distortion">تشويه بيرلين</string>
+    <string name="hable_filmic_tone_mapping">رسم خرائط النغمات السينمائية</string>
+    <string name="heji_burgess_tone_mapping">رسم خرائط لهجة هيجل بورغيس</string>
+    <string name="full_filter">تصفية كاملة</string>
+    <string name="start_position">يبدأ</string>
+    <string name="center_position">مركز</string>
+    <string name="end_position">نهاية</string>
+    <string name="full_filter_sub">قم بتطبيق أي سلاسل تصفية على صور معينة أو صورة واحدة</string>
+    <string name="pdf_tools_sub">العمل مع ملفات PDF: معاينة، تحويل إلى مجموعة من الصور أو إنشاء واحدة من صور معينة</string>
+    <string name="preview_pdf">معاينة قوات الدفاع الشعبي</string>
+    <string name="pdf_to_images">قوات الدفاع الشعبي إلى الصور</string>
+    <string name="images_to_pdf">الصور إلى PDF</string>
+    <string name="preview_pdf_sub">معاينة PDF بسيطة</string>
+    <string name="pdf_to_images_sub">تحويل PDF إلى صور بتنسيق الإخراج المحدد</string>
+    <string name="images_to_pdf_sub">حزم الصور المعطاة في ملف PDF الناتج</string>
+    <string name="gradient_maker">صانع التدرج</string>
+    <string name="speed">سرعة</string>
+    <string name="dehaze">ديهيز</string>
+    <string name="omega">أوميغا</string>
+    <string name="pdf_tools">أدوات PDF</string>
+    <string name="rate_app">قيم التطبيق</string>
+    <string name="rate">معدل</string>
+    <string name="rate_app_sub">هذا التطبيق مجاني تمامًا، إذا كنت تريد أن يصبح أكبر، يرجى تمييز المشروع بنجمة على Github 😄</string>
+    <string name="color_matrix_4x4">مصفوفة الألوان 4x4</string>
+    <string name="color_matrix_3x3">مصفوفة الألوان 3x3</string>
+    <string name="browni">براوني</string>
+    <string name="coda_chrome">كودا كروم</string>
+    <string name="protanopia">بروتانوبيا</string>
+    <string name="gradient_type_linear">خطي</string>
+    <string name="gradient_type_radial">شعاعي</string>
+    <string name="gradient_type_sweep">مسح</string>
+    <string name="gradient_type">نوع التدرج</string>
+    <string name="center_x">المركز العاشر</string>
+    <string name="center_y">مركز ي</string>
+    <string name="tile_mode">وضع البلاط</string>
+    <string name="tile_mode_repeated">معاد</string>
+    <string name="tile_mode_mirror">مرآة</string>
+    <string name="draw_path_mode">وضع رسم المسار</string>
+    <string name="double_line_arrow">سهم خط مزدوج</string>
+    <string name="line_arrow">سهم الخط</string>
+    <string name="line_sub">يرسم المسار من نقطة البداية إلى نقطة النهاية كخط</string>
+    <string name="arrow">سهم</string>
+    <string name="line">خط</string>
+    <string name="free_drawing_sub">يرسم المسار كقيمة إدخال</string>
+    <string name="line_arrow_sub">يرسم سهمًا يشير من نقطة البداية إلى نقطة النهاية كخط</string>
+    <string name="arrow_sub">رسم سهم يشير من مسار معين</string>
+    <string name="double_arrow_sub">يرسم سهمًا مزدوجًا يشير من مسار معين</string>
+    <string name="outlined_oval">البيضاوي المبين</string>
+    <string name="outlined_rect">المستقيم المبين</string>
+    <string name="oval">بيضاوي</string>
+    <string name="rect">مستقيم</string>
+    <string name="rect_sub">يرسم بشكل مستقيم من نقطة البداية إلى نقطة النهاية</string>
+    <string name="oval_sub">يرسم شكلًا بيضاويًا من نقطة البداية إلى نقطة النهاية</string>
+    <string name="outlined_oval_sub">رسم شكل بيضاوي محدد من نقطة البداية إلى نقطة النهاية</string>
+    <string name="outlined_rect_sub">يرسم بشكل مستقيم من نقطة البداية إلى نقطة النهاية</string>
+    <string name="dithering">التردد</string>
+    <string name="quantizier">كمية</string>
+    <string name="gray_scale">مقياس رمادي</string>
+    <string name="bayer_two_dithering">باير اثنين من اثنين التردد</string>
+    <string name="bayer_eight_dithering">باير ثمانية بثمانية التردد</string>
+    <string name="floyd_steinberg_dithering">فلويد شتاينبرغ التردد</string>
+    <string name="jarvis_judice_ninke_dithering">جارفيس جوديس نينكي التردد</string>
+    <string name="sierra_dithering">سييرا التردد</string>
+    <string name="stucki_dithering">ثبات ستوكي</string>
+    <string name="burkes_dithering">تذبذب بيركس</string>
+    <string name="crashlytics_sub">يتيح ذلك للتطبيق جمع تقارير الأعطال يدويًا</string>
+    <string name="analytics">التحليلات</string>
+    <string name="analytics_sub">السماح بجمع إحصائيات استخدام التطبيق بشكل مجهول</string>
+    <string name="mask_color">لون القناع</string>
+    <string name="mask_preview">معاينة القناع</string>
+    <string name="scale_mode">وضع القياس</string>
+    <string name="bilinear">خطين</string>
+    <string name="hann">هان</string>
+    <string name="hermite">هيرميت</string>
+    <string name="lanczos">لانكزوس</string>
+    <string name="mitchell">ميتشل</string>
+    <string name="nearest">الأقرب</string>
+    <string name="basic">أساسي</string>
+    <string name="default_value">القيمة الافتراضية</string>
+    <string name="value_in_range">القيمة في النطاق %1$s - %2$s</string>
+    <string name="sigma">سيجما</string>
+    <string name="spatial_sigma">سيجما المكانية</string>
+    <string name="median_blur">طمس متوسط</string>
+    <string name="catmull">كاتمول</string>
+    <string name="only_clip">كليب فقط</string>
+    <string name="icon_shape_sub">إضافة حاوية ذات شكل محدد أسفل أيقونات البطاقات الرائدة</string>
+    <string name="image_stitching">خياطة الصورة</string>
+    <string name="image_stitching_sub">قم بدمج الصور المعطاة للحصول على صورة واحدة كبيرة</string>
+    <string name="email">بريد إلكتروني</string>
+    <string name="brightness_enforcement">إنفاذ السطوع</string>
+    <string name="screen">شاشة</string>
+    <string name="gradient_maker_type_image">تغطية بالتدرج اللوني</string>
+    <string name="gradient_maker_type_image_sub">إنشاء أي تدرج في أعلى الصورة المعطاة</string>
+    <string name="transformations">التحولات</string>
+    <string name="camera">آلة تصوير</string>
+    <string name="camera_sub">يستخدم الكاميرا لالتقاط الصورة، لاحظ أنه من الممكن الحصول على صورة واحدة فقط من مصدر الصورة هذا</string>
+    <string name="pick_at_least_two_images">اختر صورتين على الأقل</string>
+    <string name="output_image_scale">مقياس صورة الإخراج</string>
+    <string name="image_orientation">اتجاه الصورة</string>
+    <string name="scale_small_images_to_large">تحجيم الصور الصغيرة إلى كبيرة</string>
+    <string name="images_order">ترتيب الصور</string>
+    <string name="grain">قمح</string>
+    <string name="orange_haze">ضباب برتقالي</string>
+    <string name="unsharp">غير حاد</string>
+    <string name="pastel">باستيل</string>
+    <string name="pink_dream">الحلم الوردي</string>
+    <string name="purple_mist">الضباب الأرجواني</string>
+    <string name="sunrise">شروق الشمس</string>
+    <string name="colorful_swirl">دوامة ملونة</string>
+    <string name="soft_spring_light">ضوء الربيع الناعم</string>
+    <string name="lavender_dream">حلم الخزامى</string>
+    <string name="cyberpunk">السايبربانك</string>
+    <string name="lemonade_light">ضوء عصير الليمون</string>
+    <string name="spectral_fire">النار الطيفية</string>
+    <string name="night_magic">سحر الليل</string>
+    <string name="rainbow_world">عالم قوس قزح</string>
+    <string name="deep_purple">ديب بيربل</string>
+    <string name="space_portal">بوابة الفضاء</string>
+    <string name="red_swirl">دوامة حمراء</string>
+    <string name="watermarking">العلامة المائية</string>
+    <string name="repeat_watermark">كرر العلامة المائية</string>
+    <string name="overlay_mode">وضع التراكب</string>
+    <string name="pixel_size">حجم بكسل</string>
+    <string name="lock_draw_orientation">قفل اتجاه الرسم</string>
+    <string name="effort_sub">القيمة %1$d تعني ضغطًا سريعًا، مما يؤدي إلى حجم ملف كبير نسبيًا. %2$d يعني ضغطًا أبطأ، مما يؤدي إلى ملف أصغر.</string>
+    <string name="bokeh">خوخه</string>
+    <string name="use_lasso">استخدم لاسو</string>
+    <string name="use_lasso_sub">يستخدم Lasso كما هو الحال في وضع الرسم لإجراء المسح</string>
+    <string name="original_image_preview_alpha">معاينة الصورة الأصلية ألفا</string>
+    <string name="mask_filter">مرشح القناع</string>
+    <string name="mask_filter_sub">قم بتطبيق سلاسل التصفية على مناطق مقنعة معينة، حيث يمكن لكل منطقة قناع تحديد مجموعة المرشحات الخاصة بها</string>
+    <string name="add_mask">أضف قناع</string>
+    <string name="restore_image">استعادة الصورة</string>
+    <string name="random_emojis_sub">سيتم تغيير الرموز التعبيرية لشريط التطبيقات بشكل عشوائي بشكل مستمر بدلاً من استخدام الرمز المحدد</string>
+    <string name="random_emojis">الرموز التعبيرية العشوائية</string>
+    <string name="random_emojis_error">لا يمكن استخدام انتقاء عشوائي للرموز التعبيرية أثناء تعطيل الرموز التعبيرية</string>
+    <string name="emoji_selection_error">لا يمكن تحديد رمز تعبيري أثناء تمكين اختيار رمز عشوائي</string>
+    <string name="check_for_updates">تحقق من وجود تحديثات</string>
+    <string name="effort">جهد</string>
+    <string name="wait">انتظر</string>
+    <string name="objects">أشياء</string>
+    <string name="symbols">حرف او رمز</string>
+    <string name="enable_emoji">تمكين الرموز التعبيرية</string>
+    <string name="travels_and_places">الرحلات والأماكن</string>
+    <string name="background_remover_sub">قم بإزالة الخلفية من الصورة عن طريق الرسم أو استخدام الخيار التلقائي</string>
+    <string name="erase_background">محو الخلفية</string>
+    <string name="blur_radius">طمس نصف قطرها</string>
+    <string name="create_issue">إنشاء مشكلة</string>
+    <string name="something_went_wrong_emphasis">عفوًا... حدث خطأ ما. يمكنك الكتابة لي باستخدام الخيارات أدناه وسأحاول إيجاد الحل</string>
+    <string name="resize_and_convert">تغيير الحجم والتحويل</string>
+    <string name="resize_and_convert_sub">تغيير حجم الصور المعينة أو تحويلها إلى تنسيقات أخرى. يمكن أيضًا تحرير بيانات EXIF التعريفية هنا في حالة اختيار صورة واحدة.</string>
+    <string name="max_colors_count">الحد الأقصى لعدد الألوان</string>
+    <string name="image_exif_warning">حاليًا، يسمح تنسيق %1$s بقراءة بيانات EXIF التعريفية فقط على نظام Android. لن تحتوي الصورة الناتجة على بيانات وصفية على الإطلاق عند حفظها.</string>
+    <string name="saving_almost_complete">اكتمل الحفظ تقريبًا. سيتطلب الإلغاء الآن الحفظ مرة أخرى.</string>
+    <string name="allow_betas_sub">سيتضمن التحقق من التحديث إصدارات التطبيق التجريبية إذا تم تمكينها</string>
+    <string name="old_tv">تلفزيون قديم</string>
+    <string name="shuffle_blur">خلط ورق اللعب طمس</string>
+    <string name="recognize_text">التعرف الضوئي على الحروف (التعرف على النص)</string>
+    <string name="recognize_text_sub">التعرف على النص من صورة معينة، دعم أكثر من 120 لغة</string>
+    <string name="picture_has_no_text">الصورة لا تحتوي على نص، أو أن التطبيق لم يعثر عليها</string>
+    <string name="accuracy">Accuracy: %1$d</string>
+    <string name="recognition_type">نوع الاعتراف</string>
+    <string name="fast">سريع</string>
+    <string name="standard">معيار</string>
+    <string name="best">أفضل</string>
+    <string name="download_description">للحصول على أداء سليم لـ Tesseract OCR، يجب تنزيل بيانات التدريب الإضافية (%1$s) على جهازك.
+\nهل تريد تنزيل بيانات %2$s؟</string>
+    <string name="download">تحميل</string>
+    <string name="no_connection">لا يوجد اتصال، تحقق منه وحاول مرة أخرى لتنزيل نماذج القطارات</string>
+    <string name="downloaded_languages">اللغات التي تم تنزيلها</string>
+    <string name="available_languages">اللغات المتوفرة</string>
+    <string name="segmentation_mode">وضع التجزئة</string>
+    <string name="restore_background_sub">ستقوم الفرشاة باستعادة الخلفية بدلاً من مسحها</string>
+    <string name="horizontal_grid">الشبكة الأفقية</string>
+    <string name="vertical_grid">الشبكة العمودية</string>
+    <string name="use_pixel_switch">استخدم مفتاح البكسل</string>
+    <string name="toggle_tap">تبديل اضغط</string>
+    <string name="transparency">الشفافية</string>
+    <string name="magnifier">المكبر</string>
+    <string name="favorite">مفضل</string>
+    <string name="no_favorite_filters">لم تتم إضافة أي مرشحات مفضلة حتى الآن</string>
+    <string name="b_spline">ب سبلين</string>
+    <string name="tilt_shift">التحول الميل</string>
+    <string name="regular">عادي</string>
+    <string name="blur_edges">طمس الحواف</string>
+    <string name="pixelation">البكسل</string>
+    <string name="inverse_fill_type">نوع التعبئة العكسية</string>
+    <string name="draw_arrows">ارسم السهام</string>
+    <string name="brush_softness">نعومة الفرشاة</string>
+    <string name="masks">أقنعة</string>
+    <string name="mask_indexed">قناع %d</string>
+    <string name="neon">نيون</string>
+    <string name="highlighter_sub">ارسم مسارات تمييز حادة وشبه شفافة</string>
+    <string name="privacy_blur_sub">يطمس الصورة أسفل المسار المرسوم لتأمين أي شيء تريد إخفاءه</string>
+    <string name="containers_shadow">حاويات</string>
+    <string name="containers_shadow_sub">تمكين رسم الظل خلف الحاويات</string>
+    <string name="sliders_shadow">المتزلجون</string>
+    <string name="foss_update_checker_warning">سيتصل مدقق التحديث هذا بـ GitHub للتحقق من توفر تحديث جديد</string>
+    <string name="attention">انتباه</string>
+    <string name="fading_edges">حواف باهتة</string>
+    <string name="invert_colors">عكس الألوان</string>
+    <string name="exit">مخرج</string>
+    <string name="preview_closing">إذا تركت المعاينة الآن، فسوف تحتاج إلى إضافة الصور مرة أخرى</string>
+    <string name="lasso">لاسو</string>
+    <string name="lasso_sub">يرسم مسارًا مغلقًا ومملوءًا بمسار معين</string>
+    <string name="image_format">شكل صورة</string>
 </resources>
