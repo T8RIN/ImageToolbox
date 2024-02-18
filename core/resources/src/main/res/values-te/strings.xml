@@ -293,8 +293,7 @@
     <string name="compatibility">అనుకూలత</string>
     <string name="implementation_sub">AES-256, GCM మోడ్, పాడింగ్ లేదు, 12 బైట్‌లు యాదృచ్ఛిక IVలు. కీలు SHA-3 హాష్‌లుగా ఉపయోగించబడతాయి (256 బిట్‌లు).</string>
     <string name="file_size">ఫైల్ పరిమాణం</string>
-    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent.
-\nPlease note: memory is not storage.</string>
+    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent. \nPlease note: memory is not storage.</string>
     <string name="compatibility_sub">ఇతర ఫైల్ ఎన్‌క్రిప్షన్ సాఫ్ట్‌వేర్ లేదా సేవలకు అనుకూలత హామీ ఇవ్వబడదని దయచేసి గమనించండి. కొద్దిగా భిన్నమైన కీ చికిత్స లేదా సాంకేతికలిపి కాన్ఫిగరేషన్ అననుకూలతకు కారణం కావచ్చు.</string>
     <string name="invalid_password_or_not_encrypted">చెల్లని పాస్‌వర్డ్ లేదా ఎంచుకున్న ఫైల్ ఎన్‌క్రిప్ట్ చేయబడలేదు</string>
     <string name="image_size_warning">ఇచ్చిన వెడల్పు మరియు ఎత్తుతో చిత్రాన్ని సేవ్ చేయడానికి ప్రయత్నిస్తే OOM లోపం సంభవించవచ్చు. దీన్ని మీ స్వంత పూచీతో చేయండి మరియు నేను మిమ్మల్ని హెచ్చరించలేదని చెప్పకండి!</string>
@@ -741,8 +740,7 @@
     <string name="standard">ప్రామాణికం</string>
     <string name="best">ఉత్తమమైనది</string>
     <string name="no_data">సమాచారం లేదు</string>
-    <string name="download_description">Tesseract OCR యొక్క సరైన పనితీరు కోసం అదనపు శిక్షణ డేటా (%1$s) మీ పరికరానికి డౌన్‌లోడ్ చేయబడాలి.
-\nమీరు %2$s డేటాను డౌన్‌లోడ్ చేయాలనుకుంటున్నారా?</string>
+    <string name="download_description">Tesseract OCR యొక్క సరైన పనితీరు కోసం అదనపు శిక్షణ డేటా (%1$s) మీ పరికరానికి డౌన్‌లోడ్ చేయబడాలి. \nమీరు %2$s డేటాను డౌన్‌లోడ్ చేయాలనుకుంటున్నారా?</string>
     <string name="download">డౌన్‌లోడ్ చేయండి</string>
     <string name="no_connection">కనెక్షన్ లేదు, రైలు నమూనాలను డౌన్‌లోడ్ చేయడానికి దాన్ని తనిఖీ చేసి, మళ్లీ ప్రయత్నించండి</string>
     <string name="downloaded_languages">డౌన్‌లోడ్ చేయబడిన భాషలు</string>
