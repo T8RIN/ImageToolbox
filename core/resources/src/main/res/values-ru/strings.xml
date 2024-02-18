@@ -771,4 +771,12 @@
     <string name="image_format">Формат Изображения</string>
     <string name="icon_shape_sub">Добавляет контейнер с выбранной фигурой под ведущие значки карточек.</string>
     <string name="icon_shape">Форма иконки</string>
+    <string name="uchimura">Учимура</string>
+    <string name="mobius">Мобиус</string>
+    <string name="peak">Вершина</string>
+    <string name="aldridge">Олдридж</string>
+    <string name="cutoff">Обрезка</string>
+    <string name="transition">Переход</string>
+    <string name="color_anomaly">Цветовая аномалия</string>
+    <string name="drago">Драго</string>
 </resources>
