@@ -81,6 +81,7 @@ import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.rememberColorScheme
+import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.defaultColorTuple
@@ -309,7 +310,8 @@ fun AvailableColorTuplesSheet(
             val defaultValues = @Composable {
                 val listState = rememberLazyListState()
                 val defList = ColorTupleDefaults.defaultColorTuples
-                LaunchedEffect(visible.value) {
+                LaunchedEffect(visible.value, isPickersEnabled) {
+                    delay(100) // delay for sheet init
                     if (currentColorTuple in defList) {
                         listState.animateScrollToItem(defList.indexOf(currentColorTuple))
                     }
