@@ -18,11 +18,12 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.TiltShiftParams
+import kotlin.math.roundToInt
 
 internal class TiltShiftFilter(
     override val value: TiltShiftParams = TiltShiftParams.Default
@@ -36,7 +37,7 @@ internal class TiltShiftFilter(
         size: IntegerSize
     ): Bitmap = Aire.tiltShift(
         bitmap = input,
-        radius = value.blurRadius,
+        radius = value.blurRadius.roundToInt().toFloat(),
         sigma = value.sigma,
         anchorX = value.anchorX,
         anchorY = value.anchorY,

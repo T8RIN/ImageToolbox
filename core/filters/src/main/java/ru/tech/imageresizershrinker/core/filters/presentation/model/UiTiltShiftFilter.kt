@@ -30,7 +30,7 @@ class UiTiltShiftFilter(
     title = R.string.tilt_shift,
     value = value,
     paramsInfo = listOf(
-        FilterParam(R.string.blur_radius, 1f..100f, 2),
+        FilterParam(R.string.blur_radius, 1f..100f, 0),
         FilterParam(R.string.sigma, 1f..50f, 2),
         FilterParam(R.string.center_x, 0f..1f, 2),
         FilterParam(R.string.center_y, 0f..1f, 2),
