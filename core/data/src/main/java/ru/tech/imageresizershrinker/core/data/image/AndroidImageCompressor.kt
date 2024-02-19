@@ -99,6 +99,13 @@ internal class AndroidImageCompressor @Inject constructor(
                 out.toByteArray()
             }
 
+            ImageFormat.MozJpeg -> {
+                Aire.toJPEG(
+                    bitmap = image,
+                    quality = quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
+                )
+            }
+
             ImageFormat.PngLossy -> {
                 val pngLossyQuality = quality as? Quality.PngLossy ?: Quality.PngLossy()
                 Aire.toPNG(

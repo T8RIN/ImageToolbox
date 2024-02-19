@@ -62,6 +62,14 @@ sealed class ImageFormat(
         canWriteExif = true
     )
 
+    data object MozJpeg : ImageFormat(
+        title = "MozJpeg",
+        extension = "jpg",
+        type = "image/jpg",
+        canChangeCompressionValue = true,
+        canWriteExif = true
+    )
+
     sealed class Webp(
         title: String,
         compressionTypes: List<CompressionType>
@@ -191,6 +199,7 @@ sealed class ImageFormat(
             get() = listOf(
                 Jpg,
                 Jpeg,
+                MozJpeg,
                 PngLossless,
                 PngLossy,
                 Bmp,
