@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:Suppress("PrivatePropertyName")
-
 package ru.tech.imageresizershrinker.core.ui.icons.emoji
 
 import android.content.Context
@@ -91,31 +89,66 @@ private fun initializeEmojis(context: Context) {
         Emotions = context
             .listAssetFiles("svg/emotions")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
-            .map { getFileFromAssets("emotions", it) }
+            .map {
+                getFileFromAssets(
+                    cat = "emotions",
+                    filename = it
+                )
+            }
         Food = context
             .listAssetFiles("svg/food")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
-            .map { getFileFromAssets("food", it) }
+            .map {
+                getFileFromAssets(
+                    cat = "food",
+                    filename = it
+                )
+            }
         Nature = context
             .listAssetFiles("svg/nature")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
-            .map { getFileFromAssets("nature", it) }
+            .map {
+                getFileFromAssets(
+                    cat = "nature",
+                    filename = it
+                )
+            }
         Objects = context
             .listAssetFiles("svg/objects")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
-            .map { getFileFromAssets("objects", it) }
+            .map {
+                getFileFromAssets(
+                    cat = "objects",
+                    filename = it
+                )
+            }
         Events = context
             .listAssetFiles("svg/events")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
-            .map { getFileFromAssets("events", it) }
+            .map {
+                getFileFromAssets(
+                    cat = "events",
+                    filename = it
+                )
+            }
         Transportation = context
             .listAssetFiles("svg/transportation")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
-            .map { getFileFromAssets("transportation", it) }
+            .map {
+                getFileFromAssets(
+                    cat = "transportation",
+                    filename = it
+                )
+            }
         Symbols = context
             .listAssetFiles("svg/symbols")
             .sortedWith(String.CASE_INSENSITIVE_ORDER)
-            .map { getFileFromAssets("symbols", it) }
+            .map {
+                getFileFromAssets(
+                    cat = "symbols",
+                    filename = it
+                )
+            }
     }
 }
 
