@@ -247,7 +247,7 @@ fun WatermarkParamsSelectionGroup(
                             )
                             val listState = rememberLazyListState()
                             val fonts = remember {
-                                UiFontFam.entries.reversed()
+                                UiFontFam.entries
                             }
                             LazyRow(
                                 state = listState,
