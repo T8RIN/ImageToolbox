@@ -46,17 +46,21 @@ internal interface FilterModule {
 
     @Singleton
     @Binds
-    fun provideFilterProvider(provider: AndroidFilterProvider): FilterProvider<Bitmap>
+    fun filterProvider(
+        provider: AndroidFilterProvider
+    ): FilterProvider<Bitmap>
 
     @Singleton
     @Binds
-    fun provideFilterMaskApplier(applier: AndroidFilterMaskApplier): FilterMaskApplier<Bitmap, Path, Color>
+    fun filterMaskApplier(
+        applier: AndroidFilterMaskApplier
+    ): FilterMaskApplier<Bitmap, Path, Color>
 
     companion object {
         @FilterInteractorDataStore
         @Singleton
         @Provides
-        fun provideFilterInteractorDataStore(
+        fun filterInteractorDataStore(
             @ApplicationContext context: Context
         ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
             produceFile = { context.preferencesDataStoreFile("favorite_filters") },
@@ -65,6 +69,8 @@ internal interface FilterModule {
 
     @Singleton
     @Binds
-    fun provideFavoriteFiltersInteractor(interactor: FavoriteFiltersInteractorImpl): FavoriteFiltersInteractor<Bitmap>
+    fun favoriteFiltersInteractor(
+        interactor: FavoriteFiltersInteractorImpl
+    ): FavoriteFiltersInteractor<Bitmap>
 
 }
