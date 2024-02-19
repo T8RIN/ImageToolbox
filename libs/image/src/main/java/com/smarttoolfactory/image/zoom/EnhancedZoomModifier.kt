@@ -416,7 +416,7 @@ fun Modifier.enhancedZoom(
     }
 )
 
-internal val DefaultEnabled = { zoom: Float, pan: Offset, rotation: Float ->
+internal val DefaultEnabled = { _: Float, _: Offset, _: Float ->
     true
 }
 

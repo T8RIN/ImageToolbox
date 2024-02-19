@@ -154,7 +154,7 @@ fun rememberZoomState(
  * @param rotationEnabled when set to true rotation is enabled
  */
 @Immutable
-class ZoomState internal constructor(
+open class ZoomState internal constructor(
     initialZoom: Float = 1f,
     initialRotation: Float = 0f,
     minZoom: Float = 1f,

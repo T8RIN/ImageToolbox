@@ -40,14 +40,9 @@ internal fun DefaultOverlay(
     val verticalThumbMove = overlayStyle.verticalThumbMove
     val dividerColor = overlayStyle.dividerColor
     val dividerWidth = overlayStyle.dividerWidth
-    val thumbBackgroundColor = overlayStyle.thumbBackgroundColor
-    val thumbTintColor = overlayStyle.thumbTintColor
-    val thumbShape = overlayStyle.thumbShape
-    val thumbElevation = overlayStyle.thumbElevation
-    val thumbResource = overlayStyle.thumbResource
+
     val thumbSize = overlayStyle.thumbSize
     val thumbPositionPercent = overlayStyle.thumbPositionPercent
-
 
     var thumbPosX = position.x
     var thumbPosY = position.y

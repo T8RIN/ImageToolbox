@@ -67,7 +67,7 @@ fun TransformLayout(
                 content()
             }
         },
-        dependentContent = { intSize: IntSize, constraints: Constraints ->
+        dependentContent = { intSize: IntSize, _: Constraints ->
 
             val dpSize = with(LocalDensity.current) {
                 val rawWidth = intSize.width.toDp()
