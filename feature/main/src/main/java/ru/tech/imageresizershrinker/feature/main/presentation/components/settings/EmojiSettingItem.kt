@@ -42,8 +42,6 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.emoji.Emoji
-import ru.tech.imageresizershrinker.core.ui.icons.emoji.allIcons
-import ru.tech.imageresizershrinker.core.ui.icons.emoji.allIconsCategorized
 import ru.tech.imageresizershrinker.core.ui.icons.material.Cool
 import ru.tech.imageresizershrinker.core.ui.icons.material.Robot
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape

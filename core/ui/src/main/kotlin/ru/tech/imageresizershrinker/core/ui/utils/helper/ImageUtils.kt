@@ -27,8 +27,8 @@ import android.provider.OpenableColumns
 import androidx.core.graphics.BitmapCompat
 import androidx.core.text.isDigitsOnly
 import androidx.exifinterface.media.ExifInterface
+import com.t8rin.logger.makeLog
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
-import kotlin.math.roundToInt
 
 
 object ImageUtils {
@@ -83,14 +83,20 @@ object ImageUtils {
         return null
     }
 
-    fun String.restrict(with: Int = (32786 * 0.78f).roundToInt()): String {
+    object Dimens {
+        const val MAX_IMAGE_SIZE = 8388607 * 16
+    }
+
+    fun String.restrict(with: Int): String {
+        with.makeLog()
         if (isEmpty()) return this
 
         return if ((this.toIntOrNull() ?: 0) >= with) with.toString()
-        else if (this.isDigitsOnly() && (this.toIntOrNull() ?: 0) == 0) ""
-        else this.trim().filter {
-            !listOf('-', '.', ',', ' ', "\n").contains(it)
-        }
+        else if (this.isDigitsOnly() && (this.toIntOrNull() == null)) ""
+        else this.trim()
+            .filter {
+                !listOf('-', '.', ',', ' ', "\n").contains(it)
+            }
     }
 
     fun Bitmap.createScaledBitmap(

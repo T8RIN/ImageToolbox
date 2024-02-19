@@ -20,7 +20,7 @@
 
     <uses-sdk
         android:minSdkVersion="21"
-        tools:overrideLibrary="com.radzivon.bartoshyk.avif, com.github.awxkee.avifcodercoil, com.github.awxkee.avifcoder, com.idapgroup.snowfall" />
+        tools:overrideLibrary="com.radzivon.bartoshyk.avif, com.github.awxkee.avifcoil, com.github.awxkee.avifcodercoil, com.github.awxkee.avifcoder, com.idapgroup.snowfall" />
 
     <uses-permission
         android:name="com.google.android.gms.permission.AD_ID"
@@ -52,8 +52,8 @@
         android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher"
         android:hasFragileUserData="true"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_launcher_name"
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"

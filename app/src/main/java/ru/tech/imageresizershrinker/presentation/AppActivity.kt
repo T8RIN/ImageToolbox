@@ -55,7 +55,6 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalEditPresetsS
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.toUiState
 import ru.tech.imageresizershrinker.core.ui.icons.emoji.Emoji
-import ru.tech.imageresizershrinker.core.ui.icons.emoji.allIcons
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapesList
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
