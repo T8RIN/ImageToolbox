@@ -348,6 +348,7 @@ or click one of the badges below.
   - JPG
   - PNG Lossless
   - PNG Lossy
+  - MozJpeg
   - JXL
   - SVG and GIF to WEBP, PNG, JPEG, JPG, HEIF, HEIC, AVIF, JXL
   - Telegram sticker PNG format
