@@ -71,7 +71,7 @@ internal fun Project.configureKotlinAndroid(
         }
 
         kotlinOptions {
-            freeCompilerArgs = freeCompilerArgs + listOf(
+            freeCompilerArgs += listOf(
                 "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
                 "-opt-in=androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi",
                 "-opt-in=androidx.compose.animation.ExperimentalAnimationApi",
@@ -79,6 +79,8 @@ internal fun Project.configureKotlinAndroid(
                 "-opt-in=androidx.compose.foundation.layout.ExperimentalLayoutApi",
                 "-opt-in=androidx.compose.ui.unit.ExperimentalUnitApi",
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "UsingMaterialAndMaterial3Libraries",
+                "ModifierParameter"
             )
             jvmTarget = libs.findVersion("jvmTarget").get().toString()
         }

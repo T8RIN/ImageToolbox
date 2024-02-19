@@ -17,9 +17,7 @@
 
 @file:Suppress("UnstableApiUsage")
 
-import dagger.hilt.android.plugin.util.capitalize
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
-import java.util.Locale
 
 plugins {
     id("com.android.application")
@@ -113,15 +111,9 @@ android {
             pickFirsts.add("lib/*/libcoder.so")
         }
     }
-
-    lint {
-        disable += "UsingMaterialAndMaterial3Libraries"
-        disable += "ModifierParameter"
-    }
 }
 
 dependencies {
-    implementation(project(":core:filters"))
     coreLibraryDesugaring(libs.desugaring)
 
     //Di
@@ -139,6 +131,7 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.core.resources)
     implementation(projects.core.settings)
+    implementation(projects.core.filters)
 
     implementation(projects.feature.main)
 
@@ -149,12 +142,16 @@ dependencies {
 
 afterEvaluate {
     android.productFlavors.forEach { flavor ->
-        tasks.matching {
-            (it.name.contains("GoogleServices") || it.name.contains("Crashlytics")) && it.name.contains(
-                flavor.name.capitalize(Locale.getDefault())
+        tasks.matching { task ->
+            listOf("GoogleServices", "Crashlytics").any {
+                task.name.contains(it)
+            }.and(
+                task.name.contains(
+                    flavor.name.replaceFirstChar(Char::uppercase)
+                )
             )
-        }.forEach {
-            it.enabled = flavor.extra.get("gmsEnabled") == true
+        }.forEach { task ->
+            task.enabled = flavor.extra.get("gmsEnabled") == true
         }
     }
 }
