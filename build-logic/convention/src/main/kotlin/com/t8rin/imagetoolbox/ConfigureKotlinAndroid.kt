@@ -48,10 +48,8 @@ internal fun Project.configureKotlinAndroid(
         }
 
         compileOptions {
-            sourceCompatibility =
-                JavaVersion.toVersion(libs.findVersion("jvmTarget").get().toString())
-            targetCompatibility =
-                JavaVersion.toVersion(libs.findVersion("jvmTarget").get().toString())
+            sourceCompatibility = javaVersion
+            targetCompatibility = javaVersion
             isCoreLibraryDesugaringEnabled = true
         }
 
@@ -70,6 +68,11 @@ internal fun Project.configureKotlinAndroid(
             }
         }
 
+        lint {
+            disable += "UsingMaterialAndMaterial3Libraries"
+            disable += "ModifierParameter"
+        }
+
         kotlinOptions {
             freeCompilerArgs += listOf(
                 "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
@@ -79,16 +82,14 @@ internal fun Project.configureKotlinAndroid(
                 "-opt-in=androidx.compose.foundation.layout.ExperimentalLayoutApi",
                 "-opt-in=androidx.compose.ui.unit.ExperimentalUnitApi",
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                "UsingMaterialAndMaterial3Libraries",
-                "ModifierParameter"
             )
-            jvmTarget = libs.findVersion("jvmTarget").get().toString()
+            jvmTarget = javaVersion.toString()
         }
     }
 
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
-            jvmTarget = libs.findVersion("jvmTarget").get().toString()
+            jvmTarget = javaVersion.toString()
         }
     }
 
@@ -96,6 +97,11 @@ internal fun Project.configureKotlinAndroid(
         add("coreLibraryDesugaring", libs.findLibrary("desugaring").get())
     }
 }
+
+val Project.javaVersion: JavaVersion
+    get() = JavaVersion.toVersion(
+        libs.findVersion("jvmTarget").get().toString()
+    )
 
 fun CommonExtension<*, *, *, *, *>.kotlinOptions(block: KotlinJvmOptions.() -> Unit) {
     (this as ExtensionAware).extensions.configure("kotlinOptions", block)

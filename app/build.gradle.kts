@@ -80,14 +80,17 @@ android {
             isShrinkResources = false
         }
     }
+
+    val javaVersion = JavaVersion.toVersion(libs.versions.jvmTarget.get())
+
     compileOptions {
-        sourceCompatibility = JavaVersion.toVersion(libs.versions.jvmTarget.get())
-        targetCompatibility = JavaVersion.toVersion(libs.versions.jvmTarget.get())
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
         isCoreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
+        jvmTarget = javaVersion.toString()
     }
 
     composeOptions {
