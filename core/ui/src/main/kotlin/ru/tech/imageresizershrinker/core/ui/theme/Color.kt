@@ -36,6 +36,9 @@ fun ColorScheme.outlineVariant(
     .copy(alpha = luminance)
     .compositeOver(onTopOf)
 
+@Composable
+fun takeColorFromScheme(action: ColorScheme.() -> Color) = MaterialTheme.colorScheme.run(action)
+
 
 fun ColorScheme.suggestContainerColorBy(color: Color) = when (color) {
     onPrimary -> primary

@@ -71,6 +71,7 @@ import ru.tech.imageresizershrinker.core.domain.utils.trimTrailingZero
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -181,10 +182,10 @@ fun AspectRatioSelection(
                                         MaterialTheme.colorScheme.primaryContainer
                                     } else unselectedCardColor,
                                 ).value,
-                                borderColor = if (selected) MaterialTheme.colorScheme.onPrimaryContainer.copy(
-                                    0.7f
-                                )
-                                else MaterialTheme.colorScheme.outlineVariant()
+                                borderColor = takeColorFromScheme {
+                                    if (selected) onPrimaryContainer.copy(0.7f)
+                                    else outlineVariant()
+                                }
                             )
                             .clickable {
                                 if (!item::class.isInstance(selectedAspectRatio)) {
