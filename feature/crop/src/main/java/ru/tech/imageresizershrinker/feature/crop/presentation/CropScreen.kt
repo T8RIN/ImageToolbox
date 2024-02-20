@@ -222,9 +222,7 @@ fun CropScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
                 selectedAspectRatio = viewModel.selectedAspectRatio,
-                onAspectRatioChange = { domainAspect, aspect ->
-                    viewModel.setCropAspectRatio(domainAspect, aspect)
-                }
+                onAspectRatioChange = viewModel::setCropAspectRatio
             )
             Spacer(modifier = Modifier.height(8.dp))
             CropMaskSelection(

@@ -80,6 +80,7 @@ fun AspectRatioSelection(
     color: Color = Color.Unspecified,
     shape: Shape = RoundedCornerShape(24.dp)
 ) {
+    //Add custom aspect ratio selection
     val aspectRatios = aspectRatios()
 
     Column(
