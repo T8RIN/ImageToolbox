@@ -31,11 +31,17 @@ sealed class DomainAspectRatio(
     data object Free : DomainAspectRatio(widthProportion = -2f, heightProportion = 1f)
     data object Original : DomainAspectRatio(widthProportion = -1f, heightProportion = 1f)
 
+    data class Custom(
+        override val widthProportion: Float = 1f,
+        override val heightProportion: Float = 1f
+    ) : DomainAspectRatio(widthProportion = widthProportion, heightProportion = heightProportion)
+
     companion object {
         val defaultList: List<DomainAspectRatio> by lazy {
             listOf(
                 Free,
                 Original,
+                Custom(),
                 Numeric(widthProportion = 1f, heightProportion = 1f),
                 Numeric(widthProportion = 10f, heightProportion = 16f),
                 Numeric(widthProportion = 9f, heightProportion = 16f),
