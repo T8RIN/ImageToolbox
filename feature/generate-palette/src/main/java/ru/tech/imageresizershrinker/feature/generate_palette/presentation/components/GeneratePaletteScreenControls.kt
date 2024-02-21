@@ -50,7 +50,6 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -70,7 +69,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.ImageColorPalette
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
-import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import kotlinx.coroutines.launch
@@ -135,13 +133,6 @@ internal fun GeneratePaletteScreenControls(
                     bitmap, stateSaver = ColorSaver
                 ) {
                     mutableStateOf(bitmap.extractPrimaryColor())
-                }
-                val themeState = LocalDynamicThemeState.current
-                val allowChangeColor = settingsState.allowChangeColorByImage
-                LaunchedEffect(keyColor) {
-                    if (allowChangeColor) {
-                        themeState.updateColor(keyColor)
-                    }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Row(

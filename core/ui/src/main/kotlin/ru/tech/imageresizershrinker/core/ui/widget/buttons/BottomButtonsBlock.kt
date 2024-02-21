@@ -55,6 +55,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 
@@ -114,7 +115,10 @@ fun BottomButtonsBlock(
                         AnimatedVisibility(visible = isSecondaryButtonVisible) {
                             EnhancedFloatingActionButton(
                                 onClick = onSecondaryButtonClick,
-                                containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                                containerColor = takeColorFromScheme {
+                                    if (isPrimaryButtonVisible) tertiaryContainer
+                                    else primaryContainer
+                                }
                             ) {
                                 Icon(
                                     imageVector = secondaryButtonIcon,

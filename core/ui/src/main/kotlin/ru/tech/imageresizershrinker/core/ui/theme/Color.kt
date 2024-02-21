@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.ui.theme
 
 import androidx.annotation.FloatRange
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
@@ -37,7 +38,11 @@ fun ColorScheme.outlineVariant(
     .compositeOver(onTopOf)
 
 @Composable
-fun takeColorFromScheme(action: ColorScheme.() -> Color) = MaterialTheme.colorScheme.run(action)
+fun takeColorFromScheme(
+    action: ColorScheme.() -> Color
+) = animateColorAsState(
+    MaterialTheme.colorScheme.run(action)
+).value
 
 
 fun ColorScheme.suggestContainerColorBy(color: Color) = when (color) {
