@@ -121,8 +121,8 @@ private fun ColorScheme.contentColorFor(
     onErrorContainer -> errorContainer
     inverseOnSurface -> inverseSurface
     onSurface -> surface
-    outline -> onSurface
-    outlineVariant -> onSurface
+    outline -> surfaceContainerLow
+    outlineVariant -> onSurfaceVariant
     onSurfaceVariant -> surfaceVariant
     else -> Color.Unspecified
 }

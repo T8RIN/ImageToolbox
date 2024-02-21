@@ -333,7 +333,7 @@ private fun ColorStopSelectionItem(
         title = {
             TitleItem(
                 text = stringResource(R.string.color),
-                icon = Icons.Rounded.Draw
+                icon = Icons.Rounded.Palette
             )
         },
         confirmButton = {

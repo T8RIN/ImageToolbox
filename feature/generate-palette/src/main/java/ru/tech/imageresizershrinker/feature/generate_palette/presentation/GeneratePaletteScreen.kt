@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.generate_palette.presentation
 
 import android.content.res.Configuration
 import android.net.Uri
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -38,7 +37,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -60,11 +58,11 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import com.t8rin.dynamic.theme.rememberAppColorTuple
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.icons.material.PaletteSwatch
 import ru.tech.imageresizershrinker.core.ui.icons.material.Theme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
@@ -102,6 +100,12 @@ fun GeneratePaletteScreen(
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
+    val appColorTuple = rememberAppColorTuple(
+        defaultColorTuple = settingsState.appColorTuple,
+        dynamicColor = settingsState.isDynamicColors,
+        darkTheme = settingsState.isNightMode
+    )
+
     val context = LocalContext.current
     val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
@@ -128,7 +132,7 @@ fun GeneratePaletteScreen(
 
     LaunchedEffect(viewModel.bitmap) {
         viewModel.bitmap?.let {
-            if (allowChangeColor) {
+            if (allowChangeColor && useMaterialYouPalette == false) {
                 themeState.updateColorByImage(it)
             }
         }
@@ -282,6 +286,7 @@ fun GeneratePaletteScreen(
             if (useMaterialYouPalette != null) {
                 useMaterialYouPalette = null
                 viewModel.setUri(null)
+                themeState.updateColorTuple(appColorTuple)
             } else onGoBack()
         },
         actions = {
@@ -306,28 +311,12 @@ fun GeneratePaletteScreen(
             if (viewModel.bitmap == null) {
                 TopAppBarEmoji()
             }
-            AnimatedContent(
-                targetState = useMaterialYouPalette
-            ) { useMaterialYouPaletteAnim ->
-                useMaterialYouPaletteAnim?.let {
-                    IconButton(
-                        onClick = {
-                            useMaterialYouPalette = !useMaterialYouPaletteAnim
-                        }
-                    ) {
-                        Icon(
-                            imageVector = if (useMaterialYouPaletteAnim) {
-                                Icons.Rounded.PaletteSwatch
-                            } else Icons.Outlined.Theme,
-                            contentDescription = null
-                        )
-                    }
-                }
-            }
         },
         imagePreview = {
             SimplePicture(bitmap = viewModel.bitmap)
         },
+        showImagePreviewAsStickyHeader = useMaterialYouPalette == false,
+        placeImagePreview = useMaterialYouPalette == false,
         controls = {
             viewModel.bitmap?.let { bitmap ->
                 GeneratePaletteScreenControls(

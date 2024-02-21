@@ -91,7 +91,8 @@ fun ColorInfo(
             Color(Random.nextInt()).copy(alpha = Color(color).alpha).toArgb()
         )
     },
-    supportButtonIcon: ImageVector = Icons.Rounded.Shuffle
+    supportButtonIcon: ImageVector = Icons.Rounded.Shuffle,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val colorPasteError = rememberSaveable { mutableStateOf<String?>(null) }
@@ -113,7 +114,7 @@ fun ColorInfo(
     }
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Card(

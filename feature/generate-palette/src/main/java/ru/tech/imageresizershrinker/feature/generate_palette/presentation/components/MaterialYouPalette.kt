@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.generate_palette.presentation.components
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -27,11 +26,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,7 +37,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.PaletteStyle
-import com.t8rin.dynamic.theme.extractPrimaryColor
 import com.t8rin.dynamic.theme.getColorScheme
 import com.t8rin.dynamic.theme.rememberColorScheme
 import kotlinx.coroutines.launch
@@ -54,22 +50,16 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 
 @Composable
 internal fun MaterialYouPalette(
-    image: Bitmap,
+    keyColor: Color,
     paletteStyle: PaletteStyle,
     isDarkTheme: Boolean,
     isInvertColors: Boolean,
     contrastLevel: Float
 ) {
-    val primaryColor by remember(image) {
-        derivedStateOf {
-            image.extractPrimaryColor()
-        }
-    }
-
     val colorScheme = rememberColorScheme(
         isDarkTheme = isDarkTheme,
         amoledMode = false,
-        colorTuple = ColorTuple(primaryColor),
+        colorTuple = ColorTuple(keyColor),
         style = paletteStyle,
         contrastLevel = contrastLevel.toDouble(),
         dynamicColor = false,
@@ -102,7 +92,7 @@ internal fun MaterialYouPalette(
             val light = getColorScheme(
                 isDarkTheme = false,
                 amoledMode = false,
-                colorTuple = ColorTuple(primaryColor),
+                colorTuple = ColorTuple(keyColor),
                 style = paletteStyle,
                 contrastLevel = contrastLevel.toDouble(),
                 dynamicColor = false,
@@ -112,7 +102,7 @@ internal fun MaterialYouPalette(
             val dark = getColorScheme(
                 isDarkTheme = true,
                 amoledMode = false,
-                colorTuple = ColorTuple(primaryColor),
+                colorTuple = ColorTuple(keyColor),
                 style = paletteStyle,
                 contrastLevel = contrastLevel.toDouble(),
                 dynamicColor = false,
@@ -130,6 +120,7 @@ internal fun MaterialYouPalette(
                 )
             }
         },
+        containerColor = MaterialTheme.colorScheme.tertiary,
         contentPadding = ButtonDefaults.ContentPadding + PaddingValues(
             start = (-4).dp
         )
