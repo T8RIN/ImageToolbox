@@ -34,12 +34,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.extractPrimaryColor
+import com.t8rin.dynamic.theme.getColorScheme
 import com.t8rin.dynamic.theme.rememberColorScheme
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
@@ -97,9 +99,29 @@ internal fun MaterialYouPalette(
 
     EnhancedButton(
         onClick = {
+            val light = getColorScheme(
+                isDarkTheme = false,
+                amoledMode = false,
+                colorTuple = ColorTuple(primaryColor),
+                style = paletteStyle,
+                contrastLevel = contrastLevel.toDouble(),
+                dynamicColor = false,
+                isInvertColors = isInvertColors
+            ).asCodeString(false)
+
+            val dark = getColorScheme(
+                isDarkTheme = true,
+                amoledMode = false,
+                colorTuple = ColorTuple(primaryColor),
+                style = paletteStyle,
+                contrastLevel = contrastLevel.toDouble(),
+                dynamicColor = false,
+                isInvertColors = isInvertColors
+            ).asCodeString(true)
+
             context.copyToClipboard(
                 context.getString(R.string.color_scheme),
-                colorScheme.asCodeString()
+                light + "\n\n" + dark
             )
             scope.launch {
                 toastHostState.showToast(
@@ -122,152 +144,48 @@ internal fun MaterialYouPalette(
 
 }
 
-private fun ColorScheme.asCodeString(): String = """
-val colorScheme = ColorScheme(
-    background = Color(0xff${
-    background.toHex()
-        .drop(1)
-}),
-    error = Color(0xff${
-    error.toHex()
-        .drop(1)
-}),
-    errorContainer = Color(0xff${
-    errorContainer.toHex()
-        .drop(1)
-}),
-    inverseOnSurface = Color(0xff${
-    inverseOnSurface.toHex()
-        .drop(1)
-}),
-    inversePrimary = Color(0xff${
-    inversePrimary.toHex()
-        .drop(1)
-}),
-    inverseSurface = Color(0xff${
-    inverseSurface.toHex()
-        .drop(1)
-}),
-    onBackground = Color(0xff${
-    onBackground.toHex()
-        .drop(1)
-}),
-    onError = Color(0xff${
-    onError.toHex()
-        .drop(1)
-}),
-    onErrorContainer = Color(0xff${
-    onErrorContainer.toHex()
-        .drop(1)
-}),
-    onPrimary = Color(0xff${
-    onPrimary.toHex()
-        .drop(1)
-}),
-    onPrimaryContainer = Color(0xff${
-    onPrimaryContainer.toHex()
-        .drop(1)
-}),
-    onSecondary = Color(0xff${
-    onSecondary.toHex()
-        .drop(1)
-}),
-    onSecondaryContainer = Color(0xff${
-    onSecondaryContainer.toHex()
-        .drop(1)
-}),
-    onSurface = Color(0xff${
-    onSurface.toHex()
-        .drop(1)
-}),
-    onSurfaceVariant = Color(0xff${
-    onSurfaceVariant.toHex()
-        .drop(1)
-}),
-    onTertiary = Color(0xff${
-    onTertiary.toHex()
-        .drop(1)
-}),
-    onTertiaryContainer = Color(0xff${
-    onTertiaryContainer.toHex()
-        .drop(1)
-}),
-    outline = Color(0xff${
-    outline.toHex()
-        .drop(1)
-}),
-    outlineVariant = Color(0xff${
-    outlineVariant.toHex()
-        .drop(1)
-}),
-    primary = Color(0xff${
-    primary.toHex()
-        .drop(1)
-}),
-    primaryContainer = Color(0xff${
-    primaryContainer.toHex()
-        .drop(1)
-}),
-    scrim = Color(0xff${
-    scrim.toHex()
-        .drop(1)
-}),
-    secondary = Color(0xff${
-    secondary.toHex()
-        .drop(1)
-}),
-    secondaryContainer = Color(0xff${
-    secondaryContainer.toHex()
-        .drop(1)
-}),
-    surface = Color(0xff${
-    surface.toHex()
-        .drop(1)
-}),
-    surfaceTint = Color(0xff${
-    surfaceTint.toHex()
-        .drop(1)
-}),
-    surfaceVariant = Color(0xff${
-    surfaceVariant.toHex()
-        .drop(1)
-}),
-    tertiary = Color(0xff${
-    tertiary.toHex()
-        .drop(1)
-}),
-    tertiaryContainer = Color(0xff${
-    tertiaryContainer.toHex()
-        .drop(1)
-}),
-    surfaceBright = Color(0xff${
-    surfaceBright.toHex()
-        .drop(1)
-}),
-    surfaceDim = Color(0xff${
-    surfaceDim.toHex()
-        .drop(1)
-}),
-    surfaceContainer = Color(0xff${
-    surfaceContainer.toHex()
-        .drop(1)
-}),
-    surfaceContainerHigh = Color(0xff${
-    surfaceContainerHigh.toHex()
-        .drop(1)
-}),
-    surfaceContainerHighest = Color(0xff${
-    surfaceContainerHighest.toHex()
-        .drop(1)
-}),
-    surfaceContainerLow = Color(0xff${
-    surfaceContainerLow.toHex()
-        .drop(1)
-}),
-    surfaceContainerLowest = Color(0xff${
-    surfaceContainerLowest.toHex()
-        .drop(1)
-}),
+private fun ColorScheme.asCodeString(
+    isDarkTheme: Boolean
+): String = """
+val ${if (isDarkTheme) "dark" else "light"}ColorScheme = ColorScheme(
+    background = Color(0xff${background.hex}),
+    error = Color(0xff${error.hex}),
+    errorContainer = Color(0xff${errorContainer.hex}),
+    inverseOnSurface = Color(0xff${inverseOnSurface.hex}),
+    inversePrimary = Color(0xff${inversePrimary.hex}),
+    inverseSurface = Color(0xff${inverseSurface.hex}),
+    onBackground = Color(0xff${onBackground.hex}),
+    onError = Color(0xff${onError.hex}),
+    onErrorContainer = Color(0xff${onErrorContainer.hex}),
+    onPrimary = Color(0xff${onPrimary.hex}),
+    onPrimaryContainer = Color(0xff${onPrimaryContainer.hex}),
+    onSecondary = Color(0xff${onSecondary.hex}),
+    onSecondaryContainer = Color(0xff${onSecondaryContainer.hex}),
+    onSurface = Color(0xff${onSurface.hex}),
+    onSurfaceVariant = Color(0xff${onSurfaceVariant.hex}),
+    onTertiary = Color(0xff${onTertiary.hex}),
+    onTertiaryContainer = Color(0xff${onTertiaryContainer.hex}),
+    outline = Color(0xff${outline.hex}),
+    outlineVariant = Color(0xff${outlineVariant.hex}),
+    primary = Color(0xff${primary.hex}),
+    primaryContainer = Color(0xff${primaryContainer.hex}),
+    scrim = Color(0xff${scrim.hex}),
+    secondary = Color(0xff${secondary.hex}),
+    secondaryContainer = Color(0xff${secondaryContainer.hex}),
+    surface = Color(0xff${surface.hex}),
+    surfaceTint = Color(0xff${surfaceTint.hex}),
+    surfaceVariant = Color(0xff${surfaceVariant.hex}),
+    tertiary = Color(0xff${tertiary.hex}),
+    tertiaryContainer = Color(0xff${tertiaryContainer.hex}),
+    surfaceBright = Color(0xff${surfaceBright.hex}),
+    surfaceDim = Color(0xff${surfaceDim.hex}),
+    surfaceContainer = Color(0xff${surfaceContainer.hex}),
+    surfaceContainerHigh = Color(0xff${surfaceContainerHigh.hex}),
+    surfaceContainerHighest = Color(0xff${surfaceContainerHighest.hex}),
+    surfaceContainerLow = Color(0xff${surfaceContainerLow.hex}),
+    surfaceContainerLowest = Color(0xff${surfaceContainerLowest.hex}),
 )
 """.trim()
 
+private val Color.hex
+    get() = this.toHex().drop(1)
