@@ -112,7 +112,7 @@ import kotlin.math.sign
 
 
 @Immutable
-class SliderColors(
+class CustomSliderColors(
     val thumbColor: Color,
     val activeTrackColor: Color,
     val activeTickColor: Color,
@@ -140,7 +140,7 @@ class SliderColors(
         disabledActiveTickColor: Color = this.disabledActiveTickColor,
         disabledInactiveTrackColor: Color = this.disabledInactiveTrackColor,
         disabledInactiveTickColor: Color = this.disabledInactiveTickColor,
-    ) = SliderColors(
+    ) = CustomSliderColors(
         thumbColor.takeOrElse { this.thumbColor },
         activeTrackColor.takeOrElse { this.activeTrackColor },
         activeTickColor.takeOrElse { this.activeTickColor },
@@ -181,7 +181,7 @@ class SliderColors(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other == null || other !is SliderColors) return false
+        if (other == null || other !is CustomSliderColors) return false
 
         if (thumbColor != other.thumbColor) return false
         if (activeTrackColor != other.activeTrackColor) return false
@@ -215,7 +215,7 @@ class SliderColors(
  *
  * Sliders allow users to make selections from a range of values.
  *
- * It uses [SliderDefaults.Thumb] and [SliderDefaults.Track] as the thumb and track.
+ * It uses [CustomSliderDefaults.Thumb] and [CustomSliderDefaults.Track] as the thumb and track.
  *
  * Sliders reflect a range of values along a bar, from which users may select a single value.
  * They are ideal for adjusting settings such as volume, brightness, or applying image filters.
@@ -243,8 +243,8 @@ class SliderColors(
  * @param onValueChangeFinished called when value change has ended. This should not be used to
  * update the slider value (use [onValueChange] instead), but rather to know when the user has
  * completed selecting a new value by ending a drag or a click.
- * @param colors [SliderColors] that will be used to resolve the colors used for this slider in
- * different states. See [SliderDefaults.colors].
+ * @param colors [CustomSliderColors] that will be used to resolve the colors used for this slider in
+ * different states. See [CustomSliderDefaults.colors].
  * @param interactionSource the [MutableInteractionSource] representing the stream of [Interaction]s
  * for this slider. You can create and pass in your own `remember`ed instance to observe
  * [Interaction]s and customize the appearance / behavior of this slider in different states.
@@ -260,7 +260,7 @@ fun CustomSlider(
     @IntRange(from = 0)
     steps: Int = 0,
     onValueChangeFinished: (() -> Unit)? = null,
-    colors: SliderColors = SliderDefaults.colors(),
+    colors: CustomSliderColors = CustomSliderDefaults.colors(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
     CustomSlider(
@@ -273,14 +273,14 @@ fun CustomSlider(
         interactionSource = interactionSource,
         steps = steps,
         thumb = {
-            SliderDefaults.Thumb(
+            CustomSliderDefaults.Thumb(
                 interactionSource = interactionSource,
                 colors = colors,
                 enabled = enabled
             )
         },
         track = { sliderState ->
-            SliderDefaults.Track(
+            CustomSliderDefaults.Track(
                 colors = colors,
                 enabled = enabled,
                 sliderState = sliderState
@@ -316,8 +316,8 @@ fun CustomSlider(
  * @param onValueChangeFinished called when value change has ended. This should not be used to
  * update the slider value (use [onValueChange] instead), but rather to know when the user has
  * completed selecting a new value by ending a drag or a click.
- * @param colors [SliderColors] that will be used to resolve the colors used for this slider in
- * different states. See [SliderDefaults.colors].
+ * @param colors [CustomSliderColors] that will be used to resolve the colors used for this slider in
+ * different states. See [CustomSliderDefaults.colors].
  * @param interactionSource the [MutableInteractionSource] representing the stream of [Interaction]s
  * for this slider. You can create and pass in your own `remember`ed instance to observe
  * [Interaction]s and customize the appearance / behavior of this slider in different states.
@@ -339,19 +339,19 @@ fun CustomSlider(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     onValueChangeFinished: (() -> Unit)? = null,
-    colors: SliderColors = SliderDefaults.colors(),
+    colors: CustomSliderColors = CustomSliderDefaults.colors(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     @IntRange(from = 0)
     steps: Int = 0,
     thumb: @Composable (SliderState) -> Unit = {
-        SliderDefaults.Thumb(
+        CustomSliderDefaults.Thumb(
             interactionSource = interactionSource,
             colors = colors,
             enabled = enabled
         )
     },
     track: @Composable (SliderState) -> Unit = { sliderState ->
-        SliderDefaults.Track(
+        CustomSliderDefaults.Track(
             colors = colors,
             enabled = enabled,
             sliderState = sliderState
@@ -409,8 +409,8 @@ fun CustomSlider(
  * @param enabled controls the enabled state of this slider. When `false`, this component will not
  * respond to user input, and it will appear visually disabled and disabled to accessibility
  * services.
- * @param colors [SliderColors] that will be used to resolve the colors used for this slider in
- * different states. See [SliderDefaults.colors].
+ * @param colors [CustomSliderColors] that will be used to resolve the colors used for this slider in
+ * different states. See [CustomSliderDefaults.colors].
  * @param interactionSource the [MutableInteractionSource] representing the stream of [Interaction]s
  * for this slider. You can create and pass in your own `remember`ed instance to observe
  * [Interaction]s and customize the appearance / behavior of this slider in different states.
@@ -425,17 +425,17 @@ fun CustomSlider(
     state: SliderState,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    colors: SliderColors = SliderDefaults.colors(),
+    colors: CustomSliderColors = CustomSliderDefaults.colors(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     thumb: @Composable (SliderState) -> Unit = {
-        SliderDefaults.Thumb(
+        CustomSliderDefaults.Thumb(
             interactionSource = interactionSource,
             colors = colors,
             enabled = enabled
         )
     },
     track: @Composable (SliderState) -> Unit = { sliderState ->
-        SliderDefaults.Track(
+        CustomSliderDefaults.Track(
             colors = colors,
             enabled = enabled,
             sliderState = sliderState
@@ -482,8 +482,8 @@ fun CustomSlider(
  * @param onValueChangeFinished lambda to be invoked when value change has ended. This callback
  * shouldn't be used to update the range slider values (use [onValueChange] for that), but rather to
  * know when the user has completed selecting a new value by ending a drag or a click.
- * @param colors [SliderColors] that will be used to determine the color of the Range Slider
- * parts in different state. See [SliderDefaults.colors] to customize.
+ * @param colors [CustomSliderColors] that will be used to determine the color of the Range Slider
+ * parts in different state. See [CustomSliderDefaults.colors] to customize.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -496,7 +496,7 @@ fun CustomRangeSlider(
     @IntRange(from = 0)
     steps: Int = 0,
     onValueChangeFinished: (() -> Unit)? = null,
-    colors: SliderColors = SliderDefaults.colors()
+    colors: CustomSliderColors = CustomSliderDefaults.colors()
 ) {
     val startInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() }
     val endInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() }
@@ -512,21 +512,21 @@ fun CustomRangeSlider(
         startInteractionSource = startInteractionSource,
         endInteractionSource = endInteractionSource,
         startThumb = {
-            SliderDefaults.Thumb(
+            CustomSliderDefaults.Thumb(
                 interactionSource = startInteractionSource,
                 colors = colors,
                 enabled = enabled
             )
         },
         endThumb = {
-            SliderDefaults.Thumb(
+            CustomSliderDefaults.Thumb(
                 interactionSource = endInteractionSource,
                 colors = colors,
                 enabled = enabled
             )
         },
         track = { rangeSliderState ->
-            SliderDefaults.Track(
+            CustomSliderDefaults.Track(
                 colors = colors,
                 enabled = enabled,
                 rangeSliderState = rangeSliderState
@@ -544,7 +544,7 @@ fun CustomRangeSlider(
  *
  * It uses the provided startThumb for the slider's start thumb and endThumb for the
  * slider's end thumb. It also uses the provided track for the slider's track. If nothing is
- * passed for these parameters, it will use [SliderDefaults.Thumb] and [SliderDefaults.Track]
+ * passed for these parameters, it will use [CustomSliderDefaults.Thumb] and [CustomSliderDefaults.Track]
  * for the thumbs and track.
  *
  * Use continuous Range Sliders to allow users to make meaningful selections that don’t
@@ -562,8 +562,8 @@ fun CustomRangeSlider(
  * @param onValueChangeFinished lambda to be invoked when value change has ended. This callback
  * shouldn't be used to update the range slider values (use [onValueChange] for that), but rather to
  * know when the user has completed selecting a new value by ending a drag or a click.
- * @param colors [SliderColors] that will be used to determine the color of the Range Slider
- * parts in different state. See [SliderDefaults.colors] to customize.
+ * @param colors [CustomSliderColors] that will be used to determine the color of the Range Slider
+ * parts in different state. See [CustomSliderDefaults.colors] to customize.
  * @param startInteractionSource the [MutableInteractionSource] representing the stream of
  * [Interaction]s for the start thumb. You can create and pass in your own
  * `remember`ed instance to observe.
@@ -591,25 +591,25 @@ fun CustomRangeSlider(
     enabled: Boolean = true,
     valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
     onValueChangeFinished: (() -> Unit)? = null,
-    colors: SliderColors = SliderDefaults.colors(),
+    colors: CustomSliderColors = CustomSliderDefaults.colors(),
     startInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     endInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     startThumb: @Composable (RangeSliderState) -> Unit = {
-        SliderDefaults.Thumb(
+        CustomSliderDefaults.Thumb(
             interactionSource = startInteractionSource,
             colors = colors,
             enabled = enabled
         )
     },
     endThumb: @Composable (RangeSliderState) -> Unit = {
-        SliderDefaults.Thumb(
+        CustomSliderDefaults.Thumb(
             interactionSource = endInteractionSource,
             colors = colors,
             enabled = enabled
         )
     },
     track: @Composable (RangeSliderState) -> Unit = { rangeSliderState ->
-        SliderDefaults.Track(
+        CustomSliderDefaults.Track(
             colors = colors,
             enabled = enabled,
             rangeSliderState = rangeSliderState
@@ -657,7 +657,7 @@ fun CustomRangeSlider(
  *
  * It uses the provided startThumb for the slider's start thumb and endThumb for the
  * slider's end thumb. It also uses the provided track for the slider's track. If nothing is
- * passed for these parameters, it will use [SliderDefaults.Thumb] and [SliderDefaults.Track]
+ * passed for these parameters, it will use [CustomSliderDefaults.Thumb] and [CustomSliderDefaults.Track]
  * for the thumbs and track.
  *
  * Use continuous Range Sliders to allow users to make meaningful selections that don’t
@@ -671,8 +671,8 @@ fun CustomRangeSlider(
  * @param state [RangeSliderState] which contains the current values of the RangeSlider.
  * @param modifier modifiers for the Range Slider layout
  * @param enabled whether or not component is enabled and can we interacted with or not
- * @param colors [SliderColors] that will be used to determine the color of the Range Slider
- * parts in different state. See [SliderDefaults.colors] to customize.
+ * @param colors [CustomSliderColors] that will be used to determine the color of the Range Slider
+ * parts in different state. See [CustomSliderDefaults.colors] to customize.
  * @param startInteractionSource the [MutableInteractionSource] representing the stream of
  * [Interaction]s for the start thumb. You can create and pass in your own
  * `remember`ed instance to observe.
@@ -692,25 +692,25 @@ fun CustomRangeSlider(
     state: RangeSliderState,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    colors: SliderColors = SliderDefaults.colors(),
+    colors: CustomSliderColors = CustomSliderDefaults.colors(),
     startInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     endInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     startThumb: @Composable (RangeSliderState) -> Unit = {
-        SliderDefaults.Thumb(
+        CustomSliderDefaults.Thumb(
             interactionSource = startInteractionSource,
             colors = colors,
             enabled = enabled
         )
     },
     endThumb: @Composable (RangeSliderState) -> Unit = {
-        SliderDefaults.Thumb(
+        CustomSliderDefaults.Thumb(
             interactionSource = endInteractionSource,
             colors = colors,
             enabled = enabled
         )
     },
     track: @Composable (RangeSliderState) -> Unit = { rangeSliderState ->
-        SliderDefaults.Track(
+        CustomSliderDefaults.Track(
             colors = colors,
             enabled = enabled,
             rangeSliderState = rangeSliderState
@@ -940,10 +940,10 @@ private fun RangeSliderImpl(
  * Object to hold defaults used by [CustomSlider]
  */
 @Stable
-object SliderDefaults {
+object CustomSliderDefaults {
 
     /**
-     * Creates a [SliderColors] that represents the different colors used in parts of the
+     * Creates a [CustomSliderColors] that represents the different colors used in parts of the
      * [CustomSlider] in different states.
      */
     @Composable
@@ -957,7 +957,7 @@ object SliderDefaults {
     )
 
     /**
-     * Creates a [SliderColors] that represents the different colors used in parts of the
+     * Creates a [CustomSliderColors] that represents the different colors used in parts of the
      * [CustomSlider] in different states.
      *
      * For the name references below the words "active" and "inactive" are used. Active part of
@@ -995,7 +995,7 @@ object SliderDefaults {
         disabledActiveTickColor: Color = Color.Unspecified,
         disabledInactiveTrackColor: Color = Color.Unspecified,
         disabledInactiveTickColor: Color = Color.Unspecified
-    ): SliderColors = SliderColors(
+    ): CustomSliderColors = CustomSliderColors(
         thumbColor = thumbColor,
         activeTrackColor = activeTrackColor,
         activeTickColor = activeTickColor,
@@ -1016,8 +1016,8 @@ object SliderDefaults {
      * [Interaction]s for this thumb. You can create and pass in your own `remember`ed
      * instance to observe
      * @param modifier the [Modifier] to be applied to the thumb.
-     * @param colors [SliderColors] that will be used to resolve the colors used for this thumb in
-     * different states. See [SliderDefaults.colors].
+     * @param colors [CustomSliderColors] that will be used to resolve the colors used for this thumb in
+     * different states. See [CustomSliderDefaults.colors].
      * @param enabled controls the enabled state of this slider. When `false`, this component will
      * not respond to user input, and it will appear visually disabled and disabled to
      * accessibility services.
@@ -1026,7 +1026,7 @@ object SliderDefaults {
     fun Thumb(
         interactionSource: MutableInteractionSource,
         modifier: Modifier = Modifier,
-        colors: SliderColors = colors(),
+        colors: CustomSliderColors = colors(),
         enabled: Boolean = true,
         thumbSize: DpSize = ThumbSize
     ) {
@@ -1072,8 +1072,8 @@ object SliderDefaults {
      *
      * @param sliderState [SliderState] which is used to obtain the current active track.
      * @param modifier the [Modifier] to be applied to the track.
-     * @param colors [SliderColors] that will be used to resolve the colors used for this track in
-     * different states. See [SliderDefaults.colors].
+     * @param colors [CustomSliderColors] that will be used to resolve the colors used for this track in
+     * different states. See [CustomSliderDefaults.colors].
      * @param enabled controls the enabled state of this slider. When `false`, this component will
      * not respond to user input, and it will appear visually disabled and disabled to
      * accessibility services.
@@ -1083,7 +1083,7 @@ object SliderDefaults {
     fun Track(
         sliderState: SliderState,
         modifier: Modifier = Modifier,
-        colors: SliderColors = colors(),
+        colors: CustomSliderColors = colors(),
         enabled: Boolean = true,
         trackHeight: Dp = 32.dp
     ) {
@@ -1114,8 +1114,8 @@ object SliderDefaults {
      *
      * @param rangeSliderState [RangeSliderState] which is used to obtain the current active track.
      * @param modifier the [Modifier] to be applied to the track.
-     * @param colors [SliderColors] that will be used to resolve the colors used for this track in
-     * different states. See [SliderDefaults.colors].
+     * @param colors [CustomSliderColors] that will be used to resolve the colors used for this track in
+     * different states. See [CustomSliderDefaults.colors].
      * @param enabled controls the enabled state of this slider. When `false`, this component will
      * not respond to user input, and it will appear visually disabled and disabled to
      * accessibility services.
@@ -1125,7 +1125,7 @@ object SliderDefaults {
     fun Track(
         rangeSliderState: RangeSliderState,
         modifier: Modifier = Modifier,
-        colors: SliderColors = colors(),
+        colors: CustomSliderColors = colors(),
         enabled: Boolean = true,
         trackHeight: Dp = 32.dp
     ) {
@@ -1249,11 +1249,11 @@ private fun scale(
 private fun scale(
     a1: Float,
     b1: Float,
-    x: SliderRange,
+    x: CustomSliderRange,
     a2: Float,
     b2: Float
 ) =
-    SliderRange(scale(a1, b1, x.start, a2, b2), scale(a1, b1, x.endInclusive, a2, b2))
+    CustomSliderRange(scale(a1, b1, x.start, a2, b2), scale(a1, b1, x.endInclusive, a2, b2))
 
 // Calculate the 0..1 fraction that `pos` value represents between `a` and `b`
 private fun calcFraction(
@@ -1361,8 +1361,9 @@ private fun Modifier.rangeSliderStartThumbSemantics(
                 if (resolvedValue == state.activeRangeStart) {
                     false
                 } else {
-                    val resolvedRange = SliderRange(resolvedValue, state.activeRangeEnd)
-                    val activeRange = SliderRange(state.activeRangeStart, state.activeRangeEnd)
+                    val resolvedRange = CustomSliderRange(resolvedValue, state.activeRangeEnd)
+                    val activeRange =
+                        CustomSliderRange(state.activeRangeStart, state.activeRangeEnd)
                     if (resolvedRange != activeRange) {
                         if (state.onValueChange != null) {
                             state.onValueChange?.let { it(resolvedRange) }
@@ -1420,8 +1421,9 @@ private fun Modifier.rangeSliderEndThumbSemantics(
                 if (resolvedValue == state.activeRangeEnd) {
                     false
                 } else {
-                    val resolvedRange = SliderRange(state.activeRangeStart, resolvedValue)
-                    val activeRange = SliderRange(state.activeRangeStart, state.activeRangeEnd)
+                    val resolvedRange = CustomSliderRange(state.activeRangeStart, resolvedValue)
+                    val activeRange =
+                        CustomSliderRange(state.activeRangeStart, state.activeRangeEnd)
                     if (resolvedRange != activeRange) {
                         if (state.onValueChange != null) {
                             state.onValueChange?.let { it(resolvedRange) }
@@ -1821,7 +1823,7 @@ class RangeSliderState(
         }
         get() = activeRangeEndState
 
-    internal var onValueChange: ((SliderRange) -> Unit)? = null
+    internal var onValueChange: ((CustomSliderRange) -> Unit)? = null
 
     internal val tickFractions = stepsToTickFractions(steps)
 
@@ -1850,17 +1852,17 @@ class RangeSliderState(
             val offsetEnd = rawOffsetEnd
             var offsetStart = rawOffsetStart.coerceIn(minPx, offsetEnd)
             offsetStart = snapValueToTick(offsetStart, tickFractions, minPx, maxPx)
-            SliderRange(offsetStart, offsetEnd)
+            CustomSliderRange(offsetStart, offsetEnd)
         } else {
             rawOffsetEnd = (rawOffsetEnd + offset)
             rawOffsetStart = scaleToOffset(minPx, maxPx, activeRangeStart)
             val offsetStart = rawOffsetStart
             var offsetEnd = rawOffsetEnd.coerceIn(offsetStart, maxPx)
             offsetEnd = snapValueToTick(offsetEnd, tickFractions, minPx, maxPx)
-            SliderRange(offsetStart, offsetEnd)
+            CustomSliderRange(offsetStart, offsetEnd)
         }
         val scaledUserValue = scaleToUserValue(minPx, maxPx, offsetRange)
-        if (scaledUserValue != SliderRange(activeRangeStart, activeRangeEnd)) {
+        if (scaledUserValue != CustomSliderRange(activeRangeStart, activeRangeEnd)) {
             if (onValueChange != null) {
                 onValueChange?.let { it(scaledUserValue) }
             } else {
@@ -1894,7 +1896,7 @@ class RangeSliderState(
     private fun scaleToUserValue(
         minPx: Float,
         maxPx: Float,
-        offset: SliderRange
+        offset: CustomSliderRange
     ) = scale(minPx, maxPx, offset, valueRange.start, valueRange.endInclusive)
 
     // scales float userValue within valueRange.start..valueRange.end to within minPx..maxPx
@@ -1933,11 +1935,11 @@ class RangeSliderState(
  */
 @Immutable
 @JvmInline
-internal value class SliderRange(
+internal value class CustomSliderRange(
     val packedValue: Long
 ) {
     /**
-     * start of the [SliderRange]
+     * start of the [CustomSliderRange]
      */
     @Stable
     val start: Float
@@ -1950,7 +1952,7 @@ internal value class SliderRange(
         }
 
     /**
-     * End (inclusive) of the [SliderRange]
+     * End (inclusive) of the [CustomSliderRange]
      */
     @Stable
     val endInclusive: Float
@@ -1964,15 +1966,15 @@ internal value class SliderRange(
 
     companion object {
         /**
-         * Represents an unspecified [SliderRange] value, usually a replacement for `null`
+         * Represents an unspecified [CustomSliderRange] value, usually a replacement for `null`
          * when a primitive value is desired.
          */
         @Stable
-        val Unspecified = SliderRange(Float.NaN, Float.NaN)
+        val Unspecified = CustomSliderRange(Float.NaN, Float.NaN)
     }
 
     /**
-     * String representation of the [SliderRange]
+     * String representation of the [CustomSliderRange]
      */
     override fun toString() = if (isSpecified) {
         "$start..$endInclusive"
@@ -1982,32 +1984,32 @@ internal value class SliderRange(
 }
 
 /**
- * Creates a [SliderRange] from a given start and endInclusive float.
+ * Creates a [CustomSliderRange] from a given start and endInclusive float.
  * It requires endInclusive to be >= start.
  *
  * @param start float that indicates the start of the range
  * @param endInclusive float that indicates the end of the range
  */
 @Stable
-internal fun SliderRange(
+internal fun CustomSliderRange(
     start: Float,
     endInclusive: Float
-): SliderRange {
+): CustomSliderRange {
     val isUnspecified = start.isNaN() && endInclusive.isNaN()
     require(isUnspecified || start <= endInclusive) {
         "start($start) must be <= endInclusive($endInclusive)"
     }
-    return SliderRange(packFloats(start, endInclusive))
+    return CustomSliderRange(packFloats(start, endInclusive))
 }
 
 /**
- * Creates a [SliderRange] from a given [ClosedFloatingPointRange].
+ * Creates a [CustomSliderRange] from a given [ClosedFloatingPointRange].
  * It requires range.endInclusive >= range.start.
  *
  * @param range the ClosedFloatingPointRange<Float> for the range.
  */
 @Stable
-internal fun SliderRange(range: ClosedFloatingPointRange<Float>): SliderRange {
+internal fun CustomSliderRange(range: ClosedFloatingPointRange<Float>): CustomSliderRange {
     val start = range.start
     val endInclusive = range.endInclusive
     val isUnspecified = start.isNaN() && endInclusive.isNaN()
@@ -2015,16 +2017,16 @@ internal fun SliderRange(range: ClosedFloatingPointRange<Float>): SliderRange {
         "ClosedFloatingPointRange<Float>.start($start) must be <= " +
                 "ClosedFloatingPoint.endInclusive($endInclusive)"
     }
-    return SliderRange(packFloats(start, endInclusive))
+    return CustomSliderRange(packFloats(start, endInclusive))
 }
 
 /**
- * Check for if a given [SliderRange] is not [SliderRange.Unspecified].
+ * Check for if a given [CustomSliderRange] is not [CustomSliderRange.Unspecified].
  */
 @Stable
-internal val SliderRange.isSpecified: Boolean
+internal val CustomSliderRange.isSpecified: Boolean
     get() =
-        packedValue != SliderRange.Unspecified.packedValue
+        packedValue != CustomSliderRange.Unspecified.packedValue
 
 private val mouseSlop = 0.125.dp
 private val defaultTouchSlop = 18.dp // The default touch slop on Android devices

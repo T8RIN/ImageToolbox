@@ -165,8 +165,8 @@ fun EnhancedSlider(
     }
 }
 
-private fun SliderColors.toCustom(): ru.tech.imageresizershrinker.core.ui.widget.controls.SliderColors {
-    return ru.tech.imageresizershrinker.core.ui.widget.controls.SliderColors(
+private fun SliderColors.toCustom(): CustomSliderColors {
+    return CustomSliderColors(
         thumbColor = thumbColor,
         activeTrackColor = activeTrackColor,
         activeTickColor = activeTickColor,
