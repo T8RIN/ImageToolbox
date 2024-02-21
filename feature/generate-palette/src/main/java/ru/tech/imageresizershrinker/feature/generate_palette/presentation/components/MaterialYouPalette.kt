@@ -188,4 +188,4 @@ val ${if (isDarkTheme) "dark" else "light"}ColorScheme = ColorScheme(
 """.trim()
 
 private val Color.hex
-    get() = this.toHex().drop(1)
+    get() = this.toHex().drop(1).lowercase()
