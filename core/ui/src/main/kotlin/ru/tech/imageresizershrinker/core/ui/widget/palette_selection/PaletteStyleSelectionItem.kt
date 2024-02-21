@@ -36,7 +36,10 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
 @Composable
-fun PaletteStyleSelectionItem(style: PaletteStyle, onClick: () -> Unit) {
+fun PaletteStyleSelectionItem(
+    style: PaletteStyle,
+    onClick: () -> Unit
+) {
     val settingsState = LocalSettingsState.current
     val selected = settingsState.themeStyle == style
     val context = LocalContext.current

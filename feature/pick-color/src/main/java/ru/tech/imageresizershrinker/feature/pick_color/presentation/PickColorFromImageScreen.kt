@@ -95,20 +95,15 @@ import com.smarttoolfactory.colordetector.ImageColorDetector
 import com.smarttoolfactory.colordetector.parser.rememberColorParser
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
-import dev.olshevski.navigation.reimagined.navigate
-import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.icons.material.PaletteSwatch
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
@@ -134,7 +129,6 @@ fun PickColorFromImageScreen(
     viewModel: PickColorViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
-    val navController = LocalNavController.current
     val context = LocalContext.current
     val toastHostState = LocalToastHostState.current
     val themeState = LocalDynamicThemeState.current
@@ -148,15 +142,11 @@ fun PickColorFromImageScreen(
 
     LaunchedEffect(uriState) {
         uriState?.let {
-            viewModel.setUri(it)
-            viewModel.decodeBitmapByUri(
-                uri = it,
-                onError = {
-                    scope.launch {
-                        toastHostState.showError(context, it)
-                    }
+            viewModel.setUri(it) {
+                scope.launch {
+                    toastHostState.showError(context, it)
                 }
-            )
+            }
         }
     }
 
@@ -178,17 +168,15 @@ fun PickColorFromImageScreen(
         rememberImagePicker(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
-            uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
-                viewModel.setUri(it)
-                viewModel.decodeBitmapByUri(
-                    uri = it,
-                    onError = {
+            uris.takeIf { it.isNotEmpty() }
+                ?.firstOrNull()
+                ?.let {
+                    viewModel.setUri(it) {
                         scope.launch {
                             toastHostState.showError(context, it)
                         }
                     }
-                )
-            }
+                }
         }
 
     val pickImage = {
@@ -366,25 +354,6 @@ fun PickColorFromImageScreen(
                                                             }
                                                         }
                                                 )
-
-                                                if (viewModel.uri != null) {
-                                                    EnhancedIconButton(
-                                                        containerColor = Color.Transparent,
-                                                        contentColor = LocalContentColor.current,
-                                                        enableAutoShadowAndBorder = false,
-                                                        onClick = {
-                                                            if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                                                            navController.navigate(
-                                                                Screen.GeneratePalette(
-                                                                    viewModel.uri
-                                                                )
-                                                            )
-                                                        },
-                                                        modifier = Modifier.statusBarsPadding()
-                                                    ) {
-                                                        Icon(Icons.Rounded.PaletteSwatch, null)
-                                                    }
-                                                }
                                             }
                                         }
                                     }
@@ -393,24 +362,6 @@ fun PickColorFromImageScreen(
                                             .weight(1f)
                                             .padding(start = 8.dp)
                                     )
-                                    if (viewModel.uri != null && portrait) {
-                                        EnhancedIconButton(
-                                            containerColor = Color.Transparent,
-                                            contentColor = LocalContentColor.current,
-                                            enableAutoShadowAndBorder = false,
-                                            onClick = {
-                                                if (navController.backstack.entries.isNotEmpty()) navController.pop()
-                                                navController.navigate(
-                                                    Screen.GeneratePalette(
-                                                        viewModel.uri
-                                                    )
-                                                )
-                                            },
-                                            modifier = Modifier.statusBarsPadding()
-                                        ) {
-                                            Icon(Icons.Rounded.PaletteSwatch, null)
-                                        }
-                                    }
                                 }
                                 if (portrait) {
                                     Spacer(modifier = Modifier.height(8.dp))

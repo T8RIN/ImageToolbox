@@ -559,16 +559,18 @@ fun rememberColorScheme(
         style,
         isInvertColors
     ) {
-        getColorScheme(
-            isDarkTheme = isDarkTheme,
-            amoledMode = amoledMode,
-            colorTuple = colorTuple,
-            style = style,
-            contrastLevel = contrastLevel,
-            dynamicColor = dynamicColor,
-            isInvertColors = isInvertColors
-        )
-    }
+        derivedStateOf {
+            getColorScheme(
+                isDarkTheme = isDarkTheme,
+                amoledMode = amoledMode,
+                colorTuple = colorTuple,
+                style = style,
+                contrastLevel = contrastLevel,
+                dynamicColor = dynamicColor,
+                isInvertColors = isInvertColors
+            )
+        }
+    }.value
 }
 
 fun getColorScheme(

@@ -800,4 +800,9 @@
     <string name="cannot_change_image_format">Cannot change image format while overwrite files option enabled</string>
     <string name="emoji_as_color_scheme">Emoji as Color Scheme</string>
     <string name="emoji_as_color_scheme_sub">Uses emoji primary color as app color scheme instead of manually defined one</string>
+    <string name="material_you">Material You</string>
+    <string name="material_you_sub">Creates Material You palette from image</string>
+    <string name="dark_colors">Dark Colors</string>
+    <string name="dark_colors_sub">Uses night mode color scheme instead of light variant</string>
+    <string name="copy_as_compose_code">Copy as Jetpack Compose code</string>
 </resources>
