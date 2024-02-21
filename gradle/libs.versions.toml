@@ -9,9 +9,9 @@ versionCode = "121"
 jvmTarget = "17"
 compose-compiler = "1.5.9"
 
-avifCoderCoil = "1.6.2"
-avifCoder = "1.6.2"
-aire = "0.9.57"
+avifCoderCoil = "1.6.4"
+avifCoder = "1.6.4"
+aire = "0.9.58"
 jxlCoderCoil = "1.10.4"
 jxlCoder = "1.10.4"
 
