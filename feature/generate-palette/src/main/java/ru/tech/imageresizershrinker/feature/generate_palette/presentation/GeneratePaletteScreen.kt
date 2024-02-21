@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.generate_palette.presentation
 
 import android.content.res.Configuration
 import android.net.Uri
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -37,6 +38,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -62,6 +64,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.icons.material.PaletteSwatch
 import ru.tech.imageresizershrinker.core.ui.icons.material.Theme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
@@ -302,6 +305,24 @@ fun GeneratePaletteScreen(
         topAppBarPersistentActions = {
             if (viewModel.bitmap == null) {
                 TopAppBarEmoji()
+            }
+            AnimatedContent(
+                targetState = useMaterialYouPalette
+            ) { useMaterialYouPaletteAnim ->
+                useMaterialYouPaletteAnim?.let {
+                    IconButton(
+                        onClick = {
+                            useMaterialYouPalette = !useMaterialYouPaletteAnim
+                        }
+                    ) {
+                        Icon(
+                            imageVector = if (useMaterialYouPaletteAnim) {
+                                Icons.Rounded.PaletteSwatch
+                            } else Icons.Outlined.Theme,
+                            contentDescription = null
+                        )
+                    }
+                }
             }
         },
         imagePreview = {
