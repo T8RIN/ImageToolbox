@@ -64,7 +64,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.notShowReviewAgain
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.widget.UpdateSheet
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderInit
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.customHapticFeedback
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
@@ -98,8 +97,6 @@ class AppActivity : M3Activity() {
         setContentWithWindowSizeClass {
             var showExitDialog by rememberSaveable { mutableStateOf(false) }
             val editPresetsState = rememberSaveable { mutableStateOf(false) }
-
-            EnhancedSliderInit()
 
             val isSecureMode = viewModel.settingsState.isSecureMode
             LaunchedEffect(isSecureMode) {

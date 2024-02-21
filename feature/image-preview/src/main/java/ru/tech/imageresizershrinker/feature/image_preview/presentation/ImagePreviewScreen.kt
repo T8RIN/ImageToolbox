@@ -235,7 +235,8 @@ fun ImagePreviewScreen(
                             onShareImage = {
                                 viewModel.shareImage(it, showConfetti)
                             },
-                            state = gridState
+                            state = gridState,
+                            onRemove = viewModel::removeUri
                         )
                     }
                 }

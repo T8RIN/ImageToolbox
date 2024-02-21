@@ -33,10 +33,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SliderDefaults
-import androidx.compose.material3.SliderState
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -133,7 +131,7 @@ fun EnhancedSlider(
 
     val settingsState = LocalSettingsState.current
     CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
-        Slider(
+        CustomSlider(
             interactionSource = interactionSource,
             thumb = thumb,
             enabled = enabled,
@@ -157,7 +155,7 @@ fun EnhancedSlider(
                     shape = CircleShape
                 )
                 .padding(horizontal = 6.dp),
-            colors = colors,
+            colors = colors.toCustom(),
             value = animateFloatAsState(value).value,
             onValueChange = onValueChange,
             onValueChangeFinished = onValueChangeFinished,
@@ -165,4 +163,19 @@ fun EnhancedSlider(
             steps = steps
         )
     }
+}
+
+private fun SliderColors.toCustom(): ru.tech.imageresizershrinker.core.ui.widget.controls.SliderColors {
+    return ru.tech.imageresizershrinker.core.ui.widget.controls.SliderColors(
+        thumbColor = thumbColor,
+        activeTrackColor = activeTrackColor,
+        activeTickColor = activeTickColor,
+        inactiveTrackColor = inactiveTrackColor,
+        inactiveTickColor = inactiveTickColor,
+        disabledThumbColor = disabledThumbColor,
+        disabledActiveTrackColor = disabledActiveTrackColor,
+        disabledActiveTickColor = disabledActiveTickColor,
+        disabledInactiveTrackColor = disabledInactiveTrackColor,
+        disabledInactiveTickColor = disabledInactiveTickColor
+    )
 }
