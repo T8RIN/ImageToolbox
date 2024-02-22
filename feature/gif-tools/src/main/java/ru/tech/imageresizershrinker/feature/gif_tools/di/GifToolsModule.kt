@@ -31,6 +31,8 @@ internal interface GifToolsModule {
 
     @Binds
     @Singleton
-    fun provideConverter(converter: AndroidGifConverter): GifConverter
+    fun provideConverter(
+        converter: AndroidGifConverter
+    ): GifConverter
 
 }

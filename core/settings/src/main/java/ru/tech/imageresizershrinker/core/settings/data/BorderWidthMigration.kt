@@ -35,7 +35,7 @@ internal class BorderWidthMigration : DataMigration<Preferences> {
     ): Preferences = currentData
         .toMutablePreferences()
         .apply {
-            this[Keys.BORDER_WIDTH] = -1f
+            this[SettingKeys.BORDER_WIDTH] = -1f
             this[migrated] = true
         }
 

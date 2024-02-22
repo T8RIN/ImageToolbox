@@ -17,12 +17,18 @@
 
 package ru.tech.imageresizershrinker.feature.gradient_maker.di
 
+import android.graphics.Bitmap
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ShaderBrush
+import androidx.compose.ui.graphics.TileMode
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.feature.gradient_maker.data.AndroidGradientMaker
-import ru.tech.imageresizershrinker.feature.gradient_maker.domain.ComposeGradientMaker
+import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientMaker
 import javax.inject.Singleton
 
 @Module
@@ -31,6 +37,8 @@ internal interface GradientMakerModule {
 
     @Singleton
     @Binds
-    fun provideGradientMaker(maker: AndroidGradientMaker): ComposeGradientMaker
+    fun provideGradientMaker(
+        maker: AndroidGradientMaker
+    ): GradientMaker<Bitmap, ShaderBrush, Size, Color, TileMode, Offset>
 
 }

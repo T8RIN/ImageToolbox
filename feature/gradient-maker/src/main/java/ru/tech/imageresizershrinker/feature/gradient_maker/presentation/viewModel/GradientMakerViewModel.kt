@@ -48,7 +48,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
-import ru.tech.imageresizershrinker.feature.gradient_maker.domain.ComposeGradientMaker
+import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientMaker
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientType
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.UiGradientState
 import javax.inject.Inject
@@ -59,7 +59,7 @@ class GradientMakerViewModel @Inject constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val gradientMaker: ComposeGradientMaker
+    private val gradientMaker: GradientMaker<Bitmap, ShaderBrush, Size, Color, TileMode, Offset>
 ) : ViewModel() {
 
     private var _gradientState = UiGradientState()

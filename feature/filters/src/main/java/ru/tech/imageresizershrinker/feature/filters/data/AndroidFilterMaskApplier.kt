@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.data.applier
+package ru.tech.imageresizershrinker.feature.filters.data
 
 import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter

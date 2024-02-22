@@ -34,9 +34,12 @@ internal interface CipherModule {
 
     @Singleton
     @Binds
-    fun provideCipherRepository(repositoryImpl: CipherRepositoryImpl): CipherRepository
+    fun provideCipherRepository(
+        repository: CipherRepositoryImpl
+    ): CipherRepository
 
     companion object {
+
         @Singleton
         @Provides
         fun provideRandomStringGenerator(
@@ -44,6 +47,7 @@ internal interface CipherModule {
         ): RandomStringGenerator = RandomStringGenerator {
             cipherRepository.generateRandomString(it)
         }
+
     }
 
 }

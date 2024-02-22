@@ -33,6 +33,8 @@ internal interface RecognizeTextModule {
 
     @Singleton
     @Binds
-    fun provideImageTextReader(reader: AndroidImageTextReader): ImageTextReader<Bitmap>
+    fun provideImageTextReader(
+        reader: AndroidImageTextReader
+    ): ImageTextReader<Bitmap>
 
 }

@@ -24,7 +24,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.feature.filters.data.glitch.SimpleGlitcher
+import ru.tech.imageresizershrinker.feature.filters.data.utils.Glitcher
 import java.io.ByteArrayOutputStream
 
 internal class GlitchFilter(
@@ -37,17 +37,16 @@ internal class GlitchFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = SimpleGlitcher(
-        amount = value.first.toInt(),
-        seed = value.second.toInt(),
-        iterations = value.third.toInt()
-    ).glitch(
+    ): Bitmap = Glitcher.glitch(
         withContext(Dispatchers.IO) {
             ByteArrayOutputStream().use {
                 input.compress(Bitmap.CompressFormat.JPEG, 100, it)
                 it.toByteArray()
             }
-        }
+        },
+        amount = value.first.toInt(),
+        seed = value.second.toInt(),
+        iterations = value.third.toInt()
     ).let {
         withContext(Dispatchers.IO) {
             BitmapFactory.decodeByteArray(it, 0, it.size)

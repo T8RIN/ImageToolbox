@@ -34,6 +34,8 @@ internal interface DrawModule {
 
     @Singleton
     @Binds
-    fun provideImageDrawApplier(imageDrawApplier: AndroidImageDrawApplier): ImageDrawApplier<Bitmap, Path, Color>
+    fun provideImageDrawApplier(
+        applier: AndroidImageDrawApplier
+    ): ImageDrawApplier<Bitmap, Path, Color>
 
 }

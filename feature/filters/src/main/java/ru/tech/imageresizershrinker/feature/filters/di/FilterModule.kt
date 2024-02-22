@@ -33,9 +33,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
+import ru.tech.imageresizershrinker.feature.filters.data.AndroidFilterMaskApplier
+import ru.tech.imageresizershrinker.feature.filters.data.AndroidFilterProvider
 import ru.tech.imageresizershrinker.feature.filters.data.FavoriteFiltersInteractorImpl
-import ru.tech.imageresizershrinker.feature.filters.data.applier.AndroidFilterMaskApplier
-import ru.tech.imageresizershrinker.feature.filters.data.provider.AndroidFilterProvider
 import ru.tech.imageresizershrinker.feature.filters.domain.FilterMaskApplier
 import javax.inject.Singleton
 
@@ -57,6 +57,7 @@ internal interface FilterModule {
     ): FilterMaskApplier<Bitmap, Path, Color>
 
     companion object {
+
         @FilterInteractorDataStore
         @Singleton
         @Provides
@@ -65,6 +66,7 @@ internal interface FilterModule {
         ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
             produceFile = { context.preferencesDataStoreFile("favorite_filters") },
         )
+
     }
 
     @Singleton

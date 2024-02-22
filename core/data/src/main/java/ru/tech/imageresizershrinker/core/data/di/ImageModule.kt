@@ -43,26 +43,38 @@ internal interface ImageModule {
 
     @Singleton
     @Binds
-    fun provideImageManager(transformer: AndroidImageTransformer): ImageTransformer<Bitmap>
+    fun provideImageManager(
+        transformer: AndroidImageTransformer
+    ): ImageTransformer<Bitmap>
 
     @Singleton
     @Binds
-    fun provideImageScaler(scaler: AndroidImageScaler): ImageScaler<Bitmap>
+    fun provideImageScaler(
+        scaler: AndroidImageScaler
+    ): ImageScaler<Bitmap>
 
     @Singleton
     @Binds
-    fun provideImageCompressor(compressor: AndroidImageCompressor): ImageCompressor<Bitmap>
+    fun provideImageCompressor(
+        compressor: AndroidImageCompressor
+    ): ImageCompressor<Bitmap>
 
     @Singleton
     @Binds
-    fun provideImageGetter(getter: AndroidImageGetter): ImageGetter<Bitmap, ExifInterface>
+    fun provideImageGetter(
+        getter: AndroidImageGetter
+    ): ImageGetter<Bitmap, ExifInterface>
 
     @Singleton
     @Binds
-    fun provideImagePreviewCreator(creator: AndroidImagePreviewCreator): ImagePreviewCreator<Bitmap>
+    fun provideImagePreviewCreator(
+        creator: AndroidImagePreviewCreator
+    ): ImagePreviewCreator<Bitmap>
 
     @Singleton
     @Binds
-    fun provideShareProvider(provider: AndroidShareProvider): ShareProvider<Bitmap>
+    fun provideShareProvider(
+        provider: AndroidShareProvider
+    ): ShareProvider<Bitmap>
 
 }

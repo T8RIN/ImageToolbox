@@ -21,8 +21,8 @@ import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.feature.filters.data.pixelation.Pixelate
-import ru.tech.imageresizershrinker.feature.filters.data.pixelation.PixelateLayer
+import ru.tech.imageresizershrinker.feature.filters.data.utils.Pixelate
+import ru.tech.imageresizershrinker.feature.filters.data.utils.PixelationLayer
 
 internal class EnhancedPixelationFilter(
     override val value: Float = 48f,
@@ -37,14 +37,14 @@ internal class EnhancedPixelationFilter(
         return Pixelate.fromBitmap(
             input = input,
             layers = arrayOf(
-                PixelateLayer.Builder(PixelateLayer.Shape.Square)
+                PixelationLayer.Builder(PixelationLayer.Shape.Square)
                     .setResolution(value)
                     .build(),
-                PixelateLayer.Builder(PixelateLayer.Shape.Diamond)
+                PixelationLayer.Builder(PixelationLayer.Shape.Diamond)
                     .setResolution(value / 4)
                     .setSize(value / 6)
                     .build(),
-                PixelateLayer.Builder(PixelateLayer.Shape.Diamond)
+                PixelationLayer.Builder(PixelationLayer.Shape.Diamond)
                     .setResolution(value / 4)
                     .setSize(value / 6)
                     .setOffset(value / 8)

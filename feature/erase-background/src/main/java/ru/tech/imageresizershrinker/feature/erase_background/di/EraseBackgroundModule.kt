@@ -32,6 +32,8 @@ internal interface EraseBackgroundModule {
 
     @Binds
     @Singleton
-    fun provideBackgroundRemover(remover: AndroidAutoBackgroundRemover): AutoBackgroundRemover<Bitmap>
+    fun provideBackgroundRemover(
+        remover: AndroidAutoBackgroundRemover
+    ): AutoBackgroundRemover<Bitmap>
 
 }

@@ -14,7 +14,7 @@
  * You should have received a copy of the Apache License
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
-package ru.tech.imageresizershrinker.feature.filters.data.dither
+package ru.tech.imageresizershrinker.feature.filters.data.utils
 
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -22,7 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.math.abs
 
-class Dithering(
+class DitherTool(
     private val threshold: Int = 128,
     private val isGrayScale: Boolean = false
 ) {

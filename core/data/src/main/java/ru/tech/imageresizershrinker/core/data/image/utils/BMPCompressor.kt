@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.data.image
+package ru.tech.imageresizershrinker.core.data.image.utils
 
 import android.graphics.Bitmap
 import java.nio.ByteBuffer

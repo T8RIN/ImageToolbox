@@ -17,7 +17,7 @@
 
 @file:Suppress("MemberVisibilityCanBePrivate")
 
-package ru.tech.imageresizershrinker.feature.filters.data.pixelation
+package ru.tech.imageresizershrinker.feature.filters.data.utils
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -32,7 +32,7 @@ object Pixelate {
 
     fun fromBitmap(
         input: Bitmap,
-        vararg layers: PixelateLayer
+        vararg layers: PixelationLayer
     ): Bitmap {
         val out = Bitmap.createBitmap(input.width, input.height, Bitmap.Config.ARGB_8888)
         render(input, out, *layers)
@@ -42,7 +42,7 @@ object Pixelate {
     fun render(
         input: Bitmap,
         out: Bitmap,
-        vararg layers: PixelateLayer
+        vararg layers: PixelationLayer
     ) {
         render(input, null, out, *layers)
     }
@@ -51,7 +51,7 @@ object Pixelate {
         input: Bitmap,
         inBounds: Rect?,
         out: Bitmap,
-        vararg layers: PixelateLayer
+        vararg layers: PixelationLayer
     ) {
         render(input, inBounds, out, null, *layers)
     }
@@ -61,7 +61,7 @@ object Pixelate {
         inBounds: Rect?,
         out: Bitmap,
         outBounds: Rect?,
-        vararg layers: PixelateLayer,
+        vararg layers: PixelationLayer,
     ) {
         var bounds = outBounds
         val paint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG or Paint.FILTER_BITMAP_FLAG)
@@ -77,7 +77,7 @@ object Pixelate {
         canvas: Canvas,
         outBounds: Rect,
         paint: Paint,
-        vararg layers: PixelateLayer,
+        vararg layers: PixelationLayer,
     ) {
         val inWidth = inBounds?.width() ?: input.width
         val inHeight = inBounds?.height() ?: input.height
@@ -107,8 +107,8 @@ object Pixelate {
                     val pixelX = inX + x.coerceAtMost((inWidth - 1).toFloat()).coerceAtLeast(0f)
                     paint.color = getPixelColor(input, pixelX.toInt(), pixelY.toInt(), layer)
                     when (layer.shape) {
-                        PixelateLayer.Shape.Circle -> canvas.drawCircle(x, y, halfSize, paint)
-                        PixelateLayer.Shape.Diamond -> {
+                        PixelationLayer.Shape.Circle -> canvas.drawCircle(x, y, halfSize, paint)
+                        PixelationLayer.Shape.Diamond -> {
                             canvas.save()
                             canvas.translate(x, y)
                             canvas.rotate(45f)
@@ -122,7 +122,7 @@ object Pixelate {
                             canvas.restore()
                         }
 
-                        PixelateLayer.Shape.Square -> canvas.drawRect(
+                        PixelationLayer.Shape.Square -> canvas.drawRect(
                             x - halfSize,
                             y - halfSize,
                             x + halfSize,
@@ -151,7 +151,7 @@ object Pixelate {
         pixels: Bitmap,
         pixelX: Int,
         pixelY: Int,
-        opts: PixelateLayer
+        opts: PixelationLayer
     ): Int {
         var pixel = pixels.getPixel(pixelX, pixelY)
         if (opts.enableDominantColor) {

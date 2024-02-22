@@ -35,7 +35,7 @@ import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.core.ui.icons.material.FontFamily
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickFontFamilySheet
+import ru.tech.imageresizershrinker.feature.main.presentation.components.PickFontFamilySheet
 
 @Composable
 fun ChangeFontSettingItem(

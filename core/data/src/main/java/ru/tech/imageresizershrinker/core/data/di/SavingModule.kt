@@ -31,6 +31,8 @@ internal interface SavingModule {
 
     @Singleton
     @Binds
-    fun provideFileController(controller: FileControllerImpl): FileController
+    fun provideFileController(
+        controller: FileControllerImpl
+    ): FileController
 
 }

@@ -23,7 +23,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.feature.filters.data.dither.Dithering
+import ru.tech.imageresizershrinker.feature.filters.data.utils.DitherTool
 
 internal class BurkesDitheringFilter(
     override val value: Pair<Float, Boolean> = 200f to false,
@@ -36,7 +36,7 @@ internal class BurkesDitheringFilter(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = withContext(Dispatchers.IO) {
-        Dithering(value.first.toInt(), value.second).dither(Dithering.Type.Burkes, input)
+        DitherTool(value.first.toInt(), value.second).dither(DitherTool.Type.Burkes, input)
     }
 
 }

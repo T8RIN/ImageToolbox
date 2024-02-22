@@ -33,6 +33,8 @@ internal interface BytesResizeModule {
 
     @Singleton
     @Binds
-    fun provideScaler(scaler: AndroidBytesImageScaler): BytesImageScaler<Bitmap>
+    fun provideScaler(
+        scaler: AndroidBytesImageScaler
+    ): BytesImageScaler<Bitmap>
 
 }

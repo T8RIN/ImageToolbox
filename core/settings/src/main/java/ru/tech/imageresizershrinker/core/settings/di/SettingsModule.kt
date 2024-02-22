@@ -32,6 +32,8 @@ internal interface SettingsModule {
 
     @Singleton
     @Binds
-    fun provideSettingsRepository(repositoryImpl: SettingsRepositoryImpl): SettingsRepository
+    fun provideSettingsRepository(
+        repository: SettingsRepositoryImpl
+    ): SettingsRepository
 
 }

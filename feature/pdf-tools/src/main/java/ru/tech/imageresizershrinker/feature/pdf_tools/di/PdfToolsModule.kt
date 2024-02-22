@@ -33,6 +33,8 @@ internal interface PdfToolsModule {
 
     @Singleton
     @Binds
-    fun providePdfManager(manager: AndroidPdfManager): PdfManager<Bitmap>
+    fun providePdfManager(
+        manager: AndroidPdfManager
+    ): PdfManager<Bitmap>
 
 }

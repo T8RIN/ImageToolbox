@@ -26,8 +26,8 @@ import androidx.core.graphics.applyCanvas
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.feature.filters.data.pixelation.Pixelate
-import ru.tech.imageresizershrinker.feature.filters.data.pixelation.PixelateLayer
+import ru.tech.imageresizershrinker.feature.filters.data.utils.Pixelate
+import ru.tech.imageresizershrinker.feature.filters.data.utils.PixelationLayer
 
 internal class StrokePixelationFilter(
     override val value: Pair<Float, Color> = 20f to Color.Black,
@@ -43,22 +43,22 @@ internal class StrokePixelationFilter(
         return Pixelate.fromBitmap(
             input = input,
             layers = arrayOf(
-                PixelateLayer.Builder(PixelateLayer.Shape.Circle)
+                PixelationLayer.Builder(PixelationLayer.Shape.Circle)
                     .setResolution(pixelSize)
                     .setSize(pixelSize / 5)
                     .setOffset(pixelSize / 4)
                     .build(),
-                PixelateLayer.Builder(PixelateLayer.Shape.Circle)
+                PixelationLayer.Builder(PixelationLayer.Shape.Circle)
                     .setResolution(pixelSize)
                     .setSize(pixelSize / 4)
                     .setOffset(pixelSize / 2)
                     .build(),
-                PixelateLayer.Builder(PixelateLayer.Shape.Circle)
+                PixelationLayer.Builder(PixelationLayer.Shape.Circle)
                     .setResolution(pixelSize)
                     .setSize(pixelSize / 3)
                     .setOffset(pixelSize / 1.3f)
                     .build(),
-                PixelateLayer.Builder(PixelateLayer.Shape.Circle)
+                PixelationLayer.Builder(PixelationLayer.Shape.Circle)
                     .setResolution(pixelSize)
                     .setSize(pixelSize / 4)
                     .setOffset(0f)

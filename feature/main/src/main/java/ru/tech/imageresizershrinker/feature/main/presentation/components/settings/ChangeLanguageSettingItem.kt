@@ -52,9 +52,9 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
-import ru.tech.imageresizershrinker.core.ui.utils.LocaleConfigCompat
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils
-import ru.tech.imageresizershrinker.core.ui.utils.toList
+import ru.tech.imageresizershrinker.core.ui.utils.helper.LocaleConfigCompat
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toList
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem

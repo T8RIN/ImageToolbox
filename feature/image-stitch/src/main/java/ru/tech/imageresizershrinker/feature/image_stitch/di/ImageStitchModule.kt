@@ -32,6 +32,8 @@ internal interface ImageStitchModule {
 
     @Singleton
     @Binds
-    fun provideImageCombiner(combiner: AndroidImageCombiner): ImageCombiner<Bitmap>
+    fun provideImageCombiner(
+        combiner: AndroidImageCombiner
+    ): ImageCombiner<Bitmap>
 
 }

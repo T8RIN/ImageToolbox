@@ -23,7 +23,7 @@ import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 
-internal object Keys {
+internal object SettingKeys {
     val SAVE_FOLDER_URI = stringPreferencesKey("saveFolder")
     val NIGHT_MODE = intPreferencesKey("nightMode")
     val DYNAMIC_COLORS = booleanPreferencesKey("dynamicColors")

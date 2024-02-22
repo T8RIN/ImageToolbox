@@ -17,10 +17,10 @@
 
 @file:Suppress("unused")
 
-package ru.tech.imageresizershrinker.feature.filters.data.pixelation
+package ru.tech.imageresizershrinker.feature.filters.data.utils
 
 
-class PixelateLayer private constructor(val shape: Shape) {
+class PixelationLayer private constructor(val shape: Shape) {
     var enableDominantColor = false
     var resolution = 16f
     var size: Float? = null
@@ -29,10 +29,10 @@ class PixelateLayer private constructor(val shape: Shape) {
     var offsetY = 0f
 
     class Builder(shape: Shape) {
-        private val layer: PixelateLayer
+        private val layer: PixelationLayer
 
         init {
-            layer = PixelateLayer(shape)
+            layer = PixelationLayer(shape)
         }
 
         fun setResolution(resolution: Float): Builder {
@@ -61,7 +61,7 @@ class PixelateLayer private constructor(val shape: Shape) {
             return this
         }
 
-        fun build(): PixelateLayer {
+        fun build(): PixelationLayer {
             return layer
         }
     }

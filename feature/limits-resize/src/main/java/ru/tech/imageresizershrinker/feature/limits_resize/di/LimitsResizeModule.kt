@@ -32,6 +32,8 @@ internal interface LimitsResizeModule {
 
     @Binds
     @Singleton
-    fun provideScaler(scaler: AndroidLimitsImageScaler): LimitsImageScaler<Bitmap>
+    fun provideScaler(
+        scaler: AndroidLimitsImageScaler
+    ): LimitsImageScaler<Bitmap>
 
 }

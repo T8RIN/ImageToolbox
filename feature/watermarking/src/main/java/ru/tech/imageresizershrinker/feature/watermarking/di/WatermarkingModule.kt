@@ -32,6 +32,8 @@ internal interface WatermarkingModule {
 
     @Singleton
     @Binds
-    fun provideWatermarkApplier(applier: AndroidWatermarkApplier): WatermarkApplier<Bitmap>
+    fun provideWatermarkApplier(
+        applier: AndroidWatermarkApplier
+    ): WatermarkApplier<Bitmap>
 
 }
