@@ -34,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -95,7 +96,10 @@ fun Loading(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun BoxScope.Loading(done: Int, left: Int) {
+fun BoxScope.Loading(
+    done: Int,
+    left: Int
+) {
     Loading(progress = done / left.toFloat()) {
         AutoSizeText(
             text = "$done / $left",
@@ -108,7 +112,10 @@ fun BoxScope.Loading(done: Int, left: Int) {
 }
 
 @Composable
-fun BoxScope.Loading(progress: Float, additionalContent: @Composable (Dp) -> Unit = {}) {
+fun BoxScope.Loading(
+    progress: Float,
+    additionalContent: @Composable (Dp) -> Unit = {}
+) {
     val borderWidth = LocalSettingsState.current.borderWidth
     Column(
         modifier = Modifier
@@ -149,6 +156,7 @@ fun BoxScope.Loading(progress: Float, additionalContent: @Composable (Dp) -> Uni
                 modifier = Modifier.size(maxWidth),
                 progress = { progressAnimated },
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
+                trackColor = Color.Transparent,
                 strokeCap = StrokeCap.Round,
             )
             additionalContent(maxWidth)
