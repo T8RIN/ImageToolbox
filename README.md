@@ -445,6 +445,8 @@ or click one of the badges below.
 
 - [Kotlin](https://kotlinlang.org/) based
 
+- [Image Toolbox Libs](https://github.com/T8RIN/ImageToolboxLibs) - set of essential libraries for Image Toolbox.
+  
 - [Dynamic Theme](https://github.com/T8RIN/DynamicTheme) - library, which allows you to easily
   implement custom color theming.
 
