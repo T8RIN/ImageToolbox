@@ -117,7 +117,10 @@ internal class AndroidShareProvider @Inject constructor(
         onComplete()
     }
 
-    override suspend fun shareUri(uri: String, type: String?) {
+    override suspend fun shareUri(
+        uri: String,
+        type: String?
+    ) {
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
             putExtra(Intent.EXTRA_STREAM, uri.toUri())
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)

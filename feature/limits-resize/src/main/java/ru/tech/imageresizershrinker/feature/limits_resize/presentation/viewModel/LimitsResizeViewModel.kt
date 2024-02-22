@@ -100,7 +100,10 @@ class LimitsResizeViewModel @Inject constructor(
         _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
     }
 
-    fun updateUris(uris: List<Uri>?, onError: (Throwable) -> Unit) {
+    fun updateUris(
+        uris: List<Uri>?,
+        onError: (Throwable) -> Unit
+    ) {
         _uris.value = null
         _uris.value = uris
         _selectedUri.value = uris?.firstOrNull()
@@ -145,7 +148,10 @@ class LimitsResizeViewModel @Inject constructor(
         }
     }
 
-    private fun updateBitmap(bitmap: Bitmap?, preview: Bitmap? = null) {
+    private fun updateBitmap(
+        bitmap: Bitmap?,
+        preview: Bitmap? = null
+    ) {
         viewModelScope.launch {
             _isImageLoading.value = true
             val size = bitmap?.let { it.width to it.height }

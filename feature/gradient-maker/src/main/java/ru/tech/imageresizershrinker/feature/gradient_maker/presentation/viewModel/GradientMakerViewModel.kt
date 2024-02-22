@@ -295,7 +295,10 @@ class GradientMakerViewModel @Inject constructor(
         gradientState.linearGradientAngle = angle
     }
 
-    fun setRadialProperties(center: Offset, radius: Float) {
+    fun setRadialProperties(
+        center: Offset,
+        radius: Float
+    ) {
         gradientState.centerFriction = center
         gradientState.radiusFriction = radius
     }
@@ -308,7 +311,10 @@ class GradientMakerViewModel @Inject constructor(
         gradientState.colorStops.add(pair)
     }
 
-    fun updateColorStop(index: Int, pair: Pair<Float, Color>) {
+    fun updateColorStop(
+        index: Int,
+        pair: Pair<Float, Color>
+    ) {
         gradientState.colorStops[index] = pair.copy()
     }
 
@@ -376,7 +382,10 @@ class GradientMakerViewModel @Inject constructor(
         }
     }
 
-    fun setUris(uris: List<Uri>, onError: (Throwable) -> Unit = {}) {
+    fun setUris(
+        uris: List<Uri>,
+        onError: (Throwable) -> Unit = {}
+    ) {
         _uris.update { uris }
         uris.firstOrNull()?.let { setUri(it, onError) }
     }

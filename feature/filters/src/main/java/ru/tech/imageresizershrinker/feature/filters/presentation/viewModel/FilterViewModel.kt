@@ -517,7 +517,11 @@ class FilterViewModel @Inject constructor(
         updateCanSave()
     }
 
-    fun updateMask(value: UiFilterMask, index: Int, showError: (Throwable) -> Unit) {
+    fun updateMask(
+        value: UiFilterMask,
+        index: Int,
+        showError: (Throwable) -> Unit
+    ) {
         runCatching {
             _maskingFilterState.update {
                 it.copy(

@@ -96,7 +96,10 @@ class WatermarkingViewModel @Inject constructor(
     val left by _left
 
 
-    private fun updateBitmap(bitmap: Bitmap, onComplete: () -> Unit = {}) {
+    private fun updateBitmap(
+        bitmap: Bitmap,
+        onComplete: () -> Unit = {}
+    ) {
         viewModelScope.launch {
             _isImageLoading.value = true
             _internalBitmap.value = imageScaler.scaleUntilCanShow(bitmap)
@@ -291,7 +294,10 @@ class WatermarkingViewModel @Inject constructor(
         }
     }
 
-    fun setUris(uris: List<Uri>, onError: (Throwable) -> Unit = {}) {
+    fun setUris(
+        uris: List<Uri>,
+        onError: (Throwable) -> Unit = {}
+    ) {
         _uris.update { uris }
         uris.firstOrNull()?.let { setUri(it, onError) }
     }

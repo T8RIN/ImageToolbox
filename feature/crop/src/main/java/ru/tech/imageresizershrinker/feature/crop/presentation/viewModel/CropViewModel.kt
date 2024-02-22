@@ -93,7 +93,10 @@ class CropViewModel @Inject constructor(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 
-    fun updateBitmap(bitmap: Bitmap?, newBitmap: Boolean = false) {
+    fun updateBitmap(
+        bitmap: Bitmap?,
+        newBitmap: Boolean = false
+    ) {
         viewModelScope.launch {
             _isImageLoading.value = true
             val bmp = imageScaler.scaleUntilCanShow(bitmap)
@@ -187,7 +190,10 @@ class CropViewModel @Inject constructor(
         _isImageLoading.value = false
     }
 
-    fun setUri(uri: Uri, onError: (Throwable) -> Unit) {
+    fun setUri(
+        uri: Uri,
+        onError: (Throwable) -> Unit
+    ) {
         _uri.value = uri
         imageGetter.getImageAsync(
             uri = uri.toString(),

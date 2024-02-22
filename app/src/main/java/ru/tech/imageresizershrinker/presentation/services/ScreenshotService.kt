@@ -57,7 +57,11 @@ class ScreenshotService : Service() {
     @Inject
     lateinit var fileController: FileController
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    override fun onStartCommand(
+        intent: Intent?,
+        flags: Int,
+        startId: Int
+    ): Int {
         runCatching {
             val mediaProjectionManager =
                 getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
@@ -110,7 +114,10 @@ class ScreenshotService : Service() {
         return START_REDELIVER_INTENT
     }
 
-    private fun startCapture(mediaProjection: MediaProjection, intent: Intent?) {
+    private fun startCapture(
+        mediaProjection: MediaProjection,
+        intent: Intent?
+    ) {
         Handler(
             Looper.getMainLooper()
         ).postDelayed(

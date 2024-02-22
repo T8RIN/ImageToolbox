@@ -51,7 +51,10 @@ interface ShareProvider<I> {
         onComplete: () -> Unit = {}
     )
 
-    suspend fun shareUri(uri: String, type: String?)
+    suspend fun shareUri(
+        uri: String,
+        type: String?
+    )
 
     suspend fun shareImageUris(uris: List<String>)
 

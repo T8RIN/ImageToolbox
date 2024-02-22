@@ -52,7 +52,10 @@ class ImageInfoTransformation @AssistedInject constructor(
         size: IntegerSize
     ): Bitmap = transform(input, size.asCoil())
 
-    override suspend fun transform(input: Bitmap, size: Size): Bitmap {
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap {
         val transformedInput = imageScaler.scaleImage(
             image = input,
             width = imageInfo.width,

@@ -567,7 +567,10 @@ private fun Uri.isGif(context: Context): Boolean {
 }
 
 private class CreateDocument : ActivityResultContracts.CreateDocument("*/*") {
-    override fun createIntent(context: Context, input: String): Intent {
+    override fun createIntent(
+        context: Context,
+        input: String
+    ): Intent {
         return super.createIntent(
             context = context,
             input = input.split("#")[0]

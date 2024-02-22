@@ -33,7 +33,10 @@ class GlobalExceptionHandler<T : CrashHandler> private constructor(
     private val activityToBeLaunched: Class<T>
 ) : Thread.UncaughtExceptionHandler {
 
-    override fun uncaughtException(p0: Thread, p1: Throwable) {
+    override fun uncaughtException(
+        p0: Thread,
+        p1: Throwable
+    ) {
         if (allowCollectCrashlytics) {
             Firebase.crashlytics.recordException(p1)
             Firebase.crashlytics.sendUnsentReports()

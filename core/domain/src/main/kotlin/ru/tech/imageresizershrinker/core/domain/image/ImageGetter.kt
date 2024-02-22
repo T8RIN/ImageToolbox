@@ -40,9 +40,15 @@ interface ImageGetter<I, M> {
         originalSize: Boolean = true
     ): ImageData<I, M>?
 
-    suspend fun getImage(data: Any, originalSize: Boolean = true): I?
+    suspend fun getImage(
+        data: Any,
+        originalSize: Boolean = true
+    ): I?
 
-    suspend fun getImage(data: Any, size: IntegerSize?): I?
+    suspend fun getImage(
+        data: Any,
+        size: IntegerSize?
+    ): I?
 
     fun getExtension(
         uri: String

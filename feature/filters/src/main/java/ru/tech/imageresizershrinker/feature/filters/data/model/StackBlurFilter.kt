@@ -37,7 +37,10 @@ internal class StackBlurFilter(
     ): Bitmap = input.stackBlur(value.first, value.second)
 }
 
-private fun Bitmap.stackBlur(scale: Float, radius: Int): Bitmap {
+private fun Bitmap.stackBlur(
+    scale: Float,
+    radius: Int
+): Bitmap {
     var sentBitmap = this@stackBlur
     val width = (sentBitmap.width * scale).roundToInt().coerceAtLeast(1)
     val height = (sentBitmap.height * scale).roundToInt().coerceAtLeast(1)

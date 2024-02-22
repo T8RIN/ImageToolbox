@@ -44,7 +44,11 @@ internal class ReplaceColorFilter(
 }
 
 
-private fun Bitmap.replaceColor(fromColor: Color, targetColor: Color, tolerance: Float): Bitmap {
+private fun Bitmap.replaceColor(
+    fromColor: Color,
+    targetColor: Color,
+    tolerance: Float
+): Bitmap {
     // Source image size
     val width = width
     val height = height

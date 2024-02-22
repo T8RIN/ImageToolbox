@@ -391,7 +391,10 @@ private class MappedInteractionSource(
 }
 
 @Composable
-private fun iconColor(selected: Boolean, enabled: Boolean): State<Color> {
+private fun iconColor(
+    selected: Boolean,
+    enabled: Boolean
+): State<Color> {
     val targetValue = when {
         !enabled -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
         selected -> MaterialTheme.colorScheme.onSecondaryContainer

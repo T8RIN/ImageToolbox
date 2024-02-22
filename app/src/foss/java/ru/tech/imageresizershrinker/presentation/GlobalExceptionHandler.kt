@@ -13,7 +13,10 @@ class GlobalExceptionHandler<T : CrashHandler> private constructor(
     private val activityToBeLaunched: Class<T>
 ) : Thread.UncaughtExceptionHandler {
 
-    override fun uncaughtException(p0: Thread, p1: Throwable) {
+    override fun uncaughtException(
+        p0: Thread,
+        p1: Throwable
+    ) {
         kotlin.runCatching {
             Log.e(this.toString(), p1.stackTraceToString())
             applicationContext.launchActivity(activityToBeLaunched, p1)

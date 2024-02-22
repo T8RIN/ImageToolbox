@@ -30,17 +30,29 @@ import kotlin.math.sqrt
 object Pixelate {
     private val SQRT2 = sqrt(2.0).toFloat()
 
-    fun fromBitmap(input: Bitmap, vararg layers: PixelateLayer): Bitmap {
+    fun fromBitmap(
+        input: Bitmap,
+        vararg layers: PixelateLayer
+    ): Bitmap {
         val out = Bitmap.createBitmap(input.width, input.height, Bitmap.Config.ARGB_8888)
         render(input, out, *layers)
         return out
     }
 
-    fun render(input: Bitmap, out: Bitmap, vararg layers: PixelateLayer) {
+    fun render(
+        input: Bitmap,
+        out: Bitmap,
+        vararg layers: PixelateLayer
+    ) {
         render(input, null, out, *layers)
     }
 
-    fun render(input: Bitmap, inBounds: Rect?, out: Bitmap, vararg layers: PixelateLayer) {
+    fun render(
+        input: Bitmap,
+        inBounds: Rect?,
+        out: Bitmap,
+        vararg layers: PixelateLayer
+    ) {
         render(input, inBounds, out, null, *layers)
     }
 
@@ -135,7 +147,12 @@ object Pixelate {
      * @param opts additional options
      * @return the color of the cluster
      */
-    private fun getPixelColor(pixels: Bitmap, pixelX: Int, pixelY: Int, opts: PixelateLayer): Int {
+    private fun getPixelColor(
+        pixels: Bitmap,
+        pixelX: Int,
+        pixelY: Int,
+        opts: PixelateLayer
+    ): Int {
         var pixel = pixels.getPixel(pixelX, pixelY)
         if (opts.enableDominantColor) {
             val colorCounter: MutableMap<Int, Int> = HashMap(100)

@@ -54,7 +54,10 @@ internal class CipherRepositoryImpl @Inject constructor() : CipherRepository {
         return sb.toString()
     }
 
-    override suspend fun decrypt(data: ByteArray, key: String): ByteArray {
+    override suspend fun decrypt(
+        data: ByteArray,
+        key: String
+    ): ByteArray {
         val keySpec = createKey(key)
         val cipher = Cipher.getInstance(ENCRYPTION_STANDARD)
         cipher.init(
@@ -65,7 +68,10 @@ internal class CipherRepositoryImpl @Inject constructor() : CipherRepository {
         return cipher.doFinal(data)
     }
 
-    override suspend fun encrypt(data: ByteArray, key: String): ByteArray {
+    override suspend fun encrypt(
+        data: ByteArray,
+        key: String
+    ): ByteArray {
         val keySpec = createKey(key)
         val cipher = Cipher.getInstance(ENCRYPTION_STANDARD)
         cipher.init(

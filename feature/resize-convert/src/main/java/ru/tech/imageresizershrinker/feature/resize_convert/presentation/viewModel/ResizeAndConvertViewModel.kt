@@ -110,7 +110,10 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     private var job: Job? = null
 
-    fun updateUris(uris: List<Uri>?, onError: (Throwable) -> Unit) {
+    fun updateUris(
+        uris: List<Uri>?,
+        onError: (Throwable) -> Unit
+    ) {
         _uris.value = null
         _uris.value = uris
         _selectedUri.value = uris?.firstOrNull()
@@ -208,7 +211,10 @@ class ResizeAndConvertViewModel @Inject constructor(
         }
     }
 
-    fun resetValues(saveMime: Boolean = false, resetPreset: Boolean = true) {
+    fun resetValues(
+        saveMime: Boolean = false,
+        resetPreset: Boolean = true
+    ) {
         _imageInfo.value = ImageInfo(
             width = _originalSize.value?.width ?: 0,
             height = _originalSize.value?.height ?: 0,
@@ -481,7 +487,10 @@ class ResizeAndConvertViewModel @Inject constructor(
         updateExif(exifInterface)
     }
 
-    fun updateExifByTag(tag: String, value: String) {
+    fun updateExifByTag(
+        tag: String,
+        value: String
+    ) {
         val exifInterface = _exif.value
         exifInterface?.setAttribute(tag, value)
         updateExif(exifInterface)

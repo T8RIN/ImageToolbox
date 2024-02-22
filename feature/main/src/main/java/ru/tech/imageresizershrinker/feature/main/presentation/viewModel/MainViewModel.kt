@@ -452,7 +452,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun createBackup(outputStream: OutputStream?, onSuccess: () -> Unit) {
+    fun createBackup(
+        outputStream: OutputStream?,
+        onSuccess: () -> Unit
+    ) {
         viewModelScope.launch {
             outputStream?.use {
                 it.write(settingsRepository.createBackupFile())

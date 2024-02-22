@@ -38,7 +38,10 @@ interface Transformation<T> {
      * @param size The size of the image request.
      * @return The transformed [T].
      */
-    suspend fun transform(input: T, size: IntegerSize): T
+    suspend fun transform(
+        input: T,
+        size: IntegerSize
+    ): T
 }
 
 interface ChainTransformation<T> : Transformation<T> {
@@ -61,5 +64,8 @@ class GenericTransformation<T>(
     override val cacheKey: String
         get() = (action to Random.nextInt()).hashCode().toString()
 
-    override suspend fun transform(input: T, size: IntegerSize): T = action(input)
+    override suspend fun transform(
+        input: T,
+        size: IntegerSize
+    ): T = action(input)
 }

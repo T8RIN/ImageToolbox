@@ -468,7 +468,10 @@ class SingleEditViewModel @Inject constructor(
         updateExif(exifInterface)
     }
 
-    fun updateExifByTag(tag: String, value: String) {
+    fun updateExifByTag(
+        tag: String,
+        value: String
+    ) {
         val exifInterface = _exif.value
         exifInterface?.setAttribute(tag, value)
         updateExif(exifInterface)

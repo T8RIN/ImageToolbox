@@ -182,7 +182,10 @@ class RecognizeTextViewModel @Inject constructor(
         filterProvider.filterToTransformation(it).toCoil()
     }
 
-    fun updateUri(uri: Uri?, onImageSet: () -> Unit) {
+    fun updateUri(
+        uri: Uri?,
+        onImageSet: () -> Unit
+    ) {
         _uri.update { uri }
         uri?.let {
             viewModelScope.launch {
@@ -195,7 +198,10 @@ class RecognizeTextViewModel @Inject constructor(
         }
     }
 
-    fun updateBitmap(bitmap: Bitmap, onComplete: () -> Unit = {}) {
+    fun updateBitmap(
+        bitmap: Bitmap,
+        onComplete: () -> Unit = {}
+    ) {
         viewModelScope.launch {
             _isImageLoading.value = true
             _previewBitmap.value = imageScaler.scaleUntilCanShow(bitmap)

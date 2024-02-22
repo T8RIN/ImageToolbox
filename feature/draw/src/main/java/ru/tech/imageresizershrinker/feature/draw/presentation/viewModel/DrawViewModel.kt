@@ -235,7 +235,11 @@ class DrawViewModel @Inject constructor(
         _backgroundColor.value = Color.Transparent
     }
 
-    fun startDrawOnBackground(reqWidth: Int, reqHeight: Int, color: Color) {
+    fun startDrawOnBackground(
+        reqWidth: Int,
+        reqHeight: Int,
+        color: Color
+    ) {
         val width = reqWidth.takeIf { it > 0 } ?: 1
         val height = reqHeight.takeIf { it > 0 } ?: 1
         val imageRatio = width / height.toFloat()

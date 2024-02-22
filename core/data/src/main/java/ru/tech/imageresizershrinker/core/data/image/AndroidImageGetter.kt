@@ -83,7 +83,10 @@ internal class AndroidImageGetter @Inject constructor(
         }
     }
 
-    override suspend fun getImage(data: Any, originalSize: Boolean): Bitmap? {
+    override suspend fun getImage(
+        data: Any,
+        originalSize: Boolean
+    ): Bitmap? {
         return runCatching {
             imageLoader.execute(
                 ImageRequest
@@ -97,7 +100,10 @@ internal class AndroidImageGetter @Inject constructor(
         }.getOrNull()
     }
 
-    override suspend fun getImage(data: Any, size: IntegerSize?): Bitmap? {
+    override suspend fun getImage(
+        data: Any,
+        size: IntegerSize?
+    ): Bitmap? {
         return runCatching {
             imageLoader.execute(
                 ImageRequest

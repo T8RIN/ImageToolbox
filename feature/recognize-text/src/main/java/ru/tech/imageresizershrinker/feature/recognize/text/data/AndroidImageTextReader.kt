@@ -162,7 +162,10 @@ internal class AndroidImageTextReader @Inject constructor(
         return needToDownload
     }
 
-    override fun isLanguageDataExists(type: RecognitionType, languageCode: String): Boolean {
+    override fun isLanguageDataExists(
+        type: RecognitionType,
+        languageCode: String
+    ): Boolean {
         return File(
             "${getPathFromMode(type)}/tessdata",
             format(Constants.LANGUAGE_CODE, languageCode)

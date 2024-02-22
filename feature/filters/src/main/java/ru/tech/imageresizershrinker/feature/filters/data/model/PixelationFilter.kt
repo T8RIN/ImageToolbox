@@ -31,7 +31,10 @@ internal class PixelationFilter(
     override val cacheKey: String
         get() = (value).hashCode().toString()
 
-    override suspend fun transform(input: Bitmap, size: IntegerSize): Bitmap {
+    override suspend fun transform(
+        input: Bitmap,
+        size: IntegerSize
+    ): Bitmap {
         return Pixelate.fromBitmap(
             input = input,
             layers = arrayOf(

@@ -100,7 +100,10 @@ class LoadNetImageViewModel @Inject constructor(
         savingJob = it
     }
 
-    fun cacheImage(image: Bitmap, imageInfo: ImageInfo) {
+    fun cacheImage(
+        image: Bitmap,
+        imageInfo: ImageInfo
+    ) {
         viewModelScope.launch {
             _isSaving.value = true
             _tempUri.value = shareProvider.cacheImage(image, imageInfo)?.toUri()
@@ -108,7 +111,11 @@ class LoadNetImageViewModel @Inject constructor(
         }
     }
 
-    fun shareBitmap(bitmap: Bitmap, imageInfo: ImageInfo, onComplete: () -> Unit) {
+    fun shareBitmap(
+        bitmap: Bitmap,
+        imageInfo: ImageInfo,
+        onComplete: () -> Unit
+    ) {
         viewModelScope.launch {
             _isSaving.value = true
             shareProvider.shareImage(

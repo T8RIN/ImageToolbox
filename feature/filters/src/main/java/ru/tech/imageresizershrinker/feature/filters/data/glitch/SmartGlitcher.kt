@@ -155,7 +155,10 @@ internal object SmartGlitcher {
         0.0f
     )
 
-    suspend fun anaglyph(image: Bitmap, percentage: Int): Bitmap = withContext(Dispatchers.IO) {
+    suspend fun anaglyph(
+        image: Bitmap,
+        percentage: Int
+    ): Bitmap = withContext(Dispatchers.IO) {
         val anaglyphPaint = Paint()
         val anaglyphShader = BitmapShader(image, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
 

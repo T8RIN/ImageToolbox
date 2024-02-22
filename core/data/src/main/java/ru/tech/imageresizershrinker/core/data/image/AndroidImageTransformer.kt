@@ -144,14 +144,20 @@ internal class AndroidImageTransformer @Inject constructor(
         }
     }
 
-    override suspend fun flip(image: Bitmap, isFlipped: Boolean): Bitmap {
+    override suspend fun flip(
+        image: Bitmap,
+        isFlipped: Boolean
+    ): Bitmap {
         return if (isFlipped) {
             val matrix = Matrix().apply { postScale(-1f, 1f, image.width / 2f, image.height / 2f) }
             return Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)
         } else image
     }
 
-    override suspend fun rotate(image: Bitmap, degrees: Float): Bitmap {
+    override suspend fun rotate(
+        image: Bitmap,
+        degrees: Float
+    ): Bitmap {
         return if (degrees % 90 == 0f) {
             val matrix = Matrix().apply { postRotate(degrees) }
             Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)

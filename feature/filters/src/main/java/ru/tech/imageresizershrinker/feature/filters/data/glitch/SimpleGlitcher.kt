@@ -42,7 +42,11 @@ internal class SimpleGlitcher(
         imageByteArray
     }
 
-    private fun glitchJpegBytes(pos: Int, imageByteArray: ByteArray, jpgHeaderLength: Int) {
+    private fun glitchJpegBytes(
+        pos: Int,
+        imageByteArray: ByteArray,
+        jpgHeaderLength: Int
+    ) {
         val maxIndex = imageByteArray.size - jpgHeaderLength - 4f
         val pxMin = maxIndex / iterations * pos
         val pxMax = maxIndex / iterations * (pos + 1)

@@ -266,7 +266,10 @@ class EraseBackgroundViewModel @Inject constructor(
     }
 
     private var autoEraseCount: Int = 0
-    fun autoEraseBackground(onSuccess: () -> Unit, onFailure: (Throwable) -> Unit) {
+    fun autoEraseBackground(
+        onSuccess: () -> Unit,
+        onFailure: (Throwable) -> Unit
+    ) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 getErasedBitmap()?.let { bitmap1 ->

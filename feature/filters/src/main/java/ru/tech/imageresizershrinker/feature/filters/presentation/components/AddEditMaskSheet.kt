@@ -736,7 +736,11 @@ private class AddMaskSheetViewModel @Inject constructor(
         }
     }
 
-    fun setMask(mask: UiFilterMask?, bitmapUri: Uri?, masks: List<UiFilterMask>) {
+    fun setMask(
+        mask: UiFilterMask?,
+        bitmapUri: Uri?,
+        masks: List<UiFilterMask>
+    ) {
         mask?.let {
             _paths.update { mask.maskPaints.map { it.toUiPathPaint() } }
             _filterList.update { mask.filters.map { it.toUiFilter() } }

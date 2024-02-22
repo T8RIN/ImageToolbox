@@ -62,7 +62,10 @@ internal abstract class GPUFilterTransformation(
     ): Bitmap = transform(input, size.asCoil())
 }
 
-private fun flexibleResize(image: Bitmap, max: Int): Bitmap {
+private fun flexibleResize(
+    image: Bitmap,
+    max: Int
+): Bitmap {
     return runCatching {
         if (image.height >= image.width) {
             val aspectRatio = image.width.toDouble() / image.height.toDouble()

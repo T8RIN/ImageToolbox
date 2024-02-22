@@ -37,7 +37,10 @@ internal class FastBlurFilter(
 
 }
 
-private fun Bitmap.fastBlur(scale: Float, radius: Int): Bitmap {
+private fun Bitmap.fastBlur(
+    scale: Float,
+    radius: Int
+): Bitmap {
     var sentBitmap = this@fastBlur
     val width = (sentBitmap.width * scale).roundToInt().coerceAtLeast(1)
     val height = (sentBitmap.height * scale).roundToInt().coerceAtLeast(1)

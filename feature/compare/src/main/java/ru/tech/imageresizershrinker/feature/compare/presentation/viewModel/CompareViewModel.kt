@@ -195,7 +195,10 @@ class CompareViewModel @Inject constructor(
         savingJob = it
     }
 
-    private fun Bitmap.overlay(overlay: Bitmap, percent: Float): Bitmap {
+    private fun Bitmap.overlay(
+        overlay: Bitmap,
+        percent: Float
+    ): Bitmap {
         val finalBitmap = overlay.copy(overlay.config, true).apply { setHasAlpha(true) }
         val canvas = android.graphics.Canvas(finalBitmap)
         val image = createScaledBitmap(canvas.width, canvas.height)

@@ -62,7 +62,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.HtmlText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
-fun UpdateSheet(changelog: String, tag: String, visible: MutableState<Boolean>) {
+fun UpdateSheet(
+    changelog: String,
+    tag: String,
+    visible: MutableState<Boolean>
+) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val toastHostState = LocalToastHostState.current
