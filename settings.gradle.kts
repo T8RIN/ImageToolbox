@@ -40,23 +40,6 @@ rootProject.name = "Image_Toolbox"
 
 include(":app")
 
-include(":libs:cropper")
-include(":libs:dynamic-theme")
-include(":libs:colordetector")
-include(":libs:gesture")
-include(":libs:beforeafter")
-include(":libs:image")
-include(":libs:screenshot")
-include(":libs:modalsheet")
-include(":libs:gpuimage")
-include(":libs:colorpicker")
-include(":libs:systemuicontroller")
-include(":libs:placeholder")
-include(":libs:logger")
-include(":libs:zoomable")
-include(":libs:extendedcolors")
-include(":libs:androidwm")
-
 include(":feature:main")
 include(":feature:pick-color")
 include(":feature:image-stitch")

@@ -47,21 +47,7 @@ dependencies {
     api(libs.coilSvg)
 
     //Modules
-    api(projects.libs.cropper)
-    api(projects.libs.dynamicTheme)
-    api(projects.libs.colordetector)
-    api(projects.libs.gesture)
-    api(projects.libs.beforeafter)
-    api(projects.libs.modalsheet)
-    api(projects.libs.gpuimage)
-    api(projects.libs.screenshot)
-    api(projects.libs.systemuicontroller)
-    api(projects.libs.placeholder)
-    api(projects.libs.logger)
-    api(projects.libs.zoomable)
-    api(projects.libs.colorpicker) {
-        exclude("com.github.SmartToolFactory", "Compose-Color-Detector")
-    }
+    api(libs.imageToolboxLibs)
     api(projects.core.domain)
 
     api(libs.reorderable)

@@ -27,7 +27,7 @@ dependencies {
     implementation(libs.datastore.preferences.android)
     implementation(libs.kotlinx.collections.immutable)
 
-    implementation(projects.libs.dynamicTheme)
+    implementation(libs.imageToolboxLibs)
     implementation(projects.core.domain)
     implementation(projects.core.resources)
 }
