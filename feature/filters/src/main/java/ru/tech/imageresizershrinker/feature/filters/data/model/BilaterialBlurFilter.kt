@@ -37,7 +37,7 @@ internal class BilaterialBlurFilter(
         bitmap = input,
         spatialSigma = value.first,
         rangeSigma = value.second,
-        radius = value.third.toInt()
+        kernelSize = value.third.toInt()
     )
 
 }
