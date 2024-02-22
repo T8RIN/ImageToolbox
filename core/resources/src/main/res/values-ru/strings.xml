@@ -783,4 +783,8 @@
     <string name="images_overwritten">Изображения перезаписаны в исходном месте назначения</string>
     <string name="cannot_change_image_format">Невозможно изменить формат изображения, если включена опция перезаписи файлов</string>
     <string name="emoji_as_color_scheme_sub">Использует основной цвет эмодзи в качестве цветовой схемы приложения вместо заданной вручную</string>
+    <string name="dark_colors">Темные цвета</string>
+    <string name="copy_as_compose_code">Скопировать в Jetpack Compose</string>
+    <string name="material_you_sub">Создает Material You палитру из изображения</string>
+    <string name="dark_colors_sub">Использует цветовую схему ночного режима вместо светлого варианта</string>
 </resources>
