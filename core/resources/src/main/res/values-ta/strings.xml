@@ -783,4 +783,8 @@
     <string name="auto_pin">ஆட்டோ பின்</string>
     <string name="auto_pin_sub">இயக்கப்பட்டிருந்தால், தானாகவே சேமிக்கப்பட்ட படத்தை கிளிப்போர்டில் சேர்க்கும்</string>
     <string name="vibration">அதிர்வு</string>
+    <string name="material_you_sub">படத்திலிருந்து \"Material You\" தட்டு உருவாக்குகிறது</string>
+    <string name="dark_colors">இருண்ட நிறங்கள்</string>
+    <string name="dark_colors_sub">ஒளி மாறுபாட்டிற்கு பதிலாக இரவு பயன்முறை வண்ணத் திட்டத்தைப் பயன்படுத்துகிறது</string>
+    <string name="copy_as_compose_code">\"Jetpack Compose\" குறியீடாக நகலெடுக்கவும்</string>
 </resources>
