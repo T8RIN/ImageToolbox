@@ -782,4 +782,8 @@
     <string name="exit">Изађи</string>
     <string name="preview_closing">Ако сада напустите преглед, мораћете поново да додате слике</string>
     <string name="image_format">Формат слике</string>
+    <string name="material_you_sub">Ствара палету \"Material You \" са слике</string>
+    <string name="dark_colors">Тамне боје</string>
+    <string name="dark_colors_sub">Користи шему боја ноћног режима уместо светле опције</string>
+    <string name="copy_as_compose_code">Копирајте као код \"Jetpack Compose\"</string>
 </resources>
