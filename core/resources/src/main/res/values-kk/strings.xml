@@ -121,7 +121,7 @@
     <string name="donation_sub">Бұл қолданба толығымен тегін, бірақ жобаны әзірлеуге қолдау көрсеткіңіз келсе, осы жерді басуға болады</string>
     <string name="explicit">Айқын</string>
     <string name="reset_image">Кескінді қалпына келтіру</string>
-    <string name="warning_bytes">PNG режимінде сақтау тұрақсыз болуы мүмкін, себебі ол жоғалтпайтын пішім</string>
+    <string name="warning_bytes">%1$s режимінде сақтау тұрақсыз болуы мүмкін, себебі ол жоғалтпайтын пішім</string>
     <string name="dynamic_colors_sub">Қосылған болса, қолданба түстері тұсқағаз түстеріне қабылданады</string>
     <string name="grant">Грант</string>
     <string name="device_storage">Құрылғыны сақтау</string>
