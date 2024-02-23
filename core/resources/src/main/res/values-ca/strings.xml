@@ -23,7 +23,7 @@
     <string name="edit_exif">Edita l\'EXIF</string>
     <string name="something_went_wrong">Alguna cosa ha anat malament</string>
     <string name="ok" tools:ignore="ButtonCase,Typos">D\'acord</string>
-    <string name="clear_exif_sub">S\'esborraran totes les dades EXIF de la imatge. Aquesta acció no es pot desfer.</string>
+    <string name="clear_exif_sub">S\'esborraran totes les dades EXIF de la imatge. Aquesta acció no es pot desfer!</string>
     <string name="presets">Valors predefinits</string>
     <string name="image_not_saved">Desant</string>
     <string name="no_exif">No s\'han trobat dades EXIF</string>
