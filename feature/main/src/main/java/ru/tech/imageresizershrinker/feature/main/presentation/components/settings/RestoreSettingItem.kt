@@ -22,15 +22,21 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.DownloadFile
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
+import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
 @Composable
@@ -47,9 +53,23 @@ fun RestoreSettingItem(
             }
         }
     )
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val toastHostState = LocalToastHostState.current
+
     PreferenceItem(
         onClick = {
-            filePicker.launch(arrayOf("*/*"))
+            runCatching {
+                filePicker.launch(arrayOf("*/*"))
+            }.onFailure {
+                scope.launch {
+                    toastHostState.showToast(
+                        message = context.getString(R.string.activate_files),
+                        icon = Icons.Outlined.FolderOff,
+                        duration = ToastDuration.Long
+                    )
+                }
+            }
         },
         shape = shape,
         modifier = modifier,

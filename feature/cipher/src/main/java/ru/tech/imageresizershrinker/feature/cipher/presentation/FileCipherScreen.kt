@@ -62,6 +62,7 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.HelpOutline
 import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
 import androidx.compose.material.icons.outlined.Cancel
+import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.FileDownload
@@ -133,6 +134,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
+import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -333,7 +335,17 @@ fun FileCipherScreen(
                                                         haptics.performHapticFeedback(
                                                             HapticFeedbackType.LongPress
                                                         )
-                                                        filePicker.launch(arrayOf("*/*"))
+                                                        runCatching {
+                                                            filePicker.launch(arrayOf("*/*"))
+                                                        }.onFailure {
+                                                            scope.launch {
+                                                                toastHostState.showToast(
+                                                                    message = context.getString(R.string.activate_files),
+                                                                    icon = Icons.Outlined.FolderOff,
+                                                                    duration = ToastDuration.Long
+                                                                )
+                                                            }
+                                                        }
                                                     }
                                                     .padding(12.dp),
                                                 tint = MaterialTheme.colorScheme.onSecondaryContainer
@@ -438,7 +450,19 @@ fun FileCipherScreen(
                                             )
 
                                             EnhancedButton(
-                                                onClick = { filePicker.launch(arrayOf("*/*")) },
+                                                onClick = {
+                                                    runCatching {
+                                                        filePicker.launch(arrayOf("*/*"))
+                                                    }.onFailure {
+                                                        scope.launch {
+                                                            toastHostState.showToast(
+                                                                message = context.getString(R.string.activate_files),
+                                                                icon = Icons.Outlined.FolderOff,
+                                                                duration = ToastDuration.Long
+                                                            )
+                                                        }
+                                                    }
+                                                },
                                                 modifier = Modifier.padding(top = 16.dp),
                                                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                                 borderColor = MaterialTheme.colorScheme.outlineVariant(
@@ -671,7 +695,19 @@ fun FileCipherScreen(
                                                 ) {
                                                     EnhancedButton(
                                                         onClick = {
-                                                            saveLauncher.launch("*/*#$name")
+                                                            runCatching {
+                                                                saveLauncher.launch("*/*#$name")
+                                                            }.onFailure {
+                                                                scope.launch {
+                                                                    toastHostState.showToast(
+                                                                        message = context.getString(
+                                                                            R.string.activate_files
+                                                                        ),
+                                                                        icon = Icons.Outlined.FolderOff,
+                                                                        duration = ToastDuration.Long
+                                                                    )
+                                                                }
+                                                            }
                                                         },
                                                         modifier = Modifier
                                                             .padding(end = 8.dp)
@@ -745,7 +781,17 @@ fun FileCipherScreen(
         if (viewModel.uri == null) {
             EnhancedFloatingActionButton(
                 onClick = {
-                    filePicker.launch(arrayOf("*/*"))
+                    runCatching {
+                        filePicker.launch(arrayOf("*/*"))
+                    }.onFailure {
+                        scope.launch {
+                            toastHostState.showToast(
+                                message = context.getString(R.string.activate_files),
+                                icon = Icons.Outlined.FolderOff,
+                                duration = ToastDuration.Long
+                            )
+                        }
+                    }
                 },
                 modifier = Modifier
                     .navigationBarsPadding()

@@ -52,6 +52,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FilterFrames
+import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
 import androidx.compose.material.icons.outlined.RepeatOne
 import androidx.compose.material.icons.outlined.SelectAll
@@ -113,6 +114,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
+import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -461,7 +463,27 @@ fun GifToolsScreen(
                 onPrimaryButtonClick = {
                     viewModel.saveBitmaps(
                         onGifSaveResult = { name ->
-                            savePdfLauncher.launch("image/gif#$name.gif")
+                            runCatching {
+                                runCatching {
+                                    savePdfLauncher.launch("image/gif#$name.gif")
+                                }.onFailure {
+                                    scope.launch {
+                                        toastHostState.showToast(
+                                            message = context.getString(R.string.activate_files),
+                                            icon = Icons.Outlined.FolderOff,
+                                            duration = ToastDuration.Long
+                                        )
+                                    }
+                                }
+                            }.onFailure {
+                                scope.launch {
+                                    toastHostState.showToast(
+                                        message = context.getString(R.string.activate_files),
+                                        icon = Icons.Outlined.FolderOff,
+                                        duration = ToastDuration.Long
+                                    )
+                                }
+                            }
                         },
                         onResult = { results, savingPath ->
                             context.failedToSaveImages(

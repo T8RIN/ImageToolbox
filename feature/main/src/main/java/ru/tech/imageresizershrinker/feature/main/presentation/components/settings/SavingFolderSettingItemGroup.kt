@@ -104,14 +104,16 @@ fun SavingFolderSettingItemGroup(
         PreferenceItem(
             shape = ContainerShapeDefaults.bottomShape,
             onClick = {
-                kotlin.runCatching {
+                runCatching {
                     launcher.launch(currentFolderUri)
-                }.getOrNull() ?: scope.launch {
-                    toastHostState.showToast(
-                        message = context.getString(R.string.activate_files),
-                        icon = Icons.Outlined.FolderOff,
-                        duration = ToastDuration.Long
-                    )
+                }.onFailure {
+                    scope.launch {
+                        toastHostState.showToast(
+                            message = context.getString(R.string.activate_files),
+                            icon = Icons.Outlined.FolderOff,
+                            duration = ToastDuration.Long
+                        )
+                    }
                 }
             },
             title = stringResource(R.string.custom),

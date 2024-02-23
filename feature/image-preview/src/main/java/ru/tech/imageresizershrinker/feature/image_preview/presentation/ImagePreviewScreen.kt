@@ -40,6 +40,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.ImageSearch
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -83,6 +84,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.image.LazyImagesGrid
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
+import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.feature.image_preview.presentation.viewModel.ImagePreviewViewModel
@@ -153,8 +156,19 @@ fun ImagePreviewScreen(
         pickImageLauncher.pickImage()
     }
 
-    val pickDirectory = {
-        openDirectoryLauncher.launch(previousFolder)
+    val toastHostState = LocalToastHostState.current
+    val pickDirectory: () -> Unit = {
+        runCatching {
+            openDirectoryLauncher.launch(previousFolder)
+        }.onFailure {
+            scope.launch {
+                toastHostState.showToast(
+                    message = context.getString(R.string.activate_files),
+                    icon = Icons.Outlined.FolderOff,
+                    duration = ToastDuration.Long
+                )
+            }
+        }
     }
 
     val gridState = rememberLazyStaggeredGridState()

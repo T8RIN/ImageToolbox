@@ -31,12 +31,16 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.FileProvider
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
+import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import java.io.File
 import kotlin.random.Random
 
@@ -49,7 +53,8 @@ class ImagePicker(
     private val getContent: ManagedActivityResultLauncher<Intent, ActivityResult>,
     private val takePhoto: ManagedActivityResultLauncher<Uri, Boolean>,
     private val onCreateTakePhotoUri: (Uri) -> Unit,
-    private val imageExtension: String
+    private val imageExtension: String,
+    private val onFailure: (Throwable) -> Unit
 ) {
     fun pickImage() {
         val cameraAction = {
@@ -128,7 +133,7 @@ class ImagePicker(
                 ImagePickerMode.GetContentSingle,
                 ImagePickerMode.GetContentMultiple -> getContentAction()
             }
-        }
+        }.onFailure(onFailure)
     }
 }
 
@@ -219,6 +224,9 @@ fun rememberImagePicker(
         }
     )
 
+    val scope = rememberCoroutineScope()
+    val toastHostState = LocalToastHostState.current
+
     return remember(imageExtension) {
         ImagePicker(
             context = context,
@@ -230,7 +238,15 @@ fun rememberImagePicker(
             onCreateTakePhotoUri = {
                 takePhotoUri = it
             },
-            imageExtension = imageExtension
+            imageExtension = imageExtension,
+            onFailure = {
+                scope.launch {
+                    toastHostState.showError(
+                        context = context,
+                        error = it
+                    )
+                }
+            }
         )
     }
 }

@@ -70,6 +70,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
@@ -141,6 +142,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
+import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -393,17 +395,23 @@ fun PdfToolsScreen(
         val pdfType = it
         EnhancedFloatingActionButton(
             onClick = {
-                when (pdfType) {
-                    is Screen.PdfTools.Type.ImagesToPdf -> {
-                        imagesToPdfPicker.pickImage()
-                    }
+                runCatching {
+                    when (pdfType) {
+                        is Screen.PdfTools.Type.ImagesToPdf -> {
+                            imagesToPdfPicker.pickImage()
+                        }
 
-                    is Screen.PdfTools.Type.Preview -> {
-                        pdfPreviewPicker.launch(arrayOf("application/pdf"))
-                    }
+                        is Screen.PdfTools.Type.Preview -> {
+                            pdfPreviewPicker.launch(arrayOf("application/pdf"))
+                        }
 
-                    else -> {
-                        pdfToImagesPicker.launch(arrayOf("application/pdf"))
+                        else -> {
+                            pdfToImagesPicker.launch(arrayOf("application/pdf"))
+                        }
+                    }
+                }.onFailure {
+                    scope.launch {
+                        toastHostState.showError(context, it)
                     }
                 }
             },
@@ -441,7 +449,17 @@ fun PdfToolsScreen(
                         if (pdfType is Screen.PdfTools.Type.ImagesToPdf && viewModel.imagesToPdfState != null) {
                             val name = viewModel.generatePdfFilename()
                             viewModel.convertImagesToPdf {
-                                savePdfLauncher.launch("application/pdf#$name.pdf")
+                                runCatching {
+                                    savePdfLauncher.launch("application/pdf#$name.pdf")
+                                }.onFailure {
+                                    scope.launch {
+                                        toastHostState.showToast(
+                                            message = context.getString(R.string.activate_files),
+                                            icon = Icons.Outlined.FolderOff,
+                                            duration = ToastDuration.Long
+                                        )
+                                    }
+                                }
                             }
                         } else if (pdfType is Screen.PdfTools.Type.PdfToImages) {
                             viewModel.savePdfToImage { savingPath ->
@@ -697,17 +715,34 @@ fun PdfToolsScreen(
                                             item {
                                                 PreferenceItem(
                                                     onClick = {
-                                                        when (it) {
-                                                            is Screen.PdfTools.Type.ImagesToPdf -> {
-                                                                imagesToPdfPicker.pickImage()
-                                                            }
+                                                        runCatching {
+                                                            when (it) {
+                                                                is Screen.PdfTools.Type.ImagesToPdf -> {
+                                                                    imagesToPdfPicker.pickImage()
+                                                                }
 
-                                                            is Screen.PdfTools.Type.PdfToImages -> {
-                                                                pdfToImagesPicker.launch(arrayOf("application/pdf"))
-                                                            }
+                                                                is Screen.PdfTools.Type.PdfToImages -> {
+                                                                    pdfToImagesPicker.launch(
+                                                                        arrayOf(
+                                                                            "application/pdf"
+                                                                        )
+                                                                    )
+                                                                }
 
-                                                            is Screen.PdfTools.Type.Preview -> {
-                                                                pdfPreviewPicker.launch(arrayOf("application/pdf"))
+                                                                is Screen.PdfTools.Type.Preview -> {
+                                                                    pdfPreviewPicker.launch(
+                                                                        arrayOf(
+                                                                            "application/pdf"
+                                                                        )
+                                                                    )
+                                                                }
+                                                            }
+                                                        }.onFailure {
+                                                            scope.launch {
+                                                                toastHostState.showError(
+                                                                    context,
+                                                                    it
+                                                                )
                                                             }
                                                         }
                                                     },
@@ -735,7 +770,17 @@ fun PdfToolsScreen(
                                     ) {
                                         EnhancedFloatingActionButton(
                                             onClick = {
-                                                selectionPdfPicker.launch(arrayOf("application/pdf"))
+                                                runCatching {
+                                                    selectionPdfPicker.launch(arrayOf("application/pdf"))
+                                                }.onFailure {
+                                                    scope.launch {
+                                                        toastHostState.showToast(
+                                                            message = context.getString(R.string.activate_files),
+                                                            icon = Icons.Outlined.FolderOff,
+                                                            duration = ToastDuration.Long
+                                                        )
+                                                    }
+                                                }
                                             },
                                             modifier = Modifier
                                                 .navigationBarsPadding()
