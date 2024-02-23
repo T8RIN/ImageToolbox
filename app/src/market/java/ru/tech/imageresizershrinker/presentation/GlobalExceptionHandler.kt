@@ -21,11 +21,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.logEvent
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
-import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import kotlin.system.exitProcess
 
@@ -95,9 +95,9 @@ class GlobalExceptionHandler<T : CrashHandler> private constructor(
         fun registerScreenOpen(screen: Screen) {
             if (allowCollectAnalytics) {
                 Log.d("SCREEN_OPEN", screen::class.simpleName.toString())
-                Firebase.analytics.logEvent("SCREEN_OPEN") {
-                    param("APP_VERSION", BuildConfig.VERSION_NAME)
-                    param("SCREEN", screen::class.simpleName.toString())
+                Firebase.analytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+                    param(FirebaseAnalytics.Param.ITEM_ID, screen.id.toLong())
+                    param(FirebaseAnalytics.Param.ITEM_NAME, screen::class.simpleName.toString())
                 }
             }
         }
