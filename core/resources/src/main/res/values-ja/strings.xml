@@ -783,4 +783,8 @@
     <string name="exit">出口</string>
     <string name="preview_closing">ここでプレビューを終了する場合は、画像を再度追加する必要があります</string>
     <string name="image_format">画像フォーマット</string>
+    <string name="material_you_sub">画像から\"Material You \"パレットを作成します</string>
+    <string name="dark_colors">暗い色</string>
+    <string name="dark_colors_sub">ライトバリアントの代わりにナイトモードの配色を使用します</string>
+    <string name="copy_as_compose_code">Jetpack Composeコードとしてコピー</string>
 </resources>
