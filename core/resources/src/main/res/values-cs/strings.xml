@@ -786,4 +786,5 @@
     <string name="material_you_sub">Vytvoří paletu\" Material You \" z obrázku</string>
     <string name="dark_colors">Tmavé Barvy</string>
     <string name="dark_colors_sub">Používá barevné schéma nočního režimu místo světelné varianty</string>
+    <string name="copy_as_compose_code">Kopírovat jako Jetpack Compose code</string>
 </resources>
