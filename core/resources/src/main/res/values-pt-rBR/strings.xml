@@ -782,4 +782,8 @@
     <string name="cannot_change_image_format">Não é possível alterar o formato da imagem enquanto a opção sobrescrever arquivos está ativada</string>
     <string name="emoji_as_color_scheme">Emoji como esquema de cores</string>
     <string name="emoji_as_color_scheme_sub">Usa cor primária emoji como esquema de cores do aplicativo em vez de um definido manualmente</string>
+    <string name="material_you_sub">Cria paleta \"Material You\" a partir da imagem</string>
+    <string name="dark_colors">Cores Escuras</string>
+    <string name="dark_colors_sub">Usa o esquema de cores do modo noturno em vez da variante de luz</string>
+    <string name="copy_as_compose_code">Copiar como código \"Jetpack Compose\"</string>
 </resources>
