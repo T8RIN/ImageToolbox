@@ -585,7 +585,7 @@
     <string name="dithering">התרפקות</string>
     <string name="quantizier">קוונטיזיר</string>
     <string name="gray_scale">סולם אפור</string>
-    <string name="bayer_two_dithering">באייר שניים שניים</string>
+    <string name="bayer_two_dithering">באייר שניים</string>
     <string name="bayer_three_dithering">באייר שלוש על שלוש מתנודדות</string>
     <string name="bayer_four_dithering">באייר ארבע על ארבע דיבורים</string>
     <string name="bayer_eight_dithering">באייר שמונה על שמונה דיבורים</string>
@@ -636,7 +636,7 @@
     <string name="image_orientation">כיוון תמונה</string>
     <string name="horizontal">אופקי</string>
     <string name="vertical">אֲנָכִי</string>
-    <string name="scale_small_images_to_large">קנה קנה מידה של תמונות קטנות לגדולות</string>
+    <string name="scale_small_images_to_large">קנה מידה של תמונות קטנות לגדולות</string>
     <string name="scale_small_images_to_large_sub">תמונות קטנות יותאמו לגדולה ברצף אם מופעלת</string>
     <string name="images_order">סדר תמונות</string>
     <string name="grain">תְבוּאָה</string>
