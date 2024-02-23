@@ -785,4 +785,6 @@
     <string name="emoji_as_color_scheme_sub">Utilitza el color primari dels emoji com a esquema de colors de l\'aplicació en lloc d\'un de definit manualment</string>
     <string name="material_you_sub">Crea la paleta \"Material You\" a partir de la imatge</string>
     <string name="dark_colors">Colors Foscos</string>
+    <string name="dark_colors_sub">Utilitza el mode nocturn esquema de colors en lloc de la variant de llum</string>
+    <string name="copy_as_compose_code">Copia com a codi \"Jetpack Compose\"</string>
 </resources>
