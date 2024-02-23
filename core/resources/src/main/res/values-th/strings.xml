@@ -783,4 +783,8 @@
     <string name="exit">ออก</string>
     <string name="preview_closing">หากคุณออกจากการแสดงตัวอย่างตอนนี้ คุณจะต้องเพิ่มรูปภาพอีกครั้ง</string>
     <string name="image_format">รูปแบบภาพ</string>
+    <string name="material_you_sub">สร้าง\"Material You\"จานสีจากภาพ</string>
+    <string name="dark_colors">สีเข้ม</string>
+    <string name="dark_colors_sub">ใช้โทนสีโหมดกลางคืนแทนตัวแปรแสง</string>
+    <string name="copy_as_compose_code">คัดลอกเป็น\"Jetpack Compose\"รหัส</string>
 </resources>
