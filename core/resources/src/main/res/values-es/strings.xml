@@ -783,4 +783,8 @@
     <string name="noise">Ruido</string>
     <string name="pixel_sort">Ordenar píxeles</string>
     <string name="anaglyph">Anáglifo</string>
+    <string name="material_you_sub">Crea la paleta \"Material You\" a partir de la imagen</string>
+    <string name="dark_colors">Colores Oscuros</string>
+    <string name="dark_colors_sub">Utiliza el esquema de color del modo nocturno en lugar de la variante de luz</string>
+    <string name="copy_as_compose_code">Copiar como código \"Jetpack Compose\"</string>
 </resources>
