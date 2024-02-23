@@ -783,4 +783,6 @@
     <string name="cannot_change_image_format">No es pot canviar el format de la imatge mentre l\'opció de sobreescriure fitxers està activada</string>
     <string name="emoji_as_color_scheme">Emoji com a esquema de colors</string>
     <string name="emoji_as_color_scheme_sub">Utilitza el color primari dels emoji com a esquema de colors de l\'aplicació en lloc d\'un de definit manualment</string>
+    <string name="material_you_sub">Crea la paleta \"Material You\" a partir de la imatge</string>
+    <string name="dark_colors">Colors Foscos</string>
 </resources>
