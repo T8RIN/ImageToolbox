@@ -783,4 +783,8 @@
     <string name="exit">Шығу</string>
     <string name="preview_closing">Алдын ала қараудан қазір шықсаңыз, суреттерді қайта қосуыңыз керек</string>
     <string name="image_format">Сурет пішімі</string>
+    <string name="material_you_sub">Кескіннен \"Material You \" палитрасын жасайды</string>
+    <string name="dark_colors">Қою Түстер</string>
+    <string name="dark_colors_sub">Жарық нұсқасының орнына түнгі режимнің түс схемасын қолданады</string>
+    <string name="copy_as_compose_code">\"Jetpack Compose\" коды ретінде көшіріңіз</string>
 </resources>
