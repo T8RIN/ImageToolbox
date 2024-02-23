@@ -410,7 +410,7 @@
     <string name="pdf_to_images_sub">Chuyển đổi PDF thành hình ảnh ở định dạng đầu ra nhất định</string>
     <string name="images_to_pdf_sub">Đóng gói hình ảnh đã cho vào tệp PDF đầu ra</string>
     <string name="mask_filter">Bộ lọc mặt nạ</string>
-    <string name="mask_filter_sub">Áp dụng chuỗi bộ lọc trên các vùng được che nhất định, mỗi vùng mặt nạ có thể xác định bộ bộ lọc riêng của nó</string>
+    <string name="mask_filter_sub">Áp dụng chuỗi bộ lọc trên các vùng được che nhất định, mỗi vùng mặt nạ có thể xác định bộ lọc riêng của nó</string>
     <string name="masks">Mặt nạ</string>
     <string name="add_mask">Thêm mặt nạ</string>
     <string name="mask_indexed">Mặt nạ %d</string>
