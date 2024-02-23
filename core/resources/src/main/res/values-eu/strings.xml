@@ -783,4 +783,8 @@
     <string name="lasso">Lazoa</string>
     <string name="lasso_sub">Bide itxia marrazten du emandako bidearen arabera</string>
     <string name="image_format">Irudi formatua</string>
+    <string name="dark_colors">Kolore Ilunak</string>
+    <string name="dark_colors_sub">Gaueko moduaren kolore eskema erabiltzen du argiaren aldaeraren ordez</string>
+    <string name="copy_as_compose_code">Kopiatu Jetpack Compose kodea</string>
+    <string name="material_you_sub">Material You paleta sortzen du iruditik</string>
 </resources>
