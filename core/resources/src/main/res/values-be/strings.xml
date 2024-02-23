@@ -569,7 +569,7 @@
     <string name="lookup">Шукаць</string>
     <string name="convolution3x3">Згортка 3х3</string>
     <string name="rgb_filter">Rgb фільтр</string>
-    <string name="draw">маляваць</string>
+    <string name="draw">Маляваць</string>
     <string name="draw_sub">Малюйце на малюнку, як у альбоме для малявання, або малюйце на самім фоне</string>
     <string name="paint_alpha">Фарба альфа</string>
     <string name="draw_on_image">Маляваць на малюнку</string>
@@ -634,7 +634,7 @@
     <string name="icon_shape_sub">Дадае кантэйнер з выбранай формай пад галоўнымі значкамі карт</string>
     <string name="image_stitching">Сшыванне малюнкаў</string>
     <string name="image_stitching_sub">Аб\'яднайце дадзеныя малюнкі, каб атрымаць адзін вялікі</string>
-    <string name="brightness_enforcement">Яркасць Enforcement</string>
+    <string name="brightness_enforcement">Максімальная яркасць</string>
     <string name="screen">Экран</string>
     <string name="gradient_maker_type_image">Градыентнае накладанне</string>
     <string name="gradient_maker_type_image_sub">Складзіце любы градыент верхняй часткі дадзенага малюнка</string>
