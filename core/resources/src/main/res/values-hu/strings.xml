@@ -426,7 +426,7 @@
     <string name="segmentation_mode_sparse_text_osd">Ritka szöveg tájolása &amp; Szkript észlelése</string>
     <string name="segmentation_mode_raw_line">Nyers vonal</string>
     <string name="delete_language_sub">Törölni szeretné a \"%1$s\" nyelv OCR betanítási adatait az összes felismerési típusnál, vagy csak egy kiválasztottnál (%2$s)?</string>
-    <string name="bayer_eight_dithering">Bayer Nyolc Nyolc Dithering</string>
+    <string name="bayer_eight_dithering">Bayer Nyolc Dithering</string>
     <string name="floyd_steinberg_dithering">Floyd Steinberg Dithering</string>
     <string name="jarvis_judice_ninke_dithering">Jarvis Judice Ninke Dithering</string>
     <string name="sierra_lite_dithering">Sierra Lite Dithering</string>
@@ -513,7 +513,7 @@
     <string name="found_s">Talált: %1$s</string>
     <string name="group_options_by_type">Csoportosítsa a lehetőségeket típus szerint</string>
     <string name="edit_screenshot">Képernyőkép szerkesztése</string>
-    <string name="presets_sub">Ha a 125-ös beállítást választotta, a kép az eredeti kép 125%-os méretében, 100%-os minőségben kerül mentésre. Ha az 50-es előre beállított értéket választja, akkor a kép 50% méretben és 50% minőségben kerül mentésre.</string>
+    <string name="presets_sub">Ha a 125-ös beállítást választotta, a kép az eredeti kép 125% os méretében, 100% os minőségben kerül mentésre. Ha az 50-es előre beállított értéket választja, akkor a kép 50% méretben és 50% minőségben kerül mentésre.</string>
     <string name="presets_sub_bytes">A preset itt határozza meg a kimeneti fájl %-át, azaz ha az 50 preset értéket választja az 5 MB-os képen, akkor a mentés után 2,5 MB-os képet kap.</string>
     <string name="saved_to">Mentve %1$s mappába a következő névvel: %2$s</string>
     <string name="saved_to_without_filename">Mentve a(z) %1$s mappába</string>
@@ -656,7 +656,7 @@
     <string name="dithering">Dithering</string>
     <string name="quantizier">Kvantifikátor</string>
     <string name="gray_scale">Szürke skála</string>
-    <string name="bayer_two_dithering">Bayer Kettő Kettő Haladt</string>
+    <string name="bayer_two_dithering">Bayer Kettő Haladt</string>
     <string name="bayer_three_dithering">Bayer Three By Three Dithering</string>
     <string name="bayer_four_dithering">Bayer Four By Four Dithering</string>
     <string name="sierra_dithering">Sierra Dithering</string>
