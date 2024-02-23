@@ -783,4 +783,8 @@
     <string name="exit">יְצִיאָה</string>
     <string name="preview_closing">אם תעזוב את התצוגה המקדימה כעת, תצטרך להוסיף את התמונות שוב</string>
     <string name="image_format">פורמט תמונה</string>
+    <string name="material_you_sub">יוצר\"Material You\" צבעים מתמונה</string>
+    <string name="copy_as_compose_code">העתק כקוד \" Jetpack Compose\"</string>
+    <string name="dark_colors">צבעים כהים</string>
+    <string name="dark_colors_sub">משתמש ערכת צבעי מצב הלילה במקום וריאנט אור</string>
 </resources>
