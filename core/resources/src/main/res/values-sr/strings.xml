@@ -259,7 +259,7 @@
     <string name="compatibility">Компатибилност</string>
     <string name="features_sub">Шифровање датотека на основу лозинке. Настављене датотеке се могу чувати у изабраном директоријуму или делити. Дешифроване датотеке се такође могу директно отворити.</string>
     <string name="cache_size">Величина кеша</string>
-    <string name="found_s">Пронађено [Кс6Кс]</string>
+    <string name="found_s">Пронађено %1$s</string>
     <string name="tools">Алати</string>
     <string name="fallback_option">Резервна опција</string>
     <string name="skip">Скип</string>
@@ -278,7 +278,7 @@
     <string name="edit_screenshot">Уредите снимак екрана</string>
     <string name="secondary_customization">Секундарно прилагођавање</string>
     <string name="copy">Копирај</string>
-    <string name="warning_bytes">Чување у режиму [Кс10Кс] може бити нестабилно, јер је формат без губитака</string>
+    <string name="warning_bytes">Чување у режиму %1$s може бити нестабилно, јер је формат без губитака</string>
     <string name="image_size_warning">Покушај да сачувате слику са датом ширином и висином може изазвати ООМ грешку, урадите то на сопствену одговорност и немојте рећи да вас нисам упозорио!</string>
     <string name="group_options_by_type">Групирајте опције по типу</string>
     <string name="group_options_by_type_sub">Групе опције на главном екрану њиховог типа уместо прилагођеног распореда листе</string>
@@ -360,7 +360,7 @@
     <string name="font_scale">Скала фонта</string>
     <string name="defaultt">Уобичајено</string>
     <string name="using_large_fonts_warn">Коришћење великих размера фонта може да изазове грешке у корисничком интерфејсу и проблеме, који се неће поправити. Користите опрезно.</string>
-    <string name="alphabet_and_numbers">Аа Бб Цц Дд Ее Фф Гг Хх Ии Јј Кк Лл Мм Нн Оо Пп Кк Рр Сс Тт Уу Вв Вв Кск Ии Зз 0123456789 !?</string>
+    <string name="alphabet_and_numbers">Аа Бб Цц Дд Ее Фф Гг Хх Ии Јј Кк Лл Мм Нн Оо Пп Кк Рр Сс Тт Уу Вв Кк Ии Зз 0123456789 !?</string>
     <string name="food_and_drink">Храна и пиће</string>
     <string name="nature_and_animals">Природа и животиње</string>
     <string name="symbols">Симболи</string>
@@ -727,7 +727,8 @@
     <string name="standard">Стандард</string>
     <string name="best">Најбољи</string>
     <string name="no_data">Нема података</string>
-    <string name="download_description">За правилно функционисање Тессерацт ОЦР-а потребно је да се на ваш уређај преузму додатни подаци за обуку (%1$s).Да ли желите да преузмете %2$s податке?</string>
+    <string name="download_description">За правилно функционисање Тессерацт ОЦР-а потребно је да се на ваш уређај преузму додатни подаци за обуку (%1$s).
+\nДа ли желите да преузмете %2$s податке?</string>
     <string name="download">Преузимање</string>
     <string name="no_connection">Нема везе, проверите и покушајте поново да бисте преузели моделе возова</string>
     <string name="downloaded_languages">Преузети језици</string>
@@ -782,4 +783,8 @@
     <string name="exit">Изађи</string>
     <string name="preview_closing">Ако сада напустите преглед, мораћете поново да додате слике</string>
     <string name="image_format">Формат слике</string>
+    <string name="material_you_sub">Ствара палету \"Material You \" са слике</string>
+    <string name="dark_colors">Тамне боје</string>
+    <string name="dark_colors_sub">Користи шему боја ноћног режима уместо светле опције</string>
+    <string name="copy_as_compose_code">Копирајте као код \"Jetpack Compose\"</string>
 </resources>

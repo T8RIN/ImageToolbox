@@ -410,7 +410,7 @@
     <string name="pdf_to_images_sub">Chuyển đổi PDF thành hình ảnh ở định dạng đầu ra nhất định</string>
     <string name="images_to_pdf_sub">Đóng gói hình ảnh đã cho vào tệp PDF đầu ra</string>
     <string name="mask_filter">Bộ lọc mặt nạ</string>
-    <string name="mask_filter_sub">Áp dụng chuỗi bộ lọc trên các vùng được che nhất định, mỗi vùng mặt nạ có thể xác định bộ bộ lọc riêng của nó</string>
+    <string name="mask_filter_sub">Áp dụng chuỗi bộ lọc trên các vùng được che nhất định, mỗi vùng mặt nạ có thể xác định bộ lọc riêng của nó</string>
     <string name="masks">Mặt nạ</string>
     <string name="add_mask">Thêm mặt nạ</string>
     <string name="mask_indexed">Mặt nạ %d</string>
@@ -783,4 +783,8 @@
     <string name="exit">Lối ra</string>
     <string name="preview_closing">Nếu bây giờ bạn để lại bản xem trước, bạn sẽ cần phải thêm lại hình ảnh</string>
     <string name="image_format">Định dạng hình ảnh</string>
+    <string name="material_you_sub">Tạo Bảng Màu \"Material You\" từ hình ảnh</string>
+    <string name="dark_colors_sub">Sử dụng bảng màu chế độ ban đêm thay vì biến thể ánh sáng</string>
+    <string name="copy_as_compose_code">Sao chép dưới dạng mã\" Jetpack Compose\"</string>
+    <string name="dark_colors">Màu Tối</string>
 </resources>

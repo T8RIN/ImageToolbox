@@ -783,4 +783,8 @@
     <string name="lasso">Lasso</string>
     <string name="lasso_sub">Gumuguhit ng closed filled path ayon sa ibinigay na path</string>
     <string name="image_format">Format ng Larawan</string>
+    <string name="material_you_sub">Lumilikha ng \"Material You\" palette mula sa larawan</string>
+    <string name="dark_colors">Madidilim na kulay</string>
+    <string name="dark_colors_sub">Gumagamit ng night mode color scheme sa halip na light variant</string>
+    <string name="copy_as_compose_code">Kopyahin bilang Jetpack Compose code</string>
 </resources>

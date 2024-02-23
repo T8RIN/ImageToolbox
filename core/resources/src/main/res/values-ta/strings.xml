@@ -25,7 +25,7 @@
     <string name="containers_shadow">கொள்கலன்கள்</string>
     <string name="arrow">அம்பு</string>
     <string name="tile_mode">ஓடு முறை</string>
-    <string name="tile_mode_repeated">மீண்டும் மீண்டும்</string>
+    <string name="tile_mode_repeated">மீண்டும்</string>
     <string name="tile_mode_mirror">கண்ணாடி</string>
     <string name="tile_mode_clamp">கிளாம்ப்</string>
     <string name="tile_mode_decal">Decal</string>
@@ -374,7 +374,7 @@
     <string name="max_colors_count">அதிகபட்ச வண்ண எண்ணிக்கை</string>
     <string name="crashlytics_sub">இது செயலிழப்பு அறிக்கைகளை கைமுறையாக சேகரிக்க பயன்பாட்டை அனுமதிக்கிறது</string>
     <string name="analytics">பகுப்பாய்வு</string>
-    <string name="analytics_sub">அநாமதேய பயன்பாட்டு பயன்பாட்டு புள்ளிவிவரங்களைச் சேகரிக்க அனுமதிக்கவும்</string>
+    <string name="analytics_sub">அநாமதேய பயன்பாட்டு புள்ளிவிவரங்களைச் சேகரிக்க அனுமதிக்கவும்</string>
     <string name="overwrite_files_sub">தேர்ந்தெடுக்கப்பட்ட கோப்புறையில் சேமிப்பதற்குப் பதிலாக அசல் கோப்பு புதியதாக மாற்றப்படும், இந்த விருப்பத்திற்கு பட ஆதாரம் \"Explorer\" அல்லது GetContent ஆக இருக்க வேண்டும், இதை மாற்றும்போது, தானாகவே அமைக்கப்படும்</string>
     <string name="empty">காலியாக</string>
     <string name="suffix">பின்னொட்டு</string>
@@ -471,7 +471,7 @@
     <string name="watermarking">வாட்டர்மார்க்கிங்</string>
     <string name="watermarking_sub">தனிப்பயனாக்கக்கூடிய உரை/பட வாட்டர்மார்க்ஸுடன் படங்களை கவர்</string>
     <string name="repeat_watermark">வாட்டர்மார்க் செய்யவும்</string>
-    <string name="repeat_watermark_sub">கொடுக்கப்பட்ட நிலையில் ஒற்றைக்கு பதிலாக படத்தின் மீது வாட்டர்மார்க் மீண்டும் மீண்டும் செய்கிறது</string>
+    <string name="repeat_watermark_sub">கொடுக்கப்பட்ட நிலையில் ஒற்றைக்கு பதிலாக படத்தின் மீது வாட்டர்மார்க் மீண்டும் செய்கிறது</string>
     <string name="offset_y">ஆஃப்செட் ஒய்</string>
     <string name="watermark_type">வாட்டர்மார்க் வகை</string>
     <string name="watermarking_image_sub">இந்தப் படம் வாட்டர்மார்க்கிங்கிற்கான மாதிரியாகப் பயன்படுத்தப்படும்</string>
@@ -783,4 +783,8 @@
     <string name="auto_pin">ஆட்டோ பின்</string>
     <string name="auto_pin_sub">இயக்கப்பட்டிருந்தால், தானாகவே சேமிக்கப்பட்ட படத்தை கிளிப்போர்டில் சேர்க்கும்</string>
     <string name="vibration">அதிர்வு</string>
+    <string name="material_you_sub">படத்திலிருந்து \"Material You\" தட்டு உருவாக்குகிறது</string>
+    <string name="dark_colors">இருண்ட நிறங்கள்</string>
+    <string name="dark_colors_sub">ஒளி மாறுபாட்டிற்கு பதிலாக இரவு பயன்முறை வண்ணத் திட்டத்தைப் பயன்படுத்துகிறது</string>
+    <string name="copy_as_compose_code">\"Jetpack Compose\" குறியீடாக நகலெடுக்கவும்</string>
 </resources>

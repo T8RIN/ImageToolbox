@@ -783,4 +783,8 @@
     <string name="exit">Uscita</string>
     <string name="preview_closing">Se lasci l\'anteprima ora, dovrai aggiungere nuovamente le immagini</string>
     <string name="image_format">Formato immagine</string>
+    <string name="dark_colors">Colori scuri</string>
+    <string name="dark_colors_sub">Utilizza modalità notte combinazione di colori invece di luce variante</string>
+    <string name="copy_as_compose_code">Copia come codice” Jetpack Compose\"</string>
+    <string name="material_you_sub">Crea la tavolozza \"Material You\" dall\'immagine</string>
 </resources>

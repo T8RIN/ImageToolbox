@@ -264,7 +264,7 @@
     <string name="file_size_sub">最大ファイル サイズは Android OS と利用可能なメモリによって制限され、明らかにデバイスによって異なります。
 \n注意してください: メモリはストレージではありません。</string>
     <string name="compatibility_sub">他のファイル暗号化ソフトウェアやサービスとの互換性は保証されませんのでご注意ください。キーの処理や暗号設定がわずかに異なることが、非互換性の原因となる可能性があります。</string>
-    <string name="image_size_warning">指定された幅と高さで画像を保存しようとすると、OOM エラーが発生する可能性があります。これは自己責任で行ってください。警告しなかったとは言わないでください。</string>
+    <string name="image_size_warning">指定された幅と高さで画像を保存しようとすると、OOM エラーが発生する可能性があります。これは自己責任で行ってください。警告しなかったとは言わないでください。!</string>
     <string name="cache_size">キャッシュサイズ</string>
     <string name="auto_cache_clearing_sub">有効にすると、アプリの起動時にアプリのキャッシュがクリアされます</string>
     <string name="tools">ツール</string>
@@ -277,7 +277,7 @@
     <string name="cannot_change_arrangement_while_options_grouping_enabled">オプションのグループ化が有効になっている間は配置を変更できません</string>
     <string name="edit_screenshot">スクリーンショットの編集</string>
     <string name="copy">コピー</string>
-    <string name="warning_bytes">PNGモードでの保存は、ロスレス形式であるため不安定になることがある</string>
+    <string name="warning_bytes">%1$s モードでの保存は可逆形式であるため、不安定になる可能性があります</string>
     <string name="activate_files">ファイル アプリを無効にしました。この機能を使用するにはファイル アプリを有効にしてください</string>
     <string name="draw">描く</string>
     <string name="draw_sub">スケッチブックのように画像に描画するか、背景自体に描画します</string>
@@ -783,4 +783,8 @@
     <string name="exit">出口</string>
     <string name="preview_closing">ここでプレビューを終了する場合は、画像を再度追加する必要があります</string>
     <string name="image_format">画像フォーマット</string>
+    <string name="material_you_sub">画像から\"Material You \"パレットを作成します</string>
+    <string name="dark_colors">暗い色</string>
+    <string name="dark_colors_sub">ライトバリアントの代わりにナイトモードの配色を使用します</string>
+    <string name="copy_as_compose_code">Jetpack Composeコードとしてコピー</string>
 </resources>

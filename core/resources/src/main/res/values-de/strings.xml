@@ -519,7 +519,7 @@
     <string name="basic_sub">Einfachster Android-Skalierungsmodus, der in fast allen Apps verwendet wird</string>
     <string name="catmull_sub">Methode zum reibungslosen Interpolieren und Resampling einer Reihe von Kontrollpunkten, die häufig in der Computergrafik zum Erstellen glatter Kurven verwendet wird</string>
     <string name="hann_sub">Fensterfunktion, die häufig in der Signalverarbeitung eingesetzt wird, um spektrale Verluste zu minimieren und die Genauigkeit der Frequenzanalyse durch Verjüngung der Signalflanken zu verbessern</string>
-    <string name="hermite_sub">Mathematische Interpolationstechnik, die die Werte und Ableitungen an den Endpunkten eines Kurvensegments verwendet, um eine glatte und kontinuierliche Kurve zu erzeugen</string>
+    <string name="hermite_sub">Mathematische Interpolationstechnik, die Werte und Ableitungen an den Endpunkten eines Kurvensegments verwendet, um eine glatte und kontinuierliche Kurve zu erzeugen</string>
     <string name="lanczos_sub">Resampling-Methode, die eine qualitativ hochwertige Interpolation aufrechterhält, indem eine gewichtete Sinusfunktion auf die Pixelwerte angewendet wird</string>
     <string name="mitchell_sub">Resampling-Methode, die einen Faltungsfilter mit einstellbaren Parametern verwendet, um ein Gleichgewicht zwischen Schärfe und Anti-Aliasing im skalierten Bild zu erreichen</string>
     <string name="spline_sub">Verwendet stückweise definierte Polynomfunktionen, um eine Kurve oder Fläche reibungslos zu interpolieren und anzunähern, sowie eine flexible und kontinuierliche Formdarstellung</string>
@@ -783,4 +783,8 @@
     <string name="pixel_sort">Pixelsortierung</string>
     <string name="shuffle">Mischen</string>
     <string name="anaglyph">Anaglyphe</string>
+    <string name="material_you_sub">Erstellt die Palette \"Material You\" aus dem Bild</string>
+    <string name="dark_colors">Dunkle Farben</string>
+    <string name="dark_colors_sub">Verwendet das Nachtmodus-Farbschema anstelle der Lichtvariante</string>
+    <string name="copy_as_compose_code">Als \"Jetpack Compose\" -Code kopieren</string>
 </resources>

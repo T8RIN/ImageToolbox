@@ -783,4 +783,8 @@
     <string name="exit">KELUAR</string>
     <string name="preview_closing">Jika Anda keluar dari pratinjau sekarang, Anda perlu menambahkan gambar lagi</string>
     <string name="image_format">Format Gambar</string>
+    <string name="material_you_sub">Membuat palet “Material You” dari gambar</string>
+    <string name="dark_colors">Warna Gelap</string>
+    <string name="copy_as_compose_code">Salin sebagai kode\" Jetpack Compose\"</string>
+    <string name="dark_colors_sub">Menggunakan skema warna mode malam alih-alih varian cahaya</string>
 </resources>

@@ -783,4 +783,8 @@
     <string name="lasso">لاسو</string>
     <string name="lasso_sub">يرسم مسارًا مغلقًا ومملوءًا بمسار معين</string>
     <string name="image_format">شكل صورة</string>
+    <string name="dark_colors">الألوان الداكنة</string>
+    <string name="dark_colors_sub">يستخدم نظام ألوان الوضع الليلي بدلا من متغير الضوء</string>
+    <string name="copy_as_compose_code">نسخ كما جيتباك يؤلف التعليمات البرمجية</string>
+    <string name="material_you_sub">يخلق\" Materal You \" لوحة من الصورة</string>
 </resources>

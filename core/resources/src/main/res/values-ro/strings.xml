@@ -783,4 +783,8 @@
     <string name="exit">Ieșire</string>
     <string name="preview_closing">Dacă părăsiți previzualizarea acum, va trebui să adăugați din nou imaginile</string>
     <string name="image_format">Format imagine</string>
+    <string name="material_you_sub">Creează paleta \"Material You\" din imagine</string>
+    <string name="dark_colors">Culori Închise</string>
+    <string name="dark_colors_sub">Utilizează schema de culori modul de noapte în loc de varianta de lumină</string>
+    <string name="copy_as_compose_code">Copiați ca cod\" Jetpack Compose\"</string>
 </resources>
