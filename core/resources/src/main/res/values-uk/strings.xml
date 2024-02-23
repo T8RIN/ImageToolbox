@@ -783,4 +783,8 @@
     <string name="exit">Вихід</string>
     <string name="preview_closing">Якщо ви покинете попередній перегляд зараз, вам потрібно буде знову додати зображення</string>
     <string name="image_format">Формат зображення</string>
+    <string name="material_you_sub">Створює палітру \"Material You\" із зображення</string>
+    <string name="dark_colors">Темні кольори</string>
+    <string name="dark_colors_sub">Використовує колірну схему нічного режиму замість світлого варіанту</string>
+    <string name="copy_as_compose_code">Скопіюйте як код \"Jetpack Compose\"</string>
 </resources>
