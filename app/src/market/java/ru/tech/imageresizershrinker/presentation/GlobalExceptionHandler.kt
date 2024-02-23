@@ -96,7 +96,6 @@ class GlobalExceptionHandler<T : CrashHandler> private constructor(
             if (allowCollectAnalytics) {
                 Log.d("SCREEN_OPEN", screen::class.simpleName.toString())
                 Firebase.analytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT) {
-                    param(FirebaseAnalytics.Param.ITEM_ID, screen.id.toLong())
                     param(FirebaseAnalytics.Param.CONTENT_TYPE, screen::class.simpleName.toString())
                 }
             }
