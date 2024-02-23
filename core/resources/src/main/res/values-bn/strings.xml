@@ -554,7 +554,7 @@
     <string name="segmentation_mode">বৈশিষ্ট্য</string>
     <string name="use_pixel_switch">উজ্জ্বলতা প্রয়োগ</string>
     <string name="use_pixel_switch_sub">পর্দা</string>
-    <string name="saved_to_original">গ্রেডিয়েন্ট ওভারলে</string>
+    <string name="saved_to_original">মূল গন্তব্যে %s নামের সাথে মুছে ফেলা ফাইল</string>
     <string name="magnifier">প্রদত্ত চিত্রের উপরের যেকোন গ্রেডিয়েন্ট রচনা করুন</string>
     <string name="magnifier_sub">রূপান্তর</string>
     <string name="force_exif_widget_inital_value">ক্যামেরা</string>
@@ -581,7 +581,7 @@
     <string name="segmentation_mode_sparse_text">পুনরাবৃত্তি গণনা</string>
     <string name="segmentation_mode_sparse_text_osd">ফ্রেম বিলম্ব</string>
     <string name="segmentation_mode_raw_line">মিলি</string>
-    <string name="delete_language_sub">FPS</string>
+    <string name="delete_language_sub">আপনি কি সমস্ত স্বীকৃতি প্রকারের জন্য ভাষা \"%1$s\" ওসিআর প্রশিক্ষণের তথ্য মুছে ফেলতে চান, অথবা শুধুমাত্র নির্বাচিত (%2$s) এর জন্য?</string>
     <string name="current">ল্যাসো ব্যবহার করুন</string>
     <string name="all">মুছে ফেলার জন্য অঙ্কন মোডের মতো ল্যাসো ব্যবহার করে</string>
     <string name="gradient_maker">আসল ছবি প্রিভিউ আলফা</string>
@@ -614,7 +614,7 @@
     <string name="offset_x">স্থানিক সিগমা</string>
     <string name="offset_y">মাঝারি ব্লার</string>
     <string name="watermark_type">বি স্প্লাইন</string>
-    <string name="watermarking_image_sub">একটি বক্ররেখা বা পৃষ্ঠ, নমনীয় এবং অবিচ্ছিন্ন আকৃতির উপস্থাপনাকে মসৃণভাবে ইন্টারপোলেট করতে এবং আনুমানিকভাবে আনুমানিকভাবে সংজ্ঞায়িত করতে পিসওয়াইজ-সংজ্ঞায়িত বাইকিউবিক বহুপদী ফাংশন ব্যবহার করে</string>
+    <string name="watermarking_image_sub">এই চিত্রটি ওয়াটারমার্কিংয়ের জন্য প্যাটার্ন হিসাবে ব্যবহার করা হবে</string>
     <string name="text_color">নেটিভ স্ট্যাক ব্লার</string>
     <string name="overlay_mode">টিল্ট শিফট</string>
     <string name="gif_tools">গ্লিচ</string>
