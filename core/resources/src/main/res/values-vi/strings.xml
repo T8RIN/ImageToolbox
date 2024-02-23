@@ -783,4 +783,8 @@
     <string name="exit">Lối ra</string>
     <string name="preview_closing">Nếu bây giờ bạn để lại bản xem trước, bạn sẽ cần phải thêm lại hình ảnh</string>
     <string name="image_format">Định dạng hình ảnh</string>
+    <string name="material_you_sub">Tạo Bảng Màu \"Material You\" từ hình ảnh</string>
+    <string name="dark_colors_sub">Sử dụng bảng màu chế độ ban đêm thay vì biến thể ánh sáng</string>
+    <string name="copy_as_compose_code">Sao chép dưới dạng mã\" Jetpack Compose\"</string>
+    <string name="dark_colors">Màu Tối</string>
 </resources>
