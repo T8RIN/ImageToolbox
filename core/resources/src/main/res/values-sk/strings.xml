@@ -783,4 +783,8 @@
     <string name="exit">Izhod</string>
     <string name="preview_closing">Če zdaj zapustite predogled, boste morali znova dodati slike</string>
     <string name="image_format">Format slike</string>
+    <string name="material_you_sub">Vytvorí paletu \"Material You\" z obrázka</string>
+    <string name="dark_colors">Tmavé Farby</string>
+    <string name="dark_colors_sub">Používa farebnú schému nočného režimu namiesto svetelného variantu</string>
+    <string name="copy_as_compose_code">Kopírovať ako kód \"Jetpack Compose\"</string>
 </resources>

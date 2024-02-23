@@ -783,4 +783,8 @@
     <string name="emoji_as_color_scheme">रंग योजना के रूप में इमोजी</string>
     <string name="emoji_as_color_scheme_sub">मैन्युअल रूप से परिभाषित एक के बजाय ऐप रंग योजना के रूप में इमोजी प्राथमिक रंग का उपयोग करता है</string>
     <string name="images_overwritten">मूल गंतव्य पर ओवरराइट की गई छवियां</string>
+    <string name="material_you_sub">छवि से \"Material You \" पैलेट बनाता है</string>
+    <string name="dark_colors">गहरे रंग</string>
+    <string name="dark_colors_sub">लाइट वेरिएंट के बजाय नाइट मोड कलर स्कीम का उपयोग करता है</string>
+    <string name="copy_as_compose_code">\"Jetpack Compose \" कोड के रूप में कॉपी करें</string>
 </resources>

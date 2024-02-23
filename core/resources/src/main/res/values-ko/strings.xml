@@ -783,4 +783,8 @@
     <string name="exit">출구</string>
     <string name="preview_closing">지금 미리보기를 종료하면 이미지를 다시 추가해야 합니다.</string>
     <string name="image_format">이미지 형식</string>
+    <string name="material_you_sub">이미지에서\"Material You \"팔레트를 만듭니다</string>
+    <string name="dark_colors">어두운 색상</string>
+    <string name="dark_colors_sub">라이트 변형 대신 야간 모드 색 구성표 사용</string>
+    <string name="copy_as_compose_code">\"Jetpack Compose\"코드로 복사</string>
 </resources>

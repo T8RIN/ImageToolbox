@@ -783,4 +783,8 @@
     <string name="lasso">کمند</string>
     <string name="lasso_sub">مسیر پر بسته را بر اساس مسیر داده شده ترسیم می کند</string>
     <string name="image_format">فرمت تصویر</string>
+    <string name="material_you_sub">پالت \"Material You\" را از تصویر ایجاد می کند</string>
+    <string name="dark_colors">رنگ های تیره</string>
+    <string name="dark_colors_sub">از طرح رنگ حالت شب به جای نوع نور استفاده می کند</string>
+    <string name="copy_as_compose_code">کپی به عنوان\" Jetpack Compose \" کد</string>
 </resources>
