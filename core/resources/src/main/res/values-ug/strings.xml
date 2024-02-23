@@ -24,7 +24,7 @@
     <string name="clear">قۇرقداش</string>
     <string name="clear_exif">EXIFئۇچۇرىنى قۇرۇقداش</string>
     <string name="cancel">بولدىلا</string>
-    <string name="clear_exif_sub">‏‏‏‪‫رەسىمنىڭ EXIFئۇچۇرى يۇيۇلۇپ،ئەسلىگەكەلتۈرگىلى بولمايدۇ</string>
+    <string name="clear_exif_sub">بارلىق رەسىم EXIF سانلىق مەلۇماتلىرى ئۆچۈرۈلىدۇ. بۇ ھەرىكەتنى ئەمەلدىن قالدۇرغىلى بولمايدۇ!</string>
     <string name="smth_went_wrong">چاتاق چىقتى: %1$s</string>
     <string name="size">چوڭلۇقى %1$s</string>
     <string name="loading">يۈكلىنىۋاتىدۇ…</string>
