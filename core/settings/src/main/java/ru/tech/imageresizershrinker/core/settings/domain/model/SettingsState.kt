@@ -128,7 +128,7 @@ data class SettingsState(
                 defaultImageScaleMode = ImageScaleMode.Default,
                 copyToClipboardMode = CopyToClipboardMode.Disabled,
                 usePixelSwitch = false,
-                magnifierEnabled = true,
+                magnifierEnabled = false,
                 exifWidgetInitialState = false,
                 initialOcrCodes = listOf("eng"),
                 screenListWithMaxBrightnessEnforcement = emptyList(),
