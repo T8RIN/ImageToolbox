@@ -654,7 +654,7 @@
     <string name="bicubic_sub">Кращі методи масштабування включають перевибірку Ланцоша та фільтри Мітчелла-Нетравалі</string>
     <string name="nearest_sub">Один із найпростіших способів збільшення розміру, заміна кожного пікселя кількома пікселями одного кольору</string>
     <string name="icon_shape">Форма значка</string>
-    <string name="brightness_enforcement">Яскравість Enforcement</string>
+    <string name="brightness_enforcement">Максимальна яскравість</string>
     <string name="screen">Екран</string>
     <string name="gradient_maker_type_image">Градієнтне накладання</string>
     <string name="gradient_maker_type_image_sub">Складіть будь-який градієнт верхньої частини даного зображення</string>
