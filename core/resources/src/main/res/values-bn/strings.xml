@@ -782,4 +782,8 @@
     <string name="cannot_change_image_format">Cannot change image format while overwrite files option enabled</string>
     <string name="emoji_as_color_scheme">Emoji as Color Scheme</string>
     <string name="emoji_as_color_scheme_sub">Uses emoji primary color as app color scheme instead of manually defined one</string>
+    <string name="dark_colors">গাঢ় রং</string>
+    <string name="dark_colors_sub">হালকা বৈকল্পিকের পরিবর্তে নাইট মোড রঙের স্কিম ব্যবহার করে</string>
+    <string name="copy_as_compose_code">\"Jetpack Compose\" কোড হিসাবে অনুলিপি করুন</string>
+    <string name="material_you_sub">চিত্র থেকে \"Material You\" প্যালেট তৈরি করে</string>
 </resources>
