@@ -34,6 +34,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -46,6 +47,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.core.view.WindowInsetsControllerCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import nl.dionsegijn.konfetti.compose.KonfettiView
@@ -119,6 +121,19 @@ class AppActivity : M3Activity() {
             LaunchedEffect(backstack) {
                 delay(200L) // Delay for transition
                 randomEmojiKey++
+            }
+
+            val currentDestination by remember(backstack) {
+                derivedStateOf {
+                    backstack.lastOrNull()
+                }
+            }
+            LaunchedEffect(currentDestination) {
+                currentDestination?.takeIf {
+                    viewModel.navController.backstack.action == NavAction.Navigate
+                }?.destination?.let {
+                    GlobalExceptionHandler.registerScreenOpen(it)
+                }
             }
 
             CompositionLocalProvider(

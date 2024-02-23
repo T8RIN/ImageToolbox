@@ -22,14 +22,17 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.logEvent
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
+import ru.tech.imageresizershrinker.core.resources.BuildConfig
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import kotlin.system.exitProcess
 
 
 class GlobalExceptionHandler<T : CrashHandler> private constructor(
     private val applicationContext: Context,
-    private val defaultHandler: Thread.UncaughtExceptionHandler,
+    private val defaultHandler: Thread.UncaughtExceptionHandler?,
     private val activityToBeLaunched: Class<T>
 ) : Thread.UncaughtExceptionHandler {
 
@@ -41,60 +44,64 @@ class GlobalExceptionHandler<T : CrashHandler> private constructor(
             Firebase.crashlytics.recordException(p1)
             Firebase.crashlytics.sendUnsentReports()
         }
-        kotlin.runCatching {
+        runCatching {
             Log.e(this.toString(), p1.stackTraceToString())
             applicationContext.launchActivity(activityToBeLaunched, p1)
             exitProcess(0)
         }.getOrElse {
-            defaultHandler.uncaughtException(p0, p1)
+            defaultHandler?.uncaughtException(p0, p1)
         }
     }
 
     private fun <T : Activity> Context.launchActivity(
         activity: Class<T>,
         exception: Throwable
-    ) {
-        val crashedIntent = Intent(applicationContext, activity).apply {
-            putExtra(
-                INTENT_DATA_NAME,
-                "${exception::class.java.simpleName}\n\n${Log.getStackTraceString(exception)}"
-            )
-            addFlags(defFlags)
-        }
-        applicationContext.startActivity(crashedIntent)
-    }
+    ) = applicationContext.startActivity(
+        Intent(applicationContext, activity).putExtra(
+            INTENT_DATA_NAME,
+            "${exception::class.java.simpleName}\n\n${Log.getStackTraceString(exception)}"
+        ).addFlags(defFlags)
+    )
 
     companion object {
+
+        var allowCollectCrashlytics: Boolean = false
+            private set
+
+        var allowCollectAnalytics: Boolean = false
+            private set
+
         fun <T : CrashHandler> initialize(
             applicationContext: Context,
             activityToBeLaunched: Class<T>,
         ) = Thread.setDefaultUncaughtExceptionHandler(
             GlobalExceptionHandler(
                 applicationContext = applicationContext,
-                Thread.getDefaultUncaughtExceptionHandler() as Thread.UncaughtExceptionHandler,
-                activityToBeLaunched
+                defaultHandler = Thread.getDefaultUncaughtExceptionHandler()!!,
+                activityToBeLaunched = activityToBeLaunched
             )
         )
 
-        fun setAnalyticsCollectionEnabled(
-            value: Boolean
-        ) {
+        fun setAnalyticsCollectionEnabled(value: Boolean) {
             Firebase.analytics.setAnalyticsCollectionEnabled(value)
             allowCollectAnalytics = value
         }
 
-        fun setAllowCollectCrashlytics(
-            value: Boolean
-        ) {
+        fun setAllowCollectCrashlytics(value: Boolean) {
             Firebase.crashlytics.setCrashlyticsCollectionEnabled(value)
             allowCollectCrashlytics = value
         }
 
-        var allowCollectCrashlytics: Boolean = true
-            private set
+        fun registerScreenOpen(screen: Screen) {
+            if (allowCollectAnalytics) {
+                Log.d("SCREEN_OPEN", screen::class.simpleName.toString())
+                Firebase.analytics.logEvent("SCREEN_OPEN") {
+                    param("APP_VERSION", BuildConfig.VERSION_NAME)
+                    param("SCREEN", screen::class.simpleName.toString())
+                }
+            }
+        }
 
-        var allowCollectAnalytics: Boolean = true
-            private set
     }
 }
 
