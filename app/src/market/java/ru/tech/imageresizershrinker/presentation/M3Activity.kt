@@ -48,7 +48,7 @@ open class M3Activity : AppCompatActivity() {
         settingsState.value = runBlocking {
             EntryPointAccessors
                 .fromApplication(newBase, SettingsStateEntryPoint::class.java)
-                .getSettingsStateUseCase()
+                .settingsRepository.getSettingsState()
         }
         val newOverride = Configuration(newBase.resources?.configuration)
         settingsState.value.fontScale?.let { newOverride.fontScale = it }
@@ -73,7 +73,8 @@ open class M3Activity : AppCompatActivity() {
                     this@M3Activity.applicationContext,
                     SettingsStateEntryPoint::class.java
                 )
-                .getSettingsStateFlowUseCase()
+                .settingsRepository
+                .getSettingsStateFlow()
                 .collect {
                     settingsState.value = it
                 }

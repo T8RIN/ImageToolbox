@@ -52,8 +52,6 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMo
 import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
-import ru.tech.imageresizershrinker.core.settings.domain.use_case.GetSettingsStateFlowUseCase
-import ru.tech.imageresizershrinker.core.settings.domain.use_case.GetSettingsStateUseCase
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
@@ -64,11 +62,9 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    getSettingsStateFlowUseCase: GetSettingsStateFlowUseCase,
     val imageLoader: ImageLoader,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
-    private val getSettingsStateUseCase: GetSettingsStateUseCase,
     private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
@@ -110,9 +106,9 @@ class MainViewModel @Inject constructor(
 
         runBlocking {
             settingsRepository.registerAppOpen()
-            _settingsState.value = getSettingsStateUseCase()
+            _settingsState.value = settingsRepository.getSettingsState()
         }
-        getSettingsStateFlowUseCase().onEach {
+        settingsRepository.getSettingsStateFlow().onEach {
             _settingsState.value = it
         }.launchIn(viewModelScope)
     }
@@ -471,7 +467,11 @@ class MainViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                settingsRepository.restoreFromBackupFile(uri.toString(), onSuccess, onFailure)
+                settingsRepository.restoreFromBackupFile(
+                    backupFileUri = uri.toString(),
+                    onSuccess = onSuccess,
+                    onFailure = onFailure
+                )
             }
         }
     }

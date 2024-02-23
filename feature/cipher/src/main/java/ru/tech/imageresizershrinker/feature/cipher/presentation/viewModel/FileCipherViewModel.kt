@@ -30,18 +30,14 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
-import ru.tech.imageresizershrinker.feature.cipher.domain.use_case.decrypt_file.DecryptFileUseCase
-import ru.tech.imageresizershrinker.feature.cipher.domain.use_case.encrypt_file.EncryptFileUseCase
-import ru.tech.imageresizershrinker.feature.cipher.domain.use_case.generate_random_password.GenerateRandomPasswordUseCase
+import ru.tech.imageresizershrinker.feature.cipher.domain.CipherRepository
 import java.io.OutputStream
 import java.security.InvalidKeyException
 import javax.inject.Inject
 
 @HiltViewModel
 class FileCipherViewModel @Inject constructor(
-    private val encryptFileUseCase: EncryptFileUseCase,
-    private val decryptFileUseCase: DecryptFileUseCase,
-    private val generateRandomPasswordUseCase: GenerateRandomPasswordUseCase,
+    private val cipherRepository: CipherRepository,
     private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
 
@@ -78,9 +74,9 @@ class FileCipherViewModel @Inject constructor(
             val file = onFileRequest(_uri.value!!)
             runCatching {
                 if (isEncrypt) {
-                    _byteArray.value = file?.let { encryptFileUseCase(it, key) }
+                    _byteArray.value = file?.let { cipherRepository.encrypt(it, key) }
                 } else {
-                    _byteArray.value = file?.let { decryptFileUseCase(it, key) }
+                    _byteArray.value = file?.let { cipherRepository.decrypt(it, key) }
                 }
             }.exceptionOrNull().let {
                 onComplete(
@@ -125,7 +121,7 @@ class FileCipherViewModel @Inject constructor(
         savingJob = it
     }
 
-    fun generateRandomPassword(): String = generateRandomPasswordUseCase(18)
+    fun generateRandomPassword(): String = cipherRepository.generateRandomString(18)
 
     fun shareFile(
         it: ByteArray,
