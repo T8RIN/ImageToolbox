@@ -19,8 +19,9 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.content.Context
 import android.graphics.Bitmap
-import jp.co.cyberagent.android.gpuimage.filter.GPUImage3x3ConvolutionFilter
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
+import com.awxkee.aire.Aire
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
@@ -31,10 +32,14 @@ internal class Convolution3x3Filter(
         0.0f, 1.0f, 0.0f,
         0.0f, 0.0f, 0.0f
     ),
-) : GPUFilterTransformation(context), Filter.Convolution3x3<Bitmap> {
+) : Transformation<Bitmap>, Filter.Convolution3x3<Bitmap> {
 
     override val cacheKey: String
         get() = (value to context).hashCode().toString()
 
-    override fun createFilter(): GPUImageFilter = GPUImage3x3ConvolutionFilter(value)
+    override suspend fun transform(
+        input: Bitmap,
+        size: IntegerSize
+    ): Bitmap = Aire.convolve2D(input, value)
+
 }
