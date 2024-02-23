@@ -785,4 +785,5 @@
     <string name="images_overwritten">मूल गंतव्य पर ओवरराइट की गई छवियां</string>
     <string name="material_you_sub">छवि से \"Material You \" पैलेट बनाता है</string>
     <string name="dark_colors">गहरे रंग</string>
+    <string name="dark_colors_sub">लाइट वेरिएंट के बजाय नाइट मोड कलर स्कीम का उपयोग करता है</string>
 </resources>
