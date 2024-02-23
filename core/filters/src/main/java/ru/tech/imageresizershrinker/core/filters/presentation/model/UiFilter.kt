@@ -121,8 +121,7 @@ sealed class UiFilter<T>(
                     UiMonochromeFilter(),
                     UiColorMatrix4x4Filter(),
                     UiColorMatrix3x3Filter(),
-                    UiColorBalanceFilter(),
-                    UiColorAnomalyFilter()
+                    UiColorBalanceFilter()
                 ),
                 listOf(
                     UiBrightnessFilter(),
@@ -198,6 +197,7 @@ sealed class UiFilter<T>(
                     UiFractalGlassFilter(),
                     UiGlitchFilter(),
                     UiMarbleFilter(),
+                    UiColorAnomalyFilter(),
                     UiWaterEffectFilter(),
                     UiPerlinDistortionFilter(),
                     UiAnaglyphFilter(),
