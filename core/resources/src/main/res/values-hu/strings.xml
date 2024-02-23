@@ -783,4 +783,8 @@
     <string name="exit">Kijárat</string>
     <string name="preview_closing">Ha most kilép az előnézetből, újra hozzá kell adnia a képeket</string>
     <string name="image_format">Képformátum</string>
+    <string name="dark_colors">Sötét Színek</string>
+    <string name="material_you_sub">Létrehoz\" Material You \" paletta kép</string>
+    <string name="dark_colors_sub">Éjszakai mód színsémát használ a fényváltozat helyett</string>
+    <string name="copy_as_compose_code">Másolás \"Jetpack Compose\" kódként</string>
 </resources>
