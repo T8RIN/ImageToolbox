@@ -783,4 +783,8 @@
     <string name="exit">Sortie</string>
     <string name="preview_closing">Si vous quittez l\'aperçu maintenant, vous devrez à nouveau ajouter les images</string>
     <string name="image_format">Format d\'image</string>
+    <string name="material_you_sub">Crée la palette \"Material You\" à partir de l\'image</string>
+    <string name="dark_colors">Couleurs Sombres</string>
+    <string name="dark_colors_sub">Utilise la palette de couleurs du mode nuit au lieu de la variante lumineuse</string>
+    <string name="copy_as_compose_code">Copier en tant que code \" Jetpack Compose”</string>
 </resources>
