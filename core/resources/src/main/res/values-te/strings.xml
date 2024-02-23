@@ -783,4 +783,8 @@
     <string name="exit">బయటకి దారి</string>
     <string name="preview_closing">మీరు ఇప్పుడు ప్రివ్యూను వదిలివేస్తే, మీరు మళ్లీ చిత్రాలను జోడించాలి</string>
     <string name="image_format">చిత్రం ఫార్మాట్</string>
+    <string name="material_you_sub">చిత్రం నుండి \"Material You \" పాలెట్ సృష్టిస్తుంది</string>
+    <string name="dark_colors">ముదురు రంగులు</string>
+    <string name="dark_colors_sub">బదులుగా కాంతి వేరియంట్ రాత్రి మోడ్ రంగు పథకం ఉపయోగిస్తుంది</string>
+    <string name="copy_as_compose_code">\"Jetpack Compose\" కోడ్గా కాపీ చేయండి</string>
 </resources>
