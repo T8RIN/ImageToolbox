@@ -280,7 +280,7 @@
     <string name="presets_sub_bytes">بۇ يەردىكى ئالدىن بەلگىلەش چىقىرىش ھۆججىتىنىڭ%% نى بەلگىلەيدۇ ، يەنى 5mb لىق رەسىمگە ئالدىن 50 نى تاللىسىڭىز ، ساقلىغاندىن كېيىن 2.5mb لىق رەسىمگە ئېرىشىسىز</string>
     <string name="randomize_filename">ھۆججەت نامىنى ئىختىيارىي قىلىڭ</string>
     <string name="randomize_filename_sub">قوزغىتىلغان چىقىرىش ھۆججەت ئىسمى تولۇق ئىختىيارى بولىدۇ</string>
-    <string name="saved_to">Name 2 name ئىسمى بىلەن %1$s ھۆججەت قىسقۇچىغا ساقلاندى</string>
+    <string name="saved_to">تم الحفظ في المجلد %1$s بالاسم %2$s</string>
     <string name="saved_to_without_filename">%1$s ھۆججەت قىسقۇچىغا ساقلاندى</string>
     <string name="tg_chat">تېلېگرامما پاراڭ</string>
     <string name="tg_chat_sub">بۇ دېتالنى مۇلاھىزە قىلىپ ، باشقا ئىشلەتكۈچىلەرنىڭ تەكلىپ-پىكىرلىرىگە ئېرىشىڭ. بۇ يەردىن سىناق يېڭىلانمىلىرى ۋە چۈشەنچىلىرىگە ئېرىشەلەيسىز.</string>
@@ -337,7 +337,7 @@
     <string name="jxl_sub">JXL فورماتى ئاندىرويىد تەرىپىدىن رەسمىي قوللىمايدۇ ، شۇڭا بىرەر ئىش ئىشلىمەسلىكى مۇمكىن. ساقلاش پەقەت مۇندەرىجە چىقىرىش مۇندەرىجىسىنى تاللىسىڭىزلا ئىشلەيدۇ. بۇ بىر سىناق نۇسخىسى ، ئەگەر گۇگۇل JXL قوللاشنى قوشمىسا ، بۇ يەردىكى كەمتۈكلەر ئوڭشالمايدۇ. بۇ نەشرىدە JXL رەسىملىرىنى كۆرگىلى بولىدۇ</string>
     <string name="image_exif_warning">ھازىر %1$s فورماتى پەقەت ئاندىرويىدتا EXIF مېتا سانلىق مەلۇماتلىرىنى ئوقۇشقا يول قويىدۇ. چىقىرىلغان رەسىم ساقلانغان ۋاقىتتا مېتا سانلىق مەلۇماتقا ئېرىشەلمەيدۇ.</string>
     <string name="effort">تىرىشچانلىق</string>
-    <string name="effort_sub">{4 value نىڭ قىممىتى تېز پىرىسلاشنى كۆرسىتىدۇ ، نەتىجىدە ھۆججەت چوڭلۇقى بىر قەدەر چوڭ بولىدۇ. %2$d ئاستا پىرىسلاشنى كۆرسىتىدۇ ، كىچىكرەك ھۆججەت ھاسىل قىلىدۇ.</string>
+    <string name="effort_sub">القيمة %1$d تعني ضغطًا سريعًا، مما يؤدي إلى حجم ملف كبير نسبيًا. %2$d يعني ضغطًا أبطأ، مما يؤدي إلى ملف أصغر.</string>
     <string name="wait">ساقلاپ تۇرۇڭ</string>
     <string name="saving_almost_complete">تېجەش ئاساسەن تاماملاندى. ھازىر ئەمەلدىن قالدۇرۇش قايتا تېجەشنى تەلەپ قىلىدۇ.</string>
     <string name="updates">يېڭىلانمىلار</string>
@@ -467,9 +467,9 @@
     <string name="arrow_sub">بېرىلگەن يولدىن ئوقنى كۆرسىتىدۇ</string>
     <string name="double_line_arrow_sub">قوش يۆنىلىشلىك ئوقنى باشلىنىش نۇقتىسىدىن ئاخىرىغىچە سىزىق قىلىپ سىزىدۇ</string>
     <string name="double_arrow_sub">بېرىلگەن يولدىن قوش يۆنىلىشلىك يا ئوق سىزىدۇ</string>
-    <string name="outlined_oval">Oval</string>
+    <string name="outlined_oval">البيضاوي المبين</string>
     <string name="outlined_rect">كۆرسىتىلگەن تۈز</string>
-    <string name="oval">Oval</string>
+    <string name="oval">بيضاوي</string>
     <string name="rect">تۈز</string>
     <string name="rect_sub">باشلىنىش نۇقتىسىدىن ئاخىرقى نۇقتىغا توغرىلىنىدۇ</string>
     <string name="oval_sub">تۇخۇمنى باشلىنىش نۇقتىسىدىن ئاخىرىغىچە سىزىدۇ</string>
@@ -483,7 +483,7 @@
     <string name="stitch_mode">تىكىش ھالىتى</string>
     <string name="rows_count">قۇر سانى</string>
     <string name="columns_count">ستون سانى</string>
-    <string name="no_such_directory">"No  %1$s \" مۇندەرىجىسى تېپىلمىدى ، ئۇنى سۈكۈتتىكىگە ئالماشتۇردۇق ، ھۆججەتنى قايتا ساقلاڭ"</string>
+    <string name="no_such_directory">لم يتم العثور على دليل \"%1$s\"، لقد قمنا بتحويله إلى الدليل الافتراضي، يرجى حفظ الملف مرة أخرى</string>
     <string name="auto_pin">Auto pin</string>
     <string name="clipboard">چاپلاش تاختىسى</string>
     <string name="auto_pin_sub">قوزغىتىلغان بولسا ئاپتوماتىك ھالدا ساقلانغان رەسىمنى چاپلاش تاختىسىغا قوشىدۇ</string>
@@ -491,7 +491,7 @@
     <string name="vibration_strength">تەۋرىنىش كۈچى</string>
     <string name="overwrite_file_requirements">Explorer \" رەسىم مەنبەسىنى ئىشلىتىشكە ئېھتىياجلىق ھۆججەتلەرنى قاپلىۋېلىش ئۈچۈن ، رەسىملەرنى قايتا سىناپ بېقىڭ ، بىز رەسىم مەنبەسىنى لازىملىق ھۆججەتكە ئۆزگەرتتۇق.</string>
     <string name="overwrite_files">ھۆججەتلەرنى قاپلىۋېتىڭ</string>
-    <string name="overwrite_files_sub">"ئەسلى ھۆججەت تاللانغان ھۆججەت قىسقۇچتا ساقلاشنىڭ ئورنىغا يېڭى ھۆججەتكە ئالماشتۇرۇلىدۇ ، بۇ تاللاش رەسىم مەنبەسىنى  Explorer \" ياكى GetContent بولۇشى كېرەك ، بۇنى ئالماشتۇرغاندا ئاپتوماتىك تەڭشىلىدۇ."</string>
+    <string name="overwrite_files_sub">سيتم استبدال الملف الأصلي بملف جديد بدلاً من حفظه في المجلد المحدد، ويجب أن يكون هذا الخيار مصدر الصورة هو Explorer أو GetContent، وعند تبديل هذا، سيتم تعيينه تلقائيًا</string>
     <string name="empty">قۇرۇق</string>
     <string name="suffix">Suffix</string>
     <string name="scale_mode">كۆلەم ھالىتى</string>
@@ -528,7 +528,8 @@
     <string name="standard">ئۆلچەملىك</string>
     <string name="best">ئەڭ ياخشى</string>
     <string name="no_data">سانلىق مەلۇمات يوق</string>
-    <string name="download_description">"Tesseract OCR نىڭ نورمال ئىشلىشى ئۈچۈن قوشۇمچە مەشىق سانلىق مەلۇماتلىرى (%1$s) ئۈسكۈنىڭىزگە چۈشۈرۈلۈشى كېرەك.  N %2$s سانلىق مەلۇماتنى چۈشۈرمەكچىمۇ؟"</string>
+    <string name="download_description">من أجل التشغيل السليم لـ Tesseract OCR، يجب تنزيل بيانات التدريب الإضافية (%1$s) على جهازك.
+\nهل تريد تنزيل بيانات %2$s؟</string>
     <string name="download">چۈشۈرۈش</string>
     <string name="no_connection">ئۇلىنىش يوق ، ئۇنى تەكشۈرۈپ پويىز مودېللىرىنى چۈشۈرۈش ئۈچۈن قايتا سىناڭ</string>
     <string name="downloaded_languages">چۈشۈرۈلگەن تىللار</string>
@@ -536,7 +537,7 @@
     <string name="segmentation_mode">بۆلەك ھالىتى</string>
     <string name="use_pixel_switch">Pixel Switch نى ئىشلىتىڭ</string>
     <string name="use_pixel_switch_sub">Pixel غا ئوخشاش ئالماشتۇرغۇچ google نىڭ ماتېرىيالىنىڭ ئورنىغا ئىشلىتىلىدۇ</string>
-    <string name="saved_to_original">ئەسلى مەنزىلدە {8 name ئىسمى يېزىلغان ھۆججەت</string>
+    <string name="saved_to_original">ئەسلى مەنزىلدە {8 name ئىسمى يېزىلغان ھۆججەتتمت الكتابة فوق الملف بالاسم %s في الوجهة الأصلية</string>
     <string name="magnifier">Magnifier</string>
     <string name="magnifier_sub">تېخىمۇ ياخشى زىيارەت قىلىش ئۈچۈن رەسىم سىزىش شەكلىدە بارماقنىڭ ئۈستىدىكى چوڭايتىشنى قوزغىتىدۇ</string>
     <string name="force_exif_widget_inital_value_sub">كىچىك قوراللار دەسلەپتە تەكشۈرۈلىدۇ</string>
@@ -563,7 +564,7 @@
     <string name="segmentation_mode_sparse_text">قىسقا تېكىست</string>
     <string name="segmentation_mode_sparse_text_osd">شالاڭ تېكىست يۆنىلىشى &amp; قوليازما بايقاش</string>
     <string name="segmentation_mode_raw_line">خام سىزىق</string>
-    <string name="delete_language_sub">"تىل  %1$s \" OCR مەشىق سانلىق مەلۇماتلىرىنى بارلىق تونۇش تۈرلىرى ئۈچۈن ئۆچۈرمەكچىمۇ ياكى پەقەت تاللانغان (%2$s) ئۈچۈن ئۆچۈرمەكچىمۇ؟"</string>
+    <string name="delete_language_sub">هل تريد حذف بيانات التدريب على التعرف الضوئي على الحروف الخاصة باللغة \"%1$s\" لجميع أنواع التعرف، أم للنوع المحدد فقط (%2$s)؟</string>
     <string name="current">نۆۋەتتىكى</string>
     <string name="all">ھەممىسى</string>
     <string name="gradient_maker">Gradient Maker</string>
