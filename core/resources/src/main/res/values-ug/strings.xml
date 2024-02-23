@@ -782,4 +782,7 @@
     <string name="polaroid">Polaroid</string>
     <string name="tritonomaly">Tritonomaly</string>
     <string name="image_format">رەسىم فورماتى</string>
+    <string name="copy_as_compose_code">«Jetpack Compose» كودى سۈپىتىدە كۆچۈرۈڭ</string>
+    <string name="material_you_sub">رەسىمدىن «Material You » پالتىنى ھاسىل قىلىدۇ</string>
+    <string name="dark_colors">قېنىق رەڭلەر</string>
 </resources>
