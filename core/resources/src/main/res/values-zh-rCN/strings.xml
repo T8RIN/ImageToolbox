@@ -783,4 +783,8 @@
     <string name="cannot_change_image_format">启用覆盖文件选项时无法更改图像格式</string>
     <string name="emoji_as_color_scheme">使用表情符号作为配色方案</string>
     <string name="emoji_as_color_scheme_sub">使用表情符号的主色调作为应用程序配色方案，代替手动定义的配色方案</string>
+    <string name="dark_colors">深颜色</string>
+    <string name="copy_as_compose_code">作为 Jetpack Compose 代码复制</string>
+    <string name="material_you_sub">根据图像创建材质调色板</string>
+    <string name="dark_colors_sub">采用夜间模式配色方案，代替灯光变体</string>
 </resources>
