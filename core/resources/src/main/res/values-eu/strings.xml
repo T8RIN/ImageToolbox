@@ -636,7 +636,7 @@
     <string name="dithering">Dithering</string>
     <string name="quantizier">Quantizier</string>
     <string name="gray_scale">Grisen Eskala</string>
-    <string name="bayer_two_dithering">Bayer Bi Bi Dithering</string>
+    <string name="bayer_two_dithering">Bayer bi teo Dithering</string>
     <string name="bayer_three_dithering">Bayer Hiruz Hiru Dithering</string>
     <string name="bayer_eight_dithering">Bayer Eight By Eight Dithering</string>
     <string name="floyd_steinberg_dithering">Floyd Steinberg dithering</string>
