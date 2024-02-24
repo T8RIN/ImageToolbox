@@ -258,7 +258,11 @@ or click one of the badges below.
   - [x] Aldridge
   - [x] Drago
   - [x] Color Anomaly
-  - [x] Quantizier 
+  - [x] Quantizier
+  - [x] Ring Blur
+  - [x] Cross Blur
+  - [x] Circle Blur
+  - [x] Star Blur
 
   </details>
 
