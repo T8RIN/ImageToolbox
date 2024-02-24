@@ -39,7 +39,7 @@ agp = "8.2.2"
 hilt = "2.50"
 gms = "4.4.1"
 
-coil = "2.5.0"
+coil = "2.6.0"
 appCompat = "1.7.0-alpha03"
 androidxCore = "1.13.0-alpha05"
 androidxLifecycle = "2.8.0-alpha02"
