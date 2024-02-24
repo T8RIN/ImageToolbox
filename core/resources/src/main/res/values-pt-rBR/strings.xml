@@ -226,7 +226,7 @@
     <string name="threshold">Limite</string>
     <string name="quantizationLevels">Níveis de quantização</string>
     <string name="snooth_toon">Desenho suave</string>
-    <string name="toon">desenho animado</string>
+    <string name="toon">Desenho animado</string>
     <string name="posterize">Posterizar</string>
     <string name="non_maximum_suppression">Supressão não máxima</string>
     <string name="weak_pixel_inclusion">Inclusão fraca de pixels</string>
@@ -291,7 +291,7 @@
     <string name="screenshot">Captura de tela</string>
     <string name="fallback_option">Opção alternativa</string>
     <string name="skip">Pular</string>
-    <string name="copy">cópia de</string>
+    <string name="copy">Copiar</string>
     <string name="warning_bytes">Salvar no modo %1$s pode ser instável, pois é um formato sem perdas</string>
     <string name="presets_sub">Se você selecionou a predefinição 125, a imagem será salva com tamanho de 125% a imagem original e qualidade de 100%. Se você escolher a predefinição 50, a imagem será salva com 50% tamanho e 50% qualidade.</string>
     <string name="presets_sub_bytes">A predefinição aqui determina a arquivo de saída, ou seja, se você selecionar a predefinição 50 em uma imagem de 5 MB, você obterá uma imagem de 2,5 MB após salvar</string>
@@ -393,7 +393,7 @@
     <string name="remove_color">Remover cor</string>
     <string name="recode">Recodificar</string>
     <string name="pixel_size">Tamanho dos pixels</string>
-    <string name="lock_draw_orientation">Bloquear orientação de desenho</string>
+    <string name="lock_draw_orientation">Bloquear orientação em desenhos</string>
     <string name="lock_draw_orientation_sub">Se ativado no modo de desenho, a tela não gira</string>
     <string name="check_for_updates">Verifique se há atualizações</string>
     <string name="palette_style">Estilo de paleta</string>
@@ -486,7 +486,7 @@
     <string name="double_arrow_sub">Desenha uma seta dupla apontando de um determinado caminho</string>
     <string name="outlined_oval">Oval delineado</string>
     <string name="outlined_rect">Reto delineado</string>
-    <string name="oval">oval</string>
+    <string name="oval">Oval</string>
     <string name="rect">Reto</string>
     <string name="rect_sub">Desenha um retângulo do ponto inicial ao ponto final</string>
     <string name="oval_sub">Desenha uma forma oval do ponto inicial ao ponto final</string>
@@ -763,7 +763,7 @@
     <string name="random_emojis">Emojis aleatórios</string>
     <string name="random_emojis_error">Não é possível usar a seleção aleatória de emojis enquanto os emojis estão desativados</string>
     <string name="emoji_selection_error">Não é possível selecionar um emoji ao escolher um aleatório ativado</string>
-    <string name="old_tv">Televisão antiga</string>
+    <string name="old_tv">TV Velha</string>
     <string name="shuffle_blur">Desfoque aleatório</string>
     <string name="favorite">Favorito</string>
     <string name="no_favorite_filters">Nenhum filtro favorito adicionado ainda</string>
