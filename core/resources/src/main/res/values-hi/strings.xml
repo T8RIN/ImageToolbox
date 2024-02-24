@@ -787,4 +787,8 @@
     <string name="dark_colors">गहरे रंग</string>
     <string name="dark_colors_sub">लाइट वेरिएंट के बजाय नाइट मोड कलर स्कीम का उपयोग करता है</string>
     <string name="copy_as_compose_code">\"Jetpack Compose \" कोड के रूप में कॉपी करें</string>
+    <string name="circle_blur">वृत्त ब्लर</string>
+    <string name="star_blur">स्टार ब्लर</string>
+    <string name="ring_blur">रिंग ब्लर</string>
+    <string name="cross_blur">क्रॉस ब्लर</string>
 </resources>
