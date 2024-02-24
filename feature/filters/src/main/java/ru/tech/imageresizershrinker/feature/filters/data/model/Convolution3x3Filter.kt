@@ -40,6 +40,9 @@ internal class Convolution3x3Filter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.convolve2D(input, value)
+    ): Bitmap = Aire.convolve2D(
+        bitmap = input,
+        kernel = value
+    )
 
 }

@@ -167,6 +167,10 @@ sealed class UiFilter<T>(
                 ),
                 listOf(
                     UiShuffleBlurFilter(),
+                    UiRingBlurFilter(),
+                    UiCircleBlurFilter(),
+                    UiCrossBlurFilter(),
+                    UiStarBlurFilter(),
                     UiTiltShiftFilter(),
                     UiGaussianBlurFilter(),
                     UiNativeStackBlurFilter(),

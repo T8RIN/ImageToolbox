@@ -33,6 +33,9 @@ internal class ErodeFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.erode(input, value.toInt())
+    ): Bitmap = Aire.erode(
+        bitmap = input,
+        kernelSize = value.toInt()
+    )
 
 }

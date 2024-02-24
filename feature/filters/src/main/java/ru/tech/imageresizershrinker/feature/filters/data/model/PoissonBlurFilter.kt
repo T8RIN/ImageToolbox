@@ -33,6 +33,9 @@ internal class PoissonBlurFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.poissonBlur(input, value.toInt())
+    ): Bitmap = Aire.poissonBlur(
+        bitmap = input,
+        kernelSize = value.toInt()
+    )
 
 }

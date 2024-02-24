@@ -33,6 +33,9 @@ internal class HableFilmicToneMappingFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.hableFilmicToneMapping(input, value)
+    ): Bitmap = Aire.hableFilmicToneMapping(
+        bitmap = input,
+        exposure = value
+    )
 
 }

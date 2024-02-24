@@ -15,28 +15,23 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.data.model
+package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
-import com.awxkee.aire.Aire
-import ru.tech.imageresizershrinker.core.domain.image.Transformation
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
+import ru.tech.imageresizershrinker.core.resources.R
 
-
-internal class SketchFilter(
-    override val value: Float = 5f,
-) : Transformation<Bitmap>, Filter.Sketch<Bitmap> {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: IntegerSize
-    ): Bitmap = Aire.removeShadows(
-        bitmap = input,
-        kernelSize = value.toInt()
+class UiRingBlurFilter(
+    override val value: Float = 25f,
+) : UiFilter<Float>(
+    title = R.string.ring_blur,
+    value = value,
+    paramsInfo = listOf(
+        FilterParam(
+            title = null,
+            valueRange = 3f..200f,
+            roundTo = 0
+        )
     )
-
-}
+), Filter.RingBlur<Bitmap>

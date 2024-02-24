@@ -177,4 +177,8 @@ interface Filter<Image, Value> {
     interface Drago<Image> : Filter<Image, Pair<Float, Float>>
     interface ColorAnomaly<Image> : Filter<Image, Float>
     interface Quantizier<Image> : Filter<Image, Float>
+    interface RingBlur<Image> : Filter<Image, Float>
+    interface CrossBlur<Image> : Filter<Image, Float>
+    interface CircleBlur<Image> : Filter<Image, Float>
+    interface StarBlur<Image> : Filter<Image, Float>
 }

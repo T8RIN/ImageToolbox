@@ -33,6 +33,9 @@ internal class AcesHillToneMappingFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.acesHillToneMapping(input, value)
+    ): Bitmap = Aire.acesHillToneMapping(
+        bitmap = input,
+        exposure = value
+    )
 
 }

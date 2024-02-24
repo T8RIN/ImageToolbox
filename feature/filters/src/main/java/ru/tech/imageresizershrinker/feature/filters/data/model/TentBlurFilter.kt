@@ -33,6 +33,9 @@ internal class TentBlurFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.tentBlur(input, value.toInt())
+    ): Bitmap = Aire.tentBlur(
+        bitmap = input,
+        kernelSize = value.toInt()
+    )
 
 }

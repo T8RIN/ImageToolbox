@@ -33,6 +33,9 @@ internal class AcesFilmicToneMappingFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.acesFilmicToneMapping(input, value)
+    ): Bitmap = Aire.acesFilmicToneMapping(
+        bitmap = input,
+        exposure = value
+    )
 
 }

@@ -34,6 +34,10 @@ internal class GaussianBlurFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.gaussianBlur(input, value.first.toInt(), value.second)
+    ): Bitmap = Aire.gaussianBlur(
+        bitmap = input,
+        kernelSize = value.first.toInt(),
+        sigma = value.second
+    )
 
 }

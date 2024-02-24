@@ -34,6 +34,9 @@ internal class BoxBlurFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.boxBlur(input, value.toInt())
+    ): Bitmap = Aire.boxBlur(
+        bitmap = input,
+        kernelSize = value.toInt()
+    )
 
 }

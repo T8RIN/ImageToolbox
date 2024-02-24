@@ -33,6 +33,9 @@ internal class HejlBurgessToneMappingFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.hejlBurgessToneMapping(input, value)
+    ): Bitmap = Aire.hejlBurgessToneMapping(
+        bitmap = input,
+        exposure = value
+    )
 
 }

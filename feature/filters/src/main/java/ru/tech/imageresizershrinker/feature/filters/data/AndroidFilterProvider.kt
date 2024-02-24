@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.BulgeDistortionFi
 import ru.tech.imageresizershrinker.feature.filters.data.model.BurkesDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CGAColorSpaceFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CaramelDarknessFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.CircleBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CirclePixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CodaChromeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorAnomalyFilter
@@ -58,6 +59,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.ColorfulSwirlFilt
 import ru.tech.imageresizershrinker.feature.filters.data.model.ContrastFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.Convolution3x3Filter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CoolFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.CrossBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CrosshatchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CrystallizeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CyberpunkFilter
@@ -141,6 +143,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.RandomDitheringFi
 import ru.tech.imageresizershrinker.feature.filters.data.model.RedSwirlFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.RemoveColorFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ReplaceColorFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.RingBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SaturationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SepiaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SharpenFilter
@@ -158,6 +161,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.SpacePortalFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SpectralFireFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SphereRefractionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.StackBlurFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.StarBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.StrokePixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.StuckiDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SunriseFilter
@@ -345,7 +349,10 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Uchimura -> UchimuraFilter(value)
             is Filter.ColorAnomaly -> ColorAnomalyFilter(value)
             is Filter.Quantizier -> QuantizierFilter(value)
-
+            is Filter.CircleBlur -> CircleBlurFilter(value)
+            is Filter.CrossBlur -> CrossBlurFilter(value)
+            is Filter.RingBlur -> RingBlurFilter(value)
+            is Filter.StarBlur -> StarBlurFilter(value)
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }
     }

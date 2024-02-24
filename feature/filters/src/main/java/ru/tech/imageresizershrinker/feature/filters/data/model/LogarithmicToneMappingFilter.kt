@@ -33,6 +33,9 @@ internal class LogarithmicToneMappingFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.logarithmicToneMapping(input, value)
+    ): Bitmap = Aire.logarithmicToneMapping(
+        bitmap = input,
+        exposure = value
+    )
 
 }

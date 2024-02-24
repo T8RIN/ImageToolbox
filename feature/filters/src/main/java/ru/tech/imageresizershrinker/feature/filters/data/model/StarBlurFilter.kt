@@ -19,24 +19,24 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
+import com.awxkee.aire.ConvolveKernels
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-
-internal class SketchFilter(
-    override val value: Float = 5f,
-) : Transformation<Bitmap>, Filter.Sketch<Bitmap> {
+internal class StarBlurFilter(
+    override val value: Float = 25f,
+) : Transformation<Bitmap>, Filter.StarBlur<Bitmap> {
 
     override val cacheKey: String
-        get() = value.hashCode().toString()
+        get() = (value).hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.removeShadows(
+    ): Bitmap = Aire.convolve2D(
         bitmap = input,
-        kernelSize = value.toInt()
+        kernel = ConvolveKernels.star(value.toInt())
     )
 
 }

@@ -33,5 +33,8 @@ internal class NativeStackBlurFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.stackBlur(input, value.toInt())
+    ): Bitmap = Aire.stackBlur(
+        bitmap = input,
+        radius = value.toInt()
+    )
 }
