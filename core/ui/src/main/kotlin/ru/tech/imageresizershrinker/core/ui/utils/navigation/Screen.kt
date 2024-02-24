@@ -48,8 +48,8 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
 import ru.tech.imageresizershrinker.core.ui.icons.material.FingerprintOff
+import ru.tech.imageresizershrinker.core.ui.icons.material.ImageEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.Interface
 import ru.tech.imageresizershrinker.core.ui.icons.material.PaletteSwatch
 import ru.tech.imageresizershrinker.core.ui.icons.material.Puzzle
@@ -76,7 +76,7 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 0,
-        icon = Icons.Rounded.CreateAlt,
+        icon = Icons.Outlined.ImageEdit,
         title = R.string.single_edit,
         subtitle = R.string.single_edit_sub
     )

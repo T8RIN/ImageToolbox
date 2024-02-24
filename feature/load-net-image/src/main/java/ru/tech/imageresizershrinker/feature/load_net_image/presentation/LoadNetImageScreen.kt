@@ -68,7 +68,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.icons.material.ImageEdit
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
@@ -334,7 +334,7 @@ fun LoadNetImageScreen(
                 },
                 isPrimaryButtonVisible = imageState is AsyncImagePainter.State.Success,
                 isSecondaryButtonVisible = imageState is AsyncImagePainter.State.Success,
-                secondaryButtonIcon = Icons.Rounded.CreateAlt,
+                secondaryButtonIcon = Icons.Outlined.ImageEdit,
                 onPrimaryButtonClick = saveBitmap,
                 actions = {
                     if (!isLandscape) actions()
