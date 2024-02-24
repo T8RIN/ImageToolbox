@@ -65,8 +65,8 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Colorize
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
+import androidx.compose.material.icons.rounded.AutoFixHigh
 import androidx.compose.material.icons.rounded.FileOpen
-import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.Badge
@@ -350,7 +350,7 @@ fun FiltersScreen(
                 ) {
                     when (filterType) {
                         is Screen.Filter.Type.Basic -> {
-                            Icon(imageVector = Icons.Rounded.PhotoFilter, contentDescription = null)
+                            Icon(imageVector = Icons.Rounded.AutoFixHigh, contentDescription = null)
                         }
 
                         is Screen.Filter.Type.Masking -> {
@@ -821,7 +821,7 @@ fun FiltersScreen(
                                         containerColor = MaterialTheme.colorScheme.mixedContainer,
                                         onClick = { showAddFilterSheet.value = true }
                                     ) {
-                                        Icon(Icons.Rounded.PhotoFilter, null)
+                                        Icon(Icons.Rounded.AutoFixHigh, null)
                                     }
                                 }
 

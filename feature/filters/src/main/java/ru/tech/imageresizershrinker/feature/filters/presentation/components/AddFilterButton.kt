@@ -20,7 +20,7 @@ package ru.tech.imageresizershrinker.feature.filters.presentation.components
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.PhotoFilter
+import androidx.compose.material.icons.rounded.AutoFixHigh
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -45,7 +45,7 @@ fun AddFilterButton(
         modifier = modifier
     ) {
         Icon(
-            imageVector = Icons.Rounded.PhotoFilter,
+            imageVector = Icons.Rounded.AutoFixHigh,
             contentDescription = null
         )
         Spacer(Modifier.width(8.dp))

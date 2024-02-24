@@ -37,8 +37,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Colorize
+import androidx.compose.material.icons.rounded.AutoFixHigh
 import androidx.compose.material.icons.rounded.Done
-import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -174,7 +174,7 @@ fun FilterEditOption(
                                 onClick = { showFilterSheet.value = true },
                                 modifier = Modifier.padding(horizontal = 16.dp)
                             ) {
-                                Icon(Icons.Rounded.PhotoFilter, null)
+                                Icon(Icons.Rounded.AutoFixHigh, null)
                                 Spacer(Modifier.width(8.dp))
                                 Text(stringResource(id = R.string.add_filter))
                             }
@@ -191,7 +191,7 @@ fun FilterEditOption(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                 ) {
-                    Icon(Icons.Rounded.PhotoFilter, null)
+                    Icon(Icons.Rounded.AutoFixHigh, null)
                 }
             },
             scaffoldState = scaffoldState,

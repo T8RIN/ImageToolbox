@@ -63,6 +63,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Animation
+import androidx.compose.material.icons.rounded.AutoFixHigh
 import androidx.compose.material.icons.rounded.Bookmark
 import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material.icons.rounded.Close
@@ -72,7 +73,6 @@ import androidx.compose.material.icons.rounded.FilterHdr
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.LensBlur
 import androidx.compose.material.icons.rounded.Light
-import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Slideshow
@@ -575,7 +575,7 @@ fun AddFiltersSheet(
                     ) {
                         TitleItem(
                             text = stringResource(R.string.filter),
-                            icon = Icons.Rounded.PhotoFilter
+                            icon = Icons.Rounded.AutoFixHigh
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         EnhancedIconButton(

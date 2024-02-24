@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Margin
 import androidx.compose.material.icons.outlined.PhotoSizeSelectSmall
+import androidx.compose.material.icons.rounded.AutoFixHigh
 import androidx.compose.material.icons.rounded.Collections
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.Compare
@@ -36,7 +37,6 @@ import androidx.compose.material.icons.rounded.Gif
 import androidx.compose.material.icons.rounded.GifBox
 import androidx.compose.material.icons.rounded.Gradient
 import androidx.compose.material.icons.rounded.Photo
-import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.PhotoSizeSelectLarge
 import androidx.compose.material.icons.rounded.PictureAsPdf
 import androidx.compose.material.icons.rounded.Preview
@@ -112,7 +112,7 @@ sealed class Screen(
         val type: Type? = null
     ) : Screen(
         id = 4,
-        icon = Icons.Rounded.PhotoFilter,
+        icon = Icons.Rounded.AutoFixHigh,
         title = R.string.filter,
         subtitle = R.string.filter_sub
     ) {
@@ -136,7 +136,7 @@ sealed class Screen(
             ) : Type(
                 title = R.string.full_filter,
                 subtitle = R.string.full_filter_sub,
-                icon = Icons.Rounded.PhotoFilter
+                icon = Icons.Rounded.AutoFixHigh
             )
 
             companion object {

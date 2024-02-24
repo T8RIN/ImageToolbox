@@ -18,7 +18,7 @@
 package ru.tech.imageresizershrinker.feature.filters.presentation.components
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.PhotoFilter
+import androidx.compose.material.icons.rounded.AutoFixHigh
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -35,7 +35,7 @@ fun BasicFilterPreference(
 ) {
     PreferenceItem(
         onClick = onClick,
-        startIcon = Icons.Rounded.PhotoFilter,
+        startIcon = Icons.Rounded.AutoFixHigh,
         title = stringResource(R.string.filter),
         subtitle = stringResource(R.string.filter_sub),
         color = color,

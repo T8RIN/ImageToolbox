@@ -34,10 +34,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.RotateLeft
 import androidx.compose.material.icons.automirrored.filled.RotateRight
 import androidx.compose.material.icons.filled.Flip
+import androidx.compose.material.icons.rounded.AutoFixHigh
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Fingerprint
-import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -156,7 +156,7 @@ fun ImageExtraTransformBar(
             contentColor = MaterialTheme.colorScheme.onMixedContainer,
             onClick = onFilter
         ) {
-            Icon(Icons.Rounded.PhotoFilter, null)
+            Icon(Icons.Rounded.AutoFixHigh, null)
         }
 
         EnhancedIconButton(
