@@ -31,13 +31,17 @@ fun IntegerSize.asCoil(): Size = if (this == IntegerSize.Undefined) Size.ORIGINA
 else Size(width, height)
 
 fun Transformation<Bitmap>.toCoil(): CoilTransformation = object : CoilTransformation {
+    private val instance = this@toCoil
+
+    override fun toString(): String = instance::class.simpleName.toString()
+
     override val cacheKey: String
-        get() = this@toCoil.cacheKey
+        get() = instance.cacheKey
 
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = this@toCoil.transform(input, size.asDomain())
+    ): Bitmap = instance.transform(input, size.asDomain())
 
 }
 

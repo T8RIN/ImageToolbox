@@ -20,8 +20,9 @@ package ru.tech.imageresizershrinker.core.data.di
 import coil.intercept.Interceptor
 import coil.request.ImageResult
 import com.t8rin.logger.makeLog
+import javax.inject.Inject
 
-internal object TimeMeasureInterceptor : Interceptor {
+internal class TimeMeasureInterceptor @Inject constructor() : Interceptor {
 
     override suspend fun intercept(
         chain: Interceptor.Chain
@@ -36,7 +37,7 @@ internal object TimeMeasureInterceptor : Interceptor {
             it.toString()
         }
         if (transformations.isNotEmpty()) {
-            "Time $delta ms for transformations = $transformations".makeLog()
+            "Time $delta ms for transformations = $transformations, with ${result.request.sizeResolver.size()}".makeLog()
         }
 
         return result

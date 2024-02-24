@@ -30,7 +30,7 @@ import coil.size.Size
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.data.utils.asDomain
+import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
@@ -42,25 +42,12 @@ import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.sizeTo
 import javax.inject.Inject
 import kotlin.math.abs
-import coil.transform.Transformation as CoilTransformation
 
 
 internal class AndroidImageTransformer @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageLoader: ImageLoader
 ) : ImageTransformer<Bitmap> {
-
-    private fun toCoil(transformation: Transformation<Bitmap>): CoilTransformation {
-        return object : CoilTransformation {
-            override val cacheKey: String
-                get() = transformation.cacheKey
-
-            override suspend fun transform(
-                input: Bitmap,
-                size: Size
-            ): Bitmap = transformation.transform(input, size.asDomain())
-        }
-    }
 
     override suspend fun transform(
         image: Bitmap,
@@ -71,7 +58,9 @@ internal class AndroidImageTransformer @Inject constructor(
             .Builder(context)
             .data(image)
             .transformations(
-                transformations.map(::toCoil)
+                transformations.map {
+                    it.toCoil()
+                }
             )
             .apply {
                 if (originalSize) size(Size.ORIGINAL)
@@ -90,7 +79,9 @@ internal class AndroidImageTransformer @Inject constructor(
             .Builder(context)
             .data(image)
             .transformations(
-                transformations.map(::toCoil)
+                transformations.map {
+                    it.toCoil()
+                }
             )
             .size(size.width, size.height)
             .build()

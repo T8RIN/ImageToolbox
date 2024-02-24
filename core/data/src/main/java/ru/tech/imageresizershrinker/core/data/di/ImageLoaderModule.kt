@@ -57,7 +57,8 @@ internal object ImageLoaderModule {
 
     @Provides
     fun provideComponentRegistry(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
+        interceptor: TimeMeasureInterceptor
     ): ComponentRegistry = ComponentRegistry.Builder()
         .apply {
             add(
@@ -67,6 +68,8 @@ internal object ImageLoaderModule {
             add(SvgDecoder.Factory())
             if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory(context))
             add(JxlDecoder.Factory())
+
+            if (BuildConfig.DEBUG) add(interceptor)
         }
         .build()
 
