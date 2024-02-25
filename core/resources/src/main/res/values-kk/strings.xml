@@ -787,4 +787,5 @@
     <string name="dark_colors">Қою Түстер</string>
     <string name="dark_colors_sub">Жарық нұсқасының орнына түнгі режимнің түс схемасын қолданады</string>
     <string name="copy_as_compose_code">\"Jetpack Compose\" коды ретінде көшіріңіз</string>
+    <string name="linear_tilt_shift">Сызықтық көлбеу жылжу</string>
 </resources>
