@@ -307,7 +307,6 @@ or click one of the badges below.
     - Background color changing
     - Background blur drawing
   - Different Scaling Algorhytms
-    * Bitmap Compat
     * Bilinear
     * Nearest Neighbour
     * Bicubic
