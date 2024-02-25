@@ -788,5 +788,8 @@
     <string name="dark_colors_sub">Wykorzystuje schemat kolorów trybu nocnego zamiast wariantu światła</string>
     <string name="copy_as_compose_code">Skopiuj jako kod \"Jetpack Compose\"</string>
     <string name="ring_blur">Rozmycie Pierścienia</string>
-    <string name="cross_blur">Cross Blur</string>
+    <string name="cross_blur">Rozmycie krzyżowe</string>
+    <string name="circle_blur">Rozmycie w kółko</string>
+    <string name="star_blur">Rozmycie gwiazdami</string>
+    <string name="linear_tilt_shift">Przesunięcie Pochylenia Liniowego</string>
 </resources>
