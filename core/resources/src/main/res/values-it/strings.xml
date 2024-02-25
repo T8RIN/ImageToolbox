@@ -787,4 +787,9 @@
     <string name="dark_colors_sub">Utilizza modalità notte combinazione di colori invece di luce variante</string>
     <string name="copy_as_compose_code">Copia come codice” Jetpack Compose\"</string>
     <string name="material_you_sub">Crea la tavolozza \"Material You\" dall\'immagine</string>
+    <string name="ring_blur">Sfocatura dell\'anello</string>
+    <string name="cross_blur">Sfocatura incrociata</string>
+    <string name="star_blur">Sfocatura stellare</string>
+    <string name="linear_tilt_shift">Spostamento dell\'inclinazione lineare</string>
+    <string name="circle_blur">Sfocatura del cerchio</string>
 </resources>
