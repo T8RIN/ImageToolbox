@@ -787,4 +787,8 @@
     <string name="dark_colors">暗色</string>
     <string name="dark_colors_sub">使用夜間模式配色方案而不是燈光變體</string>
     <string name="copy_as_compose_code">複製為“Jetpack Compose”代碼</string>
+    <string name="ring_blur">環形模糊</string>
+    <string name="cross_blur">交叉模糊</string>
+    <string name="circle_blur">圓圈模糊</string>
+    <string name="star_blur">星光模糊</string>
 </resources>

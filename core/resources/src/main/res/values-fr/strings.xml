@@ -787,4 +787,9 @@
     <string name="dark_colors">Couleurs Sombres</string>
     <string name="dark_colors_sub">Utilise la palette de couleurs du mode nuit au lieu de la variante lumineuse</string>
     <string name="copy_as_compose_code">Copier en tant que code \" Jetpack Compose”</string>
+    <string name="ring_blur">Flou d\'anneau</string>
+    <string name="cross_blur">Flou Croisé</string>
+    <string name="circle_blur">Flou Circulaire</string>
+    <string name="star_blur">Flou d\'Étoile</string>
+    <string name="linear_tilt_shift">Décalage D\'Inclinaison Linéaire</string>
 </resources>

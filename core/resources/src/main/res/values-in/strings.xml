@@ -787,4 +787,9 @@
     <string name="dark_colors">Warna Gelap</string>
     <string name="copy_as_compose_code">Salin sebagai kode\" Jetpack Compose\"</string>
     <string name="dark_colors_sub">Menggunakan skema warna mode malam alih-alih varian cahaya</string>
+    <string name="ring_blur">Cincin Kabur</string>
+    <string name="cross_blur">Pengaburan silang</string>
+    <string name="circle_blur">Lingkaran Kabur</string>
+    <string name="star_blur">Bintang Kabur</string>
+    <string name="linear_tilt_shift">Pergeseran Kemiringan Linier</string>
 </resources>

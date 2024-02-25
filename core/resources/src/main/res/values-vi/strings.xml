@@ -787,4 +787,9 @@
     <string name="dark_colors_sub">Sử dụng bảng màu chế độ ban đêm thay vì biến thể ánh sáng</string>
     <string name="copy_as_compose_code">Sao chép dưới dạng mã\" Jetpack Compose\"</string>
     <string name="dark_colors">Màu Tối</string>
+    <string name="ring_blur">Vòng Mờ</string>
+    <string name="cross_blur">Mờ Chéo</string>
+    <string name="circle_blur">Vòng Tròn Mờ</string>
+    <string name="star_blur">Sao Mờ</string>
+    <string name="linear_tilt_shift">Dịch Chuyển Nghiêng Tuyến Tính</string>
 </resources>

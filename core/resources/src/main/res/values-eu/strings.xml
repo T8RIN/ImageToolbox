@@ -787,4 +787,9 @@
     <string name="dark_colors_sub">Gaueko moduaren kolore eskema erabiltzen du argiaren aldaeraren ordez</string>
     <string name="copy_as_compose_code">Kopiatu Jetpack Compose kodea</string>
     <string name="material_you_sub">Material You paleta sortzen du iruditik</string>
+    <string name="ring_blur">Eraztunaren Lausotzea</string>
+    <string name="cross_blur">Gurutze Lausoa</string>
+    <string name="circle_blur">Zirkuluaren Lausotzea</string>
+    <string name="star_blur">Izar Lausoa</string>
+    <string name="linear_tilt_shift">Aldaketa Lineala</string>
 </resources>

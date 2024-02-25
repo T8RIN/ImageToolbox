@@ -787,4 +787,9 @@
     <string name="dark_colors">暗い色</string>
     <string name="dark_colors_sub">ライトバリアントの代わりにナイトモードの配色を使用します</string>
     <string name="copy_as_compose_code">Jetpack Composeコードとしてコピー</string>
+    <string name="ring_blur">リングぼかし</string>
+    <string name="cross_blur">クロスぼかし</string>
+    <string name="circle_blur">円ぼかし</string>
+    <string name="star_blur">星のぼかし</string>
+    <string name="linear_tilt_shift">リニアチルトシフト</string>
 </resources>

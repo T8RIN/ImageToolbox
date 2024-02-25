@@ -787,4 +787,9 @@
     <string name="dark_colors">Tmavé Barvy</string>
     <string name="dark_colors_sub">Používá barevné schéma nočního režimu místo světelné varianty</string>
     <string name="copy_as_compose_code">Kopírovat jako Jetpack Compose code</string>
+    <string name="circle_blur">Rozostření Kruhu</string>
+    <string name="star_blur">Hvězdné Rozostření</string>
+    <string name="linear_tilt_shift">Lineární Posun Náklonu</string>
+    <string name="ring_blur">Rozostření Prstenu</string>
+    <string name="cross_blur">Křížové Rozostření</string>
 </resources>

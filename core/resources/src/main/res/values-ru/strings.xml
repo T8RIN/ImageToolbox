@@ -787,4 +787,9 @@
     <string name="copy_as_compose_code">Скопировать в Jetpack Compose</string>
     <string name="material_you_sub">Создает Material You палитру из изображения</string>
     <string name="dark_colors_sub">Использует цветовую схему ночного режима вместо светлого варианта</string>
+    <string name="cross_blur">Перекрестное размытие</string>
+    <string name="star_blur">Размытие звездами</string>
+    <string name="linear_tilt_shift">Линейный сдвиг наклона</string>
+    <string name="ring_blur">Размытие кольцами</string>
+    <string name="circle_blur">Размытие кругами</string>
 </resources>

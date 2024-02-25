@@ -787,4 +787,9 @@
     <string name="dark_colors">Madidilim na kulay</string>
     <string name="dark_colors_sub">Gumagamit ng night mode color scheme sa halip na light variant</string>
     <string name="copy_as_compose_code">Kopyahin bilang Jetpack Compose code</string>
+    <string name="ring_blur">Ring Blur</string>
+    <string name="cross_blur">Cross Blur</string>
+    <string name="circle_blur">Circle Blur</string>
+    <string name="star_blur">Star Blur</string>
+    <string name="linear_tilt_shift">Linear Tilt Shift</string>
 </resources>
