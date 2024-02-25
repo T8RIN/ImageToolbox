@@ -787,4 +787,9 @@
     <string name="dark_colors_sub">Выкарыстоўвае каляровую схему начнога рэжыму замест светлага варыянту</string>
     <string name="material_you_sub">Стварае палітру \"Material You\" з малюнка</string>
     <string name="copy_as_compose_code">Скапіруйце як код \"Jetpack Compose\"</string>
+    <string name="ring_blur">Размыццё кольцы</string>
+    <string name="cross_blur">Перакрыжаванае размыццё</string>
+    <string name="circle_blur">Размыццё круга</string>
+    <string name="star_blur">Размыццё зоркамі</string>
+    <string name="linear_tilt_shift">Лінейны зрух нахілу</string>
 </resources>

@@ -787,4 +787,9 @@
     <string name="material_you_sub">Létrehoz\" Material You \" paletta kép</string>
     <string name="dark_colors_sub">Éjszakai mód színsémát használ a fényváltozat helyett</string>
     <string name="copy_as_compose_code">Másolás \"Jetpack Compose\" kódként</string>
+    <string name="ring_blur">Gyűrű Elmosódás</string>
+    <string name="circle_blur">Körkörös Elmosódás</string>
+    <string name="star_blur">Vezetés Elmosódás</string>
+    <string name="cross_blur">Kereszt Elmosódás</string>
+    <string name="linear_tilt_shift">Lineáris Dőléseltolás</string>
 </resources>

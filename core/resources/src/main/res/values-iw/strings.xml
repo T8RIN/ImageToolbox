@@ -787,4 +787,9 @@
     <string name="copy_as_compose_code">העתק כקוד \" Jetpack Compose\"</string>
     <string name="dark_colors">צבעים כהים</string>
     <string name="dark_colors_sub">משתמש ערכת צבעי מצב הלילה במקום וריאנט אור</string>
+    <string name="ring_blur">טשטוש טבעת</string>
+    <string name="cross_blur">טשטוש צולב</string>
+    <string name="circle_blur">טשטוש מעגל</string>
+    <string name="star_blur">טשטוש כוכבים</string>
+    <string name="linear_tilt_shift">שינוי הטיה ליניארי</string>
 </resources>

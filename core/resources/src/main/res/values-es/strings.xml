@@ -787,4 +787,9 @@
     <string name="dark_colors">Colores Oscuros</string>
     <string name="dark_colors_sub">Utiliza el esquema de color del modo nocturno en lugar de la variante de luz</string>
     <string name="copy_as_compose_code">Copiar como código \"Jetpack Compose\"</string>
+    <string name="ring_blur">Desenfoque de anillo</string>
+    <string name="cross_blur">Desenfoque cruzado</string>
+    <string name="circle_blur">Desenfoque de círculo</string>
+    <string name="star_blur">Desenfoque de estrella</string>
+    <string name="linear_tilt_shift">Cambio de inclinación lineal</string>
 </resources>

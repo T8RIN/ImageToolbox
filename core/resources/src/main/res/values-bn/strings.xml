@@ -787,4 +787,9 @@
     <string name="dark_colors_sub">হালকা বৈকল্পিকের পরিবর্তে নাইট মোড রঙের স্কিম ব্যবহার করে</string>
     <string name="copy_as_compose_code">\"Jetpack Compose\" কোড হিসাবে অনুলিপি করুন</string>
     <string name="material_you_sub">চিত্র থেকে \"Material You\" প্যালেট তৈরি করে</string>
+    <string name="ring_blur">রিং ব্লার</string>
+    <string name="cross_blur">ক্রস ব্লার</string>
+    <string name="circle_blur">বৃত্ত অস্পষ্টতা</string>
+    <string name="star_blur">স্টার ব্লার</string>
+    <string name="linear_tilt_shift">লিনিয়ার টিল্ট শিফট</string>
 </resources>
