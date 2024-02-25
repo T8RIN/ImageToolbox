@@ -20,20 +20,20 @@ package ru.tech.imageresizershrinker.core.filters.presentation.model
 import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
-import ru.tech.imageresizershrinker.core.filters.domain.model.TiltShiftParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.LinearTiltShiftParams
 import ru.tech.imageresizershrinker.core.resources.R
 
-
-class UiTiltShiftFilter(
-    override val value: TiltShiftParams = TiltShiftParams.Default
-) : UiFilter<TiltShiftParams>(
-    title = R.string.tilt_shift,
+class UiLinearTiltShiftFilter(
+    override val value: LinearTiltShiftParams = LinearTiltShiftParams.Default
+) : UiFilter<LinearTiltShiftParams>(
+    title = R.string.linear_tilt_shift,
     value = value,
     paramsInfo = listOf(
         FilterParam(R.string.blur_radius, 1f..100f, 0),
         FilterParam(R.string.sigma, 1f..50f, 2),
         FilterParam(R.string.center_x, 0f..1f, 2),
         FilterParam(R.string.center_y, 0f..1f, 2),
-        FilterParam(R.string.radius, 0f..1f, 2)
+        FilterParam(R.string.width, 0f..1f, 2),
+        FilterParam(R.string.angle, 0f..360f, 0)
     )
-), Filter.TiltShift<Bitmap>
+), Filter.LinearTiltShift<Bitmap>

@@ -809,4 +809,5 @@
     <string name="cross_blur">Cross Blur</string>
     <string name="circle_blur">Circle Blur</string>
     <string name="star_blur">Star Blur</string>
+    <string name="linear_tilt_shift">Linear Tilt Shift</string>
 </resources>

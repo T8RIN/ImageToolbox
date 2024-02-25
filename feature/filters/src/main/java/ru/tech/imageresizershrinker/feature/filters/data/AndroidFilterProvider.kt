@@ -109,6 +109,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.LaplacianFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LavenderDreamFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LeftToRightDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LemonadeLightFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.LinearTiltShiftFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LogarithmicToneMappingFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.LookupFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MarbleFilter
@@ -138,6 +139,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.ProtonomalyFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.PurpleMistFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.QuantizierFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.RGBFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.RadialTiltShiftFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.RainbowWorldFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.RandomDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.RedSwirlFilter
@@ -168,7 +170,6 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.SunriseFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.SwirlDistortionFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TentBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ThresholdFilter
-import ru.tech.imageresizershrinker.feature.filters.data.model.TiltShiftFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ToonFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TritanopiaFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.TritonomalyFilter
@@ -269,7 +270,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.SimpleThresholdDithering -> SimpleThresholdDitheringFilter(value)
             is Filter.MedianBlur -> MedianBlurFilter(value)
             is Filter.NativeStackBlur -> NativeStackBlurFilter(value)
-            is Filter.TiltShift -> TiltShiftFilter(value)
+            is Filter.RadialTiltShift -> RadialTiltShiftFilter(value)
             is Filter.Glitch -> GlitchFilter(value)
             is Filter.Anaglyph -> AnaglyphFilter(value)
             is Filter.Noise -> NoiseFilter(value)
@@ -353,6 +354,8 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.CrossBlur -> CrossBlurFilter(value)
             is Filter.RingBlur -> RingBlurFilter(value)
             is Filter.StarBlur -> StarBlurFilter(value)
+            is Filter.LinearTiltShift -> LinearTiltShiftFilter(value)
+
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }
     }

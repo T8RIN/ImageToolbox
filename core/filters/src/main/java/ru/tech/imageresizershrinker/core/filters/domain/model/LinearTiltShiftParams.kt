@@ -17,21 +17,23 @@
 
 package ru.tech.imageresizershrinker.core.filters.domain.model
 
-data class TiltShiftParams(
+data class LinearTiltShiftParams(
     val blurRadius: Float,
     val sigma: Float,
     val anchorX: Float,
     val anchorY: Float,
-    val holeRadius: Float
+    val holeRadius: Float,
+    val angle: Float
 ) {
     companion object {
         val Default by lazy {
-            TiltShiftParams(
+            LinearTiltShiftParams(
                 blurRadius = 25f,
                 sigma = 10f,
                 anchorX = 0.5f,
                 anchorY = 0.5f,
-                holeRadius = 0.2f
+                holeRadius = 0.2f,
+                angle = 45f
             )
         }
     }
