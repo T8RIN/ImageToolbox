@@ -791,4 +791,5 @@
     <string name="cross_blur">Flou Croisé</string>
     <string name="circle_blur">Flou Circulaire</string>
     <string name="star_blur">Flou d\'Étoile</string>
+    <string name="linear_tilt_shift">Décalage D\'Inclinaison Linéaire</string>
 </resources>
