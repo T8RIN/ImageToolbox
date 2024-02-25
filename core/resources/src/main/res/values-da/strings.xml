@@ -787,4 +787,9 @@
     <string name="dark_colors">Mørke Farver</string>
     <string name="dark_colors_sub">Bruger nattilstand farveskema i stedet for lys variant</string>
     <string name="copy_as_compose_code">Kopier som\" Jetpack Compose \" kode</string>
+    <string name="ring_blur">Ringsløring</string>
+    <string name="cross_blur">Kryds sløring</string>
+    <string name="circle_blur">Cirkel sløring</string>
+    <string name="star_blur">Stjernesløring</string>
+    <string name="linear_tilt_shift">Lineær Tilt Shift</string>
 </resources>
