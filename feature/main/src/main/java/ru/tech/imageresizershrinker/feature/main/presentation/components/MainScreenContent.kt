@@ -20,6 +20,7 @@
 package ru.tech.imageresizershrinker.feature.main.presentation.components
 
 import android.content.ActivityNotFoundException
+import android.content.ClipData
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -495,6 +496,10 @@ internal fun MainScreenContent(
                                             onGetClipList(clipboardData)
                                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                                                 clipboardManager.clearPrimaryClip()
+                                            } else {
+                                                clipboardManager.setPrimaryClip(
+                                                    ClipData.newPlainText(null, "")
+                                                )
                                             }
                                         },
                                         containerColor = MaterialTheme.colorScheme.tertiaryContainer
