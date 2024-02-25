@@ -28,7 +28,6 @@ import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Photo
-import androidx.compose.material.icons.outlined.PhotoSizeSelectSmall
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.rounded.AutoFixHigh
 import androidx.compose.material.icons.rounded.Colorize
@@ -37,7 +36,6 @@ import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Gif
 import androidx.compose.material.icons.rounded.Gradient
-import androidx.compose.material.icons.rounded.PhotoSizeSelectLarge
 import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Public
 import androidx.compose.material.icons.rounded.Texture
@@ -54,6 +52,7 @@ import ru.tech.imageresizershrinker.core.ui.icons.material.ImageWeight
 import ru.tech.imageresizershrinker.core.ui.icons.material.MultipleImageEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.PaletteSwatch
 import ru.tech.imageresizershrinker.core.ui.icons.material.Puzzle
+import ru.tech.imageresizershrinker.core.ui.icons.material.Resize
 import ru.tech.imageresizershrinker.core.ui.icons.material.Toolbox
 import ru.tech.imageresizershrinker.core.ui.icons.material.Transparency
 
@@ -379,8 +378,8 @@ sealed class Screen(
                     LimitResize(),
                 ) to Triple(
                     R.string.edit,
-                    Icons.Rounded.PhotoSizeSelectLarge,
-                    Icons.Outlined.PhotoSizeSelectSmall
+                    Icons.Filled.Resize,
+                    Icons.Outlined.Resize
                 ),
                 listOf(
                     Filter(),

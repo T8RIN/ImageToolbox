@@ -197,7 +197,7 @@ internal fun MainScreenContent(
                 }
             }
             Column(
-                Modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
             ) {
