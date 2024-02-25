@@ -73,10 +73,9 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.FormatPaint
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Draw
-import androidx.compose.material.icons.rounded.FormatPaint
-import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.BottomAppBar
@@ -129,6 +128,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.icons.material.ImageTooltip
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
@@ -681,7 +681,7 @@ fun DrawScreen(
                         item {
                             PreferenceItem(
                                 onClick = pickImage,
-                                startIcon = Icons.Rounded.Image,
+                                startIcon = Icons.Outlined.ImageTooltip,
                                 title = stringResource(R.string.draw_on_image),
                                 subtitle = stringResource(R.string.draw_on_image_sub),
                                 modifier = Modifier.fillMaxWidth(),
@@ -691,7 +691,7 @@ fun DrawScreen(
                         item {
                             PreferenceItem(
                                 onClick = { showBackgroundDrawingSetup.value = true },
-                                startIcon = Icons.Rounded.FormatPaint,
+                                startIcon = Icons.Outlined.FormatPaint,
                                 title = stringResource(R.string.draw_on_background),
                                 subtitle = stringResource(R.string.draw_on_background_sub),
                                 modifier = Modifier.fillMaxWidth(),

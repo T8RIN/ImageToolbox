@@ -22,22 +22,21 @@ import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.BrandingWatermark
-import androidx.compose.material.icons.automirrored.outlined.WrapText
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoAwesome
+import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Collections
+import androidx.compose.material.icons.outlined.Colorize
+import androidx.compose.material.icons.outlined.Draw
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
-import androidx.compose.material.icons.rounded.AutoFixHigh
-import androidx.compose.material.icons.rounded.Colorize
+import androidx.compose.material.icons.outlined.Public
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Crop
-import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Gif
 import androidx.compose.material.icons.rounded.Gradient
 import androidx.compose.material.icons.rounded.Preview
-import androidx.compose.material.icons.rounded.Public
 import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.IgnoredOnParcel
@@ -48,6 +47,7 @@ import ru.tech.imageresizershrinker.core.ui.icons.material.Encrypted
 import ru.tech.imageresizershrinker.core.ui.icons.material.FingerprintOff
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageLimit
+import ru.tech.imageresizershrinker.core.ui.icons.material.ImageText
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageWeight
 import ru.tech.imageresizershrinker.core.ui.icons.material.MultipleImageEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.PaletteSwatch
@@ -111,7 +111,7 @@ sealed class Screen(
         val type: Type? = null
     ) : Screen(
         id = 4,
-        icon = Icons.Rounded.AutoFixHigh,
+        icon = Icons.Outlined.AutoFixHigh,
         title = R.string.filter,
         subtitle = R.string.filter_sub
     ) {
@@ -135,7 +135,7 @@ sealed class Screen(
             ) : Type(
                 title = R.string.full_filter,
                 subtitle = R.string.full_filter_sub,
-                icon = Icons.Rounded.AutoFixHigh
+                icon = Icons.Outlined.AutoFixHigh
             )
 
             companion object {
@@ -153,7 +153,7 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 5,
-        icon = Icons.Rounded.Draw,
+        icon = Icons.Outlined.Draw,
         title = R.string.draw,
         subtitle = R.string.draw_sub
     )
@@ -198,7 +198,7 @@ sealed class Screen(
         val url: String = ""
     ) : Screen(
         id = 10,
-        icon = Icons.Rounded.Public,
+        icon = Icons.Outlined.Public,
         title = R.string.load_image_from_net,
         subtitle = R.string.load_image_from_net_sub
     )
@@ -207,7 +207,7 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 11,
-        icon = Icons.Rounded.Colorize,
+        icon = Icons.Outlined.Colorize,
         title = R.string.pick_color,
         subtitle = R.string.pick_color_sub
     )
@@ -302,7 +302,7 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 17,
-        icon = Icons.AutoMirrored.Outlined.WrapText,
+        icon = Icons.Rounded.ImageText,
         title = R.string.recognize_text,
         subtitle = R.string.recognize_text_sub
     )

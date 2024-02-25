@@ -38,7 +38,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Collections
+import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -342,7 +342,7 @@ fun GradientMakerScreen(
                 PreferenceItem(
                     title = stringResource(R.string.gradient_maker_type_image),
                     subtitle = stringResource(R.string.gradient_maker_type_image_sub),
-                    startIcon = Icons.Rounded.Collections,
+                    startIcon = Icons.Outlined.Collections,
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
                     onClick = pickImage
