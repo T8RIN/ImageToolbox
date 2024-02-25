@@ -36,7 +36,7 @@ internal class SketchFilter(
         size: IntegerSize
     ): Bitmap = Aire.removeShadows(
         bitmap = input,
-        kernelSize = value.toInt()
+        kernelSize = 2 * value.toInt() + 1
     )
 
 }

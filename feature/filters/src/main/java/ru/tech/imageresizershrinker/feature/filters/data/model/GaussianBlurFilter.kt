@@ -36,7 +36,7 @@ internal class GaussianBlurFilter(
         size: IntegerSize
     ): Bitmap = Aire.gaussianBlur(
         bitmap = input,
-        kernelSize = value.first.toInt(),
+        kernelSize = 2 * value.first.toInt() + 1,
         sigma = value.second
     )
 

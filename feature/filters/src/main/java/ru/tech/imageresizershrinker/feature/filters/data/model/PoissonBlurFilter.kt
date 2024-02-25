@@ -35,7 +35,7 @@ internal class PoissonBlurFilter(
         size: IntegerSize
     ): Bitmap = Aire.poissonBlur(
         bitmap = input,
-        kernelSize = value.toInt()
+        kernelSize = 2 * value.toInt() + 1
     )
 
 }

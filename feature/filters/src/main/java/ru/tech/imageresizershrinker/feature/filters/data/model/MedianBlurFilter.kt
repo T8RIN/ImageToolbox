@@ -42,7 +42,7 @@ internal class MedianBlurFilter(
         .let {
             Aire.medianBlur(
                 bitmap = it,
-                kernelSize = value.second
+                kernelSize = 2 * value.second + 1
             )
         }
         .createScaledBitmap(input.width, input.height)

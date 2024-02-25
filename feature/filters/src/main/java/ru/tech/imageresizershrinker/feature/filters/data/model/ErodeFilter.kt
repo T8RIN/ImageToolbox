@@ -35,7 +35,7 @@ internal class ErodeFilter(
         size: IntegerSize
     ): Bitmap = Aire.erode(
         bitmap = input,
-        kernelSize = value.toInt()
+        kernelSize = 2 * value.toInt() + 1
     )
 
 }
