@@ -787,4 +787,6 @@
     <string name="dark_colors">Ciemne Kolory</string>
     <string name="dark_colors_sub">Wykorzystuje schemat kolorów trybu nocnego zamiast wariantu światła</string>
     <string name="copy_as_compose_code">Skopiuj jako kod \"Jetpack Compose\"</string>
+    <string name="ring_blur">Rozmycie Pierścienia</string>
+    <string name="cross_blur">Cross Blur</string>
 </resources>
