@@ -74,7 +74,7 @@ import com.t8rin.dynamic.theme.extractPrimaryColor
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.icons.material.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.PaletteSwatch
 import ru.tech.imageresizershrinker.core.ui.icons.material.Swatch
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
@@ -143,7 +143,7 @@ internal fun GeneratePaletteScreenControls(
                         onColorChange = {
                             keyColor = it.toColor()
                         },
-                        supportButtonIcon = Icons.Rounded.CreateAlt,
+                        supportButtonIcon = Icons.Rounded.MiniEdit,
                         onSupportButtonClick = {
                             showColorPicker = true
                         },

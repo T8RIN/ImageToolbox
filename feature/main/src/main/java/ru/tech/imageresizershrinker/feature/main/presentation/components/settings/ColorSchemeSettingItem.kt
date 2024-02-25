@@ -50,7 +50,7 @@ import com.t8rin.dynamic.theme.rememberAppColorTuple
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.icons.material.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.Theme
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
@@ -149,10 +149,9 @@ fun ColorSchemeSettingItem(
                         )
                 )
                 Icon(
-                    imageVector = Icons.Rounded.CreateAlt,
+                    imageVector = Icons.Rounded.MiniEdit,
                     contentDescription = null,
-                    tint = settingsState.appColorTuple.primary,
-                    modifier = Modifier.size(18.dp)
+                    tint = settingsState.appColorTuple.primary
                 )
             }
         }

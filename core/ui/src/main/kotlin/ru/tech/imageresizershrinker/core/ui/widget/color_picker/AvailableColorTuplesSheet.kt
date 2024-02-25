@@ -85,7 +85,7 @@ import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.defaultColorTuple
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.icons.material.EditAlt
 import ru.tech.imageresizershrinker.core.ui.icons.material.Theme
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
@@ -236,7 +236,7 @@ fun AvailableColorTuplesSheet(
                         showEditColorPicker.value = true
                     }
                 ) {
-                    Icon(Icons.Rounded.CreateAlt, null)
+                    Icon(Icons.Rounded.EditAlt, null)
                 }
             }
         },

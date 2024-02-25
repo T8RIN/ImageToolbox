@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.icons.material.EditAlt
 import ru.tech.imageresizershrinker.core.ui.icons.material.Prefix
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -73,7 +73,7 @@ fun FilenamePrefixSettingItem(
         color = MaterialTheme.colorScheme
             .secondaryContainer
             .copy(alpha = 0.2f),
-        endIcon = Icons.Rounded.CreateAlt,
+        endIcon = Icons.Rounded.EditAlt,
         startIcon = Icons.Filled.Prefix,
         modifier = modifier
     )

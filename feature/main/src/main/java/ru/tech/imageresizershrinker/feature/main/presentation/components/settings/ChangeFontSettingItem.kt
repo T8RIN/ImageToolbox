@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.UiFontFam
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.icons.material.EditAlt
 import ru.tech.imageresizershrinker.core.ui.icons.material.FontFamily
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -56,7 +56,7 @@ fun ChangeFontSettingItem(
             .secondaryContainer
             .copy(alpha = 0.2f),
         startIcon = Icons.Rounded.FontFamily,
-        endIcon = Icons.Rounded.CreateAlt,
+        endIcon = Icons.Rounded.EditAlt,
         modifier = modifier
     )
     PickFontFamilySheet(

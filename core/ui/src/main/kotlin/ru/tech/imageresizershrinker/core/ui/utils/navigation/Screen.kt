@@ -51,9 +51,9 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.FingerprintOff
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.Interface
+import ru.tech.imageresizershrinker.core.ui.icons.material.MultipleImageEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.PaletteSwatch
 import ru.tech.imageresizershrinker.core.ui.icons.material.Puzzle
-import ru.tech.imageresizershrinker.core.ui.icons.material.Resize
 import ru.tech.imageresizershrinker.core.ui.icons.material.Toolbox
 import ru.tech.imageresizershrinker.core.ui.icons.material.Transparency
 
@@ -85,7 +85,7 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 1,
-        icon = Icons.Filled.Resize,
+        icon = Icons.Rounded.MultipleImageEdit,
         title = R.string.resize_and_convert,
         subtitle = R.string.resize_and_convert_sub
     )

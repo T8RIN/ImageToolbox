@@ -39,7 +39,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.icons.material.EditAlt
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -66,7 +66,7 @@ fun ModelTypeSelector(
         },
         shape = RoundedCornerShape(24.dp),
         startIcon = Icons.AutoMirrored.Outlined.Segment,
-        endIcon = Icons.Rounded.CreateAlt
+        endIcon = Icons.Rounded.EditAlt
     )
 
     SimpleSheet(

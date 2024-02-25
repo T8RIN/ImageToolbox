@@ -60,7 +60,7 @@ import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalEditPresetsState
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.icons.material.EditAlt
 import ru.tech.imageresizershrinker.core.ui.icons.material.Telegram
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -194,7 +194,7 @@ fun PresetWidget(
                         .padding(top = 8.dp)
                         .align(Alignment.CenterStart)
                 ) {
-                    Icon(Icons.Rounded.CreateAlt, null)
+                    Icon(Icons.Rounded.EditAlt, null)
                 }
             }
         }

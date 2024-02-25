@@ -27,9 +27,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.Rounded.CreateAlt: ImageVector by lazy {
+val Icons.Rounded.EditAlt: ImageVector by lazy {
     ImageVector.Builder(
-        name = "CreateAlt", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
+        name = "Edit Alt", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
         viewportWidth = 960.0f, viewportHeight = 960.0f
     ).apply {
         path(

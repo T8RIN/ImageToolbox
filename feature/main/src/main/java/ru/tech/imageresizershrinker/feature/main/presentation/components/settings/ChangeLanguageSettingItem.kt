@@ -51,7 +51,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.icons.material.EditAlt
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils
 import ru.tech.imageresizershrinker.core.ui.utils.helper.LocaleConfigCompat
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toList
@@ -78,7 +78,7 @@ fun ChangeLanguageSettingItem(
             title = stringResource(R.string.language),
             subtitle = context.getCurrentLocaleString(),
             startIcon = Icons.Outlined.Language,
-            endIcon = Icons.Rounded.CreateAlt,
+            endIcon = Icons.Rounded.EditAlt,
             color = MaterialTheme.colorScheme.secondaryContainer.copy(0.2f),
             onClick = {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !ContextUtils.isMiUi()) {
