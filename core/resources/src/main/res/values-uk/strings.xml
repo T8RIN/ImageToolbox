@@ -787,4 +787,9 @@
     <string name="dark_colors">Темні кольори</string>
     <string name="dark_colors_sub">Використовує колірну схему нічного режиму замість світлого варіанту</string>
     <string name="copy_as_compose_code">Скопіюйте як код \"Jetpack Compose\"</string>
+    <string name="ring_blur">Розмиття кільця</string>
+    <string name="cross_blur">Перехресне розмиття</string>
+    <string name="circle_blur">Розмиття кола</string>
+    <string name="star_blur">Розмиття зірками</string>
+    <string name="linear_tilt_shift">Лінійний зсув нахилу</string>
 </resources>
