@@ -25,20 +25,20 @@ import androidx.compose.material.icons.automirrored.outlined.WrapText
 import androidx.compose.material.icons.automirrored.rounded.BrandingWatermark
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoAwesome
+import androidx.compose.material.icons.outlined.Collections
+import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Margin
+import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PhotoSizeSelectSmall
+import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.rounded.AutoFixHigh
-import androidx.compose.material.icons.rounded.Collections
 import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Gif
-import androidx.compose.material.icons.rounded.GifBox
 import androidx.compose.material.icons.rounded.Gradient
-import androidx.compose.material.icons.rounded.Photo
 import androidx.compose.material.icons.rounded.PhotoSizeSelectLarge
-import androidx.compose.material.icons.rounded.PictureAsPdf
 import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Public
 import androidx.compose.material.icons.rounded.Security
@@ -50,7 +50,7 @@ import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.FingerprintOff
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageEdit
-import ru.tech.imageresizershrinker.core.ui.icons.material.Interface
+import ru.tech.imageresizershrinker.core.ui.icons.material.ImageWeight
 import ru.tech.imageresizershrinker.core.ui.icons.material.MultipleImageEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.PaletteSwatch
 import ru.tech.imageresizershrinker.core.ui.icons.material.Puzzle
@@ -94,7 +94,7 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 2,
-        icon = Icons.Filled.Interface,
+        icon = Icons.Rounded.ImageWeight,
         title = R.string.by_bytes_resize,
         subtitle = R.string.by_bytes_resize_sub
     )
@@ -123,7 +123,7 @@ sealed class Screen(
             @IgnoredOnParcel val icon: ImageVector? = null
         ) : Parcelable {
 
-            class Masking(
+            data class Masking(
                 val uri: Uri? = null
             ) : Type(
                 title = R.string.mask_filter,
@@ -131,7 +131,7 @@ sealed class Screen(
                 icon = Icons.Rounded.Texture
             )
 
-            class Basic(
+            data class Basic(
                 val uris: List<Uri>? = null
             ) : Type(
                 title = R.string.full_filter,
@@ -181,7 +181,7 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 8,
-        icon = Icons.Rounded.Photo,
+        icon = Icons.Outlined.Photo,
         title = R.string.image_preview,
         subtitle = R.string.image_preview_sub
     )
@@ -253,7 +253,7 @@ sealed class Screen(
         val type: Type? = null
     ) : Screen(
         id = 16,
-        icon = Icons.Rounded.PictureAsPdf,
+        icon = Icons.Outlined.PictureAsPdf,
         title = R.string.pdf_tools,
         subtitle = R.string.pdf_tools_sub
     ) {
@@ -263,7 +263,7 @@ sealed class Screen(
             @StringRes val subtitle: Int,
             @IgnoredOnParcel val icon: ImageVector? = null
         ) : Parcelable {
-            class Preview(
+            data class Preview(
                 val pdfUri: Uri? = null
             ) : Type(
                 title = R.string.preview_pdf,
@@ -271,20 +271,20 @@ sealed class Screen(
                 icon = Icons.Rounded.Preview
             )
 
-            class PdfToImages(
+            data class PdfToImages(
                 val pdfUri: Uri? = null
             ) : Type(
                 title = R.string.pdf_to_images,
                 subtitle = R.string.pdf_to_images_sub,
-                icon = Icons.Rounded.Collections
+                icon = Icons.Outlined.Collections
             )
 
-            class ImagesToPdf(
+            data class ImagesToPdf(
                 val imageUris: List<Uri>? = null
             ) : Type(
                 title = R.string.images_to_pdf,
                 subtitle = R.string.images_to_pdf_sub,
-                icon = Icons.Rounded.PictureAsPdf
+                icon = Icons.Outlined.PictureAsPdf
             )
 
             companion object {
@@ -326,11 +326,11 @@ sealed class Screen(
         subtitle = R.string.watermarking_sub,
     )
 
-    class GifTools(
+    data class GifTools(
         val type: Type? = null
     ) : Screen(
         id = 20,
-        icon = Icons.Rounded.GifBox,
+        icon = Icons.Outlined.GifBox,
         title = R.string.gif_tools,
         subtitle = R.string.gif_tools_sub
     ) {
@@ -341,15 +341,15 @@ sealed class Screen(
             @IgnoredOnParcel val icon: ImageVector? = null
         ) : Parcelable {
 
-            class GifToImage(
+            data class GifToImage(
                 val gifUri: Uri? = null
             ) : Type(
                 title = R.string.gif_type_to_image,
                 subtitle = R.string.gif_type_to_image_sub,
-                icon = Icons.Rounded.Collections
+                icon = Icons.Outlined.Collections
             )
 
-            class ImageToGif(
+            data class ImageToGif(
                 val imageUris: List<Uri>? = null
             ) : Type(
                 title = R.string.gif_type_to_gif,
