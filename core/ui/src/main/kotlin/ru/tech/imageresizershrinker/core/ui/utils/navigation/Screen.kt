@@ -21,13 +21,12 @@ import android.net.Uri
 import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.BrandingWatermark
 import androidx.compose.material.icons.automirrored.outlined.WrapText
-import androidx.compose.material.icons.automirrored.rounded.BrandingWatermark
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.material.icons.outlined.GifBox
-import androidx.compose.material.icons.outlined.Margin
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PhotoSizeSelectSmall
 import androidx.compose.material.icons.outlined.PictureAsPdf
@@ -41,15 +40,16 @@ import androidx.compose.material.icons.rounded.Gradient
 import androidx.compose.material.icons.rounded.PhotoSizeSelectLarge
 import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Public
-import androidx.compose.material.icons.rounded.Security
 import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.icons.material.Encrypted
 import ru.tech.imageresizershrinker.core.ui.icons.material.FingerprintOff
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageEdit
+import ru.tech.imageresizershrinker.core.ui.icons.material.ImageLimit
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageWeight
 import ru.tech.imageresizershrinker.core.ui.icons.material.MultipleImageEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.PaletteSwatch
@@ -163,7 +163,7 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 6,
-        icon = Icons.Rounded.Security,
+        icon = Icons.Outlined.Encrypted,
         title = R.string.cipher,
         subtitle = R.string.cipher_sub
     )
@@ -217,7 +217,7 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 12,
-        icon = Icons.Rounded.PaletteSwatch,
+        icon = Icons.Outlined.PaletteSwatch,
         title = R.string.generate_palette,
         subtitle = R.string.palette_sub
     )
@@ -244,7 +244,7 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 15,
-        icon = Icons.Outlined.Margin,
+        icon = Icons.Outlined.ImageLimit,
         title = R.string.limits_resize,
         subtitle = R.string.limits_resize_sub
     )
@@ -321,7 +321,7 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 19,
-        icon = Icons.AutoMirrored.Rounded.BrandingWatermark,
+        icon = Icons.AutoMirrored.Outlined.BrandingWatermark,
         title = R.string.watermarking,
         subtitle = R.string.watermarking_sub,
     )
