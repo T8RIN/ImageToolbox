@@ -121,6 +121,7 @@ fun MainScreen(
             onShowSnowfall = {
                 showSnowfall = true
             },
+            onGetClipList = viewModel::updateUris,
             onTryGetUpdate = {
                 viewModel.tryGetUpdate(
                     newRequest = true,

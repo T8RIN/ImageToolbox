@@ -132,13 +132,6 @@ object ContextUtils {
         notHasUris: Boolean,
         onWantGithubReview: () -> Unit
     ) {
-        fun ClipData.clipList() = List(
-            size = itemCount,
-            init = {
-                getItemAt(it).uri
-            }
-        ).filterNotNull()
-
         onStart()
         if (intent?.type != null && notHasUris) onColdStart()
 

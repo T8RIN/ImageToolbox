@@ -18,11 +18,9 @@
 package ru.tech.imageresizershrinker.core.ui.utils.helper
 
 import android.app.Activity
-import android.content.ClipData
 import android.content.Context
 import android.net.Uri
 import android.provider.DocumentsContract
-import androidx.compose.ui.platform.ClipEntry
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -97,16 +95,6 @@ suspend fun Activity.listFilesInDirectory(rootUri: Uri): List<Uri> = withContext
 
     return@withContext files.sortedByDescending { it.second }.map { it.first }
 }
-
-fun Uri.asClip(
-    context: Context
-): ClipEntry = ClipEntry(
-    ClipData.newUri(
-        context.contentResolver,
-        "IMAGE",
-        this
-    )
-)
 
 private fun isDirectory(mimeType: String): Boolean {
     return DocumentsContract.Document.MIME_TYPE_DIR == mimeType

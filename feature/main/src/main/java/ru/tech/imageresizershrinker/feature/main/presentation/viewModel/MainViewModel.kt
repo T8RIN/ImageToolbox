@@ -380,7 +380,7 @@ class MainViewModel @Inject constructor(
     fun updateUris(uris: List<Uri>?) {
         _uris.value = uris
 
-        if (uris != null) _showSelectDialog.value = true
+        if (!uris.isNullOrEmpty()) _showSelectDialog.value = true
     }
 
     fun updateExtraImageType(type: String?) {

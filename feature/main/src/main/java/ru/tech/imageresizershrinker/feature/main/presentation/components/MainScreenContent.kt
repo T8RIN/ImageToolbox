@@ -22,6 +22,7 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -77,6 +78,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.ManageSearch
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Badge
@@ -108,6 +110,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -128,6 +131,7 @@ import ru.tech.imageresizershrinker.core.ui.icons.material.Github
 import ru.tech.imageresizershrinker.core.ui.icons.material.GooglePlay
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
+import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberClipboardData
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -151,6 +155,7 @@ internal fun MainScreenContent(
     sideSheetState: DrawerState,
     sheetExpanded: Boolean,
     isGrid: Boolean,
+    onGetClipList: (List<Uri>) -> Unit,
     onShowSnowfall: () -> Unit,
     onTryGetUpdate: () -> Unit,
     updateAvailable: Boolean
@@ -400,78 +405,108 @@ internal fun MainScreenContent(
                         }
                     ) { hasScreens ->
                         if (hasScreens) {
-                            LazyVerticalStaggeredGrid(
-                                reverseLayout = showScreenSearch && screenSearchKeyword.isNotEmpty() && canSearchScreens,
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .weight(1f),
-                                columns = StaggeredGridCells.Adaptive(220.dp),
-                                verticalItemSpacing = 12.dp,
-                                horizontalArrangement = Arrangement.spacedBy(
-                                    12.dp,
-                                    Alignment.CenterHorizontally
-                                ),
-                                contentPadding = PaddingValues(
-                                    bottom = 12.dp + if (isGrid) {
-                                        WindowInsets
-                                            .navigationBars
-                                            .asPaddingValues()
-                                            .calculateBottomPadding() + if (!compactHeight) {
-                                            128.dp
-                                        } else 0.dp
-                                    } else 0.dp,
-                                    top = 12.dp,
-                                    end = 12.dp,
-                                    start = 12.dp + cutout.calculateStartPadding(
-                                        LocalLayoutDirection.current
-                                    )
-                                ),
-                                content = {
-                                    items(currentScreenList) { screen ->
-                                        val interactionSource = remember {
-                                            MutableInteractionSource()
-                                        }
-                                        val pressed by interactionSource.collectIsPressedAsState()
-
-                                        val cornerSize by animateDpAsState(
-                                            if (pressed) 6.dp
-                                            else 18.dp
+                            Box(
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                val clipboardData by rememberClipboardData()
+                                LazyVerticalStaggeredGrid(
+                                    reverseLayout = showScreenSearch && screenSearchKeyword.isNotEmpty() && canSearchScreens,
+                                    modifier = Modifier.fillMaxSize(),
+                                    columns = StaggeredGridCells.Adaptive(220.dp),
+                                    verticalItemSpacing = 12.dp,
+                                    horizontalArrangement = Arrangement.spacedBy(
+                                        12.dp,
+                                        Alignment.CenterHorizontally
+                                    ),
+                                    contentPadding = PaddingValues(
+                                        bottom = 12.dp + if (isGrid) {
+                                            WindowInsets
+                                                .navigationBars
+                                                .asPaddingValues()
+                                                .calculateBottomPadding() + if (!compactHeight) {
+                                                128.dp
+                                            } else 0.dp
+                                        } else {
+                                            0.dp
+                                        } + if (clipboardData.isNotEmpty()) 76.dp
+                                        else 0.dp,
+                                        top = 12.dp,
+                                        end = 12.dp,
+                                        start = 12.dp + cutout.calculateStartPadding(
+                                            LocalLayoutDirection.current
                                         )
-                                        PreferenceItemOverload(
-                                            onClick = {
-                                                navController.popUpTo { it == Screen.Main }
-                                                navController.navigate(screen)
-                                            },
-                                            color = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                1.dp
-                                            ),
-                                            modifier = Modifier
-                                                .widthIn(min = 1.dp)
-                                                .fillMaxWidth()
-                                                .animateItemPlacement(),
-                                            shape = RoundedCornerShape(cornerSize),
-                                            title = stringResource(screen.title),
-                                            subtitle = stringResource(screen.subtitle),
-                                            startIcon = {
-                                                AnimatedContent(
-                                                    targetState = screen.icon,
-                                                    transitionSpec = {
-                                                        (slideInVertically() + fadeIn() + scaleIn())
-                                                            .togetherWith(slideOutVertically { it / 2 } + fadeOut() + scaleOut())
-                                                            .using(SizeTransform(false))
+                                    ),
+                                    content = {
+                                        items(currentScreenList) { screen ->
+                                            val interactionSource = remember {
+                                                MutableInteractionSource()
+                                            }
+                                            val pressed by interactionSource.collectIsPressedAsState()
+
+                                            val cornerSize by animateDpAsState(
+                                                if (pressed) 6.dp
+                                                else 18.dp
+                                            )
+                                            PreferenceItemOverload(
+                                                onClick = {
+                                                    navController.popUpTo { it == Screen.Main }
+                                                    navController.navigate(screen)
+                                                },
+                                                color = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                                                    1.dp
+                                                ),
+                                                modifier = Modifier
+                                                    .widthIn(min = 1.dp)
+                                                    .fillMaxWidth()
+                                                    .animateItemPlacement(),
+                                                shape = RoundedCornerShape(cornerSize),
+                                                title = stringResource(screen.title),
+                                                subtitle = stringResource(screen.subtitle),
+                                                startIcon = {
+                                                    AnimatedContent(
+                                                        targetState = screen.icon,
+                                                        transitionSpec = {
+                                                            (slideInVertically() + fadeIn() + scaleIn())
+                                                                .togetherWith(slideOutVertically { it / 2 } + fadeOut() + scaleOut())
+                                                                .using(SizeTransform(false))
+                                                        }
+                                                    ) { icon ->
+                                                        Icon(
+                                                            imageVector = icon!!,
+                                                            contentDescription = null
+                                                        )
                                                     }
-                                                ) { icon ->
-                                                    Icon(
-                                                        imageVector = icon!!,
-                                                        contentDescription = null
-                                                    )
-                                                }
-                                            },
-                                            interactionSource = interactionSource
+                                                },
+                                                interactionSource = interactionSource
+                                            )
+                                        }
+                                    }
+                                )
+
+                                val clipboardManager = LocalClipboardManager.current.nativeClipboard
+                                androidx.compose.animation.AnimatedVisibility(
+                                    visible = clipboardData.isNotEmpty(),
+                                    modifier = Modifier
+                                        .align(Alignment.BottomEnd)
+                                        .padding(16.dp)
+                                ) {
+                                    EnhancedFloatingActionButton(
+                                        onClick = {
+                                            onGetClipList(clipboardData)
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                                clipboardManager.clearPrimaryClip()
+                                            }
+                                        },
+                                        containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.ContentPaste,
+                                            contentDescription = stringResource(R.string.copy)
                                         )
                                     }
                                 }
-                            )
+
+                            }
                         } else {
                             Column(
                                 modifier = Modifier.fillMaxSize(),
