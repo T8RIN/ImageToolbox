@@ -24,6 +24,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -48,6 +49,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.limits_resize.domain.LimitsImageScaler
 import ru.tech.imageresizershrinker.feature.limits_resize.domain.LimitsResizeType
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class LimitsResizeViewModel @Inject constructor(
@@ -309,6 +311,39 @@ class LimitsResizeViewModel @Inject constructor(
             it.copy(
                 imageScaleMode = imageScaleMode
             )
+        }
+    }
+
+    fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            imageGetter.getImage(
+                uri = selectedUri.toString()
+            )?.image?.let { bitmap ->
+                imageScaler.scaleImage(
+                    image = bitmap,
+                    width = imageInfo.width,
+                    height = imageInfo.height,
+                    resizeType = resizeType,
+                    imageScaleMode = imageInfo.imageScaleMode
+                )
+            }?.let {
+                it to imageInfo.copy(
+                    width = it.width,
+                    height = it.height
+                )
+            }?.let { (image, imageInfo) ->
+                shareProvider.cacheImage(
+                    image = image,
+                    imageInfo = imageInfo.copy(originalUri = selectedUri.toString()),
+                    name = Random.nextInt().toString()
+                )?.let { uri ->
+                    onComplete(uri.toUri())
+                }
+            }
+            _isSaving.value = false
         }
     }
 

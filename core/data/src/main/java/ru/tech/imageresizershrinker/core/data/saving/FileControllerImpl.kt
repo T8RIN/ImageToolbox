@@ -33,6 +33,7 @@ import android.provider.MediaStore
 import android.provider.OpenableColumns
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import androidx.exifinterface.media.ExifInterface
@@ -149,10 +150,7 @@ internal class FileControllerImpl @Inject constructor(
 
         kotlin.runCatching {
             if (settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled) {
-                val clipboardManager = ContextCompat.getSystemService(
-                    context,
-                    ClipboardManager::class.java
-                )
+                val clipboardManager = context.getSystemService<ClipboardManager>()
 
                 cacheImage(saveTarget)?.toUri()?.let { uri ->
                     clipboardManager?.setPrimaryClip(

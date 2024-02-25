@@ -30,10 +30,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.ErrorOutline
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -57,12 +54,13 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.BackgroundColorSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
@@ -198,19 +196,18 @@ fun ImageStitchingScreen(
         },
         onGoBack = onBack,
         actions = {
-            if (viewModel.previewBitmap != null) {
-                EnhancedIconButton(
-                    containerColor = Color.Transparent,
-                    contentColor = LocalContentColor.current,
-                    enableAutoShadowAndBorder = false,
-                    onClick = {
-                        viewModel.shareBitmaps { showConfetti() }
-                    },
-                    enabled = viewModel.previewBitmap != null
-                ) {
-                    Icon(Icons.Outlined.Share, null)
+            ShareButton(
+                enabled = viewModel.previewBitmap != null,
+                onShare = {
+                    viewModel.shareBitmap(showConfetti)
+                },
+                onCopy = { manager ->
+                    viewModel.cacheCurrentImage { uri ->
+                        manager.setClip(uri.asClip(context))
+                        showConfetti()
+                    }
                 }
-            }
+            )
             ZoomButton(
                 onClick = { showZoomSheet.value = true },
                 visible = viewModel.previewBitmap != null,

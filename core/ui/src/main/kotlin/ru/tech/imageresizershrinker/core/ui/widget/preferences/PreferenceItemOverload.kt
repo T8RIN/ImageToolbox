@@ -160,7 +160,8 @@ fun PreferenceItemOverload(
                     ) { title ->
                         Text(
                             text = title,
-                            style = titleFontStyle
+                            style = titleFontStyle,
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
                     AnimatedContent(

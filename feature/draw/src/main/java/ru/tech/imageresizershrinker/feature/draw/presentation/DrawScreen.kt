@@ -73,7 +73,6 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.FormatPaint
@@ -134,6 +133,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
@@ -142,6 +142,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActio
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EraseModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.AlphaSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.BackgroundColorSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
@@ -503,15 +504,18 @@ fun DrawScreen(
                                 Icon(Icons.Rounded.Tune, null)
                             }
                         }
-                        EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
-                            onClick = { viewModel.shareBitmap { showConfetti() } },
-                            enabled = viewModel.drawBehavior !is DrawBehavior.None
-                        ) {
-                            Icon(Icons.Outlined.Share, null)
-                        }
+                        ShareButton(
+                            enabled = viewModel.drawBehavior !is DrawBehavior.None,
+                            onShare = {
+                                viewModel.shareBitmap(showConfetti)
+                            },
+                            onCopy = { manager ->
+                                viewModel.cacheCurrentImage { uri ->
+                                    manager.setClip(uri.asClip(context))
+                                    showConfetti()
+                                }
+                            }
+                        )
                         EnhancedIconButton(
                             containerColor = Color.Transparent,
                             contentColor = LocalContentColor.current,

@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -47,6 +48,7 @@ import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformati
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.bytes_resize.domain.BytesImageScaler
 import javax.inject.Inject
+import kotlin.random.Random
 
 
 @HiltViewModel
@@ -359,6 +361,46 @@ class BytesResizeViewModel @Inject constructor(
     fun setImageScaleMode(imageScaleMode: ImageScaleMode) {
         _imageScaleMode.update { imageScaleMode }
         updateCanSave()
+    }
+
+    fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            selectedUri?.toString()?.let { uri ->
+                imageGetter.getImage(uri)?.image?.let { bitmap ->
+                    if (handMode) {
+                        imageScaler.scaleByMaxBytes(
+                            image = bitmap,
+                            maxBytes = maxBytes,
+                            imageFormat = imageFormat,
+                            imageScaleMode = imageScaleMode
+                        )
+                    } else {
+                        imageScaler.scaleByMaxBytes(
+                            image = bitmap,
+                            maxBytes = (fileController.getSize(uri) ?: 0)
+                                .times(_presetSelected.value / 100f)
+                                .toLong(),
+                            imageFormat = imageFormat,
+                            imageScaleMode = imageScaleMode
+                        )
+                    }
+                }?.let { scaled ->
+                    scaled.first to scaled.second.copy(imageFormat = imageFormat)
+                }?.let { (image, imageInfo) ->
+                    shareProvider.cacheImage(
+                        image = image,
+                        imageInfo = imageInfo.copy(originalUri = uri),
+                        name = Random.nextInt().toString()
+                    )?.let { uri ->
+                        onComplete(uri.toUri())
+                    }
+                }
+            }
+            _isSaving.value = false
+        }
     }
 
 }

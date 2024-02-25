@@ -23,6 +23,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -45,6 +46,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareType
 import javax.inject.Inject
 import kotlin.math.roundToInt
+import kotlin.random.Random
 
 @HiltViewModel
 class CompareViewModel @Inject constructor(
@@ -230,6 +232,32 @@ class CompareViewModel @Inject constructor(
 
     fun setCompareType(value: CompareType) {
         _compareType.update { value }
+    }
+
+    fun cacheCurrentImage(
+        percent: Float,
+        imageFormat: ImageFormat,
+        onComplete: (Uri) -> Unit
+    ) {
+        _isImageLoading.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isImageLoading.value = true
+            getOverlayedImage(percent)?.let {
+                shareProvider.cacheImage(
+                    image = it,
+                    imageInfo = ImageInfo(
+                        imageFormat = imageFormat,
+                        width = it.width,
+                        height = it.height
+                    ),
+                    name = Random.nextInt().toString()
+                )
+            }?.let { uri ->
+                onComplete(uri.toUri())
+            }
+            _isImageLoading.value = false
+        }
     }
 
 }

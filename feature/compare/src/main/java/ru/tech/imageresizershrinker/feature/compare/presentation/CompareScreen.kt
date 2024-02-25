@@ -62,6 +62,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
@@ -246,6 +247,15 @@ fun CompareScreen(
                 showConfetti()
             }
             showShareSheet = false
+        },
+        onCopy = { imageFormat, manager ->
+            viewModel.cacheCurrentImage(
+                percent = compareProgress,
+                imageFormat = imageFormat
+            ) { uri ->
+                manager.setClip(uri.asClip(context))
+                showConfetti()
+            }
         },
         previewBitmap = previewBitmap
     )

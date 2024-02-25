@@ -33,7 +33,7 @@ class UiLinearTiltShiftFilter(
         FilterParam(R.string.sigma, 1f..50f, 2),
         FilterParam(R.string.center_x, 0f..1f, 2),
         FilterParam(R.string.center_y, 0f..1f, 2),
-        FilterParam(R.string.width, 0f..1f, 2),
+        FilterParam(R.string.size, 0f..1f, 2),
         FilterParam(R.string.angle, 0f..360f, 0)
     )
 ), Filter.LinearTiltShift<Bitmap>

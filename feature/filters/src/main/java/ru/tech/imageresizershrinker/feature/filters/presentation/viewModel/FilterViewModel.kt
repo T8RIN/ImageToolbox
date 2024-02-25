@@ -26,6 +26,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -60,6 +61,7 @@ import ru.tech.imageresizershrinker.feature.filters.presentation.components.Basi
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskingFilterState
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.UiFilterMask
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class FilterViewModel @Inject constructor(
@@ -570,5 +572,64 @@ class FilterViewModel @Inject constructor(
     fun filterToTransformation(
         uiFilter: UiFilter<*>
     ): Transformation = filterProvider.filterToTransformation(uiFilter).toCoil()
+
+    fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            when (filterType) {
+                is Screen.Filter.Type.Basic -> {
+                    imageGetter.getImageWithTransformations(
+                        uri = _basicFilterState.value.selectedUri.toString(),
+                        transformations = _basicFilterState.value.filters.map {
+                            filterProvider.filterToTransformation(it)
+                        }
+                    )?.let { (image, imageInfo) ->
+                        shareProvider.cacheImage(
+                            image = image,
+                            imageInfo = imageInfo,
+                            name = Random.nextInt().toString()
+                        )?.let {
+                            onComplete(it.toUri())
+                        }
+                    }
+                }
+
+                is Screen.Filter.Type.Masking -> {
+                    _left.value = maskingFilterState.masks.size
+                    maskingFilterState.uri?.toString()?.let {
+                        imageGetter.getImage(uri = it)
+                    }?.let { imageData ->
+                        maskingFilterState.masks.fold<UiFilterMask, Bitmap?>(
+                            initial = imageData.image,
+                            operation = { bmp, mask ->
+                                bmp?.let {
+                                    filterMaskApplier.filterByMask(
+                                        filterMask = mask,
+                                        image = bmp
+                                    )
+                                }?.also { _done.value++ }
+                            }
+                        )?.let { bitmap ->
+                            shareProvider.cacheImage(
+                                image = bitmap,
+                                imageInfo = imageInfo.copy(
+                                    width = bitmap.width,
+                                    height = bitmap.height
+                                ),
+                                name = Random.nextInt().toString()
+                            )?.let {
+                                onComplete(it.toUri())
+                            }
+                        }
+                    }
+                }
+
+                null -> Unit
+            }
+            _isSaving.value = false
+        }
+    }
 
 }

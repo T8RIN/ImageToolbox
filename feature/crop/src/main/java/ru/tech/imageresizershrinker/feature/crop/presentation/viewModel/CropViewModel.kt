@@ -22,6 +22,7 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -47,6 +48,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class CropViewModel @Inject constructor(
@@ -234,6 +236,28 @@ class CropViewModel @Inject constructor(
         _isSaving.value = false
         savingJob?.cancel()
         savingJob = null
+    }
+
+    fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            bitmap?.let { image ->
+                shareProvider.cacheImage(
+                    image = image,
+                    imageInfo = ImageInfo(
+                        imageFormat = imageFormat,
+                        width = image.width,
+                        height = image.height
+                    ),
+                    name = Random.nextInt().toString()
+                )?.let { uri ->
+                    onComplete(uri.toUri())
+                }
+            }
+            _isSaving.value = false
+        }
     }
 
 }

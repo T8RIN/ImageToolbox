@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Cancel
-import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.BrokenImage
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -71,11 +70,13 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageEdit
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
+import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
@@ -171,6 +172,12 @@ fun LoadNetImageScreen(
         )
     }
 
+    val showConfetti: () -> Unit = {
+        scope.launch {
+            confettiController.showEmpty()
+        }
+    }
+
     AdaptiveLayoutScreen(
         title = {
             Text(
@@ -181,30 +188,18 @@ fun LoadNetImageScreen(
         onGoBack = onGoBack,
         actions = {
             if (viewModel.bitmap != null || !isLandscape) {
-                EnhancedIconButton(
-                    containerColor = Color.Transparent,
-                    contentColor = LocalContentColor.current,
-                    enableAutoShadowAndBorder = false,
+                ShareButton(
                     enabled = viewModel.bitmap != null,
-                    onClick = {
-                        viewModel.bitmap?.let { bitmap ->
-                            viewModel.shareBitmap(
-                                bitmap = bitmap,
-                                imageInfo = ImageInfo(
-                                    width = bitmap.width,
-                                    height = bitmap.height,
-                                ),
-                                onComplete = {
-                                    scope.launch {
-                                        confettiController.showEmpty()
-                                    }
-                                }
-                            )
+                    onShare = {
+                        viewModel.shareBitmap(showConfetti)
+                    },
+                    onCopy = { manager ->
+                        viewModel.cacheCurrentImage { uri ->
+                            manager.setClip(uri.asClip(context))
+                            showConfetti()
                         }
                     }
-                ) {
-                    Icon(Icons.Outlined.Share, null)
-                }
+                )
             }
         },
         topAppBarPersistentActions = {

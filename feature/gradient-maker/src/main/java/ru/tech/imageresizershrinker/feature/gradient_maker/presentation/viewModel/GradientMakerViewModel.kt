@@ -29,6 +29,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -52,6 +53,7 @@ import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientMaker
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientType
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.UiGradientState
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class GradientMakerViewModel @Inject constructor(
@@ -406,6 +408,31 @@ class GradientMakerViewModel @Inject constructor(
 
     fun toggleKeepExif(value: Boolean) {
         _keepExif.update { value }
+    }
+
+    fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            createGradientBitmap(
+                data = selectedUri,
+                useBitmapOriginalSizeIfAvailable = true
+            )?.let { image ->
+                shareProvider.cacheImage(
+                    image = image,
+                    imageInfo = ImageInfo(
+                        imageFormat = imageFormat,
+                        width = image.width,
+                        height = image.height
+                    ),
+                    name = Random.nextInt().toString()
+                )?.let { uri ->
+                    onComplete(uri.toUri())
+                }
+            }
+            _isSaving.value = false
+        }
     }
 
 }

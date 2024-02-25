@@ -22,6 +22,7 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -62,6 +63,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class SingleEditViewModel @Inject constructor(
@@ -422,15 +424,31 @@ class SingleEditViewModel @Inject constructor(
         savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _isSaving.value = true
-            shareProvider.shareImages(
-                uris = listOf(_uri.value.toString()),
-                imageLoader = { uri ->
-                    imageGetter.getImage(uri = uri)?.image?.let {
-                        it to imageInfo.copy(originalUri = uri)
-                    }
-                },
-                onProgressChange = { onComplete() }
-            )
+            bitmap?.let { image ->
+                shareProvider.shareImage(
+                    image = image,
+                    imageInfo = imageInfo.copy(originalUri = uri.toString()),
+                    onComplete = onComplete
+                )
+            }
+            _isSaving.value = false
+        }
+    }
+
+    fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            bitmap?.let { image ->
+                shareProvider.cacheImage(
+                    image = image,
+                    imageInfo = imageInfo.copy(originalUri = uri.toString()),
+                    name = Random.nextInt().toString()
+                )?.let { uri ->
+                    onComplete(uri.toUri())
+                }
+            }
             _isSaving.value = false
         }
     }

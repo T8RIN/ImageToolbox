@@ -26,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -53,6 +54,7 @@ import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
 import ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class DrawViewModel @Inject constructor(
@@ -329,5 +331,27 @@ class DrawViewModel @Inject constructor(
         image = bitmap,
         transformations = filters.map { filterProvider.filterToTransformation(it) }
     )
+
+    fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            getDrawingBitmap()?.let { image ->
+                shareProvider.cacheImage(
+                    image = image,
+                    imageInfo = ImageInfo(
+                        imageFormat = imageFormat,
+                        width = image.width,
+                        height = image.height
+                    ),
+                    name = Random.nextInt().toString()
+                )?.let { uri ->
+                    onComplete(uri.toUri())
+                }
+            }
+            _isSaving.value = false
+        }
+    }
 
 }
