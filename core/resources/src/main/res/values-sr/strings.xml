@@ -787,4 +787,10 @@
     <string name="dark_colors">Тамне боје</string>
     <string name="dark_colors_sub">Користи шему боја ноћног режима уместо светле опције</string>
     <string name="copy_as_compose_code">Копирајте као код \"Jetpack Compose\"</string>
+    <string name="ring_blur">Замагљивање прстена</string>
+    <string name="cross_blur">Унакрсно замућење</string>
+    <string name="circle_blur">Замагљивање круга</string>
+    <string name="star_blur">Звездана тачка</string>
+    <string name="linear_tilt_shift">Линеарни помак нагиба</string>
+    <string name="tags_to_remove">Ознаке за брисање</string>
 </resources>
