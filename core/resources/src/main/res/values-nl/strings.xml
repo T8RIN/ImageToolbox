@@ -46,7 +46,7 @@
     <string name="def">Standaard</string>
     <string name="custom">Aangepast</string>
     <string name="unspecified">Niet-gespecificeerd</string>
-    <string name="device_storage">Apparaatopslag</string>
+    <string name="device_storage">Apparaat opslag</string>
     <string name="by_bytes_resize">Herschaal op bestandsgrootte</string>
     <string name="max_bytes">Max. Grootte in KB</string>
     <string name="smth_went_wrong">Er ging iets verkeerd:%1$s</string>
