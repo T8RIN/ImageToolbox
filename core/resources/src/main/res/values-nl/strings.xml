@@ -19,7 +19,7 @@
     <string name="clear">Duidelijk</string>
     <string name="clear_exif">EXIF wissen</string>
     <string name="cancel">Annuleren</string>
-    <string name="clear_exif_sub">Alle EXIF data zal gewist worden. Deze actie kan niet ongedaan gemaakt worden!</string>
+    <string name="clear_exif_sub">Alle EXIF-gegevens van afbeeldingen worden gewist. Deze actie kan niet ongedaan gemaakt worden!</string>
     <string name="presets">Voorinstellingen</string>
     <string name="crop">Bijsnijden</string>
     <string name="image_not_saved_sub">Alle niet-opgeslagen wijzigingen gaan verloren als je nu afsluit</string>
@@ -67,4 +67,5 @@
     <string name="pick_color_sub">Kies kleur van afbeelding, kopie of gedeelde</string>
     <string name="image">Afbeelding</string>
     <string name="folder">Uitvoer map</string>
+    <string name="image_not_saved">Besparing</string>
 </resources>
