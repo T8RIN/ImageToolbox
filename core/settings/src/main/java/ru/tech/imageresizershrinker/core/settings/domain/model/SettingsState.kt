@@ -93,7 +93,7 @@ data class SettingsState(
                 fabAlignment = 1,
                 selectedEmoji = 0,
                 imagePickerModeInt = 0,
-                clearCacheOnLaunch = true,
+                clearCacheOnLaunch = false,
                 showUpdateDialogOnStartup = true,
                 groupOptionsByTypes = true,
                 screenList = emptyList(),
