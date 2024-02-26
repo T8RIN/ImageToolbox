@@ -33,7 +33,6 @@ import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.Public
 import androidx.compose.material.icons.rounded.Compare
-import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material.icons.rounded.Gif
 import androidx.compose.material.icons.rounded.Gradient
 import androidx.compose.material.icons.rounded.Preview
@@ -43,6 +42,7 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.icons.material.CropSmall
 import ru.tech.imageresizershrinker.core.ui.icons.material.Encrypted
 import ru.tech.imageresizershrinker.core.ui.icons.material.FingerprintOff
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageEdit
@@ -102,7 +102,7 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 3,
-        icon = Icons.Rounded.Crop,
+        icon = Icons.Rounded.CropSmall,
         title = R.string.crop,
         subtitle = R.string.crop_sub
     )
