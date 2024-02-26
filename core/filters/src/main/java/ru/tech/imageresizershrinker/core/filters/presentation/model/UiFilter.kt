@@ -20,6 +20,9 @@ package ru.tech.imageresizershrinker.core.filters.presentation.model
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.annotation.StringRes
+import com.t8rin.logger.makeLog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import kotlin.reflect.full.primaryConstructor
@@ -259,3 +262,26 @@ infix fun Int.paramTo(valueRange: ClosedFloatingPointRange<Float>) = FilterParam
     title = this,
     valueRange = valueRange
 )
+
+private suspend fun reflectionTest() = withContext(Dispatchers.IO) {
+    val filters = UiFilter.groupedEntries.flatten()
+    val failedCopy = mutableListOf<Pair<String, String?>>()
+    val failedToUi = mutableListOf<Pair<String, String?>>()
+    filters.forEach { filter ->
+        runCatching {
+            filter.copy(filter.value)
+        }.onFailure {
+            failedCopy.add(filter::class.simpleName.toString() to it.message)
+        }
+        runCatching {
+            filter.toUiFilter()
+        }.onFailure {
+            failedToUi.add(filter::class.simpleName.toString() to it.message)
+        }
+    }
+    "------------------".makeLog()
+    failedCopy.makeLog()
+    " ".makeLog()
+    failedToUi.makeLog()
+    "------------------".makeLog()
+}
