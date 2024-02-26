@@ -791,4 +791,6 @@
     <string name="circle_blur">圆圈模糊</string>
     <string name="star_blur">星光模糊</string>
     <string name="ring_blur">环形模糊</string>
+    <string name="linear_tilt_shift">线性倾角移位</string>
+    <string name="tags_to_remove">要移除的标签</string>
 </resources>

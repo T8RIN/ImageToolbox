@@ -792,4 +792,5 @@
     <string name="ring_blur">रिंग ब्लर</string>
     <string name="cross_blur">क्रॉस ब्लर</string>
     <string name="linear_tilt_shift">रैखिक झुकाव शिफ्ट</string>
+    <string name="tags_to_remove">हटाने के लिए टैग</string>
 </resources>

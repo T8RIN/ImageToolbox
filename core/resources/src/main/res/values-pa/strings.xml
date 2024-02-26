@@ -791,4 +791,5 @@
     <string name="circle_blur">ਚੱਕਰ ਧੁੰਦਲਾ</string>
     <string name="star_blur">ਸਟਾਰ ਬਲਰ</string>
     <string name="linear_tilt_shift">ਲੀਨੀਅਰ ਟਿਲਟ ਸ਼ਿਫਟ</string>
+    <string name="tags_to_remove">ਹਟਾਉਣ ਲਈ ਟੈਗਸ</string>
 </resources>
