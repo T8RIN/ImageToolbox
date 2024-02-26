@@ -13,7 +13,7 @@
     <string name="explicit">Explícito</string>
     <string name="flexible">Flexível</string>
     <string name="pick_image_alt">Escolha a imagem</string>
-    <string name="app_closing_sub">Você realmente deseja fechar o aplicativo?</string>
+    <string name="app_closing_sub">Você deseja fechar o aplicativo?</string>
     <string name="app_closing">Fechamento do aplicativo</string>
     <string name="stay">Ficar</string>
     <string name="close">Fechar</string>
@@ -40,7 +40,7 @@
     <string name="image_not_saved_sub">Todas as alterações não salvas serão perdidas se você sair agora</string>
     <string name="check_source_code">Código fonte</string>
     <string name="check_source_code_sub">Receba as atualizações mais recentes, discuta problemas e muito mais</string>
-    <string name="single_edit">Edição única</string>
+    <string name="single_edit">Redimensionar</string>
     <string name="single_edit_sub">Alterar especificações de uma única imagem</string>
     <string name="pick_color">Escolha a cor</string>
     <string name="pick_color_sub">Escolha a cor da imagem, copie ou compartilhe</string>
@@ -66,7 +66,7 @@
     <string name="custom">Personalizado</string>
     <string name="unspecified">Não especificado</string>
     <string name="device_storage">Dispositivo de armazenamento</string>
-    <string name="by_bytes_resize">Redimensionar por peso</string>
+    <string name="by_bytes_resize">Redimensionar por tamanho</string>
     <string name="max_bytes">Tamanho máximo em KB</string>
     <string name="by_bytes_resize_sub">Redimensione uma imagem seguindo o tamanho determinado em KB</string>
     <string name="compare">Comparar</string>
@@ -79,7 +79,7 @@
     <string name="light">Luz</string>
     <string name="system">Sistema</string>
     <string name="dynamic_colors">Cores dinâmicas</string>
-    <string name="customization">Costumização</string>
+    <string name="customization">Personalização</string>
     <string name="allow_image_monet">Permitir monetização de imagem</string>
     <string name="allow_image_monet_sub">Se ativado, ao escolher uma imagem para editar, as cores do aplicativo serão adotadas para esta imagem</string>
     <string name="language">Linguagem</string>
@@ -245,7 +245,7 @@
     <string name="color_balance">Equilíbrio de cores</string>
     <string name="luminance_threshold">Limite de luminância</string>
     <string name="activate_files">Você desativou o aplicativo Arquivos, ative-o para usar este recurso</string>
-    <string name="draw">Empate</string>
+    <string name="draw">Desenhar</string>
     <string name="draw_sub">Desenhe na imagem como em um caderno de desenho ou no próprio fundo</string>
     <string name="paint_color">Cor da tinta</string>
     <string name="paint_alpha">Pintar alfa</string>
@@ -254,7 +254,7 @@
     <string name="draw_on_background">Desenhe no fundo</string>
     <string name="draw_on_background_sub">Escolha a cor de fundo e desenhe sobre ela</string>
     <string name="background_color">Cor de fundo</string>
-    <string name="cipher">Cifra</string>
+    <string name="cipher">Criptografia</string>
     <string name="cipher_sub">Criptografe e descriptografe qualquer arquivo (não apenas a imagem) com base no algoritmo de criptografia AES</string>
     <string name="pick_file">Escolher arquivo</string>
     <string name="encrypt">Criptografar</string>
@@ -311,7 +311,7 @@
     <string name="restore_sub">Restaure as configurações do aplicativo do arquivo gerado anteriormente</string>
     <string name="corrupted_file_or_not_a_backup">Arquivo corrompido ou não é um backup</string>
     <string name="settings_restored">Configurações restauradas com sucesso</string>
-    <string name="contact_me">Contate-me</string>
+    <string name="contact_me">Contato</string>
     <string name="reset_settings_sub">Isso reverterá suas configurações para os valores padrão. Observe que isso não pode ser desfeito sem o arquivo de backup mencionado acima.</string>
     <string name="delete">Excluir</string>
     <string name="delete_color_scheme_warn">Você está prestes a excluir o esquema de cores selecionado. Esta operação não pode ser desfeita</string>
@@ -365,7 +365,7 @@
     <string name="brush_softness">Suavidade do pincel</string>
     <string name="crop_description">As imagens serão cortadas no centro no tamanho inserido. A tela será expandida com determinada cor de fundo se a imagem for menor que as dimensões inseridas.</string>
     <string name="donation">Doação</string>
-    <string name="image_stitching">Costura de imagem</string>
+    <string name="image_stitching">Junção de imagens</string>
     <string name="image_stitching_sub">Combine as imagens fornecidas para obter uma grande</string>
     <string name="pick_at_least_two_images">Escolha pelo menos 2 imagens</string>
     <string name="output_image_scale">Escala da imagem de saída</string>
@@ -501,7 +501,7 @@
     <string name="rows_count">Contagem de linhas</string>
     <string name="columns_count">Contagem de colunas</string>
     <string name="no_such_directory">Nenhum diretório \"%1$s\" encontrado, mudamos para o padrão, salve o arquivo novamente</string>
-    <string name="clipboard">Prancheta</string>
+    <string name="clipboard">Área de transferência</string>
     <string name="auto_pin">Fixação automática</string>
     <string name="auto_pin_sub">Adiciona automaticamente a imagem salva à área de transferência, se ativado</string>
     <string name="vibration">Vibração</string>
@@ -786,4 +786,9 @@
     <string name="dark_colors">Cores Escuras</string>
     <string name="dark_colors_sub">Usa o esquema de cores do modo noturno em vez da variante de luz</string>
     <string name="copy_as_compose_code">Copiar como código \"Jetpack Compose\"</string>
+    <string name="ring_blur">Desfoque Anel</string>
+    <string name="cross_blur">Desfoque Cruz</string>
+    <string name="star_blur">Desfoque Estrela</string>
+    <string name="linear_tilt_shift">Mudança Linear de Inclinação</string>
+    <string name="circle_blur">Desfoque Círculo</string>
 </resources>
