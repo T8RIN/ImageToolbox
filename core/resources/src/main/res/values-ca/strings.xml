@@ -787,4 +787,10 @@
     <string name="dark_colors">Colors Foscos</string>
     <string name="dark_colors_sub">Utilitza el mode nocturn esquema de colors en lloc de la variant de llum</string>
     <string name="copy_as_compose_code">Copia com a codi \"Jetpack Compose\"</string>
+    <string name="ring_blur">Desenfocament De L\'Anell</string>
+    <string name="cross_blur">Desenfocament Creuat</string>
+    <string name="circle_blur">Desenfocament Del Cercle</string>
+    <string name="star_blur">Desenfocament D\'Estrelles</string>
+    <string name="linear_tilt_shift">Canvi D\'Inclinació Lineal</string>
+    <string name="tags_to_remove">Etiquetes A Eliminar</string>
 </resources>
