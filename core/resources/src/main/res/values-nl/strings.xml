@@ -34,7 +34,7 @@
     <string name="keep_exif">Behoud EXIF</string>
     <string name="images">Afbeeldingen: %d</string>
     <string name="change_preview">Pas voorvertoning aan</string>
-    <string name="remove">Verwijder</string>
+    <string name="remove">Verwijderen</string>
     <string name="palette_sub">Genereer kleurenpalet uit een afbeelding</string>
     <string name="generate_palette">Genereer kleurenpalet</string>
     <string name="palette">Kleurenpalet</string>
