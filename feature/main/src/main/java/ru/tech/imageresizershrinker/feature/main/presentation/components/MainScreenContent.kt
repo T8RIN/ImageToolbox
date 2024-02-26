@@ -143,6 +143,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.pulsate
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.rotateAnimation
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
+import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
@@ -485,11 +486,13 @@ internal fun MainScreenContent(
                                 )
 
                                 val clipboardManager = LocalClipboardManager.current.nativeClipboard
-                                androidx.compose.animation.AnimatedVisibility(
+                                BoxAnimatedVisibility(
                                     visible = clipboardData.isNotEmpty(),
                                     modifier = Modifier
                                         .align(Alignment.BottomEnd)
-                                        .padding(16.dp)
+                                        .padding(16.dp),
+                                    enter = fadeIn() + scaleIn(),
+                                    exit = fadeOut() + scaleOut()
                                 ) {
                                     EnhancedFloatingActionButton(
                                         onClick = {

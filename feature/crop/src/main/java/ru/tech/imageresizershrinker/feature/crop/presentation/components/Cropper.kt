@@ -51,6 +51,7 @@ import com.smarttoolfactory.cropper.settings.CropDefaults
 import com.smarttoolfactory.cropper.settings.CropProperties
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
+import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 
 @Composable
 fun Cropper(
@@ -93,7 +94,7 @@ fun Cropper(
                         imageCropFinished(image.asAndroidBitmap())
                     }
                 )
-                androidx.compose.animation.AnimatedVisibility(
+                BoxAnimatedVisibility(
                     visible = zoomLevel > 1f,
                     modifier = Modifier
                         .padding(16.dp)
