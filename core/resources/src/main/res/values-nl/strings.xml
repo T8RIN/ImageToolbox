@@ -41,7 +41,7 @@
     <string name="update">Update</string>
     <string name="new_version">Nieuwe versie %1$s</string>
     <string name="unsupported_type">Niet-ondersteund type: %1$s</string>
-    <string name="no_palette">Kan kleurenpalet niet genereren voor gekozen afbeelding</string>
+    <string name="no_palette">Kan geen palet genereren voor een bepaalde afbeelding</string>
     <string name="original">Origineel</string>
     <string name="def">Standaard</string>
     <string name="custom">Aangepast</string>
