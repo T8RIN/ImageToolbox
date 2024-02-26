@@ -10,7 +10,7 @@
     <string name="pick_image_alt">Kies Afbeelding</string>
     <string name="app_closing_sub">Wil je de app echt sluiten?</string>
     <string name="app_closing">App is aan het sluiten</string>
-    <string name="stay">Hier blijven</string>
+    <string name="stay">Verblijf</string>
     <string name="reset_image_sub">Afbeelding aanpassingen zullen worden terug gezet naar beginwaarde</string>
     <string name="values_reset">Waardes juist terug gezet</string>
     <string name="no_exif">Geen EXIF data gevonden</string>
