@@ -34,6 +34,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import oupson.apng.coil.AnimatedPngDecoder
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 
 @Module
@@ -61,6 +62,7 @@ internal object ImageLoaderModule {
         interceptor: TimeMeasureInterceptor
     ): ComponentRegistry = ComponentRegistry.Builder()
         .apply {
+            add(AnimatedPngDecoder.Factory(context))
             add(
                 if (Build.VERSION.SDK_INT >= 28) ImageDecoderDecoder.Factory()
                 else GifDecoder.Factory()
