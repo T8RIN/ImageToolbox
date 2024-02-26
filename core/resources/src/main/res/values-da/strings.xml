@@ -792,4 +792,5 @@
     <string name="circle_blur">Cirkel sløring</string>
     <string name="star_blur">Stjernesløring</string>
     <string name="linear_tilt_shift">Lineær Tilt Shift</string>
+    <string name="tags_to_remove">Tags At Fjerne</string>
 </resources>

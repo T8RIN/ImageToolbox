@@ -787,4 +787,10 @@
     <string name="dark_colors">어두운 색상</string>
     <string name="dark_colors_sub">라이트 변형 대신 야간 모드 색 구성표 사용</string>
     <string name="copy_as_compose_code">\"Jetpack Compose\"코드로 복사</string>
+    <string name="ring_blur">링 블러</string>
+    <string name="cross_blur">크로스 블러</string>
+    <string name="circle_blur">원 흐림</string>
+    <string name="star_blur">스타 블러</string>
+    <string name="linear_tilt_shift">선형 경사 교대</string>
+    <string name="tags_to_remove">제거할 태그</string>
 </resources>

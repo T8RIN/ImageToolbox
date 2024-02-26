@@ -787,4 +787,10 @@
     <string name="dark_colors">Culori Închise</string>
     <string name="dark_colors_sub">Utilizează schema de culori modul de noapte în loc de varianta de lumină</string>
     <string name="copy_as_compose_code">Copiați ca cod\" Jetpack Compose\"</string>
+    <string name="cross_blur">Blur încrucișat</string>
+    <string name="ring_blur">Inel Neclar</string>
+    <string name="circle_blur">Cercul Blur</string>
+    <string name="star_blur">Ceață stelară</string>
+    <string name="linear_tilt_shift">Înclinare liniară Tilt Shift</string>
+    <string name="tags_to_remove">Etichete Pentru a elimina</string>
 </resources>

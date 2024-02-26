@@ -792,4 +792,5 @@
     <string name="star_blur">Sfocatura stellare</string>
     <string name="linear_tilt_shift">Spostamento dell\'inclinazione lineare</string>
     <string name="circle_blur">Sfocatura del cerchio</string>
+    <string name="tags_to_remove">Tag da rimuovere</string>
 </resources>

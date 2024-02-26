@@ -787,4 +787,10 @@
     <string name="dark_colors">Koyu Renkler</string>
     <string name="dark_colors_sub">Işık varyantı yerine gece modu renk şemasını kullanır</string>
     <string name="copy_as_compose_code">\"Jetpack Compose\" kodu olarak kopyala</string>
+    <string name="cross_blur">Çapraz Bulanıklık</string>
+    <string name="star_blur">Yıldız Bulanıklığı</string>
+    <string name="linear_tilt_shift">Doğrusal Eğim Kaydırma</string>
+    <string name="tags_to_remove">Kaldırılacak Etiketler</string>
+    <string name="ring_blur">Halka Bulanıklığı</string>
+    <string name="circle_blur">Daire Bulanıklığı</string>
 </resources>

@@ -792,4 +792,5 @@
     <string name="peak">Hoogtepunt</string>
     <string name="color_anomaly">Kleurafwijking</string>
     <string name="images_overwritten">Afbeeldingen die op de oorspronkelijke bestemming zijn overschreven</string>
+    <string name="tags_to_remove">Tags Om Te Verwijderen</string>
 </resources>
