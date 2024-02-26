@@ -54,7 +54,7 @@
     <string name="width">Breedte %1$s</string>
     <string name="close">Sluiten</string>
     <string name="reset_image">Reset afbeelding</string>
-    <string name="something_went_wrong">Er ging iets mis</string>
+    <string name="something_went_wrong">Er is iets fout gegaan</string>
     <string name="height">Hoogte %1$s</string>
     <string name="reset">Opnieuw instellen</string>
     <string name="copied">Naar klembord gekopieerd</string>
