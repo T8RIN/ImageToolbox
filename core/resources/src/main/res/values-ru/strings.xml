@@ -792,4 +792,5 @@
     <string name="linear_tilt_shift">Линейный сдвиг наклона</string>
     <string name="ring_blur">Размытие кольцами</string>
     <string name="circle_blur">Размытие кругами</string>
+    <string name="tags_to_remove">Тэги для удаления</string>
 </resources>
