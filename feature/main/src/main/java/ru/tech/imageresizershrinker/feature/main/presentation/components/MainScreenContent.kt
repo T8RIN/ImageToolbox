@@ -81,6 +81,7 @@ import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.DrawerDefaults
 import androidx.compose.material3.DrawerState
@@ -490,16 +491,26 @@ internal fun MainScreenContent(
                                     enter = fadeIn() + scaleIn(),
                                     exit = fadeOut() + scaleOut()
                                 ) {
-                                    EnhancedFloatingActionButton(
-                                        onClick = {
-                                            onGetClipList(clipboardData)
-                                        },
-                                        containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                                    BadgedBox(
+                                        badge = {
+                                            Badge(
+                                                containerColor = MaterialTheme.colorScheme.primary
+                                            ) {
+                                                Text(clipboardData.size.toString())
+                                            }
+                                        }
                                     ) {
-                                        Icon(
-                                            imageVector = Icons.Rounded.ContentPaste,
-                                            contentDescription = stringResource(R.string.copy)
-                                        )
+                                        EnhancedFloatingActionButton(
+                                            onClick = {
+                                                onGetClipList(clipboardData)
+                                            },
+                                            containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Rounded.ContentPaste,
+                                                contentDescription = stringResource(R.string.copy)
+                                            )
+                                        }
                                     }
                                 }
 
