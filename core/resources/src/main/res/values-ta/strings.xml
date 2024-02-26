@@ -787,4 +787,10 @@
     <string name="dark_colors">இருண்ட நிறங்கள்</string>
     <string name="dark_colors_sub">ஒளி மாறுபாட்டிற்கு பதிலாக இரவு பயன்முறை வண்ணத் திட்டத்தைப் பயன்படுத்துகிறது</string>
     <string name="copy_as_compose_code">\"Jetpack Compose\" குறியீடாக நகலெடுக்கவும்</string>
+    <string name="ring_blur">ரிங் மங்கலான</string>
+    <string name="cross_blur">குறுக்கு மங்கலான</string>
+    <string name="circle_blur">வட்டம் மங்கலானது</string>
+    <string name="star_blur">நட்சத்திர மங்கலானது</string>
+    <string name="linear_tilt_shift">நேரியல் சாய்வு மாற்றம்</string>
+    <string name="tags_to_remove">நீக்க குறிச்சொற்கள்</string>
 </resources>

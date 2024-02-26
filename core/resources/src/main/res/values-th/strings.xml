@@ -787,4 +787,10 @@
     <string name="dark_colors">สีเข้ม</string>
     <string name="dark_colors_sub">ใช้โทนสีโหมดกลางคืนแทนตัวแปรแสง</string>
     <string name="copy_as_compose_code">คัดลอกเป็น\"Jetpack Compose\"รหัส</string>
+    <string name="ring_blur">แหวนเบลอ</string>
+    <string name="star_blur">ดาวเบลอ</string>
+    <string name="linear_tilt_shift">กะเอียงเชิงเส้น</string>
+    <string name="tags_to_remove">แท็กที่จะลบ</string>
+    <string name="cross_blur">ข้ามเบลอ</string>
+    <string name="circle_blur">วงกลมเบลอ</string>
 </resources>

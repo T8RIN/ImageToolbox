@@ -787,4 +787,10 @@
     <string name="dark_colors">ముదురు రంగులు</string>
     <string name="dark_colors_sub">బదులుగా కాంతి వేరియంట్ రాత్రి మోడ్ రంగు పథకం ఉపయోగిస్తుంది</string>
     <string name="copy_as_compose_code">\"Jetpack Compose\" కోడ్గా కాపీ చేయండి</string>
+    <string name="ring_blur">రింగ్ బ్లర్</string>
+    <string name="cross_blur">క్రాస్ బ్లర్</string>
+    <string name="circle_blur">సర్కిల్ అస్పష్టత</string>
+    <string name="star_blur">నక్షత్ర అస్పష్టత</string>
+    <string name="linear_tilt_shift">సరళ వంపు మార్పు</string>
+    <string name="tags_to_remove">తొలగించు టాగ్లు</string>
 </resources>

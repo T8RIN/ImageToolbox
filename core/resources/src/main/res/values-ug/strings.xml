@@ -787,4 +787,10 @@
     <string name="material_you_sub">رەسىمدىن «Material You » پالتىنى ھاسىل قىلىدۇ</string>
     <string name="dark_colors">قېنىق رەڭلەر</string>
     <string name="dark_colors_sub">يورۇقلۇق ۋارىيانتىنىڭ ئورنىغا كەچلىك ھالەت رەڭ لايىھىسىنى ئىشلىتىدۇ</string>
+    <string name="ring_blur">ئۈزۈك تۇتۇق</string>
+    <string name="cross_blur">كرېست تۇتۇق</string>
+    <string name="circle_blur">چەمبىرەك تۇتۇق</string>
+    <string name="star_blur">چولپان تۇتۇق</string>
+    <string name="linear_tilt_shift">سىزىقلىق يانتۇ بۇرۇلۇش</string>
+    <string name="tags_to_remove">ئۆچۈرۈش ئۈچۈن خەتكۈچلەر</string>
 </resources>
