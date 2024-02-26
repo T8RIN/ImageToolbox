@@ -45,13 +45,13 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.CropSmall
 import ru.tech.imageresizershrinker.core.ui.icons.material.Encrypted
 import ru.tech.imageresizershrinker.core.ui.icons.material.FingerprintOff
+import ru.tech.imageresizershrinker.core.ui.icons.material.ImageCombine
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageLimit
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageText
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageWeight
 import ru.tech.imageresizershrinker.core.ui.icons.material.MultipleImageEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.PaletteSwatch
-import ru.tech.imageresizershrinker.core.ui.icons.material.Puzzle
 import ru.tech.imageresizershrinker.core.ui.icons.material.Resize
 import ru.tech.imageresizershrinker.core.ui.icons.material.Toolbox
 import ru.tech.imageresizershrinker.core.ui.icons.material.Transparency
@@ -189,7 +189,7 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 9,
-        icon = Icons.Outlined.Puzzle,
+        icon = Icons.Rounded.ImageCombine,
         title = R.string.image_stitching,
         subtitle = R.string.image_stitching_sub
     )
