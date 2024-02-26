@@ -148,7 +148,7 @@ class ImageStitchingViewModel @Inject constructor(
                                 imageInfo = imageInfo
                             )
                         ),
-                        keepMetadata = true
+                        keepOriginalMetadata = true
                     )
                 )
             }

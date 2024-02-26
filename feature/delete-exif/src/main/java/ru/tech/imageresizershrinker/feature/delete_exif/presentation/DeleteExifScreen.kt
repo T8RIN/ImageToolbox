@@ -23,12 +23,17 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Tag
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -44,6 +49,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.icons.material.EditAlt
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -63,6 +69,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.AddExifSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.PickImageFromUrisSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
@@ -91,19 +99,11 @@ fun DeleteExifScreen(
 
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
-            viewModel.updateUris(uris)
-            viewModel.decodeBitmapByUri(
-                originalSize = false,
-                uri = uris[0],
-                onGetMimeType = {},
-                onGetExif = {},
-                onGetBitmap = viewModel::updateBitmap,
-                onError = {
-                    scope.launch {
-                        toastHostState.showError(context, it)
-                    }
+            viewModel.updateUris(uris) {
+                scope.launch {
+                    toastHostState.showError(context, it)
                 }
-            )
+            }
         }
     }
     LaunchedEffect(viewModel.bitmap) {
@@ -114,26 +114,17 @@ fun DeleteExifScreen(
         }
     }
 
-    val pickImageLauncher =
-        rememberImagePicker(
-            mode = localImagePickerMode(Picker.Multiple)
-        ) { list ->
-            list.takeIf { it.isNotEmpty() }?.let { uris ->
-                viewModel.updateUris(list)
-                viewModel.decodeBitmapByUri(
-                    uri = uris[0],
-                    originalSize = false,
-                    onGetMimeType = {},
-                    onGetExif = {},
-                    onGetBitmap = viewModel::updateBitmap,
-                    onError = {
-                        scope.launch {
-                            toastHostState.showError(context, it)
-                        }
-                    }
-                )
+    val pickImageLauncher = rememberImagePicker(
+        mode = localImagePickerMode(Picker.Multiple)
+    ) { list ->
+        list.takeIf { it.isNotEmpty() }?.let { uris ->
+            viewModel.updateUris(uris) {
+                scope.launch {
+                    toastHostState.showError(context, it)
+                }
             }
         }
+    }
 
     val pickImage = {
         pickImageLauncher.pickImage()
@@ -223,7 +214,36 @@ fun DeleteExifScreen(
                 )
             }
         },
-        controls = null,
+        controls = {
+            var showExifSelection by rememberSaveable {
+                mutableStateOf(false)
+            }
+            val selectedTags = viewModel.selectedTags
+            val subtitle by remember(selectedTags) {
+                derivedStateOf {
+                    if (selectedTags.isEmpty()) context.getString(R.string.all)
+                    else selectedTags.joinToString(", ")
+                }
+            }
+            PreferenceItem(
+                onClick = {
+                    showExifSelection = true
+                },
+                modifier = Modifier.fillMaxWidth(),
+                title = stringResource(R.string.tags_to_remove),
+                subtitle = subtitle,
+                startIcon = Icons.Rounded.Tag,
+                endIcon = Icons.Rounded.EditAlt
+            )
+
+            AddExifSheet(
+                visible = showExifSelection,
+                onDismiss = { showExifSelection = it },
+                selectedTags = selectedTags,
+                onTagSelected = viewModel::addTag,
+                isTagsRemovable = true
+            )
+        },
         buttons = { actions ->
             BottomButtonsBlock(
                 targetState = (viewModel.uris.isNullOrEmpty()) to isPortrait,

@@ -168,7 +168,7 @@ class WatermarkingViewModel @Inject constructor(
                                     image = localBitmap,
                                     imageInfo = imageInfo
                                 )
-                            ), keepMetadata = keepExif
+                            ), keepOriginalMetadata = keepExif
                         )
                     )
 

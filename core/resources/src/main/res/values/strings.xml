@@ -810,4 +810,5 @@
     <string name="circle_blur">Circle Blur</string>
     <string name="star_blur">Star Blur</string>
     <string name="linear_tilt_shift">Linear Tilt Shift</string>
+    <string name="tags_to_remove">Tags To Remove</string>
 </resources>

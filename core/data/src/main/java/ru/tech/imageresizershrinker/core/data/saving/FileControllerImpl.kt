@@ -142,7 +142,7 @@ internal class FileControllerImpl @Inject constructor(
     @SuppressLint("StringFormatInvalid")
     override suspend fun save(
         saveTarget: SaveTarget,
-        keepMetadata: Boolean
+        keepOriginalMetadata: Boolean
     ): SaveResult {
         if (!context.isExternalStorageWritable()) {
             return SaveResult.Error.MissingPermissions
@@ -193,7 +193,7 @@ internal class FileControllerImpl @Inject constructor(
                             copyMetadata(
                                 initialExif = (saveTarget as? ImageSaveTarget<*>)?.metadata as ExifInterface?,
                                 fileUri = originalUri,
-                                keepMetadata = keepMetadata,
+                                keepMetadata = keepOriginalMetadata,
                                 originalUri = originalUri
                             )
                         }
@@ -252,7 +252,7 @@ internal class FileControllerImpl @Inject constructor(
                     copyMetadata(
                         initialExif = initialExif,
                         fileUri = savingFolder.fileUri,
-                        keepMetadata = keepMetadata,
+                        keepMetadata = keepOriginalMetadata,
                         originalUri = saveTarget.originalUri.toUri()
                     )
                 }

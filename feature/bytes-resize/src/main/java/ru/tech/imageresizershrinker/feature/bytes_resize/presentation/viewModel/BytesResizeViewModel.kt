@@ -236,7 +236,7 @@ class BytesResizeViewModel @Inject constructor(
                                         )
                                     )
                                 ),
-                                keepMetadata = keepExif
+                                keepOriginalMetadata = keepExif
                             )
                         )
                     }

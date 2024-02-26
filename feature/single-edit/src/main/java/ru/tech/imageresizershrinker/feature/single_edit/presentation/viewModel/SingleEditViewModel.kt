@@ -205,7 +205,7 @@ class SingleEditViewModel @Inject constructor(
                                 )
                             )
                         ),
-                        keepMetadata = true
+                        keepOriginalMetadata = true
                     )
                 )
             }

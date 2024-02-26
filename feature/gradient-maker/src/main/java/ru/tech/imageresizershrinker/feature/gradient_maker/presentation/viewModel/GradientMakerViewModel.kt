@@ -161,7 +161,7 @@ class GradientMakerViewModel @Inject constructor(
                                     image = localBitmap,
                                     imageInfo = imageInfo
                                 )
-                            ), keepMetadata = false
+                            ), keepOriginalMetadata = false
                         )
                     )
                 }
@@ -189,7 +189,7 @@ class GradientMakerViewModel @Inject constructor(
                                         image = localBitmap,
                                         imageInfo = imageInfo
                                     )
-                                ), keepMetadata = keepExif
+                                ), keepOriginalMetadata = keepExif
                             )
                         )
                     } ?: results.add(

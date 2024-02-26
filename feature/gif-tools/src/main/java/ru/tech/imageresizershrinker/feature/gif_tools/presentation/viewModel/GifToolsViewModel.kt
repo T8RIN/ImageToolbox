@@ -240,7 +240,7 @@ class GifToolsViewModel @Inject constructor(
                                                 )
                                             )
                                         ),
-                                        keepMetadata = false
+                                        keepOriginalMetadata = false
                                     )
                                 )
                             } ?: results.add(

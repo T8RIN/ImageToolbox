@@ -211,7 +211,7 @@ class FilterViewModel @Inject constructor(
                                         height = localBitmap.height
                                     )
                                 )
-                            ), keepMetadata = keepExif
+                            ), keepOriginalMetadata = keepExif
                         )
                     )
                 } ?: results.add(
@@ -501,7 +501,7 @@ class FilterViewModel @Inject constructor(
                                             height = localBitmap.height
                                         )
                                     )
-                                ), keepMetadata = keepExif
+                                ), keepOriginalMetadata = keepExif
                             )
                         )
                     }

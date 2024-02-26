@@ -148,7 +148,7 @@ class CropViewModel @Inject constructor(
                             sequenceNumber = null,
                             data = byteArray
                         ),
-                        keepMetadata = false
+                        keepOriginalMetadata = false
                     )
                 )
             }

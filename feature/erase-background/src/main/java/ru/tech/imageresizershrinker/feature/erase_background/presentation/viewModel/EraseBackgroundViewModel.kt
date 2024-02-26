@@ -172,7 +172,7 @@ class EraseBackgroundViewModel @Inject constructor(
                                     height = localBitmap.height
                                 )
                             )
-                        ), keepMetadata = _saveExif.value
+                        ), keepOriginalMetadata = _saveExif.value
                     )
                 )
             }

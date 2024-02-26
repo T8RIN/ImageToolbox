@@ -376,7 +376,7 @@ class ResizeAndConvertViewModel @Inject constructor(
                                         imageInfo = imageInfo
                                     )
                                 ),
-                                keepMetadata = if (uris!!.size == 1) true else keepExif
+                                keepOriginalMetadata = if (uris!!.size == 1) true else keepExif
                             )
                         )
                     }

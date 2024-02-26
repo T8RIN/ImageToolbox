@@ -36,11 +36,11 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
-import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
+import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -75,10 +75,27 @@ class DeleteExifViewModel @Inject constructor(
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
 
-    fun updateUris(uris: List<Uri>?) {
+    private val _selectedTags: MutableState<List<String>> = mutableStateOf(emptyList())
+    val selectedTags by _selectedTags
+
+    fun updateUris(
+        uris: List<Uri>?,
+        onError: (Throwable) -> Unit
+    ) {
         _uris.value = null
         _uris.value = uris
-        _selectedUri.value = uris?.firstOrNull()
+        _selectedUri.value = uris?.firstOrNull()?.also { uri ->
+            viewModelScope.launch {
+                imageGetter.getImageAsync(
+                    uri = uri.toString(),
+                    originalSize = false,
+                    onGetImage = {
+                        updateBitmap(it.image)
+                    },
+                    onError = onError
+                )
+            }
+        }
     }
 
     fun updateUrisSilently(removedUri: Uri) {
@@ -109,7 +126,7 @@ class DeleteExifViewModel @Inject constructor(
         }
     }
 
-    fun updateBitmap(bitmap: Bitmap?) {
+    private fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
             _isImageLoading.value = true
             _bitmap.value = bitmap
@@ -131,15 +148,24 @@ class DeleteExifViewModel @Inject constructor(
                 runCatching {
                     imageGetter.getImage(uri.toString())
                 }.getOrNull()?.let {
+                    val metadata: ExifInterface? = if (selectedTags.isNotEmpty()) {
+                        it.metadata?.apply {
+                            selectedTags.forEach { tag ->
+                                setAttribute(tag, null)
+                            }
+                        }
+                    } else null
+
                     results.add(
                         fileController.save(
-                            ImageSaveTarget<ExifInterface>(
+                            ImageSaveTarget(
                                 imageInfo = it.imageInfo,
                                 originalUri = uri.toString(),
                                 sequenceNumber = _done.value,
+                                metadata = metadata,
                                 data = imageCompressor.compressAndTransform(it.image, it.imageInfo)
                             ),
-                            keepMetadata = false
+                            keepOriginalMetadata = false
                         )
                     )
                 } ?: results.add(
@@ -164,26 +190,6 @@ class DeleteExifViewModel @Inject constructor(
                 _selectedUri.value = uri
             }
         }
-    }
-
-    fun decodeBitmapByUri(
-        uri: Uri,
-        originalSize: Boolean = true,
-        onGetMimeType: (ImageFormat) -> Unit,
-        onGetExif: (ExifInterface?) -> Unit,
-        onGetBitmap: (Bitmap) -> Unit,
-        onError: (Throwable) -> Unit
-    ) {
-        imageGetter.getImageAsync(
-            uri = uri.toString(),
-            originalSize = originalSize,
-            onGetImage = {
-                onGetBitmap(it.image)
-                onGetExif(it.metadata)
-                onGetMimeType(it.imageInfo.imageFormat)
-            },
-            onError = onError
-        )
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {
@@ -234,6 +240,14 @@ class DeleteExifViewModel @Inject constructor(
                 }
             }
             _isSaving.value = false
+        }
+    }
+
+    fun addTag(tag: String) {
+        if (tag in selectedTags) {
+            _selectedTags.update { it - tag }
+        } else {
+            _selectedTags.update { it + tag }
         }
     }
 

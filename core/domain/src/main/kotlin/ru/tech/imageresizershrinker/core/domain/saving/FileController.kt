@@ -24,7 +24,7 @@ interface FileController {
 
     suspend fun save(
         saveTarget: SaveTarget,
-        keepMetadata: Boolean
+        keepOriginalMetadata: Boolean
     ): SaveResult
 
     fun getSize(uri: String): Long?

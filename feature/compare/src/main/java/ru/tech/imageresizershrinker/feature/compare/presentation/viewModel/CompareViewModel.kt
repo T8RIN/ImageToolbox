@@ -185,7 +185,7 @@ class CompareViewModel @Inject constructor(
                                     height = localBitmap.height
                                 )
                             )
-                        ), keepMetadata = false
+                        ), keepOriginalMetadata = false
                     )
                 )
             }

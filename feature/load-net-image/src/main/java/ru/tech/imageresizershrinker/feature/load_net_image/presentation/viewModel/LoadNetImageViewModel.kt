@@ -89,7 +89,7 @@ class LoadNetImageViewModel @Inject constructor(
                                 quality = Quality.Base(100)
                             )
                         ),
-                        keepMetadata = false
+                        keepOriginalMetadata = false
                     )
                 )
             }
