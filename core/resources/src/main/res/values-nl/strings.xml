@@ -11,7 +11,7 @@
     <string name="app_closing_sub">Wil je de app echt sluiten?</string>
     <string name="app_closing">App is aan het sluiten</string>
     <string name="stay">Verblijf</string>
-    <string name="reset_image_sub">Afbeelding aanpassingen zullen worden terug gezet naar beginwaarde</string>
+    <string name="reset_image_sub">Afbeeldingswijzigingen worden teruggezet naar de oorspronkelijke waarden</string>
     <string name="values_reset">Waardes juist terug gezet</string>
     <string name="no_exif">Geen EXIF data gevonden</string>
     <string name="add_tag">Voeg tag toe</string>
