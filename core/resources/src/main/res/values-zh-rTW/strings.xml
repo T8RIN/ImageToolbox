@@ -791,4 +791,6 @@
     <string name="cross_blur">交叉模糊</string>
     <string name="circle_blur">圓圈模糊</string>
     <string name="star_blur">星光模糊</string>
+    <string name="linear_tilt_shift">線性移軸</string>
+    <string name="tags_to_remove">要刪除的標籤</string>
 </resources>
