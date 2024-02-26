@@ -481,9 +481,7 @@ fun PickColorFromImageScreen(
                     } else {
                         Row {
                             Box(
-                                Modifier
-                                    .weight(0.8f)
-                                    .padding(20.dp)
+                                modifier = Modifier.weight(0.8f)
                             ) {
                                 Box(Modifier.align(Alignment.Center)) {
                                     AnimatedContent(
@@ -496,6 +494,7 @@ fun PickColorFromImageScreen(
                                             color = viewModel.color,
                                             modifier = Modifier
                                                 .fillMaxSize()
+                                                .padding(20.dp)
                                                 .navBarsPaddingOnlyIfTheyAtTheBottom()
                                                 .padding(
                                                     start = WindowInsets
