@@ -788,4 +788,9 @@
     <string name="dark_colors_sub">Жарық нұсқасының орнына түнгі режимнің түс схемасын қолданады</string>
     <string name="copy_as_compose_code">\"Jetpack Compose\" коды ретінде көшіріңіз</string>
     <string name="linear_tilt_shift">Сызықтық көлбеу жылжу</string>
+    <string name="ring_blur">Сақинаның Бұлыңғырлығы</string>
+    <string name="cross_blur">Көлденең Бұлыңғырлық</string>
+    <string name="circle_blur">Шеңбер Бұлыңғыр</string>
+    <string name="star_blur">Жұлдызды Бұлыңғырлық</string>
+    <string name="tags_to_remove">Жою Үшін Тегтер</string>
 </resources>
