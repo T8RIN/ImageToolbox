@@ -792,4 +792,5 @@
     <string name="linear_tilt_shift">Lineární Posun Náklonu</string>
     <string name="ring_blur">Rozostření Prstenu</string>
     <string name="cross_blur">Křížové Rozostření</string>
+    <string name="tags_to_remove">削除するタグ</string>
 </resources>

@@ -792,4 +792,5 @@
     <string name="circle_blur">Розмиття кола</string>
     <string name="star_blur">Розмиття зірками</string>
     <string name="linear_tilt_shift">Лінійний зсув нахилу</string>
+    <string name="tags_to_remove">Ярлики для видалення</string>
 </resources>

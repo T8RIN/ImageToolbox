@@ -792,4 +792,5 @@
     <string name="circle_blur">円ぼかし</string>
     <string name="star_blur">星のぼかし</string>
     <string name="linear_tilt_shift">リニアチルトシフト</string>
+    <string name="tags_to_remove">削除するタグ</string>
 </resources>

@@ -787,4 +787,10 @@
     <string name="dark_colors">Dunkle Farben</string>
     <string name="dark_colors_sub">Verwendet das Nachtmodus-Farbschema anstelle der Lichtvariante</string>
     <string name="copy_as_compose_code">Als \"Jetpack Compose\" -Code kopieren</string>
+    <string name="ring_blur">Ringunschärfe</string>
+    <string name="cross_blur">Kreuzunschärfe</string>
+    <string name="circle_blur">Kreisunschärfe</string>
+    <string name="star_blur">Sternenunschärfe</string>
+    <string name="linear_tilt_shift">Lineare Neigungsverschiebung</string>
+    <string name="tags_to_remove">Zu entfernende Tags</string>
 </resources>

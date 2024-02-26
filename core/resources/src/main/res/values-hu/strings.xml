@@ -792,4 +792,5 @@
     <string name="star_blur">Vezetés Elmosódás</string>
     <string name="cross_blur">Kereszt Elmosódás</string>
     <string name="linear_tilt_shift">Lineáris Dőléseltolás</string>
+    <string name="tags_to_remove">Az Eltávolítandó Címkék</string>
 </resources>
