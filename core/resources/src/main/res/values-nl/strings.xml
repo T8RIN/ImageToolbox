@@ -64,7 +64,7 @@
     <string name="edit_exif">EXIF aanpassen</string>
     <string name="ok" tools:ignore="ButtonCase,Typos">Ok</string>
     <string name="single_edit_sub">Wijzig de specificaties van een enkele afbeelding</string>
-    <string name="pick_color_sub">Kies kleur van afbeelding, kopie of gedeelde</string>
+    <string name="pick_color_sub">Kies de kleur uit de afbeelding, kopieer of deel</string>
     <string name="image">Afbeelding</string>
     <string name="folder">Uitvoer map</string>
     <string name="image_not_saved">Besparing</string>
