@@ -15,7 +15,7 @@
     <string name="values_reset">Waarden correct gereset</string>
     <string name="no_exif">Geen EXIF data gevonden</string>
     <string name="add_tag">Voeg tag toe</string>
-    <string name="save">Opslaan</string>
+    <string name="save">Redden</string>
     <string name="clear">Vrijmaken</string>
     <string name="clear_exif">Verwijder EXIF data</string>
     <string name="cancel">Annuleren</string>
