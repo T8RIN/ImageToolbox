@@ -17,7 +17,7 @@
     <string name="add_tag">Voeg tag toe</string>
     <string name="save">Redden</string>
     <string name="clear">Duidelijk</string>
-    <string name="clear_exif">Verwijder EXIF data</string>
+    <string name="clear_exif">EXIF wissen</string>
     <string name="cancel">Annuleren</string>
     <string name="clear_exif_sub">Alle EXIF data zal gewist worden. Deze actie kan niet ongedaan gemaakt worden!</string>
     <string name="presets">Voorinstellingen</string>
