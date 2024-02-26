@@ -20,10 +20,8 @@
 package ru.tech.imageresizershrinker.feature.main.presentation.components
 
 import android.content.ActivityNotFoundException
-import android.content.ClipData
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -111,7 +109,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -485,7 +482,6 @@ internal fun MainScreenContent(
                                     }
                                 )
 
-                                val clipboardManager = LocalClipboardManager.current.nativeClipboard
                                 BoxAnimatedVisibility(
                                     visible = clipboardData.isNotEmpty(),
                                     modifier = Modifier
@@ -497,13 +493,6 @@ internal fun MainScreenContent(
                                     EnhancedFloatingActionButton(
                                         onClick = {
                                             onGetClipList(clipboardData)
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                                                clipboardManager.clearPrimaryClip()
-                                            } else {
-                                                clipboardManager.setPrimaryClip(
-                                                    ClipData.newPlainText(null, "")
-                                                )
-                                            }
                                         },
                                         containerColor = MaterialTheme.colorScheme.tertiaryContainer
                                     ) {

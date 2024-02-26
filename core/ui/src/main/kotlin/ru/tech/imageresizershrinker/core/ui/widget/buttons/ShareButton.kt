@@ -30,6 +30,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -79,7 +80,8 @@ fun ShareButton(
             onDismissRequest = { showSelectionDialog = false },
             confirmButton = {
                 EnhancedButton(
-                    onClick = { showSelectionDialog = false }
+                    onClick = { showSelectionDialog = false },
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer
                 ) {
                     Text(stringResource(R.string.cancel))
                 }

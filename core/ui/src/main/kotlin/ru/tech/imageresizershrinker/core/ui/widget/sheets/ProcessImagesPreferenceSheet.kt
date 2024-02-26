@@ -51,11 +51,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.olshevski.navigation.reimagined.NavController
-import dev.olshevski.navigation.reimagined.navigate
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.White
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
@@ -69,13 +66,7 @@ fun ProcessImagesPreferenceSheet(
     uris: List<Uri>,
     extraImageType: String? = null,
     visible: MutableState<Boolean>,
-    navController: NavController<Screen> = LocalNavController.current,
-    navigate: (Screen) -> Unit = { screen ->
-        navController.apply {
-            this.navigate(screen)
-            visible.value = false
-        }
-    }
+    navigate: (Screen) -> Unit
 ) {
     SimpleSheet(
         title = {

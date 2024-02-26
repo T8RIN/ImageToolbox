@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.presentation
 
+import android.content.ClipData
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
@@ -42,6 +43,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.core.view.WindowInsetsControllerCompat
@@ -205,10 +207,23 @@ class AppActivity : M3Activity() {
                             editPresetsState = editPresetsState,
                             updatePresets = viewModel::setPresets
                         )
+
+                        val clipboardManager = LocalClipboardManager.current.nativeClipboard
                         ProcessImagesPreferenceSheet(
                             uris = viewModel.uris ?: emptyList(),
                             extraImageType = viewModel.extraImageType,
-                            visible = showSelectSheet
+                            visible = showSelectSheet,
+                            navigate = { screen ->
+                                viewModel.navController.navigate(screen)
+                                showSelectSheet.value = false
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                    clipboardManager.clearPrimaryClip()
+                                } else {
+                                    clipboardManager.setPrimaryClip(
+                                        ClipData.newPlainText(null, "")
+                                    )
+                                }
+                            }
                         )
                     }
 

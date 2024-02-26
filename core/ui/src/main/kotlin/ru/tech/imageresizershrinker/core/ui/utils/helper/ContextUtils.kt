@@ -105,7 +105,7 @@ object ContextUtils {
         )
     )
 
-    fun Context.verifyInstallerId(
+    private fun Context.verifyInstallerId(
         validInstallers: List<String>
     ): Boolean = validInstallers.contains(getInstallerPackageName(packageName))
 
