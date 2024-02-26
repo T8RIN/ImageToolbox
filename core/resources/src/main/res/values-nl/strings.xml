@@ -59,7 +59,7 @@
     <string name="reset">Opnieuw instellen</string>
     <string name="copied">Naar klembord gekopieerd</string>
     <string name="quality">Kwaliteit</string>
-    <string name="restart_app">Herstart app</string>
+    <string name="restart_app">Start de app opnieuw</string>
     <string name="exception">Uitzondering</string>
     <string name="edit_exif">EXIF aanpassen</string>
     <string name="ok" tools:ignore="ButtonCase,Typos">Ok</string>
