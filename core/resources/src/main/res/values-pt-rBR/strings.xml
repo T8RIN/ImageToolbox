@@ -167,7 +167,7 @@
     <string name="saturation">Saturação</string>
     <string name="add_filter">Adicionar filtro</string>
     <string name="filter">Filtro</string>
-    <string name="filter_sub">Aplicar qualquer cadeia de filtros a determinadas imagens</string>
+    <string name="filter_sub">Aplicar um grupo de filtros a determinadas imagens</string>
     <string name="filters">Filtros</string>
     <string name="light_aka_illumination">Luz</string>
     <string name="color_filter">Filtro de cor</string>
@@ -430,7 +430,7 @@
     <string name="pdf_to_images_sub">Converta PDF em imagens em determinado formato de saída</string>
     <string name="images_to_pdf_sub">Empacote as imagens fornecidas no arquivo PDF de saída</string>
     <string name="mask_filter">Filtro de máscara</string>
-    <string name="mask_filter_sub">Aplique cadeias de filtros em determinadas áreas mascaradas, cada área de máscara pode determinar seu próprio conjunto de filtros</string>
+    <string name="mask_filter_sub">Aplique um conjunto de filtros à determinadas áreas com máscara, cada área com máscara pode determinar seu próprio conjunto de filtros</string>
     <string name="masks">Máscaras</string>
     <string name="add_mask">Adicionar máscara</string>
     <string name="mask_indexed">Máscara %d</string>
@@ -438,11 +438,11 @@
     <string name="mask_preview">Visualização da máscara</string>
     <string name="mask_preview_sub">A máscara de filtro desenhada será renderizada para mostrar o resultado aproximado</string>
     <string name="inverse_fill_type">Tipo de preenchimento inverso</string>
-    <string name="inverse_fill_type_sub">Se activado todas as áreas não mascaradas serão filtradas em vez do comportamento predefinido</string>
+    <string name="inverse_fill_type_sub">Se ativado todas as áreas sem máscara serão filtradas no lugar do comportamento predefinido</string>
     <string name="delete_mask_warn">Você está prestes a excluir a máscara de filtro selecionada. Esta operação não pode ser desfeita</string>
     <string name="delete_mask">Excluir máscara</string>
     <string name="full_filter">Filtro Completo</string>
-    <string name="full_filter_sub">Aplique qualquer cadeia de filtros a determinadas imagens ou a uma única imagem</string>
+    <string name="full_filter_sub">Aplique um conjunto de filtro à determinadas imagens ou à uma única imagem</string>
     <string name="start_position">Começar</string>
     <string name="center_position">Centro</string>
     <string name="end_position">Fim</string>
@@ -531,7 +531,7 @@
     <string name="hann_sub">Função de janelamento frequentemente aplicada no processamento de sinal para minimizar o vazamento espectral e melhorar a precisão da análise de frequência, afunilando as bordas de um sinal</string>
     <string name="hermite_sub">Técnica de interpolação matemática que utiliza os valores e derivadas nas extremidades de um segmento de curva para gerar uma curva suave e contínua</string>
     <string name="lanczos_sub">Método de reamostragem que mantém interpolação de alta qualidade aplicando uma função sinc ponderada aos valores de pixel</string>
-    <string name="mitchell_sub">Método de reamostragem que usa um filtro de convolução com parâmetros ajustáveis para alcançar um equilíbrio entre nitidez e suavização na imagem dimensionada</string>
+    <string name="mitchell_sub">Método de resampling que usa um filtro de convolução com parâmetros ajustáveis para alcançar um equilíbrio entre nitidez e suavização na imagem dimensionada</string>
     <string name="spline_sub">Utiliza funções polinomiais definidas por partes para interpolar e aproximar suavemente uma curva ou superfície, representação de forma flexível e contínua</string>
     <string name="only_clip">Apenas clipe</string>
     <string name="only_clip_sub">O salvamento no armazenamento não será executado e a imagem será tentada apenas para ser colocada na área de transferência</string>
@@ -766,7 +766,7 @@
     <string name="old_tv">TV Velha</string>
     <string name="shuffle_blur">Desfoque aleatório</string>
     <string name="favorite">Favorito</string>
-    <string name="no_favorite_filters">Nenhum filtro favorito adicionado ainda</string>
+    <string name="no_favorite_filters">Nenhum filtro favorito adicionado</string>
     <string name="image_format">Formato de imagem</string>
     <string name="icon_shape_sub">Adiciona contêiner com formato selecionado sob os ícones principais dos cartões</string>
     <string name="icon_shape">Formato do ícone</string>
@@ -791,4 +791,5 @@
     <string name="star_blur">Desfoque Estrela</string>
     <string name="linear_tilt_shift">Mudança Linear de Inclinação</string>
     <string name="circle_blur">Desfoque Círculo</string>
+    <string name="tags_to_remove">Tags a remover</string>
 </resources>
