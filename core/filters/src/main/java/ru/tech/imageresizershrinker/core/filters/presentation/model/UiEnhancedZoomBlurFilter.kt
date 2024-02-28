@@ -33,6 +33,6 @@ class UiEnhancedZoomBlurFilter(
         FilterParam(R.string.sigma, 1f..100f, 2),
         FilterParam(R.string.blur_center_x, 0f..1f, 2),
         FilterParam(R.string.blur_center_y, 0f..1f, 2),
-        FilterParam(R.string.strength, 0f..2f, 2)
+        FilterParam(R.string.strength, 0f..3f, 2)
     )
 ), Filter.EnhancedZoomBlur<Bitmap>
