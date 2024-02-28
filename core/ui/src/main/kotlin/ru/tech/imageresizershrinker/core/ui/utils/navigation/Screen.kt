@@ -44,7 +44,7 @@ import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.CropSmall
 import ru.tech.imageresizershrinker.core.ui.icons.material.Encrypted
-import ru.tech.imageresizershrinker.core.ui.icons.material.FingerprintOff
+import ru.tech.imageresizershrinker.core.ui.icons.material.Exif
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageCombine
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageLimit
@@ -225,7 +225,7 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 13,
-        icon = Icons.Rounded.FingerprintOff,
+        icon = Icons.Outlined.Exif,
         title = R.string.delete_exif,
         subtitle = R.string.delete_exif_sub
     )
@@ -389,6 +389,7 @@ sealed class Screen(
                     Watermarking(),
                     GradientMaker(),
                     Cipher(),
+                    DeleteExif()
                 ) to Triple(
                     R.string.create,
                     Icons.Filled.AutoAwesome,
@@ -403,7 +404,6 @@ sealed class Screen(
                     ImagePreview(),
                     LoadNetImage(),
                     GeneratePalette(),
-                    DeleteExif(),
                 ) to Triple(
                     R.string.tools,
                     Icons.Rounded.Toolbox,
