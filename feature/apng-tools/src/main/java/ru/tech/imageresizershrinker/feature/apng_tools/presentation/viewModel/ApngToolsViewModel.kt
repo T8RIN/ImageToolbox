@@ -78,7 +78,7 @@ class ApngToolsViewModel @Inject constructor(
     private val _convertedImageUris: MutableState<List<String>> = mutableStateOf(emptyList())
     val convertedImageUris by _convertedImageUris
 
-    private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.Default())
+    private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.PngLossless)
     val imageFormat by _imageFormat
 
     private val _apngFrames: MutableState<ApngFrames> = mutableStateOf(ApngFrames.All)
@@ -196,20 +196,11 @@ class ApngToolsViewModel @Inject constructor(
                 is Screen.ApngTools.Type.ApngToImage -> {
                     val results = mutableListOf<SaveResult>()
                     type.apngUri?.toString()?.also { apngUri ->
+                        _left.value = 0
                         apngConverter.extractFramesFromApng(
                             apngUri = apngUri,
                             imageFormat = imageFormat,
-                            quality = params.quality,
-//                            onGetFramesCount = {
-//                                if (it == 0) {
-//                                    _isSaving.value = false
-//                                    savingJob?.cancel()
-//                                    onResult(
-//                                        listOf(SaveResult.Error.MissingPermissions), ""
-//                                    )
-//                                }
-//                                _left.value = gifFrames.getFramePositions(it).size
-//                            }
+                            quality = params.quality
                         ).onCompletion {
                             onResult(results, fileController.savingPath)
                         }.collect { uri ->
@@ -217,30 +208,33 @@ class ApngToolsViewModel @Inject constructor(
                                 data = uri,
                                 originalSize = true
                             )?.let { localBitmap ->
-                                val imageInfo = ImageInfo(
-                                    imageFormat = imageFormat,
-                                    width = localBitmap.width,
-                                    height = localBitmap.height
-                                )
-                                results.add(
-                                    fileController.save(
-                                        saveTarget = ImageSaveTarget<ExifInterface>(
-                                            imageInfo = imageInfo,
-                                            originalUri = uri,
-                                            sequenceNumber = _done.value + 1,
-                                            data = imageCompressor.compressAndTransform(
-                                                image = localBitmap,
-                                                imageInfo = ImageInfo(
-                                                    imageFormat = imageFormat,
-                                                    quality = params.quality,
-                                                    width = localBitmap.width,
-                                                    height = localBitmap.height
-                                                )
-                                            )
-                                        ),
-                                        keepOriginalMetadata = false
+                                if (done in apngFrames.getFramePositions(convertedImageUris.size + 10)) {
+                                    val imageInfo = ImageInfo(
+                                        imageFormat = imageFormat,
+                                        width = localBitmap.width,
+                                        height = localBitmap.height
                                     )
-                                )
+
+                                    results.add(
+                                        fileController.save(
+                                            saveTarget = ImageSaveTarget<ExifInterface>(
+                                                imageInfo = imageInfo,
+                                                originalUri = uri,
+                                                sequenceNumber = _done.value + 1,
+                                                data = imageCompressor.compressAndTransform(
+                                                    image = localBitmap,
+                                                    imageInfo = ImageInfo(
+                                                        imageFormat = imageFormat,
+                                                        quality = params.quality,
+                                                        width = localBitmap.width,
+                                                        height = localBitmap.height
+                                                    )
+                                                )
+                                            ),
+                                            keepOriginalMetadata = false
+                                        )
+                                    )
+                                }
                             } ?: results.add(
                                 SaveResult.Error.Exception(Throwable())
                             )

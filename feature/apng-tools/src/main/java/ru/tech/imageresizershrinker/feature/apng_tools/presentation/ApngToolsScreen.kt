@@ -340,7 +340,8 @@ fun ApngToolsScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     ImageFormatSelector(
                         value = viewModel.imageFormat,
-                        onValueChange = viewModel::setImageFormat
+                        onValueChange = viewModel::setImageFormat,
+                        entries = ImageFormat.alphaContainedEntries
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     QualityWidget(
@@ -399,12 +400,13 @@ fun ApngToolsScreen(
                         shape = RoundedCornerShape(24.dp)
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    QualityWidget(
-                        imageFormat = ImageFormat.Jpeg,
-                        enabled = true,
-                        quality = viewModel.params.quality,
-                        onQualityChange = viewModel::setQuality
-                    )
+                    //TODO: Compression selector
+//                    QualityWidget(
+//                        imageFormat = ImageFormat.Jpeg,
+//                        enabled = true,
+//                        quality = viewModel.params.quality,
+//                        onQualityChange = viewModel::setQuality
+//                    )
                     Spacer(modifier = Modifier.height(8.dp))
                     EnhancedSliderItem(
                         value = viewModel.params.repeatCount,

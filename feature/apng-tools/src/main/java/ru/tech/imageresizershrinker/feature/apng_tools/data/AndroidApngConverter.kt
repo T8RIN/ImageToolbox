@@ -26,7 +26,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import oupson.apng.decoder.ApngDecoder
@@ -53,11 +53,11 @@ internal class AndroidApngConverter @Inject constructor(
         apngUri: String,
         imageFormat: ImageFormat,
         quality: Quality
-    ): Flow<String> = flow {
+    ): Flow<String> = channelFlow {
         ApngDecoder(
             context = context,
             uri = apngUri.toUri()
-        ).decodeAsync(currentCoroutineContext()) { frame ->
+        ).decodeAsync(Dispatchers.IO) { frame ->
             if (!currentCoroutineContext().isActive) {
                 currentCoroutineContext().cancel(null)
                 return@decodeAsync
@@ -71,9 +71,7 @@ internal class AndroidApngConverter @Inject constructor(
                     quality = quality
                 ),
                 name = "apng_image"
-            )?.let { emit(it) }
-
-            frame.recycle()
+            )?.let { send(it) }
         }
     }
 
