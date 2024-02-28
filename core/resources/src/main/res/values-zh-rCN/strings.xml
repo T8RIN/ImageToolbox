@@ -793,4 +793,5 @@
     <string name="ring_blur">环形模糊</string>
     <string name="linear_tilt_shift">线性倾角移位</string>
     <string name="tags_to_remove">要移除的标签</string>
+    <string name="enhanced_zoom_blur">增强变焦模糊</string>
 </resources>
