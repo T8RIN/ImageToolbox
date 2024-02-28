@@ -184,6 +184,7 @@ sealed class UiFilter<T>(
                     UiStackBlurFilter(),
                     UiFastBlurFilter(),
                     UiZoomBlurFilter(),
+                    UiEnhancedZoomBlurFilter(),
                     UiAnisotropicDiffusionFilter(),
                     UiFastBilaterialBlurFilter(),
                     UiPoissonBlurFilter(),

@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
 
@@ -27,5 +28,11 @@ class UiSketchFilter(
 ) : UiFilter<Float>(
     title = R.string.sketch,
     value = value,
-    valueRange = 3f..7f
+    paramsInfo = listOf(
+        FilterParam(
+            title = null,
+            valueRange = 3f..9f,
+            roundTo = 0
+        )
+    )
 ), Filter.Sketch<Bitmap>

@@ -15,28 +15,24 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.data.model
+package ru.tech.imageresizershrinker.core.filters.domain.model
 
-import android.graphics.Bitmap
-import com.awxkee.aire.Aire
-import ru.tech.imageresizershrinker.core.domain.image.Transformation
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-
-
-internal class SketchFilter(
-    override val value: Float = 5f,
-) : Transformation<Bitmap>, Filter.Sketch<Bitmap> {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: IntegerSize
-    ): Bitmap = Aire.removeShadows(
-        bitmap = input,
-        kernelSize = value.toInt()
-    )
-
+data class EnhancedZoomBlurParams(
+    val kernelSize: Int,
+    val sigma: Float,
+    val centerX: Float,
+    val centerY: Float,
+    val strength: Float
+) {
+    companion object {
+        val Default by lazy {
+            EnhancedZoomBlurParams(
+                kernelSize = 51,
+                sigma = 3f,
+                centerX = 0.5f,
+                centerY = 0.5f,
+                strength = 0.5f
+            )
+        }
+    }
 }

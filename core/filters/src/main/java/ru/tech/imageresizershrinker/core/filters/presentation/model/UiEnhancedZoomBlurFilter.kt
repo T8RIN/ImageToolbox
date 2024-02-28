@@ -15,28 +15,24 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.filters.data.model
+package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
-import com.awxkee.aire.Aire
-import ru.tech.imageresizershrinker.core.domain.image.Transformation
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.filters.domain.model.EnhancedZoomBlurParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
+import ru.tech.imageresizershrinker.core.resources.R
 
-
-internal class SketchFilter(
-    override val value: Float = 5f,
-) : Transformation<Bitmap>, Filter.Sketch<Bitmap> {
-
-    override val cacheKey: String
-        get() = value.hashCode().toString()
-
-    override suspend fun transform(
-        input: Bitmap,
-        size: IntegerSize
-    ): Bitmap = Aire.removeShadows(
-        bitmap = input,
-        kernelSize = value.toInt()
+class UiEnhancedZoomBlurFilter(
+    override val value: EnhancedZoomBlurParams = EnhancedZoomBlurParams.Default,
+) : UiFilter<EnhancedZoomBlurParams>(
+    title = R.string.enhanced_zoom_blur,
+    value = value,
+    paramsInfo = listOf(
+        FilterParam(R.string.blur_size, 1f..100f, 2),
+        FilterParam(R.string.sigma, 1f..100f, 2),
+        FilterParam(R.string.blur_center_x, 0f..1f, 2),
+        FilterParam(R.string.blur_center_y, 0f..1f, 2),
+        FilterParam(R.string.strength, 0f..2f, 2)
     )
-
-}
+), Filter.EnhancedZoomBlur<Bitmap>

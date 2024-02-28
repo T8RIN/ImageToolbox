@@ -21,12 +21,12 @@ import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.filters.domain.model.EnhancedZoomBlurParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
-
-internal class SketchFilter(
-    override val value: Float = 5f,
-) : Transformation<Bitmap>, Filter.Sketch<Bitmap> {
+internal class EnhancedZoomBlurFilter(
+    override val value: EnhancedZoomBlurParams = EnhancedZoomBlurParams.Default,
+) : Transformation<Bitmap>, Filter.EnhancedZoomBlur<Bitmap> {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -34,9 +34,12 @@ internal class SketchFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = Aire.removeShadows(
+    ): Bitmap = Aire.zoomBlur(
         bitmap = input,
-        kernelSize = value.toInt()
+        kernelSize = value.kernelSize,
+        sigma = value.sigma,
+        centerX = value.centerX,
+        centerY = value.centerY,
+        strength = value.strength
     )
-
 }

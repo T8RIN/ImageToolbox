@@ -47,6 +47,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.EnhancedZoomBlurParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
 import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
@@ -977,6 +978,73 @@ internal fun <T> FilterItemContent(
                                 1 -> angle
                                 2 -> amount
                                 else -> scale
+                            } to filterParam
+                        }
+                    }
+                }
+
+                Column(
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    paramsInfo.forEach { (state, info) ->
+                        val (title, valueRange, roundTo) = info
+                        EnhancedSliderItem(
+                            enabled = !previewOnly,
+                            value = state.value,
+                            title = stringResource(title!!),
+                            valueRange = valueRange,
+                            onValueChange = {
+                                state.value = it
+                            },
+                            internalStateTransformation = {
+                                it.roundTo(roundTo)
+                            },
+                            behaveAsContainer = false
+                        )
+                    }
+                }
+            }
+
+            is EnhancedZoomBlurParams -> {
+                val kernelSize: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.kernelSize as Number).toFloat()) }
+                val sigma: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.sigma as Number).toFloat()) }
+                val anchorX: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.centerX as Number).toFloat()) }
+                val anchorY: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.centerY as Number).toFloat()) }
+                val strength: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.strength as Number).toFloat()) }
+
+                LaunchedEffect(
+                    kernelSize.value,
+                    sigma.value,
+                    anchorX.value,
+                    anchorY.value,
+                    strength.value
+                ) {
+                    onFilterChange(
+                        EnhancedZoomBlurParams(
+                            kernelSize = kernelSize.value.toInt(),
+                            sigma = sigma.value,
+                            centerX = anchorX.value,
+                            centerY = anchorY.value,
+                            strength = strength.value
+                        )
+                    )
+                }
+
+                val paramsInfo by remember(filter) {
+                    derivedStateOf {
+                        filter.paramsInfo.mapIndexedNotNull { index, filterParam ->
+                            if (filterParam.title == null) return@mapIndexedNotNull null
+                            when (index) {
+                                0 -> kernelSize
+                                1 -> sigma
+                                2 -> anchorX
+                                3 -> anchorY
+                                else -> strength
                             } to filterParam
                         }
                     }

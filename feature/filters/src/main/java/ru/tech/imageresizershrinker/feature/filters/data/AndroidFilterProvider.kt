@@ -77,6 +77,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedCirclePix
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedDiamondPixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedGlitchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedPixelationFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedZoomBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ErodeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ExposureFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.FalseColorFilter
@@ -355,6 +356,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.RingBlur -> RingBlurFilter(value)
             is Filter.StarBlur -> StarBlurFilter(value)
             is Filter.LinearTiltShift -> LinearTiltShiftFilter(value)
+            is Filter.EnhancedZoomBlur -> EnhancedZoomBlurFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }
