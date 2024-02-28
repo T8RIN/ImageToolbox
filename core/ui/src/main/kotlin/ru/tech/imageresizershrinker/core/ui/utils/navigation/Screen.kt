@@ -42,6 +42,8 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.icons.material.Apng
+import ru.tech.imageresizershrinker.core.ui.icons.material.ApngBox
 import ru.tech.imageresizershrinker.core.ui.icons.material.CropSmall
 import ru.tech.imageresizershrinker.core.ui.icons.material.Encrypted
 import ru.tech.imageresizershrinker.core.ui.icons.material.Exif
@@ -367,6 +369,49 @@ sealed class Screen(
         }
     }
 
+    data class ApngTools(
+        val type: Type? = null
+    ) : Screen(
+        id = 21,
+        icon = Icons.Rounded.ApngBox,
+        title = R.string.apng_tools,
+        subtitle = R.string.apng_tools_sub
+    ) {
+        @Parcelize
+        sealed class Type(
+            @StringRes val title: Int,
+            @StringRes val subtitle: Int,
+            @IgnoredOnParcel val icon: ImageVector? = null
+        ) : Parcelable {
+
+            data class ApngToImage(
+                val apngUri: Uri? = null
+            ) : Type(
+                title = R.string.apng_type_to_image,
+                subtitle = R.string.apng_type_to_image_sub,
+                icon = Icons.Outlined.Collections
+            )
+
+            data class ImageToApng(
+                val imageUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.apng_type_to_apng,
+                subtitle = R.string.apng_type_to_apng_sub,
+                icon = Icons.Rounded.Apng
+            )
+
+            companion object {
+                val entries by lazy {
+                    listOf(
+                        ApngToImage(),
+                        ImageToApng()
+                    )
+                }
+            }
+        }
+    }
+
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -402,8 +447,9 @@ sealed class Screen(
                     Compare(),
                     GifTools(),
                     ImagePreview(),
-                    LoadNetImage(),
                     GeneratePalette(),
+                    ApngTools(),
+                    LoadNetImage(),
                 ) to Triple(
                     R.string.tools,
                     Icons.Rounded.Toolbox,
@@ -426,6 +472,7 @@ sealed class Screen(
                 RecognizeText(),
                 Watermarking(),
                 GifTools(),
+                ApngTools(),
                 ImagePreview(),
                 LoadNetImage(),
                 PickColorFromImage(),
@@ -436,6 +483,6 @@ sealed class Screen(
                 LimitResize()
             )
         }
-        const val featuresCount = 27
+        const val featuresCount = 29
     }
 }
