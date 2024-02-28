@@ -793,4 +793,5 @@
     <string name="ring_blur">Размытие кольцами</string>
     <string name="circle_blur">Размытие кругами</string>
     <string name="tags_to_remove">Тэги для удаления</string>
+    <string name="enhanced_zoom_blur">Улучшенное размытие приближением</string>
 </resources>
