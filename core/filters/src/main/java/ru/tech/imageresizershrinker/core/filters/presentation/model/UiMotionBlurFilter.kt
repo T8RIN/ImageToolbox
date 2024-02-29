@@ -18,22 +18,22 @@
 package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
-import ru.tech.imageresizershrinker.core.filters.domain.model.EnhancedZoomBlurParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
+import ru.tech.imageresizershrinker.core.filters.domain.model.MotionBlurParams
 import ru.tech.imageresizershrinker.core.resources.R
 
-class UiEnhancedZoomBlurFilter(
-    override val value: EnhancedZoomBlurParams = EnhancedZoomBlurParams.Default,
-) : UiFilter<EnhancedZoomBlurParams>(
-    title = R.string.enhanced_zoom_blur,
+class UiMotionBlurFilter(
+    override val value: MotionBlurParams = MotionBlurParams.Default,
+) : UiFilter<MotionBlurParams>(
+    title = R.string.motion_blur,
     value = value,
     paramsInfo = listOf(
-        FilterParam(R.string.blur_size, 1f..100f, 2),
+        FilterParam(R.string.radius, 1f..100f, 2),
         FilterParam(R.string.sigma, 1f..100f, 2),
         FilterParam(R.string.blur_center_x, 0f..1f, 2),
         FilterParam(R.string.blur_center_y, 0f..1f, 2),
         FilterParam(R.string.strength, 0f..3f, 2),
         FilterParam(R.string.angle, 0f..360f, 0)
     )
-), Filter.EnhancedZoomBlur<Bitmap>
+), Filter.MotionBlur<Bitmap>

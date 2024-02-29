@@ -819,4 +819,5 @@
     <string name="apng_type_to_apng_sub">Convert batch of images to APNG file</string>
     <string name="apng_type_to_apng">Images to APNG</string>
     <string name="select_apng_image_to_start">Pick APNG image to start</string>
+    <string name="motion_blur">Motion Blur</string>
 </resources>

@@ -77,7 +77,6 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedCirclePix
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedDiamondPixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedGlitchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedPixelationFilter
-import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedZoomBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ErodeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ExposureFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.FalseColorFilter
@@ -117,6 +116,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.MarbleFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MedianBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MobiusFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.MonochromeFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.MotionBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NativeStackBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NegativeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.NeonFilter
@@ -356,7 +356,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.RingBlur -> RingBlurFilter(value)
             is Filter.StarBlur -> StarBlurFilter(value)
             is Filter.LinearTiltShift -> LinearTiltShiftFilter(value)
-            is Filter.EnhancedZoomBlur -> EnhancedZoomBlurFilter(value)
+            is Filter.MotionBlur -> MotionBlurFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

@@ -17,8 +17,8 @@
 
 package ru.tech.imageresizershrinker.core.filters.domain.model
 
-data class EnhancedZoomBlurParams(
-    val kernelSize: Int,
+data class MotionBlurParams(
+    val radius: Int,
     val sigma: Float,
     val centerX: Float,
     val centerY: Float,
@@ -27,8 +27,8 @@ data class EnhancedZoomBlurParams(
 ) {
     companion object {
         val Default by lazy {
-            EnhancedZoomBlurParams(
-                kernelSize = 51,
+            MotionBlurParams(
+                radius = 25,
                 sigma = 3f,
                 centerX = 0.5f,
                 centerY = 0.5f,

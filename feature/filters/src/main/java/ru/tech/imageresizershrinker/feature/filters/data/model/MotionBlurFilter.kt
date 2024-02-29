@@ -21,12 +21,12 @@ import android.graphics.Bitmap
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.filters.domain.model.EnhancedZoomBlurParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.core.filters.domain.model.MotionBlurParams
 
-internal class EnhancedZoomBlurFilter(
-    override val value: EnhancedZoomBlurParams = EnhancedZoomBlurParams.Default,
-) : Transformation<Bitmap>, Filter.EnhancedZoomBlur<Bitmap> {
+internal class MotionBlurFilter(
+    override val value: MotionBlurParams = MotionBlurParams.Default,
+) : Transformation<Bitmap>, Filter.MotionBlur<Bitmap> {
 
     override val cacheKey: String
         get() = value.hashCode().toString()
@@ -36,7 +36,7 @@ internal class EnhancedZoomBlurFilter(
         size: IntegerSize
     ): Bitmap = Aire.zoomBlur(
         bitmap = input,
-        kernelSize = value.kernelSize,
+        kernelSize = value.radius * 2 + 1,
         sigma = value.sigma,
         centerX = value.centerX,
         centerY = value.centerY,

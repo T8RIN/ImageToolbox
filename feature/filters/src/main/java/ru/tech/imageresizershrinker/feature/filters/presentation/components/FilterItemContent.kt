@@ -47,11 +47,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
-import ru.tech.imageresizershrinker.core.filters.domain.model.EnhancedZoomBlurParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
 import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.LinearTiltShiftParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.MotionBlurParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.NEAREST_ODD_ROUNDING
 import ru.tech.imageresizershrinker.core.filters.domain.model.RadialTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
@@ -1005,9 +1005,9 @@ internal fun <T> FilterItemContent(
                 }
             }
 
-            is EnhancedZoomBlurParams -> {
-                val kernelSize: MutableState<Float> =
-                    remember(value) { mutableFloatStateOf((value.kernelSize as Number).toFloat()) }
+            is MotionBlurParams -> {
+                val radius: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.radius as Number).toFloat()) }
                 val sigma: MutableState<Float> =
                     remember(value) { mutableFloatStateOf((value.sigma as Number).toFloat()) }
                 val anchorX: MutableState<Float> =
@@ -1020,7 +1020,7 @@ internal fun <T> FilterItemContent(
                     remember(value) { mutableFloatStateOf((value.angle as Number).toFloat()) }
 
                 LaunchedEffect(
-                    kernelSize.value,
+                    radius.value,
                     sigma.value,
                     anchorX.value,
                     anchorY.value,
@@ -1028,8 +1028,8 @@ internal fun <T> FilterItemContent(
                     angle.value
                 ) {
                     onFilterChange(
-                        EnhancedZoomBlurParams(
-                            kernelSize = kernelSize.value.toInt(),
+                        MotionBlurParams(
+                            radius = radius.value.toInt(),
                             sigma = sigma.value,
                             centerX = anchorX.value,
                             centerY = anchorY.value,
@@ -1044,7 +1044,7 @@ internal fun <T> FilterItemContent(
                         filter.paramsInfo.mapIndexedNotNull { index, filterParam ->
                             if (filterParam.title == null) return@mapIndexedNotNull null
                             when (index) {
-                                0 -> kernelSize
+                                0 -> radius
                                 1 -> sigma
                                 2 -> anchorX
                                 3 -> anchorY

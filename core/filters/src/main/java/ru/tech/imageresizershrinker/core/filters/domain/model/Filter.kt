@@ -182,5 +182,5 @@ interface Filter<Image, Value> {
     interface CircleBlur<Image> : Filter<Image, Float>
     interface StarBlur<Image> : Filter<Image, Float>
     interface LinearTiltShift<Image> : Filter<Image, LinearTiltShiftParams>
-    interface EnhancedZoomBlur<Image> : Filter<Image, EnhancedZoomBlurParams>
+    interface MotionBlur<Image> : Filter<Image, MotionBlurParams>
 }
