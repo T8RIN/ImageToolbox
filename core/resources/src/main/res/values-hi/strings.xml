@@ -793,7 +793,6 @@
     <string name="cross_blur">क्रॉस ब्लर</string>
     <string name="linear_tilt_shift">रैखिक झुकाव शिफ्ट</string>
     <string name="tags_to_remove">हटाने के लिए टैग</string>
-    <string name="enhanced_zoom_blur">उन्नत ज़ूम ब्लर</string>
     <string name="apng_tools_sub">छवियों को APNG चित्र में बदलें या दी गई APNG छवि से फ़्रेम निकालें</string>
     <string name="apng_type_to_image_sub">APNG फ़ाइल को चित्रों के बैच में बदलें</string>
     <string name="apng_type_to_apng_sub">छवियों के बैच को APNG फ़ाइल में बदलें</string>
