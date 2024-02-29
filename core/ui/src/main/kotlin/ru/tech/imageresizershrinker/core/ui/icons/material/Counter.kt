@@ -30,18 +30,27 @@ import androidx.compose.ui.unit.dp
 
 val Icons.Outlined.Counter: ImageVector by lazy {
     Builder(
-        name = "Counter", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
-        viewportWidth = 24.0f, viewportHeight = 24.0f
+        name = "Counter",
+        defaultWidth = 24.0.dp,
+        defaultHeight = 24.0.dp,
+        viewportWidth = 24.0f,
+        viewportHeight = 24.0f
     ).apply {
         path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+            fill = SolidColor(Color(0xFF000000)),
+            stroke = null,
+            strokeLineWidth = 0.0f,
+            strokeLineCap = Butt,
+            strokeLineJoin = Miter,
+            strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
             moveTo(4.0f, 4.0f)
             horizontalLineTo(20.0f)
             arcTo(
-                2.0f, 2.0f, 0.0f,
+                2.0f,
+                2.0f,
+                0.0f,
                 isMoreThanHalf = false,
                 isPositiveArc = true,
                 x1 = 22.0f,
@@ -49,7 +58,9 @@ val Icons.Outlined.Counter: ImageVector by lazy {
             )
             verticalLineTo(18.0f)
             arcTo(
-                2.0f, 2.0f, 0.0f,
+                2.0f,
+                2.0f,
+                0.0f,
                 isMoreThanHalf = false,
                 isPositiveArc = true,
                 x1 = 20.0f,
@@ -57,7 +68,9 @@ val Icons.Outlined.Counter: ImageVector by lazy {
             )
             horizontalLineTo(4.0f)
             arcTo(
-                2.0f, 2.0f, 0.0f,
+                2.0f,
+                2.0f,
+                0.0f,
                 isMoreThanHalf = false,
                 isPositiveArc = true,
                 x1 = 2.0f,
@@ -65,7 +78,9 @@ val Icons.Outlined.Counter: ImageVector by lazy {
             )
             verticalLineTo(6.0f)
             arcTo(
-                2.0f, 2.0f, 0.0f,
+                horizontalEllipseRadius = 2.0f,
+                verticalEllipseRadius = 2.0f,
+                theta = 0.0f,
                 isMoreThanHalf = false,
                 isPositiveArc = true,
                 x1 = 4.0f,
