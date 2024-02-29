@@ -19,6 +19,8 @@ package ru.tech.imageresizershrinker.feature.apng_tools.data
 
 import android.content.Context
 import android.graphics.Bitmap
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -32,11 +34,13 @@ import kotlinx.coroutines.withContext
 import oupson.apng.decoder.ApngDecoder
 import oupson.apng.encoder.ApngEncoder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Quality
+import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.feature.apng_tools.domain.ApngConverter
 import ru.tech.imageresizershrinker.feature.apng_tools.domain.ApngParams
 import java.io.ByteArrayOutputStream
@@ -46,6 +50,7 @@ import javax.inject.Inject
 internal class AndroidApngConverter @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageShareProvider: ShareProvider<Bitmap>,
+    private val imageScaler: ImageScaler<Bitmap>,
     @ApplicationContext private val context: Context
 ) : ApngConverter {
 
@@ -91,6 +96,7 @@ internal class AndroidApngConverter @Inject constructor(
             height = size.height,
             numberOfFrames = imageUris.size
         ).apply {
+            setOptimiseApng(false)
             setRepetitionCount(params.repeatCount)
             setCompressionLevel(params.quality.qualityValue)
         }
@@ -100,7 +106,14 @@ internal class AndroidApngConverter @Inject constructor(
                 size = size
             )?.let {
                 encoder.writeFrame(
-                    btm = it,
+                    btm = imageScaler.scaleImage(
+                        image = it,
+                        width = size.width,
+                        height = size.height,
+                        resizeType = ResizeType.CenterCrop(
+                            canvasColor = Color.Transparent.toArgb()
+                        )
+                    ),
                     delay = params.delay.toFloat()
                 )
             }
