@@ -320,6 +320,9 @@ or click one of the badges below.
 - GIF conversion
   * GIF to images
   * Images to GIF
+- APNG conversion
+  * APNG to images
+  * Images to APNG
 - Image Shrinking
   - Quality compressing
   - Preset shrinking
@@ -362,6 +365,8 @@ or click one of the badges below.
   - Side By Side
 - Color Utils
   - Palette generation
+    - Material You Scheme
+    - Simple Colors
   - Picking color from image
   - Gradient creation
   - Overlaying image with gradient
