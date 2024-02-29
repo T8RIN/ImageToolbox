@@ -52,7 +52,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class GifToolsViewModel @Inject constructor(
@@ -264,9 +263,7 @@ class GifToolsViewModel @Inject constructor(
                             val timeStamp = SimpleDateFormat(
                                 "yyyy-MM-dd_HH-mm-ss",
                                 Locale.getDefault()
-                            ).format(Date()) + "_${
-                                Random(Random.nextInt()).hashCode().toString().take(4)
-                            }"
+                            ).format(Date())
                             val gifName = "GIF_$timeStamp"
                             onGifSaveResult(gifName)
                         }
@@ -367,9 +364,7 @@ class GifToolsViewModel @Inject constructor(
                             val timeStamp = SimpleDateFormat(
                                 "yyyy-MM-dd_HH-mm-ss",
                                 Locale.getDefault()
-                            ).format(Date()) + "_${
-                                Random(Random.nextInt()).hashCode().toString().take(4)
-                            }"
+                            ).format(Date())
                             val gifName = "GIF_$timeStamp"
                             shareProvider.shareByteArray(
                                 byteArray = byteArray,

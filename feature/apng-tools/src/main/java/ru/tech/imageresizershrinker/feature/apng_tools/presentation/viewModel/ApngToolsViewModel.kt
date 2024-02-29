@@ -52,7 +52,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class ApngToolsViewModel @Inject constructor(
@@ -256,9 +255,7 @@ class ApngToolsViewModel @Inject constructor(
                             val timeStamp = SimpleDateFormat(
                                 "yyyy-MM-dd_HH-mm-ss",
                                 Locale.getDefault()
-                            ).format(Date()) + "_${
-                                Random(Random.nextInt()).hashCode().toString().take(4)
-                            }"
+                            ).format(Date())
                             onApngSaveResult("APNG_$timeStamp")
                         }
                     }
@@ -358,9 +355,7 @@ class ApngToolsViewModel @Inject constructor(
                             val timeStamp = SimpleDateFormat(
                                 "yyyy-MM-dd_HH-mm-ss",
                                 Locale.getDefault()
-                            ).format(Date()) + "_${
-                                Random(Random.nextInt()).hashCode().toString().take(4)
-                            }"
+                            ).format(Date())
                             val apngName = "APNG_$timeStamp"
                             shareProvider.shareByteArray(
                                 byteArray = byteArray,
