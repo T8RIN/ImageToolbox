@@ -359,6 +359,7 @@ or click one of the badges below.
   - JXL
   - SVG and GIF to WEBP, PNG, JPEG, JPG, HEIF, HEIC, AVIF, JXL
   - Telegram sticker PNG format
+- Files to Zip
 - Comparing images
   - Slide
   - Toggle Tap
