@@ -99,7 +99,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 150 various filters)
+- Applying filter chains (More than 160 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -263,6 +263,7 @@ or click one of the badges below.
   - [x] Cross Blur
   - [x] Circle Blur
   - [x] Star Blur
+  - [x] Motion Blur 
 
   </details>
 
