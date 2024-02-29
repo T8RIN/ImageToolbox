@@ -22,7 +22,8 @@ data class EnhancedZoomBlurParams(
     val sigma: Float,
     val centerX: Float,
     val centerY: Float,
-    val strength: Float
+    val strength: Float,
+    val angle: Float
 ) {
     companion object {
         val Default by lazy {
@@ -31,7 +32,8 @@ data class EnhancedZoomBlurParams(
                 sigma = 3f,
                 centerX = 0.5f,
                 centerY = 0.5f,
-                strength = 0.5f
+                strength = 0.5f,
+                angle = 90f
             )
         }
     }

@@ -40,6 +40,7 @@ internal class EnhancedZoomBlurFilter(
         sigma = value.sigma,
         centerX = value.centerX,
         centerY = value.centerY,
-        strength = value.strength
+        strength = value.strength,
+        angle = value.angle * Math.PI.toFloat() / 180f
     )
 }

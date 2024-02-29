@@ -59,6 +59,7 @@ import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.Timelapse
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Save
+import androidx.compose.material.icons.rounded.Stream
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -82,6 +83,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
@@ -89,6 +91,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.material.Apng
@@ -400,13 +403,34 @@ fun ApngToolsScreen(
                         shape = RoundedCornerShape(24.dp)
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    //TODO: Compression selector
-//                    QualityWidget(
-//                        imageFormat = ImageFormat.Jpeg,
-//                        enabled = true,
-//                        quality = viewModel.params.quality,
-//                        onQualityChange = viewModel::setQuality
-//                    )
+                    EnhancedSliderItem(
+                        value = viewModel.params.quality.qualityValue,
+                        title = stringResource(R.string.effort),
+                        icon = Icons.Rounded.Stream,
+                        valueRange = 0f..9f,
+                        steps = 9,
+                        internalStateTransformation = {
+                            it.toInt().coerceIn(0..9).toFloat()
+                        },
+                        onValueChange = {
+                            viewModel.setQuality(Quality.Base(it.toInt()))
+                        }
+                    ) {
+                        Text(
+                            text = stringResource(
+                                R.string.effort_sub,
+                                0, 9
+                            ),
+                            fontSize = 12.sp,
+                            textAlign = TextAlign.Center,
+                            lineHeight = 12.sp,
+                            color = LocalContentColor.current.copy(0.5f),
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .container(RoundedCornerShape(20.dp))
+                                .padding(4.dp)
+                        )
+                    }
                     Spacer(modifier = Modifier.height(8.dp))
                     EnhancedSliderItem(
                         value = viewModel.params.repeatCount,

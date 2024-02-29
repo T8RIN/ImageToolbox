@@ -97,9 +97,12 @@ internal class AndroidApngConverter @Inject constructor(
         imageUris.forEach { uri ->
             imageGetter.getImage(
                 data = uri,
-                size = params.size
+                size = size
             )?.let {
-                encoder.writeFrame(it, delay = params.delay.toFloat())
+                encoder.writeFrame(
+                    btm = it,
+                    delay = params.delay.toFloat()
+                )
             }
             onProgress()
         }

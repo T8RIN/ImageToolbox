@@ -1016,13 +1016,16 @@ internal fun <T> FilterItemContent(
                     remember(value) { mutableFloatStateOf((value.centerY as Number).toFloat()) }
                 val strength: MutableState<Float> =
                     remember(value) { mutableFloatStateOf((value.strength as Number).toFloat()) }
+                val angle: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.angle as Number).toFloat()) }
 
                 LaunchedEffect(
                     kernelSize.value,
                     sigma.value,
                     anchorX.value,
                     anchorY.value,
-                    strength.value
+                    strength.value,
+                    angle.value
                 ) {
                     onFilterChange(
                         EnhancedZoomBlurParams(
@@ -1030,7 +1033,8 @@ internal fun <T> FilterItemContent(
                             sigma = sigma.value,
                             centerX = anchorX.value,
                             centerY = anchorY.value,
-                            strength = strength.value
+                            strength = strength.value,
+                            angle = angle.value
                         )
                     )
                 }
@@ -1044,7 +1048,8 @@ internal fun <T> FilterItemContent(
                                 1 -> sigma
                                 2 -> anchorX
                                 3 -> anchorY
-                                else -> strength
+                                4 -> strength
+                                else -> angle
                             } to filterParam
                         }
                     }

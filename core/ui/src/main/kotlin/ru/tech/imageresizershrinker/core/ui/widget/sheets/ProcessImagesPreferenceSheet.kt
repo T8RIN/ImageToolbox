@@ -17,7 +17,10 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.sheets
 
+import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
+import android.webkit.MimeTypeMap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -46,11 +49,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -60,6 +65,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import java.util.Locale
 
 @Composable
 fun ProcessImagesPreferenceSheet(
@@ -86,6 +92,7 @@ fun ProcessImagesPreferenceSheet(
             }
         },
         sheetContent = {
+            val context = LocalContext.current
             val gifAvailableScreens by remember(uris) {
                 derivedStateOf {
                     listOf(
@@ -136,14 +143,29 @@ fun ProcessImagesPreferenceSheet(
                         Screen.PdfTools(
                             Screen.PdfTools.Type.ImagesToPdf(uris)
                         ),
-                        Screen.GifTools(),
+                        Screen.GifTools(
+                            Screen.GifTools.Type.ImageToGif(uris)
+                        ),
                         Screen.Cipher(uris.firstOrNull()),
                         Screen.ImagePreview(uris),
                         Screen.PickColorFromImage(uris.firstOrNull()),
                         Screen.GeneratePalette(uris.firstOrNull()),
+                        Screen.ApngTools(
+                            Screen.ApngTools.Type.ImageToApng(uris)
+                        ),
                         Screen.DeleteExif(uris),
                         Screen.LimitResize(uris)
-                    )
+                    ).let {
+                        if (
+                            context
+                                .getExtension(uris.firstOrNull().toString())
+                                ?.contains("png") == true
+                        ) {
+                            it + Screen.ApngTools(
+                                Screen.ApngTools.Type.ApngToImage(uris.firstOrNull())
+                            )
+                        } else it
+                    }
                 }
             }
             val multipleImagesScreens by remember(uris) {
@@ -160,10 +182,19 @@ fun ProcessImagesPreferenceSheet(
                         if (uris.size == 2) add(Screen.Compare(uris))
                         add(Screen.GradientMaker(uris))
                         add(Screen.Watermarking(uris))
-                        add(Screen.GifTools())
+                        add(
+                            Screen.GifTools(
+                                Screen.GifTools.Type.ImageToGif(uris)
+                            )
+                        )
                         add(Screen.ImagePreview(uris))
                         add(Screen.LimitResize(uris))
-                        Screen.DeleteExif(uris)
+                        add(
+                            Screen.ApngTools(
+                                Screen.ApngTools.Type.ImageToApng(uris)
+                            )
+                        )
+                        add(Screen.DeleteExif(uris))
                     }
                 }
             }
@@ -323,4 +354,18 @@ fun ProcessImagesPreferenceSheet(
         },
         visible = visible,
     )
+}
+
+private fun Context.getExtension(
+    uri: String
+): String? {
+    if (uri.endsWith(".jxl")) return "jxl"
+    return if (ContentResolver.SCHEME_CONTENT == uri.toUri().scheme) {
+        MimeTypeMap.getSingleton()
+            .getExtensionFromMimeType(
+                contentResolver.getType(uri.toUri())
+            )
+    } else {
+        MimeTypeMap.getFileExtensionFromUrl(uri).lowercase(Locale.getDefault())
+    }
 }
