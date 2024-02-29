@@ -31,7 +31,6 @@ import androidx.compose.material.icons.outlined.Draw
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
-import androidx.compose.material.icons.outlined.Public
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Gif
 import androidx.compose.material.icons.rounded.Gradient
@@ -48,6 +47,7 @@ import ru.tech.imageresizershrinker.core.ui.icons.material.CropSmall
 import ru.tech.imageresizershrinker.core.ui.icons.material.Encrypted
 import ru.tech.imageresizershrinker.core.ui.icons.material.Exif
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageCombine
+import ru.tech.imageresizershrinker.core.ui.icons.material.ImageDownload
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageLimit
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageText
@@ -200,7 +200,7 @@ sealed class Screen(
         val url: String = ""
     ) : Screen(
         id = 10,
-        icon = Icons.Outlined.Public,
+        icon = Icons.Outlined.ImageDownload,
         title = R.string.load_image_from_net,
         subtitle = R.string.load_image_from_net_sub
     )
