@@ -793,4 +793,12 @@
     <string name="ring_blur">Размытие кольцами</string>
     <string name="circle_blur">Размытие кругами</string>
     <string name="tags_to_remove">Тэги для удаления</string>
+    <string name="apng_tools">APNG инструменты</string>
+    <string name="select_apng_image_to_start">Выберите APNG, чтобы начать</string>
+    <string name="apng_type_to_apng_sub">Конвертация изображений в файл APNG</string>
+    <string name="motion_blur">Размытие движением</string>
+    <string name="apng_tools_sub">Преобразование изображений в APNG или извлечение кадров из APNG</string>
+    <string name="apng_type_to_image">APNG в изображения</string>
+    <string name="apng_type_to_image_sub">Преобразование файла APNG в изображения</string>
+    <string name="apng_type_to_apng">Изображения в APNG</string>
 </resources>
