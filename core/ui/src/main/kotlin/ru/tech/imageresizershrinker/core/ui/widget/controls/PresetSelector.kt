@@ -42,6 +42,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -197,7 +198,8 @@ fun PresetSelector(
                     )
             ) {
                 EnhancedIconButton(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp),
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                     onClick = { editPresetsState.value = true },
                     modifier = Modifier
                         .padding(16.dp)
