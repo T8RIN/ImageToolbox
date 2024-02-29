@@ -24,6 +24,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -46,8 +47,8 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.icons.material.EditAlt
 import ru.tech.imageresizershrinker.core.ui.icons.material.Exif
+import ru.tech.imageresizershrinker.core.ui.icons.material.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -227,8 +228,9 @@ fun DeleteExifScreen(
                 modifier = Modifier.fillMaxWidth(),
                 title = stringResource(R.string.tags_to_remove),
                 subtitle = subtitle,
+                shape = RoundedCornerShape(24.dp),
                 startIcon = Icons.Rounded.Exif,
-                endIcon = Icons.Rounded.EditAlt
+                endIcon = Icons.Rounded.MiniEdit
             )
 
             AddExifSheet(
