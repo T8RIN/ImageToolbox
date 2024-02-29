@@ -793,4 +793,5 @@
     <string name="star_blur">Stjernesløring</string>
     <string name="linear_tilt_shift">Lineær Tilt Shift</string>
     <string name="tags_to_remove">Tags At Fjerne</string>
+    <string name="enhanced_zoom_blur">Forbedret sløring af zoom</string>
 </resources>

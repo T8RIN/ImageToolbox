@@ -793,4 +793,5 @@
     <string name="star_blur">স্টার ব্লার</string>
     <string name="linear_tilt_shift">লিনিয়ার টিল্ট শিফট</string>
     <string name="tags_to_remove">মুছে ফেলার জন্য ট্যাগ</string>
+    <string name="enhanced_zoom_blur">উন্নত জুম ব্লার</string>
 </resources>
