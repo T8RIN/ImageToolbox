@@ -811,7 +811,6 @@
     <string name="star_blur">Star Blur</string>
     <string name="linear_tilt_shift">Linear Tilt Shift</string>
     <string name="tags_to_remove">Tags To Remove</string>
-    <string name="enhanced_zoom_blur">Enhanced Zoom Blur</string>
     <string name="apng_tools">APNG Tools</string>
     <string name="apng_tools_sub">Convert images to APNG picture or extract frames from given APNG image</string>
     <string name="apng_type_to_image">APNG to images</string>

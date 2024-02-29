@@ -357,7 +357,7 @@
     <string name="crashlytics_sub">这允许应用程序手动收集崩溃报告</string>
     <string name="saving_almost_complete">保存快要完成了。现在取消将需要重新开始保存</string>
     <string name="analytics">分析</string>
-    <string name="effort">成就</string>
+    <string name="effort">压缩尝试次数</string>
     <string name="allow_betas_sub">如果启用，更新检查将包括 beta 应用程序版本</string>
     <string name="horizontal">横向</string>
     <string name="recode">重新编码</string>
@@ -793,7 +793,6 @@
     <string name="ring_blur">环形模糊</string>
     <string name="linear_tilt_shift">线性倾角移位</string>
     <string name="tags_to_remove">要移除的标签</string>
-    <string name="enhanced_zoom_blur">增强变焦模糊</string>
     <string name="select_apng_image_to_start">选择 APNG 图像以开始</string>
     <string name="apng_tools">APNG 工具</string>
     <string name="apng_tools_sub">将图像转换为 APNG 图片，或从给定的 APNG 图像中提取帧</string>
@@ -801,4 +800,5 @@
     <string name="apng_type_to_apng_sub">批量转换图像为 APNG 文件</string>
     <string name="apng_type_to_apng">图像转换为 APNG</string>
     <string name="apng_type_to_image">APNG 转换为图像</string>
+    <string name="motion_blur">动态模糊</string>
 </resources>
