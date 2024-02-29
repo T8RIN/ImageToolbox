@@ -793,7 +793,6 @@
     <string name="ring_blur">环形模糊</string>
     <string name="linear_tilt_shift">线性倾角移位</string>
     <string name="tags_to_remove">要移除的标签</string>
-    <string name="enhanced_zoom_blur">增强变焦模糊</string>
     <string name="select_apng_image_to_start">选择 APNG 图像以开始</string>
     <string name="apng_tools">APNG 工具</string>
     <string name="apng_tools_sub">将图像转换为 APNG 图片，或从给定的 APNG 图像中提取帧</string>
