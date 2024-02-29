@@ -801,4 +801,5 @@
     <string name="select_apng_image_to_start">आरंभ करने के लिए APNG छवि चुनें</string>
     <string name="apng_type_to_image">APNG से छवियाँ</string>
     <string name="apng_tools">APNG टूल्स</string>
+    <string name="motion_blur">मोशन ब्लर</string>
 </resources>
