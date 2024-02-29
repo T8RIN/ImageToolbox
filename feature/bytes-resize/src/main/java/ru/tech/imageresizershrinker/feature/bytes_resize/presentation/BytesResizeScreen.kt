@@ -69,7 +69,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetWidget
+import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleModeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -257,12 +257,12 @@ fun BytesResizeScreen(
                         label = stringResource(R.string.max_bytes)
                     )
                 } else {
-                    PresetWidget(
-                        selectedPreset = viewModel.presetSelected.let {
+                    PresetSelector(
+                        value = viewModel.presetSelected.let {
                             Preset.Numeric(it)
                         },
                         includeTelegramOption = false,
-                        onPresetSelected = viewModel::selectPreset
+                        onValueChange = viewModel::selectPreset
                     )
                 }
             }

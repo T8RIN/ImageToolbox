@@ -35,7 +35,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.AddCircle
-import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -57,6 +56,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.icons.material.LabelPercent
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
@@ -77,7 +77,7 @@ fun EditPresetsSheet(
         title = {
             TitleItem(
                 text = stringResource(R.string.presets),
-                icon = Icons.Rounded.PhotoSizeSelectSmall
+                icon = Icons.Rounded.LabelPercent
             )
         },
         sheetContent = {

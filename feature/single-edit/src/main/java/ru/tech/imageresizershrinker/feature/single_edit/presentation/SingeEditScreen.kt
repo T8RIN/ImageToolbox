@@ -63,7 +63,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageExtraTransformBar
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageTransformBar
-import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetWidget
+import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleModeSelector
@@ -288,10 +288,10 @@ fun SingleEditScreen(
                 onEraseBackground = { showEraseBackground = true }
             )
             Spacer(Modifier.size(16.dp))
-            PresetWidget(
-                selectedPreset = viewModel.presetSelected,
+            PresetSelector(
+                value = viewModel.presetSelected,
                 includeTelegramOption = true,
-                onPresetSelected = viewModel::setPreset
+                onValueChange = viewModel::setPreset
             )
             Spacer(Modifier.size(8.dp))
             ResizeImageField(

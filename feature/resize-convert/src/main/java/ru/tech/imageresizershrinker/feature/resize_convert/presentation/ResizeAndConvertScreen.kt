@@ -69,7 +69,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShowOriginalButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageTransformBar
-import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetWidget
+import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
@@ -288,10 +288,10 @@ fun ResizeAndConvertScreen(
                 }
             }
             Spacer(Modifier.size(8.dp))
-            PresetWidget(
-                selectedPreset = viewModel.presetSelected,
+            PresetSelector(
+                value = viewModel.presetSelected,
                 includeTelegramOption = true,
-                onPresetSelected = {
+                onValueChange = {
                     viewModel.updatePreset(it)
                 }
             )

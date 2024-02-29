@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.controls
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,7 +28,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.RotateLeft
 import androidx.compose.material.icons.automirrored.filled.RotateRight
@@ -66,7 +64,10 @@ fun ImageTransformBar(
 ) {
     Column(
         modifier = Modifier
-            .container(shape = RoundedCornerShape(animateDpAsState(targetValue = if (imageFormat?.canWriteExif == true) 48.dp else 24.dp).value))
+            .container(
+                shape = CircleShape,
+                color = MaterialTheme.colorScheme.surfaceContainer
+            )
             .animateContentSize()
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -78,7 +79,7 @@ fun ImageTransformBar(
                     Spacer(Modifier.width(4.dp))
                     EnhancedButton(
                         modifier = Modifier.height(40.dp),
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                         contentPadding = PaddingValues(8.dp),
                         onClick = onEditExif
                     ) {
@@ -86,16 +87,14 @@ fun ImageTransformBar(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            Spacer(Modifier.width(8.dp))
+                            Spacer(Modifier.width(4.dp))
                             Icon(
                                 imageVector = Icons.Rounded.Exif,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSecondaryContainer
+                                contentDescription = stringResource(R.string.edit_exif)
                             )
                             Spacer(Modifier.width(8.dp))
                             Text(
-                                text = stringResource(R.string.edit_exif),
-                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                                text = stringResource(R.string.edit_exif)
                             )
                             Spacer(Modifier.width(8.dp))
                         }
@@ -114,21 +113,30 @@ fun ImageTransformBar(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = onRotateLeft
             ) {
-                Icon(Icons.AutoMirrored.Filled.RotateLeft, null)
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.RotateLeft,
+                    contentDescription = "Rotate Left"
+                )
             }
 
             EnhancedIconButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = onFlip
             ) {
-                Icon(Icons.Default.Flip, null)
+                Icon(
+                    imageVector = Icons.Default.Flip,
+                    contentDescription = "Flip"
+                )
             }
 
             EnhancedIconButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = onRotateRight
             ) {
-                Icon(Icons.AutoMirrored.Filled.RotateRight, null)
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.RotateRight,
+                    contentDescription = "Rotate Right"
+                )
             }
         }
         FormatExifWarning(imageFormat)
@@ -144,35 +152,47 @@ fun ImageExtraTransformBar(
 ) {
     Row(Modifier.container(shape = CircleShape)) {
         EnhancedIconButton(
-            containerColor = MaterialTheme.colorScheme.mixedContainer,
+            containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.6f),
             contentColor = MaterialTheme.colorScheme.onMixedContainer,
             onClick = onCrop
         ) {
-            Icon(Icons.Rounded.CropSmall, null)
+            Icon(
+                imageVector = Icons.Rounded.CropSmall,
+                contentDescription = stringResource(R.string.crop)
+            )
         }
 
         EnhancedIconButton(
-            containerColor = MaterialTheme.colorScheme.mixedContainer,
+            containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.6f),
             contentColor = MaterialTheme.colorScheme.onMixedContainer,
             onClick = onFilter
         ) {
-            Icon(Icons.Rounded.AutoFixHigh, null)
+            Icon(
+                imageVector = Icons.Rounded.AutoFixHigh,
+                contentDescription = stringResource(R.string.filter)
+            )
         }
 
         EnhancedIconButton(
-            containerColor = MaterialTheme.colorScheme.mixedContainer,
+            containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.6f),
             contentColor = MaterialTheme.colorScheme.onMixedContainer,
             onClick = onDraw
         ) {
-            Icon(Icons.Rounded.Draw, null)
+            Icon(
+                imageVector = Icons.Rounded.Draw,
+                contentDescription = stringResource(R.string.draw)
+            )
         }
 
         EnhancedIconButton(
-            containerColor = MaterialTheme.colorScheme.mixedContainer,
+            containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.6f),
             contentColor = MaterialTheme.colorScheme.onMixedContainer,
             onClick = onEraseBackground
         ) {
-            Icon(Icons.Filled.Transparency, null)
+            Icon(
+                imageVector = Icons.Filled.Transparency,
+                contentDescription = stringResource(R.string.erase_background)
+            )
         }
     }
 }

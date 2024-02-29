@@ -71,6 +71,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
+import ru.tech.imageresizershrinker.core.ui.widget.other.RevealDirection
 import ru.tech.imageresizershrinker.core.ui.widget.other.RevealValue
 import ru.tech.imageresizershrinker.core.ui.widget.other.SwipeToReveal
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberRevealState
@@ -78,11 +79,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PresetWidget(
-    selectedPreset: Preset,
+fun PresetSelector(
+    value: Preset,
     includeTelegramOption: Boolean,
     showWarning: Boolean = false,
-    onPresetSelected: (Preset) -> Unit
+    onValueChange: (Preset) -> Unit
 ) {
     val settingsState = LocalSettingsState.current
     val editPresetsState = LocalEditPresetsState.current
@@ -96,6 +97,9 @@ fun PresetWidget(
     var showPresetInfoDialog by remember { mutableStateOf(false) }
 
     SwipeToReveal(
+        directions = setOf(
+            RevealDirection.EndToStart
+        ),
         maxRevealDp = 88.dp,
         state = state,
         swipeableContent = {
@@ -106,7 +110,12 @@ fun PresetWidget(
                         detectTapGestures(
                             onLongPress = {
                                 scope.launch {
-                                    state.animateTo(RevealValue.FullyRevealedEnd)
+                                    state.animateTo(RevealValue.FullyRevealedStart)
+                                }
+                            },
+                            onDoubleTap = {
+                                scope.launch {
+                                    state.animateTo(RevealValue.FullyRevealedStart)
                                 }
                             }
                         )
@@ -149,10 +158,10 @@ fun PresetWidget(
                     ) {
                         if (includeTelegramOption) {
                             item {
-                                val selected = selectedPreset.isTelegram()
+                                val selected = value.isTelegram()
                                 EnhancedChip(
                                     selected = selected,
-                                    onClick = { onPresetSelected(Preset.Telegram) },
+                                    onClick = { onValueChange(Preset.Telegram) },
                                     selectedColor = MaterialTheme.colorScheme.primary,
                                     shape = MaterialTheme.shapes.medium
                                 ) {
@@ -161,10 +170,10 @@ fun PresetWidget(
                             }
                         }
                         items(data) {
-                            val selected = selectedPreset.value() == it
+                            val selected = value.value() == it
                             EnhancedChip(
                                 selected = selected,
-                                onClick = { onPresetSelected(Preset.Numeric(it)) },
+                                onClick = { onValueChange(Preset.Numeric(it)) },
                                 selectedColor = MaterialTheme.colorScheme.primary,
                                 shape = MaterialTheme.shapes.medium
                             ) {
@@ -177,13 +186,14 @@ fun PresetWidget(
                 OOMWarning(visible = showWarning)
             }
         },
-        revealedContentStart = {
+        revealedContentEnd = {
             Box(
                 Modifier
                     .fillMaxSize()
                     .container(
-                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
-                        shape = RoundedCornerShape(24.dp)
+                        color = MaterialTheme.colorScheme.surfaceContainerLowest,
+                        shape = RoundedCornerShape(24.dp),
+                        autoShadowElevation = 0.5.dp
                     )
             ) {
                 EnhancedIconButton(
@@ -191,8 +201,7 @@ fun PresetWidget(
                     onClick = { editPresetsState.value = true },
                     modifier = Modifier
                         .padding(16.dp)
-                        .padding(top = 8.dp)
-                        .align(Alignment.CenterStart)
+                        .align(Alignment.CenterEnd)
                 ) {
                     Icon(Icons.Rounded.EditAlt, null)
                 }

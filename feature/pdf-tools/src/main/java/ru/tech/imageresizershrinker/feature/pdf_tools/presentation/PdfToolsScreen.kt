@@ -134,7 +134,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActio
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
-import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetWidget
+import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleSmallImagesToLargeToggle
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -512,10 +512,10 @@ fun PdfToolsScreen(
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                PresetWidget(
-                    selectedPreset = viewModel.presetSelected,
+                PresetSelector(
+                    value = viewModel.presetSelected,
                     includeTelegramOption = false,
-                    onPresetSelected = {
+                    onValueChange = {
                         if (it is Preset.Numeric) {
                             viewModel.selectPreset(it)
                         }

@@ -28,7 +28,6 @@ import androidx.compose.material.icons.rounded.IntegrationInstructions
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.PersonSearch
 import androidx.compose.material.icons.rounded.PhoneAndroid
-import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.SettingsBackupRestore
 import androidx.compose.material.icons.rounded.ShieldMoon
 import androidx.compose.material.icons.rounded.SortByAlpha
@@ -40,6 +39,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.Exif
 import ru.tech.imageresizershrinker.core.ui.icons.material.Firebase
 import ru.tech.imageresizershrinker.core.ui.icons.material.FolderOpen
+import ru.tech.imageresizershrinker.core.ui.icons.material.LabelPercent
 import ru.tech.imageresizershrinker.core.ui.icons.material.Shadow
 import ru.tech.imageresizershrinker.core.ui.icons.material.Stacks
 
@@ -133,7 +133,7 @@ sealed class SettingsGroup(
     )
 
     data object Presets : SettingsGroup(
-        icon = Icons.Rounded.PhotoSizeSelectSmall,
+        icon = Icons.Rounded.LabelPercent,
         titleId = R.string.presets,
         settingsList = listOf(
             Setting.Presets

@@ -33,8 +33,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -60,8 +58,8 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.ui.icons.material.CropSmall
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
@@ -116,7 +114,7 @@ fun CropEditOption(
             },
             fabButtons = {
                 var job by remember { mutableStateOf<Job?>(null) }
-                FloatingActionButton(
+                EnhancedFloatingActionButton(
                     onClick = {
                         job?.cancel()
                         job = scope.launch {
@@ -124,9 +122,7 @@ fun CropEditOption(
                             crop = true
                         }
                     },
-                    modifier = Modifier.autoElevatedBorder(autoElevation = 1.5.dp),
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
                 ) {
                     Icon(Icons.Rounded.CropSmall, null)
                 }
