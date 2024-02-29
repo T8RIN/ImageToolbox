@@ -801,4 +801,6 @@
     <string name="apng_type_to_image">APNG в изображения</string>
     <string name="apng_type_to_image_sub">Преобразование файла APNG в изображения</string>
     <string name="apng_type_to_apng">Изображения в APNG</string>
+    <string name="zip">Zip</string>
+    <string name="zip_sub">Создать Zip-файл из заданных файлов или изображений</string>
 </resources>
