@@ -63,6 +63,7 @@ import ru.tech.imageresizershrinker.feature.recognize.text.presentation.Recogniz
 import ru.tech.imageresizershrinker.feature.resize_convert.presentation.ResizeAndConvertScreen
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.SingleEditScreen
 import ru.tech.imageresizershrinker.feature.watermarking.presentation.WatermarkingScreen
+import ru.tech.imageresizershrinker.feature.zip.presentation.ZipScreen
 
 @Composable
 fun ScreenSelector(
@@ -275,6 +276,13 @@ fun ScreenSelector(
             is Screen.ApngTools -> {
                 ApngToolsScreen(
                     typeState = screen.type,
+                    onGoBack = onGoBack
+                )
+            }
+
+            is Screen.Zip -> {
+                ZipScreen(
+                    uriState = screen.uris,
                     onGoBack = onGoBack
                 )
             }

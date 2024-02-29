@@ -122,7 +122,7 @@ import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFileName
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -431,7 +431,7 @@ fun FileCipherScreen(
                                         viewModel.uri?.let { uri ->
                                             PreferenceItem(
                                                 modifier = Modifier.padding(top = 16.dp),
-                                                title = context.getFileName(uri)
+                                                title = context.getFilename(uri)
                                                     ?: stringResource(R.string.something_went_wrong),
                                                 onClick = null,
                                                 titleFontStyle = LocalTextStyle.current.copy(
@@ -670,7 +670,7 @@ fun FileCipherScreen(
                                                         } else {
                                                             "dec-"
                                                         } + (viewModel.uri?.let {
-                                                            context.getFileName(it)
+                                                            context.getFilename(it)
                                                         } ?: Random.nextInt())
                                                     )
                                                 }

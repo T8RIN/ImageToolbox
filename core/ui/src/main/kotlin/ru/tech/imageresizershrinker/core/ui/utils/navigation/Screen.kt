@@ -28,6 +28,7 @@ import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.material.icons.outlined.Colorize
 import androidx.compose.material.icons.outlined.Draw
+import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
@@ -411,6 +412,14 @@ sealed class Screen(
         }
     }
 
+    data class Zip(
+        val uris: List<Uri>? = null
+    ) : Screen(
+        id = 22,
+        icon = Icons.Outlined.FolderZip,
+        title = R.string.zip,
+        subtitle = R.string.zip_sub
+    )
 
     companion object {
         val typedEntries by lazy {
@@ -434,6 +443,7 @@ sealed class Screen(
                     Watermarking(),
                     GradientMaker(),
                     Cipher(),
+                    Zip(),
                     DeleteExif()
                 ) to Triple(
                     R.string.create,
@@ -479,10 +489,11 @@ sealed class Screen(
                 GeneratePalette(),
                 DeleteExif(),
                 GradientMaker(),
+                Zip(),
                 Compare(),
                 LimitResize()
             )
         }
-        const val featuresCount = 30
+        const val featuresCount = 31
     }
 }

@@ -119,7 +119,7 @@ object ContextUtils {
         return null
     }
 
-    fun Context.getFileName(uri: Uri): String? = DocumentFile.fromSingleUri(this, uri)?.name
+    fun Context.getFilename(uri: Uri): String? = DocumentFile.fromSingleUri(this, uri)?.name
 
     fun Context.parseImageFromIntent(
         intent: Intent?,
@@ -192,8 +192,11 @@ object ContextUtils {
                     }
                 }
             } else if (intent?.type != null) {
+                val text = intent.getStringExtra(Intent.EXTRA_TEXT)
+                val multiplePdfs = intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM) != null
+
                 if (
-                    intent.type?.contains("pdf") == true
+                    intent.type?.contains("pdf") == true && !multiplePdfs
                 ) {
                     val uri = intent.data ?: intent.parcelable<Uri>(Intent.EXTRA_STREAM)
                     uri?.let {
@@ -204,11 +207,24 @@ object ContextUtils {
                             onGetUris(listOf(uri))
                         }
                     }
+                } else if (text != null) {
+                    navigate(Screen.LoadNetImage(text))
                 } else {
-                    intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-                        navigate(Screen.LoadNetImage(it))
-                    } ?: intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
-                        navigate(Screen.Cipher(it))
+                    when (intent.action) {
+                        Intent.ACTION_SEND_MULTIPLE -> {
+                            intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
+                                navigate(Screen.Zip(it))
+                            }
+                        }
+
+                        Intent.ACTION_SEND -> {
+                            intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
+                                onHasExtraImageType("file")
+                                onGetUris(listOf(it))
+                            }
+                        }
+
+                        else -> null
                     } ?: showToast(
                         getString(R.string.unsupported_type, intent.type),
                         Icons.Rounded.ErrorOutline

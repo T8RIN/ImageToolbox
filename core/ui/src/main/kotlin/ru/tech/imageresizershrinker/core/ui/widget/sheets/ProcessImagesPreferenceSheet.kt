@@ -93,22 +93,30 @@ fun ProcessImagesPreferenceSheet(
         },
         sheetContent = {
             val context = LocalContext.current
-            val gifAvailableScreens by remember(uris) {
+            val filesAvailableScreens by remember(uris) {
                 derivedStateOf {
                     listOf(
                         Screen.Cipher(uris.firstOrNull()),
+                        Screen.Zip(uris)
+                    )
+                }
+            }
+            val gifAvailableScreens by remember(uris) {
+                derivedStateOf {
+                    listOf(
                         Screen.GifTools(
                             Screen.GifTools.Type.GifToImage(
                                 uris.firstOrNull()
                             )
-                        )
+                        ),
+                        Screen.Cipher(uris.firstOrNull()),
+                        Screen.Zip(uris)
                     )
                 }
             }
             val pdfAvailableScreens by remember(uris) {
                 derivedStateOf {
                     listOf(
-                        Screen.Cipher(uris.firstOrNull()),
                         Screen.PdfTools(
                             Screen.PdfTools.Type.Preview(
                                 uris.firstOrNull()
@@ -118,7 +126,9 @@ fun ProcessImagesPreferenceSheet(
                             Screen.PdfTools.Type.PdfToImages(
                                 uris.firstOrNull()
                             )
-                        )
+                        ),
+                        Screen.Cipher(uris.firstOrNull()),
+                        Screen.Zip(uris)
                     )
                 }
             }
@@ -153,6 +163,7 @@ fun ProcessImagesPreferenceSheet(
                         Screen.ApngTools(
                             Screen.ApngTools.Type.ImageToApng(uris)
                         ),
+                        Screen.Zip(uris),
                         Screen.DeleteExif(uris),
                         Screen.LimitResize(uris)
                     ).let {
@@ -189,6 +200,7 @@ fun ProcessImagesPreferenceSheet(
                         )
                         add(Screen.ImagePreview(uris))
                         add(Screen.LimitResize(uris))
+                        add(Screen.Zip(uris))
                         add(
                             Screen.ApngTools(
                                 Screen.ApngTools.Type.ImageToApng(uris)
@@ -207,14 +219,12 @@ fun ProcessImagesPreferenceSheet(
                 multipleImagesScreens
             ) {
                 derivedStateOf {
-                    if (extraImageType == "pdf") {
-                        pdfAvailableScreens
-                    } else if (extraImageType == "gif") {
-                        gifAvailableScreens
-                    } else if (uris.size <= 1) {
-                        singleImageScreens
-                    } else {
-                        multipleImagesScreens
+                    when {
+                        extraImageType == "pdf" -> pdfAvailableScreens
+                        extraImageType == "gif" -> gifAvailableScreens
+                        extraImageType == "file" -> filesAvailableScreens
+                        uris.size <= 1 -> singleImageScreens
+                        else -> multipleImagesScreens
                     }
                 }
             }
@@ -271,7 +281,7 @@ fun ProcessImagesPreferenceSheet(
                                     }
                                 }
                             }
-                        if (extraImageType != "pdf") {
+                        if (extraImageType != "pdf" && extraImageType != "file") {
                             if (uris.size in 1..2) {
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),

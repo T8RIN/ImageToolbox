@@ -819,4 +819,6 @@
     <string name="apng_type_to_apng">Images to APNG</string>
     <string name="select_apng_image_to_start">Pick APNG image to start</string>
     <string name="motion_blur">Motion Blur</string>
+    <string name="zip">Zip</string>
+    <string name="zip_sub">Create Zip file from given files or images</string>
 </resources>

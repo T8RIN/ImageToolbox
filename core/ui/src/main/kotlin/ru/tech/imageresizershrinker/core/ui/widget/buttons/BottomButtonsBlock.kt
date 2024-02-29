@@ -64,6 +64,7 @@ fun BottomButtonsBlock(
     targetState: Pair<Boolean, Boolean>,
     onSecondaryButtonClick: () -> Unit,
     secondaryButtonIcon: ImageVector = Icons.Rounded.AddPhotoAlternate,
+    secondaryButtonText: String = stringResource(R.string.pick_image_alt),
     onPrimaryButtonClick: () -> Unit,
     primaryButtonIcon: ImageVector = Icons.Rounded.Save,
     isPrimaryButtonVisible: Boolean = true,
@@ -86,7 +87,7 @@ fun BottomButtonsBlock(
                         Spacer(Modifier.width(16.dp))
                         Icon(secondaryButtonIcon, null)
                         Spacer(Modifier.width(16.dp))
-                        Text(stringResource(R.string.pick_image_alt))
+                        Text(secondaryButtonText)
                         Spacer(Modifier.width(16.dp))
                     }
                 )

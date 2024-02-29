@@ -25,6 +25,7 @@ import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -167,6 +168,8 @@ internal class AndroidShareProvider @Inject constructor(
                 context.getString(R.string.file_provider),
                 file
             )
+        }.onFailure {
+            it.makeLog()
         }.getOrNull()?.toString()
     }
 

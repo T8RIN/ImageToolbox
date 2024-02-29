@@ -202,7 +202,7 @@ internal class FileControllerImpl @Inject constructor(
                     return SaveResult.Success(
                         message = context.getString(
                             R.string.saved_to_original,
-                            context.getFileName(originalUri).toString()
+                            originalUri.getFilename().toString()
                         )
                     )
                 }
@@ -374,9 +374,10 @@ internal class FileControllerImpl @Inject constructor(
 
         if (settingsState.addOriginalFilename) {
             prefix += if (saveTarget.originalUri.toUri() != Uri.EMPTY) {
-                context.getFileName(
-                    saveTarget.originalUri.toUri()
-                )?.dropLastWhile { it != '.' }?.removeSuffix(".") ?: ""
+                saveTarget.originalUri.toUri()
+                    .getFilename()
+                    ?.dropLastWhile { it != '.' }
+                    ?.removeSuffix(".") ?: ""
             } else {
                 context.getString(R.string.original_filename)
             }
@@ -515,6 +516,6 @@ internal class FileControllerImpl @Inject constructor(
         } else this
     }
 
-    private fun Context.getFileName(uri: Uri): String? = DocumentFile.fromSingleUri(this, uri)?.name
+    private fun Uri.getFilename(): String? = DocumentFile.fromSingleUri(context, this)?.name
 
 }

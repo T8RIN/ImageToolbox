@@ -96,7 +96,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.material.Apng
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFileName
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
 import ru.tech.imageresizershrinker.core.ui.utils.helper.failedToSaveImages
@@ -608,7 +608,7 @@ fun ApngToolsScreen(
 }
 
 private fun Uri.isApng(context: Context): Boolean {
-    return context.getFileName(this).toString().endsWith(".png")
+    return context.getFilename(this).toString().endsWith(".png")
         .or(context.contentResolver.getType(this)?.contains("png") == true)
         .or(context.contentResolver.getType(this)?.contains("apng") == true)
 }

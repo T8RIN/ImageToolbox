@@ -100,15 +100,18 @@ fun BoxScope.Loading(
     done: Int,
     left: Int
 ) {
-    Loading(progress = done / left.toFloat()) {
-        AutoSizeText(
-            text = "$done / $left",
-            maxLines = 1,
-            fontWeight = FontWeight.Medium,
-            modifier = Modifier.width(it * 0.8f),
-            textAlign = TextAlign.Center
-        )
-    }
+    val progress = done / left.toFloat()
+    if (progress.isFinite() && progress >= 0 && left > 0) {
+        Loading(progress = progress) {
+            AutoSizeText(
+                text = "$done / $left",
+                maxLines = 1,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.width(it * 0.8f),
+                textAlign = TextAlign.Center
+            )
+        }
+    } else Loading(modifier = Modifier.align(Alignment.Center))
 }
 
 @Composable

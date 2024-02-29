@@ -93,7 +93,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFileName
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
 import ru.tech.imageresizershrinker.core.ui.utils.helper.failedToSaveImages
@@ -584,7 +584,7 @@ fun GifToolsScreen(
 }
 
 private fun Uri.isGif(context: Context): Boolean {
-    return context.getFileName(this).toString().endsWith(".gif")
+    return context.getFilename(this).toString().endsWith(".gif")
         .or(context.contentResolver.getType(this)?.contains("gif") == true)
 }
 

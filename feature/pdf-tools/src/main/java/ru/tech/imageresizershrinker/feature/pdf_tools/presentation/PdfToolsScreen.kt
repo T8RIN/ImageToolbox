@@ -123,7 +123,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFileName
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
@@ -572,7 +572,7 @@ fun PdfToolsScreen(
                             ) { (pdfType, previewUri) ->
                                 Text(
                                     text = previewUri?.let {
-                                        context.getFileName(it)
+                                        context.getFilename(it)
                                     } ?: stringResource(pdfType?.title ?: R.string.pdf_tools),
                                     textAlign = TextAlign.Center
                                 )
