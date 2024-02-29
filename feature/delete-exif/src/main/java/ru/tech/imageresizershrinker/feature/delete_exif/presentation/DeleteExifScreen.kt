@@ -21,7 +21,6 @@ package ru.tech.imageresizershrinker.feature.delete_exif.presentation
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -36,7 +35,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -195,24 +193,14 @@ fun DeleteExifScreen(
             }
         },
         imagePreview = {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                ImageContainer(
-                    containerModifier = Modifier.weight(1f),
-                    imageInside = isPortrait,
-                    showOriginal = false,
-                    previewBitmap = viewModel.previewBitmap,
-                    originalBitmap = viewModel.bitmap,
-                    isLoading = viewModel.isImageLoading,
-                    shouldShowPreview = true
-                )
-                Spacer(Modifier.height(8.dp))
-                ImageCounter(
-                    imageCount = viewModel.uris?.size?.takeIf { it > 1 },
-                    onRepick = {
-                        showPickImageFromUrisSheet.value = true
-                    }
-                )
-            }
+            ImageContainer(
+                imageInside = isPortrait,
+                showOriginal = false,
+                previewBitmap = viewModel.previewBitmap,
+                originalBitmap = viewModel.bitmap,
+                isLoading = viewModel.isImageLoading,
+                shouldShowPreview = true
+            )
         },
         controls = {
             var showExifSelection by rememberSaveable {
@@ -225,6 +213,13 @@ fun DeleteExifScreen(
                     else selectedTags.joinToString(", ")
                 }
             }
+            ImageCounter(
+                imageCount = viewModel.uris?.size?.takeIf { it > 1 },
+                onRepick = {
+                    showPickImageFromUrisSheet.value = true
+                }
+            )
+            Spacer(modifier = Modifier.height(8.dp))
             PreferenceItem(
                 onClick = {
                     showExifSelection = true
@@ -255,11 +250,9 @@ fun DeleteExifScreen(
             )
         },
         noDataControls = {
-            if (!viewModel.isImageLoading) {
-                ImageNotPickedWidget(onPickImage = pickImage)
-            }
+            ImageNotPickedWidget(onPickImage = pickImage)
         },
-        canShowScreenData = viewModel.bitmap != null,
+        canShowScreenData = !viewModel.uris.isNullOrEmpty(),
         isPortrait = isPortrait
     )
 
@@ -279,11 +272,9 @@ fun DeleteExifScreen(
         uris = viewModel.uris,
         selectedUri = viewModel.selectedUri,
         onUriPicked = { uri ->
-            try {
-                viewModel.setBitmap(uri = uri)
-            } catch (e: Exception) {
+            viewModel.setUri(uri = uri) {
                 scope.launch {
-                    toastHostState.showError(context, e)
+                    toastHostState.showError(context, it)
                 }
             }
         },

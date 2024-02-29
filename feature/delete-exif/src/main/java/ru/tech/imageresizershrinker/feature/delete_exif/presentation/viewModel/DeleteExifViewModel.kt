@@ -30,6 +30,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
@@ -84,17 +85,8 @@ class DeleteExifViewModel @Inject constructor(
     ) {
         _uris.value = null
         _uris.value = uris
-        _selectedUri.value = uris?.firstOrNull()?.also { uri ->
-            viewModelScope.launch {
-                imageGetter.getImageAsync(
-                    uri = uri.toString(),
-                    originalSize = false,
-                    onGetImage = {
-                        updateBitmap(it.image)
-                    },
-                    onError = onError
-                )
-            }
+        uris?.firstOrNull()?.let {
+            setUri(it, onError)
         }
     }
 
@@ -131,6 +123,7 @@ class DeleteExifViewModel @Inject constructor(
             _isImageLoading.value = true
             _bitmap.value = bitmap
             _previewBitmap.value = imageScaler.scaleUntilCanShow(bitmap)
+            delay(500)
             _isImageLoading.value = false
         }
     }
@@ -183,11 +176,25 @@ class DeleteExifViewModel @Inject constructor(
         savingJob = it
     }
 
-    fun setBitmap(uri: Uri) {
+    fun setUri(
+        uri: Uri,
+        onError: (Throwable) -> Unit
+    ) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                updateBitmap(imageGetter.getImage(uri.toString(), originalSize = false)?.image)
+                _isImageLoading.value = true
                 _selectedUri.value = uri
+                imageGetter.getImageAsync(
+                    uri = uri.toString(),
+                    originalSize = false,
+                    onGetImage = {
+                        updateBitmap(it.image)
+                    },
+                    onError = {
+                        _isImageLoading.value = false
+                        onError(it)
+                    }
+                )
             }
         }
     }
