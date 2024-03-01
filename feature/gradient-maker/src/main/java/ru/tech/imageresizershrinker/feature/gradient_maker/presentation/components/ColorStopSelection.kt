@@ -100,6 +100,7 @@ fun ColorStopSelection(
 
     ExpandableItem(
         initialState = true,
+        modifier = Modifier.padding(1.dp),
         interactionSource = interactionSource,
         shape = RoundedCornerShape(cornerSize),
         color = MaterialTheme.colorScheme.surfaceContainer,

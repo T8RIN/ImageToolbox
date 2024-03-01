@@ -75,6 +75,7 @@ class UiGradientState(
         get() = getBrush(size)
 
     override fun getBrush(size: Size): ShaderBrush? {
+        if (colorStops.isEmpty()) return null
 
         val colorStops = colorStops.sortedBy { it.first }.let { pairs ->
             if (gradientType != GradientType.Sweep) {
@@ -133,11 +134,9 @@ class UiGradientState(
     }
 
     override var gradientType: GradientType by mutableStateOf(GradientType.Linear)
-    override val colorStops = mutableStateListOf(
-        0.0f to Color(0xff00ffa6),
-        0.5f to Color(0xff79ff00),
-        1.0f to Color(0xff1f5308)
-    )
+
+    override val colorStops = mutableStateListOf<Pair<Float, Color>>()
+
     override var tileMode by mutableStateOf(TileMode.Clamp)
 
     override var linearGradientAngle by mutableFloatStateOf(0f)
