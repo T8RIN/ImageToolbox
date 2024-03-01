@@ -793,4 +793,14 @@
     <string name="cross_blur">Kereszt Elmosódás</string>
     <string name="linear_tilt_shift">Lineáris Dőléseltolás</string>
     <string name="tags_to_remove">Az Eltávolítandó Címkék</string>
+    <string name="apng_tools">APNG eszközök</string>
+    <string name="apng_tools_sub">Konvertálja a képeket APNG-képpé, vagy bontsa ki a kereteket az adott APNG-képből</string>
+    <string name="apng_type_to_image">APNG a képekhez</string>
+    <string name="apng_type_to_apng_sub">Kötegelt képek konvertálása APNG-fájlba</string>
+    <string name="select_apng_image_to_start">A kezdéshez válassza az APNG-képet</string>
+    <string name="motion_blur">Elmosódás</string>
+    <string name="apng_type_to_image_sub">APNG-fájl konvertálása képek kötegévé</string>
+    <string name="apng_type_to_apng">Képek APNG-be</string>
+    <string name="zip">Postai irányítószám</string>
+    <string name="zip_sub">Zip fájl létrehozása adott fájlokból vagy képekből</string>
 </resources>

@@ -793,4 +793,14 @@
     <string name="star_blur">Rozmycie gwiazdami</string>
     <string name="linear_tilt_shift">Przesunięcie Pochylenia Liniowego</string>
     <string name="tags_to_remove">Tagi Do Usunięcia</string>
+    <string name="apng_type_to_apng_sub">Konwertuj partię obrazów do pliku APNG</string>
+    <string name="apng_tools">Narzędzia APNG</string>
+    <string name="apng_tools_sub">Konwertuj obrazy na obraz APNG lub wyodrębniaj klatki z danego obrazu APNG</string>
+    <string name="motion_blur">Rozmycie w ruchu</string>
+    <string name="apng_type_to_image_sub">Konwertuj plik APNG na partię zdjęć</string>
+    <string name="apng_type_to_image">APNG do obrazów</string>
+    <string name="select_apng_image_to_start">Aby rozpocząć, wybierz obraz APNG</string>
+    <string name="apng_type_to_apng">Obrazy do APNG</string>
+    <string name="zip">Zamek błyskawiczny</string>
+    <string name="zip_sub">Utwórz plik Zip z podanych plików lub obrazów</string>
 </resources>

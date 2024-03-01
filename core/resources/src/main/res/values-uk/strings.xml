@@ -793,4 +793,14 @@
     <string name="star_blur">Розмиття зірками</string>
     <string name="linear_tilt_shift">Лінійний зсув нахилу</string>
     <string name="tags_to_remove">Ярлики для видалення</string>
+    <string name="apng_tools">Інструменти APNG</string>
+    <string name="apng_type_to_image_sub">Перетворіть файл APNG на пакет зображень</string>
+    <string name="motion_blur">Рух Розмитість</string>
+    <string name="apng_type_to_apng">Зображення в APNG</string>
+    <string name="select_apng_image_to_start">Щоб почати, виберіть зображення APNG</string>
+    <string name="apng_type_to_image">APNG до зображень</string>
+    <string name="apng_type_to_apng_sub">Перетворіть пакет зображень у файл APNG</string>
+    <string name="zip">Zip</string>
+    <string name="zip_sub">Створіть файл Zip із заданих файлів або зображень</string>
+    <string name="apng_tools_sub">Перетворіть зображення на зображення APNG або витягніть кадри з заданого зображення APNG</string>
 </resources>

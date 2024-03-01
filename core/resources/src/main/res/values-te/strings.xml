@@ -793,4 +793,14 @@
     <string name="star_blur">నక్షత్ర అస్పష్టత</string>
     <string name="linear_tilt_shift">సరళ వంపు మార్పు</string>
     <string name="tags_to_remove">తొలగించు టాగ్లు</string>
+    <string name="motion_blur">మోషన్ బ్లర్</string>
+    <string name="apng_type_to_apng">APNGకి చిత్రాలు</string>
+    <string name="select_apng_image_to_start">ప్రారంభించడానికి APNG చిత్రాన్ని ఎంచుకోండి</string>
+    <string name="apng_tools">APNG సాధనాలు</string>
+    <string name="apng_tools_sub">చిత్రాలను APNG చిత్రానికి మార్చండి లేదా ఇచ్చిన APNG చిత్రం నుండి ఫ్రేమ్‌లను సంగ్రహించండి</string>
+    <string name="apng_type_to_image">చిత్రాలకు APNG</string>
+    <string name="apng_type_to_image_sub">APNG ఫైల్‌ను చిత్రాల బ్యాచ్‌గా మార్చండి</string>
+    <string name="apng_type_to_apng_sub">చిత్రాల బ్యాచ్‌ని APNG ఫైల్‌గా మార్చండి</string>
+    <string name="zip">జిప్</string>
+    <string name="zip_sub">ఇచ్చిన ఫైల్‌లు లేదా చిత్రాల నుండి జిప్ ఫైల్‌ను సృష్టించండి</string>
 </resources>

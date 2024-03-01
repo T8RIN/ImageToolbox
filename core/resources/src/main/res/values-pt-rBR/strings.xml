@@ -797,4 +797,9 @@
     <string name="motion_blur">Desfoque de movimento</string>
     <string name="apng_tools_sub">Converter imagens em imagem APNG ou extrair quadros de determinada imagem APNG</string>
     <string name="apng_type_to_apng">Imagens para APNG</string>
+    <string name="apng_tools">Ferramentas APNG</string>
+    <string name="apng_type_to_image_sub">Converta arquivo APNG em lote de fotos</string>
+    <string name="apng_type_to_apng_sub">Converter lote de imagens em arquivo APNG</string>
+    <string name="zip_sub">Crie um arquivo Zip a partir de determinados arquivos ou imagens</string>
+    <string name="zip">Fecho eclair</string>
 </resources>

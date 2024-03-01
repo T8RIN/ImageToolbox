@@ -793,4 +793,14 @@
     <string name="star_blur">스타 블러</string>
     <string name="linear_tilt_shift">선형 경사 교대</string>
     <string name="tags_to_remove">제거할 태그</string>
+    <string name="apng_type_to_apng">이미지를 APNG로</string>
+    <string name="apng_type_to_image_sub">APNG 파일을 사진 배치로 변환</string>
+    <string name="apng_type_to_apng_sub">배치 이미지를 APNG 파일로 변환</string>
+    <string name="apng_tools">APNG 도구</string>
+    <string name="apng_tools_sub">이미지를 APNG 그림으로 변환하거나 주어진 APNG 이미지에서 프레임을 추출합니다</string>
+    <string name="apng_type_to_image">APNG를 이미지로</string>
+    <string name="select_apng_image_to_start">시작하려면 APNG 이미지를 선택하세요</string>
+    <string name="motion_blur">모션 블러</string>
+    <string name="zip">지퍼</string>
+    <string name="zip_sub">주어진 파일이나 이미지로 Zip 파일 만들기</string>
 </resources>

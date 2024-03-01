@@ -793,4 +793,14 @@
     <string name="star_blur">Звездана тачка</string>
     <string name="linear_tilt_shift">Линеарни помак нагиба</string>
     <string name="tags_to_remove">Ознаке за брисање</string>
+    <string name="apng_tools">АПНГ алати</string>
+    <string name="apng_tools_sub">Претворите слике у АПНГ слику или издвојите оквире из дате АПНГ слике</string>
+    <string name="apng_type_to_image">АПНГ за слике</string>
+    <string name="select_apng_image_to_start">Изаберите АПНГ слику за почетак</string>
+    <string name="apng_type_to_apng_sub">Претворите серију слика у АПНГ датотеку</string>
+    <string name="apng_type_to_apng">Слике у АПНГ</string>
+    <string name="motion_blur">Мотион Блур</string>
+    <string name="apng_type_to_image_sub">Претворите АПНГ датотеку у серију слика</string>
+    <string name="zip">Зип</string>
+    <string name="zip_sub">Креирајте Зип датотеку од датих датотека или слика</string>
 </resources>
