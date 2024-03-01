@@ -793,4 +793,14 @@
     <string name="cross_blur">ضباب متقاطع</string>
     <string name="linear_tilt_shift">تحول الميل الخطي</string>
     <string name="tags_to_remove">علامات لإزالة</string>
+    <string name="apng_tools">ادوات APNG</string>
+    <string name="apng_type_to_image">APNG إلى الصور</string>
+    <string name="apng_type_to_image_sub">تحويل ملف APNG إلى مجموعة من الصور</string>
+    <string name="apng_type_to_apng">الصور إلى APNG</string>
+    <string name="select_apng_image_to_start">اختر صورة APNG للبدء</string>
+    <string name="motion_blur">ضبابية الحركة</string>
+    <string name="zip_sub">قم بإنشاء ملف مضغوط من ملفات أو صور معينة</string>
+    <string name="apng_tools_sub">تحويل الصور إلى صورة APNG أو استخراج الإطارات من صورة APNG معينة</string>
+    <string name="apng_type_to_apng_sub">تحويل مجموعة من الصور إلى ملف APNG</string>
+    <string name="zip">مضغوط</string>
 </resources>

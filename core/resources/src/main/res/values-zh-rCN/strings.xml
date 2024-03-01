@@ -801,4 +801,6 @@
     <string name="apng_type_to_apng">图像转换为 APNG</string>
     <string name="apng_type_to_image">APNG 转换为图像</string>
     <string name="motion_blur">动态模糊</string>
+    <string name="zip">Zip</string>
+    <string name="zip_sub">根据给定文件或图像创建 Zip 压缩包文件</string>
 </resources>
