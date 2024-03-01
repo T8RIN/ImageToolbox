@@ -21,7 +21,6 @@ package ru.tech.imageresizershrinker.core.data.image
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.os.Build
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
@@ -29,22 +28,13 @@ import androidx.exifinterface.media.ExifInterface
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.size.Size
-import com.awxkee.aire.Aire
-import com.awxkee.aire.AireColorMapper
-import com.awxkee.aire.AirePaletteDithering
-import com.awxkee.aire.AireQuantize
-import com.awxkee.jxlcoder.JxlCoder
-import com.awxkee.jxlcoder.JxlColorSpace
-import com.awxkee.jxlcoder.JxlCompressionOption
-import com.awxkee.jxlcoder.JxlDecodingSpeed
-import com.radzivon.bartoshyk.avif.coder.HeifCoder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.data.image.utils.BMPCompressor
+import ru.tech.imageresizershrinker.core.data.image.utils.SimpleCompressor
 import ru.tech.imageresizershrinker.core.data.utils.fileSize
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -56,7 +46,6 @@ import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.domain.model.sizeTo
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
@@ -85,131 +74,16 @@ internal class AndroidImageCompressor @Inject constructor(
         image: Bitmap,
         imageFormat: ImageFormat,
         quality: Quality
-    ): ByteArray = withContext(Dispatchers.IO) {
-        val heifCoder = HeifCoder(context)
-        val jxlCoder = JxlCoder()
+    ): ByteArray = SimpleCompressor
+        .getInstance(
+            imageFormat = imageFormat,
+            context = context
+        )
+        .compress(
+            image = image,
+            quality = quality
+        )
 
-        when (imageFormat) {
-            ImageFormat.Bmp -> BMPCompressor.compress(image)
-            ImageFormat.Jpeg, ImageFormat.Jpg -> {
-                val out = ByteArrayOutputStream()
-                image.compress(
-                    Bitmap.CompressFormat.JPEG,
-                    quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
-                    out
-                )
-                out.toByteArray()
-            }
-
-            ImageFormat.MozJpeg -> {
-                Aire.toJPEG(
-                    bitmap = image,
-                    quality = quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
-                )
-            }
-
-            ImageFormat.PngLossy -> {
-                val pngLossyQuality = quality as? Quality.PngLossy ?: Quality.PngLossy()
-                Aire.toPNG(
-                    bitmap = image,
-                    maxColors = pngLossyQuality.maxColors,
-                    quantize = AireQuantize.XIAOLING_WU,
-                    dithering = AirePaletteDithering.JARVIS_JUDICE_NINKE,
-                    colorMapper = AireColorMapper.COVER_TREE,
-                    compressionLevel = pngLossyQuality.compressionLevel.coerceIn(0..9)
-                )
-            }
-
-            ImageFormat.Webp.Lossless -> {
-                val out = ByteArrayOutputStream()
-                @Suppress("DEPRECATION")
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    image.compress(
-                        Bitmap.CompressFormat.WEBP_LOSSLESS,
-                        quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
-                        out
-                    )
-                } else image.compress(
-                    Bitmap.CompressFormat.WEBP,
-                    quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
-                    out
-                )
-                out.toByteArray()
-            }
-
-            ImageFormat.Webp.Lossy -> {
-                val out = ByteArrayOutputStream()
-                @Suppress("DEPRECATION")
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    image.compress(
-                        Bitmap.CompressFormat.WEBP_LOSSY,
-                        quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
-                        out
-                    )
-                } else image.compress(
-                    Bitmap.CompressFormat.WEBP,
-                    quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
-                    out
-                )
-                out.toByteArray()
-            }
-
-            ImageFormat.Avif -> {
-                heifCoder.encodeAvif(
-                    bitmap = image,
-                    quality = quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange)
-                )
-            }
-
-            ImageFormat.Heic -> {
-                heifCoder.encodeHeic(
-                    bitmap = image,
-                    quality = quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
-                )
-            }
-
-            ImageFormat.Heif -> {
-                heifCoder.encodeHeic(
-                    bitmap = image,
-                    quality = quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
-                )
-            }
-
-            ImageFormat.Jxl.Lossy -> {
-                val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl(quality.qualityValue)
-                jxlCoder.encode(
-                    bitmap = image,
-                    colorSpace = JxlColorSpace.RGBA,
-                    compressionOption = JxlCompressionOption.LOSSY,
-                    quality = jxlQuality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
-                    effort = jxlQuality.effort.coerceIn(imageFormat.compressionTypes[1].compressionRange),
-                    decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == jxlQuality.speed }
-                )
-            }
-
-            ImageFormat.Jxl.Lossless -> {
-                val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl(quality.qualityValue)
-                jxlCoder.encode(
-                    bitmap = image,
-                    colorSpace = JxlColorSpace.RGBA,
-                    compressionOption = JxlCompressionOption.LOSSLESS,
-                    quality = 100,
-                    effort = jxlQuality.effort.coerceIn(imageFormat.compressionTypes[0].compressionRange),
-                    decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == jxlQuality.speed }
-                )
-            }
-
-            ImageFormat.PngLossless -> {
-                val out = ByteArrayOutputStream()
-                image.compress(
-                    Bitmap.CompressFormat.PNG,
-                    quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
-                    out
-                )
-                out.toByteArray()
-            }
-        }
-    }
 
     override suspend fun compressAndTransform(
         image: Bitmap,
