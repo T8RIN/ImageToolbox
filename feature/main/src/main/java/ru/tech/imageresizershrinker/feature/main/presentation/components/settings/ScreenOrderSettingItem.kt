@@ -42,7 +42,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -125,7 +124,7 @@ fun ScreenOrderSettingItem(
         },
         confirmButton = {
             EnhancedButton(
-                containerColor = Color.Transparent,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = { showArrangementSheet.value = false }
             ) {
                 AutoSizeText(stringResource(R.string.close))
