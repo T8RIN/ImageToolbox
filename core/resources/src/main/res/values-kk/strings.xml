@@ -793,4 +793,14 @@
     <string name="circle_blur">Шеңбер Бұлыңғыр</string>
     <string name="star_blur">Жұлдызды Бұлыңғырлық</string>
     <string name="tags_to_remove">Жою Үшін Тегтер</string>
+    <string name="apng_type_to_image">Суреттерге APNG</string>
+    <string name="apng_type_to_image_sub">APNG файлын суреттер топтамасына түрлендіру</string>
+    <string name="apng_tools">APNG құралдары</string>
+    <string name="apng_tools_sub">Суреттерді APNG суретіне түрлендіру немесе берілген APNG кескінінен жақтауларды шығарып алу</string>
+    <string name="apng_type_to_apng_sub">Суреттер партиясын APNG файлына түрлендіру</string>
+    <string name="apng_type_to_apng">Суреттер APNG</string>
+    <string name="select_apng_image_to_start">Бастау үшін APNG кескінін таңдаңыз</string>
+    <string name="motion_blur">Размытие движением</string>
+    <string name="zip">Zip</string>
+    <string name="zip_sub">Берілген файлдардан немесе кескіндерден Zip файлын жасаңыз</string>
 </resources>
