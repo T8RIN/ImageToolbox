@@ -48,7 +48,7 @@ fun HelpTranslateSettingItem(
             .copy(alpha = 0.2f),
         title = stringResource(R.string.help_translate),
         subtitle = stringResource(R.string.help_translate_sub),
-        icon = Icons.Rounded.Translate,
+        startIcon = Icons.Rounded.Translate,
         onClick = {
             context.startActivity(
                 Intent(

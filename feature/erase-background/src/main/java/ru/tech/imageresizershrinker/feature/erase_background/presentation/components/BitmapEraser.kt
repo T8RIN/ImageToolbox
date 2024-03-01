@@ -128,10 +128,9 @@ fun BitmapEraser(
                             } else Offset.Unspecified
                         },
                         magnifierCenter = {
-                            globalTouchPosition - Offset(0f, 200f)
+                            globalTouchPosition - Offset(0f, 100.dp.toPx())
                         },
                         size = DpSize(height = 100.dp, width = 100.dp),
-                        zoom = 2f / zoomState.scale,
                         cornerRadius = 50.dp,
                         elevation = 2.dp
                     )

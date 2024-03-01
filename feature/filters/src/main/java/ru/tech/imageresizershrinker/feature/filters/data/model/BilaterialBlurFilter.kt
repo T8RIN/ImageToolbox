@@ -18,9 +18,9 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import coil.size.Size
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class BilaterialBlurFilter(
@@ -32,12 +32,12 @@ internal class BilaterialBlurFilter(
 
     override suspend fun transform(
         input: Bitmap,
-        size: Size
+        size: IntegerSize
     ): Bitmap = Aire.bilateralBlur(
         bitmap = input,
         spatialSigma = value.first,
         rangeSigma = value.second,
-        radius = value.third.toInt()
+        kernelSize = 2 * value.third.toInt() + 1
     )
 
 }

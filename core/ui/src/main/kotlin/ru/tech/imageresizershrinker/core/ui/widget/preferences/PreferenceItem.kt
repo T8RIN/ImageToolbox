@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
@@ -37,8 +38,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun PreferenceItem(
@@ -46,7 +50,7 @@ fun PreferenceItem(
     title: String,
     enabled: Boolean = true,
     subtitle: String? = null,
-    icon: ImageVector? = null,
+    startIcon: ImageVector? = null,
     endIcon: ImageVector? = null,
     autoShadowElevation: Dp = 1.dp,
     shape: Shape = RoundedCornerShape(16.dp),
@@ -55,14 +59,19 @@ fun PreferenceItem(
         backgroundColor = MaterialTheme.colorScheme.surfaceVariant
     ) else contentColorFor(backgroundColor = color),
     drawStartIconContainer: Boolean = true,
+    titleFontStyle: TextStyle = LocalTextStyle.current.copy(
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Medium,
+        lineHeight = 18.sp
+    ),
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
 ) {
-    val targetIcon: (@Composable () -> Unit)? = if (icon == null) null else {
+    val targetIcon: (@Composable () -> Unit)? = if (startIcon == null) null else {
         {
             AnimatedContent(
-                targetState = icon,
+                targetState = startIcon,
                 transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
             ) { icon ->
                 Icon(
@@ -92,11 +101,12 @@ fun PreferenceItem(
         enabled = enabled,
         title = title,
         subtitle = subtitle,
-        icon = targetIcon,
+        startIcon = targetIcon,
         endIcon = targetEndIcon,
         shape = shape,
         color = color,
         modifier = modifier,
+        titleFontStyle = titleFontStyle,
         drawStartIconContainer = drawStartIconContainer
     )
 }

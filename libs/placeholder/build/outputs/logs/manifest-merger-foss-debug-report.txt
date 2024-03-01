@@ -1,0 +1,17 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/bbc/Documents/github.com/ImageToolbox/libs/placeholder/src/main/AndroidManifest.xml:17:1-20:12
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/placeholder/src/main/AndroidManifest.xml:17:1-20:12
+	package
+		INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/placeholder/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/bbc/Documents/github.com/ImageToolbox/libs/placeholder/src/main/AndroidManifest.xml:17:11-69
+uses-sdk
+ADDED from /Users/bbc/Documents/github.com/ImageToolbox/libs/placeholder/src/main/AndroidManifest.xml:19:5-44
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/placeholder/src/main/AndroidManifest.xml:19:5-44
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/placeholder/src/main/AndroidManifest.xml:19:5-44
+	android:targetSdkVersion
+		INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/placeholder/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		ADDED from /Users/bbc/Documents/github.com/ImageToolbox/libs/placeholder/src/main/AndroidManifest.xml:19:15-41
+		INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/placeholder/src/main/AndroidManifest.xml

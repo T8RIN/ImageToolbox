@@ -29,7 +29,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
-import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import javax.inject.Inject
 
 @HiltViewModel
@@ -47,33 +46,25 @@ class GeneratePaletteViewModel @Inject constructor(
     private val _uri = mutableStateOf<Uri?>(null)
     val uri by _uri
 
-    fun setUri(uri: Uri) {
-        _uri.value = uri
-    }
-
-    fun updateBitmap(bitmap: Bitmap?) {
-        viewModelScope.launch {
-            _isImageLoading.value = true
-            _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
-            _isImageLoading.value = false
-        }
-    }
-
-    fun decodeBitmapByUri(
-        uri: Uri,
-        originalSize: Boolean = true,
-        onGetMimeType: (ImageFormat) -> Unit,
-        onGetExif: (ExifInterface?) -> Unit,
-        onGetBitmap: (Bitmap) -> Unit,
-        onError: (Throwable) -> Unit
+    fun setUri(
+        uri: Uri?,
+        onError: (Throwable) -> Unit = {}
     ) {
+        _uri.value = uri
+        if (uri == null) {
+            _bitmap.value = null
+            return
+        }
+
         imageGetter.getImageAsync(
             uri = uri.toString(),
-            originalSize = originalSize,
+            originalSize = false,
             onGetImage = {
-                onGetBitmap(it.image)
-                onGetExif(it.metadata)
-                onGetMimeType(it.imageInfo.imageFormat)
+                viewModelScope.launch {
+                    _isImageLoading.value = true
+                    _bitmap.value = imageScaler.scaleUntilCanShow(it.image)
+                    _isImageLoading.value = false
+                }
             },
             onError = onError
         )

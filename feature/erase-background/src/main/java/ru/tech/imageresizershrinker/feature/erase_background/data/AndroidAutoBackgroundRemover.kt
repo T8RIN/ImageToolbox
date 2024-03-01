@@ -24,8 +24,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
+import javax.inject.Inject
 
-internal class AndroidAutoBackgroundRemover : AutoBackgroundRemover<Bitmap> {
+internal class AndroidAutoBackgroundRemover @Inject constructor() : AutoBackgroundRemover<Bitmap> {
 
     override suspend fun trimEmptyParts(
         image: Bitmap

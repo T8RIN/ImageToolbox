@@ -23,3 +23,7 @@ plugins {
 }
 
 android.namespace = "ru.tech.imageresizershrinker.feature.generate_palette"
+
+dependencies {
+    implementation(projects.feature.pickColor)
+}

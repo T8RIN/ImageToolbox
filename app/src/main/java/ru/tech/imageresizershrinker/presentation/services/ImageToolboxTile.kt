@@ -22,6 +22,7 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.drawable.Icon
 import android.os.Build
+import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import ru.tech.imageresizershrinker.core.resources.R
@@ -56,10 +57,13 @@ class ImageToolboxTile : TileService() {
     }
 
     override fun onStartListening() {
-        val tile = qsTile
-        tile.label = getString(R.string.app_name)
-        tile.icon = Icon.createWithResource(this, R.drawable.ic_launcher_monochrome_24)
-        tile.updateTile()
+        qsTile?.apply {
+            label = getString(R.string.app_name)
+            icon =
+                Icon.createWithResource(applicationContext, R.drawable.ic_launcher_monochrome_24)
+            state = Tile.STATE_ACTIVE
+            updateTile()
+        }
+        super.onStartListening()
     }
-
 }

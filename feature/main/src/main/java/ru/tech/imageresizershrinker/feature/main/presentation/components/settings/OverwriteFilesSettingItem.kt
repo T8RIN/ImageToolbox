@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Architecture
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -41,22 +40,11 @@ fun OverwriteFilesSettingItem(
     PreferenceRowSwitch(
         shape = shape,
         modifier = modifier,
-        applyHorPadding = false,
         onClick = onClick,
         enabled = !settingsState.randomizeFilename,
         title = stringResource(R.string.overwrite_files),
         subtitle = stringResource(R.string.overwrite_files_sub),
         checked = settingsState.overwriteFiles,
-        resultModifier = Modifier.padding(
-            horizontal = 16.dp,
-            vertical = 8.dp
-        ),
-        startContent = {
-            Icon(
-                imageVector = Icons.Outlined.Architecture,
-                contentDescription = null,
-                modifier = Modifier.padding(end = 16.dp)
-            )
-        }
+        startIcon = Icons.Outlined.Architecture
     )
 }

@@ -70,6 +70,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 
 @Composable
 fun ImageReorderCarousel(
@@ -188,7 +189,7 @@ fun ImageReorderCarousel(
                                     )
                                 }
                             }
-                            androidx.compose.animation.AnimatedVisibility(
+                            BoxAnimatedVisibility(
                                 visible = (images?.size ?: 0) > 2 && state.draggingItemKey == null,
                                 enter = scaleIn() + fadeIn(),
                                 exit = scaleOut() + fadeOut()

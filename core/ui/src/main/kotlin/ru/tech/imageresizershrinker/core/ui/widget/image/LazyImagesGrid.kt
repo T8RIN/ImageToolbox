@@ -73,6 +73,7 @@ fun LazyImagesGrid(
     data: List<Uri>?,
     onAddImages: ((List<Uri>) -> Unit)?,
     onShareImage: (Uri) -> Unit,
+    onRemove: (Uri) -> Unit,
     modifier: Modifier = Modifier,
     state: LazyStaggeredGridState = rememberLazyStaggeredGridState(),
     width: Dp = 150.dp,
@@ -118,12 +119,12 @@ fun LazyImagesGrid(
             start = 12.dp + cutout.calculateStartPadding(direction)
         )
     ) {
-        data?.forEachIndexed { index, it ->
+        data?.forEachIndexed { index, uri ->
             item(
-                key = it.hashCode().takeIf { c -> c != 0 } ?: index
+                key = uri.hashCode().takeIf { c -> c != 0 } ?: index
             ) {
                 Picture(
-                    model = it,
+                    model = uri,
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .padding(2.dp)
@@ -136,8 +137,11 @@ fun LazyImagesGrid(
                         )
                         .clickable {
                             showImagePreviewDialog = true
-                            selectedUri = it.toString()
+                            selectedUri = uri.toString()
                         },
+                    onError = {
+                        onRemove(uri)
+                    },
                     showTransparencyChecker = showTransparencyChecker,
                     shape = MaterialTheme.shapes.large
                 )

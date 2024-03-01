@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -41,19 +40,11 @@ fun RandomizeFilenameSettingItem(
     PreferenceRowSwitch(
         shape = shape,
         modifier = modifier,
-        applyHorPadding = false,
         enabled = !settingsState.overwriteFiles,
-        resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
         onClick = onClick,
         title = stringResource(R.string.randomize_filename),
         subtitle = stringResource(R.string.randomize_filename_sub),
         checked = settingsState.randomizeFilename,
-        startContent = {
-            Icon(
-                Icons.Rounded.Symbol,
-                null,
-                modifier = Modifier.padding(end = 16.dp)
-            )
-        }
+        startIcon = Icons.Rounded.Symbol
     )
 }

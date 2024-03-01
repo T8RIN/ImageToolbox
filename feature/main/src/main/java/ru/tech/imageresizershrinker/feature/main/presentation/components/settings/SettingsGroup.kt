@@ -21,7 +21,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Cached
 import androidx.compose.material.icons.rounded.Description
 import androidx.compose.material.icons.rounded.Draw
-import androidx.compose.material.icons.rounded.Fingerprint
 import androidx.compose.material.icons.rounded.FitScreen
 import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
@@ -29,7 +28,6 @@ import androidx.compose.material.icons.rounded.IntegrationInstructions
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.PersonSearch
 import androidx.compose.material.icons.rounded.PhoneAndroid
-import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material.icons.rounded.SettingsBackupRestore
 import androidx.compose.material.icons.rounded.ShieldMoon
 import androidx.compose.material.icons.rounded.SortByAlpha
@@ -38,8 +36,10 @@ import androidx.compose.material.icons.rounded.Vibration
 import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.ui.graphics.vector.ImageVector
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.icons.material.Exif
 import ru.tech.imageresizershrinker.core.ui.icons.material.Firebase
 import ru.tech.imageresizershrinker.core.ui.icons.material.FolderOpen
+import ru.tech.imageresizershrinker.core.ui.icons.material.LabelPercent
 import ru.tech.imageresizershrinker.core.ui.icons.material.Shadow
 import ru.tech.imageresizershrinker.core.ui.icons.material.Stacks
 
@@ -133,7 +133,7 @@ sealed class SettingsGroup(
     )
 
     data object Presets : SettingsGroup(
-        icon = Icons.Rounded.PhotoSizeSelectSmall,
+        icon = Icons.Rounded.LabelPercent,
         titleId = R.string.presets,
         settingsList = listOf(
             Setting.Presets
@@ -161,7 +161,7 @@ sealed class SettingsGroup(
     )
 
     data object Exif : SettingsGroup(
-        icon = Icons.Rounded.Fingerprint,
+        icon = Icons.Rounded.Exif,
         titleId = R.string.exif,
         settingsList = listOf(
             Setting.ExifWidgetInitialState

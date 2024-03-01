@@ -26,8 +26,8 @@ import android.graphics.PorterDuffXfermode
 import android.graphics.Shader
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import coil.size.Size
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
@@ -43,7 +43,7 @@ internal class SideFadeFilter(
 
     override suspend fun transform(
         input: Bitmap,
-        size: Size
+        size: IntegerSize
     ): Bitmap {
         val bitmap = input.copy(input.config, true).apply { setHasAlpha(true) }
         val fadeSize: Int = when (value) {

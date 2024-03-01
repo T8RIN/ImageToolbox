@@ -70,6 +70,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
@@ -122,7 +123,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFileName
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
@@ -131,16 +132,17 @@ import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
-import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetWidget
+import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleSmallImagesToLargeToggle
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
+import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -168,7 +170,7 @@ fun PdfToolsScreen(
     }
 
     val context = LocalContext.current as Activity
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val confettiController = LocalConfettiController.current
 
@@ -393,17 +395,23 @@ fun PdfToolsScreen(
         val pdfType = it
         EnhancedFloatingActionButton(
             onClick = {
-                when (pdfType) {
-                    is Screen.PdfTools.Type.ImagesToPdf -> {
-                        imagesToPdfPicker.pickImage()
-                    }
+                runCatching {
+                    when (pdfType) {
+                        is Screen.PdfTools.Type.ImagesToPdf -> {
+                            imagesToPdfPicker.pickImage()
+                        }
 
-                    is Screen.PdfTools.Type.Preview -> {
-                        pdfPreviewPicker.launch(arrayOf("application/pdf"))
-                    }
+                        is Screen.PdfTools.Type.Preview -> {
+                            pdfPreviewPicker.launch(arrayOf("application/pdf"))
+                        }
 
-                    else -> {
-                        pdfToImagesPicker.launch(arrayOf("application/pdf"))
+                        else -> {
+                            pdfToImagesPicker.launch(arrayOf("application/pdf"))
+                        }
+                    }
+                }.onFailure {
+                    scope.launch {
+                        toastHostState.showError(context, it)
                     }
                 }
             },
@@ -441,7 +449,17 @@ fun PdfToolsScreen(
                         if (pdfType is Screen.PdfTools.Type.ImagesToPdf && viewModel.imagesToPdfState != null) {
                             val name = viewModel.generatePdfFilename()
                             viewModel.convertImagesToPdf {
-                                savePdfLauncher.launch("application/pdf#$name.pdf")
+                                runCatching {
+                                    savePdfLauncher.launch("application/pdf#$name.pdf")
+                                }.onFailure {
+                                    scope.launch {
+                                        toastHostState.showToast(
+                                            message = context.getString(R.string.activate_files),
+                                            icon = Icons.Outlined.FolderOff,
+                                            duration = ToastDuration.Long
+                                        )
+                                    }
+                                }
                             }
                         } else if (pdfType is Screen.PdfTools.Type.PdfToImages) {
                             viewModel.savePdfToImage { savingPath ->
@@ -494,10 +512,10 @@ fun PdfToolsScreen(
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                PresetWidget(
-                    selectedPreset = viewModel.presetSelected,
+                PresetSelector(
+                    value = viewModel.presetSelected,
                     includeTelegramOption = false,
-                    onPresetSelected = {
+                    onValueChange = {
                         if (it is Preset.Numeric) {
                             viewModel.selectPreset(it)
                         }
@@ -518,8 +536,7 @@ fun PdfToolsScreen(
                 Spacer(
                     Modifier.height(8.dp)
                 )
-                ExtensionGroup(
-                    enabled = true,
+                ImageFormatSelector(
                     value = viewModel.imageInfo.imageFormat,
                     onValueChange = viewModel::updateImageFormat
                 )
@@ -555,7 +572,7 @@ fun PdfToolsScreen(
                             ) { (pdfType, previewUri) ->
                                 Text(
                                     text = previewUri?.let {
-                                        context.getFileName(it)
+                                        context.getFilename(it)
                                     } ?: stringResource(pdfType?.title ?: R.string.pdf_tools),
                                     textAlign = TextAlign.Center
                                 )
@@ -698,21 +715,38 @@ fun PdfToolsScreen(
                                             item {
                                                 PreferenceItem(
                                                     onClick = {
-                                                        when (it) {
-                                                            is Screen.PdfTools.Type.ImagesToPdf -> {
-                                                                imagesToPdfPicker.pickImage()
-                                                            }
+                                                        runCatching {
+                                                            when (it) {
+                                                                is Screen.PdfTools.Type.ImagesToPdf -> {
+                                                                    imagesToPdfPicker.pickImage()
+                                                                }
 
-                                                            is Screen.PdfTools.Type.PdfToImages -> {
-                                                                pdfToImagesPicker.launch(arrayOf("application/pdf"))
-                                                            }
+                                                                is Screen.PdfTools.Type.PdfToImages -> {
+                                                                    pdfToImagesPicker.launch(
+                                                                        arrayOf(
+                                                                            "application/pdf"
+                                                                        )
+                                                                    )
+                                                                }
 
-                                                            is Screen.PdfTools.Type.Preview -> {
-                                                                pdfPreviewPicker.launch(arrayOf("application/pdf"))
+                                                                is Screen.PdfTools.Type.Preview -> {
+                                                                    pdfPreviewPicker.launch(
+                                                                        arrayOf(
+                                                                            "application/pdf"
+                                                                        )
+                                                                    )
+                                                                }
+                                                            }
+                                                        }.onFailure {
+                                                            scope.launch {
+                                                                toastHostState.showError(
+                                                                    context,
+                                                                    it
+                                                                )
                                                             }
                                                         }
                                                     },
-                                                    icon = it.icon,
+                                                    startIcon = it.icon,
                                                     title = stringResource(it.title),
                                                     subtitle = stringResource(it.subtitle),
                                                     modifier = Modifier.fillMaxWidth(),
@@ -736,7 +770,17 @@ fun PdfToolsScreen(
                                     ) {
                                         EnhancedFloatingActionButton(
                                             onClick = {
-                                                selectionPdfPicker.launch(arrayOf("application/pdf"))
+                                                runCatching {
+                                                    selectionPdfPicker.launch(arrayOf("application/pdf"))
+                                                }.onFailure {
+                                                    scope.launch {
+                                                        toastHostState.showToast(
+                                                            message = context.getString(R.string.activate_files),
+                                                            icon = Icons.Outlined.FolderOff,
+                                                            duration = ToastDuration.Long
+                                                        )
+                                                    }
+                                                }
                                             },
                                             modifier = Modifier
                                                 .navigationBarsPadding()
@@ -934,7 +978,10 @@ fun PdfToolsScreen(
 }
 
 private class CreateDocument : ActivityResultContracts.CreateDocument("*/*") {
-    override fun createIntent(context: Context, input: String): Intent {
+    override fun createIntent(
+        context: Context,
+        input: String
+    ): Intent {
         return super.createIntent(
             context = context,
             input = input.split("#")[0]

@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.NewReleases
@@ -51,6 +50,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.ui.icons.material.Beta
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -100,56 +100,30 @@ fun Context.FirstLaunchSetupDialog(
                             PreferenceItem(
                                 title = stringResource(id = R.string.attention),
                                 subtitle = stringResource(R.string.foss_update_checker_warning),
-                                icon = Icons.Rounded.Webhook,
-                                shape = RoundedCornerShape(16.dp),
+                                startIcon = Icons.Rounded.Webhook,
+                                shape = ContainerShapeDefaults.defaultShape,
                                 modifier = Modifier.padding(bottom = 8.dp),
                                 color = MaterialTheme.colorScheme.surfaceContainerHighest
                             )
                         }
                         PreferenceRowSwitch(
                             shape = if (!isInstalledFromPlayStore()) {
-                                RoundedCornerShape(
-                                    topStart = 16.dp,
-                                    topEnd = 16.dp,
-                                    bottomStart = 6.dp,
-                                    bottomEnd = 6.dp
-                                )
-                            } else RoundedCornerShape(16.dp),
+                                ContainerShapeDefaults.topShape
+                            } else ContainerShapeDefaults.defaultShape,
                             modifier = Modifier,
-                            applyHorPadding = false,
-                            resultModifier = Modifier.padding(
-                                horizontal = 16.dp,
-                                vertical = 8.dp
-                            ),
                             title = stringResource(R.string.check_updates),
                             subtitle = stringResource(R.string.check_updates_sub),
                             checked = settingsState.showUpdateDialogOnStartup,
                             onClick = {
                                 toggleShowUpdateDialog()
                             },
-                            startContent = {
-                                Icon(
-                                    Icons.Rounded.NewReleases,
-                                    null,
-                                    modifier = Modifier.padding(end = 16.dp)
-                                )
-                            }
+                            startIcon = Icons.Rounded.NewReleases
                         )
                         if (!isInstalledFromPlayStore()) {
                             Spacer(Modifier.height(4.dp))
                             PreferenceRowSwitch(
                                 modifier = Modifier,
-                                applyHorPadding = false,
-                                resultModifier = Modifier.padding(
-                                    horizontal = 16.dp,
-                                    vertical = 8.dp
-                                ),
-                                shape = RoundedCornerShape(
-                                    topStart = 6.dp,
-                                    topEnd = 6.dp,
-                                    bottomStart = 16.dp,
-                                    bottomEnd = 16.dp
-                                ),
+                                shape = ContainerShapeDefaults.bottomShape,
                                 title = stringResource(R.string.allow_betas),
                                 subtitle = stringResource(R.string.allow_betas_sub),
                                 checked = settingsState.allowBetas,
@@ -158,13 +132,7 @@ fun Context.FirstLaunchSetupDialog(
                                         isInstalledFromPlayStore()
                                     )
                                 },
-                                startContent = {
-                                    Icon(
-                                        Icons.Rounded.Beta,
-                                        null,
-                                        modifier = Modifier.padding(end = 16.dp)
-                                    )
-                                }
+                                startIcon = Icons.Rounded.Beta
                             )
                         }
                     }

@@ -29,6 +29,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -48,10 +49,11 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
-import ru.tech.imageresizershrinker.feature.gradient_maker.domain.ComposeGradientMaker
+import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientMaker
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientType
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.UiGradientState
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class GradientMakerViewModel @Inject constructor(
@@ -59,7 +61,7 @@ class GradientMakerViewModel @Inject constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val gradientMaker: ComposeGradientMaker
+    private val gradientMaker: GradientMaker<Bitmap, ShaderBrush, Size, Color, TileMode, Offset>
 ) : ViewModel() {
 
     private var _gradientState = UiGradientState()
@@ -134,7 +136,7 @@ class GradientMakerViewModel @Inject constructor(
 
     fun saveBitmaps(
         onStandaloneGradientSaveResult: (SaveResult) -> Unit,
-        onResult: (Int, String) -> Unit
+        onResult: (List<SaveResult>, String) -> Unit
     ) = viewModelScope.launch {
         _left.value = -1
         withContext(Dispatchers.IO) {
@@ -159,12 +161,12 @@ class GradientMakerViewModel @Inject constructor(
                                     image = localBitmap,
                                     imageInfo = imageInfo
                                 )
-                            ), keepMetadata = false
+                            ), keepOriginalMetadata = false
                         )
                     )
                 }
             } else {
-                var failed = 0
+                val results = mutableListOf<SaveResult>()
                 _done.value = 0
                 _left.value = uris.size
                 uris.forEach { uri ->
@@ -177,26 +179,26 @@ class GradientMakerViewModel @Inject constructor(
                             width = localBitmap.width,
                             height = localBitmap.height
                         )
-                        val result = fileController.save(
-                            saveTarget = ImageSaveTarget<ExifInterface>(
-                                imageInfo = imageInfo,
-                                originalUri = uri.toString(),
-                                sequenceNumber = _done.value + 1,
-                                data = imageCompressor.compressAndTransform(
-                                    image = localBitmap,
-                                    imageInfo = imageInfo
-                                )
-                            ), keepMetadata = keepExif
+                        results.add(
+                            fileController.save(
+                                saveTarget = ImageSaveTarget<ExifInterface>(
+                                    imageInfo = imageInfo,
+                                    originalUri = uri.toString(),
+                                    sequenceNumber = _done.value + 1,
+                                    data = imageCompressor.compressAndTransform(
+                                        image = localBitmap,
+                                        imageInfo = imageInfo
+                                    )
+                                ), keepOriginalMetadata = keepExif
+                            )
                         )
-                        if (result is SaveResult.Error.MissingPermissions) {
-                            return@withContext onResult(-1, "")
-                        }
-                    } ?: {
-                        failed += 1
-                    }
+                    } ?: results.add(
+                        SaveResult.Error.Exception(Throwable())
+                    )
+
                     _done.value += 1
                 }
-                onResult(failed, fileController.savingPath)
+                onResult(results, fileController.savingPath)
             }
             _isSaving.value = false
         }
@@ -295,7 +297,10 @@ class GradientMakerViewModel @Inject constructor(
         gradientState.linearGradientAngle = angle
     }
 
-    fun setRadialProperties(center: Offset, radius: Float) {
+    fun setRadialProperties(
+        center: Offset,
+        radius: Float
+    ) {
         gradientState.centerFriction = center
         gradientState.radiusFriction = radius
     }
@@ -308,7 +313,10 @@ class GradientMakerViewModel @Inject constructor(
         gradientState.colorStops.add(pair)
     }
 
-    fun updateColorStop(index: Int, pair: Pair<Float, Color>) {
+    fun updateColorStop(
+        index: Int,
+        pair: Pair<Float, Color>
+    ) {
         gradientState.colorStops[index] = pair.copy()
     }
 
@@ -376,7 +384,10 @@ class GradientMakerViewModel @Inject constructor(
         }
     }
 
-    fun setUris(uris: List<Uri>, onError: (Throwable) -> Unit = {}) {
+    fun setUris(
+        uris: List<Uri>,
+        onError: (Throwable) -> Unit = {}
+    ) {
         _uris.update { uris }
         uris.firstOrNull()?.let { setUri(it, onError) }
     }
@@ -397,6 +408,31 @@ class GradientMakerViewModel @Inject constructor(
 
     fun toggleKeepExif(value: Boolean) {
         _keepExif.update { value }
+    }
+
+    fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            createGradientBitmap(
+                data = selectedUri,
+                useBitmapOriginalSizeIfAvailable = true
+            )?.let { image ->
+                shareProvider.cacheImage(
+                    image = image,
+                    imageInfo = ImageInfo(
+                        imageFormat = imageFormat,
+                        width = image.width,
+                        height = image.height
+                    ),
+                    name = Random.nextInt().toString()
+                )?.let { uri ->
+                    onComplete(uri.toUri())
+                }
+            }
+            _isSaving.value = false
+        }
     }
 
 }

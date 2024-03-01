@@ -31,12 +31,7 @@ class UiBokehFilter(
     paramsInfo = listOf(
         FilterParam(
             title = R.string.radius,
-            valueRange = 0f..30f,
-            roundTo = 0
-        ),
-        FilterParam(
-            title = R.string.angle,
-            valueRange = 0f..360f,
+            valueRange = 1f..30f,
             roundTo = 0
         ),
         FilterParam(

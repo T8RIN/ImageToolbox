@@ -24,17 +24,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AddCircleOutline
 import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.icons.rounded.Fingerprint
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
@@ -45,14 +41,12 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -64,15 +58,14 @@ import androidx.compose.ui.unit.sp
 import androidx.exifinterface.media.ExifInterface
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.icons.material.Exif
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toMap
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
@@ -138,7 +131,7 @@ fun EditExifSheet(
                 ) {
                     TitleItem(
                         text = stringResource(id = R.string.edit_exif),
-                        icon = Icons.Rounded.Fingerprint
+                        icon = Icons.Rounded.Exif
                     )
                 }
             }
@@ -230,118 +223,16 @@ fun EditExifSheet(
                     )
                 }
             }
-            val tags by remember(exifMap) {
-                derivedStateOf {
-                    Metadata.metaTags.filter {
-                        it !in (exifMap?.keys ?: emptyList())
-                    }.sorted()
-                }
-            }
-            if (tags.isEmpty()) {
-                SideEffect {
-                    showAddExifDialog.value = false
-                }
-            }
-            var query by rememberSaveable { mutableStateOf("") }
-            val list by remember(tags, query) {
-                derivedStateOf {
-                    tags.filter {
-                        query.lowercase() in it.lowercase()
-                    }
-                }
-            }
-            SimpleSheet(
-                nestedScrollEnabled = false,
-                visible = showAddExifDialog,
-                dragHandle = {
-                    SimpleDragHandle {
-                        Column {
-                            RoundedTextField(
-                                textStyle = LocalTextStyle.current.copy(
-                                    textAlign = TextAlign.Start
-                                ),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                                shape = RoundedCornerShape(30),
-                                label = stringResource(R.string.search_here),
-                                onValueChange = { query = it },
-                                value = query
-                            )
-                            Spacer(Modifier.height(8.dp))
-                        }
-                    }
+            AddExifSheet(
+                visible = showAddExifDialog.value,
+                onDismiss = {
+                    showAddExifDialog.value = it
                 },
-                confirmButton = {
-                    EnhancedButton(
-                        onClick = { showAddExifDialog.value = false }
-                    ) {
-                        AutoSizeText(stringResource(R.string.ok))
-                    }
-                },
-                title = {
-                    TitleItem(
-                        text = stringResource(R.string.add_tag),
-                        icon = Icons.Rounded.Fingerprint
-                    )
-                },
-                sheetContent = {
-                    Column {
-                        LazyColumn(
-                            contentPadding = PaddingValues(bottom = 8.dp),
-                            modifier = Modifier.weight(1f, false),
-                            verticalArrangement = Arrangement.spacedBy(4.dp)
-                        ) {
-                            item {
-                                Spacer(Modifier.height(4.dp))
-                            }
-                            itemsIndexed(list) { index, tag ->
-                                PreferenceItemOverload(
-                                    title = tag,
-                                    modifier = Modifier.padding(horizontal = 8.dp),
-                                    endIcon = {
-                                        Icon(
-                                            imageVector = Icons.Rounded.AddCircleOutline,
-                                            contentDescription = null
-                                        )
-                                    },
-                                    color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                        0.1f
-                                    ),
-                                    shape = ContainerShapeDefaults.shapeForIndex(
-                                        index = index,
-                                        size = list.size
-                                    ),
-                                    onClick = {
-                                        onRemoveTag(tag)
-                                        exifMap = exifMap?.toMutableMap()
-                                            ?.apply { this[tag] = "" }
-                                    }
-                                )
-                            }
-                            if (list.isEmpty()) {
-                                item {
-                                    Box(
-                                        Modifier
-                                            .fillMaxWidth()
-                                            .padding(
-                                                top = 16.dp,
-                                                bottom = 16.dp,
-                                                start = 24.dp,
-                                                end = 24.dp
-                                            ),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Text(
-                                            text = stringResource(R.string.nothing_found_by_search),
-                                            modifier = Modifier.fillMaxWidth(),
-                                            textAlign = TextAlign.Center
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
+                selectedTags = (exifMap?.keys?.toList() ?: emptyList()),
+                onTagSelected = { tag ->
+                    onRemoveTag(tag)
+                    exifMap = exifMap?.toMutableMap()
+                        ?.apply { this[tag] = "" }
                 }
             )
             if (showClearExifDialog) {

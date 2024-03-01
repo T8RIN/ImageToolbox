@@ -21,38 +21,40 @@ import android.net.Uri
 import android.os.Parcelable
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.WrapText
-import androidx.compose.material.icons.automirrored.rounded.BrandingWatermark
+import androidx.compose.material.icons.automirrored.outlined.BrandingWatermark
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoAwesome
-import androidx.compose.material.icons.outlined.Margin
-import androidx.compose.material.icons.outlined.PhotoSizeSelectSmall
-import androidx.compose.material.icons.rounded.Collections
-import androidx.compose.material.icons.rounded.Colorize
+import androidx.compose.material.icons.outlined.AutoFixHigh
+import androidx.compose.material.icons.outlined.Collections
+import androidx.compose.material.icons.outlined.Colorize
+import androidx.compose.material.icons.outlined.Draw
+import androidx.compose.material.icons.outlined.FolderZip
+import androidx.compose.material.icons.outlined.GifBox
+import androidx.compose.material.icons.outlined.Photo
+import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.rounded.Compare
-import androidx.compose.material.icons.rounded.Crop
-import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Gif
-import androidx.compose.material.icons.rounded.GifBox
 import androidx.compose.material.icons.rounded.Gradient
-import androidx.compose.material.icons.rounded.Photo
-import androidx.compose.material.icons.rounded.PhotoFilter
-import androidx.compose.material.icons.rounded.PhotoSizeSelectLarge
-import androidx.compose.material.icons.rounded.PictureAsPdf
 import androidx.compose.material.icons.rounded.Preview
-import androidx.compose.material.icons.rounded.Public
-import androidx.compose.material.icons.rounded.Security
 import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
-import ru.tech.imageresizershrinker.core.ui.icons.material.FingerprintOff
-import ru.tech.imageresizershrinker.core.ui.icons.material.Interface
+import ru.tech.imageresizershrinker.core.ui.icons.material.Apng
+import ru.tech.imageresizershrinker.core.ui.icons.material.ApngBox
+import ru.tech.imageresizershrinker.core.ui.icons.material.CropSmall
+import ru.tech.imageresizershrinker.core.ui.icons.material.Encrypted
+import ru.tech.imageresizershrinker.core.ui.icons.material.Exif
+import ru.tech.imageresizershrinker.core.ui.icons.material.ImageCombine
+import ru.tech.imageresizershrinker.core.ui.icons.material.ImageDownload
+import ru.tech.imageresizershrinker.core.ui.icons.material.ImageEdit
+import ru.tech.imageresizershrinker.core.ui.icons.material.ImageLimit
+import ru.tech.imageresizershrinker.core.ui.icons.material.ImageText
+import ru.tech.imageresizershrinker.core.ui.icons.material.ImageWeight
+import ru.tech.imageresizershrinker.core.ui.icons.material.MultipleImageEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.PaletteSwatch
-import ru.tech.imageresizershrinker.core.ui.icons.material.Puzzle
 import ru.tech.imageresizershrinker.core.ui.icons.material.Resize
 import ru.tech.imageresizershrinker.core.ui.icons.material.Toolbox
 import ru.tech.imageresizershrinker.core.ui.icons.material.Transparency
@@ -76,7 +78,7 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 0,
-        icon = Icons.Rounded.CreateAlt,
+        icon = Icons.Outlined.ImageEdit,
         title = R.string.single_edit,
         subtitle = R.string.single_edit_sub
     )
@@ -85,7 +87,7 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 1,
-        icon = Icons.Filled.Resize,
+        icon = Icons.Rounded.MultipleImageEdit,
         title = R.string.resize_and_convert,
         subtitle = R.string.resize_and_convert_sub
     )
@@ -94,7 +96,7 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 2,
-        icon = Icons.Filled.Interface,
+        icon = Icons.Rounded.ImageWeight,
         title = R.string.by_bytes_resize,
         subtitle = R.string.by_bytes_resize_sub
     )
@@ -103,7 +105,7 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 3,
-        icon = Icons.Rounded.Crop,
+        icon = Icons.Rounded.CropSmall,
         title = R.string.crop,
         subtitle = R.string.crop_sub
     )
@@ -112,7 +114,7 @@ sealed class Screen(
         val type: Type? = null
     ) : Screen(
         id = 4,
-        icon = Icons.Rounded.PhotoFilter,
+        icon = Icons.Outlined.AutoFixHigh,
         title = R.string.filter,
         subtitle = R.string.filter_sub
     ) {
@@ -123,7 +125,7 @@ sealed class Screen(
             @IgnoredOnParcel val icon: ImageVector? = null
         ) : Parcelable {
 
-            class Masking(
+            data class Masking(
                 val uri: Uri? = null
             ) : Type(
                 title = R.string.mask_filter,
@@ -131,12 +133,12 @@ sealed class Screen(
                 icon = Icons.Rounded.Texture
             )
 
-            class Basic(
+            data class Basic(
                 val uris: List<Uri>? = null
             ) : Type(
                 title = R.string.full_filter,
                 subtitle = R.string.full_filter_sub,
-                icon = Icons.Rounded.PhotoFilter
+                icon = Icons.Outlined.AutoFixHigh
             )
 
             companion object {
@@ -154,7 +156,7 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 5,
-        icon = Icons.Rounded.Draw,
+        icon = Icons.Outlined.Draw,
         title = R.string.draw,
         subtitle = R.string.draw_sub
     )
@@ -163,7 +165,7 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 6,
-        icon = Icons.Rounded.Security,
+        icon = Icons.Outlined.Encrypted,
         title = R.string.cipher,
         subtitle = R.string.cipher_sub
     )
@@ -181,7 +183,7 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 8,
-        icon = Icons.Rounded.Photo,
+        icon = Icons.Outlined.Photo,
         title = R.string.image_preview,
         subtitle = R.string.image_preview_sub
     )
@@ -190,7 +192,7 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 9,
-        icon = Icons.Outlined.Puzzle,
+        icon = Icons.Rounded.ImageCombine,
         title = R.string.image_stitching,
         subtitle = R.string.image_stitching_sub
     )
@@ -199,7 +201,7 @@ sealed class Screen(
         val url: String = ""
     ) : Screen(
         id = 10,
-        icon = Icons.Rounded.Public,
+        icon = Icons.Outlined.ImageDownload,
         title = R.string.load_image_from_net,
         subtitle = R.string.load_image_from_net_sub
     )
@@ -208,7 +210,7 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 11,
-        icon = Icons.Rounded.Colorize,
+        icon = Icons.Outlined.Colorize,
         title = R.string.pick_color,
         subtitle = R.string.pick_color_sub
     )
@@ -217,7 +219,7 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 12,
-        icon = Icons.Rounded.PaletteSwatch,
+        icon = Icons.Outlined.PaletteSwatch,
         title = R.string.generate_palette,
         subtitle = R.string.palette_sub
     )
@@ -226,7 +228,7 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 13,
-        icon = Icons.Rounded.FingerprintOff,
+        icon = Icons.Outlined.Exif,
         title = R.string.delete_exif,
         subtitle = R.string.delete_exif_sub
     )
@@ -244,7 +246,7 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 15,
-        icon = Icons.Outlined.Margin,
+        icon = Icons.Outlined.ImageLimit,
         title = R.string.limits_resize,
         subtitle = R.string.limits_resize_sub
     )
@@ -253,7 +255,7 @@ sealed class Screen(
         val type: Type? = null
     ) : Screen(
         id = 16,
-        icon = Icons.Rounded.PictureAsPdf,
+        icon = Icons.Outlined.PictureAsPdf,
         title = R.string.pdf_tools,
         subtitle = R.string.pdf_tools_sub
     ) {
@@ -263,7 +265,7 @@ sealed class Screen(
             @StringRes val subtitle: Int,
             @IgnoredOnParcel val icon: ImageVector? = null
         ) : Parcelable {
-            class Preview(
+            data class Preview(
                 val pdfUri: Uri? = null
             ) : Type(
                 title = R.string.preview_pdf,
@@ -271,20 +273,20 @@ sealed class Screen(
                 icon = Icons.Rounded.Preview
             )
 
-            class PdfToImages(
+            data class PdfToImages(
                 val pdfUri: Uri? = null
             ) : Type(
                 title = R.string.pdf_to_images,
                 subtitle = R.string.pdf_to_images_sub,
-                icon = Icons.Rounded.Collections
+                icon = Icons.Outlined.Collections
             )
 
-            class ImagesToPdf(
+            data class ImagesToPdf(
                 val imageUris: List<Uri>? = null
             ) : Type(
                 title = R.string.images_to_pdf,
                 subtitle = R.string.images_to_pdf_sub,
-                icon = Icons.Rounded.PictureAsPdf
+                icon = Icons.Outlined.PictureAsPdf
             )
 
             companion object {
@@ -303,7 +305,7 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 17,
-        icon = Icons.AutoMirrored.Outlined.WrapText,
+        icon = Icons.Rounded.ImageText,
         title = R.string.recognize_text,
         subtitle = R.string.recognize_text_sub
     )
@@ -321,16 +323,16 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 19,
-        icon = Icons.AutoMirrored.Rounded.BrandingWatermark,
+        icon = Icons.AutoMirrored.Outlined.BrandingWatermark,
         title = R.string.watermarking,
         subtitle = R.string.watermarking_sub,
     )
 
-    class GifTools(
+    data class GifTools(
         val type: Type? = null
     ) : Screen(
         id = 20,
-        icon = Icons.Rounded.GifBox,
+        icon = Icons.Outlined.GifBox,
         title = R.string.gif_tools,
         subtitle = R.string.gif_tools_sub
     ) {
@@ -341,15 +343,15 @@ sealed class Screen(
             @IgnoredOnParcel val icon: ImageVector? = null
         ) : Parcelable {
 
-            class GifToImage(
+            data class GifToImage(
                 val gifUri: Uri? = null
             ) : Type(
                 title = R.string.gif_type_to_image,
                 subtitle = R.string.gif_type_to_image_sub,
-                icon = Icons.Rounded.Collections
+                icon = Icons.Outlined.Collections
             )
 
-            class ImageToGif(
+            data class ImageToGif(
                 val imageUris: List<Uri>? = null
             ) : Type(
                 title = R.string.gif_type_to_gif,
@@ -368,6 +370,57 @@ sealed class Screen(
         }
     }
 
+    data class ApngTools(
+        val type: Type? = null
+    ) : Screen(
+        id = 21,
+        icon = Icons.Rounded.ApngBox,
+        title = R.string.apng_tools,
+        subtitle = R.string.apng_tools_sub
+    ) {
+        @Parcelize
+        sealed class Type(
+            @StringRes val title: Int,
+            @StringRes val subtitle: Int,
+            @IgnoredOnParcel val icon: ImageVector? = null
+        ) : Parcelable {
+
+            data class ApngToImage(
+                val apngUri: Uri? = null
+            ) : Type(
+                title = R.string.apng_type_to_image,
+                subtitle = R.string.apng_type_to_image_sub,
+                icon = Icons.Outlined.Collections
+            )
+
+            data class ImageToApng(
+                val imageUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.apng_type_to_apng,
+                subtitle = R.string.apng_type_to_apng_sub,
+                icon = Icons.Rounded.Apng
+            )
+
+            companion object {
+                val entries by lazy {
+                    listOf(
+                        ApngToImage(),
+                        ImageToApng()
+                    )
+                }
+            }
+        }
+    }
+
+    data class Zip(
+        val uris: List<Uri>? = null
+    ) : Screen(
+        id = 22,
+        icon = Icons.Outlined.FolderZip,
+        title = R.string.zip,
+        subtitle = R.string.zip_sub
+    )
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -379,8 +432,8 @@ sealed class Screen(
                     LimitResize(),
                 ) to Triple(
                     R.string.edit,
-                    Icons.Rounded.PhotoSizeSelectLarge,
-                    Icons.Outlined.PhotoSizeSelectSmall
+                    Icons.Filled.Resize,
+                    Icons.Outlined.Resize
                 ),
                 listOf(
                     Filter(),
@@ -390,6 +443,8 @@ sealed class Screen(
                     Watermarking(),
                     GradientMaker(),
                     Cipher(),
+                    Zip(),
+                    DeleteExif()
                 ) to Triple(
                     R.string.create,
                     Icons.Filled.AutoAwesome,
@@ -402,9 +457,9 @@ sealed class Screen(
                     Compare(),
                     GifTools(),
                     ImagePreview(),
-                    LoadNetImage(),
                     GeneratePalette(),
-                    DeleteExif(),
+                    ApngTools(),
+                    LoadNetImage(),
                 ) to Triple(
                     R.string.tools,
                     Icons.Rounded.Toolbox,
@@ -427,16 +482,18 @@ sealed class Screen(
                 RecognizeText(),
                 Watermarking(),
                 GifTools(),
+                ApngTools(),
                 ImagePreview(),
                 LoadNetImage(),
                 PickColorFromImage(),
                 GeneratePalette(),
                 DeleteExif(),
                 GradientMaker(),
+                Zip(),
                 Compare(),
                 LimitResize()
             )
         }
-        const val featuresCount = 27
+        const val featuresCount = 31
     }
 }

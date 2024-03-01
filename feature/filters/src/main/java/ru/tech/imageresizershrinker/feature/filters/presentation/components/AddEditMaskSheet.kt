@@ -38,17 +38,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
@@ -74,6 +77,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -82,6 +86,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
+import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
@@ -91,7 +96,6 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
-import ru.tech.imageresizershrinker.core.filters.presentation.utils.toCoil
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -103,8 +107,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDial
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageHeaderState
 import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
@@ -149,7 +154,7 @@ fun AddEditMaskSheet(
         val showAddFilterSheet = rememberSaveable { mutableStateOf(false) }
 
         val context = LocalContext.current as ComponentActivity
-        val toastHostState = LocalToastHost.current
+        val toastHostState = LocalToastHostState.current
         val scope = rememberCoroutineScope()
 
         var showExitDialog by remember { mutableStateOf(false) }
@@ -190,6 +195,25 @@ fun AddEditMaskSheet(
                     }
                 ) {
                     Text(stringResource(id = R.string.save))
+                }
+            },
+            dragHandle = {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .drawHorizontalStroke(autoElevation = 3.dp)
+                        .zIndex(Float.MAX_VALUE)
+                        .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
+                        .padding(8.dp)
+                ) {
+                    IconButton(
+                        onClick = {
+                            if (viewModel.paths.isEmpty() && viewModel.filterList.isEmpty()) onDismiss()
+                            else showExitDialog = true
+                        }
+                    ) {
+                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                    }
                 }
             },
             enableBackHandler = false
@@ -354,27 +378,15 @@ fun AddEditMaskSheet(
                                     if (maskPreviewModeEnabled) MaterialTheme.colorScheme.onPrimary
                                     else Color.Unspecified,
                                 ).value,
+                                modifier = Modifier.padding(horizontal = 16.dp),
                                 shape = RoundedCornerShape(24.dp),
-                                resultModifier = Modifier.padding(
-                                    top = 16.dp,
-                                    bottom = 16.dp,
-                                    end = 16.dp
-                                ),
                                 contentColor = animateColorAsState(
                                     if (maskPreviewModeEnabled) MaterialTheme.colorScheme.primary
                                     else MaterialTheme.colorScheme.onSurface
                                 ).value,
-                                onClick = {
-                                    viewModel.togglePreviewMode()
-                                },
+                                onClick = viewModel::togglePreviewMode,
                                 checked = maskPreviewModeEnabled,
-                                startContent = {
-                                    Icon(
-                                        Icons.Rounded.Preview,
-                                        null,
-                                        Modifier.padding(horizontal = 16.dp)
-                                    )
-                                }
+                                startIcon = Icons.Rounded.Preview
                             )
                         }
 
@@ -616,7 +628,7 @@ private class AddMaskSheetViewModel @Inject constructor(
                             imageInfo = ImageInfo(
                                 width = it.width,
                                 height = it.height,
-                                imageFormat = ImageFormat.Png
+                                imageFormat = ImageFormat.PngLossless
                             ),
                             onGetByteCount = {}
                         )
@@ -636,8 +648,8 @@ private class AddMaskSheetViewModel @Inject constructor(
         }
     }
 
-    fun togglePreviewMode() {
-        _maskPreviewModeEnabled.update { !it }
+    fun togglePreviewMode(value: Boolean) {
+        _maskPreviewModeEnabled.update { value }
         updatePreview()
     }
 
@@ -724,7 +736,11 @@ private class AddMaskSheetViewModel @Inject constructor(
         }
     }
 
-    fun setMask(mask: UiFilterMask?, bitmapUri: Uri?, masks: List<UiFilterMask>) {
+    fun setMask(
+        mask: UiFilterMask?,
+        bitmapUri: Uri?,
+        masks: List<UiFilterMask>
+    ) {
         mask?.let {
             _paths.update { mask.maskPaints.map { it.toUiPathPaint() } }
             _filterList.update { mask.filters.map { it.toUiFilter() } }

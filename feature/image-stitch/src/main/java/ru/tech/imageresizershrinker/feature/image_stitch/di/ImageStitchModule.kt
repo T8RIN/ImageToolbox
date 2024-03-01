@@ -18,41 +18,22 @@
 package ru.tech.imageresizershrinker.feature.image_stitch.di
 
 import android.graphics.Bitmap
-import androidx.exifinterface.media.ExifInterface
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
-import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
-import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
-import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
-import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.feature.image_stitch.data.AndroidImageCombiner
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.ImageCombiner
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object ImageStitchModule {
+internal interface ImageStitchModule {
 
     @Singleton
-    @Provides
+    @Binds
     fun provideImageCombiner(
-        imageGetter: ImageGetter<Bitmap, ExifInterface>,
-        imageScaler: ImageScaler<Bitmap>,
-        imageTransformer: ImageTransformer<Bitmap>,
-        shareProvider: ShareProvider<Bitmap>,
-        filterProvider: FilterProvider<Bitmap>,
-        imagePreviewCreator: ImagePreviewCreator<Bitmap>
-    ): ImageCombiner<Bitmap> = AndroidImageCombiner(
-        imageScaler = imageScaler,
-        imageGetter = imageGetter,
-        imageTransformer = imageTransformer,
-        shareProvider = shareProvider,
-        filterProvider = filterProvider,
-        imagePreviewCreator = imagePreviewCreator
-    )
+        combiner: AndroidImageCombiner
+    ): ImageCombiner<Bitmap>
 
 }

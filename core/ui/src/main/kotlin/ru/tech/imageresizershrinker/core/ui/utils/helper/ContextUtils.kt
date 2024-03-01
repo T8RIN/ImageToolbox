@@ -105,7 +105,7 @@ object ContextUtils {
         )
     )
 
-    fun Context.verifyInstallerId(
+    private fun Context.verifyInstallerId(
         validInstallers: List<String>
     ): Boolean = validInstallers.contains(getInstallerPackageName(packageName))
 
@@ -119,7 +119,7 @@ object ContextUtils {
         return null
     }
 
-    fun Context.getFileName(uri: Uri): String? = DocumentFile.fromSingleUri(this, uri)?.name
+    fun Context.getFilename(uri: Uri): String? = DocumentFile.fromSingleUri(this, uri)?.name
 
     fun Context.parseImageFromIntent(
         intent: Intent?,
@@ -132,13 +132,6 @@ object ContextUtils {
         notHasUris: Boolean,
         onWantGithubReview: () -> Unit
     ) {
-        fun ClipData.clipList() = List(
-            size = itemCount,
-            init = {
-                getItemAt(it).uri
-            }
-        ).filterNotNull()
-
         onStart()
         if (intent?.type != null && notHasUris) onColdStart()
 
@@ -199,8 +192,11 @@ object ContextUtils {
                     }
                 }
             } else if (intent?.type != null) {
+                val text = intent.getStringExtra(Intent.EXTRA_TEXT)
+                val multiplePdfs = intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM) != null
+
                 if (
-                    intent.type?.contains("pdf") == true
+                    intent.type?.contains("pdf") == true && !multiplePdfs
                 ) {
                     val uri = intent.data ?: intent.parcelable<Uri>(Intent.EXTRA_STREAM)
                     uri?.let {
@@ -211,11 +207,24 @@ object ContextUtils {
                             onGetUris(listOf(uri))
                         }
                     }
+                } else if (text != null) {
+                    navigate(Screen.LoadNetImage(text))
                 } else {
-                    intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-                        navigate(Screen.LoadNetImage(it))
-                    } ?: intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
-                        navigate(Screen.Cipher(it))
+                    when (intent.action) {
+                        Intent.ACTION_SEND_MULTIPLE -> {
+                            intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM)?.let {
+                                navigate(Screen.Zip(it))
+                            }
+                        }
+
+                        Intent.ACTION_SEND -> {
+                            intent.parcelable<Uri>(Intent.EXTRA_STREAM)?.let {
+                                onHasExtraImageType("file")
+                                onGetUris(listOf(it))
+                            }
+                        }
+
+                        else -> null
                     } ?: showToast(
                         getString(R.string.unsupported_type, intent.type),
                         Icons.Rounded.ErrorOutline
@@ -235,7 +244,10 @@ object ContextUtils {
     }
 
     /** Save a text into the clipboard. */
-    fun Context.copyToClipboard(label: String, value: String) {
+    fun Context.copyToClipboard(
+        label: String,
+        value: String
+    ) {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText(label, value)
         clipboard.setPrimaryClip(clip)
@@ -255,13 +267,10 @@ object ContextUtils {
     fun Context.getStringLocalized(
         @StringRes
         resId: Int,
-        locale: Locale,
-        vararg formatArgs: Any
+        locale: Locale
     ): String = createConfigurationContext(
-        Configuration(resources.configuration).apply {
-            setLocale(Locale.ENGLISH)
-        }
-    ).getText(resId).toString().format(locale, formatArgs)
+        Configuration(resources.configuration).apply { setLocale(locale) }
+    ).getText(resId).toString()
 
     /** Receive the clipboard data. */
     fun Context.pasteColorFromClipboard(

@@ -1,0 +1,1 @@
+int drawable baseline_swap_horiz_24 0x0

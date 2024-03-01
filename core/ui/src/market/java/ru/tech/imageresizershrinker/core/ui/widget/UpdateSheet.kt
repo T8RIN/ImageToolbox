@@ -54,7 +54,7 @@ import ru.tech.imageresizershrinker.core.domain.APP_RELEASES
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleDragHandle
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -62,10 +62,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.HtmlText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
-fun UpdateSheet(changelog: String, tag: String, visible: MutableState<Boolean>) {
+fun UpdateSheet(
+    changelog: String,
+    tag: String,
+    visible: MutableState<Boolean>
+) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
 
     if (context.isInstalledFromPlayStore()) {
         LaunchedEffect(visible.value) {

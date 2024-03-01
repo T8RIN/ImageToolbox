@@ -18,11 +18,11 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import coil.size.Size
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.feature.filters.data.pixelation.Pixelate
-import ru.tech.imageresizershrinker.feature.filters.data.pixelation.PixelateLayer
+import ru.tech.imageresizershrinker.feature.filters.data.utils.Pixelate
+import ru.tech.imageresizershrinker.feature.filters.data.utils.PixelationLayer
 
 internal class CirclePixelationFilter(
     override val value: Float = 24f,
@@ -30,14 +30,17 @@ internal class CirclePixelationFilter(
     override val cacheKey: String
         get() = (value).hashCode().toString()
 
-    override suspend fun transform(input: Bitmap, size: Size): Bitmap {
+    override suspend fun transform(
+        input: Bitmap,
+        size: IntegerSize
+    ): Bitmap {
         return Pixelate.fromBitmap(
             input = input,
             layers = arrayOf(
-                PixelateLayer.Builder(PixelateLayer.Shape.Circle)
+                PixelationLayer.Builder(PixelationLayer.Shape.Circle)
                     .setResolution(value)
                     .build(),
-                PixelateLayer.Builder(PixelateLayer.Shape.Circle)
+                PixelationLayer.Builder(PixelationLayer.Shape.Circle)
                     .setResolution(value)
                     .setSize(value / 3f)
                     .setOffset(value / 2)

@@ -42,8 +42,6 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.emoji.Emoji
-import ru.tech.imageresizershrinker.core.ui.icons.emoji.allIcons
-import ru.tech.imageresizershrinker.core.ui.icons.emoji.allIconsCategorized
 import ru.tech.imageresizershrinker.core.ui.icons.material.Cool
 import ru.tech.imageresizershrinker.core.ui.icons.material.Robot
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
@@ -54,7 +52,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.EmojiItem
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 import ru.tech.imageresizershrinker.feature.main.presentation.components.EmojiSheet
 
@@ -67,27 +65,20 @@ fun EmojiSettingItem(
     shape: Shape = ContainerShapeDefaults.bottomShape
 ) {
     val settingsState = LocalSettingsState.current
-    val toastHost = LocalToastHost.current
+    val toastHost = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     var showShoeDescriptionDialog by rememberSaveable { mutableStateOf("") }
     val showEmojiDialog = rememberSaveable { mutableStateOf(false) }
     PreferenceRow(
         modifier = modifier,
-        applyHorPadding = false,
         shape = shape,
         title = stringResource(R.string.emoji),
         subtitle = stringResource(R.string.emoji_sub),
         onClick = {
             showEmojiDialog.value = true
         },
-        startContent = {
-            Icon(
-                imageVector = Icons.Outlined.Cool,
-                contentDescription = null,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-        },
+        startIcon = Icons.Outlined.Cool,
         enabled = !settingsState.useRandomEmojis,
         onDisabledClick = {
             scope.launch {

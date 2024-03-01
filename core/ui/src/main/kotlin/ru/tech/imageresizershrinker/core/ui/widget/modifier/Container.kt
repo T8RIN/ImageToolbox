@@ -39,6 +39,7 @@ import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.takeOrElse
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalContainerColor
@@ -48,6 +49,7 @@ fun Modifier.container(
     shape: Shape = RoundedCornerShape(16.dp),
     color: Color = Color.Unspecified,
     resultPadding: Dp = 4.dp,
+    borderWidth: Dp = Dp.Unspecified,
     borderColor: Color? = null,
     autoShadowElevation: Dp = 1.dp,
     clip: Boolean = true,
@@ -58,6 +60,11 @@ fun Modifier.container(
     val localContainerShape = LocalContainerShape.current
     val resultShape = localContainerShape ?: shape
     val settingsState = LocalSettingsState.current
+
+    val targetBorderWidth = borderWidth.takeOrElse {
+        settingsState.borderWidth
+    }
+
     val colorScheme = MaterialTheme.colorScheme
     val containerColor = if (color.isUnspecified) {
         LocalContainerColor.current ?: colorScheme.surfaceContainer
@@ -79,11 +86,11 @@ fun Modifier.container(
                 outline = outline,
                 color = containerColor
             )
-            if (settingsState.borderWidth > 0.dp) {
+            if (targetBorderWidth > 0.dp) {
                 drawOutline(
                     outline = outline,
                     color = borderColor ?: colorScheme.outlineVariant(0.1f, containerColor),
-                    style = Stroke(with(density) { settingsState.borderWidth.toPx() })
+                    style = Stroke(with(density) { targetBorderWidth.toPx() })
                 )
             }
             drawContent()
@@ -96,7 +103,7 @@ fun Modifier.container(
             shape = resultShape
         )
         .border(
-            width = LocalSettingsState.current.borderWidth,
+            width = targetBorderWidth,
             color = borderColor ?: colorScheme.outlineVariant(0.1f, containerColor),
             shape = resultShape
         )
@@ -105,12 +112,12 @@ fun Modifier.container(
         .materialShadow(
             shape = resultShape,
             elevation = animateDpAsState(
-                if (settingsState.borderWidth > 0.dp) {
+                if (targetBorderWidth > 0.dp) {
                     0.dp
                 } else autoShadowElevation.coerceAtLeast(0.dp)
             ).value,
             enabled = if (isStandaloneContainer) {
-                LocalSettingsState.current.drawContainerShadows
+                settingsState.drawContainerShadows
             } else true,
             isClipped = isShadowClip
         )

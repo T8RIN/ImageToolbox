@@ -22,7 +22,10 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-sealed class EnhancedFloatingActionButtonType(val size: Dp, val shape: Shape) {
+sealed class EnhancedFloatingActionButtonType(
+    val size: Dp,
+    val shape: Shape
+) {
     data object Small : EnhancedFloatingActionButtonType(
         size = 40.dp,
         shape = RoundedCornerShape(12.dp)

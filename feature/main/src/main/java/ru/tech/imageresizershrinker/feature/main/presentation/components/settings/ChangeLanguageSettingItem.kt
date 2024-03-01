@@ -23,14 +23,12 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -38,28 +36,29 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.rounded.Language
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
-import org.xmlpull.v1.XmlPullParser
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.icons.material.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils
+import ru.tech.imageresizershrinker.core.ui.utils.helper.LocaleConfigCompat
+import ru.tech.imageresizershrinker.core.ui.utils.helper.toList
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -73,26 +72,14 @@ fun ChangeLanguageSettingItem(
     val context = LocalContext.current
     val showDialog = rememberSaveable { mutableStateOf(false) }
     Column(Modifier.animateContentSize()) {
-        PreferenceRow(
+        PreferenceItem(
             shape = shape,
             modifier = modifier.padding(bottom = 1.dp),
-            applyHorPadding = false,
             title = stringResource(R.string.language),
-            resultModifier = Modifier.padding(top = 16.dp, bottom = 16.dp, end = 16.dp),
             subtitle = context.getCurrentLocaleString(),
-            startContent = {
-                Icon(
-                    imageVector = Icons.Outlined.Language,
-                    contentDescription = null,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-            },
-            endContent = {
-                Icon(
-                    imageVector = Icons.Rounded.CreateAlt,
-                    contentDescription = null,
-                )
-            },
+            startIcon = Icons.Outlined.Language,
+            endIcon = Icons.Rounded.MiniEdit,
+            color = MaterialTheme.colorScheme.secondaryContainer.copy(0.2f),
             onClick = {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !ContextUtils.isMiUi()) {
                     kotlin.runCatching {
@@ -113,7 +100,9 @@ fun ChangeLanguageSettingItem(
     }
 
     PickLanguageSheet(
-        entries = context.getLanguages(),
+        entries = remember {
+            context.getLanguages()
+        },
         selected = context.getCurrentLocaleString(),
         onSelect = {
             val locale = if (it == "") {
@@ -145,32 +134,46 @@ private fun PickLanguageSheet(
             Box {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.verticalScroll(rememberScrollState())
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                        .padding(12.dp)
                 ) {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    entries.forEach { locale ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clip(MaterialTheme.shapes.medium)
-                                .clickable {
-                                    onSelect(locale.key)
-                                    visible.value = false
-                                }
-                                .padding(start = 12.dp, end = 12.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            RadioButton(
-                                selected = selected == locale.value,
-                                onClick = {
-                                    onSelect(locale.key)
-                                    visible.value = false
-                                }
-                            )
-                            Text(locale.value)
-                        }
+                    entries.entries.forEachIndexed { index, locale ->
+                        val isSelected =
+                            selected == locale.value || (selected.isEmpty() && index == 0)
+                        PreferenceItemOverload(
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = {
+                                onSelect(locale.key)
+                            },
+                            resultModifier = Modifier.padding(
+                                start = 16.dp,
+                                end = 8.dp,
+                                top = 8.dp,
+                                bottom = 8.dp
+                            ),
+                            color = animateColorAsState(
+                                if (isSelected) MaterialTheme
+                                    .colorScheme
+                                    .secondaryContainer
+                                else MaterialTheme.colorScheme.surfaceContainerHigh
+                            ).value,
+                            shape = ContainerShapeDefaults.shapeForIndex(
+                                index = index,
+                                size = entries.size
+                            ),
+                            endIcon = {
+                                RadioButton(
+                                    selected = isSelected,
+                                    onClick = {
+                                        onSelect(locale.key)
+                                    }
+                                )
+                            },
+                            title = locale.value
+                        )
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
         },
@@ -189,28 +192,19 @@ private fun PickLanguageSheet(
 }
 
 private fun Context.getLanguages(): Map<String, String> {
-    val languages = mutableListOf<Pair<String, String>>()
-    val parser = resources.getXml(R.xml.locales_config)
-    var eventType = parser.eventType
-    while (eventType != XmlPullParser.END_DOCUMENT) {
-        if (eventType == XmlPullParser.START_TAG && parser.name == "locale") {
-            for (i in 0 until parser.attributeCount) {
-                if (parser.getAttributeName(i) == "name") {
-                    val langTag = parser.getAttributeValue(i)
-                    val displayName = getDisplayName(langTag)
-                    if (displayName.isNotEmpty()) {
-                        languages.add(Pair(langTag, displayName))
-                    }
+    val languages = mutableListOf("" to getString(R.string.system)).apply {
+        addAll(
+            LocaleConfigCompat(this@getLanguages)
+                .supportedLocales!!.toList()
+                .map {
+                    it.toLanguageTag() to it.getDisplayName(it).replaceFirstChar(Char::uppercase)
                 }
-            }
-        }
-        eventType = parser.next()
+        )
     }
 
-    languages.sortBy { it.second }
-    languages.add(0, Pair("", getString(R.string.system)))
-
-    return languages.toMap()
+    return languages.let { tags ->
+        listOf(tags.first()) + tags.drop(1).sortedBy { it.second }
+    }.toMap()
 }
 
 private fun Context.getCurrentLocaleString(): String {

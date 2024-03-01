@@ -48,6 +48,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.value.ValueDialog
 import ru.tech.imageresizershrinker.core.ui.widget.value.ValueText
@@ -107,14 +108,19 @@ fun EnhancedSliderItem(
                 ) {
                     AnimatedContent(icon) { icon ->
                         if (icon != null) {
-                            Icon(
-                                imageVector = icon,
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .padding(
-                                        top = topContentPadding,
-                                        start = 12.dp
+                            IconShapeContainer(
+                                enabled = true,
+                                underlyingColor = color,
+                                content = {
+                                    Icon(
+                                        imageVector = icon,
+                                        contentDescription = null
                                     )
+                                },
+                                modifier = Modifier.padding(
+                                    top = topContentPadding,
+                                    start = 12.dp
+                                )
                             )
                         }
                     }

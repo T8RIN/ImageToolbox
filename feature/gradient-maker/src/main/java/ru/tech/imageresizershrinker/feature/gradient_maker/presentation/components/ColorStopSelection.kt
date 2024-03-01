@@ -59,7 +59,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.icons.material.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.AlphaColorSelection
@@ -266,7 +266,7 @@ private fun ColorStopSelectionItem(
                     onColorChange = {
                         onValueChange(value to Color(it))
                     },
-                    supportButtonIcon = Icons.Rounded.CreateAlt,
+                    supportButtonIcon = Icons.Rounded.MiniEdit,
                     onSupportButtonClick = {
                         showColorPicker = true
                     }
@@ -333,7 +333,7 @@ private fun ColorStopSelectionItem(
         title = {
             TitleItem(
                 text = stringResource(R.string.color),
-                icon = Icons.Rounded.Draw
+                icon = Icons.Rounded.Palette
             )
         },
         confirmButton = {

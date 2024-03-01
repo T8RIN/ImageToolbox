@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.controls
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Fingerprint
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.icons.material.Exif
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
@@ -61,6 +61,6 @@ fun SaveExifWidget(
         shape = RoundedCornerShape(24.dp),
         color = backgroundColor,
         onClick = onCheckedChange,
-        startIcon = Icons.Rounded.Fingerprint
+        startIcon = Icons.Rounded.Exif
     )
 }

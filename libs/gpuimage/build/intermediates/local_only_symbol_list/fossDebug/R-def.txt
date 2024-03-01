@@ -1,0 +1,7 @@
+R_DEF: Internal format may change without notice
+local
+attr? gpuimage_show_loading
+attr? gpuimage_surface_type
+id surface_view
+id texture_view
+styleable GPUImageView gpuimage_surface_type gpuimage_show_loading

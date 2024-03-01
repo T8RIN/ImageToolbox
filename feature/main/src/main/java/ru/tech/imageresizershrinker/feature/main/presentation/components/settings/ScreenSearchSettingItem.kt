@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ManageSearch
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -41,20 +40,8 @@ fun ScreenSearchSettingItem(
     PreferenceRowSwitch(
         shape = shape,
         modifier = modifier,
-        applyHorPadding = false,
-        resultModifier = Modifier.padding(
-            end = 16.dp,
-            top = 8.dp,
-            bottom = 8.dp
-        ),
         title = stringResource(R.string.search_option),
-        startContent = {
-            Icon(
-                imageVector = Icons.AutoMirrored.Rounded.ManageSearch,
-                contentDescription = null,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-        },
+        startIcon = Icons.AutoMirrored.Rounded.ManageSearch,
         subtitle = stringResource(R.string.search_option_sub),
         checked = settingsState.screensSearchEnabled,
         onClick = onClick

@@ -37,7 +37,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -45,7 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastAny
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.icons.material.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
@@ -92,13 +91,13 @@ fun BrightnessEnforcementSettingItem(
         onClick = {
             showPickerSheet = true
         },
-        icon = Icons.Outlined.BrightnessHigh,
+        startIcon = Icons.Outlined.BrightnessHigh,
         title = stringResource(R.string.brightness_enforcement),
         subtitle = subtitle,
         color = MaterialTheme.colorScheme
             .secondaryContainer
             .copy(alpha = 0.2f),
-        endIcon = Icons.Rounded.CreateAlt
+        endIcon = Icons.Rounded.MiniEdit
     )
 
     SimpleSheet(
@@ -114,7 +113,7 @@ fun BrightnessEnforcementSettingItem(
         },
         confirmButton = {
             EnhancedButton(
-                containerColor = Color.Transparent,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = { showPickerSheet = false }
             ) {
                 AutoSizeText(stringResource(R.string.close))
@@ -136,7 +135,7 @@ fun BrightnessEnforcementSettingItem(
                             modifier = Modifier.fillMaxWidth(),
                             title = stringResource(screen.title),
                             subtitle = stringResource(screen.subtitle),
-                            icon = {
+                            startIcon = {
                                 screen.icon?.let {
                                     Icon(
                                         imageVector = it,

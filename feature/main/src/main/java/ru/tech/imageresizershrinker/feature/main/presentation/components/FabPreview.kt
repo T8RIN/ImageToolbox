@@ -68,8 +68,6 @@ fun FabPreview(
     val elevation by animateDpAsState(if (shadowEnabled) 2.dp else 0.dp)
     Column(
         modifier = modifier
-            .fillMaxWidth()
-            .aspectRatio(1f / 1.7f)
             .padding(4.dp)
             .autoElevatedBorder(shape = RoundedCornerShape(12.dp), autoElevation = elevation)
             .clip(RoundedCornerShape(12.dp))
@@ -89,7 +87,9 @@ fun FabPreview(
             Spacer(Modifier.height(4.dp))
             EnhancedIconButton(
                 onClick = {},
-                modifier = Modifier.size(25.dp),
+                modifier = Modifier
+                    .size(25.dp)
+                    .aspectRatio(1f),
                 shape = CloverShape,
                 containerColor = colorScheme.surfaceColorAtElevation(6.dp),
                 contentColor = colorScheme.onSurfaceVariant
@@ -130,6 +130,7 @@ fun FabPreview(
                     modifier = Modifier
                         .padding(8.dp)
                         .size(22.dp)
+                        .aspectRatio(1f)
                         .containerFabBorder(
                             shape = RoundedCornerShape(7.dp),
                             autoElevation = animateDpAsState(

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:Suppress("SameParameterValue")
+@file:Suppress("SameParameterValue", "UNUSED_PARAMETER")
 
 package ru.tech.imageresizershrinker.feature.main.presentation.viewModel
 
@@ -52,8 +52,6 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMo
 import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
-import ru.tech.imageresizershrinker.core.settings.domain.use_case.GetSettingsStateFlowUseCase
-import ru.tech.imageresizershrinker.core.settings.domain.use_case.GetSettingsStateUseCase
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
@@ -64,11 +62,9 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    getSettingsStateFlowUseCase: GetSettingsStateFlowUseCase,
     val imageLoader: ImageLoader,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
-    private val getSettingsStateUseCase: GetSettingsStateUseCase,
     private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
@@ -110,9 +106,9 @@ class MainViewModel @Inject constructor(
 
         runBlocking {
             settingsRepository.registerAppOpen()
-            _settingsState.value = getSettingsStateUseCase()
+            _settingsState.value = settingsRepository.getSettingsState()
         }
-        getSettingsStateFlowUseCase().onEach {
+        settingsRepository.getSettingsStateFlow().onEach {
             _settingsState.value = it
         }.launchIn(viewModelScope)
     }
@@ -384,7 +380,7 @@ class MainViewModel @Inject constructor(
     fun updateUris(uris: List<Uri>?) {
         _uris.value = uris
 
-        if (uris != null) _showSelectDialog.value = true
+        if (!uris.isNullOrEmpty()) _showSelectDialog.value = true
     }
 
     fun updateExtraImageType(type: String?) {
@@ -452,7 +448,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun createBackup(outputStream: OutputStream?, onSuccess: () -> Unit) {
+    fun createBackup(
+        outputStream: OutputStream?,
+        onSuccess: () -> Unit
+    ) {
         viewModelScope.launch {
             outputStream?.use {
                 it.write(settingsRepository.createBackupFile())
@@ -468,7 +467,11 @@ class MainViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                settingsRepository.restoreFromBackupFile(uri.toString(), onSuccess, onFailure)
+                settingsRepository.restoreFromBackupFile(
+                    backupFileUri = uri.toString(),
+                    onSuccess = onSuccess,
+                    onFailure = onFailure
+                )
             }
         }
     }
@@ -545,10 +548,27 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun addColorTupleFromEmoji(getEmoji: (Int?) -> String, showShoeDescription: (String) -> Unit) {
+    fun getColorTupleFromEmoji(
+        emojiUri: String,
+        callback: (ColorTuple?) -> Unit
+    ) {
+        viewModelScope.launch {
+            callback(
+                imageGetter
+                    .getImage(data = emojiUri)
+                    ?.extractPrimaryColor()
+                    ?.let { ColorTuple(it) }
+            )
+        }
+    }
+
+    fun addColorTupleFromEmoji(
+        getEmoji: (Int?) -> String,
+        showShoeDescription: ((String) -> Unit)? = null
+    ) {
         viewModelScope.launch {
             val emojiUri = getEmoji(settingsState.selectedEmoji)
-            if (emojiUri.contains("shoe", true)) {
+            if (emojiUri.contains("shoe", true) && showShoeDescription != null) {
                 showShoeDescription(emojiUri)
                 setFont(FontFam.DejaVu)
                 val colorTuple = ColorTuple(
@@ -562,15 +582,19 @@ class MainViewModel @Inject constructor(
                 settingsRepository.setColorTuples(settingsState.colorTupleList + "*" + colorTupleS)
                 updateThemeContrast(0f)
                 setThemeStyle(0)
+                if (settingsState.useEmojiAsPrimaryColor) toggleUseEmojiAsPrimaryColor()
                 if (settingsState.isInvertThemeColors) toggleInvertColors()
             } else {
                 imageGetter.getImage(data = emojiUri)
                     ?.extractPrimaryColor()
                     ?.let { primary ->
                         val colorTuple = ColorTuple(primary)
-                        val colorTupleS = listOf(colorTuple).asString()
                         setColorTuple(colorTuple)
-                        settingsRepository.setColorTuples(settingsState.colorTupleList + "*" + colorTupleS)
+                        settingsRepository.setColorTuples(
+                            settingsState.colorTupleList + "*" + listOf(
+                                colorTuple
+                            ).asString()
+                        )
                     }
             }
             if (settingsState.isDynamicColors) toggleDynamicColors()
@@ -682,6 +706,12 @@ class MainViewModel @Inject constructor(
     fun toggleSecureMode(value: Boolean) {
         viewModelScope.launch {
             settingsRepository.toggleSecureMode()
+        }
+    }
+
+    fun toggleUseEmojiAsPrimaryColor() {
+        viewModelScope.launch {
+            settingsRepository.toggleUseEmojiAsPrimaryColor()
         }
     }
 

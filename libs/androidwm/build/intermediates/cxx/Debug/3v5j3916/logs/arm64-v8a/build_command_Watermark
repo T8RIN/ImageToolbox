@@ -1,0 +1,4 @@
+/Users/bbc/Library/Android/sdk/cmake/3.22.1/bin/ninja \
+  -C \
+  /Users/bbc/Documents/github.com/ImageToolbox/libs/androidwm/.cxx/Debug/3v5j3916/arm64-v8a \
+  Watermark

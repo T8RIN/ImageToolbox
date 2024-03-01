@@ -20,9 +20,9 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import coil.size.Size
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class HorizontalWindStaggerFilter(
@@ -34,7 +34,7 @@ internal class HorizontalWindStaggerFilter(
 
     override suspend fun transform(
         input: Bitmap,
-        size: Size
+        size: IntegerSize
     ): Bitmap = Aire.horizontalWindStagger(
         bitmap = input,
         windStrength = value.first,

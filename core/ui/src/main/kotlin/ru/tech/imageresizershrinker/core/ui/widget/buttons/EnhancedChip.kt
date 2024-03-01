@@ -45,7 +45,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 @Composable
 fun EnhancedChip(
     selected: Boolean,
-    onClick: () -> Unit,
+    onClick: (() -> Unit)?,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(6.dp),
     selectedColor: Color,
@@ -85,12 +85,16 @@ fun EnhancedChip(
                     shape = shape,
                     autoShadowElevation = 0.5.dp
                 )
-                .clickable {
-                    haptics.performHapticFeedback(
-                        HapticFeedbackType.LongPress
-                    )
-                    onClick()
-                },
+                .then(
+                    onClick?.let {
+                        Modifier.clickable {
+                            haptics.performHapticFeedback(
+                                HapticFeedbackType.LongPress
+                            )
+                            onClick()
+                        }
+                    } ?: Modifier
+                ),
             contentAlignment = Alignment.Center
         ) {
             Box(

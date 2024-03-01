@@ -1,0 +1,16 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/bbc/Documents/github.com/ImageToolbox/libs/extendedcolors/build/intermediates/tmp/ProcessLibraryManifest/foss/debug/tempAndroidManifest17540842834725498357.xml:2:13-83
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/extendedcolors/build/intermediates/tmp/ProcessLibraryManifest/foss/debug/tempAndroidManifest17540842834725498357.xml:2:13-83
+	package
+		INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/extendedcolors/build/intermediates/tmp/ProcessLibraryManifest/foss/debug/tempAndroidManifest17540842834725498357.xml
+	xmlns:android
+		ADDED from /Users/bbc/Documents/github.com/ImageToolbox/libs/extendedcolors/build/intermediates/tmp/ProcessLibraryManifest/foss/debug/tempAndroidManifest17540842834725498357.xml:2:23-81
+uses-sdk
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/extendedcolors/build/intermediates/tmp/ProcessLibraryManifest/foss/debug/tempAndroidManifest17540842834725498357.xml reason: use-sdk injection requested
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/extendedcolors/build/intermediates/tmp/ProcessLibraryManifest/foss/debug/tempAndroidManifest17540842834725498357.xml
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/extendedcolors/build/intermediates/tmp/ProcessLibraryManifest/foss/debug/tempAndroidManifest17540842834725498357.xml
+	android:targetSdkVersion
+		INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/extendedcolors/build/intermediates/tmp/ProcessLibraryManifest/foss/debug/tempAndroidManifest17540842834725498357.xml
+	android:minSdkVersion
+		INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/extendedcolors/build/intermediates/tmp/ProcessLibraryManifest/foss/debug/tempAndroidManifest17540842834725498357.xml

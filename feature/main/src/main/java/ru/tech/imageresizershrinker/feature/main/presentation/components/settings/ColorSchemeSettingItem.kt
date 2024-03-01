@@ -50,7 +50,7 @@ import com.t8rin.dynamic.theme.rememberAppColorTuple
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.icons.material.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.Theme
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
@@ -59,7 +59,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.color_picker.AvailableColorTu
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorTuplePicker
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -70,10 +70,11 @@ fun ColorSchemeSettingItem(
     updateThemeContrast: (Float) -> Unit,
     updateColorTuple: (ColorTuple) -> Unit,
     updateColorTuples: (List<ColorTuple>) -> Unit,
+    onToggleUseEmojiAsPrimaryColor: () -> Unit,
     shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp),
 ) {
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val settingsState = LocalSettingsState.current
@@ -81,7 +82,6 @@ fun ColorSchemeSettingItem(
 
     val showPickColorSheet = rememberSaveable { mutableStateOf(false) }
     PreferenceRow(
-        applyHorPadding = false,
         modifier = modifier
             .alpha(
                 animateFloatAsState(
@@ -92,13 +92,7 @@ fun ColorSchemeSettingItem(
         autoShadowElevation = if (enabled) 1.dp else 0.dp,
         shape = shape,
         title = stringResource(R.string.color_scheme),
-        startContent = {
-            Icon(
-                imageVector = Icons.Outlined.Theme,
-                contentDescription = null,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-        },
+        startIcon = Icons.Outlined.Theme,
         subtitle = stringResource(R.string.pick_accent_color),
         onClick = {
             if (enabled) showPickColorSheet.value = true
@@ -155,10 +149,9 @@ fun ColorSchemeSettingItem(
                         )
                 )
                 Icon(
-                    imageVector = Icons.Rounded.CreateAlt,
+                    imageVector = Icons.Rounded.MiniEdit,
                     contentDescription = null,
-                    tint = settingsState.appColorTuple.primary,
-                    modifier = Modifier.size(18.dp)
+                    tint = settingsState.appColorTuple.primary
                 )
             }
         }
@@ -191,6 +184,7 @@ fun ColorSchemeSettingItem(
         onUpdateColorTuples = {
             updateColorTuples(it)
         },
+        onToggleUseEmojiAsPrimaryColor = onToggleUseEmojiAsPrimaryColor,
         onPickTheme = { updateColorTuple(it) }
     )
 }

@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AutoDelete
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -41,22 +40,10 @@ fun AutoCacheClearSettingItem(
     PreferenceRowSwitch(
         shape = shape,
         modifier = modifier,
-        resultModifier = Modifier.padding(
-            top = 8.dp,
-            bottom = 8.dp,
-            end = 16.dp
-        ),
-        applyHorPadding = false,
         title = stringResource(R.string.auto_cache_clearing),
         subtitle = stringResource(R.string.auto_cache_clearing_sub),
         checked = settingsState.clearCacheOnLaunch,
-        startContent = {
-            Icon(
-                imageVector = Icons.Outlined.AutoDelete,
-                contentDescription = null,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-        },
+        startIcon = Icons.Outlined.AutoDelete,
         onClick = onClick
     )
 }

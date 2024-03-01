@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.generate_palette.presentation.components
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Palette
@@ -36,7 +35,7 @@ fun PaletteColorsCountSelector(
     onValueChange: (Int) -> Unit
 ) {
     EnhancedSliderItem(
-        modifier = modifier.padding(horizontal = 16.dp),
+        modifier = modifier,
         value = value,
         icon = Icons.Rounded.Palette,
         title = stringResource(R.string.max_colors_count),

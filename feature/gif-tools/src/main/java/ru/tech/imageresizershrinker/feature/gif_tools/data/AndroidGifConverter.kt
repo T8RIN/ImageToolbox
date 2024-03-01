@@ -21,6 +21,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
+import com.t8rin.gif_converter.GifDecoder
+import com.t8rin.gif_converter.GifEncoder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -97,11 +99,12 @@ internal class AndroidGifConverter @Inject constructor(
         val out = ByteArrayOutputStream()
         val encoder = GifEncoder().apply {
             params.size?.let { size ->
-                width = size.width
-                height = size.height
+                setSize(
+                    size.width,
+                    size.height
+                )
             }
-            repeat = params.repeatCount
-            delay = params.delay
+            setRepeat(params.repeatCount)
             setQuality(
                 (100 - ((params.quality.qualityValue - 1) * (100 / 19f))).toInt()
             )

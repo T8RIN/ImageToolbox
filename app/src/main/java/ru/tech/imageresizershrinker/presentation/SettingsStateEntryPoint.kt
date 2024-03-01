@@ -20,12 +20,10 @@ package ru.tech.imageresizershrinker.presentation
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.core.settings.domain.use_case.GetSettingsStateFlowUseCase
-import ru.tech.imageresizershrinker.core.settings.domain.use_case.GetSettingsStateUseCase
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 
 @EntryPoint
 @InstallIn(SingletonComponent::class)
 interface SettingsStateEntryPoint {
-    val getSettingsStateUseCase: GetSettingsStateUseCase
-    val getSettingsStateFlowUseCase: GetSettingsStateFlowUseCase
+    val settingsRepository: SettingsRepository
 }

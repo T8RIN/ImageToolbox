@@ -18,9 +18,9 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import coil.size.Size
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class HejlBurgessToneMappingFilter(
@@ -32,7 +32,10 @@ internal class HejlBurgessToneMappingFilter(
 
     override suspend fun transform(
         input: Bitmap,
-        size: Size,
-    ): Bitmap = Aire.hejlBurgessToneMapping(input, value)
+        size: IntegerSize
+    ): Bitmap = Aire.hejlBurgessToneMapping(
+        bitmap = input,
+        exposure = value
+    )
 
 }

@@ -22,33 +22,64 @@ package ru.tech.imageresizershrinker.core.data.image
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
+import android.webkit.MimeTypeMap
+import androidx.core.content.FileProvider
+import androidx.core.net.toUri
+import androidx.exifinterface.media.ExifInterface
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.size.Size
+import com.awxkee.aire.Aire
+import com.awxkee.aire.AireColorMapper
+import com.awxkee.aire.AirePaletteDithering
+import com.awxkee.aire.AireQuantize
 import com.awxkee.jxlcoder.JxlCoder
 import com.awxkee.jxlcoder.JxlColorSpace
 import com.awxkee.jxlcoder.JxlCompressionOption
 import com.awxkee.jxlcoder.JxlDecodingSpeed
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.image.utils.BMPCompressor
+import ru.tech.imageresizershrinker.core.data.utils.fileSize
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.domain.model.sizeTo
+import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
 internal class AndroidImageCompressor @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageLoader: ImageLoader,
     private val imageTransformer: ImageTransformer<Bitmap>,
-    private val imageScaler: ImageScaler<Bitmap>
+    private val imageScaler: ImageScaler<Bitmap>,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    settingsRepository: SettingsRepository
 ) : ImageCompressor<Bitmap> {
+
+    private var overwriteFiles: Boolean = false
+
+    init {
+        settingsRepository
+            .getSettingsStateFlow()
+            .onEach {
+                overwriteFiles = it.overwriteFiles
+            }
+            .launchIn(CoroutineScope(Dispatchers.IO))
+    }
 
     override suspend fun compress(
         image: Bitmap,
@@ -70,14 +101,23 @@ internal class AndroidImageCompressor @Inject constructor(
                 out.toByteArray()
             }
 
-            ImageFormat.Png -> {
-                val out = ByteArrayOutputStream()
-                image.compress(
-                    Bitmap.CompressFormat.PNG,
-                    quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
-                    out
+            ImageFormat.MozJpeg -> {
+                Aire.toJPEG(
+                    bitmap = image,
+                    quality = quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
                 )
-                out.toByteArray()
+            }
+
+            ImageFormat.PngLossy -> {
+                val pngLossyQuality = quality as? Quality.PngLossy ?: Quality.PngLossy()
+                Aire.toPNG(
+                    bitmap = image,
+                    maxColors = pngLossyQuality.maxColors,
+                    quantize = AireQuantize.XIAOLING_WU,
+                    dithering = AirePaletteDithering.JARVIS_JUDICE_NINKE,
+                    colorMapper = AireColorMapper.COVER_TREE,
+                    compressionLevel = pngLossyQuality.compressionLevel.coerceIn(0..9)
+                )
             }
 
             ImageFormat.Webp.Lossless -> {
@@ -158,6 +198,16 @@ internal class AndroidImageCompressor @Inject constructor(
                     decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == jxlQuality.speed }
                 )
             }
+
+            ImageFormat.PngLossless -> {
+                val out = ByteArrayOutputStream()
+                image.compress(
+                    Bitmap.CompressFormat.PNG,
+                    quality.qualityValue.coerceIn(imageFormat.compressionTypes[0].compressionRange),
+                    out
+                )
+                out.toByteArray()
+            }
         }
     }
 
@@ -186,19 +236,32 @@ internal class AndroidImageCompressor @Inject constructor(
                 height = imageInfo.height,
                 resizeType = imageInfo.resizeType.withOriginalSizeIfCrop(size),
                 imageScaleMode = imageInfo.imageScaleMode
-            ).let {
-                imageTransformer.flip(
-                    image = it,
-                    isFlipped = imageInfo.isFlipped
-                )
-            }.let {
-                onImageReadyToCompressInterceptor(it)
-            }
+            )
+                .let {
+                    imageTransformer.flip(
+                        image = it,
+                        isFlipped = imageInfo.isFlipped
+                    )
+                }
+                .let {
+                    onImageReadyToCompressInterceptor(it)
+                }
         } else currentImage = onImageReadyToCompressInterceptor(image)
+
+        val extension = MimeTypeMap.getSingleton()
+            .getMimeTypeFromExtension(
+                imageInfo.originalUri?.let {
+                    imageGetter.getExtension(it)
+                }
+            )
+
+        val imageFormat = if (overwriteFiles && extension != null) {
+            ImageFormat[extension]
+        } else imageInfo.imageFormat
 
         return@withContext compress(
             image = currentImage,
-            imageFormat = imageInfo.imageFormat,
+            imageFormat = imageFormat,
             quality = imageInfo.quality
         )
     }
@@ -206,6 +269,49 @@ internal class AndroidImageCompressor @Inject constructor(
     override suspend fun calculateImageSize(
         image: Bitmap,
         imageInfo: ImageInfo
-    ): Long = compressAndTransform(image, imageInfo).size.toLong()
+    ): Long = compressAndTransform(
+        image = image,
+        imageInfo = if (image.width * image.height > 512 * 512) {
+            imageInfo.copy(
+                width = 512,
+                height = 512
+            )
+        } else imageInfo
+    ).let {
+        cacheByteArray(
+            byteArray = it,
+            filename = "temp.${imageInfo.imageFormat.extension}"
+        )?.toUri()
+            ?.fileSize(context)
+            ?.let { sampledSize ->
+                if (image.width * image.height > 512 * 512) {
+                    val originalSize = imageInfo.width * imageInfo.height
+                    val compressedSize = 512 * 512
+                    val compressionRatio = originalSize / compressedSize.toFloat()
+
+                    (sampledSize * compressionRatio).toLong()
+                } else sampledSize.toLong()
+            } ?: it.size.toLong()
+    }
+
+    private fun cacheByteArray(
+        byteArray: ByteArray,
+        filename: String
+    ): String? {
+        val imagesFolder = File(context.cacheDir, "files")
+        return runCatching {
+            imagesFolder.mkdirs()
+            val file = File(imagesFolder, filename)
+            FileOutputStream(file).use {
+                it.write(byteArray)
+            }
+            FileProvider.getUriForFile(
+                context,
+                context.getString(R.string.file_provider),
+                file
+            )
+        }.getOrNull()
+            ?.toString()
+    }
 
 }

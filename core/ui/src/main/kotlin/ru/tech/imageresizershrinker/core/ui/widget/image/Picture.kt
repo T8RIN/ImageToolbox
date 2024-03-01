@@ -19,7 +19,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.image
 
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -32,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
@@ -54,7 +54,7 @@ fun Picture(
     manualImageRequest: ImageRequest? = null,
     manualImageLoader: ImageLoader? = null,
     contentDescription: String? = null,
-    shape: Shape = CircleShape,
+    shape: Shape = RectangleShape,
     contentScale: ContentScale = ContentScale.Crop,
     loading: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Loading) -> Unit)? = null,
     success: @Composable (SubcomposeAsyncImageScope.(AsyncImagePainter.State.Success) -> Unit)? = null,
@@ -94,7 +94,7 @@ fun Picture(
         contentDescription = contentDescription,
         modifier = modifier
             .clip(shape)
-            .then(if (showTransparencyChecker) Modifier.transparencyChecker() else Modifier)
+            .then(if (showTransparencyChecker && !(errorOccurred && error != null)) Modifier.transparencyChecker() else Modifier)
             .then(if (shimmerEnabled) Modifier.shimmer(shimmerVisible || isLoadingFromDifferentPlace) else Modifier),
         contentScale = contentScale,
         loading = {

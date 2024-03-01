@@ -32,6 +32,7 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FormatShapes
 import androidx.compose.material.icons.rounded.Block
+import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -44,12 +45,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.IconShape
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapesList
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -70,20 +73,13 @@ fun IconShapeSettingItem(
 
     PreferenceRow(
         modifier = modifier,
-        applyHorPadding = false,
         shape = shape,
         title = stringResource(R.string.icon_shape),
         subtitle = stringResource(R.string.icon_shape_sub),
         onClick = {
             showPickerSheet = true
         },
-        startContent = {
-            Icon(
-                imageVector = Icons.Outlined.FormatShapes,
-                contentDescription = null,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-        },
+        startIcon = Icons.Outlined.FormatShapes,
         endContent = {
             Box(
                 modifier = Modifier
@@ -100,17 +96,7 @@ fun IconShapeSettingItem(
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                IconShapeContainer(
-                    enabled = true,
-                    underlyingColor = MaterialTheme.colorScheme.surfaceVariant
-                ) { noShape ->
-                    if (noShape) {
-                        Icon(
-                            imageVector = Icons.Rounded.Block,
-                            contentDescription = null
-                        )
-                    }
-                }
+                IconShapePreview()
             }
         }
     )
@@ -182,18 +168,7 @@ fun IconShapeSettingItem(
                         },
                     contentAlignment = Alignment.Center
                 ) {
-                    IconShapeContainer(
-                        enabled = true,
-                        iconShape = iconShape,
-                        underlyingColor = MaterialTheme.colorScheme.surfaceVariant
-                    ) { noShape ->
-                        if (noShape) {
-                            Icon(
-                                imageVector = Icons.Rounded.Block,
-                                contentDescription = null
-                            )
-                        }
-                    }
+                    IconShapePreview(iconShape)
                 }
             }
             item {
@@ -229,18 +204,48 @@ fun IconShapeSettingItem(
                         },
                     contentAlignment = Alignment.Center
                 ) {
-                    IconShapeContainer(
-                        enabled = true,
-                        iconShape = null,
-                        underlyingColor = MaterialTheme.colorScheme.surfaceVariant
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Block,
-                            contentDescription = null
-                        )
-                    }
+                    IconShapePreview(iconShape = null)
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun IconShapePreview(
+    iconShape: IconShape? = LocalSettingsState.current.iconShape
+) {
+    val color = MaterialTheme.colorScheme.onSurfaceVariant
+    when (iconShape) {
+        null -> {
+            Icon(
+                imageVector = Icons.Rounded.Block,
+                contentDescription = null,
+                tint = color,
+                modifier = Modifier.size(30.dp)
+            )
+        }
+
+        IconShape.Random -> {
+            Icon(
+                imageVector = Icons.Rounded.Shuffle,
+                contentDescription = null,
+                tint = color,
+                modifier = Modifier.size(30.dp)
+            )
+        }
+
+        else -> {
+            Box(
+                modifier = Modifier
+                    .size(30.dp)
+                    .container(
+                        borderWidth = 2.dp,
+                        borderColor = color,
+                        color = Color.Transparent,
+                        shape = iconShape.shape
+                    )
+            )
         }
     }
 }

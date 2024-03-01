@@ -30,18 +30,14 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
-import ru.tech.imageresizershrinker.feature.cipher.domain.use_case.decrypt_file.DecryptFileUseCase
-import ru.tech.imageresizershrinker.feature.cipher.domain.use_case.encrypt_file.EncryptFileUseCase
-import ru.tech.imageresizershrinker.feature.cipher.domain.use_case.generate_random_password.GenerateRandomPasswordUseCase
+import ru.tech.imageresizershrinker.feature.cipher.domain.CipherRepository
 import java.io.OutputStream
 import java.security.InvalidKeyException
 import javax.inject.Inject
 
 @HiltViewModel
 class FileCipherViewModel @Inject constructor(
-    private val encryptFileUseCase: EncryptFileUseCase,
-    private val decryptFileUseCase: DecryptFileUseCase,
-    private val generateRandomPasswordUseCase: GenerateRandomPasswordUseCase,
+    private val cipherRepository: CipherRepository,
     private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
 
@@ -68,33 +64,33 @@ class FileCipherViewModel @Inject constructor(
         key: String,
         onFileRequest: suspend (Uri) -> ByteArray?,
         onComplete: (Throwable?) -> Unit
-    ) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            _isSaving.value = true
-            if (_uri.value == null) {
-                onComplete(null)
-                return@withContext
-            }
-            val file = onFileRequest(_uri.value!!)
-            runCatching {
-                if (isEncrypt) {
-                    _byteArray.value = file?.let { encryptFileUseCase(it, key) }
-                } else {
-                    _byteArray.value = file?.let { decryptFileUseCase(it, key) }
-                }
-            }.exceptionOrNull().let {
-                onComplete(
-                    if (it?.message?.contains("mac") == true && it.message?.contains("failed") == true) {
-                        InvalidKeyException()
-                    } else it
-                )
-            }
-            _isSaving.value = false
-        }
-    }.also {
+    ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = it
+        savingJob = viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _isSaving.value = true
+                if (_uri.value == null) {
+                    onComplete(null)
+                    return@withContext
+                }
+                val file = onFileRequest(_uri.value!!)
+                runCatching {
+                    if (isEncrypt) {
+                        _byteArray.value = file?.let { cipherRepository.encrypt(it, key) }
+                    } else {
+                        _byteArray.value = file?.let { cipherRepository.decrypt(it, key) }
+                    }
+                }.exceptionOrNull().let {
+                    onComplete(
+                        if (it?.message?.contains("mac") == true && it.message?.contains("failed") == true) {
+                            InvalidKeyException()
+                        } else it
+                    )
+                }
+                _isSaving.value = false
+            }
+        }
     }
 
     fun setIsEncrypt(isEncrypt: Boolean) {
@@ -109,25 +105,29 @@ class FileCipherViewModel @Inject constructor(
     fun saveCryptographyTo(
         outputStream: OutputStream?,
         onComplete: (Throwable?) -> Unit
-    ) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            _isSaving.value = true
-            kotlin.runCatching {
-                outputStream?.use {
-                    it.write(_byteArray.value)
-                }
-            }.exceptionOrNull().let(onComplete)
-            _isSaving.value = false
-        }
-    }.also {
+    ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = it
+        savingJob = viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _isSaving.value = true
+                kotlin.runCatching {
+                    outputStream?.use {
+                        it.write(_byteArray.value)
+                    }
+                }.exceptionOrNull().let(onComplete)
+                _isSaving.value = false
+            }
+        }
     }
 
-    fun generateRandomPassword(): String = generateRandomPasswordUseCase(18)
+    fun generateRandomPassword(): String = cipherRepository.generateRandomString(18)
 
-    fun shareFile(it: ByteArray, filename: String, onComplete: () -> Unit) {
+    fun shareFile(
+        it: ByteArray,
+        filename: String,
+        onComplete: () -> Unit
+    ) {
         _isSaving.value = false
         savingJob?.cancel()
         savingJob = viewModelScope.launch {

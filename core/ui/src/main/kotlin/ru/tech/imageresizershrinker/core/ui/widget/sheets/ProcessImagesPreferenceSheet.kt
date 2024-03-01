@@ -17,7 +17,10 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.sheets
 
+import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
+import android.webkit.MimeTypeMap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -44,18 +47,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.olshevski.navigation.reimagined.NavController
-import dev.olshevski.navigation.reimagined.navigate
+import androidx.core.net.toUri
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.White
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
@@ -63,19 +64,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import java.util.Locale
 
 @Composable
 fun ProcessImagesPreferenceSheet(
     uris: List<Uri>,
     extraImageType: String? = null,
     visible: MutableState<Boolean>,
-    navController: NavController<Screen> = LocalNavController.current,
-    navigate: (Screen) -> Unit = { screen ->
-        navController.apply {
-            this.navigate(screen)
-            visible.value = false
-        }
-    }
+    navigate: (Screen) -> Unit
 ) {
     SimpleSheet(
         title = {
@@ -86,7 +82,7 @@ fun ProcessImagesPreferenceSheet(
         },
         confirmButton = {
             EnhancedButton(
-                containerColor = Color.Transparent,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = {
                     visible.value = false
                 },
@@ -95,22 +91,31 @@ fun ProcessImagesPreferenceSheet(
             }
         },
         sheetContent = {
-            val gifAvailableScreens by remember(uris) {
+            val context = LocalContext.current
+            val filesAvailableScreens by remember(uris) {
                 derivedStateOf {
                     listOf(
                         Screen.Cipher(uris.firstOrNull()),
+                        Screen.Zip(uris)
+                    )
+                }
+            }
+            val gifAvailableScreens by remember(uris) {
+                derivedStateOf {
+                    listOf(
                         Screen.GifTools(
                             Screen.GifTools.Type.GifToImage(
                                 uris.firstOrNull()
                             )
-                        )
+                        ),
+                        Screen.Cipher(uris.firstOrNull()),
+                        Screen.Zip(uris)
                     )
                 }
             }
             val pdfAvailableScreens by remember(uris) {
                 derivedStateOf {
                     listOf(
-                        Screen.Cipher(uris.firstOrNull()),
                         Screen.PdfTools(
                             Screen.PdfTools.Type.Preview(
                                 uris.firstOrNull()
@@ -120,7 +125,9 @@ fun ProcessImagesPreferenceSheet(
                             Screen.PdfTools.Type.PdfToImages(
                                 uris.firstOrNull()
                             )
-                        )
+                        ),
+                        Screen.Cipher(uris.firstOrNull()),
+                        Screen.Zip(uris)
                     )
                 }
             }
@@ -145,14 +152,30 @@ fun ProcessImagesPreferenceSheet(
                         Screen.PdfTools(
                             Screen.PdfTools.Type.ImagesToPdf(uris)
                         ),
-                        Screen.GifTools(),
+                        Screen.GifTools(
+                            Screen.GifTools.Type.ImageToGif(uris)
+                        ),
                         Screen.Cipher(uris.firstOrNull()),
                         Screen.ImagePreview(uris),
                         Screen.PickColorFromImage(uris.firstOrNull()),
                         Screen.GeneratePalette(uris.firstOrNull()),
+                        Screen.ApngTools(
+                            Screen.ApngTools.Type.ImageToApng(uris)
+                        ),
+                        Screen.Zip(uris),
                         Screen.DeleteExif(uris),
                         Screen.LimitResize(uris)
-                    )
+                    ).let {
+                        if (
+                            context
+                                .getExtension(uris.firstOrNull().toString())
+                                ?.contains("png") == true
+                        ) {
+                            it + Screen.ApngTools(
+                                Screen.ApngTools.Type.ApngToImage(uris.firstOrNull())
+                            )
+                        } else it
+                    }
                 }
             }
             val multipleImagesScreens by remember(uris) {
@@ -169,10 +192,20 @@ fun ProcessImagesPreferenceSheet(
                         if (uris.size == 2) add(Screen.Compare(uris))
                         add(Screen.GradientMaker(uris))
                         add(Screen.Watermarking(uris))
-                        add(Screen.GifTools())
+                        add(
+                            Screen.GifTools(
+                                Screen.GifTools.Type.ImageToGif(uris)
+                            )
+                        )
                         add(Screen.ImagePreview(uris))
                         add(Screen.LimitResize(uris))
-                        Screen.DeleteExif(uris)
+                        add(Screen.Zip(uris))
+                        add(
+                            Screen.ApngTools(
+                                Screen.ApngTools.Type.ImageToApng(uris)
+                            )
+                        )
+                        add(Screen.DeleteExif(uris))
                     }
                 }
             }
@@ -185,14 +218,12 @@ fun ProcessImagesPreferenceSheet(
                 multipleImagesScreens
             ) {
                 derivedStateOf {
-                    if (extraImageType == "pdf") {
-                        pdfAvailableScreens
-                    } else if (extraImageType == "gif") {
-                        gifAvailableScreens
-                    } else if (uris.size <= 1) {
-                        singleImageScreens
-                    } else {
-                        multipleImagesScreens
+                    when {
+                        extraImageType == "pdf" -> pdfAvailableScreens
+                        extraImageType == "gif" -> gifAvailableScreens
+                        extraImageType == "file" -> filesAvailableScreens
+                        uris.size <= 1 -> singleImageScreens
+                        else -> multipleImagesScreens
                     }
                 }
             }
@@ -249,7 +280,7 @@ fun ProcessImagesPreferenceSheet(
                                     }
                                 }
                             }
-                        if (extraImageType != "pdf") {
+                        if (extraImageType != "pdf" && extraImageType != "file") {
                             if (uris.size in 1..2) {
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
@@ -277,7 +308,7 @@ fun ProcessImagesPreferenceSheet(
                         val basePreference = @Composable {
                             PreferenceItem(
                                 onClick = { navigate(it) },
-                                icon = it.icon,
+                                startIcon = it.icon,
                                 title = stringResource(it.title),
                                 subtitle = stringResource(it.subtitle),
                                 color = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -289,7 +320,7 @@ fun ProcessImagesPreferenceSheet(
                                 if (it.type != null) {
                                     PreferenceItem(
                                         onClick = { navigate(it) },
-                                        icon = it.type.icon,
+                                        startIcon = it.type.icon,
                                         title = stringResource(it.type.title),
                                         subtitle = stringResource(it.type.subtitle),
                                         color = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -302,7 +333,7 @@ fun ProcessImagesPreferenceSheet(
                                 if (it.type != null) {
                                     PreferenceItem(
                                         onClick = { navigate(it) },
-                                        icon = it.type.icon,
+                                        startIcon = it.type.icon,
                                         title = stringResource(it.type.title),
                                         subtitle = stringResource(it.type.subtitle),
                                         color = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -315,7 +346,7 @@ fun ProcessImagesPreferenceSheet(
                                 if (it.type != null) {
                                     PreferenceItem(
                                         onClick = { navigate(it) },
-                                        icon = it.type.icon,
+                                        startIcon = it.type.icon,
                                         title = stringResource(it.type.title),
                                         subtitle = stringResource(it.type.subtitle),
                                         color = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -332,4 +363,18 @@ fun ProcessImagesPreferenceSheet(
         },
         visible = visible,
     )
+}
+
+private fun Context.getExtension(
+    uri: String
+): String? {
+    if (uri.endsWith(".jxl")) return "jxl"
+    return if (ContentResolver.SCHEME_CONTENT == uri.toUri().scheme) {
+        MimeTypeMap.getSingleton()
+            .getExtensionFromMimeType(
+                contentResolver.getType(uri.toUri())
+            )
+    } else {
+        MimeTypeMap.getFileExtensionFromUrl(uri).lowercase(Locale.getDefault())
+    }
 }

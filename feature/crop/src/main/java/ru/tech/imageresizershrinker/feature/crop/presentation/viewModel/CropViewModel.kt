@@ -22,6 +22,7 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -47,6 +48,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class CropViewModel @Inject constructor(
@@ -84,7 +86,7 @@ class CropViewModel @Inject constructor(
 
     val isBitmapChanged get() = internalBitmap.value != _bitmap.value
 
-    private val _imageFormat = mutableStateOf<ImageFormat>(ImageFormat.Png)
+    private val _imageFormat = mutableStateOf<ImageFormat>(ImageFormat.PngLossless)
     val imageFormat by _imageFormat
 
     private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
@@ -93,7 +95,10 @@ class CropViewModel @Inject constructor(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 
-    fun updateBitmap(bitmap: Bitmap?, newBitmap: Boolean = false) {
+    fun updateBitmap(
+        bitmap: Bitmap?,
+        newBitmap: Boolean = false
+    ) {
         viewModelScope.launch {
             _isImageLoading.value = true
             val bmp = imageScaler.scaleUntilCanShow(bitmap)
@@ -143,7 +148,7 @@ class CropViewModel @Inject constructor(
                             sequenceNumber = null,
                             data = byteArray
                         ),
-                        keepMetadata = false
+                        keepOriginalMetadata = false
                     )
                 )
             }
@@ -187,7 +192,10 @@ class CropViewModel @Inject constructor(
         _isImageLoading.value = false
     }
 
-    fun setUri(uri: Uri, onError: (Throwable) -> Unit) {
+    fun setUri(
+        uri: Uri,
+        onError: (Throwable) -> Unit
+    ) {
         _uri.value = uri
         imageGetter.getImageAsync(
             uri = uri.toString(),
@@ -228,6 +236,28 @@ class CropViewModel @Inject constructor(
         _isSaving.value = false
         savingJob?.cancel()
         savingJob = null
+    }
+
+    fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            bitmap?.let { image ->
+                shareProvider.cacheImage(
+                    image = image,
+                    imageInfo = ImageInfo(
+                        imageFormat = imageFormat,
+                        width = image.width,
+                        height = image.height
+                    ),
+                    name = Random.nextInt().toString()
+                )?.let { uri ->
+                    onComplete(uri.toUri())
+                }
+            }
+            _isSaving.value = false
+        }
     }
 
 }

@@ -85,7 +85,7 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.icons.material.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.Red
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
@@ -151,8 +151,8 @@ fun RecognizeLanguageSelector(
         },
         color = MaterialTheme.colorScheme.surfaceContainerHigh,
         shape = RoundedCornerShape(24.dp),
-        icon = Icons.Outlined.Language,
-        endIcon = Icons.Rounded.CreateAlt
+        startIcon = Icons.Outlined.Language,
+        endIcon = Icons.Rounded.MiniEdit
     )
 
     var allowMultipleLanguagesSelection by rememberSaveable {

@@ -18,9 +18,9 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import coil.size.Size
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class TentBlurFilter(
@@ -32,7 +32,10 @@ internal class TentBlurFilter(
 
     override suspend fun transform(
         input: Bitmap,
-        size: Size
-    ): Bitmap = Aire.tentBlur(input, value.toInt())
+        size: IntegerSize
+    ): Bitmap = Aire.tentBlur(
+        bitmap = input,
+        kernelSize = value.toInt()
+    )
 
 }

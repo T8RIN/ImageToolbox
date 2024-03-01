@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.presentation
 
+import android.content.ClipData
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
@@ -34,6 +35,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -41,11 +43,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.core.view.WindowInsetsControllerCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import nl.dionsegijn.konfetti.compose.KonfettiView
@@ -55,7 +59,6 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalEditPresetsS
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.toUiState
 import ru.tech.imageresizershrinker.core.ui.icons.emoji.Emoji
-import ru.tech.imageresizershrinker.core.ui.icons.emoji.allIcons
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapesList
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
@@ -65,9 +68,8 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.notShowReviewAgain
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.widget.UpdateSheet
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderInit
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.customHapticFeedback
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -100,8 +102,6 @@ class AppActivity : M3Activity() {
             var showExitDialog by rememberSaveable { mutableStateOf(false) }
             val editPresetsState = rememberSaveable { mutableStateOf(false) }
 
-            EnhancedSliderInit()
-
             val isSecureMode = viewModel.settingsState.isSecureMode
             LaunchedEffect(isSecureMode) {
                 if (isSecureMode) {
@@ -125,12 +125,26 @@ class AppActivity : M3Activity() {
                 randomEmojiKey++
             }
 
+            val currentDestination by remember(backstack) {
+                derivedStateOf {
+                    backstack.lastOrNull()
+                }
+            }
+            LaunchedEffect(currentDestination) {
+                currentDestination?.takeIf {
+                    viewModel.navController.backstack.action == NavAction.Navigate
+                }?.destination?.let {
+                    GlobalExceptionHandler.registerScreenOpen(it)
+                }
+            }
+
             CompositionLocalProvider(
-                LocalToastHost provides viewModel.toastHostState,
+                LocalToastHostState provides viewModel.toastHostState,
                 LocalSettingsState provides viewModel.settingsState.toUiState(
                     allEmojis = Emoji.allIcons(),
                     allIconShapes = IconShapesList,
-                    randomEmojiKey = randomEmojiKey
+                    randomEmojiKey = randomEmojiKey,
+                    getEmojiColorTuple = viewModel::getColorTupleFromEmoji
                 ),
                 LocalNavController provides viewModel.navController,
                 LocalEditPresetsState provides editPresetsState,
@@ -193,10 +207,23 @@ class AppActivity : M3Activity() {
                             editPresetsState = editPresetsState,
                             updatePresets = viewModel::setPresets
                         )
+
+                        val clipboardManager = LocalClipboardManager.current.nativeClipboard
                         ProcessImagesPreferenceSheet(
                             uris = viewModel.uris ?: emptyList(),
                             extraImageType = viewModel.extraImageType,
-                            visible = showSelectSheet
+                            visible = showSelectSheet,
+                            navigate = { screen ->
+                                viewModel.navController.navigate(screen)
+                                showSelectSheet.value = false
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                    clipboardManager.clearPrimaryClip()
+                                } else {
+                                    clipboardManager.setPrimaryClip(
+                                        ClipData.newPlainText(null, "")
+                                    )
+                                }
+                            }
                         )
                     }
 
@@ -229,7 +256,7 @@ class AppActivity : M3Activity() {
                     } else confettiController.currentToastData?.dismiss()
 
                     ToastHost(
-                        hostState = LocalToastHost.current
+                        hostState = LocalToastHostState.current
                     )
 
                     SideEffect {

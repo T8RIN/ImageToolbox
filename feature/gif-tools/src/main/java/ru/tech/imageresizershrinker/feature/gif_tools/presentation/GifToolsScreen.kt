@@ -52,11 +52,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FilterFrames
+import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
 import androidx.compose.material.icons.outlined.RepeatOne
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material.icons.outlined.Timelapse
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Gif
 import androidx.compose.material.icons.rounded.Save
@@ -91,8 +91,9 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFileName
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
 import ru.tech.imageresizershrinker.core.ui.utils.helper.failedToSaveImages
@@ -103,7 +104,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
@@ -112,7 +113,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
+import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -131,7 +133,7 @@ fun GifToolsScreen(
     viewModel: GifToolsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current as ComponentActivity
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
 
     val scope = rememberCoroutineScope()
     val confettiController = LocalConfettiController.current
@@ -337,8 +339,7 @@ fun GifToolsScreen(
             when (val type = viewModel.type) {
                 is Screen.GifTools.Type.GifToImage -> {
                     Spacer(modifier = Modifier.height(16.dp))
-                    ExtensionGroup(
-                        enabled = true,
+                    ImageFormatSelector(
                         value = viewModel.imageFormat,
                         onValueChange = viewModel::setImageFormat
                     )
@@ -393,15 +394,7 @@ fun GifToolsScreen(
                         subtitle = stringResource(id = R.string.use_size_of_first_frame_sub),
                         checked = viewModel.params.size == null,
                         onClick = viewModel::setUseOriginalSize,
-                        applyHorPadding = false,
-                        startContent = {
-                            Icon(
-                                imageVector = Icons.Outlined.PhotoSizeSelectLarge,
-                                contentDescription = null,
-                                modifier = Modifier.padding(end = 16.dp)
-                            )
-                        },
-                        resultModifier = Modifier.padding(16.dp),
+                        startIcon = Icons.Outlined.PhotoSizeSelectLarge,
                         modifier = Modifier.fillMaxWidth(),
                         color = Color.Unspecified,
                         shape = RoundedCornerShape(24.dp)
@@ -425,23 +418,6 @@ fun GifToolsScreen(
                             viewModel.updateParams(
                                 viewModel.params.copy(
                                     repeatCount = it.roundToInt()
-                                )
-                            )
-                        },
-                        shape = RoundedCornerShape(24.dp)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    EnhancedSliderItem(
-                        value = viewModel.params.delay,
-                        icon = Icons.Outlined.Timelapse,
-                        title = stringResource(id = R.string.frame_delay),
-                        valueSuffix = " " + stringResource(id = R.string.millis),
-                        valueRange = 0f..4000f,
-                        internalStateTransformation = { it.roundToInt() },
-                        onValueChange = {
-                            viewModel.updateParams(
-                                viewModel.params.copy(
-                                    delay = it.roundToInt()
                                 )
                             )
                         },
@@ -475,6 +451,7 @@ fun GifToolsScreen(
             else 20.dp
         ).value,
         buttons = {
+            val settingsState = LocalSettingsState.current
             BottomButtonsBlock(
                 targetState = (viewModel.type == null) to isPortrait,
                 onSecondaryButtonClick = {
@@ -486,15 +463,35 @@ fun GifToolsScreen(
                 onPrimaryButtonClick = {
                     viewModel.saveBitmaps(
                         onGifSaveResult = { name ->
-                            savePdfLauncher.launch("image/gif#$name.gif")
+                            runCatching {
+                                runCatching {
+                                    savePdfLauncher.launch("image/gif#$name.gif")
+                                }.onFailure {
+                                    scope.launch {
+                                        toastHostState.showToast(
+                                            message = context.getString(R.string.activate_files),
+                                            icon = Icons.Outlined.FolderOff,
+                                            duration = ToastDuration.Long
+                                        )
+                                    }
+                                }
+                            }.onFailure {
+                                scope.launch {
+                                    toastHostState.showToast(
+                                        message = context.getString(R.string.activate_files),
+                                        icon = Icons.Outlined.FolderOff,
+                                        duration = ToastDuration.Long
+                                    )
+                                }
+                            }
                         },
-                        onResult = { failed, savingPath ->
+                        onResult = { results, savingPath ->
                             context.failedToSaveImages(
                                 scope = scope,
-                                failed = failed,
-                                done = viewModel.done,
+                                results = results,
                                 toastHostState = toastHostState,
                                 savingPathString = savingPath,
+                                isOverwritten = settingsState.overwriteFiles,
                                 showConfetti = showConfetti
                             )
                         }
@@ -517,7 +514,7 @@ fun GifToolsScreen(
                 PreferenceItem(
                     title = stringResource(types[0].title),
                     subtitle = stringResource(types[0].subtitle),
-                    icon = types[0].icon,
+                    startIcon = types[0].icon,
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
                     onClick = {
@@ -529,7 +526,7 @@ fun GifToolsScreen(
                 PreferenceItem(
                     title = stringResource(types[1].title),
                     subtitle = stringResource(types[1].subtitle),
-                    icon = types[1].icon,
+                    startIcon = types[1].icon,
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
                     onClick = {
@@ -587,12 +584,15 @@ fun GifToolsScreen(
 }
 
 private fun Uri.isGif(context: Context): Boolean {
-    return context.getFileName(this).toString().endsWith(".gif")
+    return context.getFilename(this).toString().endsWith(".gif")
         .or(context.contentResolver.getType(this)?.contains("gif") == true)
 }
 
 private class CreateDocument : ActivityResultContracts.CreateDocument("*/*") {
-    override fun createIntent(context: Context, input: String): Intent {
+    override fun createIntent(
+        context: Context,
+        input: String
+    ): Intent {
         return super.createIntent(
             context = context,
             input = input.split("#")[0]

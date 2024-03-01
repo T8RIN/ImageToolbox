@@ -18,9 +18,9 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import coil.size.Size
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class NativeStackBlurFilter(
@@ -32,6 +32,9 @@ internal class NativeStackBlurFilter(
 
     override suspend fun transform(
         input: Bitmap,
-        size: Size,
-    ): Bitmap = Aire.stackBlur(input, value.toInt())
+        size: IntegerSize
+    ): Bitmap = Aire.stackBlur(
+        bitmap = input,
+        radius = value.toInt()
+    )
 }

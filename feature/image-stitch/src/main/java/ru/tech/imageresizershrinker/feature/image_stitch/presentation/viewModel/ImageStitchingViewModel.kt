@@ -23,6 +23,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,6 +46,7 @@ import ru.tech.imageresizershrinker.feature.image_stitch.domain.CombiningParams
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.ImageCombiner
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.StitchMode
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class ImageStitchingViewModel @Inject constructor(
@@ -69,7 +71,7 @@ class ImageStitchingViewModel @Inject constructor(
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
 
-    private val _imageInfo = mutableStateOf(ImageInfo(imageFormat = ImageFormat.Png))
+    private val _imageInfo = mutableStateOf(ImageInfo(imageFormat = ImageFormat.PngLossless))
     val imageInfo by _imageInfo
 
     private val _combiningParams: MutableState<CombiningParams> = mutableStateOf(CombiningParams())
@@ -146,7 +148,7 @@ class ImageStitchingViewModel @Inject constructor(
                                 imageInfo = imageInfo
                             )
                         ),
-                        keepMetadata = true
+                        keepOriginalMetadata = true
                     )
                 )
             }
@@ -158,7 +160,7 @@ class ImageStitchingViewModel @Inject constructor(
         savingJob = it
     }
 
-    fun shareBitmaps(onComplete: () -> Unit) {
+    fun shareBitmap(onComplete: () -> Unit) {
         _isSaving.value = false
         viewModelScope.launch {
             _isSaving.value = true
@@ -258,6 +260,35 @@ class ImageStitchingViewModel @Inject constructor(
             }
         }
         calculatePreview()
+    }
+
+    fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            imageCombiner.combineImages(
+                imageUris = uris?.map { it.toString() } ?: emptyList(),
+                combiningParams = combiningParams,
+                imageScale = imageScale
+            ).let {
+                it.copy(
+                    second = it.second.copy(
+                        quality = imageInfo.quality,
+                        imageFormat = imageInfo.imageFormat
+                    )
+                )
+            }.let { (image, imageInfo) ->
+                shareProvider.cacheImage(
+                    image = image,
+                    imageInfo = imageInfo,
+                    name = Random.nextInt().toString()
+                )?.let { uri ->
+                    onComplete(uri.toUri())
+                }
+            }
+            _isSaving.value = false
+        }
     }
 
 }

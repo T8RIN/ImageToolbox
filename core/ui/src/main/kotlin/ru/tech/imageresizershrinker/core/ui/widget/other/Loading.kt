@@ -34,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -95,20 +96,35 @@ fun Loading(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun BoxScope.Loading(done: Int, left: Int) {
-    Loading(progress = done / left.toFloat()) {
-        AutoSizeText(
-            text = "$done / $left",
-            maxLines = 1,
-            fontWeight = FontWeight.Medium,
-            modifier = Modifier.width(it * 0.8f),
-            textAlign = TextAlign.Center
+fun BoxScope.Loading(
+    done: Int,
+    left: Int
+) {
+    val progress = done / left.toFloat()
+    if (progress.isFinite() && progress >= 0 && left > 0) {
+        Loading(progress = progress) {
+            AutoSizeText(
+                text = "$done / $left",
+                maxLines = 1,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.width(it * 0.8f),
+                textAlign = TextAlign.Center
+            )
+        }
+    } else {
+        Loading(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .size(108.dp)
         )
     }
 }
 
 @Composable
-fun BoxScope.Loading(progress: Float, additionalContent: @Composable (Dp) -> Unit = {}) {
+fun BoxScope.Loading(
+    progress: Float,
+    additionalContent: @Composable (Dp) -> Unit = {}
+) {
     val borderWidth = LocalSettingsState.current.borderWidth
     Column(
         modifier = Modifier
@@ -149,6 +165,7 @@ fun BoxScope.Loading(progress: Float, additionalContent: @Composable (Dp) -> Uni
                 modifier = Modifier.size(maxWidth),
                 progress = { progressAnimated },
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
+                trackColor = Color.Transparent,
                 strokeCap = StrokeCap.Round,
             )
             additionalContent(maxWidth)

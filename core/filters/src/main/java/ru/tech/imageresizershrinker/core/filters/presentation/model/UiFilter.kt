@@ -20,6 +20,9 @@ package ru.tech.imageresizershrinker.core.filters.presentation.model
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.annotation.StringRes
+import com.t8rin.logger.makeLog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import kotlin.reflect.full.primaryConstructor
@@ -138,7 +141,11 @@ sealed class UiFilter<T>(
                     UiAcesFilmicToneMappingFilter(),
                     UiAcesHillToneMappingFilter(),
                     UiHableFilmicToneMappingFilter(),
-                    UiHejlBurgessToneMappingFilter()
+                    UiHejlBurgessToneMappingFilter(),
+                    UiMobiusFilter(),
+                    UiAldridgeFilter(),
+                    UiUchimuraFilter(),
+                    UiDragoFilter()
                 ),
                 listOf(
                     UiSharpenFilter(),
@@ -163,7 +170,12 @@ sealed class UiFilter<T>(
                 ),
                 listOf(
                     UiShuffleBlurFilter(),
-                    UiTiltShiftFilter(),
+                    UiRingBlurFilter(),
+                    UiCircleBlurFilter(),
+                    UiCrossBlurFilter(),
+                    UiStarBlurFilter(),
+                    UiRadialTiltShiftFilter(),
+                    UiLinearTiltShiftFilter(),
                     UiGaussianBlurFilter(),
                     UiNativeStackBlurFilter(),
                     UiBoxBlurFilter(),
@@ -172,14 +184,15 @@ sealed class UiFilter<T>(
                     UiStackBlurFilter(),
                     UiFastBlurFilter(),
                     UiZoomBlurFilter(),
+                    UiMotionBlurFilter(),
                     UiAnisotropicDiffusionFilter(),
                     UiFastBilaterialBlurFilter(),
                     UiPoissonBlurFilter(),
-                    UiMedianBlurFilter()
+                    UiMedianBlurFilter(),
+                    UiBokehFilter()
                 ),
                 listOf(
                     UiCrystallizeFilter(),
-                    UiBokehFilter(),
                     UiPixelationFilter(),
                     UiEnhancedPixelationFilter(),
                     UiDiamondPixelationFilter(),
@@ -193,6 +206,7 @@ sealed class UiFilter<T>(
                     UiFractalGlassFilter(),
                     UiGlitchFilter(),
                     UiMarbleFilter(),
+                    UiColorAnomalyFilter(),
                     UiWaterEffectFilter(),
                     UiPerlinDistortionFilter(),
                     UiAnaglyphFilter(),
@@ -221,7 +235,8 @@ sealed class UiFilter<T>(
                     UiFalseFloydSteinbergDitheringFilter(),
                     UiLeftToRightDitheringFilter(),
                     UiRandomDitheringFilter(),
-                    UiSimpleThresholdDitheringFilter()
+                    UiSimpleThresholdDitheringFilter(),
+                    UiQuantizierFilter()
                 )
             )
         }
@@ -248,3 +263,26 @@ infix fun Int.paramTo(valueRange: ClosedFloatingPointRange<Float>) = FilterParam
     title = this,
     valueRange = valueRange
 )
+
+private suspend fun reflectionTest() = withContext(Dispatchers.IO) {
+    val filters = UiFilter.groupedEntries.flatten()
+    val failedCopy = mutableListOf<Pair<String, String?>>()
+    val failedToUi = mutableListOf<Pair<String, String?>>()
+    filters.forEach { filter ->
+        runCatching {
+            filter.copy(filter.value)
+        }.onFailure {
+            failedCopy.add(filter::class.simpleName.toString() to it.message)
+        }
+        runCatching {
+            filter.toUiFilter()
+        }.onFailure {
+            failedToUi.add(filter::class.simpleName.toString() to it.message)
+        }
+    }
+    "------------------".makeLog()
+    failedCopy.makeLog()
+    " ".makeLog()
+    failedToUi.makeLog()
+    "------------------".makeLog()
+}

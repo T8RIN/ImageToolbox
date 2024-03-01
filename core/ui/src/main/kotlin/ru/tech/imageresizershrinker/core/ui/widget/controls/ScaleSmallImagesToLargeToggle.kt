@@ -22,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.LinearScale
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
@@ -38,6 +39,7 @@ fun ScaleSmallImagesToLargeToggle(
         title = stringResource(R.string.scale_small_images_to_large),
         subtitle = stringResource(R.string.scale_small_images_to_large_sub),
         checked = checked,
+        color = Color.Unspecified,
         shape = RoundedCornerShape(24.dp),
         onClick = onCheckedChange,
         startIcon = Icons.Rounded.LinearScale

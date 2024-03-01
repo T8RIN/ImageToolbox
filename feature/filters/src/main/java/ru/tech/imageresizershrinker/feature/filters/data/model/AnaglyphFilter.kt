@@ -18,10 +18,10 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import coil.size.Size
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.feature.filters.data.glitch.SmartGlitcher
+import ru.tech.imageresizershrinker.feature.filters.data.utils.Glitcher
 
 internal class AnaglyphFilter(
     override val value: Float = 20f
@@ -32,7 +32,7 @@ internal class AnaglyphFilter(
 
     override suspend fun transform(
         input: Bitmap,
-        size: Size
-    ): Bitmap = SmartGlitcher.anaglyph(input, value.toInt())
+        size: IntegerSize
+    ): Bitmap = Glitcher.anaglyph(input, value.toInt())
 
 }

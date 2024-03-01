@@ -17,34 +17,22 @@
 
 package ru.tech.imageresizershrinker.feature.gif_tools.di
 
-import android.content.Context
-import android.graphics.Bitmap
-import androidx.exifinterface.media.ExifInterface
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.feature.gif_tools.data.AndroidGifConverter
 import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifConverter
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object GifToolsModule {
+internal interface GifToolsModule {
 
-    @Provides
+    @Binds
     @Singleton
     fun provideConverter(
-        imageGetter: ImageGetter<Bitmap, ExifInterface>,
-        imageShareProvider: ShareProvider<Bitmap>,
-        @ApplicationContext context: Context
-    ): GifConverter = AndroidGifConverter(
-        imageGetter = imageGetter,
-        imageShareProvider = imageShareProvider,
-        context = context
-    )
+        converter: AndroidGifConverter
+    ): GifConverter
 
 }

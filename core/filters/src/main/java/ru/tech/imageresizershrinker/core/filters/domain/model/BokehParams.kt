@@ -21,7 +21,6 @@ import androidx.annotation.FloatRange
 
 data class BokehParams(
     val radius: Int,
-    val angle: Int,
     val amount: Int,
     @FloatRange(0.01, 1.0)
     val scale: Float
@@ -30,7 +29,6 @@ data class BokehParams(
         val Default by lazy {
             BokehParams(
                 radius = 6,
-                angle = 45,
                 amount = 6,
                 scale = 0.5f
             )

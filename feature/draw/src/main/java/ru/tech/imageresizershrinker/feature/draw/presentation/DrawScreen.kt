@@ -73,11 +73,9 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material.icons.outlined.FormatPaint
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Draw
-import androidx.compose.material.icons.rounded.FormatPaint
-import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.BottomAppBar
@@ -130,10 +128,12 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.icons.material.ImageTooltip
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
@@ -142,16 +142,17 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActio
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EraseModeButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.AlphaSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.BackgroundColorSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientation
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -189,7 +190,7 @@ fun DrawScreen(
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalContext.current as ComponentActivity
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
@@ -411,11 +412,11 @@ fun DrawScreen(
             onCheckedChange = viewModel::setSaveExif,
             backgroundColor = MaterialTheme.colorScheme.surfaceContainer
         )
-        ExtensionGroup(
+        ImageFormatSelector(
             modifier = Modifier
                 .padding(16.dp)
                 .navigationBarsPadding(),
-            enabled = viewModel.drawBehavior !is DrawBehavior.None,
+            forceEnabled = viewModel.drawBehavior is DrawBehavior.Background,
             value = viewModel.imageFormat,
             onValueChange = viewModel::updateMimeType,
             backgroundColor = MaterialTheme.colorScheme.surfaceContainer
@@ -503,15 +504,18 @@ fun DrawScreen(
                                 Icon(Icons.Rounded.Tune, null)
                             }
                         }
-                        EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
-                            onClick = { viewModel.shareBitmap { showConfetti() } },
-                            enabled = viewModel.drawBehavior !is DrawBehavior.None
-                        ) {
-                            Icon(Icons.Outlined.Share, null)
-                        }
+                        ShareButton(
+                            enabled = viewModel.drawBehavior !is DrawBehavior.None,
+                            onShare = {
+                                viewModel.shareBitmap(showConfetti)
+                            },
+                            onCopy = { manager ->
+                                viewModel.cacheCurrentImage { uri ->
+                                    manager.setClip(uri.asClip(context))
+                                    showConfetti()
+                                }
+                            }
+                        )
                         EnhancedIconButton(
                             containerColor = Color.Transparent,
                             contentColor = LocalContentColor.current,
@@ -677,7 +681,7 @@ fun DrawScreen(
                         item {
                             PreferenceItem(
                                 onClick = pickImage,
-                                icon = Icons.Rounded.Image,
+                                startIcon = Icons.Outlined.ImageTooltip,
                                 title = stringResource(R.string.draw_on_image),
                                 subtitle = stringResource(R.string.draw_on_image_sub),
                                 modifier = Modifier.fillMaxWidth(),
@@ -687,7 +691,7 @@ fun DrawScreen(
                         item {
                             PreferenceItem(
                                 onClick = { showBackgroundDrawingSetup.value = true },
-                                icon = Icons.Rounded.FormatPaint,
+                                startIcon = Icons.Outlined.FormatPaint,
                                 title = stringResource(R.string.draw_on_background),
                                 subtitle = stringResource(R.string.draw_on_background_sub),
                                 modifier = Modifier.fillMaxWidth(),

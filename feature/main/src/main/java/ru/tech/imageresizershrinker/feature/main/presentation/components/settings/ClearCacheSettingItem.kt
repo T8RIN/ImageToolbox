@@ -63,6 +63,6 @@ fun ClearCacheSettingItem(
         title = stringResource(R.string.cache_size),
         subtitle = stringResource(R.string.found_s, cache),
         endIcon = Icons.Rounded.DeleteOutline,
-        icon = Icons.Outlined.Memory
+        startIcon = Icons.Outlined.Memory
     )
 }

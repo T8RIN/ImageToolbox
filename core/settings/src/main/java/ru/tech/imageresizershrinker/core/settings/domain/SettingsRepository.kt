@@ -149,4 +149,6 @@ interface SettingsRepository {
     suspend fun toggleUseRandomEmojis()
 
     suspend fun setIconShape(iconShape: Int)
+
+    suspend fun toggleUseEmojiAsPrimaryColor()
 }

@@ -27,9 +27,12 @@ dependencies {
     api(libs.coilCompose)
     api(libs.coilGif)
     api(libs.coilSvg)
-    api(libs.avif.coder)
     api(libs.datastore.preferences.android)
 
+    api(libs.avif.coder.coil) {
+        exclude(module = "com.github.awxkee:avif-coder")
+    }
+    api(libs.avif.coder)
     api(libs.jxl.coder.coil) {
         exclude(module = "com.github.awxkee:jxl-coder")
     }
@@ -41,8 +44,7 @@ dependencies {
 
     api(libs.tesseract)
 
-    implementation(projects.libs.logger)
-    implementation(projects.libs.gpuimage)
+    implementation(libs.imageToolboxLibs)
 
     implementation(projects.core.domain)
     implementation(projects.core.resources)

@@ -25,59 +25,54 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import androidx.exifinterface.media.ExifInterface
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
+import ru.tech.imageresizershrinker.feature.filters.data.AndroidFilterMaskApplier
+import ru.tech.imageresizershrinker.feature.filters.data.AndroidFilterProvider
 import ru.tech.imageresizershrinker.feature.filters.data.FavoriteFiltersInteractorImpl
-import ru.tech.imageresizershrinker.feature.filters.data.applier.AndroidFilterMaskApplier
-import ru.tech.imageresizershrinker.feature.filters.data.provider.AndroidFilterProvider
 import ru.tech.imageresizershrinker.feature.filters.domain.FilterMaskApplier
 import javax.inject.Singleton
 
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object FilterModule {
+internal interface FilterModule {
 
     @Singleton
-    @Provides
-    fun provideFilterProvider(
-        @ApplicationContext context: Context,
-    ): FilterProvider<Bitmap> = AndroidFilterProvider(context)
+    @Binds
+    fun filterProvider(
+        provider: AndroidFilterProvider
+    ): FilterProvider<Bitmap>
 
     @Singleton
-    @Provides
-    fun provideFilterMaskApplier(
-        imageGetter: ImageGetter<Bitmap, ExifInterface>,
-        imageTransformer: ImageTransformer<Bitmap>,
-        filterProvider: FilterProvider<Bitmap>
-    ): FilterMaskApplier<Bitmap, Path, Color> = AndroidFilterMaskApplier(
-        imageGetter = imageGetter,
-        imageTransformer = imageTransformer,
-        filterProvider = filterProvider
-    )
+    @Binds
+    fun filterMaskApplier(
+        applier: AndroidFilterMaskApplier
+    ): FilterMaskApplier<Bitmap, Path, Color>
 
-    @FilterInteractorDataStore
-    @Singleton
-    @Provides
-    fun provideFilterInteractorDataStore(
-        @ApplicationContext context: Context
-    ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
-        produceFile = { context.preferencesDataStoreFile("favorite_filters") },
-    )
+    companion object {
+
+        @FilterInteractorDataStore
+        @Singleton
+        @Provides
+        fun filterInteractorDataStore(
+            @ApplicationContext context: Context
+        ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
+            produceFile = { context.preferencesDataStoreFile("favorite_filters") },
+        )
+
+    }
 
     @Singleton
-    @Provides
-    fun provideFavoriteFiltersInteractor(
-        @FilterInteractorDataStore dataStore: DataStore<Preferences>
-    ): FavoriteFiltersInteractor<Bitmap> = FavoriteFiltersInteractorImpl(dataStore)
-
+    @Binds
+    fun favoriteFiltersInteractor(
+        interactor: FavoriteFiltersInteractorImpl
+    ): FavoriteFiltersInteractor<Bitmap>
 
 }

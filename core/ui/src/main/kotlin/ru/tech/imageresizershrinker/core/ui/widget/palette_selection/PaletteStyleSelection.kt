@@ -24,7 +24,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.InvertColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,13 +33,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.PaletteStyle
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.icons.material.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.Swatch
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -51,7 +51,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 fun PaletteStyleSelection(
     onThemeStyleSelected: (PaletteStyle) -> Unit,
     shape: RoundedCornerShape,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.surfaceContainerHigh
 ) {
     val context = LocalContext.current
     val settingsState = LocalSettingsState.current
@@ -64,10 +65,10 @@ fun PaletteStyleSelection(
             }
         }.value,
         shape = shape,
-        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+        color = color,
         modifier = modifier,
-        icon = Icons.Rounded.Swatch,
-        endIcon = Icons.Rounded.CreateAlt,
+        startIcon = Icons.Rounded.Swatch,
+        endIcon = Icons.Rounded.MiniEdit,
         onClick = {
             showPaletteStyleSelectionSheet.value = true
         }
@@ -78,7 +79,7 @@ fun PaletteStyleSelection(
         title = {
             TitleItem(
                 text = stringResource(R.string.palette_style),
-                icon = Icons.Rounded.InvertColors
+                icon = Icons.Rounded.Swatch
             )
         },
         confirmButton = {

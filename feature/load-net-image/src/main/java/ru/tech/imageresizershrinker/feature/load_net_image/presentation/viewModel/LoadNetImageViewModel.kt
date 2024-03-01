@@ -42,6 +42,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class LoadNetImageViewModel @Inject constructor(
@@ -84,11 +85,11 @@ class LoadNetImageViewModel @Inject constructor(
                             sequenceNumber = null,
                             data = imageCompressor.compress(
                                 image = bitmap,
-                                imageFormat = ImageFormat.Png,
+                                imageFormat = ImageFormat.PngLossless,
                                 quality = Quality.Base(100)
                             )
                         ),
-                        keepMetadata = false
+                        keepOriginalMetadata = false
                     )
                 )
             }
@@ -100,7 +101,10 @@ class LoadNetImageViewModel @Inject constructor(
         savingJob = it
     }
 
-    fun cacheImage(image: Bitmap, imageInfo: ImageInfo) {
+    fun cacheImage(
+        image: Bitmap,
+        imageInfo: ImageInfo
+    ) {
         viewModelScope.launch {
             _isSaving.value = true
             _tempUri.value = shareProvider.cacheImage(image, imageInfo)?.toUri()
@@ -108,21 +112,27 @@ class LoadNetImageViewModel @Inject constructor(
         }
     }
 
-    fun shareBitmap(bitmap: Bitmap, imageInfo: ImageInfo, onComplete: () -> Unit) {
-        viewModelScope.launch {
+    fun shareBitmap(
+        onComplete: () -> Unit
+    ) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
             _isSaving.value = true
-            shareProvider.shareImage(
-                imageInfo = imageInfo,
-                image = bitmap,
-                onComplete = {
-                    _isSaving.value = false
-                    onComplete()
-                }
-            )
-        }.also {
-            _isSaving.value = false
-            savingJob?.cancel()
-            savingJob = it
+            bitmap?.let { image ->
+                shareProvider.shareImage(
+                    imageInfo = ImageInfo(
+                        width = image.width,
+                        height = image.height,
+                        imageFormat = ImageFormat.PngLossless
+                    ),
+                    image = image,
+                    onComplete = {
+                        _isSaving.value = false
+                        onComplete()
+                    }
+                )
+            }
         }
     }
 
@@ -130,6 +140,28 @@ class LoadNetImageViewModel @Inject constructor(
         savingJob?.cancel()
         savingJob = null
         _isSaving.value = false
+    }
+
+    fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            bitmap?.let { image ->
+                shareProvider.cacheImage(
+                    image = image,
+                    imageInfo = ImageInfo(
+                        width = image.width,
+                        height = image.height,
+                        imageFormat = ImageFormat.PngLossless
+                    ),
+                    name = Random.nextInt().toString()
+                )?.let { uri ->
+                    onComplete(uri.toUri())
+                }
+            }
+            _isSaving.value = false
+        }
     }
 
 }

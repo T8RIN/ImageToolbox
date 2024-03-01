@@ -42,7 +42,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -54,12 +53,12 @@ import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.icons.material.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.Stacks
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -81,7 +80,7 @@ fun ScreenOrderSettingItem(
     }
     val showArrangementSheet = rememberSaveable { mutableStateOf(false) }
 
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
@@ -106,13 +105,13 @@ fun ScreenOrderSettingItem(
                 )
             }
         },
-        icon = Icons.Outlined.DataArray,
+        startIcon = Icons.Outlined.DataArray,
         title = stringResource(R.string.order),
         subtitle = stringResource(R.string.order_sub),
         color = MaterialTheme.colorScheme
             .secondaryContainer
             .copy(alpha = 0.2f),
-        endIcon = Icons.Rounded.CreateAlt,
+        endIcon = Icons.Rounded.MiniEdit,
     )
 
     SimpleSheet(
@@ -125,7 +124,7 @@ fun ScreenOrderSettingItem(
         },
         confirmButton = {
             EnhancedButton(
-                containerColor = Color.Transparent,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = { showArrangementSheet.value = false }
             ) {
                 AutoSizeText(stringResource(R.string.close))
@@ -162,7 +161,7 @@ fun ScreenOrderSettingItem(
                                     .shadow(elevation, RoundedCornerShape(16.dp)),
                                 title = stringResource(screen.title),
                                 subtitle = stringResource(screen.subtitle),
-                                icon = screen.icon,
+                                startIcon = screen.icon,
                                 endIcon = Icons.Rounded.DragHandle,
                                 color = MaterialTheme.colorScheme.surfaceColorAtElevation(
                                     tonalElevation

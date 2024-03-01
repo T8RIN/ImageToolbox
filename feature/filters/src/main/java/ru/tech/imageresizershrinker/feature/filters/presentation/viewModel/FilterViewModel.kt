@@ -26,6 +26,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -36,6 +37,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
@@ -51,7 +53,6 @@ import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
-import ru.tech.imageresizershrinker.core.filters.presentation.utils.toCoil
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -60,6 +61,7 @@ import ru.tech.imageresizershrinker.feature.filters.presentation.components.Basi
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskingFilterState
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.UiFilterMask
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class FilterViewModel @Inject constructor(
@@ -178,11 +180,11 @@ class FilterViewModel @Inject constructor(
     private var savingJob: Job? = null
 
     fun saveBitmaps(
-        onResult: (Int, String) -> Unit
+        onResult: (List<SaveResult>, String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             _isSaving.value = true
-            var failed = 0
+            val results = mutableListOf<SaveResult>()
             _done.value = 0
             _left.value = _basicFilterState.value.uris?.size ?: 1
             _basicFilterState.value.uris?.forEach { uri ->
@@ -196,29 +198,29 @@ class FilterViewModel @Inject constructor(
                 }.getOrNull()?.let { bitmap ->
                     val localBitmap = bitmap
 
-                    val result = fileController.save(
-                        saveTarget = ImageSaveTarget<ExifInterface>(
-                            imageInfo = imageInfo,
-                            originalUri = uri.toString(),
-                            sequenceNumber = _done.value + 1,
-                            data = imageCompressor.compressAndTransform(
-                                image = localBitmap,
-                                imageInfo = imageInfo.copy(
-                                    width = localBitmap.width,
-                                    height = localBitmap.height
+                    results.add(
+                        fileController.save(
+                            saveTarget = ImageSaveTarget<ExifInterface>(
+                                imageInfo = imageInfo,
+                                originalUri = uri.toString(),
+                                sequenceNumber = _done.value + 1,
+                                data = imageCompressor.compressAndTransform(
+                                    image = localBitmap,
+                                    imageInfo = imageInfo.copy(
+                                        width = localBitmap.width,
+                                        height = localBitmap.height
+                                    )
                                 )
-                            )
-                        ), keepMetadata = keepExif
+                            ), keepOriginalMetadata = keepExif
+                        )
                     )
-                    if (result is SaveResult.Error.MissingPermissions) {
-                        return@withContext onResult(-1, "")
-                    }
-                } ?: {
-                    failed += 1
-                }
+                } ?: results.add(
+                    SaveResult.Error.Exception(Throwable())
+                )
+
                 _done.value += 1
             }
-            onResult(failed, fileController.savingPath)
+            onResult(results, fileController.savingPath)
             _isSaving.value = false
         }
     }.also {
@@ -499,7 +501,7 @@ class FilterViewModel @Inject constructor(
                                             height = localBitmap.height
                                         )
                                     )
-                                ), keepMetadata = keepExif
+                                ), keepOriginalMetadata = keepExif
                             )
                         )
                     }
@@ -517,7 +519,11 @@ class FilterViewModel @Inject constructor(
         updateCanSave()
     }
 
-    fun updateMask(value: UiFilterMask, index: Int, showError: (Throwable) -> Unit) {
+    fun updateMask(
+        value: UiFilterMask,
+        index: Int,
+        showError: (Throwable) -> Unit
+    ) {
         runCatching {
             _maskingFilterState.update {
                 it.copy(
@@ -566,5 +572,64 @@ class FilterViewModel @Inject constructor(
     fun filterToTransformation(
         uiFilter: UiFilter<*>
     ): Transformation = filterProvider.filterToTransformation(uiFilter).toCoil()
+
+    fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            when (filterType) {
+                is Screen.Filter.Type.Basic -> {
+                    imageGetter.getImageWithTransformations(
+                        uri = _basicFilterState.value.selectedUri.toString(),
+                        transformations = _basicFilterState.value.filters.map {
+                            filterProvider.filterToTransformation(it)
+                        }
+                    )?.let { (image, imageInfo) ->
+                        shareProvider.cacheImage(
+                            image = image,
+                            imageInfo = imageInfo,
+                            name = Random.nextInt().toString()
+                        )?.let {
+                            onComplete(it.toUri())
+                        }
+                    }
+                }
+
+                is Screen.Filter.Type.Masking -> {
+                    _left.value = maskingFilterState.masks.size
+                    maskingFilterState.uri?.toString()?.let {
+                        imageGetter.getImage(uri = it)
+                    }?.let { imageData ->
+                        maskingFilterState.masks.fold<UiFilterMask, Bitmap?>(
+                            initial = imageData.image,
+                            operation = { bmp, mask ->
+                                bmp?.let {
+                                    filterMaskApplier.filterByMask(
+                                        filterMask = mask,
+                                        image = bmp
+                                    )
+                                }?.also { _done.value++ }
+                            }
+                        )?.let { bitmap ->
+                            shareProvider.cacheImage(
+                                image = bitmap,
+                                imageInfo = imageInfo.copy(
+                                    width = bitmap.width,
+                                    height = bitmap.height
+                                ),
+                                name = Random.nextInt().toString()
+                            )?.let {
+                                onComplete(it.toUri())
+                            }
+                        }
+                    }
+                }
+
+                null -> Unit
+            }
+            _isSaving.value = false
+        }
+    }
 
 }
