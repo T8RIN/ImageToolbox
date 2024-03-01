@@ -793,4 +793,14 @@
     <string name="star_blur">Star Blur</string>
     <string name="linear_tilt_shift">Linear Tilt Shift</string>
     <string name="tags_to_remove">Mga Tag Upang Alisin</string>
+    <string name="apng_tools">Mga Tool ng APNG</string>
+    <string name="apng_tools_sub">I-convert ang mga larawan sa APNG na larawan o kunin ang mga frame mula sa ibinigay na APNG na larawan</string>
+    <string name="apng_type_to_image">APNG sa mga larawan</string>
+    <string name="apng_type_to_image_sub">I-convert ang APNG file sa batch ng mga larawan</string>
+    <string name="apng_type_to_apng_sub">I-convert ang batch ng mga larawan sa APNG file</string>
+    <string name="apng_type_to_apng">Mga larawan sa APNG</string>
+    <string name="select_apng_image_to_start">Pumili ng APNG na larawan upang magsimula</string>
+    <string name="motion_blur">Galaw Malabo</string>
+    <string name="zip">Zip</string>
+    <string name="zip_sub">Lumikha ng Zip file mula sa mga ibinigay na file o larawan</string>
 </resources>
