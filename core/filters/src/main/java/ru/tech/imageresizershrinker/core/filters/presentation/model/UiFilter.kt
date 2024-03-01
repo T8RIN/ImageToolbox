@@ -188,11 +188,11 @@ sealed class UiFilter<T>(
                     UiAnisotropicDiffusionFilter(),
                     UiFastBilaterialBlurFilter(),
                     UiPoissonBlurFilter(),
-                    UiMedianBlurFilter()
+                    UiMedianBlurFilter(),
+                    UiBokehFilter()
                 ),
                 listOf(
                     UiCrystallizeFilter(),
-                    UiBokehFilter(),
                     UiPixelationFilter(),
                     UiEnhancedPixelationFilter(),
                     UiDiamondPixelationFilter(),

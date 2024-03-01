@@ -946,8 +946,6 @@ internal fun <T> FilterItemContent(
             is BokehParams -> {
                 val radius: MutableState<Float> =
                     remember(value) { mutableFloatStateOf(value.radius.toFloat()) }
-                val angle: MutableState<Float> =
-                    remember(value) { mutableFloatStateOf(value.angle.toFloat()) }
                 val amount: MutableState<Float> =
                     remember(value) { mutableFloatStateOf(value.amount.toFloat()) }
                 val scale: MutableState<Float> =
@@ -955,14 +953,12 @@ internal fun <T> FilterItemContent(
 
                 LaunchedEffect(
                     radius.value,
-                    angle.value,
                     amount.value,
                     scale.value
                 ) {
                     onFilterChange(
                         BokehParams(
                             radius = radius.value.toInt(),
-                            angle = angle.value.toInt(),
                             amount = amount.value.toInt(),
                             scale = scale.value
                         )
@@ -975,8 +971,7 @@ internal fun <T> FilterItemContent(
                             if (filterParam.title == null) return@mapIndexedNotNull null
                             when (index) {
                                 0 -> radius
-                                1 -> angle
-                                2 -> amount
+                                1 -> amount
                                 else -> scale
                             } to filterParam
                         }

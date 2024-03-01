@@ -41,9 +41,9 @@ internal class BokehFilter(
     ).let {
         Aire.bokeh(
             bitmap = it,
-            radius = value.radius,
-            angle = value.angle * Math.PI.toFloat() / 180,
-            sides = value.amount
+            kernelSize = value.radius * 2 + 1,
+            sides = value.amount,
+            enhance = true
         )
     }.createScaledBitmap(input.width, input.height)
 
