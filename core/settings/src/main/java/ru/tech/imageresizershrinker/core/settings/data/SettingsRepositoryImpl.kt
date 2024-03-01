@@ -33,59 +33,60 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.data.Keys.ADD_ORIGINAL_NAME_TO_FILENAME
-import ru.tech.imageresizershrinker.core.settings.data.Keys.ADD_SEQ_NUM_TO_FILENAME
-import ru.tech.imageresizershrinker.core.settings.data.Keys.ADD_SIZE_TO_FILENAME
-import ru.tech.imageresizershrinker.core.settings.data.Keys.ALLOW_ANALYTICS
-import ru.tech.imageresizershrinker.core.settings.data.Keys.ALLOW_BETAS
-import ru.tech.imageresizershrinker.core.settings.data.Keys.ALLOW_CRASHLYTICS
-import ru.tech.imageresizershrinker.core.settings.data.Keys.ALLOW_IMAGE_MONET
-import ru.tech.imageresizershrinker.core.settings.data.Keys.AMOLED_MODE
-import ru.tech.imageresizershrinker.core.settings.data.Keys.APP_COLOR_TUPLE
-import ru.tech.imageresizershrinker.core.settings.data.Keys.APP_OPEN_COUNT
-import ru.tech.imageresizershrinker.core.settings.data.Keys.AUTO_CACHE_CLEAR
-import ru.tech.imageresizershrinker.core.settings.data.Keys.BORDER_WIDTH
-import ru.tech.imageresizershrinker.core.settings.data.Keys.COLOR_TUPLES
-import ru.tech.imageresizershrinker.core.settings.data.Keys.CONFETTI_ENABLED
-import ru.tech.imageresizershrinker.core.settings.data.Keys.COPY_TO_CLIPBOARD_MODE
-import ru.tech.imageresizershrinker.core.settings.data.Keys.DRAW_APPBAR_SHADOWS
-import ru.tech.imageresizershrinker.core.settings.data.Keys.DRAW_BUTTON_SHADOWS
-import ru.tech.imageresizershrinker.core.settings.data.Keys.DRAW_CONTAINER_SHADOWS
-import ru.tech.imageresizershrinker.core.settings.data.Keys.DRAW_FAB_SHADOWS
-import ru.tech.imageresizershrinker.core.settings.data.Keys.DRAW_SLIDER_SHADOWS
-import ru.tech.imageresizershrinker.core.settings.data.Keys.DRAW_SWITCH_SHADOWS
-import ru.tech.imageresizershrinker.core.settings.data.Keys.DYNAMIC_COLORS
-import ru.tech.imageresizershrinker.core.settings.data.Keys.EMOJI_COUNT
-import ru.tech.imageresizershrinker.core.settings.data.Keys.EXIF_WIDGET_INITIAL_STATE
-import ru.tech.imageresizershrinker.core.settings.data.Keys.FAB_ALIGNMENT
-import ru.tech.imageresizershrinker.core.settings.data.Keys.FILENAME_PREFIX
-import ru.tech.imageresizershrinker.core.settings.data.Keys.FILENAME_SUFFIX
-import ru.tech.imageresizershrinker.core.settings.data.Keys.FONT_SCALE
-import ru.tech.imageresizershrinker.core.settings.data.Keys.GROUP_OPTIONS_BY_TYPE
-import ru.tech.imageresizershrinker.core.settings.data.Keys.ICON_SHAPE
-import ru.tech.imageresizershrinker.core.settings.data.Keys.IMAGE_PICKER_MODE
-import ru.tech.imageresizershrinker.core.settings.data.Keys.IMAGE_SCALE_MODE
-import ru.tech.imageresizershrinker.core.settings.data.Keys.INITIAL_OCR_CODES
-import ru.tech.imageresizershrinker.core.settings.data.Keys.INVERT_THEME
-import ru.tech.imageresizershrinker.core.settings.data.Keys.LOCK_DRAW_ORIENTATION
-import ru.tech.imageresizershrinker.core.settings.data.Keys.MAGNIFIER_ENABLED
-import ru.tech.imageresizershrinker.core.settings.data.Keys.NIGHT_MODE
-import ru.tech.imageresizershrinker.core.settings.data.Keys.OVERWRITE_FILE
-import ru.tech.imageresizershrinker.core.settings.data.Keys.PRESETS
-import ru.tech.imageresizershrinker.core.settings.data.Keys.RANDOMIZE_FILENAME
-import ru.tech.imageresizershrinker.core.settings.data.Keys.SAVE_FOLDER_URI
-import ru.tech.imageresizershrinker.core.settings.data.Keys.SCREENS_WITH_BRIGHTNESS_ENFORCEMENT
-import ru.tech.imageresizershrinker.core.settings.data.Keys.SCREEN_ORDER
-import ru.tech.imageresizershrinker.core.settings.data.Keys.SCREEN_SEARCH_ENABLED
-import ru.tech.imageresizershrinker.core.settings.data.Keys.SECURE_MODE
-import ru.tech.imageresizershrinker.core.settings.data.Keys.SELECTED_EMOJI_INDEX
-import ru.tech.imageresizershrinker.core.settings.data.Keys.SELECTED_FONT_INDEX
-import ru.tech.imageresizershrinker.core.settings.data.Keys.SHOW_UPDATE_DIALOG
-import ru.tech.imageresizershrinker.core.settings.data.Keys.THEME_CONTRAST_LEVEL
-import ru.tech.imageresizershrinker.core.settings.data.Keys.THEME_STYLE
-import ru.tech.imageresizershrinker.core.settings.data.Keys.USE_PIXEL_SWITCH
-import ru.tech.imageresizershrinker.core.settings.data.Keys.USE_RANDOM_EMOJIS
-import ru.tech.imageresizershrinker.core.settings.data.Keys.VIBRATION_STRENGTH
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.ADD_ORIGINAL_NAME_TO_FILENAME
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.ADD_SEQ_NUM_TO_FILENAME
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.ADD_SIZE_TO_FILENAME
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.ALLOW_ANALYTICS
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.ALLOW_BETAS
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.ALLOW_CRASHLYTICS
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.ALLOW_IMAGE_MONET
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.AMOLED_MODE
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.APP_COLOR_TUPLE
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.APP_OPEN_COUNT
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.AUTO_CACHE_CLEAR
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.BORDER_WIDTH
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.COLOR_TUPLES
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.CONFETTI_ENABLED
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.COPY_TO_CLIPBOARD_MODE
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.DRAW_APPBAR_SHADOWS
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.DRAW_BUTTON_SHADOWS
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.DRAW_CONTAINER_SHADOWS
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.DRAW_FAB_SHADOWS
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.DRAW_SLIDER_SHADOWS
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.DRAW_SWITCH_SHADOWS
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.DYNAMIC_COLORS
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.EMOJI_COUNT
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.EXIF_WIDGET_INITIAL_STATE
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.FAB_ALIGNMENT
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.FILENAME_PREFIX
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.FILENAME_SUFFIX
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.FONT_SCALE
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.GROUP_OPTIONS_BY_TYPE
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.ICON_SHAPE
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.IMAGE_PICKER_MODE
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.IMAGE_SCALE_MODE
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.INITIAL_OCR_CODES
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.INVERT_THEME
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.LOCK_DRAW_ORIENTATION
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.MAGNIFIER_ENABLED
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.NIGHT_MODE
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.OVERWRITE_FILE
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.PRESETS
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.RANDOMIZE_FILENAME
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SAVE_FOLDER_URI
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SCREENS_WITH_BRIGHTNESS_ENFORCEMENT
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SCREEN_ORDER
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SCREEN_SEARCH_ENABLED
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SECURE_MODE
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SELECTED_EMOJI_INDEX
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SELECTED_FONT_INDEX
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SHOW_UPDATE_DIALOG
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.THEME_CONTRAST_LEVEL
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.THEME_STYLE
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.USE_EMOJI_AS_PRIMARY_COLOR
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.USE_PIXEL_SWITCH
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.USE_RANDOM_EMOJIS
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.VIBRATION_STRENGTH
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
@@ -185,6 +186,8 @@ internal class SettingsRepositoryImpl @Inject constructor(
             isSecureMode = prefs[SECURE_MODE] ?: default.isSecureMode,
             useRandomEmojis = prefs[USE_RANDOM_EMOJIS] ?: default.useRandomEmojis,
             iconShape = (prefs[ICON_SHAPE] ?: default.iconShape)?.takeIf { it >= 0 },
+            useEmojiAsPrimaryColor = prefs[USE_EMOJI_AS_PRIMARY_COLOR]
+                ?: default.useEmojiAsPrimaryColor
         )
     }
 
@@ -603,6 +606,13 @@ internal class SettingsRepositoryImpl @Inject constructor(
     override suspend fun setIconShape(iconShape: Int) {
         dataStore.edit {
             it[ICON_SHAPE] = iconShape
+        }
+    }
+
+    override suspend fun toggleUseEmojiAsPrimaryColor() {
+        dataStore.edit {
+            val v = it[USE_EMOJI_AS_PRIMARY_COLOR] ?: default.useEmojiAsPrimaryColor
+            it[USE_EMOJI_AS_PRIMARY_COLOR] = !v
         }
     }
 

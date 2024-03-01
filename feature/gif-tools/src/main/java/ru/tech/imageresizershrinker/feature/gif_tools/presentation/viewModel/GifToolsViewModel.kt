@@ -52,7 +52,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class GifToolsViewModel @Inject constructor(
@@ -185,7 +184,7 @@ class GifToolsViewModel @Inject constructor(
 
     fun saveBitmaps(
         onGifSaveResult: (String) -> Unit,
-        onResult: (Int, String) -> Unit
+        onResult: (List<SaveResult>, String) -> Unit
     ) {
         _isSaving.value = false
         savingJob?.cancel()
@@ -195,7 +194,7 @@ class GifToolsViewModel @Inject constructor(
             _done.value = 0
             when (val type = _type.value) {
                 is Screen.GifTools.Type.GifToImage -> {
-                    var failed = 0
+                    val results = mutableListOf<SaveResult>()
                     type.gifUri?.toString()?.also { gifUri ->
                         gifConverter.extractFramesFromGif(
                             gifUri = gifUri,
@@ -206,12 +205,14 @@ class GifToolsViewModel @Inject constructor(
                                 if (it == 0) {
                                     _isSaving.value = false
                                     savingJob?.cancel()
-                                    return@extractFramesFromGif onResult(-1, "")
+                                    onResult(
+                                        listOf(SaveResult.Error.MissingPermissions), ""
+                                    )
                                 }
                                 _left.value = gifFrames.getFramePositions(it).size
                             }
                         ).onCompletion {
-                            onResult(failed, fileController.savingPath)
+                            onResult(results, fileController.savingPath)
                         }.collect { uri ->
                             imageGetter.getImage(
                                 data = uri,
@@ -222,27 +223,28 @@ class GifToolsViewModel @Inject constructor(
                                     width = localBitmap.width,
                                     height = localBitmap.height
                                 )
-                                val result = fileController.save(
-                                    saveTarget = ImageSaveTarget<ExifInterface>(
-                                        imageInfo = imageInfo,
-                                        originalUri = uri,
-                                        sequenceNumber = _done.value + 1,
-                                        data = imageCompressor.compress(
-                                            image = localBitmap,
-                                            imageFormat = imageFormat,
-                                            quality = params.quality
-                                        )
-                                    ),
-                                    keepMetadata = false
+                                results.add(
+                                    fileController.save(
+                                        saveTarget = ImageSaveTarget<ExifInterface>(
+                                            imageInfo = imageInfo,
+                                            originalUri = uri,
+                                            sequenceNumber = _done.value + 1,
+                                            data = imageCompressor.compressAndTransform(
+                                                image = localBitmap,
+                                                imageInfo = ImageInfo(
+                                                    imageFormat = imageFormat,
+                                                    quality = params.quality,
+                                                    width = localBitmap.width,
+                                                    height = localBitmap.height
+                                                )
+                                            )
+                                        ),
+                                        keepOriginalMetadata = false
+                                    )
                                 )
-                                if (result is SaveResult.Error.MissingPermissions) {
-                                    _isSaving.value = false
-                                    savingJob?.cancel()
-                                    return@let onResult(-1, "")
-                                }
-                            } ?: {
-                                failed += 1
-                            }
+                            } ?: results.add(
+                                SaveResult.Error.Exception(Throwable())
+                            )
                             _done.value++
                         }
                     }
@@ -261,9 +263,7 @@ class GifToolsViewModel @Inject constructor(
                             val timeStamp = SimpleDateFormat(
                                 "yyyy-MM-dd_HH-mm-ss",
                                 Locale.getDefault()
-                            ).format(Date()) + "_${
-                                Random(Random.nextInt()).hashCode().toString().take(4)
-                            }"
+                            ).format(Date())
                             val gifName = "GIF_$timeStamp"
                             onGifSaveResult(gifName)
                         }
@@ -364,9 +364,7 @@ class GifToolsViewModel @Inject constructor(
                             val timeStamp = SimpleDateFormat(
                                 "yyyy-MM-dd_HH-mm-ss",
                                 Locale.getDefault()
-                            ).format(Date()) + "_${
-                                Random(Random.nextInt()).hashCode().toString().take(4)
-                            }"
+                            ).format(Date())
                             val gifName = "GIF_$timeStamp"
                             shareProvider.shareByteArray(
                                 byteArray = byteArray,

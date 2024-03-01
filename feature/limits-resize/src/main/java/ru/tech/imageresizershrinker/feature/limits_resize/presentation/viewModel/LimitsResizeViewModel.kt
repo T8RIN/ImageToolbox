@@ -24,6 +24,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -48,6 +49,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.limits_resize.domain.LimitsImageScaler
 import ru.tech.imageresizershrinker.feature.limits_resize.domain.LimitsResizeType
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class LimitsResizeViewModel @Inject constructor(
@@ -100,7 +102,10 @@ class LimitsResizeViewModel @Inject constructor(
         _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
     }
 
-    fun updateUris(uris: List<Uri>?, onError: (Throwable) -> Unit) {
+    fun updateUris(
+        uris: List<Uri>?,
+        onError: (Throwable) -> Unit
+    ) {
         _uris.value = null
         _uris.value = uris
         _selectedUri.value = uris?.firstOrNull()
@@ -145,7 +150,10 @@ class LimitsResizeViewModel @Inject constructor(
         }
     }
 
-    private fun updateBitmap(bitmap: Bitmap?, preview: Bitmap? = null) {
+    private fun updateBitmap(
+        bitmap: Bitmap?,
+        preview: Bitmap? = null
+    ) {
         viewModelScope.launch {
             _isImageLoading.value = true
             val size = bitmap?.let { it.width to it.height }
@@ -163,11 +171,11 @@ class LimitsResizeViewModel @Inject constructor(
     private var savingJob: Job? = null
 
     fun saveBitmaps(
-        onResult: (Int, String) -> Unit
+        onResult: (List<SaveResult>, String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             _isSaving.value = true
-            var failed = 0
+            val results = mutableListOf<SaveResult>()
             _done.value = 0
             uris?.forEach { uri ->
                 runCatching {
@@ -181,34 +189,32 @@ class LimitsResizeViewModel @Inject constructor(
                         imageScaleMode = imageInfo.imageScaleMode
                     )
                 }?.let { localBitmap ->
-                    val result = fileController.save(
-                        ImageSaveTarget<ExifInterface>(
-                            imageInfo = imageInfo.copy(
-                                width = localBitmap.width,
-                                height = localBitmap.height
-                            ),
-                            originalUri = uri.toString(),
-                            sequenceNumber = _done.value + 1,
-                            data = imageCompressor.compressAndTransform(
-                                image = localBitmap,
+                    results.add(
+                        fileController.save(
+                            ImageSaveTarget<ExifInterface>(
                                 imageInfo = imageInfo.copy(
                                     width = localBitmap.width,
                                     height = localBitmap.height
+                                ),
+                                originalUri = uri.toString(),
+                                sequenceNumber = _done.value + 1,
+                                data = imageCompressor.compressAndTransform(
+                                    image = localBitmap,
+                                    imageInfo = imageInfo.copy(
+                                        width = localBitmap.width,
+                                        height = localBitmap.height
+                                    )
                                 )
-                            )
-                        ), keepMetadata = keepExif
+                            ), keepOriginalMetadata = keepExif
+                        )
                     )
-                    if (result is SaveResult.Error.MissingPermissions) {
-                        return@withContext onResult(-1, "")
-                    }
-                } ?: {
-                    failed += 1
-                }
-
+                } ?: results.add(
+                    SaveResult.Error.Exception(Throwable())
+                )
 
                 _done.value += 1
             }
-            onResult(failed, fileController.savingPath)
+            onResult(results, fileController.savingPath)
             _isSaving.value = false
         }
     }.also {
@@ -305,6 +311,39 @@ class LimitsResizeViewModel @Inject constructor(
             it.copy(
                 imageScaleMode = imageScaleMode
             )
+        }
+    }
+
+    fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            imageGetter.getImage(
+                uri = selectedUri.toString()
+            )?.image?.let { bitmap ->
+                imageScaler.scaleImage(
+                    image = bitmap,
+                    width = imageInfo.width,
+                    height = imageInfo.height,
+                    resizeType = resizeType,
+                    imageScaleMode = imageInfo.imageScaleMode
+                )
+            }?.let {
+                it to imageInfo.copy(
+                    width = it.width,
+                    height = it.height
+                )
+            }?.let { (image, imageInfo) ->
+                shareProvider.cacheImage(
+                    image = image,
+                    imageInfo = imageInfo.copy(originalUri = selectedUri.toString()),
+                    name = Random.nextInt().toString()
+                )?.let { uri ->
+                    onComplete(uri.toUri())
+                }
+            }
+            _isSaving.value = false
         }
     }
 

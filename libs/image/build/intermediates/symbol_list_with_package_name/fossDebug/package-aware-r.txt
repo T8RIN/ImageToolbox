@@ -1,0 +1,2 @@
+com.smarttoolfactory.image
+drawable baseline_swap_horiz_24

@@ -98,7 +98,7 @@ interface Filter<Image, Value> {
     interface SimpleThresholdDithering<Image> : Filter<Image, Pair<Float, Boolean>>
     interface MedianBlur<Image> : Filter<Image, Pair<Float, Int>>
     interface NativeStackBlur<Image> : Filter<Image, Float>
-    interface TiltShift<Image> : Filter<Image, TiltShiftParams>
+    interface RadialTiltShift<Image> : Filter<Image, RadialTiltShiftParams>
     interface Glitch<Image> : Filter<Image, Triple<Float, Float, Float>>
     interface Noise<Image> : Filter<Image, Float>
     interface Anaglyph<Image> : Filter<Image, Float>
@@ -171,4 +171,16 @@ interface Filter<Image, Value> {
     interface Neon<Image, Color : Any> : Filter<Image, Triple<Float, Float, Color>>
     interface OldTv<Image> : Filter<Image, Unit>
     interface ShuffleBlur<Image> : Filter<Image, Pair<Int, Float>>
+    interface Mobius<Image> : Filter<Image, Triple<Float, Float, Float>>
+    interface Uchimura<Image> : Filter<Image, Float>
+    interface Aldridge<Image> : Filter<Image, Pair<Float, Float>>
+    interface Drago<Image> : Filter<Image, Pair<Float, Float>>
+    interface ColorAnomaly<Image> : Filter<Image, Float>
+    interface Quantizier<Image> : Filter<Image, Float>
+    interface RingBlur<Image> : Filter<Image, Float>
+    interface CrossBlur<Image> : Filter<Image, Float>
+    interface CircleBlur<Image> : Filter<Image, Float>
+    interface StarBlur<Image> : Filter<Image, Float>
+    interface LinearTiltShift<Image> : Filter<Image, LinearTiltShiftParams>
+    interface MotionBlur<Image> : Filter<Image, MotionBlurParams>
 }

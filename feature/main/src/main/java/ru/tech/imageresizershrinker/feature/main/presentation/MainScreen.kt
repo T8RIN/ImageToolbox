@@ -68,7 +68,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalle
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.feature.main.presentation.components.MainScreenContent
 import ru.tech.imageresizershrinker.feature.main.presentation.components.MainScreenDrawerContent
@@ -110,7 +110,7 @@ fun MainScreen(
 
     val content = @Composable {
         val context = LocalContext.current
-        val toastHost = LocalToastHost.current
+        val toastHost = LocalToastHostState.current
         val scope = rememberCoroutineScope()
         MainScreenContent(
             layoutDirection = layoutDirection,
@@ -121,6 +121,7 @@ fun MainScreen(
             onShowSnowfall = {
                 showSnowfall = true
             },
+            onGetClipList = viewModel::updateUris,
             onTryGetUpdate = {
                 viewModel.tryGetUpdate(
                     newRequest = true,

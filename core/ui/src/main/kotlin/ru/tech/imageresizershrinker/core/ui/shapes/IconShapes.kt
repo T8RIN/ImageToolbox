@@ -17,29 +17,47 @@
 
 package ru.tech.imageresizershrinker.core.ui.shapes
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
 import ru.tech.imageresizershrinker.core.settings.presentation.IconShape
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalContainerColor
 
 val IconShapesList by lazy {
     persistentListOf(
         IconShape(SquircleShape),
-        IconShape(CloverShape, 4.dp),
+        IconShape(RoundedCornerShape(15)),
+        IconShape(RoundedCornerShape(25)),
+        IconShape(RoundedCornerShape(35)),
+        IconShape(RoundedCornerShape(45)),
+        IconShape(CutCornerShape(25)),
+        IconShape(CutCornerShape(35), 8.dp, 22.dp),
+        IconShape(CutCornerShape(50), 10.dp, 18.dp),
+        IconShape(CloverShape),
         IconShape(MaterialStarShape, 6.dp, 22.dp),
+        IconShape(SmallMaterialStarShape, 6.dp, 22.dp),
         IconShape(OvalShape, 6.dp),
         IconShape(PentagonShape, 6.dp, 22.dp),
         IconShape(OctagonShape, 6.dp, 22.dp),
         IconShape(HeartShape, 10.dp, 18.dp),
+        IconShape(SimpleHeartShape, 12.dp, 16.dp),
+        IconShape.Random
     )
 }
 
@@ -47,32 +65,52 @@ val IconShapesList by lazy {
 fun IconShapeContainer(
     enabled: Boolean,
     underlyingColor: Color,
+    modifier: Modifier = Modifier,
     iconShape: IconShape? = LocalSettingsState.current.iconShape,
     content: @Composable (Boolean) -> Unit = {}
 ) {
-    Box(
-        modifier = if (enabled && iconShape != null) {
-            Modifier.container(
-                shape = iconShape.shape,
-                color = underlyingColor.inverse(
-                    fraction = { if (it) 0.15f else 0.1f }
-                ),
-                resultPadding = iconShape.padding
-            )
-        } else Modifier,
-        contentAlignment = Alignment.Center
-    ) {
+    val realUnderlyingColor = underlyingColor.takeOrElse {
+        LocalContainerColor.current ?: MaterialTheme.colorScheme.surfaceContainer
+    }
+
+    AnimatedContent(
+        targetState = remember(iconShape) {
+            derivedStateOf {
+                iconShape?.takeOrElseFrom(IconShapesList)
+            }
+        }.value,
+        modifier = modifier
+    ) { iconShapeAnimated ->
         Box(
-            modifier = if (enabled && iconShape != null) {
-                Modifier
-                    .size(iconShape.iconSize)
-                    .offset(
-                        y = if (iconShape.shape == PentagonShape) 2.dp
-                        else 0.dp
-                    )
-            } else Modifier
+            modifier = if (enabled && iconShapeAnimated != null) {
+                val color = MaterialTheme.colorScheme.surfaceTint
+                Modifier.container(
+                    shape = iconShapeAnimated.shape,
+                    color = realUnderlyingColor.inverse(
+                        fraction = { if (it) 0.2f else 0.15f },
+                        color = { color }
+                    ),
+                    autoShadowElevation = 0.5.dp,
+                    resultPadding = iconShapeAnimated.padding
+                )
+            } else Modifier,
+            contentAlignment = Alignment.Center
         ) {
-            content(iconShape == null)
+            Box(
+                modifier = if (enabled && iconShapeAnimated != null) {
+                    Modifier
+                        .size(iconShapeAnimated.iconSize)
+                        .offset(
+                            y = when (iconShapeAnimated.shape) {
+                                PentagonShape -> 2.dp
+                                SimpleHeartShape -> (-1.5).dp
+                                else -> 0.dp
+                            }
+                        )
+                } else Modifier
+            ) {
+                content(iconShapeAnimated == null)
+            }
         }
     }
 }

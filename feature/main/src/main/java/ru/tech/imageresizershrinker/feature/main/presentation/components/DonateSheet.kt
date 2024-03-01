@@ -39,7 +39,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -64,7 +63,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
@@ -93,7 +92,7 @@ fun DonateSheet(
     visible: MutableState<Boolean>
 ) {
     val context = LocalContext.current
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
 
     SimpleSheet(
@@ -106,7 +105,7 @@ fun DonateSheet(
         },
         confirmButton = {
             EnhancedButton(
-                containerColor = Color.Transparent,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = { visible.value = false },
             ) {
                 AutoSizeText(stringResource(R.string.close))
@@ -157,7 +156,7 @@ fun DonateSheet(
                             Icon(imageVector = Icons.Rounded.ContentCopy, contentDescription = null)
                         },
                         title = stringResource(R.string.ton_space),
-                        icon = {
+                        startIcon = {
                             Icon(
                                 imageVector = Icons.Rounded.Ton,
                                 contentDescription = null,
@@ -194,7 +193,7 @@ fun DonateSheet(
                             Icon(imageVector = Icons.Rounded.ContentCopy, contentDescription = null)
                         },
                         title = stringResource(R.string.ton),
-                        icon = {
+                        startIcon = {
                             Icon(
                                 imageVector = Icons.Rounded.Ton,
                                 contentDescription = null,
@@ -229,7 +228,7 @@ fun DonateSheet(
                         },
                         endIcon = Icons.Rounded.ContentCopy,
                         title = stringResource(R.string.bitcoin),
-                        icon = Icons.Filled.Bitcoin,
+                        startIcon = Icons.Filled.Bitcoin,
                         subtitle = BitcoinWallet
                     )
                     Spacer(Modifier.height(4.dp))
@@ -256,7 +255,7 @@ fun DonateSheet(
                         },
                         endIcon = Icons.Rounded.ContentCopy,
                         title = stringResource(R.string.usdt),
-                        icon = Icons.Filled.USDT,
+                        startIcon = Icons.Filled.USDT,
                         subtitle = USDTWallet
                     )
                     Spacer(Modifier.height(16.dp))

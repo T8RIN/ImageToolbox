@@ -21,7 +21,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -43,7 +42,6 @@ fun TelegramSettingItem(
     val context = LocalContext.current
     PreferenceRow(
         shape = shape,
-        applyHorPadding = false,
         onClick = {
             context.startActivity(
                 Intent(
@@ -52,13 +50,7 @@ fun TelegramSettingItem(
                 )
             )
         },
-        startContent = {
-            Icon(
-                imageVector = Icons.Rounded.Telegram,
-                contentDescription = null,
-                modifier = Modifier.padding(horizontal = 14.dp)
-            )
-        },
+        startIcon = Icons.Rounded.Telegram,
         title = stringResource(R.string.tg_chat),
         subtitle = stringResource(R.string.tg_chat_sub),
         color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f),

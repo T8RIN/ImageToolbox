@@ -55,6 +55,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 
@@ -63,6 +64,7 @@ fun BottomButtonsBlock(
     targetState: Pair<Boolean, Boolean>,
     onSecondaryButtonClick: () -> Unit,
     secondaryButtonIcon: ImageVector = Icons.Rounded.AddPhotoAlternate,
+    secondaryButtonText: String = stringResource(R.string.pick_image_alt),
     onPrimaryButtonClick: () -> Unit,
     primaryButtonIcon: ImageVector = Icons.Rounded.Save,
     isPrimaryButtonVisible: Boolean = true,
@@ -85,7 +87,7 @@ fun BottomButtonsBlock(
                         Spacer(Modifier.width(16.dp))
                         Icon(secondaryButtonIcon, null)
                         Spacer(Modifier.width(16.dp))
-                        Text(stringResource(R.string.pick_image_alt))
+                        Text(secondaryButtonText)
                         Spacer(Modifier.width(16.dp))
                     }
                 )
@@ -114,7 +116,10 @@ fun BottomButtonsBlock(
                         AnimatedVisibility(visible = isSecondaryButtonVisible) {
                             EnhancedFloatingActionButton(
                                 onClick = onSecondaryButtonClick,
-                                containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                                containerColor = takeColorFromScheme {
+                                    if (isPrimaryButtonVisible) tertiaryContainer
+                                    else primaryContainer
+                                }
                             ) {
                                 Icon(
                                     imageVector = secondaryButtonIcon,

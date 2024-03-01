@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ColorLens
 import androidx.compose.material.icons.rounded.Speed
 import androidx.compose.material.icons.rounded.Stream
 import androidx.compose.material3.LocalContentColor
@@ -65,6 +66,8 @@ fun QualityWidget(
     LaunchedEffect(imageFormat, quality) {
         if (imageFormat is ImageFormat.Jxl && quality !is Quality.Jxl) {
             onQualityChange(Quality.Jxl(qualityValue = quality.qualityValue))
+        } else if (imageFormat is ImageFormat.PngLossy && quality !is Quality.PngLossy) {
+            onQualityChange(Quality.PngLossy(compressionLevel = quality.qualityValue))
         }
     }
 
@@ -107,6 +110,7 @@ fun QualityWidget(
                                 when (quality) {
                                     is Quality.Base -> quality.qualityValue
                                     is Quality.Jxl -> quality.effort
+                                    is Quality.PngLossy -> quality.compressionLevel
                                 }
                             }
 
@@ -128,6 +132,7 @@ fun QualityWidget(
                                         when (quality) {
                                             is Quality.Base -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Jxl -> quality.copy(effort = it.toInt())
+                                            is Quality.PngLossy -> quality.copy(compressionLevel = it.toInt())
                                         }
                                     )
                                 }
@@ -137,6 +142,7 @@ fun QualityWidget(
                                         when (quality) {
                                             is Quality.Base -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Jxl -> quality.copy(qualityValue = it.toInt())
+                                            is Quality.PngLossy -> quality.copy(compressionLevel = it.toInt())
                                         }
                                     )
                                 }
@@ -178,6 +184,24 @@ fun QualityWidget(
                         onValueChange = {
                             jxlQuality?.copy(
                                 speed = it.toInt()
+                            )?.let(onQualityChange)
+                        },
+                        behaveAsContainer = false
+                    )
+                }
+                AnimatedVisibility(imageFormat is ImageFormat.PngLossy) {
+                    val pngLossyQuality = quality as? Quality.PngLossy
+                    EnhancedSliderItem(
+                        value = pngLossyQuality?.maxColors ?: 0,
+                        title = stringResource(R.string.max_colors_count),
+                        icon = Icons.Rounded.ColorLens,
+                        valueRange = 2f..1024f,
+                        internalStateTransformation = {
+                            it.toInt().coerceIn(2..1024).toFloat()
+                        },
+                        onValueChange = {
+                            pngLossyQuality?.copy(
+                                maxColors = it.toInt()
                             )?.let(onQualityChange)
                         },
                         behaveAsContainer = false

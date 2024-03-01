@@ -1,0 +1,15 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/bbc/Documents/github.com/ImageToolbox/libs/gpuimage/src/main/AndroidManifest.xml:2:1-57
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/gpuimage/src/main/AndroidManifest.xml:2:1-57
+	package
+		ADDED from /Users/bbc/Documents/github.com/ImageToolbox/libs/gpuimage/src/main/AndroidManifest.xml:2:11-54
+		INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/gpuimage/src/main/AndroidManifest.xml
+uses-sdk
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/gpuimage/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/gpuimage/src/main/AndroidManifest.xml
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/gpuimage/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/gpuimage/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/gpuimage/src/main/AndroidManifest.xml

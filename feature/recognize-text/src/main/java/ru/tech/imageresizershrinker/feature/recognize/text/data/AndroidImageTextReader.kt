@@ -21,6 +21,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.ui.util.fastAll
 import androidx.core.text.HtmlCompat
+import androidx.exifinterface.media.ExifInterface
 import com.googlecode.tesseract.android.TessBaseAPI
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -48,7 +49,7 @@ import java.util.Locale
 import javax.inject.Inject
 
 internal class AndroidImageTextReader @Inject constructor(
-    private val imageGetter: ImageGetter<Bitmap, *>,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     @ApplicationContext private val context: Context
 ) : ImageTextReader<Bitmap> {
 
@@ -161,7 +162,10 @@ internal class AndroidImageTextReader @Inject constructor(
         return needToDownload
     }
 
-    override fun isLanguageDataExists(type: RecognitionType, languageCode: String): Boolean {
+    override fun isLanguageDataExists(
+        type: RecognitionType,
+        languageCode: String
+    ): Boolean {
         return File(
             "${getPathFromMode(type)}/tessdata",
             format(Constants.LANGUAGE_CODE, languageCode)
@@ -302,7 +306,11 @@ internal class AndroidImageTextReader @Inject constructor(
             return ""
         }
 
-        val locale = Locale.forLanguageTag(lang)
+        val locale = Locale.forLanguageTag(
+            if (lang.contains("chi_sim")) "zh-CN"
+            else if (lang.contains("chi_tra")) "zh-TW"
+            else lang
+        )
         return locale.getDisplayName(locale).replaceFirstChar { it.uppercase(locale) }
     }
 }

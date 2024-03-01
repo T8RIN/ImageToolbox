@@ -64,7 +64,12 @@ fun LoadingDialog(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoadingDialog(done: Int, left: Int, canCancel: Boolean = true, onCancelLoading: () -> Unit) {
+fun LoadingDialog(
+    done: Int,
+    left: Int,
+    canCancel: Boolean = true,
+    onCancelLoading: () -> Unit
+) {
     var showWantDismissDialog by remember(canCancel) { mutableStateOf(false) }
     BasicAlertDialog(onDismissRequest = { showWantDismissDialog = canCancel }) {
         Box(

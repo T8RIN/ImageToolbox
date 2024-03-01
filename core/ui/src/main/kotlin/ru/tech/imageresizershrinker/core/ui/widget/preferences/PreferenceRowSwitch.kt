@@ -56,6 +56,7 @@ fun PreferenceRowSwitch(
         horizontal = if (startContent != null) 0.dp else 16.dp,
         vertical = 8.dp
     ),
+    drawStartIconContainer: Boolean = false,
     changeAlphaWhenDisabled: Boolean = true,
     onDisabledClick: (() -> Unit)? = null,
     onClick: (Boolean) -> Unit
@@ -81,6 +82,7 @@ fun PreferenceRowSwitch(
             )
             onClick(!checked)
         },
+        drawStartIconContainer = drawStartIconContainer,
         endContent = {
             EnhancedSwitch(
                 modifier = Modifier.padding(start = 8.dp),
@@ -136,12 +138,12 @@ fun PreferenceRowSwitch(
         contentColor = contentColor,
         shape = shape,
         onDisabledClick = onDisabledClick,
+        drawStartIconContainer = true,
         startContent = startIcon?.let {
             {
                 Icon(
                     imageVector = startIcon,
-                    contentDescription = null,
-                    modifier = Modifier.padding(end = 16.dp)
+                    contentDescription = null
                 )
             }
         },

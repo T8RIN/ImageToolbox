@@ -48,7 +48,7 @@ fun IssueTrackerSettingItem(
             .copy(alpha = 0.2f),
         title = stringResource(R.string.issue_tracker),
         subtitle = stringResource(R.string.issue_tracker_sub),
-        icon = Icons.Outlined.BugReport,
+        startIcon = Icons.Outlined.BugReport,
         onClick = {
             context.startActivity(
                 Intent(

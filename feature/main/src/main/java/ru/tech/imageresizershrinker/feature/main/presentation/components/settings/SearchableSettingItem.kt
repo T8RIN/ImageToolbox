@@ -26,14 +26,20 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
+import ru.tech.imageresizershrinker.core.ui.shapes.IconShapesList
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
@@ -49,17 +55,35 @@ internal fun SearchableSettingItem(
     Column(
         modifier = modifier.container(resultPadding = 0.dp, shape = shape)
     ) {
+        val settingState = LocalSettingsState.current
+        val iconShape = remember(settingState.iconShape) {
+            derivedStateOf {
+                settingState.iconShape?.takeOrElseFrom(IconShapesList)
+            }
+        }.value
+
         Row(
             modifier = Modifier.padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                imageVector = group.icon,
-                contentDescription = null,
-                modifier = Modifier.size(16.dp)
-            )
+            IconShapeContainer(
+                enabled = true,
+                underlyingColor = MaterialTheme.colorScheme.surfaceContainer,
+                iconShape = iconShape?.copy(
+                    iconSize = 16.dp
+                )
+            ) {
+                Icon(
+                    imageVector = group.icon,
+                    contentDescription = null,
+                    modifier = Modifier.size(16.dp)
+                )
+            }
             Spacer(Modifier.width(8.dp))
-            Text(text = stringResource(id = group.titleId), fontSize = 12.sp)
+            Text(
+                text = stringResource(id = group.titleId),
+                fontSize = 12.sp
+            )
         }
         val itemShape = when (setting) {
             is Setting.ImagePickerMode -> null

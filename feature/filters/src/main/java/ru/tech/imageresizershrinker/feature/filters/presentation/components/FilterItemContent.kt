@@ -50,9 +50,11 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.BokehParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterValueWrapper
 import ru.tech.imageresizershrinker.core.filters.domain.model.GlitchParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.LinearTiltShiftParams
+import ru.tech.imageresizershrinker.core.filters.domain.model.MotionBlurParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.NEAREST_ODD_ROUNDING
+import ru.tech.imageresizershrinker.core.filters.domain.model.RadialTiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
-import ru.tech.imageresizershrinker.core.filters.domain.model.TiltShiftParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.WaterParams
 import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiColorFilter
@@ -81,7 +83,7 @@ internal fun <T> FilterItemContent(
     Column(
         modifier = modifier
     ) {
-        when (filter.value) {
+        when (val value = filter.value) {
             is FilterValueWrapper<*> -> {
                 when (val wrapped = (filter.value as FilterValueWrapper<*>).wrapped) {
                     is Color -> {
@@ -114,7 +116,6 @@ internal fun <T> FilterItemContent(
             }
 
             is FloatArray -> {
-                val value = filter.value as FloatArray
                 val rows = filter.paramsInfo[0].valueRange.start.toInt().absoluteValue
                 var text by rememberSaveable(value) {
                     mutableStateOf(
@@ -169,7 +170,6 @@ internal fun <T> FilterItemContent(
             }
 
             is Float -> {
-                val value = filter.value as Float
                 EnhancedSlider(
                     modifier = Modifier
                         .padding(top = 16.dp, start = 12.dp, end = 12.dp, bottom = 8.dp)
@@ -184,7 +184,6 @@ internal fun <T> FilterItemContent(
             }
 
             is Pair<*, *> -> {
-                val value = filter.value as Pair<*, *>
                 when {
                     value.first is Number && value.second is Number -> {
                         val sliderState1: MutableState<Float> =
@@ -396,7 +395,6 @@ internal fun <T> FilterItemContent(
             }
 
             is Triple<*, *, *> -> {
-                val value = filter.value as Triple<*, *, *>
                 when {
                     value.first is Number && value.second is Number && value.third is Number -> {
                         val sliderState1: MutableState<Float> =
@@ -609,9 +607,7 @@ internal fun <T> FilterItemContent(
                 }
             }
 
-            is TiltShiftParams -> {
-                val value = filter.value as TiltShiftParams
-
+            is RadialTiltShiftParams -> {
                 val blurRadius: MutableState<Float> =
                     remember(value) { mutableFloatStateOf((value.blurRadius as Number).toFloat()) }
                 val sigma: MutableState<Float> =
@@ -631,7 +627,7 @@ internal fun <T> FilterItemContent(
                     holeRadius.value
                 ) {
                     onFilterChange(
-                        TiltShiftParams(
+                        RadialTiltShiftParams(
                             blurRadius = blurRadius.value,
                             sigma = sigma.value,
                             anchorX = anchorX.value,
@@ -678,9 +674,79 @@ internal fun <T> FilterItemContent(
                 }
             }
 
-            is GlitchParams -> {
-                val value = filter.value as GlitchParams
+            is LinearTiltShiftParams -> {
+                val blurRadius: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.blurRadius as Number).toFloat()) }
+                val sigma: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.sigma as Number).toFloat()) }
+                val anchorX: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.anchorX as Number).toFloat()) }
+                val anchorY: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.anchorY as Number).toFloat()) }
+                val holeRadius: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.holeRadius as Number).toFloat()) }
+                val angle: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.angle as Number).toFloat()) }
 
+                LaunchedEffect(
+                    blurRadius.value,
+                    sigma.value,
+                    anchorX.value,
+                    anchorY.value,
+                    holeRadius.value,
+                    angle.value
+                ) {
+                    onFilterChange(
+                        LinearTiltShiftParams(
+                            blurRadius = blurRadius.value,
+                            sigma = sigma.value,
+                            anchorX = anchorX.value,
+                            anchorY = anchorY.value,
+                            holeRadius = holeRadius.value,
+                            angle = angle.value
+                        )
+                    )
+                }
+
+                val paramsInfo by remember(filter) {
+                    derivedStateOf {
+                        filter.paramsInfo.mapIndexedNotNull { index, filterParam ->
+                            if (filterParam.title == null) return@mapIndexedNotNull null
+                            when (index) {
+                                0 -> blurRadius
+                                1 -> sigma
+                                2 -> anchorX
+                                3 -> anchorY
+                                4 -> holeRadius
+                                else -> angle
+                            } to filterParam
+                        }
+                    }
+                }
+
+                Column(
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    paramsInfo.forEach { (state, info) ->
+                        val (title, valueRange, roundTo) = info
+                        EnhancedSliderItem(
+                            enabled = !previewOnly,
+                            value = state.value,
+                            title = stringResource(title!!),
+                            valueRange = valueRange,
+                            onValueChange = {
+                                state.value = it
+                            },
+                            internalStateTransformation = {
+                                it.roundTo(roundTo)
+                            },
+                            behaveAsContainer = false
+                        )
+                    }
+                }
+            }
+
+            is GlitchParams -> {
                 val channelsShiftX: MutableState<Float> =
                     remember(value) { mutableFloatStateOf((value.channelsShiftX as Number).toFloat()) }
                 val channelsShiftY: MutableState<Float> =
@@ -753,8 +819,6 @@ internal fun <T> FilterItemContent(
             }
 
             is SideFadeParams.Relative -> {
-                val value = filter.value as SideFadeParams.Relative
-
                 var scale by remember(value) { mutableFloatStateOf(value.scale) }
                 var sideFade by remember(value) { mutableStateOf(value.side) }
 
@@ -813,8 +877,6 @@ internal fun <T> FilterItemContent(
             }
 
             is WaterParams -> {
-                val value = filter.value as WaterParams
-
                 val fractionSize: MutableState<Float> =
                     remember(value) { mutableFloatStateOf(value.fractionSize) }
                 val frequencyX: MutableState<Float> =
@@ -882,12 +944,8 @@ internal fun <T> FilterItemContent(
             }
 
             is BokehParams -> {
-                val value = filter.value as BokehParams
-
                 val radius: MutableState<Float> =
                     remember(value) { mutableFloatStateOf(value.radius.toFloat()) }
-                val angle: MutableState<Float> =
-                    remember(value) { mutableFloatStateOf(value.angle.toFloat()) }
                 val amount: MutableState<Float> =
                     remember(value) { mutableFloatStateOf(value.amount.toFloat()) }
                 val scale: MutableState<Float> =
@@ -895,14 +953,12 @@ internal fun <T> FilterItemContent(
 
                 LaunchedEffect(
                     radius.value,
-                    angle.value,
                     amount.value,
                     scale.value
                 ) {
                     onFilterChange(
                         BokehParams(
                             radius = radius.value.toInt(),
-                            angle = angle.value.toInt(),
                             amount = amount.value.toInt(),
                             scale = scale.value
                         )
@@ -915,9 +971,80 @@ internal fun <T> FilterItemContent(
                             if (filterParam.title == null) return@mapIndexedNotNull null
                             when (index) {
                                 0 -> radius
-                                1 -> angle
-                                2 -> amount
+                                1 -> amount
                                 else -> scale
+                            } to filterParam
+                        }
+                    }
+                }
+
+                Column(
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    paramsInfo.forEach { (state, info) ->
+                        val (title, valueRange, roundTo) = info
+                        EnhancedSliderItem(
+                            enabled = !previewOnly,
+                            value = state.value,
+                            title = stringResource(title!!),
+                            valueRange = valueRange,
+                            onValueChange = {
+                                state.value = it
+                            },
+                            internalStateTransformation = {
+                                it.roundTo(roundTo)
+                            },
+                            behaveAsContainer = false
+                        )
+                    }
+                }
+            }
+
+            is MotionBlurParams -> {
+                val radius: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.radius as Number).toFloat()) }
+                val sigma: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.sigma as Number).toFloat()) }
+                val anchorX: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.centerX as Number).toFloat()) }
+                val anchorY: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.centerY as Number).toFloat()) }
+                val strength: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.strength as Number).toFloat()) }
+                val angle: MutableState<Float> =
+                    remember(value) { mutableFloatStateOf((value.angle as Number).toFloat()) }
+
+                LaunchedEffect(
+                    radius.value,
+                    sigma.value,
+                    anchorX.value,
+                    anchorY.value,
+                    strength.value,
+                    angle.value
+                ) {
+                    onFilterChange(
+                        MotionBlurParams(
+                            radius = radius.value.toInt(),
+                            sigma = sigma.value,
+                            centerX = anchorX.value,
+                            centerY = anchorY.value,
+                            strength = strength.value,
+                            angle = angle.value
+                        )
+                    )
+                }
+
+                val paramsInfo by remember(filter) {
+                    derivedStateOf {
+                        filter.paramsInfo.mapIndexedNotNull { index, filterParam ->
+                            if (filterParam.title == null) return@mapIndexedNotNull null
+                            when (index) {
+                                0 -> radius
+                                1 -> sigma
+                                2 -> anchorX
+                                3 -> anchorY
+                                4 -> strength
+                                else -> angle
                             } to filterParam
                         }
                     }

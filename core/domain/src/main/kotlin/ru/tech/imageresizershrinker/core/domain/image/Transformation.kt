@@ -17,9 +17,8 @@
 
 package ru.tech.imageresizershrinker.core.domain.image
 
-import android.graphics.Bitmap.Config.ARGB_8888
-import android.graphics.Bitmap.Config.RGBA_F16
-import coil.size.Size
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import kotlin.random.Random
 
 interface Transformation<T> {
 
@@ -35,11 +34,14 @@ interface Transformation<T> {
      * Apply the transformation to [input] and return the transformed [T].
      *
      * @param input The input [T] to transform.
-     *  Its config will always be [ARGB_8888] or [RGBA_F16].
+     *  Its config will always be ARGB_8888 or RGBA_F16.
      * @param size The size of the image request.
      * @return The transformed [T].
      */
-    suspend fun transform(input: T, size: Size): T
+    suspend fun transform(
+        input: T,
+        size: IntegerSize
+    ): T
 }
 
 interface ChainTransformation<T> : Transformation<T> {
@@ -48,9 +50,22 @@ interface ChainTransformation<T> : Transformation<T> {
 
     override suspend fun transform(
         input: T,
-        size: Size
+        size: IntegerSize
     ): T = getTransformations().fold(input) { acc, filter ->
         filter.transform(acc, size)
     }
 
+}
+
+
+class GenericTransformation<T>(
+    val action: suspend (T) -> T
+) : Transformation<T> {
+    override val cacheKey: String
+        get() = (action to Random.nextInt()).hashCode().toString()
+
+    override suspend fun transform(
+        input: T,
+        size: IntegerSize
+    ): T = action(input)
 }

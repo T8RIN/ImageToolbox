@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleModeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 
@@ -53,14 +54,21 @@ fun DefaultScaleModeSettingItem(
         shape = shape,
         value = settingsState.defaultImageScaleMode,
         onValueChange = onValueChange,
-        backgroundColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-            alpha = 0.2f
-        ),
+        backgroundColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.2f),
         enableItemsCardBackground = false,
         titlePadding = PaddingValues(16.dp),
         titleArrangement = Arrangement.Start,
         title = {
-            Icon(Icons.Outlined.Numbers, null)
+            IconShapeContainer(
+                enabled = true,
+                underlyingColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.2f),
+                content = {
+                    Icon(
+                        imageVector = Icons.Outlined.Numbers,
+                        contentDescription = null
+                    )
+                }
+            )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
                 text = stringResource(R.string.default_value),

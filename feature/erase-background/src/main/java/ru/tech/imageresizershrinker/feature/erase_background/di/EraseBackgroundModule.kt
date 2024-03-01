@@ -18,8 +18,8 @@
 package ru.tech.imageresizershrinker.feature.erase_background.di
 
 import android.graphics.Bitmap
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.feature.erase_background.data.AndroidAutoBackgroundRemover
@@ -28,10 +28,12 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object EraseBackgroundModule {
+internal interface EraseBackgroundModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideBackgroundRemover(): AutoBackgroundRemover<Bitmap> = AndroidAutoBackgroundRemover()
+    fun provideBackgroundRemover(
+        remover: AndroidAutoBackgroundRemover
+    ): AutoBackgroundRemover<Bitmap>
 
 }

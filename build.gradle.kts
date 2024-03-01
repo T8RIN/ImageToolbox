@@ -20,6 +20,7 @@ buildscript {
         gradlePluginPortal()
         google()
         mavenCentral()
+        maven { setUrl("https://jitpack.io") }
     }
 
     dependencies {

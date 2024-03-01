@@ -22,6 +22,7 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.drawable.Icon
 import android.os.Build
+import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import ru.tech.imageresizershrinker.core.resources.R
@@ -56,10 +57,13 @@ class ColorPickerTile : TileService() {
     }
 
     override fun onStartListening() {
-        val tile = qsTile
-        tile.label = getString(R.string.pick_color)
-        tile.icon = Icon.createWithResource(this, R.drawable.outline_colorize_24)
-        tile.updateTile()
+        qsTile?.apply {
+            label = getString(R.string.pick_color)
+            icon = Icon.createWithResource(applicationContext, R.drawable.outline_colorize_24)
+            state = Tile.STATE_ACTIVE
+            updateTile()
+        }
+        super.onStartListening()
     }
 
 }

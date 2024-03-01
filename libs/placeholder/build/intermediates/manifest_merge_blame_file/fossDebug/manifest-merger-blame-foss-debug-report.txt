@@ -1,0 +1,24 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<!--
+3  ~ Copyright 2021 The Android Open Source Project
+4  ~
+5  ~ Licensed under the Apache License, Version 2.0 (the "License");
+6  ~ you may not use this file except in compliance with the License.
+7  ~ You may obtain a copy of the License at
+8  ~
+9  ~      https://www.apache.org/licenses/LICENSE-2.0
+10  ~
+11  ~ Unless required by applicable law or agreed to in writing, software
+12  ~ distributed under the License is distributed on an "AS IS" BASIS,
+13  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+14  ~ See the License for the specific language governing permissions and
+15  ~ limitations under the License.
+16-->
+17<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+18    package="com.google.accompanist.placeholder" >
+19
+20    <uses-sdk android:minSdkVersion="21" />
+20-->/Users/bbc/Documents/github.com/ImageToolbox/libs/placeholder/src/main/AndroidManifest.xml:19:5-44
+20-->/Users/bbc/Documents/github.com/ImageToolbox/libs/placeholder/src/main/AndroidManifest.xml:19:15-41
+21
+22</manifest>

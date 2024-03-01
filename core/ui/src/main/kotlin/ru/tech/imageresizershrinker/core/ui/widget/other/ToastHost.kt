@@ -307,7 +307,7 @@ private fun ToastDuration.toMillis(
 @Composable
 fun rememberToastHostState() = remember { ToastHostState() }
 
-val LocalToastHost = compositionLocalOf { ToastHostState() }
+val LocalToastHostState = compositionLocalOf { ToastHostState() }
 
 suspend fun ToastHostState.showError(
     context: Context,

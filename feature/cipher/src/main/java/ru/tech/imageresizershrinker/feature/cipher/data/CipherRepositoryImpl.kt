@@ -25,8 +25,9 @@ import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
+import javax.inject.Inject
 
-internal class CipherRepositoryImpl : CipherRepository {
+internal class CipherRepositoryImpl @Inject constructor() : CipherRepository {
 
     private val HASHING_ALGORITHM = "SHA-256"
     private val ENCRYPTION_STANDARD = "AES/GCM/NoPadding"
@@ -53,7 +54,10 @@ internal class CipherRepositoryImpl : CipherRepository {
         return sb.toString()
     }
 
-    override suspend fun decrypt(data: ByteArray, key: String): ByteArray {
+    override suspend fun decrypt(
+        data: ByteArray,
+        key: String
+    ): ByteArray {
         val keySpec = createKey(key)
         val cipher = Cipher.getInstance(ENCRYPTION_STANDARD)
         cipher.init(
@@ -64,7 +68,10 @@ internal class CipherRepositoryImpl : CipherRepository {
         return cipher.doFinal(data)
     }
 
-    override suspend fun encrypt(data: ByteArray, key: String): ByteArray {
+    override suspend fun encrypt(
+        data: ByteArray,
+        key: String
+    ): ByteArray {
         val keySpec = createKey(key)
         val cipher = Cipher.getInstance(ENCRYPTION_STANDARD)
         cipher.init(

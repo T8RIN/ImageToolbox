@@ -30,10 +30,12 @@ import androidx.compose.ui.graphics.asImageBitmap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.feature.gradient_maker.domain.ComposeGradientMaker
+import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientMaker
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientState
+import javax.inject.Inject
 
-internal class AndroidGradientMaker : ComposeGradientMaker {
+internal class AndroidGradientMaker @Inject constructor() :
+    GradientMaker<Bitmap, ShaderBrush, Size, Color, TileMode, Offset> {
 
     override suspend fun createGradientBitmap(
         integerSize: IntegerSize,

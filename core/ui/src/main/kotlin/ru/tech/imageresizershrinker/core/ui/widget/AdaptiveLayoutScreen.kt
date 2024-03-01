@@ -36,6 +36,8 @@ import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Icon
@@ -81,7 +83,7 @@ fun AdaptiveLayoutScreen(
     actions: @Composable RowScope.() -> Unit,
     topAppBarPersistentActions: @Composable RowScope.() -> Unit = {},
     imagePreview: @Composable () -> Unit,
-    controls: (@Composable ColumnScope.() -> Unit)?,
+    controls: (@Composable ColumnScope.(LazyListState) -> Unit)?,
     buttons: @Composable (actions: @Composable RowScope.() -> Unit) -> Unit,
     noDataControls: @Composable () -> Unit = {},
     canShowScreenData: Boolean,
@@ -198,7 +200,10 @@ fun AdaptiveLayoutScreen(
                             .asPaddingValues()
                             .calculateStartPadding(direction)
                     } else 0.dp
+
+                    val state = rememberLazyListState()
                     LazyColumn(
+                        state = state,
                         contentPadding = PaddingValues(
                             bottom = WindowInsets
                                 .navigationBars
@@ -235,7 +240,7 @@ fun AdaptiveLayoutScreen(
                             ) {
                                 if (canShowScreenData) {
                                     if (!showImagePreviewAsStickyHeader && isPortrait && placeImagePreview) imagePreview()
-                                    if (controls != null) controls()
+                                    if (controls != null) controls(state)
                                 } else noDataControls()
                             }
                         }

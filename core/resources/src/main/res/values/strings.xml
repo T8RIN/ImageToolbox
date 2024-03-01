@@ -788,4 +788,37 @@
     <string name="image_format">Image Format</string>
     <string name="icon_shape_sub">Adds container with selected shape under the leading icons of cards</string>
     <string name="icon_shape">Icon Shape</string>
+    <string name="drago">Drago</string>
+    <string name="aldridge">Aldridge</string>
+    <string name="cutoff">Cutoff</string>
+    <string name="uchimura">Uchimura</string>
+    <string name="mobius">Mobius</string>
+    <string name="transition">Transition</string>
+    <string name="peak">Peak</string>
+    <string name="color_anomaly">Color Anomaly</string>
+    <string name="images_overwritten">Images overwritten at original destination</string>
+    <string name="cannot_change_image_format">Cannot change image format while overwrite files option enabled</string>
+    <string name="emoji_as_color_scheme">Emoji as Color Scheme</string>
+    <string name="emoji_as_color_scheme_sub">Uses emoji primary color as app color scheme instead of manually defined one</string>
+    <string name="material_you" translatable="false">Material You</string>
+    <string name="material_you_sub">Creates Material You palette from image</string>
+    <string name="dark_colors">Dark Colors</string>
+    <string name="dark_colors_sub">Uses night mode color scheme instead of light variant</string>
+    <string name="copy_as_compose_code">Copy as Jetpack Compose code</string>
+    <string name="ring_blur">Ring Blur</string>
+    <string name="cross_blur">Cross Blur</string>
+    <string name="circle_blur">Circle Blur</string>
+    <string name="star_blur">Star Blur</string>
+    <string name="linear_tilt_shift">Linear Tilt Shift</string>
+    <string name="tags_to_remove">Tags To Remove</string>
+    <string name="apng_tools">APNG Tools</string>
+    <string name="apng_tools_sub">Convert images to APNG picture or extract frames from given APNG image</string>
+    <string name="apng_type_to_image">APNG to images</string>
+    <string name="apng_type_to_image_sub">Convert APNG file to batch of pictures</string>
+    <string name="apng_type_to_apng_sub">Convert batch of images to APNG file</string>
+    <string name="apng_type_to_apng">Images to APNG</string>
+    <string name="select_apng_image_to_start">Pick APNG image to start</string>
+    <string name="motion_blur">Motion Blur</string>
+    <string name="zip">Zip</string>
+    <string name="zip_sub">Create Zip file from given files or images</string>
 </resources>

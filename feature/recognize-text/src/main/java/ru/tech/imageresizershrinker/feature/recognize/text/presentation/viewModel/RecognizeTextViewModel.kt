@@ -27,7 +27,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import coil.size.Size
 import com.smarttoolfactory.cropper.model.AspectRatio
 import com.smarttoolfactory.cropper.model.OutlineType
 import com.smarttoolfactory.cropper.model.RectCropShape
@@ -39,16 +38,16 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import ru.tech.imageresizershrinker.core.data.utils.asDomain
+import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
-import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiContrastFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiSharpenFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiThresholdFilter
-import ru.tech.imageresizershrinker.core.filters.presentation.utils.toCoil
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -116,10 +115,8 @@ class RecognizeTextViewModel @Inject constructor(
     val previewBitmap: Bitmap? by _previewBitmap
 
     private val _rotation: MutableState<Float> = mutableFloatStateOf(0f)
-    val rotation by _rotation
 
     private val _isFlipped: MutableState<Boolean> = mutableStateOf(false)
-    val isFlipped: Boolean by _isFlipped
 
     private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
     val isImageLoading: Boolean by _isImageLoading
@@ -185,7 +182,10 @@ class RecognizeTextViewModel @Inject constructor(
         filterProvider.filterToTransformation(it).toCoil()
     }
 
-    fun updateUri(uri: Uri?, onImageSet: () -> Unit) {
+    fun updateUri(
+        uri: Uri?,
+        onImageSet: () -> Unit
+    ) {
         _uri.update { uri }
         uri?.let {
             viewModelScope.launch {
@@ -198,7 +198,10 @@ class RecognizeTextViewModel @Inject constructor(
         }
     }
 
-    fun updateBitmap(bitmap: Bitmap, onComplete: () -> Unit = {}) {
+    fun updateBitmap(
+        bitmap: Bitmap,
+        onComplete: () -> Unit = {}
+    ) {
         viewModelScope.launch {
             _isImageLoading.value = true
             _previewBitmap.value = imageScaler.scaleUntilCanShow(bitmap)
@@ -224,10 +227,12 @@ class RecognizeTextViewModel @Inject constructor(
                 type = recognitionType,
                 languageCode = selectedLanguages.joinToString("+") { it.code },
                 segmentationMode = segmentationMode,
-                image = previewBitmap?.let {
+                image = previewBitmap?.let { bitmap ->
                     imageTransformer.transform(
-                        transformations = getTransformations().map(::asDomain),
-                        image = it
+                        transformations = getTransformations().map {
+                            it.asDomain()
+                        },
+                        image = bitmap
                     )
                 },
                 onProgress = { progress ->
@@ -250,18 +255,6 @@ class RecognizeTextViewModel @Inject constructor(
             }
             _textLoadingProgress.update { -1 }
         }
-    }
-
-    private fun asDomain(
-        transformation: CoilTransformation
-    ): Transformation<Bitmap> = object : Transformation<Bitmap> {
-        override val cacheKey: String
-            get() = transformation.cacheKey
-
-        override suspend fun transform(
-            input: Bitmap,
-            size: Size
-        ): Bitmap = transformation.transform(input, size)
     }
 
     fun setRecognitionType(recognitionType: RecognitionType) {
@@ -355,9 +348,9 @@ class RecognizeTextViewModel @Inject constructor(
             imageTransformer.flip(
                 image = imageTransformer.rotate(
                     image = it,
-                    degrees = rotation
+                    degrees = _rotation.value
                 ),
-                isFlipped = isFlipped
+                isFlipped = _isFlipped.value
             )
         }
     }

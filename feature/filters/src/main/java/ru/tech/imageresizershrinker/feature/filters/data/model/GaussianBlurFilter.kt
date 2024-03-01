@@ -18,9 +18,9 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import coil.size.Size
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
@@ -33,7 +33,11 @@ internal class GaussianBlurFilter(
 
     override suspend fun transform(
         input: Bitmap,
-        size: Size
-    ): Bitmap = Aire.gaussianBlur(input, value.first.toInt(), value.second)
+        size: IntegerSize
+    ): Bitmap = Aire.gaussianBlur(
+        bitmap = input,
+        kernelSize = 2 * value.first.toInt() + 1,
+        sigma = value.second
+    )
 
 }

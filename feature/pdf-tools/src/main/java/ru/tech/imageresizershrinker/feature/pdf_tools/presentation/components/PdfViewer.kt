@@ -602,7 +602,10 @@ private fun PdfPage(
 
 }
 
-private fun IntegerSize.flexibleResize(w: Int, h: Int): IntegerSize {
+private fun IntegerSize.flexibleResize(
+    w: Int,
+    h: Int
+): IntegerSize {
     val max = max(w, h)
     return runCatching {
         if (width > w) {

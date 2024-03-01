@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.ui.icons.material.Robot
 import ru.tech.imageresizershrinker.core.ui.icons.material.RobotExcited
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
@@ -42,7 +42,7 @@ fun UseRandomEmojisSettingItem(
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
-    val toastHost = LocalToastHost.current
+    val toastHost = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 

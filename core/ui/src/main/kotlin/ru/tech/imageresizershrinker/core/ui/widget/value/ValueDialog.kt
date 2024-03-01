@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ViewArray
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -45,6 +44,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.utils.trimTrailingZero
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.icons.material.Counter
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import kotlin.math.pow
@@ -61,7 +61,7 @@ fun ValueDialog(
 ) {
     val focus = LocalFocusManager.current
     if (expanded) {
-        var value by remember(valueState) { mutableStateOf(valueState) }
+        var value by remember(valueState) { mutableStateOf(valueState.trimTrailingZero()) }
         AlertDialog(
             modifier = Modifier
                 .alertDialogBorder()
@@ -72,7 +72,10 @@ fun ValueDialog(
                 },
             onDismissRequest = onDismiss,
             icon = {
-                Icon(Icons.Outlined.ViewArray, null)
+                Icon(
+                    imageVector = Icons.Outlined.Counter,
+                    contentDescription = null
+                )
             },
             title = {
                 Text(

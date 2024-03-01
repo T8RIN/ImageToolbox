@@ -1,0 +1,4 @@
+R_DEF: Internal format may change without notice
+local
+drawable ic_baseline_add_a_photo_24
+drawable ic_baseline_content_copy_24

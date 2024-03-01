@@ -1,0 +1,15 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/bbc/Documents/github.com/ImageToolbox/libs/androidwm/src/main/AndroidManifest.xml:1:1-47
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/androidwm/src/main/AndroidManifest.xml:1:1-47
+	package
+		ADDED from /Users/bbc/Documents/github.com/ImageToolbox/libs/androidwm/src/main/AndroidManifest.xml:1:11-44
+		INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/androidwm/src/main/AndroidManifest.xml
+uses-sdk
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/androidwm/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/androidwm/src/main/AndroidManifest.xml
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/androidwm/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/androidwm/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/androidwm/src/main/AndroidManifest.xml

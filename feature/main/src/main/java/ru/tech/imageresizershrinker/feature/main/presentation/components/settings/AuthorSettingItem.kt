@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.OpenInNew
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -45,29 +44,22 @@ fun AuthorSettingItem(
     val showAuthorSheet = rememberSaveable { mutableStateOf(false) }
     PreferenceRow(
         modifier = Modifier.padding(horizontal = 8.dp),
-        applyHorPadding = false,
         color = MaterialTheme.colorScheme.secondaryContainer,
         title = stringResource(R.string.app_developer),
         subtitle = stringResource(R.string.app_developer_nick),
         shape = shape,
-        startContent = {
+        startIcon = Icons.AutoMirrored.Outlined.OpenInNew,
+        endContent = {
             Image(
                 painter = painterResource(id = R.drawable.avatar),
                 modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .size(48.dp)
+                    .padding(end = 8.dp)
+                    .size(64.dp)
                     .container(
                         shape = CloverShape,
                         resultPadding = 0.dp
                     ),
                 contentDescription = null
-            )
-        },
-        endContent = {
-            Icon(
-                imageVector = Icons.AutoMirrored.Outlined.OpenInNew,
-                contentDescription = null,
-                modifier = Modifier.padding(end = 16.dp)
             )
         },
         onClick = { showAuthorSheet.value = true }

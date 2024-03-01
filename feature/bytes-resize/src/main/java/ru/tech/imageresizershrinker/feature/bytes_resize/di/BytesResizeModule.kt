@@ -18,12 +18,10 @@
 package ru.tech.imageresizershrinker.feature.bytes_resize.di
 
 import android.graphics.Bitmap
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
-import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.feature.bytes_resize.data.AndroidBytesImageScaler
 import ru.tech.imageresizershrinker.feature.bytes_resize.domain.BytesImageScaler
 import javax.inject.Singleton
@@ -31,16 +29,12 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal class BytesResizeModule {
+internal interface BytesResizeModule {
 
-    @Provides
     @Singleton
+    @Binds
     fun provideScaler(
-        imageScaler: ImageScaler<Bitmap>,
-        imageCompressor: ImageCompressor<Bitmap>
-    ): BytesImageScaler<Bitmap> = AndroidBytesImageScaler(
-        imageScaler = imageScaler,
-        imageCompressor = imageCompressor
-    )
+        scaler: AndroidBytesImageScaler
+    ): BytesImageScaler<Bitmap>
 
 }

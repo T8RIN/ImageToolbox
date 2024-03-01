@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -58,18 +59,21 @@ fun VibrationStrengthSettingItem(
     shape: Shape = ContainerShapeDefaults.defaultShape
 ) {
     val settingsState = LocalSettingsState.current
+    val color = MaterialTheme
+        .colorScheme
+        .secondaryContainer
+        .copy(alpha = 0.2f)
+
     Box(
-        modifier
+        modifier = modifier
             .container(
                 shape = shape,
-                color = MaterialTheme.colorScheme
-                    .secondaryContainer
-                    .copy(alpha = 0.2f)
+                color = color
             )
             .animateContentSize()
     ) {
         Row(
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(
                     start = 4.dp,
@@ -82,23 +86,29 @@ fun VibrationStrengthSettingItem(
             var sliderValue by remember(settingsState.hapticsStrength) {
                 mutableFloatStateOf(settingsState.hapticsStrength.toFloat())
             }
-            Column {
+            Column(
+                modifier = Modifier.padding(4.dp)
+            ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Power,
-                        contentDescription = null,
+                    IconShapeContainer(
+                        enabled = true,
+                        underlyingColor = color,
+                        content = {
+                            Icon(
+                                imageVector = Icons.Outlined.Power,
+                                contentDescription = null
+                            )
+                        },
                         modifier = Modifier.padding(
-                            top = 16.dp,
-                            start = 12.dp
+                            start = 8.dp
                         )
                     )
                     Text(
                         text = stringResource(R.string.vibration_strength),
                         modifier = Modifier
                             .padding(
-                                top = 16.dp,
                                 end = 16.dp,
                                 start = 16.dp
                             )
@@ -117,7 +127,7 @@ fun VibrationStrengthSettingItem(
                             color = MaterialTheme.colorScheme.onSurface.copy(
                                 alpha = 0.5f
                             ),
-                            modifier = Modifier.padding(top = 16.dp, end = 16.dp),
+                            modifier = Modifier.padding(end = 16.dp),
                             lineHeight = 18.sp
                         )
                     }
@@ -125,10 +135,7 @@ fun VibrationStrengthSettingItem(
                 EnhancedSlider(
                     modifier = Modifier
                         .padding(
-                            top = 14.dp,
-                            start = 12.dp,
-                            end = 12.dp,
-                            bottom = 10.dp
+                            top = 12.dp
                         ),
                     value = sliderValue,
                     onValueChange = {

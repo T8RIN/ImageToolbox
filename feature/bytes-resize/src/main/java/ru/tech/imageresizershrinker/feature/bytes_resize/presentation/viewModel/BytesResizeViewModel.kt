@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -47,6 +48,7 @@ import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformati
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.bytes_resize.domain.BytesImageScaler
 import javax.inject.Inject
+import kotlin.random.Random
 
 
 @HiltViewModel
@@ -185,11 +187,11 @@ class BytesResizeViewModel @Inject constructor(
     private var savingJob: Job? = null
 
     fun saveBitmaps(
-        onResult: (Int, String) -> Unit
+        onResult: (List<SaveResult>, String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             _isSaving.value = true
-            var failed = 0
+            val results = mutableListOf<SaveResult>()
             _done.value = 0
             uris?.forEach { uri ->
                 runCatching {
@@ -213,12 +215,11 @@ class BytesResizeViewModel @Inject constructor(
                                 imageScaleMode = imageScaleMode
                             )
                         }
-                    }.let { result ->
-                        if (result.isSuccess && result.getOrNull() != null) {
-                            val scaled = result.getOrNull()!!
-                            val localBitmap = scaled.first
+                    }.getOrNull()?.let { scaled ->
+                        val localBitmap = scaled.first
 
-                            val saveResult = fileController.save(
+                        results.add(
+                            fileController.save(
                                 ImageSaveTarget<ExifInterface>(
                                     imageInfo = ImageInfo(
                                         imageFormat = imageFormat,
@@ -235,17 +236,16 @@ class BytesResizeViewModel @Inject constructor(
                                         )
                                     )
                                 ),
-                                keepMetadata = keepExif
+                                keepOriginalMetadata = keepExif
                             )
-                            if (saveResult is SaveResult.Error.MissingPermissions) {
-                                return@withContext onResult(-1, "")
-                            }
-                        } else failed += 1
+                        )
                     }
-                }
+                } ?: results.add(
+                    SaveResult.Error.Exception(Throwable())
+                )
                 _done.value += 1
             }
-            onResult(failed, fileController.savingPath)
+            onResult(results, fileController.savingPath)
             _isSaving.value = false
         }
     }.also {
@@ -361,6 +361,46 @@ class BytesResizeViewModel @Inject constructor(
     fun setImageScaleMode(imageScaleMode: ImageScaleMode) {
         _imageScaleMode.update { imageScaleMode }
         updateCanSave()
+    }
+
+    fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            selectedUri?.toString()?.let { uri ->
+                imageGetter.getImage(uri)?.image?.let { bitmap ->
+                    if (handMode) {
+                        imageScaler.scaleByMaxBytes(
+                            image = bitmap,
+                            maxBytes = maxBytes,
+                            imageFormat = imageFormat,
+                            imageScaleMode = imageScaleMode
+                        )
+                    } else {
+                        imageScaler.scaleByMaxBytes(
+                            image = bitmap,
+                            maxBytes = (fileController.getSize(uri) ?: 0)
+                                .times(_presetSelected.value / 100f)
+                                .toLong(),
+                            imageFormat = imageFormat,
+                            imageScaleMode = imageScaleMode
+                        )
+                    }
+                }?.let { scaled ->
+                    scaled.first to scaled.second.copy(imageFormat = imageFormat)
+                }?.let { (image, imageInfo) ->
+                    shareProvider.cacheImage(
+                        image = image,
+                        imageInfo = imageInfo.copy(originalUri = uri),
+                        name = Random.nextInt().toString()
+                    )?.let { uri ->
+                        onComplete(uri.toUri())
+                    }
+                }
+            }
+            _isSaving.value = false
+        }
     }
 
 }

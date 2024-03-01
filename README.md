@@ -99,7 +99,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 150 various filters)
+- Applying filter chains (More than 160 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -252,7 +252,18 @@ or click one of the badges below.
   - [x] Bokeh
   - [x] Neon
   - [x] Old Tv
-  - [x] Shuffle Blur 
+  - [x] Shuffle Blur
+  - [x] Mobius
+  - [x] Uchimura
+  - [x] Aldridge
+  - [x] Drago
+  - [x] Color Anomaly
+  - [x] Quantizier
+  - [x] Ring Blur
+  - [x] Cross Blur
+  - [x] Circle Blur
+  - [x] Star Blur
+  - [x] Motion Blur 
 
   </details>
 
@@ -297,7 +308,6 @@ or click one of the badges below.
     - Background color changing
     - Background blur drawing
   - Different Scaling Algorhytms
-    * Bitmap Compat
     * Bilinear
     * Nearest Neighbour
     * Bicubic
@@ -311,6 +321,9 @@ or click one of the badges below.
 - GIF conversion
   * GIF to images
   * Images to GIF
+- APNG conversion
+  * APNG to images
+  * Images to APNG
 - Image Shrinking
   - Quality compressing
   - Preset shrinking
@@ -328,7 +341,9 @@ or click one of the badges below.
     - Clover
     - Material Star
     - Kotlin Logo
+    - Small Material Star
     - Heart
+    - Enhanced Heart
     - Star
     - Image Mask
 - Format Conversion
@@ -338,10 +353,13 @@ or click one of the badges below.
   - WEBP
   - JPEG
   - JPG
-  - PNG
+  - PNG Lossless
+  - PNG Lossy
+  - MozJpeg
   - JXL
   - SVG and GIF to WEBP, PNG, JPEG, JPG, HEIF, HEIC, AVIF, JXL
   - Telegram sticker PNG format
+- Files to Zip
 - Comparing images
   - Slide
   - Toggle Tap
@@ -349,6 +367,8 @@ or click one of the badges below.
   - Side By Side
 - Color Utils
   - Palette generation
+    - Material You Scheme
+    - Simple Colors
   - Picking color from image
   - Gradient creation
   - Overlaying image with gradient
@@ -367,6 +387,12 @@ or click one of the badges below.
 
 # 🌟 UI tweaks
 
+- Selectiong Emoji for top app bar
+- Ability to use Pixel like switch instead of Material You
+- Secure Mode for app
+- Maximum brightness for selected screens
+- In app language changing
+- Enabling or Disabling confetti
 - Custom app color scheme
   - Different palette styles
   - Predefined schemes
@@ -379,6 +405,18 @@ or click one of the badges below.
 - AMOLED mode
 - Monet implementation (Dynamic colors) even for Android versions less than 12 by [Dynamic Theme](https://github.com/T8RIN/DynamicTheme)
 - Image based color scheme
+- Icons Background shape selection
+  - Rounded Corners
+  - Cut Corners
+  - Oval
+  - Squircle
+  - Octagon
+  - Rounded Pentagon
+  - Clover
+  - Material Star
+  - Small Material Star
+  - Heart
+  - Enhanced Heart
 - Custom fonts
   - Montserrat
   - Comfortaa
@@ -407,6 +445,7 @@ or click one of the badges below.
   - Lcd Moving
   - Unisource
 - In app font scale changing
+- Changing between options list and grouped view
 
 (Yes, the app supports dynamic coloring based on wallpapers for every android version)
 
@@ -416,6 +455,8 @@ or click one of the badges below.
 
 - [Kotlin](https://kotlinlang.org/) based
 
+- [Image Toolbox Libs](https://github.com/T8RIN/ImageToolboxLibs) - set of essential libraries for Image Toolbox.
+  
 - [Dynamic Theme](https://github.com/T8RIN/DynamicTheme) - library, which allows you to easily
   implement custom color theming.
 

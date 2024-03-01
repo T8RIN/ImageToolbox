@@ -75,7 +75,8 @@ data class SettingsState(
     val isConfettiEnabled: Boolean,
     val isSecureMode: Boolean,
     val useRandomEmojis: Boolean,
-    val iconShape: Int?
+    val iconShape: Int?,
+    val useEmojiAsPrimaryColor: Boolean
 ) : Domain {
 
     companion object {
@@ -92,7 +93,7 @@ data class SettingsState(
                 fabAlignment = 1,
                 selectedEmoji = 0,
                 imagePickerModeInt = 0,
-                clearCacheOnLaunch = true,
+                clearCacheOnLaunch = false,
                 showUpdateDialogOnStartup = true,
                 groupOptionsByTypes = true,
                 screenList = emptyList(),
@@ -127,14 +128,15 @@ data class SettingsState(
                 defaultImageScaleMode = ImageScaleMode.Default,
                 copyToClipboardMode = CopyToClipboardMode.Disabled,
                 usePixelSwitch = false,
-                magnifierEnabled = true,
+                magnifierEnabled = false,
                 exifWidgetInitialState = false,
                 initialOcrCodes = listOf("eng"),
                 screenListWithMaxBrightnessEnforcement = emptyList(),
                 isConfettiEnabled = true,
                 isSecureMode = false,
                 useRandomEmojis = false,
-                iconShape = 0
+                iconShape = 0,
+                useEmojiAsPrimaryColor = false
             )
         }
     }

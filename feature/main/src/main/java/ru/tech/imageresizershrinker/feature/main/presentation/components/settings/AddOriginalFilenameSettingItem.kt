@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Difference
 import androidx.compose.material.icons.outlined.ErrorOutline
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -35,7 +34,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
@@ -45,14 +44,13 @@ fun AddOriginalFilenameSettingItem(
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
     val scope = rememberCoroutineScope()
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val context = LocalContext.current
     val settingsState = LocalSettingsState.current
     val enabled = settingsState.imagePickerModeInt != 0
     PreferenceRowSwitch(
         shape = shape,
         enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles,
-        applyHorPadding = false,
         modifier = modifier
             .alpha(
                 animateFloatAsState(
@@ -60,18 +58,8 @@ fun AddOriginalFilenameSettingItem(
                     else 0.5f
                 ).value
             ),
-        resultModifier = Modifier.padding(
-            horizontal = 16.dp,
-            vertical = 8.dp
-        ),
         autoShadowElevation = if (enabled) 1.dp else 0.dp,
-        startContent = {
-            Icon(
-                imageVector = Icons.Outlined.Difference,
-                contentDescription = null,
-                modifier = Modifier.padding(end = 16.dp)
-            )
-        },
+        startIcon = Icons.Outlined.Difference,
         onClick = {
             if (enabled) onClick(it)
             else scope.launch {

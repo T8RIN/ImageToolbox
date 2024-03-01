@@ -23,6 +23,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,12 +38,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Colorize
+import androidx.compose.material.icons.rounded.AutoFixHigh
 import androidx.compose.material.icons.rounded.Done
-import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -63,6 +62,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -72,20 +72,20 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
+import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
-import ru.tech.imageresizershrinker.core.filters.presentation.utils.toCoil
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -111,7 +111,7 @@ fun FilterEditOption(
     updateOrder: (List<UiFilter<*>>) -> Unit
 ) {
     val scope = rememberCoroutineScope()
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val context = LocalContext.current
     bitmap?.let {
         val scaffoldState = rememberBottomSheetScaffoldState()
@@ -174,7 +174,7 @@ fun FilterEditOption(
                                 onClick = { showFilterSheet.value = true },
                                 modifier = Modifier.padding(horizontal = 16.dp)
                             ) {
-                                Icon(Icons.Rounded.PhotoFilter, null)
+                                Icon(Icons.Rounded.AutoFixHigh, null)
                                 Spacer(Modifier.width(8.dp))
                                 Text(stringResource(id = R.string.add_filter))
                             }
@@ -183,15 +183,13 @@ fun FilterEditOption(
                 }
             },
             fabButtons = {
-                FloatingActionButton(
+                EnhancedFloatingActionButton(
                     onClick = {
                         showFilterSheet.value = true
                     },
-                    modifier = Modifier.autoElevatedBorder(autoElevation = 1.5.dp),
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                 ) {
-                    Icon(Icons.Rounded.PhotoFilter, null)
+                    Icon(Icons.Rounded.AutoFixHigh, null)
                 }
             },
             scaffoldState = scaffoldState,
@@ -199,7 +197,13 @@ fun FilterEditOption(
                 if (filterList.isEmpty()) {
                     Text(
                         text = stringResource(id = R.string.add_filter),
-                        modifier = Modifier.padding(horizontal = 16.dp)
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .pointerInput(Unit) {
+                                detectTapGestures {
+                                    showFilterSheet.value = true
+                                }
+                            }
                     )
                 } else {
                     EnhancedIconButton(

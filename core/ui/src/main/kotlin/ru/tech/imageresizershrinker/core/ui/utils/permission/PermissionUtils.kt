@@ -107,7 +107,10 @@ private val Context.dataStore by preferencesDataStore(
 
 private class PermissionPreference(private val context: Context) {
 
-    private fun <T> get(key: Preferences.Key<T>, default: T): T {
+    private fun <T> get(
+        key: Preferences.Key<T>,
+        default: T
+    ): T {
         return runBlocking {
             context.dataStore.edit {}[key] ?: default
         }

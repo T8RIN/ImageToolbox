@@ -1,0 +1,2 @@
+int drawable ic_baseline_add_a_photo_24 0x0
+int drawable ic_baseline_content_copy_24 0x0

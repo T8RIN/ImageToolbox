@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Hexagon
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -41,19 +40,8 @@ fun AddFileSizeSettingItem(
     PreferenceRowSwitch(
         shape = shape,
         modifier = modifier,
-        resultModifier = Modifier.padding(
-            horizontal = 16.dp,
-            vertical = 8.dp
-        ),
         enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles,
-        startContent = {
-            Icon(
-                imageVector = Icons.Outlined.Hexagon,
-                contentDescription = null,
-                modifier = Modifier.padding(end = 16.dp)
-            )
-        },
-        applyHorPadding = false,
+        startIcon = Icons.Outlined.Hexagon,
         onClick = onClick,
         title = stringResource(R.string.add_file_size),
         subtitle = stringResource(R.string.add_file_size_sub),

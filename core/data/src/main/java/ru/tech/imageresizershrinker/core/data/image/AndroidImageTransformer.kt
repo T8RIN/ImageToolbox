@@ -30,6 +30,7 @@ import coil.size.Size
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
@@ -41,25 +42,12 @@ import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.sizeTo
 import javax.inject.Inject
 import kotlin.math.abs
-import coil.transform.Transformation as CoilTransformation
 
 
 internal class AndroidImageTransformer @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageLoader: ImageLoader
 ) : ImageTransformer<Bitmap> {
-
-    private fun toCoil(transformation: Transformation<Bitmap>): CoilTransformation {
-        return object : CoilTransformation {
-            override val cacheKey: String
-                get() = transformation.cacheKey
-
-            override suspend fun transform(
-                input: Bitmap,
-                size: Size
-            ): Bitmap = transformation.transform(input, size)
-        }
-    }
 
     override suspend fun transform(
         image: Bitmap,
@@ -70,7 +58,9 @@ internal class AndroidImageTransformer @Inject constructor(
             .Builder(context)
             .data(image)
             .transformations(
-                transformations.map(::toCoil)
+                transformations.map {
+                    it.toCoil()
+                }
             )
             .apply {
                 if (originalSize) size(Size.ORIGINAL)
@@ -89,7 +79,9 @@ internal class AndroidImageTransformer @Inject constructor(
             .Builder(context)
             .data(image)
             .transformations(
-                transformations.map(::toCoil)
+                transformations.map {
+                    it.toCoil()
+                }
             )
             .size(size.width, size.height)
             .build()
@@ -123,7 +115,7 @@ internal class AndroidImageTransformer @Inject constructor(
                 currentInfo.copy(
                     width = 512,
                     height = 512,
-                    imageFormat = ImageFormat.Png,
+                    imageFormat = ImageFormat.PngLossless,
                     resizeType = ResizeType.Flexible,
                     quality = Quality.Base(100)
                 )
@@ -133,6 +125,7 @@ internal class AndroidImageTransformer @Inject constructor(
                 quality = when (val quality = currentInfo.quality) {
                     is Quality.Base -> quality.copy(qualityValue = preset.value)
                     is Quality.Jxl -> quality.copy(qualityValue = preset.value)
+                    else -> quality
                 },
                 width = calcWidth().calc(preset.value),
                 height = calcHeight().calc(preset.value),
@@ -142,14 +135,20 @@ internal class AndroidImageTransformer @Inject constructor(
         }
     }
 
-    override suspend fun flip(image: Bitmap, isFlipped: Boolean): Bitmap {
+    override suspend fun flip(
+        image: Bitmap,
+        isFlipped: Boolean
+    ): Bitmap {
         return if (isFlipped) {
             val matrix = Matrix().apply { postScale(-1f, 1f, image.width / 2f, image.height / 2f) }
             return Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)
         } else image
     }
 
-    override suspend fun rotate(image: Bitmap, degrees: Float): Bitmap {
+    override suspend fun rotate(
+        image: Bitmap,
+        degrees: Float
+    ): Bitmap {
         return if (degrees % 90 == 0f) {
             val matrix = Matrix().apply { postRotate(degrees) }
             Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)

@@ -25,6 +25,7 @@ import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -117,7 +118,10 @@ internal class AndroidShareProvider @Inject constructor(
         onComplete()
     }
 
-    override suspend fun shareUri(uri: String, type: String?) {
+    override suspend fun shareUri(
+        uri: String,
+        type: String?
+    ) {
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
             putExtra(Intent.EXTRA_STREAM, uri.toUri())
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -148,13 +152,12 @@ internal class AndroidShareProvider @Inject constructor(
         context.startActivity(shareIntent)
     }
 
-    override suspend fun shareByteArray(
+    override suspend fun cacheByteArray(
         byteArray: ByteArray,
-        filename: String,
-        onComplete: () -> Unit
-    ) = withContext(Dispatchers.IO) {
-        val imagesFolder = File(context.cacheDir, "images")
-        val uri = kotlin.runCatching {
+        filename: String
+    ): String? {
+        val imagesFolder = File(context.cacheDir, "files")
+        return runCatching {
             imagesFolder.mkdirs()
             val file = File(imagesFolder, filename)
             FileOutputStream(file).use {
@@ -165,13 +168,25 @@ internal class AndroidShareProvider @Inject constructor(
                 context.getString(R.string.file_provider),
                 file
             )
-        }.getOrNull()
-        uri?.let {
+        }.onFailure {
+            it.makeLog()
+        }.getOrNull()?.toString()
+    }
+
+    override suspend fun shareByteArray(
+        byteArray: ByteArray,
+        filename: String,
+        onComplete: () -> Unit
+    ) = withContext(Dispatchers.IO) {
+        cacheByteArray(
+            byteArray = byteArray,
+            filename = filename
+        )?.let {
             shareUri(
-                uri = it.toString(),
+                uri = it,
                 type = MimeTypeMap.getSingleton()
                     .getMimeTypeFromExtension(
-                        imageGetter.getExtension(uri.toString())
+                        imageGetter.getExtension(it)
                     ) ?: "*/*"
             )
         }

@@ -1,0 +1,20 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/bbc/Documents/github.com/ImageToolbox/libs/dynamic-theme/src/main/AndroidManifest.xml:18:1-22:12
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/dynamic-theme/src/main/AndroidManifest.xml:18:1-22:12
+	package
+		INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/dynamic-theme/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/bbc/Documents/github.com/ImageToolbox/libs/dynamic-theme/src/main/AndroidManifest.xml:18:11-69
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /Users/bbc/Documents/github.com/ImageToolbox/libs/dynamic-theme/src/main/AndroidManifest.xml:20:5-80
+	android:name
+		ADDED from /Users/bbc/Documents/github.com/ImageToolbox/libs/dynamic-theme/src/main/AndroidManifest.xml:20:22-77
+uses-sdk
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/dynamic-theme/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/dynamic-theme/src/main/AndroidManifest.xml
+INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/dynamic-theme/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/dynamic-theme/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/bbc/Documents/github.com/ImageToolbox/libs/dynamic-theme/src/main/AndroidManifest.xml

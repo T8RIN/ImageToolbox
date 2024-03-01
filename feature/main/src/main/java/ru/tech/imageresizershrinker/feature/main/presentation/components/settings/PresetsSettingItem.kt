@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalEditPresetsState
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.icons.material.CreateAlt
+import ru.tech.imageresizershrinker.core.ui.icons.material.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
@@ -50,8 +50,8 @@ fun PresetsSettingItem(
         color = MaterialTheme.colorScheme
             .secondaryContainer
             .copy(alpha = 0.2f),
-        icon = Icons.Outlined.Numbers,
-        endIcon = Icons.Rounded.CreateAlt,
+        startIcon = Icons.Outlined.Numbers,
+        endIcon = Icons.Rounded.MiniEdit,
         modifier = modifier
     )
 }

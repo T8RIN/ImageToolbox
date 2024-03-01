@@ -1,0 +1,6 @@
+jp.co.cyberagent.android.gpuimage
+attr gpuimage_show_loading
+attr gpuimage_surface_type
+id surface_view
+id texture_view
+styleable GPUImageView gpuimage_show_loading gpuimage_surface_type

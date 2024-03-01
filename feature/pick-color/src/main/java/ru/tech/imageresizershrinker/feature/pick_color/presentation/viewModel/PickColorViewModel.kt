@@ -26,7 +26,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.t8rin.logger.makeLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -51,9 +50,21 @@ class PickColorViewModel @Inject constructor(
     private val _uri = mutableStateOf<Uri?>(null)
     val uri by _uri
 
-    fun setUri(uri: Uri) {
-        uri.makeLog()
+    fun setUri(
+        uri: Uri,
+        onError: (Throwable) -> Unit
+    ) {
         _uri.value = uri
+        viewModelScope.launch {
+            runCatching {
+                updateBitmap(
+                    imageGetter.getImage(
+                        data = uri,
+                        originalSize = false
+                    )
+                )
+            }.onFailure(onError)
+        }
     }
 
     private fun updateBitmap(bitmap: Bitmap?) {
@@ -66,16 +77,5 @@ class PickColorViewModel @Inject constructor(
 
     fun updateColor(color: Color) {
         _color.value = color
-    }
-
-    fun decodeBitmapByUri(
-        uri: Uri,
-        onError: (Throwable) -> Unit
-    ) {
-        viewModelScope.launch {
-            runCatching {
-                updateBitmap(imageGetter.getImage(uri, false))
-            }.exceptionOrNull()?.let(onError)
-        }
     }
 }

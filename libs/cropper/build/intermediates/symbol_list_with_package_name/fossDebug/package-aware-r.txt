@@ -1,0 +1,2 @@
+com.smarttoolfactory.cropper
+drawable landscape2

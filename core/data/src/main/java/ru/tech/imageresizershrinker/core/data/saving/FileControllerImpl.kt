@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.data.saving
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.ContentValues
@@ -27,14 +28,17 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import androidx.exifinterface.media.ExifInterface
 import com.t8rin.logger.makeLog
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -62,7 +66,7 @@ import kotlin.random.Random
 
 
 internal class FileControllerImpl @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val settingsRepository: SettingsRepository,
     private val randomStringGenerator: RandomStringGenerator
 ) : FileController {
@@ -135,9 +139,10 @@ internal class FileControllerImpl @Inject constructor(
         }.getOrNull()
     } ?: default
 
+    @SuppressLint("StringFormatInvalid")
     override suspend fun save(
         saveTarget: SaveTarget,
-        keepMetadata: Boolean
+        keepOriginalMetadata: Boolean
     ): SaveResult {
         if (!context.isExternalStorageWritable()) {
             return SaveResult.Error.MissingPermissions
@@ -145,10 +150,7 @@ internal class FileControllerImpl @Inject constructor(
 
         kotlin.runCatching {
             if (settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled) {
-                val clipboardManager = ContextCompat.getSystemService(
-                    context,
-                    ClipboardManager::class.java
-                )
+                val clipboardManager = context.getSystemService<ClipboardManager>()
 
                 cacheImage(saveTarget)?.toUri()?.let { uri ->
                     clipboardManager?.setPrimaryClip(
@@ -191,7 +193,7 @@ internal class FileControllerImpl @Inject constructor(
                             copyMetadata(
                                 initialExif = (saveTarget as? ImageSaveTarget<*>)?.metadata as ExifInterface?,
                                 fileUri = originalUri,
-                                keepMetadata = keepMetadata,
+                                keepMetadata = keepOriginalMetadata,
                                 originalUri = originalUri
                             )
                         }
@@ -200,7 +202,7 @@ internal class FileControllerImpl @Inject constructor(
                     return SaveResult.Success(
                         message = context.getString(
                             R.string.saved_to_original,
-                            context.getFileName(originalUri).toString()
+                            originalUri.getFilename().toString()
                         )
                     )
                 }
@@ -250,7 +252,7 @@ internal class FileControllerImpl @Inject constructor(
                     copyMetadata(
                         initialExif = initialExif,
                         fileUri = savingFolder.fileUri,
-                        keepMetadata = keepMetadata,
+                        keepMetadata = keepOriginalMetadata,
                         originalUri = saveTarget.originalUri.toUri()
                     )
                 }
@@ -258,12 +260,19 @@ internal class FileControllerImpl @Inject constructor(
                 val filename = newSaveTarget.filename ?: ""
 
                 return SaveResult.Success(
-                    if (savingPath.isNotEmpty() && filename.isNotEmpty()) {
-                        context.getString(
-                            R.string.saved_to,
-                            savingPath,
-                            filename
-                        )
+                    if (savingPath.isNotEmpty()) {
+                        if (filename.isNotEmpty()) {
+                            context.getString(
+                                R.string.saved_to,
+                                savingPath,
+                                filename
+                            )
+                        } else {
+                            context.getString(
+                                R.string.saved_to_without_filename,
+                                savingPath
+                            )
+                        }
                     } else null
                 )
             }
@@ -365,9 +374,10 @@ internal class FileControllerImpl @Inject constructor(
 
         if (settingsState.addOriginalFilename) {
             prefix += if (saveTarget.originalUri.toUri() != Uri.EMPTY) {
-                context.getFileName(
-                    saveTarget.originalUri.toUri()
-                )?.dropLastWhile { it != '.' }?.removeSuffix(".") ?: ""
+                saveTarget.originalUri.toUri()
+                    .getFilename()
+                    ?.dropLastWhile { it != '.' }
+                    ?.removeSuffix(".") ?: ""
             } else {
                 context.getString(R.string.original_filename)
             }
@@ -427,8 +437,13 @@ internal class FileControllerImpl @Inject constructor(
         }.getOrNull() ?: "0 B"
     }
 
-    private fun getFileDescriptorFor(uri: Uri?) =
-        uri?.let { context.contentResolver.openFileDescriptor(uri, "rw") }
+    private fun getFileDescriptorFor(
+        uri: Uri?
+    ): ParcelFileDescriptor? = runCatching {
+        uri?.let {
+            context.contentResolver.openFileDescriptor(uri, "rw")
+        }
+    }.getOrNull()
 
     private fun Context.getSavingFolder(
         treeUri: Uri?,
@@ -501,6 +516,6 @@ internal class FileControllerImpl @Inject constructor(
         } else this
     }
 
-    private fun Context.getFileName(uri: Uri): String? = DocumentFile.fromSingleUri(this, uri)?.name
+    private fun Uri.getFilename(): String? = DocumentFile.fromSingleUri(context, this)?.name
 
 }

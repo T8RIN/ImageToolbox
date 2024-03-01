@@ -93,6 +93,7 @@ fun OCRTextPreviewItem(
                         modifier = Modifier.padding(24.dp),
                         color = MaterialTheme.colorScheme.onSecondaryContainer,
                         strokeCap = StrokeCap.Round,
+                        trackColor = Color.Transparent,
                         progress = {
                             loadingProgress / 100f
                         }

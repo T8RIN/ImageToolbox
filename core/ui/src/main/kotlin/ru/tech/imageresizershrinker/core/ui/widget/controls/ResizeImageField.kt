@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -51,10 +52,18 @@ fun ResizeImageField(
     ) {
         Row {
             RoundedTextField(
-                value = imageInfo.width.takeIf { it != 0 }.let { it ?: "" }.toString(),
+                value = imageInfo.width.takeIf { it != 0 }
+                    .let { it ?: "" }
+                    .toString(),
                 onValueChange = { value ->
+                    val maxValue = if (imageInfo.height != 0) {
+                        (ImageUtils.Dimens.MAX_IMAGE_SIZE / imageInfo.height).coerceAtMost(32768)
+                    } else 32768
+
                     onWidthChange(
-                        value.restrict().toIntOrNull() ?: 0
+                        value
+                            .restrict(maxValue)
+                            .toIntOrNull() ?: 0
                     )
                 },
                 shape = RoundedCornerShape(12.dp),
@@ -79,10 +88,18 @@ fun ResizeImageField(
                     )
             )
             RoundedTextField(
-                value = imageInfo.height.takeIf { it != 0 }.let { it ?: "" }.toString(),
+                value = imageInfo.height.takeIf { it != 0 }
+                    .let { it ?: "" }
+                    .toString(),
                 onValueChange = { value ->
+                    val maxValue = if (imageInfo.width != 0) {
+                        (ImageUtils.Dimens.MAX_IMAGE_SIZE / imageInfo.width).coerceAtMost(32768)
+                    } else 32768
+
                     onHeightChange(
-                        value.restrict().toIntOrNull() ?: 0
+                        value
+                            .restrict(maxValue)
+                            .toIntOrNull() ?: 0
                     )
                 },
                 keyboardOptions = KeyboardOptions(

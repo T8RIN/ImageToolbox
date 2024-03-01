@@ -1,0 +1,7 @@
+int attr gpuimage_show_loading 0x0
+int attr gpuimage_surface_type 0x0
+int id surface_view 0x0
+int id texture_view 0x0
+int[] styleable GPUImageView { 0x0, 0x0 }
+int styleable GPUImageView_gpuimage_show_loading 0
+int styleable GPUImageView_gpuimage_surface_type 1

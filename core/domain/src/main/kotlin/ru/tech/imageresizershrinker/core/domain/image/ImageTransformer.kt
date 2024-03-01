@@ -35,9 +35,15 @@ interface ImageTransformer<I> {
         size: IntegerSize
     ): I?
 
-    suspend fun rotate(image: I, degrees: Float): I
+    suspend fun rotate(
+        image: I,
+        degrees: Float
+    ): I
 
-    suspend fun flip(image: I, isFlipped: Boolean): I
+    suspend fun flip(
+        image: I,
+        isFlipped: Boolean
+    ): I
 
     suspend fun applyPresetBy(
         image: I?,

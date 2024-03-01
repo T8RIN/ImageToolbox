@@ -46,4 +46,6 @@ dependencies {
     implementation(projects.feature.gradientMaker)
     implementation(projects.feature.watermarking)
     implementation(projects.feature.gifTools)
+    implementation(projects.feature.apngTools)
+    implementation(projects.feature.zip)
 }

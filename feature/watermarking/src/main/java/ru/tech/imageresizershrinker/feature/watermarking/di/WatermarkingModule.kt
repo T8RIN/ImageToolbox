@@ -17,31 +17,23 @@
 
 package ru.tech.imageresizershrinker.feature.watermarking.di
 
-import android.content.Context
 import android.graphics.Bitmap
-import androidx.exifinterface.media.ExifInterface
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.feature.watermarking.data.AndroidWatermarkApplier
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkApplier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object WatermarkingModule {
+internal interface WatermarkingModule {
 
     @Singleton
-    @Provides
+    @Binds
     fun provideWatermarkApplier(
-        @ApplicationContext context: Context,
-        imageGetter: ImageGetter<Bitmap, ExifInterface>
-    ): WatermarkApplier<Bitmap> = AndroidWatermarkApplier(
-        context = context,
-        imageGetter = imageGetter
-    )
+        applier: AndroidWatermarkApplier
+    ): WatermarkApplier<Bitmap>
 
 }

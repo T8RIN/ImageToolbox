@@ -56,7 +56,6 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Tune
@@ -109,13 +108,15 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
@@ -123,7 +124,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientation
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
@@ -149,7 +150,7 @@ fun EraseBackgroundScreen(
     viewModel: EraseBackgroundViewModel = hiltViewModel()
 ) {
     val settingsState = LocalSettingsState.current
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val context = LocalContext.current as ComponentActivity
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
@@ -407,14 +408,18 @@ fun EraseBackgroundScreen(
                                 Icon(Icons.Rounded.Tune, null)
                             }
                         }
-                        EnhancedIconButton(
-                            containerColor = Color.Transparent,
-                            contentColor = LocalContentColor.current,
-                            enableAutoShadowAndBorder = false,
-                            onClick = { viewModel.shareBitmap { showConfetti() } }
-                        ) {
-                            Icon(Icons.Outlined.Share, null)
-                        }
+                        ShareButton(
+                            enabled = viewModel.bitmap != null,
+                            onShare = {
+                                viewModel.shareBitmap(showConfetti)
+                            },
+                            onCopy = { manager ->
+                                viewModel.cacheCurrentImage { uri ->
+                                    manager.setClip(uri.asClip(context))
+                                    showConfetti()
+                                }
+                            }
+                        )
                         EnhancedIconButton(
                             containerColor = Color.Transparent,
                             contentColor = LocalContentColor.current,
@@ -514,12 +519,11 @@ fun EraseBackgroundScreen(
                 onCheckedChange = viewModel::setSaveExif,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
             )
-            ExtensionGroup(
+            ImageFormatSelector(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
                     .navigationBarsPadding(),
                 entries = ImageFormat.alphaContainedEntries,
-                enabled = true,
                 value = viewModel.imageFormat,
                 onValueChange = {
                     viewModel.setMime(it)

@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.ui.theme
 
 import androidx.annotation.FloatRange
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.surfaceColorAtElevation
@@ -35,6 +36,13 @@ fun ColorScheme.outlineVariant(
 ) = onSecondaryContainer
     .copy(alpha = luminance)
     .compositeOver(onTopOf)
+
+@Composable
+fun takeColorFromScheme(
+    action: ColorScheme.() -> Color
+) = animateColorAsState(
+    MaterialTheme.colorScheme.run(action)
+).value
 
 
 fun ColorScheme.suggestContainerColorBy(color: Color) = when (color) {
@@ -78,6 +86,14 @@ fun Color.inverse(
     darkMode: Boolean = LocalSettingsState.current.isNightMode,
 ): Color = if (darkMode) blend(Color.White, fraction(true))
 else blend(Color.Black, fraction(false))
+
+@Composable
+fun Color.inverse(
+    fraction: (Boolean) -> Float = { 0.5f },
+    color: (Boolean) -> Color,
+    darkMode: Boolean = LocalSettingsState.current.isNightMode,
+): Color = if (darkMode) blend(color(true), fraction(true))
+else blend(color(true), fraction(false))
 
 
 fun Int.blend(

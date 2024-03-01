@@ -28,7 +28,10 @@ import ru.tech.imageresizershrinker.core.resources.R
 import java.util.LinkedList
 
 
-fun Uri?.toUiPath(context: Context, default: String): String = this?.let { uri ->
+fun Uri?.toUiPath(
+    context: Context,
+    default: String
+): String = this?.let { uri ->
     DocumentFile
         .fromTreeUri(context, uri)
         ?.uri?.path?.split(":")

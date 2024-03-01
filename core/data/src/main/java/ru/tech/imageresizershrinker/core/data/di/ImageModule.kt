@@ -17,14 +17,11 @@
 
 package ru.tech.imageresizershrinker.core.data.di
 
-import android.content.Context
 import android.graphics.Bitmap
 import androidx.exifinterface.media.ExifInterface
-import coil.ImageLoader
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.core.data.image.AndroidImageCompressor
 import ru.tech.imageresizershrinker.core.data.image.AndroidImageGetter
@@ -38,87 +35,46 @@ import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
-import ru.tech.imageresizershrinker.core.domain.saving.FileController
-import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object ImageModule {
+internal interface ImageModule {
 
     @Singleton
-    @Provides
+    @Binds
     fun provideImageManager(
-        @ApplicationContext context: Context,
-        imageLoader: ImageLoader
-    ): ImageTransformer<Bitmap> = AndroidImageTransformer(
-        context = context,
-        imageLoader = imageLoader
-    )
+        transformer: AndroidImageTransformer
+    ): ImageTransformer<Bitmap>
 
     @Singleton
-    @Provides
+    @Binds
     fun provideImageScaler(
-        settingsRepository: SettingsRepository,
-        imageTransformer: ImageTransformer<Bitmap>,
-        filterProvider: FilterProvider<Bitmap>
-    ): ImageScaler<Bitmap> = AndroidImageScaler(
-        settingsRepository = settingsRepository,
-        imageTransformer = imageTransformer,
-        filterProvider = filterProvider
-    )
+        scaler: AndroidImageScaler
+    ): ImageScaler<Bitmap>
 
     @Singleton
-    @Provides
+    @Binds
     fun provideImageCompressor(
-        @ApplicationContext context: Context,
-        imageLoader: ImageLoader,
-        imageTransformer: ImageTransformer<Bitmap>,
-        imageScaler: ImageScaler<Bitmap>
-    ): ImageCompressor<Bitmap> = AndroidImageCompressor(
-        context = context,
-        imageLoader = imageLoader,
-        imageTransformer = imageTransformer,
-        imageScaler = imageScaler
-    )
+        compressor: AndroidImageCompressor
+    ): ImageCompressor<Bitmap>
 
     @Singleton
-    @Provides
+    @Binds
     fun provideImageGetter(
-        imageLoader: ImageLoader,
-        @ApplicationContext context: Context,
-    ): ImageGetter<Bitmap, ExifInterface> = AndroidImageGetter(
-        imageLoader = imageLoader,
-        context = context
-    )
+        getter: AndroidImageGetter
+    ): ImageGetter<Bitmap, ExifInterface>
 
     @Singleton
-    @Provides
+    @Binds
     fun provideImagePreviewCreator(
-        imageTransformer: ImageTransformer<Bitmap>,
-        imageGetter: ImageGetter<Bitmap, ExifInterface>,
-        imageCompressor: ImageCompressor<Bitmap>,
-        imageScaler: ImageScaler<Bitmap>
-    ): ImagePreviewCreator<Bitmap> = AndroidImagePreviewCreator(
-        imageTransformer = imageTransformer,
-        imageGetter = imageGetter,
-        imageCompressor = imageCompressor,
-        imageScaler = imageScaler
-    )
+        creator: AndroidImagePreviewCreator
+    ): ImagePreviewCreator<Bitmap>
 
     @Singleton
-    @Provides
+    @Binds
     fun provideShareProvider(
-        @ApplicationContext context: Context,
-        imageCompressor: ImageCompressor<Bitmap>,
-        imageGetter: ImageGetter<Bitmap, ExifInterface>,
-        fileController: FileController
-    ): ShareProvider<Bitmap> = AndroidShareProvider(
-        context = context,
-        imageGetter = imageGetter,
-        imageCompressor = imageCompressor,
-        fileController = fileController
-    )
+        provider: AndroidShareProvider
+    ): ShareProvider<Bitmap>
 
 }

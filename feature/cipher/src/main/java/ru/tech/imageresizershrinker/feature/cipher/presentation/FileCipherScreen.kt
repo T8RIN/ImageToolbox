@@ -62,6 +62,7 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.HelpOutline
 import androidx.compose.material.icons.automirrored.rounded.InsertDriveFile
 import androidx.compose.material.icons.outlined.Cancel
+import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.FileDownload
@@ -76,6 +77,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -120,7 +122,7 @@ import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFileName
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -131,10 +133,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
+import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -162,7 +165,7 @@ fun FileCipherScreen(
 
     val context = LocalContext.current
     val settingsState = LocalSettingsState.current
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
     val confettiController = LocalConfettiController.current
 
@@ -332,7 +335,17 @@ fun FileCipherScreen(
                                                         haptics.performHapticFeedback(
                                                             HapticFeedbackType.LongPress
                                                         )
-                                                        filePicker.launch(arrayOf("*/*"))
+                                                        runCatching {
+                                                            filePicker.launch(arrayOf("*/*"))
+                                                        }.onFailure {
+                                                            scope.launch {
+                                                                toastHostState.showToast(
+                                                                    message = context.getString(R.string.activate_files),
+                                                                    icon = Icons.Outlined.FolderOff,
+                                                                    duration = ToastDuration.Long
+                                                                )
+                                                            }
+                                                        }
                                                     }
                                                     .padding(12.dp),
                                                 tint = MaterialTheme.colorScheme.onSecondaryContainer
@@ -416,12 +429,12 @@ fun FileCipherScreen(
                                         }
 
                                         viewModel.uri?.let { uri ->
-                                            PreferenceRow(
+                                            PreferenceItem(
                                                 modifier = Modifier.padding(top = 16.dp),
-                                                title = context.getFileName(uri)
+                                                title = context.getFilename(uri)
                                                     ?: stringResource(R.string.something_went_wrong),
                                                 onClick = null,
-                                                titleFontStyle = androidx.compose.material3.LocalTextStyle.current.copy(
+                                                titleFontStyle = LocalTextStyle.current.copy(
                                                     lineHeight = 16.sp,
                                                     fontSize = 15.sp
                                                 ),
@@ -433,22 +446,23 @@ fun FileCipherScreen(
                                                         )
                                                     )
                                                 },
-                                                applyHorPadding = false,
-                                                startContent = {
-                                                    Icon(
-                                                        Icons.AutoMirrored.Rounded.InsertDriveFile,
-                                                        null,
-                                                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                                                        modifier = Modifier.padding(
-                                                            horizontal = 16.dp,
-                                                            vertical = 8.dp
-                                                        )
-                                                    )
-                                                }
+                                                startIcon = Icons.AutoMirrored.Rounded.InsertDriveFile
                                             )
 
                                             EnhancedButton(
-                                                onClick = { filePicker.launch(arrayOf("*/*")) },
+                                                onClick = {
+                                                    runCatching {
+                                                        filePicker.launch(arrayOf("*/*"))
+                                                    }.onFailure {
+                                                        scope.launch {
+                                                            toastHostState.showToast(
+                                                                message = context.getString(R.string.activate_files),
+                                                                icon = Icons.Outlined.FolderOff,
+                                                                duration = ToastDuration.Long
+                                                            )
+                                                        }
+                                                    }
+                                                },
                                                 modifier = Modifier.padding(top = 16.dp),
                                                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                                 borderColor = MaterialTheme.colorScheme.outlineVariant(
@@ -656,7 +670,7 @@ fun FileCipherScreen(
                                                         } else {
                                                             "dec-"
                                                         } + (viewModel.uri?.let {
-                                                            context.getFileName(it)
+                                                            context.getFilename(it)
                                                         } ?: Random.nextInt())
                                                     )
                                                 }
@@ -681,7 +695,19 @@ fun FileCipherScreen(
                                                 ) {
                                                     EnhancedButton(
                                                         onClick = {
-                                                            saveLauncher.launch("*/*#$name")
+                                                            runCatching {
+                                                                saveLauncher.launch("*/*#$name")
+                                                            }.onFailure {
+                                                                scope.launch {
+                                                                    toastHostState.showToast(
+                                                                        message = context.getString(
+                                                                            R.string.activate_files
+                                                                        ),
+                                                                        icon = Icons.Outlined.FolderOff,
+                                                                        duration = ToastDuration.Long
+                                                                    )
+                                                                }
+                                                            }
                                                         },
                                                         modifier = Modifier
                                                             .padding(end = 8.dp)
@@ -755,7 +781,17 @@ fun FileCipherScreen(
         if (viewModel.uri == null) {
             EnhancedFloatingActionButton(
                 onClick = {
-                    filePicker.launch(arrayOf("*/*"))
+                    runCatching {
+                        filePicker.launch(arrayOf("*/*"))
+                    }.onFailure {
+                        scope.launch {
+                            toastHostState.showToast(
+                                message = context.getString(R.string.activate_files),
+                                icon = Icons.Outlined.FolderOff,
+                                duration = ToastDuration.Long
+                            )
+                        }
+                    }
                 },
                 modifier = Modifier
                     .navigationBarsPadding()
@@ -795,7 +831,10 @@ fun FileCipherScreen(
 }
 
 private class CreateDocument : ActivityResultContracts.CreateDocument("*/*") {
-    override fun createIntent(context: Context, input: String): Intent {
+    override fun createIntent(
+        context: Context,
+        input: String
+    ): Intent {
         return super.createIntent(
             context = context,
             input = input.split("#")[0]

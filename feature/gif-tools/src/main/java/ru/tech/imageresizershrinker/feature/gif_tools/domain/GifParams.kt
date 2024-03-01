@@ -23,7 +23,6 @@ import ru.tech.imageresizershrinker.core.domain.model.Quality
 data class GifParams(
     val size: IntegerSize?,
     val repeatCount: Int,
-    val delay: Int,
     val fps: Int,
     val quality: Quality
 ) {
@@ -32,7 +31,6 @@ data class GifParams(
             GifParams(
                 size = null,
                 repeatCount = 1,
-                delay = 0,
                 fps = 12,
                 quality = Quality.Base(50)
             )

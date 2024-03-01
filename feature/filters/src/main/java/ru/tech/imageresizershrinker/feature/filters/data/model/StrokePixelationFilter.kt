@@ -23,11 +23,11 @@ import android.graphics.Paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.applyCanvas
-import coil.size.Size
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.feature.filters.data.pixelation.Pixelate
-import ru.tech.imageresizershrinker.feature.filters.data.pixelation.PixelateLayer
+import ru.tech.imageresizershrinker.feature.filters.data.utils.Pixelate
+import ru.tech.imageresizershrinker.feature.filters.data.utils.PixelationLayer
 
 internal class StrokePixelationFilter(
     override val value: Pair<Float, Color> = 20f to Color.Black,
@@ -35,27 +35,30 @@ internal class StrokePixelationFilter(
     override val cacheKey: String
         get() = (value).hashCode().toString()
 
-    override suspend fun transform(input: Bitmap, size: Size): Bitmap {
+    override suspend fun transform(
+        input: Bitmap,
+        size: IntegerSize
+    ): Bitmap {
         val pixelSize = value.first
         return Pixelate.fromBitmap(
             input = input,
             layers = arrayOf(
-                PixelateLayer.Builder(PixelateLayer.Shape.Circle)
+                PixelationLayer.Builder(PixelationLayer.Shape.Circle)
                     .setResolution(pixelSize)
                     .setSize(pixelSize / 5)
                     .setOffset(pixelSize / 4)
                     .build(),
-                PixelateLayer.Builder(PixelateLayer.Shape.Circle)
+                PixelationLayer.Builder(PixelationLayer.Shape.Circle)
                     .setResolution(pixelSize)
                     .setSize(pixelSize / 4)
                     .setOffset(pixelSize / 2)
                     .build(),
-                PixelateLayer.Builder(PixelateLayer.Shape.Circle)
+                PixelationLayer.Builder(PixelationLayer.Shape.Circle)
                     .setResolution(pixelSize)
                     .setSize(pixelSize / 3)
                     .setOffset(pixelSize / 1.3f)
                     .build(),
-                PixelateLayer.Builder(PixelateLayer.Shape.Circle)
+                PixelationLayer.Builder(PixelationLayer.Shape.Circle)
                     .setResolution(pixelSize)
                     .setSize(pixelSize / 4)
                     .setOffset(0f)

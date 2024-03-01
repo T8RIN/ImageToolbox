@@ -1,0 +1,27 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<!--
+3  ~ ImageToolbox is an image editor for android
+4  ~ Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+5  ~
+6  ~ Licensed under the Apache License, Version 2.0 (the "License");
+7  ~ you may not use this file except in compliance with the License.
+8  ~
+9  ~ Unless required by applicable law or agreed to in writing, software
+10  ~ distributed under the License is distributed on an "AS IS" BASIS,
+11  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+12  ~ See the License for the specific language governing permissions and
+13  ~ limitations under the License.
+14  ~
+15  ~ You should have received a copy of the Apache License
+16  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+17-->
+18<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+19    package="com.t8rin.dynamic.theme" >
+20
+21    <uses-sdk android:minSdkVersion="21" />
+22
+23    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+23-->/Users/bbc/Documents/github.com/ImageToolbox/libs/dynamic-theme/src/main/AndroidManifest.xml:20:5-80
+23-->/Users/bbc/Documents/github.com/ImageToolbox/libs/dynamic-theme/src/main/AndroidManifest.xml:20:22-77
+24
+25</manifest>

@@ -31,7 +31,6 @@ import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet0Bar
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.CopyAll
-import androidx.compose.material.icons.rounded.Crop
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -59,6 +58,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.icons.material.CropSmall
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
@@ -76,7 +76,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageTransformBar
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
@@ -115,7 +115,7 @@ fun RecognizeTextScreen(
     val context = LocalContext.current
 
     val confettiController = LocalConfettiController.current
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
 
     var downloadDialogData by rememberSaveable {
         mutableStateOf<List<UiDownloadData>>(emptyList())
@@ -281,7 +281,7 @@ fun RecognizeTextScreen(
                         showCropper = true
                     }
                 ) {
-                    Icon(Icons.Rounded.Crop, null)
+                    Icon(Icons.Rounded.CropSmall, null)
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))

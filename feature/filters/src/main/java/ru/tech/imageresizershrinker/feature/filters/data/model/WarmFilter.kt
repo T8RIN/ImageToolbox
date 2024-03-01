@@ -18,9 +18,9 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import coil.size.Size
 import com.awxkee.aire.ColorMatrices
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 internal class WarmFilter(
@@ -32,7 +32,7 @@ internal class WarmFilter(
 
     override suspend fun transform(
         input: Bitmap,
-        size: Size
+        size: IntegerSize
     ): Bitmap = ColorMatrix3x3Filter(ColorMatrices.WARM).transform(input, size)
 
 }

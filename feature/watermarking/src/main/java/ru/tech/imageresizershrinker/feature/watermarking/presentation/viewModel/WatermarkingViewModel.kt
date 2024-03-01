@@ -23,6 +23,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -49,6 +50,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkApplier
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
 import javax.inject.Inject
+import kotlin.random.Random
 
 
 @HiltViewModel
@@ -96,7 +98,10 @@ class WatermarkingViewModel @Inject constructor(
     val left by _left
 
 
-    private fun updateBitmap(bitmap: Bitmap, onComplete: () -> Unit = {}) {
+    private fun updateBitmap(
+        bitmap: Bitmap,
+        onComplete: () -> Unit = {}
+    ) {
         viewModelScope.launch {
             _isImageLoading.value = true
             _internalBitmap.value = imageScaler.scaleUntilCanShow(bitmap)
@@ -134,12 +139,12 @@ class WatermarkingViewModel @Inject constructor(
     private var savingJob: Job? = null
 
     fun saveBitmaps(
-        onResult: (Int, String) -> Unit
+        onResult: (List<SaveResult>, String) -> Unit
     ) = viewModelScope.launch {
         _left.value = -1
         withContext(Dispatchers.IO) {
             _isSaving.value = true
-            var failed = 0
+            val results = mutableListOf<SaveResult>()
             _done.value = 0
             _left.value = uris.size
             uris.forEach { uri ->
@@ -152,26 +157,28 @@ class WatermarkingViewModel @Inject constructor(
                         width = localBitmap.width,
                         height = localBitmap.height
                     )
-                    val result = fileController.save(
-                        saveTarget = ImageSaveTarget<ExifInterface>(
-                            imageInfo = imageInfo,
-                            originalUri = uri.toString(),
-                            sequenceNumber = _done.value + 1,
-                            data = imageCompressor.compressAndTransform(
-                                image = localBitmap,
-                                imageInfo = imageInfo
-                            )
-                        ), keepMetadata = keepExif
+
+                    results.add(
+                        fileController.save(
+                            saveTarget = ImageSaveTarget<ExifInterface>(
+                                imageInfo = imageInfo,
+                                originalUri = uri.toString(),
+                                sequenceNumber = _done.value + 1,
+                                data = imageCompressor.compressAndTransform(
+                                    image = localBitmap,
+                                    imageInfo = imageInfo
+                                )
+                            ), keepOriginalMetadata = keepExif
+                        )
                     )
-                    if (result is SaveResult.Error.MissingPermissions) {
-                        return@withContext onResult(-1, "")
-                    }
-                } ?: {
-                    failed += 1
-                }
+
+                } ?: results.add(
+                    SaveResult.Error.Exception(Throwable())
+                )
+
                 _done.value += 1
             }
-            onResult(failed, fileController.savingPath)
+            onResult(results, fileController.savingPath)
             _isSaving.value = false
         }
     }.also {
@@ -289,7 +296,10 @@ class WatermarkingViewModel @Inject constructor(
         }
     }
 
-    fun setUris(uris: List<Uri>, onError: (Throwable) -> Unit = {}) {
+    fun setUris(
+        uris: List<Uri>,
+        onError: (Throwable) -> Unit = {}
+    ) {
         _uris.update { uris }
         uris.firstOrNull()?.let { setUri(it, onError) }
     }
@@ -313,6 +323,33 @@ class WatermarkingViewModel @Inject constructor(
                 resizeType = ResizeType.Flexible
             )
 
+        }
+    }
+
+    fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            getWatermarkedBitmap(
+                data = selectedUri,
+                originalSize = true
+            )?.let {
+                it to ImageInfo(
+                    width = it.width,
+                    height = it.height,
+                    imageFormat = imageFormat
+                )
+            }?.let { (image, imageInfo) ->
+                shareProvider.cacheImage(
+                    image = image,
+                    imageInfo = imageInfo.copy(originalUri = selectedUri.toString()),
+                    name = Random.nextInt().toString()
+                )?.let { uri ->
+                    onComplete(uri.toUri())
+                }
+            }
+            _isSaving.value = false
         }
     }
 

@@ -1,0 +1,2 @@
+com.smarttoolfactory.colorpicker
+drawable ic_baseline_content_copy_24

@@ -1,0 +1,1 @@
+int drawable landscape2 0x0

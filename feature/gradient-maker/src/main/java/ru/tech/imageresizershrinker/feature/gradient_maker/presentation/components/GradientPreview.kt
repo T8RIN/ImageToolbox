@@ -37,7 +37,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.zIndex
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -85,11 +85,11 @@ fun GradientPreview(
                             alpha = alpha
                         )
                     }
-                    .onSizeChanged {
+                    .onGloballyPositioned {
                         onSizeChanged(
                             Size(
-                                it.width.toFloat(),
-                                it.height.toFloat()
+                                it.size.width.toFloat(),
+                                it.size.height.toFloat()
                             )
                         )
                     }

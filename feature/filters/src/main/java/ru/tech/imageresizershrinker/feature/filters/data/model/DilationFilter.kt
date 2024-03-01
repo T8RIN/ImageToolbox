@@ -18,9 +18,9 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import coil.size.Size
 import com.awxkee.aire.Aire
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 
@@ -33,7 +33,10 @@ internal class DilationFilter(
 
     override suspend fun transform(
         input: Bitmap,
-        size: Size
-    ): Bitmap = Aire.dilate(input, Aire.getStructuringKernel(value.toInt()))
+        size: IntegerSize
+    ): Bitmap = Aire.dilate(
+        bitmap = input,
+        kernel = Aire.getStructuringKernel(value.toInt())
+    )
 
 }

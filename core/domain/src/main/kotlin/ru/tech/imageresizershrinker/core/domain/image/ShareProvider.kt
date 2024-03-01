@@ -40,13 +40,21 @@ interface ShareProvider<I> {
         onProgressChange: (Int) -> Unit
     )
 
+    suspend fun cacheByteArray(
+        byteArray: ByteArray,
+        filename: String
+    ): String?
+
     suspend fun shareByteArray(
         byteArray: ByteArray,
         filename: String,
-        onComplete: () -> Unit
+        onComplete: () -> Unit = {}
     )
 
-    suspend fun shareUri(uri: String, type: String?)
+    suspend fun shareUri(
+        uri: String,
+        type: String?
+    )
 
     suspend fun shareImageUris(uris: List<String>)
 

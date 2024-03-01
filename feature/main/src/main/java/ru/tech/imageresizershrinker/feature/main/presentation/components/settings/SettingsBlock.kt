@@ -68,10 +68,12 @@ import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringLocalized
 import ru.tech.imageresizershrinker.core.ui.utils.helper.plus
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
+import java.util.Locale
 
 
 @Composable
@@ -96,11 +98,15 @@ fun SettingsBlock(
             val newList = mutableListOf<Pair<Pair<SettingsGroup, Setting>, Int>>()
             initialSettingGroups.forEach { group ->
                 group.settingsList.forEach { setting ->
-                    val keywords = mutableListOf<String>()
-                    keywords.add(context.getString(group.titleId))
-                    keywords.add(context.getString(setting.title))
-                    setting.subtitle?.let {
-                        keywords.add(context.getString(it))
+                    val keywords = mutableListOf<String>().apply {
+                        add(context.getString(group.titleId))
+                        add(context.getString(setting.title))
+                        add(context.getStringLocalized(group.titleId, Locale.ENGLISH))
+                        add(context.getStringLocalized(setting.title, Locale.ENGLISH))
+                        setting.subtitle?.let {
+                            add(context.getString(it))
+                            add(context.getStringLocalized(it, Locale.ENGLISH))
+                        }
                     }
 
                     val substringStart = keywords

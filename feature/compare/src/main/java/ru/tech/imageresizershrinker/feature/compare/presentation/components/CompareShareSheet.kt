@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.IosShare
@@ -42,13 +41,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults.bottomShape
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults.centerShape
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults.topShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
@@ -62,11 +66,14 @@ internal fun CompareShareSheet(
     onVisibleChange: (Boolean) -> Unit,
     onSaveBitmap: (ImageFormat) -> Unit,
     onShare: (ImageFormat) -> Unit,
+    onCopy: (ImageFormat, ClipboardManager) -> Unit,
     previewBitmap: Bitmap?
 ) {
+    val clipboardManager = LocalClipboardManager.current
+
     SimpleSheet(
         sheetContent = {
-            var imageFormat by remember { mutableStateOf<ImageFormat>(ImageFormat.Png) }
+            var imageFormat by remember { mutableStateOf<ImageFormat>(ImageFormat.PngLossless) }
             Box {
                 Column(
                     modifier = Modifier.verticalScroll(rememberScrollState()),
@@ -94,12 +101,12 @@ internal fun CompareShareSheet(
                         )
                     }
                     Spacer(Modifier.height(16.dp))
-                    ExtensionGroup(
+                    ImageFormatSelector(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
-                        enabled = true,
                         value = imageFormat,
+                        forceEnabled = true,
                         onValueChange = { imageFormat = it }
                     )
                     Spacer(Modifier.height(8.dp))
@@ -114,6 +121,19 @@ internal fun CompareShareSheet(
                             .padding(horizontal = 16.dp),
                         color = MaterialTheme.colorScheme.primaryContainer,
                         endIcon = Icons.Rounded.Save
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    PreferenceItem(
+                        title = stringResource(id = R.string.copy),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        shape = centerShape,
+                        onClick = {
+                            onCopy(imageFormat, clipboardManager)
+                        },
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        endIcon = Icons.Rounded.Share
                     )
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(
@@ -152,17 +172,3 @@ internal fun CompareShareSheet(
         visible = visible
     )
 }
-
-private val topShape = RoundedCornerShape(
-    topStart = 16.dp,
-    topEnd = 16.dp,
-    bottomStart = 6.dp,
-    bottomEnd = 6.dp
-)
-
-private val bottomShape = RoundedCornerShape(
-    topStart = 6.dp,
-    topEnd = 6.dp,
-    bottomStart = 16.dp,
-    bottomEnd = 16.dp
-)

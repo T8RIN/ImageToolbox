@@ -35,6 +35,7 @@ import coil.size.Size
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
@@ -82,7 +83,10 @@ internal class AndroidImageGetter @Inject constructor(
         }
     }
 
-    override suspend fun getImage(data: Any, originalSize: Boolean): Bitmap? {
+    override suspend fun getImage(
+        data: Any,
+        originalSize: Boolean
+    ): Bitmap? {
         return runCatching {
             imageLoader.execute(
                 ImageRequest
@@ -96,7 +100,10 @@ internal class AndroidImageGetter @Inject constructor(
         }.getOrNull()
     }
 
-    override suspend fun getImage(data: Any, size: IntegerSize?): Bitmap? {
+    override suspend fun getImage(
+        data: Any,
+        size: IntegerSize?
+    ): Bitmap? {
         return runCatching {
             imageLoader.execute(
                 ImageRequest
@@ -123,7 +130,7 @@ internal class AndroidImageGetter @Inject constructor(
             .Builder(context)
             .data(uri)
             .transformations(
-                transformations.map(::toCoil)
+                transformations.map { it.toCoil() }
             )
             .apply {
                 if (originalSize) size(Size.ORIGINAL)
@@ -232,18 +239,6 @@ internal class AndroidImageGetter @Inject constructor(
         Bitmap.Config.RGBA_F16
     } else {
         Bitmap.Config.ARGB_8888
-    }
-
-    private fun toCoil(transformation: Transformation<Bitmap>): coil.transform.Transformation {
-        return object : coil.transform.Transformation {
-            override val cacheKey: String
-                get() = transformation.cacheKey
-
-            override suspend fun transform(
-                input: Bitmap,
-                size: Size
-            ): Bitmap = transformation.transform(input, size)
-        }
     }
 
     private fun Uri.tryGetLocation(context: Context): Uri {

@@ -63,10 +63,9 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Colorize
-import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
+import androidx.compose.material.icons.rounded.AutoFixHigh
 import androidx.compose.material.icons.rounded.FileOpen
-import androidx.compose.material.icons.rounded.PhotoFilter
 import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.Badge
@@ -114,6 +113,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.failedToSaveImages
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
@@ -124,9 +124,10 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShowOriginalButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ExtensionGroup
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -138,7 +139,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -175,7 +176,7 @@ fun FiltersScreen(
     val settingsState = LocalSettingsState.current
 
     val context = LocalContext.current as ComponentActivity
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val themeState = LocalDynamicThemeState.current
     val allowChangeColor = settingsState.allowChangeColorByImage
 
@@ -312,13 +313,13 @@ fun FiltersScreen(
             onPrimaryButtonClick = {
                 when (filterType) {
                     is Screen.Filter.Type.Basic -> {
-                        viewModel.saveBitmaps { failed, savingPath ->
+                        viewModel.saveBitmaps { results, savingPath ->
                             context.failedToSaveImages(
                                 scope = scope,
-                                failed = failed,
-                                done = viewModel.done,
+                                results = results,
                                 toastHostState = toastHostState,
                                 savingPathString = savingPath,
+                                isOverwritten = settingsState.overwriteFiles,
                                 showConfetti = showConfetti
                             )
                         }
@@ -350,7 +351,7 @@ fun FiltersScreen(
                 ) {
                     when (filterType) {
                         is Screen.Filter.Type.Basic -> {
-                            Icon(imageVector = Icons.Rounded.PhotoFilter, contentDescription = null)
+                            Icon(imageVector = Icons.Rounded.AutoFixHigh, contentDescription = null)
                         }
 
                         is Screen.Filter.Type.Masking -> {
@@ -500,8 +501,7 @@ fun FiltersScreen(
                             onQualityChange = viewModel::setQuality
                         )
                         Spacer(Modifier.size(8.dp))
-                        ExtensionGroup(
-                            enabled = viewModel.bitmap != null,
+                        ImageFormatSelector(
                             value = viewModel.imageInfo.imageFormat,
                             onValueChange = {
                                 viewModel.setImageFormat(it)
@@ -623,8 +623,7 @@ fun FiltersScreen(
                             onQualityChange = viewModel::setQuality
                         )
                         Spacer(Modifier.size(8.dp))
-                        ExtensionGroup(
-                            enabled = viewModel.bitmap != null,
+                        ImageFormatSelector(
                             value = viewModel.imageInfo.imageFormat,
                             onValueChange = {
                                 viewModel.setImageFormat(it)
@@ -800,17 +799,18 @@ fun FiltersScreen(
                             ) {
                                 Icon(Icons.Outlined.Colorize, null)
                             }
-                            EnhancedIconButton(
-                                containerColor = Color.Transparent,
-                                contentColor = LocalContentColor.current,
-                                enableAutoShadowAndBorder = false,
-                                onClick = {
-                                    viewModel.performSharing { showConfetti() }
+                            ShareButton(
+                                enabled = viewModel.canSave,
+                                onShare = {
+                                    viewModel.performSharing(showConfetti)
                                 },
-                                enabled = viewModel.canSave
-                            ) {
-                                Icon(Icons.Outlined.Share, null)
-                            }
+                                onCopy = { manager ->
+                                    viewModel.cacheCurrentImage { uri ->
+                                        manager.setClip(uri.asClip(context))
+                                        showConfetti()
+                                    }
+                                }
+                            )
                         }
                         if (viewModel.bitmap == null) {
                             TopAppBarEmoji()
@@ -823,7 +823,7 @@ fun FiltersScreen(
                                         containerColor = MaterialTheme.colorScheme.mixedContainer,
                                         onClick = { showAddFilterSheet.value = true }
                                     ) {
-                                        Icon(Icons.Rounded.PhotoFilter, null)
+                                        Icon(Icons.Rounded.AutoFixHigh, null)
                                     }
                                 }
 
@@ -924,7 +924,7 @@ fun FiltersScreen(
                                                         is Screen.Filter.Type.Masking -> pickSingleImageLauncher.pickImage()
                                                     }
                                                 },
-                                                icon = it.icon,
+                                                startIcon = it.icon,
                                                 title = stringResource(it.title),
                                                 subtitle = stringResource(it.subtitle),
                                                 modifier = Modifier.fillMaxWidth(),

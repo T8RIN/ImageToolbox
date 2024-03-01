@@ -77,7 +77,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientation
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.feature.draw.domain.pt
@@ -119,7 +119,7 @@ fun EraseBackgroundEditOption(
         }
     }
 
-    val toastHostState = LocalToastHost.current
+    val toastHostState = LocalToastHostState.current
     val context = LocalContext.current
 
     bitmap?.let {

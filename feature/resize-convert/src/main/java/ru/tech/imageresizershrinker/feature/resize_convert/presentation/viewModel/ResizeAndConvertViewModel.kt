@@ -23,6 +23,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -53,6 +54,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class ResizeAndConvertViewModel @Inject constructor(
@@ -110,11 +112,27 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     private var job: Job? = null
 
-    fun updateUris(uris: List<Uri>?) {
+    fun updateUris(
+        uris: List<Uri>?,
+        onError: (Throwable) -> Unit
+    ) {
         _uris.value = null
         _uris.value = uris
         _selectedUri.value = uris?.firstOrNull()
         _presetSelected.value = Preset.None
+        uris?.firstOrNull()?.let { uri ->
+            viewModelScope.launch {
+                _imageInfo.update {
+                    it.copy(originalUri = uri.toString())
+                }
+                imageGetter.getImageAsync(
+                    uri = uri.toString(),
+                    originalSize = true,
+                    onGetImage = ::setImageData,
+                    onError = onError
+                )
+            }
+        }
     }
 
     fun updateUrisSilently(removedUri: Uri) {
@@ -195,7 +213,10 @@ class ResizeAndConvertViewModel @Inject constructor(
         }
     }
 
-    fun resetValues(saveMime: Boolean = false, resetPreset: Boolean = true) {
+    fun resetValues(
+        saveMime: Boolean = false,
+        resetPreset: Boolean = true
+    ) {
         _imageInfo.value = ImageInfo(
             width = _originalSize.value?.width ?: 0,
             height = _originalSize.value?.height ?: 0,
@@ -227,7 +248,7 @@ class ResizeAndConvertViewModel @Inject constructor(
                 height = size.second
             )
             checkBitmapAndUpdate(
-                resetPreset = _presetSelected.value == Preset.Telegram && imageData.imageInfo.imageFormat != ImageFormat.Png
+                resetPreset = _presetSelected.value == Preset.Telegram && imageData.imageInfo.imageFormat != ImageFormat.PngLossless
             )
             _isImageLoading.value = false
         }
@@ -298,7 +319,7 @@ class ResizeAndConvertViewModel @Inject constructor(
             _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
             debouncedImageCalculation {
                 checkBitmapAndUpdate(
-                    resetPreset = _presetSelected.value == Preset.Telegram && imageFormat != ImageFormat.Png
+                    resetPreset = _presetSelected.value == Preset.Telegram && imageFormat != ImageFormat.PngLossless
                 )
             }
         }
@@ -324,10 +345,11 @@ class ResizeAndConvertViewModel @Inject constructor(
     private var savingJob: Job? = null
 
     fun saveBitmaps(
-        onComplete: (path: String) -> Unit
+        onComplete: (List<SaveResult>, path: String) -> Unit
     ) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             _isSaving.value = true
+            val results = mutableListOf<SaveResult>()
             _done.value = 0
             uris?.forEach { uri ->
                 runCatching {
@@ -342,27 +364,29 @@ class ResizeAndConvertViewModel @Inject constructor(
                             currentInfo = it
                         )
                     }.let { imageInfo ->
-                        val result = fileController.save(
-                            saveTarget = ImageSaveTarget(
-                                imageInfo = imageInfo,
-                                metadata = if (uris!!.size == 1) exif else null,
-                                originalUri = uri.toString(),
-                                sequenceNumber = _done.value + 1,
-                                data = imageCompressor.compressAndTransform(
-                                    image = bitmap,
-                                    imageInfo = imageInfo
-                                )
-                            ),
-                            keepMetadata = if (uris!!.size == 1) true else keepExif
+                        results.add(
+                            fileController.save(
+                                saveTarget = ImageSaveTarget(
+                                    imageInfo = imageInfo,
+                                    metadata = if (uris!!.size == 1) exif else null,
+                                    originalUri = uri.toString(),
+                                    sequenceNumber = _done.value + 1,
+                                    data = imageCompressor.compressAndTransform(
+                                        image = bitmap,
+                                        imageInfo = imageInfo
+                                    )
+                                ),
+                                keepOriginalMetadata = if (uris!!.size == 1) true else keepExif
+                            )
                         )
-                        if (result is SaveResult.Error.MissingPermissions) {
-                            return@withContext onComplete("")
-                        }
                     }
-                }
+                } ?: results.add(
+                    SaveResult.Error.Exception(Throwable())
+                )
+
                 _done.value += 1
             }
-            onComplete(fileController.savingPath)
+            onComplete(results, fileController.savingPath)
             _isSaving.value = false
         }
     }.also {
@@ -447,20 +471,6 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } ?: false
 
-    fun decodeBitmapFromUri(uri: Uri, onError: (Throwable) -> Unit) {
-        viewModelScope.launch {
-            _imageInfo.update {
-                it.copy(originalUri = uri.toString())
-            }
-            imageGetter.getImageAsync(
-                uri = uri.toString(),
-                originalSize = true,
-                onGetImage = ::setImageData,
-                onError = onError
-            )
-        }
-    }
-
     fun clearExif() {
         val t = _exif.value
         Metadata.metaTags.forEach {
@@ -479,7 +489,10 @@ class ResizeAndConvertViewModel @Inject constructor(
         updateExif(exifInterface)
     }
 
-    fun updateExifByTag(tag: String, value: String) {
+    fun updateExifByTag(
+        tag: String,
+        value: String
+    ) {
         val exifInterface = _exif.value
         exifInterface?.setAttribute(tag, value)
         updateExif(exifInterface)
@@ -499,6 +512,34 @@ class ResizeAndConvertViewModel @Inject constructor(
         }
         debouncedImageCalculation {
             checkBitmapAndUpdate()
+        }
+    }
+
+    fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch {
+            _isSaving.value = true
+            imageGetter.getImage(selectedUri.toString())?.image?.let { bmp ->
+                bmp to imageInfo.copy(
+                    originalUri = selectedUri.toString()
+                ).let {
+                    imageTransformer.applyPresetBy(
+                        image = bitmap,
+                        preset = _presetSelected.value,
+                        currentInfo = it
+                    )
+                }
+            }?.let { (image, imageInfo) ->
+                shareProvider.cacheImage(
+                    image = image,
+                    imageInfo = imageInfo.copy(originalUri = selectedUri.toString()),
+                    name = Random.nextInt().toString()
+                )?.let { uri ->
+                    onComplete(uri.toUri())
+                }
+            }
+            _isSaving.value = false
         }
     }
 

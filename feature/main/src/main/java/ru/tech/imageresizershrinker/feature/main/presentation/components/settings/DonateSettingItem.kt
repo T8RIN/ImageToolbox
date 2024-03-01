@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Payments
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -34,7 +33,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.settings.presentation.isFirstLaunch
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.pulsate
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.feature.main.presentation.components.DonateSheet
 
 @Composable
@@ -43,7 +42,7 @@ fun DonateSettingItem(
 ) {
     val settingsState = LocalSettingsState.current
     val showDonateSheet = rememberSaveable { mutableStateOf(false) }
-    PreferenceRow(
+    PreferenceItem(
         modifier = Modifier
             .pulsate(
                 range = 0.98f..1.02f,
@@ -51,14 +50,11 @@ fun DonateSettingItem(
             )
             .padding(horizontal = 8.dp),
         shape = shape,
-        applyHorPadding = false,
         color = MaterialTheme.colorScheme.tertiaryContainer,
         contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
         title = stringResource(R.string.donation),
         subtitle = stringResource(R.string.donation_sub),
-        endContent = {
-            Icon(Icons.Rounded.Payments, null)
-        },
+        startIcon = Icons.Rounded.Payments,
         onClick = {
             showDonateSheet.value = true
         }
