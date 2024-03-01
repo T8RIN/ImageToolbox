@@ -196,7 +196,9 @@ internal fun SettingItem(
             val navController = LocalNavController.current
             LaunchedEffect(clicks) {
                 if (clicks >= 3) {
-                    navController.navigate(Screen.EasterEgg)
+                    if (navController.backstack.entries.lastOrNull()?.destination != Screen.EasterEgg) {
+                        navController.navigate(Screen.EasterEgg)
+                    }
                     clicks = 0
                 }
 
