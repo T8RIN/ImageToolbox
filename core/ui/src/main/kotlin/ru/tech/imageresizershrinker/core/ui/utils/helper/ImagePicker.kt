@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.helper
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -26,6 +27,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -40,6 +43,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
+import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import java.io.File
 import kotlin.random.Random
@@ -241,10 +245,18 @@ fun rememberImagePicker(
             imageExtension = imageExtension,
             onFailure = {
                 scope.launch {
-                    toastHostState.showError(
-                        context = context,
-                        error = it
-                    )
+                    if (it is ActivityNotFoundException) {
+                        toastHostState.showToast(
+                            message = context.getString(R.string.activate_files),
+                            icon = Icons.Outlined.FolderOff,
+                            duration = ToastDuration.Long
+                        )
+                    } else {
+                        toastHostState.showError(
+                            context = context,
+                            error = it
+                        )
+                    }
                 }
             }
         )
