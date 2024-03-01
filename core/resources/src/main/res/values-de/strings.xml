@@ -793,4 +793,14 @@
     <string name="star_blur">Sternenunschärfe</string>
     <string name="linear_tilt_shift">Lineare Neigungsverschiebung</string>
     <string name="tags_to_remove">Zu entfernende Tags</string>
+    <string name="apng_type_to_apng">Bilder zu APNG</string>
+    <string name="apng_tools">APNG-Tools</string>
+    <string name="apng_tools_sub">Konvertieren Sie Bilder in APNG-Bilder oder extrahieren Sie Frames aus einem bestimmten APNG-Bild</string>
+    <string name="apng_type_to_image">APNG zu Bildern</string>
+    <string name="select_apng_image_to_start">Wählen Sie zum Starten das APNG-Bild aus</string>
+    <string name="motion_blur">Bewegungsunschärfe</string>
+    <string name="apng_type_to_image_sub">Konvertieren Sie die APNG-Datei in einen Bilderstapel</string>
+    <string name="apng_type_to_apng_sub">Konvertieren Sie einen Stapel Bilder in eine APNG-Datei</string>
+    <string name="zip">Reißverschluss</string>
+    <string name="zip_sub">Erstellen Sie eine Zip-Datei aus bestimmten Dateien oder Bildern</string>
 </resources>
