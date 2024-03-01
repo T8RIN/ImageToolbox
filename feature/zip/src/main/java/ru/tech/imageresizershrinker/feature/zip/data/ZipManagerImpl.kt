@@ -40,25 +40,24 @@ internal class ZipManagerImpl @Inject constructor(
         files: List<String>,
         onProgress: () -> Unit
     ): ByteArray = withContext(Dispatchers.IO) {
-        val output = ByteArrayOutputStream()
-        output.use { out ->
-            ZipOutputStream(BufferedOutputStream(out)).use { output ->
-                files.forEach { file ->
-                    withContext(Dispatchers.IO) {
-                        context.contentResolver.openInputStream(file.toUri()).use { input ->
-                            BufferedInputStream(input).use { origin ->
-                                val entry = ZipEntry(file.toUri().getFilename())
-                                output.putNextEntry(entry)
-                                origin.copyTo(output, 1024)
+        ByteArrayOutputStream().apply {
+            use { out ->
+                ZipOutputStream(BufferedOutputStream(out)).use { output ->
+                    files.forEach { file ->
+                        withContext(Dispatchers.IO) {
+                            context.contentResolver.openInputStream(file.toUri()).use { input ->
+                                BufferedInputStream(input).use { origin ->
+                                    val entry = ZipEntry(file.toUri().getFilename())
+                                    output.putNextEntry(entry)
+                                    origin.copyTo(output, 1024)
+                                }
                             }
                         }
+                        onProgress()
                     }
-                    onProgress()
                 }
             }
-        }
-
-        output.toByteArray()
+        }.toByteArray()
     }
 
     private fun Uri.getFilename(): String = DocumentFile.fromSingleUri(context, this)?.name ?: ""

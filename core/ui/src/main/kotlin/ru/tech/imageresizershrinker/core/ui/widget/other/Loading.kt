@@ -111,7 +111,13 @@ fun BoxScope.Loading(
                 textAlign = TextAlign.Center
             )
         }
-    } else Loading(modifier = Modifier.align(Alignment.Center))
+    } else {
+        Loading(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .size(108.dp)
+        )
+    }
 }
 
 @Composable

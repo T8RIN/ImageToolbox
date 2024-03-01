@@ -98,6 +98,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showRevie
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -559,7 +560,14 @@ fun ZipScreen(
                     }
                 },
                 actions = {
-                    if (isPortrait) it()
+                    EnhancedChip(
+                        selected = true,
+                        onClick = null,
+                        selectedColor = MaterialTheme.colorScheme.secondaryContainer,
+                        modifier = Modifier.padding(8.dp)
+                    ) {
+                        Text(viewModel.uris.size.toString())
+                    }
                 }
             )
         },
