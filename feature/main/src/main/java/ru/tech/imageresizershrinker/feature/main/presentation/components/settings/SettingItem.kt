@@ -27,18 +27,26 @@ import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
@@ -182,9 +190,22 @@ internal fun SettingItem(
         }
 
         Setting.CurrentVersionCode -> {
-            CurrentVersionCodeSettingItem(
-                updateAvailable = viewModel.updateAvailable,
-                onTryGetUpdate = {
+            var clicks by rememberSaveable {
+                mutableIntStateOf(0)
+            }
+            val navController = LocalNavController.current
+            LaunchedEffect(clicks) {
+                if (clicks >= 3) {
+                    navController.navigate(Screen.EasterEgg)
+                    clicks = 0
+                }
+
+                delay(500L) //debounce
+
+                if (clicks == 0) return@LaunchedEffect
+
+                toastHostState.currentToastData?.dismiss()
+                if (clicks == 1) {
                     viewModel.tryGetUpdate(
                         newRequest = true,
                         installedFromMarket = context.isInstalledFromPlayStore(),
@@ -197,6 +218,13 @@ internal fun SettingItem(
                             }
                         }
                     )
+                }
+            }
+
+            CurrentVersionCodeSettingItem(
+                updateAvailable = viewModel.updateAvailable,
+                onClick = {
+                    clicks++
                 }
             )
         }

@@ -125,7 +125,7 @@ fun EnhancedIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    containerColor: Color = MaterialTheme.colorScheme.primary,
+    containerColor: Color = Color.Transparent,
     contentColor: Color = contentColor(containerColor),
     borderColor: Color = MaterialTheme.colorScheme.outlineVariant(onTopOf = containerColor),
     shape: Shape = IconButtonDefaults.outlinedShape,

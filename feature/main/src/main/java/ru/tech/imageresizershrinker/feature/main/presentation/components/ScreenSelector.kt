@@ -118,6 +118,10 @@ fun ScreenSelector(
         }
     ) { screen ->
         when (screen) {
+            is Screen.EasterEgg -> {
+                EasterEggScreen(onGoBack = onGoBack)
+            }
+
             is Screen.Main -> {
                 MainScreen(
                     viewModel = viewModel

@@ -49,7 +49,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
 @Composable
 fun CurrentVersionCodeSettingItem(
     updateAvailable: Boolean,
-    onTryGetUpdate: () -> Unit,
+    onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
@@ -99,6 +99,6 @@ fun CurrentVersionCodeSettingItem(
                     .scale(1.25f)
             )
         },
-        onClick = onTryGetUpdate
+        onClick = onClick
     )
 }
