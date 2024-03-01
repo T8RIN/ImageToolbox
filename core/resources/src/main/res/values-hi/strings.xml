@@ -801,4 +801,6 @@
     <string name="apng_type_to_image">APNG से छवियाँ</string>
     <string name="apng_tools">APNG टूल्स</string>
     <string name="motion_blur">मोशन ब्लर</string>
+    <string name="zip">Zip</string>
+    <string name="zip_sub">दी गई फ़ाइलों या छवियों से Zip फ़ाइल बनाएं</string>
 </resources>
