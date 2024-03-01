@@ -793,4 +793,14 @@
     <string name="star_blur">நட்சத்திர மங்கலானது</string>
     <string name="linear_tilt_shift">நேரியல் சாய்வு மாற்றம்</string>
     <string name="tags_to_remove">நீக்க குறிச்சொற்கள்</string>
+    <string name="apng_tools">APNG கருவிகள்</string>
+    <string name="apng_tools_sub">படங்களை APNG படமாக மாற்றவும் அல்லது கொடுக்கப்பட்ட APNG படத்திலிருந்து பிரேம்களைப் பிரித்தெடுக்கவும்</string>
+    <string name="apng_type_to_image">படங்களுக்கு APNG</string>
+    <string name="apng_type_to_apng">APNGக்கு படங்கள்</string>
+    <string name="apng_type_to_apng_sub">படங்களின் தொகுப்பை APNG கோப்பாக மாற்றவும்</string>
+    <string name="apng_type_to_image_sub">APNG கோப்பை படங்களின் தொகுப்பாக மாற்றவும்</string>
+    <string name="select_apng_image_to_start">தொடங்குவதற்கு APNG படத்தைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="motion_blur">மோஷன் மங்கல்</string>
+    <string name="zip">ஜிப்</string>
+    <string name="zip_sub">கொடுக்கப்பட்ட கோப்புகள் அல்லது படங்களிலிருந்து ஜிப் கோப்பை உருவாக்கவும்</string>
 </resources>
