@@ -101,16 +101,17 @@ internal class AndroidImageCompressor @Inject constructor(
                         .build()
                 ).drawable?.run { intrinsicWidth sizeTo intrinsicHeight }
             }
-            currentImage = imageScaler.scaleImage(
-                image = imageTransformer.rotate(
-                    image = image.apply { setHasAlpha(true) },
-                    degrees = imageInfo.rotationDegrees
-                ),
-                width = imageInfo.width,
-                height = imageInfo.height,
-                resizeType = imageInfo.resizeType.withOriginalSizeIfCrop(size),
-                imageScaleMode = imageInfo.imageScaleMode
-            )
+            currentImage = imageScaler
+                .scaleImage(
+                    image = imageTransformer.rotate(
+                        image = image.apply { setHasAlpha(true) },
+                        degrees = imageInfo.rotationDegrees
+                    ),
+                    width = imageInfo.width,
+                    height = imageInfo.height,
+                    resizeType = imageInfo.resizeType.withOriginalSizeIfCrop(size),
+                    imageScaleMode = imageInfo.imageScaleMode
+                )
                 .let {
                     imageTransformer.flip(
                         image = it,
