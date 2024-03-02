@@ -803,4 +803,5 @@
     <string name="apng_type_to_image_sub">Converti file APNG in batch di immagini</string>
     <string name="zip">Cerniera lampo</string>
     <string name="zip_sub">Crea file zip da determinati file o immagini</string>
+    <string name="drag_handle_width">Trascina la larghezza della maniglia</string>
 </resources>
