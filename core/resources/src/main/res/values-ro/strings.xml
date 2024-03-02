@@ -748,8 +748,7 @@
     <string name="standard">Standard</string>
     <string name="best">Cel mai bun</string>
     <string name="no_data">Nu există date</string>
-    <string name="download_description">Pentru funcționarea corectă a Tesseract OCR, datele de antrenament suplimentare (%1$s) trebuie descărcate pe dispozitivul dvs.
-\nDoriți să descărcați %2$s date?</string>
+    <string name="download_description">Pentru funcționarea corectă a Tesseract OCR, datele de antrenament suplimentare (%1$s) trebuie descărcate pe dispozitivul dvs. \nDoriți să descărcați %2$s date?</string>
     <string name="download">Descarca</string>
     <string name="no_connection">Fără conexiune, verificați-o și încercați din nou pentru a descărca modele de tren</string>
     <string name="downloaded_languages">Limbi descărcate</string>
