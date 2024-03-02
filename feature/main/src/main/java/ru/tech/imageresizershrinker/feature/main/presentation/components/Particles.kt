@@ -142,23 +142,31 @@ class Particles(primary: Color) {
                 maxSpeed = 30f,
                 damping = 0.9f,
                 spread = 360,
+                timeToLive = 3000,
                 colors = defaultColors.map { it.blend(primary, 0.5f) },
-                emitter = Emitter(duration = 200, TimeUnit.MILLISECONDS).max(100),
-                position = Position.Relative(Random.nextDouble(), Random.nextDouble())
+                emitter = Emitter(duration = 200, TimeUnit.MILLISECONDS).max(100)
             )
+            val (x1, y1) = Random.nextDouble(0.0, 0.3) to Random.nextDouble(0.0, 0.5)
+            val (x2, y2) = Random.nextDouble(0.0, 0.3) to Random.nextDouble(0.5, 1.0)
+            val (x3, y3) = Random.nextDouble(0.3, 0.7) to Random.nextDouble(0.0, 1.0)
+            val (x4, y4) = Random.nextDouble(0.7, 1.0) to Random.nextDouble(0.0, 0.5)
+            val (x5, y5) = Random.nextDouble(0.7, 1.0) to Random.nextDouble(0.5, 1.0)
+
             return listOf(
-                party,
                 party.copy(
-                    position = Position.Relative(Random.nextDouble(), Random.nextDouble())
+                    position = Position.Relative(x1, y1)
                 ),
                 party.copy(
-                    position = Position.Relative(Random.nextDouble(), Random.nextDouble())
+                    position = Position.Relative(x2, y2)
                 ),
                 party.copy(
-                    position = Position.Relative(Random.nextDouble(), Random.nextDouble())
+                    position = Position.Relative(x3, y3)
                 ),
                 party.copy(
-                    position = Position.Relative(Random.nextDouble(), Random.nextDouble())
+                    position = Position.Relative(x4, y4)
+                ),
+                party.copy(
+                    position = Position.Relative(x5, y5)
                 )
             )
         }
