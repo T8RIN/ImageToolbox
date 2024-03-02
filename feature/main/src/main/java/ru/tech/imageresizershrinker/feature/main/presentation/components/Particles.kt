@@ -36,9 +36,10 @@ private val Color4 = Color(0xffb48def)
 private val Color5 = Color(0xFF95FF82)
 private val Color6 = Color(0xFF82ECFF)
 private val Color7 = Color(0xFFFF9800)
+private val Color8 = Color(0xFF0E008A)
 
 private val defaultColors = listOf(
-    Color1, Color2, Color3, Color4, Color5, Color6, Color7
+    Color1, Color2, Color3, Color4, Color5, Color6, Color7, Color8
 ).map { it.toArgb() }
 
 @Stable
