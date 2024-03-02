@@ -800,4 +800,8 @@
     <string name="apng_type_to_image_sub">將 APNG 檔案轉換為一系列圖片</string>
     <string name="select_apng_image_to_start">選擇 APNG 圖片以開始</string>
     <string name="apng_tools_sub">將圖片轉換為 APNG 圖片或從給定的 APNG 圖片中提取幀</string>
+    <string name="motion_blur">運動模糊</string>
+    <string name="zip_sub">從給定的文件或圖像創建 Zip 文件</string>
+    <string name="zip">壓縮</string>
+    <string name="drag_handle_width">拖曳手柄寬度</string>
 </resources>

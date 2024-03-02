@@ -793,4 +793,15 @@
     <string name="tags_to_remove">แท็กที่จะลบ</string>
     <string name="cross_blur">ข้ามเบลอ</string>
     <string name="circle_blur">วงกลมเบลอ</string>
+    <string name="apng_tools">เครื่องมือ APNG</string>
+    <string name="apng_tools_sub">แปลงรูปภาพเป็นรูปภาพ APNG หรือแยกเฟรมจากรูปภาพ APNG ที่กำหนด</string>
+    <string name="apng_type_to_image">APNG เป็นรูปภาพ</string>
+    <string name="apng_type_to_image_sub">แปลงไฟล์ APNG เป็นชุดรูปภาพ</string>
+    <string name="apng_type_to_apng_sub">แปลงชุดรูปภาพเป็นไฟล์ APNG</string>
+    <string name="apng_type_to_apng">รูปภาพไปยัง APNG</string>
+    <string name="motion_blur">โมชั่นเบลอ</string>
+    <string name="zip">ซิป</string>
+    <string name="zip_sub">สร้างไฟล์ Zip จากไฟล์หรือรูปภาพที่กำหนด</string>
+    <string name="select_apng_image_to_start">เลือกรูปภาพ APNG เพื่อเริ่มต้น</string>
+    <string name="drag_handle_width">ลากความกว้างของที่จับ</string>
 </resources>

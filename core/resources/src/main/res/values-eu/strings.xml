@@ -793,4 +793,15 @@
     <string name="star_blur">Izar Lausoa</string>
     <string name="linear_tilt_shift">Aldaketa Lineala</string>
     <string name="tags_to_remove">Etiketak Kentzeko</string>
+    <string name="apng_tools">APNG tresnak</string>
+    <string name="apng_type_to_image">Irudiei APNG</string>
+    <string name="motion_blur">Mugimendu lausotzea</string>
+    <string name="apng_tools_sub">Bihurtu irudiak APNG irudira edo atera fotogramak emandako APNG iruditik</string>
+    <string name="apng_type_to_image_sub">Bihurtu APNG fitxategia argazki sorta batean</string>
+    <string name="apng_type_to_apng_sub">Bihurtu irudi sorta APNG fitxategira</string>
+    <string name="apng_type_to_apng">Irudiak APNGra</string>
+    <string name="select_apng_image_to_start">Hautatu APNG irudia hasteko</string>
+    <string name="zip">Zip</string>
+    <string name="zip_sub">Sortu Zip fitxategia emandako fitxategi edo irudietatik</string>
+    <string name="drag_handle_width">Arrastatu heldulekuaren zabalera</string>
 </resources>

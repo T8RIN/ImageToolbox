@@ -793,4 +793,15 @@
     <string name="ring_blur">Rozostření Prstenu</string>
     <string name="cross_blur">Křížové Rozostření</string>
     <string name="tags_to_remove">削除するタグ</string>
+    <string name="apng_tools">Nástroje APNG</string>
+    <string name="apng_tools_sub">Převeďte obrázky na obrázek APNG nebo extrahujte snímky z daného obrázku APNG</string>
+    <string name="apng_type_to_image">APNG k obrázkům</string>
+    <string name="apng_type_to_image_sub">Převeďte soubor APNG na dávku obrázků</string>
+    <string name="apng_type_to_apng_sub">Převeďte dávku obrázků do souboru APNG</string>
+    <string name="apng_type_to_apng">Obrázky do APNG</string>
+    <string name="select_apng_image_to_start">Začněte výběrem obrázku APNG</string>
+    <string name="motion_blur">Rozostření pohybu</string>
+    <string name="zip">Zip</string>
+    <string name="zip_sub">Vytvořte soubor Zip z daných souborů nebo obrázků</string>
+    <string name="drag_handle_width">Šířka táhla</string>
 </resources>

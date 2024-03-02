@@ -31,7 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
+import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRow
@@ -56,7 +56,7 @@ fun AuthorSettingItem(
                     .padding(end = 8.dp)
                     .size(64.dp)
                     .container(
-                        shape = CloverShape,
+                        shape = MaterialStarShape,
                         resultPadding = 0.dp
                     ),
                 contentDescription = null

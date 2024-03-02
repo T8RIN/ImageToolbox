@@ -793,4 +793,15 @@
     <string name="star_blur">Sao Mờ</string>
     <string name="linear_tilt_shift">Dịch Chuyển Nghiêng Tuyến Tính</string>
     <string name="tags_to_remove">Thẻ Để Loại Bỏ</string>
+    <string name="apng_tools">Công cụ APNG</string>
+    <string name="apng_tools_sub">Chuyển đổi hình ảnh thành ảnh APNG hoặc trích xuất khung hình từ hình ảnh APNG đã cho</string>
+    <string name="apng_type_to_image">APNG vào hình ảnh</string>
+    <string name="apng_type_to_image_sub">Chuyển đổi tập tin APNG thành hàng loạt hình ảnh</string>
+    <string name="apng_type_to_apng_sub">Chuyển đổi hàng loạt hình ảnh sang tệp APNG</string>
+    <string name="apng_type_to_apng">Hình ảnh tới APNG</string>
+    <string name="select_apng_image_to_start">Chọn hình ảnh APNG để bắt đầu</string>
+    <string name="motion_blur">Chuyển động mờ</string>
+    <string name="zip">Mã zip</string>
+    <string name="zip_sub">Tạo tệp Zip từ các tệp hoặc hình ảnh nhất định</string>
+    <string name="drag_handle_width">Chiều rộng tay cầm kéo</string>
 </resources>

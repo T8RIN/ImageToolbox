@@ -3,17 +3,17 @@ androidMinSdk = "21"
 androidTargetSdk = "34"
 androidCompileSdk = "34"
 
-versionName = "2.7.0"
-versionCode = "124"
+versionName = "2.8.0-alpha01"
+versionCode = "125"
 
 jvmTarget = "17"
 compose-compiler = "1.5.10"
 
 avifCoderCoil = "1.6.4"
 avifCoder = "1.6.4"
-aire = "0.9.83"
-jxlCoderCoil = "1.11.0"
-jxlCoder = "1.11.0"
+aire = "0.9.84"
+jxlCoderCoil = "1.11.1"
+jxlCoder = "1.11.1"
 
 tesseract = "4.3.0"
 composeVersion = "1.7.0-alpha03"

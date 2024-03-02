@@ -793,4 +793,15 @@
     <string name="star_blur">Bintang Kabur</string>
     <string name="linear_tilt_shift">Pergeseran Kemiringan Linier</string>
     <string name="tags_to_remove">Tag untuk dihapus</string>
+    <string name="apng_tools">Alat APNG</string>
+    <string name="apng_tools_sub">Konversikan gambar ke gambar APNG atau ekstrak bingkai dari gambar APNG yang diberikan</string>
+    <string name="select_apng_image_to_start">Pilih gambar APNG untuk memulai</string>
+    <string name="apng_type_to_image">APNG ke gambar</string>
+    <string name="apng_type_to_image_sub">Konversikan file APNG menjadi kumpulan gambar</string>
+    <string name="apng_type_to_apng">Gambar ke APNG</string>
+    <string name="motion_blur">Gerakan Buram</string>
+    <string name="apng_type_to_apng_sub">Konversikan kumpulan gambar ke file APNG</string>
+    <string name="zip">Ritsleting</string>
+    <string name="zip_sub">Buat file Zip dari file atau gambar tertentu</string>
+    <string name="drag_handle_width">Seret Lebar Pegangan</string>
 </resources>

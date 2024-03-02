@@ -327,4 +327,9 @@ sealed class Setting(
         title = R.string.icon_shape,
         subtitle = R.string.icon_shape_sub
     )
+
+    data object DragHandleWidth : Setting(
+        title = R.string.drag_handle_width,
+        subtitle = null
+    )
 }

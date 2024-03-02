@@ -793,4 +793,15 @@
     <string name="star_blur">Ceață stelară</string>
     <string name="linear_tilt_shift">Înclinare liniară Tilt Shift</string>
     <string name="tags_to_remove">Etichete Pentru a elimina</string>
+    <string name="apng_tools">Instrumente APNG</string>
+    <string name="apng_tools_sub">Convertiți imaginile în imagine APNG sau extrageți cadre din imaginea APNG dată</string>
+    <string name="apng_type_to_image">APNG la imagini</string>
+    <string name="apng_type_to_image_sub">Convertiți fișierul APNG într-un lot de imagini</string>
+    <string name="apng_type_to_apng">Imagini la APNG</string>
+    <string name="select_apng_image_to_start">Alegeți imaginea APNG pentru a începe</string>
+    <string name="motion_blur">Neclaritate de miscare</string>
+    <string name="apng_type_to_apng_sub">Convertiți un lot de imagini în fișier APNG</string>
+    <string name="zip">Zip</string>
+    <string name="zip_sub">Creați fișier Zip din fișiere sau imagini date</string>
+    <string name="drag_handle_width">Trageți Lățimea mânerului</string>
 </resources>

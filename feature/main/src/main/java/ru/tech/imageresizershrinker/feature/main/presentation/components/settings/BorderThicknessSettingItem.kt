@@ -34,8 +34,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaul
 
 @Composable
 fun BorderThicknessSettingItem(
-    updateBorderWidth: (Float) -> Unit,
-    shape: Shape = ContainerShapeDefaults.centerShape,
+    onValueChange: (Float) -> Unit,
+    shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier
         .padding(horizontal = 8.dp)
 ) {
@@ -55,7 +55,7 @@ fun BorderThicknessSettingItem(
             (it * 10).round() / 10f
         },
         onValueChangeFinished = {
-            updateBorderWidth((it * 10).round() / 10f)
+            onValueChange((it * 10).round() / 10f)
         },
         valueRange = 0f..1.5f,
         steps = 14

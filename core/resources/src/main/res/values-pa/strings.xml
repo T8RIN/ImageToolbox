@@ -792,4 +792,15 @@
     <string name="star_blur">ਸਟਾਰ ਬਲਰ</string>
     <string name="linear_tilt_shift">ਲੀਨੀਅਰ ਟਿਲਟ ਸ਼ਿਫਟ</string>
     <string name="tags_to_remove">ਹਟਾਉਣ ਲਈ ਟੈਗਸ</string>
+    <string name="apng_tools">APNG ਟੂਲ</string>
+    <string name="apng_tools_sub">ਚਿੱਤਰਾਂ ਨੂੰ APNG ਤਸਵੀਰ ਵਿੱਚ ਬਦਲੋ ਜਾਂ ਦਿੱਤੇ APNG ਚਿੱਤਰ ਤੋਂ ਫਰੇਮਾਂ ਨੂੰ ਐਕਸਟਰੈਕਟ ਕਰੋ</string>
+    <string name="apng_type_to_image">ਚਿੱਤਰਾਂ ਲਈ APNG</string>
+    <string name="apng_type_to_image_sub">APNG ਫਾਈਲ ਨੂੰ ਤਸਵੀਰਾਂ ਦੇ ਬੈਚ ਵਿੱਚ ਬਦਲੋ</string>
+    <string name="apng_type_to_apng_sub">ਚਿੱਤਰਾਂ ਦੇ ਬੈਚ ਨੂੰ APNG ਫਾਈਲ ਵਿੱਚ ਬਦਲੋ</string>
+    <string name="apng_type_to_apng">APNG ਲਈ ਚਿੱਤਰ</string>
+    <string name="select_apng_image_to_start">ਸ਼ੁਰੂ ਕਰਨ ਲਈ APNG ਚਿੱਤਰ ਚੁਣੋ</string>
+    <string name="motion_blur">ਮੋਸ਼ਨ ਬਲਰ</string>
+    <string name="zip_sub">ਦਿੱਤੀਆਂ ਫਾਈਲਾਂ ਜਾਂ ਚਿੱਤਰਾਂ ਤੋਂ ਜ਼ਿਪ ਫਾਈਲ ਬਣਾਓ</string>
+    <string name="zip">ਜ਼ਿਪ</string>
+    <string name="drag_handle_width">ਹੈਂਡਲ ਦੀ ਚੌੜਾਈ ਨੂੰ ਘਸੀਟੋ</string>
 </resources>

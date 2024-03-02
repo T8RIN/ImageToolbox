@@ -793,4 +793,15 @@
     <string name="star_blur">Desenfoque de estrella</string>
     <string name="linear_tilt_shift">Cambio de inclinación lineal</string>
     <string name="tags_to_remove">Etiquetas Para Eliminar</string>
+    <string name="apng_type_to_apng">Imágenes a APNG</string>
+    <string name="motion_blur">Desenfoque de movimiento</string>
+    <string name="apng_tools">Herramientas APNG</string>
+    <string name="apng_tools_sub">Convierta imágenes a imágenes APNG o extraiga fotogramas de una imagen APNG determinada</string>
+    <string name="apng_type_to_image">APNG a imágenes</string>
+    <string name="apng_type_to_image_sub">Convierta un archivo APNG en un lote de imágenes</string>
+    <string name="apng_type_to_apng_sub">Convertir lotes de imágenes a archivos APNG</string>
+    <string name="select_apng_image_to_start">Elija la imagen APNG para comenzar</string>
+    <string name="zip">Cremallera</string>
+    <string name="zip_sub">Cree un archivo Zip a partir de archivos o imágenes determinados</string>
+    <string name="drag_handle_width">Ancho del mango de arrastre</string>
 </resources>

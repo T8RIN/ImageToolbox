@@ -793,4 +793,15 @@
     <string name="star_blur">星のぼかし</string>
     <string name="linear_tilt_shift">リニアチルトシフト</string>
     <string name="tags_to_remove">削除するタグ</string>
+    <string name="apng_tools">APNG ツール</string>
+    <string name="apng_tools_sub">画像を APNG 画像に変換するか、指定された APNG 画像からフレームを抽出します</string>
+    <string name="apng_type_to_image">APNGから画像へ</string>
+    <string name="motion_blur">モーションブラー</string>
+    <string name="apng_type_to_image_sub">APNGファイルを写真のバッチに変換します</string>
+    <string name="apng_type_to_apng_sub">画像のバッチを APNG ファイルに変換します</string>
+    <string name="apng_type_to_apng">画像をAPNGに変換</string>
+    <string name="select_apng_image_to_start">開始するにはAPNG画像を選択してください</string>
+    <string name="zip">ジップ</string>
+    <string name="zip_sub">指定されたファイルまたは画像から Zip ファイルを作成する</string>
+    <string name="drag_handle_width">ドラッグハンドル幅</string>
 </resources>

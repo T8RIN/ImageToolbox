@@ -793,4 +793,15 @@
     <string name="star_blur">Rozmazanie hviezd</string>
     <string name="linear_tilt_shift">Lineárny posun sklonu</string>
     <string name="tags_to_remove">Značky na odstránenie</string>
+    <string name="apng_tools">Nástroje APNG</string>
+    <string name="apng_tools_sub">Preveďte obrázky na obrázok APNG alebo extrahujte snímky z daného obrázka APNG</string>
+    <string name="apng_type_to_image_sub">Previesť súbor APNG na dávku obrázkov</string>
+    <string name="apng_type_to_apng_sub">Preveďte dávku obrázkov do súboru APNG</string>
+    <string name="apng_type_to_apng">Obrázky do APNG</string>
+    <string name="motion_blur">Pohybový efekt</string>
+    <string name="apng_type_to_image">APNG k obrázkom</string>
+    <string name="select_apng_image_to_start">Začnite výberom obrázka APNG</string>
+    <string name="zip">PSČ</string>
+    <string name="zip_sub">Vytvorte súbor zip z daných súborov alebo obrázkov</string>
+    <string name="drag_handle_width">Šírka rukoväte ťahania</string>
 </resources>

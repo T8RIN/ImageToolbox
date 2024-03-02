@@ -793,4 +793,15 @@
     <string name="color_anomaly">Kleurafwijking</string>
     <string name="images_overwritten">Afbeeldingen die op de oorspronkelijke bestemming zijn overschreven</string>
     <string name="tags_to_remove">Tags Om Te Verwijderen</string>
+    <string name="apng_tools">APNG-hulpmiddelen</string>
+    <string name="apng_type_to_image">APNG naar afbeeldingen</string>
+    <string name="select_apng_image_to_start">Kies APNG-afbeelding om te beginnen</string>
+    <string name="motion_blur">Bewegingsonscherpte</string>
+    <string name="apng_tools_sub">Converteer afbeeldingen naar APNG-afbeelding of extraheer frames uit een bepaalde APNG-afbeelding</string>
+    <string name="apng_type_to_image_sub">Converteer een APNG-bestand naar een batch afbeeldingen</string>
+    <string name="apng_type_to_apng_sub">Converteer een batch afbeeldingen naar een APNG-bestand</string>
+    <string name="apng_type_to_apng">Afbeeldingen naar APNG</string>
+    <string name="zip">Ritssluiting</string>
+    <string name="zip_sub">Maak een zip-bestand van bepaalde bestanden of afbeeldingen</string>
+    <string name="drag_handle_width">Sleep handvatbreedte</string>
 </resources>

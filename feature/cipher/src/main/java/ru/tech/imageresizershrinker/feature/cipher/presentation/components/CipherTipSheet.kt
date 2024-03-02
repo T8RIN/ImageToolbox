@@ -25,6 +25,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
+import androidx.compose.material.icons.rounded.Functions
 import androidx.compose.material.icons.rounded.Security
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -36,6 +38,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.icons.material.Interface
+import ru.tech.imageresizershrinker.core.ui.icons.material.Puzzle
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -64,7 +68,10 @@ fun CipherTipSheet(
                             )
                             .fillMaxWidth()
                     ) {
-                        TitleItem(text = stringResource(R.string.features))
+                        TitleItem(
+                            text = stringResource(R.string.features),
+                            icon = Icons.Rounded.Functions
+                        )
                         Text(
                             text = stringResource(R.string.features_sub),
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
@@ -79,7 +86,10 @@ fun CipherTipSheet(
                             )
                             .fillMaxWidth()
                     ) {
-                        TitleItem(text = stringResource(R.string.implementation))
+                        TitleItem(
+                            text = stringResource(R.string.implementation),
+                            icon = Icons.Filled.Interface
+                        )
                         Text(
                             text = stringResource(id = R.string.implementation_sub),
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
@@ -94,7 +104,10 @@ fun CipherTipSheet(
                             )
                             .fillMaxWidth()
                     ) {
-                        TitleItem(text = stringResource(R.string.file_size))
+                        TitleItem(
+                            text = stringResource(R.string.file_size),
+                            icon = Icons.AutoMirrored.Outlined.InsertDriveFile
+                        )
                         Text(
                             text = stringResource(id = R.string.file_size_sub),
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
@@ -109,7 +122,10 @@ fun CipherTipSheet(
                             )
                             .fillMaxWidth()
                     ) {
-                        TitleItem(text = stringResource(R.string.compatibility))
+                        TitleItem(
+                            text = stringResource(R.string.compatibility),
+                            icon = Icons.Outlined.Puzzle
+                        )
                         Text(
                             text = stringResource(id = R.string.compatibility_sub),
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),

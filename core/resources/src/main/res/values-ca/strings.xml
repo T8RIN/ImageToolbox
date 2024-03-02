@@ -793,4 +793,15 @@
     <string name="star_blur">Desenfocament D\'Estrelles</string>
     <string name="linear_tilt_shift">Canvi D\'Inclinació Lineal</string>
     <string name="tags_to_remove">Etiquetes A Eliminar</string>
+    <string name="apng_tools">Eines APNG</string>
+    <string name="apng_tools_sub">Converteix imatges a imatge APNG o extreu marcs de la imatge APNG donada</string>
+    <string name="apng_type_to_image">APNG a les imatges</string>
+    <string name="apng_type_to_image_sub">Converteix el fitxer APNG en un lot d\'imatges</string>
+    <string name="apng_type_to_apng_sub">Converteix un lot d\'imatges a fitxer APNG</string>
+    <string name="apng_type_to_apng">Imatges a APNG</string>
+    <string name="select_apng_image_to_start">Trieu la imatge APNG per començar</string>
+    <string name="motion_blur">El desenfocament de moviment</string>
+    <string name="zip">Zip</string>
+    <string name="zip_sub">Creeu un fitxer Zip a partir de fitxers o imatges donats</string>
+    <string name="drag_handle_width">Arrossegueu l\'amplada del mànec</string>
 </resources>

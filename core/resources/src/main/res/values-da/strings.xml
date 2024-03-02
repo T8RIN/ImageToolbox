@@ -793,4 +793,15 @@
     <string name="star_blur">Stjernesløring</string>
     <string name="linear_tilt_shift">Lineær Tilt Shift</string>
     <string name="tags_to_remove">Tags At Fjerne</string>
+    <string name="apng_type_to_apng_sub">Konverter batch af billeder til APNG-fil</string>
+    <string name="motion_blur">Bevægelsessløring</string>
+    <string name="apng_tools">APNG-værktøjer</string>
+    <string name="apng_tools_sub">Konverter billeder til APNG-billede eller udtræk rammer fra givet APNG-billede</string>
+    <string name="apng_type_to_image_sub">Konverter APNG-fil til batch af billeder</string>
+    <string name="apng_type_to_apng">Billeder til APNG</string>
+    <string name="select_apng_image_to_start">Vælg APNG-billede for at starte</string>
+    <string name="apng_type_to_image">APNG til billeder</string>
+    <string name="zip">Lynlås</string>
+    <string name="zip_sub">Opret zip-fil fra givne filer eller billeder</string>
+    <string name="drag_handle_width">Trækhåndtagsbredde</string>
 </resources>

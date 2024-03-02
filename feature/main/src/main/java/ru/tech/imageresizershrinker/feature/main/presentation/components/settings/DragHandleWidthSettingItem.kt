@@ -19,49 +19,51 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.DragHandle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.icons.material.Robot
-import ru.tech.imageresizershrinker.core.ui.icons.material.RobotExcited
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
+import kotlin.math.roundToInt
 
 @Composable
-fun UseRandomEmojisSettingItem(
-    onClick: (Boolean) -> Unit,
-    shape: Shape = ContainerShapeDefaults.bottomShape,
-    modifier: Modifier = Modifier.padding(horizontal = 8.dp)
+fun DragHandleWidthSettingItem(
+    onValueChange: (Int) -> Unit,
+    shape: Shape = ContainerShapeDefaults.centerShape,
+    modifier: Modifier = Modifier
+        .padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
-    val toastHost = LocalToastHostState.current
-    val scope = rememberCoroutineScope()
-    val context = LocalContext.current
-
-    PreferenceRowSwitch(
+    var value by remember {
+        mutableFloatStateOf(settingsState.dragHandleWidth.value)
+    }
+    EnhancedSliderItem(
         modifier = modifier,
         shape = shape,
-        title = stringResource(R.string.random_emojis),
-        subtitle = stringResource(R.string.random_emojis_sub),
-        checked = settingsState.useRandomEmojis,
-        enabled = settingsState.selectedEmoji != null,
-        onClick = onClick,
-        onDisabledClick = {
-            scope.launch {
-                toastHost.showToast(
-                    message = context.getString(R.string.random_emojis_error),
-                    icon = Icons.Rounded.Robot
-                )
-            }
+        color = MaterialTheme.colorScheme
+            .secondaryContainer
+            .copy(alpha = 0.2f),
+        valueSuffix = " Dp",
+        value = value,
+        title = stringResource(R.string.drag_handle_width),
+        icon = Icons.Rounded.DragHandle,
+        onValueChange = {
+            value = it.roundToInt().toFloat()
+            onValueChange(it.roundToInt())
         },
-        startIcon = Icons.Outlined.RobotExcited
+        internalStateTransformation = {
+            it.roundToInt()
+        },
+        valueRange = 0f..128f
     )
 }

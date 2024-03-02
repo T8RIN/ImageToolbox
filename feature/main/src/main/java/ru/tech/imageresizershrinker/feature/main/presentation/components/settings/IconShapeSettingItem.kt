@@ -66,7 +66,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 fun IconShapeSettingItem(
     value: Int?,
     onValueChange: (Int) -> Unit,
-    shape: Shape = ContainerShapeDefaults.topShape,
+    shape: Shape = ContainerShapeDefaults.bottomShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     var showPickerSheet by rememberSaveable { mutableStateOf(false) }

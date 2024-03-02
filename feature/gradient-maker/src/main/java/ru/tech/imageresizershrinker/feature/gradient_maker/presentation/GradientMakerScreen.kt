@@ -65,6 +65,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
@@ -164,6 +165,18 @@ fun GradientMakerScreen(
             viewModel.updateGradientAlpha(0.5f)
         }
     }
+
+    val colorScheme = MaterialTheme.colorScheme
+    LaunchedEffect(viewModel.colorStops) {
+        if (viewModel.colorStops.isEmpty()) {
+            colorScheme.apply {
+                viewModel.addColorStop(0f to primary.blend(primaryContainer, 0.5f))
+                viewModel.addColorStop(0.5f to secondary.blend(secondaryContainer, 0.5f))
+                viewModel.addColorStop(1f to tertiary.blend(tertiaryContainer, 0.5f))
+            }
+        }
+    }
+
 
     val pickImageLauncher =
         rememberImagePicker(

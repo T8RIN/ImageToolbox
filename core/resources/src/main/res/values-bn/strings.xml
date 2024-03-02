@@ -793,4 +793,15 @@
     <string name="star_blur">স্টার ব্লার</string>
     <string name="linear_tilt_shift">লিনিয়ার টিল্ট শিফট</string>
     <string name="tags_to_remove">মুছে ফেলার জন্য ট্যাগ</string>
+    <string name="motion_blur">মোশন ব্লার</string>
+    <string name="apng_tools_sub">ছবিগুলিকে APNG ছবিতে রূপান্তর করুন বা প্রদত্ত APNG ছবি থেকে ফ্রেমগুলি বের করুন৷</string>
+    <string name="apng_type_to_image">ছবি APNG</string>
+    <string name="apng_type_to_image_sub">APNG ফাইলটিকে ছবির ব্যাচে রূপান্তর করুন</string>
+    <string name="apng_type_to_apng_sub">ছবির ব্যাচকে APNG ফাইলে রূপান্তর করুন</string>
+    <string name="apng_type_to_apng">APNG-তে ছবি</string>
+    <string name="apng_tools">APNG টুলস</string>
+    <string name="select_apng_image_to_start">শুরু করতে APNG ছবি বাছুন</string>
+    <string name="zip_sub">প্রদত্ত ফাইল বা ছবি থেকে Zip ফাইল তৈরি করুন</string>
+    <string name="zip">জিপ</string>
+    <string name="drag_handle_width">হ্যান্ডেল প্রস্থ টেনে আনুন</string>
 </resources>

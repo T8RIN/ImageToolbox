@@ -793,4 +793,15 @@
     <string name="tags_to_remove">Kaldırılacak Etiketler</string>
     <string name="ring_blur">Halka Bulanıklığı</string>
     <string name="circle_blur">Daire Bulanıklığı</string>
+    <string name="apng_type_to_apng">APNG\'ye gönderilen resimler</string>
+    <string name="apng_tools">APNG Araçları</string>
+    <string name="apng_tools_sub">Görüntüleri APNG resmine dönüştürün veya verilen APNG görüntüsünden kareleri çıkarın</string>
+    <string name="apng_type_to_image">Resimlere APNG</string>
+    <string name="apng_type_to_image_sub">APNG dosyasını toplu resimlere dönüştürün</string>
+    <string name="apng_type_to_apng_sub">Toplu görüntüleri APNG dosyasına dönüştürün</string>
+    <string name="select_apng_image_to_start">Başlamak için APNG resmini seçin</string>
+    <string name="motion_blur">Hareket bulanıklığı</string>
+    <string name="zip">Zip</string>
+    <string name="zip_sub">Verilen dosyalardan veya görsellerden Zip dosyası oluşturun</string>
+    <string name="drag_handle_width">Sürükleme Tutamacı Genişliği</string>
 </resources>

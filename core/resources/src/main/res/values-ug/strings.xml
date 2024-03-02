@@ -793,4 +793,15 @@
     <string name="star_blur">چولپان تۇتۇق</string>
     <string name="linear_tilt_shift">سىزىقلىق يانتۇ بۇرۇلۇش</string>
     <string name="tags_to_remove">ئۆچۈرۈش ئۈچۈن خەتكۈچلەر</string>
+    <string name="apng_tools">APNG قوراللىرى</string>
+    <string name="apng_tools_sub">رەسىملەرنى APNG رەسىمىگە ئايلاندۇرۇڭ ياكى بېرىلگەن APNG رەسىمدىن رامكا ئېلىڭ</string>
+    <string name="apng_type_to_image">رەسىملەرگە APNG</string>
+    <string name="apng_type_to_apng">APNG غا رەسىملەر</string>
+    <string name="select_apng_image_to_start">باشلاش ئۈچۈن APNG رەسىمىنى تاللاڭ</string>
+    <string name="motion_blur">ھەرىكەت</string>
+    <string name="apng_type_to_image_sub">APNG ھۆججىتىنى بىر تۈركۈم رەسىملەرگە ئايلاندۇرۇڭ</string>
+    <string name="apng_type_to_apng_sub">بىر تۈركۈم رەسىملەرنى APNG ھۆججىتىگە ئايلاندۇرۇڭ</string>
+    <string name="zip">Zip</string>
+    <string name="zip_sub">بېرىلگەن ھۆججەت ياكى رەسىملەردىن Zip ھۆججىتى قۇرۇش</string>
+    <string name="drag_handle_width">سۆرەش كەڭلىكى</string>
 </resources>

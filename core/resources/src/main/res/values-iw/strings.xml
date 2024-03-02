@@ -793,4 +793,15 @@
     <string name="star_blur">טשטוש כוכבים</string>
     <string name="linear_tilt_shift">שינוי הטיה ליניארי</string>
     <string name="tags_to_remove">תגיות להסרה</string>
+    <string name="apng_tools_sub">המר תמונות לתמונת APNG או חלץ מסגרות מתמונת APNG נתונה</string>
+    <string name="apng_type_to_image">APNG לתמונות</string>
+    <string name="apng_type_to_image_sub">המרת קובץ APNG לקבוצת תמונות</string>
+    <string name="apng_type_to_apng">תמונות ל-APNG</string>
+    <string name="select_apng_image_to_start">בחר תמונת APNG כדי להתחיל</string>
+    <string name="motion_blur">טשטוש תנועה</string>
+    <string name="zip_sub">צור קובץ Zip מקבצים או תמונות נתונים</string>
+    <string name="apng_type_to_apng_sub">המר אצווה של תמונות לקובץ APNG</string>
+    <string name="zip">רוכסן</string>
+    <string name="apng_tools">כלי APNG</string>
+    <string name="drag_handle_width">רוחב ידית גרור</string>
 </resources>

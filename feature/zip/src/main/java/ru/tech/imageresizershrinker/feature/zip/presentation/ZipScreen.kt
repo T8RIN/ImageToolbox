@@ -399,13 +399,18 @@ fun ZipScreen(
                     }
                 }
             }
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(24.dp))
             BoxWithConstraints {
-                val width = if (isPortrait) {
-                    maxWidth / 3f - 4.dp * 2
+                val size = viewModel.uris.size + 1f
+
+                val count = if (isPortrait) {
+                    size.coerceAtLeast(2f).coerceAtMost(3f)
                 } else {
-                    maxWidth / 6f - 4.dp * 5
+                    size.coerceAtLeast(2f).coerceAtMost(8f)
                 }
+
+                val width = maxWidth / count - 2.dp * (count - 1)
+
                 ContextualFlowRow(
                     itemCount = viewModel.uris.size + 1,
                     horizontalArrangement = Arrangement.spacedBy(4.dp),

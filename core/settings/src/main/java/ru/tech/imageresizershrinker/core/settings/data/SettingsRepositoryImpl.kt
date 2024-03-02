@@ -48,6 +48,7 @@ import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.BORDER_WIDTH
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.COLOR_TUPLES
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.CONFETTI_ENABLED
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.COPY_TO_CLIPBOARD_MODE
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.DRAG_HANDLE_WIDTH
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.DRAW_APPBAR_SHADOWS
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.DRAW_BUTTON_SHADOWS
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.DRAW_CONTAINER_SHADOWS
@@ -187,7 +188,8 @@ internal class SettingsRepositoryImpl @Inject constructor(
             useRandomEmojis = prefs[USE_RANDOM_EMOJIS] ?: default.useRandomEmojis,
             iconShape = (prefs[ICON_SHAPE] ?: default.iconShape)?.takeIf { it >= 0 },
             useEmojiAsPrimaryColor = prefs[USE_EMOJI_AS_PRIMARY_COLOR]
-                ?: default.useEmojiAsPrimaryColor
+                ?: default.useEmojiAsPrimaryColor,
+            dragHandleWidth = prefs[DRAG_HANDLE_WIDTH] ?: default.dragHandleWidth
         )
     }
 
@@ -613,6 +615,12 @@ internal class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[USE_EMOJI_AS_PRIMARY_COLOR] ?: default.useEmojiAsPrimaryColor
             it[USE_EMOJI_AS_PRIMARY_COLOR] = !v
+        }
+    }
+
+    override suspend fun setDragHandleWidth(width: Int) {
+        dataStore.edit {
+            it[DRAG_HANDLE_WIDTH] = width
         }
     }
 
