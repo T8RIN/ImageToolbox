@@ -77,7 +77,8 @@ data class SettingsState(
     val useRandomEmojis: Boolean,
     val iconShape: Int?,
     val useEmojiAsPrimaryColor: Boolean,
-    val dragHandleWidth: Int
+    val dragHandleWidth: Int,
+    val confettiType: Int
 ) : Domain {
 
     companion object {
@@ -138,7 +139,8 @@ data class SettingsState(
                 useRandomEmojis = false,
                 iconShape = 0,
                 useEmojiAsPrimaryColor = false,
-                dragHandleWidth = 64
+                dragHandleWidth = 64,
+                confettiType = 0
             )
         }
     }

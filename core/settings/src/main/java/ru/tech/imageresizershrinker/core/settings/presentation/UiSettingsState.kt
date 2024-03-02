@@ -97,7 +97,8 @@ data class UiSettingsState(
     val useRandomEmojis: Boolean,
     val iconShape: IconShape?,
     val useEmojiAsPrimaryColor: Boolean,
-    val dragHandleWidth: Dp
+    val dragHandleWidth: Dp,
+    val confettiType: Int
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -242,7 +243,8 @@ fun SettingsState.toUiState(
             }
         }.value,
         useEmojiAsPrimaryColor = useEmojiAsPrimaryColor,
-        dragHandleWidth = animateDpAsState(dragHandleWidth.dp).value
+        dragHandleWidth = animateDpAsState(dragHandleWidth.dp).value,
+        confettiType = confettiType
     )
 }
 

@@ -47,6 +47,7 @@ import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.AUTO_CACHE_CL
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.BORDER_WIDTH
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.COLOR_TUPLES
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.CONFETTI_ENABLED
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.CONFETTI_TYPE
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.COPY_TO_CLIPBOARD_MODE
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.DRAG_HANDLE_WIDTH
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.DRAW_APPBAR_SHADOWS
@@ -189,7 +190,8 @@ internal class SettingsRepositoryImpl @Inject constructor(
             iconShape = (prefs[ICON_SHAPE] ?: default.iconShape)?.takeIf { it >= 0 },
             useEmojiAsPrimaryColor = prefs[USE_EMOJI_AS_PRIMARY_COLOR]
                 ?: default.useEmojiAsPrimaryColor,
-            dragHandleWidth = prefs[DRAG_HANDLE_WIDTH] ?: default.dragHandleWidth
+            dragHandleWidth = prefs[DRAG_HANDLE_WIDTH] ?: default.dragHandleWidth,
+            confettiType = prefs[CONFETTI_TYPE] ?: default.confettiType
         )
     }
 
@@ -621,6 +623,12 @@ internal class SettingsRepositoryImpl @Inject constructor(
     override suspend fun setDragHandleWidth(width: Int) {
         dataStore.edit {
             it[DRAG_HANDLE_WIDTH] = width
+        }
+    }
+
+    override suspend fun setConfettiType(type: Int) {
+        dataStore.edit {
+            it[CONFETTI_TYPE] = type
         }
     }
 

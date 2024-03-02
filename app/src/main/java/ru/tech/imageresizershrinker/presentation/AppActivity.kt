@@ -79,9 +79,9 @@ import ru.tech.imageresizershrinker.feature.main.presentation.components.AppExit
 import ru.tech.imageresizershrinker.feature.main.presentation.components.EditPresetsSheet
 import ru.tech.imageresizershrinker.feature.main.presentation.components.FirstLaunchSetupDialog
 import ru.tech.imageresizershrinker.feature.main.presentation.components.GithubReviewDialog
+import ru.tech.imageresizershrinker.feature.main.presentation.components.Particles
 import ru.tech.imageresizershrinker.feature.main.presentation.components.PermissionDialog
 import ru.tech.imageresizershrinker.feature.main.presentation.components.ScreenSelector
-import ru.tech.imageresizershrinker.feature.main.presentation.components.particles
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
 import javax.inject.Inject
 
@@ -101,20 +101,6 @@ class AppActivity : M3Activity() {
         setContentWithWindowSizeClass {
             var showExitDialog by rememberSaveable { mutableStateOf(false) }
             val editPresetsState = rememberSaveable { mutableStateOf(false) }
-
-            val isSecureMode = viewModel.settingsState.isSecureMode
-            LaunchedEffect(isSecureMode) {
-                if (isSecureMode) {
-                    window.setFlags(
-                        WindowManager.LayoutParams.FLAG_SECURE,
-                        WindowManager.LayoutParams.FLAG_SECURE
-                    )
-                } else {
-                    window.clearFlags(
-                        WindowManager.LayoutParams.FLAG_SECURE
-                    )
-                }
-            }
 
             var randomEmojiKey by remember {
                 mutableIntStateOf(0)
@@ -138,14 +124,30 @@ class AppActivity : M3Activity() {
                 }
             }
 
+            val settingsState = viewModel.settingsState.toUiState(
+                allEmojis = Emoji.allIcons(),
+                allIconShapes = IconShapesList,
+                randomEmojiKey = randomEmojiKey,
+                getEmojiColorTuple = viewModel::getColorTupleFromEmoji
+            )
+
+            val isSecureMode = settingsState.isSecureMode
+            LaunchedEffect(isSecureMode) {
+                if (isSecureMode) {
+                    window.setFlags(
+                        WindowManager.LayoutParams.FLAG_SECURE,
+                        WindowManager.LayoutParams.FLAG_SECURE
+                    )
+                } else {
+                    window.clearFlags(
+                        WindowManager.LayoutParams.FLAG_SECURE
+                    )
+                }
+            }
+
             CompositionLocalProvider(
                 LocalToastHostState provides viewModel.toastHostState,
-                LocalSettingsState provides viewModel.settingsState.toUiState(
-                    allEmojis = Emoji.allIcons(),
-                    allIconShapes = IconShapesList,
-                    randomEmojiKey = randomEmojiKey,
-                    getEmojiColorTuple = viewModel::getColorTupleFromEmoji
-                ),
+                LocalSettingsState provides settingsState,
                 LocalNavController provides viewModel.navController,
                 LocalEditPresetsState provides editPresetsState,
                 LocalConfettiController provides rememberToastHostState(),
@@ -159,9 +161,9 @@ class AppActivity : M3Activity() {
                 val showUpdateSheet = rememberSaveable(viewModel.showUpdateDialog) {
                     mutableStateOf(viewModel.showUpdateDialog)
                 }
-                LaunchedEffect(viewModel.settingsState) {
-                    GlobalExceptionHandler.setAllowCollectCrashlytics(viewModel.settingsState.allowCollectCrashlytics)
-                    GlobalExceptionHandler.setAnalyticsCollectionEnabled(viewModel.settingsState.allowCollectAnalytics)
+                LaunchedEffect(settingsState) {
+                    GlobalExceptionHandler.setAllowCollectCrashlytics(settingsState.allowCollectCrashlytics)
+                    GlobalExceptionHandler.setAnalyticsCollectionEnabled(settingsState.allowCollectAnalytics)
                 }
 
                 LaunchedEffect(showSelectSheet.value) {
@@ -239,7 +241,7 @@ class AppActivity : M3Activity() {
                     )
 
                     val confettiController = LocalConfettiController.current
-                    if (viewModel.settingsState.isConfettiEnabled) {
+                    if (settingsState.isConfettiEnabled) {
                         ToastHost(
                             hostState = confettiController,
                             transitionSpec = {
@@ -247,9 +249,18 @@ class AppActivity : M3Activity() {
                             },
                             toast = {
                                 val primary = MaterialTheme.colorScheme.primary
+                                val particlesType by remember(settingsState.confettiType) {
+                                    derivedStateOf {
+                                        Particles.Type.entries.first {
+                                            it.ordinal == settingsState.confettiType
+                                        }
+                                    }
+                                }
                                 KonfettiView(
                                     modifier = Modifier.fillMaxSize(),
-                                    parties = remember { particles(primary) }
+                                    parties = remember {
+                                        Particles(primary)[particlesType]
+                                    }
                                 )
                             }
                         )

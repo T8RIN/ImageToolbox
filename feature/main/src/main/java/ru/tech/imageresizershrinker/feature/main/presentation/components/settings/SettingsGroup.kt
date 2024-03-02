@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Cached
+import androidx.compose.material.icons.rounded.Celebration
 import androidx.compose.material.icons.rounded.Description
 import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.EmojiSymbols
@@ -78,7 +79,6 @@ sealed class SettingsGroup(
         titleId = R.string.secondary_customization,
         settingsList = listOf(
             Setting.BorderThickness,
-            Setting.Confetti,
             Setting.UsePixelSwitch,
             Setting.DragHandleWidth,
             Setting.FabAlignment
@@ -296,13 +296,24 @@ sealed class SettingsGroup(
         initialState = false
     )
 
+    data object Confetti : SettingsGroup(
+        icon = Icons.Rounded.Celebration,
+        titleId = R.string.confetti,
+        settingsList = listOf(
+            Setting.Confetti,
+            Setting.ConfettiType
+        ),
+        initialState = false
+    )
+
     companion object {
         val entries: List<SettingsGroup> by lazy {
             listOf(
                 ContactMe,
                 PrimaryCustomization,
-                Emoji,
                 SecondaryCustomization,
+                Emoji,
+                Confetti,
                 NightMode,
                 Shadows,
                 Haptics,

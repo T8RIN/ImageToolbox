@@ -526,5 +526,9 @@ internal fun SettingItem(
         Setting.DragHandleWidth -> {
             DragHandleWidthSettingItem(onValueChange = viewModel::setDragHandleWidth)
         }
+
+        Setting.ConfettiType -> {
+            ConfettiTypeSettingItem(onValueChange = viewModel::setConfettiType)
+        }
     }
 }

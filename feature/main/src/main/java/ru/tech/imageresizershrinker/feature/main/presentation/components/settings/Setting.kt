@@ -332,4 +332,9 @@ sealed class Setting(
         title = R.string.drag_handle_width,
         subtitle = null
     )
+
+    data object ConfettiType : Setting(
+        title = R.string.confetti_type,
+        subtitle = null
+    )
 }

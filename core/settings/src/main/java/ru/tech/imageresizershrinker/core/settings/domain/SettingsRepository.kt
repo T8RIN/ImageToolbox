@@ -153,4 +153,6 @@ interface SettingsRepository {
     suspend fun toggleUseEmojiAsPrimaryColor()
 
     suspend fun setDragHandleWidth(width: Int)
+
+    suspend fun setConfettiType(type: Int)
 }

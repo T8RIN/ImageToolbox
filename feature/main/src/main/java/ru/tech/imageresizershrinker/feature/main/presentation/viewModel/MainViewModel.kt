@@ -733,4 +733,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun setConfettiType(type: Int) {
+        viewModelScope.launch {
+            settingsRepository.setConfettiType(type)
+        }
+    }
+
 }

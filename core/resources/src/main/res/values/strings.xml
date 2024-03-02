@@ -822,4 +822,8 @@
     <string name="zip">Zip</string>
     <string name="zip_sub">Create Zip file from given files or images</string>
     <string name="drag_handle_width">Drag Handle Width</string>
+    <string name="confetti_type">Confetti Type</string>
+    <string name="festive">Festive</string>
+    <string name="explode">Explode</string>
+    <string name="rain">Rain</string>
 </resources>
