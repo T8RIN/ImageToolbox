@@ -713,8 +713,7 @@
     <string name="standard">תֶקֶן</string>
     <string name="best">הטוב ביותר</string>
     <string name="no_data">אין מידע</string>
-    <string name="download_description">לתפקוד תקין של Tesseract OCR יש להוריד נתוני אימון נוספים (%1$s) למכשיר שלך.
-\nהאם ברצונך להוריד נתוני %2$s?</string>
+    <string name="download_description">לתפקוד תקין של Tesseract OCR יש להוריד נתוני אימון נוספים (%1$s) למכשיר שלך. \nהאם ברצונך להוריד נתוני %2$s?</string>
     <string name="download">הורד</string>
     <string name="no_connection">אין חיבור, בדוק את זה ונסה שוב כדי להוריד דגמי רכבת</string>
     <string name="downloaded_languages">שפות שהורדו</string>
