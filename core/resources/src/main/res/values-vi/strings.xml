@@ -554,7 +554,7 @@
     <string name="recognize_text">OCR (Nhận dạng văn bản)</string>
     <string name="recognize_text_sub">Nhận dạng văn bản từ hình ảnh nhất định, hỗ trợ hơn 120 ngôn ngữ</string>
     <string name="picture_has_no_text">Ảnh không có văn bản hoặc ứng dụng không tìm thấy nó</string>
-    <string name="accuracy">"Độ chính xác: %1$d"</string>
+    <string name="accuracy">Độ chính xác: %1$d</string>
     <string name="recognition_type">Loại nhận dạng</string>
     <string name="fast">Nhanh</string>
     <string name="standard">Tiêu chuẩn</string>
