@@ -31,7 +31,7 @@
     <string name="edit_exif">Рэдагаваць EXIF</string>
     <string name="image_not_saved_sub">Усе незахаваныя змены будуць страчаны, калі вы выйдзеце зараз</string>
     <string name="save">Захаваць</string>
-    <string name="image_exif_warning">У цяперашні час фармат %1$s на Android дазваляе толькі чытаць exif, але не змяняць/захоўваць іх, гэта азначае, што выходная выява наогул не будзе мець метададзеных.</string>
+    <string name="image_exif_warning">Ў цяперашні час фармат %1$s на Android дазваляе толькі чытаць exif, але не змяняць/захоўваць іх, гэта азначае, што выходная выява наогул не будзе мець метададзеных.</string>
     <string name="clear">Ачысціць</string>
     <string name="clear_exif">Ачысціць EXIF</string>
     <string name="image_not_saved">Захаванне</string>
@@ -45,7 +45,7 @@
     <string name="color_copied">Колер скапіяваны</string>
     <string name="check_source_code">Зыходны код</string>
     <string name="single_edit_sub">Змяніць характарыстыкі аднаго дадзенага відарыса</string>
-    <string name="cancel">Адмяніць</string>
+    <string name="cancel">Адмена</string>
     <string name="crop">Выразаць</string>
     <string name="color">Колер</string>
     <string name="palette">Палітра</string>
@@ -75,7 +75,7 @@
     <string name="emoji_sub">Выберыце, які эмодзі адлюстроўваць на галоўным экране</string>
     <string name="color_balance">Каляровы баланс</string>
     <string name="background_color">Колер фону</string>
-    <string name="enable_emoji">Уключыць эмодзі</string>
+    <string name="enable_emoji">Ўключыць эмодзі</string>
     <string name="vibration_strength">Сіла вібрацыі</string>
     <string name="color_to_replace">Колер для замены</string>
     <string name="remove_color">Выдаліць колер</string>
@@ -93,7 +93,7 @@
     <string name="color_green">Зялёны</string>
     <string name="color_blue">Сіні</string>
     <string name="color_scheme">Каляровая схема</string>
-    <string name="clipboard_paste_invalid_color_code">Устаўце правільны aRGB-код.</string>
+    <string name="clipboard_paste_invalid_color_code">Ўстаўце правільны aRGB-код.</string>
     <string name="color_red">Чырвоны</string>
     <string name="emoji">Эмодзі</string>
     <string name="filename">Імя файла</string>
@@ -132,7 +132,7 @@
     <string name="disabled">Адкл.</string>
     <string name="stroke_pixelation">Пікселяцыя абводкі</string>
     <string name="diamond_pixelation">Алмазная пікселізацыя</string>
-    <string name="allow_image_monet">Уключыць Monet</string>
+    <string name="allow_image_monet">Ўключыць Monet</string>
     <string name="language">Мова</string>
     <string name="help_translate_sub">Выправіць памылкі перакладу або перакласці праект на іншыя мовы</string>
     <string name="weak_pixel_inclusion">Слабае ўключэнне пікселяў</string>
@@ -145,7 +145,7 @@
     <string name="border_thickness">Таўшчыня рамкі</string>
     <string name="pixelation">Пікселізацыя</string>
     <string name="enhanced_pixelation">Палепшаная пікселізацыя</string>
-    <string name="app_bars_shadow_sub">Уключыць адмалёўку ценяў пад панэллю дзеянняў</string>
+    <string name="app_bars_shadow_sub">Ўключыць адмалёўку ценяў пад панэллю дзеянняў</string>
     <string name="app_bars_shadow">Панэлі дзеянняў</string>
     <string name="check_updates_sub">Калі ўключана, дыялогавае акно абнаўлення будзе паказвацца пры запуску праграмы</string>
     <string name="updates">Абнаўленні</string>
@@ -212,7 +212,7 @@
     <string name="filter">Фільтраваць</string>
     <string name="filter_sub">Прымяніце любую ланцужок фільтраў да зададзеных малюнкаў</string>
     <string name="alpha">Альфа</string>
-    <string name="exposure">Уздзеянне</string>
+    <string name="exposure">Экспазіцыя</string>
     <string name="white_balance">Баланс белага</string>
     <string name="temperature">тэмпература</string>
     <string name="tint">Таніроўка</string>
@@ -731,7 +731,7 @@
     <string name="transparency">Празрыстасць</string>
     <string name="saved_to_original">Перазапісаны файл з назвай %s у першапачатковым месцы прызначэння</string>
     <string name="magnifier">Лупа</string>
-    <string name="magnifier_sub">Уключае лупу ў верхняй частцы пальца ў рэжымах малявання для лепшай даступнасці</string>
+    <string name="magnifier_sub">Ўключае лупу ў верхняй частцы пальца ў рэжымах малявання для лепшай даступнасці</string>
     <string name="force_exif_widget_inital_value">Прымусовае пачатковае значэнне</string>
     <string name="favorite">Любімая</string>
     <string name="no_favorite_filters">Яшчэ не дададзены любімыя фільтры</string>
@@ -760,15 +760,15 @@
     <string name="highlighter_sub">Намалюйце напаўпразрысты завостраны контур маркера</string>
     <string name="privacy_blur_sub">Размывае малюнак пад намаляваным шляхам, каб засцерагчы ўсё, што вы хочаце схаваць</string>
     <string name="containers_shadow">Кантэйнеры</string>
-    <string name="containers_shadow_sub">Уключае малюнак ценяў за кантэйнерамі</string>
+    <string name="containers_shadow_sub">Ўключае малюнак ценяў за кантэйнерамі</string>
     <string name="sliders_shadow">Паўзункі</string>
     <string name="switches_shadow">Выключальнікі</string>
     <string name="fabs_shadow">ФАБ</string>
     <string name="buttons_shadow">Гузікі</string>
-    <string name="sliders_shadow_sub">Уключае малюнак ценяў за паўзункамі</string>
-    <string name="switches_shadow_sub">Уключае малюнак ценяў за пераключальнікамі</string>
-    <string name="fabs_shadow_sub">Уключае малюнак ценяў за плаваючымі кнопкамі дзеянняў</string>
-    <string name="buttons_shadow_sub">Уключае малюнак ценяў за стандартнымі кнопкамі</string>
+    <string name="sliders_shadow_sub">Ўключае малюнак ценяў за паўзункамі</string>
+    <string name="switches_shadow_sub">Ўключае малюнак ценяў за пераключальнікамі</string>
+    <string name="fabs_shadow_sub">Ўключае малюнак ценяў за плаваючымі кнопкамі дзеянняў</string>
+    <string name="buttons_shadow_sub">Ўключае малюнак ценяў за стандартнымі кнопкамі</string>
     <string name="attention">Увага</string>
     <string name="fading_edges">Выцвітаючыя краю</string>
     <string name="both">Абодва</string>
