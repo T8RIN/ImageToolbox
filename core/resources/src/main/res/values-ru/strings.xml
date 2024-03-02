@@ -804,4 +804,8 @@
     <string name="zip">Zip</string>
     <string name="zip_sub">Создать Zip-файл из заданных файлов или изображений</string>
     <string name="drag_handle_width">Ширина перетаскиваемой ручки</string>
+    <string name="explode">Взрыв</string>
+    <string name="rain">Дождь</string>
+    <string name="confetti_type">Тип конфетти</string>
+    <string name="festive">Праздничный</string>
 </resources>
