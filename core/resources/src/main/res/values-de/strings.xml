@@ -803,4 +803,5 @@
     <string name="apng_type_to_apng_sub">Konvertieren Sie einen Stapel Bilder in eine APNG-Datei</string>
     <string name="zip">Reißverschluss</string>
     <string name="zip_sub">Erstellen Sie eine Zip-Datei aus bestimmten Dateien oder Bildern</string>
+    <string name="drag_handle_width">Ziehen Sie die Griffbreite</string>
 </resources>
