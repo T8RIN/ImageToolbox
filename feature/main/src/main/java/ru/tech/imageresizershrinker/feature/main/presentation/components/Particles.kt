@@ -44,15 +44,15 @@ private val defaultColors = listOf(
 @Stable
 class Particles(primary: Color) {
 
-    private val data = listOf(
-        default(primary),
-        festiveBottom(primary),
-        explode(primary),
-        rain(primary),
-        side(primary)
+    private val data = mapOf(
+        Type.Default to default(primary),
+        Type.Festive to festiveBottom(primary),
+        Type.Explode to explode(primary),
+        Type.Rain to rain(primary),
+        Type.Side to side(primary)
     )
 
-    fun forType(type: Type): List<Party> = data[type.ordinal]
+    fun forType(type: Type): List<Party> = data[type]!!
 
     companion object {
         fun default(primary: Color) = listOf(
