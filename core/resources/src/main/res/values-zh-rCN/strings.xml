@@ -797,7 +797,7 @@
     <string name="apng_tools">APNG 工具</string>
     <string name="apng_tools_sub">将图像转换为 APNG 图片，或从给定的 APNG 图像中提取帧</string>
     <string name="apng_type_to_image_sub">批量将 APNG 文件转换为图片</string>
-    <string name="apng_type_to_apng_sub">批量转换图像为 APNG 文件</string>
+    <string name="apng_type_to_apng_sub">将一系列图片转换为 APNG 文件</string>
     <string name="apng_type_to_apng">图像转换为 APNG</string>
     <string name="apng_type_to_image">APNG 转换为图像</string>
     <string name="motion_blur">动态模糊</string>
