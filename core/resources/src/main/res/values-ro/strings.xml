@@ -803,4 +803,5 @@
     <string name="apng_type_to_apng_sub">Convertiți un lot de imagini în fișier APNG</string>
     <string name="zip">Zip</string>
     <string name="zip_sub">Creați fișier Zip din fișiere sau imagini date</string>
+    <string name="drag_handle_width">Trageți Lățimea mânerului</string>
 </resources>
