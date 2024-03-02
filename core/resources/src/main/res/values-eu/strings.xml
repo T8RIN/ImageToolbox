@@ -745,8 +745,7 @@
     <string name="standard">Estandarra</string>
     <string name="best">Onena</string>
     <string name="no_data">Ez dago daturik</string>
-    <string name="download_description">Tesseract OCR prestakuntza-datu osagarriak (%1$s) behar bezala funtzionatzeko zure gailura deskargatu behar dira.
-\n%2$s datuak deskargatu nahi dituzu?</string>
+    <string name="download_description">Tesseract OCR prestakuntza-datu osagarriak (%1$s) behar bezala funtzionatzeko zure gailura deskargatu behar dira. \n%2$s datuak deskargatu nahi dituzu?</string>
     <string name="download">Deskargatu</string>
     <string name="no_connection">Ez dago konexiorik, egiaztatu eta saiatu berriro tren-ereduak deskargatzeko</string>
     <string name="downloaded_languages">Deskargatutako hizkuntzak</string>
