@@ -802,4 +802,5 @@
     <string name="motion_blur">ਮੋਸ਼ਨ ਬਲਰ</string>
     <string name="zip_sub">ਦਿੱਤੀਆਂ ਫਾਈਲਾਂ ਜਾਂ ਚਿੱਤਰਾਂ ਤੋਂ ਜ਼ਿਪ ਫਾਈਲ ਬਣਾਓ</string>
     <string name="zip">ਜ਼ਿਪ</string>
+    <string name="drag_handle_width">ਹੈਂਡਲ ਦੀ ਚੌੜਾਈ ਨੂੰ ਘਸੀਟੋ</string>
 </resources>
