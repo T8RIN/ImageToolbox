@@ -58,30 +58,6 @@
 
 <div align="center">
 
-# ✈️ Telegram Links
-
-</br>
-<a href="https://t.me/t8rin_imagetoolbox">
-    <img src="https://img.shields.io/endpoint?&style=for-the-badge&colorA=17270b&colorB=617626&logo=telegram&logoColor=b3ffdd&label=ImageToolbox ✨ Chat&url=https://mogyo.ro/quart-apis/tgmembercount?chat_id=t8rin_imagetoolbox" alt="Telegram">
-  </a>
-
-  <a href="https://t.me/t8rin_imagetoolbox_ci">
-    <img src="https://img.shields.io/endpoint?&style=for-the-badge&colorA=17270b&colorB=617626&logo=telegram&logoColor=b3ffdd&url=https://tg.sumanjay.workers.dev/t8rin_imagetoolbox_ci" alt="Telegram">
-  </a>
-
-  </br>
-  </br>
-  Join our chat where you can discuss anything you want and also look into the CI channel where I will post betas and announcements
-  </br>
-
-# ☕ Buy me a coffee
-
-This application is completely free, but if you want to support the project development, you can send a donation to the crypto wallets below
-
-
-| </br> ![Bitcoin](https://img.shields.io/badge/Bitcoin-EAB300?style=for-the-badge&logo=Bitcoin%20SV&logoColor=white) <br/> <br/> ->  ```17Pk1RurnkJxLV9V7mc6Y7dLyHFb9rvQDq```  <- <br/> <br/> | </br> ![Tether](https://img.shields.io/badge/USDT-168363?style=for-the-badge&logo=tether&logoColor=white) <br/> <br/> ->  ```TMPAu7a54NvQNEKnNWh3naXu3oYijqP3U7```  <- <br/> <br/> |
-| :----: | :----: |
-
 # 📲 Download
 
 Go to the [Releases](https://github.com/t8rin/imageresizer/releases/latest) and the download latest apk
@@ -511,10 +487,6 @@ or click one of the badges below.
 
 <div align="center">
 
-#
-
-<img src="./fastlane/metadata/android/en-US/images/banner/banner3.png" width="99%" />
-
 # 🌐 Translation
 
 You can help translate ImageResizer into your language
@@ -523,28 +495,6 @@ on [Hosted Weblate](https://hosted.weblate.org/engage/image-resizer/)
 [![Состояние перевода](https://hosted.weblate.org/widgets/image-resizer/-/horizontal-auto.svg)](https://hosted.weblate.org/engage/image-resizer/)
 </br>
 [![Translation status](https://hosted.weblate.org/widgets/image-resizer/-/image-resizer/287x66-black.png)](https://hosted.weblate.org/engage/image-resizer/)
-
-# ❤️ Find this repository useful?
-
-Support it by joining __[stargazers](https://github.com/t8rin/ImageResizer/stargazers)__ for this
-repository. :star: <br>
-And __[follow](https://github.com/t8rin)__ me for my next creations! 🤩
-
-# ⭐ Star History
-
-<a href="https://star-history.com/#T8RIN/ImageToolbox&Date">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=T8RIN/ImageToolbox&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=T8RIN/ImageToolbox&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=T8RIN/ImageToolbox&type=Date" />
-  </picture>
-</a>
-
-# 📢 Contributors
-
-<a href="https://github.com/t8rin/imageresizer/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=t8rin/Imageresizer" />
-</a>
 
 # ⚖️ License
 
