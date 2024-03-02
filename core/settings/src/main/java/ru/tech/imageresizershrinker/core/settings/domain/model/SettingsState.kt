@@ -76,7 +76,8 @@ data class SettingsState(
     val isSecureMode: Boolean,
     val useRandomEmojis: Boolean,
     val iconShape: Int?,
-    val useEmojiAsPrimaryColor: Boolean
+    val useEmojiAsPrimaryColor: Boolean,
+    val dragHandleWidth: Int
 ) : Domain {
 
     companion object {
@@ -136,7 +137,8 @@ data class SettingsState(
                 isSecureMode = false,
                 useRandomEmojis = false,
                 iconShape = 0,
-                useEmojiAsPrimaryColor = false
+                useEmojiAsPrimaryColor = false,
+                dragHandleWidth = 64
             )
         }
     }

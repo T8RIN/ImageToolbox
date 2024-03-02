@@ -96,7 +96,8 @@ data class UiSettingsState(
     val isSecureMode: Boolean,
     val useRandomEmojis: Boolean,
     val iconShape: IconShape?,
-    val useEmojiAsPrimaryColor: Boolean
+    val useEmojiAsPrimaryColor: Boolean,
+    val dragHandleWidth: Dp
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -240,7 +241,8 @@ fun SettingsState.toUiState(
                 }
             }
         }.value,
-        useEmojiAsPrimaryColor = useEmojiAsPrimaryColor
+        useEmojiAsPrimaryColor = useEmojiAsPrimaryColor,
+        dragHandleWidth = animateDpAsState(dragHandleWidth.dp).value
     )
 }
 

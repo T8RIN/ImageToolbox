@@ -19,23 +19,23 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.BorderStyle
+import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.smarttoolfactory.colordetector.util.ColorUtil.round
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import kotlin.math.roundToInt
 
 @Composable
-fun BorderThicknessSettingItem(
-    onValueChange: (Float) -> Unit,
-    shape: Shape = ContainerShapeDefaults.topShape,
+fun DragHandleWidthSettingItem(
+    onValueChange: (Int) -> Unit,
+    shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier
         .padding(horizontal = 8.dp)
 ) {
@@ -47,17 +47,16 @@ fun BorderThicknessSettingItem(
             .secondaryContainer
             .copy(alpha = 0.2f),
         valueSuffix = " Dp",
-        value = settingsState.borderWidth.value.coerceAtLeast(0f),
-        title = stringResource(R.string.border_thickness),
-        icon = Icons.Outlined.BorderStyle,
-        onValueChange = {},
+        value = settingsState.dragHandleWidth.value,
+        title = stringResource(R.string.sheet_handle_width),
+        icon = Icons.Rounded.DragHandle,
+        onValueChange = {
+            onValueChange(it.roundToInt())
+        },
         internalStateTransformation = {
-            (it * 10).round() / 10f
+            it.roundToInt()
         },
-        onValueChangeFinished = {
-            onValueChange((it * 10).round() / 10f)
-        },
-        valueRange = 0f..1.5f,
-        steps = 14
+        valueRange = 0f..128f,
+        steps = 128
     )
 }

@@ -80,6 +80,7 @@ sealed class SettingsGroup(
             Setting.BorderThickness,
             Setting.Confetti,
             Setting.UsePixelSwitch,
+            Setting.DragHandleWidth,
             Setting.FabAlignment
         ),
         initialState = false

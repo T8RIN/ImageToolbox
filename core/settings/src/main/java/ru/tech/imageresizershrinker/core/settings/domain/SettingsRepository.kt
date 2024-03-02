@@ -151,4 +151,6 @@ interface SettingsRepository {
     suspend fun setIconShape(iconShape: Int)
 
     suspend fun toggleUseEmojiAsPrimaryColor()
+
+    suspend fun setDragHandleWidth(width: Int)
 }

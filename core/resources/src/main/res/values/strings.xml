@@ -821,4 +821,5 @@
     <string name="motion_blur">Motion Blur</string>
     <string name="zip">Zip</string>
     <string name="zip_sub">Create Zip file from given files or images</string>
+    <string name="sheet_handle_width">Sheet Handle Width</string>
 </resources>

@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,7 +45,7 @@ fun SimpleDragHandle(
     showDragHandle: Boolean = true,
     content: @Composable ColumnScope.() -> Unit = {},
 ) {
-    val dragHandleWidth = 64.dp
+    val dragHandleWidth = LocalSettingsState.current.dragHandleWidth
     Column(
         modifier
             .then(

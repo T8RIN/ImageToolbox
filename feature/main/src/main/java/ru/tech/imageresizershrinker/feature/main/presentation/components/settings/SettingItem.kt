@@ -146,7 +146,7 @@ internal fun SettingItem(
         }
 
         Setting.BorderThickness -> {
-            BorderThicknessSettingItem(updateBorderWidth = viewModel::setBorderWidth)
+            BorderThicknessSettingItem(onValueChange = viewModel::setBorderWidth)
         }
 
         Setting.ChangeFont -> {
@@ -521,6 +521,10 @@ internal fun SettingItem(
                 value = viewModel.settingsState.iconShape,
                 onValueChange = viewModel::setIconShape
             )
+        }
+
+        Setting.DragHandleWidth -> {
+            DragHandleWidthSettingItem(onValueChange = viewModel::setDragHandleWidth)
         }
     }
 }

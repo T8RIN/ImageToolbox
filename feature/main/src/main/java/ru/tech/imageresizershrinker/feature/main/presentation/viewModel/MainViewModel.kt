@@ -727,4 +727,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun setDragHandleWidth(width: Int) {
+        viewModelScope.launch {
+            settingsRepository.setDragHandleWidth(width)
+        }
+    }
+
 }
