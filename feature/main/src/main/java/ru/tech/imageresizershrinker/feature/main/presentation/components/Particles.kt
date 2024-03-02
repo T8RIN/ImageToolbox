@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.main.presentation.components
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import nl.dionsegijn.konfetti.core.Angle
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
@@ -26,6 +27,18 @@ import nl.dionsegijn.konfetti.core.emitter.Emitter
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import java.util.concurrent.TimeUnit
 
+private val Color1 = Color(0xfffce18a)
+private val Color2 = Color(0xFF009688)
+private val Color3 = Color(0xfff4306d)
+private val Color4 = Color(0xffb48def)
+private val Color5 = Color(0xFF95FF82)
+private val Color6 = Color(0xFF82ECFF)
+private val Color7 = Color(0xFFFF9800)
+
+private val defaultColors = listOf(
+    Color1, Color2, Color3, Color4, Color5, Color6, Color7
+).map { it.toArgb() }
+
 fun particles(primary: Color) = listOf(
     Party(
         speed = 0f,
@@ -33,9 +46,7 @@ fun particles(primary: Color) = listOf(
         damping = 0.9f,
         angle = Angle.BOTTOM,
         spread = Spread.ROUND,
-        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
-            it.blend(primary)
-        },
+        colors = defaultColors.map { it.blend(primary, 0.5f) },
         emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
         position = Position.Relative(0.0, 0.0).between(Position.Relative(1.0, 0.0))
     ),
@@ -45,9 +56,7 @@ fun particles(primary: Color) = listOf(
         damping = 0.9f,
         angle = Angle.RIGHT - 45,
         spread = 60,
-        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
-            it.blend(primary)
-        },
+        colors = defaultColors.map { it.blend(primary, 0.5f) },
         emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
         position = Position.Relative(0.0, 1.0)
     ),
@@ -57,9 +66,7 @@ fun particles(primary: Color) = listOf(
         damping = 0.9f,
         angle = Angle.RIGHT - 135,
         spread = 60,
-        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def).map {
-            it.blend(primary)
-        },
+        colors = defaultColors.map { it.blend(primary, 0.5f) },
         emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
         position = Position.Relative(1.0, 1.0)
     )

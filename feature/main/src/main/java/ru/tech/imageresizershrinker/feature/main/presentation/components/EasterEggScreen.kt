@@ -56,15 +56,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.coerceAtMost
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
@@ -76,14 +77,13 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.emoji.Emoji
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.pulsate
 import ru.tech.imageresizershrinker.core.ui.widget.other.EmojiItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import kotlin.math.roundToInt
 import kotlin.random.Random
-import kotlin.random.nextInt
 
 @Composable
 fun EasterEggScreen(
@@ -117,175 +117,167 @@ fun EasterEggScreen(
 
     val painter = painterResource(R.drawable.ic_launcher_monochrome)
 
-    BoxWithConstraints {
-        val width = constraints.maxWidth
-        val height = constraints.maxHeight
-        val ballSize = 120.dp
-        val ballSizePx = with(LocalDensity.current) { ballSize.toPx().roundToInt() }
-        var speed by remember { mutableFloatStateOf(1f) }
-
-        var x by rememberSaveable { mutableFloatStateOf((width - ballSizePx) * 1f) }
-        var y by rememberSaveable { mutableFloatStateOf((height - ballSizePx) * 1f) }
-
-        val animatedX = animateFloatAsState(x)
-        val animatedY = animateFloatAsState(y)
-
-        var xSpeed by rememberSaveable { mutableFloatStateOf(10f) }
-        var ySpeed by rememberSaveable { mutableFloatStateOf(10f) }
-
-        var scale by remember {
-            mutableFloatStateOf(1f)
-        }
-        var rotation by remember {
-            mutableFloatStateOf(0f)
-        }
-
-        var bounces by remember {
-            mutableIntStateOf(0)
-        }
-
-        LaunchedEffect(bounces) {
-            themeState.updateColorTuple(ColorTuple(Color(Random.nextInt())))
-            scale = if (scale == 1f) 1.5f else 1f
-            rotation = Random.nextInt(0..360).toFloat()
-            speed = Random.nextFloat() * 3f
-        }
-
-        LaunchedEffect(speed) {
-            while (isActive) {
-                x += xSpeed * speed
-                y += ySpeed * speed
-
-                val rightBounce = x > width - ballSizePx
-                val leftBounce = x < 0
-                val bottomBounce = y > height - ballSizePx
-                val topBounce = y < 0
-
-                if (rightBounce || leftBounce) {
-                    xSpeed = -xSpeed
-                    bounces++
-                }
-
-                if (topBounce || bottomBounce) {
-                    ySpeed = -ySpeed
-                    bounces++
-                }
-
-                delay(1)
-            }
-        }
-
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            CenterAlignedTopAppBar(
-                title = {
-                    Marquee {
-                        Row {
-                            emojiData.forEach { emoji ->
-                                EmojiItem(
-                                    emoji = emoji,
-                                    fontScale = 1f
-                                )
-                            }
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        CenterAlignedTopAppBar(
+            title = {
+                Marquee {
+                    Row {
+                        emojiData.forEach { emoji ->
+                            EmojiItem(
+                                emoji = emoji,
+                                fontScale = 1f
+                            )
                         }
                     }
-                },
-                navigationIcon = {
-                    EnhancedIconButton(
-                        onClick = onGoBack
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                            contentDescription = stringResource(R.string.exit)
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                )
+                }
+            },
+            navigationIcon = {
+                EnhancedIconButton(
+                    onClick = onGoBack
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                        contentDescription = stringResource(R.string.exit)
+                    )
+                }
+            },
+            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
             )
+        )
 
-            val dimens = width * height
-            FlowRow(
-                modifier = Modifier
-                    .weight(1f)
+        BoxWithConstraints(
+            modifier = Modifier.weight(1f)
+        ) {
+            val width = constraints.maxWidth
+            val height = constraints.maxHeight
+            val ballSize = (min(maxWidth, maxHeight) * 0.3f).coerceAtMost(180.dp)
+            val ballSizePx = with(LocalDensity.current) { ballSize.toPx().roundToInt() }
+            var speed by remember { mutableFloatStateOf(0.2f) }
+
+            var x by remember { mutableFloatStateOf((width - ballSizePx) * 1f) }
+            var y by remember { mutableFloatStateOf((height - ballSizePx) * 1f) }
+
+            val animatedX = animateFloatAsState(x)
+            val animatedY = animateFloatAsState(y)
+
+            var xSpeed by rememberSaveable { mutableFloatStateOf(10f) }
+            var ySpeed by rememberSaveable { mutableFloatStateOf(10f) }
+
+            var bounces by remember {
+                mutableIntStateOf(0)
+            }
+
+            LaunchedEffect(bounces) {
+                themeState.updateColorTuple(ColorTuple(Color(Random.nextInt())))
+            }
+
+            LaunchedEffect(speed) {
+                while (isActive) {
+                    x += xSpeed * speed
+                    y += ySpeed * speed
+
+                    val rightBounce = x > width - ballSizePx
+                    val leftBounce = x < 0
+                    val bottomBounce = y > height - ballSizePx
+                    val topBounce = y < 0
+
+                    if (rightBounce || leftBounce) {
+                        xSpeed = -xSpeed
+                        bounces++
+                    }
+
+                    if (topBounce || bottomBounce) {
+                        ySpeed = -ySpeed
+                        bounces++
+                    }
+
+                    delay(1)
+                }
+            }
+
+            val icons = remember {
+                Screen.entries.mapNotNull { it.icon }
+            }
+            FlowRow {
+                repeat(width * height / (24 * 24)) {
+                    val icon = remember(it) {
+                        icons.shuffled()[it % icons.size]
+                    }
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(24.dp)
+                            .padding(1.dp),
+                        tint = MaterialTheme.colorScheme.secondary
+                    )
+                }
+            }
+
+            Box(
+                modifier = Modifier.offset {
+                    IntOffset(
+                        animatedX.value.roundToInt(),
+                        animatedY.value.roundToInt()
+                    )
+                },
+                contentAlignment = Alignment.Center
             ) {
-                repeat(dimens / (64 * 64)) {
+                val scope = rememberCoroutineScope()
+                Column(
+                    modifier = Modifier
+                        .clip(MaterialStarShape)
+                        .background(MaterialTheme.colorScheme.tertiaryContainer)
+                        .clickable {
+                            speed = if (speed == 0.2f) {
+                                Random.nextFloat()
+                            } else 0.2f
+                            scope.launch {
+                                confettiController.showEmpty()
+                            }
+                        }
+                        .size(ballSize),
+                    verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     Icon(
                         painter = painter,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = MaterialTheme.colorScheme.onTertiaryContainer,
                         modifier = Modifier
-                            .offset(y = 8.dp)
-                            .padding(horizontal = 8.dp)
-                            .size(64.dp)
-                            .scale(
-                                animateFloatAsState(scale).value
-                            )
-                            .rotate(
-                                animateFloatAsState(rotation).value
-                            )
-                            .pulsate()
+                            .size(ballSize * 0.6f)
+                            .weight(1f, false)
                     )
-                }
-            }
-        }
-
-        Box(
-            modifier = Modifier.offset {
-                IntOffset(
-                    animatedX.value.roundToInt(),
-                    animatedY.value.roundToInt()
-                )
-            },
-            contentAlignment = Alignment.Center
-        ) {
-            val scope = rememberCoroutineScope()
-            Column(
-                modifier = Modifier
-                    .clip(MaterialStarShape)
-                    .background(MaterialTheme.colorScheme.tertiaryContainer)
-                    .clickable {
-                        scope.launch {
-                            confettiController.showEmpty()
-                        }
+                    Column(
+                        modifier = Modifier.offset(
+                            y = -ballSize * 0.15f
+                        ),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = stringResource(R.string.version),
+                            style = LocalTextStyle.current.copy(
+                                lineHeight = 18.sp,
+                                color = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.9f)
+                            ),
+                            maxLines = 1
+                        )
+                        AutoSizeText(
+                            text = "${BuildConfig.VERSION_NAME}${if (BuildConfig.FLAVOR == "foss") "-foss" else ""}\n(${BuildConfig.VERSION_CODE})",
+                            style = LocalTextStyle.current.copy(
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Normal,
+                                lineHeight = 14.sp,
+                                textAlign = TextAlign.Center,
+                                color = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.5f)
+                            ),
+                            maxLines = 2
+                        )
                     }
-                    .size(ballSize),
-                verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Icon(
-                    painter = painter,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onTertiaryContainer,
-                    modifier = Modifier
-                        .size(72.dp)
-                        .weight(1f, false)
-                )
-                Column(
-                    modifier = Modifier.offset(
-                        y = (-16).dp
-                    )
-                ) {
-                    Text(
-                        text = stringResource(R.string.version),
-                        style = LocalTextStyle.current.copy(
-                            lineHeight = 18.sp,
-                            color = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.9f)
-                        ),
-                        maxLines = 1
-                    )
-                    AutoSizeText(
-                        text = "${BuildConfig.VERSION_NAME}${if (BuildConfig.FLAVOR == "foss") "-foss" else ""} (${BuildConfig.VERSION_CODE})",
-                        style = LocalTextStyle.current.copy(
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Normal,
-                            lineHeight = 14.sp,
-                            color = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.5f)
-                        ),
-                        maxLines = 1
-                    )
                 }
             }
         }
