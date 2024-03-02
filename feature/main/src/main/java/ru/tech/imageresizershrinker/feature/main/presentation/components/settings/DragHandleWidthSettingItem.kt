@@ -22,6 +22,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
@@ -40,6 +44,9 @@ fun DragHandleWidthSettingItem(
         .padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
+    var value by remember {
+        mutableFloatStateOf(settingsState.dragHandleWidth.value)
+    }
     EnhancedSliderItem(
         modifier = modifier,
         shape = shape,
@@ -47,16 +54,16 @@ fun DragHandleWidthSettingItem(
             .secondaryContainer
             .copy(alpha = 0.2f),
         valueSuffix = " Dp",
-        value = settingsState.dragHandleWidth.value,
+        value = value,
         title = stringResource(R.string.drag_handle_width),
         icon = Icons.Rounded.DragHandle,
         onValueChange = {
+            value = it.roundToInt().toFloat()
             onValueChange(it.roundToInt())
         },
         internalStateTransformation = {
             it.roundToInt()
         },
-        valueRange = 0f..128f,
-        steps = 128
+        valueRange = 0f..128f
     )
 }
