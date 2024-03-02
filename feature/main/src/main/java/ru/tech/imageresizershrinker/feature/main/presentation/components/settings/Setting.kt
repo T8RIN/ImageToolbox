@@ -329,7 +329,7 @@ sealed class Setting(
     )
 
     data object DragHandleWidth : Setting(
-        title = R.string.sheet_handle_width,
+        title = R.string.drag_handle_width,
         subtitle = null
     )
 }

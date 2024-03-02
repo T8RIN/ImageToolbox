@@ -48,7 +48,7 @@ fun DragHandleWidthSettingItem(
             .copy(alpha = 0.2f),
         valueSuffix = " Dp",
         value = settingsState.dragHandleWidth.value,
-        title = stringResource(R.string.sheet_handle_width),
+        title = stringResource(R.string.drag_handle_width),
         icon = Icons.Rounded.DragHandle,
         onValueChange = {
             onValueChange(it.roundToInt())
