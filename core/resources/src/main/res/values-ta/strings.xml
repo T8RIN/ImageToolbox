@@ -803,4 +803,5 @@
     <string name="motion_blur">மோஷன் மங்கல்</string>
     <string name="zip">ஜிப்</string>
     <string name="zip_sub">கொடுக்கப்பட்ட கோப்புகள் அல்லது படங்களிலிருந்து ஜிப் கோப்பை உருவாக்கவும்</string>
+    <string name="drag_handle_width">கைப்பிடி அகலத்தை இழுக்கவும்</string>
 </resources>

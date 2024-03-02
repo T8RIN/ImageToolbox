@@ -803,4 +803,5 @@
     <string name="apng_type_to_image">APNG til billeder</string>
     <string name="zip">Lynlås</string>
     <string name="zip_sub">Opret zip-fil fra givne filer eller billeder</string>
+    <string name="drag_handle_width">Trækhåndtagsbredde</string>
 </resources>

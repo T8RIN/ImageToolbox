@@ -803,4 +803,5 @@
     <string name="apng_tools_sub">تحويل الصور إلى صورة APNG أو استخراج الإطارات من صورة APNG معينة</string>
     <string name="apng_type_to_apng_sub">تحويل مجموعة من الصور إلى ملف APNG</string>
     <string name="zip">مضغوط</string>
+    <string name="drag_handle_width">عرض مقبض السحب</string>
 </resources>

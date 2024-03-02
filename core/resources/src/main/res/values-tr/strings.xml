@@ -803,4 +803,5 @@
     <string name="motion_blur">Hareket bulanıklığı</string>
     <string name="zip">Zip</string>
     <string name="zip_sub">Verilen dosyalardan veya görsellerden Zip dosyası oluşturun</string>
+    <string name="drag_handle_width">Sürükleme Tutamacı Genişliği</string>
 </resources>

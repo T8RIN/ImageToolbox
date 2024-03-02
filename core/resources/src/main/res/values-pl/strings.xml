@@ -803,4 +803,5 @@
     <string name="apng_type_to_apng">Obrazy do APNG</string>
     <string name="zip">Zamek błyskawiczny</string>
     <string name="zip_sub">Utwórz plik Zip z podanych plików lub obrazów</string>
+    <string name="drag_handle_width">Przeciągnij szerokość uchwytu</string>
 </resources>

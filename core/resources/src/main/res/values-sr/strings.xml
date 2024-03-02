@@ -803,4 +803,5 @@
     <string name="apng_type_to_image_sub">Претворите АПНГ датотеку у серију слика</string>
     <string name="zip">Зип</string>
     <string name="zip_sub">Креирајте Зип датотеку од датих датотека или слика</string>
+    <string name="drag_handle_width">Ширина ручке превлачења</string>
 </resources>

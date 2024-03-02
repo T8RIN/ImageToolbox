@@ -803,4 +803,5 @@
     <string name="motion_blur">모션 블러</string>
     <string name="zip">지퍼</string>
     <string name="zip_sub">주어진 파일이나 이미지로 Zip 파일 만들기</string>
+    <string name="drag_handle_width">드래그 핸들 너비</string>
 </resources>

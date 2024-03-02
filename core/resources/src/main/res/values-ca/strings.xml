@@ -803,4 +803,5 @@
     <string name="motion_blur">El desenfocament de moviment</string>
     <string name="zip">Zip</string>
     <string name="zip_sub">Creeu un fitxer Zip a partir de fitxers o imatges donats</string>
+    <string name="drag_handle_width">Arrossegueu l\'amplada del mànec</string>
 </resources>

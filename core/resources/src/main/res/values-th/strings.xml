@@ -803,4 +803,5 @@
     <string name="zip">ซิป</string>
     <string name="zip_sub">สร้างไฟล์ Zip จากไฟล์หรือรูปภาพที่กำหนด</string>
     <string name="select_apng_image_to_start">เลือกรูปภาพ APNG เพื่อเริ่มต้น</string>
+    <string name="drag_handle_width">ลากความกว้างของที่จับ</string>
 </resources>
