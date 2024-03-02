@@ -756,8 +756,7 @@
     <string name="fast">سريع</string>
     <string name="standard">معيار</string>
     <string name="best">أفضل</string>
-    <string name="download_description">للحصول على أداء سليم لـ Tesseract OCR، يجب تنزيل بيانات التدريب الإضافية (%1$s) على جهازك.
-\nهل تريد تنزيل بيانات %2$s؟</string>
+    <string name="download_description">للحصول على أداء سليم لـ Tesseract OCR، يجب تنزيل بيانات التدريب الإضافية (%1$s) على جهازك. \nهل تريد تنزيل بيانات %2$s؟</string>
     <string name="download">تحميل</string>
     <string name="no_connection">لا يوجد اتصال، تحقق منه وحاول مرة أخرى لتنزيل نماذج القطارات</string>
     <string name="downloaded_languages">اللغات التي تم تنزيلها</string>
