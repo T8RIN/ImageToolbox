@@ -38,7 +38,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 @Composable
 fun UseRandomEmojisSettingItem(
     onClick: (Boolean) -> Unit,
-    shape: Shape = ContainerShapeDefaults.centerShape,
+    shape: Shape = ContainerShapeDefaults.bottomShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current

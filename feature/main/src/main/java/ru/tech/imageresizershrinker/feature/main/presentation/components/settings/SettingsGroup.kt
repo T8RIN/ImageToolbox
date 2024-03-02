@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Cached
 import androidx.compose.material.icons.rounded.Description
 import androidx.compose.material.icons.rounded.Draw
+import androidx.compose.material.icons.rounded.EmojiSymbols
 import androidx.compose.material.icons.rounded.FitScreen
 import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
@@ -64,10 +65,10 @@ sealed class SettingsGroup(
         titleId = R.string.customization,
         settingsList = listOf(
             Setting.ColorScheme,
-            Setting.AllowImageMonet,
             Setting.DynamicColors,
             Setting.AmoledMode,
-            Setting.Emoji
+            Setting.AllowImageMonet,
+            Setting.IconShape
         ),
         initialState = true
     )
@@ -76,12 +77,9 @@ sealed class SettingsGroup(
         icon = Icons.TwoTone.Palette,
         titleId = R.string.secondary_customization,
         settingsList = listOf(
-            Setting.IconShape,
-            Setting.EmojisCount,
             Setting.BorderThickness,
             Setting.Confetti,
             Setting.UsePixelSwitch,
-            Setting.UseRandomEmojis,
             Setting.FabAlignment
         ),
         initialState = false
@@ -286,11 +284,23 @@ sealed class SettingsGroup(
         initialState = false
     )
 
+    data object Emoji : SettingsGroup(
+        icon = Icons.Rounded.EmojiSymbols,
+        titleId = R.string.emoji,
+        settingsList = listOf(
+            Setting.Emoji,
+            Setting.EmojisCount,
+            Setting.UseRandomEmojis
+        ),
+        initialState = false
+    )
+
     companion object {
         val entries: List<SettingsGroup> by lazy {
             listOf(
                 ContactMe,
                 PrimaryCustomization,
+                Emoji,
                 SecondaryCustomization,
                 NightMode,
                 Shadows,

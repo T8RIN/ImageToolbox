@@ -21,42 +21,44 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.webkit.MimeTypeMap
-import androidx.compose.foundation.background
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.fastForEach
 import androidx.core.net.toUri
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
@@ -65,6 +67,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import java.util.Locale
+import kotlin.math.roundToInt
 
 @Composable
 fun ProcessImagesPreferenceSheet(
@@ -238,67 +241,67 @@ fun ProcessImagesPreferenceSheet(
                     item(
                         span = StaggeredGridItemSpan.FullLine
                     ) {
-                        val pic: @Composable (Uri?, Dp, Int) -> Unit =
-                            { uri, height, extra ->
-                                Box(
-                                    Modifier
-                                        .padding(
-                                            bottom = 8.dp,
-                                            start = 4.dp,
-                                            end = 4.dp
-                                        )
-                                        .height(height)
-                                        .width(120.dp)
-                                        .container(
-                                            shape = MaterialTheme.shapes.extraLarge,
-                                            resultPadding = 0.dp
-                                        )
-                                ) {
-                                    Picture(
-                                        model = uri,
-                                        shape = RectangleShape,
-                                        modifier = Modifier.fillMaxSize()
-                                    )
-                                    if (extra > 0) {
-                                        Box(
-                                            Modifier
-                                                .fillMaxSize()
-                                                .background(
-                                                    MaterialTheme.colorScheme.scrim.copy(
-                                                        alpha = 0.6f
-                                                    )
-                                                ),
-                                            contentAlignment = Alignment.Center
-                                        ) {
-                                            Text(
-                                                text = "+$extra",
-                                                color = White,
-                                                fontSize = 20.sp,
-                                                fontWeight = FontWeight.Bold
+                        if (extraImageType != "pdf" && extraImageType != "file") {
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(
+                                    4.dp,
+                                    Alignment.CenterHorizontally
+                                ),
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .layout { measurable, constraints ->
+                                        val placeable = measurable.measure(
+                                            constraints.copy(
+                                                maxWidth = constraints.maxWidth + 32.dp.roundToPx(),
+                                                maxHeight = (constraints.maxWidth * 0.5f)
+                                                    .coerceAtLeast(100f)
+                                                    .coerceAtMost(300.dp.toPx())
+                                                    .roundToInt()
                                             )
+                                        )
+
+                                        layout(
+                                            placeable.width,
+                                            placeable.height
+                                        ) {
+                                            placeable.place(0, 0)
                                         }
                                     }
-                                }
-                            }
-                        if (extraImageType != "pdf" && extraImageType != "file") {
-                            if (uris.size in 1..2) {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.Center
-                                ) {
-                                    repeat(uris.size) {
-                                        pic(uris.getOrNull(it), 100.dp, 0)
+                                    .horizontalScroll(rememberScrollState())
+                                    .padding(
+                                        PaddingValues(
+                                            start = 16.dp,
+                                            end = 16.dp,
+                                            bottom = 16.dp
+                                        )
+                                    )
+                            ) {
+                                uris.fastForEach { uri ->
+                                    var aspectRatio by rememberSaveable {
+                                        mutableFloatStateOf(2f)
                                     }
-                                }
-                            } else if (uris.size >= 3) {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.Center
-                                ) {
-                                    pic(uris.getOrNull(0), 100.dp, 0)
-                                    Column {
-                                        pic(uris.getOrNull(1), 60.dp, 0)
-                                        pic(uris.getOrNull(2), 60.dp, uris.size - 3)
+                                    Box(
+                                        Modifier
+                                            .fillMaxHeight()
+                                            .aspectRatio(aspectRatio)
+                                            .container(
+                                                shape = MaterialTheme.shapes.medium,
+                                                resultPadding = 0.dp
+                                            )
+                                            .animateContentSize()
+                                    ) {
+                                        Picture(
+                                            model = uri,
+                                            onSuccess = {
+                                                aspectRatio = it.result.drawable.run {
+                                                    intrinsicWidth.toFloat() / intrinsicHeight
+                                                }
+                                            },
+                                            shape = RectangleShape,
+                                            modifier = Modifier.fillMaxSize(),
+                                            contentScale = ContentScale.FillHeight
+                                        )
                                     }
                                 }
                             }

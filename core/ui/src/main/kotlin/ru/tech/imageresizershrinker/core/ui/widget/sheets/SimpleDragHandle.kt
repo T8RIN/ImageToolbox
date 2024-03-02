@@ -44,6 +44,7 @@ fun SimpleDragHandle(
     showDragHandle: Boolean = true,
     content: @Composable ColumnScope.() -> Unit = {},
 ) {
+    val dragHandleWidth = 64.dp
     Column(
         modifier
             .then(
@@ -60,7 +61,11 @@ fun SimpleDragHandle(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            if (showDragHandle) BottomSheetDefaults.DragHandle()
+            if (showDragHandle && dragHandleWidth > 0.dp) {
+                BottomSheetDefaults.DragHandle(
+                    width = dragHandleWidth
+                )
+            }
         }
         content()
     }

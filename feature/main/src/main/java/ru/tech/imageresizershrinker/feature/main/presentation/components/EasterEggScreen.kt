@@ -20,7 +20,6 @@
 package ru.tech.imageresizershrinker.feature.main.presentation.components
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -57,8 +56,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -77,6 +77,7 @@ import ru.tech.imageresizershrinker.core.ui.icons.emoji.Emoji
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.pulsate
 import ru.tech.imageresizershrinker.core.ui.widget.other.EmojiItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
@@ -94,7 +95,7 @@ fun EasterEggScreen(
     val emojiData = remember {
         mutableStateListOf<String>().apply {
             addAll(
-                List(13) {
+                List(11) {
                     allEmojis.random().toString()
                 }
             )
@@ -107,9 +108,9 @@ fun EasterEggScreen(
     LaunchedEffect(Unit) {
         while (true) {
             delay(700)
-            if (counter.value > 12) counter.value = 0
+            if (counter.value > 10) counter.value = 0
             emojiData[counter.value] = allEmojis.random().toString()
-            emojiData[12 - counter.value] = allEmojis.random().toString()
+            emojiData[10 - counter.value] = allEmojis.random().toString()
             counter.value++
         }
     }
@@ -132,26 +133,22 @@ fun EasterEggScreen(
         var xSpeed by rememberSaveable { mutableFloatStateOf(10f) }
         var ySpeed by rememberSaveable { mutableFloatStateOf(10f) }
 
-        val scale = remember {
-            Animatable(1f)
+        var scale by remember {
+            mutableFloatStateOf(1f)
         }
-        val rotation = remember {
-            Animatable(0f)
+        var rotation by remember {
+            mutableFloatStateOf(0f)
         }
+
         var bounces by remember {
             mutableIntStateOf(0)
         }
+
         LaunchedEffect(bounces) {
             themeState.updateColorTuple(ColorTuple(Color(Random.nextInt())))
-            launch {
-                scale.animateTo(
-                    (Random.nextFloat() * 2).coerceIn(0.5f..1.3f)
-                )
-            }
-            launch {
-                rotation.animateTo(Random.nextInt(0..360).toFloat())
-            }
-            speed = Random.nextFloat() * 10f
+            scale = if (scale == 1f) 1.5f else 1f
+            rotation = Random.nextInt(0..360).toFloat()
+            speed = Random.nextFloat() * 3f
         }
 
         LaunchedEffect(speed) {
@@ -215,26 +212,22 @@ fun EasterEggScreen(
                     .weight(1f)
             ) {
                 repeat(dimens / (64 * 64)) {
-                    Box(
+                    Icon(
+                        painter = painter,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier
+                            .offset(y = 8.dp)
                             .padding(horizontal = 8.dp)
-                            .graphicsLayer {
-                                scaleX = scale.value
-                                scaleY = scale.value
-                                rotationX = rotation.value
-                                rotationY = rotation.value
-                                rotationZ = rotation.value
-                                clip = false
-                            }
-                    ) {
-                        Icon(
-                            painter = painter,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier
-                                .size(64.dp)
-                        )
-                    }
+                            .size(64.dp)
+                            .scale(
+                                animateFloatAsState(scale).value
+                            )
+                            .rotate(
+                                animateFloatAsState(rotation).value
+                            )
+                            .pulsate()
+                    )
                 }
             }
         }

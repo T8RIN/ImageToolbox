@@ -57,6 +57,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.ColorMatrix3x3Fil
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorMatrix4x4Filter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorfulSwirlFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ContrastFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.ConvexFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.Convolution3x3Filter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CoolFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CrossBlurFilter
@@ -357,6 +358,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.StarBlur -> StarBlurFilter(value)
             is Filter.LinearTiltShift -> LinearTiltShiftFilter(value)
             is Filter.MotionBlur -> MotionBlurFilter(value)
+            is Filter.Convex -> ConvexFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

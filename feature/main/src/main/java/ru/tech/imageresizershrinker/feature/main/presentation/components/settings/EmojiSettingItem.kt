@@ -62,7 +62,7 @@ fun EmojiSettingItem(
     addColorTupleFromEmoji: (getEmoji: (Int?) -> String, showShoeDescription: (String) -> Unit) -> Unit,
     updateEmoji: (Int) -> Unit,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp),
-    shape: Shape = ContainerShapeDefaults.bottomShape
+    shape: Shape = ContainerShapeDefaults.topShape
 ) {
     val settingsState = LocalSettingsState.current
     val toastHost = LocalToastHostState.current
