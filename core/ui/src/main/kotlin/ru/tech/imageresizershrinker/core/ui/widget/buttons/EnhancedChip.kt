@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -41,6 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalContainerShape
 
 @Composable
 fun EnhancedChip(
@@ -52,7 +54,7 @@ fun EnhancedChip(
     selectedContentColor: Color = MaterialTheme.colorScheme.contentColorFor(selectedColor),
     unselectedColor: Color = MaterialTheme.colorScheme.surfaceContainerHigh,
     unselectedContentColor: Color = MaterialTheme.colorScheme.onSurface,
-    shape: Shape = MaterialTheme.shapes.small,
+    shape: Shape = RoundedCornerShape(10.dp),
     label: @Composable () -> Unit
 ) {
     val haptics = LocalHapticFeedback.current
@@ -70,7 +72,8 @@ fun EnhancedChip(
             fontWeight = FontWeight.SemiBold,
             color = contentColor
         ),
-        LocalContentColor provides contentColor
+        LocalContentColor provides contentColor,
+        LocalContainerShape provides null
     ) {
         Box(
             modifier = modifier

@@ -38,6 +38,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalContainerColor
+import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
 
 val IconShapesList by lazy {
     persistentListOf(
@@ -73,43 +74,45 @@ fun IconShapeContainer(
         LocalContainerColor.current ?: MaterialTheme.colorScheme.surfaceContainer
     }
 
-    AnimatedContent(
-        targetState = remember(iconShape) {
-            derivedStateOf {
-                iconShape?.takeOrElseFrom(IconShapesList)
-            }
-        }.value,
-        modifier = modifier
-    ) { iconShapeAnimated ->
-        Box(
-            modifier = if (enabled && iconShapeAnimated != null) {
-                val color = MaterialTheme.colorScheme.surfaceTint
-                Modifier.container(
-                    shape = iconShapeAnimated.shape,
-                    color = realUnderlyingColor.inverse(
-                        fraction = { if (it) 0.2f else 0.15f },
-                        color = { color }
-                    ),
-                    autoShadowElevation = 0.5.dp,
-                    resultPadding = iconShapeAnimated.padding
-                )
-            } else Modifier,
-            contentAlignment = Alignment.Center
-        ) {
+    ProvideContainerDefaults {
+        AnimatedContent(
+            targetState = remember(iconShape) {
+                derivedStateOf {
+                    iconShape?.takeOrElseFrom(IconShapesList)
+                }
+            }.value,
+            modifier = modifier
+        ) { iconShapeAnimated ->
             Box(
                 modifier = if (enabled && iconShapeAnimated != null) {
-                    Modifier
-                        .size(iconShapeAnimated.iconSize)
-                        .offset(
-                            y = when (iconShapeAnimated.shape) {
-                                PentagonShape -> 2.dp
-                                SimpleHeartShape -> (-1.5).dp
-                                else -> 0.dp
-                            }
-                        )
-                } else Modifier
+                    val color = MaterialTheme.colorScheme.surfaceTint
+                    Modifier.container(
+                        shape = iconShapeAnimated.shape,
+                        color = realUnderlyingColor.inverse(
+                            fraction = { if (it) 0.2f else 0.15f },
+                            color = { color }
+                        ),
+                        autoShadowElevation = 0.5.dp,
+                        resultPadding = iconShapeAnimated.padding
+                    )
+                } else Modifier,
+                contentAlignment = Alignment.Center
             ) {
-                content(iconShapeAnimated == null)
+                Box(
+                    modifier = if (enabled && iconShapeAnimated != null) {
+                        Modifier
+                            .size(iconShapeAnimated.iconSize)
+                            .offset(
+                                y = when (iconShapeAnimated.shape) {
+                                    PentagonShape -> 2.dp
+                                    SimpleHeartShape -> (-1.5).dp
+                                    else -> 0.dp
+                                }
+                            )
+                    } else Modifier
+                ) {
+                    content(iconShapeAnimated == null)
+                }
             }
         }
     }
