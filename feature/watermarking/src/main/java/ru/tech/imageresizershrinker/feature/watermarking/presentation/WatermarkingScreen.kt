@@ -43,7 +43,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
@@ -91,12 +91,12 @@ fun WatermarkingScreen(
 
     val context = LocalContext.current as Activity
 
-    val confettiController = LocalConfettiController.current
+    val confettiHostState = LocalConfettiHostState.current
     val toastHostState = LocalToastHostState.current
 
     val showConfetti: () -> Unit = {
         scope.launch {
-            confettiController.showEmpty()
+            confettiHostState.show()
         }
     }
 

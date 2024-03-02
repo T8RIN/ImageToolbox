@@ -92,7 +92,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -133,7 +133,7 @@ fun ZipScreen(
     val settingsState = LocalSettingsState.current
     val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
-    val confettiController = LocalConfettiController.current
+    val confettiHostState = LocalConfettiHostState.current
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -156,7 +156,7 @@ fun ZipScreen(
                         }
                     } else {
                         scope.launch {
-                            confettiController.showEmpty()
+                            confettiHostState.show()
                         }
                         scope.launch {
                             toastHostState.showToast(
@@ -373,7 +373,7 @@ fun ZipScreen(
                                         filename = name
                                     ) {
                                         scope.launch {
-                                            confettiController.showEmpty()
+                                            confettiHostState.show()
                                         }
                                     }
                                 }

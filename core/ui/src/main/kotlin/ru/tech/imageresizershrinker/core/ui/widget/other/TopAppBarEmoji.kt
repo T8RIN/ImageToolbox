@@ -34,13 +34,13 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 
 @Composable
 fun TopAppBarEmoji() {
     val settingsState = LocalSettingsState.current
-    val confettiController = LocalConfettiController.current
+    val confettiHostState = LocalConfettiHostState.current
     val scope = rememberCoroutineScope()
 
     Box(
@@ -49,7 +49,7 @@ fun TopAppBarEmoji() {
             .scaleOnTap(
                 onRelease = {
                     scope.launch {
-                        confettiController.showEmpty()
+                        confettiHostState.show()
                     }
                 }
             )

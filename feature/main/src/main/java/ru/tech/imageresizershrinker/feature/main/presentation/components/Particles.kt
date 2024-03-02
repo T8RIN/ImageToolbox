@@ -52,7 +52,7 @@ class Particles(primary: Color) {
         side(primary)
     )
 
-    operator fun get(type: Type): List<Party> = data[type.ordinal]
+    fun forType(type: Type): List<Party> = data[type.ordinal]
 
     companion object {
         fun default(primary: Color) = listOf(
@@ -92,7 +92,8 @@ class Particles(primary: Color) {
             primary: Color,
             xPos: Double = 0.5,
             yPos: Double = 1.0,
-            angle: Int = Angle.TOP
+            angle: Int = Angle.TOP,
+            duration: Long = 500
         ): List<Party> {
             val party = Party(
                 speed = 30f,
@@ -102,7 +103,7 @@ class Particles(primary: Color) {
                 spread = 45,
                 timeToLive = 3000L,
                 colors = defaultColors.map { it.blend(primary, 0.5f) },
-                emitter = Emitter(duration = 500, TimeUnit.MILLISECONDS).max(30),
+                emitter = Emitter(duration = duration, TimeUnit.MILLISECONDS).max(30),
                 position = Position.Relative(xPos, yPos)
             )
 
@@ -112,19 +113,19 @@ class Particles(primary: Color) {
                     speed = 55f,
                     maxSpeed = 65f,
                     spread = 10,
-                    emitter = Emitter(duration = 500, TimeUnit.MILLISECONDS).max(10),
+                    emitter = Emitter(duration = duration, TimeUnit.MILLISECONDS).max(10),
                 ),
                 party.copy(
                     speed = 50f,
                     maxSpeed = 60f,
                     spread = 120,
-                    emitter = Emitter(duration = 500, TimeUnit.MILLISECONDS).max(40),
+                    emitter = Emitter(duration = duration, TimeUnit.MILLISECONDS).max(40),
                 ),
                 party.copy(
                     speed = 65f,
                     maxSpeed = 80f,
                     spread = 10,
-                    emitter = Emitter(duration = 500, TimeUnit.MILLISECONDS).max(10),
+                    emitter = Emitter(duration = duration, TimeUnit.MILLISECONDS).max(10),
                 )
             )
         }
@@ -191,12 +192,10 @@ class Particles(primary: Color) {
         fun side(
             primary: Color
         ): List<Party> = listOf(
-            festive(primary, 0.0, 0.0, Angle.RIGHT),
-            festive(primary, 1.0, 0.2, Angle.LEFT),
-            festive(primary, 0.0, 0.4, Angle.RIGHT),
-            festive(primary, 1.0, 0.6, Angle.LEFT),
-            festive(primary, 0.0, 0.6, Angle.RIGHT),
-            festive(primary, 1.0, 1.0, Angle.LEFT)
+            festive(primary, 0.0, 0.0, Angle.RIGHT, 1000),
+            festive(primary, 1.0, 0.33, Angle.LEFT, 1000),
+            festive(primary, 0.0, 0.66, Angle.RIGHT, 1000),
+            festive(primary, 1.0, 1.0, Angle.LEFT, 1000),
         ).flatten()
 
     }

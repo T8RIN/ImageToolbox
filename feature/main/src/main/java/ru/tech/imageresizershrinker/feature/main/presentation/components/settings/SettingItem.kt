@@ -43,7 +43,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -62,7 +62,7 @@ internal fun SettingItem(
     val context = LocalContext.current as ComponentActivity
     val toastHostState = LocalToastHostState.current
     val scope = rememberCoroutineScope()
-    val confettiController = LocalConfettiController.current
+    val confettiHostState = LocalConfettiHostState.current
 
     when (setting) {
         Setting.AddFileSize -> {
@@ -128,7 +128,7 @@ internal fun SettingItem(
                         ),
                         onSuccess = {
                             scope.launch {
-                                confettiController.showEmpty()
+                                confettiHostState.show()
                             }
                             scope.launch {
                                 toastHostState.showToast(
@@ -346,7 +346,7 @@ internal fun SettingItem(
                         uri = it,
                         onSuccess = {
                             scope.launch {
-                                confettiController.showEmpty()
+                                confettiHostState.show()
                                 //Wait for confetti to appear, then trigger font scale adjustment
                                 delay(300L)
                                 context.recreate()

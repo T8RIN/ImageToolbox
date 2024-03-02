@@ -56,7 +56,7 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
@@ -103,10 +103,10 @@ fun BytesResizeScreen(
     val allowChangeColor = settingsState.allowChangeColorByImage
 
     val scope = rememberCoroutineScope()
-    val confettiController = LocalConfettiController.current
+    val confettiHostState = LocalConfettiHostState.current
     val showConfetti: () -> Unit = {
         scope.launch {
-            confettiController.showEmpty()
+            confettiHostState.show()
         }
     }
 

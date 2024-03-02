@@ -178,7 +178,7 @@ fun Toast(
 }
 
 @Stable
-class ToastHostState {
+open class ToastHostState {
 
     private val mutex = Mutex()
 
@@ -191,10 +191,6 @@ class ToastHostState {
         icon: ImageVector? = null,
         duration: ToastDuration = ToastDuration.Short
     ) = showToast(ToastVisualsImpl(message, icon, duration))
-
-    suspend fun showEmpty(
-        duration: ToastDuration = ToastDuration(4500L)
-    ) = showToast(message = "", duration = duration)
 
     @ExperimentalMaterial3Api
     suspend fun showToast(visuals: ToastVisuals) = mutex.withLock {

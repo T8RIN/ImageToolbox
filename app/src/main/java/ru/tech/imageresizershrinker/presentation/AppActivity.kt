@@ -26,11 +26,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.compose.BackHandler
 import androidx.activity.viewModels
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -52,7 +48,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
-import nl.dionsegijn.konfetti.compose.KonfettiView
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalEditPresetsState
@@ -61,7 +56,9 @@ import ru.tech.imageresizershrinker.core.settings.presentation.toUiState
 import ru.tech.imageresizershrinker.core.ui.icons.emoji.Emoji
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapesList
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.rememberConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.parseImageFromIntent
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
@@ -71,7 +68,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.UpdateSheet
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.customHapticFeedback
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
-import ru.tech.imageresizershrinker.core.ui.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.utils.setContentWithWindowSizeClass
@@ -91,7 +87,7 @@ class AppActivity : M3Activity() {
     private val viewModel by viewModels<MainViewModel>()
 
     @Inject
-    lateinit var filtersInteractor: FavoriteFiltersInteractor<Bitmap>
+    lateinit var favoriteFiltersInteractor: FavoriteFiltersInteractor<Bitmap>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -150,10 +146,10 @@ class AppActivity : M3Activity() {
                 LocalSettingsState provides settingsState,
                 LocalNavController provides viewModel.navController,
                 LocalEditPresetsState provides editPresetsState,
-                LocalConfettiController provides rememberToastHostState(),
+                LocalConfettiHostState provides rememberConfettiHostState(),
                 LocalImageLoader provides viewModel.imageLoader,
                 LocalHapticFeedback provides customHapticFeedback(viewModel.settingsState.hapticsStrength),
-                LocalFavoriteFiltersInteractor provides filtersInteractor
+                LocalFavoriteFiltersInteractor provides favoriteFiltersInteractor
             ) {
                 val showSelectSheet = rememberSaveable(viewModel.showSelectDialog) {
                     mutableStateOf(viewModel.showSelectDialog)
@@ -240,15 +236,11 @@ class AppActivity : M3Activity() {
                         visible = showUpdateSheet
                     )
 
-                    val confettiController = LocalConfettiController.current
+                    val confettiHostState = LocalConfettiHostState.current
                     if (settingsState.isConfettiEnabled) {
-                        ToastHost(
-                            hostState = confettiController,
-                            transitionSpec = {
-                                fadeIn() togetherWith fadeOut()
-                            },
-                            toast = {
-                                val primary = MaterialTheme.colorScheme.primary
+                        ConfettiHost(
+                            hostState = confettiHostState,
+                            particles = { primary ->
                                 val particlesType by remember(settingsState.confettiType) {
                                     derivedStateOf {
                                         Particles.Type.entries.first {
@@ -256,15 +248,12 @@ class AppActivity : M3Activity() {
                                         }
                                     }
                                 }
-                                KonfettiView(
-                                    modifier = Modifier.fillMaxSize(),
-                                    parties = remember {
-                                        Particles(primary)[particlesType]
-                                    }
-                                )
+                                remember {
+                                    Particles(primary).forType(particlesType)
+                                }
                             }
                         )
-                    } else confettiController.currentToastData?.dismiss()
+                    } else confettiHostState.currentToastData?.dismiss()
 
                     ToastHost(
                         hostState = LocalToastHostState.current

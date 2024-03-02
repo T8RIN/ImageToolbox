@@ -30,7 +30,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 
@@ -40,7 +40,7 @@ fun ConfettiSettingItem(
     shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
-    val confettiController = LocalConfettiController.current
+    val confettiHostState = LocalConfettiHostState.current
     val scope = rememberCoroutineScope()
     val settingsState = LocalSettingsState.current
     PreferenceRowSwitch(
@@ -55,7 +55,7 @@ fun ConfettiSettingItem(
                 scope.launch {
                     //Wait for setting to be applied
                     delay(200L)
-                    confettiController.showEmpty()
+                    confettiHostState.show()
                 }
             }
         },

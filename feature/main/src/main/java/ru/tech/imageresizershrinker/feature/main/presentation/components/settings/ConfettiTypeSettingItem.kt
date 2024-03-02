@@ -37,6 +37,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -46,10 +47,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -68,6 +72,8 @@ fun ConfettiTypeSettingItem(
     }
 
     val enabled = settingsState.isConfettiEnabled
+
+    val confettiHostState = LocalConfettiHostState.current
 
     Box {
         Column(
@@ -122,11 +128,17 @@ fun ConfettiTypeSettingItem(
                     .fillMaxWidth()
                     .padding(start = 8.dp, bottom = 8.dp, end = 8.dp)
             ) {
+                val scope = rememberCoroutineScope()
                 val value = settingsState.confettiType
                 items.forEach {
                     EnhancedChip(
                         onClick = {
+                            confettiHostState.currentToastData?.dismiss()
                             onValueChange(it.ordinal)
+                            scope.launch {
+                                delay(200L)
+                                confettiHostState.show()
+                            }
                         },
                         selected = it.ordinal == value,
                         label = {

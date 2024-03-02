@@ -111,7 +111,7 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.failedToSaveImages
@@ -187,10 +187,10 @@ fun FiltersScreen(
     )
 
     val scope = rememberCoroutineScope()
-    val confettiController = LocalConfettiController.current
+    val confettiHostState = LocalConfettiHostState.current
     val showConfetti: () -> Unit = {
         scope.launch {
-            confettiController.showEmpty()
+            confettiHostState.show()
         }
     }
 

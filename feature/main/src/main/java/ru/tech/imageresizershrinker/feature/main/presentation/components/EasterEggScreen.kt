@@ -76,7 +76,7 @@ import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.emoji.Emoji
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.other.EmojiItem
@@ -89,7 +89,7 @@ import kotlin.random.Random
 fun EasterEggScreen(
     onGoBack: () -> Unit
 ) {
-    val confettiController = LocalConfettiController.current
+    val confettiHostState = LocalConfettiHostState.current
     val themeState = LocalDynamicThemeState.current
     val allEmojis = Emoji.allIcons()
     val emojiData = remember {
@@ -236,7 +236,7 @@ fun EasterEggScreen(
                                 Random.nextFloat()
                             } else 0.2f
                             scope.launch {
-                                confettiController.showEmpty()
+                                confettiHostState.show()
                             }
                         }
                         .size(ballSize),

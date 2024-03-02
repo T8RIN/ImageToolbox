@@ -61,7 +61,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.ui.icons.material.CropSmall
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.shareText
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
@@ -114,7 +114,7 @@ fun RecognizeTextScreen(
 
     val context = LocalContext.current
 
-    val confettiController = LocalConfettiController.current
+    val confettiHostState = LocalConfettiHostState.current
     val toastHostState = LocalToastHostState.current
 
     var downloadDialogData by rememberSaveable {
@@ -194,7 +194,7 @@ fun RecognizeTextScreen(
         viewModel.recognitionData?.text?.let {
             context.shareText(it)
             scope.launch {
-                confettiController.showEmpty()
+                confettiHostState.show()
             }
         }
     }
@@ -377,7 +377,7 @@ fun RecognizeTextScreen(
                     onComplete = {
                         downloadDialogData = emptyList()
                         scope.launch {
-                            confettiController.showEmpty()
+                            confettiHostState.show()
                         }
                         startRecognition()
                     }

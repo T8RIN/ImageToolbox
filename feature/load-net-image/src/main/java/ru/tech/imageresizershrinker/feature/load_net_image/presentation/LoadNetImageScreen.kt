@@ -68,7 +68,7 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageEdit
-import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiController
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
@@ -103,7 +103,7 @@ fun LoadNetImageScreen(
     val allowChangeColor = settingsState.allowChangeColorByImage
     val toastHostState = LocalToastHostState.current
 
-    val confettiController = LocalConfettiController.current
+    val confettiHostState = LocalConfettiHostState.current
 
     val scope = rememberCoroutineScope()
 
@@ -157,7 +157,7 @@ fun LoadNetImageScreen(
             parseSaveResult(
                 saveResult = saveResult,
                 onSuccess = {
-                    confettiController.showEmpty()
+                    confettiHostState.show()
                 },
                 toastHostState = toastHostState,
                 scope = scope,
@@ -174,7 +174,7 @@ fun LoadNetImageScreen(
 
     val showConfetti: () -> Unit = {
         scope.launch {
-            confettiController.showEmpty()
+            confettiHostState.show()
         }
     }
 
