@@ -803,4 +803,5 @@
     <string name="select_apng_image_to_start">開始するにはAPNG画像を選択してください</string>
     <string name="zip">ジップ</string>
     <string name="zip_sub">指定されたファイルまたは画像から Zip ファイルを作成する</string>
+    <string name="drag_handle_width">ドラッグハンドル幅</string>
 </resources>
