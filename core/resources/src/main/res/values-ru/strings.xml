@@ -803,5 +803,4 @@
     <string name="apng_type_to_apng">Изображения в APNG</string>
     <string name="zip">Zip</string>
     <string name="zip_sub">Создать Zip-файл из заданных файлов или изображений</string>
-    <string name="sheet_handle_width">Ширина перетаскиваемой ручки</string>
 </resources>
