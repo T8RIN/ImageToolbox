@@ -281,8 +281,7 @@
     <string name="compatibility">Kompatibilitás</string>
     <string name="features_sub">Fájlok jelszó alapú titkosítása. A továbbhaladott fájlok a kiválasztott könyvtárban tárolhatók vagy megoszthatók. A visszafejtett fájlok közvetlenül is megnyithatók.</string>
     <string name="file_size">Fájl méret</string>
-    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent.
-\nPlease note: memory is not storage.</string>
+    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent. \nPlease note: memory is not storage.</string>
     <string name="invalid_password_or_not_encrypted">Érvénytelen jelszó vagy a kiválasztott fájl nincs titkosítva</string>
     <string name="image_size_warning">A megadott szélességű és magasságú kép mentése OOM hibát okozhat. Tedd ezt a saját felelősségedre, és ne mondd, hogy nem figyelmeztettelek!</string>
     <string name="auto_cache_clearing">Automatikus gyorsítótár törlése</string>
@@ -769,8 +768,7 @@
     <string name="standard">Alapértelmezett</string>
     <string name="best">Legjobb</string>
     <string name="no_data">Nincs adat</string>
-    <string name="download_description">A Tesseract OCR megfelelő működéséhez további edzésadatokat (%1$s) kell letölteni eszközére.
-\nSzeretne letölteni %2$s adatokat?</string>
+    <string name="download_description">A Tesseract OCR megfelelő működéséhez további edzésadatokat (%1$s) kell letölteni eszközére. \nSzeretne letölteni %2$s adatokat?</string>
     <string name="download">Letöltés</string>
     <string name="no_connection">Nincs kapcsolat, ellenőrizze, és próbálja újra a vonatmodellek letöltéséhez</string>
     <string name="downloaded_languages">Letöltött nyelvek</string>
