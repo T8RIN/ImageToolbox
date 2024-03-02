@@ -803,4 +803,5 @@
     <string name="motion_blur">運動模糊</string>
     <string name="zip_sub">從給定的文件或圖像創建 Zip 文件</string>
     <string name="zip">壓縮</string>
+    <string name="drag_handle_width">拖曳手柄寬度</string>
 </resources>
