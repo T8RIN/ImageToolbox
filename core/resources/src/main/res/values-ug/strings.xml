@@ -269,8 +269,7 @@
     <string name="features_sub">ھۆججەتلەرنى مەخپىي شىفىرلاش. ئىشلەنگەن ھۆججەتلەرنى تاللانغان مۇندەرىجىدە ساقلىغىلى ياكى ئورتاقلىشقىلى بولىدۇ. شىفىرلانغان ھۆججەتلەرنىمۇ بىۋاسىتە ئاچقىلى بولىدۇ.</string>
     <string name="implementation_sub">AES-256 ، GCM ھالىتى ، تاختا يوق ، 12 بايىت ئىختىيارى IV. ئاچقۇچ SHA-3 hashes (256 bit) سۈپىتىدە ئىشلىتىلىدۇ.</string>
     <string name="file_size">ھۆججەت چوڭلۇقى</string>
-    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent.
-\nPlease note: memory is not storage.</string>
+    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent. \nPlease note: memory is not storage.</string>
     <string name="compatibility_sub">شۇنىڭغا دىققەت قىلىڭكى ، باشقا ھۆججەت مەخپىيلەشتۈرۈش يۇمشاق دېتالى ياكى مۇلازىمىتىگە ماسلىشىشچانلىقى كاپالەتكە ئىگە ئەمەس. سەل ئوخشىمايدىغان ئاچقۇچلۇق داۋالاش ياكى سىفىرلىق سەپلىمە ماسلاشماسلىقنى كەلتۈرۈپ چىقىرىشى مۇمكىن.</string>
     <string name="invalid_password_or_not_encrypted">ئىناۋەتسىز مەخپىي نومۇر ياكى تاللانغان ھۆججەت شىفىرلانمايدۇ</string>
     <string name="image_size_warning">بېرىلگەن كەڭلىك ۋە ئېگىزلىكتىكى رەسىمنى ساقلىماقچى بولسىڭىز OOM خاتالىقىنى كەلتۈرۈپ چىقىرىشى مۇمكىن. بۇنى ئۆزىڭىزنىڭ خەتىرىگە ئاساسەن قىلىڭ ، مەن سىزنى ئاگاھلاندۇرمىدىم دېمەڭ!</string>
@@ -543,8 +542,7 @@
     <string name="standard">ئۆلچەملىك</string>
     <string name="best">ئەڭ ياخشى</string>
     <string name="no_data">سانلىق مەلۇمات يوق</string>
-    <string name="download_description">من أجل التشغيل السليم لـ Tesseract OCR، يجب تنزيل بيانات التدريب الإضافية (%1$s) على جهازك.
-\nهل تريد تنزيل بيانات %2$s؟</string>
+    <string name="download_description">من أجل التشغيل السليم لـ Tesseract OCR، يجب تنزيل بيانات التدريب الإضافية (%1$s) على جهازك. \nهل تريد تنزيل بيانات %2$s؟</string>
     <string name="download">چۈشۈرۈش</string>
     <string name="no_connection">ئۇلىنىش يوق ، ئۇنى تەكشۈرۈپ پويىز مودېللىرىنى چۈشۈرۈش ئۈچۈن قايتا سىناڭ</string>
     <string name="downloaded_languages">چۈشۈرۈلگەن تىللار</string>
