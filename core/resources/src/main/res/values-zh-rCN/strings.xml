@@ -804,4 +804,8 @@
     <string name="zip">Zip</string>
     <string name="zip_sub">根据给定文件或图像创建 Zip 压缩包文件</string>
     <string name="drag_handle_width">拖动手柄宽度</string>
+    <string name="confetti_type">彩纸类型</string>
+    <string name="festive">节日</string>
+    <string name="explode">爆炸</string>
+    <string name="rain">下雨</string>
 </resources>
