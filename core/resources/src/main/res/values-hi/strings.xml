@@ -804,4 +804,8 @@
     <string name="zip">Zip</string>
     <string name="zip_sub">दी गई फ़ाइलों या छवियों से Zip फ़ाइल बनाएं</string>
     <string name="drag_handle_width">खींचें हैंडल की चौड़ाई</string>
+    <string name="explode">विस्फोट</string>
+    <string name="rain">बारिश</string>
+    <string name="confetti_type">रंगीन कागज के प्रकार</string>
+    <string name="festive">उत्सवपूर्ण</string>
 </resources>
