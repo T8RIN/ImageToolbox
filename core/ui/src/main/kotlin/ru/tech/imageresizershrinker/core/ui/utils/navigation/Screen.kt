@@ -314,7 +314,7 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 17,
-        icon = Icons.Rounded.ImageText,
+        icon = Icons.Outlined.ImageText,
         title = R.string.recognize_text,
         subtitle = R.string.recognize_text_sub
     )

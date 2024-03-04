@@ -22,14 +22,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.Payments
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,7 +36,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -65,7 +62,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -131,7 +127,7 @@ fun DonateSheet(
                             color = LocalContentColor.current.copy(alpha = 0.5f)
                         )
                     }
-                    PreferenceItemOverload(
+                    PreferenceItem(
                         color = TONSpaceColor,
                         contentColor = TONSpaceColor.inverse(
                             fraction = { 1f },
@@ -152,23 +148,13 @@ fun DonateSheet(
                                 }
                             }
                         },
-                        endIcon = {
-                            Icon(imageVector = Icons.Rounded.ContentCopy, contentDescription = null)
-                        },
+                        endIcon = Icons.Rounded.ContentCopy,
+                        startIcon = Icons.Rounded.Ton,
                         title = stringResource(R.string.ton_space),
-                        startIcon = {
-                            Icon(
-                                imageVector = Icons.Rounded.Ton,
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .size(24.dp)
-                                    .scale(1.5f)
-                            )
-                        },
                         subtitle = TONSpaceWallet
                     )
                     Spacer(Modifier.height(4.dp))
-                    PreferenceItemOverload(
+                    PreferenceItem(
                         color = TONColor,
                         contentColor = TONColor.inverse(
                             fraction = { 1f },
@@ -189,19 +175,9 @@ fun DonateSheet(
                                 }
                             }
                         },
-                        endIcon = {
-                            Icon(imageVector = Icons.Rounded.ContentCopy, contentDescription = null)
-                        },
+                        endIcon = Icons.Rounded.ContentCopy,
+                        startIcon = Icons.Rounded.Ton,
                         title = stringResource(R.string.ton),
-                        startIcon = {
-                            Icon(
-                                imageVector = Icons.Rounded.Ton,
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .size(24.dp)
-                                    .scale(1.5f)
-                            )
-                        },
                         subtitle = TONWallet
                     )
                     Spacer(Modifier.height(4.dp))

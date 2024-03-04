@@ -30,37 +30,37 @@ import androidx.compose.ui.unit.dp
 
 val Icons.Rounded.Ton: ImageVector by lazy {
     Builder(
-        name = "Ton", defaultWidth = 56.0.dp, defaultHeight = 56.0.dp, viewportWidth
-        = 56.0f, viewportHeight = 56.0f
+        name = "Ton", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp, viewportWidth
+        = 24.0f, viewportHeight = 24.0f
     ).apply {
         path(
-            fill = SolidColor(Color(0xFFffffff)), stroke = null, strokeLineWidth = 0.0f,
+            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
-            moveTo(37.5603f, 15.6277f)
-            horizontalLineTo(18.4386f)
-            curveTo(14.9228f, 15.6277f, 12.6944f, 19.4202f, 14.4632f, 22.4861f)
-            lineTo(26.2644f, 42.9409f)
-            curveTo(27.0345f, 44.2765f, 28.9644f, 44.2765f, 29.7345f, 42.9409f)
-            lineTo(41.5381f, 22.4861f)
-            curveTo(43.3045f, 19.4251f, 41.0761f, 15.6277f, 37.5627f, 15.6277f)
-            horizontalLineTo(37.5603f)
+            moveTo(18.0777f, 3.0f)
+            horizontalLineTo(5.9216f)
+            curveTo(3.6865f, 3.0f, 2.2699f, 5.4109f, 3.3943f, 7.3599f)
+            lineToRelative(7.5023f, 13.0033f)
+            curveToRelative(0.4896f, 0.8491f, 1.7165f, 0.8491f, 2.206f, 0.0f)
+            lineToRelative(7.5038f, -13.0033f)
+            curveTo(21.7294f, 5.414f, 20.3128f, 3.0f, 18.0792f, 3.0f)
+            horizontalLineTo(18.0777f)
             close()
-            moveTo(26.2548f, 36.8068f)
-            lineTo(23.6847f, 31.8327f)
-            lineTo(17.4833f, 20.7414f)
-            curveTo(17.0742f, 20.0315f, 17.5795f, 19.1218f, 18.4362f, 19.1218f)
-            horizontalLineTo(26.2524f)
-            verticalLineTo(36.8092f)
-            lineTo(26.2548f, 36.8068f)
+            moveTo(10.8905f, 16.4637f)
+            lineToRelative(-1.6339f, -3.1621f)
+            lineTo(5.3143f, 6.2508f)
+            curveToRelative(-0.2601f, -0.4513f, 0.0612f, -1.0296f, 0.6058f, -1.0296f)
+            horizontalLineToRelative(4.9689f)
+            verticalLineToRelative(11.244f)
+            lineTo(10.8905f, 16.4637f)
             close()
-            moveTo(38.5108f, 20.739f)
-            lineTo(32.3118f, 31.8351f)
-            lineTo(29.7417f, 36.8068f)
-            verticalLineTo(19.1194f)
-            horizontalLineTo(37.5579f)
-            curveTo(38.4146f, 19.1194f, 38.9199f, 20.0291f, 38.5108f, 20.739f)
+            moveTo(18.682f, 6.2493f)
+            lineToRelative(-3.9409f, 7.0539f)
+            lineToRelative(-1.6339f, 3.1605f)
+            verticalLineTo(5.2197f)
+            horizontalLineToRelative(4.9689f)
+            curveTo(18.6208f, 5.2197f, 18.942f, 5.798f, 18.682f, 6.2493f)
             close()
         }
     }.build()
