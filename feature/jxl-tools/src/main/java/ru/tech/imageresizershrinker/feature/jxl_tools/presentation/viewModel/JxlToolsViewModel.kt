@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("FunctionName")
+
 package ru.tech.imageresizershrinker.feature.jxl_tools.presentation.viewModel
 
 import android.graphics.Bitmap
@@ -35,6 +37,7 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
+import ru.tech.imageresizershrinker.core.domain.saving.SaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -82,30 +85,15 @@ class JxlToolsViewModel @Inject constructor(
             when (val type = _type.value) {
                 is Screen.JxlTools.Type.JpegToJxl -> {
                     val results = mutableListOf<SaveResult>()
-                    val jpegUris = type.jpegImageUris?.map { it.toString() }
-                        ?: emptyList()
+                    val jpegUris = type.jpegImageUris?.map {
+                        it.toString()
+                    } ?: emptyList()
+
                     _left.value = jpegUris.size
                     jxlTranscoder.jpegToJxl(jpegUris) { uri, jxlBytes ->
                         results.add(
                             fileController.save(
-                                saveTarget = FileSaveTarget(
-                                    originalUri = uri,
-                                    filename = fileController.constructImageFilename(
-                                        ImageSaveTarget<ExifInterface>(
-                                            imageInfo = ImageInfo(
-                                                imageFormat = ImageFormat.Jxl.Lossless,
-                                                originalUri = uri
-                                            ),
-                                            originalUri = uri,
-                                            sequenceNumber = done + 1,
-                                            metadata = null,
-                                            data = jxlBytes
-                                        ),
-                                        forceNotAddSizeInFilename = true
-                                    ),
-                                    data = jxlBytes,
-                                    imageFormat = ImageFormat.Jxl.Lossless
-                                ),
+                                saveTarget = JxlSaveTarget(uri, jxlBytes),
                                 keepOriginalMetadata = true
                             )
                         )
@@ -117,30 +105,15 @@ class JxlToolsViewModel @Inject constructor(
 
                 is Screen.JxlTools.Type.JxlToJpeg -> {
                     val results = mutableListOf<SaveResult>()
-                    val jxlUris = type.jxlImageUris?.map { it.toString() }
-                        ?: emptyList()
+                    val jxlUris = type.jxlImageUris?.map {
+                        it.toString()
+                    } ?: emptyList()
+
                     _left.value = jxlUris.size
                     jxlTranscoder.jxlToJpeg(jxlUris) { uri, jpegBytes ->
                         results.add(
                             fileController.save(
-                                saveTarget = FileSaveTarget(
-                                    originalUri = uri,
-                                    filename = fileController.constructImageFilename(
-                                        ImageSaveTarget<ExifInterface>(
-                                            imageInfo = ImageInfo(
-                                                imageFormat = ImageFormat.Jpg,
-                                                originalUri = uri
-                                            ),
-                                            originalUri = uri,
-                                            sequenceNumber = done + 1,
-                                            metadata = null,
-                                            data = jpegBytes
-                                        ),
-                                        forceNotAddSizeInFilename = true
-                                    ),
-                                    data = jpegBytes,
-                                    imageFormat = ImageFormat.Jpg
-                                ),
+                                saveTarget = JpegSaveTarget(uri, jpegBytes),
                                 keepOriginalMetadata = true
                             )
                         )
@@ -155,6 +128,54 @@ class JxlToolsViewModel @Inject constructor(
             _isSaving.value = false
         }
     }
+
+    private fun JpegSaveTarget(
+        uri: String,
+        jpegBytes: ByteArray
+    ): SaveTarget = FileSaveTarget(
+        originalUri = uri,
+        filename = jpegFilename(uri),
+        data = jpegBytes,
+        imageFormat = ImageFormat.Jpg
+    )
+
+    private fun jpegFilename(uri: String): String = fileController.constructImageFilename(
+        saveTarget = ImageSaveTarget<ExifInterface>(
+            imageInfo = ImageInfo(
+                imageFormat = ImageFormat.Jpg,
+                originalUri = uri
+            ),
+            originalUri = uri,
+            sequenceNumber = done + 1,
+            metadata = null,
+            data = ByteArray(0)
+        ),
+        forceNotAddSizeInFilename = true
+    )
+
+    private fun JxlSaveTarget(
+        uri: String,
+        jxlBytes: ByteArray
+    ): SaveTarget = FileSaveTarget(
+        originalUri = uri,
+        filename = jxlFilename(uri),
+        data = jxlBytes,
+        imageFormat = ImageFormat.Jxl.Lossless
+    )
+
+    private fun jxlFilename(uri: String): String = fileController.constructImageFilename(
+        ImageSaveTarget<ExifInterface>(
+            imageInfo = ImageInfo(
+                imageFormat = ImageFormat.Jxl.Lossless,
+                originalUri = uri
+            ),
+            originalUri = uri,
+            sequenceNumber = done + 1,
+            metadata = null,
+            data = ByteArray(0)
+        ),
+        forceNotAddSizeInFilename = true
+    )
 
     fun cancelSaving() {
         savingJob?.cancel()
@@ -171,27 +192,17 @@ class JxlToolsViewModel @Inject constructor(
             _done.value = 0
             when (val type = _type.value) {
                 is Screen.JxlTools.Type.JpegToJxl -> {
-                    val jpegUris = type.jpegImageUris?.map { it.toString() } ?: emptyList()
-                    _left.value = jpegUris.size
-
                     val results = mutableListOf<String?>()
+                    val jpegUris = type.jpegImageUris?.map {
+                        it.toString()
+                    } ?: emptyList()
+
+                    _left.value = jpegUris.size
                     jxlTranscoder.jpegToJxl(jpegUris) { uri, jxlBytes ->
                         results.add(
                             shareProvider.cacheByteArray(
                                 byteArray = jxlBytes,
-                                filename = fileController.constructImageFilename(
-                                    ImageSaveTarget<ExifInterface>(
-                                        imageInfo = ImageInfo(
-                                            imageFormat = ImageFormat.Jxl.Lossless,
-                                            originalUri = uri
-                                        ),
-                                        originalUri = uri,
-                                        sequenceNumber = done + 1,
-                                        metadata = null,
-                                        data = jxlBytes
-                                    ),
-                                    forceNotAddSizeInFilename = true
-                                )
+                                filename = jxlFilename(uri)
                             )
                         )
                         _done.update { it + 1 }
@@ -202,27 +213,17 @@ class JxlToolsViewModel @Inject constructor(
                 }
 
                 is Screen.JxlTools.Type.JxlToJpeg -> {
-                    val jxlUris = type.jxlImageUris?.map { it.toString() } ?: emptyList()
-                    _left.value = jxlUris.size
-
                     val results = mutableListOf<String?>()
+                    val jxlUris = type.jxlImageUris?.map {
+                        it.toString()
+                    } ?: emptyList()
+
+                    _left.value = jxlUris.size
                     jxlTranscoder.jxlToJpeg(jxlUris) { uri, jpegBytes ->
                         results.add(
                             shareProvider.cacheByteArray(
                                 byteArray = jpegBytes,
-                                filename = fileController.constructImageFilename(
-                                    saveTarget = ImageSaveTarget<ExifInterface>(
-                                        imageInfo = ImageInfo(
-                                            imageFormat = ImageFormat.Jpg,
-                                            originalUri = uri
-                                        ),
-                                        originalUri = uri,
-                                        sequenceNumber = done + 1,
-                                        metadata = null,
-                                        data = jpegBytes
-                                    ),
-                                    forceNotAddSizeInFilename = true
-                                )
+                                filename = jpegFilename(uri)
                             )
                         )
                         _done.update { it + 1 }

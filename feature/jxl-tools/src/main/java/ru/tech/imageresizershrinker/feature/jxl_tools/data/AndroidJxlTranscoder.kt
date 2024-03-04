@@ -31,29 +31,29 @@ internal class AndroidJxlTranscoder @Inject constructor(
 
     override suspend fun jpegToJxl(
         jpegUris: List<String>,
-        onProgress: suspend (originalUri: String, data: ByteArray) -> Unit
-    ) {
-        jpegUris.forEach { uri ->
-            val bytes = context.contentResolver.openInputStream(uri.toUri())?.use {
-                it.readBytes()
-            } ?: return
-
-            onProgress(uri, JxlCoder.construct(bytes))
-        }
+        onProgress: suspend (String, ByteArray) -> Unit
+    ) = jpegUris.forEach { uri ->
+        uri.jxl?.let { onProgress(uri, it) }
     }
 
     override suspend fun jxlToJpeg(
         jxlUris: List<String>,
-        onProgress: suspend (originalUri: String, data: ByteArray) -> Unit
-    ) {
-        jxlUris.forEach { uri ->
-            val bytes = context.contentResolver.openInputStream(uri.toUri())?.use {
-                it.readBytes()
-            } ?: return
-
-            onProgress(uri, JxlCoder.reconstructJPEG(bytes))
-        }
+        onProgress: suspend (String, ByteArray) -> Unit
+    ) = jxlUris.forEach { uri ->
+        uri.jpeg?.let { onProgress(uri, it) }
     }
 
+    private val String.jxl: ByteArray?
+        get() = bytes?.let { JxlCoder.construct(it) }
+
+    private val String.jpeg: ByteArray?
+        get() = bytes?.let { JxlCoder.reconstructJPEG(it) }
+
+    private val String.bytes: ByteArray?
+        get() = context
+            .contentResolver
+            .openInputStream(toUri())?.use {
+                it.readBytes()
+            }
 
 }
