@@ -547,6 +547,6 @@ sealed class Screen(
                 LimitResize()
             )
         }
-        const val featuresCount = 32
+        const val featuresCount = 33
     }
 }
