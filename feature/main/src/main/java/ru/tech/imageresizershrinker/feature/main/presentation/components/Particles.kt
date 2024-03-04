@@ -62,7 +62,10 @@ class Particles(primary: Color) {
     fun forType(type: Type): List<Party> = data[type]!!
 
     companion object {
-        fun default(primary: Color) = listOf(
+
+        fun default(
+            primary: Color
+        ): List<Party> = listOf(
             Party(
                 speed = 0f,
                 maxSpeed = 15f,
@@ -103,21 +106,19 @@ class Particles(primary: Color) {
             duration: Long = 500,
             delay: Int = 0,
             spread: Int = 45
-        ): List<Party> {
-            val party = Party(
-                speed = 30f,
-                maxSpeed = 50f,
-                damping = 0.9f,
-                angle = angle,
-                spread = spread,
-                delay = delay,
-                timeToLive = 3000L,
-                colors = defaultColors.mapToPrimary(primary),
-                emitter = Emitter(duration = duration, TimeUnit.MILLISECONDS).max(30),
-                position = Position.Relative(xPos, yPos)
-            )
-
-            return listOf(
+        ): List<Party> = Party(
+            speed = 30f,
+            maxSpeed = 50f,
+            damping = 0.9f,
+            angle = angle,
+            spread = spread,
+            delay = delay,
+            timeToLive = 3000L,
+            colors = defaultColors.mapToPrimary(primary),
+            emitter = Emitter(duration = duration, TimeUnit.MILLISECONDS).max(30),
+            position = Position.Relative(xPos, yPos)
+        ).let { party ->
+            listOf(
                 party,
                 party.copy(
                     speed = 55f,
@@ -142,26 +143,27 @@ class Particles(primary: Color) {
 
         fun festiveBottom(
             primary: Color
-        ) = festive(primary, 0.2)
+        ): List<Party> = festive(primary, 0.2)
             .plus(festive(primary, 0.8))
 
-        fun explode(primary: Color): List<Party> {
-            val party = Party(
-                speed = 0f,
-                maxSpeed = 30f,
-                damping = 0.9f,
-                spread = 360,
-                timeToLive = 2500,
-                colors = defaultColors.mapToPrimary(primary),
-                emitter = Emitter(duration = 200, TimeUnit.MILLISECONDS).max(100)
-            )
+        fun explode(
+            primary: Color
+        ): List<Party> = Party(
+            speed = 0f,
+            maxSpeed = 30f,
+            damping = 0.9f,
+            spread = 360,
+            timeToLive = 2500,
+            colors = defaultColors.mapToPrimary(primary),
+            emitter = Emitter(duration = 200, TimeUnit.MILLISECONDS).max(100)
+        ).let { party ->
             val (x1, y1) = Random.nextDouble(0.0, 0.3) to Random.nextDouble(0.0, 0.5)
             val (x2, y2) = Random.nextDouble(0.0, 0.3) to Random.nextDouble(0.5, 1.0)
             val (x3, y3) = Random.nextDouble(0.3, 0.7) to Random.nextDouble(0.0, 1.0)
             val (x4, y4) = Random.nextDouble(0.7, 1.0) to Random.nextDouble(0.0, 0.5)
             val (x5, y5) = Random.nextDouble(0.7, 1.0) to Random.nextDouble(0.5, 1.0)
 
-            return listOf(
+            listOf(
                 party.copy(
                     position = Position.Relative(x1, y1)
                 ),
@@ -184,15 +186,16 @@ class Particles(primary: Color) {
             )
         }
 
-        fun rain(primary: Color): List<Party> {
-            val party = Party(
-                speed = 10f,
-                maxSpeed = 30f,
-                damping = 0.9f,
-                colors = defaultColors.mapToPrimary(primary),
-                emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
-            )
-            return listOf(
+        fun rain(
+            primary: Color
+        ): List<Party> = Party(
+            speed = 10f,
+            maxSpeed = 30f,
+            damping = 0.9f,
+            colors = defaultColors.mapToPrimary(primary),
+            emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
+        ).let { party ->
+            listOf(
                 party.copy(
                     angle = 45,
                     position = Position.Relative(0.0, 0.0),
