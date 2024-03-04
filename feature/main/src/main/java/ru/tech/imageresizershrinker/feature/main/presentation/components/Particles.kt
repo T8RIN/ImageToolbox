@@ -41,7 +41,11 @@ private val Color8 = Color(0xFF0E008A)
 
 private val defaultColors = listOf(
     Color1, Color2, Color3, Color4, Color5, Color6, Color7, Color8
-).map { it.toArgb() }
+)
+
+private fun List<Color>.mapToPrimary(primary: Color): List<Int> = map {
+    it.blend(primary, 0.5f).toArgb()
+}
 
 @Stable
 class Particles(primary: Color) {
@@ -65,7 +69,7 @@ class Particles(primary: Color) {
                 damping = 0.9f,
                 angle = Angle.BOTTOM,
                 spread = Spread.ROUND,
-                colors = defaultColors.map { it.blend(primary, 0.5f) },
+                colors = defaultColors.mapToPrimary(primary),
                 emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
                 position = Position.Relative(0.0, 0.0).between(Position.Relative(1.0, 0.0))
             ),
@@ -75,7 +79,7 @@ class Particles(primary: Color) {
                 damping = 0.9f,
                 angle = Angle.RIGHT - 45,
                 spread = 60,
-                colors = defaultColors.map { it.blend(primary, 0.5f) },
+                colors = defaultColors.mapToPrimary(primary),
                 emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
                 position = Position.Relative(0.0, 1.0)
             ),
@@ -85,7 +89,7 @@ class Particles(primary: Color) {
                 damping = 0.9f,
                 angle = Angle.RIGHT - 135,
                 spread = 60,
-                colors = defaultColors.map { it.blend(primary, 0.5f) },
+                colors = defaultColors.mapToPrimary(primary),
                 emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
                 position = Position.Relative(1.0, 1.0)
             )
@@ -108,7 +112,7 @@ class Particles(primary: Color) {
                 spread = spread,
                 delay = delay,
                 timeToLive = 3000L,
-                colors = defaultColors.map { it.blend(primary, 0.5f) },
+                colors = defaultColors.mapToPrimary(primary),
                 emitter = Emitter(duration = duration, TimeUnit.MILLISECONDS).max(30),
                 position = Position.Relative(xPos, yPos)
             )
@@ -148,7 +152,7 @@ class Particles(primary: Color) {
                 damping = 0.9f,
                 spread = 360,
                 timeToLive = 2500,
-                colors = defaultColors.map { it.blend(primary, 0.5f) },
+                colors = defaultColors.mapToPrimary(primary),
                 emitter = Emitter(duration = 200, TimeUnit.MILLISECONDS).max(100)
             )
             val (x1, y1) = Random.nextDouble(0.0, 0.3) to Random.nextDouble(0.0, 0.5)
@@ -163,19 +167,19 @@ class Particles(primary: Color) {
                 ),
                 party.copy(
                     position = Position.Relative(x2, y2),
-                    delay = 150
+                    delay = 200
                 ),
                 party.copy(
                     position = Position.Relative(x3, y3),
-                    delay = 300
+                    delay = 400
                 ),
                 party.copy(
                     position = Position.Relative(x4, y4),
-                    delay = 450
+                    delay = 600
                 ),
                 party.copy(
                     position = Position.Relative(x5, y5),
-                    delay = 600
+                    delay = 800
                 )
             )
         }
@@ -185,7 +189,7 @@ class Particles(primary: Color) {
                 speed = 10f,
                 maxSpeed = 30f,
                 damping = 0.9f,
-                colors = defaultColors.map { it.blend(primary, 0.5f) },
+                colors = defaultColors.mapToPrimary(primary),
                 emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
             )
             return listOf(

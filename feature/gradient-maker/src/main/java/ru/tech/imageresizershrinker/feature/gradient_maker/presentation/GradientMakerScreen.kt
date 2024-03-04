@@ -127,7 +127,7 @@ fun GradientMakerScreen(
 
     val confettiHostState = LocalConfettiHostState.current
     val showConfetti: () -> Unit = {
-        scope.launch { confettiHostState.show() }
+        scope.launch { confettiHostState.showConfetti() }
     }
     val toastHostState = LocalToastHostState.current
 

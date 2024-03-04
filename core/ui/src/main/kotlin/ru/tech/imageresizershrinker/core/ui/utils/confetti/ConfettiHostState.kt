@@ -39,7 +39,7 @@ val LocalConfettiHostState = compositionLocalOf { ConfettiHostState() }
 fun rememberConfettiHostState() = remember { ConfettiHostState() }
 
 class ConfettiHostState : ToastHostState() {
-    suspend fun show(
+    suspend fun showConfetti(
         duration: ToastDuration = ToastDuration(4500L)
     ) = showToast(message = "", duration = duration)
 }

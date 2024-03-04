@@ -157,7 +157,7 @@ fun LoadNetImageScreen(
             parseSaveResult(
                 saveResult = saveResult,
                 onSuccess = {
-                    confettiHostState.show()
+                    confettiHostState.showConfetti()
                 },
                 toastHostState = toastHostState,
                 scope = scope,
@@ -174,7 +174,7 @@ fun LoadNetImageScreen(
 
     val showConfetti: () -> Unit = {
         scope.launch {
-            confettiHostState.show()
+            confettiHostState.showConfetti()
         }
     }
 

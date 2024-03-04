@@ -49,7 +49,7 @@ fun TopAppBarEmoji() {
             .scaleOnTap(
                 onRelease = {
                     scope.launch {
-                        confettiHostState.show()
+                        confettiHostState.showConfetti()
                     }
                 }
             )

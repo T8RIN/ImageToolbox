@@ -116,7 +116,7 @@ fun ImagePreviewScreen(
     val scope = rememberCoroutineScope()
     val showConfetti: () -> Unit = {
         scope.launch {
-            confettiHostState.show()
+            confettiHostState.showConfetti()
         }
     }
 

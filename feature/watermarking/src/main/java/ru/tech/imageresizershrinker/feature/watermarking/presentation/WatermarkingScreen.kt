@@ -96,7 +96,7 @@ fun WatermarkingScreen(
 
     val showConfetti: () -> Unit = {
         scope.launch {
-            confettiHostState.show()
+            confettiHostState.showConfetti()
         }
     }
 

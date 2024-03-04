@@ -142,7 +142,7 @@ fun ApngToolsScreen(
     val confettiHostState = LocalConfettiHostState.current
     val showConfetti: () -> Unit = {
         scope.launch {
-            confettiHostState.show()
+            confettiHostState.showConfetti()
         }
     }
 
@@ -187,7 +187,7 @@ fun ApngToolsScreen(
                         }
                     } else {
                         scope.launch {
-                            confettiHostState.show()
+                            confettiHostState.showConfetti()
                         }
                         scope.launch {
                             toastHostState.showToast(

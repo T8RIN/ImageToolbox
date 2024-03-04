@@ -159,7 +159,7 @@ fun EraseBackgroundScreen(
     val confettiHostState = LocalConfettiHostState.current
     val showConfetti: () -> Unit = {
         scope.launch {
-            confettiHostState.show()
+            confettiHostState.showConfetti()
         }
     }
 

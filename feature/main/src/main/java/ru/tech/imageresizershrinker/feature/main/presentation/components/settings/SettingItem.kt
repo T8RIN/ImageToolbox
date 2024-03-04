@@ -128,7 +128,7 @@ internal fun SettingItem(
                         ),
                         onSuccess = {
                             scope.launch {
-                                confettiHostState.show()
+                                confettiHostState.showConfetti()
                             }
                             scope.launch {
                                 toastHostState.showToast(
@@ -346,7 +346,7 @@ internal fun SettingItem(
                         uri = it,
                         onSuccess = {
                             scope.launch {
-                                confettiHostState.show()
+                                confettiHostState.showConfetti()
                                 //Wait for confetti to appear, then trigger font scale adjustment
                                 delay(300L)
                                 context.recreate()

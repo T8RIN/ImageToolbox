@@ -137,7 +137,7 @@ fun ConfettiTypeSettingItem(
                             onValueChange(it.ordinal)
                             scope.launch {
                                 delay(200L)
-                                confettiHostState.show()
+                                confettiHostState.showConfetti()
                             }
                         },
                         selected = it.ordinal == value,

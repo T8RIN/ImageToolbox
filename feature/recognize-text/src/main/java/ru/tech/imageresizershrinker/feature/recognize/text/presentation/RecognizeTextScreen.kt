@@ -194,7 +194,7 @@ fun RecognizeTextScreen(
         viewModel.recognitionData?.text?.let {
             context.shareText(it)
             scope.launch {
-                confettiHostState.show()
+                confettiHostState.showConfetti()
             }
         }
     }
@@ -377,7 +377,7 @@ fun RecognizeTextScreen(
                     onComplete = {
                         downloadDialogData = emptyList()
                         scope.launch {
-                            confettiHostState.show()
+                            confettiHostState.showConfetti()
                         }
                         startRecognition()
                     }

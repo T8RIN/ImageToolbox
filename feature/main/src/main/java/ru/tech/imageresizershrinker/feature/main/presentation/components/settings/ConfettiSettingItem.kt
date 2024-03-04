@@ -55,7 +55,7 @@ fun ConfettiSettingItem(
                 scope.launch {
                     //Wait for setting to be applied
                     delay(200L)
-                    confettiHostState.show()
+                    confettiHostState.showConfetti()
                 }
             }
         },

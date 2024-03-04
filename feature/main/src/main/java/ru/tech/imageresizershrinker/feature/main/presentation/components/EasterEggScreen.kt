@@ -236,7 +236,7 @@ fun EasterEggScreen(
                                 Random.nextFloat()
                             } else 0.2f
                             scope.launch {
-                                confettiHostState.show()
+                                confettiHostState.showConfetti()
                             }
                         }
                         .size(ballSize),

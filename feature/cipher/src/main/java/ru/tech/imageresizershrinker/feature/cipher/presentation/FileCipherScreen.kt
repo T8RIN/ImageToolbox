@@ -193,7 +193,7 @@ fun FileCipherScreen(
                         }
                     } else {
                         scope.launch {
-                            confettiHostState.show()
+                            confettiHostState.showConfetti()
                         }
                         scope.launch {
                             toastHostState.showToast(
@@ -738,7 +738,7 @@ fun FileCipherScreen(
                                                                     filename = name
                                                                 ) {
                                                                     scope.launch {
-                                                                        confettiHostState.show()
+                                                                        confettiHostState.showConfetti()
                                                                     }
                                                                 }
                                                             }

@@ -156,7 +156,7 @@ fun ZipScreen(
                         }
                     } else {
                         scope.launch {
-                            confettiHostState.show()
+                            confettiHostState.showConfetti()
                         }
                         scope.launch {
                             toastHostState.showToast(
@@ -373,7 +373,7 @@ fun ZipScreen(
                                         filename = name
                                     ) {
                                         scope.launch {
-                                            confettiHostState.show()
+                                            confettiHostState.showConfetti()
                                         }
                                     }
                                 }

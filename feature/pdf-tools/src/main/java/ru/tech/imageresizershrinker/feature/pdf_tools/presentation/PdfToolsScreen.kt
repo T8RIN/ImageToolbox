@@ -200,7 +200,7 @@ fun PdfToolsScreen(
 
     val showConfetti: () -> Unit = {
         scope.launch {
-            confettiHostState.show()
+            confettiHostState.showConfetti()
         }
     }
 
@@ -217,7 +217,7 @@ fun PdfToolsScreen(
                         }
                     } else {
                         scope.launch {
-                            confettiHostState.show()
+                            confettiHostState.showConfetti()
                         }
                         scope.launch {
                             toastHostState.showToast(

@@ -139,7 +139,7 @@ fun GifToolsScreen(
     val confettiHostState = LocalConfettiHostState.current
     val showConfetti: () -> Unit = {
         scope.launch {
-            confettiHostState.show()
+            confettiHostState.showConfetti()
         }
     }
 
@@ -185,7 +185,7 @@ fun GifToolsScreen(
                         }
                     } else {
                         scope.launch {
-                            confettiHostState.show()
+                            confettiHostState.showConfetti()
                         }
                         scope.launch {
                             toastHostState.showToast(
