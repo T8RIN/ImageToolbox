@@ -189,7 +189,10 @@ sealed class UiFilter<T>(
                     UiFastBilaterialBlurFilter(),
                     UiPoissonBlurFilter(),
                     UiMedianBlurFilter(),
-                    UiBokehFilter()
+                    UiBokehFilter(),
+                    UiFastGaussianBlur2DFilter(),
+                    UiFastGaussianBlur3DFilter(),
+                    UiFastGaussianBlur4DFilter()
                 ),
                 listOf(
                     UiCrystallizeFilter(),

@@ -19,24 +19,12 @@ package ru.tech.imageresizershrinker.core.filters.presentation.model
 
 import android.graphics.Bitmap
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import ru.tech.imageresizershrinker.core.resources.R
 
-class UiRandomDitheringFilter(
-    override val value: Pair<Float, Boolean> = 200f to false,
-) : UiFilter<Pair<Float, Boolean>>(
-    title = R.string.random_dithering,
+class UiFastGaussianBlur3DFilter(
+    override val value: Float = 25f
+) : UiFilter<Float>(
+    title = R.string.fast_gaussian_blur_3d,
     value = value,
-    paramsInfo = listOf(
-        FilterParam(
-            title = R.string.threshold,
-            valueRange = 1f..255f,
-            roundTo = 0
-        ),
-        FilterParam(
-            title = R.string.gray_scale,
-            valueRange = 0f..0f,
-            roundTo = 0
-        )
-    )
-), Filter.RandomDithering<Bitmap>
+    valueRange = 1f..100f
+), Filter.FastGaussianBlur3D<Bitmap>

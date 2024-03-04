@@ -85,6 +85,9 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.FalseFloydSteinbe
 import ru.tech.imageresizershrinker.feature.filters.data.model.FantasyLandscapeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.FastBilaterialBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.FastBlurFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.FastGaussianBlur2DFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.FastGaussianBlur3DFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.FastGaussianBlur4DFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.FloydSteinbergDitheringFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.FractalGlassFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.FuturisticGradientFilter
@@ -359,6 +362,9 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.LinearTiltShift -> LinearTiltShiftFilter(value)
             is Filter.MotionBlur -> MotionBlurFilter(value)
             is Filter.Convex -> ConvexFilter(value)
+            is Filter.FastGaussianBlur2D -> FastGaussianBlur2DFilter(value)
+            is Filter.FastGaussianBlur3D -> FastGaussianBlur3DFilter(value)
+            is Filter.FastGaussianBlur4D -> FastGaussianBlur4DFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

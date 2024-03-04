@@ -184,4 +184,7 @@ interface Filter<Image, Value> {
     interface LinearTiltShift<Image> : Filter<Image, LinearTiltShiftParams>
     interface MotionBlur<Image> : Filter<Image, MotionBlurParams>
     interface Convex<Image> : Filter<Image, Float>
+    interface FastGaussianBlur2D<Image> : Filter<Image, Float>
+    interface FastGaussianBlur3D<Image> : Filter<Image, Float>
+    interface FastGaussianBlur4D<Image> : Filter<Image, Float>
 }

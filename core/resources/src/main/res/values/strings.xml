@@ -834,4 +834,7 @@
     <string name="jpeg_type_to_jxl_sub">Perform lossless transcoding from  JPEG to JXL</string>
     <string name="jpeg_type_to_jxl">JPEG to JXL</string>
     <string name="select_jxl_image_to_start">Pick JXL image to start</string>
+    <string name="fast_gaussian_blur_2d">Fast Gaussian Blur 2D</string>
+    <string name="fast_gaussian_blur_3d">Fast Gaussian Blur 3D</string>
+    <string name="fast_gaussian_blur_4d">Fast Gaussian Blur 4D</string>
 </resources>

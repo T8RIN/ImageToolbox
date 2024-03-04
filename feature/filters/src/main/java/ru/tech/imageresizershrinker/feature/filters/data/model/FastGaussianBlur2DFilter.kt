@@ -15,28 +15,28 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.filters.presentation.model
+package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
+import com.awxkee.aire.Aire
+import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
-import ru.tech.imageresizershrinker.core.resources.R
+import kotlin.math.roundToInt
 
-class UiRandomDitheringFilter(
-    override val value: Pair<Float, Boolean> = 200f to false,
-) : UiFilter<Pair<Float, Boolean>>(
-    title = R.string.random_dithering,
-    value = value,
-    paramsInfo = listOf(
-        FilterParam(
-            title = R.string.threshold,
-            valueRange = 1f..255f,
-            roundTo = 0
-        ),
-        FilterParam(
-            title = R.string.gray_scale,
-            valueRange = 0f..0f,
-            roundTo = 0
-        )
+internal class FastGaussianBlur2DFilter(
+    override val value: Float = 25f
+) : Transformation<Bitmap>, Filter.FastGaussianBlur2D<Bitmap> {
+
+    override val cacheKey: String
+        get() = value.hashCode().toString()
+
+    override suspend fun transform(
+        input: Bitmap,
+        size: IntegerSize
+    ): Bitmap = Aire.fastGaussian2Degree(
+        bitmap = input,
+        radius = value.roundToInt()
     )
-), Filter.RandomDithering<Bitmap>
+
+}
