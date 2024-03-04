@@ -324,6 +324,9 @@ or click one of the badges below.
 - APNG conversion
   * APNG to images
   * Images to APNG
+- JXL transcoding
+  * JXL to JPEG
+  * JPEG to JXL
 - Image Shrinking
   - Quality compressing
   - Preset shrinking
