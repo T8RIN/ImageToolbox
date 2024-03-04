@@ -55,7 +55,8 @@ fun Modifier.container(
     clip: Boolean = true,
     composeColorOnTopOfBackground: Boolean = true,
     isShadowClip: Boolean = false,
-    isStandaloneContainer: Boolean = true
+    isStandaloneContainer: Boolean = true,
+    shadowColor: Color = Color.Black
 ) = this.composed {
     val localContainerShape = LocalContainerShape.current
     val resultShape = localContainerShape ?: shape
@@ -119,7 +120,8 @@ fun Modifier.container(
             enabled = if (isStandaloneContainer) {
                 settingsState.drawContainerShadows
             } else true,
-            isClipped = isShadowClip
+            isClipped = isShadowClip,
+            color = shadowColor
         )
         .then(
             if (resultShape is CornerBasedShape) cornerModifier

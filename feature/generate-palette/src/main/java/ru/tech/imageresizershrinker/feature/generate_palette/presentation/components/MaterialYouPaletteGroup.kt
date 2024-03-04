@@ -175,6 +175,39 @@ fun MaterialYouPaletteGroup(
             modifier = Modifier.height(IntrinsicSize.Max)
         ) {
             MaterialYouPaletteItem(
+                color = colorScheme.inversePrimary,
+                colorScheme = colorScheme,
+                name = "Inverse Primary",
+                onCopy = onCopy,
+                modifier = Modifier.weight(1f)
+            )
+            MaterialYouPaletteItem(
+                color = colorScheme.surfaceTint,
+                colorScheme = colorScheme,
+                name = "Surface Tint",
+                onCopy = onCopy,
+                modifier = Modifier.weight(1f)
+            )
+            MaterialYouPaletteItem(
+                color = colorScheme.surfaceDim,
+                colorScheme = colorScheme,
+                name = "Surface Dim",
+                onCopy = onCopy,
+                modifier = Modifier.weight(1f)
+            )
+            MaterialYouPaletteItem(
+                color = colorScheme.surfaceBright,
+                colorScheme = colorScheme,
+                name = "Surface Bright",
+                onCopy = onCopy,
+                modifier = Modifier.weight(1f)
+            )
+        }
+
+        Row(
+            modifier = Modifier.height(IntrinsicSize.Max)
+        ) {
+            MaterialYouPaletteItem(
                 color = colorScheme.surfaceVariant,
                 colorScheme = colorScheme,
                 name = "Surface Variant",
