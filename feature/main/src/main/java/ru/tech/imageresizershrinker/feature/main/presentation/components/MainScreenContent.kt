@@ -214,7 +214,7 @@ internal fun MainScreenContent(
                                     .surfaceColorAtElevation(3.dp)
                             ) {
                                 val titleText = remember {
-                                    "${Screen.featuresCount}".plus(
+                                    "${Screen.FEATURES_COUNT}".plus(
                                         if (BuildConfig.FLAVOR == "market") {
                                             versionPreRelease
                                         } else {
