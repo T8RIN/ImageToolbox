@@ -53,6 +53,7 @@ import ru.tech.imageresizershrinker.feature.gif_tools.presentation.GifToolsScree
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.GradientMakerScreen
 import ru.tech.imageresizershrinker.feature.image_preview.presentation.ImagePreviewScreen
 import ru.tech.imageresizershrinker.feature.image_stitch.presentation.ImageStitchingScreen
+import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.JxlToolsScreen
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.LimitsResizeScreen
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.LoadNetImageScreen
 import ru.tech.imageresizershrinker.feature.main.presentation.MainScreen
@@ -287,6 +288,13 @@ fun ScreenSelector(
             is Screen.Zip -> {
                 ZipScreen(
                     uriState = screen.uris,
+                    onGoBack = onGoBack
+                )
+            }
+
+            is Screen.JxlTools -> {
+                JxlToolsScreen(
+                    typeState = screen.type,
                     onGoBack = onGoBack
                 )
             }

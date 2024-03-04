@@ -49,7 +49,7 @@ sealed class ImageFormat(
     data object Jpg : ImageFormat(
         title = "JPG",
         extension = "jpg",
-        type = "image/jpg",
+        type = "image/jpeg",
         canChangeCompressionValue = true,
         canWriteExif = true
     )
@@ -65,7 +65,7 @@ sealed class ImageFormat(
     data object MozJpeg : ImageFormat(
         title = "MozJpeg",
         extension = "jpg",
-        type = "image/jpg",
+        type = "image/jpeg",
         canChangeCompressionValue = true,
         canWriteExif = true
     )

@@ -11,9 +11,9 @@ compose-compiler = "1.5.10"
 
 avifCoderCoil = "1.6.4"
 avifCoder = "1.6.4"
-aire = "0.9.84"
-jxlCoderCoil = "1.11.1"
-jxlCoder = "1.11.1"
+aire = "0.9.85"
+jxlCoderCoil = "2.0.0"
+jxlCoder = "2.0.0"
 
 tesseract = "4.3.0"
 composeVersion = "1.7.0-alpha03"

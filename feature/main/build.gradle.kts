@@ -48,4 +48,5 @@ dependencies {
     implementation(projects.feature.gifTools)
     implementation(projects.feature.apngTools)
     implementation(projects.feature.zip)
+    implementation(projects.feature.jxlTools)
 }

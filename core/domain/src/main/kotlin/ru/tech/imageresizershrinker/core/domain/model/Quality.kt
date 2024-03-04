@@ -25,7 +25,7 @@ sealed class Quality(
     data class Jxl(
         @IntRange(from = 0, to = 100)
         override val qualityValue: Int = 100,
-        @IntRange(from = 1, to = 9)
+        @IntRange(from = 1, to = 10)
         val effort: Int = 7,
         @IntRange(from = 0, to = 5)
         val speed: Int = 2

@@ -333,7 +333,7 @@ class PdfToolsViewModel @Inject constructor(
                         },
                         onComplete = {
                             _isSaving.value = false
-                            shareProvider.shareImageUris(uris.filterNotNull())
+                            shareProvider.shareUris(uris.filterNotNull())
                             onComplete()
                         }
                     )

@@ -136,16 +136,21 @@ internal class AndroidShareProvider @Inject constructor(
         context.startActivity(shareIntent)
     }
 
-    override suspend fun shareImageUris(
+    override suspend fun shareUris(
         uris: List<String>
     ) = shareImageUris(uris.map { it.toUri() })
 
     private fun shareImageUris(uris: List<Uri>) {
+        if (uris.isEmpty()) return
+
         val sendIntent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
             putParcelableArrayListExtra(Intent.EXTRA_STREAM, ArrayList(uris))
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            type = "image/*"
+            type = MimeTypeMap.getSingleton()
+                .getMimeTypeFromExtension(
+                    imageGetter.getExtension(uris.first().toString())
+                ) ?: "*/*"
         }
         val shareIntent = Intent.createChooser(sendIntent, context.getString(R.string.share))
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

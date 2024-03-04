@@ -53,6 +53,8 @@ import ru.tech.imageresizershrinker.core.ui.icons.material.ImageEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageLimit
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageText
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageWeight
+import ru.tech.imageresizershrinker.core.ui.icons.material.Jpg
+import ru.tech.imageresizershrinker.core.ui.icons.material.Jxl
 import ru.tech.imageresizershrinker.core.ui.icons.material.MultipleImageEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.PaletteSwatch
 import ru.tech.imageresizershrinker.core.ui.icons.material.Resize
@@ -428,6 +430,48 @@ sealed class Screen(
         subtitle = R.string.zip_sub
     )
 
+    data class JxlTools(
+        val type: Type? = null
+    ) : Screen(
+        id = 20,
+        icon = Icons.Filled.Jxl,
+        title = R.string.jxl_tools,
+        subtitle = R.string.jxl_tools_sub
+    ) {
+        @Parcelize
+        sealed class Type(
+            @StringRes val title: Int,
+            @StringRes val subtitle: Int,
+            @IgnoredOnParcel val icon: ImageVector? = null
+        ) : Parcelable {
+
+            data class JxlToJpeg(
+                val jxlImageUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.jxl_type_to_jpeg,
+                subtitle = R.string.jxl_type_to_jpeg_sub,
+                icon = Icons.Outlined.Jpg
+            )
+
+            data class JpegToJxl(
+                val jpegImageUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.jpeg_type_to_jxl,
+                subtitle = R.string.jpeg_type_to_jxl_sub,
+                icon = Icons.Filled.Jxl
+            )
+
+            companion object {
+                val entries by lazy {
+                    listOf(
+                        JpegToJxl(),
+                        JxlToJpeg()
+                    )
+                }
+            }
+        }
+    }
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -465,6 +509,7 @@ sealed class Screen(
                     GifTools(),
                     ImagePreview(),
                     GeneratePalette(),
+                    JxlTools(),
                     ApngTools(),
                     LoadNetImage(),
                 ) to Triple(
@@ -490,6 +535,7 @@ sealed class Screen(
                 Watermarking(),
                 GifTools(),
                 ApngTools(),
+                JxlTools(),
                 ImagePreview(),
                 LoadNetImage(),
                 PickColorFromImage(),
@@ -501,6 +547,6 @@ sealed class Screen(
                 LimitResize()
             )
         }
-        const val featuresCount = 31
+        const val featuresCount = 32
     }
 }

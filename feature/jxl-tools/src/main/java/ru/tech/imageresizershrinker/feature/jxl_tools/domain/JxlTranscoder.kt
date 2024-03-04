@@ -15,26 +15,18 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.saving
+package ru.tech.imageresizershrinker.feature.jxl_tools.domain
 
-import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
+interface JxlTranscoder {
 
-interface FileController {
-    val savingPath: String
+    suspend fun jpegToJxl(
+        jpegUris: List<String>,
+        onProgress: suspend (originalUri: String, data: ByteArray) -> Unit
+    )
 
-    suspend fun save(
-        saveTarget: SaveTarget,
-        keepOriginalMetadata: Boolean
-    ): SaveResult
+    suspend fun jxlToJpeg(
+        jxlUris: List<String>,
+        onProgress: suspend (originalUri: String, data: ByteArray) -> Unit
+    )
 
-    fun getSize(uri: String): Long?
-
-    fun constructImageFilename(
-        saveTarget: ImageSaveTarget<*>,
-        forceNotAddSizeInFilename: Boolean = false
-    ): String
-
-    fun clearCache(onComplete: (String) -> Unit = {})
-
-    fun getReadableCacheSize(): String
 }

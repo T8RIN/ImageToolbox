@@ -28,6 +28,7 @@ import com.awxkee.jxlcoder.JxlCoder
 import com.awxkee.jxlcoder.JxlColorSpace
 import com.awxkee.jxlcoder.JxlCompressionOption
 import com.awxkee.jxlcoder.JxlDecodingSpeed
+import com.awxkee.jxlcoder.JxlEffort
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.Quality
@@ -344,12 +345,12 @@ internal abstract class SimpleCompressor {
             quality: Quality
         ): ByteArray {
             val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl(quality.qualityValue)
-            return JxlCoder().encode(
+            return JxlCoder.encode(
                 bitmap = image,
                 colorSpace = JxlColorSpace.RGBA,
                 compressionOption = JxlCompressionOption.LOSSY,
                 quality = jxlQuality.qualityValue,
-                effort = jxlQuality.effort,
+                effort = JxlEffort.entries.first { it.ordinal == jxlQuality.effort },
                 decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == jxlQuality.speed }
             )
         }
@@ -363,12 +364,12 @@ internal abstract class SimpleCompressor {
             quality: Quality
         ): ByteArray {
             val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl(quality.qualityValue)
-            return JxlCoder().encode(
+            return JxlCoder.encode(
                 bitmap = image,
                 colorSpace = JxlColorSpace.RGBA,
                 compressionOption = JxlCompressionOption.LOSSLESS,
                 quality = 100,
-                effort = jxlQuality.effort,
+                effort = JxlEffort.entries.first { it.ordinal == jxlQuality.effort },
                 decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == jxlQuality.speed }
             )
         }

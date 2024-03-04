@@ -827,4 +827,11 @@
     <string name="explode">Explode</string>
     <string name="rain">Rain</string>
     <string name="corners">Corners</string>
+    <string name="jxl_tools">JXL Tools</string>
+    <string name="jxl_tools_sub">Transcode JXL to JPEG or JPEG to JXL with no quality loss</string>
+    <string name="jxl_type_to_jpeg">JXL to JPEG</string>
+    <string name="jxl_type_to_jpeg_sub">Perform lossless transcoding from JXL to JPEG</string>
+    <string name="jpeg_type_to_jxl_sub">Perform lossless transcoding from  JPEG to JXL</string>
+    <string name="jpeg_type_to_jxl">JPEG to JXL</string>
+    <string name="select_jxl_image_to_start">Pick JXL image to start</string>
 </resources>

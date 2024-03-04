@@ -529,10 +529,7 @@ fun ApngToolsScreen(
         },
         noDataControls = {
             val types = remember {
-                listOf(
-                    Screen.ApngTools.Type.ImageToApng(),
-                    Screen.ApngTools.Type.ApngToImage()
-                )
+                Screen.ApngTools.Type.entries
             }
             val preference1 = @Composable {
                 PreferenceItem(

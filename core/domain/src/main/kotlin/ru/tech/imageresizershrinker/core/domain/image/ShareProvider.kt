@@ -56,6 +56,8 @@ interface ShareProvider<I> {
         type: String?
     )
 
-    suspend fun shareImageUris(uris: List<String>)
+    suspend fun shareUris(
+        uris: List<String>
+    )
 
 }

@@ -505,10 +505,7 @@ fun GifToolsScreen(
         },
         noDataControls = {
             val types = remember {
-                listOf(
-                    Screen.GifTools.Type.ImageToGif(),
-                    Screen.GifTools.Type.GifToImage()
-                )
+                Screen.GifTools.Type.entries
             }
             val preference1 = @Composable {
                 PreferenceItem(

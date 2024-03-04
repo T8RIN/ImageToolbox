@@ -156,8 +156,10 @@ enum class Picker {
 }
 
 @Composable
-fun localImagePickerMode(picker: Picker = Picker.Single): ImagePickerMode {
-    val modeInt = LocalSettingsState.current.imagePickerModeInt
+fun localImagePickerMode(
+    picker: Picker = Picker.Single,
+    modeInt: Int = LocalSettingsState.current.imagePickerModeInt
+): ImagePickerMode {
     val multiple = picker == Picker.Multiple
     return remember(modeInt) {
         derivedStateOf {

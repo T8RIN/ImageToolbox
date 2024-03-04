@@ -347,7 +347,7 @@ class GifToolsViewModel @Inject constructor(
                     val uris = convertedImageUris.filterIndexed { index, _ ->
                         index in positions
                     }
-                    shareProvider.shareImageUris(uris)
+                    shareProvider.shareUris(uris)
                     onComplete()
                 }
 

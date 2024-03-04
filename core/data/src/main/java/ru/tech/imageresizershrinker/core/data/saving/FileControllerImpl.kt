@@ -354,7 +354,8 @@ internal class FileControllerImpl @Inject constructor(
     )
 
     override fun constructImageFilename(
-        saveTarget: ImageSaveTarget<*>
+        saveTarget: ImageSaveTarget<*>,
+        forceNotAddSizeInFilename: Boolean
     ): String {
         val extension = saveTarget.imageInfo.imageFormat.extension
 
@@ -382,7 +383,7 @@ internal class FileControllerImpl @Inject constructor(
                 context.getString(R.string.original_filename)
             }
         }
-        if (settingsState.addSizeInFilename) prefix += wh
+        if (settingsState.addSizeInFilename && !forceNotAddSizeInFilename) prefix += wh
 
         val timeStamp = SimpleDateFormat(
             "yyyy-MM-dd_HH-mm-ss",

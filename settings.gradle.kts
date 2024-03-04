@@ -65,6 +65,7 @@ include(":feature:gradient-maker")
 include(":feature:gif-tools")
 include(":feature:apng-tools")
 include(":feature:zip")
+include(":feature:jxl-tools")
 
 include(":core:settings")
 include(":core:resources")
