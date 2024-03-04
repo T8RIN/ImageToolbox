@@ -134,23 +134,12 @@ class JxlToolsViewModel @Inject constructor(
         jpegBytes: ByteArray
     ): SaveTarget = FileSaveTarget(
         originalUri = uri,
-        filename = jpegFilename(uri),
+        filename = filename(
+            uri = uri,
+            format = ImageFormat.Jpg
+        ),
         data = jpegBytes,
         imageFormat = ImageFormat.Jpg
-    )
-
-    private fun jpegFilename(uri: String): String = fileController.constructImageFilename(
-        saveTarget = ImageSaveTarget<ExifInterface>(
-            imageInfo = ImageInfo(
-                imageFormat = ImageFormat.Jpg,
-                originalUri = uri
-            ),
-            originalUri = uri,
-            sequenceNumber = done + 1,
-            metadata = null,
-            data = ByteArray(0)
-        ),
-        forceNotAddSizeInFilename = true
     )
 
     private fun JxlSaveTarget(
@@ -158,15 +147,21 @@ class JxlToolsViewModel @Inject constructor(
         jxlBytes: ByteArray
     ): SaveTarget = FileSaveTarget(
         originalUri = uri,
-        filename = jxlFilename(uri),
+        filename = filename(
+            uri = uri,
+            format = ImageFormat.Jxl.Lossless
+        ),
         data = jxlBytes,
         imageFormat = ImageFormat.Jxl.Lossless
     )
 
-    private fun jxlFilename(uri: String): String = fileController.constructImageFilename(
+    private fun filename(
+        uri: String,
+        format: ImageFormat
+    ): String = fileController.constructImageFilename(
         ImageSaveTarget<ExifInterface>(
             imageInfo = ImageInfo(
-                imageFormat = ImageFormat.Jxl.Lossless,
+                imageFormat = format,
                 originalUri = uri
             ),
             originalUri = uri,
@@ -202,7 +197,7 @@ class JxlToolsViewModel @Inject constructor(
                         results.add(
                             shareProvider.cacheByteArray(
                                 byteArray = jxlBytes,
-                                filename = jxlFilename(uri)
+                                filename = filename(uri, ImageFormat.Jxl.Lossless)
                             )
                         )
                         _done.update { it + 1 }
@@ -223,7 +218,7 @@ class JxlToolsViewModel @Inject constructor(
                         results.add(
                             shareProvider.cacheByteArray(
                                 byteArray = jpegBytes,
-                                filename = jpegFilename(uri)
+                                filename = filename(uri, ImageFormat.Jpg)
                             )
                         )
                         _done.update { it + 1 }
