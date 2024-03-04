@@ -22,7 +22,7 @@ import androidx.compose.material.icons.rounded.Cached
 import androidx.compose.material.icons.rounded.Celebration
 import androidx.compose.material.icons.rounded.Description
 import androidx.compose.material.icons.rounded.Draw
-import androidx.compose.material.icons.rounded.EmojiSymbols
+import androidx.compose.material.icons.rounded.Face6
 import androidx.compose.material.icons.rounded.FitScreen
 import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
@@ -286,7 +286,7 @@ sealed class SettingsGroup(
     )
 
     data object Emoji : SettingsGroup(
-        icon = Icons.Rounded.EmojiSymbols,
+        icon = Icons.Rounded.Face6,
         titleId = R.string.emoji,
         settingsList = listOf(
             Setting.Emoji,
