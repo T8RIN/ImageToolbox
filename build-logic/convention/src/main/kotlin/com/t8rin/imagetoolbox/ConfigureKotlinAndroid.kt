@@ -27,7 +27,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 internal fun Project.configureKotlinAndroid(
-    commonExtension: CommonExtension<*, *, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     commonExtension.apply {
         compileSdk = libs.findVersion("androidCompileSdk").get().toString().toIntOrNull()
@@ -103,6 +103,6 @@ val Project.javaVersion: JavaVersion
         libs.findVersion("jvmTarget").get().toString()
     )
 
-fun CommonExtension<*, *, *, *, *>.kotlinOptions(block: KotlinJvmOptions.() -> Unit) {
+fun CommonExtension<*, *, *, *, *, *>.kotlinOptions(block: KotlinJvmOptions.() -> Unit) {
     (this as ExtensionAware).extensions.configure("kotlinOptions", block)
 }
