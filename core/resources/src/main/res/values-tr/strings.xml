@@ -71,7 +71,7 @@
     <string name="keep_exif">EXIF\'i sakla</string>
     <string name="pick_two_images">Başlamak için iki resim seçin</string>
     <string name="pick_images">Resim Seç</string>
-    <string name="compare">Karşılaştırmak</string>
+    <string name="compare">Karşılaştır</string>
     <string name="compare_sub">Verilen iki resmi karşılaştırın</string>
     <string name="settings">Ayarlar</string>
     <string name="night_mode">Gece modu</string>
@@ -140,7 +140,7 @@
     <string name="gallery_picker_sub">Basit galeri resim seçici, yalnızca bu uygulamaya sahipseniz çalışır</string>
     <string name="file_explorer_picker_sub">Görüntü seçmek için GetContent amacını kullanın, her yerde çalışır, ancak bazı cihazlarda seçilen görüntüleri almayla ilgili sorunlar da olabilir, bu benim hatam değil</string>
     <string name="options_arrangement">Seçenekler düzenlemesi</string>
-    <string name="edit">Düzenlemek</string>
+    <string name="edit">Düzenle</string>
     <string name="order">Emir</string>
     <string name="order_sub">Ana ekrandaki seçeneklerin sırasını belirler</string>
     <string name="emojis_count">emoji sayısı</string>
@@ -174,8 +174,8 @@
     <string name="load_image_from_net">Netten resim yükle</string>
     <string name="load_image_from_net_sub">İnternetteki herhangi bir görüntüyü yükleyin, önizleyin, yakınlaştırın ve ayrıca isterseniz kaydedin veya düzenleyin</string>
     <string name="no_image">resim yok</string>
-    <string name="fill">Doldurmak</string>
-    <string name="fit">Yerleştirmek</string>
+    <string name="fill">Doldur</string>
+    <string name="fit">Yerleştir</string>
     <string name="explicit_description">Her resmi, Genişlik ve Yükseklik parametresi tarafından verilen bir görüntüye zorlar - en boy oranını değiştirebilir</string>
     <string name="flexible_description">Resimleri Genişlik veya Yükseklik parametresi tarafından verilen uzun kenarlı resimlere yeniden boyutlandırır, tüm boyut hesaplamaları kaydettikten sonra yapılır - en boy oranını korur</string>
     <string name="brightness">Parlaklık</string>
@@ -192,7 +192,7 @@
     <string name="effect">Etki</string>
     <string name="distance">Mesafe</string>
     <string name="slope">Eğim</string>
-    <string name="sharpen">Keskinleştirmek</string>
+    <string name="sharpen">Keskinleştir</string>
     <string name="sepia">Sepya</string>
     <string name="negative">Olumsuz</string>
     <string name="solarize">solarizasyon</string>
@@ -231,7 +231,7 @@
     <string name="posterize">posterleştir</string>
     <string name="non_maximum_suppression">Maksimum olmayan bastırma</string>
     <string name="weak_pixel_inclusion">Zayıf piksel dahil etme</string>
-    <string name="lookup">Bakmak</string>
+    <string name="lookup">Ara</string>
     <string name="rgb_filter">RGB filtresi</string>
     <string name="false_color">yanlış renk</string>
     <string name="first_color">ilk renk</string>
@@ -244,7 +244,7 @@
     <string name="image_link">Resim bağlantısı</string>
     <string name="content_scale">içerik ölçeği</string>
     <string name="activate_files">Dosyalar uygulamasını devre dışı bıraktınız, bu özelliği kullanmak için etkinleştirin</string>
-    <string name="draw">Çizmek</string>
+    <string name="draw">Çiz</string>
     <string name="draw_sub">Eskiz defterindeki gibi resmin üzerine çizin veya arka planın kendisine çizin</string>
     <string name="paint_color">Boya rengi</string>
     <string name="paint_alpha">alfa boya</string>
@@ -258,7 +258,7 @@
     <string name="tools">Aletler</string>
     <string name="group_options_by_type">Türe göre grup seçenekleri</string>
     <string name="group_options_by_type_sub">Özel liste düzenlemesi yerine kendi türlerine göre ana ekranda gruplandırma seçenekleri</string>
-    <string name="create">Yaratmak</string>
+    <string name="create">Oluştur</string>
     <string name="draw_on_image_sub">Bir resim seçin ve üzerine bir şeyler çizin</string>
     <string name="draw_on_background">Arka plan üzerine çiz</string>
     <string name="draw_on_background_sub">Arka plan rengini seçin ve üzerine çizin</string>
@@ -286,7 +286,7 @@
     <string name="auto_cache_clearing_sub">Etkinleştirilmişse, uygulama önbelleği uygulama başlangıcında temizlenir</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">Seçenek gruplaması etkinken düzenleme değiştirilemez</string>
     <string name="screenshot">Ekran görüntüsü</string>
-    <string name="skip">Atlamak</string>
+    <string name="skip">Atla</string>
     <string name="copy">kopyala</string>
     <string name="warning_bytes">%1$s modunda kaydetme, kayıpsız formatta olduğundan istikrarsız olabilir</string>
     <string name="secondary_customization">İkincil özelleştirme</string>
@@ -308,13 +308,13 @@
     <string name="draw_mode">Çizim modu</string>
     <string name="trim_image_sub">Resmin etrafındaki şeffaf alanlar kırpılacak</string>
     <string name="tg_chat_sub">Uygulamayı tartışın ve diğer kullanıcılardan geri bildirim alın. Ayrıca buradan beta güncellemeleri ve bilgiler alabilirsiniz.</string>
-    <string name="delete">Silmek</string>
+    <string name="delete">Sil</string>
     <string name="background_remover">Arka plan sökücü</string>
     <string name="blur_radius">Bulanıklaştırma yarıçapı</string>
     <string name="background_remover_sub">Çizim yaparak veya Otomatik seçeneğini kullanarak görüntüden arka planı kaldırın</string>
     <string name="trim_image">Resmi kırp</string>
     <string name="backup_and_restore">Yedekle ve yeniden yükle</string>
-    <string name="backup">Destek olmak</string>
+    <string name="backup">Yedekle</string>
     <string name="emotions">Duygular</string>
     <string name="auto_erase_background">Arka planı otomatik sil</string>
     <string name="saved_to">%2$s adıyla %1$s klasörüne kaydedildi</string>
@@ -341,7 +341,7 @@
     <string name="crop_mask">Kırpma maskesi</string>
     <string name="aspect_ratio">En boy oranı</string>
     <string name="image_crop_mask_sub">Verilen görüntüden maske oluşturmak için bu maske türünü kullanın; alfa kanalına sahip olması GEREKTİĞİNİ unutmayın</string>
-    <string name="restore">Eski haline getirmek</string>
+    <string name="restore">Geri Yükle</string>
     <string name="backup_sub">Uygulama ayarlarınızı bir dosyaya yedekleyin</string>
     <string name="restore_sub">Uygulama ayarlarını önceden oluşturulan dosyadan geri yükleyin</string>
     <string name="corrupted_file_or_not_a_backup">Bozuk dosya veya yedek değil</string>
@@ -370,7 +370,7 @@
     <string name="image_exif_warning">Şu anda, %1$s biçimi yalnızca Android\'de EXIF meta verilerinin okunmasına izin veriyor. Çıktı görüntüsü kaydedildiğinde hiçbir meta veriye sahip olmayacaktır.</string>
     <string name="effort">Çaba</string>
     <string name="effort_sub">%1$d değeri, nispeten büyük bir dosya boyutuyla sonuçlanan hızlı sıkıştırma anlamına gelir. %2$d, daha yavaş bir sıkıştırma anlamına gelir ve bu da daha küçük bir dosyayla sonuçlanır.</string>
-    <string name="wait">Beklemek</string>
+    <string name="wait">Bekle</string>
     <string name="saving_almost_complete">Kaydetme neredeyse tamamlandı. Şimdi iptal etmek yeniden kaydetmeyi gerektirecektir.</string>
     <string name="allow_betas">Betalara izin ver</string>
     <string name="allow_betas_sub">Güncelleme kontrolü, etkinleştirildiği takdirde beta uygulama sürümlerini içerecektir</string>
@@ -569,11 +569,11 @@
     <string name="icon_shape">Simge Şekli</string>
     <string name="drago">Drago</string>
     <string name="aldridge">Aldridge</string>
-    <string name="cutoff">Ayırmak</string>
+    <string name="cutoff">Ayır</string>
     <string name="uchimura">Uchimura</string>
     <string name="mobius">Mobius</string>
     <string name="transition">Geçiş</string>
-    <string name="peak">Doruğa ulaşmak</string>
+    <string name="peak">Zirve</string>
     <string name="color_anomaly">Renk Anomalisi</string>
     <string name="images_overwritten">Orijinal hedefte üzerine yazılan resimlerin</string>
     <string name="cannot_change_image_format">Dosyaların üzerine yazma seçeneği etkinken görüntü formatı değiştirilemiyor</string>
@@ -586,7 +586,7 @@
     <string name="enhanced_circle_pixelation">Geliştirilmiş Daire Pikselleştirmesi</string>
     <string name="color_to_replace">Değiştirilecek Renk</string>
     <string name="target_color">Hedef Renk</string>
-    <string name="erode">Aşındırmak</string>
+    <string name="erode">Aşındır</string>
     <string name="anisotropic_diffusion">Anizotropik Difüzyon</string>
     <string name="diffusion">Difüzyon</string>
     <string name="conduction">iletim</string>
@@ -673,7 +673,7 @@
     <string name="image_stitching_sub">Büyük bir tane elde etmek için verilen görüntüleri birleştirin</string>
     <string name="brightness_enforcement">Parlaklık Uygulaması</string>
     <string name="screen">Ekran</string>
-    <string name="gradient_maker_type_image">Degrade Yerleşimi</string>
+    <string name="gradient_maker_type_image">Degrade Kaplama</string>
     <string name="gradient_maker_type_image_sub">Verilen görüntünün üst kısmının herhangi bir degradesini oluşturun</string>
     <string name="transformations">Dönüşümler</string>
     <string name="camera">Kamera</string>
@@ -735,7 +735,7 @@
     <string name="no_data">Veri yok</string>
     <string name="download_description">Tesseract OCR\'nin düzgün çalışması için ek eğitim verilerinin (%1$s) cihazınıza indirilmesi gerekiyor.
 \n%2$s verilerini indirmek istiyor musunuz?</string>
-    <string name="download">İndirmek</string>
+    <string name="download">İndir</string>
     <string name="no_connection">Bağlantı yok, tren modellerini indirmek için kontrol edip tekrar deneyin</string>
     <string name="downloaded_languages">İndirilen Diller</string>
     <string name="available_languages">Mevcut Diller</string>
@@ -804,4 +804,8 @@
     <string name="zip">Zip</string>
     <string name="zip_sub">Verilen dosyalardan veya görsellerden Zip dosyası oluşturun</string>
     <string name="drag_handle_width">Sürükleme Tutamacı Genişliği</string>
+    <string name="festive">Şenlikli</string>
+    <string name="confetti_type">Konfeti Tipi</string>
+    <string name="explode">Patlama</string>
+    <string name="rain">Yağmur</string>
 </resources>
