@@ -65,7 +65,7 @@
     <string name="change_preview">تغيير المعاينة</string>
     <string name="remove">ازالة</string>
     <string name="palette_sub">إنشاء لوحة ألوان من صورة معينة</string>
-    <string name="generate_palette">توليد لوحة</string>
+    <string name="generate_palette">إنشاء لوحة</string>
     <string name="palette">لوحة</string>
     <string name="update">تحديث</string>
     <string name="new_version">نسخة جديدة %1$s</string>
@@ -146,7 +146,7 @@
     <string name="file_explorer_picker">مستكشف الملفات</string>
     <string name="photo_picker_sub">قد يعمل منتقي الصور الحديث من Android الذي يظهر في الجزء السفلي من الشاشة فقط على adnroid 12+ ولديه أيضًا مشكلات في تلقي بيانات EXIF الوصفية</string>
     <string name="gallery_picker_sub">منتقي صور المعرض البسيط ، لن يعمل إلا إذا كان لديك هذا التطبيق</string>
-    <string name="edit">يحرر</string>
+    <string name="edit">تعديل</string>
     <string name="order_sub">يحدد ترتيب الخيارات على الشاشة الرئيسية</string>
     <string name="filename_not_work_with_photopicker">لا تعمل إضافة اسم الملف الأصلي إذا تم تحديد مصدر صورة منتقي الصور</string>
     <string name="brightness">سطوع</string>
@@ -174,7 +174,7 @@
     <string name="flexible_description">يغير حجم الصور إلى صور ذات جانب طويل محدد بواسطة معلمة العرض أو الارتفاع ، وسيتم إجراء جميع حسابات الحجم بعد الحفظ - يحافظ على نسبة العرض إلى الارتفاع</string>
     <string name="saturation">التشبع</string>
     <string name="add_filter">أضف عامل تصفية</string>
-    <string name="filter">منقي</string>
+    <string name="filter">المرشح</string>
     <string name="filter_sub">قم بتطبيق أي سلسلة تصفية على صور معينة</string>
     <string name="filters">المرشحات</string>
     <string name="light_aka_illumination">ضوء</string>
@@ -243,7 +243,7 @@
     <string name="blur_center_y">مركز طمس ذ</string>
     <string name="zoom_blur">زووم طمس</string>
     <string name="luminance_threshold">عتبة النصوع</string>
-    <string name="draw">يرسم</string>
+    <string name="draw">الرسم</string>
     <string name="paint_color">لون الطلاء</string>
     <string name="activate_files">لقد قمت بتعطيل تطبيق الملفات ، فقم بتنشيطه لاستخدام هذه الميزة</string>
     <string name="draw_sub">ارسم على صورة كما في كراسة الرسم ، أو ارسم على الخلفية نفسها</string>
@@ -274,7 +274,7 @@
     <string name="file_size_sub">الحد الأقصى لحجم الملف مقيد بنظام التشغيل Android والذاكرة المتاحة ، والتي تعتمد بشكل واضح على جهازك.
 \nيرجى ملاحظة: الذاكرة ليست تخزين.</string>
     <string name="group_options_by_type_sub">خيارات المجموعات على الشاشة الرئيسية من نوعها بدلاً من ترتيب القائمة المخصص</string>
-    <string name="create">يخلق</string>
+    <string name="create">انشئ</string>
     <string name="image_size_warning">قد تتسبب محاولة حفظ الصورة بالعرض والارتفاع المحددين في حدوث خطأ OOM ، قم بذلك على مسؤوليتك الخاصة ، ولا تقل أنني لم أحذرك!</string>
     <string name="auto_cache_clearing_sub">إذا تم تمكين ذاكرة التخزين المؤقت للتطبيق ، فسيتم مسحها عند بدء تشغيل التطبيق</string>
     <string name="tools">أدوات</string>
@@ -365,7 +365,7 @@
     <string name="horizontal">أفقي</string>
     <string name="vertical">رَأسِيّ</string>
     <string name="scale_small_images_to_large_sub">سيتم تغيير حجم الصور الصغيرة إلى أكبر صورة في التسلسل إذا تم تمكينها</string>
-    <string name="blur_edges_sub">يرسم حواف غير واضحة أسفل الصورة الأصلية لملء الفراغات حولها بدلاً من لون واحد إذا تم تمكينه</string>
+    <string name="blur_edges_sub">رسم حواف غير واضحة أسفل الصورة الأصلية لملء الفراغات حولها بدلاً من لون واحد إذا تم تمكينه</string>
     <string name="stroke_pixelation">بكسل السكتة الدماغية</string>
     <string name="enhanced_diamond_pixelation">تعزيز بكسل الماس</string>
     <string name="tolerance">تسامح</string>
@@ -415,7 +415,7 @@
     <string name="auto_rotate_limits_sub">يسمح باعتماد مربع الحد لتوجيه الصورة</string>
     <string name="free_drawing">الرسم الحر</string>
     <string name="double_arrow">سهم مزدوج</string>
-    <string name="double_line_arrow_sub">يرسم سهمًا مزدوجًا من نقطة البداية إلى نقطة النهاية كخط</string>
+    <string name="double_line_arrow_sub">رسم سهمًا مزدوجًا من نقطة البداية إلى نقطة النهاية كخط</string>
     <string name="stitch_mode">وضع الغرزة</string>
     <string name="rows_count">عدد الصفوف</string>
     <string name="columns_count">عدد الأعمدة</string>
@@ -617,21 +617,21 @@
     <string name="draw_path_mode">وضع رسم المسار</string>
     <string name="double_line_arrow">سهم خط مزدوج</string>
     <string name="line_arrow">سهم الخط</string>
-    <string name="line_sub">يرسم المسار من نقطة البداية إلى نقطة النهاية كخط</string>
+    <string name="line_sub">رسم المسار من نقطة البداية إلى نقطة النهاية كخط</string>
     <string name="arrow">سهم</string>
     <string name="line">خط</string>
-    <string name="free_drawing_sub">يرسم المسار كقيمة إدخال</string>
-    <string name="line_arrow_sub">يرسم سهمًا يشير من نقطة البداية إلى نقطة النهاية كخط</string>
+    <string name="free_drawing_sub">رسم المسار كقيمة إدخال</string>
+    <string name="line_arrow_sub">رسم سهمًا يشير من نقطة البداية إلى نقطة النهاية كخط</string>
     <string name="arrow_sub">رسم سهم يشير من مسار معين</string>
-    <string name="double_arrow_sub">يرسم سهمًا مزدوجًا يشير من مسار معين</string>
+    <string name="double_arrow_sub">رسم سهمًا مزدوجًا يشير من مسار معين</string>
     <string name="outlined_oval">البيضاوي المبين</string>
     <string name="outlined_rect">المستقيم المبين</string>
     <string name="oval">بيضاوي</string>
     <string name="rect">مستقيم</string>
-    <string name="rect_sub">يرسم بشكل مستقيم من نقطة البداية إلى نقطة النهاية</string>
-    <string name="oval_sub">يرسم شكلًا بيضاويًا من نقطة البداية إلى نقطة النهاية</string>
+    <string name="rect_sub">رسم بشكل مستقيم من نقطة البداية إلى نقطة النهاية</string>
+    <string name="oval_sub">رسم شكلًا بيضاويًا من نقطة البداية إلى نقطة النهاية</string>
     <string name="outlined_oval_sub">رسم شكل بيضاوي محدد من نقطة البداية إلى نقطة النهاية</string>
-    <string name="outlined_rect_sub">يرسم بشكل مستقيم من نقطة البداية إلى نقطة النهاية</string>
+    <string name="outlined_rect_sub">الرسم بشكل مستقيم من نقطة البداية إلى نقطة النهاية</string>
     <string name="dithering">التردد</string>
     <string name="quantizier">كمية</string>
     <string name="gray_scale">مقياس رمادي</string>
@@ -781,12 +781,12 @@
     <string name="exit">مخرج</string>
     <string name="preview_closing">إذا تركت المعاينة الآن، فسوف تحتاج إلى إضافة الصور مرة أخرى</string>
     <string name="lasso">لاسو</string>
-    <string name="lasso_sub">يرسم مسارًا مغلقًا ومملوءًا بمسار معين</string>
+    <string name="lasso_sub">رسم مسارًا مغلقًا ومملوءًا بمسار معين</string>
     <string name="image_format">شكل صورة</string>
     <string name="dark_colors">الألوان الداكنة</string>
     <string name="dark_colors_sub">يستخدم نظام ألوان الوضع الليلي بدلا من متغير الضوء</string>
     <string name="copy_as_compose_code">نسخ كما جيتباك يؤلف التعليمات البرمجية</string>
-    <string name="material_you_sub">يخلق\" Materal You \" لوحة من الصورة</string>
+    <string name="material_you_sub">ينشئ\" Materal You \" لوحة من الصورة</string>
     <string name="ring_blur">خاتم الضباب</string>
     <string name="circle_blur">دائرة الضباب</string>
     <string name="star_blur">نجمة الضباب</string>
@@ -804,4 +804,8 @@
     <string name="apng_type_to_apng_sub">تحويل مجموعة من الصور إلى ملف APNG</string>
     <string name="zip">مضغوط</string>
     <string name="drag_handle_width">عرض مقبض السحب</string>
+    <string name="confetti_type">نوع قصاصات الورق</string>
+    <string name="festive">احتفالي</string>
+    <string name="explode">الانفجار</string>
+    <string name="rain">مطر</string>
 </resources>
