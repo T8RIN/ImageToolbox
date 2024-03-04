@@ -60,6 +60,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -152,8 +153,13 @@ internal fun GeneratePaletteScreenControls(
                     Spacer(modifier = Modifier.width(16.dp))
                     Picture(
                         model = bitmap,
-                        modifier = Modifier.size(56.dp),
-                        shape = SmallMaterialStarShape
+                        shape = RectangleShape,
+                        modifier = Modifier
+                            .size(56.dp)
+                            .container(
+                                shape = SmallMaterialStarShape,
+                                resultPadding = 0.dp
+                            )
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
