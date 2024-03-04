@@ -303,8 +303,7 @@
     <string name="features_sub">رمزگذاری فایل ها بر اساس رمز عبور فایل های ادامه یافته را می توان در فهرست انتخابی ذخیره کرد یا به اشتراک گذاشت. فایل های رمزگشایی شده نیز می توانند مستقیما باز شوند.</string>
     <string name="implementation_sub">AES-256 با حالت GCM، بدون padding، IV تصادفی ۱۲ بایتی (به صورت پیش‌فرض، اما می‌توانید الگوریتم مورد نظر را انتخاب کنید). کلیدها به صورت هش SHA-3 با طول ۲۵۶ بیت استفاده می‌شوند.</string>
     <string name="file_size">حجم فایل</string>
-    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent.
-\nPlease note: memory is not storage.</string>
+    <string name="file_size_sub">The maximum file size is restricted by the Android OS and available memory, which is device dependent. \nPlease note: memory is not storage.</string>
     <string name="compatibility_sub">لطفاً توجه داشته باشید که سازگاری با سایر نرم افزارها یا خدمات رمزگذاری فایل تضمین نمی شود. یک درمان کلیدی یا پیکربندی رمز کمی متفاوت ممکن است باعث ناسازگاری شود.</string>
     <string name="invalid_password_or_not_encrypted">رمز عبور نامعتبر یا فایل انتخابی رمزگذاری نشده است</string>
     <string name="image_size_warning">تلاش برای ذخیره تصویر با عرض و ارتفاع معین ممکن است باعث خطای OOM شود. این کار را با مسئولیت خود انجام دهید و نگویید من به شما هشدار ندادم!</string>
@@ -572,8 +571,7 @@
     <string name="fast">سریع</string>
     <string name="standard">استاندارد</string>
     <string name="no_data">اطلاعاتی وجود ندارد</string>
-    <string name="download_description">برای عملکرد صحیح Tesseract OCR باید داده های آموزشی اضافی (%1$s) در دستگاه شما دانلود شود.
-\nآیا می خواهید داده های %2$s را دانلود کنید؟</string>
+    <string name="download_description">برای عملکرد صحیح Tesseract OCR باید داده های آموزشی اضافی (%1$s) در دستگاه شما دانلود شود. \nآیا می خواهید داده های %2$s را دانلود کنید؟</string>
     <string name="download">دانلود</string>
     <string name="no_connection">بدون اتصال، آن را بررسی کنید و دوباره امتحان کنید تا مدل های قطار را دانلود کنید</string>
     <string name="downloaded_languages">زبان های دانلود شده</string>
