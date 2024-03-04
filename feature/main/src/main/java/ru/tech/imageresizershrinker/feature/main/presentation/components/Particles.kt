@@ -164,14 +164,15 @@ class Particles(
 
         fun explode(
             primary: Color,
-            shape: Shape? = null
+            shape: Shape? = null,
+            initialDelay: Int = 0
         ): List<Party> = Party(
             speed = 0f,
             maxSpeed = 30f,
             damping = 0.9f,
             spread = 360,
             shapes = shape?.let { listOf(it) } ?: defaultShapes,
-            timeToLive = 2500,
+            timeToLive = 3000,
             colors = defaultColors.mapToPrimary(primary),
             emitter = Emitter(duration = 200, TimeUnit.MILLISECONDS).max(100)
         ).let { party ->
@@ -183,23 +184,24 @@ class Particles(
 
             listOf(
                 party.copy(
-                    position = Position.Relative(x1, y1)
+                    position = Position.Relative(x1, y1),
+                    delay = initialDelay
                 ),
                 party.copy(
                     position = Position.Relative(x2, y2),
-                    delay = 200
+                    delay = initialDelay + 200
                 ),
                 party.copy(
                     position = Position.Relative(x3, y3),
-                    delay = 400
+                    delay = initialDelay + 400
                 ),
                 party.copy(
                     position = Position.Relative(x4, y4),
-                    delay = 600
+                    delay = initialDelay + 600
                 ),
                 party.copy(
                     position = Position.Relative(x5, y5),
-                    delay = 800
+                    delay = initialDelay + 800
                 )
             )
         }
@@ -260,7 +262,8 @@ class Particles(
                 R.drawable.ic_launcher_monochrome_24
             )!!
         ).let { shape ->
-            explode(primary, shape) + explode(primary, shape)
+            val delay = 400
+            explode(primary, shape) + explode(primary, shape, delay)
         }
 
     }
