@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="size">اندازه %1$s</string>
+    <string name="pick_image">تصویری را برای شروع انتخاب کنید</string>
+    <string name="smth_went_wrong">مشکلی رخ داد: %1$s</string>
+    <string name="loading">در حال بارگزاری…</string>
+    <string name="image_too_large_preview">تصویر برای پیش‌نمایش بیش از حد بزرگ است، ولی به هر حال برای ذخیره‌اش تلاش می‌کنیم</string>
+    <string name="width">عرض %1$s</string>
+</resources>
