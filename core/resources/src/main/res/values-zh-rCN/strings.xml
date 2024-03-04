@@ -509,7 +509,7 @@
     <string name="overwrite_files">覆写文件</string>
     <string name="empty">空</string>
     <string name="suffix">后缀</string>
-    <string name="auto_pin">自动置顶</string>
+    <string name="auto_pin">自动复制</string>
     <string name="scale_mode">缩放模式</string>
     <string name="bilinear">双线性</string>
     <string name="hermite">Hermite</string>
