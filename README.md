@@ -449,6 +449,14 @@ or click one of the badges below.
   - Unisource
 - In app font scale changing
 - Changing between options list and grouped view
+- Confetti Type selection
+  - Default
+  - Festive
+  - Explode
+  - Rain
+  - Side
+  - Corners
+  - ImageToolbox
 
 (Yes, the app supports dynamic coloring based on wallpapers for every android version)
 
