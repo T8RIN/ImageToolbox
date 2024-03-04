@@ -174,4 +174,5 @@ private val Particles.Type.title: String
         Particles.Type.Rain -> stringResource(R.string.rain)
         Particles.Type.Side -> stringResource(R.string.side)
         Particles.Type.Corners -> stringResource(R.string.corners)
+        Particles.Type.Toolbox -> stringResource(R.string.app_name)
     }

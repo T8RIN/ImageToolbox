@@ -249,8 +249,12 @@ class AppActivity : M3Activity() {
                                         }
                                     }
                                 }
+
                                 remember {
-                                    Particles(primary).forType(particlesType)
+                                    Particles(
+                                        primary = primary,
+                                        context = this@AppActivity
+                                    ).forType(particlesType)
                                 }
                             }
                         )

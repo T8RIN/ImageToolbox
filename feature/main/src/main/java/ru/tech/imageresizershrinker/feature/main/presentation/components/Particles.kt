@@ -17,6 +17,8 @@
 
 package ru.tech.imageresizershrinker.feature.main.presentation.components
 
+import android.content.Context
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -25,6 +27,8 @@ import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.Spread
 import nl.dionsegijn.konfetti.core.emitter.Emitter
+import nl.dionsegijn.konfetti.core.models.Shape
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
@@ -47,8 +51,15 @@ private fun List<Color>.mapToPrimary(primary: Color): List<Int> = map {
     it.blend(primary, 0.5f).toArgb()
 }
 
+private val defaultShapes by lazy {
+    listOf(Shape.Square, Shape.Circle, Shape.Rectangle(0.2f))
+}
+
 @Stable
-class Particles(primary: Color) {
+class Particles(
+    primary: Color,
+    context: Context
+) {
 
     private val data = mapOf(
         Type.Default to default(primary),
@@ -56,47 +67,13 @@ class Particles(primary: Color) {
         Type.Explode to explode(primary),
         Type.Rain to rain(primary),
         Type.Side to side(primary),
-        Type.Corners to festiveCorners(primary)
+        Type.Corners to festiveCorners(primary),
+        Type.Toolbox to toolbox(primary, context)
     )
 
     fun forType(type: Type): List<Party> = data[type]!!
 
     companion object {
-
-        fun default(
-            primary: Color
-        ): List<Party> = listOf(
-            Party(
-                speed = 0f,
-                maxSpeed = 15f,
-                damping = 0.9f,
-                angle = Angle.BOTTOM,
-                spread = Spread.ROUND,
-                colors = defaultColors.mapToPrimary(primary),
-                emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
-                position = Position.Relative(0.0, 0.0).between(Position.Relative(1.0, 0.0))
-            ),
-            Party(
-                speed = 10f,
-                maxSpeed = 30f,
-                damping = 0.9f,
-                angle = Angle.RIGHT - 45,
-                spread = 60,
-                colors = defaultColors.mapToPrimary(primary),
-                emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
-                position = Position.Relative(0.0, 1.0)
-            ),
-            Party(
-                speed = 10f,
-                maxSpeed = 30f,
-                damping = 0.9f,
-                angle = Angle.RIGHT - 135,
-                spread = 60,
-                colors = defaultColors.mapToPrimary(primary),
-                emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
-                position = Position.Relative(1.0, 1.0)
-            )
-        )
 
         private fun festive(
             primary: Color,
@@ -112,6 +89,7 @@ class Particles(primary: Color) {
             damping = 0.9f,
             angle = angle,
             spread = spread,
+            shapes = defaultShapes,
             delay = delay,
             timeToLive = 3000L,
             colors = defaultColors.mapToPrimary(primary),
@@ -141,18 +119,58 @@ class Particles(primary: Color) {
             )
         }
 
+        fun default(
+            primary: Color
+        ): List<Party> = listOf(
+            Party(
+                speed = 0f,
+                maxSpeed = 15f,
+                damping = 0.9f,
+                angle = Angle.BOTTOM,
+                spread = Spread.ROUND,
+                colors = defaultColors.mapToPrimary(primary),
+                shapes = defaultShapes,
+                emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
+                position = Position.Relative(0.0, 0.0).between(Position.Relative(1.0, 0.0))
+            ),
+            Party(
+                speed = 10f,
+                maxSpeed = 30f,
+                damping = 0.9f,
+                angle = Angle.RIGHT - 45,
+                spread = 60,
+                colors = defaultColors.mapToPrimary(primary),
+                shapes = defaultShapes,
+                emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
+                position = Position.Relative(0.0, 1.0)
+            ),
+            Party(
+                speed = 10f,
+                maxSpeed = 30f,
+                damping = 0.9f,
+                angle = Angle.RIGHT - 135,
+                spread = 60,
+                colors = defaultColors.mapToPrimary(primary),
+                shapes = defaultShapes,
+                emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
+                position = Position.Relative(1.0, 1.0)
+            )
+        )
+
         fun festiveBottom(
             primary: Color
         ): List<Party> = festive(primary, 0.2)
             .plus(festive(primary, 0.8))
 
         fun explode(
-            primary: Color
+            primary: Color,
+            shape: Shape? = null
         ): List<Party> = Party(
             speed = 0f,
             maxSpeed = 30f,
             damping = 0.9f,
             spread = 360,
+            shapes = shape?.let { listOf(it) } ?: defaultShapes,
             timeToLive = 2500,
             colors = defaultColors.mapToPrimary(primary),
             emitter = Emitter(duration = 200, TimeUnit.MILLISECONDS).max(100)
@@ -192,6 +210,7 @@ class Particles(primary: Color) {
             speed = 10f,
             maxSpeed = 30f,
             damping = 0.9f,
+            shapes = defaultShapes,
             colors = defaultColors.mapToPrimary(primary),
             emitter = Emitter(duration = 2, TimeUnit.SECONDS).perSecond(100),
         ).let { party ->
@@ -223,16 +242,30 @@ class Particles(primary: Color) {
             festive(primary, 1.0, 1.0, Angle.LEFT, 1000, 450),
         ).flatten()
 
-        fun festiveCorners(primary: Color): List<Party> = listOf(
+        fun festiveCorners(
+            primary: Color
+        ): List<Party> = listOf(
             festive(primary, 0.0, 0.0, 45, 1000, 0, 25),
             festive(primary, 1.0, 0.0, 135, 1000, 150, 25),
             festive(primary, 0.0, 1.0, -45, 1000, 300, 25),
             festive(primary, 1.0, 1.0, 225, 1000, 450, 25),
         ).flatten()
 
+        fun toolbox(
+            primary: Color,
+            context: Context
+        ): List<Party> = Shape.DrawableShape(
+            AppCompatResources.getDrawable(
+                context,
+                R.drawable.ic_launcher_monochrome_24
+            )!!
+        ).let { shape ->
+            explode(primary, shape) + explode(primary, shape)
+        }
+
     }
 
     enum class Type {
-        Default, Festive, Explode, Rain, Side, Corners
+        Default, Festive, Explode, Rain, Side, Corners, Toolbox
     }
 }
