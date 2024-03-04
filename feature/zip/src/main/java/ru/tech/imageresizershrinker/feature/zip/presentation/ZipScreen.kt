@@ -409,7 +409,7 @@ fun ZipScreen(
                     size.coerceAtLeast(2f).coerceAtMost(8f)
                 }
 
-                val width = maxWidth / count - 2.dp * (count - 1)
+                val width = maxWidth / count - 4.dp * (count - 1)
 
                 ContextualFlowRow(
                     itemCount = viewModel.uris.size + 1,

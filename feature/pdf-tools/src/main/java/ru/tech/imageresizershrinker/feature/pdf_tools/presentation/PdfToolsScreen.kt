@@ -72,11 +72,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.SelectAll
-import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.Save
+import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -368,7 +368,10 @@ fun PdfToolsScreen(
                     viewModel.preformSharing(showConfetti)
                 }
             ) {
-                Icon(Icons.Outlined.Share, null)
+                Icon(
+                    imageVector = Icons.Rounded.Share,
+                    contentDescription = null
+                )
             }
         }
         AnimatedVisibility(

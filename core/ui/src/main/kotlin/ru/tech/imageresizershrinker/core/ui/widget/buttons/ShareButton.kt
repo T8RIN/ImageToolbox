@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Image
-import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.AlertDialog
@@ -71,7 +70,10 @@ fun ShareButton(
         },
         enabled = enabled
     ) {
-        Icon(Icons.Outlined.Share, null)
+        Icon(
+            imageVector = Icons.Rounded.Share,
+            contentDescription = null
+        )
     }
 
     if (showSelectionDialog) {

@@ -68,7 +68,19 @@ class JxlToolsViewModel @Inject constructor(
     val isSaving: Boolean by _isSaving
 
     fun setType(type: Screen.JxlTools.Type?) {
-        _type.update { type }
+        when (type) {
+            is Screen.JxlTools.Type.JpegToJxl -> {
+                if (!type.jpegImageUris.isNullOrEmpty()) _type.update { type }
+                else _type.update { null }
+            }
+
+            is Screen.JxlTools.Type.JxlToJpeg -> {
+                if (!type.jxlImageUris.isNullOrEmpty()) _type.update { type }
+                else _type.update { null }
+            }
+
+            null -> _type.update { null }
+        }
     }
 
     private var savingJob: Job? = null
@@ -238,13 +250,13 @@ class JxlToolsViewModel @Inject constructor(
     fun clearAll() = setType(null)
 
     fun removeUri(uri: Uri) {
-        _type.update {
-            when (val type = it) {
+        setType(
+            when (val type = _type.value) {
                 is Screen.JxlTools.Type.JpegToJxl -> type.copy(type.jpegImageUris?.minus(uri))
                 is Screen.JxlTools.Type.JxlToJpeg -> type.copy(type.jxlImageUris?.minus(uri))
                 null -> null
             }
-        }
+        )
     }
 
 }

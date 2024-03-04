@@ -23,7 +23,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.RotateLeft
 import androidx.compose.material.icons.automirrored.rounded.RotateRight
-import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.SwapHoriz
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -107,7 +107,10 @@ fun CompareScreenTopAppBar(
                         enableAutoShadowAndBorder = false,
                         onClick = onShareButtonClick
                     ) {
-                        Icon(Icons.Outlined.Share, null)
+                        Icon(
+                            imageVector = Icons.Rounded.Share,
+                            contentDescription = null
+                        )
                     }
                 }
                 EnhancedIconButton(

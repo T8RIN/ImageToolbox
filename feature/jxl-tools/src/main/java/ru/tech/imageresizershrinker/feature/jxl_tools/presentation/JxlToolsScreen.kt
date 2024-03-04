@@ -51,8 +51,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
 import androidx.compose.material.icons.outlined.AddPhotoAlternate
 import androidx.compose.material.icons.outlined.FolderOff
-import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
+import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
@@ -267,20 +267,24 @@ fun JxlToolsScreen(
         onGoBack = onBack,
         topAppBarPersistentActions = {
             if (viewModel.type == null) TopAppBarEmoji()
-        },
-        actions = {
-            EnhancedIconButton(
-                containerColor = Color.Transparent,
-                contentColor = LocalContentColor.current,
-                enableAutoShadowAndBorder = false,
-                onClick = {
-                    viewModel.performSharing(showConfetti)
-                },
-                enabled = !viewModel.isLoading && viewModel.type != null
-            ) {
-                Icon(Icons.Outlined.Share, null)
+            else {
+                EnhancedIconButton(
+                    containerColor = Color.Transparent,
+                    contentColor = LocalContentColor.current,
+                    enableAutoShadowAndBorder = false,
+                    onClick = {
+                        viewModel.performSharing(showConfetti)
+                    },
+                    enabled = !viewModel.isLoading && viewModel.type != null
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Share,
+                        contentDescription = null
+                    )
+                }
             }
         },
+        actions = {},
         imagePreview = {},
         placeImagePreview = false,
         showImagePreviewAsStickyHeader = false,
@@ -296,7 +300,7 @@ fun JxlToolsScreen(
                     size.coerceAtLeast(2f).coerceAtMost(8f)
                 }
 
-                val width = maxWidth / count - 2.dp * (count - 1)
+                val width = maxWidth / count - 4.dp * (count - 1)
 
                 ContextualFlowRow(
                     itemCount = uris.size + 1,

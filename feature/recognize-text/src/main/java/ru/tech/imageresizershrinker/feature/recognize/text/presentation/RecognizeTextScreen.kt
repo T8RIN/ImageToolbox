@@ -27,10 +27,10 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet0Bar
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.CopyAll
+import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -239,7 +239,10 @@ fun RecognizeTextScreen(
                 onClick = shareText,
                 enabled = isHaveText
             ) {
-                Icon(Icons.Outlined.Share, null)
+                Icon(
+                    imageVector = Icons.Rounded.Share,
+                    contentDescription = null
+                )
             }
         },
         imagePreview = {

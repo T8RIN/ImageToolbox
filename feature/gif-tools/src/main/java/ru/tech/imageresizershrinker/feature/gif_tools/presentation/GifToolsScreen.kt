@@ -56,10 +56,10 @@ import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
 import androidx.compose.material.icons.outlined.RepeatOne
 import androidx.compose.material.icons.outlined.SelectAll
-import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Gif
 import androidx.compose.material.icons.rounded.Save
+import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -299,7 +299,10 @@ fun GifToolsScreen(
                 },
                 enabled = !viewModel.isLoading && viewModel.type != null
             ) {
-                Icon(Icons.Outlined.Share, null)
+                Icon(
+                    imageVector = Icons.Rounded.Share,
+                    contentDescription = null
+                )
             }
         },
         imagePreview = {
