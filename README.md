@@ -263,7 +263,10 @@ or click one of the badges below.
   - [x] Cross Blur
   - [x] Circle Blur
   - [x] Star Blur
-  - [x] Motion Blur 
+  - [x] Motion Blur
+  - [x] Fast Gaussian Blur 2D
+  - [x] Fast Gaussian Blur 3D
+  - [x] Fast Gaussian Blur 4D
 
   </details>
 
