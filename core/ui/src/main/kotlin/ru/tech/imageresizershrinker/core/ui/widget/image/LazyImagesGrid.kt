@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
@@ -44,6 +43,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -123,13 +123,16 @@ fun LazyImagesGrid(
             item(
                 key = uri.hashCode().takeIf { c -> c != 0 } ?: index
             ) {
+                var aspectRatio by rememberSaveable {
+                    mutableFloatStateOf(1f)
+                }
                 Picture(
                     model = uri,
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .padding(2.dp)
                         .fillMaxWidth()
-                        .heightIn(min = 120.dp)
+                        .aspectRatio(aspectRatio)
                         .container(
                             shape = MaterialTheme.shapes.large,
                             color = color,
@@ -141,6 +144,11 @@ fun LazyImagesGrid(
                         },
                     onError = {
                         onRemove(uri)
+                    },
+                    onSuccess = {
+                        aspectRatio = it.result.drawable.run {
+                            intrinsicWidth.toFloat() / intrinsicHeight
+                        }
                     },
                     showTransparencyChecker = showTransparencyChecker,
                     shape = MaterialTheme.shapes.large

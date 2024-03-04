@@ -26,6 +26,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.compose.BackHandler
 import androidx.activity.viewModels
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.CompositionLocalProvider
@@ -237,7 +238,7 @@ class AppActivity : M3Activity() {
                     )
 
                     val confettiHostState = LocalConfettiHostState.current
-                    if (settingsState.isConfettiEnabled) {
+                    AnimatedVisibility(settingsState.isConfettiEnabled) {
                         ConfettiHost(
                             hostState = confettiHostState,
                             particles = { primary ->
@@ -253,7 +254,13 @@ class AppActivity : M3Activity() {
                                 }
                             }
                         )
-                    } else confettiHostState.currentToastData?.dismiss()
+                    }
+
+                    if (!settingsState.isConfettiEnabled) {
+                        SideEffect {
+                            confettiHostState.currentToastData?.dismiss()
+                        }
+                    }
 
                     ToastHost(
                         hostState = LocalToastHostState.current

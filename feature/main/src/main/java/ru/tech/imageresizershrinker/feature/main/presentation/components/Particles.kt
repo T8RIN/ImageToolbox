@@ -27,6 +27,7 @@ import nl.dionsegijn.konfetti.core.Spread
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import java.util.concurrent.TimeUnit
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 private val Color1 = Color(0xfffce18a)
@@ -50,7 +51,8 @@ class Particles(primary: Color) {
         Type.Festive to festiveBottom(primary),
         Type.Explode to explode(primary),
         Type.Rain to rain(primary),
-        Type.Side to side(primary)
+        Type.Side to side(primary),
+        Type.Corners to festiveCorners(primary)
     )
 
     fun forType(type: Type): List<Party> = data[type]!!
@@ -94,14 +96,17 @@ class Particles(primary: Color) {
             xPos: Double = 0.5,
             yPos: Double = 1.0,
             angle: Int = Angle.TOP,
-            duration: Long = 500
+            duration: Long = 500,
+            delay: Int = 0,
+            spread: Int = 45
         ): List<Party> {
             val party = Party(
                 speed = 30f,
                 maxSpeed = 50f,
                 damping = 0.9f,
                 angle = angle,
-                spread = 45,
+                spread = spread,
+                delay = delay,
                 timeToLive = 3000L,
                 colors = defaultColors.map { it.blend(primary, 0.5f) },
                 emitter = Emitter(duration = duration, TimeUnit.MILLISECONDS).max(30),
@@ -113,19 +118,19 @@ class Particles(primary: Color) {
                 party.copy(
                     speed = 55f,
                     maxSpeed = 65f,
-                    spread = 10,
+                    spread = (spread * 0.22f).roundToInt(),
                     emitter = Emitter(duration = duration, TimeUnit.MILLISECONDS).max(10),
                 ),
                 party.copy(
                     speed = 50f,
                     maxSpeed = 60f,
-                    spread = 120,
+                    spread = (spread * 2.67f).roundToInt(),
                     emitter = Emitter(duration = duration, TimeUnit.MILLISECONDS).max(40),
                 ),
                 party.copy(
                     speed = 65f,
                     maxSpeed = 80f,
-                    spread = 10,
+                    spread = (spread * 0.22f).roundToInt(),
                     emitter = Emitter(duration = duration, TimeUnit.MILLISECONDS).max(10),
                 )
             )
@@ -142,7 +147,7 @@ class Particles(primary: Color) {
                 maxSpeed = 30f,
                 damping = 0.9f,
                 spread = 360,
-                timeToLive = 3000,
+                timeToLive = 2500,
                 colors = defaultColors.map { it.blend(primary, 0.5f) },
                 emitter = Emitter(duration = 200, TimeUnit.MILLISECONDS).max(100)
             )
@@ -157,16 +162,20 @@ class Particles(primary: Color) {
                     position = Position.Relative(x1, y1)
                 ),
                 party.copy(
-                    position = Position.Relative(x2, y2)
+                    position = Position.Relative(x2, y2),
+                    delay = 150
                 ),
                 party.copy(
-                    position = Position.Relative(x3, y3)
+                    position = Position.Relative(x3, y3),
+                    delay = 300
                 ),
                 party.copy(
-                    position = Position.Relative(x4, y4)
+                    position = Position.Relative(x4, y4),
+                    delay = 450
                 ),
                 party.copy(
-                    position = Position.Relative(x5, y5)
+                    position = Position.Relative(x5, y5),
+                    delay = 600
                 )
             )
         }
@@ -202,14 +211,21 @@ class Particles(primary: Color) {
             primary: Color
         ): List<Party> = listOf(
             festive(primary, 0.0, 0.0, Angle.RIGHT, 1000),
-            festive(primary, 1.0, 0.33, Angle.LEFT, 1000),
-            festive(primary, 0.0, 0.66, Angle.RIGHT, 1000),
-            festive(primary, 1.0, 1.0, Angle.LEFT, 1000),
+            festive(primary, 1.0, 0.33, Angle.LEFT, 1000, 150),
+            festive(primary, 0.0, 0.66, Angle.RIGHT, 1000, 300),
+            festive(primary, 1.0, 1.0, Angle.LEFT, 1000, 450),
+        ).flatten()
+
+        fun festiveCorners(primary: Color): List<Party> = listOf(
+            festive(primary, 0.0, 0.0, 45, 1000, 0, 25),
+            festive(primary, 1.0, 0.0, 135, 1000, 150, 25),
+            festive(primary, 0.0, 1.0, -45, 1000, 300, 25),
+            festive(primary, 1.0, 1.0, 225, 1000, 450, 25),
         ).flatten()
 
     }
 
     enum class Type {
-        Default, Festive, Explode, Rain, Side
+        Default, Festive, Explode, Rain, Side, Corners
     }
 }

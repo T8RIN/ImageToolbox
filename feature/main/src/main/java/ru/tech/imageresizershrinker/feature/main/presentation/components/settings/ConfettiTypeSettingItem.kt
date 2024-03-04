@@ -173,4 +173,5 @@ private val Particles.Type.title: String
         Particles.Type.Explode -> stringResource(R.string.explode)
         Particles.Type.Rain -> stringResource(R.string.rain)
         Particles.Type.Side -> stringResource(R.string.side)
+        Particles.Type.Corners -> stringResource(R.string.corners)
     }
