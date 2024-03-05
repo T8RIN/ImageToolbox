@@ -816,4 +816,7 @@
     <string name="select_jxl_image_to_start">आरंभ करने के लिए JXL छवि चुनें</string>
     <string name="jpeg_type_to_jxl_sub">JPEG से JXL तक दोषरहित ट्रांसकोडिंग करें</string>
     <string name="jxl_type_to_jpeg_sub">JXL से JPEG तक दोषरहित ट्रांसकोडिंग करें</string>
+    <string name="fast_gaussian_blur_3d">फास्ट गॉसियन ब्लर 3D</string>
+    <string name="fast_gaussian_blur_4d">फास्ट गॉसियन ब्लर 4D</string>
+    <string name="fast_gaussian_blur_2d">फास्ट गॉसियन ब्लर 2D</string>
 </resources>
