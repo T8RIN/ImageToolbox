@@ -808,4 +808,15 @@
     <string name="rain">Дождь</string>
     <string name="confetti_type">Тип конфетти</string>
     <string name="festive">Праздничный</string>
+    <string name="corners">Углы</string>
+    <string name="jxl_type_to_jpeg">JXL в JPEG</string>
+    <string name="select_jxl_image_to_start">Выберите изображение JXL чтобы начать</string>
+    <string name="jxl_tools">JXL инструменты</string>
+    <string name="jxl_tools_sub">Перекодируйте JXL в JPEG или JPEG в JXL без потери качества</string>
+    <string name="jxl_type_to_jpeg_sub">Выполните перекодирование без потерь из JXL в JPEG</string>
+    <string name="jpeg_type_to_jxl_sub">Выполните перекодирование без потерь из JPEG в JXL</string>
+    <string name="jpeg_type_to_jxl">JPEG в JXL</string>
+    <string name="fast_gaussian_blur_2d">Быстрое размытие по Гауссу 2D</string>
+    <string name="fast_gaussian_blur_3d">Быстрое размытие по Гауссу 3D</string>
+    <string name="fast_gaussian_blur_4d">Быстрое размытие по Гауссу 4D</string>
 </resources>
