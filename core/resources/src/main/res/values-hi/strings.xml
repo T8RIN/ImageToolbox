@@ -809,4 +809,11 @@
     <string name="confetti_type">रंगीन कागज के प्रकार</string>
     <string name="festive">उत्सवपूर्ण</string>
     <string name="corners">कोने</string>
+    <string name="jxl_tools">JXL टूल्स</string>
+    <string name="jxl_tools_sub">बिना किसी गुणवत्ता हानि के JXL को JPG या JPEG से JXLS में ट्रांसकोड करें</string>
+    <string name="jxl_type_to_jpeg">JXL से JPEG</string>
+    <string name="jpeg_type_to_jxl">JPEG से JXL</string>
+    <string name="select_jxl_image_to_start">आरंभ करने के लिए JXL छवि चुनें</string>
+    <string name="jpeg_type_to_jxl_sub">JPEG से JXL तक दोषरहित ट्रांसकोडिंग करें</string>
+    <string name="jxl_type_to_jpeg_sub">JXL से JPEG तक दोषरहित ट्रांसकोडिंग करें</string>
 </resources>
