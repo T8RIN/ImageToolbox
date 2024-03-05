@@ -809,4 +809,11 @@
     <string name="explode">爆炸</string>
     <string name="rain">下雨</string>
     <string name="corners">边角</string>
+    <string name="jpeg_type_to_jxl">JPEG 转码 JXL</string>
+    <string name="select_jxl_image_to_start">选择 JXL 图像以开始</string>
+    <string name="jxl_type_to_jpeg_sub">将 JXL 无损转码为 JPEG</string>
+    <string name="jxl_tools">JXL 工具</string>
+    <string name="jpeg_type_to_jxl_sub">将 JPEG 无损转码为 JXL</string>
+    <string name="jxl_tools_sub">将 JXL 转码为 JPEG 或将 JPEG 转码为 JXL，且无质量损失</string>
+    <string name="jxl_type_to_jpeg">JXL 转码 JPEG</string>
 </resources>
