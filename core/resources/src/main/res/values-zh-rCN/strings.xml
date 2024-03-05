@@ -816,4 +816,7 @@
     <string name="jpeg_type_to_jxl_sub">将 JPEG 无损转码为 JXL</string>
     <string name="jxl_tools_sub">将 JXL 转码为 JPEG 或将 JPEG 转码为 JXL，且无质量损失</string>
     <string name="jxl_type_to_jpeg">JXL 转码 JPEG</string>
+    <string name="fast_gaussian_blur_3d">快速高斯模糊 3D</string>
+    <string name="fast_gaussian_blur_4d">快速高斯模糊 4D</string>
+    <string name="fast_gaussian_blur_2d">快速高斯模糊 2D</string>
 </resources>
