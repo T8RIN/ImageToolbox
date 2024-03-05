@@ -24,7 +24,6 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -274,8 +273,7 @@ class CrashActivity : CrashHandler() {
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(horizontal = 16.dp)
-                                        .navigationBarsPadding()
-                                        .animateContentSize(),
+                                        .navigationBarsPadding(),
                                     shape = RoundedCornerShape(cornerSize),
                                     interactionSource = interactionSource,
                                     visibleContent = {

@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
@@ -95,6 +94,15 @@ fun ProcessImagesPreferenceSheet(
         },
         sheetContent = {
             val context = LocalContext.current
+
+            fun Uri?.type(
+                vararg extensions: String
+            ) = extensions.any { ext ->
+                context
+                    .getExtension(this.toString())
+                    ?.contains(ext) == true
+            }
+
             val filesAvailableScreens by remember(uris) {
                 derivedStateOf {
                     listOf(
@@ -169,13 +177,19 @@ fun ProcessImagesPreferenceSheet(
                         Screen.DeleteExif(uris),
                         Screen.LimitResize(uris)
                     ).let {
-                        if (
-                            context
-                                .getExtension(uris.firstOrNull().toString())
-                                ?.contains("png") == true
-                        ) {
+                        val uri = uris.firstOrNull()
+
+                        if (uri.type("png")) {
                             it + Screen.ApngTools(
                                 Screen.ApngTools.Type.ApngToImage(uris.firstOrNull())
+                            )
+                        } else if (uri.type("jpg", "jpeg")) {
+                            it + Screen.JxlTools(
+                                Screen.JxlTools.Type.JpegToJxl(uris)
+                            )
+                        } else if (uri.type("jxl")) {
+                            it + Screen.JxlTools(
+                                Screen.JxlTools.Type.JxlToJpeg(uris)
                             )
                         } else it
                     }
@@ -203,6 +217,33 @@ fun ProcessImagesPreferenceSheet(
                         add(Screen.ImagePreview(uris))
                         add(Screen.LimitResize(uris))
                         add(Screen.Zip(uris))
+
+                        var haveJpeg = false
+                        var haveJxl = false
+
+                        for (uri in uris) {
+                            if (uri.type("jpg", "jpeg")) {
+                                haveJpeg = true
+                            } else if (uri.type("jxl")) {
+                                haveJxl = true
+                            }
+                            if (haveJpeg && haveJxl) break
+                        }
+
+                        if (haveJpeg) {
+                            add(
+                                Screen.JxlTools(
+                                    Screen.JxlTools.Type.JpegToJxl(uris)
+                                )
+                            )
+                        } else if (haveJxl) {
+                            add(
+                                Screen.JxlTools(
+                                    Screen.JxlTools.Type.JxlToJpeg(uris)
+                                )
+                            )
+                        }
+
                         add(
                             Screen.ApngTools(
                                 Screen.ApngTools.Type.ImageToApng(uris)
@@ -279,30 +320,29 @@ fun ProcessImagesPreferenceSheet(
                             ) {
                                 uris.fastForEach { uri ->
                                     var aspectRatio by rememberSaveable {
-                                        mutableFloatStateOf(2f)
+                                        mutableFloatStateOf(0.5f)
                                     }
-                                    Box(
-                                        Modifier
+                                    Picture(
+                                        model = uri,
+                                        onSuccess = {
+                                            aspectRatio = it.result.drawable.run {
+                                                intrinsicWidth.toFloat() / intrinsicHeight
+                                            }
+                                        },
+                                        modifier = Modifier
+                                            .animateContentSize()
                                             .fillMaxHeight()
-                                            .aspectRatio(aspectRatio)
+                                            .aspectRatio(
+                                                ratio = aspectRatio,
+                                                matchHeightConstraintsFirst = true
+                                            )
                                             .container(
                                                 shape = MaterialTheme.shapes.medium,
                                                 resultPadding = 0.dp
-                                            )
-                                            .animateContentSize()
-                                    ) {
-                                        Picture(
-                                            model = uri,
-                                            onSuccess = {
-                                                aspectRatio = it.result.drawable.run {
-                                                    intrinsicWidth.toFloat() / intrinsicHeight
-                                                }
-                                            },
-                                            shape = RectangleShape,
-                                            modifier = Modifier.fillMaxSize(),
-                                            contentScale = ContentScale.FillHeight
-                                        )
-                                    }
+                                            ),
+                                        shape = RectangleShape,
+                                        contentScale = ContentScale.Fit
+                                    )
                                 }
                             }
                         }
@@ -364,7 +404,7 @@ fun ProcessImagesPreferenceSheet(
                 }
             }
         },
-        visible = visible,
+        visible = visible
     )
 }
 
@@ -379,5 +419,5 @@ private fun Context.getExtension(
             )
     } else {
         MimeTypeMap.getFileExtensionFromUrl(uri).lowercase(Locale.getDefault())
-    }
+    }?.replace(".", "")
 }
