@@ -258,7 +258,8 @@ class PdfToolsViewModel @Inject constructor(
                 onProgressChange = {
                     _done.value = it
                 },
-                scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value
+                scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
+                preset = _presetSelected.value
             )
             onComplete()
             _isSaving.value = false
@@ -289,7 +290,8 @@ class PdfToolsViewModel @Inject constructor(
                         onProgressChange = {
                             _done.value = it
                         },
-                        scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value
+                        scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
+                        preset = _presetSelected.value
                     ).let {
                         shareProvider.shareByteArray(
                             byteArray = it,

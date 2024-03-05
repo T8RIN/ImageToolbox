@@ -501,6 +501,19 @@ fun PdfToolsScreen(
                     onNeedToRemoveImageAt = viewModel::removeImageToPdfAt
                 )
                 Spacer(Modifier.height(8.dp))
+                PresetSelector(
+                    value = viewModel.presetSelected,
+                    includeTelegramOption = false,
+                    onValueChange = {
+                        if (it is Preset.Numeric) {
+                            viewModel.selectPreset(it)
+                        }
+                    },
+                    showWarning = viewModel.showOOMWarning
+                )
+                Spacer(
+                    Modifier.height(8.dp)
+                )
                 ScaleSmallImagesToLargeToggle(
                     checked = viewModel.scaleSmallImagesToLarge,
                     onCheckedChange = {

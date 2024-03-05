@@ -42,6 +42,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Preset
+import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.feature.pdf_tools.domain.PdfManager
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
@@ -58,7 +59,8 @@ internal class AndroidPdfManager @Inject constructor(
     override suspend fun convertImagesToPdf(
         imageUris: List<String>,
         onProgressChange: suspend (Int) -> Unit,
-        scaleSmallImagesToLarge: Boolean
+        scaleSmallImagesToLarge: Boolean,
+        preset: Preset.Numeric
     ): ByteArray = withContext(Dispatchers.IO) {
         val pdfDocument = PdfDocument()
 
@@ -66,7 +68,8 @@ internal class AndroidPdfManager @Inject constructor(
             imageUris = imageUris,
             scaleSmallImagesToLarge = scaleSmallImagesToLarge,
             isHorizontal = false,
-            imageSpacing = 0
+            imageSpacing = 0,
+            percent = preset.value
         )
 
         val bitmaps = images.map { image ->
@@ -200,6 +203,7 @@ internal class AndroidPdfManager @Inject constructor(
         isHorizontal: Boolean,
         scaleSmallImagesToLarge: Boolean,
         imageSpacing: Int,
+        percent: Int
     ): Pair<IntegerSize, List<Bitmap>> = withContext(Dispatchers.IO) {
         var w = 0
         var h = 0
@@ -212,7 +216,14 @@ internal class AndroidPdfManager @Inject constructor(
                     .data(uri)
                     .size(Size.ORIGINAL)
                     .build()
-            ).drawable?.toBitmap()?.apply {
+            ).drawable?.toBitmap()?.let {
+                imageScaler.scaleImage(
+                    image = it,
+                    width = (it.width * percent / 100f).roundToInt(),
+                    height = (it.height * percent / 100f).roundToInt(),
+                    resizeType = ResizeType.Flexible
+                )
+            }?.apply {
                 maxWidth = max(maxWidth, width)
                 maxHeight = max(maxHeight, height)
             }
