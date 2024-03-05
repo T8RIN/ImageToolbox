@@ -112,7 +112,7 @@ private fun ColorScheme.contentColorFor(
     errorContainer -> onErrorContainer
     inverseSurface -> inverseOnSurface
     surface -> onSurface
-    inversePrimary -> onPrimaryContainer
+    inversePrimary -> primary
     surfaceVariant -> onSurfaceVariant
     surfaceBright -> onSurface
     surfaceContainer -> onSurface

@@ -44,7 +44,6 @@ import com.t8rin.dynamic.theme.rememberColorScheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.material.Cube
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.plus
@@ -74,12 +73,16 @@ internal fun MaterialYouPalette(
     val scope = rememberCoroutineScope()
 
     val themeState = LocalDynamicThemeState.current
-    val allowChangeColor = LocalSettingsState.current.allowChangeColorByImage
     LaunchedEffect(colorScheme.primary) {
-        if (allowChangeColor) {
-            delay(200L)
-            themeState.updateColor(colorScheme.primary)
-        }
+        delay(200L)
+        themeState.updateColorTuple(
+            ColorTuple(
+                primary = colorScheme.primary,
+                secondary = colorScheme.secondary,
+                tertiary = colorScheme.tertiary,
+                surface = colorScheme.surface
+            )
+        )
     }
 
     MaterialYouPaletteGroup(
