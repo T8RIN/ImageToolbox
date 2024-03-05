@@ -66,122 +66,80 @@ val Icons.Outlined.ImageText: ImageVector by lazy {
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
-            moveTo(22.0f, 13.0f)
-            lineToRelative(-8.0f, 0.0f)
-            lineToRelative(0.0f, -2.0f)
-            lineToRelative(8.0f, 0.0f)
-            lineToRelative(0.0f, 2.0f)
-        }
-        path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-            pathFillType = NonZero
-        ) {
-            moveTo(22.0f, 7.0f)
-            lineToRelative(-8.0f, 0.0f)
-            lineToRelative(0.0f, 2.0f)
-            lineToRelative(8.0f, 0.0f)
-            lineToRelative(0.0f, -2.0f)
-        }
-        path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-            pathFillType = NonZero
-        ) {
-            moveTo(14.0f, 17.0f)
-            lineToRelative(8.0f, 0.0f)
-            lineToRelative(0.0f, -2.0f)
-            lineToRelative(-8.0f, 0.0f)
-            lineToRelative(0.0f, 2.0f)
-        }
-        path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-            pathFillType = NonZero
-        ) {
-            moveTo(10.953f, 15.953f)
-            horizontalLineTo(3.047f)
-            verticalLineTo(8.047f)
-            horizontalLineToRelative(7.906f)
-            moveTo(10.953f, 6.9176f)
-            horizontalLineTo(3.047f)
-            curveToRelative(-0.6238f, 0.0f, -1.1294f, 0.5057f, -1.1294f, 1.1294f)
-            verticalLineToRelative(7.906f)
-            curveToRelative(0.0f, 0.6238f, 0.5057f, 1.1294f, 1.1294f, 1.1294f)
-            horizontalLineToRelative(7.906f)
-            curveToRelative(0.6238f, 0.0f, 1.1294f, -0.5057f, 1.1294f, -1.1294f)
-            verticalLineTo(8.047f)
-            curveTo(12.0824f, 7.4232f, 11.5768f, 6.9176f, 10.953f, 6.9176f)
-            moveTo(8.1068f, 12.1638f)
-            lineTo(6.5539f, 14.1629f)
-            lineToRelative(-1.1068f, -1.3327f)
-            lineToRelative(-1.553f, 1.9934f)
-            horizontalLineToRelative(6.2119f)
-            lineTo(8.1068f, 12.1638f)
+            moveTo(14.4125f, 5.5875f)
+            curveTo(14.0208f, 5.1959f, 13.55f, 5.0f, 13.0f, 5.0f)
+            horizontalLineTo(3.0f)
+            curveTo(2.45f, 5.0f, 1.9792f, 5.1959f, 1.5875f, 5.5875f)
+            reflectiveCurveTo(1.0f, 6.45f, 1.0f, 7.0f)
+            verticalLineToRelative(10.0f)
+            curveToRelative(0.0f, 0.55f, 0.1959f, 1.0208f, 0.5875f, 1.4125f)
+            reflectiveCurveTo(2.45f, 19.0f, 3.0f, 19.0f)
+            horizontalLineToRelative(10.0f)
+            curveToRelative(0.55f, 0.0f, 1.0208f, -0.1959f, 1.4125f, -0.5875f)
+            reflectiveCurveTo(15.0f, 17.55f, 15.0f, 17.0f)
+            verticalLineTo(7.0f)
+            curveTo(15.0f, 6.45f, 14.8041f, 5.9792f, 14.4125f, 5.5875f)
+            close()
+            moveTo(13.0f, 17.0f)
+            horizontalLineTo(3.0f)
+            verticalLineTo(7.0f)
+            horizontalLineToRelative(10.0f)
+            verticalLineTo(17.0f)
             close()
         }
-    }.build()
-}
-
-val Icons.Rounded.ImageText: ImageVector by lazy {
-    Builder(
-        name = "ImageTextRounded", defaultWidth = 24.0.dp, defaultHeight
-        = 24.0.dp, viewportWidth = 24.0f, viewportHeight = 24.0f
-    ).apply {
         path(
             fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
             strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
             pathFillType = NonZero
         ) {
-            moveTo(22.0f, 13.0f)
-            lineToRelative(-8.0f, 0.0f)
-            lineToRelative(0.0f, -2.0f)
+            moveTo(4.0f, 15.0f)
             lineToRelative(8.0f, 0.0f)
-            lineToRelative(0.0f, 2.0f)
-        }
-        path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-            pathFillType = NonZero
-        ) {
-            moveTo(22.0f, 7.0f)
-            lineToRelative(-8.0f, 0.0f)
-            lineToRelative(0.0f, 2.0f)
-            lineToRelative(8.0f, 0.0f)
-            lineToRelative(0.0f, -2.0f)
-        }
-        path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-            pathFillType = NonZero
-        ) {
-            moveTo(14.0f, 17.0f)
-            lineToRelative(8.0f, 0.0f)
-            lineToRelative(0.0f, -2.0f)
-            lineToRelative(-8.0f, 0.0f)
-            lineToRelative(0.0f, 2.0f)
-        }
-        path(
-            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
-            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-            pathFillType = NonZero
-        ) {
-            moveTo(10.953f, 6.9175f)
-            horizontalLineTo(3.047f)
-            curveToRelative(-0.6238f, 0.0f, -1.1295f, 0.5057f, -1.1295f, 1.1295f)
-            verticalLineToRelative(7.906f)
-            curveToRelative(0.0f, 0.6238f, 0.5057f, 1.1295f, 1.1295f, 1.1295f)
-            horizontalLineToRelative(7.906f)
-            curveToRelative(0.6238f, 0.0f, 1.1295f, -0.5057f, 1.1295f, -1.1295f)
-            verticalLineTo(8.047f)
-            curveTo(12.0825f, 7.4232f, 11.5768f, 6.9175f, 10.953f, 6.9175f)
+            lineToRelative(-2.6f, -3.5f)
+            lineToRelative(-1.9f, 2.5f)
+            lineToRelative(-1.4f, -1.85f)
             close()
-            moveTo(3.894f, 14.8236f)
-            lineToRelative(1.553f, -1.9935f)
-            lineToRelative(1.1069f, 1.3327f)
-            lineToRelative(1.553f, -1.9991f)
-            lineToRelative(1.9991f, 2.6599f)
-            horizontalLineTo(3.894f)
+        }
+        path(
+            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+            pathFillType = NonZero
+        ) {
+            moveTo(3.0f, 17.0f)
+            verticalLineToRelative(-10.0f)
+            verticalLineTo(17.0f)
+            close()
+        }
+        path(
+            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+            pathFillType = NonZero
+        ) {
+            moveTo(17.0f, 5.1755f)
+            horizontalLineToRelative(6.0f)
+            verticalLineToRelative(3.0f)
+            horizontalLineToRelative(-6.0f)
+            close()
+        }
+        path(
+            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+            pathFillType = NonZero
+        ) {
+            moveTo(17.0f, 15.8245f)
+            horizontalLineToRelative(6.0f)
+            verticalLineToRelative(3.0f)
+            horizontalLineToRelative(-6.0f)
+            close()
+        }
+        path(
+            fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+            pathFillType = NonZero
+        ) {
+            moveTo(16.8404f, 10.5f)
+            horizontalLineToRelative(6.0f)
+            verticalLineToRelative(3.0f)
+            horizontalLineToRelative(-6.0f)
             close()
         }
     }.build()
