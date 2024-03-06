@@ -22,7 +22,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import com.t8rin.logger.makeLog
 import nl.dionsegijn.konfetti.core.Angle
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
@@ -65,7 +64,7 @@ class Particles(
 ) {
     fun build(
         type: Type
-    ): List<Party> = confettiCache.makeLog { it.size }[harmonizer]?.get(type) ?: when (type) {
+    ): List<Party> = confettiCache[harmonizer]?.get(type) ?: when (type) {
         Type.Default -> default(harmonizer)
         Type.Festive -> festiveBottom(harmonizer)
         Type.Explode -> explode(harmonizer)
