@@ -37,6 +37,7 @@ import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.ADD_ORIGINAL_
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.ADD_SEQ_NUM_TO_FILENAME
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.ADD_SIZE_TO_FILENAME
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.ALLOW_ANALYTICS
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.ALLOW_AUTO_PASTE
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.ALLOW_BETAS
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.ALLOW_CRASHLYTICS
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.ALLOW_IMAGE_MONET
@@ -96,9 +97,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.io.DataInputStream
 import java.io.File
-import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -191,7 +190,8 @@ internal class SettingsRepositoryImpl @Inject constructor(
             useEmojiAsPrimaryColor = prefs[USE_EMOJI_AS_PRIMARY_COLOR]
                 ?: default.useEmojiAsPrimaryColor,
             dragHandleWidth = prefs[DRAG_HANDLE_WIDTH] ?: default.dragHandleWidth,
-            confettiType = prefs[CONFETTI_TYPE] ?: default.confettiType
+            confettiType = prefs[CONFETTI_TYPE] ?: default.confettiType,
+            allowAutoClipboardPaste = prefs[ALLOW_AUTO_PASTE] ?: default.allowAutoClipboardPaste
         )
     }
 
@@ -357,7 +357,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
             kotlin.runCatching {
                 context.contentResolver.openInputStream(uri)?.use { input ->
                     val byteArrayOutputStream = ByteArrayOutputStream()
-                    byteArrayOutputStream.write(input.toByteArray())
+                    byteArrayOutputStream.write(input.readBytes())
                     try {
                         PreferencesMapCompat.readFrom(ByteArrayInputStream(byteArrayOutputStream.toByteArray()))
                     } catch (t: Throwable) {
@@ -632,11 +632,11 @@ internal class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun InputStream.toByteArray(): ByteArray {
-        val bytes = ByteArray(this.available())
-        val dis = DataInputStream(this)
-        dis.readFully(bytes)
-        return bytes
+    override suspend fun toggleAllowAutoClipboardPaste() {
+        dataStore.edit {
+            val v = it[ALLOW_AUTO_PASTE] ?: default.allowAutoClipboardPaste
+            it[ALLOW_AUTO_PASTE] = !v
+        }
     }
 
 }

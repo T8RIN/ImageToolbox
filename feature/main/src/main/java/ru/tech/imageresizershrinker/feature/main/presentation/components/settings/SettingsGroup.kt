@@ -261,7 +261,8 @@ sealed class SettingsGroup(
         titleId = R.string.clipboard,
         settingsList = listOf(
             Setting.AutoPinClipboard,
-            Setting.AutoPinClipboardOnlyClip
+            Setting.AutoPinClipboardOnlyClip,
+            Setting.AllowAutoClipboardPaste
         ),
         initialState = false
     )

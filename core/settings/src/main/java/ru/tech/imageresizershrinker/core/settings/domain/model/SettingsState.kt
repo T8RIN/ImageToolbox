@@ -78,7 +78,8 @@ data class SettingsState(
     val iconShape: Int?,
     val useEmojiAsPrimaryColor: Boolean,
     val dragHandleWidth: Int,
-    val confettiType: Int
+    val confettiType: Int,
+    val allowAutoClipboardPaste: Boolean
 ) : Domain {
 
     companion object {
@@ -140,7 +141,8 @@ data class SettingsState(
                 iconShape = 0,
                 useEmojiAsPrimaryColor = false,
                 dragHandleWidth = 64,
-                confettiType = 0
+                confettiType = 0,
+                allowAutoClipboardPaste = true
             )
         }
     }

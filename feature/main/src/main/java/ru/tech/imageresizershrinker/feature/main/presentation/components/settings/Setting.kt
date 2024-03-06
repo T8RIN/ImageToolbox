@@ -337,4 +337,9 @@ sealed class Setting(
         title = R.string.confetti_type,
         subtitle = null
     )
+
+    data object AllowAutoClipboardPaste : Setting(
+        title = R.string.auto_paste,
+        subtitle = R.string.auto_paste_sub
+    )
 }

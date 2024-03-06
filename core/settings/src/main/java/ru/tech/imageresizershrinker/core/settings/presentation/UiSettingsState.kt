@@ -98,7 +98,8 @@ data class UiSettingsState(
     val iconShape: IconShape?,
     val useEmojiAsPrimaryColor: Boolean,
     val dragHandleWidth: Dp,
-    val confettiType: Int
+    val confettiType: Int,
+    val allowAutoClipboardPaste: Boolean
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -244,7 +245,8 @@ fun SettingsState.toUiState(
         }.value,
         useEmojiAsPrimaryColor = useEmojiAsPrimaryColor,
         dragHandleWidth = animateDpAsState(dragHandleWidth.dp).value,
-        confettiType = confettiType
+        confettiType = confettiType,
+        allowAutoClipboardPaste = allowAutoClipboardPaste
     )
 }
 

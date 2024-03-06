@@ -739,4 +739,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun toggleAllowAutoClipboardPaste() {
+        viewModelScope.launch {
+            settingsRepository.toggleAllowAutoClipboardPaste()
+        }
+    }
+
 }

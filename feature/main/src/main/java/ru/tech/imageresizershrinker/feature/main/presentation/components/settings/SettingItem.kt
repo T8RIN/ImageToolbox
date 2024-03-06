@@ -530,5 +530,9 @@ internal fun SettingItem(
         Setting.ConfettiType -> {
             ConfettiTypeSettingItem(onValueChange = viewModel::setConfettiType)
         }
+
+        Setting.AllowAutoClipboardPaste -> {
+            AllowAutoClipboardPasteSettingItem(onClick = viewModel::toggleAllowAutoClipboardPaste)
+        }
     }
 }

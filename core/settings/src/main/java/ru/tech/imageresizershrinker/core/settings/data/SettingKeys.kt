@@ -81,4 +81,5 @@ internal object SettingKeys {
     val USE_EMOJI_AS_PRIMARY_COLOR = booleanPreferencesKey("USE_EMOJI_AS_PRIMARY_COLOR")
     val DRAG_HANDLE_WIDTH = intPreferencesKey("DRAG_HANDLE_WIDTH")
     val CONFETTI_TYPE = intPreferencesKey("CONFETTI_TYPE")
+    val ALLOW_AUTO_PASTE = booleanPreferencesKey("ALLOW_AUTO_PASTE")
 }

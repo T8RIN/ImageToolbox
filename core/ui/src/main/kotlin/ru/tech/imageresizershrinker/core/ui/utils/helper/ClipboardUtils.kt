@@ -29,25 +29,39 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.getSystemService
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 
 @Composable
 fun rememberClipboardData(): State<List<Uri>> {
+    val settingsState = LocalSettingsState.current
+    val allowPaste = settingsState.allowAutoClipboardPaste
+
     val context = LocalContext.current
     val clipboardManager = context.getSystemService<ClipboardManager>()
 
     val clip = remember {
-        mutableStateOf(clipboardManager?.primaryClip?.clipList() ?: emptyList())
+        mutableStateOf(
+            if (allowPaste) {
+                clipboardManager?.primaryClip?.clipList() ?: emptyList()
+            } else emptyList()
+        )
     }.apply {
-        value = clipboardManager?.primaryClip?.clipList() ?: emptyList()
+        value = if (allowPaste) {
+            clipboardManager?.primaryClip?.clipList() ?: emptyList()
+        } else emptyList()
     }
 
     val callback = remember {
         ClipboardManager.OnPrimaryClipChangedListener {
-            clip.value = clipboardManager?.primaryClip?.clipList() ?: emptyList()
+            if (allowPaste) {
+                clip.value = clipboardManager?.primaryClip?.clipList() ?: emptyList()
+            }
         }
     }
-    DisposableEffect(clipboardManager) {
-        clipboardManager?.addPrimaryClipChangedListener(callback)
+    DisposableEffect(clipboardManager, allowPaste) {
+        if (allowPaste) {
+            clipboardManager?.addPrimaryClipChangedListener(callback)
+        }
         onDispose {
             clipboardManager?.removePrimaryClipChangedListener(callback)
         }

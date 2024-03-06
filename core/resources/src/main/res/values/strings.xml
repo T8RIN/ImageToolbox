@@ -837,4 +837,6 @@
     <string name="fast_gaussian_blur_2d">Fast Gaussian Blur 2D</string>
     <string name="fast_gaussian_blur_3d">Fast Gaussian Blur 3D</string>
     <string name="fast_gaussian_blur_4d">Fast Gaussian Blur 4D</string>
+    <string name="auto_paste">Auto Paste</string>
+    <string name="auto_paste_sub">Allows app to auto paste clipboard data, so it will appear on main screen and you will be able to process it</string>
 </resources>

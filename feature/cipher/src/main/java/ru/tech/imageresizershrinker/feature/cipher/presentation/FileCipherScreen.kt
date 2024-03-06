@@ -144,8 +144,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.utils.isScrollingUp
 import ru.tech.imageresizershrinker.feature.cipher.presentation.components.CipherTipSheet
 import ru.tech.imageresizershrinker.feature.cipher.presentation.viewModel.FileCipherViewModel
-import java.io.DataInputStream
-import java.io.InputStream
 import java.security.InvalidKeyException
 import kotlin.random.Random
 
@@ -542,7 +540,7 @@ fun FileCipherScreen(
                                                         context
                                                             .contentResolver
                                                             .openInputStream(uri)
-                                                            ?.use { it.toByteArray() }
+                                                            ?.use { it.readBytes() }
                                                     }
                                                 ) {
                                                     if (it is InvalidKeyException) {
@@ -840,11 +838,4 @@ private class CreateDocument : ActivityResultContracts.CreateDocument("*/*") {
             input = input.split("#")[0]
         ).putExtra(Intent.EXTRA_TITLE, input.split("#")[1])
     }
-}
-
-private fun InputStream.toByteArray(): ByteArray {
-    val bytes = ByteArray(this.available())
-    val dis = DataInputStream(this)
-    dis.readFully(bytes)
-    return bytes
 }
