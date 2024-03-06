@@ -804,4 +804,19 @@
     <string name="zip_sub">Créer un fichier Zip à partir de fichiers ou d\'images donnés</string>
     <string name="zip">Fermeture éclair</string>
     <string name="drag_handle_width">Largeur de la poignée de déplacement</string>
+    <string name="confetti_type">Type de confetti</string>
+    <string name="festive">Célébration</string>
+    <string name="explode">Exploser</string>
+    <string name="rain">Pluie</string>
+    <string name="corners">Coins</string>
+    <string name="jxl_tools">Outils JXL</string>
+    <string name="jxl_tools_sub">Transcodez JXL en JPEG ou JPEG en JXL sans perte de qualité</string>
+    <string name="jxl_type_to_jpeg_sub">Effectuez un transcodage sans perte de JXL vers JPEG</string>
+    <string name="jpeg_type_to_jxl_sub">Effectuez un transcodage sans perte de JPEG vers JXL</string>
+    <string name="jpeg_type_to_jxl">JPEG en JXL</string>
+    <string name="select_jxl_image_to_start">Choisissez l\'image JXL pour commencer</string>
+    <string name="fast_gaussian_blur_2d">Flou gaussien rapide 2D</string>
+    <string name="fast_gaussian_blur_3d">Flou gaussien rapide modèle 3D</string>
+    <string name="fast_gaussian_blur_4d">Flou gaussien rapide 4D</string>
+    <string name="jxl_type_to_jpeg">JXL en JPEG</string>
 </resources>
