@@ -302,6 +302,8 @@ sealed class SettingsGroup(
         titleId = R.string.confetti,
         settingsList = listOf(
             Setting.Confetti,
+            Setting.ConfettiHarmonizer,
+            Setting.ConfettiHarmonizationLevel,
             Setting.ConfettiType
         ),
         initialState = false

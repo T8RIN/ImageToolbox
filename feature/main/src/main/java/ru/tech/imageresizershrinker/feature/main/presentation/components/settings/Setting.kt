@@ -342,4 +342,14 @@ sealed class Setting(
         title = R.string.auto_paste,
         subtitle = R.string.auto_paste_sub
     )
+
+    data object ConfettiHarmonizer : Setting(
+        title = R.string.harmonization_color,
+        subtitle = null
+    )
+
+    data object ConfettiHarmonizationLevel : Setting(
+        title = R.string.harmonization_level,
+        subtitle = null
+    )
 }

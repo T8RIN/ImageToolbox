@@ -241,7 +241,7 @@ class AppActivity : M3Activity() {
                     AnimatedVisibility(settingsState.isConfettiEnabled) {
                         ConfettiHost(
                             hostState = confettiHostState,
-                            particles = { primary ->
+                            particles = { harmonizer ->
                                 val particlesType by remember(settingsState.confettiType) {
                                     derivedStateOf {
                                         Particles.Type.entries.first {
@@ -252,7 +252,7 @@ class AppActivity : M3Activity() {
 
                                 remember {
                                     Particles(
-                                        primary = primary,
+                                        harmonizer = harmonizer,
                                         context = this@AppActivity
                                     ).build(particlesType)
                                 }

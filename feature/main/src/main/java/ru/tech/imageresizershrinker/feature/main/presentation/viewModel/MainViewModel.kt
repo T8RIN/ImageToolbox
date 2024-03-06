@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
+import ru.tech.imageresizershrinker.core.settings.domain.model.Harmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -742,6 +743,18 @@ class MainViewModel @Inject constructor(
     fun toggleAllowAutoClipboardPaste() {
         viewModelScope.launch {
             settingsRepository.toggleAllowAutoClipboardPaste()
+        }
+    }
+
+    fun setConfettiHarmonizer(harmonizer: Harmonizer) {
+        viewModelScope.launch {
+            settingsRepository.setConfettiHarmonizer(harmonizer)
+        }
+    }
+
+    fun setConfettiHarmonizationLevel(level: Float) {
+        viewModelScope.launch {
+            settingsRepository.setConfettiHarmonizationLevel(level)
         }
     }
 

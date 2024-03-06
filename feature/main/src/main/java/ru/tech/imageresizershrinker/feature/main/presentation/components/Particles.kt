@@ -49,7 +49,7 @@ private val defaultColors = listOf(
 )
 
 private fun List<Color>.mapToPrimary(primary: Color): List<Int> = map {
-    it.blend(primary, 0.5f).toArgb()
+    it.blend(primary.copy(1f), primary.alpha).toArgb()
 }
 
 private val defaultShapes by lazy {
@@ -60,22 +60,22 @@ private val confettiCache = mutableMapOf<Color, MutableMap<Particles.Type, List<
 
 @Stable
 class Particles(
-    private val primary: Color,
+    private val harmonizer: Color,
     private val context: Context
 ) {
     fun build(
         type: Type
-    ): List<Party> = confettiCache.makeLog { it.size }[primary]?.get(type) ?: when (type) {
-        Type.Default -> default(primary)
-        Type.Festive -> festiveBottom(primary)
-        Type.Explode -> explode(primary)
-        Type.Rain -> rain(primary)
-        Type.Side -> side(primary)
-        Type.Corners -> festiveCorners(primary)
-        Type.Toolbox -> toolbox(primary, context)
+    ): List<Party> = confettiCache.makeLog { it.size }[harmonizer]?.get(type) ?: when (type) {
+        Type.Default -> default(harmonizer)
+        Type.Festive -> festiveBottom(harmonizer)
+        Type.Explode -> explode(harmonizer)
+        Type.Rain -> rain(harmonizer)
+        Type.Side -> side(harmonizer)
+        Type.Corners -> festiveCorners(harmonizer)
+        Type.Toolbox -> toolbox(harmonizer, context)
     }.also {
-        if (confettiCache[primary]?.put(type, it) == null) {
-            confettiCache[primary] = mutableMapOf(type to it)
+        if (confettiCache[harmonizer]?.put(type, it) == null) {
+            confettiCache[harmonizer] = mutableMapOf(type to it)
         }
     }
 

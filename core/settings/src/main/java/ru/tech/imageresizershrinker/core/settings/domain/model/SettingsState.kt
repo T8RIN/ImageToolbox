@@ -79,7 +79,9 @@ data class SettingsState(
     val useEmojiAsPrimaryColor: Boolean,
     val dragHandleWidth: Int,
     val confettiType: Int,
-    val allowAutoClipboardPaste: Boolean
+    val allowAutoClipboardPaste: Boolean,
+    val confettiHarmonizer: Harmonizer,
+    val confettiHarmonizationLevel: Float
 ) : Domain {
 
     companion object {
@@ -142,7 +144,9 @@ data class SettingsState(
                 useEmojiAsPrimaryColor = false,
                 dragHandleWidth = 64,
                 confettiType = 0,
-                allowAutoClipboardPaste = true
+                allowAutoClipboardPaste = true,
+                confettiHarmonizer = Harmonizer.Primary,
+                confettiHarmonizationLevel = 0.5f
             )
         }
     }

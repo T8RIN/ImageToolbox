@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.presentation.crash_screen
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -68,10 +69,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.exifinterface.media.ExifInterface
+import com.t8rin.dynamic.theme.ColorTuple
+import com.t8rin.dynamic.theme.extractPrimaryColor
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.AUTHOR_TG
 import ru.tech.imageresizershrinker.core.domain.ISSUE_TRACKER
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
@@ -96,6 +103,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.presentation.AppActivity
 import ru.tech.imageresizershrinker.presentation.CrashHandler
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CrashActivity : CrashHandler() {
@@ -148,7 +156,8 @@ class CrashActivity : CrashHandler() {
             CompositionLocalProvider(
                 LocalSettingsState provides settingsState.toUiState(
                     allEmojis = Emoji.allIcons(),
-                    allIconShapes = IconShapesList
+                    allIconShapes = IconShapesList,
+                    getEmojiColorTuple = ::getColorTupleFromEmoji
                 ),
                 LocalHapticFeedback provides customHapticFeedback(settingsState.hapticsStrength)
             ) {
@@ -360,6 +369,23 @@ class CrashActivity : CrashHandler() {
                     ToastHost(hostState = toastHostState)
                 }
             }
+        }
+    }
+
+    @Inject
+    lateinit var imageGetter: ImageGetter<Bitmap, ExifInterface>
+
+    fun getColorTupleFromEmoji(
+        emojiUri: String,
+        callback: (ColorTuple?) -> Unit
+    ) {
+        CoroutineScope(Dispatchers.IO).launch {
+            callback(
+                imageGetter
+                    .getImage(data = emojiUri)
+                    ?.extractPrimaryColor()
+                    ?.let { ColorTuple(it) }
+            )
         }
     }
 

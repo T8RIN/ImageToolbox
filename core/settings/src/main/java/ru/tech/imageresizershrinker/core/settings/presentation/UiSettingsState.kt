@@ -38,6 +38,7 @@ import kotlinx.collections.immutable.ImmutableList
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
+import ru.tech.imageresizershrinker.core.settings.domain.model.Harmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 
@@ -99,7 +100,9 @@ data class UiSettingsState(
     val useEmojiAsPrimaryColor: Boolean,
     val dragHandleWidth: Dp,
     val confettiType: Int,
-    val allowAutoClipboardPaste: Boolean
+    val allowAutoClipboardPaste: Boolean,
+    val confettiHarmonizer: Harmonizer,
+    val confettiHarmonizationLevel: Float
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -246,7 +249,9 @@ fun SettingsState.toUiState(
         useEmojiAsPrimaryColor = useEmojiAsPrimaryColor,
         dragHandleWidth = animateDpAsState(dragHandleWidth.dp).value,
         confettiType = confettiType,
-        allowAutoClipboardPaste = allowAutoClipboardPaste
+        allowAutoClipboardPaste = allowAutoClipboardPaste,
+        confettiHarmonizer = confettiHarmonizer,
+        confettiHarmonizationLevel = confettiHarmonizationLevel
     )
 }
 

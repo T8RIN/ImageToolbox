@@ -839,4 +839,6 @@
     <string name="fast_gaussian_blur_4d">Fast Gaussian Blur 4D</string>
     <string name="auto_paste">Auto Paste</string>
     <string name="auto_paste_sub">Allows app to auto paste clipboard data, so it will appear on main screen and you will be able to process it</string>
+    <string name="harmonization_color">Harmonization Color</string>
+    <string name="harmonization_level">Harmonization Level</string>
 </resources>

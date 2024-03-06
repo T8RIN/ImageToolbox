@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.Flow
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
+import ru.tech.imageresizershrinker.core.settings.domain.model.Harmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 
@@ -157,4 +158,8 @@ interface SettingsRepository {
     suspend fun setConfettiType(type: Int)
 
     suspend fun toggleAllowAutoClipboardPaste()
+
+    suspend fun setConfettiHarmonizer(harmonizer: Harmonizer)
+
+    suspend fun setConfettiHarmonizationLevel(level: Float)
 }

@@ -48,6 +48,8 @@ import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.AUTO_CACHE_CL
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.BORDER_WIDTH
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.COLOR_TUPLES
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.CONFETTI_ENABLED
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.CONFETTI_HARMONIZATION_LEVEL
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.CONFETTI_HARMONIZER
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.CONFETTI_TYPE
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.COPY_TO_CLIPBOARD_MODE
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.DRAG_HANDLE_WIDTH
@@ -93,6 +95,7 @@ import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.VIBRATION_STR
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
+import ru.tech.imageresizershrinker.core.settings.domain.model.Harmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import java.io.ByteArrayInputStream
@@ -191,7 +194,12 @@ internal class SettingsRepositoryImpl @Inject constructor(
                 ?: default.useEmojiAsPrimaryColor,
             dragHandleWidth = prefs[DRAG_HANDLE_WIDTH] ?: default.dragHandleWidth,
             confettiType = prefs[CONFETTI_TYPE] ?: default.confettiType,
-            allowAutoClipboardPaste = prefs[ALLOW_AUTO_PASTE] ?: default.allowAutoClipboardPaste
+            allowAutoClipboardPaste = prefs[ALLOW_AUTO_PASTE] ?: default.allowAutoClipboardPaste,
+            confettiHarmonizer = prefs[CONFETTI_HARMONIZER]?.let {
+                Harmonizer.fromInt(it)
+            } ?: default.confettiHarmonizer,
+            confettiHarmonizationLevel = prefs[CONFETTI_HARMONIZATION_LEVEL]
+                ?: default.confettiHarmonizationLevel
         )
     }
 
@@ -636,6 +644,18 @@ internal class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[ALLOW_AUTO_PASTE] ?: default.allowAutoClipboardPaste
             it[ALLOW_AUTO_PASTE] = !v
+        }
+    }
+
+    override suspend fun setConfettiHarmonizer(harmonizer: Harmonizer) {
+        dataStore.edit {
+            it[CONFETTI_HARMONIZER] = harmonizer.ordinal
+        }
+    }
+
+    override suspend fun setConfettiHarmonizationLevel(level: Float) {
+        dataStore.edit {
+            it[CONFETTI_HARMONIZATION_LEVEL] = level
         }
     }
 

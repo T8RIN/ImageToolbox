@@ -534,5 +534,13 @@ internal fun SettingItem(
         Setting.AllowAutoClipboardPaste -> {
             AllowAutoClipboardPasteSettingItem(onClick = viewModel::toggleAllowAutoClipboardPaste)
         }
+
+        Setting.ConfettiHarmonizer -> {
+            ConfettiHarmonizerSettingItem(onValueChange = viewModel::setConfettiHarmonizer)
+        }
+
+        Setting.ConfettiHarmonizationLevel -> {
+            ConfettiHarmonizationLevelSettingItem(onValueChange = viewModel::setConfettiHarmonizationLevel)
+        }
     }
 }

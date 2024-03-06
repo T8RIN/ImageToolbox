@@ -29,6 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
+import ru.tech.imageresizershrinker.core.settings.domain.model.Harmonizer
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
@@ -47,7 +49,7 @@ class ConfettiHostState : ToastHostState() {
 @Composable
 fun ConfettiHost(
     hostState: ConfettiHostState,
-    particles: @Composable (primary: Color) -> List<Party>
+    particles: @Composable (harmonizer: Color) -> List<Party>
 ) {
     ToastHost(
         hostState = hostState,
@@ -55,10 +57,20 @@ fun ConfettiHost(
             fadeIn() togetherWith fadeOut()
         },
         toast = {
-            val primary = MaterialTheme.colorScheme.primary
+            val settingsState = LocalSettingsState.current
+            val colorScheme = MaterialTheme.colorScheme
+            val confettiHarmonizationLevel = settingsState.confettiHarmonizationLevel
+            val harmonizationColor = when (
+                val harmonizer = settingsState.confettiHarmonizer
+            ) {
+                is Harmonizer.Custom -> Color(harmonizer.color)
+                Harmonizer.Primary -> colorScheme.primary
+                Harmonizer.Secondary -> colorScheme.secondary
+                Harmonizer.Tertiary -> colorScheme.tertiary
+            }
             KonfettiView(
                 modifier = Modifier.fillMaxSize(),
-                parties = particles(primary)
+                parties = particles(harmonizationColor.copy(confettiHarmonizationLevel))
             )
         }
     )

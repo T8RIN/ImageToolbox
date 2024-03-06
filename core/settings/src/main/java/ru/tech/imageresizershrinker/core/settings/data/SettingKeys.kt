@@ -82,4 +82,6 @@ internal object SettingKeys {
     val DRAG_HANDLE_WIDTH = intPreferencesKey("DRAG_HANDLE_WIDTH")
     val CONFETTI_TYPE = intPreferencesKey("CONFETTI_TYPE")
     val ALLOW_AUTO_PASTE = booleanPreferencesKey("ALLOW_AUTO_PASTE")
+    val CONFETTI_HARMONIZER = intPreferencesKey("CONFETTI_HARMONIZER")
+    val CONFETTI_HARMONIZATION_LEVEL = floatPreferencesKey("CONFETTI_HARMONIZATION_LEVEL")
 }
