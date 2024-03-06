@@ -22,6 +22,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import com.t8rin.logger.makeLog
 import nl.dionsegijn.konfetti.core.Angle
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
@@ -55,23 +56,28 @@ private val defaultShapes by lazy {
     listOf(Shape.Square, Shape.Circle, Shape.Rectangle(0.2f))
 }
 
+private val confettiCache = mutableMapOf<Color, MutableMap<Particles.Type, List<Party>>>()
+
 @Stable
 class Particles(
-    primary: Color,
-    context: Context
+    private val primary: Color,
+    private val context: Context
 ) {
-
-    private val data = mapOf(
-        Type.Default to default(primary),
-        Type.Festive to festiveBottom(primary),
-        Type.Explode to explode(primary),
-        Type.Rain to rain(primary),
-        Type.Side to side(primary),
-        Type.Corners to festiveCorners(primary),
-        Type.Toolbox to toolbox(primary, context)
-    )
-
-    fun forType(type: Type): List<Party> = data[type]!!
+    fun build(
+        type: Type
+    ): List<Party> = confettiCache.makeLog { it.size }[primary]?.get(type) ?: when (type) {
+        Type.Default -> default(primary)
+        Type.Festive -> festiveBottom(primary)
+        Type.Explode -> explode(primary)
+        Type.Rain -> rain(primary)
+        Type.Side -> side(primary)
+        Type.Corners -> festiveCorners(primary)
+        Type.Toolbox -> toolbox(primary, context)
+    }.also {
+        if (confettiCache[primary]?.put(type, it) == null) {
+            confettiCache[primary] = mutableMapOf(type to it)
+        }
+    }
 
     companion object {
 

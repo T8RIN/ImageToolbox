@@ -254,7 +254,7 @@ class AppActivity : M3Activity() {
                                     Particles(
                                         primary = primary,
                                         context = this@AppActivity
-                                    ).forType(particlesType)
+                                    ).build(particlesType)
                                 }
                             }
                         )
