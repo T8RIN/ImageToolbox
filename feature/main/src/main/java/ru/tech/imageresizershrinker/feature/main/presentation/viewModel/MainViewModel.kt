@@ -549,19 +549,12 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getColorTupleFromEmoji(
-        emojiUri: String,
-        callback: (ColorTuple?) -> Unit
-    ) {
-        viewModelScope.launch {
-            callback(
-                imageGetter
-                    .getImage(data = emojiUri)
-                    ?.extractPrimaryColor()
-                    ?.let { ColorTuple(it) }
-            )
-        }
-    }
+    suspend fun getColorTupleFromEmoji(
+        emojiUri: String
+    ): ColorTuple? = imageGetter
+        .getImage(data = emojiUri)
+        ?.extractPrimaryColor()
+        ?.let { ColorTuple(it) }
 
     fun addColorTupleFromEmoji(
         getEmoji: (Int?) -> String,

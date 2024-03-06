@@ -73,8 +73,6 @@ import androidx.exifinterface.media.ExifInterface
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.AUTHOR_TG
 import ru.tech.imageresizershrinker.core.domain.ISSUE_TRACKER
@@ -375,18 +373,11 @@ class CrashActivity : CrashHandler() {
     @Inject
     lateinit var imageGetter: ImageGetter<Bitmap, ExifInterface>
 
-    fun getColorTupleFromEmoji(
-        emojiUri: String,
-        callback: (ColorTuple?) -> Unit
-    ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            callback(
-                imageGetter
-                    .getImage(data = emojiUri)
-                    ?.extractPrimaryColor()
-                    ?.let { ColorTuple(it) }
-            )
-        }
-    }
+    private suspend fun getColorTupleFromEmoji(
+        emojiUri: String
+    ): ColorTuple? = imageGetter
+        .getImage(data = emojiUri)
+        ?.extractPrimaryColor()
+        ?.let { ColorTuple(it) }
 
 }

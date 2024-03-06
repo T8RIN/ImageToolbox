@@ -26,6 +26,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
@@ -35,6 +36,7 @@ import androidx.core.net.toUri
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.PaletteStyle
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
@@ -115,7 +117,7 @@ fun UiSettingsState.isFirstLaunch(
 fun SettingsState.toUiState(
     allEmojis: ImmutableList<Uri>,
     allIconShapes: ImmutableList<IconShape>,
-    getEmojiColorTuple: (String, (ColorTuple?) -> Unit) -> Unit = { _, _ -> },
+    getEmojiColorTuple: suspend (String) -> ColorTuple?,
     randomEmojiKey: Any? = null
 ): UiSettingsState {
     val selectedEmojiIndex by remember(selectedEmoji, useRandomEmojis, randomEmojiKey) {
@@ -130,6 +132,7 @@ fun SettingsState.toUiState(
     var emojiColorTuple: ColorTuple? by remember {
         mutableStateOf(null)
     }
+    val scope = rememberCoroutineScope()
 
     val appColorTupleComposed by remember(
         allEmojis,
@@ -139,18 +142,17 @@ fun SettingsState.toUiState(
     ) {
         derivedStateOf {
             if (useEmojiAsPrimaryColor) {
-                selectedEmojiIndex?.let { selectedEmoji ->
-                    getEmojiColorTuple(
-                        allEmojis[selectedEmoji].toString()
-                    ) {
-                        emojiColorTuple = it
+                scope.launch {
+                    selectedEmojiIndex?.let {
+                        emojiColorTuple = getEmojiColorTuple(
+                            allEmojis[it].toString()
+                        )
                     }
-                    null
-                } ?: appColorTuple.asColorTuple()
+                }
             } else {
                 emojiColorTuple = null
-                appColorTuple.asColorTuple()
             }
+            appColorTuple.asColorTuple()
         }
     }
 
