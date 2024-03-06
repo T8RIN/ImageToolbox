@@ -371,8 +371,8 @@ sealed class Screen(
             companion object {
                 val entries by lazy {
                     listOf(
-                        GifToImage(),
-                        ImageToGif()
+                        ImageToGif(),
+                        GifToImage()
                     )
                 }
             }
@@ -413,8 +413,8 @@ sealed class Screen(
             companion object {
                 val entries by lazy {
                     listOf(
-                        ApngToImage(),
-                        ImageToApng()
+                        ImageToApng(),
+                        ApngToImage()
                     )
                 }
             }
