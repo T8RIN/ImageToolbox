@@ -16,7 +16,7 @@ jxlCoderCoil = "2.0.0"
 jxlCoder = "2.0.0"
 
 tesseract = "4.3.0"
-composeVersion = "1.7.0-alpha03"
+composeVersion = "1.7.0-alpha04"
 androidx-datastorePreferencesAndroid = "1.1.0-beta01"
 appUpdateKtx = "2.1.0"
 appUpdate = "2.1.0"
