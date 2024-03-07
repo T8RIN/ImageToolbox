@@ -819,4 +819,8 @@
     <string name="fast_gaussian_blur_4d">تمويه غاوسي سريع 4D</string>
     <string name="jpeg_type_to_jxl">JPEG إلى JXL</string>
     <string name="select_jxl_image_to_start">اختر صورة JXL للبدء</string>
+    <string name="auto_paste">اللصق التلقائي</string>
+    <string name="auto_paste_sub">يسمح للتطبيق بلصق بيانات الحافظة تلقائيًا، بحيث تظهر على الشاشة الرئيسية وستتمكن من معالجتها</string>
+    <string name="harmonization_color">وحدة تنسيق</string>
+    <string name="harmonization_level">مستوى المواءمة</string>
 </resources>
