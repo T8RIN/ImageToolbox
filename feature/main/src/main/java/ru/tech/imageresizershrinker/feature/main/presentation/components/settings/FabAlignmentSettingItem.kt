@@ -68,9 +68,7 @@ fun FabAlignmentSettingItem(
     shape: Shape = ContainerShapeDefaults.bottomShape
 ) {
     val settingsState = LocalSettingsState.current
-    val color = MaterialTheme.colorScheme
-        .secondaryContainer
-        .copy(alpha = 0.2f)
+    val color = Color.Unspecified
 
     Box(
         modifier

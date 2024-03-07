@@ -64,7 +64,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -265,16 +264,12 @@ fun CropScreen(
                         scrollBehavior = scrollBehavior,
                         modifier = Modifier.drawHorizontalStroke(),
                         title = {
-                            Marquee(
-                                edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                            ) {
+                            Marquee {
                                 Text(stringResource(R.string.crop))
                             }
                         },
                         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                3.dp
-                            )
+                            containerColor = MaterialTheme.colorScheme.surfaceContainer
                         ),
                         navigationIcon = {
                             EnhancedIconButton(
@@ -294,16 +289,12 @@ fun CropScreen(
                     TopAppBar(
                         modifier = Modifier.drawHorizontalStroke(),
                         title = {
-                            Marquee(
-                                edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                            ) {
+                            Marquee {
                                 Text(stringResource(R.string.crop))
                             }
                         },
                         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                3.dp
-                            )
+                            containerColor = MaterialTheme.colorScheme.surfaceContainer
                         ),
                         navigationIcon = {
                             EnhancedIconButton(

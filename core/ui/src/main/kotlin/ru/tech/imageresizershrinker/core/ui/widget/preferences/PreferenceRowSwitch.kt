@@ -46,9 +46,7 @@ fun PreferenceRowSwitch(
     autoShadowElevation: Dp = 1.dp,
     applyHorPadding: Boolean = true,
     checked: Boolean,
-    color: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
-        alpha = 0.2f
-    ),
+    color: Color = Color.Unspecified,
     contentColor: Color? = null,
     shape: Shape = RoundedCornerShape(16.dp),
     startContent: (@Composable () -> Unit)? = null,
@@ -116,9 +114,7 @@ fun PreferenceRowSwitch(
     subtitle: String? = null,
     autoShadowElevation: Dp = 1.dp,
     checked: Boolean,
-    color: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
-        alpha = 0.2f
-    ),
+    color: Color = Color.Unspecified,
     onDisabledClick: (() -> Unit)? = null,
     changeAlphaWhenDisabled: Boolean = true,
     contentColor: Color? = null,

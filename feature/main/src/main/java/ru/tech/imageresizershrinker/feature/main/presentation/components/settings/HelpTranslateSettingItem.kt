@@ -22,7 +22,6 @@ import android.net.Uri
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Translate
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -43,9 +42,6 @@ fun HelpTranslateSettingItem(
     PreferenceItem(
         shape = shape,
         modifier = modifier,
-        color = MaterialTheme.colorScheme
-            .secondaryContainer
-            .copy(alpha = 0.2f),
         title = stringResource(R.string.help_translate),
         subtitle = stringResource(R.string.help_translate_sub),
         startIcon = Icons.Rounded.Translate,

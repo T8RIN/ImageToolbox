@@ -49,7 +49,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -284,10 +283,8 @@ fun EraseBackgroundEditOption(
             topAppBar = { closeButton ->
                 CenterAlignedTopAppBar(
                     navigationIcon = closeButton,
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        MaterialTheme.colorScheme.surfaceColorAtElevation(
-                            3.dp
-                        )
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
                     ),
                     modifier = Modifier.drawHorizontalStroke(),
                     actions = {
@@ -315,7 +312,7 @@ fun EraseBackgroundEditOption(
                         }
                     },
                     title = {
-                        Marquee(edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)) {
+                        Marquee {
                             Text(
                                 text = stringResource(R.string.erase_background),
                             )

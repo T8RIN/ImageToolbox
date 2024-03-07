@@ -34,12 +34,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
@@ -73,14 +71,12 @@ fun CompareScreenTopAppBar(
                 }
             },
             title = {
-                Marquee(
-                    edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                ) {
+                Marquee {
                     Text(stringResource(R.string.compare))
                 }
             },
-            colors = TopAppBarDefaults.mediumTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainer
             ),
             actions = {
                 TopAppBarEmoji()
@@ -137,9 +133,7 @@ fun CompareScreenTopAppBar(
                 }
             },
             title = {
-                Marquee(
-                    edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                ) {
+                Marquee {
                     AnimatedContent(
                         targetState = titleWhenBitmapsPicked
                     ) { text ->
@@ -147,8 +141,8 @@ fun CompareScreenTopAppBar(
                     }
                 }
             },
-            colors = TopAppBarDefaults.mediumTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainer
             ),
             modifier = Modifier.drawHorizontalStroke()
         )

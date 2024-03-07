@@ -38,7 +38,6 @@ import androidx.compose.material.icons.rounded.PhotoLibrary
 import androidx.compose.material.icons.rounded.RemoveCircleOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -97,7 +96,7 @@ fun PickImageFromUrisSheet(
                             val selected = selectedUri == uri
                             val color by animateColorAsState(
                                 if (selected) MaterialTheme.colorScheme.primary.copy(0.5f)
-                                else MaterialTheme.colorScheme.surfaceColorAtElevation(8.dp)
+                                else MaterialTheme.colorScheme.surfaceContainerHigh
                             )
                             val padding by animateDpAsState(if (selected) 8.dp else 4.dp)
                             val pictureShape by animateDpAsState(if (selected) 18.dp else 20.dp)

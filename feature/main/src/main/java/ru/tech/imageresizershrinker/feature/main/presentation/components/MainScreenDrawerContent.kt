@@ -26,7 +26,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.offset
@@ -45,7 +44,6 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -69,7 +67,6 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
-import androidx.compose.ui.zIndex
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
@@ -136,12 +133,13 @@ internal fun MainScreenDrawerContent(
                             settingsState.borderWidth,
                             MaterialTheme.colorScheme.outlineVariant(
                                 0.3f,
-                                DrawerDefaults.containerColor
+                                DrawerDefaults.standardContainerColor
                             ),
                             DrawerDefaults.shape
                         )
                 } else Modifier
             ),
+        drawerContainerColor = MaterialTheme.colorScheme.surface,
         drawerShape = if (isSheetSlideable) DrawerDefaults.shape else RectangleShape,
         windowInsets = WindowInsets(0)
     ) {
@@ -156,17 +154,15 @@ internal fun MainScreenDrawerContent(
 
         CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
             TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(Color.Transparent),
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer
+                ),
                 title = {
                     AnimatedContent(
                         targetState = showSettingsSearch
                     ) { searching ->
                         if (!searching) {
-                            Marquee(
-                                edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                    6.dp
-                                )
-                            ) {
+                            Marquee {
                                 Text(
                                     text = stringResource(R.string.settings),
                                     style = MaterialTheme.typography.titleLarge
@@ -186,10 +182,7 @@ internal fun MainScreenDrawerContent(
                         }
                     }
                 },
-                modifier = Modifier
-                    .zIndex(6f)
-                    .drawHorizontalStroke()
-                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)),
+                modifier = Modifier.drawHorizontalStroke(),
                 actions = {
                     AnimatedContent(
                         targetState = showSettingsSearch to settingsSearchKeyword.isNotEmpty(),

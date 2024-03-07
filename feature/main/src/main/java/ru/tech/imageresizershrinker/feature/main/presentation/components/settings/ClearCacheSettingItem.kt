@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Memory
 import androidx.compose.material.icons.rounded.DeleteOutline
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -57,9 +56,6 @@ fun ClearCacheSettingItem(
             clearCache { cache = it }
         },
         modifier = modifier,
-        color = MaterialTheme.colorScheme
-            .secondaryContainer
-            .copy(alpha = 0.2f),
         title = stringResource(R.string.cache_size),
         subtitle = stringResource(R.string.found_s, cache),
         endIcon = Icons.Rounded.DeleteOutline,

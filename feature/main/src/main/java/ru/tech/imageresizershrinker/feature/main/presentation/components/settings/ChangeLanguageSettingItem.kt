@@ -79,7 +79,6 @@ fun ChangeLanguageSettingItem(
             subtitle = context.getCurrentLocaleString(),
             startIcon = Icons.Outlined.Language,
             endIcon = Icons.Rounded.MiniEdit,
-            color = MaterialTheme.colorScheme.secondaryContainer.copy(0.2f),
             onClick = {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !ContextUtils.isMiUi()) {
                     kotlin.runCatching {

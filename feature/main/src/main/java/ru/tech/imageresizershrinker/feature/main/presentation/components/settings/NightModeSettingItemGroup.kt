@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.main.presentation.components.settings
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -39,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
@@ -75,12 +75,10 @@ fun NightModeSettingItemGroup(
             PreferenceItem(
                 onClick = { onValueChange(nightMode) },
                 title = title,
-                color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                    alpha = animateFloatAsState(
-                        if (selected) 0.7f
-                        else 0.2f
-                    ).value
-                ),
+                color = takeColorFromScheme {
+                    if (selected) secondaryContainer.copy(0.7f)
+                    else Color.Unspecified
+                },
                 shape = shape,
                 startIcon = icon,
                 modifier = Modifier

@@ -39,7 +39,6 @@ import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -154,7 +153,7 @@ fun ToggleGroupButton(
                                     activeContainerColor = if (enabled) {
                                         MaterialTheme.colorScheme.secondary
                                     } else {
-                                        MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
+                                        MaterialTheme.colorScheme.surfaceContainerHigh
                                     },
                                     activeContentColor = MaterialTheme.colorScheme.onSecondary
                                 ),

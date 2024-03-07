@@ -108,9 +108,6 @@ fun ScreenOrderSettingItem(
         startIcon = Icons.Outlined.DataArray,
         title = stringResource(R.string.order),
         subtitle = stringResource(R.string.order_sub),
-        color = MaterialTheme.colorScheme
-            .secondaryContainer
-            .copy(alpha = 0.2f),
         endIcon = Icons.Rounded.MiniEdit,
     )
 

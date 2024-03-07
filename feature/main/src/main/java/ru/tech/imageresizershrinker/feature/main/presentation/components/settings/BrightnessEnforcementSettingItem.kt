@@ -94,9 +94,6 @@ fun BrightnessEnforcementSettingItem(
         startIcon = Icons.Outlined.BrightnessHigh,
         title = stringResource(R.string.brightness_enforcement),
         subtitle = subtitle,
-        color = MaterialTheme.colorScheme
-            .secondaryContainer
-            .copy(alpha = 0.2f),
         endIcon = Icons.Rounded.MiniEdit
     )
 

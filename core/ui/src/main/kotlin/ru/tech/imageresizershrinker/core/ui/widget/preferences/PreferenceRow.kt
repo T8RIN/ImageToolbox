@@ -33,7 +33,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
@@ -58,9 +57,7 @@ fun PreferenceRow(
     modifier: Modifier = Modifier,
     title: String,
     subtitle: String? = null,
-    color: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
-        alpha = 0.2f
-    ),
+    color: Color = Color.Unspecified,
     enabled: Boolean = true,
     shape: Shape = RoundedCornerShape(16.dp),
     contentColor: Color? = null,
@@ -175,9 +172,7 @@ fun PreferenceRow(
     enabled: Boolean = true,
     subtitle: String? = null,
     autoShadowElevation: Dp = 1.dp,
-    color: Color = MaterialTheme.colorScheme.secondaryContainer.copy(
-        alpha = 0.2f
-    ),
+    color: Color = Color.Unspecified,
     drawStartIconContainer: Boolean = true,
     onDisabledClick: (() -> Unit)? = null,
     changeAlphaWhenDisabled: Boolean = true,

@@ -44,7 +44,6 @@ import androidx.compose.material.icons.rounded.Shuffle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -75,6 +74,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.EmojiItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.GradientEdge
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import kotlin.random.Random
@@ -272,7 +272,7 @@ fun EmojiSheet(
                     ).value,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp))
+                        .background(SimpleSheetDefaults.containerColor)
                         .padding(start = 16.dp, top = 20.dp, bottom = 8.dp, end = 16.dp),
                     shape = RoundedCornerShape(28.dp),
                     checked = emojiEnabled,
@@ -286,7 +286,7 @@ fun EmojiSheet(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(16.dp),
-                    startColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
+                    startColor = SimpleSheetDefaults.containerColor,
                     endColor = Color.Transparent
                 )
             }

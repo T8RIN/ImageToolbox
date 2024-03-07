@@ -25,8 +25,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,7 +38,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 @Composable
 fun SimpleDragHandle(
     modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp),
+    color: Color = SimpleSheetDefaults.barContainerColor,
     drawStroke: Boolean = true,
     showDragHandle: Boolean = true,
     content: @Composable ColumnScope.() -> Unit = {},

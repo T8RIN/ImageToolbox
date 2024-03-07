@@ -93,7 +93,6 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -209,10 +208,7 @@ internal fun MainScreenContent(
                 LargeTopAppBar(
                     title = {
                         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-                            Marquee(
-                                edgeColor = MaterialTheme.colorScheme
-                                    .surfaceColorAtElevation(3.dp)
-                            ) {
+                            Marquee {
                                 val titleText = remember {
                                     "${Screen.FEATURES_COUNT}".plus(
                                         if (BuildConfig.FLAVOR == "market") {
@@ -255,8 +251,7 @@ internal fun MainScreenContent(
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme
-                            .surfaceColorAtElevation(3.dp)
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
                     ),
                     actions = {
                         AnimatedVisibility(
@@ -319,9 +314,7 @@ internal fun MainScreenContent(
                                     .widthIn(min = 80.dp)
                                     .container(
                                         shape = RectangleShape,
-                                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                            1.dp
-                                        ),
+                                        color = MaterialTheme.colorScheme.surfaceContainer,
                                         autoShadowElevation = 10.dp,
                                         resultPadding = 0.dp
                                     )
@@ -387,7 +380,7 @@ internal fun MainScreenContent(
                                     .background(
                                         MaterialTheme.colorScheme.outlineVariant(
                                             0.3f,
-                                            DrawerDefaults.containerColor
+                                            DrawerDefaults.standardContainerColor
                                         )
                                     )
                             )
@@ -452,9 +445,7 @@ internal fun MainScreenContent(
                                                     navController.popUpTo { it == Screen.Main }
                                                     navController.navigate(screen)
                                                 },
-                                                color = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                    1.dp
-                                                ),
+                                                color = MaterialTheme.colorScheme.surfaceContainerLow,
                                                 modifier = Modifier
                                                     .widthIn(min = 1.dp)
                                                     .fillMaxWidth()

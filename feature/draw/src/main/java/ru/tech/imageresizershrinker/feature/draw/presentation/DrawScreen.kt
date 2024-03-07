@@ -91,7 +91,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -479,9 +478,7 @@ fun DrawScreen(
                 TopAppBar(
                     modifier = Modifier.drawHorizontalStroke(),
                     title = {
-                        Marquee(
-                            edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                        ) {
+                        Marquee {
                             Text(stringResource(R.string.draw))
                         }
                     },
@@ -529,9 +526,7 @@ fun DrawScreen(
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                            3.dp
-                        )
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
                     ),
                     navigationIcon = {
                         EnhancedIconButton(
@@ -549,16 +544,12 @@ fun DrawScreen(
                     scrollBehavior = scrollBehavior,
                     modifier = Modifier.drawHorizontalStroke(),
                     title = {
-                        Marquee(
-                            edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                        ) {
+                        Marquee {
                             Text(stringResource(R.string.draw))
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                            3.dp
-                        )
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
                     ),
                     navigationIcon = {
                         EnhancedIconButton(
@@ -684,8 +675,7 @@ fun DrawScreen(
                                 startIcon = Icons.Outlined.ImageTooltip,
                                 title = stringResource(R.string.draw_on_image),
                                 subtitle = stringResource(R.string.draw_on_image_sub),
-                                modifier = Modifier.fillMaxWidth(),
-                                color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+                                modifier = Modifier.fillMaxWidth()
                             )
                         }
                         item {
@@ -694,8 +684,7 @@ fun DrawScreen(
                                 startIcon = Icons.Outlined.FormatPaint,
                                 title = stringResource(R.string.draw_on_background),
                                 subtitle = stringResource(R.string.draw_on_background_sub),
-                                modifier = Modifier.fillMaxWidth(),
-                                color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
+                                modifier = Modifier.fillMaxWidth()
                             )
                         }
                     }
@@ -704,9 +693,7 @@ fun DrawScreen(
                             .fillMaxWidth()
                             .drawHorizontalStroke(true)
                             .background(
-                                MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                    3.dp
-                                )
+                                MaterialTheme.colorScheme.surfaceContainer
                             ),
                         horizontalArrangement = Arrangement.Center
                     ) {

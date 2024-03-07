@@ -35,7 +35,9 @@ import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
 import ru.tech.imageresizershrinker.core.settings.presentation.IconShape
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
@@ -85,11 +87,13 @@ fun IconShapeContainer(
         ) { iconShapeAnimated ->
             Box(
                 modifier = if (enabled && iconShapeAnimated != null) {
-                    val color = MaterialTheme.colorScheme.surfaceTint
+                    val color = takeColorFromScheme {
+                        inversePrimary.blend(surfaceContainer)
+                    }
                     Modifier.container(
                         shape = iconShapeAnimated.shape,
                         color = realUnderlyingColor.inverse(
-                            fraction = { if (it) 0.2f else 0.15f },
+                            fraction = { if (it) 0.4f else 0.35f },
                             color = { color }
                         ),
                         autoShadowElevation = 0.5.dp,

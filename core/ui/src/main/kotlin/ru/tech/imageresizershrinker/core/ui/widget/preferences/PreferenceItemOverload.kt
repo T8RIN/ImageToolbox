@@ -73,7 +73,7 @@ fun PreferenceItemOverload(
     startIcon: (@Composable () -> Unit)? = null,
     endIcon: (@Composable () -> Unit)? = null,
     shape: Shape = RoundedCornerShape(16.dp),
-    color: Color = MaterialTheme.colorScheme.surfaceContainer,
+    color: Color = Color.Unspecified,
     contentColor: Color = if (color == MaterialTheme.colorScheme.surfaceContainer) contentColorFor(
         backgroundColor = MaterialTheme.colorScheme.surfaceVariant
     ) else contentColorFor(backgroundColor = color),

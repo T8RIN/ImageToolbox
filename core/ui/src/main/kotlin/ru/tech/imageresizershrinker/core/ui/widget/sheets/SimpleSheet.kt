@@ -36,13 +36,13 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.modalsheet.ModalSheet
@@ -69,7 +69,7 @@ fun SimpleSheet(
         else 0.dp
     )
     ProvideContainerDefaults(
-        color = MaterialTheme.colorScheme.surfaceContainerHigh
+        color = MaterialTheme.colorScheme.surfaceContainer
     ) {
         ModalSheet(
             cancelable = cancelable,
@@ -79,7 +79,7 @@ fun SimpleSheet(
                 easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
             ),
             dragHandle = dragHandle,
-            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
+            containerColor = SimpleSheetDefaults.containerColor,
             sheetModifier = Modifier
                 .statusBarsPadding()
                 .offset(y = (settingsState.borderWidth + 1.dp))
@@ -126,7 +126,7 @@ fun SimpleSheet(
     )
 
     ProvideContainerDefaults(
-        color = MaterialTheme.colorScheme.surfaceContainerHigh
+        color = MaterialTheme.colorScheme.surfaceContainer
     ) {
         ModalSheet(
             cancelable = cancelable,
@@ -136,7 +136,7 @@ fun SimpleSheet(
                 easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
             ),
             dragHandle = dragHandle,
-            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
+            containerColor = SimpleSheetDefaults.containerColor,
             sheetModifier = Modifier
                 .statusBarsPadding()
                 .offset(y = (settingsState.borderWidth + 1.dp))
@@ -164,7 +164,7 @@ fun SimpleSheet(
                     modifier = Modifier
                         .fillMaxWidth()
                         .drawHorizontalStroke(true, autoElevation = 6.dp)
-                        .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
+                        .background(SimpleSheetDefaults.barContainerColor)
                         .padding(16.dp)
                         .navigationBarsPadding()
                         .padding(end = endConfirmButtonPadding),
@@ -199,7 +199,7 @@ fun SimpleSheet(
     )
 
     ProvideContainerDefaults(
-        color = MaterialTheme.colorScheme.surfaceContainerHigh
+        color = MaterialTheme.colorScheme.surfaceContainer
     ) {
         ModalSheet(
             cancelable = cancelable,
@@ -209,7 +209,7 @@ fun SimpleSheet(
                 easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
             ),
             dragHandle = dragHandle,
-            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
+            containerColor = SimpleSheetDefaults.containerColor,
             sheetModifier = Modifier
                 .statusBarsPadding()
                 .offset(y = (settingsState.borderWidth + 1.dp))
@@ -238,7 +238,7 @@ fun SimpleSheet(
                         modifier = Modifier
                             .fillMaxWidth()
                             .drawHorizontalStroke(true, autoElevation = 6.dp)
-                            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
+                            .background(SimpleSheetDefaults.barContainerColor)
                             .navigationBarsPadding()
                             .padding(16.dp)
                             .padding(end = 16.dp),
@@ -272,13 +272,13 @@ fun SimpleSheet(
     )
 
     ProvideContainerDefaults(
-        color = MaterialTheme.colorScheme.surfaceContainerHigh
+        color = MaterialTheme.colorScheme.surfaceContainer
     ) {
         ModalSheet(
             sheetState = sheetState,
             nestedScrollEnabled = nestedScrollEnabled,
             dragHandle = dragHandle,
-            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
+            containerColor = SimpleSheetDefaults.containerColor,
             sheetModifier = Modifier
                 .statusBarsPadding()
                 .offset(y = (settingsState.borderWidth + 1.dp))
@@ -305,7 +305,7 @@ fun SimpleSheet(
                         modifier = Modifier
                             .fillMaxWidth()
                             .drawHorizontalStroke(true, autoElevation = 6.dp)
-                            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
+                            .background(SimpleSheetDefaults.barContainerColor)
                             .navigationBarsPadding()
                             .padding(16.dp)
                             .padding(end = 16.dp),
@@ -319,4 +319,16 @@ fun SimpleSheet(
             }
         )
     }
+}
+
+object SimpleSheetDefaults {
+
+    val barContainerColor: Color
+        @Composable
+        get() = MaterialTheme.colorScheme.surfaceContainerHigh
+
+    val containerColor: Color
+        @Composable
+        get() = MaterialTheme.colorScheme.surfaceContainerLow
+
 }

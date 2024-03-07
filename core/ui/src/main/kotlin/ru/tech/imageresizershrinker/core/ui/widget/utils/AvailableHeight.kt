@@ -77,7 +77,7 @@ fun rememberFullHeight(): Dp {
             Column {
                 TopAppBar(
                     title = { Text(" ") },
-                    colors = TopAppBarDefaults.topAppBarColors(Color.Transparent)
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(Color.Transparent)
                 )
                 Spacer(
                     Modifier

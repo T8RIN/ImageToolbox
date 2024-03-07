@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.rounded.UploadFile
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -86,9 +85,6 @@ fun BackupSettingItem(
         },
         shape = shape,
         modifier = modifier,
-        color = MaterialTheme.colorScheme
-            .secondaryContainer
-            .copy(alpha = 0.2f),
         title = stringResource(R.string.backup),
         subtitle = stringResource(R.string.backup_sub),
         startIcon = Icons.Rounded.UploadFile

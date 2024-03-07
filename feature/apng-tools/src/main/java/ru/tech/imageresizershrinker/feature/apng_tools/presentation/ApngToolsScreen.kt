@@ -537,10 +537,7 @@ fun ApngToolsScreen(
                     subtitle = stringResource(types[0].subtitle),
                     startIcon = types[0].icon,
                     modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-                    onClick = {
-                        pickImagesLauncher.pickImage()
-                    }
+                    onClick = pickImagesLauncher::pickImage
                 )
             }
             val preference2 = @Composable {
@@ -549,10 +546,7 @@ fun ApngToolsScreen(
                     subtitle = stringResource(types[1].subtitle),
                     startIcon = types[1].icon,
                     modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-                    onClick = {
-                        pickSingleImageLauncher.pickImage()
-                    }
+                    onClick = pickSingleImageLauncher::pickImage
                 )
             }
             if (isPortrait) {

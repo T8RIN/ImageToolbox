@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -52,9 +51,6 @@ fun ChangeFontSettingItem(
         onClick = { showFontSheet.value = true },
         title = stringResource(R.string.font),
         subtitle = settingsState.font.name ?: stringResource(R.string.system),
-        color = MaterialTheme.colorScheme
-            .secondaryContainer
-            .copy(alpha = 0.2f),
         startIcon = Icons.Rounded.FontFamily,
         endIcon = Icons.Rounded.MiniEdit,
         modifier = modifier

@@ -22,7 +22,6 @@ import android.net.Uri
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BugReport
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -43,9 +42,6 @@ fun IssueTrackerSettingItem(
     PreferenceItem(
         shape = shape,
         modifier = modifier,
-        color = MaterialTheme.colorScheme
-            .secondaryContainer
-            .copy(alpha = 0.2f),
         title = stringResource(R.string.issue_tracker),
         subtitle = stringResource(R.string.issue_tracker_sub),
         startIcon = Icons.Outlined.BugReport,

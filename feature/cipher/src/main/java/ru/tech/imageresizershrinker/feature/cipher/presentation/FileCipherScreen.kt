@@ -244,9 +244,7 @@ fun FileCipherScreen(
                         scrollBehavior = scrollBehavior,
                         modifier = Modifier.drawHorizontalStroke(),
                         title = {
-                            Marquee(
-                                edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                            ) {
+                            Marquee {
                                 AnimatedContent(
                                     targetState = viewModel.uri to viewModel.isEncrypt,
                                     transitionSpec = { fadeIn() togetherWith fadeOut() }
@@ -266,9 +264,7 @@ fun FileCipherScreen(
                             }
                         },
                         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                3.dp
-                            )
+                            containerColor = MaterialTheme.colorScheme.surfaceContainer
                         ),
                         navigationIcon = {
                             EnhancedIconButton(

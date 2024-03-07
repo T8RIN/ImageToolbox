@@ -103,6 +103,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.rememberRevealState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.OCRLanguage
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
@@ -250,7 +251,7 @@ fun RecognizeLanguageSelector(
                                         result.place(0, 0)
                                     }
                                 }
-                                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp))
+                                .background(SimpleSheetDefaults.containerColor)
                                 .padding(start = 16.dp, top = 20.dp, bottom = 8.dp, end = 16.dp),
                             shape = RoundedCornerShape(28.dp),
                             checked = allowMultipleLanguagesSelection,
@@ -264,7 +265,7 @@ fun RecognizeLanguageSelector(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(16.dp),
-                            startColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
+                            startColor = SimpleSheetDefaults.containerColor,
                             endColor = Color.Transparent
                         )
                     }

@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.modifier
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithContent
@@ -52,7 +51,7 @@ fun Modifier.drawHorizontalStroke(
 
     val color = MaterialTheme.colorScheme.outlineVariant(
         0.1f,
-        onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+        onTopOf = MaterialTheme.colorScheme.surfaceContainer
     )
 
 

@@ -113,6 +113,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.utils.ScopedViewModelContainer
@@ -203,7 +204,7 @@ fun AddEditMaskSheet(
                         .fillMaxWidth()
                         .drawHorizontalStroke(autoElevation = 3.dp)
                         .zIndex(Float.MAX_VALUE)
-                        .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
+                        .background(SimpleSheetDefaults.barContainerColor)
                         .padding(8.dp)
                 ) {
                     IconButton(
@@ -302,8 +303,7 @@ fun AddEditMaskSheet(
                 }
             }
             Row {
-                val backgroundColor =
-                    MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp).copy(0.8f)
+                val backgroundColor = MaterialTheme.colorScheme.surfaceContainerLow
                 if (!portrait) {
                     Box(modifier = Modifier.weight(1.3f)) {
                         drawPreview()

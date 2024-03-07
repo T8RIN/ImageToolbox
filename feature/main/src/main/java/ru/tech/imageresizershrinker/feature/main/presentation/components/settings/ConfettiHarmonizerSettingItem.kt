@@ -38,6 +38,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -51,7 +52,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -65,7 +65,6 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
-import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
@@ -82,7 +81,7 @@ fun ConfettiHarmonizerSettingItem(
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
-    val backgroundColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.2f)
+    val backgroundColor = Color.Unspecified
     val settingsState = LocalSettingsState.current
     val items = remember {
         Harmonizer.entries
@@ -152,28 +151,28 @@ fun ConfettiHarmonizerSettingItem(
             ) {
                 val value = settingsState.confettiHarmonizer
                 val level = settingsState.confettiHarmonizationLevel
-                items.forEach {
+                items.forEach { harmonizer ->
                     val colorScheme = MaterialTheme.colorScheme
-                    val selectedColor by remember(it, value, level) {
+                    val selectedColorDerived by remember(harmonizer, value, level) {
                         derivedStateOf {
-                            when (it) {
+                            when (harmonizer) {
                                 is Harmonizer.Custom -> Color(value.ordinal)
+                                    .blend(
+                                        color = colorScheme.surface,
+                                        fraction = 0.1f
+                                    )
+
                                 Harmonizer.Primary -> colorScheme.primary
                                 Harmonizer.Secondary -> colorScheme.secondary
                                 Harmonizer.Tertiary -> colorScheme.tertiary
-                            }.copy(level)
-                                .compositeOver(colorScheme.surface)
-                                .blend(
-                                    color = colorScheme.surface,
-                                    fraction = 0.1f
-                                )
+                            }
                         }
                     }
                     EnhancedChip(
                         onClick = {
-                            if (it !is Harmonizer.Custom) {
+                            if (harmonizer !is Harmonizer.Custom) {
                                 confettiHostState.currentToastData?.dismiss()
-                                onValueChange(it)
+                                onValueChange(harmonizer)
                                 scope.launch {
                                     delay(200L)
                                     confettiHostState.showConfetti()
@@ -182,22 +181,23 @@ fun ConfettiHarmonizerSettingItem(
                                 showColorPicker = true
                             }
                         },
-                        selected = it::class.isInstance(value),
+                        selected = harmonizer::class.isInstance(value),
                         label = {
-                            Text(text = it.title)
+                            Text(text = harmonizer.title)
                         },
                         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
-                        selectedColor = MaterialTheme.colorScheme.outlineVariant(
-                            0.2f,
-                            selectedColor
-                        ),
-                        selectedContentColor = selectedColor.inverse(
-                            fraction = { cond ->
-                                if (cond) 0.9f
-                                else 0.5f
-                            },
-                            darkMode = selectedColor.luminance() < 0.1f
-                        ),
+                        selectedColor = selectedColorDerived,
+                        selectedContentColor = when (harmonizer) {
+                            is Harmonizer.Custom -> selectedColorDerived.inverse(
+                                fraction = {
+                                    if (it) 0.9f
+                                    else 0.6f
+                                },
+                                darkMode = selectedColorDerived.luminance() < 0.3f
+                            )
+
+                            else -> contentColorFor(backgroundColor = selectedColorDerived)
+                        },
                         unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }

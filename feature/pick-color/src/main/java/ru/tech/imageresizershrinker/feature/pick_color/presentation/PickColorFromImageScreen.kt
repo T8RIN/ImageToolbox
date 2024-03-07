@@ -65,7 +65,6 @@ import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -224,14 +223,12 @@ fun PickColorFromImageScreen(
                             }
                         },
                         title = {
-                            Marquee(
-                                edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                            ) {
+                            Marquee {
                                 Text(stringResource(R.string.pick_color))
                             }
                         },
-                        colors = TopAppBarDefaults.mediumTopAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainer
                         ),
                         actions = {
                             if (viewModel.bitmap == null) {
@@ -241,7 +238,7 @@ fun PickColorFromImageScreen(
                     )
                 } else {
                     Surface(
-                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
+                        color = MaterialTheme.colorScheme.surfaceContainer,
                         modifier = Modifier.animateContentSize(),
                     ) {
                         Column {

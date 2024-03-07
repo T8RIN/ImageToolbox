@@ -146,7 +146,7 @@ fun ImagePager(
                 }
             }
             CenterAlignedTopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = Color.Transparent
                 ),
                 title = {

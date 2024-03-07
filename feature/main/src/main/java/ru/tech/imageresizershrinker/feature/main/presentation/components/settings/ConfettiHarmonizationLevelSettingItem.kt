@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Leaderboard
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -52,9 +51,6 @@ fun ConfettiHarmonizationLevelSettingItem(
     EnhancedSliderItem(
         modifier = modifier,
         shape = shape,
-        color = MaterialTheme.colorScheme
-            .secondaryContainer
-            .copy(alpha = 0.2f),
         value = value,
         title = stringResource(R.string.harmonization_level),
         icon = Icons.Outlined.Leaderboard,

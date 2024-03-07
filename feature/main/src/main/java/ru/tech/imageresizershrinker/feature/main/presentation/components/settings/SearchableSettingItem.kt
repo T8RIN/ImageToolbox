@@ -53,7 +53,11 @@ internal fun SearchableSettingItem(
     viewModel: MainViewModel
 ) {
     Column(
-        modifier = modifier.container(resultPadding = 0.dp, shape = shape)
+        modifier = modifier.container(
+            resultPadding = 0.dp,
+            shape = shape,
+            color = MaterialTheme.colorScheme.surfaceContainerLow
+        )
     ) {
         val settingState = LocalSettingsState.current
         val iconShape = remember(settingState.iconShape) {

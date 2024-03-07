@@ -37,7 +37,6 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -167,7 +166,7 @@ fun MainScreen(
                             .background(
                                 MaterialTheme.colorScheme.outlineVariant(
                                     0.3f,
-                                    DrawerDefaults.containerColor
+                                    DrawerDefaults.standardContainerColor
                                 )
                             )
                     )
@@ -175,12 +174,10 @@ fun MainScreen(
                 drawerContent.withModifier(
                     modifier = Modifier.container(
                         shape = RectangleShape,
-                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                            1.dp
-                        ),
+                        color = MaterialTheme.colorScheme.surfaceContainer,
                         borderColor = MaterialTheme.colorScheme.outlineVariant(
                             0.3f,
-                            DrawerDefaults.containerColor
+                            DrawerDefaults.standardContainerColor
                         ),
                         autoShadowElevation = 2.dp,
                         resultPadding = 0.dp

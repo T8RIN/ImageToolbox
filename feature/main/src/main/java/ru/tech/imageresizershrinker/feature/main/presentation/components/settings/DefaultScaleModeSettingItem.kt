@@ -30,6 +30,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -52,16 +53,16 @@ fun DefaultScaleModeSettingItem(
     ScaleModeSelector(
         modifier = modifier,
         shape = shape,
+        backgroundColor = Color.Unspecified,
         value = settingsState.defaultImageScaleMode,
         onValueChange = onValueChange,
-        backgroundColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.2f),
         enableItemsCardBackground = false,
         titlePadding = PaddingValues(16.dp),
         titleArrangement = Arrangement.Start,
         title = {
             IconShapeContainer(
                 enabled = true,
-                underlyingColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.2f),
+                underlyingColor = MaterialTheme.colorScheme.surfaceContainer,
                 content = {
                     Icon(
                         imageVector = Icons.Outlined.Numbers,

@@ -22,7 +22,6 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -44,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
@@ -79,12 +79,10 @@ fun SavingFolderSettingItemGroup(
             onClick = { updateSaveFolderUri(null) },
             title = stringResource(R.string.def),
             subtitle = stringResource(R.string.default_folder),
-            color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                alpha = animateFloatAsState(
-                    if (currentFolderUri == null) 0.7f
-                    else 0.2f
-                ).value
-            ),
+            color = takeColorFromScheme {
+                if (currentFolderUri == null) secondaryContainer.copy(0.7f)
+                else Color.Unspecified
+            },
             startIcon = Icons.Outlined.FolderSpecial,
             modifier = Modifier
                 .fillMaxWidth()
@@ -92,10 +90,9 @@ fun SavingFolderSettingItemGroup(
                 .border(
                     width = settingsState.borderWidth,
                     color = animateColorAsState(
-                        if (currentFolderUri == null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                            alpha = 0.5f
-                        )
-                        else Color.Transparent
+                        if (currentFolderUri == null) {
+                            MaterialTheme.colorScheme.onSecondaryContainer.copy(0.5f)
+                        } else Color.Transparent
                     ).value,
                     shape = ContainerShapeDefaults.topShape
                 )
@@ -121,12 +118,10 @@ fun SavingFolderSettingItemGroup(
                 context = context,
                 default = stringResource(R.string.unspecified)
             ),
-            color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                alpha = animateFloatAsState(
-                    if (currentFolderUri != null) 0.7f
-                    else 0.2f
-                ).value
-            ),
+            color = takeColorFromScheme {
+                if (currentFolderUri != null) secondaryContainer.copy(0.7f)
+                else Color.Unspecified
+            },
             startIcon = Icons.Outlined.FolderShared,
             modifier = Modifier
                 .fillMaxWidth()
@@ -134,10 +129,9 @@ fun SavingFolderSettingItemGroup(
                 .border(
                     width = settingsState.borderWidth,
                     color = animateColorAsState(
-                        if (currentFolderUri != null) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                            alpha = 0.5f
-                        )
-                        else Color.Transparent
+                        if (currentFolderUri != null) {
+                            MaterialTheme.colorScheme.onSecondaryContainer.copy(0.5f)
+                        } else Color.Transparent
                     ).value,
                     shape = ContainerShapeDefaults.bottomShape
                 )

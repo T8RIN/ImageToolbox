@@ -78,7 +78,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -736,10 +735,7 @@ fun FiltersScreen(
                                         UiFilter.groupedEntries.flatten().size.toString()
                                     }
                                 }
-                                Marquee(
-                                    edgeColor = MaterialTheme.colorScheme
-                                        .surfaceColorAtElevation(3.dp)
-                                ) {
+                                Marquee {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         Text(
                                             text = stringResource(R.string.filter)
@@ -772,9 +768,7 @@ fun FiltersScreen(
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                            3.dp
-                        )
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
                     ),
                     navigationIcon = {
                         EnhancedIconButton(
@@ -927,10 +921,7 @@ fun FiltersScreen(
                                                 startIcon = it.icon,
                                                 title = stringResource(it.title),
                                                 subtitle = stringResource(it.subtitle),
-                                                modifier = Modifier.fillMaxWidth(),
-                                                color = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                    1.dp
-                                                )
+                                                modifier = Modifier.fillMaxWidth()
                                             )
                                         }
                                     }
@@ -940,9 +931,7 @@ fun FiltersScreen(
                                         .fillMaxWidth()
                                         .drawHorizontalStroke(true)
                                         .background(
-                                            MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                3.dp
-                                            )
+                                            MaterialTheme.colorScheme.surfaceContainer
                                         ),
                                     horizontalArrangement = Arrangement.Center
                                 ) {

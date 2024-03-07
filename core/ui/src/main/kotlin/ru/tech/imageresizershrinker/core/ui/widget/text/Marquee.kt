@@ -17,9 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.text
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.constrainWidth
@@ -35,11 +34,10 @@ import androidx.compose.ui.unit.dp
 import com.gigamole.composefadingedges.fill.FadingEdgesFillType
 import com.gigamole.composefadingedges.marqueeHorizontalFadingEdges
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Marquee(
     modifier: Modifier = Modifier,
-    edgeColor: Color = MaterialTheme.colorScheme.background,
+    edgeColor: Color = Color.Unspecified,
     content: @Composable () -> Unit
 ) {
     var showMarquee by remember { mutableStateOf(false) }
@@ -48,9 +46,11 @@ fun Marquee(
             .clipToBounds()
             .then(
                 if (showMarquee) Modifier.marqueeHorizontalFadingEdges(
-                    fillType = FadingEdgesFillType.FadeColor(
-                        color = edgeColor
-                    ),
+                    fillType = if (edgeColor.isSpecified) {
+                        FadingEdgesFillType.FadeColor(
+                            color = edgeColor
+                        )
+                    } else FadingEdgesFillType.FadeClip(),
                     length = 10.dp,
                     isMarqueeAutoLayout = false
                 ) { Modifier.basicMarquee(Int.MAX_VALUE, velocity = 30.dp) }

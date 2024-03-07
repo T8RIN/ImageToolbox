@@ -70,9 +70,6 @@ fun FilenameSuffixSettingItem(
         title = stringResource(R.string.suffix),
         subtitle = (settingsState.filenameSuffix.takeIf { it.isNotEmpty() }
             ?: stringResource(R.string.empty)),
-        color = MaterialTheme.colorScheme
-            .secondaryContainer
-            .copy(alpha = 0.2f),
         endIcon = Icons.Rounded.MiniEdit,
         startIcon = Icons.Filled.Suffix,
         modifier = modifier.fillMaxWidth()

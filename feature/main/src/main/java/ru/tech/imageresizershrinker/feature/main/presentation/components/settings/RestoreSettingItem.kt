@@ -23,7 +23,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FolderOff
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -73,9 +72,6 @@ fun RestoreSettingItem(
         },
         shape = shape,
         modifier = modifier,
-        color = MaterialTheme.colorScheme
-            .secondaryContainer
-            .copy(alpha = 0.2f),
         title = stringResource(R.string.restore),
         subtitle = stringResource(R.string.restore_sub),
         startIcon = Icons.Rounded.DownloadFile

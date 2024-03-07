@@ -21,12 +21,9 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
 
@@ -38,9 +35,7 @@ fun <T : Any> TopAppBarTitle(
     size: Long?,
     updateOnSizeChange: Boolean = true
 ) {
-    Marquee(
-        edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-    ) {
+    Marquee {
         AnimatedContent(
             targetState = Triple(
                 input,

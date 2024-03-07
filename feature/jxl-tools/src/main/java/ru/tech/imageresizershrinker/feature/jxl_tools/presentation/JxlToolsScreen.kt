@@ -58,7 +58,6 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -452,7 +451,6 @@ fun JxlToolsScreen(
                     subtitle = stringResource(types[0].subtitle),
                     startIcon = types[0].icon,
                     modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
                     onClick = {
                         pickImage(types[0])
                     }
@@ -464,7 +462,6 @@ fun JxlToolsScreen(
                     subtitle = stringResource(types[1].subtitle),
                     startIcon = types[1].icon,
                     modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
                     onClick = {
                         pickImage(types[1])
                     }

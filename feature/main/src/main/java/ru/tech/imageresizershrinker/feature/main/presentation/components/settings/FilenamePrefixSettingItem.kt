@@ -70,9 +70,6 @@ fun FilenamePrefixSettingItem(
         title = stringResource(R.string.prefix),
         subtitle = (settingsState.filenamePrefix.takeIf { it.isNotEmpty() }
             ?: stringResource(R.string.empty)),
-        color = MaterialTheme.colorScheme
-            .secondaryContainer
-            .copy(alpha = 0.2f),
         endIcon = Icons.Rounded.MiniEdit,
         startIcon = Icons.Filled.Prefix,
         modifier = modifier

@@ -159,9 +159,7 @@ fun DrawPathModeSelector(
                             ),
                             colors = SegmentedButtonDefaults.colors(
                                 activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
-                                inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                    1.dp
-                                ),
+                                inactiveContainerColor = MaterialTheme.colorScheme.surfaceContainer,
                                 activeContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
                                     10.dp
                                 )

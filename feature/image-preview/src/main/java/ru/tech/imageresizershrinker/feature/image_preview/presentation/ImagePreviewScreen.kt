@@ -51,7 +51,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -187,9 +186,7 @@ fun ImagePreviewScreen(
                     scrollBehavior = scrollBehavior,
                     modifier = Modifier.drawHorizontalStroke(),
                     title = {
-                        Marquee(
-                            edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                        ) {
+                        Marquee {
                             Text(
                                 stringResource(R.string.image_preview),
                                 textAlign = TextAlign.Center
@@ -197,9 +194,7 @@ fun ImagePreviewScreen(
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                            3.dp
-                        )
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
                     ),
                     navigationIcon = {
                         EnhancedIconButton(

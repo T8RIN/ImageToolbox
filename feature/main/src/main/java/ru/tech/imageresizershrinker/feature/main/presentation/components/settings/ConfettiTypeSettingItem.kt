@@ -65,7 +65,7 @@ fun ConfettiTypeSettingItem(
     shape: Shape = ContainerShapeDefaults.bottomShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
-    val backgroundColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.2f)
+    val backgroundColor = Color.Unspecified
     val settingsState = LocalSettingsState.current
     val items = remember {
         Particles.Type.entries

@@ -44,7 +44,6 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.VerticalDivider
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -131,7 +130,7 @@ fun CompareScreenContent(
                                     top = true
                                 )
                                 .container(
-                                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
+                                    color = MaterialTheme.colorScheme.surfaceContainer,
                                     shape = RectangleShape,
                                     borderColor = Color.Transparent
                                 )

@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.main.presentation.components.settin
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BorderStyle
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -43,9 +42,6 @@ fun BorderThicknessSettingItem(
     EnhancedSliderItem(
         modifier = modifier,
         shape = shape,
-        color = MaterialTheme.colorScheme
-            .secondaryContainer
-            .copy(alpha = 0.2f),
         valueSuffix = " Dp",
         value = settingsState.borderWidth.value.coerceAtLeast(0f),
         title = stringResource(R.string.border_thickness),

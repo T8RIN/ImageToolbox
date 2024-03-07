@@ -24,7 +24,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -52,7 +51,7 @@ fun PaletteStyleSelection(
     onThemeStyleSelected: (PaletteStyle) -> Unit,
     shape: RoundedCornerShape,
     modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colorScheme.surfaceContainerHigh
+    color: Color = Color.Unspecified
 ) {
     val context = LocalContext.current
     val settingsState = LocalSettingsState.current

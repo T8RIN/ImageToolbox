@@ -54,7 +54,7 @@ fun PreferenceItem(
     endIcon: ImageVector? = null,
     autoShadowElevation: Dp = 1.dp,
     shape: Shape = RoundedCornerShape(16.dp),
-    color: Color = MaterialTheme.colorScheme.surfaceContainer,
+    color: Color = Color.Unspecified,
     contentColor: Color = if (color == MaterialTheme.colorScheme.surfaceContainer) contentColorFor(
         backgroundColor = MaterialTheme.colorScheme.surfaceVariant
     ) else contentColorFor(backgroundColor = color),

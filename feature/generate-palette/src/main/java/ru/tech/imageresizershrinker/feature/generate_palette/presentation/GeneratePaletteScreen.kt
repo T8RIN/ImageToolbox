@@ -38,9 +38,7 @@ import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -217,7 +215,6 @@ fun GeneratePaletteScreen(
                 subtitle = stringResource(screen.subtitle),
                 startIcon = screen.icon,
                 modifier = Modifier.fillMaxWidth(),
-                color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
                 onClick = {
                     if (viewModel.bitmap == null) {
                         paletteImageLauncher.pickImage()
@@ -234,7 +231,6 @@ fun GeneratePaletteScreen(
                 subtitle = stringResource(R.string.material_you_sub),
                 startIcon = Icons.Outlined.Theme,
                 modifier = Modifier.fillMaxWidth(),
-                color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
                 onClick = {
                     if (viewModel.bitmap == null) {
                         materialYouImageLauncher.pickImage()

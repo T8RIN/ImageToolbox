@@ -155,6 +155,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleDragHandle
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -250,7 +251,7 @@ fun AddFiltersSheet(
                         PrimaryScrollableTabRow(
                             divider = {},
                             edgePadding = 16.dp,
-                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp),
+                            containerColor = SimpleSheetDefaults.barContainerColor,
                             selectedTabIndex = pagerState.currentPage,
                             indicator = { tabPositions ->
                                 if (pagerState.currentPage < tabPositions.size) {
@@ -501,7 +502,7 @@ fun AddFiltersSheet(
                         modifier = Modifier
                             .fillMaxWidth()
                             .drawHorizontalStroke(true, autoElevation = 6.dp)
-                            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
+                            .background(MaterialTheme.colorScheme.surfaceContainerHighest)
                             .padding(16.dp)
                             .navigationBarsPadding(),
                         verticalAlignment = Alignment.CenterVertically
@@ -567,7 +568,7 @@ fun AddFiltersSheet(
                         modifier = Modifier
                             .fillMaxWidth()
                             .drawHorizontalStroke(true, autoElevation = 6.dp)
-                            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp))
+                            .background(SimpleSheetDefaults.containerColor)
                             .padding(16.dp)
                             .navigationBarsPadding()
                             .padding(end = 16.dp),
@@ -623,7 +624,7 @@ fun AddFiltersSheet(
         }
     }
 
-    val backgroundColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp).copy(0.8f)
+    val backgroundColor = MaterialTheme.colorScheme.surfaceContainerLow
     SimpleSheet(
         dragHandle = {
             SimpleDragHandle {
@@ -640,10 +641,8 @@ fun AddFiltersSheet(
                             Icon(Icons.Rounded.Close, null)
                         }
                     },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        MaterialTheme.colorScheme.surfaceColorAtElevation(
-                            10.dp
-                        )
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
                     ),
                     actions = {
                         EnhancedIconButton(
@@ -662,7 +661,7 @@ fun AddFiltersSheet(
                         }
                     },
                     title = {
-                        Marquee(edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp)) {
+                        Marquee {
                             Text(
                                 text = stringResource(
                                     id = previewSheetData?.title ?: R.string.app_name

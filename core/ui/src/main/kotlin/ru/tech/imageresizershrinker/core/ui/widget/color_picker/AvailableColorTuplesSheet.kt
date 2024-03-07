@@ -213,7 +213,9 @@ fun AvailableColorTuplesSheet(
                 )
             }
             Row {
-                AnimatedVisibility(visible = currentColorTuple !in ColorTupleDefaults.defaultColorTuples) {
+                AnimatedVisibility(
+                    visible = currentColorTuple !in ColorTupleDefaults.defaultColorTuples && !settingsState.useEmojiAsPrimaryColor
+                ) {
                     Row {
                         EnhancedButton(
                             containerColor = MaterialTheme.colorScheme.errorContainer,
@@ -262,7 +264,6 @@ fun AvailableColorTuplesSheet(
                     title = stringResource(R.string.invert_colors),
                     subtitle = stringResource(R.string.invert_colors_sub),
                     checked = settingsState.isInvertThemeColors,
-                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     modifier = Modifier,
                     startIcon = Icons.Rounded.InvertColors,
                     shape = RoundedCornerShape(4.dp),
@@ -274,7 +275,6 @@ fun AvailableColorTuplesSheet(
                     title = stringResource(R.string.emoji_as_color_scheme),
                     subtitle = stringResource(R.string.emoji_as_color_scheme_sub),
                     checked = settingsState.useEmojiAsPrimaryColor,
-                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     modifier = Modifier,
                     startIcon = Icons.Outlined.EmojiEmotions,
                     shape = RoundedCornerShape(4.dp),
@@ -283,7 +283,6 @@ fun AvailableColorTuplesSheet(
             }
             val contrast = @Composable {
                 EnhancedSliderItem(
-                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     value = settingsState.themeContrastLevel.toFloat().roundToTwoDigits(),
                     icon = Icons.Rounded.Contrast,
                     title = stringResource(id = R.string.contrast),
@@ -317,10 +316,7 @@ fun AvailableColorTuplesSheet(
                 Column(
                     modifier = Modifier
                         .padding(bottom = 16.dp)
-                        .container(
-                            shape = RoundedCornerShape(24.dp),
-                            color = MaterialTheme.colorScheme.surfaceContainerHigh
-                        )
+                        .container(RoundedCornerShape(24.dp))
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),

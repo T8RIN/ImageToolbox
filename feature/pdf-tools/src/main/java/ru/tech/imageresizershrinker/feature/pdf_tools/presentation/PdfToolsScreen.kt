@@ -147,6 +147,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
@@ -579,9 +580,7 @@ fun PdfToolsScreen(
                 Column(Modifier.fillMaxSize()) {
                     val modifier = Modifier.drawHorizontalStroke()
                     val title = @Composable {
-                        Marquee(
-                            edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                        ) {
+                        Marquee {
                             AnimatedContent(
                                 targetState = viewModel.pdfType to viewModel.pdfPreviewUri,
                                 transitionSpec = { fadeIn() togetherWith fadeOut() }
@@ -596,9 +595,7 @@ fun PdfToolsScreen(
                         }
                     }
                     val colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                            3.dp
-                        )
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
                     )
                     val navigationIcon = @Composable {
                         EnhancedIconButton(
@@ -765,10 +762,7 @@ fun PdfToolsScreen(
                                                     startIcon = it.icon,
                                                     title = stringResource(it.title),
                                                     subtitle = stringResource(it.subtitle),
-                                                    modifier = Modifier.fillMaxWidth(),
-                                                    color = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                        1.dp
-                                                    )
+                                                    modifier = Modifier.fillMaxWidth()
                                                 )
                                             }
                                         }
@@ -778,9 +772,7 @@ fun PdfToolsScreen(
                                             .fillMaxWidth()
                                             .drawHorizontalStroke(true)
                                             .background(
-                                                MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                    3.dp
-                                                )
+                                                SimpleSheetDefaults.barContainerColor
                                             ),
                                         horizontalArrangement = Arrangement.Center
                                     ) {

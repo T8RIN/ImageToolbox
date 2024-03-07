@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.unit.dp
@@ -38,7 +37,7 @@ fun Modifier.alertDialogBorder() = this.composed {
         .autoElevatedBorder(
             color = MaterialTheme.colorScheme.outlineVariant(
                 luminance = 0.3f,
-                onTopOf = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp)
+                onTopOf = MaterialTheme.colorScheme.surfaceContainerHigh
             ),
             shape = AlertDialogDefaults.shape,
             autoElevation = animateDpAsState(

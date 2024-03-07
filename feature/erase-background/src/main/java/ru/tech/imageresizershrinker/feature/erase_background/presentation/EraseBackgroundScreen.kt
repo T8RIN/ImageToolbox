@@ -72,7 +72,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberTopAppBarState
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -354,16 +353,12 @@ fun EraseBackgroundScreen(
                     scrollBehavior = scrollBehavior,
                     modifier = Modifier.drawHorizontalStroke(),
                     title = {
-                        Marquee(
-                            edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                        ) {
+                        Marquee {
                             Text(stringResource(R.string.background_remover))
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                            3.dp
-                        )
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
                     ),
                     navigationIcon = {
                         EnhancedIconButton(
@@ -383,9 +378,7 @@ fun EraseBackgroundScreen(
                 TopAppBar(
                     modifier = Modifier.drawHorizontalStroke(),
                     title = {
-                        Marquee(
-                            edgeColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
-                        ) {
+                        Marquee {
                             Text(stringResource(R.string.background_remover))
                         }
                     },
@@ -431,9 +424,7 @@ fun EraseBackgroundScreen(
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                            3.dp
-                        )
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
                     ),
                     navigationIcon = {
                         EnhancedIconButton(
