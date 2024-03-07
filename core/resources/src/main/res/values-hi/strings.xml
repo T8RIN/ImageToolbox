@@ -819,4 +819,8 @@
     <string name="fast_gaussian_blur_3d">फास्ट गॉसियन ब्लर 3D</string>
     <string name="fast_gaussian_blur_4d">फास्ट गॉसियन ब्लर 4D</string>
     <string name="fast_gaussian_blur_2d">फास्ट गॉसियन ब्लर 2D</string>
+    <string name="auto_paste">ऑटो पेस्ट</string>
+    <string name="auto_paste_sub">ऐप को क्लिपबोर्ड डेटा को ऑटो पेस्ट करने की अनुमति देता है, जिससे यह मुख्य स्क्रीन पर दिखाई देगा और आप इसे संसाधित करने में सक्षम होंगे</string>
+    <string name="harmonization_color">सामंजस्य रंग</string>
+    <string name="harmonization_level">सामंजस्य स्तर</string>
 </resources>
