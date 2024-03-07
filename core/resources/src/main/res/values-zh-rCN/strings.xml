@@ -618,7 +618,7 @@
     <string name="watermarking_image_sub">该图片将作为水印图案使用</string>
     <string name="gif_tools">GIF 工具</string>
     <string name="gif_type_to_image">GIF 转换为图像</string>
-    <string name="gif_type_to_image_sub">GIF 文件转换为批量图片</string>
+    <string name="gif_type_to_image_sub">GIF 文件转换为一组图像</string>
     <string name="gif_type_to_gif">图像转换为 GIF</string>
     <string name="select_gif_image_to_start">选择 GIF 图像以开始</string>
     <string name="use_size_of_first_frame">使用第一帧的尺寸</string>
@@ -630,7 +630,7 @@
     <string name="use_lasso_sub">像在绘图模式中一样使用套索来执行擦除操作</string>
     <string name="original_image_preview_alpha">原始图像预览 Alpha</string>
     <string name="gif_tools_sub">将图像转换为 GIF 图片，或从给定的 GIF 图像中提取帧</string>
-    <string name="gif_type_to_gif_sub">批量图像转换为 GIF 文件</string>
+    <string name="gif_type_to_gif_sub">将一组图像转换为 GIF 文件</string>
     <string name="use_lasso">使用套索</string>
     <string name="confetti_sub">在保存、分享和其他主要操作时会显示纸屑特效</string>
     <string name="secure_mode">安全模式</string>

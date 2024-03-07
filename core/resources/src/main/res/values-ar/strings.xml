@@ -808,4 +808,15 @@
     <string name="festive">احتفالي</string>
     <string name="explode">الانفجار</string>
     <string name="rain">مطر</string>
+    <string name="corners">الحواف</string>
+    <string name="jxl_tools_sub">قم بتحويل كود JXL إلى JPEG أو JPEG إلى JXL دون فقدان الجودة</string>
+    <string name="jxl_type_to_jpeg">من JXL إلى JPEG</string>
+    <string name="jxl_type_to_jpeg_sub">قم بإجراء تحويل بدون فقدان الترميز من JXL إلى JPEG</string>
+    <string name="jxl_tools">أدوات جي إكس إل</string>
+    <string name="jpeg_type_to_jxl_sub">قم بإجراء تحويل بدون فقدان الترميز من JPEG الى JXL</string>
+    <string name="fast_gaussian_blur_2d">تمويه غاوسي سريع 2D</string>
+    <string name="fast_gaussian_blur_3d">طمس غاوسي سريع 3D</string>
+    <string name="fast_gaussian_blur_4d">تمويه غاوسي سريع 4D</string>
+    <string name="jpeg_type_to_jxl">JPEG إلى JXL</string>
+    <string name="select_jxl_image_to_start">اختر صورة JXL للبدء</string>
 </resources>
