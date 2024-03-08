@@ -37,7 +37,7 @@
     <string name="close">بستن</string>
     <string name="reset_image">بازنشانی تصویر</string>
     <string name="reset_image_sub">تغییرات تصویر به مقادیر اولیه بازخواهد گشت</string>
-    <string name="values_reset">مقادیر به خوبی بازنشانی شدند</string>
+    <string name="values_reset">مقادیر به درستی بازنشانی شدند</string>
     <string name="reset">بازنشانی</string>
     <string name="something_went_wrong">مشکلی پیش آمد</string>
     <string name="restart_app">برنامه را مجددا راه‌اندازی کنید</string>
@@ -54,10 +54,10 @@
     <string name="clear_exif_sub">تمام داده‌های EXIF تصویر پاک خواهند شد. این عمل قابل لغو نیست!</string>
     <string name="presets">پیش تعیین شده</string>
     <string name="crop">برش</string>
-    <string name="image_not_saved">صرفه جویی در</string>
+    <string name="image_not_saved">در حال ذخیره</string>
     <string name="image_not_saved_sub">اگر اکنون خارج شوید، همه تغییرات ذخیره نشده از بین خواهند رفت</string>
     <string name="check_source_code">کد منبع</string>
-    <string name="check_source_code_sub">آخرین به روز رسانی ها را دریافت کنید، درباره مسائل و موارد دیگر بحث کنید</string>
+    <string name="check_source_code_sub">آخرین به‌روز رسانی‌ها را دریافت کنید، درباره مسائل و موارد دیگر بحث کنید</string>
     <string name="single_edit">ویرایش تک</string>
     <string name="single_edit_sub">تغییر مشخصات تک تصویر داده شده</string>
     <string name="pick_color">رنگ را انتخاب کنید</string>
