@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.sheets
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -36,7 +35,6 @@ internal fun ScreenPreference(
             startIcon = screen.icon,
             title = stringResource(screen.title),
             subtitle = stringResource(screen.subtitle),
-            color = MaterialTheme.colorScheme.surfaceContainerHigh,
             modifier = Modifier.fillMaxWidth()
         )
     }
@@ -48,7 +46,6 @@ internal fun ScreenPreference(
                     startIcon = screen.type.icon,
                     title = stringResource(screen.type.title),
                     subtitle = stringResource(screen.type.subtitle),
-                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     modifier = Modifier.fillMaxWidth()
                 )
             } else basePreference()
@@ -61,7 +58,6 @@ internal fun ScreenPreference(
                     startIcon = screen.type.icon,
                     title = stringResource(screen.type.title),
                     subtitle = stringResource(screen.type.subtitle),
-                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     modifier = Modifier.fillMaxWidth()
                 )
             } else basePreference()
@@ -74,7 +70,6 @@ internal fun ScreenPreference(
                     startIcon = screen.type.icon,
                     title = stringResource(screen.type.title),
                     subtitle = stringResource(screen.type.subtitle),
-                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     modifier = Modifier.fillMaxWidth()
                 )
             } else basePreference()
@@ -87,7 +82,6 @@ internal fun ScreenPreference(
                     startIcon = screen.type.icon,
                     title = stringResource(screen.type.title),
                     subtitle = stringResource(screen.type.subtitle),
-                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     modifier = Modifier.fillMaxWidth()
                 )
             } else basePreference()
@@ -100,7 +94,6 @@ internal fun ScreenPreference(
                     startIcon = screen.type.icon,
                     title = stringResource(screen.type.title),
                     subtitle = stringResource(screen.type.subtitle),
-                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     modifier = Modifier.fillMaxWidth()
                 )
             } else basePreference()

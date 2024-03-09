@@ -222,7 +222,7 @@ fun ImageReorderCarousel(
                         brush = Brush.Companion.horizontalGradient(
                             0f to MaterialTheme
                                 .colorScheme
-                                .surfaceContainer,
+                                .surfaceContainerLow,
                             1f to Color.Transparent
                         )
                     )
@@ -237,7 +237,7 @@ fun ImageReorderCarousel(
                             0f to Color.Transparent,
                             1f to MaterialTheme
                                 .colorScheme
-                                .surfaceContainer
+                                .surfaceContainerLow
                         )
                     )
             )

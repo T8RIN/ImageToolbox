@@ -164,7 +164,10 @@ fun QualityWidget(
                                 color = LocalContentColor.current.copy(0.5f),
                                 modifier = Modifier
                                     .padding(4.dp)
-                                    .container(RoundedCornerShape(20.dp))
+                                    .container(
+                                        shape = RoundedCornerShape(20.dp),
+                                        color = MaterialTheme.colorScheme.surface
+                                    )
                                     .padding(4.dp)
                             )
                         }

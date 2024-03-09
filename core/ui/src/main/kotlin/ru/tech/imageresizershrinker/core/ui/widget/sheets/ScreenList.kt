@@ -116,6 +116,9 @@ internal fun List<Uri>.screenList(
                 Screen.ApngTools(
                     Screen.ApngTools.Type.ImageToApng(uris)
                 ),
+                Screen.JxlTools(
+                    Screen.JxlTools.Type.ImageToJxl(uris)
+                ),
                 Screen.Zip(uris),
                 Screen.DeleteExif(uris),
                 Screen.LimitResize(uris)
@@ -133,6 +136,8 @@ internal fun List<Uri>.screenList(
                 } else if (uri.type("jxl")) {
                     it + Screen.JxlTools(
                         Screen.JxlTools.Type.JxlToJpeg(uris)
+                    ) + Screen.JxlTools(
+                        Screen.JxlTools.Type.JxlToImage(uris.firstOrNull())
                     )
                 } else it
             }
@@ -185,8 +190,17 @@ internal fun List<Uri>.screenList(
                             Screen.JxlTools.Type.JxlToJpeg(uris)
                         )
                     )
+                    add(
+                        Screen.JxlTools(
+                            Screen.JxlTools.Type.JxlToImage(uris.firstOrNull())
+                        )
+                    )
                 }
-
+                add(
+                    Screen.JxlTools(
+                        Screen.JxlTools.Type.ImageToJxl(uris)
+                    )
+                )
                 add(
                     Screen.ApngTools(
                         Screen.ApngTools.Type.ImageToApng(uris)

@@ -23,7 +23,17 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -37,9 +47,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AddPhotoAlternate
 import androidx.compose.material.icons.outlined.FolderOff
+import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
+import androidx.compose.material.icons.outlined.RepeatOne
+import androidx.compose.material.icons.outlined.SelectAll
+import androidx.compose.material.icons.outlined.Timelapse
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -48,43 +66,66 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.image.ImageFrames
+import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.material.Jxl
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.failedToSaveImages
+import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
+import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.image.ImagesPreviewWithSelection
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
+import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
+import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.viewModel.JxlToolsViewModel
+import kotlin.math.roundToInt
 
 @Composable
 fun JxlToolsScreen(
@@ -109,12 +150,19 @@ fun JxlToolsScreen(
 
     val settingsState = LocalSettingsState.current
 
+    val onError: (Throwable) -> Unit = {
+        scope.launch {
+            toastHostState.showError(context, it)
+        }
+    }
+
     val pickJpegsLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments()
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let { uris ->
             viewModel.setType(
-                Screen.JxlTools.Type.JpegToJxl(uris)
+                type = Screen.JxlTools.Type.JpegToJxl(uris),
+                onError = onError
             )
         }
     }
@@ -134,9 +182,51 @@ fun JxlToolsScreen(
                 }
             } else {
                 viewModel.setType(
-                    Screen.JxlTools.Type.JxlToJpeg(uris)
+                    type = Screen.JxlTools.Type.JxlToJpeg(uris),
+                    onError = onError
                 )
             }
+        }
+    }
+
+    val pickSingleJxlLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument()
+    ) { uri ->
+        uri?.takeIf { it.isJxl(context) }?.let {
+            viewModel.setType(
+                type = Screen.JxlTools.Type.JxlToImage(it),
+                onError = onError
+            )
+        } ?: scope.launch {
+            toastHostState.showToast(
+                message = context.getString(R.string.select_jxl_image_to_start),
+                icon = Icons.Filled.Jxl
+            )
+        }
+    }
+
+    val pickImagesLauncher = rememberImagePicker(
+        mode = localImagePickerMode(Picker.Multiple)
+    ) { list ->
+        list.takeIf { it.isNotEmpty() }?.let { uris ->
+            viewModel.setType(
+                type = Screen.JxlTools.Type.ImageToJxl(uris),
+                onError = onError
+            )
+        }
+    }
+
+    val addImagesLauncher = rememberImagePicker(
+        mode = localImagePickerMode(Picker.Multiple)
+    ) { list ->
+        list.takeIf { it.isNotEmpty() }?.let { uris ->
+            viewModel.setType(
+                type = Screen.JxlTools.Type.ImageToJxl(
+                    (viewModel.type as? Screen.JxlTools.Type.ImageToJxl)?.imageUris?.plus(uris)
+                        ?.distinct()
+                ),
+                onError = onError
+            )
         }
     }
 
@@ -145,9 +235,10 @@ fun JxlToolsScreen(
     ) { list ->
         list.takeIf { it.isNotEmpty() }?.let { uris ->
             viewModel.setType(
-                (viewModel.type as? Screen.JxlTools.Type.JpegToJxl)?.let {
+                type = (viewModel.type as? Screen.JxlTools.Type.JpegToJxl)?.let {
                     it.copy(it.jpegImageUris?.plus(uris)?.distinct())
-                }
+                },
+                onError = onError
             )
         }
     }
@@ -167,9 +258,10 @@ fun JxlToolsScreen(
                 }
             } else {
                 viewModel.setType(
-                    (viewModel.type as? Screen.JxlTools.Type.JxlToJpeg)?.let {
+                    type = (viewModel.type as? Screen.JxlTools.Type.JxlToJpeg)?.let {
                         it.copy(it.jxlImageUris?.plus(uris)?.distinct())
-                    }
+                    },
+                    onError = onError
                 )
             }
         }
@@ -177,9 +269,18 @@ fun JxlToolsScreen(
 
     fun pickImage(type: Screen.JxlTools.Type? = null) {
         runCatching {
-            if ((type ?: viewModel.type) is Screen.JxlTools.Type.JpegToJxl) {
-                pickJpegsLauncher.launch(arrayOf("image/jpeg", "image/jpg"))
-            } else pickJxlsLauncher.launch(arrayOf("*/*"))
+            when (type ?: viewModel.type) {
+                is Screen.JxlTools.Type.ImageToJxl -> pickImagesLauncher.pickImage()
+                is Screen.JxlTools.Type.JpegToJxl -> pickJpegsLauncher.launch(
+                    arrayOf(
+                        "image/jpeg",
+                        "image/jpg"
+                    )
+                )
+
+                is Screen.JxlTools.Type.JxlToImage -> pickSingleJxlLauncher.launch(arrayOf("*/*"))
+                else -> pickJxlsLauncher.launch(arrayOf("*/*"))
+            }
         }.onFailure {
             scope.launch {
                 toastHostState.showToast(
@@ -193,9 +294,17 @@ fun JxlToolsScreen(
 
     val addImages: () -> Unit = {
         runCatching {
-            if ((viewModel.type) is Screen.JxlTools.Type.JpegToJxl) {
-                addJpegsLauncher.launch(arrayOf("image/jpeg", "image/jpg"))
-            } else addJxlsLauncher.launch(arrayOf("*/*"))
+            when (viewModel.type) {
+                is Screen.JxlTools.Type.ImageToJxl -> addImagesLauncher.pickImage()
+                is Screen.JxlTools.Type.JpegToJxl -> addJpegsLauncher.launch(
+                    arrayOf(
+                        "image/jpeg",
+                        "image/jpg"
+                    )
+                )
+
+                else -> addJxlsLauncher.launch(arrayOf("*/*"))
+            }
         }.onFailure {
             scope.launch {
                 toastHostState.showToast(
@@ -220,6 +329,8 @@ fun JxlToolsScreen(
     val uris = when (val type = viewModel.type) {
         is Screen.JxlTools.Type.JpegToJxl -> type.jpegImageUris
         is Screen.JxlTools.Type.JxlToJpeg -> type.jxlImageUris
+        is Screen.JxlTools.Type.ImageToJxl -> type.imageUris
+        is Screen.JxlTools.Type.JxlToImage -> listOfNotNull(type.jxlUri)
         null -> null
     } ?: emptyList()
 
@@ -235,6 +346,14 @@ fun JxlToolsScreen(
                         stringResource(R.string.jxl_type_to_jpeg)
                     }
 
+                    is Screen.JxlTools.Type.ImageToJxl -> {
+                        stringResource(R.string.jxl_type_to_jxl)
+                    }
+
+                    is Screen.JxlTools.Type.JxlToImage -> {
+                        stringResource(R.string.jxl_type_to_images)
+                    }
+
                     null -> stringResource(R.string.jxl_tools)
                 },
                 input = viewModel.type,
@@ -244,14 +363,91 @@ fun JxlToolsScreen(
         },
         onGoBack = onBack,
         topAppBarPersistentActions = {
+            val isJxlToImage = viewModel.type is Screen.JxlTools.Type.JxlToImage
             if (viewModel.type == null) TopAppBarEmoji()
-            else {
+            else if (!isJxlToImage) {
                 EnhancedIconButton(
                     containerColor = Color.Transparent,
                     contentColor = LocalContentColor.current,
                     enableAutoShadowAndBorder = false,
                     onClick = {
-                        viewModel.performSharing(showConfetti)
+                        viewModel.performSharing(
+                            onError = onError,
+                            onComplete = showConfetti
+                        )
+                    },
+                    enabled = !viewModel.isLoading && viewModel.type != null
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Share,
+                        contentDescription = null
+                    )
+                }
+            }
+            val pagesSize by remember(viewModel.imageFrames, viewModel.convertedImageUris) {
+                derivedStateOf {
+                    viewModel.imageFrames.getFramePositions(viewModel.convertedImageUris.size).size
+                }
+            }
+            AnimatedVisibility(
+                visible = isJxlToImage && pagesSize != viewModel.convertedImageUris.size,
+                enter = fadeIn() + scaleIn() + expandHorizontally(),
+                exit = fadeOut() + scaleOut() + shrinkHorizontally()
+            ) {
+                EnhancedIconButton(
+                    containerColor = Color.Transparent,
+                    contentColor = LocalContentColor.current,
+                    enableAutoShadowAndBorder = false,
+                    onClick = viewModel::selectAllConvertedImages
+                ) {
+                    Icon(Icons.Outlined.SelectAll, null)
+                }
+            }
+            AnimatedVisibility(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .container(
+                        shape = CircleShape,
+                        color = MaterialTheme.colorScheme.surfaceContainerHighest,
+                        resultPadding = 0.dp
+                    ),
+                visible = isJxlToImage && pagesSize != 0
+            ) {
+                Row(
+                    modifier = Modifier.padding(start = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    pagesSize.takeIf { it != 0 }?.let {
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            text = it.toString(),
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                    EnhancedIconButton(
+                        containerColor = Color.Transparent,
+                        contentColor = LocalContentColor.current,
+                        enableAutoShadowAndBorder = false,
+                        onClick = viewModel::clearConvertedImagesSelection
+                    ) {
+                        Icon(Icons.Rounded.Close, null)
+                    }
+                }
+            }
+        },
+        actions = {
+            if (viewModel.type is Screen.JxlTools.Type.JxlToImage) {
+                EnhancedIconButton(
+                    containerColor = Color.Transparent,
+                    contentColor = LocalContentColor.current,
+                    enableAutoShadowAndBorder = false,
+                    onClick = {
+                        viewModel.performSharing(
+                            onError = onError,
+                            onComplete = showConfetti
+                        )
                     },
                     enabled = !viewModel.isLoading && viewModel.type != null
                 ) {
@@ -262,30 +458,195 @@ fun JxlToolsScreen(
                 }
             }
         },
-        actions = {},
-        imagePreview = {},
-        placeImagePreview = false,
+        imagePreview = {
+            AnimatedContent(
+                targetState = viewModel.isLoading to viewModel.type
+            ) { (loading, type) ->
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = if (loading) {
+                        Modifier.padding(32.dp)
+                    } else Modifier
+                ) {
+                    if (loading || type == null) {
+                        Loading()
+                    } else {
+                        when (type) {
+                            is Screen.JxlTools.Type.JxlToImage -> {
+                                ImagesPreviewWithSelection(
+                                    imageUris = viewModel.convertedImageUris,
+                                    imageFrames = viewModel.imageFrames,
+                                    onFrameSelectionChange = viewModel::updateJxlFrames,
+                                    isPortrait = isPortrait,
+                                    isLoadingImages = viewModel.isLoadingJxlImages
+                                )
+                            }
+
+                            is Screen.JxlTools.Type.JpegToJxl,
+                            is Screen.JxlTools.Type.JxlToJpeg -> {
+                                UrisPreview(
+                                    modifier = Modifier
+                                        .then(
+                                            if (!isPortrait) {
+                                                Modifier
+                                                    .layout { measurable, constraints ->
+                                                        val placeable = measurable.measure(
+                                                            constraints = constraints.copy(
+                                                                maxHeight = constraints.maxHeight + 48.dp.roundToPx()
+                                                            )
+                                                        )
+                                                        layout(placeable.width, placeable.height) {
+                                                            placeable.place(0, 0)
+                                                        }
+                                                    }
+                                                    .verticalScroll(rememberScrollState())
+                                            } else Modifier
+                                        )
+                                        .padding(vertical = 24.dp),
+                                    uris = uris,
+                                    isPortrait = true,
+                                    onRemoveUri = viewModel::removeUri,
+                                    onAddUris = addImages
+                                )
+                            }
+
+                            else -> Unit
+                        }
+                    }
+                }
+            }
+        },
+        placeImagePreview = viewModel.type !is Screen.JxlTools.Type.ImageToJxl,
         showImagePreviewAsStickyHeader = false,
         autoClearFocus = false,
         controls = {
-            Spacer(modifier = Modifier.height(24.dp))
-            UrisPreview(
-                uris = uris,
-                isPortrait = isPortrait,
-                onRemoveUri = viewModel::removeUri,
-                onAddUris = addImages,
-                addUrisIcon = Icons.Outlined.AddPhotoAlternate
-            )
+            when (viewModel.type) {
+                is Screen.JxlTools.Type.JxlToImage -> {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    ImageFormatSelector(
+                        value = viewModel.imageFormat,
+                        onValueChange = viewModel::setImageFormat
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    QualityWidget(
+                        imageFormat = viewModel.imageFormat,
+                        enabled = true,
+                        quality = viewModel.quality,
+                        onQualityChange = viewModel::setQuality
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+                is Screen.JxlTools.Type.ImageToJxl -> {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    ImageReorderCarousel(
+                        images = uris,
+                        onReorder = {
+                            viewModel.setType(
+                                Screen.JxlTools.Type.ImageToJxl(it)
+                            )
+                        },
+                        onNeedToAddImage = addImages,
+                        onNeedToRemoveImageAt = {
+                            viewModel.setType(
+                                Screen.JxlTools.Type.ImageToJxl(
+                                    (viewModel.type as Screen.JxlTools.Type.ImageToJxl)
+                                        .imageUris?.toMutableList()
+                                        ?.apply {
+                                            removeAt(it)
+                                        }
+                                )
+                            )
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    val size = viewModel.params.size ?: IntegerSize.Undefined
+                    AnimatedVisibility(size.isDefined()) {
+                        ResizeImageField(
+                            imageInfo = ImageInfo(size.width, size.height),
+                            originalSize = null,
+                            onWidthChange = {
+                                viewModel.updateParams(
+                                    viewModel.params.copy(
+                                        size = size.copy(width = it)
+                                    )
+                                )
+                            },
+                            onHeightChange = {
+                                viewModel.updateParams(
+                                    viewModel.params.copy(
+                                        size = size.copy(height = it)
+                                    )
+                                )
+                            }
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    PreferenceRowSwitch(
+                        title = stringResource(id = R.string.use_size_of_first_frame),
+                        subtitle = stringResource(id = R.string.use_size_of_first_frame_sub),
+                        checked = viewModel.params.size == null,
+                        onClick = viewModel::setUseOriginalSize,
+                        startIcon = Icons.Outlined.PhotoSizeSelectLarge,
+                        modifier = Modifier.fillMaxWidth(),
+                        color = Color.Unspecified,
+                        shape = RoundedCornerShape(24.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    QualityWidget(
+                        imageFormat = ImageFormat.Jxl.Lossy,
+                        enabled = true,
+                        quality = viewModel.quality,
+                        onQualityChange = viewModel::setQuality
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    EnhancedSliderItem(
+                        value = viewModel.params.repeatCount,
+                        icon = Icons.Outlined.RepeatOne,
+                        title = stringResource(id = R.string.repeat_count),
+                        valueRange = 1f..10f,
+                        steps = 9,
+                        internalStateTransformation = { it.roundToInt() },
+                        onValueChange = {
+                            viewModel.updateParams(
+                                viewModel.params.copy(
+                                    repeatCount = it.roundToInt()
+                                )
+                            )
+                        },
+                        shape = RoundedCornerShape(24.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    EnhancedSliderItem(
+                        value = viewModel.params.delay,
+                        icon = Icons.Outlined.Timelapse,
+                        title = stringResource(id = R.string.frame_delay),
+                        valueRange = 1f..4000f,
+                        internalStateTransformation = { it.roundToInt() },
+                        onValueChange = {
+                            viewModel.updateParams(
+                                viewModel.params.copy(
+                                    delay = it.roundToInt()
+                                )
+                            )
+                        },
+                        shape = RoundedCornerShape(24.dp)
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+                else -> Unit
+            }
         },
         contentPadding = animateDpAsState(
             if (viewModel.type == null) 12.dp
             else 20.dp
         ).value,
-        buttons = {
+        buttons = { actions ->
             BottomButtonsBlock(
                 targetState = (viewModel.type == null) to isPortrait,
                 onSecondaryButtonClick = { pickImage() },
-                isPrimaryButtonVisible = viewModel.type != null,
+                isPrimaryButtonVisible = viewModel.canSave,
                 onPrimaryButtonClick = {
                     viewModel.save { results, path ->
                         context.failedToSaveImages(
@@ -299,13 +660,17 @@ fun JxlToolsScreen(
                     }
                 },
                 actions = {
-                    EnhancedChip(
-                        selected = true,
-                        onClick = null,
-                        selectedColor = MaterialTheme.colorScheme.secondaryContainer,
-                        modifier = Modifier.padding(8.dp)
-                    ) {
-                        Text(uris.size.toString())
+                    if (viewModel.type is Screen.JxlTools.Type.JxlToImage) {
+                        actions()
+                    } else {
+                        EnhancedChip(
+                            selected = true,
+                            onClick = null,
+                            selectedColor = MaterialTheme.colorScheme.secondaryContainer,
+                            modifier = Modifier.padding(8.dp)
+                        ) {
+                            Text(uris.size.toString())
+                        }
                     }
                 },
                 showNullDataButtonAsContainer = true
@@ -337,27 +702,61 @@ fun JxlToolsScreen(
                     }
                 )
             }
+            val preference3 = @Composable {
+                PreferenceItem(
+                    title = stringResource(types[2].title),
+                    subtitle = stringResource(types[2].subtitle),
+                    startIcon = types[2].icon,
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        pickImage(types[2])
+                    }
+                )
+            }
+            val preference4 = @Composable {
+                PreferenceItem(
+                    title = stringResource(types[3].title),
+                    subtitle = stringResource(types[3].subtitle),
+                    startIcon = types[3].icon,
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        pickImage(types[3])
+                    }
+                )
+            }
             if (isPortrait) {
                 Column {
                     preference1()
                     Spacer(modifier = Modifier.height(8.dp))
                     preference2()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference3()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference4()
                 }
             } else {
                 val direction = LocalLayoutDirection.current
-                Row(
-                    modifier = Modifier.padding(
-                        WindowInsets.displayCutout.asPaddingValues().let {
-                            PaddingValues(
-                                start = it.calculateStartPadding(direction),
-                                end = it.calculateEndPadding(direction)
-                            )
-                        }
+                val cutout = WindowInsets.displayCutout.asPaddingValues().let {
+                    PaddingValues(
+                        start = it.calculateStartPadding(direction),
+                        end = it.calculateEndPadding(direction)
                     )
+                }
+
+                Row(
+                    modifier = Modifier.padding(cutout)
                 ) {
                     preference1.withModifier(modifier = Modifier.weight(1f))
                     Spacer(modifier = Modifier.width(8.dp))
                     preference2.withModifier(modifier = Modifier.weight(1f))
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(
+                    modifier = Modifier.padding(cutout)
+                ) {
+                    preference3.withModifier(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.width(8.dp))
+                    preference4.withModifier(modifier = Modifier.weight(1f))
                 }
             }
         },
@@ -390,3 +789,8 @@ private fun Uri.isJxl(context: Context): Boolean {
     return context.getFilename(this).toString().endsWith(".jxl")
         .or(context.contentResolver.getType(this)?.contains("jxl") == true)
 }
+
+private val JxlToolsViewModel.canSave: Boolean
+    get() = (imageFrames == ImageFrames.All)
+        .or(type !is Screen.JxlTools.Type.JxlToImage)
+        .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)

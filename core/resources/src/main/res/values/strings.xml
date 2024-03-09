@@ -847,4 +847,8 @@
     <string name="gif_type_to_jxl_sub">Convert GIF images to JXL animated pictures</string>
     <string name="apng_type_to_jxl">APNG to JXL</string>
     <string name="apng_type_to_jxl_sub">Convert APNG images to JXL animated pictures</string>
+    <string name="jxl_type_to_images">JXL to Images</string>
+    <string name="jxl_type_to_images_sub">Convert JXL animation to batch of pictures</string>
+    <string name="jxl_type_to_jxl">Images to JXL</string>
+    <string name="jxl_type_to_jxl_sub">Convert batch of pictures to JXL animation</string>
 </resources>

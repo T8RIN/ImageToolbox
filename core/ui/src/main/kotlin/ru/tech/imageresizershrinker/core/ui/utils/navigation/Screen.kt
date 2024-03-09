@@ -32,6 +32,7 @@ import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
+import androidx.compose.material.icons.rounded.Animation
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Gif
 import androidx.compose.material.icons.rounded.Gradient
@@ -479,11 +480,29 @@ sealed class Screen(
                 icon = Icons.Filled.Jxl
             )
 
+            data class JxlToImage(
+                val jxlUri: Uri? = null
+            ) : Type(
+                title = R.string.jxl_type_to_images,
+                subtitle = R.string.jxl_type_to_images_sub,
+                icon = Icons.Outlined.Collections
+            )
+
+            data class ImageToJxl(
+                val imageUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.jxl_type_to_jxl,
+                subtitle = R.string.jxl_type_to_jxl_sub,
+                icon = Icons.Rounded.Animation
+            )
+
             companion object {
                 val entries by lazy {
                     listOf(
                         JpegToJxl(),
-                        JxlToJpeg()
+                        JxlToJpeg(),
+                        JxlToImage(),
+                        ImageToJxl()
                     )
                 }
             }
@@ -566,6 +585,6 @@ sealed class Screen(
             )
         }
 
-        const val FEATURES_COUNT = 35
+        const val FEATURES_COUNT = 37
     }
 }

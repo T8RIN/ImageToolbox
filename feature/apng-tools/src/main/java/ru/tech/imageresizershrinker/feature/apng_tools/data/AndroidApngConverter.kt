@@ -110,7 +110,12 @@ internal class AndroidApngConverter @Inject constructor(
             )?.let {
                 encoder.writeFrame(
                     btm = imageScaler.scaleImage(
-                        image = it,
+                        image = imageScaler.scaleImage(
+                            image = it,
+                            width = size.width,
+                            height = size.height,
+                            resizeType = ResizeType.Flexible
+                        ),
                         width = size.width,
                         height = size.height,
                         resizeType = ResizeType.CenterCrop(

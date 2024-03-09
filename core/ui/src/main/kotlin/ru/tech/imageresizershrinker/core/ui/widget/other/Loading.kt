@@ -69,14 +69,14 @@ fun Loading(modifier: Modifier = Modifier) {
                 } else Modifier
             )
             .background(
-                color = MaterialTheme.colorScheme.secondaryContainer,
+                color = MaterialTheme.colorScheme.surfaceContainerHighest,
                 shape = MaterialStarShape
             )
             .border(
                 width = borderWidth,
                 color = MaterialTheme.colorScheme.outlineVariant(
-                    0.1f,
-                    MaterialTheme.colorScheme.secondaryContainer
+                    luminance = 0.1f,
+                    onTopOf = MaterialTheme.colorScheme.surfaceContainerHighest
                 ),
                 shape = MaterialStarShape
             )
@@ -88,7 +88,7 @@ fun Loading(modifier: Modifier = Modifier) {
                 )
                 .size(minHeight / 2),
             strokeCap = StrokeCap.Round,
-            trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
+            trackColor = MaterialTheme.colorScheme.secondary.copy(0.3f),
             color = MaterialTheme.colorScheme.onSecondaryContainer
         )
     }
@@ -135,14 +135,14 @@ fun BoxScope.Loading(
                 } else Modifier
             )
             .background(
-                color = MaterialTheme.colorScheme.secondaryContainer,
+                color = MaterialTheme.colorScheme.surfaceContainerHighest,
                 shape = MaterialStarShape
             )
             .border(
                 width = borderWidth,
                 color = MaterialTheme.colorScheme.outlineVariant(
-                    0.1f,
-                    MaterialTheme.colorScheme.secondaryContainer
+                    luminance = 0.1f,
+                    onTopOf = MaterialTheme.colorScheme.surfaceContainerHighest
                 ),
                 shape = MaterialStarShape
             )
@@ -156,15 +156,15 @@ fun BoxScope.Loading(
         ) {
             CircularProgressIndicator(
                 modifier = Modifier.size(maxWidth),
-                color = MaterialTheme.colorScheme.tertiary.copy(0.5f),
-                trackColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                color = MaterialTheme.colorScheme.secondary.copy(0.3f),
+                trackColor = MaterialTheme.colorScheme.surfaceContainer,
                 strokeCap = StrokeCap.Round,
             )
             val progressAnimated by animateFloatAsState(targetValue = progress)
             CircularProgressIndicator(
                 modifier = Modifier.size(maxWidth),
                 progress = { progressAnimated },
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                color = MaterialTheme.colorScheme.primary,
                 trackColor = Color.Transparent,
                 strokeCap = StrokeCap.Round,
             )

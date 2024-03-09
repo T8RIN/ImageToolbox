@@ -45,6 +45,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -98,12 +99,12 @@ fun PickImageFromUrisSheet(
                                 if (selected) MaterialTheme.colorScheme.primary.copy(0.5f)
                                 else MaterialTheme.colorScheme.surfaceContainerHigh
                             )
-                            val padding by animateDpAsState(if (selected) 8.dp else 4.dp)
-                            val pictureShape by animateDpAsState(if (selected) 18.dp else 20.dp)
+                            val padding by animateDpAsState(if (selected) 12.dp else 4.dp)
+                            val pictureShape by animateDpAsState(if (selected) 20.dp else 8.dp)
                             Box(
                                 modifier = Modifier
                                     .container(
-                                        shape = RoundedCornerShape(24.dp),
+                                        shape = RoundedCornerShape(8.dp),
                                         resultPadding = 0.dp,
                                         color = color
                                     )
@@ -121,7 +122,7 @@ fun PickImageFromUrisSheet(
                                         }
                                         .padding(padding)
                                         .clip(RoundedCornerShape(pictureShape)),
-                                    shape = RoundedCornerShape(8.dp),
+                                    shape = RectangleShape,
                                     contentScale = ContentScale.Fit
                                 )
                                 EnhancedIconButton(

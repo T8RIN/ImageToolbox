@@ -17,16 +17,39 @@
 
 package ru.tech.imageresizershrinker.feature.jxl_tools.domain
 
+import kotlinx.coroutines.flow.Flow
+import ru.tech.imageresizershrinker.core.domain.image.ImageFrames
+import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.model.Quality
+
 interface JxlConverter {
 
     suspend fun jpegToJxl(
         jpegUris: List<String>,
+        onError: (Throwable) -> Unit,
         onProgress: suspend (originalUri: String, data: ByteArray) -> Unit
     )
 
     suspend fun jxlToJpeg(
         jxlUris: List<String>,
+        onError: (Throwable) -> Unit,
         onProgress: suspend (originalUri: String, data: ByteArray) -> Unit
     )
+
+    suspend fun createJxlAnimation(
+        imageUris: List<String>,
+        params: JxlParams,
+        onError: (Throwable) -> Unit,
+        onProgress: () -> Unit
+    ): ByteArray
+
+    fun extractFramesFromJxl(
+        jxlUri: String,
+        imageFormat: ImageFormat,
+        imageFrames: ImageFrames,
+        quality: Quality,
+        onError: (Throwable) -> Unit,
+        onGetFramesCount: (frames: Int) -> Unit = {}
+    ): Flow<String>
 
 }

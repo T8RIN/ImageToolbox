@@ -18,29 +18,153 @@
 package ru.tech.imageresizershrinker.feature.jxl_tools.data
 
 import android.content.Context
+import android.graphics.Bitmap
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
+import androidx.exifinterface.media.ExifInterface
+import com.awxkee.jxlcoder.JxlAnimatedEncoder
+import com.awxkee.jxlcoder.JxlAnimatedImage
 import com.awxkee.jxlcoder.JxlCoder
+import com.awxkee.jxlcoder.JxlCompressionOption
+import com.awxkee.jxlcoder.JxlDecodingSpeed
+import com.awxkee.jxlcoder.PreferredColorConfig
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.domain.image.ImageFrames
+import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.model.Quality
+import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.feature.jxl_tools.domain.JxlConverter
+import ru.tech.imageresizershrinker.feature.jxl_tools.domain.JxlParams
 import javax.inject.Inject
 
 
 internal class AndroidJxlConverter @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val imageShareProvider: ShareProvider<Bitmap>,
+    private val imageScaler: ImageScaler<Bitmap>
 ) : JxlConverter {
 
     override suspend fun jpegToJxl(
         jpegUris: List<String>,
+        onError: (Throwable) -> Unit,
         onProgress: suspend (String, ByteArray) -> Unit
     ) = jpegUris.forEach { uri ->
-        uri.jxl?.let { onProgress(uri, it) }
+        runCatching {
+            uri.jxl?.let { onProgress(uri, it) }
+        }.onFailure(onError)
     }
 
     override suspend fun jxlToJpeg(
         jxlUris: List<String>,
+        onError: (Throwable) -> Unit,
         onProgress: suspend (String, ByteArray) -> Unit
     ) = jxlUris.forEach { uri ->
-        uri.jpeg?.let { onProgress(uri, it) }
+        runCatching {
+            uri.jpeg?.let { onProgress(uri, it) }
+        }.onFailure(onError)
+    }
+
+    override suspend fun createJxlAnimation(
+        imageUris: List<String>,
+        params: JxlParams,
+        onError: (Throwable) -> Unit,
+        onProgress: () -> Unit
+    ): ByteArray = withContext(Dispatchers.IO) {
+        val size = params.size ?: imageGetter.getImage(data = imageUris[0])!!.run {
+            IntegerSize(width, height)
+        }
+        val encoder = JxlAnimatedEncoder(
+            width = size.width,
+            height = size.height,
+            numLoops = params.repeatCount,
+            preferredColorConfig = PreferredColorConfig.RGBA_8888,
+            compressionOption = JxlCompressionOption.LOSSY,
+            effort = params.quality.effort.coerceAtLeast(1),
+            quality = params.quality.qualityValue,
+            decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == params.quality.speed }
+        )
+        imageUris.forEach { uri ->
+            imageGetter.getImage(
+                data = uri,
+                size = params.size
+            )?.let {
+                encoder.addFrame(
+                    bitmap = imageScaler.scaleImage(
+                        image = imageScaler.scaleImage(
+                            image = it,
+                            width = size.width,
+                            height = size.height,
+                            resizeType = ResizeType.Flexible
+                        ),
+                        width = size.width,
+                        height = size.height,
+                        resizeType = ResizeType.CenterCrop(
+                            canvasColor = Color.Transparent.toArgb()
+                        )
+                    ).apply {
+                        setHasAlpha(true)
+                    },
+                    duration = params.delay
+                )
+            }
+            onProgress()
+        }
+        encoder.encode()
+    }
+
+    override fun extractFramesFromJxl(
+        jxlUri: String,
+        imageFormat: ImageFormat,
+        imageFrames: ImageFrames,
+        quality: Quality,
+        onError: (Throwable) -> Unit,
+        onGetFramesCount: (frames: Int) -> Unit
+    ): Flow<String> = flow {
+        val bytes = jxlUri.bytes ?: return@flow
+
+        val decoder = JxlAnimatedImage(bytes)
+
+        onGetFramesCount(decoder.numberOfFrames)
+        val indexes = imageFrames
+            .getFramePositions(decoder.numberOfFrames)
+            .map { it - 1 }
+        repeat(decoder.numberOfFrames) { pos ->
+            if (!currentCoroutineContext().isActive) {
+                currentCoroutineContext().cancel(null)
+                return@repeat
+            }
+            decoder.getFrame(pos).let { frame ->
+                imageShareProvider.cacheImage(
+                    image = frame,
+                    imageInfo = ImageInfo(
+                        width = frame.width,
+                        height = frame.height,
+                        imageFormat = imageFormat,
+                        quality = quality
+                    ),
+                    name = "jxl_image"
+                )
+            }?.takeIf {
+                pos in indexes
+            }?.let { emit(it) }
+        }
+    }.catch {
+        onError(it)
     }
 
     private val String.jxl: ByteArray?

@@ -442,7 +442,7 @@ fun GifToolsScreen(
                 }
 
                 is Screen.GifTools.Type.ImageToGif -> {
-                    val addImagesToPdfPicker = rememberImagePicker(
+                    val addImagesToGifPicker = rememberImagePicker(
                         mode = localImagePickerMode(Picker.Multiple)
                     ) { list ->
                         list.takeIf { it.isNotEmpty() }?.let(viewModel::addImageToUris)
@@ -451,7 +451,7 @@ fun GifToolsScreen(
                     ImageReorderCarousel(
                         images = type.imageUris,
                         onReorder = viewModel::reorderImageUris,
-                        onNeedToAddImage = { addImagesToPdfPicker.pickImage() },
+                        onNeedToAddImage = { addImagesToGifPicker.pickImage() },
                         onNeedToRemoveImageAt = viewModel::removeImageAt
                     )
                     Spacer(modifier = Modifier.height(8.dp))
