@@ -22,10 +22,37 @@ import androidx.annotation.IntRange
 sealed class Quality(
     open val qualityValue: Int
 ) {
+    fun coerceIn(
+        imageFormat: ImageFormat
+    ): Quality {
+        return when (imageFormat) {
+            is ImageFormat.Jxl -> {
+                val value = this as? Jxl ?: return Jxl()
+                value.copy(
+                    qualityValue = qualityValue.coerceIn(0..100),
+                    effort = effort.coerceIn(0..9),
+                    speed = speed.coerceIn(0..5)
+                )
+            }
+
+            is ImageFormat.PngLossy -> {
+                val value = this as? PngLossy ?: return PngLossy()
+                value.copy(
+                    maxColors = value.maxColors.coerceIn(2..1024),
+                    compressionLevel = compressionLevel.coerceIn(0..9)
+                )
+            }
+
+            else -> {
+                Base(qualityValue.coerceIn(0..100))
+            }
+        }
+    }
+
     data class Jxl(
         @IntRange(from = 0, to = 100)
         override val qualityValue: Int = 100,
-        @IntRange(from = 1, to = 10)
+        @IntRange(from = 0, to = 9)
         val effort: Int = 7,
         @IntRange(from = 0, to = 5)
         val speed: Int = 2

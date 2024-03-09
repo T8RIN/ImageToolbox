@@ -81,7 +81,7 @@ internal class AndroidImageCompressor @Inject constructor(
         )
         .compress(
             image = image,
-            quality = quality
+            quality = quality.coerceIn(imageFormat)
         )
 
 

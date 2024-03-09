@@ -133,7 +133,7 @@ sealed class ImageFormat(
         data object Lossless : Jxl(
             title = "JXL Lossless",
             compressionTypes = listOf(
-                CompressionType.Effort(1..9)
+                CompressionType.Effort(0..9)
             )
         )
 
@@ -141,7 +141,7 @@ sealed class ImageFormat(
             title = "JXL Lossy",
             compressionTypes = listOf(
                 CompressionType.Quality(0..100),
-                CompressionType.Effort(1..9)
+                CompressionType.Effort(0..9)
             )
         )
     }

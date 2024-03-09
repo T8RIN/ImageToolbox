@@ -221,7 +221,8 @@ private val ImageScaleMode.title: String
         ImageScaleMode.Nearest -> stringResource(id = R.string.nearest)
         ImageScaleMode.Bicubic -> stringResource(id = R.string.bicubic)
         ImageScaleMode.BSpline -> stringResource(id = R.string.b_spline)
-        else -> stringResource(id = R.string.basic)
+        ImageScaleMode.LanczosBessel -> stringResource(id = R.string.lanczos_bessel)
+        ImageScaleMode.NotPresent -> stringResource(id = R.string.basic)
     }
 
 private val ImageScaleMode.subtitle: String
@@ -237,5 +238,6 @@ private val ImageScaleMode.subtitle: String
         ImageScaleMode.Nearest -> stringResource(id = R.string.nearest_sub)
         ImageScaleMode.Spline -> stringResource(id = R.string.spline_sub)
         ImageScaleMode.BSpline -> stringResource(id = R.string.b_spline_sub)
-        else -> stringResource(id = R.string.basic_sub)
+        ImageScaleMode.LanczosBessel -> stringResource(id = R.string.lanczos_bessel_sub)
+        ImageScaleMode.NotPresent -> stringResource(id = R.string.basic_sub)
     }

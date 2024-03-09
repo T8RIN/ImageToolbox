@@ -21,18 +21,16 @@ import androidx.annotation.FloatRange
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 
 fun ColorScheme.outlineVariant(
     luminance: Float = 0.3f,
-    onTopOf: Color = surfaceColorAtElevation(3.dp)
+    onTopOf: Color = surfaceContainer
 ) = onSecondaryContainer
     .copy(alpha = luminance)
     .compositeOver(onTopOf)

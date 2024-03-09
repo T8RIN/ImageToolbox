@@ -64,6 +64,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
+import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 
 @Composable
 fun RoundedTextField(
@@ -170,7 +171,10 @@ fun RoundedTextField(
     val focused = interactionSource.collectIsFocusedAsState().value
 
     val colorScheme = MaterialTheme.colorScheme
-    val unfocusedColor = if (!enabled) colorScheme.outlineVariant
+    val unfocusedColor = if (!enabled) colorScheme.outlineVariant(
+        onTopOf = MaterialTheme.colorScheme.surfaceContainerHigh,
+        luminance = 0.2f
+    )
     else colorScheme.surfaceVariant.inverse({ 0.2f })
 
     val focusedColor = if (isError) colorScheme.error else colorScheme.primary
@@ -266,7 +270,7 @@ fun RoundedTextField(
 @Composable
 fun RoundedTextFieldColors(
     isError: Boolean,
-    containerColor: Color = MaterialTheme.colorScheme.surfaceContainer
+    containerColor: Color = MaterialTheme.colorScheme.surfaceContainerHigh
 ): TextFieldColors =
     MaterialTheme.colorScheme.run {
         val containerColorNew = if (isError) {

@@ -44,10 +44,10 @@ internal class AndroidJxlTranscoder @Inject constructor(
     }
 
     private val String.jxl: ByteArray?
-        get() = bytes?.let { JxlCoder.construct(it) }
+        get() = bytes?.let { JxlCoder.Convenience.construct(it) }
 
     private val String.jpeg: ByteArray?
-        get() = bytes?.let { JxlCoder.reconstructJPEG(it) }
+        get() = bytes?.let { JxlCoder.Convenience.reconstructJPEG(it) }
 
     private val String.bytes: ByteArray?
         get() = context

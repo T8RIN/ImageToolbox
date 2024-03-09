@@ -29,6 +29,7 @@ sealed class ImageScaleMode(val value: Int) {
     data object BSpline : ImageScaleMode(7)
     data object Hann : ImageScaleMode(8)
     data object Bicubic : ImageScaleMode(9)
+    data object LanczosBessel : ImageScaleMode(10)
 
     companion object {
         val Default = Bilinear
@@ -44,7 +45,8 @@ sealed class ImageScaleMode(val value: Int) {
                 Hermite,
                 BSpline,
                 Hann,
-                Bicubic
+                Bicubic,
+                LanczosBessel
             )
         }
 
@@ -59,6 +61,7 @@ sealed class ImageScaleMode(val value: Int) {
             7 -> BSpline
             8 -> Hann
             9 -> Bicubic
+            10 -> LanczosBessel
 
             else -> NotPresent
         }
