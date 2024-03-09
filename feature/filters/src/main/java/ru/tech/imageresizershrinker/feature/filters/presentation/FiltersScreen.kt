@@ -700,6 +700,27 @@ fun FiltersScreen(
         visible = showCompareSheet
     )
 
+    var tempSelectionUris by rememberSaveable {
+        mutableStateOf<List<Uri>?>(
+            null
+        )
+    }
+    val showSelectionFilterPicker =
+        rememberSaveable { mutableStateOf(false) }
+    LaunchedEffect(showSelectionFilterPicker.value) {
+        if (!showSelectionFilterPicker.value) tempSelectionUris = null
+    }
+    val selectionFilterPicker = rememberImagePicker(
+        mode = localImagePickerMode(Picker.Multiple)
+    ) { uris ->
+        uris.takeIf { it.isNotEmpty() }?.let {
+            tempSelectionUris = it
+            showSelectionFilterPicker.value = true
+        }
+    }
+
+    AutoFilePicker(selectionFilterPicker::pickImage)
+
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = Modifier
@@ -864,27 +885,6 @@ fun FiltersScreen(
                 ) { filterType ->
                     when (filterType) {
                         null -> {
-                            var tempSelectionUris by rememberSaveable {
-                                mutableStateOf<List<Uri>?>(
-                                    null
-                                )
-                            }
-                            val showSelectionFilterPicker =
-                                rememberSaveable { mutableStateOf(false) }
-                            LaunchedEffect(showSelectionFilterPicker.value) {
-                                if (!showSelectionFilterPicker.value) tempSelectionUris = null
-                            }
-                            val selectionFilterPicker = rememberImagePicker(
-                                mode = localImagePickerMode(Picker.Multiple)
-                            ) { uris ->
-                                uris.takeIf { it.isNotEmpty() }?.let {
-                                    tempSelectionUris = it
-                                    showSelectionFilterPicker.value = true
-                                }
-                            }
-
-                            AutoFilePicker(selectionFilterPicker::pickImage)
-
                             Column {
                                 val cutout = WindowInsets.displayCutout.asPaddingValues()
                                 LazyVerticalStaggeredGrid(
