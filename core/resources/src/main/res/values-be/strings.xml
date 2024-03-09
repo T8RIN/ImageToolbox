@@ -804,4 +804,8 @@
     <string name="zip_sub">Стварыце файл Zip з дадзеных файлаў або малюнкаў</string>
     <string name="apng_type_to_apng_sub">Пераўтварыце пакет малюнкаў у файл APNG</string>
     <string name="drag_handle_width">Шырыня маркера перацягвання</string>
+    <string name="confetti_type">Тып канфеці</string>
+    <string name="auto_paste_sub">Разрашыць праграме аўтаматычна ўставіць дадзеныя з буфера абмену, каб яны з\'явіліся на галоўным экране, і вы змаглі іх апрацаваць</string>
+    <string name="harmonization_color">Гарманізацыя колеру</string>
+    <string name="harmonization_level">Узровень гарманізацыі</string>
 </resources>
