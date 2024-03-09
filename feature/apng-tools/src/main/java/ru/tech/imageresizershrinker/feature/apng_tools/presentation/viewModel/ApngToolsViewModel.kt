@@ -35,6 +35,7 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
+import ru.tech.imageresizershrinker.core.domain.image.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
@@ -49,7 +50,6 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.apng_tools.domain.ApngConverter
-import ru.tech.imageresizershrinker.feature.apng_tools.domain.ApngFrames
 import ru.tech.imageresizershrinker.feature.apng_tools.domain.ApngParams
 import java.io.OutputStream
 import java.text.SimpleDateFormat
@@ -84,8 +84,8 @@ class ApngToolsViewModel @Inject constructor(
     private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.PngLossless)
     val imageFormat by _imageFormat
 
-    private val _apngFrames: MutableState<ApngFrames> = mutableStateOf(ApngFrames.All)
-    val apngFrames by _apngFrames
+    private val _imageFrames: MutableState<ImageFrames> = mutableStateOf(ImageFrames.All)
+    val imageFrames by _imageFrames
 
     private val _done: MutableState<Int> = mutableIntStateOf(0)
     val done by _done
@@ -130,7 +130,7 @@ class ApngToolsViewModel @Inject constructor(
         _type.update {
             Screen.ApngTools.Type.ApngToImage(uri)
         }
-        updateApngFrames(ApngFrames.All)
+        updateApngFrames(ImageFrames.All)
         collectionJob?.cancel()
         collectionJob = viewModelScope.launch(Dispatchers.IO) {
             _isLoading.update { true }
@@ -162,13 +162,13 @@ class ApngToolsViewModel @Inject constructor(
         _params.update { ApngParams.Default }
     }
 
-    fun updateApngFrames(apngFrames: ApngFrames) {
-        _apngFrames.update { apngFrames }
+    fun updateApngFrames(imageFrames: ImageFrames) {
+        _imageFrames.update { imageFrames }
     }
 
-    fun clearConvertedImagesSelection() = updateApngFrames(ApngFrames.ManualSelection(emptyList()))
+    fun clearConvertedImagesSelection() = updateApngFrames(ImageFrames.ManualSelection(emptyList()))
 
-    fun selectAllConvertedImages() = updateApngFrames(ApngFrames.All)
+    fun selectAllConvertedImages() = updateApngFrames(ImageFrames.All)
 
     private var savingJob: Job? = null
 
@@ -218,7 +218,7 @@ class ApngToolsViewModel @Inject constructor(
                                 data = uri,
                                 originalSize = true
                             )?.let { localBitmap ->
-                                if (done in apngFrames.getFramePositions(convertedImageUris.size + 10)) {
+                                if (done in imageFrames.getFramePositions(convertedImageUris.size + 10)) {
                                     val imageInfo = ImageInfo(
                                         imageFormat = imageFormat,
                                         width = localBitmap.width,
@@ -394,7 +394,7 @@ class ApngToolsViewModel @Inject constructor(
                 is Screen.ApngTools.Type.ApngToImage -> {
                     _left.value = -1
                     val positions =
-                        apngFrames.getFramePositions(convertedImageUris.size).map { it - 1 }
+                        imageFrames.getFramePositions(convertedImageUris.size).map { it - 1 }
                     val uris = convertedImageUris.filterIndexed { index, _ ->
                         index in positions
                     }

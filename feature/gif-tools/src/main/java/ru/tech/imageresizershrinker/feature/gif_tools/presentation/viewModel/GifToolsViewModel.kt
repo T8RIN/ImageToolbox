@@ -35,6 +35,7 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
+import ru.tech.imageresizershrinker.core.domain.image.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
@@ -49,7 +50,6 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifConverter
-import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifFrames
 import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifParams
 import java.io.OutputStream
 import java.text.SimpleDateFormat
@@ -84,8 +84,8 @@ class GifToolsViewModel @Inject constructor(
     private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.Default())
     val imageFormat by _imageFormat
 
-    private val _gifFrames: MutableState<GifFrames> = mutableStateOf(GifFrames.All)
-    val gifFrames by _gifFrames
+    private val _imageFrames: MutableState<ImageFrames> = mutableStateOf(ImageFrames.All)
+    val gifFrames by _imageFrames
 
     private val _done: MutableState<Int> = mutableIntStateOf(0)
     val done by _done
@@ -130,7 +130,7 @@ class GifToolsViewModel @Inject constructor(
         _type.update {
             Screen.GifTools.Type.GifToImage(uri)
         }
-        updateGifFrames(GifFrames.All)
+        updateGifFrames(ImageFrames.All)
         collectionJob?.cancel()
         collectionJob = viewModelScope.launch(Dispatchers.IO) {
             _isLoading.update { true }
@@ -138,7 +138,7 @@ class GifToolsViewModel @Inject constructor(
             gifConverter.extractFramesFromGif(
                 gifUri = uri.toString(),
                 imageFormat = imageFormat,
-                gifFrames = GifFrames.All,
+                imageFrames = ImageFrames.All,
                 quality = params.quality
             ).onCompletion {
                 _isLoading.update { false }
@@ -163,13 +163,13 @@ class GifToolsViewModel @Inject constructor(
         _params.update { GifParams.Default }
     }
 
-    fun updateGifFrames(gifFrames: GifFrames) {
-        _gifFrames.update { gifFrames }
+    fun updateGifFrames(imageFrames: ImageFrames) {
+        _imageFrames.update { imageFrames }
     }
 
-    fun clearConvertedImagesSelection() = updateGifFrames(GifFrames.ManualSelection(emptyList()))
+    fun clearConvertedImagesSelection() = updateGifFrames(ImageFrames.ManualSelection(emptyList()))
 
-    fun selectAllConvertedImages() = updateGifFrames(GifFrames.All)
+    fun selectAllConvertedImages() = updateGifFrames(ImageFrames.All)
 
     private var savingJob: Job? = null
 
@@ -210,7 +210,7 @@ class GifToolsViewModel @Inject constructor(
                         gifConverter.extractFramesFromGif(
                             gifUri = gifUri,
                             imageFormat = imageFormat,
-                            gifFrames = gifFrames,
+                            imageFrames = gifFrames,
                             quality = params.quality,
                             onGetFramesCount = {
                                 if (it == 0) {

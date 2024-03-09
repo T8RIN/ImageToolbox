@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.gif_tools.presentation.components
+package ru.tech.imageresizershrinker.core.ui.widget.image
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -72,18 +72,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
-import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.domain.image.ImageFrames
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
-import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifFrames
 
 @Composable
-fun GifConvertedImagesPreview(
+fun ImagesPreviewWithSelection(
     imageUris: List<String>,
-    gifFrames: GifFrames,
-    onGifFramesChange: (GifFrames) -> Unit,
+    imageFrames: ImageFrames,
+    onFrameSelectionChange: (ImageFrames) -> Unit,
     isPortrait: Boolean,
-    isLoadingGifImages: Boolean,
+    isLoadingImages: Boolean,
     spacing: Dp = 8.dp
 ) {
     val state = rememberLazyGridState()
@@ -97,7 +96,7 @@ fun GifConvertedImagesPreview(
         }
     }
     val getUris: () -> Set<Int> = {
-        val indexes = gifFrames
+        val indexes = imageFrames
             .getFramePositions(imageUris.size)
             .map { it - 1 }
         imageUris.mapIndexedNotNull { index, _ ->
@@ -105,15 +104,15 @@ fun GifConvertedImagesPreview(
             else null
         }.toSet()
     }
-    val selectedItems by remember(imageUris, gifFrames) {
+    val selectedItems by remember(imageUris, imageFrames) {
         mutableStateOf(getUris())
     }
     val privateSelectedItems = remember {
         mutableStateOf(selectedItems)
     }
 
-    LaunchedEffect(gifFrames, selectedItems) {
-        if (gifFrames !is GifFrames.ManualSelection || selectedItems.isEmpty()) {
+    LaunchedEffect(imageFrames, selectedItems) {
+        if (imageFrames !is ImageFrames.ManualSelection || selectedItems.isEmpty()) {
             privateSelectedItems.value = selectedItems
         }
     }
@@ -157,7 +156,7 @@ fun GifConvertedImagesPreview(
                         haptics = LocalHapticFeedback.current,
                         selectedItems = privateSelectedItems,
                         onSelectionChange = {
-                            onGifFramesChange(GifFrames.ManualSelection(it.toList()))
+                            onFrameSelectionChange(ImageFrames.ManualSelection(it.toList()))
                         },
                         autoScrollSpeed = autoScrollSpeed,
                         autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
@@ -191,7 +190,7 @@ fun GifConvertedImagesPreview(
                     )
                 }
                 item {
-                    AnimatedVisibility(isLoadingGifImages) {
+                    AnimatedVisibility(isLoadingImages) {
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -216,7 +215,7 @@ fun GifConvertedImagesPreview(
                         haptics = LocalHapticFeedback.current,
                         selectedItems = privateSelectedItems,
                         onSelectionChange = {
-                            onGifFramesChange(GifFrames.ManualSelection(it.toList()))
+                            onFrameSelectionChange(ImageFrames.ManualSelection(it.toList()))
                         },
                         autoScrollSpeed = autoScrollSpeed,
                         autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
@@ -250,7 +249,7 @@ fun GifConvertedImagesPreview(
                     )
                 }
                 item {
-                    AnimatedVisibility(isLoadingGifImages) {
+                    AnimatedVisibility(isLoadingImages) {
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()

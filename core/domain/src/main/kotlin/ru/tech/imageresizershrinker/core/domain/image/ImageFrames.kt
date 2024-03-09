@@ -15,11 +15,11 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.gif_tools.domain
+package ru.tech.imageresizershrinker.core.domain.image
 
-sealed interface GifFrames {
+sealed interface ImageFrames {
 
-    data object All : GifFrames {
+    data object All : ImageFrames {
         override fun getFramePositions(
             frameCount: Int
         ): List<Int> = List(frameCount) { it + 1 }
@@ -27,7 +27,7 @@ sealed interface GifFrames {
 
     data class ManualSelection(
         val framePositions: List<Int>
-    ) : GifFrames {
+    ) : ImageFrames {
         override fun getFramePositions(
             frameCount: Int
         ): List<Int> = framePositions.filter { it - 1 < frameCount }

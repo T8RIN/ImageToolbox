@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.gif_tools.domain
 
 import kotlinx.coroutines.flow.Flow
+import ru.tech.imageresizershrinker.core.domain.image.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.Quality
 
@@ -26,7 +27,7 @@ interface GifConverter {
     fun extractFramesFromGif(
         gifUri: String,
         imageFormat: ImageFormat,
-        gifFrames: GifFrames,
+        imageFrames: ImageFrames,
         quality: Quality,
         onGetFramesCount: (frames: Int) -> Unit = {}
     ): Flow<String>

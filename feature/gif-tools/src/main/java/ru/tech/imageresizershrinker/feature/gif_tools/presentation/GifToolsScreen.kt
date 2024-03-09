@@ -89,6 +89,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.image.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -112,6 +113,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.image.ImagesPreviewWithSelection
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
@@ -125,8 +127,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
-import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifFrames
-import ru.tech.imageresizershrinker.feature.gif_tools.presentation.components.GifConvertedImagesPreview
 import ru.tech.imageresizershrinker.feature.gif_tools.presentation.viewModel.GifToolsViewModel
 import kotlin.math.roundToInt
 
@@ -372,12 +372,12 @@ fun GifToolsScreen(
                     } else {
                         when (type) {
                             is Screen.GifTools.Type.GifToImage -> {
-                                GifConvertedImagesPreview(
+                                ImagesPreviewWithSelection(
                                     imageUris = viewModel.convertedImageUris,
-                                    gifFrames = viewModel.gifFrames,
-                                    onGifFramesChange = viewModel::updateGifFrames,
+                                    imageFrames = viewModel.gifFrames,
+                                    onFrameSelectionChange = viewModel::updateGifFrames,
                                     isPortrait = isPortrait,
-                                    isLoadingGifImages = viewModel.isLoadingGifImages
+                                    isLoadingImages = viewModel.isLoadingGifImages
                                 )
                             }
 
@@ -712,6 +712,6 @@ private class CreateDocument : ActivityResultContracts.CreateDocument("*/*") {
 }
 
 private val GifToolsViewModel.canSave: Boolean
-    get() = (gifFrames == GifFrames.All)
+    get() = (gifFrames == ImageFrames.All)
         .or(type is Screen.GifTools.Type.ImageToGif)
-        .or((gifFrames as? GifFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)
+        .or((gifFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)

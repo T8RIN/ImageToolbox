@@ -90,6 +90,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.image.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -115,6 +116,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.image.ImagesPreviewWithSelection
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
@@ -128,8 +130,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
-import ru.tech.imageresizershrinker.feature.apng_tools.domain.ApngFrames
-import ru.tech.imageresizershrinker.feature.apng_tools.presentation.components.ApngConvertedImagesPreview
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.viewModel.ApngToolsViewModel
 import kotlin.math.roundToInt
 
@@ -290,9 +290,9 @@ fun ApngToolsScreen(
         onGoBack = onBack,
         topAppBarPersistentActions = {
             if (viewModel.type == null) TopAppBarEmoji()
-            val pagesSize by remember(viewModel.apngFrames, viewModel.convertedImageUris) {
+            val pagesSize by remember(viewModel.imageFrames, viewModel.convertedImageUris) {
                 derivedStateOf {
-                    viewModel.apngFrames.getFramePositions(viewModel.convertedImageUris.size).size
+                    viewModel.imageFrames.getFramePositions(viewModel.convertedImageUris.size).size
                 }
             }
             val isApngToImage = viewModel.type is Screen.ApngTools.Type.ApngToImage
@@ -372,12 +372,12 @@ fun ApngToolsScreen(
                     } else {
                         when (type) {
                             is Screen.ApngTools.Type.ApngToImage -> {
-                                ApngConvertedImagesPreview(
+                                ImagesPreviewWithSelection(
                                     imageUris = viewModel.convertedImageUris,
-                                    apngFrames = viewModel.apngFrames,
-                                    onApngFramesChange = viewModel::updateApngFrames,
+                                    imageFrames = viewModel.imageFrames,
+                                    onFrameSelectionChange = viewModel::updateApngFrames,
                                     isPortrait = isPortrait,
-                                    isLoadingApngImages = viewModel.isLoadingApngImages
+                                    isLoadingImages = viewModel.isLoadingApngImages
                                 )
                             }
 
@@ -751,6 +751,6 @@ private class CreateDocument : ActivityResultContracts.CreateDocument("*/*") {
 }
 
 private val ApngToolsViewModel.canSave: Boolean
-    get() = (apngFrames == ApngFrames.All)
+    get() = (imageFrames == ImageFrames.All)
         .or(type is Screen.ApngTools.Type.ImageToApng)
-        .or((apngFrames as? ApngFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)
+        .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)

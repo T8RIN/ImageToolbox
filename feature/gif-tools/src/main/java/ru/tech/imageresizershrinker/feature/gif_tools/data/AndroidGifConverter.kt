@@ -34,13 +34,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.domain.image.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifConverter
-import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifFrames
 import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifParams
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
@@ -55,7 +55,7 @@ internal class AndroidGifConverter @Inject constructor(
     override fun extractFramesFromGif(
         gifUri: String,
         imageFormat: ImageFormat,
-        gifFrames: GifFrames,
+        imageFrames: ImageFrames,
         quality: Quality,
         onGetFramesCount: (frames: Int) -> Unit
     ): Flow<String> = flow {
@@ -68,7 +68,7 @@ internal class AndroidGifConverter @Inject constructor(
             read(bytes)
         }
         onGetFramesCount(decoder.frameCount)
-        val indexes = gifFrames
+        val indexes = imageFrames
             .getFramePositions(decoder.frameCount)
             .map { it - 1 }
         repeat(decoder.frameCount) { pos ->
