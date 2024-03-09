@@ -821,6 +821,23 @@
     <string name="fast_gaussian_blur_4d">Быстрое размытие по Гауссу 4D</string>
     <string name="harmonization_level">Уровень гармонизации</string>
     <string name="auto_paste">Авто-вставка</string>
-    <string name="harmonization_color">Гармонизация цвета</string>
+    <string name="harmonization_color">Цвет гармонизации</string>
     <string name="auto_paste_sub">Разрешить приложению автоматически вставлять данные из буфера обмена, чтобы они появились на главном экране, и вы смогли их обработать</string>
+    <string name="lanczos_bessel">Ланцош Бессель</string>
+    <string name="gif_type_to_jxl">GIF в JXL</string>
+    <string name="gif_type_to_jxl_sub">Конвертируйте изображения GIF в анимированные изображения JXL</string>
+    <string name="apng_type_to_jxl">APNG в JXL</string>
+    <string name="jxl_type_to_images">JXL в изображения</string>
+    <string name="jxl_type_to_images_sub">Преобразование анимации JXL в пакет изображений</string>
+    <string name="jxl_type_to_jxl">Изображения в JXL</string>
+    <string name="jxl_type_to_jxl_sub">Преобразование пакета изображений в анимацию JXL</string>
+    <string name="behavior">Поведение</string>
+    <string name="generate_previews">Создание превью</string>
+    <string name="lossy_compression">Сжатие с потерями</string>
+    <string name="lossy_compression_sub">Использует сжатие с потерями для уменьшения размера файла вместо сжатия без потерь</string>
+    <string name="lanczos_bessel_sub">Метод повторной выборки, который поддерживает высококачественную интерполяцию за счет применения функции Бесселя (jinc) к значениям пикселей</string>
+    <string name="apng_type_to_jxl_sub">Конвертируйте изображения APNG в анимированные изображения JXL</string>
+    <string name="skip_file_picking">Пропустить выбор файла</string>
+    <string name="skip_file_picking_sub">Средство выбора файла будет показано немедленно, если это возможно, на выбранном экране</string>
+    <string name="generate_previews_sub">Включает создание предварительного просмотра, это может помочь избежать сбоев на некоторых устройствах, это также отключает некоторые функции редактирования в рамках одной опции редактирования</string>
 </resources>
