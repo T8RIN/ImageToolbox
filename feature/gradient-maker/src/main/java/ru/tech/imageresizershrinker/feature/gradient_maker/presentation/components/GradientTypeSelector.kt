@@ -47,8 +47,7 @@ fun GradientTypeSelector(
     Column(
         modifier = modifier
             .container(
-                shape = RoundedCornerShape(24.dp),
-                color = MaterialTheme.colorScheme.surfaceContainer,
+                shape = RoundedCornerShape(24.dp)
             )
             .animateContentSize(),
         verticalArrangement = Arrangement.Center,

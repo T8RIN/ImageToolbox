@@ -66,7 +66,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 @Composable
 fun ImageFormatSelector(
     modifier: Modifier = Modifier,
-    backgroundColor: Color = MaterialTheme.colorScheme.surfaceContainer,
+    backgroundColor: Color = Color.Unspecified,
     entries: List<ImageFormat> = ImageFormat.entries,
     forceEnabled: Boolean = false,
     value: ImageFormat,
@@ -129,7 +129,7 @@ fun ImageFormatSelector(
                         .fillMaxWidth()
                         .padding(8.dp)
                         .container(
-                            color = MaterialTheme.colorScheme.surfaceContainerLow
+                            color = MaterialTheme.colorScheme.surface
                         )
                         .padding(horizontal = 8.dp, vertical = 12.dp)
                 ) {

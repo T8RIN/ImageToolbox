@@ -65,7 +65,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @Composable
 fun ScaleModeSelector(
     modifier: Modifier = Modifier,
-    backgroundColor: Color = MaterialTheme.colorScheme.surfaceContainer,
+    backgroundColor: Color = Color.Unspecified,
     shape: Shape = RoundedCornerShape(24.dp),
     enableItemsCardBackground: Boolean = true,
     value: ImageScaleMode,
@@ -132,7 +132,7 @@ fun ScaleModeSelector(
                 .then(
                     if (enableItemsCardBackground) {
                         Modifier
-                            .container(color = MaterialTheme.colorScheme.surfaceContainerLow)
+                            .container(color = MaterialTheme.colorScheme.surface)
                             .padding(horizontal = 8.dp, vertical = 12.dp)
                     } else Modifier
                 )

@@ -644,10 +644,7 @@ fun FiltersScreen(
                 val direction = LocalLayoutDirection.current
                 Box(
                     Modifier
-                        .container(
-                            shape = RectangleShape,
-                            color = MaterialTheme.colorScheme.surfaceContainerLow
-                        )
+                        .container(RectangleShape)
                         .fillMaxHeight()
                         .padding(
                             start = WindowInsets

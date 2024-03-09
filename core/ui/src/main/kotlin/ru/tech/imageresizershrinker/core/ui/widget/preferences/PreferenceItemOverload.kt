@@ -38,7 +38,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
@@ -58,6 +57,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
+import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
 
@@ -74,9 +74,8 @@ fun PreferenceItemOverload(
     endIcon: (@Composable () -> Unit)? = null,
     shape: Shape = RoundedCornerShape(16.dp),
     color: Color = Color.Unspecified,
-    contentColor: Color = if (color == MaterialTheme.colorScheme.surfaceContainer) contentColorFor(
-        backgroundColor = MaterialTheme.colorScheme.surfaceVariant
-    ) else contentColorFor(backgroundColor = color),
+    contentColor: Color = contentColorFor(backgroundColor = color),
+    overrideIconShapeContentColor: Boolean = false,
     resultModifier: Modifier = Modifier.padding(16.dp),
     modifier: Modifier = Modifier
         .fillMaxWidth()
@@ -136,11 +135,13 @@ fun PreferenceItemOverload(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 startIcon?.let {
-                    ProvideContainerDefaults(null) {
+                    ProvideContainerDefaults {
                         Row {
                             IconShapeContainer(
                                 enabled = drawStartIconContainer,
-                                underlyingColor = color,
+                                contentColor = if (overrideIconShapeContentColor) {
+                                    Color.Unspecified
+                                } else IconShapeDefaults.contentColor,
                                 content = {
                                     startIcon()
                                 }
@@ -182,7 +183,7 @@ fun PreferenceItemOverload(
                         }
                     }
                 }
-                ProvideContainerDefaults(null) {
+                ProvideContainerDefaults {
                     endIcon?.invoke()
                 }
             }

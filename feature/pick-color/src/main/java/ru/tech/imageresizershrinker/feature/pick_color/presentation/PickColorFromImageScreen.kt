@@ -513,7 +513,6 @@ fun PickColorFromImageScreen(
                                 Modifier
                                     .container(
                                         shape = RectangleShape,
-                                        color = MaterialTheme.colorScheme.surfaceContainer,
                                         resultPadding = 0.dp
                                     )
                                     .fillMaxHeight()

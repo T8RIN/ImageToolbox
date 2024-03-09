@@ -620,7 +620,7 @@ fun FileCipherScreen(
                                                         shape = MaterialTheme.shapes.extraLarge,
                                                         color = MaterialTheme
                                                             .colorScheme
-                                                            .surfaceColorAtElevation(10.dp),
+                                                            .surfaceContainerHighest,
                                                         resultPadding = 0.dp
                                                     )
                                                     .padding(16.dp)

@@ -39,9 +39,11 @@ fun ColorScheme.outlineVariant(
 
 @Composable
 fun takeColorFromScheme(
-    action: ColorScheme.() -> Color
+    action: @Composable ColorScheme.(isNightMode: Boolean) -> Color
 ) = animateColorAsState(
-    MaterialTheme.colorScheme.run(action)
+    MaterialTheme.colorScheme.run {
+        action(LocalSettingsState.current.isNightMode)
+    }
 ).value
 
 

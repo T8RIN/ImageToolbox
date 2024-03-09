@@ -355,7 +355,7 @@ fun AvailableColorTuplesSheet(
                                 .height(64.dp)
                                 .background(
                                     brush = Brush.horizontalGradient(
-                                        0f to MaterialTheme.colorScheme.surfaceContainerHigh,
+                                        0f to MaterialTheme.colorScheme.surfaceContainer,
                                         1f to Color.Transparent
                                     )
                                 )
@@ -368,7 +368,7 @@ fun AvailableColorTuplesSheet(
                                 .background(
                                     brush = Brush.horizontalGradient(
                                         0f to Color.Transparent,
-                                        1f to MaterialTheme.colorScheme.surfaceContainerHigh
+                                        1f to MaterialTheme.colorScheme.surfaceContainer
                                     )
                                 )
                         )

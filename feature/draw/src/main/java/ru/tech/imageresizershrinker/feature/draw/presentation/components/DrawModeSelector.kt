@@ -100,10 +100,7 @@ fun DrawModeSelector(
     val settingsState = LocalSettingsState.current
     Column(
         modifier = modifier
-            .container(
-                shape = RoundedCornerShape(24.dp),
-                color = MaterialTheme.colorScheme.surfaceContainer
-            ),
+            .container(RoundedCornerShape(24.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(

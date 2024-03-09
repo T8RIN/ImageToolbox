@@ -55,7 +55,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalEditPresetsS
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.toUiState
 import ru.tech.imageresizershrinker.core.ui.icons.emoji.Emoji
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapesList
+import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
@@ -123,7 +123,7 @@ class AppActivity : M3Activity() {
 
             val settingsState = viewModel.settingsState.toUiState(
                 allEmojis = Emoji.allIcons(),
-                allIconShapes = IconShapesList,
+                allIconShapes = IconShapeDefaults.shapes,
                 randomEmojiKey = randomEmojiKey,
                 getEmojiColorTuple = viewModel::getColorTupleFromEmoji
             )

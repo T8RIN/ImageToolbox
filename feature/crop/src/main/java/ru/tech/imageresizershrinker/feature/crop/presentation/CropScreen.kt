@@ -397,8 +397,7 @@ fun CropScreen(
                             Column(
                                 modifier = Modifier
                                     .container(
-                                        RectangleShape,
-                                        color = MaterialTheme.colorScheme.surfaceContainerHigh
+                                        shape = RectangleShape
                                     )
                                     .padding(horizontal = 20.dp)
                                     .fillMaxHeight()

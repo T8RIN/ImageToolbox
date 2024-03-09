@@ -65,8 +65,7 @@ fun WatermarkDataSelector(
         RoundedTextField(
             modifier = modifier
                 .container(
-                    shape = RoundedCornerShape(20.dp),
-                    color = MaterialTheme.colorScheme.surfaceContainerLow
+                    shape = RoundedCornerShape(20.dp)
                 )
                 .padding(8.dp),
             value = type.text,

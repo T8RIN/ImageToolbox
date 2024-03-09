@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -55,9 +54,8 @@ fun PreferenceItem(
     autoShadowElevation: Dp = 1.dp,
     shape: Shape = RoundedCornerShape(16.dp),
     color: Color = Color.Unspecified,
-    contentColor: Color = if (color == MaterialTheme.colorScheme.surfaceContainer) contentColorFor(
-        backgroundColor = MaterialTheme.colorScheme.surfaceVariant
-    ) else contentColorFor(backgroundColor = color),
+    contentColor: Color = contentColorFor(backgroundColor = color),
+    overrideIconShapeContentColor: Boolean = false,
     drawStartIconContainer: Boolean = true,
     titleFontStyle: TextStyle = LocalTextStyle.current.copy(
         fontSize = 16.sp,
@@ -103,6 +101,7 @@ fun PreferenceItem(
         subtitle = subtitle,
         startIcon = targetIcon,
         endIcon = targetEndIcon,
+        overrideIconShapeContentColor = overrideIconShapeContentColor,
         shape = shape,
         color = color,
         modifier = modifier,

@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ContentCopy
@@ -59,6 +58,9 @@ import ru.tech.imageresizershrinker.core.ui.theme.USDTColor
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults.centerShape
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults.topShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -66,22 +68,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
-
-private val topShape = RoundedCornerShape(
-    topStart = 16.dp,
-    topEnd = 16.dp,
-    bottomStart = 6.dp,
-    bottomEnd = 6.dp
-)
-
-private val centerShape = RoundedCornerShape(6.dp)
-
-private val bottomShape = RoundedCornerShape(
-    topStart = 6.dp,
-    topEnd = 6.dp,
-    bottomStart = 16.dp,
-    bottomEnd = 16.dp
-)
 
 @Composable
 fun DonateSheet(
@@ -129,6 +115,7 @@ fun DonateSheet(
                     }
                     PreferenceItem(
                         color = TONSpaceColor,
+                        overrideIconShapeContentColor = true,
                         contentColor = TONSpaceColor.inverse(
                             fraction = { 1f },
                             darkMode = true
@@ -156,6 +143,7 @@ fun DonateSheet(
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(
                         color = TONColor,
+                        overrideIconShapeContentColor = true,
                         contentColor = TONColor.inverse(
                             fraction = { 1f },
                             darkMode = darkMode
@@ -183,6 +171,7 @@ fun DonateSheet(
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(
                         color = BitcoinColor,
+                        overrideIconShapeContentColor = true,
                         contentColor = BitcoinColor.inverse(
                             fraction = { 1f },
                             darkMode = darkMode
@@ -210,11 +199,12 @@ fun DonateSheet(
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(
                         color = USDTColor,
-                        shape = bottomShape,
+                        overrideIconShapeContentColor = true,
                         contentColor = USDTColor.inverse(
                             fraction = { 1f },
                             darkMode = darkMode
                         ),
+                        shape = ContainerShapeDefaults.bottomShape,
                         onClick = {
                             context.apply {
                                 copyToClipboard(

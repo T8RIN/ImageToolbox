@@ -53,7 +53,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.IconShape
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapesList
+import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
@@ -135,7 +135,7 @@ fun IconShapeSettingItem(
             ),
             contentPadding = PaddingValues(16.dp)
         ) {
-            itemsIndexed(IconShapesList) { index, iconShape ->
+            itemsIndexed(IconShapeDefaults.shapes) { index, iconShape ->
                 val selected by remember(index, value) {
                     derivedStateOf {
                         index == value

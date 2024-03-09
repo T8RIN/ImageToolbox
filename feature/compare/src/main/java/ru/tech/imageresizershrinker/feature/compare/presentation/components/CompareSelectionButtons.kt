@@ -62,7 +62,7 @@ fun CompareSelectionButtons(
         }
     }
     val internalModifier = modifier.container(
-        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        color = MaterialTheme.colorScheme.surfaceContainerLowest,
         shape = CircleShape
     )
     if (isPortrait) {

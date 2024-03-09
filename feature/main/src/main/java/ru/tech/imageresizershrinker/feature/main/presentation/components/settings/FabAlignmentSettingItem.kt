@@ -68,13 +68,11 @@ fun FabAlignmentSettingItem(
     shape: Shape = ContainerShapeDefaults.bottomShape
 ) {
     val settingsState = LocalSettingsState.current
-    val color = Color.Unspecified
 
     Box(
         modifier
             .container(
-                shape = shape,
-                color = color
+                shape = shape
             )
             .animateContentSize()
     ) {
@@ -110,7 +108,6 @@ fun FabAlignmentSettingItem(
                 ) {
                     IconShapeContainer(
                         enabled = true,
-                        underlyingColor = color,
                         content = {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Outlined.ViewSidebar,

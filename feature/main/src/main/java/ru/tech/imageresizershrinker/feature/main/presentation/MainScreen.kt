@@ -174,7 +174,6 @@ fun MainScreen(
                 drawerContent.withModifier(
                     modifier = Modifier.container(
                         shape = RectangleShape,
-                        color = MaterialTheme.colorScheme.surfaceContainer,
                         borderColor = MaterialTheme.colorScheme.outlineVariant(
                             0.3f,
                             DrawerDefaults.standardContainerColor

@@ -502,7 +502,7 @@ fun AddFiltersSheet(
                         modifier = Modifier
                             .fillMaxWidth()
                             .drawHorizontalStroke(true, autoElevation = 6.dp)
-                            .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                            .background(SimpleSheetDefaults.barContainerColor)
                             .padding(16.dp)
                             .navigationBarsPadding(),
                         verticalAlignment = Alignment.CenterVertically
@@ -568,7 +568,7 @@ fun AddFiltersSheet(
                         modifier = Modifier
                             .fillMaxWidth()
                             .drawHorizontalStroke(true, autoElevation = 6.dp)
-                            .background(SimpleSheetDefaults.containerColor)
+                            .background(SimpleSheetDefaults.barContainerColor)
                             .padding(16.dp)
                             .navigationBarsPadding()
                             .padding(end = 16.dp),
@@ -642,7 +642,7 @@ fun AddFiltersSheet(
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
+                        containerColor = SimpleSheetDefaults.barContainerColor
                     ),
                     actions = {
                         EnhancedIconButton(
@@ -696,13 +696,11 @@ fun AddFiltersSheet(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {
+                    val isUnit = previewSheetData?.value == Unit
                     if (!imageInside) {
                         Box(
-                            Modifier
-                                .container(
-                                    shape = RectangleShape,
-                                    color = MaterialTheme.colorScheme.surfaceContainerHighest
-                                )
+                            modifier = Modifier
+                                .container(RectangleShape)
                                 .weight(1.2f)
                                 .padding(20.dp)
                         ) {
@@ -717,7 +715,7 @@ fun AddFiltersSheet(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
                             .then(
-                                if (!imageInside) Modifier.weight(1f)
+                                if (!imageInside && !isUnit) Modifier.weight(1f)
                                 else Modifier
                             )
                             .clipToBounds()
@@ -821,7 +819,6 @@ private fun FilterSelectionItem(
 
     PreferenceItemOverload(
         title = stringResource(filter.title),
-        color = MaterialTheme.colorScheme.surfaceColorAtElevation(6.dp),
         startIcon = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(contentAlignment = Alignment.Center) {

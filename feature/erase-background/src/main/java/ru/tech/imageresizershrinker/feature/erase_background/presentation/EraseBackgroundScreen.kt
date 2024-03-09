@@ -630,8 +630,7 @@ fun EraseBackgroundScreen(
                             Modifier
                                 .container(
                                     shape = RectangleShape,
-                                    resultPadding = 0.dp,
-                                    color = MaterialTheme.colorScheme.surfaceContainer
+                                    resultPadding = 0.dp
                                 )
                                 .weight(1.2f)
                                 .clipToBounds(),
@@ -660,10 +659,7 @@ fun EraseBackgroundScreen(
                         val direction = LocalLayoutDirection.current
                         Column(
                             Modifier
-                                .container(
-                                    shape = RectangleShape,
-                                    color = MaterialTheme.colorScheme.surfaceContainer
-                                )
+                                .container(RectangleShape)
                                 .padding(horizontal = 20.dp)
                                 .fillMaxHeight()
                                 .navigationBarsPadding()

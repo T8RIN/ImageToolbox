@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.controls
 
-import android.annotation.SuppressLint
 import android.net.Uri
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
@@ -76,7 +75,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 fun ImageReorderCarousel(
     images: List<Uri>?,
     onReorder: (List<Uri>?) -> Unit,
-    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
+    modifier: Modifier = Modifier
         .container(RoundedCornerShape(24.dp)),
     onNeedToAddImage: () -> Unit,
     onNeedToRemoveImageAt: (Int) -> Unit

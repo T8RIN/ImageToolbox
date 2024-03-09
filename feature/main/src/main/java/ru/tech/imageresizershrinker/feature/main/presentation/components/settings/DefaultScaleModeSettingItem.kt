@@ -26,7 +26,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Numbers
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -62,7 +61,6 @@ fun DefaultScaleModeSettingItem(
         title = {
             IconShapeContainer(
                 enabled = true,
-                underlyingColor = MaterialTheme.colorScheme.surfaceContainer,
                 content = {
                     Icon(
                         imageVector = Icons.Outlined.Numbers,

@@ -33,7 +33,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.PhotoSizeSelectSmall
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -108,7 +107,6 @@ fun ImageScaleSelector(
                             modifier = Modifier
                                 .weight(1f)
                                 .container(
-                                    color = MaterialTheme.colorScheme.surfaceContainer,
                                     autoShadowElevation = 0.2.dp
                                 )
                                 .padding(4.dp),
@@ -129,7 +127,6 @@ fun ImageScaleSelector(
                             modifier = Modifier
                                 .weight(1f)
                                 .container(
-                                    color = MaterialTheme.colorScheme.surfaceContainer,
                                     autoShadowElevation = 0.2.dp
                                 )
                                 .padding(4.dp),

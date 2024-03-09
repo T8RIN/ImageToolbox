@@ -85,7 +85,7 @@ import ru.tech.imageresizershrinker.core.ui.icons.emoji.Emoji
 import ru.tech.imageresizershrinker.core.ui.icons.material.Github
 import ru.tech.imageresizershrinker.core.ui.icons.material.Robot
 import ru.tech.imageresizershrinker.core.ui.icons.material.Telegram
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapesList
+import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.Black
 import ru.tech.imageresizershrinker.core.ui.theme.Blue
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
@@ -154,7 +154,7 @@ class CrashActivity : CrashHandler() {
             CompositionLocalProvider(
                 LocalSettingsState provides settingsState.toUiState(
                     allEmojis = Emoji.allIcons(),
-                    allIconShapes = IconShapesList,
+                    allIconShapes = IconShapeDefaults.shapes,
                     getEmojiColorTuple = ::getColorTupleFromEmoji
                 ),
                 LocalHapticFeedback provides customHapticFeedback(settingsState.hapticsStrength)

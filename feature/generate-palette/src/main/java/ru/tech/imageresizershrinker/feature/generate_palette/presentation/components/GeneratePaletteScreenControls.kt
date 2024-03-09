@@ -222,7 +222,6 @@ internal fun GeneratePaletteScreenControls(
                     ) {
                         IconShapeContainer(
                             enabled = true,
-                            underlyingColor = Color.Unspecified,
                             modifier = Modifier.padding(top = 16.dp, start = 16.dp)
                         ) {
                             Icon(Icons.Rounded.Swatch, null)

@@ -24,8 +24,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,7 +32,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
-import ru.tech.imageresizershrinker.core.ui.theme.suggestContainerColorBy
 
 @Composable
 fun TitleItem(
@@ -51,9 +48,6 @@ fun TitleItem(
         icon?.let { icon ->
             IconShapeContainer(
                 enabled = true,
-                underlyingColor = MaterialTheme.colorScheme.suggestContainerColorBy(
-                    LocalContentColor.current
-                ),
                 content = {
                     Icon(
                         imageVector = icon,
@@ -86,9 +80,6 @@ fun TitleItem(
         icon?.let { icon ->
             IconShapeContainer(
                 enabled = true,
-                underlyingColor = MaterialTheme.colorScheme.suggestContainerColorBy(
-                    LocalContentColor.current
-                ),
                 content = {
                     Icon(
                         imageVector = icon,

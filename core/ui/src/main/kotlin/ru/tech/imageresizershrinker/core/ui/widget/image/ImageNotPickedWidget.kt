@@ -49,9 +49,7 @@ fun ImageNotPickedWidget(
 ) {
     val haptics = LocalHapticFeedback.current
     Column(
-        modifier = modifier.container(
-            color = MaterialTheme.colorScheme.surfaceContainerLow
-        ),
+        modifier = modifier.container(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

@@ -166,7 +166,7 @@ fun AdaptiveLayoutScreen(
                                         if (controls != null) {
                                             Modifier.container(
                                                 shape = RectangleShape,
-                                                color = MaterialTheme.colorScheme.surfaceContainer
+                                                color = MaterialTheme.colorScheme.surfaceContainerLow
                                             )
                                         } else Modifier
                                     )

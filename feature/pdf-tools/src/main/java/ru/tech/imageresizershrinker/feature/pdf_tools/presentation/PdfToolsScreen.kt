@@ -87,7 +87,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -628,7 +627,7 @@ fun PdfToolsScreen(
                                     .padding(8.dp)
                                     .container(
                                         shape = CircleShape,
-                                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(10.dp),
+                                        color = MaterialTheme.colorScheme.surfaceContainerHighest,
                                         resultPadding = 0.dp
                                     ),
                                 visible = visible
@@ -820,7 +819,7 @@ fun PdfToolsScreen(
                                                         shape = RectangleShape,
                                                         resultPadding = 0.dp,
                                                         color = if (pdfType is Screen.PdfTools.Type.Preview || !portrait) {
-                                                            MaterialTheme.colorScheme.surfaceContainer
+                                                            MaterialTheme.colorScheme.surfaceContainerLow
                                                         } else MaterialTheme.colorScheme.surface
                                                     )
                                                     .weight(1.2f)
@@ -920,10 +919,7 @@ fun PdfToolsScreen(
                                             val direction = LocalLayoutDirection.current
                                             Column(
                                                 Modifier
-                                                    .container(
-                                                        shape = RectangleShape,
-                                                        color = MaterialTheme.colorScheme.surfaceContainer
-                                                    )
+                                                    .container(RectangleShape)
                                                     .fillMaxHeight()
                                                     .padding(horizontal = 16.dp)
                                                     .navigationBarsPadding()

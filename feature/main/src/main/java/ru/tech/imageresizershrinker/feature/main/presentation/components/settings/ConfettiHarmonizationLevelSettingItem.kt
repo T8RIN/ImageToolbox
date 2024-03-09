@@ -53,6 +53,7 @@ fun ConfettiHarmonizationLevelSettingItem(
         shape = shape,
         value = value,
         title = stringResource(R.string.harmonization_level),
+        enabled = settingsState.isConfettiEnabled,
         icon = Icons.Outlined.Leaderboard,
         onValueChange = {
             value = it.roundToTwoDigits()

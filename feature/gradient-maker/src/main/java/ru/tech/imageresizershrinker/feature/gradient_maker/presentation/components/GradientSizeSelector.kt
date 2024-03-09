@@ -44,8 +44,7 @@ fun GradientSizeSelector(
 ) {
     Row(
         modifier = modifier.container(
-            shape = RoundedCornerShape(24.dp),
-            color = MaterialTheme.colorScheme.surfaceContainer
+            shape = RoundedCornerShape(24.dp)
         )
     ) {
         val (width, height) = value

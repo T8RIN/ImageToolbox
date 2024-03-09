@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -45,7 +44,7 @@ fun DrawColorSelector(
         .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
     drawColor: Color,
     onColorChange: (Color) -> Unit,
-    color: Color = MaterialTheme.colorScheme.surfaceContainer,
+    color: Color = Color.Unspecified,
     titleText: String = stringResource(R.string.paint_color),
     defaultColors: List<Color> = ColorSelectionRowDefaults.colorList,
 ) {

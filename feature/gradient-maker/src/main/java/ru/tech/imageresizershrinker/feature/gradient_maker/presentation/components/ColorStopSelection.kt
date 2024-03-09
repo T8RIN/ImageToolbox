@@ -240,7 +240,6 @@ private fun ColorStopSelectionItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .container(
-                        color = MaterialTheme.colorScheme.surfaceContainerLow,
                         shape = MaterialTheme.shapes.large,
                         resultPadding = 8.dp
                     )

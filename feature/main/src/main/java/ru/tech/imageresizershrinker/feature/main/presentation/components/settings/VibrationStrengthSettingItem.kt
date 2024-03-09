@@ -39,7 +39,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -60,13 +59,11 @@ fun VibrationStrengthSettingItem(
     shape: Shape = ContainerShapeDefaults.defaultShape
 ) {
     val settingsState = LocalSettingsState.current
-    val color = Color.Unspecified
 
     Box(
         modifier = modifier
             .container(
-                shape = shape,
-                color = color
+                shape = shape
             )
             .animateContentSize()
     ) {
@@ -92,7 +89,6 @@ fun VibrationStrengthSettingItem(
                 ) {
                     IconShapeContainer(
                         enabled = true,
-                        underlyingColor = color,
                         content = {
                             Icon(
                                 imageVector = Icons.Outlined.Power,

@@ -38,7 +38,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 fun SimplePicture(
     bitmap: Bitmap?,
     modifier: Modifier = Modifier,
-    scale: ContentScale = ContentScale.FillBounds,
+    scale: ContentScale = ContentScale.Fit,
     boxModifier: Modifier = Modifier,
     loading: Boolean = false,
     visible: Boolean = true
@@ -57,7 +57,7 @@ fun SimplePicture(
                     contentScale = scale,
                     contentDescription = null,
                     modifier = modifier
-                        .aspectRatio(it.width / it.height.toFloat())
+                        .aspectRatio((it.width / it.height.toFloat()).coerceAtLeast(0.005f))
                         .clip(MaterialTheme.shapes.medium)
                         .transparencyChecker()
                         .shimmer(loading)

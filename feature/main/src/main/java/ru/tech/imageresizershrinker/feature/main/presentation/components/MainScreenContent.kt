@@ -314,7 +314,6 @@ internal fun MainScreenContent(
                                     .widthIn(min = 80.dp)
                                     .container(
                                         shape = RectangleShape,
-                                        color = MaterialTheme.colorScheme.surfaceContainer,
                                         autoShadowElevation = 10.dp,
                                         resultPadding = 0.dp
                                     )

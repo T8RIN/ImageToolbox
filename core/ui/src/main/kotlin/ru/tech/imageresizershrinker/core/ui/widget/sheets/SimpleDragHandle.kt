@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,7 +63,8 @@ fun SimpleDragHandle(
         ) {
             if (showDragHandle && dragHandleWidth > 0.dp) {
                 BottomSheetDefaults.DragHandle(
-                    width = dragHandleWidth
+                    width = dragHandleWidth,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(0.4f)
                 )
             }
         }

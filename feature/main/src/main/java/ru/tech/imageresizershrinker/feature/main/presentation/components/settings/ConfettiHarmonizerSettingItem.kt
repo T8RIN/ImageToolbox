@@ -40,7 +40,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -81,7 +80,6 @@ fun ConfettiHarmonizerSettingItem(
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
-    val backgroundColor = Color.Unspecified
     val settingsState = LocalSettingsState.current
     val items = remember {
         Harmonizer.entries
@@ -100,8 +98,7 @@ fun ConfettiHarmonizerSettingItem(
         Column(
             modifier = modifier
                 .container(
-                    shape = shape,
-                    color = backgroundColor
+                    shape = shape
                 )
                 .alpha(
                     animateFloatAsState(
@@ -120,7 +117,6 @@ fun ConfettiHarmonizerSettingItem(
             ) {
                 IconShapeContainer(
                     enabled = true,
-                    underlyingColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.2f),
                     content = {
                         Icon(
                             imageVector = Icons.Outlined.ColorLens,
@@ -150,23 +146,18 @@ fun ConfettiHarmonizerSettingItem(
                     .padding(start = 8.dp, bottom = 8.dp, end = 8.dp)
             ) {
                 val value = settingsState.confettiHarmonizer
-                val level = settingsState.confettiHarmonizationLevel
                 items.forEach { harmonizer ->
                     val colorScheme = MaterialTheme.colorScheme
-                    val selectedColorDerived by remember(harmonizer, value, level) {
-                        derivedStateOf {
-                            when (harmonizer) {
-                                is Harmonizer.Custom -> Color(value.ordinal)
-                                    .blend(
-                                        color = colorScheme.surface,
-                                        fraction = 0.1f
-                                    )
+                    val selectedColor = when (harmonizer) {
+                        is Harmonizer.Custom -> Color(value.ordinal)
+                            .blend(
+                                color = colorScheme.surface,
+                                fraction = 0.1f
+                            )
 
-                                Harmonizer.Primary -> colorScheme.primary
-                                Harmonizer.Secondary -> colorScheme.secondary
-                                Harmonizer.Tertiary -> colorScheme.tertiary
-                            }
-                        }
+                        Harmonizer.Primary -> colorScheme.primary
+                        Harmonizer.Secondary -> colorScheme.secondary
+                        Harmonizer.Tertiary -> colorScheme.tertiary
                     }
                     EnhancedChip(
                         onClick = {
@@ -186,17 +177,17 @@ fun ConfettiHarmonizerSettingItem(
                             Text(text = harmonizer.title)
                         },
                         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
-                        selectedColor = selectedColorDerived,
+                        selectedColor = selectedColor,
                         selectedContentColor = when (harmonizer) {
-                            is Harmonizer.Custom -> selectedColorDerived.inverse(
+                            is Harmonizer.Custom -> selectedColor.inverse(
                                 fraction = {
                                     if (it) 0.9f
                                     else 0.6f
                                 },
-                                darkMode = selectedColorDerived.luminance() < 0.3f
+                                darkMode = selectedColor.luminance() < 0.3f
                             )
 
-                            else -> contentColorFor(backgroundColor = selectedColorDerived)
+                            else -> contentColorFor(backgroundColor = selectedColor)
                         },
                         unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant
                     )

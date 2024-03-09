@@ -869,8 +869,7 @@ fun DrawScreen(
                             Modifier
                                 .container(
                                     shape = RectangleShape,
-                                    resultPadding = 0.dp,
-                                    color = MaterialTheme.colorScheme.surfaceContainer
+                                    resultPadding = 0.dp
                                 )
                                 .weight(1.2f)
                                 .clipToBounds(),
@@ -907,8 +906,7 @@ fun DrawScreen(
                         Column(
                             Modifier
                                 .container(
-                                    shape = RectangleShape,
-                                    color = MaterialTheme.colorScheme.surfaceContainer
+                                    shape = RectangleShape
                                 )
                                 .padding(horizontal = 20.dp)
                                 .fillMaxHeight()

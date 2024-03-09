@@ -154,9 +154,7 @@ fun EditExifSheet(
                                 Modifier
                                     .fillMaxWidth()
                                     .container(
-                                        color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                                            alpha = 0.1f
-                                        ),
+                                        color = SimpleSheetDefaults.contentContainerColor,
                                         shape = ContainerShapeDefaults.shapeForIndex(
                                             index = index,
                                             size = data.size

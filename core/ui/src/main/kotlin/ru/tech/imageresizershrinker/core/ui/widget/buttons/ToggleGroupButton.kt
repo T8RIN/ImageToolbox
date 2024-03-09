@@ -101,8 +101,8 @@ fun ToggleGroupButton(
     selectedIndex: Int,
     title: @Composable () -> Unit = {},
     indexChanged: (Int) -> Unit,
-    fadingEdgesColor: Color = MaterialTheme.colorScheme.surfaceContainer,
-    inactiveButtonColor: Color = MaterialTheme.colorScheme.surfaceContainerLow
+    fadingEdgesColor: Color = MaterialTheme.colorScheme.surfaceContainerLow,
+    inactiveButtonColor: Color = MaterialTheme.colorScheme.surface
 ) {
     val settingsState = LocalSettingsState.current
     val haptics = LocalHapticFeedback.current

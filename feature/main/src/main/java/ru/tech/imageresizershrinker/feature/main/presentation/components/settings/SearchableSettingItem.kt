@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -39,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
-import ru.tech.imageresizershrinker.core.ui.shapes.IconShapesList
+import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
@@ -55,14 +54,13 @@ internal fun SearchableSettingItem(
     Column(
         modifier = modifier.container(
             resultPadding = 0.dp,
-            shape = shape,
-            color = MaterialTheme.colorScheme.surfaceContainerLow
+            shape = shape
         )
     ) {
         val settingState = LocalSettingsState.current
         val iconShape = remember(settingState.iconShape) {
             derivedStateOf {
-                settingState.iconShape?.takeOrElseFrom(IconShapesList)
+                settingState.iconShape?.takeOrElseFrom(IconShapeDefaults.shapes)
             }
         }.value
 
@@ -72,7 +70,6 @@ internal fun SearchableSettingItem(
         ) {
             IconShapeContainer(
                 enabled = true,
-                underlyingColor = MaterialTheme.colorScheme.surfaceContainer,
                 iconShape = iconShape?.copy(
                     iconSize = 16.dp
                 )

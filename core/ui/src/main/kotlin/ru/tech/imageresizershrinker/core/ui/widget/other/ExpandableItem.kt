@@ -36,7 +36,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -63,7 +62,7 @@ fun ExpandableItem(
     initialState: Boolean = false,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     shape: Shape = RoundedCornerShape(20.dp),
-    color: Color = MaterialTheme.colorScheme.surfaceContainerLow,
+    color: Color = Color.Unspecified,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
     val haptics = LocalHapticFeedback.current

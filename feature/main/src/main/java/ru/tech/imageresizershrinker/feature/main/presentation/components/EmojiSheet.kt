@@ -145,9 +145,7 @@ fun EmojiSheet(
         val spanModifier = Modifier
             .padding(vertical = 16.dp)
             .container(
-                color = MaterialTheme.colorScheme.secondaryContainer.copy(
-                    0.4f
-                ),
+                color = MaterialTheme.colorScheme.secondaryContainer.copy(0.6f),
                 resultPadding = 0.dp
             )
             .padding(16.dp)

@@ -65,7 +65,6 @@ fun ConfettiTypeSettingItem(
     shape: Shape = ContainerShapeDefaults.bottomShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
-    val backgroundColor = Color.Unspecified
     val settingsState = LocalSettingsState.current
     val items = remember {
         Particles.Type.entries
@@ -79,8 +78,7 @@ fun ConfettiTypeSettingItem(
         Column(
             modifier = modifier
                 .container(
-                    shape = shape,
-                    color = backgroundColor
+                    shape = shape
                 )
                 .alpha(
                     animateFloatAsState(
@@ -99,7 +97,6 @@ fun ConfettiTypeSettingItem(
             ) {
                 IconShapeContainer(
                     enabled = true,
-                    underlyingColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.2f),
                     content = {
                         Icon(
                             imageVector = Icons.Outlined.ViewKanban,

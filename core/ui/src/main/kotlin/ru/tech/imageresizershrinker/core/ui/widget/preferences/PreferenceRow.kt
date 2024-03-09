@@ -115,7 +115,6 @@ fun PreferenceRow(
                     if (drawStartIconContainer) {
                         IconShapeContainer(
                             enabled = true,
-                            underlyingColor = color,
                             content = {
                                 content()
                             },
@@ -198,7 +197,6 @@ fun PreferenceRow(
             {
                 IconShapeContainer(
                     enabled = drawStartIconContainer,
-                    underlyingColor = color,
                     content = {
                         Icon(
                             imageVector = startIcon,

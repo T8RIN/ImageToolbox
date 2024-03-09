@@ -177,7 +177,7 @@ fun ResizeTypeSelector(
                             .padding(bottom = 8.dp, end = 8.dp, start = 8.dp)
                             .container(
                                 shape = RoundedCornerShape(16.dp),
-                                color = MaterialTheme.colorScheme.surfaceContainerLow
+                                color = MaterialTheme.colorScheme.surface
                             ),
                         value = canvasColor,
                         onColorChange = {
@@ -189,7 +189,7 @@ fun ResizeTypeSelector(
                     BlurRadiusSelector(
                         modifier = Modifier.padding(bottom = 8.dp, end = 8.dp, start = 8.dp),
                         value = blurRadius,
-                        color = MaterialTheme.colorScheme.surfaceContainerLow,
+                        color = MaterialTheme.colorScheme.surface,
                         onValueChange = {
                             blurRadius = it
                             updateResizeType()

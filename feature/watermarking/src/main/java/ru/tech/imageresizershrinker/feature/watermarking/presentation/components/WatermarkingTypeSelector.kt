@@ -50,8 +50,7 @@ fun WatermarkingTypeSelector(
     ToggleGroupButton(
         modifier = modifier
             .container(
-                shape = RoundedCornerShape(20.dp),
-                color = MaterialTheme.colorScheme.surfaceContainerLow
+                shape = RoundedCornerShape(20.dp)
             ),
         enabled = true,
         items = WatermarkingType.entries.map { it.translatedName },

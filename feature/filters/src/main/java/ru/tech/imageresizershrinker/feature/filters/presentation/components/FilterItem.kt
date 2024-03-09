@@ -76,9 +76,7 @@ fun <T> FilterItem(
     onLongPress: (() -> Unit)? = null,
     previewOnly: Boolean = false,
     onFilterChange: (value: Any) -> Unit,
-    backgroundColor: Color = MaterialTheme
-        .colorScheme
-        .surfaceContainerLow,
+    backgroundColor: Color = Color.Unspecified,
     shape: Shape = MaterialTheme.shapes.extraLarge
 ) {
     val settingsState = LocalSettingsState.current

@@ -64,10 +64,7 @@ fun ImageTransformBar(
 ) {
     Column(
         modifier = Modifier
-            .container(
-                shape = CircleShape,
-                color = MaterialTheme.colorScheme.surfaceContainer
-            )
+            .container(CircleShape)
             .animateContentSize()
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {

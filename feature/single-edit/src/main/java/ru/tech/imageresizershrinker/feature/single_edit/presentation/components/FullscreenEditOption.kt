@@ -45,7 +45,6 @@ import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberBottomSheetScaffoldState
@@ -195,7 +194,6 @@ fun FullscreenEditOption(
                             Modifier
                                 .container(
                                     shape = RectangleShape,
-                                    color = MaterialTheme.colorScheme.surfaceContainer,
                                     resultPadding = 0.dp
                                 )
                                 .weight(0.8f)
@@ -229,7 +227,6 @@ fun FullscreenEditOption(
                                 Modifier
                                     .container(
                                         shape = RectangleShape,
-                                        color = MaterialTheme.colorScheme.surfaceContainer,
                                         resultPadding = 0.dp
                                     )
                                     .padding(horizontal = 20.dp)

@@ -69,7 +69,7 @@ fun SimpleSheet(
         else 0.dp
     )
     ProvideContainerDefaults(
-        color = MaterialTheme.colorScheme.surfaceContainer
+        color = SimpleSheetDefaults.contentContainerColor
     ) {
         ModalSheet(
             cancelable = cancelable,
@@ -126,7 +126,7 @@ fun SimpleSheet(
     )
 
     ProvideContainerDefaults(
-        color = MaterialTheme.colorScheme.surfaceContainer
+        color = SimpleSheetDefaults.contentContainerColor
     ) {
         ModalSheet(
             cancelable = cancelable,
@@ -199,7 +199,7 @@ fun SimpleSheet(
     )
 
     ProvideContainerDefaults(
-        color = MaterialTheme.colorScheme.surfaceContainer
+        color = SimpleSheetDefaults.contentContainerColor
     ) {
         ModalSheet(
             cancelable = cancelable,
@@ -272,7 +272,7 @@ fun SimpleSheet(
     )
 
     ProvideContainerDefaults(
-        color = MaterialTheme.colorScheme.surfaceContainer
+        color = SimpleSheetDefaults.contentContainerColor
     ) {
         ModalSheet(
             sheetState = sheetState,
@@ -330,5 +330,9 @@ object SimpleSheetDefaults {
     val containerColor: Color
         @Composable
         get() = MaterialTheme.colorScheme.surfaceContainerLow
+
+    val contentContainerColor: Color
+        @Composable
+        get() = MaterialTheme.colorScheme.surfaceContainer
 
 }

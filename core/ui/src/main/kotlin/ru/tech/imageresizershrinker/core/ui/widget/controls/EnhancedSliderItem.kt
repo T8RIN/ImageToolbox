@@ -110,7 +110,6 @@ fun EnhancedSliderItem(
                         if (icon != null) {
                             IconShapeContainer(
                                 enabled = true,
-                                underlyingColor = color,
                                 content = {
                                     Icon(
                                         imageVector = icon,

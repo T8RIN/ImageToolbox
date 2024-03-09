@@ -84,8 +84,7 @@ fun MaskItem(
     titleText: String,
     onMaskChange: (UiFilterMask) -> Unit,
     previewOnly: Boolean = false,
-    backgroundColor: Color = MaterialTheme.colorScheme
-        .surfaceContainerLow,
+    backgroundColor: Color = Color.Unspecified,
     showDragHandle: Boolean,
     onLongPress: (() -> Unit)? = null,
     onRemove: () -> Unit,

@@ -139,7 +139,7 @@ fun WatermarkParamsSelectionGroup(
                         onValueChange(value.copy(rotation = it.roundToInt()))
                     },
                     shape = RoundedCornerShape(20.dp),
-                    color = MaterialTheme.colorScheme.surfaceContainerLow
+                    color = MaterialTheme.colorScheme.surface
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 AlphaSelector(
@@ -149,7 +149,7 @@ fun WatermarkParamsSelectionGroup(
                     },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(20.dp),
-                    color = MaterialTheme.colorScheme.surfaceContainerLow
+                    color = MaterialTheme.colorScheme.surface
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 PreferenceRowSwitch(
@@ -161,13 +161,13 @@ fun WatermarkParamsSelectionGroup(
                         onValueChange(value.copy(isRepeated = it))
                     },
                     shape = RoundedCornerShape(20.dp),
-                    color = MaterialTheme.colorScheme.surfaceContainerLow
+                    color = MaterialTheme.colorScheme.surface
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Column(
                     modifier = Modifier.container(
                         shape = RoundedCornerShape(20.dp),
-                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                        color = MaterialTheme.colorScheme.surface
                     )
                 ) {
                     Text(
@@ -181,7 +181,7 @@ fun WatermarkParamsSelectionGroup(
                             add(PorterDuff.Mode.SRC_OVER)
                             addAll(
                                 PorterDuff.Mode
-                                    .values()
+                                    .entries
                                     .toList() - listOf(
                                     PorterDuff.Mode.SRC_OVER,
                                     PorterDuff.Mode.CLEAR,
@@ -237,7 +237,7 @@ fun WatermarkParamsSelectionGroup(
                         Column(
                             modifier = Modifier.container(
                                 shape = RoundedCornerShape(20.dp),
-                                color = MaterialTheme.colorScheme.surfaceContainerLow
+                                color = MaterialTheme.colorScheme.surface
                             )
                         ) {
                             Text(
@@ -313,13 +313,13 @@ fun WatermarkParamsSelectionGroup(
                             valueRange = 1f..100f,
                             steps = 99,
                             shape = RoundedCornerShape(20.dp),
-                            color = MaterialTheme.colorScheme.surfaceContainerLow
+                            color = MaterialTheme.colorScheme.surface
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Column(
                             modifier = Modifier.container(
                                 shape = RoundedCornerShape(20.dp),
-                                color = MaterialTheme.colorScheme.surfaceContainerLow
+                                color = MaterialTheme.colorScheme.surface
                             )
                         ) {
                             Text(
@@ -346,7 +346,7 @@ fun WatermarkParamsSelectionGroup(
                         Column(
                             modifier = Modifier.container(
                                 shape = RoundedCornerShape(20.dp),
-                                color = MaterialTheme.colorScheme.surfaceContainerLow
+                                color = MaterialTheme.colorScheme.surface
                             )
                         ) {
                             Text(

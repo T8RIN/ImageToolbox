@@ -23,14 +23,15 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.takeOrElse
+import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
 import ru.tech.imageresizershrinker.core.settings.presentation.IconShape
@@ -40,47 +41,63 @@ import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalContainerColor
-import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalContainerShape
 
-val IconShapesList by lazy {
-    persistentListOf(
-        IconShape(SquircleShape),
-        IconShape(RoundedCornerShape(15)),
-        IconShape(RoundedCornerShape(25)),
-        IconShape(RoundedCornerShape(35)),
-        IconShape(RoundedCornerShape(45)),
-        IconShape(CutCornerShape(25)),
-        IconShape(CutCornerShape(35), 8.dp, 22.dp),
-        IconShape(CutCornerShape(50), 10.dp, 18.dp),
-        IconShape(CloverShape),
-        IconShape(MaterialStarShape, 6.dp, 22.dp),
-        IconShape(SmallMaterialStarShape, 6.dp, 22.dp),
-        IconShape(OvalShape, 6.dp),
-        IconShape(PentagonShape, 6.dp, 22.dp),
-        IconShape(OctagonShape, 6.dp, 22.dp),
-        IconShape(HeartShape, 10.dp, 18.dp),
-        IconShape(SimpleHeartShape, 12.dp, 16.dp),
-        IconShape.Random
-    )
+object IconShapeDefaults {
+
+    val shapes by lazy {
+        persistentListOf(
+            IconShape(SquircleShape),
+            IconShape(RoundedCornerShape(15)),
+            IconShape(RoundedCornerShape(25)),
+            IconShape(RoundedCornerShape(35)),
+            IconShape(RoundedCornerShape(45)),
+            IconShape(CutCornerShape(25)),
+            IconShape(CutCornerShape(35), 8.dp, 22.dp),
+            IconShape(CutCornerShape(50), 10.dp, 18.dp),
+            IconShape(CloverShape),
+            IconShape(MaterialStarShape, 6.dp, 22.dp),
+            IconShape(SmallMaterialStarShape, 6.dp, 22.dp),
+            IconShape(OvalShape, 6.dp),
+            IconShape(PentagonShape, 6.dp, 22.dp),
+            IconShape(OctagonShape, 6.dp, 22.dp),
+            IconShape(HeartShape, 10.dp, 18.dp),
+            IconShape(SimpleHeartShape, 12.dp, 16.dp),
+            IconShape.Random
+        )
+    }
+
+    val contentColor: Color
+        @Composable
+        get() = takeColorFromScheme {
+            onPrimaryContainer.inverse(
+                fraction = { 0.65f }
+            )
+        }
+
 }
 
 @Composable
 fun IconShapeContainer(
     enabled: Boolean,
-    underlyingColor: Color,
     modifier: Modifier = Modifier,
     iconShape: IconShape? = LocalSettingsState.current.iconShape,
+    contentColor: Color = IconShapeDefaults.contentColor,
     content: @Composable (Boolean) -> Unit = {}
 ) {
-    val realUnderlyingColor = underlyingColor.takeOrElse {
-        LocalContainerColor.current ?: MaterialTheme.colorScheme.surfaceContainer
-    }
-
-    ProvideContainerDefaults {
+    CompositionLocalProvider(
+        values = arrayOf(
+            LocalContainerShape provides null,
+            LocalContainerColor provides null,
+            LocalContentColor provides if (enabled && contentColor.isSpecified && iconShape != null) {
+                contentColor
+            } else LocalContentColor.current
+        )
+    ) {
         AnimatedContent(
             targetState = remember(iconShape) {
                 derivedStateOf {
-                    iconShape?.takeOrElseFrom(IconShapesList)
+                    iconShape?.takeOrElseFrom(IconShapeDefaults.shapes)
                 }
             }.value,
             modifier = modifier
@@ -88,16 +105,17 @@ fun IconShapeContainer(
             Box(
                 modifier = if (enabled && iconShapeAnimated != null) {
                     val color = takeColorFromScheme {
-                        inversePrimary.blend(surfaceContainer)
+                        if (it) primary.blend(primaryContainer).copy(0.2f)
+                        else primaryContainer.blend(primary).copy(0.35f)
                     }
+
                     Modifier.container(
                         shape = iconShapeAnimated.shape,
-                        color = realUnderlyingColor.inverse(
-                            fraction = { if (it) 0.4f else 0.35f },
-                            color = { color }
-                        ),
+                        color = color,
                         autoShadowElevation = 0.5.dp,
-                        resultPadding = iconShapeAnimated.padding
+                        resultPadding = iconShapeAnimated.padding,
+                        composeColorOnTopOfBackground = false,
+                        isShadowClip = true
                     )
                 } else Modifier,
                 contentAlignment = Alignment.Center

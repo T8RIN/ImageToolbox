@@ -240,7 +240,6 @@ fun CompareScreenContent(
                                 modifier = Modifier
                                     .fillMaxHeight()
                                     .container(
-                                        color = MaterialTheme.colorScheme.surfaceContainer,
                                         shape = RectangleShape,
                                         borderColor = Color.Transparent
                                     )
@@ -260,7 +259,6 @@ fun CompareScreenContent(
                         Modifier
                             .container(
                                 shape = RectangleShape,
-                                color = MaterialTheme.colorScheme.surfaceContainer,
                                 borderColor = if (showButtonsAtTheStart) Color.Transparent
                                 else null
                             )
