@@ -21,6 +21,9 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
+import com.awxkee.jxlcoder.JxlCoder
+import com.awxkee.jxlcoder.JxlDecodingSpeed
+import com.awxkee.jxlcoder.JxlEffort
 import com.t8rin.gif_converter.GifDecoder
 import com.t8rin.gif_converter.GifEncoder
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -123,5 +126,31 @@ internal class AndroidGifConverter @Inject constructor(
         out.toByteArray()
     }
 
+    override suspend fun convertGifToJxl(
+        gifUris: List<String>,
+        quality: Quality.Jxl,
+        onProgress: suspend (String, ByteArray) -> Unit
+    ) {
+        gifUris.forEach { uri ->
+            uri.bytes?.let { gifData ->
+                runCatching {
+                    JxlCoder.Convenience.gif2JXL(
+                        gifData = gifData,
+                        quality = quality.qualityValue,
+                        effort = JxlEffort.entries.first { it.ordinal == quality.effort },
+                        decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == quality.speed }
+                    ).let {
+                        onProgress(uri, it)
+                    }
+                }
+            }
+        }
+    }
 
+    private val String.bytes: ByteArray?
+        get() = context
+            .contentResolver
+            .openInputStream(toUri())?.use {
+                it.readBytes()
+            }
 }

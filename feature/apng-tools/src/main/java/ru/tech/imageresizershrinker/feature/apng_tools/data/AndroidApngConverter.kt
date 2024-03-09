@@ -23,6 +23,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
+import com.awxkee.jxlcoder.JxlCoder
+import com.awxkee.jxlcoder.JxlDecodingSpeed
+import com.awxkee.jxlcoder.JxlEffort
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -123,6 +126,34 @@ internal class AndroidApngConverter @Inject constructor(
 
         out.toByteArray()
     }
+
+    override suspend fun convertApngToJxl(
+        apngUris: List<String>,
+        quality: Quality.Jxl,
+        onProgress: suspend (String, ByteArray) -> Unit
+    ) {
+        apngUris.forEach { uri ->
+            uri.bytes?.let { apngData ->
+                runCatching {
+                    JxlCoder.Convenience.apng2JXL(
+                        apngData = apngData,
+                        quality = quality.qualityValue,
+                        effort = JxlEffort.entries.first { it.ordinal == quality.effort },
+                        decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == quality.speed }
+                    ).let {
+                        onProgress(uri, it)
+                    }
+                }
+            }
+        }
+    }
+
+    private val String.bytes: ByteArray?
+        get() = context
+            .contentResolver
+            .openInputStream(toUri())?.use {
+                it.readBytes()
+            }
 
 
 }

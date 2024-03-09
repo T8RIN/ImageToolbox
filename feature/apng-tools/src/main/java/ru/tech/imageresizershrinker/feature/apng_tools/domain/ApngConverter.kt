@@ -35,4 +35,10 @@ interface ApngConverter {
         onProgress: () -> Unit
     ): ByteArray
 
+    suspend fun convertApngToJxl(
+        apngUris: List<String>,
+        quality: Quality.Jxl,
+        onProgress: suspend (String, ByteArray) -> Unit
+    )
+
 }

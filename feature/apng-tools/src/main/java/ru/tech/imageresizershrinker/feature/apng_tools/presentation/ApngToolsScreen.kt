@@ -48,8 +48,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
@@ -77,6 +79,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -94,6 +97,7 @@ import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.material.Apng
+import ru.tech.imageresizershrinker.core.ui.icons.material.Jxl
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -111,6 +115,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
@@ -156,10 +161,10 @@ fun ApngToolsScreen(
             list.takeIf { it.isNotEmpty() }?.let(viewModel::setImageUris)
         }
 
-    val pickSingleImageLauncher = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Single)
-    ) { list ->
-        list.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
+    val pickSingleApngLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument(),
+    ) { uri ->
+        uri?.let {
             if (it.isApng(context)) {
                 viewModel.setApngUri(it)
             } else {
@@ -173,7 +178,52 @@ fun ApngToolsScreen(
         }
     }
 
-    val savePdfLauncher = rememberLauncherForActivityResult(
+    val pickMultipleApngLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenMultipleDocuments()
+    ) { list ->
+        list.takeIf { it.isNotEmpty() }?.filter {
+            it.isApng(context)
+        }?.let { uris ->
+            if (uris.isEmpty()) {
+                scope.launch {
+                    toastHostState.showToast(
+                        message = context.getString(R.string.select_gif_image_to_start),
+                        icon = Icons.Filled.Jxl
+                    )
+                }
+            } else {
+                viewModel.setType(
+                    Screen.ApngTools.Type.ApngToJxl(uris)
+                )
+            }
+        }
+    }
+
+    val addApngLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenMultipleDocuments()
+    ) { list ->
+        list.takeIf { it.isNotEmpty() }?.filter {
+            it.isApng(context)
+        }?.let { uris ->
+            if (uris.isEmpty()) {
+                scope.launch {
+                    toastHostState.showToast(
+                        message = context.getString(R.string.select_gif_image_to_start),
+                        icon = Icons.Filled.Jxl
+                    )
+                }
+            } else {
+                viewModel.setType(
+                    Screen.ApngTools.Type.ApngToJxl(
+                        (viewModel.type as? Screen.ApngTools.Type.ApngToJxl)?.apngUris?.plus(uris)
+                            ?.distinct()
+                    )
+                )
+            }
+        }
+    }
+
+    val saveApngLauncher = rememberLauncherForActivityResult(
         contract = CreateDocument(),
         onResult = {
             it?.let { uri ->
@@ -224,6 +274,10 @@ fun ApngToolsScreen(
 
                     is Screen.ApngTools.Type.ImageToApng -> {
                         stringResource(R.string.apng_type_to_apng)
+                    }
+
+                    is Screen.ApngTools.Type.ApngToJxl -> {
+                        stringResource(R.string.apng_type_to_jxl)
                     }
 
                     null -> stringResource(R.string.apng_tools)
@@ -327,13 +381,48 @@ fun ApngToolsScreen(
                                 )
                             }
 
+                            is Screen.ApngTools.Type.ApngToJxl -> {
+                                UrisPreview(
+                                    modifier = Modifier
+                                        .then(
+                                            if (!isPortrait) {
+                                                Modifier
+                                                    .layout { measurable, constraints ->
+                                                        val placeable = measurable.measure(
+                                                            constraints = constraints.copy(
+                                                                maxHeight = constraints.maxHeight + 48.dp.roundToPx()
+                                                            )
+                                                        )
+                                                        layout(placeable.width, placeable.height) {
+                                                            placeable.place(0, 0)
+                                                        }
+                                                    }
+                                                    .verticalScroll(rememberScrollState())
+                                            } else Modifier
+                                        )
+                                        .padding(vertical = 24.dp),
+                                    uris = type.apngUris ?: emptyList(),
+                                    isPortrait = true,
+                                    onRemoveUri = {
+                                        viewModel.setType(
+                                            Screen.ApngTools.Type.ApngToJxl(type.apngUris?.minus(it))
+                                        )
+                                    },
+                                    onAddUris = {
+                                        addApngLauncher.launch(
+                                            arrayOf("image/png", "image/apng")
+                                        )
+                                    }
+                                )
+                            }
+
                             is Screen.ApngTools.Type.ImageToApng -> Unit
                         }
                     }
                 }
             }
         },
-        placeImagePreview = viewModel.type is Screen.ApngTools.Type.ApngToImage,
+        placeImagePreview = viewModel.type !is Screen.ApngTools.Type.ImageToApng,
         showImagePreviewAsStickyHeader = false,
         autoClearFocus = false,
         controls = {
@@ -466,6 +555,15 @@ fun ApngToolsScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                 }
 
+                is Screen.ApngTools.Type.ApngToJxl -> {
+                    QualityWidget(
+                        imageFormat = ImageFormat.Jxl.Lossy,
+                        enabled = true,
+                        quality = viewModel.jxlQuality,
+                        onQualityChange = viewModel::setJxlQuality
+                    )
+                }
+
                 null -> Unit
             }
         },
@@ -478,9 +576,24 @@ fun ApngToolsScreen(
             BottomButtonsBlock(
                 targetState = (viewModel.type == null) to isPortrait,
                 onSecondaryButtonClick = {
-                    if (viewModel.type !is Screen.ApngTools.Type.ApngToImage) {
-                        pickImagesLauncher.pickImage()
-                    } else pickSingleImageLauncher.pickImage()
+                    when (viewModel.type) {
+                        is Screen.ApngTools.Type.ApngToImage -> {
+                            pickSingleApngLauncher.launch(
+                                arrayOf("image/png", "image/apng")
+                            )
+                        }
+
+                        is Screen.ApngTools.Type.ApngToJxl -> {
+                            pickMultipleApngLauncher.launch(
+                                arrayOf(
+                                    "image/png",
+                                    "image/apng"
+                                )
+                            )
+                        }
+
+                        else -> pickImagesLauncher.pickImage()
+                    }
                 },
                 isPrimaryButtonVisible = viewModel.canSave,
                 onPrimaryButtonClick = {
@@ -488,7 +601,7 @@ fun ApngToolsScreen(
                         onApngSaveResult = { name ->
                             runCatching {
                                 runCatching {
-                                    savePdfLauncher.launch("image/apng#$name.png")
+                                    saveApngLauncher.launch("image/apng#$name.png")
                                 }.onFailure {
                                     scope.launch {
                                         toastHostState.showToast(
@@ -545,30 +658,52 @@ fun ApngToolsScreen(
                     subtitle = stringResource(types[1].subtitle),
                     startIcon = types[1].icon,
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = pickSingleImageLauncher::pickImage
+                    onClick = {
+                        pickSingleApngLauncher.launch(arrayOf("image/png", "image/apng"))
+                    }
                 )
             }
+            val preference3 = @Composable {
+                PreferenceItem(
+                    title = stringResource(types[2].title),
+                    subtitle = stringResource(types[2].subtitle),
+                    startIcon = types[2].icon,
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        pickMultipleApngLauncher.launch(arrayOf("image/png", "image/apng"))
+                    }
+                )
+            }
+
             if (isPortrait) {
                 Column {
                     preference1()
                     Spacer(modifier = Modifier.height(8.dp))
                     preference2()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference3()
                 }
             } else {
                 val direction = LocalLayoutDirection.current
-                Row(
-                    modifier = Modifier.padding(
-                        WindowInsets.displayCutout.asPaddingValues().let {
-                            PaddingValues(
-                                start = it.calculateStartPadding(direction),
-                                end = it.calculateEndPadding(direction)
-                            )
-                        }
-                    )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    preference1.withModifier(modifier = Modifier.weight(1f))
-                    Spacer(modifier = Modifier.width(8.dp))
-                    preference2.withModifier(modifier = Modifier.weight(1f))
+                    Row(
+                        modifier = Modifier.padding(
+                            WindowInsets.displayCutout.asPaddingValues().let {
+                                PaddingValues(
+                                    start = it.calculateStartPadding(direction),
+                                    end = it.calculateEndPadding(direction)
+                                )
+                            }
+                        )
+                    ) {
+                        preference1.withModifier(modifier = Modifier.weight(1f))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        preference2.withModifier(modifier = Modifier.weight(1f))
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference3.withModifier(modifier = Modifier.fillMaxWidth(0.5f))
                 }
             }
         },

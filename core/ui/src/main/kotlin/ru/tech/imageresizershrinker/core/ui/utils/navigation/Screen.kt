@@ -368,11 +368,20 @@ sealed class Screen(
                 icon = Icons.Rounded.Gif
             )
 
+            data class GifToJxl(
+                val gifUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.gif_type_to_jxl,
+                subtitle = R.string.gif_type_to_jxl_sub,
+                icon = Icons.Filled.Jxl
+            )
+
             companion object {
                 val entries by lazy {
                     listOf(
                         ImageToGif(),
-                        GifToImage()
+                        GifToImage(),
+                        GifToJxl()
                     )
                 }
             }
@@ -410,11 +419,20 @@ sealed class Screen(
                 icon = Icons.Rounded.Apng
             )
 
+            data class ApngToJxl(
+                val apngUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.apng_type_to_jxl,
+                subtitle = R.string.apng_type_to_jxl_sub,
+                icon = Icons.Filled.Jxl
+            )
+
             companion object {
                 val entries by lazy {
                     listOf(
                         ImageToApng(),
-                        ApngToImage()
+                        ApngToImage(),
+                        ApngToJxl()
                     )
                 }
             }
@@ -548,6 +566,6 @@ sealed class Screen(
             )
         }
 
-        const val FEATURES_COUNT = 33
+        const val FEATURES_COUNT = 35
     }
 }

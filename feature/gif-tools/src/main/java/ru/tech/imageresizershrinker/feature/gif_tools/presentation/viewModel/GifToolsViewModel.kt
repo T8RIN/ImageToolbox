@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("FunctionName")
+
 package ru.tech.imageresizershrinker.feature.gif_tools.presentation.viewModel
 
 import android.graphics.Bitmap
@@ -41,6 +43,8 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
+import ru.tech.imageresizershrinker.core.domain.saving.SaveTarget
+import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -92,6 +96,9 @@ class GifToolsViewModel @Inject constructor(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 
+    private val _jxlQuality: MutableState<Quality.Jxl> = mutableStateOf(Quality.Jxl())
+    val jxlQuality by _jxlQuality
+
     private var gifData: ByteArray? = null
 
     fun setType(type: Screen.GifTools.Type) {
@@ -101,6 +108,10 @@ class GifToolsViewModel @Inject constructor(
             }
 
             is Screen.GifTools.Type.ImageToGif -> {
+                _type.update { type }
+            }
+
+            is Screen.GifTools.Type.GifToJxl -> {
                 _type.update { type }
             }
         }
@@ -270,11 +281,60 @@ class GifToolsViewModel @Inject constructor(
                     }
                 }
 
+                is Screen.GifTools.Type.GifToJxl -> {
+                    val results = mutableListOf<SaveResult>()
+                    val gifUris = type.gifUris?.map {
+                        it.toString()
+                    } ?: emptyList()
+
+                    _left.value = gifUris.size
+                    gifConverter.convertGifToJxl(
+                        gifUris = gifUris,
+                        quality = jxlQuality
+                    ) { uri, jxlBytes ->
+                        results.add(
+                            fileController.save(
+                                saveTarget = JxlSaveTarget(uri, jxlBytes),
+                                keepOriginalMetadata = true
+                            )
+                        )
+                        _done.update { it + 1 }
+                    }
+
+                    onResult(results, fileController.savingPath)
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
         }
     }
+
+    private fun JxlSaveTarget(
+        uri: String,
+        jxlBytes: ByteArray
+    ): SaveTarget = FileSaveTarget(
+        originalUri = uri,
+        filename = jxlFilename(uri),
+        data = jxlBytes,
+        imageFormat = ImageFormat.Jxl.Lossless
+    )
+
+    private fun jxlFilename(
+        uri: String
+    ): String = fileController.constructImageFilename(
+        ImageSaveTarget<ExifInterface>(
+            imageInfo = ImageInfo(
+                imageFormat = ImageFormat.Jxl.Lossless,
+                originalUri = uri
+            ),
+            originalUri = uri,
+            sequenceNumber = done + 1,
+            metadata = null,
+            data = ByteArray(0)
+        ),
+        forceNotAddSizeInFilename = true
+    )
 
     fun cancelSaving() {
         savingJob?.cancel()
@@ -375,11 +435,38 @@ class GifToolsViewModel @Inject constructor(
                     }
                 }
 
-                null -> {
-                    Unit
+                is Screen.GifTools.Type.GifToJxl -> {
+                    val results = mutableListOf<String?>()
+                    val gifUris = type.gifUris?.map {
+                        it.toString()
+                    } ?: emptyList()
+
+                    _left.value = gifUris.size
+                    gifConverter.convertGifToJxl(
+                        gifUris = gifUris,
+                        quality = jxlQuality
+                    ) { uri, jxlBytes ->
+                        results.add(
+                            shareProvider.cacheByteArray(
+                                byteArray = jxlBytes,
+                                filename = jxlFilename(uri)
+                            )
+                        )
+                        _done.update { it + 1 }
+                    }
+
+                    shareProvider.shareUris(results.filterNotNull())
                 }
+
+                null -> Unit
             }
             _isSaving.value = false
+        }
+    }
+
+    fun setJxlQuality(quality: Quality) {
+        _jxlQuality.update {
+            (quality as? Quality.Jxl) ?: Quality.Jxl()
         }
     }
 

@@ -17,7 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.jxl_tools.domain
 
-interface JxlTranscoder {
+interface JxlConverter {
 
     suspend fun jpegToJxl(
         jpegUris: List<String>,

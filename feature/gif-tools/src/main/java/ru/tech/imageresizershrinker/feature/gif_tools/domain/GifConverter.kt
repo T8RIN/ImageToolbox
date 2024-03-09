@@ -37,4 +37,10 @@ interface GifConverter {
         onProgress: () -> Unit
     ): ByteArray
 
+    suspend fun convertGifToJxl(
+        gifUris: List<String>,
+        quality: Quality.Jxl,
+        onProgress: suspend (String, ByteArray) -> Unit
+    )
+
 }

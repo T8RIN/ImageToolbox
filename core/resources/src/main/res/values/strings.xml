@@ -843,4 +843,8 @@
     <string name="harmonization_level">Harmonization Level</string>
     <string name="lanczos_bessel">Lanczos Bessel</string>
     <string name="lanczos_bessel_sub">Resampling method that maintains high-quality interpolation by applying a Bessel jinc function to the pixel values</string>
+    <string name="gif_type_to_jxl">GIF to JXL</string>
+    <string name="gif_type_to_jxl_sub">Convert GIF images to JXL animated pictures</string>
+    <string name="apng_type_to_jxl">APNG to JXL</string>
+    <string name="apng_type_to_jxl_sub">Convert APNG images to JXL animated pictures</string>
 </resources>

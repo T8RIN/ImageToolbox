@@ -21,13 +21,13 @@ import android.content.Context
 import androidx.core.net.toUri
 import com.awxkee.jxlcoder.JxlCoder
 import dagger.hilt.android.qualifiers.ApplicationContext
-import ru.tech.imageresizershrinker.feature.jxl_tools.domain.JxlTranscoder
+import ru.tech.imageresizershrinker.feature.jxl_tools.domain.JxlConverter
 import javax.inject.Inject
 
 
-internal class AndroidJxlTranscoder @Inject constructor(
+internal class AndroidJxlConverter @Inject constructor(
     @ApplicationContext private val context: Context
-) : JxlTranscoder {
+) : JxlConverter {
 
     override suspend fun jpegToJxl(
         jpegUris: List<String>,

@@ -48,8 +48,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FilterFrames
 import androidx.compose.material.icons.outlined.FolderOff
@@ -77,6 +79,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -91,6 +94,7 @@ import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.icons.material.Jxl
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -108,6 +112,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
@@ -153,11 +158,10 @@ fun GifToolsScreen(
             list.takeIf { it.isNotEmpty() }?.let(viewModel::setImageUris)
         }
 
-    val pickSingleImageLauncher = rememberImagePicker(
-        mode = localImagePickerMode(Picker.Single),
-        imageExtension = "gif"
-    ) { list ->
-        list.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
+    val pickSingleGifLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument(),
+    ) { uri ->
+        uri?.let {
             if (it.isGif(context)) {
                 viewModel.setGifUri(it)
             } else {
@@ -171,7 +175,52 @@ fun GifToolsScreen(
         }
     }
 
-    val savePdfLauncher = rememberLauncherForActivityResult(
+    val pickMultipleGifLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenMultipleDocuments()
+    ) { list ->
+        list.takeIf { it.isNotEmpty() }?.filter {
+            it.isGif(context)
+        }?.let { uris ->
+            if (uris.isEmpty()) {
+                scope.launch {
+                    toastHostState.showToast(
+                        message = context.getString(R.string.select_gif_image_to_start),
+                        icon = Icons.Filled.Jxl
+                    )
+                }
+            } else {
+                viewModel.setType(
+                    Screen.GifTools.Type.GifToJxl(uris)
+                )
+            }
+        }
+    }
+
+    val addGifsLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenMultipleDocuments()
+    ) { list ->
+        list.takeIf { it.isNotEmpty() }?.filter {
+            it.isGif(context)
+        }?.let { uris ->
+            if (uris.isEmpty()) {
+                scope.launch {
+                    toastHostState.showToast(
+                        message = context.getString(R.string.select_gif_image_to_start),
+                        icon = Icons.Filled.Jxl
+                    )
+                }
+            } else {
+                viewModel.setType(
+                    Screen.GifTools.Type.GifToJxl(
+                        (viewModel.type as? Screen.GifTools.Type.GifToJxl)?.gifUris?.plus(uris)
+                            ?.distinct()
+                    )
+                )
+            }
+        }
+    }
+
+    val saveGifLauncher = rememberLauncherForActivityResult(
         contract = CreateDocument(),
         onResult = {
             it?.let { uri ->
@@ -222,6 +271,10 @@ fun GifToolsScreen(
 
                     is Screen.GifTools.Type.ImageToGif -> {
                         stringResource(R.string.gif_type_to_gif)
+                    }
+
+                    is Screen.GifTools.Type.GifToJxl -> {
+                        stringResource(R.string.gif_type_to_jxl)
                     }
 
                     null -> stringResource(R.string.gif_tools)
@@ -328,13 +381,46 @@ fun GifToolsScreen(
                                 )
                             }
 
+                            is Screen.GifTools.Type.GifToJxl -> {
+                                UrisPreview(
+                                    modifier = Modifier
+                                        .then(
+                                            if (!isPortrait) {
+                                                Modifier
+                                                    .layout { measurable, constraints ->
+                                                        val placeable = measurable.measure(
+                                                            constraints = constraints.copy(
+                                                                maxHeight = constraints.maxHeight + 48.dp.roundToPx()
+                                                            )
+                                                        )
+                                                        layout(placeable.width, placeable.height) {
+                                                            placeable.place(0, 0)
+                                                        }
+                                                    }
+                                                    .verticalScroll(rememberScrollState())
+                                            } else Modifier
+                                        )
+                                        .padding(vertical = 24.dp),
+                                    uris = type.gifUris ?: emptyList(),
+                                    isPortrait = true,
+                                    onRemoveUri = {
+                                        viewModel.setType(
+                                            Screen.GifTools.Type.GifToJxl(type.gifUris?.minus(it))
+                                        )
+                                    },
+                                    onAddUris = {
+                                        addGifsLauncher.launch(arrayOf("image/gif"))
+                                    }
+                                )
+                            }
+
                             is Screen.GifTools.Type.ImageToGif -> Unit
                         }
                     }
                 }
             }
         },
-        placeImagePreview = viewModel.type is Screen.GifTools.Type.GifToImage,
+        placeImagePreview = viewModel.type !is Screen.GifTools.Type.ImageToGif,
         showImagePreviewAsStickyHeader = false,
         autoClearFocus = false,
         controls = {
@@ -445,6 +531,15 @@ fun GifToolsScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                 }
 
+                is Screen.GifTools.Type.GifToJxl -> {
+                    QualityWidget(
+                        imageFormat = ImageFormat.Jxl.Lossy,
+                        enabled = true,
+                        quality = viewModel.jxlQuality,
+                        onQualityChange = viewModel::setJxlQuality
+                    )
+                }
+
                 null -> Unit
             }
         },
@@ -457,9 +552,11 @@ fun GifToolsScreen(
             BottomButtonsBlock(
                 targetState = (viewModel.type == null) to isPortrait,
                 onSecondaryButtonClick = {
-                    if (viewModel.type !is Screen.GifTools.Type.GifToImage) {
-                        pickImagesLauncher.pickImage()
-                    } else pickSingleImageLauncher.pickImage()
+                    when (viewModel.type) {
+                        is Screen.GifTools.Type.GifToImage -> pickSingleGifLauncher.launch(arrayOf("image/gif"))
+                        is Screen.GifTools.Type.GifToJxl -> pickMultipleGifLauncher.launch(arrayOf("image/gif"))
+                        else -> pickImagesLauncher.pickImage()
+                    }
                 },
                 isPrimaryButtonVisible = viewModel.canSave,
                 onPrimaryButtonClick = {
@@ -467,7 +564,7 @@ fun GifToolsScreen(
                         onGifSaveResult = { name ->
                             runCatching {
                                 runCatching {
-                                    savePdfLauncher.launch("image/gif#$name.gif")
+                                    saveGifLauncher.launch("image/gif#$name.gif")
                                 }.onFailure {
                                     scope.launch {
                                         toastHostState.showToast(
@@ -524,7 +621,20 @@ fun GifToolsScreen(
                     subtitle = stringResource(types[1].subtitle),
                     startIcon = types[1].icon,
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = pickSingleImageLauncher::pickImage
+                    onClick = {
+                        pickSingleGifLauncher.launch(arrayOf("image/gif"))
+                    }
+                )
+            }
+            val preference3 = @Composable {
+                PreferenceItem(
+                    title = stringResource(types[2].title),
+                    subtitle = stringResource(types[2].subtitle),
+                    startIcon = types[2].icon,
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        pickMultipleGifLauncher.launch(arrayOf("image/gif"))
+                    }
                 )
             }
             if (isPortrait) {
@@ -532,22 +642,30 @@ fun GifToolsScreen(
                     preference1()
                     Spacer(modifier = Modifier.height(8.dp))
                     preference2()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference3()
                 }
             } else {
                 val direction = LocalLayoutDirection.current
-                Row(
-                    modifier = Modifier.padding(
-                        WindowInsets.displayCutout.asPaddingValues().let {
-                            PaddingValues(
-                                start = it.calculateStartPadding(direction),
-                                end = it.calculateEndPadding(direction)
-                            )
-                        }
-                    )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    preference1.withModifier(modifier = Modifier.weight(1f))
-                    Spacer(modifier = Modifier.width(8.dp))
-                    preference2.withModifier(modifier = Modifier.weight(1f))
+                    Row(
+                        modifier = Modifier.padding(
+                            WindowInsets.displayCutout.asPaddingValues().let {
+                                PaddingValues(
+                                    start = it.calculateStartPadding(direction),
+                                    end = it.calculateEndPadding(direction)
+                                )
+                            }
+                        )
+                    ) {
+                        preference1.withModifier(modifier = Modifier.weight(1f))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        preference2.withModifier(modifier = Modifier.weight(1f))
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference3.withModifier(modifier = Modifier.fillMaxWidth(0.5f))
                 }
             }
         },

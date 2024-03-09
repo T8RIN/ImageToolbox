@@ -42,12 +42,12 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
-import ru.tech.imageresizershrinker.feature.jxl_tools.domain.JxlTranscoder
+import ru.tech.imageresizershrinker.feature.jxl_tools.domain.JxlConverter
 import javax.inject.Inject
 
 @HiltViewModel
 class JxlToolsViewModel @Inject constructor(
-    private val jxlTranscoder: JxlTranscoder,
+    private val jxlConverter: JxlConverter,
     private val fileController: FileController,
     private val shareProvider: ShareProvider<Bitmap>
 ) : ViewModel() {
@@ -102,7 +102,7 @@ class JxlToolsViewModel @Inject constructor(
                     } ?: emptyList()
 
                     _left.value = jpegUris.size
-                    jxlTranscoder.jpegToJxl(jpegUris) { uri, jxlBytes ->
+                    jxlConverter.jpegToJxl(jpegUris) { uri, jxlBytes ->
                         results.add(
                             fileController.save(
                                 saveTarget = JxlSaveTarget(uri, jxlBytes),
@@ -122,7 +122,7 @@ class JxlToolsViewModel @Inject constructor(
                     } ?: emptyList()
 
                     _left.value = jxlUris.size
-                    jxlTranscoder.jxlToJpeg(jxlUris) { uri, jpegBytes ->
+                    jxlConverter.jxlToJpeg(jxlUris) { uri, jpegBytes ->
                         results.add(
                             fileController.save(
                                 saveTarget = JpegSaveTarget(uri, jpegBytes),
@@ -205,7 +205,7 @@ class JxlToolsViewModel @Inject constructor(
                     } ?: emptyList()
 
                     _left.value = jpegUris.size
-                    jxlTranscoder.jpegToJxl(jpegUris) { uri, jxlBytes ->
+                    jxlConverter.jpegToJxl(jpegUris) { uri, jxlBytes ->
                         results.add(
                             shareProvider.cacheByteArray(
                                 byteArray = jxlBytes,
@@ -226,7 +226,7 @@ class JxlToolsViewModel @Inject constructor(
                     } ?: emptyList()
 
                     _left.value = jxlUris.size
-                    jxlTranscoder.jxlToJpeg(jxlUris) { uri, jpegBytes ->
+                    jxlConverter.jxlToJpeg(jxlUris) { uri, jpegBytes ->
                         results.add(
                             shareProvider.cacheByteArray(
                                 byteArray = jpegBytes,

@@ -21,8 +21,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.feature.jxl_tools.data.AndroidJxlTranscoder
-import ru.tech.imageresizershrinker.feature.jxl_tools.domain.JxlTranscoder
+import ru.tech.imageresizershrinker.feature.jxl_tools.data.AndroidJxlConverter
+import ru.tech.imageresizershrinker.feature.jxl_tools.domain.JxlConverter
 import javax.inject.Singleton
 
 @Module
@@ -32,7 +32,7 @@ internal interface JxlToolsModule {
     @Binds
     @Singleton
     fun provideTranscoder(
-        converter: AndroidJxlTranscoder
-    ): JxlTranscoder
+        converter: AndroidJxlConverter
+    ): JxlConverter
 
 }
