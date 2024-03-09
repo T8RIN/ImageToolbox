@@ -468,7 +468,7 @@
     <string name="app_bars_shadow">应用程序栏</string>
     <string name="highlighter_sub">绘制半透明锐化荧光笔路径</string>
     <string name="lasso_sub">按给定路径绘制封闭填充路径</string>
-    <string name="free">免费</string>
+    <string name="free">自由</string>
     <string name="double_arrow">双箭头</string>
     <string name="arrow">箭头</string>
     <string name="full_filter_sub">对给定的单张或多张图像应用任意滤镜链</string>
@@ -819,4 +819,8 @@
     <string name="fast_gaussian_blur_3d">快速高斯模糊 3D</string>
     <string name="fast_gaussian_blur_4d">快速高斯模糊 4D</string>
     <string name="fast_gaussian_blur_2d">快速高斯模糊 2D</string>
+    <string name="auto_paste">自动粘贴</string>
+    <string name="auto_paste_sub">允许应用程序自动粘贴剪贴板数据，这样它就会出现在主屏幕上，可以做进一步处理了</string>
+    <string name="harmonization_color">调和颜色</string>
+    <string name="harmonization_level">调和等级</string>
 </resources>

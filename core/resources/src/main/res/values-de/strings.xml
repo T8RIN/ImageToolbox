@@ -121,7 +121,7 @@
     <string name="check_updates_sub">Wenn aktiviert, wird der Aktualisierungsdialog nach dem Start der App angezeigt</string>
     <string name="zoom">Bild-Zoom</string>
     <string name="fab_alignment">FAB-Ausrichtung</string>
-    <string name="share">Weitergeben</string>
+    <string name="share">Teilen</string>
     <string name="prefix">Präfix</string>
     <string name="filename">Dateiname</string>
     <string name="emoji">Emoji</string>
@@ -776,7 +776,7 @@
     <string name="privacy_blur_sub">Verwischt das Bild unter dem gezeichneten Pfad, um alles zu sichern, was Sie verbergen möchten</string>
     <string name="fabs_shadow">Fabs</string>
     <string name="fabs_shadow_sub">Ermöglicht das Zeichnen von Schatten hinter schwebenden Aktionsschaltflächen</string>
-    <string name="exit">Ausfahrt</string>
+    <string name="exit">Beenden</string>
     <string name="preview_closing">Wenn Sie die Vorschau jetzt verlassen, müssen Sie die Bilder erneut hinzufügen</string>
     <string name="image_format">Bildformat</string>
     <string name="noise">Lärm</string>
@@ -804,4 +804,23 @@
     <string name="zip">Reißverschluss</string>
     <string name="zip_sub">Erstellen Sie eine Zip-Datei aus bestimmten Dateien oder Bildern</string>
     <string name="drag_handle_width">Ziehen Sie die Griffbreite</string>
+    <string name="rain">Regen</string>
+    <string name="festive">Festlich</string>
+    <string name="explode">Explosion</string>
+    <string name="corners">Ecken</string>
+    <string name="jxl_tools">JXL Tools</string>
+    <string name="jxl_tools_sub">Konvertiert JXL zu JPEG oder JPEG zu JXL ohne Qualitätsverlust</string>
+    <string name="jxl_type_to_jpeg_sub">Verlustfreie Konvertierung von JXL zu JPEG</string>
+    <string name="jpeg_type_to_jxl_sub">Verlustfreie Konvertierung von JPEG zu JXL</string>
+    <string name="jpeg_type_to_jxl">JPEG zu JXL</string>
+    <string name="fast_gaussian_blur_3d">Fast Gaussian Blur 3D</string>
+    <string name="auto_paste">Automatisches Einfügen</string>
+    <string name="auto_paste_sub">Erlaubt der App automatisches Einfügen von der Zwischenablage, damit es auf dem Bildschirm erscheint und bearbeitet werden kann.</string>
+    <string name="harmonization_color">Vereinheitlichung der Farben</string>
+    <string name="harmonization_level">Vereinheitlichung der Ebenen</string>
+    <string name="jxl_type_to_jpeg">JXL zu JPEG</string>
+    <string name="select_jxl_image_to_start">Wähle JXL Bild zum Starten</string>
+    <string name="fast_gaussian_blur_2d">Fast Gaussian Blur 2D</string>
+    <string name="fast_gaussian_blur_4d">Fast Gaussian Blur 4D</string>
+    <string name="confetti_type">Konfetti Typ</string>
 </resources>
