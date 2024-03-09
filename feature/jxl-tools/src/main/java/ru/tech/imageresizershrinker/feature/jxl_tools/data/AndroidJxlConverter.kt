@@ -88,14 +88,18 @@ internal class AndroidJxlConverter @Inject constructor(
         val size = params.size ?: imageGetter.getImage(data = imageUris[0])!!.run {
             IntegerSize(width, height)
         }
+        val (quality, compressionOption) = if (params.isLossy) {
+            params.quality.qualityValue to JxlCompressionOption.LOSSY
+        } else 100 to JxlCompressionOption.LOSSLESS
+
         val encoder = JxlAnimatedEncoder(
             width = size.width,
             height = size.height,
             numLoops = params.repeatCount,
             preferredColorConfig = JxlChannelsConfiguration.RGBA,
-            compressionOption = JxlCompressionOption.LOSSY,
+            compressionOption = compressionOption,
             effort = params.quality.effort.coerceAtLeast(1),
-            quality = params.quality.qualityValue,
+            quality = quality,
             decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == params.quality.speed }
         )
         imageUris.forEach { uri ->

@@ -471,7 +471,7 @@ class JxlToolsViewModel @Inject constructor(
         _convertedImageUris.update { emptyList() }
         savingJob?.cancel()
         savingJob = null
-        _params.update { JxlParams.Default }
+        updateParams(JxlParams.Default)
     }
 
     fun removeUri(uri: Uri) {
@@ -503,13 +503,15 @@ class JxlToolsViewModel @Inject constructor(
     }
 
     fun setUseOriginalSize(value: Boolean) {
-        _params.update {
-            it.copy(size = if (value) null else IntegerSize(1000, 1000))
-        }
+        updateParams(params.copy(size = if (value) null else IntegerSize(1000, 1000)))
     }
 
     fun clearConvertedImagesSelection() = updateJxlFrames(ImageFrames.ManualSelection(emptyList()))
 
     fun selectAllConvertedImages() = updateJxlFrames(ImageFrames.All)
+
+    fun setUseLossyJxl(value: Boolean) {
+        updateParams(params.copy(isLossy = value))
+    }
 
 }

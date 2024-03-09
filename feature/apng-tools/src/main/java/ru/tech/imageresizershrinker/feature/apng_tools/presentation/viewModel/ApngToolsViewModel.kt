@@ -159,7 +159,7 @@ class ApngToolsViewModel @Inject constructor(
         apngData = null
         savingJob?.cancel()
         savingJob = null
-        _params.update { ApngParams.Default }
+        updateParams(ApngParams.Default)
     }
 
     fun updateApngFrames(imageFrames: ImageFrames) {
@@ -370,7 +370,7 @@ class ApngToolsViewModel @Inject constructor(
     }
 
     fun setQuality(quality: Quality) {
-        _params.update { it.copy(quality = quality) }
+        updateParams(params.copy(quality = quality))
     }
 
     fun updateParams(params: ApngParams) {
@@ -378,9 +378,7 @@ class ApngToolsViewModel @Inject constructor(
     }
 
     fun setUseOriginalSize(value: Boolean) {
-        _params.update {
-            it.copy(size = if (value) null else IntegerSize(1000, 1000))
-        }
+        updateParams(params.copy(size = if (value) null else IntegerSize(1000, 1000)))
     }
 
     fun performSharing(onComplete: () -> Unit) {

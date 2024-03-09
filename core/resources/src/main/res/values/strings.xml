@@ -856,4 +856,6 @@
     <string name="skip_file_picking_sub">File picker will be shown immediately if this possible on chosen screen</string>
     <string name="generate_previews">Generate Previews</string>
     <string name="generate_previews_sub">Enables preview generation, this may help to avoid crashes on some devices, this also disables some editing functionality within single edit option</string>
+    <string name="lossy_compression">Lossy Compression</string>
+    <string name="lossy_compression_sub">Uses lossy compression to reduce file size instead of lossless</string>
 </resources>

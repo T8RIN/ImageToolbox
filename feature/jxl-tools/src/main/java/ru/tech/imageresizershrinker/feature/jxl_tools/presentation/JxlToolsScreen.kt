@@ -52,6 +52,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.EnergySavingsLeaf
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
 import androidx.compose.material.icons.outlined.RepeatOne
@@ -593,8 +594,21 @@ fun JxlToolsScreen(
                         shape = RoundedCornerShape(24.dp)
                     )
                     Spacer(modifier = Modifier.height(8.dp))
+                    PreferenceRowSwitch(
+                        title = stringResource(id = R.string.lossy_compression),
+                        subtitle = stringResource(id = R.string.lossy_compression_sub),
+                        checked = viewModel.params.isLossy,
+                        onClick = viewModel::setUseLossyJxl,
+                        startIcon = Icons.Outlined.EnergySavingsLeaf,
+                        modifier = Modifier.fillMaxWidth(),
+                        color = Color.Unspecified,
+                        shape = RoundedCornerShape(24.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
                     QualityWidget(
-                        imageFormat = ImageFormat.Jxl.Lossy,
+                        imageFormat = if (viewModel.params.isLossy) {
+                            ImageFormat.Jxl.Lossy
+                        } else ImageFormat.Jxl.Lossless,
                         enabled = true,
                         quality = viewModel.quality,
                         onQualityChange = viewModel::setQuality

@@ -25,7 +25,8 @@ data class JxlParams(
     val size: IntegerSize?,
     val repeatCount: Int,
     val delay: Int,
-    val quality: Quality.Jxl
+    val quality: Quality.Jxl,
+    val isLossy: Boolean
 ) {
     companion object {
         val Default by lazy {
@@ -33,7 +34,8 @@ data class JxlParams(
                 size = null,
                 repeatCount = 1,
                 delay = 1000,
-                quality = Quality.Jxl()
+                quality = Quality.Jxl(),
+                isLossy = true
             )
         }
     }

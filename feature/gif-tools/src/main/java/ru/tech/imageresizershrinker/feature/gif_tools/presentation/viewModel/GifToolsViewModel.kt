@@ -160,7 +160,7 @@ class GifToolsViewModel @Inject constructor(
         gifData = null
         savingJob?.cancel()
         savingJob = null
-        _params.update { GifParams.Default }
+        updateParams(GifParams.Default)
     }
 
     fun updateGifFrames(imageFrames: ImageFrames) {
@@ -379,7 +379,7 @@ class GifToolsViewModel @Inject constructor(
     }
 
     fun setQuality(quality: Quality) {
-        _params.update { it.copy(quality = quality) }
+        updateParams(params.copy(quality = quality))
     }
 
     fun updateParams(params: GifParams) {
@@ -387,9 +387,7 @@ class GifToolsViewModel @Inject constructor(
     }
 
     fun setUseOriginalSize(value: Boolean) {
-        _params.update {
-            it.copy(size = if (value) null else IntegerSize(1000, 1000))
-        }
+        updateParams(params.copy(size = if (value) null else IntegerSize(1000, 1000)))
     }
 
     fun performSharing(onComplete: () -> Unit) {
