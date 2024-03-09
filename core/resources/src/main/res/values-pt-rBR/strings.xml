@@ -801,6 +801,25 @@
     <string name="apng_type_to_image_sub">Converta arquivo APNG em lote de fotos</string>
     <string name="apng_type_to_apng_sub">Converter lote de imagens em arquivo APNG</string>
     <string name="zip_sub">Crie um arquivo Zip a partir de determinados arquivos ou imagens</string>
-    <string name="zip">Fecho eclair</string>
+    <string name="zip">Zip</string>
     <string name="drag_handle_width">Largura da alça de arrastar</string>
+    <string name="confetti_type">Tipo de Confete</string>
+    <string name="festive">Festivo</string>
+    <string name="explode">Explodir</string>
+    <string name="rain">Chuva</string>
+    <string name="jxl_type_to_jpeg">JXL para JPEG</string>
+    <string name="jxl_tools">Ferramentas JXL</string>
+    <string name="jxl_tools_sub">Converter JXL para JPEG ou JPG para JXL sem perda de qualidade</string>
+    <string name="jpeg_type_to_jxl">JPEG para JXL</string>
+    <string name="select_jxl_image_to_start">Escolha a imagem JXL para começar</string>
+    <string name="jxl_type_to_jpeg_sub">Executando conversão sem perdas de JXL para JPEG</string>
+    <string name="jpeg_type_to_jxl_sub">Executando conversão sem perdas de JPEG para JXL</string>
+    <string name="fast_gaussian_blur_2d">Gaussian Blur 2D acelerado</string>
+    <string name="fast_gaussian_blur_3d">Gaussian Blur 3D acelerado</string>
+    <string name="fast_gaussian_blur_4d">Gaussian Blur 4D acelerado</string>
+    <string name="auto_paste_sub">Permite que o aplicativo cole automaticamente os dados da área de transferência, para que apareçam na tela principal e você possa processá-los</string>
+    <string name="harmonization_color">Cor de harmonização</string>
+    <string name="harmonization_level">Nível de harmonização</string>
+    <string name="corners">Cantos</string>
+    <string name="auto_paste">Colar automaticamente</string>
 </resources>
