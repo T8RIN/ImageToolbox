@@ -86,6 +86,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
@@ -165,6 +166,10 @@ fun ZipScreen(
         onResult = { uris ->
             uris.takeIf { it.isNotEmpty() }?.let(viewModel::setUris)
         }
+    )
+
+    AutoFilePicker(
+        onAutoPick = { filePicker.launch(arrayOf("*/*")) }
     )
 
     val additionalFilePicker = rememberLauncherForActivityResult(

@@ -191,7 +191,7 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     private suspend fun updatePreview(
         bitmap: Bitmap
-    ): Bitmap = withContext(Dispatchers.IO) {
+    ): Bitmap? = withContext(Dispatchers.IO) {
         return@withContext imageInfo.run {
             _showWarning.value = width * height * 4L >= 10_000 * 10_000 * 3L
             imagePreviewCreator.createPreview(

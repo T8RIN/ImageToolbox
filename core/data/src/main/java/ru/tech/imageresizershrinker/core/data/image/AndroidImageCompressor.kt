@@ -144,29 +144,25 @@ internal class AndroidImageCompressor @Inject constructor(
     override suspend fun calculateImageSize(
         image: Bitmap,
         imageInfo: ImageInfo
-    ): Long = compressAndTransform(
-        image = image,
-        imageInfo = if (image.width * image.height > 512 * 512) {
-            imageInfo.copy(
-                width = 512,
-                height = 512
-            )
-        } else imageInfo
-    ).let {
-        cacheByteArray(
-            byteArray = it,
-            filename = "temp.${imageInfo.imageFormat.extension}"
-        )?.toUri()
-            ?.fileSize(context)
-            ?.let { sampledSize ->
-                if (image.width * image.height > 512 * 512) {
-                    val originalSize = imageInfo.width * imageInfo.height
-                    val compressedSize = 512 * 512
-                    val compressionRatio = originalSize / compressedSize.toFloat()
-
-                    (sampledSize * compressionRatio).toLong()
-                } else sampledSize.toLong()
-            } ?: it.size.toLong()
+    ): Long = withContext(Dispatchers.IO) {
+        val newInfo = imageInfo.let {
+            if (it.width == 0 || it.height == 0) {
+                it.copy(
+                    width = image.width,
+                    height = image.height
+                )
+            } else it
+        }
+        compressAndTransform(
+            image = image,
+            imageInfo = newInfo
+        ).let {
+            cacheByteArray(
+                byteArray = it,
+                filename = "temp.${newInfo.imageFormat.extension}"
+            )?.toUri()
+                ?.fileSize(context)?.toLong() ?: it.size.toLong()
+        }
     }
 
     private fun cacheByteArray(

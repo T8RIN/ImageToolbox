@@ -18,80 +18,66 @@
 package ru.tech.imageresizershrinker.core.data.image
 
 import android.annotation.TargetApi
-import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
-import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.data.utils.fileSize
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
-import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
 internal class AndroidImagePreviewCreator @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
-    private val shareProvider: ShareProvider<Bitmap>
+    settingsRepository: SettingsRepository
 ) : ImagePreviewCreator<Bitmap> {
+
+    private var generatePreviews = SettingsState.Default.generatePreviews
+
+    init {
+        settingsRepository
+            .getSettingsStateFlow()
+            .onEach {
+                generatePreviews = it.generatePreviews
+            }.launchIn(CoroutineScope(Dispatchers.IO))
+    }
 
     override suspend fun createPreview(
         image: Bitmap,
         imageInfo: ImageInfo,
         transformations: List<Transformation<Bitmap>>,
         onGetByteCount: (Int) -> Unit
-    ): Bitmap = withContext(Dispatchers.IO) {
+    ): Bitmap? = withContext(Dispatchers.IO) {
+        launch {
+            onGetByteCount(
+                imageCompressor.calculateImageSize(
+                    image = image,
+                    imageInfo = imageInfo
+                ).toInt()
+            )
+        }
+
+        if (!generatePreviews) return@withContext null
+
         if (imageInfo.height == 0 || imageInfo.width == 0) return@withContext image
         var width = imageInfo.width
         var height = imageInfo.height
-
-        launch {
-            if (imageInfo.resizeType is ResizeType.CenterCrop) {
-                compressCenterCrop(
-                    scaleFactor = 1f,
-                    onImageReadyToCompressInterceptor = {
-                        imageTransformer.transform(
-                            image = it,
-                            transformations = transformations
-                        ) ?: it
-                    },
-                    image = image,
-                    imageInfo = imageInfo
-                )
-            } else {
-                imageCompressor.compressAndTransform(
-                    image = image,
-                    imageInfo = imageInfo,
-                    onImageReadyToCompressInterceptor = {
-                        imageTransformer.transform(
-                            image = it,
-                            transformations = transformations
-                        ) ?: it
-                    }
-                )
-            }.let {
-                onGetByteCount(
-                    shareProvider.cacheByteArray(
-                        byteArray = it,
-                        filename = "temp.${imageInfo.imageFormat.extension}"
-                    )?.toUri()?.fileSize(context) ?: it.size
-                )
-            }
-        }
 
         var scaleFactor = 1f
         while (!canShow(size = height * width * 4)) {
@@ -134,7 +120,9 @@ internal class AndroidImagePreviewCreator @Inject constructor(
         return@withContext bitmap ?: image
     }
 
-    override fun canShow(image: Bitmap): Boolean = canShow(image.size())
+    override fun canShow(
+        image: Bitmap?
+    ): Boolean = if (image == null) false else canShow(image.size())
 
     private fun canShow(size: Int): Boolean {
         return size < 3096 * 3096 * 3

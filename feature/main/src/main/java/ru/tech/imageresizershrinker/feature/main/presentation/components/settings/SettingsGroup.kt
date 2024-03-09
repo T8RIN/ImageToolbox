@@ -22,6 +22,7 @@ import androidx.compose.material.icons.rounded.Cached
 import androidx.compose.material.icons.rounded.Celebration
 import androidx.compose.material.icons.rounded.Description
 import androidx.compose.material.icons.rounded.Draw
+import androidx.compose.material.icons.rounded.Explore
 import androidx.compose.material.icons.rounded.Face6
 import androidx.compose.material.icons.rounded.FitScreen
 import androidx.compose.material.icons.rounded.ImageSearch
@@ -309,6 +310,16 @@ sealed class SettingsGroup(
         initialState = false
     )
 
+    data object Behavior : SettingsGroup(
+        icon = Icons.Rounded.Explore,
+        titleId = R.string.behavior,
+        settingsList = listOf(
+            Setting.SkipFilePicking,
+            Setting.GeneratePreviews
+        ),
+        initialState = false
+    )
+
     companion object {
         val entries: List<SettingsGroup> by lazy {
             listOf(
@@ -322,6 +333,7 @@ sealed class SettingsGroup(
                 Haptics,
                 Screen,
                 Font,
+                Behavior,
                 OptionsArrangement,
                 Presets,
                 ScaleMode,

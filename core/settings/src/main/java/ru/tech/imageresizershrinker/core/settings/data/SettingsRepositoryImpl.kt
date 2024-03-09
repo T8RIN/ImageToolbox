@@ -66,6 +66,7 @@ import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.FAB_ALIGNMENT
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.FILENAME_PREFIX
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.FILENAME_SUFFIX
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.FONT_SCALE
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.GENERATE_PREVIEWS
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.GROUP_OPTIONS_BY_TYPE
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.ICON_SHAPE
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.IMAGE_PICKER_MODE
@@ -86,6 +87,7 @@ import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SECURE_MODE
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SELECTED_EMOJI_INDEX
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SELECTED_FONT_INDEX
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SHOW_UPDATE_DIALOG
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SKIP_IMAGE_PICKING
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.THEME_CONTRAST_LEVEL
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.THEME_STYLE
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.USE_EMOJI_AS_PRIMARY_COLOR
@@ -199,7 +201,11 @@ internal class SettingsRepositoryImpl @Inject constructor(
                 Harmonizer.fromInt(it)
             } ?: default.confettiHarmonizer,
             confettiHarmonizationLevel = prefs[CONFETTI_HARMONIZATION_LEVEL]
-                ?: default.confettiHarmonizationLevel
+                ?: default.confettiHarmonizationLevel,
+            skipImagePicking = prefs[SKIP_IMAGE_PICKING]
+                ?: default.skipImagePicking,
+            generatePreviews = prefs[GENERATE_PREVIEWS]
+                ?: default.generatePreviews
         )
     }
 
@@ -656,6 +662,20 @@ internal class SettingsRepositoryImpl @Inject constructor(
     override suspend fun setConfettiHarmonizationLevel(level: Float) {
         dataStore.edit {
             it[CONFETTI_HARMONIZATION_LEVEL] = level
+        }
+    }
+
+    override suspend fun toggleGeneratePreviews() {
+        dataStore.edit {
+            val v = it[GENERATE_PREVIEWS] ?: default.generatePreviews
+            it[GENERATE_PREVIEWS] = !v
+        }
+    }
+
+    override suspend fun toggleSkipImagePicking() {
+        dataStore.edit {
+            val v = it[SKIP_IMAGE_PICKING] ?: default.skipImagePicking
+            it[SKIP_IMAGE_PICKING] = !v
         }
     }
 

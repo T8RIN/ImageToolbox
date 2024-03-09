@@ -345,7 +345,11 @@ class BytesResizeViewModel @Inject constructor(
                 _imageFormat.value = imageData.imageInfo.imageFormat
                 _imageSize.value = imageCompressor.calculateImageSize(
                     image = imageData.image,
-                    imageInfo = ImageInfo(imageFormat = imageFormat)
+                    imageInfo = ImageInfo(
+                        width = imageData.image.width,
+                        height = imageData.image.height,
+                        imageFormat = imageFormat
+                    )
                 )
             }
             _isImageLoading.value = false

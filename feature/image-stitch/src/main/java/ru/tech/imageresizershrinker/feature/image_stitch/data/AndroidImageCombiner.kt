@@ -24,7 +24,10 @@ import android.os.Build
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.exifinterface.media.ExifInterface
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
@@ -42,6 +45,8 @@ import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.CombiningParams
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.ImageCombiner
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.StitchMode
@@ -56,8 +61,19 @@ internal class AndroidImageCombiner @Inject constructor(
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
-    private val imagePreviewCreator: ImagePreviewCreator<Bitmap>
+    private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
+    settingsRepository: SettingsRepository
 ) : ImageCombiner<Bitmap> {
+
+    private var generatePreviews = SettingsState.Default.generatePreviews
+
+    init {
+        settingsRepository
+            .getSettingsStateFlow()
+            .onEach {
+                generatePreviews = it.generatePreviews
+            }.launchIn(CoroutineScope(Dispatchers.IO))
+    }
 
     override suspend fun combineImages(
         imageUris: List<String>,
@@ -333,11 +349,13 @@ internal class AndroidImageCombiner @Inject constructor(
         imageFormat: ImageFormat,
         quality: Quality,
         onGetByteCount: (Int) -> Unit
-    ): ImageWithSize<Bitmap> = withContext(Dispatchers.IO) {
+    ): ImageWithSize<Bitmap?> = withContext(Dispatchers.IO) {
         val imageSize = calculateCombinedImageDimensions(
             imageUris = imageUris,
             combiningParams = combiningParams
         )
+
+        if (!generatePreviews) return@withContext null withSize imageSize
 
         combineImages(
             imageUris = imageUris,

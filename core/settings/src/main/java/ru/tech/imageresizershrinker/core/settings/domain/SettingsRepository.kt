@@ -162,4 +162,8 @@ interface SettingsRepository {
     suspend fun setConfettiHarmonizer(harmonizer: Harmonizer)
 
     suspend fun setConfettiHarmonizationLevel(level: Float)
+
+    suspend fun toggleGeneratePreviews()
+
+    suspend fun toggleSkipImagePicking()
 }

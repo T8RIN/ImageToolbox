@@ -549,6 +549,14 @@ internal fun SettingItem(
             Setting.ConfettiHarmonizationLevel -> {
                 ConfettiHarmonizationLevelSettingItem(onValueChange = viewModel::setConfettiHarmonizationLevel)
             }
+
+            Setting.GeneratePreviews -> {
+                GeneratePreviewsSettingItem(onClick = viewModel::toggleGeneratePreviews)
+            }
+
+            Setting.SkipFilePicking -> {
+                SkipImagePickingSettingItem(onClick = viewModel::toggleSkipImagePicking)
+            }
         }
     }
 }

@@ -352,4 +352,14 @@ sealed class Setting(
         title = R.string.harmonization_level,
         subtitle = null
     )
+
+    data object SkipFilePicking : Setting(
+        title = R.string.skip_file_picking,
+        subtitle = R.string.skip_file_picking_sub
+    )
+
+    data object GeneratePreviews : Setting(
+        title = R.string.generate_previews,
+        subtitle = R.string.generate_previews_sub
+    )
 }

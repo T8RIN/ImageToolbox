@@ -130,6 +130,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
@@ -150,8 +151,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.utils.isExpanded
-import ru.tech.imageresizershrinker.core.ui.widget.utils.middleImageState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
+import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberImageState
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareSheet
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddEditMaskSheet
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.AddFilterButton
@@ -242,7 +243,7 @@ fun FiltersScreen(
     val showPickImageFromUrisSheet = rememberSaveable { mutableStateOf(false) }
 
     var showOriginal by remember { mutableStateOf(false) }
-    var imageState by remember { mutableStateOf(middleImageState()) }
+    var imageState by rememberImageState()
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         state = topAppBarState, canScroll = { !imageState.isExpanded() && !showOriginal }
@@ -881,6 +882,8 @@ fun FiltersScreen(
                                     showSelectionFilterPicker.value = true
                                 }
                             }
+
+                            AutoFilePicker(selectionFilterPicker::pickImage)
 
                             Column {
                                 val cutout = WindowInsets.displayCutout.asPaddingValues()

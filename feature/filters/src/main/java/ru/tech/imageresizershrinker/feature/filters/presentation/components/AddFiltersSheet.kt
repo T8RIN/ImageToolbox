@@ -161,8 +161,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
-import ru.tech.imageresizershrinker.core.ui.widget.utils.middleImageState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
+import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberImageState
 import java.util.Locale
 
 
@@ -607,7 +607,7 @@ fun AddFiltersSheet(
         )
     }
 
-    var imageState by remember { mutableStateOf(middleImageState()) }
+    var imageState by rememberImageState()
     var loading by remember { mutableStateOf(false) }
     LaunchedEffect(previewSheetData) {
         if (previewBitmap != null && previewSheetData != null) {

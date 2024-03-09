@@ -81,7 +81,9 @@ data class SettingsState(
     val confettiType: Int,
     val allowAutoClipboardPaste: Boolean,
     val confettiHarmonizer: Harmonizer,
-    val confettiHarmonizationLevel: Float
+    val confettiHarmonizationLevel: Float,
+    val skipImagePicking: Boolean,
+    val generatePreviews: Boolean
 ) : Domain {
 
     companion object {
@@ -146,7 +148,9 @@ data class SettingsState(
                 confettiType = 0,
                 allowAutoClipboardPaste = true,
                 confettiHarmonizer = Harmonizer.Primary,
-                confettiHarmonizationLevel = 0.5f
+                confettiHarmonizationLevel = 0.5f,
+                skipImagePicking = false,
+                generatePreviews = true
             )
         }
     }

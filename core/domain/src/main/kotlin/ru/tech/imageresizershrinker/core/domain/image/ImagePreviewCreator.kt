@@ -26,8 +26,8 @@ interface ImagePreviewCreator<I> {
         imageInfo: ImageInfo,
         transformations: List<Transformation<I>> = emptyList(),
         onGetByteCount: (Int) -> Unit
-    ): I
+    ): I?
 
-    fun canShow(image: I): Boolean
+    fun canShow(image: I?): Boolean
 
 }

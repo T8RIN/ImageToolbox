@@ -104,7 +104,9 @@ data class UiSettingsState(
     val confettiType: Int,
     val allowAutoClipboardPaste: Boolean,
     val confettiHarmonizer: Harmonizer,
-    val confettiHarmonizationLevel: Float
+    val confettiHarmonizationLevel: Float,
+    val skipImagePicking: Boolean,
+    val generatePreviews: Boolean
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -253,7 +255,9 @@ fun SettingsState.toUiState(
         confettiType = confettiType,
         allowAutoClipboardPaste = allowAutoClipboardPaste,
         confettiHarmonizer = confettiHarmonizer,
-        confettiHarmonizationLevel = confettiHarmonizationLevel
+        confettiHarmonizationLevel = confettiHarmonizationLevel,
+        skipImagePicking = skipImagePicking,
+        generatePreviews = generatePreviews
     )
 }
 

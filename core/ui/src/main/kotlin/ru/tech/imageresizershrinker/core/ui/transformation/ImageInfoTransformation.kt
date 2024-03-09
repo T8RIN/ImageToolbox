@@ -104,7 +104,7 @@ class ImageInfoTransformation @AssistedInject constructor(
             imageInfo = info,
             transformations = transformations,
             onGetByteCount = {}
-        )
+        ) ?: input
     }
 
     @AssistedFactory

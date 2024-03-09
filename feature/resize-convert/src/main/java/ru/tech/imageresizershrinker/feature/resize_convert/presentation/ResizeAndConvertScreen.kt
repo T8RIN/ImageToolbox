@@ -77,6 +77,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleModeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.ResizeTypeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
+import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
@@ -146,6 +147,8 @@ fun ResizeAndConvertScreen(
     val pickImage = {
         pickImageLauncher.pickImage()
     }
+
+    AutoFilePicker(pickImage)
 
     val saveBitmaps: () -> Unit = {
         viewModel.saveBitmaps { results, savingPath ->

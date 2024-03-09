@@ -70,6 +70,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleModeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.ResizeTypeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
+import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
@@ -153,6 +154,8 @@ fun SingleEditScreen(
         }
 
     val pickImage = pickImageLauncher::pickImage
+
+    AutoFilePicker(pickImage)
 
     val saveBitmap: () -> Unit = {
         viewModel.saveBitmap { saveResult ->

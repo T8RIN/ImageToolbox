@@ -129,6 +129,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
@@ -215,6 +216,12 @@ fun FileCipherScreen(
             uri?.let {
                 viewModel.setUri(it)
             }
+        }
+    )
+
+    AutoFilePicker(
+        onAutoPick = {
+            filePicker.launch(arrayOf("*/*"))
         }
     )
 

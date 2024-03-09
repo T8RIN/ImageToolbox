@@ -851,4 +851,9 @@
     <string name="jxl_type_to_images_sub">Convert JXL animation to batch of pictures</string>
     <string name="jxl_type_to_jxl">Images to JXL</string>
     <string name="jxl_type_to_jxl_sub">Convert batch of pictures to JXL animation</string>
+    <string name="behavior">Behavior</string>
+    <string name="skip_file_picking">Skip File Picking</string>
+    <string name="skip_file_picking_sub">File picker will be shown immediately if this possible on chosen screen</string>
+    <string name="generate_previews">Generate Previews</string>
+    <string name="generate_previews_sub">Enables preview generation, this may help to avoid crashes on some devices, this also disables some editing functionality within single edit option</string>
 </resources>

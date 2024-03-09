@@ -42,6 +42,6 @@ interface ImageCombiner<I> {
         imageFormat: ImageFormat,
         quality: Quality,
         onGetByteCount: (Int) -> Unit
-    ): ImageWithSize<I>
+    ): ImageWithSize<I?>
 
 }

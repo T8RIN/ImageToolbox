@@ -751,4 +751,16 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun toggleGeneratePreviews() {
+        viewModelScope.launch {
+            settingsRepository.toggleGeneratePreviews()
+        }
+    }
+
+    fun toggleSkipImagePicking() {
+        viewModelScope.launch {
+            settingsRepository.toggleSkipImagePicking()
+        }
+    }
+
 }

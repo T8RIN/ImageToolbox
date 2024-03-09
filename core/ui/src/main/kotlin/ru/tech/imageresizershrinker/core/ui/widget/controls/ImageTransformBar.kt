@@ -46,6 +46,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.material.CropSmall
 import ru.tech.imageresizershrinker.core.ui.icons.material.Exif
 import ru.tech.imageresizershrinker.core.ui.icons.material.Transparency
@@ -152,49 +153,52 @@ fun ImageExtraTransformBar(
     onDraw: () -> Unit,
     onEraseBackground: () -> Unit
 ) {
-    Row(Modifier.container(shape = CircleShape)) {
-        EnhancedIconButton(
-            containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.6f),
-            contentColor = MaterialTheme.colorScheme.onMixedContainer,
-            onClick = onCrop
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.CropSmall,
-                contentDescription = stringResource(R.string.crop)
-            )
-        }
+    if (LocalSettingsState.current.generatePreviews) {
 
-        EnhancedIconButton(
-            containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.6f),
-            contentColor = MaterialTheme.colorScheme.onMixedContainer,
-            onClick = onFilter
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.AutoFixHigh,
-                contentDescription = stringResource(R.string.filter)
-            )
-        }
+        Row(Modifier.container(shape = CircleShape)) {
+            EnhancedIconButton(
+                containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.6f),
+                contentColor = MaterialTheme.colorScheme.onMixedContainer,
+                onClick = onCrop
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.CropSmall,
+                    contentDescription = stringResource(R.string.crop)
+                )
+            }
 
-        EnhancedIconButton(
-            containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.6f),
-            contentColor = MaterialTheme.colorScheme.onMixedContainer,
-            onClick = onDraw
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.Draw,
-                contentDescription = stringResource(R.string.draw)
-            )
-        }
+            EnhancedIconButton(
+                containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.6f),
+                contentColor = MaterialTheme.colorScheme.onMixedContainer,
+                onClick = onFilter
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.AutoFixHigh,
+                    contentDescription = stringResource(R.string.filter)
+                )
+            }
 
-        EnhancedIconButton(
-            containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.6f),
-            contentColor = MaterialTheme.colorScheme.onMixedContainer,
-            onClick = onEraseBackground
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Transparency,
-                contentDescription = stringResource(R.string.erase_background)
-            )
+            EnhancedIconButton(
+                containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.6f),
+                contentColor = MaterialTheme.colorScheme.onMixedContainer,
+                onClick = onDraw
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Draw,
+                    contentDescription = stringResource(R.string.draw)
+                )
+            }
+
+            EnhancedIconButton(
+                containerColor = MaterialTheme.colorScheme.mixedContainer.copy(0.6f),
+                contentColor = MaterialTheme.colorScheme.onMixedContainer,
+                onClick = onEraseBackground
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Transparency,
+                    contentDescription = stringResource(R.string.erase_background)
+                )
+            }
         }
     }
 }

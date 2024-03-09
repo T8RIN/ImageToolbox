@@ -71,6 +71,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
+import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.withModifier
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
@@ -150,6 +151,8 @@ fun GeneratePaletteScreen(
                 }
             }
     }
+
+    AutoFilePicker(pickImageLauncher::pickImage)
 
     val paletteImageLauncher = rememberImagePicker(
         mode = localImagePickerMode(Picker.Single)

@@ -50,8 +50,6 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -72,8 +70,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.isExpanded
-import ru.tech.imageresizershrinker.core.ui.widget.utils.middleImageState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
+import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberImageState
 
 @Composable
 fun AdaptiveLayoutScreen(
@@ -95,7 +93,7 @@ fun AdaptiveLayoutScreen(
 ) {
     val settingsState = LocalSettingsState.current
 
-    var imageState by remember { mutableStateOf(middleImageState()) }
+    var imageState by rememberImageState()
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         state = topAppBarState, canScroll = { !imageState.isExpanded() && !forceImagePreviewToMax }

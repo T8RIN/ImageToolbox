@@ -87,7 +87,7 @@ fun ImageContainer(
                             bitmap = bmp,
                             visible = shouldShowPreview
                         )
-                        if (!shouldShowPreview && !loading && originalBitmap != null && bmp == null) BadImageWidget()
+                        if (!loading && (bmp == null || !shouldShowPreview)) BadImageWidget()
                     }
                     if (loading) Loading()
                 }
@@ -134,7 +134,7 @@ fun ImageContainer(
                                     visible = true
                                 )
                             }
-                        }
+                        } ?: BadImageWidget()
                         if (previewBitmap == null && loading) {
                             Loading()
                         }
