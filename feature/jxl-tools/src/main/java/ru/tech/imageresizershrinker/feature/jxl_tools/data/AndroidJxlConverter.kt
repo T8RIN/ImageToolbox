@@ -25,10 +25,10 @@ import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import com.awxkee.jxlcoder.JxlAnimatedEncoder
 import com.awxkee.jxlcoder.JxlAnimatedImage
+import com.awxkee.jxlcoder.JxlChannelsConfiguration
 import com.awxkee.jxlcoder.JxlCoder
 import com.awxkee.jxlcoder.JxlCompressionOption
 import com.awxkee.jxlcoder.JxlDecodingSpeed
-import com.awxkee.jxlcoder.PreferredColorConfig
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -92,7 +92,7 @@ internal class AndroidJxlConverter @Inject constructor(
             width = size.width,
             height = size.height,
             numLoops = params.repeatCount,
-            preferredColorConfig = PreferredColorConfig.RGBA_8888,
+            preferredColorConfig = JxlChannelsConfiguration.RGBA,
             compressionOption = JxlCompressionOption.LOSSY,
             effort = params.quality.effort.coerceAtLeast(1),
             quality = params.quality.qualityValue,

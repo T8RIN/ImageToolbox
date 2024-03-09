@@ -34,6 +34,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import oupson.apng.coil.AnimatedPngDecoder
+import ru.tech.imageresizershrinker.core.data.image.AnimatedJxlDecoder
+import ru.tech.imageresizershrinker.core.data.utils.TimeMeasureInterceptor
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 
 @Module
@@ -68,7 +70,7 @@ internal object ImageLoaderModule {
             )
             add(SvgDecoder.Factory())
             if (Build.VERSION.SDK_INT >= 24) add(HeifDecoder.Factory(context))
-            add(JxlDecoder2.Factory(context))
+            add(AnimatedJxlDecoder.Factory(context))
 
             if (BuildConfig.DEBUG) add(interceptor)
         }

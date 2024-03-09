@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.data.di
+package ru.tech.imageresizershrinker.core.data.utils
 
 import coil.intercept.Interceptor
 import coil.request.ImageResult

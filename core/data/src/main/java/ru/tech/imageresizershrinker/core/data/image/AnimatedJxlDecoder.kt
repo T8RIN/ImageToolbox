@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.data.di
+package ru.tech.imageresizershrinker.core.data.image
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -37,7 +37,7 @@ import kotlinx.coroutines.runInterruptible
 import okio.BufferedSource
 import okio.ByteString.Companion.toByteString
 
-class JxlDecoder2(
+internal class AnimatedJxlDecoder(
     private val source: SourceResult,
     private val options: Options,
     private val context: Context
@@ -123,7 +123,7 @@ class JxlDecoder2(
             options: Options,
             imageLoader: ImageLoader
         ) = if (isJXL(result.source.source())) {
-            JxlDecoder2(result, options, context)
+            AnimatedJxlDecoder(result, options, context)
         } else null
 
         private val MAGIC_1 = byteArrayOf(0xFF.toByte(), 0x0A).toByteString()
@@ -147,12 +147,6 @@ class JxlDecoder2(
                 0,
                 MAGIC_2
             )
-        }
-
-        companion object {
-            init {
-                System.loadLibrary("jxlcoder")
-            }
         }
     }
 
