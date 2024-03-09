@@ -821,6 +821,7 @@
     <string name="fast_gaussian_blur_4d">Быстрое размытие по Гауссу 4D</string>
     <string name="harmonization_level">Уровень гармонизации</string>
     <string name="auto_paste">Авто-вставка</string>
-    <string name="harmonization_color">Гармонизация цвета</string>
+    <string name="harmonization_color">Цвет гармонизации</string>
     <string name="auto_paste_sub">Разрешить приложению автоматически вставлять данные из буфера обмена, чтобы они появились на главном экране, и вы смогли их обработать</string>
+    <string name="lanczos_bessel">Ланцош Бессель</string>
 </resources>
