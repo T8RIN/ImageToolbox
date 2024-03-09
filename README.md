@@ -330,6 +330,11 @@ or click one of the badges below.
 - JXL transcoding
   * JXL to JPEG
   * JPEG to JXL
+- Animated JXL conversion
+  * Images to JXL
+  * JXL to Images
+  * APNG to JXL
+  * GIF to JXL
 - Image Shrinking
   - Quality compressing
   - Preset shrinking
