@@ -85,7 +85,7 @@ fun WatermarkParamsSelectionGroup(
     ExpandableItem(
         modifier = modifier,
         interactionSource = interactionSource,
-        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+        color = MaterialTheme.colorScheme.surfaceContainer,
         visibleContent = {
             TitleItem(
                 text = stringResource(id = R.string.properties),
@@ -110,7 +110,7 @@ fun WatermarkParamsSelectionGroup(
                             },
                             valueRange = 0f..1f,
                             shape = RoundedCornerShape(20.dp),
-                            color = MaterialTheme.colorScheme.surfaceContainerLow
+                            color = MaterialTheme.colorScheme.surface
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         EnhancedSliderItem(
@@ -124,7 +124,7 @@ fun WatermarkParamsSelectionGroup(
                             },
                             valueRange = 0f..1f,
                             shape = RoundedCornerShape(20.dp),
-                            color = MaterialTheme.colorScheme.surfaceContainerLow,
+                            color = MaterialTheme.colorScheme.surface,
                             modifier = Modifier.padding(bottom = 4.dp)
                         )
                     }
@@ -390,7 +390,7 @@ fun WatermarkParamsSelectionGroup(
                         },
                         valueRange = 0.01f..1f,
                         shape = RoundedCornerShape(20.dp),
-                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                        color = MaterialTheme.colorScheme.surface
                     )
                 }
             }

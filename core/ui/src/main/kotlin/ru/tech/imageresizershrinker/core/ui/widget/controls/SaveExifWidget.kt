@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.controls
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -38,7 +37,7 @@ fun SaveExifWidget(
     imageFormat: ImageFormat,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    backgroundColor: Color = MaterialTheme.colorScheme.surfaceContainer,
+    backgroundColor: Color = Color.Unspecified
 ) {
     val settingsState = LocalSettingsState.current
     LaunchedEffect(Unit) {
