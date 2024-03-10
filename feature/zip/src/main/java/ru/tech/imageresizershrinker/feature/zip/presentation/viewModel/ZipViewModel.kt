@@ -30,7 +30,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.di.DispatchersIO
+import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.zip.domain.ZipManager
@@ -41,7 +41,7 @@ import javax.inject.Inject
 class ZipViewModel @Inject constructor(
     private val zipManager: ZipManager,
     private val shareProvider: ShareProvider<Bitmap>,
-    @DispatchersIO private val dispatcher: CoroutineDispatcher,
+    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _uris = mutableStateOf<List<Uri>>(emptyList())

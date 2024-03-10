@@ -27,7 +27,7 @@ import com.awxkee.aire.Aire
 import com.awxkee.aire.BitmapScaleMode
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.di.DispatchersIO
+import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
@@ -44,7 +44,7 @@ internal class AndroidImageScaler @Inject constructor(
     private val settingsRepository: SettingsRepository,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
-    @DispatchersIO private val dispatcher: CoroutineDispatcher,
+    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : ImageScaler<Bitmap> {
 
     override suspend fun scaleImage(

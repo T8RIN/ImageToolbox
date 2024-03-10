@@ -27,7 +27,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.di.DispatchersIO
+import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants
@@ -52,7 +52,7 @@ import javax.inject.Inject
 internal class AndroidImageTextReader @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     @ApplicationContext private val context: Context,
-    @DispatchersIO private val dispatcher: CoroutineDispatcher,
+    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : ImageTextReader<Bitmap> {
 
     init {

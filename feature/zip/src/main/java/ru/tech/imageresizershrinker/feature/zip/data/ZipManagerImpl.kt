@@ -24,7 +24,7 @@ import androidx.documentfile.provider.DocumentFile
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.di.DispatchersIO
+import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.feature.zip.domain.ZipManager
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
@@ -35,7 +35,7 @@ import javax.inject.Inject
 
 internal class ZipManagerImpl @Inject constructor(
     @ApplicationContext private val context: Context,
-    @DispatchersIO private val dispatcher: CoroutineDispatcher,
+    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : ZipManager {
 
     override suspend fun zip(
