@@ -140,7 +140,7 @@ sealed class ImageFormat(
         data object Lossy : Jxl(
             title = "JXL Lossy",
             compressionTypes = listOf(
-                CompressionType.Quality(0..100),
+                CompressionType.Quality(1..100),
                 CompressionType.Effort(0..9)
             )
         )

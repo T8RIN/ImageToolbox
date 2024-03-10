@@ -65,9 +65,17 @@ fun QualityWidget(
 
     LaunchedEffect(imageFormat, quality) {
         if (imageFormat is ImageFormat.Jxl && quality !is Quality.Jxl) {
-            onQualityChange(Quality.Jxl(qualityValue = quality.qualityValue))
+            onQualityChange(
+                Quality.Jxl(
+                    qualityValue = quality.qualityValue
+                ).coerceIn(imageFormat)
+            )
         } else if (imageFormat is ImageFormat.PngLossy && quality !is Quality.PngLossy) {
-            onQualityChange(Quality.PngLossy(compressionLevel = quality.qualityValue))
+            onQualityChange(
+                Quality.PngLossy(
+                    compressionLevel = quality.qualityValue
+                ).coerceIn(imageFormat)
+            )
         }
     }
 
@@ -133,7 +141,7 @@ fun QualityWidget(
                                             is Quality.Base -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Jxl -> quality.copy(effort = it.toInt())
                                             is Quality.PngLossy -> quality.copy(compressionLevel = it.toInt())
-                                        }
+                                        }.coerceIn(imageFormat)
                                     )
                                 }
 
@@ -143,7 +151,7 @@ fun QualityWidget(
                                             is Quality.Base -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Jxl -> quality.copy(qualityValue = it.toInt())
                                             is Quality.PngLossy -> quality.copy(compressionLevel = it.toInt())
-                                        }
+                                        }.coerceIn(imageFormat)
                                     )
                                 }
                             }
@@ -187,7 +195,7 @@ fun QualityWidget(
                         onValueChange = {
                             jxlQuality?.copy(
                                 speed = it.toInt()
-                            )?.let(onQualityChange)
+                            )?.coerceIn(imageFormat)?.let(onQualityChange)
                         },
                         behaveAsContainer = false
                     )
@@ -205,7 +213,7 @@ fun QualityWidget(
                         onValueChange = {
                             pngLossyQuality?.copy(
                                 maxColors = it.toInt()
-                            )?.let(onQualityChange)
+                            )?.coerceIn(imageFormat)?.let(onQualityChange)
                         },
                         behaveAsContainer = false
                     )

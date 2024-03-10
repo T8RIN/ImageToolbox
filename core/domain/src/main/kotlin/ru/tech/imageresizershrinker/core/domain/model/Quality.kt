@@ -29,9 +29,9 @@ sealed class Quality(
             is ImageFormat.Jxl -> {
                 val value = this as? Jxl ?: return Jxl()
                 value.copy(
-                    qualityValue = qualityValue.coerceIn(0..100),
+                    qualityValue = qualityValue.coerceIn(1..100),
                     effort = effort.coerceIn(0..9),
-                    speed = speed.coerceIn(0..5)
+                    speed = speed.coerceIn(0..4)
                 )
             }
 
@@ -50,11 +50,11 @@ sealed class Quality(
     }
 
     data class Jxl(
-        @IntRange(from = 0, to = 100)
+        @IntRange(from = 1, to = 100)
         override val qualityValue: Int = 50,
         @IntRange(from = 0, to = 9)
-        val effort: Int = 7,
-        @IntRange(from = 0, to = 5)
+        val effort: Int = 5,
+        @IntRange(from = 0, to = 4)
         val speed: Int = 2
     ) : Quality(qualityValue)
 

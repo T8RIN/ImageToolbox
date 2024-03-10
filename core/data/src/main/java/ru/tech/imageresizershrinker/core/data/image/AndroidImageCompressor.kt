@@ -74,15 +74,17 @@ internal class AndroidImageCompressor @Inject constructor(
         image: Bitmap,
         imageFormat: ImageFormat,
         quality: Quality
-    ): ByteArray = SimpleCompressor
-        .getInstance(
-            imageFormat = imageFormat,
-            context = context
-        )
-        .compress(
-            image = image,
-            quality = quality.coerceIn(imageFormat)
-        )
+    ): ByteArray = withContext(Dispatchers.IO) {
+        SimpleCompressor
+            .getInstance(
+                imageFormat = imageFormat,
+                context = context
+            )
+            .compress(
+                image = image,
+                quality = quality.coerceIn(imageFormat)
+            )
+    }
 
 
     override suspend fun compressAndTransform(
@@ -134,7 +136,7 @@ internal class AndroidImageCompressor @Inject constructor(
             ImageFormat[extension]
         } else imageInfo.imageFormat
 
-        return@withContext compress(
+        compress(
             image = currentImage,
             imageFormat = imageFormat,
             quality = imageInfo.quality
@@ -165,12 +167,13 @@ internal class AndroidImageCompressor @Inject constructor(
         }
     }
 
-    private fun cacheByteArray(
+    private suspend fun cacheByteArray(
         byteArray: ByteArray,
         filename: String
-    ): String? {
+    ): String? = withContext(Dispatchers.IO) {
         val imagesFolder = File(context.cacheDir, "files")
-        return runCatching {
+
+        runCatching {
             imagesFolder.mkdirs()
             val file = File(imagesFolder, filename)
             FileOutputStream(file).use {
