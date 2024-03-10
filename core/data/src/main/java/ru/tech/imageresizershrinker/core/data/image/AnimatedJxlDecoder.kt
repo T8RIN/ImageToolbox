@@ -28,6 +28,7 @@ import coil.decode.Decoder
 import coil.fetch.SourceResult
 import coil.request.Options
 import coil.size.Scale
+import coil.size.Size
 import coil.size.pxOrElse
 import com.awxkee.jxlcoder.JxlAnimatedImage
 import com.awxkee.jxlcoder.JxlResizeFilter
@@ -61,7 +62,7 @@ internal class AnimatedJxlDecoder(
             mPreferredColorConfig = PreferredColorConfig.RGBA_1010102
         }
 
-        if (options.size == coil.size.Size.ORIGINAL) {
+        if (options.size == Size.ORIGINAL) {
             val originalImage = JxlAnimatedImage(
                 byteArray = sourceData,
                 preferredColorConfig = mPreferredColorConfig
@@ -90,31 +91,32 @@ internal class AnimatedJxlDecoder(
                 dstWidth = dstWidth,
                 dstHeight = dstHeight
             ),
-            isSampled = false
+            isSampled = true
         )
     }
 
     private fun JxlAnimatedImage.animatedDrawable(
         dstWidth: Int = 0,
         dstHeight: Int = 0
-    ): AnimationDrawable {
+    ): AnimationDrawable = AnimationDrawable().also { image ->
         val frames = numberOfFrames
-        if (frames == 1) {
-            val img = AnimationDrawable()
-            img.addFrame(BitmapDrawable(context.resources, getFrame(0)), Int.MAX_VALUE)
-            return img
-        }
-        val img = AnimationDrawable()
-        for (frame in 0 until frames) {
-            val duration = getFrameDuration(frame)
-            img.addFrame(
+        repeat(frames) { frame ->
+            val duration = if (frames == 1) {
+                Int.MAX_VALUE
+            } else getFrameDuration(frame)
+
+            image.addFrame(
                 BitmapDrawable(
                     context.resources,
-                    getFrame(frame, scaleWidth = dstWidth, scaleHeight = dstHeight)
-                ), duration
+                    getFrame(
+                        frame = frame,
+                        scaleWidth = dstWidth,
+                        scaleHeight = dstHeight
+                    )
+                ),
+                duration
             )
         }
-        return img
     }
 
     class Factory(private val context: Context) : Decoder.Factory {
@@ -126,27 +128,29 @@ internal class AnimatedJxlDecoder(
             AnimatedJxlDecoder(result, options, context)
         } else null
 
-        private val MAGIC_1 = byteArrayOf(0xFF.toByte(), 0x0A).toByteString()
-        private val MAGIC_2 = byteArrayOf(
-            0x0.toByte(),
-            0x0.toByte(),
-            0x0.toByte(),
-            0x0C.toByte(),
-            0x4A,
-            0x58,
-            0x4C,
-            0x20,
-            0x0D,
-            0x0A,
-            0x87.toByte(),
-            0x0A
-        ).toByteString()
+        companion object {
+            private val MAGIC_1 = byteArrayOf(0xFF.toByte(), 0x0A).toByteString()
+            private val MAGIC_2 = byteArrayOf(
+                0x0.toByte(),
+                0x0.toByte(),
+                0x0.toByte(),
+                0x0C.toByte(),
+                0x4A,
+                0x58,
+                0x4C,
+                0x20,
+                0x0D,
+                0x0A,
+                0x87.toByte(),
+                0x0A
+            ).toByteString()
 
-        private fun isJXL(source: BufferedSource): Boolean {
-            return source.rangeEquals(0, MAGIC_1) || source.rangeEquals(
-                0,
-                MAGIC_2
-            )
+            private fun isJXL(source: BufferedSource): Boolean {
+                return source.rangeEquals(0, MAGIC_1) || source.rangeEquals(
+                    0,
+                    MAGIC_2
+                )
+            }
         }
     }
 

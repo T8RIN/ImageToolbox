@@ -36,6 +36,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
@@ -104,6 +105,7 @@ internal fun UrisCarousel(uris: List<Uri>) {
                         shape = MaterialTheme.shapes.medium,
                         resultPadding = 0.dp
                     ),
+                filterQuality = FilterQuality.High,
                 shape = RectangleShape,
                 contentScale = ContentScale.Fit
             )
