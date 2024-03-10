@@ -19,10 +19,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.controls
 
 import android.os.Build
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -42,6 +38,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -56,6 +54,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
@@ -67,7 +66,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 fun ImageFormatSelector(
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.Unspecified,
-    entries: List<ImageFormat> = ImageFormat.entries,
+    entries: List<ImageFormatGroup> = ImageFormatGroup.entries,
     forceEnabled: Boolean = false,
     value: ImageFormat,
     onValueChange: (ImageFormat) -> Unit
@@ -87,7 +86,7 @@ fun ImageFormatSelector(
     }
 
     LaunchedEffect(value, entries) {
-        if (value !in entries) onValueChange(ImageFormat.PngLossless)
+        if (value !in entries.flatMap { it.formats }) onValueChange(ImageFormat.PngLossless)
     }
 
     Box {
@@ -110,12 +109,7 @@ fun ImageFormatSelector(
             )
             Spacer(modifier = Modifier.height(8.dp))
 
-            AnimatedContent(
-                targetState = entries.filtered(),
-                transitionSpec = {
-                    fadeIn().togetherWith(fadeOut()).using(SizeTransform(false))
-                }
-            ) { items ->
+            AnimatedContent(entries.filtered()) { items ->
                 FlowRow(
                     verticalArrangement = Arrangement.spacedBy(
                         8.dp,
@@ -137,16 +131,77 @@ fun ImageFormatSelector(
                         EnhancedChip(
                             onClick = {
                                 if (enabled) {
-                                    onValueChange(it)
+                                    onValueChange(it.formats[0])
                                 } else cannotChangeFormat()
                             },
-                            selected = it == value,
+                            selected = value in it.formats,
                             label = {
                                 Text(text = it.title)
                             },
                             selectedColor = MaterialTheme.colorScheme.tertiary,
                             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp)
                         )
+                    }
+                }
+            }
+
+            val formats by remember(value) {
+                derivedStateOf {
+                    ImageFormatGroup.fromFormat(value).formats
+                }
+            }
+            AnimatedContent(formats.filteredFormats()) { items ->
+                if (items.size > 1) {
+                    Column(
+                        modifier = Modifier
+                            .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 4.dp)
+                            .container(
+                                color = MaterialTheme.colorScheme.surface,
+                                resultPadding = 0.dp
+                            )
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 12.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = stringResource(R.string.compression_type),
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Medium
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        FlowRow(
+                            verticalArrangement = Arrangement.spacedBy(
+                                8.dp,
+                                Alignment.CenterVertically
+                            ),
+                            horizontalArrangement = Arrangement.spacedBy(
+                                8.dp,
+                                Alignment.CenterHorizontally
+                            ),
+                            modifier = Modifier.container(
+                                color = MaterialTheme.colorScheme.surfaceContainerLowest,
+                                resultPadding = 8.dp
+                            )
+                        ) {
+                            items.forEach {
+                                EnhancedChip(
+                                    onClick = {
+                                        if (enabled) {
+                                            onValueChange(it)
+                                        } else cannotChangeFormat()
+                                    },
+                                    selected = value == it,
+                                    label = {
+                                        Text(text = it.title)
+                                    },
+                                    selectedColor = MaterialTheme.colorScheme.tertiary,
+                                    contentPadding = PaddingValues(
+                                        horizontal = 16.dp,
+                                        vertical = 6.dp
+                                    )
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -167,7 +222,15 @@ fun ImageFormatSelector(
 }
 
 @Composable
-private fun List<ImageFormat>.filtered(): List<ImageFormat> = remember(this) {
+private fun List<ImageFormatGroup>.filtered(): List<ImageFormatGroup> = remember(this) {
+    if (Build.VERSION.SDK_INT <= 24) toMutableList().apply {
+        removeAll(ImageFormatGroup.highLevelFormats)
+    }
+    else this
+}
+
+@Composable
+private fun List<ImageFormat>.filteredFormats(): List<ImageFormat> = remember(this) {
     if (Build.VERSION.SDK_INT <= 24) toMutableList().apply {
         removeAll(ImageFormat.highLevelFormats)
     }

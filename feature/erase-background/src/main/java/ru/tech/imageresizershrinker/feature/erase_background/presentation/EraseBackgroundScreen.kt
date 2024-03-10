@@ -101,7 +101,7 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.observeAsState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
@@ -520,7 +520,7 @@ fun EraseBackgroundScreen(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
                     .navigationBarsPadding(),
-                entries = ImageFormat.alphaContainedEntries,
+                entries = ImageFormatGroup.alphaContainedEntries,
                 value = viewModel.imageFormat,
                 onValueChange = {
                     viewModel.setMime(it)

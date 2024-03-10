@@ -92,6 +92,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.model.Quality
@@ -432,7 +433,7 @@ fun ApngToolsScreen(
                     ImageFormatSelector(
                         value = viewModel.imageFormat,
                         onValueChange = viewModel::setImageFormat,
-                        entries = ImageFormat.alphaContainedEntries
+                        entries = ImageFormatGroup.alphaContainedEntries
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     QualityWidget(

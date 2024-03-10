@@ -175,8 +175,8 @@ sealed class ImageFormat(
             else -> Default()
         }
 
-        val alphaContainedEntries: List<ImageFormat>
-            get() = listOf(
+        val alphaContainedEntries by lazy {
+            listOf(
                 PngLossless,
                 PngLossy,
                 Webp.Lossy,
@@ -187,16 +187,18 @@ sealed class ImageFormat(
                 Jxl.Lossless,
                 Jxl.Lossy
             )
+        }
 
-        val highLevelFormats
-            get() = listOf(
+        val highLevelFormats by lazy {
+            listOf(
                 Avif,
                 Heic,
                 Heif
             )
+        }
 
-        val entries
-            get() = listOf(
+        val entries by lazy {
+            listOf(
                 Jpg,
                 Jpeg,
                 MozJpeg,
@@ -211,5 +213,6 @@ sealed class ImageFormat(
                 Jxl.Lossless,
                 Jxl.Lossy
             )
+        }
     }
 }

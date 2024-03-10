@@ -91,7 +91,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.material.CropSmall
@@ -243,8 +243,8 @@ fun CropScreen(
                     .padding(horizontal = 16.dp)
                     .navigationBarsPadding(),
                 entries = if (viewModel.cropProperties.cropOutlineProperty.outlineType == OutlineType.Rect) {
-                    ImageFormat.entries
-                } else ImageFormat.alphaContainedEntries,
+                    ImageFormatGroup.entries
+                } else ImageFormatGroup.alphaContainedEntries,
                 value = viewModel.imageFormat,
                 onValueChange = {
                     viewModel.updateMimeType(it)

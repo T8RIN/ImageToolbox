@@ -858,4 +858,5 @@
     <string name="generate_previews_sub">Enables preview generation, this may help to avoid crashes on some devices, this also disables some editing functionality within single edit option</string>
     <string name="lossy_compression">Lossy Compression</string>
     <string name="lossy_compression_sub">Uses lossy compression to reduce file size instead of lossless</string>
+    <string name="compression_type">Compression Type</string>
 </resources>

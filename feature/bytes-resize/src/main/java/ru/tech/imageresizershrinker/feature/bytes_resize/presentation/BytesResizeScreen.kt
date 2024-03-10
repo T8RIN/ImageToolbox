@@ -38,7 +38,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -51,7 +50,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
@@ -290,9 +289,7 @@ fun BytesResizeScreen(
             ImageFormatSelector(
                 value = viewModel.imageFormat,
                 onValueChange = viewModel::setImageFormat,
-                entries = remember {
-                    ImageFormat.entries - ImageFormat.PngLossy
-                }
+                entries = ImageFormatGroup.entries
             )
             Spacer(Modifier.height(8.dp))
             ScaleModeSelector(
