@@ -27,14 +27,17 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.asImageBitmap
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientMaker
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientState
 import javax.inject.Inject
 
-internal class AndroidGradientMaker @Inject constructor() :
+internal class AndroidGradientMaker @Inject constructor(
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
+) :
     GradientMaker<Bitmap, ShaderBrush, Size, Color, TileMode, Offset> {
 
     override suspend fun createGradientBitmap(
@@ -56,7 +59,7 @@ internal class AndroidGradientMaker @Inject constructor() :
         src: Bitmap,
         gradientState: GradientState<ShaderBrush, Size, Color, TileMode, Offset>,
         gradientAlpha: Float
-    ): Bitmap? = withContext(Dispatchers.IO) {
+    ): Bitmap? = withContext(dispatcher) {
         val size = IntegerSize(
             src.width,
             src.height

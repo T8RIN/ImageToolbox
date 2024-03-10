@@ -20,17 +20,20 @@ package ru.tech.imageresizershrinker.feature.erase_background.data
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
 import javax.inject.Inject
 
-internal class AndroidAutoBackgroundRemover @Inject constructor() : AutoBackgroundRemover<Bitmap> {
+internal class AndroidAutoBackgroundRemover @Inject constructor(
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
+) : AutoBackgroundRemover<Bitmap> {
 
     override suspend fun trimEmptyParts(
         image: Bitmap
-    ): Bitmap = CoroutineScope(Dispatchers.Default)
+    ): Bitmap = CoroutineScope(dispatcher)
         .async {
             var firstX = 0
             var firstY = 0
@@ -79,10 +82,10 @@ internal class AndroidAutoBackgroundRemover @Inject constructor() : AutoBackgrou
         onSuccess: (Bitmap) -> Unit,
         onFailure: (Throwable) -> Unit
     ) {
-        kotlin.runCatching {
+        runCatching {
             MlKitBackgroundRemover.bitmapForProcessing(
                 bitmap = image,
-                scope = CoroutineScope(Dispatchers.IO)
+                scope = CoroutineScope(dispatcher)
             ) { result ->
                 if (result.isSuccess) {
                     result.getOrNull()?.let(onSuccess)

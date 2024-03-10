@@ -28,11 +28,12 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
@@ -65,6 +66,7 @@ class ResizeAndConvertViewModel @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
     val imageInfoTransformationFactory: ImageInfoTransformation.Factory
 ) : ViewModel() {
 
@@ -137,7 +139,7 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     fun updateUrisSilently(removedUri: Uri) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcher) {
                 _uris.value = uris
                 if (_selectedUri.value == removedUri) {
                     val index = uris?.indexOf(removedUri) ?: -1
@@ -191,7 +193,7 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     private suspend fun updatePreview(
         bitmap: Bitmap
-    ): Bitmap? = withContext(Dispatchers.IO) {
+    ): Bitmap? = withContext(dispatcher) {
         return@withContext imageInfo.run {
             _showWarning.value = width * height * 4L >= 10_000 * 10_000 * 3L
             imagePreviewCreator.createPreview(
@@ -347,7 +349,7 @@ class ResizeAndConvertViewModel @Inject constructor(
     fun saveBitmaps(
         onComplete: (List<SaveResult>, path: String) -> Unit
     ) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -398,7 +400,7 @@ class ResizeAndConvertViewModel @Inject constructor(
     fun setBitmap(uri: Uri) {
         _selectedUri.value = uri
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcher) {
                 _isImageLoading.update { true }
                 val bitmap = imageGetter.getImage(
                     uri = uri.toString(),

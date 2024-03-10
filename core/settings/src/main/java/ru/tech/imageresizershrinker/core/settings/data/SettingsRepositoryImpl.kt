@@ -25,11 +25,12 @@ import androidx.datastore.preferences.PreferencesMapCompat
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
@@ -110,12 +111,15 @@ import javax.inject.Inject
 
 internal class SettingsRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : SettingsRepository {
 
     private val default = SettingsState.Default
 
-    override suspend fun getSettingsState(): SettingsState = getSettingsStateFlow().first()
+    override suspend fun getSettingsState(): SettingsState = withContext(dispatcher) {
+        getSettingsStateFlow().first()
+    }
 
     override fun getSettingsStateFlow(): Flow<SettingsState> = dataStore.data.map { prefs ->
         SettingsState(
@@ -365,35 +369,33 @@ internal class SettingsRepositoryImpl @Inject constructor(
         backupFileUri: String,
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit
-    ) {
-        val uri = backupFileUri.toUri()
-        withContext(Dispatchers.IO) {
-            kotlin.runCatching {
-                context.contentResolver.openInputStream(uri)?.use { input ->
-                    val byteArrayOutputStream = ByteArrayOutputStream()
-                    byteArrayOutputStream.write(input.readBytes())
-                    try {
-                        PreferencesMapCompat.readFrom(ByteArrayInputStream(byteArrayOutputStream.toByteArray()))
-                    } catch (t: Throwable) {
-                        throw Throwable(context.getString(R.string.corrupted_file_or_not_a_backup))
-                    }
-                    File(
-                        context.filesDir,
-                        "datastore/image_resizer.preferences_pb"
-                    ).outputStream().use {
-                        ByteArrayInputStream(byteArrayOutputStream.toByteArray()).copyTo(it)
-                    }
+    ) = withContext(dispatcher) {
+        runCatching {
+            val uri = backupFileUri.toUri()
+            context.contentResolver.openInputStream(uri)?.use { input ->
+                val byteArrayOutputStream = ByteArrayOutputStream()
+                byteArrayOutputStream.write(input.readBytes())
+                try {
+                    PreferencesMapCompat.readFrom(ByteArrayInputStream(byteArrayOutputStream.toByteArray()))
+                } catch (t: Throwable) {
+                    throw Throwable(context.getString(R.string.corrupted_file_or_not_a_backup))
                 }
-            }.exceptionOrNull()?.let(onFailure) ?: suspend {
-                onSuccess()
-                setSaveFolderUri(null)
-            }.invoke()
-        }
+                File(
+                    context.filesDir,
+                    "datastore/image_resizer.preferences_pb"
+                ).outputStream().use {
+                    ByteArrayInputStream(byteArrayOutputStream.toByteArray()).copyTo(it)
+                }
+            }
+        }.exceptionOrNull()?.let(onFailure) ?: suspend {
+            onSuccess()
+            setSaveFolderUri(null)
+        }.invoke()
         toggleClearCacheOnLaunch()
         toggleClearCacheOnLaunch()
     }
 
-    override suspend fun resetSettings() {
+    override suspend fun resetSettings(): Unit = withContext(dispatcher) {
         File(
             context.filesDir,
             "datastore/image_resizer.preferences_pb"

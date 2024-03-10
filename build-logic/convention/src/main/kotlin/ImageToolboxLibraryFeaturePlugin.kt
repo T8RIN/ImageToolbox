@@ -33,6 +33,7 @@ class ImageToolboxLibraryFeaturePlugin : Plugin<Project> {
                 "implementation"(project(":core:domain"))
                 "implementation"(project(":core:resources"))
                 "implementation"(project(":core:settings"))
+                "implementation"(project(":core:di"))
             }
         }
     }

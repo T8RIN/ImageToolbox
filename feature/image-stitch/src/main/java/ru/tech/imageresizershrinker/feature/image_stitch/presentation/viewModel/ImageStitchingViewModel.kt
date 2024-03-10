@@ -27,11 +27,11 @@ import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
@@ -53,7 +53,8 @@ class ImageStitchingViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageCombiner: ImageCombiner<Bitmap>,
-    private val shareProvider: ShareProvider<Bitmap>
+    private val shareProvider: ShareProvider<Bitmap>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _imageSize: MutableState<IntegerSize> = mutableStateOf(IntegerSize(0, 0))
@@ -124,8 +125,10 @@ class ImageStitchingViewModel @Inject constructor(
 
     fun saveBitmaps(
         onComplete: (result: SaveResult) -> Unit,
-    ) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
+    ) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch(dispatcher) {
             _isSaving.value = true
             imageCombiner.combineImages(
                 imageUris = uris?.map { it.toString() } ?: emptyList(),
@@ -154,10 +157,6 @@ class ImageStitchingViewModel @Inject constructor(
             }
             _isSaving.value = false
         }
-    }.also {
-        _isSaving.value = false
-        savingJob?.cancel()
-        savingJob = it
     }
 
     fun shareBitmap(onComplete: () -> Unit) {

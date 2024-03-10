@@ -26,8 +26,9 @@ import com.watermark.androidwm.WatermarkBuilder
 import com.watermark.androidwm.bean.WatermarkImage
 import com.watermark.androidwm.bean.WatermarkText
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkApplier
@@ -38,14 +39,15 @@ import kotlin.math.roundToInt
 
 internal class AndroidWatermarkApplier @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : WatermarkApplier<Bitmap> {
 
     override suspend fun applyWatermark(
         image: Bitmap,
         originalSize: Boolean,
         params: WatermarkParams
-    ): Bitmap? = withContext(Dispatchers.IO) {
+    ): Bitmap? = withContext(dispatcher) {
         val builder: WatermarkBuilder? = when (val type = params.watermarkingType) {
             is WatermarkingType.Text -> {
                 WatermarkBuilder
@@ -63,12 +65,12 @@ internal class AndroidWatermarkApplier @Inject constructor(
                             .setTextColor(type.color)
                             .setTextFont(type.font)
                             .setTextStyle(
-                                Paint.Style.values().first { it.ordinal == type.style }
+                                Paint.Style.entries.first { it.ordinal == type.style }
                             )
                     )
                     .setTileMode(params.isRepeated)
                     .setPorterDuffMode(
-                        PorterDuff.Mode.values().first { it.ordinal == params.overlayMode }
+                        PorterDuff.Mode.entries.first { it.ordinal == params.overlayMode }
                     )
             }
 
@@ -94,7 +96,7 @@ internal class AndroidWatermarkApplier @Inject constructor(
                         )
                         .setTileMode(params.isRepeated)
                         .setPorterDuffMode(
-                            PorterDuff.Mode.values().first { it.ordinal == params.overlayMode }
+                            PorterDuff.Mode.entries.first { it.ordinal == params.overlayMode }
                         )
                 }
             }

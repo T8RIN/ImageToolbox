@@ -29,10 +29,11 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -61,7 +62,8 @@ class JxlToolsViewModel @Inject constructor(
     private val fileController: FileController,
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val imageCompressor: ImageCompressor<Bitmap>
+    private val imageCompressor: ImageCompressor<Bitmap>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _type: MutableState<Screen.JxlTools.Type?> = mutableStateOf(null)
@@ -131,7 +133,7 @@ class JxlToolsViewModel @Inject constructor(
         }
         updateJxlFrames(ImageFrames.All)
         collectionJob?.cancel()
-        collectionJob = viewModelScope.launch(Dispatchers.IO) {
+        collectionJob = viewModelScope.launch(dispatcher) {
             _isLoading.update { true }
             _isLoadingJxlImages.update { true }
             jxlConverter.extractFramesFromJxl(
@@ -159,7 +161,7 @@ class JxlToolsViewModel @Inject constructor(
     ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch(Dispatchers.IO) {
+        savingJob = viewModelScope.launch(dispatcher) {
             _isSaving.value = true
             _left.value = 1
             _done.value = 0
@@ -364,7 +366,7 @@ class JxlToolsViewModel @Inject constructor(
     ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch(Dispatchers.IO) {
+        savingJob = viewModelScope.launch(dispatcher) {
             _isSaving.value = true
             _left.value = 1
             _done.value = 0

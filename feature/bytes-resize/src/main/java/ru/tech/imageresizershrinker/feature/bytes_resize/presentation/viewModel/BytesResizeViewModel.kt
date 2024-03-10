@@ -29,10 +29,11 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
@@ -58,6 +59,7 @@ class BytesResizeViewModel @Inject constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageScaler: BytesImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
     val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
 ) : ViewModel() {
 
@@ -146,7 +148,7 @@ class BytesResizeViewModel @Inject constructor(
 
     fun updateUrisSilently(removedUri: Uri) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcher) {
                 _uris.value = uris
                 if (_selectedUri.value == removedUri) {
                     val index = uris?.indexOf(removedUri) ?: -1
@@ -189,7 +191,7 @@ class BytesResizeViewModel @Inject constructor(
     fun saveBitmaps(
         onResult: (List<SaveResult>, String) -> Unit
     ) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -256,7 +258,7 @@ class BytesResizeViewModel @Inject constructor(
 
     fun setBitmap(uri: Uri) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcher) {
                 updateBitmap(
                     imageGetter.getImage(
                         uri = uri.toString(),

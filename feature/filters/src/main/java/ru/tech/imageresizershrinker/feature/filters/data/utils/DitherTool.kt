@@ -18,8 +18,7 @@ package ru.tech.imageresizershrinker.feature.filters.data.utils
 
 import android.graphics.Bitmap
 import android.graphics.Color
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.coroutineScope
 import kotlin.math.abs
 
 class DitherTool(
@@ -50,7 +49,7 @@ class DitherTool(
     suspend fun dither(
         type: Type,
         src: Bitmap
-    ): Bitmap = withContext(Dispatchers.IO) {
+    ): Bitmap = coroutineScope {
 
         if (src.config !in listOf(Bitmap.Config.ARGB_8888)) {
             throw IllegalArgumentException("Bitmap config should consist of 32 bits")

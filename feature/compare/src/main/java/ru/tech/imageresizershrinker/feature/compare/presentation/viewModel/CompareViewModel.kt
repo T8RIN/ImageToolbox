@@ -28,10 +28,10 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
@@ -54,7 +54,8 @@ class CompareViewModel @Inject constructor(
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
-    private val shareProvider: ShareProvider<Bitmap>
+    private val shareProvider: ShareProvider<Bitmap>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _bitmapData: MutableState<Pair<Bitmap?, Bitmap?>?> = mutableStateOf(null)
@@ -75,40 +76,36 @@ class CompareViewModel @Inject constructor(
             if (it == 90f) 0f
             else 90f
         }
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                _bitmapData.value?.let { (f, s) ->
-                    if (f != null && s != null) {
-                        _isImageLoading.value = true
-                        _bitmapData.value = with(imageTransformer) {
-                            rotate(
-                                image = rotate(
-                                    image = f,
-                                    degrees = 180f - old
-                                ),
-                                degrees = rotation
-                            ) to rotate(
-                                image = rotate(
-                                    image = s,
-                                    degrees = 180f - old
-                                ),
-                                degrees = rotation
-                            )
-                        }
-                        _isImageLoading.value = false
+        viewModelScope.launch(dispatcher) {
+            _bitmapData.value?.let { (f, s) ->
+                if (f != null && s != null) {
+                    _isImageLoading.value = true
+                    _bitmapData.value = with(imageTransformer) {
+                        rotate(
+                            image = rotate(
+                                image = f,
+                                degrees = 180f - old
+                            ),
+                            degrees = rotation
+                        ) to rotate(
+                            image = rotate(
+                                image = s,
+                                degrees = 180f - old
+                            ),
+                            degrees = rotation
+                        )
                     }
+                    _isImageLoading.value = false
                 }
             }
         }
     }
 
     fun swap() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                _isImageLoading.value = true
-                _bitmapData.value = _bitmapData.value?.run { second to first }
-                _isImageLoading.value = false
-            }
+        viewModelScope.launch(dispatcher) {
+            _isImageLoading.value = true
+            _bitmapData.value = _bitmapData.value?.run { second to first }
+            _isImageLoading.value = false
         }
     }
 
@@ -117,14 +114,12 @@ class CompareViewModel @Inject constructor(
         onError: () -> Unit,
         onSuccess: () -> Unit
     ) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val data = getBitmapByUri(uris.first) to getBitmapByUri(uris.second)
-                if (data.first == null || data.second == null) onError()
-                else {
-                    _bitmapData.value = data
-                    onSuccess()
-                }
+        viewModelScope.launch(dispatcher) {
+            val data = getBitmapByUri(uris.first) to getBitmapByUri(uris.second)
+            if (data.first == null || data.second == null) onError()
+            else {
+                _bitmapData.value = data
+                onSuccess()
             }
         }
     }
@@ -142,7 +137,7 @@ class CompareViewModel @Inject constructor(
     ) {
         _isImageLoading.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch {
+        savingJob = viewModelScope.launch(dispatcher) {
             _isImageLoading.value = true
             getOverlayedImage(percent)?.let {
                 shareProvider.shareImage(
@@ -163,8 +158,10 @@ class CompareViewModel @Inject constructor(
         percent: Float,
         imageFormat: ImageFormat,
         onComplete: (saveResult: SaveResult) -> Unit
-    ) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
+    ) {
+        _isImageLoading.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch(dispatcher) {
             _isImageLoading.value = true
             getOverlayedImage(percent)?.let { localBitmap ->
                 onComplete(
@@ -188,13 +185,9 @@ class CompareViewModel @Inject constructor(
                         ), keepOriginalMetadata = false
                     )
                 )
+                _isImageLoading.value = false
             }
-            _isImageLoading.value = false
         }
-    }.also {
-        _isImageLoading.value = false
-        savingJob?.cancel()
-        savingJob = it
     }
 
     private fun Bitmap.overlay(

@@ -72,5 +72,6 @@ include(":core:resources")
 include(":core:data")
 include(":core:domain")
 include(":core:ui")
+include(":core:di")
 
 include(":benchmark")

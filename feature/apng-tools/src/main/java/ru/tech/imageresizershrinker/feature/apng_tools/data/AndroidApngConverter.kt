@@ -27,7 +27,7 @@ import com.awxkee.jxlcoder.JxlCoder
 import com.awxkee.jxlcoder.JxlDecodingSpeed
 import com.awxkee.jxlcoder.JxlEffort
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
@@ -36,6 +36,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import oupson.apng.decoder.ApngDecoder
 import oupson.apng.encoder.ApngEncoder
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
@@ -54,6 +55,7 @@ internal class AndroidApngConverter @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageShareProvider: ShareProvider<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
     @ApplicationContext private val context: Context
 ) : ApngConverter {
 
@@ -65,7 +67,7 @@ internal class AndroidApngConverter @Inject constructor(
         ApngDecoder(
             context = context,
             uri = apngUri.toUri()
-        ).decodeAsync(Dispatchers.IO) { frame ->
+        ).decodeAsync(dispatcher) { frame ->
             if (!currentCoroutineContext().isActive) {
                 currentCoroutineContext().cancel(null)
                 return@decodeAsync
@@ -87,7 +89,7 @@ internal class AndroidApngConverter @Inject constructor(
         imageUris: List<String>,
         params: ApngParams,
         onProgress: () -> Unit
-    ): ByteArray = withContext(Dispatchers.IO) {
+    ): ByteArray = withContext(dispatcher) {
         val out = ByteArrayOutputStream()
         val size = params.size ?: imageGetter.getImage(data = imageUris[0])!!.run {
             IntegerSize(width, height)
@@ -136,7 +138,7 @@ internal class AndroidApngConverter @Inject constructor(
         apngUris: List<String>,
         quality: Quality.Jxl,
         onProgress: suspend (String, ByteArray) -> Unit
-    ) {
+    ) = withContext(dispatcher) {
         apngUris.forEach { uri ->
             uri.bytes?.let { apngData ->
                 runCatching {

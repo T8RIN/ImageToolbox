@@ -32,12 +32,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
@@ -74,7 +75,8 @@ class FilterViewModel @Inject constructor(
     val filterProvider: FilterProvider<Bitmap>,
     val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
     private val imageTransformer: ImageTransformer<Bitmap>,
-    private val shareProvider: ShareProvider<Bitmap>
+    private val shareProvider: ShareProvider<Bitmap>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _bitmapSize = mutableStateOf<Long?>(null)
@@ -142,7 +144,7 @@ class FilterViewModel @Inject constructor(
 
     fun updateUrisSilently(removedUri: Uri) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcher) {
                 val state = _basicFilterState.value
                 if (state.selectedUri == removedUri) {
                     val index = state.uris?.indexOf(removedUri) ?: -1
@@ -182,7 +184,7 @@ class FilterViewModel @Inject constructor(
     fun saveBitmaps(
         onResult: (List<SaveResult>, String) -> Unit
     ) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -231,7 +233,7 @@ class FilterViewModel @Inject constructor(
 
     fun setBitmap(uri: Uri) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcher) {
                 _isImageLoading.value = true
                 val req = imageGetter.getImage(uri = uri.toString())
                 val tempBitmap = req?.image
@@ -390,7 +392,7 @@ class FilterViewModel @Inject constructor(
         _bitmap.value?.let { bitmap ->
             filterJob?.cancel()
             filterJob = viewModelScope.launch {
-                withContext(Dispatchers.IO) {
+                withContext(dispatcher) {
                     delay(200L)
                     _isImageLoading.value = true
                     when (filterType) {
@@ -468,7 +470,7 @@ class FilterViewModel @Inject constructor(
         _isSaving.value = false
         savingJob?.cancel()
         savingJob = viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcher) {
                 _isSaving.value = true
                 _done.value = 0
                 _left.value = maskingFilterState.masks.size

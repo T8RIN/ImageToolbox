@@ -21,12 +21,13 @@ import android.annotation.TargetApi
 import android.graphics.Bitmap
 import android.os.Build
 import androidx.exifinterface.media.ExifInterface
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
@@ -45,6 +46,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
     settingsRepository: SettingsRepository
 ) : ImagePreviewCreator<Bitmap> {
 
@@ -55,7 +57,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
             .getSettingsStateFlow()
             .onEach {
                 generatePreviews = it.generatePreviews
-            }.launchIn(CoroutineScope(Dispatchers.IO))
+            }.launchIn(CoroutineScope(dispatcher))
     }
 
     override suspend fun createPreview(
@@ -63,7 +65,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
         imageInfo: ImageInfo,
         transformations: List<Transformation<Bitmap>>,
         onGetByteCount: (Int) -> Unit
-    ): Bitmap? = withContext(Dispatchers.IO) {
+    ): Bitmap? = withContext(dispatcher) {
         launch {
             onGetByteCount(
                 imageCompressor.calculateImageSize(
@@ -116,8 +118,8 @@ internal class AndroidImagePreviewCreator @Inject constructor(
                 }
             )
         }
-        val bitmap = imageGetter.getImage(bytes)
-        return@withContext bitmap ?: image
+
+        imageGetter.getImage(bytes) ?: image
     }
 
     override fun canShow(
@@ -142,7 +144,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
         onImageReadyToCompressInterceptor: suspend (Bitmap) -> Bitmap,
         image: Bitmap,
         imageInfo: ImageInfo
-    ): ByteArray = withContext(Dispatchers.IO) {
+    ): ByteArray = withContext(dispatcher) {
         val currentImage = imageScaler.scaleImage(
             image = image,
             width = (imageInfo.width * scaleFactor).roundToInt(),
@@ -158,7 +160,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
             onImageReadyToCompressInterceptor(it)
         }
 
-        return@withContext runCatching {
+        runCatching {
             imageCompressor.compress(
                 image = currentImage,
                 imageFormat = imageInfo.imageFormat,

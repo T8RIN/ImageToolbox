@@ -22,8 +22,9 @@ import android.net.Uri
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.feature.zip.domain.ZipManager
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
@@ -33,18 +34,19 @@ import java.util.zip.ZipOutputStream
 import javax.inject.Inject
 
 internal class ZipManagerImpl @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : ZipManager {
 
     override suspend fun zip(
         files: List<String>,
         onProgress: () -> Unit
-    ): ByteArray = withContext(Dispatchers.IO) {
+    ): ByteArray = withContext(dispatcher) {
         ByteArrayOutputStream().apply {
             use { out ->
                 ZipOutputStream(BufferedOutputStream(out)).use { output ->
                     files.forEach { file ->
-                        withContext(Dispatchers.IO) {
+                        withContext(dispatcher) {
                             context.contentResolver.openInputStream(file.toUri()).use { input ->
                                 BufferedInputStream(input).use { origin ->
                                     val entry = ZipEntry(file.toUri().getFilename())

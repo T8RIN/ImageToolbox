@@ -32,11 +32,12 @@ import com.smarttoolfactory.cropper.model.RectCropShape
 import com.smarttoolfactory.cropper.settings.CropDefaults
 import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
@@ -75,7 +76,8 @@ class SingleEditViewModel @Inject constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     private val autoBackgroundRemover: AutoBackgroundRemover<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
-    private val filterProvider: FilterProvider<Bitmap>
+    private val filterProvider: FilterProvider<Bitmap>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _originalSize: MutableState<IntegerSize?> = mutableStateOf(null)
@@ -188,7 +190,7 @@ class SingleEditViewModel @Inject constructor(
     fun saveBitmap(
         onComplete: (result: SaveResult) -> Unit,
     ) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             _isSaving.value = true
             bitmap?.let { bitmap ->
                 onComplete(
@@ -219,7 +221,7 @@ class SingleEditViewModel @Inject constructor(
 
     private suspend fun updatePreview(
         bitmap: Bitmap
-    ): Bitmap? = withContext(Dispatchers.IO) {
+    ): Bitmap? = withContext(dispatcher) {
         return@withContext imageInfo.run {
             _showWarning.value = width * height * 4L >= 10_000 * 10_000 * 3L
             imagePreviewCreator.createPreview(

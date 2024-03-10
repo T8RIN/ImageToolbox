@@ -31,11 +31,12 @@ import coil.size.Size
 import coil.size.pxOrElse
 import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
@@ -60,7 +61,8 @@ class WatermarkingViewModel @Inject constructor(
     private val shareProvider: ShareProvider<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
-    private val watermarkApplier: WatermarkApplier<Bitmap>
+    private val watermarkApplier: WatermarkApplier<Bitmap>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _internalBitmap: MutableState<Bitmap?> = mutableStateOf(null)
@@ -142,7 +144,7 @@ class WatermarkingViewModel @Inject constructor(
         onResult: (List<SaveResult>, String) -> Unit
     ) = viewModelScope.launch {
         _left.value = -1
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -190,7 +192,7 @@ class WatermarkingViewModel @Inject constructor(
     private suspend fun getWatermarkedBitmap(
         data: Any,
         originalSize: Boolean = false
-    ): Bitmap? = withContext(Dispatchers.IO) {
+    ): Bitmap? = withContext(dispatcher) {
         imageGetter.getImage(data, originalSize)?.let { image ->
             watermarkApplier.applyWatermark(
                 image = image,
@@ -278,7 +280,7 @@ class WatermarkingViewModel @Inject constructor(
 
     fun updateUrisSilently(removedUri: Uri) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcher) {
                 if (selectedUri == removedUri) {
                     val index = uris.indexOf(removedUri)
                     if (index == 0) {

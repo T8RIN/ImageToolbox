@@ -28,11 +28,12 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
@@ -51,8 +52,9 @@ class DeleteExifViewModel @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
+    private val imageCompressor: ImageCompressor<Bitmap>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
     val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
-    private val imageCompressor: ImageCompressor<Bitmap>
 ) : ViewModel() {
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
@@ -92,7 +94,7 @@ class DeleteExifViewModel @Inject constructor(
 
     fun updateUrisSilently(removedUri: Uri) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcher) {
                 _uris.value = uris
                 if (_selectedUri.value == removedUri) {
                     val index = uris?.indexOf(removedUri) ?: -1
@@ -133,7 +135,7 @@ class DeleteExifViewModel @Inject constructor(
     fun saveBitmaps(
         onResult: (List<SaveResult>, String) -> Unit
     ) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -181,7 +183,7 @@ class DeleteExifViewModel @Inject constructor(
         onError: (Throwable) -> Unit
     ) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcher) {
                 _isImageLoading.value = true
                 _selectedUri.value = uri
                 imageGetter.getImageAsync(

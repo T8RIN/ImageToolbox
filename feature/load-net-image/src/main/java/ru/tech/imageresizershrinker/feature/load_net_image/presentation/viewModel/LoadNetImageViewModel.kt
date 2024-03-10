@@ -28,10 +28,11 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
@@ -49,7 +50,8 @@ class LoadNetImageViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val shareProvider: ShareProvider<Bitmap>,
-    private val imageCompressor: ImageCompressor<Bitmap>
+    private val imageCompressor: ImageCompressor<Bitmap>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _bitmap = mutableStateOf<Bitmap?>(null)
@@ -71,7 +73,7 @@ class LoadNetImageViewModel @Inject constructor(
         link: String,
         onComplete: (saveResult: SaveResult) -> Unit
     ) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             _isSaving.value = true
             imageGetter.getImage(data = link)?.let { bitmap ->
                 onComplete(

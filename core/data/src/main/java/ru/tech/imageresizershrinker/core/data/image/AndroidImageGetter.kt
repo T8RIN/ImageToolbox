@@ -33,9 +33,10 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.size.Size
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.ImageData
@@ -47,14 +48,15 @@ import javax.inject.Inject
 
 internal class AndroidImageGetter @Inject constructor(
     private val imageLoader: ImageLoader,
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : ImageGetter<Bitmap, ExifInterface> {
 
     override suspend fun getImage(
         uri: String,
         originalSize: Boolean
-    ): ImageData<Bitmap, ExifInterface>? = withContext(Dispatchers.IO) {
-        return@withContext kotlin.runCatching {
+    ): ImageData<Bitmap, ExifInterface>? = withContext(dispatcher) {
+        runCatching {
             imageLoader.execute(
                 ImageRequest
                     .Builder(context)
@@ -86,8 +88,8 @@ internal class AndroidImageGetter @Inject constructor(
     override suspend fun getImage(
         data: Any,
         originalSize: Boolean
-    ): Bitmap? {
-        return runCatching {
+    ): Bitmap? = withContext(dispatcher) {
+        runCatching {
             imageLoader.execute(
                 ImageRequest
                     .Builder(context)
@@ -103,8 +105,8 @@ internal class AndroidImageGetter @Inject constructor(
     override suspend fun getImage(
         data: Any,
         size: IntegerSize?
-    ): Bitmap? {
-        return runCatching {
+    ): Bitmap? = withContext(dispatcher) {
+        runCatching {
             imageLoader.execute(
                 ImageRequest
                     .Builder(context)
@@ -125,7 +127,7 @@ internal class AndroidImageGetter @Inject constructor(
         uri: String,
         transformations: List<Transformation<Bitmap>>,
         originalSize: Boolean
-    ): ImageData<Bitmap, ExifInterface>? = withContext(Dispatchers.IO) {
+    ): ImageData<Bitmap, ExifInterface>? = withContext(dispatcher) {
         val request = ImageRequest
             .Builder(context)
             .data(uri)
@@ -136,7 +138,8 @@ internal class AndroidImageGetter @Inject constructor(
                 if (originalSize) size(Size.ORIGINAL)
             }
             .build()
-        return@withContext runCatching {
+
+        runCatching {
             imageLoader.execute(request).drawable?.toBitmap()?.let { bitmap ->
                 val newUri = uri.toUri().tryGetLocation(context)
                 val fd = context.contentResolver.openFileDescriptor(newUri, "r")
@@ -162,7 +165,7 @@ internal class AndroidImageGetter @Inject constructor(
         onGetImage: (ImageData<Bitmap, ExifInterface>) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        val bmp = kotlin.runCatching {
+        val bmp = runCatching {
             imageLoader.enqueue(
                 ImageRequest
                     .Builder(context)

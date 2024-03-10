@@ -28,9 +28,10 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.size.Size
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
@@ -46,14 +47,15 @@ import kotlin.math.abs
 
 internal class AndroidImageTransformer @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val imageLoader: ImageLoader
+    private val imageLoader: ImageLoader,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : ImageTransformer<Bitmap> {
 
     override suspend fun transform(
         image: Bitmap,
         transformations: List<Transformation<Bitmap>>,
         originalSize: Boolean
-    ): Bitmap? = withContext(Dispatchers.IO) {
+    ): Bitmap? = withContext(dispatcher) {
         val request = ImageRequest
             .Builder(context)
             .data(image)
@@ -74,7 +76,7 @@ internal class AndroidImageTransformer @Inject constructor(
         image: Bitmap,
         transformations: List<Transformation<Bitmap>>,
         size: IntegerSize
-    ): Bitmap? = withContext(Dispatchers.IO) {
+    ): Bitmap? = withContext(dispatcher) {
         val request = ImageRequest
             .Builder(context)
             .data(image)
@@ -93,7 +95,7 @@ internal class AndroidImageTransformer @Inject constructor(
         image: Bitmap?,
         preset: Preset,
         currentInfo: ImageInfo
-    ): ImageInfo = withContext(Dispatchers.IO) {
+    ): ImageInfo = withContext(dispatcher) {
         if (image == null) return@withContext currentInfo
 
         val size = currentInfo.originalUri?.let {
@@ -138,18 +140,18 @@ internal class AndroidImageTransformer @Inject constructor(
     override suspend fun flip(
         image: Bitmap,
         isFlipped: Boolean
-    ): Bitmap {
-        return if (isFlipped) {
+    ): Bitmap = withContext(dispatcher) {
+        if (isFlipped) {
             val matrix = Matrix().apply { postScale(-1f, 1f, image.width / 2f, image.height / 2f) }
-            return Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)
+            Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)
         } else image
     }
 
     override suspend fun rotate(
         image: Bitmap,
         degrees: Float
-    ): Bitmap {
-        return if (degrees % 90 == 0f) {
+    ): Bitmap = withContext(dispatcher) {
+        if (degrees % 90 == 0f) {
             val matrix = Matrix().apply { postRotate(degrees) }
             Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)
         } else {

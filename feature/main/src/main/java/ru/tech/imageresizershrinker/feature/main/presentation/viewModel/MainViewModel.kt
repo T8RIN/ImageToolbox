@@ -35,13 +35,14 @@ import com.t8rin.dynamic.theme.extractPrimaryColor
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olshevski.navigation.reimagined.navController
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.APP_RELEASES
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
@@ -66,7 +67,8 @@ class MainViewModel @Inject constructor(
     val imageLoader: ImageLoader,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
@@ -246,7 +248,7 @@ class MainViewModel @Inject constructor(
         } else {
             if (!_cancelledUpdate.value || newRequest) {
                 viewModelScope.launch {
-                    withContext(Dispatchers.IO) {
+                    withContext(dispatcher) {
                         kotlin.runCatching {
                             val nodes =
                                 DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
@@ -467,7 +469,7 @@ class MainViewModel @Inject constructor(
         onFailure: (Throwable) -> Unit
     ) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcher) {
                 settingsRepository.restoreFromBackupFile(
                     backupFileUri = uri.toString(),
                     onSuccess = onSuccess,

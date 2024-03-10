@@ -52,4 +52,5 @@ dependencies {
     implementation(projects.core.filters)
 
     implementation(projects.core.settings)
+    implementation(projects.core.di)
 }

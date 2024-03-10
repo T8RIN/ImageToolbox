@@ -33,11 +33,12 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.size.Size
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -53,7 +54,8 @@ import kotlin.math.roundToInt
 internal class AndroidPdfManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageLoader: ImageLoader,
-    private val imageScaler: ImageScaler<Bitmap>
+    private val imageScaler: ImageScaler<Bitmap>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : PdfManager<Bitmap> {
 
     override suspend fun convertImagesToPdf(
@@ -61,7 +63,7 @@ internal class AndroidPdfManager @Inject constructor(
         onProgressChange: suspend (Int) -> Unit,
         scaleSmallImagesToLarge: Boolean,
         preset: Preset.Numeric
-    ): ByteArray = withContext(Dispatchers.IO) {
+    ): ByteArray = withContext(dispatcher) {
         val pdfDocument = PdfDocument()
 
         val (size, images) = calculateCombinedImageDimensionsAndBitmaps(
@@ -114,87 +116,85 @@ internal class AndroidPdfManager @Inject constructor(
         onGetPagesCount: suspend (Int) -> Unit,
         onProgressChange: suspend (Int, Bitmap) -> Unit,
         onComplete: suspend () -> Unit
-    ) = CoroutineScope(Dispatchers.Main).launch {
-        withContext(Dispatchers.IO) {
-            context.contentResolver.openFileDescriptor(
-                pdfUri.toUri(),
-                "r"
-            )?.use { fileDescriptor ->
-                val pdfRenderer = PdfRenderer(fileDescriptor)
+    ) = CoroutineScope(dispatcher).launch {
+        context.contentResolver.openFileDescriptor(
+            pdfUri.toUri(),
+            "r"
+        )?.use { fileDescriptor ->
+            val pdfRenderer = PdfRenderer(fileDescriptor)
 
-                onGetPagesCount(pages?.size ?: pdfRenderer.pageCount)
+            onGetPagesCount(pages?.size ?: pdfRenderer.pageCount)
 
-                for (pageIndex in 0 until pdfRenderer.pageCount) {
-                    if (pages == null || pages.contains(pageIndex)) {
-                        val bitmap: Bitmap
-                        pdfRenderer.openPage(pageIndex).use { page ->
-                            bitmap = imageScaler.scaleUntilCanShow(
-                                Bitmap.createBitmap(
-                                    (page.width * (preset.value / 100f)).roundToInt(),
-                                    (page.height * (preset.value / 100f)).roundToInt(),
-                                    Bitmap.Config.ARGB_8888
-                                )
-                            )!!
-                            page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
-                        }
-
-                        val renderedBitmap = Bitmap.createBitmap(
-                            bitmap.width,
-                            bitmap.height,
-                            getSuitableConfig(bitmap)
-                        )
-                        Canvas(renderedBitmap).apply {
-                            drawColor(Color.White.toArgb())
-                            drawBitmap(bitmap, 0f, 0f, Paint().apply { isAntiAlias = true })
-                        }
-
-                        onProgressChange(pageIndex, renderedBitmap)
+            for (pageIndex in 0 until pdfRenderer.pageCount) {
+                if (pages == null || pages.contains(pageIndex)) {
+                    val bitmap: Bitmap
+                    pdfRenderer.openPage(pageIndex).use { page ->
+                        bitmap = imageScaler.scaleUntilCanShow(
+                            Bitmap.createBitmap(
+                                (page.width * (preset.value / 100f)).roundToInt(),
+                                (page.height * (preset.value / 100f)).roundToInt(),
+                                Bitmap.Config.ARGB_8888
+                            )
+                        )!!
+                        page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
                     }
+
+                    val renderedBitmap = Bitmap.createBitmap(
+                        bitmap.width,
+                        bitmap.height,
+                        getSuitableConfig(bitmap)
+                    )
+                    Canvas(renderedBitmap).apply {
+                        drawColor(Color.White.toArgb())
+                        drawBitmap(bitmap, 0f, 0f, Paint().apply { isAntiAlias = true })
+                    }
+
+                    onProgressChange(pageIndex, renderedBitmap)
                 }
-                onComplete()
-                pdfRenderer.close()
             }
+            onComplete()
+            pdfRenderer.close()
         }
     }
 
-    override suspend fun getPdfPages(uri: String): List<Int> {
-        return withContext(Dispatchers.IO) {
+    override suspend fun getPdfPages(
+        uri: String
+    ): List<Int> = withContext(dispatcher) {
+        runCatching {
+            context.contentResolver.openFileDescriptor(
+                uri.toUri(),
+                "r"
+            )?.use { fileDescriptor ->
+                List(PdfRenderer(fileDescriptor).pageCount) { it }
+            }
+        }.getOrNull() ?: emptyList()
+    }
+
+    private val pagesBuf = hashMapOf<String, List<IntegerSize>>()
+    override suspend fun getPdfPageSizes(
+        uri: String
+    ): List<IntegerSize> = withContext(dispatcher) {
+        if (!pagesBuf[uri].isNullOrEmpty()) {
+            pagesBuf[uri]!!
+        } else {
             runCatching {
                 context.contentResolver.openFileDescriptor(
                     uri.toUri(),
                     "r"
                 )?.use { fileDescriptor ->
-                    List(PdfRenderer(fileDescriptor).pageCount) { it }
+                    val r = PdfRenderer(fileDescriptor)
+                    List(r.pageCount) {
+                        val page = r.openPage(it)
+                        page?.run {
+                            IntegerSize(width, height)
+                        }.also {
+                            page.close()
+                        }
+                    }.filterNotNull().also {
+                        pagesBuf[uri] = it
+                    }
                 }
             }.getOrNull() ?: emptyList()
-        }
-    }
-
-    private val pagesBuf = hashMapOf<String, List<IntegerSize>>()
-    override suspend fun getPdfPageSizes(uri: String): List<IntegerSize> {
-        return withContext(Dispatchers.IO) {
-            if (!pagesBuf[uri].isNullOrEmpty()) {
-                pagesBuf[uri]!!
-            } else {
-                runCatching {
-                    context.contentResolver.openFileDescriptor(
-                        uri.toUri(),
-                        "r"
-                    )?.use { fileDescriptor ->
-                        val r = PdfRenderer(fileDescriptor)
-                        List(r.pageCount) {
-                            val page = r.openPage(it)
-                            page?.run {
-                                IntegerSize(width, height)
-                            }.also {
-                                page.close()
-                            }
-                        }.filterNotNull().also {
-                            pagesBuf[uri] = it
-                        }
-                    }
-                }.getOrNull() ?: emptyList()
-            }
         }
     }
 
@@ -204,7 +204,7 @@ internal class AndroidPdfManager @Inject constructor(
         scaleSmallImagesToLarge: Boolean,
         imageSpacing: Int,
         percent: Int
-    ): Pair<IntegerSize, List<Bitmap>> = withContext(Dispatchers.IO) {
+    ): Pair<IntegerSize, List<Bitmap>> = withContext(dispatcher) {
         var w = 0
         var h = 0
         var maxHeight = 0
@@ -322,8 +322,8 @@ internal class AndroidPdfManager @Inject constructor(
     private suspend fun Bitmap.upscale(
         isHorizontal: Boolean,
         size: IntegerSize
-    ): Bitmap {
-        return if (isHorizontal) {
+    ): Bitmap = withContext(dispatcher) {
+        if (isHorizontal) {
             createScaledBitmap(
                 width = (size.height * aspectRatio).toInt(),
                 height = size.height,

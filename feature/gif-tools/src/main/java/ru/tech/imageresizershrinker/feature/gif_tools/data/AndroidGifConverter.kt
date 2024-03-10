@@ -27,13 +27,14 @@ import com.awxkee.jxlcoder.JxlEffort
 import com.t8rin.gif_converter.GifDecoder
 import com.t8rin.gif_converter.GifEncoder
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
@@ -49,7 +50,8 @@ import javax.inject.Inject
 internal class AndroidGifConverter @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageShareProvider: ShareProvider<Bitmap>,
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : GifConverter {
 
     override fun extractFramesFromGif(
@@ -98,7 +100,7 @@ internal class AndroidGifConverter @Inject constructor(
         imageUris: List<String>,
         params: GifParams,
         onProgress: () -> Unit
-    ): ByteArray = withContext(Dispatchers.IO) {
+    ): ByteArray = withContext(dispatcher) {
         val out = ByteArrayOutputStream()
         val encoder = GifEncoder().apply {
             params.size?.let { size ->
@@ -130,7 +132,7 @@ internal class AndroidGifConverter @Inject constructor(
         gifUris: List<String>,
         quality: Quality.Jxl,
         onProgress: suspend (String, ByteArray) -> Unit
-    ) {
+    ) = withContext(dispatcher) {
         gifUris.forEach { uri ->
             uri.bytes?.let { gifData ->
                 runCatching {

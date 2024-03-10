@@ -30,7 +30,7 @@ import com.awxkee.jxlcoder.JxlCoder
 import com.awxkee.jxlcoder.JxlCompressionOption
 import com.awxkee.jxlcoder.JxlDecodingSpeed
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
@@ -38,6 +38,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
@@ -56,27 +57,32 @@ internal class AndroidJxlConverter @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageShareProvider: ShareProvider<Bitmap>,
-    private val imageScaler: ImageScaler<Bitmap>
+    private val imageScaler: ImageScaler<Bitmap>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : JxlConverter {
 
     override suspend fun jpegToJxl(
         jpegUris: List<String>,
         onError: (Throwable) -> Unit,
         onProgress: suspend (String, ByteArray) -> Unit
-    ) = jpegUris.forEach { uri ->
-        runCatching {
-            uri.jxl?.let { onProgress(uri, it) }
-        }.onFailure(onError)
+    ) = withContext(dispatcher) {
+        jpegUris.forEach { uri ->
+            runCatching {
+                uri.jxl?.let { onProgress(uri, it) }
+            }.onFailure(onError)
+        }
     }
 
     override suspend fun jxlToJpeg(
         jxlUris: List<String>,
         onError: (Throwable) -> Unit,
         onProgress: suspend (String, ByteArray) -> Unit
-    ) = jxlUris.forEach { uri ->
-        runCatching {
-            uri.jpeg?.let { onProgress(uri, it) }
-        }.onFailure(onError)
+    ) = withContext(dispatcher) {
+        jxlUris.forEach { uri ->
+            runCatching {
+                uri.jpeg?.let { onProgress(uri, it) }
+            }.onFailure(onError)
+        }
     }
 
     override suspend fun createJxlAnimation(
@@ -84,7 +90,7 @@ internal class AndroidJxlConverter @Inject constructor(
         params: JxlParams,
         onError: (Throwable) -> Unit,
         onProgress: () -> Unit
-    ): ByteArray = withContext(Dispatchers.IO) {
+    ): ByteArray = withContext(dispatcher) {
         val size = params.size ?: imageGetter.getImage(data = imageUris[0])!!.run {
             IntegerSize(width, height)
         }

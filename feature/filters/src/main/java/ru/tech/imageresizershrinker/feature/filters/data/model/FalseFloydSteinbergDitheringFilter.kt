@@ -18,8 +18,6 @@
 package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -35,11 +33,12 @@ internal class FalseFloydSteinbergDitheringFilter(
     override suspend fun transform(
         input: Bitmap,
         size: IntegerSize
-    ): Bitmap = withContext(Dispatchers.IO) {
-        DitherTool(value.first.toInt(), value.second).dither(
-            DitherTool.Type.FalseFloydSteinberg,
-            input
-        )
-    }
+    ): Bitmap = DitherTool(
+        threshold = value.first.toInt(),
+        isGrayScale = value.second
+    ).dither(
+        type = DitherTool.Type.FalseFloydSteinberg,
+        src = input
+    )
 
 }

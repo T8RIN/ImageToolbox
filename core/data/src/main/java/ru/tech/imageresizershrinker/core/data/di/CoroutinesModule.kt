@@ -15,20 +15,25 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package ru.tech.imageresizershrinker.core.data.di
 
-android.namespace = "ru.tech.imageresizershrinker.core.settings"
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
+import javax.inject.Singleton
 
-dependencies {
-    implementation(libs.datastore.preferences.android)
-    implementation(libs.kotlinx.collections.immutable)
 
-    implementation(libs.imageToolboxLibs)
-    implementation(projects.core.domain)
-    implementation(projects.core.resources)
-    implementation(projects.core.di)
+@Module
+@InstallIn(SingletonComponent::class)
+internal object CoroutinesModule {
+
+    @DispatchersIO
+    @Singleton
+    @Provides
+    fun dispatcher(): CoroutineDispatcher = Dispatchers.IO
+
 }

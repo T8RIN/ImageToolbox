@@ -29,10 +29,10 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
@@ -57,7 +57,8 @@ class EraseBackgroundViewModel @Inject constructor(
     private val fileController: FileController,
     private val imageDrawApplier: ImageDrawApplier<Bitmap, Path, Color>,
     private val autoBackgroundRemover: AutoBackgroundRemover<Bitmap>,
-    private val shareProvider: ShareProvider<Bitmap>
+    private val shareProvider: ShareProvider<Bitmap>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _internalBitmap: MutableState<Bitmap?> = mutableStateOf(null)
@@ -150,8 +151,10 @@ class EraseBackgroundViewModel @Inject constructor(
 
     fun saveBitmap(
         onComplete: (saveResult: SaveResult) -> Unit
-    ) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
+    ) {
+        _isSaving.value = false
+        savingJob?.cancel()
+        savingJob = viewModelScope.launch(dispatcher) {
             _isSaving.value = true
             getErasedBitmap()?.let { localBitmap ->
                 onComplete(
@@ -178,10 +181,6 @@ class EraseBackgroundViewModel @Inject constructor(
             }
             _isSaving.value = false
         }
-    }.also {
-        _isSaving.value = false
-        savingJob?.cancel()
-        savingJob = it
     }
 
     private suspend fun getErasedBitmap(): Bitmap? {
@@ -272,27 +271,25 @@ class EraseBackgroundViewModel @Inject constructor(
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit
     ) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                getErasedBitmap()?.let { bitmap1 ->
-                    _isErasingBG.value = true
-                    autoBackgroundRemover.removeBackgroundFromImage(
-                        image = bitmap1,
-                        onSuccess = {
-                            _bitmap.value = it
-                            _paths.value = listOf()
-                            _lastPaths.value = listOf()
-                            _undonePaths.value = listOf()
-                            _isErasingBG.value = false
-                            onSuccess()
-                            autoEraseCount++
-                        },
-                        onFailure = {
-                            _isErasingBG.value = false
-                            onFailure(it)
-                        }
-                    )
-                }
+        viewModelScope.launch(dispatcher) {
+            getErasedBitmap()?.let { bitmap1 ->
+                _isErasingBG.value = true
+                autoBackgroundRemover.removeBackgroundFromImage(
+                    image = bitmap1,
+                    onSuccess = {
+                        _bitmap.value = it
+                        _paths.value = listOf()
+                        _lastPaths.value = listOf()
+                        _undonePaths.value = listOf()
+                        _isErasingBG.value = false
+                        onSuccess()
+                        autoEraseCount++
+                    },
+                    onFailure = {
+                        _isErasingBG.value = false
+                        onFailure(it)
+                    }
+                )
             }
         }
     }

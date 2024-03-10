@@ -19,8 +19,7 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.coroutineScope
 import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -38,7 +37,7 @@ internal class GlitchFilter(
         input: Bitmap,
         size: IntegerSize
     ): Bitmap = Glitcher.glitch(
-        withContext(Dispatchers.IO) {
+        coroutineScope {
             ByteArrayOutputStream().use {
                 input.compress(Bitmap.CompressFormat.JPEG, 100, it)
                 it.toByteArray()
@@ -48,7 +47,7 @@ internal class GlitchFilter(
         seed = value.second.toInt(),
         iterations = value.third.toInt()
     ).let {
-        withContext(Dispatchers.IO) {
+        coroutineScope {
             BitmapFactory.decodeByteArray(it, 0, it.size)
         }
     }

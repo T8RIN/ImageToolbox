@@ -33,10 +33,11 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olshevski.navigation.reimagined.navController
 import dev.olshevski.navigation.reimagined.navigate
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
@@ -65,7 +66,8 @@ class DrawViewModel @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
-    private val filterProvider: FilterProvider<Bitmap>
+    private val filterProvider: FilterProvider<Bitmap>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
@@ -117,7 +119,7 @@ class DrawViewModel @Inject constructor(
     fun saveBitmap(
         onComplete: (saveResult: SaveResult) -> Unit
     ) = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             _isSaving.value = true
             getDrawingBitmap()?.let { localBitmap ->
                 onComplete(
@@ -210,7 +212,7 @@ class DrawViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getDrawingBitmap(): Bitmap? = withContext(Dispatchers.IO) {
+    private suspend fun getDrawingBitmap(): Bitmap? = withContext(dispatcher) {
         imageDrawApplier.applyDrawToImage(
             drawBehavior = drawBehavior.let {
                 if (it is DrawBehavior.Background) it.copy(color = backgroundColor.toArgb())

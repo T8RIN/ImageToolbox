@@ -26,7 +26,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.nio.ByteBuffer
 
 object MlKitBackgroundRemover {
@@ -65,17 +64,13 @@ object MlKitBackgroundRemover {
                 height = segmentationMask.height
 
                 scope.launch {
-                    withContext(Dispatchers.IO) {
-                        val resultBitmap = removeBackgroundFromImage(copyBitmap)
-                        listener(Result.success(resultBitmap))
-                    }
+                    val resultBitmap = removeBackgroundFromImage(copyBitmap)
+                    listener(Result.success(resultBitmap))
                 }
             }
             .addOnFailureListener { e ->
                 scope.launch {
-                    withContext(Dispatchers.IO) {
-                        listener(Result.failure(e))
-                    }
+                    listener(Result.failure(e))
                 }
             }
     }

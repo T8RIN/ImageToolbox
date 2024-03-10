@@ -26,10 +26,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.zip.domain.ZipManager
@@ -39,7 +40,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ZipViewModel @Inject constructor(
     private val zipManager: ZipManager,
-    private val shareProvider: ShareProvider<Bitmap>
+    private val shareProvider: ShareProvider<Bitmap>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _uris = mutableStateOf<List<Uri>>(emptyList())
@@ -70,7 +72,7 @@ class ZipViewModel @Inject constructor(
         _isSaving.value = false
         savingJob?.cancel()
         savingJob = viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcher) {
                 _isSaving.value = true
                 if (uris.isEmpty()) {
                     onComplete(null)
@@ -102,7 +104,7 @@ class ZipViewModel @Inject constructor(
         _isSaving.value = false
         savingJob?.cancel()
         savingJob = viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcher) {
                 _isSaving.value = true
                 kotlin.runCatching {
                     outputStream?.use {

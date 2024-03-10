@@ -29,8 +29,7 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.Shader
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.coroutineScope
 import kotlin.math.floor
 
 internal object Glitcher {
@@ -159,7 +158,7 @@ internal object Glitcher {
     suspend fun anaglyph(
         image: Bitmap,
         percentage: Int
-    ): Bitmap = withContext(Dispatchers.IO) {
+    ): Bitmap = coroutineScope {
         val anaglyphPaint = Paint()
         val anaglyphShader = BitmapShader(image, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
 
@@ -205,7 +204,7 @@ internal object Glitcher {
         amount: Int = 20,
         seed: Int = 15,
         iterations: Int = 9
-    ): ByteArray = withContext(Dispatchers.IO) {
+    ): ByteArray = coroutineScope {
         val imageByteArray = bitmap.clone()
         val jpgHeaderLength = getJpegHeaderSize(imageByteArray)
         repeat(

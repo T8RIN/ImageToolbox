@@ -15,20 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package ru.tech.imageresizershrinker.core.di
 
-android.namespace = "ru.tech.imageresizershrinker.core.settings"
+import javax.inject.Qualifier
 
-dependencies {
-    implementation(libs.datastore.preferences.android)
-    implementation(libs.kotlinx.collections.immutable)
-
-    implementation(libs.imageToolboxLibs)
-    implementation(projects.core.domain)
-    implementation(projects.core.resources)
-    implementation(projects.core.di)
-}
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class DispatchersIO

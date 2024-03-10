@@ -39,11 +39,15 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.exifinterface.media.ExifInterface
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okio.use
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
@@ -68,7 +72,8 @@ import kotlin.random.Random
 internal class FileControllerImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val settingsRepository: SettingsRepository,
-    private val randomStringGenerator: RandomStringGenerator
+    private val randomStringGenerator: RandomStringGenerator,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : FileController {
 
     private var _settingsState: SettingsState = SettingsState.Default
@@ -76,11 +81,11 @@ internal class FileControllerImpl @Inject constructor(
     private val settingsState get() = _settingsState
 
     init {
-        CoroutineScope(Dispatchers.IO).launch {
-            settingsRepository.getSettingsStateFlow().collect { state ->
+        settingsRepository
+            .getSettingsStateFlow()
+            .onEach { state ->
                 _settingsState = state
-            }
-        }
+            }.launchIn(CoroutineScope(dispatcher))
     }
 
     private fun Context.isExternalStorageWritable(): Boolean {
@@ -143,12 +148,12 @@ internal class FileControllerImpl @Inject constructor(
     override suspend fun save(
         saveTarget: SaveTarget,
         keepOriginalMetadata: Boolean
-    ): SaveResult {
+    ): SaveResult = withContext(dispatcher) {
         if (!context.isExternalStorageWritable()) {
-            return SaveResult.Error.MissingPermissions
+            return@withContext SaveResult.Error.MissingPermissions
         }
 
-        kotlin.runCatching {
+        runCatching {
             if (settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled) {
                 val clipboardManager = context.getSystemService<ClipboardManager>()
 
@@ -164,7 +169,7 @@ internal class FileControllerImpl @Inject constructor(
             }
 
             if (settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled.WithoutSaving) {
-                return SaveResult.Success(context.getString(R.string.copied))
+                return@withContext SaveResult.Success(context.getString(R.string.copied))
             }
 
             val originalUri = saveTarget.originalUri.toUri()
@@ -179,7 +184,7 @@ internal class FileControllerImpl @Inject constructor(
                     context.contentResolver.openFileDescriptor(originalUri, "wt")
                 }.onFailure {
                     settingsRepository.setImagePickerMode(2)
-                    return SaveResult.Error.Exception(
+                    return@withContext SaveResult.Error.Exception(
                         Exception(
                             context.getString(
                                 R.string.overwrite_file_requirements
@@ -199,7 +204,7 @@ internal class FileControllerImpl @Inject constructor(
                         }
                     }
 
-                    return SaveResult.Success(
+                    return@withContext SaveResult.Success(
                         message = context.getString(
                             R.string.saved_to_original,
                             originalUri.getFilename().toString()
@@ -218,7 +223,7 @@ internal class FileControllerImpl @Inject constructor(
 
                     if (!hasDir) {
                         settingsRepository.setSaveFolderUri(null)
-                        return SaveResult.Error.Exception(
+                        return@withContext SaveResult.Error.Exception(
                             Exception(
                                 context.getString(
                                     R.string.no_such_directory,
@@ -248,7 +253,7 @@ internal class FileControllerImpl @Inject constructor(
                     it.write(saveTarget.data)
                 }
 
-                kotlin.runCatching {
+                runCatching {
                     copyMetadata(
                         initialExif = initialExif,
                         fileUri = savingFolder.fileUri,
@@ -259,7 +264,7 @@ internal class FileControllerImpl @Inject constructor(
 
                 val filename = newSaveTarget.filename ?: ""
 
-                return SaveResult.Success(
+                return@withContext SaveResult.Success(
                     if (savingPath.isNotEmpty()) {
                         if (filename.isNotEmpty()) {
                             context.getString(
@@ -278,22 +283,22 @@ internal class FileControllerImpl @Inject constructor(
             }
         }.onFailure {
             it.makeLog()
-            return SaveResult.Error.Exception(it)
+            return@withContext SaveResult.Error.Exception(it)
         }
 
-        return SaveResult.Error.Exception(
+        return@withContext SaveResult.Error.Exception(
             SaveException(
                 message = context.getString(R.string.something_went_wrong)
             )
         )
     }
 
-    private fun copyMetadata(
+    private suspend fun copyMetadata(
         initialExif: ExifInterface?,
         fileUri: Uri?,
         keepMetadata: Boolean,
         originalUri: Uri
-    ) {
+    ) = withContext(dispatcher) {
         if (initialExif != null) {
             getFileDescriptorFor(fileUri)?.use {
                 val ex = ExifInterface(it.fileDescriptor)
@@ -317,7 +322,7 @@ internal class FileControllerImpl @Inject constructor(
 
     private suspend fun cacheImage(
         saveTarget: SaveTarget
-    ): String? = withContext(Dispatchers.IO) {
+    ): String? = withContext(dispatcher) {
         val imagesFolder = File(context.cacheDir, "images")
         return@withContext kotlin.runCatching {
             imagesFolder.mkdirs()
@@ -340,7 +345,9 @@ internal class FileControllerImpl @Inject constructor(
         }.getOrNull()?.toString()
     }
 
-    private infix fun ExifInterface.copyTo(newExif: ExifInterface) {
+    private suspend infix fun ExifInterface.copyTo(
+        newExif: ExifInterface
+    ) = withContext(dispatcher) {
         Metadata.metaTags.forEach { attr ->
             getAttribute(attr)?.let { newExif.setAttribute(attr, it) }
         }
@@ -409,9 +416,9 @@ internal class FileControllerImpl @Inject constructor(
     override fun getReadableCacheSize(): String = context.cacheSize()
 
     private fun Context.clearCache(onComplete: (cache: String) -> Unit = {}) {
-        CoroutineScope(Dispatchers.Main).launch {
-            withContext(Dispatchers.IO) {
-                kotlin.runCatching {
+        CoroutineScope(dispatcher).launch {
+            coroutineScope {
+                runCatching {
                     cacheDir?.deleteRecursively()
                     codeCacheDir?.deleteRecursively()
                     externalCacheDir?.deleteRecursively()
@@ -424,19 +431,17 @@ internal class FileControllerImpl @Inject constructor(
         }
     }
 
-    private fun Context.cacheSize(): String {
-        return kotlin.runCatching {
-            val cache =
-                cacheDir?.walkTopDown()?.filter { it.isFile }?.map { it.length() }?.sum() ?: 0
-            val code =
-                codeCacheDir?.walkTopDown()?.filter { it.isFile }?.map { it.length() }?.sum() ?: 0
-            var size = cache + code
-            externalCacheDirs?.forEach { file ->
-                size += file?.walkTopDown()?.filter { it.isFile }?.map { it.length() }?.sum() ?: 0
-            }
-            readableByteCount(size)
-        }.getOrNull() ?: "0 B"
-    }
+    private fun Context.cacheSize(): String = runCatching {
+        val cache =
+            cacheDir?.walkTopDown()?.filter { it.isFile }?.map { it.length() }?.sum() ?: 0
+        val code =
+            codeCacheDir?.walkTopDown()?.filter { it.isFile }?.map { it.length() }?.sum() ?: 0
+        var size = cache + code
+        externalCacheDirs?.forEach { file ->
+            size += file?.walkTopDown()?.filter { it.isFile }?.map { it.length() }?.sum() ?: 0
+        }
+        readableByteCount(size)
+    }.getOrNull() ?: "0 B"
 
     private fun getFileDescriptorFor(
         uri: Uri?
@@ -446,11 +451,11 @@ internal class FileControllerImpl @Inject constructor(
         }
     }.getOrNull()
 
-    private fun Context.getSavingFolder(
+    private suspend fun Context.getSavingFolder(
         treeUri: Uri?,
         saveTarget: SaveTarget
-    ): SavingFolder {
-        return if (treeUri == null) {
+    ): SavingFolder = withContext(dispatcher) {
+        if (treeUri == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 val type = saveTarget.imageFormat.type
                 val path = "${Environment.DIRECTORY_DOCUMENTS}/ResizedImages"
@@ -489,7 +494,7 @@ internal class FileControllerImpl @Inject constructor(
                 )
             }
         } else {
-            val documentFile = DocumentFile.fromTreeUri(this, treeUri)
+            val documentFile = DocumentFile.fromTreeUri(this@getSavingFolder, treeUri)
 
             if (documentFile?.exists() == false || documentFile == null) {
                 throw NoSuchFileException(File(treeUri.toString()))

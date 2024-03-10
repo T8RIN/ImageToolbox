@@ -25,10 +25,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DispatchersIO
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.feature.cipher.domain.CipherRepository
 import java.io.OutputStream
@@ -38,7 +39,8 @@ import javax.inject.Inject
 @HiltViewModel
 class FileCipherViewModel @Inject constructor(
     private val cipherRepository: CipherRepository,
-    private val shareProvider: ShareProvider<Bitmap>
+    private val shareProvider: ShareProvider<Bitmap>,
+    @DispatchersIO private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _uri = mutableStateOf<Uri?>(null)
@@ -68,7 +70,7 @@ class FileCipherViewModel @Inject constructor(
         _isSaving.value = false
         savingJob?.cancel()
         savingJob = viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcher) {
                 _isSaving.value = true
                 if (_uri.value == null) {
                     onComplete(null)
@@ -109,7 +111,7 @@ class FileCipherViewModel @Inject constructor(
         _isSaving.value = false
         savingJob?.cancel()
         savingJob = viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcher) {
                 _isSaving.value = true
                 kotlin.runCatching {
                     outputStream?.use {
