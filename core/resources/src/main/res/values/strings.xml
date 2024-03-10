@@ -828,7 +828,7 @@
     <string name="rain">Rain</string>
     <string name="corners">Corners</string>
     <string name="jxl_tools">JXL Tools</string>
-    <string name="jxl_tools_sub">Transcode JXL to JPEG or JPEG to JXL with no quality loss</string>
+    <string name="jxl_tools_sub">Perform JXL ~ JPEG transcoding with no quality loss, or convert GIF/APNG to JXL animation</string>
     <string name="jxl_type_to_jpeg">JXL to JPEG</string>
     <string name="jxl_type_to_jpeg_sub">Perform lossless transcoding from JXL to JPEG</string>
     <string name="jpeg_type_to_jxl_sub">Perform lossless transcoding from  JPEG to JXL</string>
