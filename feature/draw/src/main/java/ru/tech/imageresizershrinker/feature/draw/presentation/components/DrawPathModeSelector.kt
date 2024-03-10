@@ -81,6 +81,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -125,10 +126,12 @@ fun DrawPathModeSelector(
             )
         }
         Box {
+            val scrollState = rememberScrollState()
             SingleChoiceSegmentedButtonRow(
                 space = max(settingsState.borderWidth, 1.dp),
                 modifier = Modifier
-                    .horizontalScroll(rememberScrollState())
+                    .fadingEdges(scrollState)
+                    .horizontalScroll(scrollState)
                     .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
             ) {
                 CompositionLocalProvider(

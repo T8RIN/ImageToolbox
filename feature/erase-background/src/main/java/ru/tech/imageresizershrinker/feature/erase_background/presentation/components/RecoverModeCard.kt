@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.erase_background.presentation.compo
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Brush
 import androidx.compose.material3.Icon
@@ -44,6 +45,7 @@ fun RecoverModeCard(
     PreferenceRowSwitch(
         modifier = Modifier
             .padding(start = 16.dp, end = 16.dp, top = 8.dp),
+        shape = RoundedCornerShape(24.dp),
         enabled = enabled,
         title = stringResource(R.string.restore_background),
         subtitle = stringResource(R.string.restore_background_sub),

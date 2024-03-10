@@ -146,7 +146,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
-import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
@@ -771,7 +770,7 @@ fun PdfToolsScreen(
                                             .fillMaxWidth()
                                             .drawHorizontalStroke(true)
                                             .background(
-                                                SimpleSheetDefaults.barContainerColor
+                                                MaterialTheme.colorScheme.surfaceContainer
                                             ),
                                         horizontalArrangement = Arrangement.Center
                                     ) {

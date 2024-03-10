@@ -24,7 +24,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,7 +31,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -59,8 +57,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -81,6 +77,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -120,10 +117,12 @@ fun DrawModeSelector(
             )
         }
         Box {
+            val scrollState = rememberScrollState()
             SingleChoiceSegmentedButtonRow(
                 space = max(settingsState.borderWidth, 1.dp),
                 modifier = Modifier
-                    .horizontalScroll(rememberScrollState())
+                    .fadingEdges(scrollState)
+                    .horizontalScroll(scrollState)
                     .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
             ) {
                 CompositionLocalProvider(
@@ -176,30 +175,6 @@ fun DrawModeSelector(
                     }
                 }
             }
-            Box(
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .width(8.dp)
-                    .height(50.dp)
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            0f to MaterialTheme.colorScheme.surfaceContainer,
-                            1f to Color.Transparent
-                        )
-                    )
-            )
-            Box(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .width(8.dp)
-                    .height(50.dp)
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            0f to Color.Transparent,
-                            1f to MaterialTheme.colorScheme.surfaceContainer
-                        )
-                    )
-            )
         }
         AnimatedVisibility(
             visible = value is DrawMode.PathEffect.PrivacyBlur,

@@ -157,11 +157,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
@@ -408,8 +410,7 @@ fun DrawScreen(
             modifier = Modifier.padding(horizontal = 16.dp),
             checked = viewModel.saveExif,
             imageFormat = viewModel.imageFormat,
-            onCheckedChange = viewModel::setSaveExif,
-            backgroundColor = MaterialTheme.colorScheme.surfaceContainer
+            onCheckedChange = viewModel::setSaveExif
         )
         ImageFormatSelector(
             modifier = Modifier
@@ -417,8 +418,7 @@ fun DrawScreen(
                 .navigationBarsPadding(),
             forceEnabled = viewModel.drawBehavior is DrawBehavior.Background,
             value = viewModel.imageFormat,
-            onValueChange = viewModel::updateMimeType,
-            backgroundColor = MaterialTheme.colorScheme.surfaceContainer
+            onValueChange = viewModel::updateMimeType
         )
     }
 
@@ -841,8 +841,10 @@ fun DrawScreen(
                                     }
                                 }
                             )
-                            LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
-                                item {
+                            Column(Modifier.verticalScroll(rememberScrollState())) {
+                                ProvideContainerDefaults(
+                                    color = SimpleSheetDefaults.contentContainerColor
+                                ) {
                                     controls()
                                 }
                             }

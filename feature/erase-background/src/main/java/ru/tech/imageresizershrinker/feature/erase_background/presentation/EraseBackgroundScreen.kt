@@ -127,8 +127,10 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.feature.draw.domain.pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.LineWidthSelector
@@ -611,7 +613,11 @@ fun EraseBackgroundScreen(
                                 }
                             )
                             Column(Modifier.verticalScroll(rememberScrollState())) {
-                                controls()
+                                ProvideContainerDefaults(
+                                    color = SimpleSheetDefaults.contentContainerColor
+                                ) {
+                                    controls()
+                                }
                             }
                         }
                     },

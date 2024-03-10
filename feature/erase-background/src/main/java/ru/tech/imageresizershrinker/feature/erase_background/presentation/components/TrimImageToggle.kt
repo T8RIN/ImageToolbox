@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.erase_background.presentation.compo
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ContentCut
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,7 +34,7 @@ fun TrimImageToggle(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colorScheme.surfaceContainer
+    color: Color = Color.Unspecified
 ) {
     PreferenceRowSwitch(
         modifier = modifier,

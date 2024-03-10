@@ -20,15 +20,12 @@ package ru.tech.imageresizershrinker.core.ui.widget.buttons
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
@@ -43,7 +40,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -56,6 +52,7 @@ import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
@@ -87,7 +84,6 @@ fun ToggleGroupButton(
                 Spacer(modifier = Modifier.height(8.dp))
             }
         },
-        fadingEdgesColor = fadingEdgesColor,
         inactiveButtonColor = inactiveButtonColor
     )
 }
@@ -101,7 +97,6 @@ fun ToggleGroupButton(
     selectedIndex: Int,
     title: @Composable () -> Unit = {},
     indexChanged: (Int) -> Unit,
-    fadingEdgesColor: Color = MaterialTheme.colorScheme.surfaceContainerLow,
     inactiveButtonColor: Color = MaterialTheme.colorScheme.surface
 ) {
     val settingsState = LocalSettingsState.current
@@ -122,86 +117,62 @@ fun ToggleGroupButton(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             title()
-            Box {
-                SingleChoiceSegmentedButtonRow(
-                    space = max(settingsState.borderWidth, 1.dp),
-                    modifier = Modifier
-                        .horizontalScroll(rememberScrollState())
-                        .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
+            val scrollState = rememberScrollState()
+            SingleChoiceSegmentedButtonRow(
+                space = max(settingsState.borderWidth, 1.dp),
+                modifier = Modifier
+                    .fadingEdges(scrollState)
+                    .horizontalScroll(scrollState)
+                    .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
+            ) {
+                CompositionLocalProvider(
+                    LocalMinimumInteractiveComponentEnforcement provides false
                 ) {
-                    CompositionLocalProvider(
-                        LocalMinimumInteractiveComponentEnforcement provides false
-                    ) {
-                        items.forEachIndexed { index, item ->
-                            val shape = SegmentedButtonDefaults.itemShape(index, items.size)
-                            SegmentedButton(
-                                enabled = enabled,
-                                onClick = {
-                                    haptics.performHapticFeedback(
-                                        HapticFeedbackType.LongPress
-                                    )
-                                    indexChanged(index)
-                                },
-                                border = BorderStroke(
-                                    width = settingsState.borderWidth,
-                                    color = MaterialTheme.colorScheme.outlineVariant()
-                                ),
-                                selected = index == selectedIndex,
-                                colors = SegmentedButtonDefaults.colors(
-                                    activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
-                                    inactiveContainerColor = inactiveButtonColor,
-                                    activeContainerColor = if (enabled) {
-                                        MaterialTheme.colorScheme.secondary
-                                    } else {
-                                        MaterialTheme.colorScheme.surfaceContainerHigh
-                                    },
-                                    activeContentColor = MaterialTheme.colorScheme.onSecondary
-                                ),
-                                modifier = Modifier.materialShadow(
-                                    shape = shape,
-                                    elevation = animateDpAsState(
-                                        if (settingsState.borderWidth >= 0.dp || !settingsState.drawButtonShadows) 0.dp
-                                        else if (selectedIndex == index) 2.dp
-                                        else 1.dp
-                                    ).value
-                                ),
-                                shape = shape
-                            ) {
-                                AutoSizeText(
-                                    text = item,
-                                    style = LocalTextStyle.current.copy(
-                                        fontSize = 13.sp
-                                    ),
-                                    maxLines = 1
+                    items.forEachIndexed { index, item ->
+                        val shape = SegmentedButtonDefaults.itemShape(index, items.size)
+                        SegmentedButton(
+                            enabled = enabled,
+                            onClick = {
+                                haptics.performHapticFeedback(
+                                    HapticFeedbackType.LongPress
                                 )
-                            }
+                                indexChanged(index)
+                            },
+                            border = BorderStroke(
+                                width = settingsState.borderWidth,
+                                color = MaterialTheme.colorScheme.outlineVariant()
+                            ),
+                            selected = index == selectedIndex,
+                            colors = SegmentedButtonDefaults.colors(
+                                activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
+                                inactiveContainerColor = inactiveButtonColor,
+                                activeContainerColor = if (enabled) {
+                                    MaterialTheme.colorScheme.secondary
+                                } else {
+                                    MaterialTheme.colorScheme.surfaceContainerHigh
+                                },
+                                activeContentColor = MaterialTheme.colorScheme.onSecondary
+                            ),
+                            modifier = Modifier.materialShadow(
+                                shape = shape,
+                                elevation = animateDpAsState(
+                                    if (settingsState.borderWidth >= 0.dp || !settingsState.drawButtonShadows) 0.dp
+                                    else if (selectedIndex == index) 2.dp
+                                    else 1.dp
+                                ).value
+                            ),
+                            shape = shape
+                        ) {
+                            AutoSizeText(
+                                text = item,
+                                style = LocalTextStyle.current.copy(
+                                    fontSize = 13.sp
+                                ),
+                                maxLines = 1
+                            )
                         }
                     }
                 }
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .width(8.dp)
-                        .height(50.dp)
-                        .background(
-                            brush = Brush.horizontalGradient(
-                                0f to fadingEdgesColor,
-                                1f to Color.Transparent
-                            )
-                        )
-                )
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .width(8.dp)
-                        .height(50.dp)
-                        .background(
-                            brush = Brush.horizontalGradient(
-                                0f to Color.Transparent,
-                                1f to fadingEdgesColor
-                            )
-                        )
-                )
             }
         }
     }

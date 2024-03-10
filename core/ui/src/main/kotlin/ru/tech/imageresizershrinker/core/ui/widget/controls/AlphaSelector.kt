@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Opacity
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,7 +39,7 @@ fun AlphaSelector(
     @SuppressLint("ModifierParameter")
     modifier: Modifier = Modifier
         .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-    color: Color = MaterialTheme.colorScheme.surfaceContainer,
+    color: Color = Color.Unspecified,
     shape: Shape = RoundedCornerShape(24.dp),
     title: String = stringResource(R.string.paint_alpha),
     icon: ImageVector = Icons.Rounded.Opacity
