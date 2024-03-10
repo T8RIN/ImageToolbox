@@ -179,11 +179,12 @@ fun PickColorFromImageScreen(
                 }
         }
 
-    val pickImage = {
-        pickImageLauncher.pickImage()
-    }
+    val pickImage = pickImageLauncher::pickImage
 
-    AutoFilePicker(pickImage)
+    AutoFilePicker(
+        onAutoPick = pickImage,
+        isPickedAlready = uriState != null
+    )
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val scrollState = rememberScrollState()

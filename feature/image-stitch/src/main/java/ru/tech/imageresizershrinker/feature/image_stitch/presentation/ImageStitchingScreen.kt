@@ -151,11 +151,12 @@ fun ImageStitchingScreen(
         addImagesLauncher.pickImage()
     }
 
-    val pickImage = {
-        pickImageLauncher.pickImage()
-    }
+    val pickImage = pickImageLauncher::pickImage
 
-    AutoFilePicker(pickImage)
+    AutoFilePicker(
+        onAutoPick = pickImage,
+        isPickedAlready = !uriState.isNullOrEmpty()
+    )
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 

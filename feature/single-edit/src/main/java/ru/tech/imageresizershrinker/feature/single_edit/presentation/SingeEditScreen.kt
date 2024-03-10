@@ -155,7 +155,10 @@ fun SingleEditScreen(
 
     val pickImage = pickImageLauncher::pickImage
 
-    AutoFilePicker(pickImage)
+    AutoFilePicker(
+        onAutoPick = pickImage,
+        isPickedAlready = uriState != null
+    )
 
     val saveBitmap: () -> Unit = {
         viewModel.saveBitmap { saveResult ->

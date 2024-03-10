@@ -35,15 +35,16 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 
 @Composable
 fun AutoFilePicker(
-    onAutoPick: () -> Unit
+    onAutoPick: () -> Unit,
+    isPickedAlready: Boolean
 ) {
     val scope = rememberCoroutineScope()
     val toastHostState = LocalToastHostState.current
     val context = LocalContext.current
     val settingsState = LocalSettingsState.current
 
-    var picked by rememberSaveable {
-        mutableStateOf(false)
+    var picked by rememberSaveable(isPickedAlready) {
+        mutableStateOf(isPickedAlready)
     }
     LaunchedEffect(Unit) {
         if (settingsState.skipImagePicking && !picked) {

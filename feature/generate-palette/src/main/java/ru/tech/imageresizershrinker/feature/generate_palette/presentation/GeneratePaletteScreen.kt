@@ -152,7 +152,10 @@ fun GeneratePaletteScreen(
             }
     }
 
-    AutoFilePicker(pickImageLauncher::pickImage)
+    AutoFilePicker(
+        onAutoPick = pickImageLauncher::pickImage,
+        isPickedAlready = uriState != null
+    )
 
     val paletteImageLauncher = rememberImagePicker(
         mode = localImagePickerMode(Picker.Single)

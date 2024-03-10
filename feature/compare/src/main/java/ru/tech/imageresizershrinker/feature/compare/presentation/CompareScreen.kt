@@ -160,11 +160,12 @@ fun CompareScreen(
         }
     }
 
-    val pickImage = {
-        pickImageLauncher.pickImage()
-    }
+    val pickImage = pickImageLauncher::pickImage
 
-    AutoFilePicker(pickImage)
+    AutoFilePicker(
+        onAutoPick = pickImage,
+        isPickedAlready = comparableUris != null
+    )
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 

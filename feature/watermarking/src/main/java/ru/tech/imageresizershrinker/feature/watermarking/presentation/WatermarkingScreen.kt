@@ -137,11 +137,12 @@ fun WatermarkingScreen(
             }
         }
 
-    val pickImage = {
-        pickImageLauncher.pickImage()
-    }
+    val pickImage = pickImageLauncher::pickImage
 
-    AutoFilePicker(pickImage)
+    AutoFilePicker(
+        onAutoPick = pickImage,
+        isPickedAlready = !uriState.isNullOrEmpty()
+    )
 
     val isPortrait =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact

@@ -169,7 +169,8 @@ fun ZipScreen(
     )
 
     AutoFilePicker(
-        onAutoPick = { filePicker.launch(arrayOf("*/*")) }
+        onAutoPick = { filePicker.launch(arrayOf("*/*")) },
+        isPickedAlready = !uriState.isNullOrEmpty()
     )
 
     val additionalFilePicker = rememberLauncherForActivityResult(

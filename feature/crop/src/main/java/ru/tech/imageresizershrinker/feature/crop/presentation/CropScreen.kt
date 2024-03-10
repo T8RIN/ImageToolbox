@@ -181,11 +181,12 @@ fun CropScreen(
             }
         }
 
-    val pickImage = {
-        pickImageLauncher.pickImage()
-    }
+    val pickImage = pickImageLauncher::pickImage
 
-    AutoFilePicker(pickImage)
+    AutoFilePicker(
+        onAutoPick = pickImage,
+        isPickedAlready = uriState != null
+    )
 
     val saveBitmap: (Bitmap) -> Unit = {
         viewModel.saveBitmap(bitmap = it) { saveResult ->

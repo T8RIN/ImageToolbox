@@ -719,7 +719,10 @@ fun FiltersScreen(
         }
     }
 
-    AutoFilePicker(selectionFilterPicker::pickImage)
+    AutoFilePicker(
+        onAutoPick = selectionFilterPicker::pickImage,
+        isPickedAlready = type != null
+    )
 
     Surface(
         color = MaterialTheme.colorScheme.background,

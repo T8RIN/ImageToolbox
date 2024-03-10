@@ -213,7 +213,10 @@ fun EraseBackgroundScreen(
 
     val pickImage = pickImageLauncher::pickImage
 
-    AutoFilePicker(pickImage)
+    AutoFilePicker(
+        onAutoPick = pickImage,
+        isPickedAlready = uriState != null
+    )
 
     val scaffoldState = rememberBottomSheetScaffoldState()
 

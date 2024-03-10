@@ -144,11 +144,12 @@ fun ResizeAndConvertScreen(
             }
         }
 
-    val pickImage = {
-        pickImageLauncher.pickImage()
-    }
+    val pickImage = pickImageLauncher::pickImage
 
-    AutoFilePicker(pickImage)
+    AutoFilePicker(
+        onAutoPick = pickImage,
+        isPickedAlready = !uriState.isNullOrEmpty()
+    )
 
     val saveBitmaps: () -> Unit = {
         viewModel.saveBitmaps { results, savingPath ->

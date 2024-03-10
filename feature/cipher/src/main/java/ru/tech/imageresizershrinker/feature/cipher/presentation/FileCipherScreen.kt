@@ -222,7 +222,8 @@ fun FileCipherScreen(
     AutoFilePicker(
         onAutoPick = {
             filePicker.launch(arrayOf("*/*"))
-        }
+        },
+        isPickedAlready = uriState != null
     )
 
     val focus = LocalFocusManager.current
