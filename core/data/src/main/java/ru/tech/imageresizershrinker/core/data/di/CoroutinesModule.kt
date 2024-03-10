@@ -22,8 +22,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.asCoroutineDispatcher
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import java.util.concurrent.Executors
 import javax.inject.Singleton
 
 
@@ -34,6 +35,6 @@ internal object CoroutinesModule {
     @DefaultDispatcher
     @Singleton
     @Provides
-    fun dispatcher(): CoroutineDispatcher = Dispatchers.IO
+    fun dispatcher(): CoroutineDispatcher = Executors.newCachedThreadPool().asCoroutineDispatcher()
 
 }
