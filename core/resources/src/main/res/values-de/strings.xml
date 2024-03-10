@@ -823,4 +823,11 @@
     <string name="fast_gaussian_blur_2d">Fast Gaussian Blur 2D</string>
     <string name="fast_gaussian_blur_4d">Fast Gaussian Blur 4D</string>
     <string name="confetti_type">Konfetti Typ</string>
+    <string name="gif_type_to_jxl">GIF zu JXL</string>
+    <string name="gif_type_to_jxl_sub">Konvertiere GIF Bilder zu JXL animierte Bilder</string>
+    <string name="apng_type_to_jxl">APNG zu JXL</string>
+    <string name="apng_type_to_jxl_sub">Konvertiere APNG Bilder zu JXL animierten Bilder</string>
+    <string name="jxl_type_to_images">JXL zu Bild</string>
+    <string name="jxl_type_to_jxl">BIlder zu JXL</string>
+    <string name="generate_previews">Vorschau generieren</string>
 </resources>
