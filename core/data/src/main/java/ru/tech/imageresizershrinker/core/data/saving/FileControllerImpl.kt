@@ -23,8 +23,8 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.ContentValues
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -32,7 +32,6 @@ import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
@@ -48,7 +47,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okio.use
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.di.IoDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.Metadata
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
@@ -73,7 +74,9 @@ internal class FileControllerImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val settingsRepository: SettingsRepository,
     private val randomStringGenerator: RandomStringGenerator,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val shareProvider: ShareProvider<Bitmap>
 ) : FileController {
 
     private var _settingsState: SettingsState = SettingsState.Default
@@ -85,7 +88,7 @@ internal class FileControllerImpl @Inject constructor(
             .getSettingsStateFlow()
             .onEach { state ->
                 _settingsState = state
-            }.launchIn(CoroutineScope(dispatcher))
+            }.launchIn(CoroutineScope(defaultDispatcher))
     }
 
     private fun Context.isExternalStorageWritable(): Boolean {
@@ -148,7 +151,7 @@ internal class FileControllerImpl @Inject constructor(
     override suspend fun save(
         saveTarget: SaveTarget,
         keepOriginalMetadata: Boolean
-    ): SaveResult = withContext(dispatcher) {
+    ): SaveResult = withContext(ioDispatcher) {
         if (!context.isExternalStorageWritable()) {
             return@withContext SaveResult.Error.MissingPermissions
         }
@@ -157,7 +160,10 @@ internal class FileControllerImpl @Inject constructor(
             if (settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled) {
                 val clipboardManager = context.getSystemService<ClipboardManager>()
 
-                cacheImage(saveTarget)?.toUri()?.let { uri ->
+                shareProvider.cacheByteArray(
+                    byteArray = saveTarget.data,
+                    filename = "${randomStringGenerator.generate(32)}.${saveTarget.imageFormat.extension}"
+                )?.toUri()?.let { uri ->
                     clipboardManager?.setPrimaryClip(
                         ClipData.newUri(
                             context.contentResolver,
@@ -298,7 +304,7 @@ internal class FileControllerImpl @Inject constructor(
         fileUri: Uri?,
         keepMetadata: Boolean,
         originalUri: Uri
-    ) = withContext(dispatcher) {
+    ) = withContext(ioDispatcher) {
         if (initialExif != null) {
             getFileDescriptorFor(fileUri)?.use {
                 val ex = ExifInterface(it.fileDescriptor)
@@ -320,34 +326,9 @@ internal class FileControllerImpl @Inject constructor(
         } else Unit
     }
 
-    private suspend fun cacheImage(
-        saveTarget: SaveTarget
-    ): String? = withContext(dispatcher) {
-        val imagesFolder = File(context.cacheDir, "images")
-        return@withContext kotlin.runCatching {
-            imagesFolder.mkdirs()
-
-            val file = File(
-                imagesFolder,
-                "${randomStringGenerator.generate(32)}.${saveTarget.imageFormat.extension}"
-            )
-            FileOutputStream(file).use {
-                it.write(saveTarget.data)
-            }
-            FileProvider.getUriForFile(context, context.getString(R.string.file_provider), file)
-                .also {
-                    context.grantUriPermission(
-                        context.packageName,
-                        it,
-                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    )
-                }
-        }.getOrNull()?.toString()
-    }
-
     private suspend infix fun ExifInterface.copyTo(
         newExif: ExifInterface
-    ) = withContext(dispatcher) {
+    ) = withContext(defaultDispatcher) {
         Metadata.metaTags.forEach { attr ->
             getAttribute(attr)?.let { newExif.setAttribute(attr, it) }
         }
@@ -416,7 +397,7 @@ internal class FileControllerImpl @Inject constructor(
     override fun getReadableCacheSize(): String = context.cacheSize()
 
     private fun Context.clearCache(onComplete: (cache: String) -> Unit = {}) {
-        CoroutineScope(dispatcher).launch {
+        CoroutineScope(defaultDispatcher).launch {
             coroutineScope {
                 runCatching {
                     cacheDir?.deleteRecursively()
@@ -454,7 +435,7 @@ internal class FileControllerImpl @Inject constructor(
     private suspend fun Context.getSavingFolder(
         treeUri: Uri?,
         saveTarget: SaveTarget
-    ): SavingFolder = withContext(dispatcher) {
+    ): SavingFolder = withContext(defaultDispatcher) {
         if (treeUri == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 val type = saveTarget.imageFormat.type

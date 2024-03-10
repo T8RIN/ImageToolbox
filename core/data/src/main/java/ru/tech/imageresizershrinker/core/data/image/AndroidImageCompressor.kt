@@ -37,6 +37,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.image.utils.SimpleCompressor
 import ru.tech.imageresizershrinker.core.data.utils.fileSize
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.di.EncodingDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
@@ -57,7 +58,8 @@ internal class AndroidImageCompressor @Inject constructor(
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+    @EncodingDispatcher private val processingDispatcher: CoroutineDispatcher,
     settingsRepository: SettingsRepository
 ) : ImageCompressor<Bitmap> {
 
@@ -69,14 +71,14 @@ internal class AndroidImageCompressor @Inject constructor(
             .onEach {
                 overwriteFiles = it.overwriteFiles
             }
-            .launchIn(CoroutineScope(dispatcher))
+            .launchIn(CoroutineScope(defaultDispatcher))
     }
 
     override suspend fun compress(
         image: Bitmap,
         imageFormat: ImageFormat,
         quality: Quality
-    ): ByteArray = withContext(dispatcher) {
+    ): ByteArray = withContext(processingDispatcher) {
         SimpleCompressor
             .getInstance(
                 imageFormat = imageFormat,
@@ -94,7 +96,7 @@ internal class AndroidImageCompressor @Inject constructor(
         imageInfo: ImageInfo,
         onImageReadyToCompressInterceptor: suspend (Bitmap) -> Bitmap,
         applyImageTransformations: Boolean
-    ): ByteArray = withContext(dispatcher) {
+    ): ByteArray = withContext(processingDispatcher) {
         val currentImage: Bitmap
         if (applyImageTransformations) {
             val size = imageInfo.originalUri?.let {
@@ -148,7 +150,7 @@ internal class AndroidImageCompressor @Inject constructor(
     override suspend fun calculateImageSize(
         image: Bitmap,
         imageInfo: ImageInfo
-    ): Long = withContext(dispatcher) {
+    ): Long = withContext(processingDispatcher) {
         val newInfo = imageInfo.let {
             if (it.width == 0 || it.height == 0) {
                 it.copy(
@@ -172,7 +174,7 @@ internal class AndroidImageCompressor @Inject constructor(
     private suspend fun cacheByteArray(
         byteArray: ByteArray,
         filename: String
-    ): String? = withContext(dispatcher) {
+    ): String? = withContext(defaultDispatcher) {
         val imagesFolder = File(context.cacheDir, "files")
 
         runCatching {

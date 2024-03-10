@@ -19,10 +19,12 @@ package ru.tech.imageresizershrinker.core.data.di
 
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.core.data.saving.FileControllerImpl
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.domain.saving.ImageFilenameProvider
 import javax.inject.Singleton
 
 @Module
@@ -34,5 +36,17 @@ internal interface SavingModule {
     fun provideFileController(
         controller: FileControllerImpl
     ): FileController
+
+    companion object {
+
+        @Singleton
+        @Provides
+        fun filenameProvider(
+            fileController: FileController
+        ): ImageFilenameProvider = ImageFilenameProvider {
+            fileController.constructImageFilename(it)
+        }
+
+    }
 
 }

@@ -26,15 +26,17 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import com.t8rin.logger.makeLog
+import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.di.IoDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.domain.saving.ImageFilenameProvider
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.resources.R
 import java.io.File
@@ -45,15 +47,16 @@ internal class AndroidShareProvider @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val fileController: FileController,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
+    private val imageFilenameProvider: Lazy<ImageFilenameProvider>,
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : ShareProvider<Bitmap> {
 
     override suspend fun shareImages(
         uris: List<String>,
         imageLoader: suspend (String) -> Pair<Bitmap, ImageInfo>?,
         onProgressChange: (Int) -> Unit
-    ) = withContext(dispatcher) {
+    ) = withContext(ioDispatcher) {
         var cnt = 0
         val uriList: MutableList<Uri> = mutableListOf()
         uris.forEach { uri ->
@@ -76,9 +79,10 @@ internal class AndroidShareProvider @Inject constructor(
         image: Bitmap,
         imageInfo: ImageInfo,
         name: String
-    ): String? = withContext(dispatcher) {
+    ): String? = withContext(ioDispatcher) {
         val imagesFolder = File(context.cacheDir, "images")
-        return@withContext kotlin.runCatching {
+
+        runCatching {
             imagesFolder.mkdirs()
             val saveTarget = ImageSaveTarget<ExifInterface>(
                 imageInfo = imageInfo,
@@ -87,7 +91,8 @@ internal class AndroidShareProvider @Inject constructor(
                 data = byteArrayOf()
             )
 
-            val file = File(imagesFolder, fileController.constructImageFilename(saveTarget))
+            val file =
+                File(imagesFolder, imageFilenameProvider.get().constructImageFilename(saveTarget))
             FileOutputStream(file).use {
                 it.write(imageCompressor.compressAndTransform(image, imageInfo))
             }
@@ -107,7 +112,7 @@ internal class AndroidShareProvider @Inject constructor(
         image: Bitmap,
         onComplete: () -> Unit,
         name: String
-    ) = withContext(dispatcher) {
+    ) = withContext(ioDispatcher) {
         cacheImage(
             image = image,
             imageInfo = imageInfo
@@ -123,7 +128,7 @@ internal class AndroidShareProvider @Inject constructor(
     override suspend fun shareUri(
         uri: String,
         type: String?
-    ) = withContext(dispatcher) {
+    ) = withContext(defaultDispatcher) {
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
             putExtra(Intent.EXTRA_STREAM, uri.toUri())
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -144,7 +149,7 @@ internal class AndroidShareProvider @Inject constructor(
 
     private suspend fun shareImageUris(
         uris: List<Uri>
-    ) = withContext(dispatcher) {
+    ) = withContext(defaultDispatcher) {
         if (uris.isEmpty()) return@withContext
 
         val sendIntent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
@@ -164,7 +169,7 @@ internal class AndroidShareProvider @Inject constructor(
     override suspend fun cacheByteArray(
         byteArray: ByteArray,
         filename: String
-    ): String? = withContext(dispatcher) {
+    ): String? = withContext(ioDispatcher) {
         val imagesFolder = File(context.cacheDir, "files")
 
         runCatching {
@@ -187,7 +192,7 @@ internal class AndroidShareProvider @Inject constructor(
         byteArray: ByteArray,
         filename: String,
         onComplete: () -> Unit
-    ) = withContext(dispatcher) {
+    ) = withContext(ioDispatcher) {
         cacheByteArray(
             byteArray = byteArray,
             filename = filename

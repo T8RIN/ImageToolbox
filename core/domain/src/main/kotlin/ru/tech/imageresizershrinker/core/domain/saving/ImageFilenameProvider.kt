@@ -15,22 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.di
+package ru.tech.imageresizershrinker.core.domain.saving
 
-import javax.inject.Qualifier
+import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class DefaultDispatcher
-
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class EncodingDispatcher
-
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class DecodingDispatcher
-
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class IoDispatcher
+fun interface ImageFilenameProvider {
+    fun constructImageFilename(saveTarget: ImageSaveTarget<*>): String
+}

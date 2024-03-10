@@ -34,8 +34,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import oupson.apng.coil.AnimatedPngDecoder
 import ru.tech.imageresizershrinker.core.data.utils.TimeMeasureInterceptor
+import ru.tech.imageresizershrinker.core.di.DecodingDispatcher
+import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.di.IoDispatcher
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 
 @Module
@@ -46,9 +50,15 @@ internal object ImageLoaderModule {
     fun provideImageLoader(
         @ApplicationContext context: Context,
         logger: Logger?,
-        componentRegistry: ComponentRegistry
+        componentRegistry: ComponentRegistry,
+        @DecodingDispatcher decodingDispatcher: CoroutineDispatcher,
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
+        @DefaultDispatcher defaultDispatcher: CoroutineDispatcher
     ): ImageLoader = context.imageLoader.newBuilder()
         .components(componentRegistry)
+        .decoderDispatcher(decodingDispatcher)
+        .fetcherDispatcher(ioDispatcher)
+        .transformationDispatcher(defaultDispatcher)
         .allowHardware(false)
         .logger(logger)
         .build()
