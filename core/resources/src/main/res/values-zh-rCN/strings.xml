@@ -823,4 +823,21 @@
     <string name="auto_paste_sub">允许应用程序自动粘贴剪贴板数据，这样它就会出现在主屏幕上，可以做进一步处理了</string>
     <string name="harmonization_color">调和颜色</string>
     <string name="harmonization_level">调和等级</string>
+    <string name="lanczos_bessel">Lanczos Bessel</string>
+    <string name="gif_type_to_jxl">GIF 转为 JXL</string>
+    <string name="gif_type_to_jxl_sub">将 GIF 图像转换为 JXL 动画图片</string>
+    <string name="apng_type_to_jxl">APNG 转为 JXL</string>
+    <string name="apng_type_to_jxl_sub">将 APNG 图像转换为 JXL 动画图片</string>
+    <string name="jxl_type_to_images">JXL 转为图片</string>
+    <string name="jxl_type_to_images_sub">将 JXL 动画转换为系列图片</string>
+    <string name="jxl_type_to_jxl">图片转为 JXL</string>
+    <string name="jxl_type_to_jxl_sub">将一组图片转换为 JXL 动画</string>
+    <string name="behavior">行为</string>
+    <string name="skip_file_picking">跳过文件选取</string>
+    <string name="skip_file_picking_sub">如果可以，文件选择器将立即显示在所选屏幕上</string>
+    <string name="generate_previews">生成预览</string>
+    <string name="lossy_compression">有损压缩</string>
+    <string name="lossy_compression_sub">使用有损压缩代替无损压缩来减少文件大小</string>
+    <string name="generate_previews_sub">启用预览生成，这可能有助于避免在某些设备上出现崩溃，同时也会禁用单个编辑选项中的某些编辑功能</string>
+    <string name="lanczos_bessel_sub">通过对像素值应用贝塞尔（jinc）函数来保持高质量插值的重采样方法</string>
 </resources>
