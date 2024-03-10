@@ -823,4 +823,21 @@
     <string name="auto_paste_sub">ऐप को क्लिपबोर्ड डेटा को ऑटो पेस्ट करने की अनुमति देता है, जिससे यह मुख्य स्क्रीन पर दिखाई देगा और आप इसे संसाधित करने में सक्षम होंगे</string>
     <string name="harmonization_color">सामंजस्य रंग</string>
     <string name="harmonization_level">सामंजस्य स्तर</string>
+    <string name="lanczos_bessel">लैंक्ज़ोस बेसेल</string>
+    <string name="gif_type_to_jxl">GIF से JXL</string>
+    <string name="gif_type_to_jxl_sub">GIF छवियों को JXL एनिमेटेड चित्रों में बदलें</string>
+    <string name="apng_type_to_jxl">APNG से JXL</string>
+    <string name="jxl_type_to_images_sub">JXL एनिमेशन को चित्रों के बैच में बदलें</string>
+    <string name="jxl_type_to_images">JXL से छवियाँ</string>
+    <string name="jxl_type_to_jxl">छवियों से JXL</string>
+    <string name="jxl_type_to_jxl_sub">चित्रों के बैच को JXL एनीमेशन में बदलें</string>
+    <string name="behavior">व्यवहार</string>
+    <string name="skip_file_picking">फ़ाइल चयन छोड़ें</string>
+    <string name="skip_file_picking_sub">यदि संभव हो तो चयनित स्क्रीन पर फ़ाइल पिकर तुरंत दिखाया जाएगा</string>
+    <string name="generate_previews">पूर्वावलोकन उत्पन्न करें</string>
+    <string name="generate_previews_sub">पूर्वावलोकन जनरेशन सक्षम करता है, इससे कुछ उपकरणों पर क्रैश से बचने में मदद मिल सकती है, यह एकल संपादन विकल्प के भीतर कुछ संपादन कार्यक्षमता को भी अक्षम कर देता है</string>
+    <string name="lossy_compression">हानिपूर्ण संपीड़न</string>
+    <string name="lossy_compression_sub">फ़ाइल आकार को दोषरहित के बजाय कम करने के लिए हानिपूर्ण संपीड़न का उपयोग करता है</string>
+    <string name="lanczos_bessel_sub">पुन: नमूनाकरण विधि जो पिक्सेल मानों पर बेसेल (jinc) फ़ंक्शन लागू करके उच्च गुणवत्ता वाले इंटरपोलेशन को बनाए रखती है</string>
+    <string name="apng_type_to_jxl_sub">APNG छवियों को JXL एनिमेटेड चित्रों में बदलें</string>
 </resources>
