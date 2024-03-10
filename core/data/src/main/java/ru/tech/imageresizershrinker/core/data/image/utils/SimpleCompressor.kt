@@ -24,8 +24,8 @@ import com.awxkee.aire.Aire
 import com.awxkee.aire.AireColorMapper
 import com.awxkee.aire.AirePaletteDithering
 import com.awxkee.aire.AireQuantize
+import com.awxkee.jxlcoder.JxlChannelsConfiguration
 import com.awxkee.jxlcoder.JxlCoder
-import com.awxkee.jxlcoder.JxlColorSpace
 import com.awxkee.jxlcoder.JxlCompressionOption
 import com.awxkee.jxlcoder.JxlDecodingSpeed
 import com.awxkee.jxlcoder.JxlEffort
@@ -347,7 +347,7 @@ internal abstract class SimpleCompressor {
             val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl(quality.qualityValue)
             return JxlCoder.encode(
                 bitmap = image,
-                colorSpace = JxlColorSpace.RGBA,
+                colorSpace = JxlChannelsConfiguration.RGBA,
                 compressionOption = JxlCompressionOption.LOSSY,
                 quality = jxlQuality.qualityValue,
                 effort = JxlEffort.entries.first { it.ordinal == jxlQuality.effort },
@@ -366,7 +366,7 @@ internal abstract class SimpleCompressor {
             val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl(quality.qualityValue)
             return JxlCoder.encode(
                 bitmap = image,
-                colorSpace = JxlColorSpace.RGBA,
+                colorSpace = JxlChannelsConfiguration.RGBA,
                 compressionOption = JxlCompressionOption.LOSSLESS,
                 quality = 100,
                 effort = JxlEffort.entries.first { it.ordinal == jxlQuality.effort },

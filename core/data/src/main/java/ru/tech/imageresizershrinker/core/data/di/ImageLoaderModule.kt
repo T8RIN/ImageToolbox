@@ -27,6 +27,7 @@ import coil.decode.SvgDecoder
 import coil.imageLoader
 import coil.util.DebugLogger
 import coil.util.Logger
+import com.awxkee.jxlcoder.coil.AnimatedJxlDecoder
 import com.github.awxkee.avifcoil.decoder.HeifDecoder
 import dagger.Module
 import dagger.Provides
@@ -34,7 +35,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import oupson.apng.coil.AnimatedPngDecoder
-import ru.tech.imageresizershrinker.core.data.image.AnimatedJxlDecoder
 import ru.tech.imageresizershrinker.core.data.utils.TimeMeasureInterceptor
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 
