@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.isFirstLaunch
 import ru.tech.imageresizershrinker.core.ui.icons.material.Beta
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -68,12 +69,12 @@ fun Context.FirstLaunchSetupDialog(
             true
         )
     }
-    LaunchedEffect(Unit) {
-        if (settingsState.showUpdateDialogOnStartup && BuildConfig.FLAVOR == "foss") {
-            toggleShowUpdateDialog()
+    if (settingsState.isFirstLaunch(false) && updateOnFirstOpen) {
+        LaunchedEffect(Unit) {
+            if (settingsState.showUpdateDialogOnStartup && BuildConfig.FLAVOR == "foss") {
+                toggleShowUpdateDialog()
+            }
         }
-    }
-    if (settingsState.appOpenCount <= 1 && updateOnFirstOpen) {
         AlertDialog(
             modifier = Modifier.alertDialogBorder(),
             onDismissRequest = {},
