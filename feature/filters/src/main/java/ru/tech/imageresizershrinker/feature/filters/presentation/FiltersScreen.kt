@@ -437,6 +437,7 @@ fun FiltersScreen(
                                     ) {
                                         filterList.forEachIndexed { index, filter ->
                                             FilterItem(
+                                                backgroundColor = MaterialTheme.colorScheme.surface,
                                                 filter = filter,
                                                 onFilterChange = {
                                                     viewModel.updateFilter(
@@ -535,6 +536,7 @@ fun FiltersScreen(
                                     ) {
                                         maskList.forEachIndexed { index, mask ->
                                             MaskItem(
+                                                backgroundColor = MaterialTheme.colorScheme.surface,
                                                 imageUri = viewModel.maskingFilterState.uri,
                                                 previousMasks = maskList.take(index),
                                                 onRequestPreview = viewModel::filter,
@@ -551,8 +553,8 @@ fun FiltersScreen(
                                                         showError = {
                                                             scope.launch {
                                                                 toastHostState.showError(
-                                                                    context,
-                                                                    it
+                                                                    context = context,
+                                                                    error = it
                                                                 )
                                                             }
                                                         }

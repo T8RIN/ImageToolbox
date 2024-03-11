@@ -432,8 +432,7 @@ fun AddEditMaskSheet(
                                     )
                                 },
                                 value = drawPathMode,
-                                onValueChange = { drawPathMode = it },
-                                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
+                                onValueChange = { drawPathMode = it }
                             )
                             LineWidthSelector(
                                 modifier = Modifier.padding(
@@ -491,6 +490,7 @@ fun AddEditMaskSheet(
                                     ) {
                                         viewModel.filterList.forEachIndexed { index, filter ->
                                             FilterItem(
+                                                backgroundColor = MaterialTheme.colorScheme.surface,
                                                 filter = filter,
                                                 onFilterChange = {
                                                     viewModel.updateFilter(

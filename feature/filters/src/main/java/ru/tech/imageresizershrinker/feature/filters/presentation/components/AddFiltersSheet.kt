@@ -90,7 +90,6 @@ import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -733,7 +732,7 @@ fun AddFiltersSheet(
                                 FilterItem(
                                     backgroundColor = MaterialTheme
                                         .colorScheme
-                                        .surfaceColorAtElevation(8.dp),
+                                        .surfaceContainerHigh,
                                     modifier = Modifier.padding(horizontal = 16.dp),
                                     filter = it,
                                     showDragHandle = false,

@@ -242,7 +242,7 @@ fun MaskItem(
                             ) {
                                 mask.filters.forEachIndexed { index, filter ->
                                     FilterItem(
-                                        shape = RoundedCornerShape(16.dp),
+                                        backgroundColor = MaterialTheme.colorScheme.surface,
                                         filter = filter.toUiFilter(),
                                         showDragHandle = false,
                                         onRemove = {
