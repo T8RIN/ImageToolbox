@@ -23,8 +23,8 @@ import com.google.mlkit.vision.segmentation.Segmentation
 import com.google.mlkit.vision.segmentation.Segmenter
 import com.google.mlkit.vision.segmentation.selfie.SelfieSegmenterOptions
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.nio.ByteBuffer
 
@@ -82,18 +82,20 @@ object MlKitBackgroundRemover {
     private suspend fun removeBackgroundFromImage(
         image: Bitmap
     ): Bitmap {
-        val bitmap = CoroutineScope(Dispatchers.IO).async {
-            image.setHasAlpha(true)
-            for (y in 0 until height) {
-                for (x in 0 until width) {
-                    val bgConfidence = ((1.0 - buffer.float) * 255).toInt()
-                    if (bgConfidence >= 100) {
-                        image.setPixel(x, y, 0)
+        val bitmap = coroutineScope {
+            async {
+                image.setHasAlpha(true)
+                for (y in 0 until height) {
+                    for (x in 0 until width) {
+                        val bgConfidence = ((1.0 - buffer.float) * 255).toInt()
+                        if (bgConfidence >= 100) {
+                            image.setPixel(x, y, 0)
+                        }
                     }
                 }
+                buffer.rewind()
+                return@async image
             }
-            buffer.rewind()
-            return@async image
         }
         return bitmap.await()
     }

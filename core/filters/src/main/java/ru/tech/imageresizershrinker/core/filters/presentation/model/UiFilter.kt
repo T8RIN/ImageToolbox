@@ -21,8 +21,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.annotation.StringRes
 import com.t8rin.logger.makeLog
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.coroutineScope
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.FilterParam
 import kotlin.reflect.full.primaryConstructor
@@ -268,7 +267,7 @@ infix fun Int.paramTo(valueRange: ClosedFloatingPointRange<Float>) = FilterParam
     valueRange = valueRange
 )
 
-private suspend fun reflectionTest() = withContext(Dispatchers.IO) {
+private suspend fun reflectionTest() = coroutineScope {
     val filters = UiFilter.groupedEntries.flatten()
     val failedCopy = mutableListOf<Pair<String, String?>>()
     val failedToUi = mutableListOf<Pair<String, String?>>()

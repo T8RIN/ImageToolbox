@@ -26,10 +26,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.IoDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
@@ -57,7 +57,8 @@ class PdfToolsViewModel @Inject constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val pdfManager: PdfManager<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
-    private val fileController: FileController
+    private val fileController: FileController,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _pdfToImageState: MutableState<PdfToImageState?> = mutableStateOf(null)
@@ -101,16 +102,14 @@ class PdfToolsViewModel @Inject constructor(
     ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                _isSaving.value = true
-                kotlin.runCatching {
-                    outputStream?.use {
-                        it.write(_byteArray.value)
-                    }
-                }.exceptionOrNull().let(onComplete)
-                _isSaving.value = false
-            }
+        savingJob = viewModelScope.launch(ioDispatcher) {
+            _isSaving.value = true
+            kotlin.runCatching {
+                outputStream?.use {
+                    it.write(_byteArray.value)
+                }
+            }.exceptionOrNull().let(onComplete)
+            _isSaving.value = false
         }
     }
 

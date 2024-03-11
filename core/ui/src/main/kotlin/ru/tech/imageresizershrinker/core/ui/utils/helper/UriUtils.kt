@@ -22,8 +22,7 @@ import android.content.Context
 import android.net.Uri
 import android.provider.DocumentsContract
 import androidx.documentfile.provider.DocumentFile
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.coroutineScope
 import ru.tech.imageresizershrinker.core.resources.R
 import java.util.LinkedList
 
@@ -50,7 +49,9 @@ fun Uri?.toUiPath(
         }
 } ?: default
 
-suspend fun Activity.listFilesInDirectory(rootUri: Uri): List<Uri> = withContext(Dispatchers.IO) {
+suspend fun Activity.listFilesInDirectory(
+    rootUri: Uri
+): List<Uri> = coroutineScope {
     var childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(
         rootUri,
         DocumentsContract.getTreeDocumentId(rootUri)
@@ -93,7 +94,7 @@ suspend fun Activity.listFilesInDirectory(rootUri: Uri): List<Uri> = withContext
         }
     }
 
-    return@withContext files.sortedByDescending { it.second }.map { it.first }
+    files.sortedByDescending { it.second }.map { it.first }
 }
 
 private fun isDirectory(mimeType: String): Boolean {
