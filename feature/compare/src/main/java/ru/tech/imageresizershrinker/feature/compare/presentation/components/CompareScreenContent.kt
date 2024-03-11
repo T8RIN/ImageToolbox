@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.compare.presentation.components
 
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
@@ -73,13 +74,14 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 
 @Composable
 fun CompareScreenContent(
-    bitmapData: Pair<Bitmap?, Bitmap?>?,
+    bitmapData: Pair<Pair<Uri, Bitmap>?, Pair<Uri, Bitmap>?>?,
     compareType: CompareType,
     onCompareTypeSelected: (CompareType) -> Unit,
     isPortrait: Boolean,
     compareProgress: Float,
     onCompareProgressChange: (Float) -> Unit,
-    onPickImage: () -> Unit
+    onPickImage: () -> Unit,
+    isLabelsEnabled: Boolean
 ) {
     AnimatedContent(bitmapData == null) { nil ->
         bitmapData.takeIf { !nil }?.let { bitmapPair ->
@@ -112,7 +114,8 @@ fun CompareScreenContent(
                             bitmapPair = bitmapPair,
                             compareProgress = compareProgress,
                             onCompareProgressChange = onCompareProgressChange,
-                            isPortrait = true
+                            isPortrait = true,
+                            isLabelsEnabled = isLabelsEnabled
                         )
                     }
                     val showButtonsAtTheTop by remember(compareType) {
@@ -168,7 +171,8 @@ fun CompareScreenContent(
                                 if (showButtons) {
                                     Row(
                                         modifier = Modifier
-                                            .padding(horizontal = 16.dp)
+                                            .padding(horizontal = 16.dp),
+                                        verticalAlignment = Alignment.CenterVertically
                                     ) {
                                         CompareSelectionButtons(
                                             value = compareType,
@@ -217,7 +221,8 @@ fun CompareScreenContent(
                                 bitmapPair = bitmapPair,
                                 compareProgress = compareProgress,
                                 onCompareProgressChange = onCompareProgressChange,
-                                isPortrait = false
+                                isPortrait = false,
+                                isLabelsEnabled = isLabelsEnabled
                             )
                         }
                     }
@@ -250,7 +255,8 @@ fun CompareScreenContent(
                                 CompareSelectionButtons(
                                     value = compareType,
                                     onValueChange = onCompareTypeSelected,
-                                    isPortrait = false
+                                    isPortrait = false,
+                                    modifier = Modifier.padding(start = 8.dp)
                                 )
                             }
                         }
@@ -277,12 +283,16 @@ fun CompareScreenContent(
                             targetState = !showButtonsAtTheStart
                         ) { showButtons ->
                             if (showButtons) {
-                                CompareSelectionButtons(
-                                    value = compareType,
-                                    onValueChange = onCompareTypeSelected,
-                                    isPortrait = false,
-                                    modifier = Modifier.padding(16.dp)
-                                )
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    CompareSelectionButtons(
+                                        value = compareType,
+                                        onValueChange = onCompareTypeSelected,
+                                        isPortrait = false,
+                                        modifier = Modifier.padding(16.dp)
+                                    )
+                                }
                             } else {
                                 val modifier = Modifier
                                     .padding(16.dp)

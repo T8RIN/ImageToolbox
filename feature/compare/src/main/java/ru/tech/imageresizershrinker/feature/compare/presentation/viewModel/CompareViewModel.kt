@@ -58,7 +58,8 @@ class CompareViewModel @Inject constructor(
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
-    private val _bitmapData: MutableState<Pair<Bitmap?, Bitmap?>?> = mutableStateOf(null)
+    private val _bitmapData: MutableState<Pair<Pair<Uri, Bitmap>?, Pair<Uri, Bitmap>?>?> =
+        mutableStateOf(null)
     val bitmapData by _bitmapData
 
     private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
@@ -81,18 +82,22 @@ class CompareViewModel @Inject constructor(
                 if (f != null && s != null) {
                     _isImageLoading.value = true
                     _bitmapData.value = with(imageTransformer) {
-                        rotate(
-                            image = rotate(
-                                image = f,
-                                degrees = 180f - old
-                            ),
-                            degrees = rotation
-                        ) to rotate(
-                            image = rotate(
-                                image = s,
-                                degrees = 180f - old
-                            ),
-                            degrees = rotation
+                        bitmapData?.first?.copy(
+                            second = rotate(
+                                image = rotate(
+                                    image = f.second,
+                                    degrees = 180f - old
+                                ),
+                                degrees = rotation
+                            )
+                        ) to bitmapData?.second?.copy(
+                            second = rotate(
+                                image = rotate(
+                                    image = s.second,
+                                    degrees = 180f - old
+                                ),
+                                degrees = rotation
+                            )
                         )
                     }
                     _isImageLoading.value = false
@@ -118,7 +123,7 @@ class CompareViewModel @Inject constructor(
             val data = getBitmapByUri(uris.first) to getBitmapByUri(uris.second)
             if (data.first == null || data.second == null) onError()
             else {
-                _bitmapData.value = data
+                _bitmapData.value = (uris.first to data.first!!) to (uris.second to data.second!!)
                 onSuccess()
             }
         }
@@ -139,7 +144,7 @@ class CompareViewModel @Inject constructor(
         savingJob?.cancel()
         savingJob = viewModelScope.launch(dispatcher) {
             _isImageLoading.value = true
-            getOverlayedImage(percent)?.let {
+            getOverlappedImage(percent)?.let {
                 shareProvider.shareImage(
                     image = it,
                     imageInfo = ImageInfo(
@@ -163,7 +168,7 @@ class CompareViewModel @Inject constructor(
         savingJob?.cancel()
         savingJob = viewModelScope.launch(dispatcher) {
             _isImageLoading.value = true
-            getOverlayedImage(percent)?.let { localBitmap ->
+            getOverlappedImage(percent)?.let { localBitmap ->
                 onComplete(
                     fileController.save(
                         saveTarget = ImageSaveTarget<ExifInterface>(
@@ -211,9 +216,9 @@ class CompareViewModel @Inject constructor(
         return finalBitmap
     }
 
-    fun getOverlayedImage(percent: Float): Bitmap? {
+    fun getOverlappedImage(percent: Float): Bitmap? {
         return _bitmapData.value?.let { (b, a) ->
-            a?.let { b?.overlay(it, percent) }
+            a?.second?.let { b?.second?.overlay(it, percent) }
         }
     }
 
@@ -236,7 +241,7 @@ class CompareViewModel @Inject constructor(
         savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _isImageLoading.value = true
-            getOverlayedImage(percent)?.let {
+            getOverlappedImage(percent)?.let {
                 shareProvider.cacheImage(
                     image = it,
                     imageInfo = ImageInfo(

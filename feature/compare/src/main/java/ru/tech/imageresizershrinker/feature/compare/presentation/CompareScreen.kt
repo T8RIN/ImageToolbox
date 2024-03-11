@@ -106,7 +106,10 @@ fun CompareScreen(
         viewModel.bitmapData?.let { (b, a) ->
             if (allowChangeColor && a != null && b != null) {
                 delay(100L) //delay to perform screen rotation
-                themeState.updateColor(a.extractPrimaryColor().blend(b.extractPrimaryColor(), 0.5f))
+                themeState.updateColor(
+                    a.second.extractPrimaryColor()
+                        .blend(b.second.extractPrimaryColor(), 0.5f)
+                )
             }
         }
     }
@@ -179,6 +182,10 @@ fun CompareScreen(
             .nestedScroll(scrollBehavior.nestedScrollConnection)
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            var isLabelsEnabled by rememberSaveable {
+                mutableStateOf(true)
+            }
+
             CompareScreenTopAppBar(
                 imageNotPicked = viewModel.bitmapData == null,
                 scrollBehavior = scrollBehavior,
@@ -190,7 +197,9 @@ fun CompareScreen(
                 onRotateImagesClick = viewModel::rotate,
                 isShareButtonVisible = viewModel.compareType == CompareType.Slide,
                 isImagesRotated = viewModel.rotation == 90f,
-                titleWhenBitmapsPicked = stringResource(viewModel.compareType.title)
+                titleWhenBitmapsPicked = stringResource(viewModel.compareType.title),
+                isLabelsEnabled = isLabelsEnabled,
+                onToggleLabelsEnabled = { isLabelsEnabled = it }
             )
 
             CompareScreenContent(
@@ -202,7 +211,8 @@ fun CompareScreen(
                 onCompareProgressChange = {
                     compareProgress = it
                 },
-                onPickImage = pickImage
+                onPickImage = pickImage,
+                isLabelsEnabled = isLabelsEnabled
             )
         }
 
@@ -226,7 +236,7 @@ fun CompareScreen(
 
     val previewBitmap by remember(viewModel.bitmapData) {
         derivedStateOf {
-            viewModel.getOverlayedImage(compareProgress)
+            viewModel.getOverlappedImage(compareProgress)
         }
     }
     CompareShareSheet(

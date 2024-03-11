@@ -19,8 +19,10 @@ package ru.tech.imageresizershrinker.feature.compare.presentation.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.Label
 import androidx.compose.material.icons.automirrored.rounded.RotateLeft
 import androidx.compose.material.icons.automirrored.rounded.RotateRight
 import androidx.compose.material.icons.rounded.Share
@@ -55,7 +57,9 @@ fun CompareScreenTopAppBar(
     onRotateImagesClick: () -> Unit,
     isShareButtonVisible: Boolean,
     isImagesRotated: Boolean,
-    titleWhenBitmapsPicked: String
+    titleWhenBitmapsPicked: String,
+    onToggleLabelsEnabled: (Boolean) -> Unit,
+    isLabelsEnabled: Boolean
 ) {
     if (imageNotPicked) {
         LargeTopAppBar(
@@ -130,6 +134,20 @@ fun CompareScreenTopAppBar(
                             contentDescription = null
                         )
                     }
+                }
+                EnhancedIconButton(
+                    onClick = {
+                        onToggleLabelsEnabled(!isLabelsEnabled)
+                    },
+                    containerColor = animateColorAsState(
+                        if (isLabelsEnabled) MaterialTheme.colorScheme.secondary
+                        else Color.Transparent
+                    ).value
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Rounded.Label,
+                        contentDescription = null
+                    )
                 }
             },
             title = {

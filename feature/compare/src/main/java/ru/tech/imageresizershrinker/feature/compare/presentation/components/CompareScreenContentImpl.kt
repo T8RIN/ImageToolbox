@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.feature.compare.presentation.components
 
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
@@ -55,10 +56,11 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 @Composable
 internal fun CompareScreenContentImpl(
     compareType: CompareType,
-    bitmapPair: Pair<Bitmap?, Bitmap?>,
+    bitmapPair: Pair<Pair<Uri, Bitmap>?, Pair<Uri, Bitmap>?>,
     compareProgress: Float,
     onCompareProgressChange: (Float) -> Unit,
-    isPortrait: Boolean
+    isPortrait: Boolean,
+    isLabelsEnabled: Boolean
 ) {
     val modifier = Modifier
         .padding(16.dp)
@@ -72,8 +74,8 @@ internal fun CompareScreenContentImpl(
             CompareType.Slide -> {
                 AnimatedContent(targetState = bitmapPair) { data ->
                     data.let { (b, a) ->
-                        val before = remember(data) { b?.asImageBitmap() }
-                        val after = remember(data) { a?.asImageBitmap() }
+                        val before = remember(data) { b?.second?.asImageBitmap() }
+                        val after = remember(data) { a?.second?.asImageBitmap() }
 
                         if (before != null && after != null) {
                             BeforeAfterImage(
@@ -83,8 +85,30 @@ internal fun CompareScreenContentImpl(
                                 onProgressChange = onCompareProgressChange,
                                 beforeImage = before,
                                 afterImage = after,
-                                beforeLabel = { },
-                                afterLabel = { }
+                                beforeLabel = {
+                                    b?.let { (uri) ->
+                                        CompareLabel(
+                                            uri = uri,
+                                            alignment = Alignment.TopStart,
+                                            enabled = isLabelsEnabled,
+                                            shape = RoundedCornerShape(
+                                                bottomEnd = 16.dp
+                                            )
+                                        )
+                                    }
+                                },
+                                afterLabel = {
+                                    a?.let { (uri) ->
+                                        CompareLabel(
+                                            uri = uri,
+                                            alignment = Alignment.BottomEnd,
+                                            enabled = isLabelsEnabled,
+                                            shape = RoundedCornerShape(
+                                                topStart = 16.dp
+                                            )
+                                        )
+                                    }
+                                }
                             )
                         }
                     }
@@ -92,8 +116,8 @@ internal fun CompareScreenContentImpl(
             }
 
             CompareType.SideBySide -> {
-                val first = bitmapPair.first
-                val second = bitmapPair.second
+                val first = bitmapPair.first?.second
+                val second = bitmapPair.second?.second
 
                 val zoomState = rememberZoomState(30f)
                 val zoomModifier = Modifier.zoomable(
@@ -101,59 +125,93 @@ internal fun CompareScreenContentImpl(
                 )
 
 
-                if (isPortrait) {
-                    Column(
-                        modifier = modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        if (first != null) {
-                            Image(
-                                bitmap = first.asImageBitmap(),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .weight(1f)
-                                    .then(zoomModifier)
-                            )
-                            HorizontalDivider()
+                Box(modifier) {
+                    if (isPortrait) {
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            if (first != null) {
+                                Image(
+                                    bitmap = first.asImageBitmap(),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .weight(1f)
+                                        .then(zoomModifier)
+                                )
+                                HorizontalDivider()
+                            }
+                            if (second != null) {
+                                Image(
+                                    bitmap = second.asImageBitmap(),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .weight(1f)
+                                        .then(zoomModifier)
+                                )
+                            }
                         }
-                        if (second != null) {
-                            Image(
-                                bitmap = second.asImageBitmap(),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .weight(1f)
-                                    .then(zoomModifier)
+                        CompareLabel(
+                            uri = bitmapPair.first?.first,
+                            alignment = Alignment.TopStart,
+                            enabled = isLabelsEnabled,
+                            shape = RoundedCornerShape(
+                                bottomEnd = 16.dp
                             )
-                        }
-                    }
-                } else {
-                    Row(
-                        modifier = modifier.fillMaxSize(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        if (first != null) {
-                            Image(
-                                bitmap = first.asImageBitmap(),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .weight(1f)
-                                    .then(zoomModifier)
+                        )
+                        CompareLabel(
+                            uri = bitmapPair.second?.first,
+                            alignment = Alignment.BottomStart,
+                            enabled = isLabelsEnabled,
+                            shape = RoundedCornerShape(
+                                topEnd = 16.dp
                             )
-                            VerticalDivider()
+                        )
+                    } else {
+                        Row(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            if (first != null) {
+                                Image(
+                                    bitmap = first.asImageBitmap(),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .weight(1f)
+                                        .then(zoomModifier)
+                                )
+                                VerticalDivider()
+                            }
+                            if (second != null) {
+                                Image(
+                                    bitmap = second.asImageBitmap(),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .weight(1f)
+                                        .then(zoomModifier)
+                                )
+                            }
                         }
-                        if (second != null) {
-                            Image(
-                                bitmap = second.asImageBitmap(),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .weight(1f)
-                                    .then(zoomModifier)
+                        CompareLabel(
+                            uri = bitmapPair.first?.first,
+                            alignment = Alignment.TopStart,
+                            enabled = isLabelsEnabled,
+                            shape = RoundedCornerShape(
+                                bottomEnd = 16.dp
                             )
-                        }
+                        )
+                        CompareLabel(
+                            uri = bitmapPair.second?.first,
+                            alignment = Alignment.TopEnd,
+                            enabled = isLabelsEnabled,
+                            shape = RoundedCornerShape(
+                                bottomStart = 16.dp
+                            )
+                        )
                     }
                 }
             }
@@ -170,8 +228,8 @@ internal fun CompareScreenContentImpl(
                             }
                         }
                 ) {
-                    val first = bitmapPair.first
-                    val second = bitmapPair.second
+                    val first = bitmapPair.first?.second
+                    val second = bitmapPair.second?.second
                     if (!showSecondImage && first != null) {
                         Image(
                             bitmap = first.asImageBitmap(),
@@ -186,6 +244,15 @@ internal fun CompareScreenContentImpl(
                             contentScale = ContentScale.Inside
                         )
                     }
+                    CompareLabel(
+                        uri = if (showSecondImage) bitmapPair.second?.first
+                        else bitmapPair.first?.first,
+                        alignment = Alignment.TopStart,
+                        enabled = isLabelsEnabled,
+                        shape = RoundedCornerShape(
+                            bottomEnd = 16.dp
+                        )
+                    )
                 }
             }
 
@@ -193,8 +260,8 @@ internal fun CompareScreenContentImpl(
                 Box(
                     modifier = modifier
                 ) {
-                    val first = bitmapPair.first
-                    val second = bitmapPair.second
+                    val first = bitmapPair.first?.second
+                    val second = bitmapPair.second?.second
                     if (first != null) {
                         Image(
                             bitmap = first.asImageBitmap(),
@@ -210,6 +277,23 @@ internal fun CompareScreenContentImpl(
                             modifier = Modifier.alpha(compareProgress / 100f)
                         )
                     }
+                    CompareLabel(
+                        uri = bitmapPair.first?.first,
+                        alignment = Alignment.TopStart,
+                        enabled = isLabelsEnabled,
+                        shape = RoundedCornerShape(
+                            bottomEnd = 16.dp
+                        )
+                    )
+                    CompareLabel(
+                        uri = bitmapPair.second?.first,
+                        modifier = Modifier.alpha(compareProgress / 100f),
+                        alignment = Alignment.BottomEnd,
+                        enabled = isLabelsEnabled,
+                        shape = RoundedCornerShape(
+                            topStart = 16.dp
+                        )
+                    )
                 }
             }
         }

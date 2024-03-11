@@ -35,7 +35,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ZoomIn
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -65,7 +64,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ZoomModalSheet(
     data: Any?,
@@ -133,7 +131,8 @@ fun ZoomModalSheet(
                         text = stringResource(R.string.zoom) + " ${zoomLevel.roundToTwoDigits()}x",
                         modifier = Modifier
                             .background(Color.Black.copy(0.4f), CircleShape)
-                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                        color = Color.White
                     )
                 }
             }
