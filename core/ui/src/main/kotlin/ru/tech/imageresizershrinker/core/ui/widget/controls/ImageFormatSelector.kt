@@ -147,7 +147,9 @@ fun ImageFormatSelector(
 
             val formats by remember(value) {
                 derivedStateOf {
-                    ImageFormatGroup.fromFormat(value).formats
+                    entries.first {
+                        value in it.formats
+                    }.formats
                 }
             }
             AnimatedContent(formats.filteredFormats()) { items ->

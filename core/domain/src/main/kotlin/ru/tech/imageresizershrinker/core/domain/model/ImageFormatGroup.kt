@@ -18,8 +18,8 @@
 package ru.tech.imageresizershrinker.core.domain.model
 
 sealed class ImageFormatGroup(
-    val title: String,
-    val formats: List<ImageFormat>
+    open val title: String,
+    open val formats: List<ImageFormat>
 ) {
     data object Jpg : ImageFormatGroup(
         title = "JPG",
@@ -76,6 +76,11 @@ sealed class ImageFormatGroup(
             ImageFormat.Jxl.Lossy
         )
     )
+
+    data class Custom(
+        override val title: String,
+        override val formats: List<ImageFormat>
+    ) : ImageFormatGroup(title, formats)
 
     companion object {
         val entries by lazy {
