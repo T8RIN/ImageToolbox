@@ -176,7 +176,7 @@ fun QualityWidget(
                                         shape = RoundedCornerShape(20.dp),
                                         color = MaterialTheme.colorScheme.surface
                                     )
-                                    .padding(4.dp)
+                                    .padding(6.dp)
                             )
                         }
                     }
@@ -198,7 +198,25 @@ fun QualityWidget(
                             )?.coerceIn(imageFormat)?.let(onQualityChange)
                         },
                         behaveAsContainer = false
-                    )
+                    ) {
+                        Text(
+                            text = stringResource(
+                                R.string.speed_sub,
+                                0, 5
+                            ),
+                            fontSize = 12.sp,
+                            textAlign = TextAlign.Center,
+                            lineHeight = 12.sp,
+                            color = LocalContentColor.current.copy(0.5f),
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .container(
+                                    shape = RoundedCornerShape(20.dp),
+                                    color = MaterialTheme.colorScheme.surface
+                                )
+                                .padding(6.dp)
+                        )
+                    }
                 }
                 AnimatedVisibility(imageFormat is ImageFormat.PngLossy) {
                     val pngLossyQuality = quality as? Quality.PngLossy

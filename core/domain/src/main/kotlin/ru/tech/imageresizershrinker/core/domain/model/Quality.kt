@@ -55,7 +55,7 @@ sealed class Quality(
         @IntRange(from = 0, to = 9)
         val effort: Int = 5,
         @IntRange(from = 0, to = 4)
-        val speed: Int = 2
+        val speed: Int = 0
     ) : Quality(qualityValue)
 
     data class PngLossy(
