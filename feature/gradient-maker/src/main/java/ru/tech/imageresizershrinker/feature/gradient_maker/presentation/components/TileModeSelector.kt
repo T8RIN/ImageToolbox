@@ -21,7 +21,6 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -61,7 +60,6 @@ fun TileModeSelector(
             items = entries.map { it.translatedName },
             selectedIndex = entries.indexOf(value),
             title = stringResource(id = R.string.tile_mode),
-            fadingEdgesColor = MaterialTheme.colorScheme.surfaceContainer,
             indexChanged = {
                 onValueChange(entries[it])
             }

@@ -59,7 +59,6 @@ fun GradientTypeSelector(
             items = GradientType.entries.map { it.translatedName },
             selectedIndex = GradientType.entries.indexOf(value),
             title = stringResource(id = R.string.gradient_type),
-            fadingEdgesColor = MaterialTheme.colorScheme.surfaceContainer,
             indexChanged = {
                 onValueChange(GradientType.entries[it])
             }

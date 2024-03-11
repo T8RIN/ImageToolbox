@@ -865,7 +865,6 @@ internal fun <T> FilterItemContent(
                             )
                         )
                         ToggleGroupButton(
-                            fadingEdgesColor = MaterialTheme.colorScheme.surfaceContainerLow,
                             inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                             items = FadeSide.entries.map { it.translatedName },
                             selectedIndex = FadeSide.entries.indexOf(sideFade),

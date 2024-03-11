@@ -29,7 +29,6 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -76,18 +75,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -109,11 +102,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
+import ru.tech.imageresizershrinker.core.domain.utils.toInt
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.material.ShieldKey
@@ -128,11 +121,11 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showRevie
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
@@ -362,7 +355,7 @@ fun FileCipherScreen(
                                     } else {
                                         Row(
                                             modifier = Modifier
-                                                .container(MaterialTheme.shapes.extraLarge)
+                                                .container(CircleShape)
                                                 .padding(horizontal = 8.dp, vertical = 4.dp),
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
@@ -370,56 +363,22 @@ fun FileCipherScreen(
                                                 stringResource(R.string.encryption),
                                                 stringResource(R.string.decryption)
                                             )
-                                            SingleChoiceSegmentedButtonRow(
-                                                space = max(settingsState.borderWidth, 1.dp),
-                                                modifier = Modifier
-                                                    .weight(1f)
-                                                    .padding(end = 8.dp, start = 2.dp)
-                                            ) {
-                                                CompositionLocalProvider(
-                                                    LocalMinimumInteractiveComponentEnforcement provides false
-                                                ) {
-                                                    items.forEachIndexed { index, item ->
-                                                        val shape =
-                                                            SegmentedButtonDefaults.itemShape(
-                                                                index,
-                                                                items.size
-                                                            )
-                                                        val selected =
-                                                            index == if (viewModel.isEncrypt) 0 else 1
-                                                        SegmentedButton(
-                                                            onClick = {
-                                                                haptics.performHapticFeedback(
-                                                                    HapticFeedbackType.LongPress
-                                                                )
-                                                                viewModel.setIsEncrypt(index == 0)
-                                                            },
-                                                            border = BorderStroke(
-                                                                width = settingsState.borderWidth,
-                                                                color = MaterialTheme.colorScheme.outlineVariant()
-                                                            ),
-                                                            selected = selected,
-                                                            colors = SegmentedButtonDefaults.colors(
-                                                                activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
-                                                                inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                                    6.dp
-                                                                )
-                                                            ),
-                                                            modifier = Modifier.materialShadow(
-                                                                shape = shape,
-                                                                elevation = animateDpAsState(
-                                                                    if (settingsState.borderWidth >= 0.dp || !settingsState.drawButtonShadows) 0.dp
-                                                                    else if (selected) 2.dp
-                                                                    else 1.dp
-                                                                ).value
-                                                            ),
-                                                            shape = shape
-                                                        ) {
-                                                            Text(text = item, fontSize = 12.sp)
-                                                        }
-                                                    }
-                                                }
-                                            }
+                                            ToggleGroupButton(
+                                                enabled = true,
+                                                itemCount = items.size,
+                                                selectedIndex = (!viewModel.isEncrypt).toInt(),
+                                                indexChanged = {
+                                                    viewModel.setIsEncrypt(it == 0)
+                                                },
+                                                itemContent = {
+                                                    Text(
+                                                        text = items[it],
+                                                        fontSize = 12.sp
+                                                    )
+                                                },
+                                                isScrollable = false,
+                                                modifier = Modifier.weight(1f)
+                                            )
                                             EnhancedIconButton(
                                                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                                                 onClick = {

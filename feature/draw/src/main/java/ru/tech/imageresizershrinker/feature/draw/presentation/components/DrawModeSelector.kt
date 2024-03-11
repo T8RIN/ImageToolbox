@@ -18,17 +18,12 @@
 package ru.tech.imageresizershrinker.feature.draw.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -41,44 +36,31 @@ import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material.icons.rounded.Brush
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.icons.material.Cube
 import ru.tech.imageresizershrinker.core.ui.icons.material.Highlighter
 import ru.tech.imageresizershrinker.core.ui.icons.material.Laser
-import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -91,91 +73,47 @@ fun DrawModeSelector(
     value: DrawMode,
     onValueChange: (DrawMode) -> Unit
 ) {
-    val haptics = LocalHapticFeedback.current
     val state = rememberSaveable { mutableStateOf(false) }
 
-    val settingsState = LocalSettingsState.current
     Column(
         modifier = modifier
             .container(RoundedCornerShape(24.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = stringResource(R.string.draw_mode),
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Medium
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            SupportingButton(
-                onClick = {
-                    state.value = true
-                }
-            )
-        }
-        Box {
-            val scrollState = rememberScrollState()
-            SingleChoiceSegmentedButtonRow(
-                space = max(settingsState.borderWidth, 1.dp),
-                modifier = Modifier
-                    .fadingEdges(scrollState)
-                    .horizontalScroll(scrollState)
-                    .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
-            ) {
-                CompositionLocalProvider(
-                    LocalMinimumInteractiveComponentEnforcement provides false
-                ) {
-                    DrawMode.entries.forEachIndexed { index, item ->
-                        val selected by remember(value, item) {
-                            derivedStateOf {
-                                value::class.isInstance(item)
-                            }
-                        }
-                        val shape = SegmentedButtonDefaults.itemShape(
-                            index = index,
-                            count = DrawMode.entries.size
-                        )
-                        SegmentedButton(
-                            onClick = {
-                                haptics.performHapticFeedback(
-                                    HapticFeedbackType.LongPress
-                                )
-                                onValueChange(item)
-                            },
-                            selected = selected,
-                            icon = {},
-                            border = BorderStroke(
-                                width = settingsState.borderWidth,
-                                color = MaterialTheme.colorScheme.outlineVariant()
-                            ),
-                            colors = SegmentedButtonDefaults.colors(
-                                activeBorderColor = MaterialTheme.colorScheme.outlineVariant(),
-                                inactiveContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                    6.dp
-                                )
-                            ),
-                            modifier = Modifier.materialShadow(
-                                shape = shape,
-                                elevation = animateDpAsState(
-                                    if (settingsState.borderWidth >= 0.dp || !settingsState.drawButtonShadows) 0.dp
-                                    else if (selected) 2.dp
-                                    else 1.dp
-                                ).value
-                            ),
-                            shape = shape
-                        ) {
-                            Icon(
-                                imageVector = item.getIcon(),
-                                contentDescription = null
-                            )
-                        }
+        ToggleGroupButton(
+            enabled = true,
+            itemCount = DrawMode.entries.size,
+            title = {
+                Text(
+                    text = stringResource(R.string.draw_mode),
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Medium
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                SupportingButton(
+                    onClick = {
+                        state.value = true
+                    }
+                )
+            },
+            selectedIndex = remember(value) {
+                derivedStateOf {
+                    DrawMode.entries.indexOfFirst {
+                        value::class.isInstance(it)
                     }
                 }
+            }.value,
+            buttonIcon = {},
+            itemContent = {
+                Icon(
+                    imageVector = DrawMode.entries[it].getIcon(),
+                    contentDescription = null
+                )
+            },
+            indexChanged = {
+                onValueChange(DrawMode.entries[it])
             }
-        }
+        )
         AnimatedVisibility(
             visible = value is DrawMode.PathEffect.PrivacyBlur,
             enter = fadeIn() + expandVertically(),

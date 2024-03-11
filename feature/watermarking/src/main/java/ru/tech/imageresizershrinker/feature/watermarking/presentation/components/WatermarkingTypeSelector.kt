@@ -56,7 +56,6 @@ fun WatermarkingTypeSelector(
         items = WatermarkingType.entries.map { it.translatedName },
         selectedIndex = selectedIndex,
         title = stringResource(id = R.string.watermark_type),
-        fadingEdgesColor = MaterialTheme.colorScheme.surfaceContainerLow,
         indexChanged = {
             onValueChange(value.copy(watermarkingType = WatermarkingType.entries[it]))
         },
