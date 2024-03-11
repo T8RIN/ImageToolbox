@@ -810,7 +810,7 @@
     <string name="festive">उत्सवपूर्ण</string>
     <string name="corners">कोने</string>
     <string name="jxl_tools">JXL टूल्स</string>
-    <string name="jxl_tools_sub">बिना किसी गुणवत्ता हानि के JXL को JPG या JPEG से JXLS में ट्रांसकोड करें</string>
+    <string name="jxl_tools_sub">बिना गुणवत्ता हानि के JXL ~ JPEG ट्रांसकोडिंग करें, या GIF/APNG को JXL एनीमेशन में बदलें</string>
     <string name="jxl_type_to_jpeg">JXL से JPEG</string>
     <string name="jpeg_type_to_jxl">JPEG से JXL</string>
     <string name="select_jxl_image_to_start">आरंभ करने के लिए JXL छवि चुनें</string>
@@ -840,4 +840,5 @@
     <string name="lossy_compression_sub">फ़ाइल आकार को दोषरहित के बजाय कम करने के लिए हानिपूर्ण संपीड़न का उपयोग करता है</string>
     <string name="lanczos_bessel_sub">पुन: नमूनाकरण विधि जो पिक्सेल मानों पर बेसेल (jinc) फ़ंक्शन लागू करके उच्च गुणवत्ता वाले इंटरपोलेशन को बनाए रखती है</string>
     <string name="apng_type_to_jxl_sub">APNG छवियों को JXL एनिमेटेड चित्रों में बदलें</string>
+    <string name="compression_type">संपीड़न प्रकार</string>
 </resources>
