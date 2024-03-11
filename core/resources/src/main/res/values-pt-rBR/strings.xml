@@ -840,4 +840,5 @@
     <string name="lossy_compression_sub">Usa compactação \"com perdas\" para reduzir o tamanho do arquivo em vez de \"sem perdas\"</string>
     <string name="generate_previews_sub">Ativa a geração de pré-visualização, o que pode ajudar a evitar travamentos em alguns dispositivos e também desativa algumas funcionalidades de edição na opção de edição única</string>
     <string name="compression_type">Tipo de compressão</string>
+    <string name="speed_sub">Controla a velocidade de decodificação da imagem resultante, o que deve ajudar a abrir a imagem resultante mais rapidamente, o valor de %1$d significa a decodificação mais lenta, enquanto %2$d - a mais rápida, essa configuração pode aumentar o tamanho da imagem de saída</string>
 </resources>
