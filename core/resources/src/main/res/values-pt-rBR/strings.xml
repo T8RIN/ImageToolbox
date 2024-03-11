@@ -809,7 +809,7 @@
     <string name="rain">Chuva</string>
     <string name="jxl_type_to_jpeg">JXL para JPEG</string>
     <string name="jxl_tools">Ferramentas JXL</string>
-    <string name="jxl_tools_sub">Converter JXL para JPEG ou JPG para JXL sem perda de qualidade</string>
+    <string name="jxl_tools_sub">Executar conversão JXL ~ JPEG sem perda de qualidade ou converta GIF/APNG em animação JXL</string>
     <string name="jpeg_type_to_jxl">JPEG para JXL</string>
     <string name="select_jxl_image_to_start">Escolha a imagem JXL para começar</string>
     <string name="jxl_type_to_jpeg_sub">Executando conversão sem perdas de JXL para JPEG</string>
@@ -839,4 +839,5 @@
     <string name="lanczos_bessel_sub">Método de reamostragem que mantém interpolação de alta qualidade aplicando uma função Bessel (jinc) aos valores de pixel</string>
     <string name="lossy_compression_sub">Usa compactação \"com perdas\" para reduzir o tamanho do arquivo em vez de \"sem perdas\"</string>
     <string name="generate_previews_sub">Ativa a geração de pré-visualização, o que pode ajudar a evitar travamentos em alguns dispositivos e também desativa algumas funcionalidades de edição na opção de edição única</string>
+    <string name="compression_type">Tipo de compressão</string>
 </resources>
