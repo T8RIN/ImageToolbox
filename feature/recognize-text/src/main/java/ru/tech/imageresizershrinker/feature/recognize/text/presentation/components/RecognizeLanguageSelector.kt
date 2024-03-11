@@ -236,7 +236,7 @@ fun RecognizeLanguageSelector(
                             title = stringResource(R.string.allow_multiple_languages),
                             color = animateColorAsState(
                                 if (allowMultipleLanguagesSelection) MaterialTheme.colorScheme.primaryContainer
-                                else MaterialTheme.colorScheme.surfaceContainerLow
+                                else MaterialTheme.colorScheme.surfaceContainer
                             ).value,
                             modifier = Modifier
                                 .layout { measurable, constraints ->
@@ -338,7 +338,7 @@ fun RecognizeLanguageSelector(
                                                         .colorScheme
                                                         .mixedContainer
                                                         .copy(0.8f)
-                                                } else MaterialTheme.colorScheme.surfaceContainerLow
+                                                } else SimpleSheetDefaults.contentContainerColor
                                             ).value,
                                             resultPadding = 0.dp
                                         )
@@ -485,7 +485,7 @@ fun RecognizeLanguageSelector(
                                     color = animateColorAsState(
                                         if (selected) {
                                             MaterialTheme.colorScheme.surfaceColorAtElevation(20.dp)
-                                        } else MaterialTheme.colorScheme.surfaceContainerLow
+                                        } else SimpleSheetDefaults.contentContainerColor
                                     ).value,
                                     resultPadding = 0.dp
                                 )

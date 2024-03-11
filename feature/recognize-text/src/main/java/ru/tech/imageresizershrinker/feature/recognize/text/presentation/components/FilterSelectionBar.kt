@@ -68,17 +68,17 @@ fun FilterSelectionBar(
 
     val thresholdColor by animateColorAsState(
         if (hasThreshold) MaterialTheme.colorScheme.secondaryContainer
-        else MaterialTheme.colorScheme.surfaceContainerLow
+        else MaterialTheme.colorScheme.surface
     )
 
     val contrastColor by animateColorAsState(
         if (hasContrast) MaterialTheme.colorScheme.secondaryContainer
-        else MaterialTheme.colorScheme.surfaceContainerLow
+        else MaterialTheme.colorScheme.surface
     )
 
     val sharpnessColor by animateColorAsState(
         if (hasSharpness) MaterialTheme.colorScheme.secondaryContainer
-        else MaterialTheme.colorScheme.surfaceContainerLow
+        else MaterialTheme.colorScheme.surface
     )
 
     Column(

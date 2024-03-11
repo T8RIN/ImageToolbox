@@ -67,7 +67,7 @@ fun ToggleGroupButton(
     selectedIndex: Int,
     title: String? = null,
     indexChanged: (Int) -> Unit,
-    inactiveButtonColor: Color = MaterialTheme.colorScheme.surfaceContainerLow
+    inactiveButtonColor: Color = MaterialTheme.colorScheme.surface
 ) {
     ToggleGroupButton(
         enabled = enabled,
