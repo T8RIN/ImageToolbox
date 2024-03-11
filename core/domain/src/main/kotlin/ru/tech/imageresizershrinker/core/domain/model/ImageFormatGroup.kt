@@ -26,7 +26,8 @@ sealed class ImageFormatGroup(
         formats = listOf(
             ImageFormat.Jpg,
             ImageFormat.Jpeg,
-            ImageFormat.MozJpeg
+            ImageFormat.MozJpeg,
+            ImageFormat.Jpegli
         )
     )
 

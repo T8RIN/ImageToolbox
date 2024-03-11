@@ -70,6 +70,14 @@ sealed class ImageFormat(
         canWriteExif = true
     )
 
+    data object Jpegli : ImageFormat(
+        title = "Jpegli",
+        extension = "jpg",
+        type = "image/jpeg",
+        canChangeCompressionValue = true,
+        canWriteExif = true
+    )
+
     sealed class Webp(
         title: String,
         compressionTypes: List<CompressionType>
@@ -175,20 +183,6 @@ sealed class ImageFormat(
             else -> Default()
         }
 
-        val alphaContainedEntries by lazy {
-            listOf(
-                PngLossless,
-                PngLossy,
-                Webp.Lossy,
-                Webp.Lossless,
-                Avif,
-                Heic,
-                Heif,
-                Jxl.Lossless,
-                Jxl.Lossy
-            )
-        }
-
         val highLevelFormats by lazy {
             listOf(
                 Avif,
@@ -202,6 +196,7 @@ sealed class ImageFormat(
                 Jpg,
                 Jpeg,
                 MozJpeg,
+                Jpegli,
                 PngLossless,
                 PngLossy,
                 Bmp,

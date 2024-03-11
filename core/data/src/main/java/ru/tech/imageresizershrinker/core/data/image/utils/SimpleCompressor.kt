@@ -58,6 +58,7 @@ internal abstract class SimpleCompressor {
             ImageFormat.Jxl.Lossless -> JxlLossless
             ImageFormat.Jxl.Lossy -> JxlLossy
             ImageFormat.PngLossy -> PngLossy
+            ImageFormat.Jpegli -> Jpegli
         }
 
     }
@@ -331,7 +332,19 @@ internal abstract class SimpleCompressor {
         override fun compress(
             image: Bitmap,
             quality: Quality
-        ): ByteArray = Aire.toJPEG(
+        ): ByteArray = Aire.mozjpeg(
+            bitmap = image,
+            quality = quality.qualityValue
+        )
+
+    }
+
+    data object Jpegli : SimpleCompressor() {
+
+        override fun compress(
+            image: Bitmap,
+            quality: Quality
+        ): ByteArray = Aire.jpegli(
             bitmap = image,
             quality = quality.qualityValue
         )
