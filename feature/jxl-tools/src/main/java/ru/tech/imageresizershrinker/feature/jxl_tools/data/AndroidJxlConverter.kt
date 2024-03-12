@@ -102,7 +102,7 @@ internal class AndroidJxlConverter @Inject constructor(
             width = size.width,
             height = size.height,
             numLoops = params.repeatCount,
-            preferredColorConfig = JxlChannelsConfiguration.RGBA,
+            channelsConfiguration = JxlChannelsConfiguration.RGBA,
             compressionOption = compressionOption,
             effort = params.quality.effort.coerceAtLeast(1),
             quality = quality,

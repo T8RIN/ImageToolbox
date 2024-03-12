@@ -360,7 +360,7 @@ internal abstract class SimpleCompressor {
             val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl(quality.qualityValue)
             return JxlCoder.encode(
                 bitmap = image,
-                colorSpace = JxlChannelsConfiguration.RGBA,
+                channelsConfiguration = JxlChannelsConfiguration.RGBA,
                 compressionOption = JxlCompressionOption.LOSSY,
                 quality = jxlQuality.qualityValue,
                 effort = JxlEffort.entries.first { it.ordinal == jxlQuality.effort },
@@ -379,7 +379,7 @@ internal abstract class SimpleCompressor {
             val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl(quality.qualityValue)
             return JxlCoder.encode(
                 bitmap = image,
-                colorSpace = JxlChannelsConfiguration.RGBA,
+                channelsConfiguration = JxlChannelsConfiguration.RGBA,
                 compressionOption = JxlCompressionOption.LOSSLESS,
                 quality = 100,
                 effort = JxlEffort.entries.first { it.ordinal == jxlQuality.effort },
