@@ -841,4 +841,5 @@
     <string name="lossy_compression_sub">Verwendet verlustbehaftete Kompression (anstelle von verlustfreier) um die Dateigröße zu verringern</string>
     <string name="lanczos_bessel_sub">Resampling-Methode, die durch Anwendung einer Bessel Funktion auf die Pixel-Werte eine hochqualitative Interpolation gewährleistet</string>
     <string name="compression_type">Komprimierungstyp</string>
+    <string name="speed_sub">Einstellungen für die Geschwindigkeit der Bild-Dekodierung, dies sollte helfen, das entsprechende Bild schneller zu öffnen, ein Wert von %1$d entspricht dem langsamsten Dekodieren, ein Wert von %2$d dem schnellsten, diese Einstellung kann die Größe der Bilddatei erhöhen</string>
 </resources>
