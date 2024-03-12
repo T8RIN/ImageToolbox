@@ -23,7 +23,9 @@ import android.net.Uri
 import android.provider.DocumentsContract
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.coroutineScope
+import ru.tech.imageresizershrinker.core.domain.model.SortType
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import java.util.LinkedList
 
 
@@ -95,6 +97,54 @@ suspend fun Activity.listFilesInDirectory(
     }
 
     files.sortedByDescending { it.second }.map { it.first }
+}
+
+fun Uri.lastModified(context: Context): Long? = with(context.contentResolver) {
+    val query = query(this@lastModified, null, null, null, null)
+
+    query?.use { cursor ->
+        if (cursor.moveToFirst()) {
+            val columnNames = listOf(
+                DocumentsContract.Document.COLUMN_LAST_MODIFIED,
+                "datetaken", // When sharing an Image from Google Photos into the app.
+            )
+
+            val millis = columnNames.firstNotNullOfOrNull {
+                val index = cursor.getColumnIndex(it)
+                if (!cursor.isNull(index)) {
+                    cursor.getLong(index)
+                } else {
+                    null
+                }
+            }
+
+            return millis
+        }
+    }
+
+    return null
+}
+
+fun List<Uri>.sortedByType(
+    sortType: SortType,
+    context: Context
+) = when (sortType) {
+    SortType.Date -> sortedByDate(context)
+    SortType.DateReversed -> sortedByDate(context).reversed()
+    SortType.Name -> sortedByName(context)
+    SortType.NameReversed -> sortedByName(context).reversed()
+}
+
+fun List<Uri>.sortedByDate(
+    context: Context
+) = sortedBy {
+    it.lastModified(context)
+}
+
+fun List<Uri>.sortedByName(
+    context: Context
+) = sortedBy {
+    context.getFilename(it)
 }
 
 private fun isDirectory(mimeType: String): Boolean {

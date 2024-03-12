@@ -26,21 +26,26 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.FilterAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -49,6 +54,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -56,6 +63,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -64,12 +72,17 @@ import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
+import ru.tech.imageresizershrinker.core.domain.model.SortType
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.helper.sortedByType
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
+import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
+import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun ImageReorderCarousel(
@@ -119,7 +132,7 @@ fun ImageReorderCarousel(
             )
             EnhancedIconButton(
                 onClick = onNeedToAddImage,
-                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                 contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 forceMinimumInteractiveComponentSize = false,
                 modifier = Modifier
@@ -131,6 +144,87 @@ fun ImageReorderCarousel(
                     contentDescription = null,
                     modifier = Modifier.size(20.dp)
                 )
+            }
+
+            var showSortTypeSelection by rememberSaveable {
+                mutableStateOf(false)
+            }
+
+            EnhancedIconButton(
+                onClick = {
+                    showSortTypeSelection = true
+                },
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                forceMinimumInteractiveComponentSize = false,
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .size(30.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.FilterAlt,
+                    contentDescription = null,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+            SimpleSheet(
+                visible = showSortTypeSelection,
+                onDismiss = { showSortTypeSelection = it },
+                title = {
+                    TitleItem(
+                        text = stringResource(R.string.sorting),
+                        icon = Icons.Rounded.FilterAlt
+                    )
+                },
+                confirmButton = {
+                    EnhancedButton(
+                        onClick = {
+                            showSortTypeSelection = false
+                        },
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer
+                    ) {
+                        Text(stringResource(R.string.close))
+                    }
+                }
+            ) {
+                val context = LocalContext.current
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                        .padding(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    val items = remember {
+                        SortType.entries
+                    }
+
+                    items.forEachIndexed { index, item ->
+                        Column(
+                            Modifier
+                                .fillMaxWidth()
+                                .container(
+                                    shape = ContainerShapeDefaults.shapeForIndex(
+                                        index,
+                                        items.size
+                                    ),
+                                    resultPadding = 0.dp
+                                )
+                                .clickable {
+                                    val newValue = images
+                                        ?.sortedByType(
+                                            sortType = item,
+                                            context = context
+                                        )
+                                        ?.reversed() ?: emptyList()
+                                    data.value = newValue
+                                    onReorder(newValue)
+                                    showSortTypeSelection = false
+                                }
+                        ) {
+                            TitleItem(text = item.title)
+                        }
+                    }
+                }
             }
         }
         Box {
@@ -244,3 +338,12 @@ fun ImageReorderCarousel(
         }
     }
 }
+
+private val SortType.title: String
+    @Composable
+    get() = when (this) {
+        SortType.Date -> stringResource(R.string.sort_by_date)
+        SortType.DateReversed -> stringResource(R.string.sort_by_date_reversed)
+        SortType.Name -> stringResource(R.string.sort_by_name)
+        SortType.NameReversed -> stringResource(R.string.sort_by_name_reversed)
+    }

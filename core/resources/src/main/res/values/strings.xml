@@ -860,4 +860,9 @@
     <string name="lossy_compression_sub">Uses lossy compression to reduce file size instead of lossless</string>
     <string name="compression_type">Compression Type</string>
     <string name="speed_sub">Controls resulting image decoding speed, this should help open resulting image faster, value of %1$d means slowest decoding, whereas %2$d - fastest, this setting may increase output image size</string>
+    <string name="sorting">Sorting</string>
+    <string name="sort_by_date">Sort By Date</string>
+    <string name="sort_by_date_reversed">Sort By Date (Reversed)</string>
+    <string name="sort_by_name">Sort By Name</string>
+    <string name="sort_by_name_reversed">Sort By Name (Reversed)</string>
 </resources>
