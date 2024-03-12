@@ -814,7 +814,7 @@
     <string name="jxl_type_to_jpeg_sub">将 JXL 无损转码为 JPEG</string>
     <string name="jxl_tools">JXL 工具</string>
     <string name="jpeg_type_to_jxl_sub">将 JPEG 无损转码为 JXL</string>
-    <string name="jxl_tools_sub">将 JXL 转码为 JPEG 或将 JPEG 转码为 JXL，且无质量损失</string>
+    <string name="jxl_tools_sub">无质量损失地执行 JXL ~ JPEG 转码，或将 GIF/APNG 转换为 JXL 动画</string>
     <string name="jxl_type_to_jpeg">JXL 转码 JPEG</string>
     <string name="fast_gaussian_blur_3d">快速高斯模糊 3D</string>
     <string name="fast_gaussian_blur_4d">快速高斯模糊 4D</string>
@@ -840,4 +840,5 @@
     <string name="lossy_compression_sub">使用有损压缩代替无损压缩来减少文件大小</string>
     <string name="generate_previews_sub">启用预览生成，这可能有助于避免在某些设备上出现崩溃，同时也会禁用单个编辑选项中的某些编辑功能</string>
     <string name="lanczos_bessel_sub">通过对像素值应用贝塞尔（jinc）函数来保持高质量插值的重采样方法</string>
+    <string name="compression_type">压缩方式</string>
 </resources>

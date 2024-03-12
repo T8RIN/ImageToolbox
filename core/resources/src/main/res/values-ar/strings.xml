@@ -809,7 +809,7 @@
     <string name="explode">الانفجار</string>
     <string name="rain">مطر</string>
     <string name="corners">الحواف</string>
-    <string name="jxl_tools_sub">قم بتحويل كود JXL إلى JPEG أو JPEG إلى JXL دون فقدان الجودة</string>
+    <string name="jxl_tools_sub">قم بإجراء تحويل ترميز JXL ~ JPEG دون فقدان الجودة، أو قم بتحويل GIF/APNG إلى رسوم متحركة JXL</string>
     <string name="jxl_type_to_jpeg">من JXL إلى JPEG</string>
     <string name="jxl_type_to_jpeg_sub">قم بإجراء تحويل بدون فقدان الترميز من JXL إلى JPEG</string>
     <string name="jxl_tools">أدوات جي إكس إل</string>
@@ -823,4 +823,22 @@
     <string name="auto_paste_sub">يسمح للتطبيق بلصق بيانات الحافظة تلقائيًا، بحيث تظهر على الشاشة الرئيسية وستتمكن من معالجتها</string>
     <string name="harmonization_color">وحدة تنسيق</string>
     <string name="harmonization_level">مستوى المواءمة</string>
+    <string name="lanczos_bessel">لانكزوس بيسل</string>
+    <string name="lanczos_bessel_sub">طريقة إعادة التشكيل التي تحافظ على الاستيفاء عالي الجودة من خلال تطبيق دالة Bessel (jinc) على قيم البكسل</string>
+    <string name="gif_type_to_jxl">GIF إلى JXL</string>
+    <string name="gif_type_to_jxl_sub">تحويل صور GIF إلى صور متحركة JXL</string>
+    <string name="apng_type_to_jxl">APNG الى JXL</string>
+    <string name="apng_type_to_jxl_sub">تحويل صور APNG إلى صور متحركة JXL</string>
+    <string name="jxl_type_to_images">JXL إلى الصور</string>
+    <string name="jxl_type_to_images_sub">تحويل الرسوم المتحركة JXL إلى مجموعة من الصور</string>
+    <string name="jxl_type_to_jxl">الصور إلى JXL</string>
+    <string name="jxl_type_to_jxl_sub">تحويل مجموعة من الصور إلى الرسوم المتحركة JXL</string>
+    <string name="behavior">السلوك</string>
+    <string name="skip_file_picking">تخطي انتقاء الملف</string>
+    <string name="generate_previews">إنشاء معاينات</string>
+    <string name="lossy_compression">ضغط لوسي</string>
+    <string name="lossy_compression_sub">يستخدم الضغط مع فقدان البيانات لتقليل حجم الملف بدلاً من عدم فقدانه</string>
+    <string name="compression_type">نوع الضغط</string>
+    <string name="skip_file_picking_sub">سيتم عرض منتقي الملفات على الفور إذا كان ذلك ممكنًا على الشاشة المختارة</string>
+    <string name="generate_previews_sub">تمكين إنشاء المعاينة، وقد يساعد هذا في تجنب الأعطال على بعض الأجهزة، كما يؤدي هذا أيضًا إلى تعطيل بعض وظائف التحرير ضمن خيار تحرير واحد</string>
 </resources>

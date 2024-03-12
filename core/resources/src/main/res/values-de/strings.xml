@@ -35,7 +35,7 @@
     <string name="pick_image">Wähle Bild zum Starten</string>
     <string name="width">Breite %1$s</string>
     <string name="reset_image">Bild zurücksetzen</string>
-    <string name="something_went_wrong">Irgendwas ging schief</string>
+    <string name="something_went_wrong">Irgendetwas ging schief</string>
     <string name="restart_app">App neustarten</string>
     <string name="copied">In die Zwischenablage kopiert</string>
     <string name="stay">Bleiben</string>
@@ -344,7 +344,7 @@
     <string name="restore_image">Bild wiederherstellen</string>
     <string name="create_issue">Fehlermeldung anlegen</string>
     <string name="resize_and_convert_sub">Ändere die Größe bestimmter Bilder oder konvertiere sie in andere Formate, außerdem kannst Du bei Auswahl eines einzelnen Bildes EXIF-Metadaten bearbeiten</string>
-    <string name="something_went_wrong_emphasis">Upps… Irgendwas ist schiefgelaufen. Schreib mir mittels der nachfolgenden Optionen und ich werde versuchen, eine Lösung zu finden</string>
+    <string name="something_went_wrong_emphasis">Upps… Irgendetwas ist schiefgelaufen. Schreib mir mittels der nachfolgenden Optionen und ich werde versuchen, eine Lösung zu finden</string>
     <string name="resize_and_convert">Größenänderung und Konvertierung</string>
     <string name="max_colors_count">Höchstzahl an Farben</string>
     <string name="crashlytics_sub">Erlaubt der App, Absturzberichte manuell zu erfassen</string>
@@ -465,7 +465,7 @@
     <string name="best">Beste</string>
     <string name="download">Herunterladen</string>
     <string name="available_languages">Verfügbare Sprachen</string>
-    <string name="sliders_shadow_sub">Aktiviert das Zeichnen von Schatten hinter Schiebereglern</string>
+    <string name="sliders_shadow_sub">Aktiviert Schatten hinter Schiebereglern</string>
     <string name="switches_shadow_sub">Aktiviert das Zeichnen von Schatten hinter Schaltern</string>
     <string name="value_in_range">Wert im Bereich %1$s - %2$s</string>
     <string name="recognition_type">Erkennungstyp</string>
@@ -809,7 +809,7 @@
     <string name="explode">Explosion</string>
     <string name="corners">Ecken</string>
     <string name="jxl_tools">JXL Tools</string>
-    <string name="jxl_tools_sub">Konvertiert JXL zu JPEG oder JPEG zu JXL ohne Qualitätsverlust</string>
+    <string name="jxl_tools_sub">Führe eine JXL ~ JPEG Konvertierung ohne Qualitätsverlust durch, oder wandle GIF/APNG in JXL Animation um</string>
     <string name="jxl_type_to_jpeg_sub">Verlustfreie Konvertierung von JXL zu JPEG</string>
     <string name="jpeg_type_to_jxl_sub">Verlustfreie Konvertierung von JPEG zu JXL</string>
     <string name="jpeg_type_to_jxl">JPEG zu JXL</string>
@@ -830,4 +830,15 @@
     <string name="jxl_type_to_images">JXL zu Bild</string>
     <string name="jxl_type_to_jxl">BIlder zu JXL</string>
     <string name="generate_previews">Vorschau generieren</string>
+    <string name="lanczos_bessel">Lanczos Bessel</string>
+    <string name="behavior">Verhalten</string>
+    <string name="skip_file_picking">Dateiauswahl überspringen</string>
+    <string name="generate_previews_sub">Aktiviert die Vorschauerstellung, was helfen könnte, Abstürze auf manchen Geräten zu verhindern, aber dadurch werden auch einige Funktionen der Einzelbildbearbeitung deaktiviert</string>
+    <string name="jxl_type_to_images_sub">Wandelt eine JXL Animation in einen Bilderstapel um</string>
+    <string name="jxl_type_to_jxl_sub">Wandelt einen Bilderstapel in eine JXL Animation um</string>
+    <string name="skip_file_picking_sub">Wenn möglich wird die Dateiauswahl automatisch geöffnet</string>
+    <string name="lossy_compression">Verlustbehaftete Kompression</string>
+    <string name="lossy_compression_sub">Verwendet verlustbehaftete Kompression (anstelle von verlustfreier) um die Dateigröße zu verringern</string>
+    <string name="lanczos_bessel_sub">Resampling-Methode, die durch Anwendung einer Bessel Funktion auf die Pixel-Werte eine hochqualitative Interpolation gewährleistet</string>
+    <string name="compression_type">Komprimierungstyp</string>
 </resources>
