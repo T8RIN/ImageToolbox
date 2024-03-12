@@ -812,7 +812,7 @@
     <string name="jxl_type_to_jpeg">JXL в JPEG</string>
     <string name="select_jxl_image_to_start">Выберите изображение JXL чтобы начать</string>
     <string name="jxl_tools">JXL инструменты</string>
-    <string name="jxl_tools_sub">Перекодируйте JXL в JPEG или JPEG в JXL без потери качества</string>
+    <string name="jxl_tools_sub">Выполняйте перекодирование JXL ~ JPEG без потери качества или конвертируйте GIF/APNG в анимацию JXL</string>
     <string name="jxl_type_to_jpeg_sub">Выполните перекодирование без потерь из JXL в JPEG</string>
     <string name="jpeg_type_to_jxl_sub">Выполните перекодирование без потерь из JPEG в JXL</string>
     <string name="jpeg_type_to_jxl">JPEG в JXL</string>
@@ -840,4 +840,11 @@
     <string name="skip_file_picking">Пропустить выбор файла</string>
     <string name="skip_file_picking_sub">Средство выбора файла будет показано немедленно, если это возможно, на выбранном экране</string>
     <string name="generate_previews_sub">Включает создание предварительного просмотра, это может помочь избежать сбоев на некоторых устройствах, это также отключает некоторые функции редактирования в рамках одной опции редактирования</string>
+    <string name="compression_type">Тип Сжатия</string>
+    <string name="speed_sub">Управляет скоростью декодирования результирующего изображения. Это должно помочь быстрее открыть полученное изображение. Значение %1$d означает самое медленное декодирование, тогда как %2$d — самое быстрое, этот параметр может увеличить размер выходного изображения</string>
+    <string name="sort_by_date">Сортировать по дате</string>
+    <string name="sort_by_name">Сортировать по имени</string>
+    <string name="sorting">Сортировка</string>
+    <string name="sort_by_date_reversed">Сортировать по дате (наоборот)</string>
+    <string name="sort_by_name_reversed">Сортировать по имени (наоборот)</string>
 </resources>
