@@ -237,7 +237,10 @@ fun QualityWidget(
                                 )
                                 .padding(4.dp),
                             title = {
-                                Text(stringResource(R.string.channels_configuration))
+                                Text(
+                                    text = stringResource(R.string.channels_configuration),
+                                    modifier = Modifier.padding(vertical = 4.dp)
+                                )
                             },
                             selectedIndex = items.indexOfFirst { it == jxlQuality?.channels },
                             indexChanged = {

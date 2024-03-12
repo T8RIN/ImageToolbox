@@ -35,6 +35,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 
 @Composable
@@ -49,6 +50,7 @@ fun ImageContainer(
     animatePreviewChange: Boolean = true,
     containerModifier: Modifier = Modifier.fillMaxSize()
 ) {
+    val generatePreviews = LocalSettingsState.current.generatePreviews
     if (animatePreviewChange) {
         AnimatedContent(
             modifier = containerModifier,
@@ -87,7 +89,7 @@ fun ImageContainer(
                             bitmap = bmp,
                             visible = shouldShowPreview
                         )
-                        if (!loading && (bmp == null || !shouldShowPreview)) BadImageWidget()
+                        if (!loading && (bmp == null || !shouldShowPreview) && !generatePreviews) BadImageWidget()
                     }
                     if (loading) Loading()
                 }
@@ -134,7 +136,10 @@ fun ImageContainer(
                                     visible = true
                                 )
                             }
-                        } ?: BadImageWidget()
+                        } ?: if (!generatePreviews) {
+                            BadImageWidget()
+                        } else Unit
+
                         if (previewBitmap == null && loading) {
                             Loading()
                         }
