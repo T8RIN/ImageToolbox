@@ -126,7 +126,7 @@ fun ToggleGroupButton(
 fun ToggleGroupButton(
     @SuppressLint("ModifierParameter")
     modifier: Modifier = defaultModifier,
-    enabled: Boolean,
+    enabled: Boolean = true,
     itemCount: Int,
     selectedIndex: Int,
     itemContent: @Composable (item: Int) -> Unit,

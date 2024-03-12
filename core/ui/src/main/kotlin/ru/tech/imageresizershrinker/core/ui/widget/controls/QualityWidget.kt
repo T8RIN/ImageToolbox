@@ -23,6 +23,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -52,6 +53,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.QualityHigh
 import ru.tech.imageresizershrinker.core.ui.icons.material.QualityLow
 import ru.tech.imageresizershrinker.core.ui.icons.material.QualityMedium
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
@@ -183,38 +185,67 @@ fun QualityWidget(
                 }
                 AnimatedVisibility(imageFormat is ImageFormat.Jxl) {
                     val jxlQuality = quality as? Quality.Jxl
-                    EnhancedSliderItem(
-                        value = jxlQuality?.speed ?: 0,
-                        title = stringResource(R.string.speed),
-                        icon = Icons.Rounded.Speed,
-                        valueRange = 0f..4f,
-                        steps = 3,
-                        internalStateTransformation = {
-                            it.toInt().coerceIn(0..4).toFloat()
-                        },
-                        onValueChange = {
-                            jxlQuality?.copy(
-                                speed = it.toInt()
-                            )?.coerceIn(imageFormat)?.let(onQualityChange)
-                        },
-                        behaveAsContainer = false
-                    ) {
-                        Text(
-                            text = stringResource(
-                                R.string.speed_sub,
-                                0, 5
-                            ),
-                            fontSize = 12.sp,
-                            textAlign = TextAlign.Center,
-                            lineHeight = 12.sp,
-                            color = LocalContentColor.current.copy(0.5f),
+                    Column {
+                        EnhancedSliderItem(
+                            value = jxlQuality?.speed ?: 0,
+                            title = stringResource(R.string.speed),
+                            icon = Icons.Rounded.Speed,
+                            valueRange = 0f..4f,
+                            steps = 3,
+                            internalStateTransformation = {
+                                it.toInt().coerceIn(0..4).toFloat()
+                            },
+                            onValueChange = {
+                                jxlQuality?.copy(
+                                    speed = it.toInt()
+                                )?.coerceIn(imageFormat)?.let(onQualityChange)
+                            },
+                            behaveAsContainer = false
+                        ) {
+                            Text(
+                                text = stringResource(
+                                    R.string.speed_sub,
+                                    0, 5
+                                ),
+                                fontSize = 12.sp,
+                                textAlign = TextAlign.Center,
+                                lineHeight = 12.sp,
+                                color = LocalContentColor.current.copy(0.5f),
+                                modifier = Modifier
+                                    .padding(4.dp)
+                                    .container(
+                                        shape = RoundedCornerShape(20.dp),
+                                        color = MaterialTheme.colorScheme.surface
+                                    )
+                                    .padding(6.dp)
+                            )
+                        }
+                        val items = remember {
+                            Quality.Channels.entries
+                        }
+                        ToggleGroupButton(
+                            itemCount = items.size,
+                            itemContent = {
+                                Text(items[it].title)
+                            },
                             modifier = Modifier
+                                .fillMaxWidth()
                                 .padding(4.dp)
                                 .container(
                                     shape = RoundedCornerShape(20.dp),
                                     color = MaterialTheme.colorScheme.surface
                                 )
-                                .padding(6.dp)
+                                .padding(4.dp),
+                            title = {
+                                Text(stringResource(R.string.channels_configuration))
+                            },
+                            selectedIndex = items.indexOfFirst { it == jxlQuality?.channels },
+                            indexChanged = {
+                                jxlQuality?.copy(
+                                    channels = Quality.Channels.fromInt(it)
+                                )?.coerceIn(imageFormat)?.let(onQualityChange)
+                            },
+                            inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer
                         )
                     }
                 }
@@ -250,3 +281,11 @@ private fun ImageFormat.isMidQuality(quality: Int): Boolean {
     val range = compressionTypes[0].compressionRange.run { endInclusive - start }
     return quality > range * (2 / 5f)
 }
+
+private val Quality.Channels.title
+    @Composable
+    get() = when (this) {
+        Quality.Channels.RGBA -> "RGBA"
+        Quality.Channels.RGB -> "RGB"
+        Quality.Channels.Monochrome -> stringResource(R.string.monochrome)
+    }

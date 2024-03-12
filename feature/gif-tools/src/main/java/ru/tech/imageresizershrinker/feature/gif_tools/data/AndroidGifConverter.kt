@@ -61,11 +61,7 @@ internal class AndroidGifConverter @Inject constructor(
         quality: Quality,
         onGetFramesCount: (frames: Int) -> Unit
     ): Flow<String> = flow {
-        val bytes = runCatching {
-            context.contentResolver.openInputStream(gifUri.toUri())?.use {
-                it.readBytes()
-            }
-        }.getOrNull()
+        val bytes = gifUri.bytes
         val decoder = GifDecoder().apply {
             read(bytes)
         }

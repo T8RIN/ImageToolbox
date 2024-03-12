@@ -359,8 +359,14 @@ internal abstract class SimpleCompressor {
         ): ByteArray {
             val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl(quality.qualityValue)
             return JxlCoder.encode(
-                bitmap = image,
-                channelsConfiguration = JxlChannelsConfiguration.RGBA,
+                bitmap = if (jxlQuality.channels is Quality.Channels.Monochrome) {
+                    Aire.grayscale(image)
+                } else image,
+                channelsConfiguration = when (jxlQuality.channels) {
+                    Quality.Channels.RGBA -> JxlChannelsConfiguration.RGBA
+                    Quality.Channels.RGB -> JxlChannelsConfiguration.RGB
+                    Quality.Channels.Monochrome -> JxlChannelsConfiguration.MONOCHROME
+                },
                 compressionOption = JxlCompressionOption.LOSSY,
                 quality = jxlQuality.qualityValue,
                 effort = JxlEffort.entries.first { it.ordinal == jxlQuality.effort },
@@ -378,8 +384,14 @@ internal abstract class SimpleCompressor {
         ): ByteArray {
             val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl(quality.qualityValue)
             return JxlCoder.encode(
-                bitmap = image,
-                channelsConfiguration = JxlChannelsConfiguration.RGBA,
+                bitmap = if (jxlQuality.channels is Quality.Channels.Monochrome) {
+                    Aire.grayscale(image)
+                } else image,
+                channelsConfiguration = when (jxlQuality.channels) {
+                    Quality.Channels.RGBA -> JxlChannelsConfiguration.RGBA
+                    Quality.Channels.RGB -> JxlChannelsConfiguration.RGB
+                    Quality.Channels.Monochrome -> JxlChannelsConfiguration.MONOCHROME
+                },
                 compressionOption = JxlCompressionOption.LOSSLESS,
                 quality = 100,
                 effort = JxlEffort.entries.first { it.ordinal == jxlQuality.effort },

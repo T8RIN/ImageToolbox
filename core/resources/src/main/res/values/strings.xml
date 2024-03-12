@@ -865,4 +865,5 @@
     <string name="sort_by_date_reversed">Sort By Date (Reversed)</string>
     <string name="sort_by_name">Sort By Name</string>
     <string name="sort_by_name_reversed">Sort By Name (Reversed)</string>
+    <string name="channels_configuration">Channels Configuration</string>
 </resources>

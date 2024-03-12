@@ -55,7 +55,8 @@ sealed class Quality(
         @IntRange(from = 0, to = 9)
         val effort: Int = 5,
         @IntRange(from = 0, to = 4)
-        val speed: Int = 0
+        val speed: Int = 0,
+        val channels: Channels = Channels.RGBA
     ) : Quality(qualityValue)
 
     data class PngLossy(
@@ -68,4 +69,24 @@ sealed class Quality(
     data class Base(
         override val qualityValue: Int = 100
     ) : Quality(qualityValue)
+
+    sealed class Channels(
+        val ordinal: Int
+    ) {
+        data object RGBA : Channels(0)
+        data object RGB : Channels(1)
+        data object Monochrome : Channels(2)
+
+        companion object {
+            val entries by lazy {
+                listOf(RGBA, RGB, Monochrome)
+            }
+
+            fun fromInt(int: Int) = when (int) {
+                1 -> RGB
+                2 -> Monochrome
+                else -> RGBA
+            }
+        }
+    }
 }
