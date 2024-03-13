@@ -27,12 +27,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,16 +48,11 @@ fun MediaImage(
     media: Media,
     selectionState: MutableState<Boolean>,
     selectedMedia: SnapshotStateList<Media>,
+    isSelected: Boolean,
     canClick: Boolean,
     onItemClick: (Media) -> Unit,
     onItemLongClick: (Media) -> Unit,
 ) {
-    var isSelected by remember { mutableStateOf(false) }
-    LaunchedEffect(selectionState.value, selectedMedia.size) {
-        isSelected = if (!selectionState.value) false else {
-            selectedMedia.find { it.id == media.id } != null
-        }
-    }
     val selectedSize by animateDpAsState(
         if (isSelected) 12.dp else 0.dp, label = "selectedSize"
     )
@@ -85,15 +76,9 @@ fun MediaImage(
                 enabled = canClick,
                 onClick = {
                     onItemClick(media)
-                    if (selectionState.value) {
-                        isSelected = !isSelected
-                    }
                 },
                 onLongClick = {
                     onItemLongClick(media)
-                    if (selectionState.value) {
-                        isSelected = !isSelected
-                    }
                 },
             )
             .aspectRatio(1f)

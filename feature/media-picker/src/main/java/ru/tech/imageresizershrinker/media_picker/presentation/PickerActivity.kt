@@ -4,8 +4,11 @@
  */
 package ru.tech.imageresizershrinker.media_picker.presentation
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
@@ -19,15 +22,19 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
 import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tech.imageresizershrinker.core.resources.R
@@ -38,6 +45,7 @@ import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.rememberConfettiHostState
+import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.hasPermissionAllowed
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.customHapticFeedback
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
 import ru.tech.imageresizershrinker.media_picker.domain.AllowedMedia
@@ -88,7 +96,7 @@ class PickerActivity : ComponentActivity() {
                 LocalHapticFeedback provides customHapticFeedback(settingsState.hapticsStrength)
             ) {
                 ImageToolboxTheme {
-                    PickerRootScreen(title, AllowedMedia.PHOTOS, allowMultiple)
+                    PickerRootScreen(title, intent.type.allowedMedia, allowMultiple)
                 }
             }
         }
@@ -101,6 +109,19 @@ class PickerActivity : ComponentActivity() {
         allowedMedia: AllowedMedia,
         allowMultiple: Boolean
     ) {
+        val context = LocalContext.current as Activity
+        LaunchedEffect(Unit) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                val permission = Manifest.permission.READ_MEDIA_IMAGES
+                if (!context.hasPermissionAllowed(permission)) {
+                    ActivityCompat.requestPermissions(
+                        context,
+                        arrayOf(permission),
+                        0
+                    )
+                }
+            }
+        }
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -112,7 +133,10 @@ class PickerActivity : ComponentActivity() {
                                 contentDescription = getString(R.string.close)
                             )
                         }
-                    }
+                    },
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
+                    )
                 )
             }
         ) {
@@ -135,19 +159,25 @@ class PickerActivity : ComponentActivity() {
     }
 
     private fun sendMediaAsResult(selectedMedia: List<Uri>) {
-        val newIntent = Intent().apply {
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            data = selectedMedia[0]
-        }
-        if (selectedMedia.size == 1)
-            setResult(RESULT_OK, newIntent)
-        else {
-            newIntent.putParcelableArrayListExtra(
+        val newIntent = Intent(
+            if (selectedMedia.size == 1) Intent.ACTION_SEND
+            else Intent.ACTION_SEND_MULTIPLE
+        ).apply {
+            putParcelableArrayListExtra(
                 Intent.EXTRA_STREAM,
                 ArrayList(selectedMedia)
             )
-            setResult(RESULT_OK, newIntent)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
+        setResult(RESULT_OK, newIntent)
+
         finish()
     }
+
+    private val String?.pickImage: Boolean get() = this?.startsWith("image") ?: false
+    private val String?.pickVideo: Boolean get() = this?.startsWith("video") ?: false
+    private val String?.allowedMedia: AllowedMedia
+        get() = if (pickImage) AllowedMedia.Photos(this?.takeLastWhile { it != '/' })
+        else if (pickVideo) AllowedMedia.Videos
+        else AllowedMedia.Both
 }

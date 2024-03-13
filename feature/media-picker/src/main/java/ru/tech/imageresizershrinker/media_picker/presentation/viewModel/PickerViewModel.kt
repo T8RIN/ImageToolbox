@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.media_picker.presentation.viewModel
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
@@ -27,6 +28,7 @@ import coil.ImageLoader
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,6 +39,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
@@ -59,11 +62,14 @@ class PickerViewModel @Inject constructor(
     val imageLoader: ImageLoader,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val settingsRepository: SettingsRepository,
-    private val mediaRepository: MediaRepository
+    private val mediaRepository: MediaRepository,
+    @DefaultDispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
     val settingsState: SettingsState by _settingsState
+
+    val selectedMedia = mutableStateListOf<Media>()
 
     private val _mediaState = MutableStateFlow(MediaState())
     val mediaState = _mediaState.asStateFlow()
@@ -86,7 +92,7 @@ class PickerViewModel @Inject constructor(
         getMedia(albumId, allowedMedia)
     }
 
-    private var allowedMedia: AllowedMedia = AllowedMedia.PHOTOS
+    private var allowedMedia: AllowedMedia = AllowedMedia.Photos(null)
 
     var albumId: Long = -1L
 
@@ -100,8 +106,8 @@ class PickerViewModel @Inject constructor(
     )
 
     private fun getAlbums(allowedMedia: AllowedMedia) {
-        viewModelScope.launch(Dispatchers.IO) {
-            mediaRepository.getAlbumsWithType(allowedMedia).flowOn(Dispatchers.IO)
+        viewModelScope.launch(dispatcher) {
+            mediaRepository.getAlbumsWithType(allowedMedia).flowOn(dispatcher)
                 .collectLatest { result ->
                     val data = result.getOrNull() ?: emptyList()
                     val error = if (result.isFailure) result.exceptionOrNull()?.message
@@ -127,10 +133,17 @@ class PickerViewModel @Inject constructor(
         albumId: Long,
         allowedMedia: AllowedMedia
     ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            mediaRepository.mediaFlowWithType(albumId, allowedMedia).flowOn(Dispatchers.IO)
+        viewModelScope.launch(dispatcher) {
+            mediaRepository.mediaFlowWithType(albumId, allowedMedia).flowOn(dispatcher)
                 .collectLatest { result ->
-                    val data = result.getOrNull() ?: emptyList()
+                    val data = result.getOrNull()?.filter {
+                        if (allowedMedia is AllowedMedia.Photos) {
+                            val ext = allowedMedia.ext
+                            if (ext != null && ext != "*") {
+                                it.uri.toString().endsWith(ext)
+                            } else true
+                        } else true
+                    } ?: emptyList()
                     val error = if (result.isFailure) result.exceptionOrNull()?.message
                         ?: "An error occurred" else ""
                     if (data.isEmpty()) {
@@ -152,7 +165,7 @@ class PickerViewModel @Inject constructor(
         val mappedData = mutableListOf<MediaItem>()
         val mappedDataWithMonthly = mutableListOf<MediaItem>()
         val monthHeaderList: MutableSet<String> = mutableSetOf()
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             val groupedData = data.groupBy {
                 if (groupByMonth) {
                     it.timestamp.getMonth()

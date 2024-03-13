@@ -25,6 +25,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.media_picker.domain.FULL_DATE_FORMAT
 import ru.tech.imageresizershrinker.media_picker.domain.Media
+import ru.tech.imageresizershrinker.media_picker.domain.MediaOrder
+import ru.tech.imageresizershrinker.media_picker.domain.OrderType
 import ru.tech.imageresizershrinker.media_picker.domain.getDate
 
 private var observerJob: Job? = null
@@ -55,6 +57,7 @@ fun Context.contentFlowObserver(uris: Array<Uri>) = callbackFlow {
 
 suspend fun ContentResolver.getMedia(
     mediaQuery: Query = Query.MediaQuery(),
+    mediaOrder: MediaOrder = MediaOrder.Date(OrderType.Descending)
 ): List<Media> {
     return withContext(Dispatchers.IO) {
         val media = ArrayList<Media>()
@@ -67,7 +70,7 @@ suspend fun ContentResolver.getMedia(
                 }
             }
         }
-        return@withContext media
+        return@withContext mediaOrder.sortMedia(media)
     }
 }
 
@@ -140,14 +143,39 @@ fun Cursor.getMediaFromCursor(): Media {
 
 suspend fun ContentResolver.query(
     mediaQuery: Query
-): Cursor {
-    return withContext(Dispatchers.IO) {
-        return@withContext MergeCursor(
+): Cursor = withContext(Dispatchers.IO) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        MergeCursor(
             arrayOf(
                 query(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     mediaQuery.projection,
                     mediaQuery.bundle,
+                    null
+                ),
+                query(
+                    MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                    mediaQuery.projection,
+                    mediaQuery.bundle,
+                    null
+                )
+            )
+        )
+    } else {
+        MergeCursor(
+            arrayOf(
+                query(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    mediaQuery.projection,
+                    null,
+                    null,
+                    null
+                ),
+                query(
+                    MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                    mediaQuery.projection,
+                    null,
+                    null,
                     null
                 )
             )

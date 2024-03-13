@@ -42,6 +42,8 @@ import androidx.core.content.FileProvider
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
+import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
@@ -195,26 +197,34 @@ fun rememberImagePicker(
         }
     )
 
-    val getContent =
-        rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.StartActivityForResult(),
-            onResult = { result ->
-                val data = result.data?.data
-                val clipData = result.data?.clipData
-                if (clipData != null) {
-                    onSuccess(
-                        List(
-                            size = clipData.itemCount,
-                            init = {
-                                clipData.getItemAt(it).uri
-                            }
-                        )
+    val getContent = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult(),
+        onResult = { result ->
+            val intent = result.data
+            val data = intent?.data
+            val clipData = intent?.clipData
+            if (clipData != null) {
+                onSuccess(
+                    List(
+                        size = clipData.itemCount,
+                        init = {
+                            clipData.getItemAt(it).uri
+                        }
                     )
-                } else if (data != null) {
-                    onSuccess(listOf(data))
-                } else onFailure()
-            }
-        )
+                )
+            } else if (data != null) {
+                onSuccess(listOf(data))
+            } else if (intent?.action == Intent.ACTION_SEND_MULTIPLE) {
+                onSuccess(
+                    intent.parcelableArrayList<Uri>(Intent.EXTRA_STREAM) ?: emptyList()
+                )
+            } else if (intent?.action == Intent.ACTION_SEND) {
+                onSuccess(
+                    listOfNotNull(intent.parcelable<Uri>(Intent.EXTRA_STREAM))
+                )
+            } else onFailure()
+        }
+    )
 
     var takePhotoUri by rememberSaveable {
         mutableStateOf<Uri?>(null)

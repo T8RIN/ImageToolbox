@@ -13,8 +13,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -25,7 +24,6 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.media_picker.domain.Media
@@ -35,14 +33,13 @@ import ru.tech.imageresizershrinker.media_picker.domain.isHeaderKey
 
 @Composable
 fun PickerMediaScreen(
-    mediaState: StateFlow<MediaState>,
+    state: MediaState,
     selectedMedia: SnapshotStateList<Media>,
     allowSelection: Boolean,
 ) {
     val scope = rememberCoroutineScope()
     val stringToday = stringResource(id = R.string.header_today)
     val stringYesterday = stringResource(id = R.string.header_yesterday)
-    val state by mediaState.collectAsState()
     val gridState = rememberLazyGridState()
     val isCheckVisible = rememberSaveable { mutableStateOf(allowSelection) }
     val feedbackManager = LocalHapticFeedback.current
@@ -100,6 +97,20 @@ fun PickerMediaScreen(
 
                 is MediaItem.MediaViewItem -> {
                     val selectionState = remember { mutableStateOf(true) }
+
+                    val onClick: (Media) -> Unit = {
+                        if (allowSelection) {
+                            if (selectedMedia.contains(it)) selectedMedia.remove(it)
+                            else selectedMedia.add(it)
+                        } else {
+                            if (selectedMedia.contains(it)) selectedMedia.remove(it)
+                            else {
+                                if (selectedMedia.isNotEmpty()) selectedMedia[0] = it
+                                else selectedMedia.add(it)
+                            }
+                        }
+                    }
+
                     MediaImage(
                         modifier = Modifier.animateItemPlacement(),
                         media = item.media,
@@ -108,34 +119,22 @@ fun PickerMediaScreen(
                         canClick = true,
                         onItemClick = {
                             feedbackManager.performHapticFeedback(
+                                HapticFeedbackType.TextHandleMove
+                            )
+                            onClick(it)
+                        },
+                        isSelected = remember(item, selectedMedia) {
+                            derivedStateOf {
+                                selectedMedia.contains(item.media)
+                            }
+                        }.value,
+                        onItemLongClick = {
+                            feedbackManager.performHapticFeedback(
                                 HapticFeedbackType.LongPress
                             )
-                            if (allowSelection) {
-                                if (selectedMedia.contains(it)) selectedMedia.remove(it)
-                                else selectedMedia.add(it)
-                            } else if (!selectedMedia.contains(it) && selectedMedia.size == 1) {
-                                selectedMedia[0] = it
-                            } else if (selectedMedia.isEmpty()) {
-                                selectedMedia.add(it)
-                            } else {
-                                selectedMedia.remove(it)
-                            }
+                            onClick(it)
                         }
-                    ) {
-                        feedbackManager.performHapticFeedback(
-                            HapticFeedbackType.LongPress
-                        )
-                        if (allowSelection) {
-                            if (selectedMedia.contains(it)) selectedMedia.remove(it)
-                            else selectedMedia.add(it)
-                        } else if (!selectedMedia.contains(it) && selectedMedia.size == 1) {
-                            selectedMedia[0] = it
-                        } else if (selectedMedia.isEmpty()) {
-                            selectedMedia.add(it)
-                        } else {
-                            selectedMedia.remove(it)
-                        }
-                    }
+                    )
                 }
             }
         }

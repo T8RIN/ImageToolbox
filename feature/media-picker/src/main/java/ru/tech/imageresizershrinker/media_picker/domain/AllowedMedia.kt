@@ -17,6 +17,8 @@
 
 package ru.tech.imageresizershrinker.media_picker.domain
 
-enum class AllowedMedia {
-    PHOTOS, VIDEOS, BOTH
+sealed class AllowedMedia {
+    data class Photos(val ext: String?) : AllowedMedia()
+    data object Videos : AllowedMedia()
+    data object Both : AllowedMedia()
 }
