@@ -76,7 +76,9 @@ fun PermissionDialog() {
             if (!context.hasPermissionAllowed(permission)) {
                 ActivityCompat.requestPermissions(
                     context,
-                    arrayOf(permission),
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        arrayOf(permission, Manifest.permission.READ_MEDIA_IMAGES)
+                    } else arrayOf(permission),
                     0
                 )
             }

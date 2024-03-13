@@ -29,15 +29,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.TaskAlt
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.InputChip
 import androidx.compose.material3.InputChipDefaults
@@ -58,6 +60,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.media_picker.domain.AllowedMedia
 import ru.tech.imageresizershrinker.media_picker.presentation.viewModel.PickerViewModel
@@ -146,22 +149,24 @@ fun PickerScreen(
                             targetValue = if (enabled) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
                             label = "contentColor"
                         )
-                        ExtendedFloatingActionButton(
-                            text = {
-                                if (allowSelection)
-                                    Text(text = "Add (${selectedMedia.size})")
-                                else
-                                    Text(text = "Add")
-                            },
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Outlined.TaskAlt,
-                                    contentDescription = null
-                                )
+                        EnhancedFloatingActionButton(
+                            content = {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier.padding(horizontal = 16.dp)
+                                ) {
+                                    if (allowSelection) {
+                                        Text(text = "Add (${selectedMedia.size})")
+                                    } else Text(text = "Add")
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Icon(
+                                        imageVector = Icons.Outlined.TaskAlt,
+                                        contentDescription = null
+                                    )
+                                }
                             },
                             containerColor = containerColor,
                             contentColor = contentColor,
-                            expanded = allowSelection,
                             onClick = {
                                 if (enabled) {
                                     scope.launch {
