@@ -30,6 +30,8 @@ import com.t8rin.dynamic.theme.extractPrimaryColor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -107,7 +109,8 @@ class MediaPickerViewModel @Inject constructor(
 
     private fun getAlbums(allowedMedia: AllowedMedia) {
         viewModelScope.launch(dispatcher) {
-            mediaRepository.getAlbumsWithType(allowedMedia).flowOn(dispatcher)
+            mediaRepository.getAlbumsWithType(allowedMedia)
+                .flowOn(dispatcher)
                 .collectLatest { result ->
                     val data = result.getOrNull() ?: emptyList()
                     val error = if (result.isFailure) result.exceptionOrNull()?.message
@@ -129,12 +132,18 @@ class MediaPickerViewModel @Inject constructor(
         }
     }
 
+    private var mediaGettingJob: Job? = null
+
     private fun getMedia(
         albumId: Long,
         allowedMedia: AllowedMedia
     ) {
-        viewModelScope.launch(dispatcher) {
-            mediaRepository.mediaFlowWithType(albumId, allowedMedia).flowOn(dispatcher)
+        mediaGettingJob?.cancel()
+        mediaGettingJob = viewModelScope.launch(dispatcher) {
+            delay(200L)
+            _mediaState.emit(MediaState())
+            mediaRepository.mediaFlowWithType(albumId, allowedMedia)
+                .flowOn(dispatcher)
                 .collectLatest { result ->
                     val data = result.getOrNull()?.filter {
                         if (allowedMedia is AllowedMedia.Photos) {

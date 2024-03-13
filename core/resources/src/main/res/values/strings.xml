@@ -874,6 +874,5 @@
     <string name="request">Request</string>
     <string name="pick_multiple_media">Pick Multiple Media</string>
     <string name="pick_single_media">Pick Single Media</string>
-    <string name="pick_formatted">Pick (%d)</string>
     <string name="pick">Pick</string>
 </resources>

@@ -80,6 +80,9 @@ fun PickerMediaScreen(
             bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding().plus(
                 if (isButtonVisible) 80.dp
                 else 0.dp
+            ).plus(
+                if (selectedMedia.isNotEmpty()) 52.dp
+                else 0.dp
             ),
             start = WindowInsets.displayCutout.asPaddingValues()
                 .calculateStartPadding(layoutDirection),

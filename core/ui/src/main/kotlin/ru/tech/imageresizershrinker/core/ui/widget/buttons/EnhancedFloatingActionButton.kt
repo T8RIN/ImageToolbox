@@ -25,9 +25,11 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -58,34 +60,38 @@ fun EnhancedFloatingActionButton(
     val size by animateDpAsState(type.size)
     val haptics = LocalHapticFeedback.current
 
-    FloatingActionButton(
-        onClick = {
-            onClick()
-            haptics.performHapticFeedback(
-                HapticFeedbackType.LongPress
-            )
-        },
-        modifier = modifier
-            .sizeIn(minWidth = size, minHeight = size)
-            .containerFabBorder(
-                shape = type.shape,
-                autoElevation = animateDpAsState(
-                    if (settingsState.drawFabShadows) autoElevation
-                    else 0.dp
-                ).value
-            ),
-        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-        contentColor = contentColor,
-        shape = type.shape,
-        containerColor = containerColor,
-        interactionSource = interactionSource,
-        content = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                content = content
-            )
-        }
-    )
+    CompositionLocalProvider(
+        LocalMinimumInteractiveComponentEnforcement provides false
+    ) {
+        FloatingActionButton(
+            onClick = {
+                onClick()
+                haptics.performHapticFeedback(
+                    HapticFeedbackType.LongPress
+                )
+            },
+            modifier = modifier
+                .sizeIn(minWidth = size, minHeight = size)
+                .containerFabBorder(
+                    shape = type.shape,
+                    autoElevation = animateDpAsState(
+                        if (settingsState.drawFabShadows) autoElevation
+                        else 0.dp
+                    ).value
+                ),
+            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+            contentColor = contentColor,
+            shape = type.shape,
+            containerColor = containerColor,
+            interactionSource = interactionSource,
+            content = {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    content = content
+                )
+            }
+        )
+    }
 }
 
 @Composable

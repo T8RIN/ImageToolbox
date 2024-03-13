@@ -41,6 +41,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.TaskAlt
+import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.InputChip
 import androidx.compose.material3.InputChipDefaults
@@ -64,6 +67,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButtonType
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.media_picker.presentation.viewModel.MediaPickerViewModel
@@ -152,50 +156,74 @@ fun MediaPickerScreen(
                     ) {
                         val enabled = selectedMedia.isNotEmpty()
                         val containerColor by animateColorAsState(
-                            targetValue = if (enabled) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant,
-                            label = "containerColor"
+                            targetValue = if (enabled) {
+                                MaterialTheme.colorScheme.primaryContainer
+                            } else MaterialTheme.colorScheme.surfaceVariant
                         )
                         val contentColor by animateColorAsState(
-                            targetValue = if (enabled) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
-                            label = "contentColor"
+                            targetValue = if (enabled) {
+                                MaterialTheme.colorScheme.onPrimaryContainer
+                            } else MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                        EnhancedFloatingActionButton(
-                            content = {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    modifier = Modifier.padding(horizontal = 16.dp)
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.TaskAlt,
-                                        contentDescription = null
-                                    )
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    if (allowSelection) {
-                                        Text(
-                                            stringResource(
-                                                R.string.pick_formatted,
-                                                selectedMedia.size
-                                            )
+                        Column(
+                            horizontalAlignment = Alignment.End
+                        ) {
+                            AnimatedVisibility(visible = selectedMedia.isNotEmpty()) {
+                                EnhancedFloatingActionButton(
+                                    type = EnhancedFloatingActionButtonType.Small,
+                                    onClick = selectedMedia::clear,
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                    content = {
+                                        Icon(
+                                            imageVector = Icons.Rounded.Close,
+                                            contentDescription = null
                                         )
-                                    } else {
-                                        Text(stringResource(R.string.pick))
+                                    },
+                                    modifier = Modifier.padding(bottom = 8.dp)
+                                )
+                            }
+                            BadgedBox(
+                                badge = {
+                                    if (selectedMedia.isNotEmpty() && allowSelection) {
+                                        Badge(
+                                            containerColor = MaterialTheme.colorScheme.primary
+                                        ) {
+                                            Text(selectedMedia.size.toString())
+                                        }
                                     }
                                 }
-                            },
-                            containerColor = containerColor,
-                            contentColor = contentColor,
-                            onClick = {
-                                if (enabled) {
-                                    scope.launch {
-                                        sendMediaAsResult(selectedMedia.map { it.uri })
-                                    }
-                                }
-                            },
-                            modifier = Modifier
-                                .semantics {
-                                    contentDescription = "Add media"
-                                }
-                        )
+                            ) {
+                                EnhancedFloatingActionButton(
+                                    content = {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            modifier = Modifier.padding(horizontal = 16.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Outlined.TaskAlt,
+                                                contentDescription = null
+                                            )
+                                            Spacer(modifier = Modifier.width(8.dp))
+                                            Text(stringResource(R.string.pick))
+                                        }
+                                    },
+                                    containerColor = containerColor,
+                                    contentColor = contentColor,
+                                    onClick = {
+                                        if (enabled) {
+                                            scope.launch {
+                                                sendMediaAsResult(selectedMedia.map { it.uri })
+                                            }
+                                        }
+                                    },
+                                    modifier = Modifier
+                                        .semantics {
+                                            contentDescription = "Add media"
+                                        }
+                                )
+                            }
+                        }
                         BackHandler(selectedMedia.isNotEmpty()) {
                             selectedMedia.clear()
                         }
