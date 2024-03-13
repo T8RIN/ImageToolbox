@@ -406,6 +406,8 @@ internal fun MainScreenContent(
                                 modifier = Modifier.weight(1f)
                             ) {
                                 val clipboardData by rememberClipboardData()
+                                val allowAutoPaste = settingsState.allowAutoClipboardPaste
+                                val showClipButton = clipboardData.isNotEmpty() || !allowAutoPaste
                                 LazyVerticalStaggeredGrid(
                                     reverseLayout = showScreenSearch && screenSearchKeyword.isNotEmpty() && canSearchScreens,
                                     modifier = Modifier.fillMaxSize(),
@@ -425,7 +427,7 @@ internal fun MainScreenContent(
                                             } else 0.dp
                                         } else {
                                             0.dp
-                                        } + if (clipboardData.isNotEmpty()) 76.dp
+                                        } + if (showClipButton) 76.dp
                                         else 0.dp,
                                         top = 12.dp,
                                         end = 12.dp,
@@ -481,9 +483,8 @@ internal fun MainScreenContent(
                                 val clipboardManager = remember(context) {
                                     context.getSystemService<ClipboardManager>()
                                 }
-                                val allowAutoPaste = settingsState.allowAutoClipboardPaste
                                 BoxAnimatedVisibility(
-                                    visible = clipboardData.isNotEmpty() || !allowAutoPaste,
+                                    visible = showClipButton,
                                     modifier = Modifier
                                         .align(Alignment.BottomEnd)
                                         .padding(16.dp),
