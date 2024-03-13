@@ -25,10 +25,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AddTask
 import androidx.compose.material.icons.outlined.BurstMode
 import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.TaskAlt
 import androidx.compose.material.icons.rounded.FolderOpen
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
@@ -55,7 +55,7 @@ fun ImagePickerModeSettingItemGroup(
             shape = ContainerShapeDefaults.topShape,
             onClick = { updateImagePickerMode(0) },
             title = stringResource(R.string.embedded_picker),
-            startIcon = Icons.Outlined.AddTask,
+            startIcon = Icons.Outlined.TaskAlt,
             subtitle = stringResource(R.string.embedded_picker_sub),
             color = takeColorFromScheme {
                 if (settingsState.imagePickerModeInt == 0) secondaryContainer.copy(0.7f)
