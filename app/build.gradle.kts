@@ -137,6 +137,7 @@ dependencies {
     implementation(projects.core.filters)
 
     implementation(projects.feature.main)
+    implementation(projects.feature.mediaPicker)
 
     "marketImplementation"(libs.firebase.crashlytics.ktx)
     "marketImplementation"(libs.firebase.analytics.ktx)
