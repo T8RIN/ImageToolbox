@@ -66,6 +66,7 @@ include(":feature:gif-tools")
 include(":feature:apng-tools")
 include(":feature:zip")
 include(":feature:jxl-tools")
+include(":feature:media-picker")
 
 include(":core:settings")
 include(":core:resources")

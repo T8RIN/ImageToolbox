@@ -28,6 +28,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BurstMode
 import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.TaskAlt
 import androidx.compose.material.icons.rounded.FolderOpen
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
@@ -53,9 +54,9 @@ fun ImagePickerModeSettingItemGroup(
         PreferenceItem(
             shape = ContainerShapeDefaults.topShape,
             onClick = { updateImagePickerMode(0) },
-            title = stringResource(R.string.photo_picker),
-            startIcon = Icons.Outlined.BurstMode,
-            subtitle = stringResource(R.string.photo_picker_sub),
+            title = stringResource(R.string.embedded_picker),
+            startIcon = Icons.Outlined.TaskAlt,
+            subtitle = stringResource(R.string.embedded_picker_sub),
             color = takeColorFromScheme {
                 if (settingsState.imagePickerModeInt == 0) secondaryContainer.copy(0.7f)
                 else Color.Unspecified
@@ -80,9 +81,9 @@ fun ImagePickerModeSettingItemGroup(
         PreferenceItem(
             shape = ContainerShapeDefaults.centerShape,
             onClick = { updateImagePickerMode(1) },
-            title = stringResource(R.string.gallery_picker),
-            startIcon = Icons.Outlined.Image,
-            subtitle = stringResource(R.string.gallery_picker_sub),
+            title = stringResource(R.string.photo_picker),
+            startIcon = Icons.Outlined.BurstMode,
+            subtitle = stringResource(R.string.photo_picker_sub),
             color = takeColorFromScheme {
                 if (settingsState.imagePickerModeInt == 1) secondaryContainer.copy(0.7f)
                 else Color.Unspecified
@@ -100,16 +101,16 @@ fun ImagePickerModeSettingItemGroup(
                             MaterialTheme.colorScheme.onSecondaryContainer.copy(0.5f)
                         } else Color.Transparent
                     ).value,
-                    shape = ContainerShapeDefaults.centerShape
+                    shape = ContainerShapeDefaults.topShape
                 )
         )
         Spacer(modifier = Modifier.height(4.dp))
         PreferenceItem(
             shape = ContainerShapeDefaults.centerShape,
             onClick = { updateImagePickerMode(2) },
-            title = stringResource(R.string.file_explorer_picker),
-            subtitle = stringResource(R.string.file_explorer_picker_sub),
-            startIcon = Icons.Rounded.FolderOpen,
+            title = stringResource(R.string.gallery_picker),
+            startIcon = Icons.Outlined.Image,
+            subtitle = stringResource(R.string.gallery_picker_sub),
             color = takeColorFromScheme {
                 if (settingsState.imagePickerModeInt == 2) secondaryContainer.copy(0.7f)
                 else Color.Unspecified
@@ -127,16 +128,16 @@ fun ImagePickerModeSettingItemGroup(
                             MaterialTheme.colorScheme.onSecondaryContainer.copy(0.5f)
                         } else Color.Transparent
                     ).value,
-                    shape = ContainerShapeDefaults.bottomShape
+                    shape = ContainerShapeDefaults.centerShape
                 )
         )
         Spacer(modifier = Modifier.height(4.dp))
         PreferenceItem(
-            shape = ContainerShapeDefaults.bottomShape,
+            shape = ContainerShapeDefaults.centerShape,
             onClick = { updateImagePickerMode(3) },
-            title = stringResource(R.string.camera),
-            startIcon = Icons.Outlined.CameraAlt,
-            subtitle = stringResource(R.string.camera_sub),
+            title = stringResource(R.string.file_explorer_picker),
+            subtitle = stringResource(R.string.file_explorer_picker_sub),
+            startIcon = Icons.Rounded.FolderOpen,
             color = takeColorFromScheme {
                 if (settingsState.imagePickerModeInt == 3) secondaryContainer.copy(0.7f)
                 else Color.Unspecified
@@ -151,6 +152,33 @@ fun ImagePickerModeSettingItemGroup(
                     width = settingsState.borderWidth,
                     color = animateColorAsState(
                         if (settingsState.imagePickerModeInt == 3) {
+                            MaterialTheme.colorScheme.onSecondaryContainer.copy(0.5f)
+                        } else Color.Transparent
+                    ).value,
+                    shape = ContainerShapeDefaults.bottomShape
+                )
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        PreferenceItem(
+            shape = ContainerShapeDefaults.bottomShape,
+            onClick = { updateImagePickerMode(4) },
+            title = stringResource(R.string.camera),
+            startIcon = Icons.Outlined.CameraAlt,
+            subtitle = stringResource(R.string.camera_sub),
+            color = takeColorFromScheme {
+                if (settingsState.imagePickerModeInt == 4) secondaryContainer.copy(0.7f)
+                else Color.Unspecified
+            },
+            endIcon = if (settingsState.imagePickerModeInt == 4) {
+                Icons.Rounded.RadioButtonChecked
+            } else Icons.Rounded.RadioButtonUnchecked,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp)
+                .border(
+                    width = settingsState.borderWidth,
+                    color = animateColorAsState(
+                        if (settingsState.imagePickerModeInt == 4) {
                             MaterialTheme.colorScheme.onSecondaryContainer.copy(0.5f)
                         } else Color.Transparent
                     ).value,
