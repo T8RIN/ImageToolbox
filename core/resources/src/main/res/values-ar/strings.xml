@@ -847,4 +847,11 @@
     <string name="sort_by_date_reversed">رتب حسب التاريخ(معكوس)</string>
     <string name="sort_by_name">فرز حسب الاسم</string>
     <string name="sort_by_name_reversed">فرز حسب الاسم (معكوس)</string>
+    <string name="channels_configuration">إعداد القنوات</string>
+    <string name="header_today">اليوم</string>
+    <string name="header_yesterday">أمس</string>
+    <string name="embedded_picker">المنتقى المضمن</string>
+    <string name="embedded_picker_sub">يستخدم منتقي الصور الخاص بـ Image Toolbox بدلاً من الصور المحددة مسبقًا في النظام</string>
+    <string name="no_permissions">لا أذونات</string>
+    <string name="request">الطلب</string>
 </resources>
