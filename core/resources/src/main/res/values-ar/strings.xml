@@ -841,4 +841,10 @@
     <string name="compression_type">نوع الضغط</string>
     <string name="skip_file_picking_sub">سيتم عرض منتقي الملفات على الفور إذا كان ذلك ممكنًا على الشاشة المختارة</string>
     <string name="generate_previews_sub">تمكين إنشاء المعاينة، وقد يساعد هذا في تجنب الأعطال على بعض الأجهزة، كما يؤدي هذا أيضًا إلى تعطيل بعض وظائف التحرير ضمن خيار تحرير واحد</string>
+    <string name="speed_sub">يتحكم في سرعة فك تشفير الصورة الناتجة، وهذا من شأنه أن يساعد في فتح الصورة الناتجة بشكل أسرع، قيمة %1$d تعني أبطأ عملية فك تشفير، بينما %2$d - الأسرع، قد يؤدي هذا الإعداد إلى زيادة حجم الصورة الناتجة</string>
+    <string name="sorting">الفرز</string>
+    <string name="sort_by_date">رتب حسب التاريخ</string>
+    <string name="sort_by_date_reversed">رتب حسب التاريخ(معكوس)</string>
+    <string name="sort_by_name">فرز حسب الاسم</string>
+    <string name="sort_by_name_reversed">فرز حسب الاسم (معكوس)</string>
 </resources>
