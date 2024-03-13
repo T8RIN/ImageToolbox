@@ -1,6 +1,18 @@
 /*
- * SPDX-FileCopyrightText: 2023 IacobIacob01
- * SPDX-License-Identifier: Apache-2.0
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
 package ru.tech.imageresizershrinker.media_picker.domain
@@ -233,7 +245,7 @@ fun Long.getMonth(): String {
     val currentDate =
         Calendar.getInstance(Locale.US).apply { timeInMillis = System.currentTimeMillis() }
     val mediaDate = Calendar.getInstance(Locale.US).apply { timeInMillis = this@getMonth * 1000L }
-    val month = mediaDate.getDisplayName(Calendar.MONTH, Calendar.LONG_FORMAT, Locale.US)!!
+    val month = mediaDate.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US)!!
     val year = mediaDate.get(Calendar.YEAR)
     return if (currentDate.get(Calendar.YEAR) != mediaDate.get(Calendar.YEAR))
         "$month $year"
@@ -245,14 +257,14 @@ fun getMonth(date: String): String {
         val dateFormatExtended =
             SimpleDateFormat(EXTENDED_DATE_FORMAT, Locale.US).parse(date)
         val cal = Calendar.getInstance(Locale.US).apply { timeInMillis = dateFormatExtended!!.time }
-        val month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG_FORMAT, Locale.US)!!
+        val month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US)!!
         val year = cal.get(Calendar.YEAR)
         "$month $year"
     } catch (e: ParseException) {
         try {
             val dateFormat = SimpleDateFormat(DEFAULT_DATE_FORMAT, Locale.US).parse(date)
             val cal = Calendar.getInstance(Locale.US).apply { timeInMillis = dateFormat!!.time }
-            cal.getDisplayName(Calendar.MONTH, Calendar.LONG_FORMAT, Locale.US)!!
+            cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US)!!
         } catch (e: ParseException) {
             ""
         }

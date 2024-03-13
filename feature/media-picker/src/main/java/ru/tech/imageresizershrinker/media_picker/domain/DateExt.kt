@@ -33,7 +33,7 @@ fun Long.getDateExt(): DateExt {
     val mediaDate = Calendar.getInstance(Locale.US)
     mediaDate.timeInMillis = this * 1000L
     return DateExt(
-        month = mediaDate.getDisplayName(Calendar.MONTH, Calendar.LONG_FORMAT, Locale.US)!!,
+        month = mediaDate.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US)!!,
         day = mediaDate.get(Calendar.DAY_OF_MONTH),
         year = mediaDate.get(Calendar.YEAR)
     )
