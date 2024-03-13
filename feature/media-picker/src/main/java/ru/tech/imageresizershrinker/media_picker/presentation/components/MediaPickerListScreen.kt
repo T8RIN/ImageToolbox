@@ -109,7 +109,7 @@ fun PickerMediaScreen(
                     val title = item.text
                         .replace("Today", stringToday)
                         .replace("Yesterday", stringYesterday)
-                    StickyHeader(
+                    MediaStickyHeader(
                         date = title,
                         showAsBig = item.key.contains("big"),
                         isCheckVisible = isCheckVisible,

@@ -32,6 +32,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.toUiState
 import ru.tech.imageresizershrinker.core.ui.icons.emoji.Emoji
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
+import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.rememberConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.customHapticFeedback
@@ -81,7 +82,8 @@ class MediaPickerActivity : M3Activity() {
                 LocalSettingsState provides settingsState,
                 LocalConfettiHostState provides rememberConfettiHostState(),
                 LocalImageLoader provides viewModel.imageLoader,
-                LocalHapticFeedback provides customHapticFeedback(settingsState.hapticsStrength)
+                LocalHapticFeedback provides customHapticFeedback(settingsState.hapticsStrength),
+                LocalConfettiHostState provides rememberConfettiHostState(),
             ) {
                 ImageToolboxTheme {
                     MediaPickerRoot(
@@ -89,6 +91,7 @@ class MediaPickerActivity : M3Activity() {
                         allowedMedia = intent.type.allowedMedia,
                         allowMultiple = allowMultiple
                     )
+                    ConfettiHost()
                 }
             }
         }

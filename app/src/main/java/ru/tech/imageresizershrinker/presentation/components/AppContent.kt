@@ -22,7 +22,6 @@ import android.content.res.Configuration
 import android.os.Build
 import android.view.WindowManager
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -70,7 +69,6 @@ import ru.tech.imageresizershrinker.feature.main.presentation.components.AppExit
 import ru.tech.imageresizershrinker.feature.main.presentation.components.EditPresetsSheet
 import ru.tech.imageresizershrinker.feature.main.presentation.components.FirstLaunchSetupDialog
 import ru.tech.imageresizershrinker.feature.main.presentation.components.GithubReviewDialog
-import ru.tech.imageresizershrinker.feature.main.presentation.components.Particles
 import ru.tech.imageresizershrinker.feature.main.presentation.components.PermissionDialog
 import ru.tech.imageresizershrinker.feature.main.presentation.components.ScreenSelector
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
@@ -223,34 +221,7 @@ internal fun AppContent(
                 visible = showUpdateSheet
             )
 
-            val confettiHostState = LocalConfettiHostState.current
-            AnimatedVisibility(settingsState.isConfettiEnabled) {
-                ConfettiHost(
-                    hostState = confettiHostState,
-                    particles = { harmonizer ->
-                        val particlesType by remember(settingsState.confettiType) {
-                            derivedStateOf {
-                                Particles.Type.entries.first {
-                                    it.ordinal == settingsState.confettiType
-                                }
-                            }
-                        }
-
-                        remember {
-                            Particles(
-                                harmonizer = harmonizer,
-                                context = context
-                            ).build(particlesType)
-                        }
-                    }
-                )
-            }
-
-            if (!settingsState.isConfettiEnabled) {
-                SideEffect {
-                    confettiHostState.currentToastData?.dismiss()
-                }
-            }
+            ConfettiHost()
 
             ToastHost(
                 hostState = LocalToastHostState.current

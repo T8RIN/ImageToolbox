@@ -69,7 +69,7 @@ import ru.tech.imageresizershrinker.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.media_picker.presentation.viewModel.MediaPickerViewModel
 
 @Composable
-fun PickerScreen(
+fun MediaPickerScreen(
     allowedMedia: AllowedMedia,
     allowSelection: Boolean,
     viewModel: MediaPickerViewModel,
@@ -171,8 +171,15 @@ fun PickerScreen(
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
                                     if (allowSelection) {
-                                        Text(text = "Add (${selectedMedia.size})")
-                                    } else Text(text = "Add")
+                                        Text(
+                                            stringResource(
+                                                R.string.pick_formatted,
+                                                selectedMedia.size
+                                            )
+                                        )
+                                    } else {
+                                        Text(stringResource(R.string.pick))
+                                    }
                                 }
                             },
                             containerColor = containerColor,

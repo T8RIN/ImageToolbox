@@ -17,16 +17,21 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.confetti
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
 import ru.tech.imageresizershrinker.core.settings.domain.model.Harmonizer
@@ -74,4 +79,39 @@ fun ConfettiHost(
             )
         }
     )
+}
+
+@Composable
+fun ConfettiHost() {
+    val context = LocalContext.current
+    val settingsState = LocalSettingsState.current
+    val confettiHostState = LocalConfettiHostState.current
+
+    AnimatedVisibility(settingsState.isConfettiEnabled) {
+        ConfettiHost(
+            hostState = confettiHostState,
+            particles = { harmonizer ->
+                val particlesType by remember(settingsState.confettiType) {
+                    derivedStateOf {
+                        Particles.Type.entries.first {
+                            it.ordinal == settingsState.confettiType
+                        }
+                    }
+                }
+
+                remember {
+                    Particles(
+                        harmonizer = harmonizer,
+                        context = context
+                    ).build(particlesType)
+                }
+            }
+        )
+    }
+
+    if (!settingsState.isConfettiEnabled) {
+        SideEffect {
+            confettiHostState.currentToastData?.dismiss()
+        }
+    }
 }

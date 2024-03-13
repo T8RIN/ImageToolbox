@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.main.presentation.components
+package ru.tech.imageresizershrinker.core.ui.utils.confetti
 
 import android.content.Context
 import androidx.appcompat.content.res.AppCompatResources
@@ -33,6 +33,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.blend
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 import kotlin.random.Random
+
 
 private val Color1 = Color(0xfffce18a)
 private val Color2 = Color(0xFF009688)
@@ -56,6 +57,7 @@ private val defaultShapes by lazy {
 }
 
 private val confettiCache = mutableMapOf<Color, MutableMap<Particles.Type, List<Party>>>()
+
 
 @Stable
 class Particles(

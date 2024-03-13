@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun StickyHeader(
+fun MediaStickyHeader(
     modifier: Modifier = Modifier,
     date: String,
     showAsBig: Boolean = false,
@@ -90,7 +90,7 @@ fun StickyHeader(
                 enter = enterAnimation,
                 exit = exitAnimation
             ) {
-                CheckBox(
+                MediaCheckBox(
                     isChecked = isChecked.value,
                     onCheck = onChecked,
                     modifier = Modifier.size(20.dp)

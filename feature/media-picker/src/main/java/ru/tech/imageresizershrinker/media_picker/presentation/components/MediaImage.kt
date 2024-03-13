@@ -163,7 +163,7 @@ fun MediaImage(
                     .fillMaxWidth()
                     .padding(4.dp)
             ) {
-                CheckBox(isChecked = isSelected)
+                MediaCheckBox(isChecked = isSelected)
             }
         }
     }

@@ -28,7 +28,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.twotone.BrokenImage
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -59,6 +59,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.hasPermissionAllowed
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.media_picker.presentation.MediaPickerActivity
@@ -107,10 +108,13 @@ internal fun MediaPickerRoot(
                         containerColor = Color.Transparent
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.Close,
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                             contentDescription = context.getString(R.string.close)
                         )
                     }
+                },
+                actions = {
+                    TopAppBarEmoji()
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surfaceContainer
@@ -128,7 +132,7 @@ internal fun MediaPickerRoot(
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    PickerScreen(
+                    MediaPickerScreen(
                         allowedMedia = allowedMedia,
                         allowSelection = allowMultiple,
                         viewModel = context.viewModel,
