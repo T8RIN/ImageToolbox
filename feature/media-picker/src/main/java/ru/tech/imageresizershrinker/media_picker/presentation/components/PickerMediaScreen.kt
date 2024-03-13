@@ -54,7 +54,11 @@ fun PickerMediaScreen(
     val stringYesterday = stringResource(id = R.string.header_yesterday)
     val gridState = rememberLazyGridState()
     val isCheckVisible = rememberSaveable { mutableStateOf(allowSelection) }
-    val feedbackManager = LocalHapticFeedback.current
+    val hapticFeedback = LocalHapticFeedback.current
+
+    LaunchedEffect(state.media) {
+        gridState.scrollToItem(0)
+    }
 
     LazyVerticalGrid(
         state = gridState,
@@ -65,7 +69,10 @@ fun PickerMediaScreen(
     ) {
         items(
             items = state.mappedMedia,
-            key = { if (it is MediaItem.MediaViewItem) it.media.toString() else it.key },
+            key = {
+                val first = if (it is MediaItem.MediaViewItem) it.media.toString() else it.key
+                "$first-${state.mappedMedia.indexOf(it)}"
+            },
             contentType = { it.key.startsWith("media_") },
             span = { item ->
                 GridItemSpan(if (item.key.isHeaderKey) maxLineSpan else 1)
@@ -90,7 +97,7 @@ fun PickerMediaScreen(
                         isChecked = isChecked
                     ) {
                         if (allowSelection) {
-                            feedbackManager.performHapticFeedback(
+                            hapticFeedback.performHapticFeedback(
                                 HapticFeedbackType.LongPress
                             )
                             scope.launch {
@@ -130,7 +137,7 @@ fun PickerMediaScreen(
                         selectedMedia = selectedMedia,
                         canClick = true,
                         onItemClick = {
-                            feedbackManager.performHapticFeedback(
+                            hapticFeedback.performHapticFeedback(
                                 HapticFeedbackType.TextHandleMove
                             )
                             onClick(it)
@@ -141,7 +148,7 @@ fun PickerMediaScreen(
                             }
                         }.value,
                         onItemLongClick = {
-                            feedbackManager.performHapticFeedback(
+                            hapticFeedback.performHapticFeedback(
                                 HapticFeedbackType.LongPress
                             )
                             onClick(it)
