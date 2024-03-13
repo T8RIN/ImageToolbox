@@ -127,16 +127,18 @@ fun PickerScreen(
                 Box(
                     modifier = Modifier.fillMaxSize()
                 ) {
+                    val isButtonVisible = !allowSelection || selectedMedia.isNotEmpty()
                     PickerMediaScreen(
                         state = mediaState,
                         selectedMedia = selectedMedia,
-                        allowSelection = allowSelection
+                        allowSelection = allowSelection,
+                        isButtonVisible = isButtonVisible
                     )
                     androidx.compose.animation.AnimatedVisibility(
                         modifier = Modifier
                             .align(Alignment.BottomEnd)
                             .padding(32.dp),
-                        visible = !allowSelection || selectedMedia.isNotEmpty(),
+                        visible = isButtonVisible,
                         enter = slideInVertically { it * 2 },
                         exit = slideOutVertically { it * 2 }
                     ) {

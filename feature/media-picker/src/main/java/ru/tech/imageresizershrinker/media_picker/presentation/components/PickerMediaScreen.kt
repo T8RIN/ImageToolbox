@@ -17,7 +17,14 @@
 package ru.tech.imageresizershrinker.media_picker.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -34,6 +41,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -48,6 +56,7 @@ fun PickerMediaScreen(
     state: MediaState,
     selectedMedia: SnapshotStateList<Media>,
     allowSelection: Boolean,
+    isButtonVisible: Boolean
 ) {
     val scope = rememberCoroutineScope()
     val stringToday = stringResource(id = R.string.header_today)
@@ -60,12 +69,22 @@ fun PickerMediaScreen(
         gridState.scrollToItem(0)
     }
 
+    val layoutDirection = LocalLayoutDirection.current
     LazyVerticalGrid(
         state = gridState,
         modifier = Modifier.fillMaxSize(),
         columns = GridCells.Adaptive(100.dp),
         horizontalArrangement = Arrangement.spacedBy(1.dp),
         verticalArrangement = Arrangement.spacedBy(1.dp),
+        contentPadding = PaddingValues(
+            bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding().plus(
+                if (isButtonVisible) 80.dp
+                else 0.dp
+            ),
+            start = WindowInsets.displayCutout.asPaddingValues()
+                .calculateStartPadding(layoutDirection),
+            end = WindowInsets.displayCutout.asPaddingValues().calculateEndPadding(layoutDirection)
+        )
     ) {
         items(
             items = state.mappedMedia,
