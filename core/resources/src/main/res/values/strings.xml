@@ -868,4 +868,6 @@
     <string name="channels_configuration">Channels Configuration</string>
     <string name="header_today">Today</string>
     <string name="header_yesterday">Yesterday</string>
+    <string name="embedded_picker">Embedded Picker</string>
+    <string name="embedded_picker_sub">Uses Image Toolbox own image picker instead of system predefined ones</string>
 </resources>

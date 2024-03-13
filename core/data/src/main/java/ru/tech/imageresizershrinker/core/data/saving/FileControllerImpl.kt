@@ -189,7 +189,7 @@ internal class FileControllerImpl @Inject constructor(
 
                     context.contentResolver.openFileDescriptor(originalUri, "wt")
                 }.onFailure {
-                    settingsRepository.setImagePickerMode(2)
+                    settingsRepository.setImagePickerMode(3)
                     return@withContext SaveResult.Error.Exception(
                         Exception(
                             context.getString(

@@ -110,6 +110,21 @@ class ImagePicker(
                 )
             )
         }
+        val embeddedAction = {
+            val intent =
+                Intent(
+                    Intent.ACTION_PICK,
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    context,
+                    Class.forName("ru.tech.imageresizershrinker.media_picker.presentation.PickerActivity")
+                ).apply {
+                    type = "image/$imageExtension"
+                    if (mode == ImagePickerMode.EmbeddedMultiple) {
+                        putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                    }
+                }
+            getContent.launch(intent)
+        }
         val getContentAction = {
             val intent = Intent().apply {
                 type = "image/$imageExtension"
@@ -138,12 +153,17 @@ class ImagePicker(
 
                 ImagePickerMode.GetContentSingle,
                 ImagePickerMode.GetContentMultiple -> getContentAction()
+
+                ImagePickerMode.Embedded,
+                ImagePickerMode.EmbeddedMultiple -> embeddedAction()
             }
         }.onFailure(onFailure)
     }
 }
 
 enum class ImagePickerMode {
+    Embedded,
+    EmbeddedMultiple,
     PhotoPickerSingle,
     PhotoPickerMultiple,
     GallerySingle,
@@ -166,9 +186,10 @@ fun localImagePickerMode(
     return remember(modeInt) {
         derivedStateOf {
             when (modeInt) {
-                0 -> if (multiple) ImagePickerMode.PhotoPickerMultiple else ImagePickerMode.PhotoPickerSingle
-                1 -> if (multiple) ImagePickerMode.GalleryMultiple else ImagePickerMode.GallerySingle
-                2 -> if (multiple) ImagePickerMode.GetContentMultiple else ImagePickerMode.GetContentSingle
+                0 -> if (multiple) ImagePickerMode.EmbeddedMultiple else ImagePickerMode.Embedded
+                1 -> if (multiple) ImagePickerMode.PhotoPickerMultiple else ImagePickerMode.PhotoPickerSingle
+                2 -> if (multiple) ImagePickerMode.GalleryMultiple else ImagePickerMode.GallerySingle
+                3 -> if (multiple) ImagePickerMode.GetContentMultiple else ImagePickerMode.GetContentSingle
                 else -> ImagePickerMode.CameraCapture
             }
         }
