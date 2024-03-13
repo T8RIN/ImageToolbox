@@ -842,4 +842,9 @@
     <string name="apng_type_to_jxl_sub">APNG छवियों को JXL एनिमेटेड चित्रों में बदलें</string>
     <string name="compression_type">संपीड़न प्रकार</string>
     <string name="speed_sub">परिणामी छवि डिकोडिंग गति को नियंत्रित करता है, इससे परिणामी छवि को तेजी से खोलने में मदद मिलेगी, %1$d का मतलब सबसे धीमी डिकोडिंग, जबकि %2$d - सबसे तेज़, यह सेटिंग आउटपुट छवि आकार को बढ़ा सकती है</string>
+    <string name="sort_by_name">नाम से क्रमबद्ध</string>
+    <string name="sort_by_name_reversed">नाम से क्रमबद्ध(उलटा)</string>
+    <string name="sorting">छँटाई</string>
+    <string name="sort_by_date_reversed">तिथि से क्रमबद्ध (उलटा)</string>
+    <string name="sort_by_date">तिथि से क्रमबद्ध</string>
 </resources>

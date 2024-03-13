@@ -841,4 +841,9 @@
     <string name="generate_previews_sub">Ativa a geração de pré-visualização, o que pode ajudar a evitar travamentos em alguns dispositivos e também desativa algumas funcionalidades de edição na opção de edição única</string>
     <string name="compression_type">Tipo de compressão</string>
     <string name="speed_sub">Controla a velocidade de decodificação da imagem resultante, o que deve ajudar a abrir a imagem resultante mais rapidamente, o valor de %1$d significa a decodificação mais lenta, enquanto %2$d - a mais rápida, essa configuração pode aumentar o tamanho da imagem de saída</string>
+    <string name="sort_by_date">Classificar por data</string>
+    <string name="sort_by_date_reversed">Classificar por data (invertido)</string>
+    <string name="sort_by_name">Classificar por nome</string>
+    <string name="sort_by_name_reversed">Classificar por nome (invertido)</string>
+    <string name="sorting">Ordenação</string>
 </resources>
