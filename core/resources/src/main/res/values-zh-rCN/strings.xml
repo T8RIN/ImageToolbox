@@ -842,4 +842,9 @@
     <string name="lanczos_bessel_sub">通过对像素值应用贝塞尔（jinc）函数来保持高质量插值的重采样方法</string>
     <string name="compression_type">压缩方式</string>
     <string name="speed_sub">控制生成图像的解码速度，这将有助于更快地打开生成图像，%1$d 表示最慢的解码速度，而 %2$d 表示最快的解码速度，此设置可能会增加输出图像的大小</string>
+    <string name="sorting">筛选</string>
+    <string name="sort_by_date">按日期排序</string>
+    <string name="sort_by_date_reversed">按日期排序（反向）</string>
+    <string name="sort_by_name">按名称排序</string>
+    <string name="sort_by_name_reversed">按名称排序（反向）</string>
 </resources>
