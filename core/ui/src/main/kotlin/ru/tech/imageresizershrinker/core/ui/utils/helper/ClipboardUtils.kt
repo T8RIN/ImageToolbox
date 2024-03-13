@@ -37,24 +37,26 @@ fun rememberClipboardData(): State<List<Uri>> {
     val allowPaste = settingsState.allowAutoClipboardPaste
 
     val context = LocalContext.current
-    val clipboardManager = context.getSystemService<ClipboardManager>()
+    val clipboardManager = remember(context) {
+        context.getSystemService<ClipboardManager>()
+    }
 
     val clip = remember {
         mutableStateOf(
             if (allowPaste) {
-                clipboardManager?.primaryClip?.clipList() ?: emptyList()
+                clipboardManager.clipList()
             } else emptyList()
         )
     }.apply {
         value = if (allowPaste) {
-            clipboardManager?.primaryClip?.clipList() ?: emptyList()
+            clipboardManager.clipList()
         } else emptyList()
     }
 
     val callback = remember {
         ClipboardManager.OnPrimaryClipChangedListener {
             if (allowPaste) {
-                clip.value = clipboardManager?.primaryClip?.clipList() ?: emptyList()
+                clip.value = clipboardManager.clipList()
             }
         }
     }
@@ -68,6 +70,8 @@ fun rememberClipboardData(): State<List<Uri>> {
     }
     return clip
 }
+
+fun ClipboardManager?.clipList(): List<Uri> = this?.primaryClip?.clipList() ?: emptyList()
 
 fun ClipData.clipList() = List(
     size = itemCount,

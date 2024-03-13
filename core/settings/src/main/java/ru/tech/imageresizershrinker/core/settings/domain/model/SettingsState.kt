@@ -146,7 +146,7 @@ data class SettingsState(
                 useEmojiAsPrimaryColor = false,
                 dragHandleWidth = 64,
                 confettiType = 0,
-                allowAutoClipboardPaste = true,
+                allowAutoClipboardPaste = false,
                 confettiHarmonizer = Harmonizer.Primary,
                 confettiHarmonizationLevel = 0.5f,
                 skipImagePicking = false,

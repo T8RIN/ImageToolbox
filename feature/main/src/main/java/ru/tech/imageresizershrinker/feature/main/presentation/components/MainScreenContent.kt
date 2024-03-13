@@ -20,6 +20,7 @@
 package ru.tech.imageresizershrinker.feature.main.presentation.components
 
 import android.content.ActivityNotFoundException
+import android.content.ClipboardManager
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.BackHandler
@@ -76,6 +77,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.ManageSearch
+import androidx.compose.material.icons.outlined.ContentPasteOff
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.SearchOff
@@ -117,6 +119,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.getSystemService
 import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.launch
@@ -129,6 +132,7 @@ import ru.tech.imageresizershrinker.core.ui.icons.material.Github
 import ru.tech.imageresizershrinker.core.ui.icons.material.GooglePlay
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
+import ru.tech.imageresizershrinker.core.ui.utils.helper.clipList
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberClipboardData
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -141,6 +145,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.pulsate
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.rotateAnimation
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
+import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
@@ -472,9 +477,13 @@ internal fun MainScreenContent(
                                         }
                                     }
                                 )
-
+                                val toastHostState = LocalToastHostState.current
+                                val clipboardManager = remember(context) {
+                                    context.getSystemService<ClipboardManager>()
+                                }
+                                val allowAutoPaste = settingsState.allowAutoClipboardPaste
                                 BoxAnimatedVisibility(
-                                    visible = clipboardData.isNotEmpty(),
+                                    visible = clipboardData.isNotEmpty() || !allowAutoPaste,
                                     modifier = Modifier
                                         .align(Alignment.BottomEnd)
                                         .padding(16.dp),
@@ -483,16 +492,28 @@ internal fun MainScreenContent(
                                 ) {
                                     BadgedBox(
                                         badge = {
-                                            Badge(
-                                                containerColor = MaterialTheme.colorScheme.primary
-                                            ) {
-                                                Text(clipboardData.size.toString())
+                                            if (clipboardData.isNotEmpty()) {
+                                                Badge(
+                                                    containerColor = MaterialTheme.colorScheme.primary
+                                                ) {
+                                                    Text(clipboardData.size.toString())
+                                                }
                                             }
                                         }
                                     ) {
                                         EnhancedFloatingActionButton(
                                             onClick = {
-                                                onGetClipList(clipboardData)
+                                                if (!allowAutoPaste) {
+                                                    val list = clipboardManager.clipList()
+                                                    if (list.isEmpty()) {
+                                                        scope.launch {
+                                                            toastHostState.showToast(
+                                                                message = context.getString(R.string.clipboard_paste_invalid_empty),
+                                                                icon = Icons.Outlined.ContentPasteOff
+                                                            )
+                                                        }
+                                                    } else onGetClipList(list)
+                                                } else onGetClipList(clipboardData)
                                             },
                                             containerColor = MaterialTheme.colorScheme.tertiaryContainer
                                         ) {
