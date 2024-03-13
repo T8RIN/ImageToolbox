@@ -77,6 +77,7 @@ fun ImagePickerModeSettingItemGroup(
                     shape = ContainerShapeDefaults.topShape
                 )
         )
+        Spacer(modifier = Modifier.height(4.dp))
         PreferenceItem(
             shape = ContainerShapeDefaults.centerShape,
             onClick = { updateImagePickerMode(1) },
