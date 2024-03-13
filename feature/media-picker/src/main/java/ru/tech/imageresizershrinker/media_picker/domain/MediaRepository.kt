@@ -18,6 +18,9 @@
 package ru.tech.imageresizershrinker.media_picker.domain
 
 import kotlinx.coroutines.flow.Flow
+import ru.tech.imageresizershrinker.media_picker.domain.model.Album
+import ru.tech.imageresizershrinker.media_picker.domain.model.AllowedMedia
+import ru.tech.imageresizershrinker.media_picker.domain.model.Media
 
 interface MediaRepository {
 

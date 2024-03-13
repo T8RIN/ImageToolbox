@@ -119,15 +119,13 @@ android {
 dependencies {
     coreLibraryDesugaring(libs.desugaring)
 
-    //Di
     implementation(libs.hilt)
     kapt(libs.dagger.hilt.compiler)
 
-    //Compose
-    api(libs.androidx.material3)
-    api(libs.androidx.material3.window.sizeclass)
-    api(libs.androidx.material.icons.extended)
-    api(libs.androidx.material)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.material3.window.sizeclass)
+    implementation(libs.androidx.material.icons.extended)
+    implementation(libs.androidx.material)
 
     implementation(projects.core.domain)
     implementation(projects.core.ui)
@@ -135,12 +133,11 @@ dependencies {
     implementation(projects.core.resources)
     implementation(projects.core.settings)
     implementation(projects.core.filters)
+    implementation(projects.core.crash)
 
     implementation(projects.feature.main)
     implementation(projects.feature.mediaPicker)
-
-    "marketImplementation"(libs.firebase.crashlytics.ktx)
-    "marketImplementation"(libs.firebase.analytics.ktx)
+    implementation(projects.feature.quickTiles)
 }
 
 

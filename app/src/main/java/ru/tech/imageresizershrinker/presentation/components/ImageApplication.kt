@@ -15,14 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package ru.tech.imageresizershrinker.presentation.components
 
-android.namespace = "ru.tech.imageresizershrinker.media_picker"
-dependencies {
-    implementation(projects.core.crash)
-}
+import android.app.Application
+
+import dagger.hilt.android.HiltAndroidApp
+
+
+@HiltAndroidApp
+class ImageApplication : Application()

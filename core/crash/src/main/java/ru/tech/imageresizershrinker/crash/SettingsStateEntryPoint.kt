@@ -15,14 +15,15 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package ru.tech.imageresizershrinker.crash
 
-android.namespace = "ru.tech.imageresizershrinker.media_picker"
-dependencies {
-    implementation(projects.core.crash)
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+
+@EntryPoint
+@InstallIn(SingletonComponent::class)
+interface SettingsStateEntryPoint {
+    val settingsRepository: SettingsRepository
 }

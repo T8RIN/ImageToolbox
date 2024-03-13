@@ -51,7 +51,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
-import ru.tech.imageresizershrinker.media_picker.domain.Media
+import ru.tech.imageresizershrinker.media_picker.domain.model.Media
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

@@ -29,12 +29,16 @@ import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import ru.tech.imageresizershrinker.core.di.IoDispatcher
-import ru.tech.imageresizershrinker.media_picker.domain.Album
-import ru.tech.imageresizershrinker.media_picker.domain.AllowedMedia
-import ru.tech.imageresizershrinker.media_picker.domain.Media
-import ru.tech.imageresizershrinker.media_picker.domain.MediaOrder
+import ru.tech.imageresizershrinker.media_picker.data.utils.Query
+import ru.tech.imageresizershrinker.media_picker.data.utils.contentFlowObserver
+import ru.tech.imageresizershrinker.media_picker.data.utils.getAlbums
+import ru.tech.imageresizershrinker.media_picker.data.utils.getMedia
 import ru.tech.imageresizershrinker.media_picker.domain.MediaRepository
-import ru.tech.imageresizershrinker.media_picker.domain.OrderType
+import ru.tech.imageresizershrinker.media_picker.domain.model.Album
+import ru.tech.imageresizershrinker.media_picker.domain.model.AllowedMedia
+import ru.tech.imageresizershrinker.media_picker.domain.model.Media
+import ru.tech.imageresizershrinker.media_picker.domain.model.MediaOrder
+import ru.tech.imageresizershrinker.media_picker.domain.model.OrderType
 import javax.inject.Inject
 
 internal class MediaRepositoryImpl @Inject constructor(

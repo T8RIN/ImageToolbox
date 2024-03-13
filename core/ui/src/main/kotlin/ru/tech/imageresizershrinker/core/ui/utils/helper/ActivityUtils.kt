@@ -30,6 +30,18 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showRevie
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
 
+val AppActivityClass: Class<*> by lazy {
+    Class.forName(
+        "ru.tech.imageresizershrinker.presentation.AppActivity"
+    )
+}
+
+val MediaPickerActivityClass: Class<*> by lazy {
+    Class.forName(
+        "ru.tech.imageresizershrinker.media_picker.presentation.MediaPickerActivity"
+    )
+}
+
 fun Activity.failedToSaveImages(
     scope: CoroutineScope,
     results: List<SaveResult>,

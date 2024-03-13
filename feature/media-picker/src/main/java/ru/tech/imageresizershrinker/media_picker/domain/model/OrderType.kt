@@ -15,14 +15,9 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package ru.tech.imageresizershrinker.media_picker.domain.model
 
-android.namespace = "ru.tech.imageresizershrinker.media_picker"
-dependencies {
-    implementation(projects.core.crash)
+sealed class OrderType {
+    data object Ascending : OrderType()
+    data object Descending : OrderType()
 }

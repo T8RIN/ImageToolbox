@@ -15,14 +15,27 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package ru.tech.imageresizershrinker.media_picker.domain.model
 
-android.namespace = "ru.tech.imageresizershrinker.media_picker"
-dependencies {
-    implementation(projects.core.crash)
-}
+import android.os.Parcelable
+import androidx.compose.runtime.Immutable
+import kotlinx.parcelize.Parcelize
+
+@Immutable
+@Parcelize
+data class MediaState(
+    val media: List<Media> = emptyList(),
+    val mappedMedia: List<MediaItem> = emptyList(),
+    val mappedMediaWithMonthly: List<MediaItem> = emptyList(),
+    val dateHeader: String = "",
+    val error: String = "",
+    val isLoading: Boolean = true
+) : Parcelable
+
+
+@Immutable
+@Parcelize
+data class AlbumState(
+    val albums: List<Album> = emptyList(),
+    val error: String = ""
+) : Parcelable

@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.main.presentation.components
 
-import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -41,6 +40,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -59,10 +59,12 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Suppress("KotlinConstantConditions")
 @Composable
-fun Context.FirstLaunchSetupDialog(
+fun FirstLaunchSetupDialog(
     toggleAllowBetas: (Boolean) -> Unit,
     toggleShowUpdateDialog: () -> Unit
 ) {
+    val context = LocalContext.current
+
     val settingsState = LocalSettingsState.current
     var updateOnFirstOpen by rememberSaveable(settingsState.appOpenCount) {
         mutableStateOf(
@@ -108,7 +110,7 @@ fun Context.FirstLaunchSetupDialog(
                             )
                         }
                         PreferenceRowSwitch(
-                            shape = if (!isInstalledFromPlayStore()) {
+                            shape = if (!context.isInstalledFromPlayStore()) {
                                 ContainerShapeDefaults.topShape
                             } else ContainerShapeDefaults.defaultShape,
                             modifier = Modifier,
@@ -120,7 +122,7 @@ fun Context.FirstLaunchSetupDialog(
                             },
                             startIcon = Icons.Rounded.NewReleases
                         )
-                        if (!isInstalledFromPlayStore()) {
+                        if (!context.isInstalledFromPlayStore()) {
                             Spacer(Modifier.height(4.dp))
                             PreferenceRowSwitch(
                                 modifier = Modifier,
@@ -130,7 +132,7 @@ fun Context.FirstLaunchSetupDialog(
                                 checked = settingsState.allowBetas,
                                 onClick = {
                                     toggleAllowBetas(
-                                        isInstalledFromPlayStore()
+                                        context.isInstalledFromPlayStore()
                                     )
                                 },
                                 startIcon = Icons.Rounded.Beta

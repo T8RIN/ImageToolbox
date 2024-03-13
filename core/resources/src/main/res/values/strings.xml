@@ -872,4 +872,6 @@
     <string name="embedded_picker_sub">Uses Image Toolbox own image picker instead of system predefined ones</string>
     <string name="no_permissions">No Permissions</string>
     <string name="request">Request</string>
+    <string name="pick_multiple_media">Pick Multiple Media</string>
+    <string name="pick_single_media">Pick Single Media</string>
 </resources>

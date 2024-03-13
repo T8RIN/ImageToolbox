@@ -93,16 +93,15 @@ class ImagePicker(
             )
         }
         val galleryAction = {
-            val intent =
-                Intent(
-                    Intent.ACTION_PICK,
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                ).apply {
-                    type = "image/$imageExtension"
-                    if (mode == ImagePickerMode.GalleryMultiple) {
-                        putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                    }
+            val intent = Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            ).apply {
+                type = "image/$imageExtension"
+                if (mode == ImagePickerMode.GalleryMultiple) {
+                    putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                 }
+            }
             getContent.launch(
                 Intent.createChooser(
                     intent,
@@ -111,18 +110,17 @@ class ImagePicker(
             )
         }
         val embeddedAction = {
-            val intent =
-                Intent(
-                    Intent.ACTION_PICK,
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    context,
-                    Class.forName("ru.tech.imageresizershrinker.media_picker.presentation.PickerActivity")
-                ).apply {
-                    type = "image/$imageExtension"
-                    if (mode == ImagePickerMode.EmbeddedMultiple) {
-                        putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                    }
+            val intent = Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                context,
+                MediaPickerActivityClass
+            ).apply {
+                type = "image/$imageExtension"
+                if (mode == ImagePickerMode.EmbeddedMultiple) {
+                    putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                 }
+            }
             getContent.launch(intent)
         }
         val getContentAction = {

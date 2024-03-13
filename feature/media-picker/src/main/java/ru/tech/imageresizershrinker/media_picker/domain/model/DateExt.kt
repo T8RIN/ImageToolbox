@@ -15,14 +15,26 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package ru.tech.imageresizershrinker.media_picker.domain.model
 
-android.namespace = "ru.tech.imageresizershrinker.media_picker"
-dependencies {
-    implementation(projects.core.crash)
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import java.util.Calendar
+import java.util.Locale
+
+@Parcelize
+data class DateExt(
+    val month: String,
+    val day: Int,
+    val year: Int
+) : Parcelable
+
+fun Long.getDateExt(): DateExt {
+    val mediaDate = Calendar.getInstance(Locale.US)
+    mediaDate.timeInMillis = this * 1000L
+    return DateExt(
+        month = mediaDate.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US)!!,
+        day = mediaDate.get(Calendar.DAY_OF_MONTH),
+        year = mediaDate.get(Calendar.YEAR)
+    )
 }
