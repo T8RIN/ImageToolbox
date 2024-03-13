@@ -155,14 +155,14 @@ fun PickerScreen(
                                     verticalAlignment = Alignment.CenterVertically,
                                     modifier = Modifier.padding(horizontal = 16.dp)
                                 ) {
-                                    if (allowSelection) {
-                                        Text(text = "Add (${selectedMedia.size})")
-                                    } else Text(text = "Add")
-                                    Spacer(modifier = Modifier.width(8.dp))
                                     Icon(
                                         imageVector = Icons.Outlined.TaskAlt,
                                         contentDescription = null
                                     )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    if (allowSelection) {
+                                        Text(text = "Add (${selectedMedia.size})")
+                                    } else Text(text = "Add")
                                 }
                             },
                             containerColor = containerColor,
