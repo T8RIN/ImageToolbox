@@ -87,24 +87,23 @@ fun CropMaskSelection(
 
     val scope = rememberCoroutineScope()
 
-    val maskLauncher =
-        rememberImagePicker(
-            mode = localImagePickerMode(Picker.Single)
-        ) { uris ->
-            uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
-                scope.launch {
-                    loadImage(it)?.let {
-                        onCropMaskChange(
-                            outlineProperties.last().run {
-                                copy(
-                                    cropOutline = (cropOutline as ImageMaskOutline).copy(image = it)
-                                )
-                            }
-                        )
-                    }
+    val maskLauncher = rememberImagePicker(
+        mode = localImagePickerMode(Picker.Single)
+    ) { uris ->
+        uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
+            scope.launch {
+                loadImage(it)?.let {
+                    onCropMaskChange(
+                        outlineProperties.last().run {
+                            copy(
+                                cropOutline = (cropOutline as ImageMaskOutline).copy(image = it)
+                            )
+                        }
+                    )
                 }
             }
         }
+    }
 
 
     Column(
@@ -176,13 +175,14 @@ fun CropMaskSelection(
             visible = selectedItem.cropOutline.id == 1 || selectedItem.cropOutline.id == 2,
             modifier = Modifier
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-            shape = RoundedCornerShape(24.dp),
+            shape = RoundedCornerShape(16.dp),
             value = cornerRadius,
             title = stringResource(R.string.radius),
             icon = null,
             internalStateTransformation = {
                 it.roundToInt()
             },
+            color = MaterialTheme.colorScheme.surface,
             onValueChange = {
                 cornerRadius = it.roundToInt()
                 if (selectedItem.cropOutline is CutCornerCropShape) {
@@ -220,7 +220,9 @@ fun CropMaskSelection(
             valueRange = 0f..50f,
             steps = 50
         )
-        AnimatedVisibility(selectedItem.cropOutline.title == OutlineType.ImageMask.name) {
+        AnimatedVisibility(
+            selectedItem.cropOutline.title == OutlineType.ImageMask.name
+        ) {
             Column(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
