@@ -397,8 +397,8 @@ internal fun MainScreenContent(
 
                     AnimatedContent(
                         modifier = Modifier
-                            .weight(1f),
-                        //.horizontalScroll(rememberScrollState()),
+                            .weight(1f)
+                            .widthIn(min = 1.dp),
                         targetState = currentScreenList.isNotEmpty(),
                         transitionSpec = {
                             fadeIn() togetherWith fadeOut()
