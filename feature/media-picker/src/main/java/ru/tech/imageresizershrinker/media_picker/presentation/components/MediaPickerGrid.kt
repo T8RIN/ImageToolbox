@@ -52,7 +52,7 @@ import ru.tech.imageresizershrinker.media_picker.domain.model.MediaState
 import ru.tech.imageresizershrinker.media_picker.domain.model.isHeaderKey
 
 @Composable
-fun PickerMediaScreen(
+fun MediaPickerGrid(
     state: MediaState,
     selectedMedia: SnapshotStateList<Media>,
     allowSelection: Boolean,
@@ -116,7 +116,8 @@ fun PickerMediaScreen(
                         date = title,
                         showAsBig = item.key.contains("big"),
                         isCheckVisible = isCheckVisible,
-                        isChecked = isChecked
+                        isChecked = isChecked,
+                        modifier = Modifier.animateItemPlacement()
                     ) {
                         if (allowSelection) {
                             hapticFeedback.performHapticFeedback(

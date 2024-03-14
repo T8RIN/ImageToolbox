@@ -37,6 +37,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.twotone.BrokenImage
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -72,18 +74,21 @@ fun MediaImage(
         if (isSelected) 0.5f else 1f, label = "scale"
     )
     val selectedShapeSize by animateDpAsState(
-        if (isSelected) 16.dp else 0.dp, label = "selectedShapeSize"
+        if (isSelected) 16.dp else 4.dp, label = "selectedShapeSize"
     )
     val strokeSize by animateDpAsState(
         targetValue = if (isSelected) 2.dp else 0.dp, label = "strokeSize"
     )
-    val primaryContainerColor = MaterialTheme.colorScheme.primaryContainer
     val strokeColor by animateColorAsState(
-        targetValue = if (isSelected) primaryContainerColor else Color.Transparent,
+        targetValue = if (isSelected) {
+            MaterialTheme.colorScheme.primaryContainer
+        } else Color.Transparent,
         label = "strokeColor"
     )
     Box(
         modifier = modifier
+            .clip(RoundedCornerShape(4.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer)
             .combinedClickable(
                 enabled = canClick,
                 onClick = {
@@ -117,6 +122,17 @@ fun MediaImage(
                 model = media.uri,
                 contentDescription = media.label,
                 contentScale = ContentScale.Crop,
+                error = {
+                    Box(
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.TwoTone.BrokenImage,
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxSize(0.5f)
+                        )
+                    }
+                }
             )
         }
 

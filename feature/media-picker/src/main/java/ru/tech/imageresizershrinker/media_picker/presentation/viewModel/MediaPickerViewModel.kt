@@ -30,7 +30,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -44,6 +43,7 @@ import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.media_picker.data.utils.DateExt
 import ru.tech.imageresizershrinker.media_picker.data.utils.getDate
 import ru.tech.imageresizershrinker.media_picker.data.utils.getDateExt
@@ -69,6 +69,9 @@ class MediaPickerViewModel @Inject constructor(
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
     val settingsState: SettingsState by _settingsState
+
+    private val _isMediaLoading = mutableStateOf(false)
+    val isMediaLoading by _isMediaLoading
 
     val selectedMedia = mutableStateListOf<Media>()
 
@@ -139,8 +142,7 @@ class MediaPickerViewModel @Inject constructor(
     ) {
         mediaGettingJob?.cancel()
         mediaGettingJob = viewModelScope.launch(dispatcher) {
-            delay(200L)
-            _mediaState.emit(MediaState())
+            _isMediaLoading.update { true }
             mediaRepository.mediaFlowWithType(albumId, allowedMedia)
                 .flowOn(dispatcher)
                 .collectLatest { result ->
@@ -158,6 +160,7 @@ class MediaPickerViewModel @Inject constructor(
                         return@collectLatest _mediaState.emit(MediaState(isLoading = false))
                     }
                     _mediaState.collectMedia(data, error, albumId)
+                    _isMediaLoading.update { false }
                 }
         }
     }

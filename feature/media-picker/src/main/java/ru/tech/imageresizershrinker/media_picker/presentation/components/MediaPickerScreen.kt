@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.media_picker.presentation.components
 
 import android.net.Uri
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.slideInVertically
@@ -58,6 +57,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -69,6 +69,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButtonType
+import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.media_picker.presentation.viewModel.MediaPickerViewModel
@@ -131,108 +132,111 @@ fun MediaPickerScreen(
                 }
             }
         }
-        AnimatedContent(
-            targetState = mediaState.media.isNotEmpty(),
+        Box(
             modifier = Modifier.weight(1f)
-        ) { haveData ->
-            if (haveData) {
-                Box(
-                    modifier = Modifier.fillMaxSize()
+        ) {
+            Box(
+                modifier = Modifier.fillMaxSize(1f)
+            ) {
+                val isButtonVisible = !allowSelection || selectedMedia.isNotEmpty()
+                MediaPickerGrid(
+                    state = mediaState,
+                    selectedMedia = selectedMedia,
+                    allowSelection = allowSelection,
+                    isButtonVisible = isButtonVisible
+                )
+                BoxAnimatedVisibility(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(16.dp)
+                        .safeDrawingPadding(),
+                    visible = isButtonVisible,
+                    enter = slideInVertically { it * 2 },
+                    exit = slideOutVertically { it * 2 }
                 ) {
-                    val isButtonVisible = !allowSelection || selectedMedia.isNotEmpty()
-                    PickerMediaScreen(
-                        state = mediaState,
-                        selectedMedia = selectedMedia,
-                        allowSelection = allowSelection,
-                        isButtonVisible = isButtonVisible
+                    val enabled = selectedMedia.isNotEmpty()
+                    val containerColor by animateColorAsState(
+                        targetValue = if (enabled) {
+                            MaterialTheme.colorScheme.primaryContainer
+                        } else MaterialTheme.colorScheme.surfaceVariant
                     )
-                    androidx.compose.animation.AnimatedVisibility(
-                        modifier = Modifier
-                            .align(Alignment.BottomEnd)
-                            .padding(16.dp)
-                            .safeDrawingPadding(),
-                        visible = isButtonVisible,
-                        enter = slideInVertically { it * 2 },
-                        exit = slideOutVertically { it * 2 }
+                    val contentColor by animateColorAsState(
+                        targetValue = if (enabled) {
+                            MaterialTheme.colorScheme.onPrimaryContainer
+                        } else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Column(
+                        horizontalAlignment = Alignment.End
                     ) {
-                        val enabled = selectedMedia.isNotEmpty()
-                        val containerColor by animateColorAsState(
-                            targetValue = if (enabled) {
-                                MaterialTheme.colorScheme.primaryContainer
-                            } else MaterialTheme.colorScheme.surfaceVariant
-                        )
-                        val contentColor by animateColorAsState(
-                            targetValue = if (enabled) {
-                                MaterialTheme.colorScheme.onPrimaryContainer
-                            } else MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Column(
-                            horizontalAlignment = Alignment.End
-                        ) {
-                            AnimatedVisibility(visible = selectedMedia.isNotEmpty()) {
-                                EnhancedFloatingActionButton(
-                                    type = EnhancedFloatingActionButtonType.Small,
-                                    onClick = selectedMedia::clear,
-                                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                                    content = {
-                                        Icon(
-                                            imageVector = Icons.Rounded.Close,
-                                            contentDescription = null
-                                        )
-                                    },
-                                    modifier = Modifier.padding(bottom = 8.dp)
-                                )
-                            }
-                            BadgedBox(
-                                badge = {
-                                    if (selectedMedia.isNotEmpty() && allowSelection) {
-                                        Badge(
-                                            containerColor = MaterialTheme.colorScheme.primary
-                                        ) {
-                                            Text(selectedMedia.size.toString())
-                                        }
+                        AnimatedVisibility(visible = selectedMedia.isNotEmpty()) {
+                            EnhancedFloatingActionButton(
+                                type = EnhancedFloatingActionButtonType.Small,
+                                onClick = selectedMedia::clear,
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                content = {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Close,
+                                        contentDescription = null
+                                    )
+                                },
+                                modifier = Modifier.padding(bottom = 8.dp)
+                            )
+                        }
+                        BadgedBox(
+                            badge = {
+                                if (selectedMedia.isNotEmpty() && allowSelection) {
+                                    Badge(
+                                        containerColor = MaterialTheme.colorScheme.primary
+                                    ) {
+                                        Text(selectedMedia.size.toString())
                                     }
                                 }
-                            ) {
-                                EnhancedFloatingActionButton(
-                                    content = {
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically,
-                                            modifier = Modifier.padding(horizontal = 16.dp)
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Outlined.TaskAlt,
-                                                contentDescription = null
-                                            )
-                                            Spacer(modifier = Modifier.width(8.dp))
-                                            Text(stringResource(R.string.pick))
-                                        }
-                                    },
-                                    containerColor = containerColor,
-                                    contentColor = contentColor,
-                                    onClick = {
-                                        if (enabled) {
-                                            scope.launch {
-                                                sendMediaAsResult(selectedMedia.map { it.uri.toUri() })
-                                            }
-                                        }
-                                    },
-                                    modifier = Modifier
-                                        .semantics {
-                                            contentDescription = "Add media"
-                                        }
-                                )
                             }
-                        }
-                        BackHandler(selectedMedia.isNotEmpty()) {
-                            selectedMedia.clear()
+                        ) {
+                            EnhancedFloatingActionButton(
+                                content = {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier.padding(horizontal = 16.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Outlined.TaskAlt,
+                                            contentDescription = null
+                                        )
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        Text(stringResource(R.string.pick))
+                                    }
+                                },
+                                containerColor = containerColor,
+                                contentColor = contentColor,
+                                onClick = {
+                                    if (enabled) {
+                                        scope.launch {
+                                            sendMediaAsResult(selectedMedia.map { it.uri.toUri() })
+                                        }
+                                    }
+                                },
+                                modifier = Modifier
+                                    .semantics {
+                                        contentDescription = "Add media"
+                                    }
+                            )
                         }
                     }
+                    BackHandler(selectedMedia.isNotEmpty()) {
+                        selectedMedia.clear()
+                    }
                 }
-            } else {
+            }
+            BoxAnimatedVisibility(
+                visible = viewModel.isMediaLoading || mediaState.media.isEmpty(),
+                modifier = Modifier.fillMaxSize()
+            ) {
                 Box(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(0.33f)),
                     contentAlignment = Alignment.Center
                 ) {
                     Loading()
