@@ -21,6 +21,10 @@ import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
@@ -229,14 +233,23 @@ fun MediaPickerScreen(
                     }
                 }
             }
+            val visible = viewModel.isMediaLoading || mediaState.media.isEmpty()
+
+            val backgroundColor by animateColorAsState(
+                Color.Black.copy(
+                    if (visible) 0.5f else 0f
+                )
+            )
             BoxAnimatedVisibility(
-                visible = viewModel.isMediaLoading || mediaState.media.isEmpty(),
-                modifier = Modifier.fillMaxSize()
+                visible = visible,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(backgroundColor),
+                enter = scaleIn() + fadeIn(),
+                exit = scaleOut() + fadeOut()
             ) {
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Black.copy(0.33f)),
+                    modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
                     Loading()
