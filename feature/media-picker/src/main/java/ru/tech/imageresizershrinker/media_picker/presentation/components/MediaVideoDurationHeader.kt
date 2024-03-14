@@ -38,11 +38,11 @@ import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.media_picker.data.utils.formatMinSec
 import ru.tech.imageresizershrinker.media_picker.domain.model.Media
-import ru.tech.imageresizershrinker.media_picker.domain.model.formatMinSec
 
 @Composable
-fun VideoDurationHeader(
+fun MediaVideoDurationHeader(
     modifier: Modifier = Modifier,
     media: Media
 ) {

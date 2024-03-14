@@ -64,6 +64,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
@@ -213,7 +214,7 @@ fun MediaPickerScreen(
                                     onClick = {
                                         if (enabled) {
                                             scope.launch {
-                                                sendMediaAsResult(selectedMedia.map { it.uri })
+                                                sendMediaAsResult(selectedMedia.map { it.uri.toUri() })
                                             }
                                         }
                                     },

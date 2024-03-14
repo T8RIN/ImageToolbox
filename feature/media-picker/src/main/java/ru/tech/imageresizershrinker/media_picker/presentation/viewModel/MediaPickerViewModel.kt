@@ -17,7 +17,6 @@
 package ru.tech.imageresizershrinker.media_picker.presentation.viewModel
 
 import android.graphics.Bitmap
-import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -45,18 +44,18 @@ import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
+import ru.tech.imageresizershrinker.media_picker.data.utils.DateExt
+import ru.tech.imageresizershrinker.media_picker.data.utils.getDate
+import ru.tech.imageresizershrinker.media_picker.data.utils.getDateExt
+import ru.tech.imageresizershrinker.media_picker.data.utils.getDateHeader
+import ru.tech.imageresizershrinker.media_picker.data.utils.getMonth
 import ru.tech.imageresizershrinker.media_picker.domain.MediaRepository
 import ru.tech.imageresizershrinker.media_picker.domain.model.Album
 import ru.tech.imageresizershrinker.media_picker.domain.model.AlbumState
 import ru.tech.imageresizershrinker.media_picker.domain.model.AllowedMedia
-import ru.tech.imageresizershrinker.media_picker.domain.model.DateExt
 import ru.tech.imageresizershrinker.media_picker.domain.model.Media
 import ru.tech.imageresizershrinker.media_picker.domain.model.MediaItem
 import ru.tech.imageresizershrinker.media_picker.domain.model.MediaState
-import ru.tech.imageresizershrinker.media_picker.domain.model.getDate
-import ru.tech.imageresizershrinker.media_picker.domain.model.getDateExt
-import ru.tech.imageresizershrinker.media_picker.domain.model.getDateHeader
-import ru.tech.imageresizershrinker.media_picker.domain.model.getMonth
 import javax.inject.Inject
 
 @HiltViewModel
@@ -101,7 +100,7 @@ class MediaPickerViewModel @Inject constructor(
     private val emptyAlbum = Album(
         id = -1,
         label = "All",
-        uri = Uri.EMPTY,
+        uri = "",
         pathToThumbnail = "",
         timestamp = 0,
         relativePath = ""
@@ -149,7 +148,7 @@ class MediaPickerViewModel @Inject constructor(
                         if (allowedMedia is AllowedMedia.Photos) {
                             val ext = allowedMedia.ext
                             if (ext != null && ext != "*") {
-                                it.uri.toString().endsWith(ext)
+                                it.uri.endsWith(ext)
                             } else true
                         } else true
                     } ?: emptyList()
@@ -179,14 +178,10 @@ class MediaPickerViewModel @Inject constructor(
                 if (groupByMonth) {
                     it.timestamp.getMonth()
                 } else {
+                    /** Localized in composition */
                     it.timestamp.getDate(
-                        stringToday = "Today"
-                        /** Localized in composition */
-                        /** Localized in composition */
-                        ,
+                        stringToday = "Today",
                         stringYesterday = "Yesterday"
-                        /** Localized in composition */
-                        /** Localized in composition */
                     )
                 }
             }

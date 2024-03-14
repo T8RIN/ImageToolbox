@@ -47,7 +47,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -66,12 +65,11 @@ import ru.tech.imageresizershrinker.media_picker.presentation.MediaPickerActivit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MediaPickerRoot(
+internal fun MediaPickerActivity.MediaPickerRoot(
     title: String,
     allowedMedia: AllowedMedia,
     allowMultiple: Boolean,
 ) {
-    val context = LocalContext.current as MediaPickerActivity
     var permissionAllowed by remember {
         mutableStateOf(true)
     }
@@ -84,10 +82,10 @@ internal fun MediaPickerRoot(
     ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val permission = Manifest.permission.READ_MEDIA_IMAGES
-            permissionAllowed = context.hasPermissionAllowed(permission)
-            if (!context.hasPermissionAllowed(permission)) {
+            permissionAllowed = hasPermissionAllowed(permission)
+            if (!hasPermissionAllowed(permission)) {
                 ActivityCompat.requestPermissions(
-                    context,
+                    this@MediaPickerRoot,
                     arrayOf(permission),
                     0
                 )
@@ -104,12 +102,12 @@ internal fun MediaPickerRoot(
                 },
                 navigationIcon = {
                     EnhancedIconButton(
-                        onClick = context::finish,
+                        onClick = ::finish,
                         containerColor = Color.Transparent
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                            contentDescription = context.getString(R.string.close)
+                            contentDescription = getString(R.string.close)
                         )
                     }
                 },
@@ -135,11 +133,11 @@ internal fun MediaPickerRoot(
                     MediaPickerScreen(
                         allowedMedia = allowedMedia,
                         allowSelection = allowMultiple,
-                        viewModel = context.viewModel,
-                        sendMediaAsResult = context::sendMediaAsResult
+                        viewModel = viewModel,
+                        sendMediaAsResult = ::sendMediaAsResult
                     )
                     LaunchedEffect(Unit) {
-                        context.viewModel.init(allowedMedia = allowedMedia)
+                        viewModel.init(allowedMedia = allowedMedia)
                     }
                 }
             } else {
@@ -163,7 +161,7 @@ internal fun MediaPickerRoot(
                     EnhancedButton(
                         onClick = {
                             ActivityCompat.requestPermissions(
-                                context,
+                                this@MediaPickerRoot,
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                                     arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
                                 } else arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),

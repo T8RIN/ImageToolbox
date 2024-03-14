@@ -126,7 +126,7 @@ fun MediaImage(
             exit = fadeOut(),
             modifier = Modifier.align(Alignment.TopEnd)
         ) {
-            VideoDurationHeader(
+            MediaVideoDurationHeader(
                 modifier = Modifier
                     .padding(selectedSize / 2)
                     .scale(scale),

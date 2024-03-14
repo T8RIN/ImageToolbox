@@ -39,7 +39,6 @@ import ru.tech.imageresizershrinker.media_picker.domain.model.FULL_DATE_FORMAT
 import ru.tech.imageresizershrinker.media_picker.domain.model.Media
 import ru.tech.imageresizershrinker.media_picker.domain.model.MediaOrder
 import ru.tech.imageresizershrinker.media_picker.domain.model.OrderType
-import ru.tech.imageresizershrinker.media_picker.domain.model.getDate
 
 private var observerJob: Job? = null
 
@@ -136,7 +135,7 @@ fun Cursor.getMediaFromCursor(): Media {
     return Media(
         id = id,
         label = title,
-        uri = uri,
+        uri = uri.toString(),
         path = path,
         relativePath = relativePath,
         albumID = albumID,

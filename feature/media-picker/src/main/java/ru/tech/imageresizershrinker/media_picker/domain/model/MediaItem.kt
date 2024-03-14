@@ -16,25 +16,16 @@
  */
 package ru.tech.imageresizershrinker.media_picker.domain.model
 
-import android.os.Parcelable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
-import kotlinx.parcelize.Parcelize
+sealed class MediaItem {
 
-@Parcelize
-@Immutable
-sealed class MediaItem : Parcelable {
-    @Stable
     abstract val key: String
 
-    @Immutable
     data class Header(
         override val key: String,
         val text: String,
         val data: List<Media>
     ) : MediaItem()
 
-    @Immutable
     data class MediaViewItem(
         override val key: String,
         val media: Media
