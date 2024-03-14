@@ -65,6 +65,7 @@ fun ResetSettingsSettingItem(
             onReset()
         },
         title = stringResource(R.string.reset),
-        text = stringResource(R.string.reset_settings_sub)
+        text = stringResource(R.string.reset_settings_sub),
+        icon = Icons.Rounded.RestartAlt
     )
 }

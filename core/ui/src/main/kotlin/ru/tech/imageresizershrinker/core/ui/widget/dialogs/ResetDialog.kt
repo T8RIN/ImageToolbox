@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.dialogs
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DoneOutline
-import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -27,10 +26,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.icons.material.ImageReset
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
@@ -41,7 +42,8 @@ fun ResetDialog(
     onDismiss: () -> Unit,
     onReset: () -> Unit,
     title: String = stringResource(R.string.reset_image),
-    text: String = stringResource(R.string.reset_image_sub)
+    text: String = stringResource(R.string.reset_image_sub),
+    icon: ImageVector = Icons.Rounded.ImageReset
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -50,7 +52,12 @@ fun ResetDialog(
     if (visible) {
         AlertDialog(
             modifier = Modifier.alertDialogBorder(),
-            icon = { Icon(Icons.Rounded.RestartAlt, null) },
+            icon = {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = title
+                )
+            },
             title = { Text(title) },
             text = { Text(text) },
             onDismissRequest = onDismiss,
