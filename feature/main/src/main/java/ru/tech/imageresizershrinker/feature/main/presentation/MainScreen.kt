@@ -188,6 +188,7 @@ fun MainScreen(
         val snowFallList = Screen.entries.mapNotNull { screen ->
             screen.icon?.let { rememberVectorPainter(image = it) }
         }
+        val color = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.5f)
         AnimatedVisibility(
             visible = showSnowfall,
             modifier = Modifier
@@ -200,7 +201,7 @@ fun MainScreen(
                     .fillMaxSize()
                     .snowfall(
                         type = FlakeType.Custom(snowFallList),
-                        color = MaterialTheme.colorScheme.onSurface.copy(0.5f)
+                        color = color
                     )
             )
             LaunchedEffect(showSnowfall) {
