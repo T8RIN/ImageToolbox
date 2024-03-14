@@ -842,4 +842,20 @@
     <string name="lanczos_bessel_sub">Resampling-Methode, die durch Anwendung einer Bessel Funktion auf die Pixel-Werte eine hochqualitative Interpolation gewährleistet</string>
     <string name="compression_type">Komprimierungstyp</string>
     <string name="speed_sub">Einstellungen für die Geschwindigkeit der Bild-Dekodierung, dies sollte helfen, das entsprechende Bild schneller zu öffnen, ein Wert von %1$d entspricht dem langsamsten Dekodieren, ein Wert von %2$d dem schnellsten, diese Einstellung kann die Größe der Bilddatei erhöhen</string>
+    <string name="pick_multiple_media">Wähle mehrere Medien</string>
+    <string name="pick_single_media">Wähle einzelnes Medium</string>
+    <string name="pick_formatted">Wähle (%d)</string>
+    <string name="pick">Wähle</string>
+    <string name="header_today">Heute</string>
+    <string name="header_yesterday">Gestern</string>
+    <string name="embedded_picker_sub">Benutzt ImageToolbox eigene Bildauswahl anstelle der Systembildauswahl</string>
+    <string name="no_permissions">Keine Berechtigungen</string>
+    <string name="channels_configuration">Kanal-Konfiguration</string>
+    <string name="embedded_picker">Integrierte Auswahl</string>
+    <string name="request">Anfrage</string>
+    <string name="sorting">Sortierung</string>
+    <string name="sort_by_date">Nach Datum sortieren</string>
+    <string name="sort_by_date_reversed">Nach Datum sortieren (umgekehrt)</string>
+    <string name="sort_by_name">Nach Name sortieren</string>
+    <string name="sort_by_name_reversed">Nach Name sortieren (umgekehrt)</string>
 </resources>
