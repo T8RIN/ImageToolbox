@@ -384,12 +384,14 @@ or click one of the badges below.
   - Picking color from image
   - Gradient creation
   - Overlaying image with gradient
+- Image source selection
 - Additional Features
   - Rotating
   - Flipping
   - Previewing SVG, GIF and mostly all types of images
   - Saving to any specific folder
   - Randomizing output filename
+  - Embedded media picker
   
 **And More!**
 
@@ -399,7 +401,7 @@ or click one of the badges below.
 
 # 🌟 UI tweaks
 
-- Selectiong Emoji for top app bar
+- Selecting Emoji for top app bar
 - Ability to use Pixel like switch instead of Material You
 - Secure Mode for app
 - Maximum brightness for selected screens
