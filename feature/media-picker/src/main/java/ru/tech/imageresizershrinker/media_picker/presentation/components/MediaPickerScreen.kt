@@ -237,7 +237,7 @@ fun MediaPickerScreen(
 
             val backgroundColor by animateColorAsState(
                 Color.Black.copy(
-                    if (visible) 0.5f else 0f
+                    if (viewModel.isMediaLoading && mediaState.media.isNotEmpty()) 0.5f else 0f
                 )
             )
             BoxAnimatedVisibility(

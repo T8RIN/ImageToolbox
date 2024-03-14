@@ -106,14 +106,21 @@ fun MediaImage(
                 .aspectRatio(1f)
                 .padding(selectedSize)
                 .clip(RoundedCornerShape(selectedShapeSize))
-                .background(
-                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    shape = RoundedCornerShape(selectedShapeSize)
-                )
                 .border(
                     width = strokeSize,
                     shape = RoundedCornerShape(selectedShapeSize),
                     color = strokeColor
+                )
+                .then(
+                    if (isSelected) {
+                        Modifier.clip(
+                            RoundedCornerShape(selectedShapeSize + 2.dp)
+                        )
+                    } else Modifier
+                )
+                .background(
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    shape = RoundedCornerShape(selectedShapeSize)
                 )
         ) {
             Picture(
