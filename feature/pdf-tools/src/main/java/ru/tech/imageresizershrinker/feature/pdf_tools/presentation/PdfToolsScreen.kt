@@ -373,24 +373,6 @@ fun PdfToolsScreen(
                 )
             }
         }
-        AnimatedVisibility(
-            visible = pdfType is Screen.PdfTools.Type.PdfToImages,
-            enter = fadeIn() + scaleIn() + expandHorizontally(),
-            exit = fadeOut() + scaleOut() + shrinkHorizontally()
-        ) {
-            EnhancedIconButton(
-                containerColor = Color.Transparent,
-                contentColor = LocalContentColor.current,
-                enableAutoShadowAndBorder = false,
-                onClick = {
-                    selectAllToggle.value = true
-                },
-                enabled = pdfType != null
-            ) {
-                Icon(Icons.Outlined.SelectAll, null)
-            }
-        }
-
     }
 
     val buttons: @Composable (pdfType: Screen.PdfTools.Type?) -> Unit = {
@@ -619,6 +601,23 @@ fun PdfToolsScreen(
                             ) {
                                 derivedStateOf {
                                     (pagesSize != 0 && viewModel.pdfType is Screen.PdfTools.Type.PdfToImages)
+                                }
+                            }
+                            AnimatedVisibility(
+                                visible = viewModel.pdfType is Screen.PdfTools.Type.PdfToImages,
+                                enter = fadeIn() + scaleIn() + expandHorizontally(),
+                                exit = fadeOut() + scaleOut() + shrinkHorizontally()
+                            ) {
+                                EnhancedIconButton(
+                                    containerColor = Color.Transparent,
+                                    contentColor = LocalContentColor.current,
+                                    enableAutoShadowAndBorder = false,
+                                    onClick = {
+                                        selectAllToggle.value = true
+                                    },
+                                    enabled = viewModel.pdfType != null
+                                ) {
+                                    Icon(Icons.Outlined.SelectAll, null)
                                 }
                             }
                             AnimatedVisibility(
