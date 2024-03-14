@@ -565,32 +565,7 @@ sealed class Screen(
             )
         }
         val entries by lazy {
-            listOf(
-                SingleEdit(),
-                ResizeAndConvert(),
-                ResizeByBytes(),
-                Crop(),
-                Filter(),
-                Draw(),
-                Cipher(),
-                EraseBackground(),
-                ImageStitching(),
-                PdfTools(),
-                RecognizeText(),
-                Watermarking(),
-                GifTools(),
-                ApngTools(),
-                JxlTools(),
-                ImagePreview(),
-                LoadNetImage(),
-                PickColorFromImage(),
-                GeneratePalette(),
-                DeleteExif(),
-                GradientMaker(),
-                Zip(),
-                Compare(),
-                LimitResize()
-            )
+            typedEntries.flatMap { it.first }.sortedBy { it.id }
         }
 
         const val FEATURES_COUNT = 37
