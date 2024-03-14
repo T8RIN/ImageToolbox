@@ -396,6 +396,9 @@ internal fun MainScreenContent(
                     } else PaddingValues()
 
                     AnimatedContent(
+                        modifier = Modifier
+                            .weight(1f),
+                        //.horizontalScroll(rememberScrollState()),
                         targetState = currentScreenList.isNotEmpty(),
                         transitionSpec = {
                             fadeIn() togetherWith fadeOut()
@@ -403,7 +406,7 @@ internal fun MainScreenContent(
                     ) { hasScreens ->
                         if (hasScreens) {
                             Box(
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.fillMaxSize()
                             ) {
                                 val clipboardData by rememberClipboardData()
                                 val allowAutoPaste = settingsState.allowAutoClipboardPaste

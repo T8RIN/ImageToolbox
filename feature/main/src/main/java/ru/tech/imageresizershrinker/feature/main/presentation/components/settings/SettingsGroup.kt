@@ -25,7 +25,6 @@ import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Explore
 import androidx.compose.material.icons.rounded.Face6
 import androidx.compose.material.icons.rounded.FitScreen
-import androidx.compose.material.icons.rounded.ImageSearch
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.IntegrationInstructions
 import androidx.compose.material.icons.rounded.Palette
@@ -42,6 +41,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.icons.material.Exif
 import ru.tech.imageresizershrinker.core.ui.icons.material.Firebase
 import ru.tech.imageresizershrinker.core.ui.icons.material.FolderOpen
+import ru.tech.imageresizershrinker.core.ui.icons.material.ImageSearch
 import ru.tech.imageresizershrinker.core.ui.icons.material.LabelPercent
 import ru.tech.imageresizershrinker.core.ui.icons.material.Shadow
 import ru.tech.imageresizershrinker.core.ui.icons.material.Stacks

@@ -23,11 +23,13 @@ import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.BrandingWatermark
 import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.FilterHdr
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.material.icons.outlined.Colorize
 import androidx.compose.material.icons.outlined.Draw
+import androidx.compose.material.icons.outlined.FilterHdr
 import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
 import androidx.compose.material.icons.outlined.Photo
@@ -52,13 +54,13 @@ import ru.tech.imageresizershrinker.core.ui.icons.material.ImageCombine
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageDownload
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageLimit
+import ru.tech.imageresizershrinker.core.ui.icons.material.ImageSync
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageText
 import ru.tech.imageresizershrinker.core.ui.icons.material.ImageWeight
 import ru.tech.imageresizershrinker.core.ui.icons.material.Jpg
 import ru.tech.imageresizershrinker.core.ui.icons.material.Jxl
 import ru.tech.imageresizershrinker.core.ui.icons.material.MultipleImageEdit
 import ru.tech.imageresizershrinker.core.ui.icons.material.PaletteSwatch
-import ru.tech.imageresizershrinker.core.ui.icons.material.Resize
 import ru.tech.imageresizershrinker.core.ui.icons.material.Toolbox
 import ru.tech.imageresizershrinker.core.ui.icons.material.Transparency
 
@@ -520,8 +522,8 @@ sealed class Screen(
                     LimitResize(),
                 ) to Triple(
                     R.string.edit,
-                    Icons.Filled.Resize,
-                    Icons.Outlined.Resize
+                    Icons.Rounded.ImageSync,
+                    Icons.Outlined.ImageSync
                 ),
                 listOf(
                     Filter(),
@@ -530,9 +532,7 @@ sealed class Screen(
                     ImageStitching(),
                     Watermarking(),
                     GradientMaker(),
-                    Cipher(),
-                    Zip(),
-                    DeleteExif()
+                    DeleteExif(),
                 ) to Triple(
                     R.string.create,
                     Icons.Filled.AutoAwesome,
@@ -541,14 +541,22 @@ sealed class Screen(
                 listOf(
                     PickColorFromImage(),
                     RecognizeText(),
-                    PdfTools(),
                     Compare(),
-                    GifTools(),
                     ImagePreview(),
                     GeneratePalette(),
+                    LoadNetImage(),
+                ) to Triple(
+                    R.string.image,
+                    Icons.Filled.FilterHdr,
+                    Icons.Outlined.FilterHdr
+                ),
+                listOf(
+                    PdfTools(),
+                    GifTools(),
                     JxlTools(),
                     ApngTools(),
-                    LoadNetImage(),
+                    Cipher(),
+                    Zip()
                 ) to Triple(
                     R.string.tools,
                     Icons.Rounded.Toolbox,
