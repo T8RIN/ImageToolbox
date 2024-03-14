@@ -847,4 +847,15 @@
     <string name="sort_by_date_reversed">按日期排序（反向）</string>
     <string name="sort_by_name">按名称排序</string>
     <string name="sort_by_name_reversed">按名称排序（反向）</string>
+    <string name="pick_multiple_media">选择多种媒体</string>
+    <string name="pick">选取</string>
+    <string name="pick_single_media">选择单一媒体</string>
+    <string name="pick_formatted">选取 (%d)</string>
+    <string name="channels_configuration">通道配置</string>
+    <string name="header_today">今日</string>
+    <string name="header_yesterday">昨日</string>
+    <string name="embedded_picker">嵌入式选取器</string>
+    <string name="embedded_picker_sub">使用 Image Toolbox 自带的图像拾取器，而不是系统预定义的图像拾取器</string>
+    <string name="no_permissions">未获许可</string>
+    <string name="request">请求</string>
 </resources>
