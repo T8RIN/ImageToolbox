@@ -847,4 +847,14 @@
     <string name="sorting">छँटाई</string>
     <string name="sort_by_date_reversed">तिथि से क्रमबद्ध (उलटा)</string>
     <string name="sort_by_date">तिथि से क्रमबद्ध</string>
+    <string name="channels_configuration">चैनल कॉन्फ़िगरेशन</string>
+    <string name="header_today">आज</string>
+    <string name="embedded_picker">एंबेडेड पिकर</string>
+    <string name="header_yesterday">कल</string>
+    <string name="embedded_picker_sub">सिस्टम द्वारा पूर्वनिर्धारित इमेज पिकर के बजाय इमेज टूलबॉक्स के स्वयं के इमेज पिकर का उपयोग करता है</string>
+    <string name="request">अनुरोध</string>
+    <string name="pick_multiple_media">एकाधिक मीडिया चुनें</string>
+    <string name="pick_single_media">एकल मीडिया चुनें</string>
+    <string name="pick">चुनें</string>
+    <string name="no_permissions">आज्ञा नहीं है</string>
 </resources>

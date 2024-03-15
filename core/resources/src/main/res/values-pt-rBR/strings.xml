@@ -14,7 +14,7 @@
     <string name="flexible">Flexível</string>
     <string name="pick_image_alt">Escolha a imagem</string>
     <string name="app_closing_sub">Você deseja fechar o aplicativo?</string>
-    <string name="app_closing">Fechamento do aplicativo</string>
+    <string name="app_closing">Fechar aplicativo</string>
     <string name="stay">Ficar</string>
     <string name="close">Fechar</string>
     <string name="reset_image">Redefinir imagem</string>
@@ -834,11 +834,11 @@
     <string name="behavior">Comportamento</string>
     <string name="skip_file_picking">Pular seleção de arquivos</string>
     <string name="skip_file_picking_sub">O seletor de arquivos será mostrado imediatamente se for possível na tela escolhida</string>
-    <string name="generate_previews">Gerar Pré-visualizações</string>
+    <string name="generate_previews">Gerar visualizações</string>
     <string name="lossy_compression">Compressão com perda</string>
     <string name="lanczos_bessel_sub">Método de reamostragem que mantém interpolação de alta qualidade aplicando uma função Bessel (jinc) aos valores de pixel</string>
     <string name="lossy_compression_sub">Usa compactação \"com perdas\" para reduzir o tamanho do arquivo em vez de \"sem perdas\"</string>
-    <string name="generate_previews_sub">Ativa a geração de pré-visualização, o que pode ajudar a evitar travamentos em alguns dispositivos e também desativa algumas funcionalidades de edição na opção de edição única</string>
+    <string name="generate_previews_sub">Ativa a geração de visualização, o que pode ajudar a evitar travamentos em alguns dispositivos e também desativa algumas funcionalidades de edição na opção de edição única</string>
     <string name="compression_type">Tipo de compressão</string>
     <string name="speed_sub">Controla a velocidade de decodificação da imagem resultante, o que deve ajudar a abrir a imagem resultante mais rapidamente, o valor de %1$d significa a decodificação mais lenta, enquanto %2$d - a mais rápida, essa configuração pode aumentar o tamanho da imagem de saída</string>
     <string name="sort_by_date">Classificar por data</string>
@@ -846,4 +846,14 @@
     <string name="sort_by_name">Classificar por nome</string>
     <string name="sort_by_name_reversed">Classificar por nome (invertido)</string>
     <string name="sorting">Ordenação</string>
+    <string name="channels_configuration">Configuração de canais</string>
+    <string name="header_yesterday">Ontem</string>
+    <string name="embedded_picker">Seletor incorporado</string>
+    <string name="pick">Escolha</string>
+    <string name="pick_multiple_media">Escolha várias mídias</string>
+    <string name="pick_single_media">Escolha uma mídia única</string>
+    <string name="embedded_picker_sub">Usa o próprio seletor de imagens do \"Image Toolbox\" em vez dos predefinidos pelo sistema</string>
+    <string name="no_permissions">Nenhuma permissão</string>
+    <string name="request">Solicitação</string>
+    <string name="header_today">Hoje</string>
 </resources>
