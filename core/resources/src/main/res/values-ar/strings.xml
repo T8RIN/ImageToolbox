@@ -855,7 +855,6 @@
     <string name="no_permissions">لا أذونات</string>
     <string name="request">الطلب</string>
     <string name="pick_multiple_media">اختر وسائط متعددة</string>
-    <string name="pick_formatted">اختيار (%d)</string>
     <string name="pick">اختر</string>
     <string name="pick_single_media">اختر الوسائط المفردة</string>
 </resources>

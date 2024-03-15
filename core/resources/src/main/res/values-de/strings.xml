@@ -844,7 +844,6 @@
     <string name="speed_sub">Einstellungen für die Geschwindigkeit der Bild-Dekodierung, dies sollte helfen, das entsprechende Bild schneller zu öffnen, ein Wert von %1$d entspricht dem langsamsten Dekodieren, ein Wert von %2$d dem schnellsten, diese Einstellung kann die Größe der Bilddatei erhöhen</string>
     <string name="pick_multiple_media">Wähle mehrere Medien</string>
     <string name="pick_single_media">Wähle einzelnes Medium</string>
-    <string name="pick_formatted">Wähle (%d)</string>
     <string name="pick">Wähle</string>
     <string name="header_today">Heute</string>
     <string name="header_yesterday">Gestern</string>

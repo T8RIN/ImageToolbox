@@ -849,7 +849,6 @@
     <string name="channels_configuration">Configuração de canais</string>
     <string name="header_yesterday">Ontem</string>
     <string name="embedded_picker">Seletor incorporado</string>
-    <string name="pick_formatted">Escolha (%d)</string>
     <string name="pick">Escolha</string>
     <string name="pick_multiple_media">Escolha várias mídias</string>
     <string name="pick_single_media">Escolha uma mídia única</string>
