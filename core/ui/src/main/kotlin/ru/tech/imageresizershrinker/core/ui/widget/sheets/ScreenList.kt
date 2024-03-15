@@ -101,6 +101,7 @@ internal fun List<Uri>.screenList(
                 Screen.Filter(
                     type = Screen.Filter.Type.Masking(uris.firstOrNull())
                 ),
+                Screen.ImageStitching(uris),
                 Screen.Watermarking(uris),
                 Screen.GradientMaker(uris),
                 Screen.PdfTools(
@@ -152,7 +153,7 @@ internal fun List<Uri>.screenList(
                     type = Screen.Filter.Type.Basic(uris)
                 )
             ).apply {
-                if (uris.size >= 2) add(Screen.ImageStitching(uris))
+                add(Screen.ImageStitching(uris))
                 add(Screen.PdfTools(Screen.PdfTools.Type.ImagesToPdf(uris)))
                 if (uris.size == 2) add(Screen.Compare(uris))
                 add(Screen.GradientMaker(uris))
