@@ -801,7 +801,7 @@
     <string name="motion_blur">Bewegungsunschärfe</string>
     <string name="apng_type_to_image_sub">Konvertieren Sie die APNG-Datei in einen Bilderstapel</string>
     <string name="apng_type_to_apng_sub">Konvertieren Sie einen Stapel Bilder in eine APNG-Datei</string>
-    <string name="zip">Reißverschluss</string>
+    <string name="zip">Zip</string>
     <string name="zip_sub">Erstellen Sie eine Zip-Datei aus bestimmten Dateien oder Bildern</string>
     <string name="drag_handle_width">Ziehen Sie die Griffbreite</string>
     <string name="rain">Regen</string>
