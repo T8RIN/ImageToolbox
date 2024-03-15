@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.crash
+package ru.tech.imageresizershrinker.core.crash
 
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn

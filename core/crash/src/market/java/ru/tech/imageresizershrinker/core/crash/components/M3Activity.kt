@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.crash.components
+package ru.tech.imageresizershrinker.core.crash.components
 
 import android.content.Context
 import android.content.res.Configuration
@@ -33,10 +33,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import ru.tech.imageresizershrinker.core.crash.CrashActivity
+import ru.tech.imageresizershrinker.core.crash.SettingsStateEntryPoint
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.adjustFontSize
-import ru.tech.imageresizershrinker.crash.CrashActivity
-import ru.tech.imageresizershrinker.crash.SettingsStateEntryPoint
 
 @AndroidEntryPoint
 open class M3Activity : AppCompatActivity() {

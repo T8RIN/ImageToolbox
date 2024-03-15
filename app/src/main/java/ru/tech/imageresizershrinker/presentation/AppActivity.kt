@@ -23,10 +23,10 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olshevski.navigation.reimagined.navigate
+import ru.tech.imageresizershrinker.core.crash.components.M3Activity
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.parseImageFromIntent
 import ru.tech.imageresizershrinker.core.ui.widget.utils.setContentWithWindowSizeClass
-import ru.tech.imageresizershrinker.crash.components.M3Activity
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.presentation.components.AppContent
 import javax.inject.Inject

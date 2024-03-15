@@ -26,6 +26,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalHapticFeedback
 import dagger.hilt.android.AndroidEntryPoint
+import ru.tech.imageresizershrinker.core.crash.components.M3Activity
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.toUiState
@@ -37,7 +38,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostStat
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.rememberConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.customHapticFeedback
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
-import ru.tech.imageresizershrinker.crash.components.M3Activity
 import ru.tech.imageresizershrinker.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.media_picker.presentation.components.MediaPickerRoot
 import ru.tech.imageresizershrinker.media_picker.presentation.viewModel.MediaPickerViewModel

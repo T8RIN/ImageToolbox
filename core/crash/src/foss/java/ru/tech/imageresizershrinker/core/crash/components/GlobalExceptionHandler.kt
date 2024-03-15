@@ -15,17 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.crash.components
+package ru.tech.imageresizershrinker.core.crash.components
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.analytics.logEvent
-import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.ktx.Firebase
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import kotlin.system.exitProcess
 
@@ -40,10 +35,6 @@ class GlobalExceptionHandler<T : CrashHandler> private constructor(
         p0: Thread,
         p1: Throwable
     ) {
-        if (allowCollectCrashlytics) {
-            Firebase.crashlytics.recordException(p1)
-            Firebase.crashlytics.sendUnsentReports()
-        }
         runCatching {
             Log.e(this.toString(), p1.stackTraceToString())
             applicationContext.launchActivity(activityToBeLaunched, p1)
@@ -65,12 +56,6 @@ class GlobalExceptionHandler<T : CrashHandler> private constructor(
 
     companion object {
 
-        var allowCollectCrashlytics: Boolean = false
-            private set
-
-        var allowCollectAnalytics: Boolean = false
-            private set
-
         fun <T : CrashHandler> initialize(
             applicationContext: Context,
             activityToBeLaunched: Class<T>,
@@ -82,24 +67,11 @@ class GlobalExceptionHandler<T : CrashHandler> private constructor(
             )
         )
 
-        fun setAnalyticsCollectionEnabled(value: Boolean) {
-            Firebase.analytics.setAnalyticsCollectionEnabled(value)
-            allowCollectAnalytics = value
-        }
+        fun setAnalyticsCollectionEnabled(value: Boolean) = Unit
 
-        fun setAllowCollectCrashlytics(value: Boolean) {
-            Firebase.crashlytics.setCrashlyticsCollectionEnabled(value)
-            allowCollectCrashlytics = value
-        }
+        fun setAllowCollectCrashlytics(value: Boolean) = Unit
 
-        fun registerScreenOpen(screen: Screen) {
-            if (allowCollectAnalytics) {
-                Log.d("SCREEN_OPEN", screen::class.simpleName.toString())
-                Firebase.analytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT) {
-                    param(FirebaseAnalytics.Param.CONTENT_TYPE, screen::class.simpleName.toString())
-                }
-            }
-        }
+        fun registerScreenOpen(screen: Screen) = Unit
 
     }
 }

@@ -45,6 +45,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
+import ru.tech.imageresizershrinker.core.crash.components.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalEditPresetsState
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
@@ -64,7 +65,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
-import ru.tech.imageresizershrinker.crash.components.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.feature.main.presentation.components.AppExitDialog
 import ru.tech.imageresizershrinker.feature.main.presentation.components.EditPresetsSheet
 import ru.tech.imageresizershrinker.feature.main.presentation.components.FirstLaunchSetupDialog

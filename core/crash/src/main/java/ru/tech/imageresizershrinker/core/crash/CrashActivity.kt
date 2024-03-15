@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.crash
+package ru.tech.imageresizershrinker.core.crash
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -100,7 +100,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
-import ru.tech.imageresizershrinker.crash.components.CrashHandler
+import ru.tech.imageresizershrinker.core.crash.components.CrashHandler
 import javax.inject.Inject
 
 @AndroidEntryPoint
