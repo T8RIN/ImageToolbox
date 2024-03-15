@@ -29,8 +29,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -107,7 +105,7 @@ fun ImageStitchingScreen(
     }
 
     LaunchedEffect(uriState) {
-        uriState?.takeIf { it.size > 1 }?.let { uris ->
+        uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
             viewModel.updateUris(uris)
         }
     }
@@ -125,16 +123,7 @@ fun ImageStitchingScreen(
             mode = localImagePickerMode(Picker.Multiple)
         ) { list ->
             list.takeIf { it.isNotEmpty() }?.let { uris ->
-                if (uris.size < 2) {
-                    scope.launch {
-                        toastHostState.showToast(
-                            message = context.getString(R.string.pick_at_least_two_images),
-                            icon = Icons.Rounded.ErrorOutline
-                        )
-                    }
-                } else {
-                    viewModel.updateUris(uris)
-                }
+                viewModel.updateUris(uris)
             }
         }
 
