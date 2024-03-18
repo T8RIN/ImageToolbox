@@ -423,7 +423,7 @@
     <string name="neutral_sub">سبکی که کمی رنگی تر از تک رنگ است</string>
     <string name="vibrant_sub">تم بلند، رنگارنگی برای پالت اصلی حداکثر است، برای سایرین افزایش یافته است</string>
     <string name="playful_scheme">یک تم بازی - رنگ منبع رنگ در طرح زمینه ظاهر نمی شود</string>
-    <string name="monochrome_sub">یک تم تک رنگ، رنگ ها کاملا سیاه / سفید / خاکستری هستند</string>
+    <string name="monochrome_sub">یک تم تک ، رنگ ها کاملا سیاه / سفید / خاکستری هستند</string>
     <string name="content_sub">طرحی که رنگ منبع را در Scheme.primaryContainer قرار می دهد</string>
     <string name="fidelity_sub">طرحی که شباهت زیادی به طرح محتوا دارد</string>
     <string name="foss_update_checker_warning">این بررسی کننده به روز رسانی به GitHub متصل می شود تا بررسی کند آیا به روز رسانی جدیدی در دسترس است یا خیر</string>
