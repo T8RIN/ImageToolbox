@@ -17,10 +17,11 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.sheets
 
-import androidx.activity.compose.BackHandler
+import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -33,24 +34,35 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.t8rin.modalsheet.ModalSheet
 import com.t8rin.modalsheet.ModalSheetState
+import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
+import kotlin.coroutines.cancellation.CancellationException
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -71,6 +83,38 @@ fun SimpleSheet(
     ProvideContainerDefaults(
         color = SimpleSheetDefaults.contentContainerColor
     ) {
+        var animatedScale by remember {
+            mutableFloatStateOf(1f)
+        }
+        var animatedOffsetX by remember {
+            mutableFloatStateOf(0f)
+        }
+        var animatedOffsetY by remember {
+            mutableFloatStateOf(0f)
+        }
+        var animatedShape by remember {
+            mutableStateOf(SimpleSheetDefaults.shape)
+        }
+        var initialSwipeOffset by remember { mutableStateOf(Offset.Zero) }
+        val scale by animateFloatAsState(animatedScale)
+        val offsetX by animateFloatAsState(animatedOffsetX)
+        val offsetY by animateFloatAsState(animatedOffsetY)
+        val shape = animateShape(animatedShape)
+
+        val clean = {
+            animatedOffsetX = 0f
+            animatedOffsetY = 0f
+            animatedScale = 1f
+            animatedShape = SimpleSheetDefaults.shape
+            initialSwipeOffset = Offset.Zero
+        }
+
+        LaunchedEffect(showSheet) {
+            if (!showSheet) {
+                delay(300L)
+                clean()
+            }
+        }
         ModalSheet(
             cancelable = cancelable,
             nestedScrollEnabled = nestedScrollEnabled,
@@ -81,23 +125,50 @@ fun SimpleSheet(
             dragHandle = dragHandle,
             containerColor = SimpleSheetDefaults.containerColor,
             sheetModifier = Modifier
+                .graphicsLayer {
+                    scaleX = scale
+                    scaleY = scale
+                }
+                .offset {
+                    IntOffset(offsetX.toInt(), offsetY.toInt())
+                }
                 .statusBarsPadding()
                 .offset(y = (settingsState.borderWidth + 1.dp))
                 .autoElevatedBorder(
-                    shape = BottomSheetDefaults.ExpandedShape,
+                    shape = shape,
                     autoElevation = autoElevation
                 )
                 .autoElevatedBorder(
                     height = 0.dp,
-                    shape = BottomSheetDefaults.ExpandedShape,
+                    shape = shape,
                     autoElevation = autoElevation
                 )
+                .clip(shape)
                 .animateContentSize(),
             elevation = 0.dp,
             visible = showSheet,
             onVisibleChange = { showSheet = it },
             content = {
-                if (showSheet) BackHandler { showSheet = false }
+                if (showSheet) {
+                    PredictiveBackHandler { progress ->
+                        try {
+                            progress.collect { event ->
+                                if (event.progress <= 0.05f) {
+                                    clean()
+                                    initialSwipeOffset = Offset(event.touchX, event.touchY)
+                                }
+
+                                animatedOffsetX = event.touchX - initialSwipeOffset.x
+                                animatedOffsetY = event.touchY - initialSwipeOffset.y
+                                animatedShape = RoundedCornerShape(28.dp)
+                                animatedScale = (1f - event.progress * 2f).coerceAtLeast(0.7f)
+                            }
+                            showSheet = false
+                        } catch (e: CancellationException) {
+                            clean()
+                        }
+                    }
+                }
                 sheetContent()
             }
         )
@@ -128,6 +199,38 @@ fun SimpleSheet(
     ProvideContainerDefaults(
         color = SimpleSheetDefaults.contentContainerColor
     ) {
+        var animatedScale by remember {
+            mutableFloatStateOf(1f)
+        }
+        var animatedOffsetX by remember {
+            mutableFloatStateOf(0f)
+        }
+        var animatedOffsetY by remember {
+            mutableFloatStateOf(0f)
+        }
+        var animatedShape by remember {
+            mutableStateOf(SimpleSheetDefaults.shape)
+        }
+        var initialSwipeOffset by remember { mutableStateOf(Offset.Zero) }
+        val scale by animateFloatAsState(animatedScale)
+        val offsetX by animateFloatAsState(animatedOffsetX)
+        val offsetY by animateFloatAsState(animatedOffsetY)
+        val shape = animateShape(animatedShape)
+
+        val clean = {
+            animatedOffsetX = 0f
+            animatedOffsetY = 0f
+            animatedScale = 1f
+            animatedShape = SimpleSheetDefaults.shape
+            initialSwipeOffset = Offset.Zero
+        }
+
+        LaunchedEffect(showSheet) {
+            if (!showSheet) {
+                delay(300L)
+                clean()
+            }
+        }
         ModalSheet(
             cancelable = cancelable,
             nestedScrollEnabled = nestedScrollEnabled,
@@ -138,23 +241,50 @@ fun SimpleSheet(
             dragHandle = dragHandle,
             containerColor = SimpleSheetDefaults.containerColor,
             sheetModifier = Modifier
+                .graphicsLayer {
+                    scaleX = scale
+                    scaleY = scale
+                }
+                .offset {
+                    IntOffset(offsetX.toInt(), offsetY.toInt())
+                }
                 .statusBarsPadding()
                 .offset(y = (settingsState.borderWidth + 1.dp))
                 .autoElevatedBorder(
-                    shape = BottomSheetDefaults.ExpandedShape,
+                    shape = shape,
                     autoElevation = autoElevation
                 )
                 .autoElevatedBorder(
                     height = 0.dp,
-                    shape = BottomSheetDefaults.ExpandedShape,
+                    shape = shape,
                     autoElevation = autoElevation
                 )
+                .clip(shape)
                 .animateContentSize(),
             elevation = 0.dp,
             visible = showSheet,
             onVisibleChange = { showSheet = it },
             content = {
-                if (showSheet && enableBackHandler) BackHandler { showSheet = false }
+                if (showSheet && enableBackHandler) {
+                    PredictiveBackHandler { progress ->
+                        try {
+                            progress.collect { event ->
+                                if (event.progress <= 0.05f) {
+                                    clean()
+                                    initialSwipeOffset = Offset(event.touchX, event.touchY)
+                                }
+
+                                animatedOffsetX = event.touchX - initialSwipeOffset.x
+                                animatedOffsetY = event.touchY - initialSwipeOffset.y
+                                animatedShape = RoundedCornerShape(28.dp)
+                                animatedScale = (1f - event.progress * 2f).coerceAtLeast(0.7f)
+                            }
+                            showSheet = false
+                        } catch (e: CancellationException) {
+                            clean()
+                        }
+                    }
+                }
                 Column(
                     modifier = Modifier.weight(1f, false),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -201,6 +331,38 @@ fun SimpleSheet(
     ProvideContainerDefaults(
         color = SimpleSheetDefaults.contentContainerColor
     ) {
+        var animatedScale by remember {
+            mutableFloatStateOf(1f)
+        }
+        var animatedOffsetX by remember {
+            mutableFloatStateOf(0f)
+        }
+        var animatedOffsetY by remember {
+            mutableFloatStateOf(0f)
+        }
+        var animatedShape by remember {
+            mutableStateOf(SimpleSheetDefaults.shape)
+        }
+        var initialSwipeOffset by remember { mutableStateOf(Offset.Zero) }
+        val scale by animateFloatAsState(animatedScale)
+        val offsetX by animateFloatAsState(animatedOffsetX)
+        val offsetY by animateFloatAsState(animatedOffsetY)
+        val shape = animateShape(animatedShape)
+
+        val clean = {
+            animatedOffsetX = 0f
+            animatedOffsetY = 0f
+            animatedScale = 1f
+            animatedShape = SimpleSheetDefaults.shape
+            initialSwipeOffset = Offset.Zero
+        }
+
+        LaunchedEffect(visible) {
+            if (!visible) {
+                delay(300L)
+                clean()
+            }
+        }
         ModalSheet(
             cancelable = cancelable,
             nestedScrollEnabled = nestedScrollEnabled,
@@ -211,23 +373,50 @@ fun SimpleSheet(
             dragHandle = dragHandle,
             containerColor = SimpleSheetDefaults.containerColor,
             sheetModifier = Modifier
+                .graphicsLayer {
+                    scaleX = scale
+                    scaleY = scale
+                }
+                .offset {
+                    IntOffset(offsetX.toInt(), offsetY.toInt())
+                }
                 .statusBarsPadding()
                 .offset(y = (settingsState.borderWidth + 1.dp))
                 .autoElevatedBorder(
-                    shape = BottomSheetDefaults.ExpandedShape,
+                    shape = shape,
                     autoElevation = autoElevation
                 )
                 .autoElevatedBorder(
                     height = 0.dp,
-                    shape = BottomSheetDefaults.ExpandedShape,
+                    shape = shape,
                     autoElevation = autoElevation
                 )
+                .clip(shape)
                 .animateContentSize(),
             elevation = 0.dp,
             visible = visible,
             onVisibleChange = onDismiss,
             content = {
-                if (visible && enableBackHandler) BackHandler { onDismiss(false) }
+                if (visible && enableBackHandler) {
+                    PredictiveBackHandler { progress ->
+                        try {
+                            progress.collect { event ->
+                                if (event.progress <= 0.05f) {
+                                    clean()
+                                    initialSwipeOffset = Offset(event.touchX, event.touchY)
+                                }
+
+                                animatedOffsetX = event.touchX - initialSwipeOffset.x
+                                animatedOffsetY = event.touchY - initialSwipeOffset.y
+                                animatedShape = RoundedCornerShape(28.dp)
+                                animatedScale = (1f - event.progress * 2f).coerceAtLeast(0.7f)
+                            }
+                            onDismiss(false)
+                        } catch (e: CancellationException) {
+                            clean()
+                        }
+                    }
+                }
                 Column(
                     modifier = Modifier.weight(1f, false),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -274,27 +463,87 @@ fun SimpleSheet(
     ProvideContainerDefaults(
         color = SimpleSheetDefaults.contentContainerColor
     ) {
+        var animatedScale by remember {
+            mutableFloatStateOf(1f)
+        }
+        var animatedOffsetX by remember {
+            mutableFloatStateOf(0f)
+        }
+        var animatedOffsetY by remember {
+            mutableFloatStateOf(0f)
+        }
+        var animatedShape by remember {
+            mutableStateOf(SimpleSheetDefaults.shape)
+        }
+        var initialSwipeOffset by remember { mutableStateOf(Offset.Zero) }
+        val scale by animateFloatAsState(animatedScale)
+        val offsetX by animateFloatAsState(animatedOffsetX)
+        val offsetY by animateFloatAsState(animatedOffsetY)
+        val shape = animateShape(animatedShape)
+
+        val clean = {
+            animatedOffsetX = 0f
+            animatedOffsetY = 0f
+            animatedScale = 1f
+            animatedShape = SimpleSheetDefaults.shape
+            initialSwipeOffset = Offset.Zero
+        }
+
+        LaunchedEffect(sheetState.isVisible) {
+            if (!sheetState.isVisible) {
+                delay(300L)
+                clean()
+            }
+        }
         ModalSheet(
             sheetState = sheetState,
             nestedScrollEnabled = nestedScrollEnabled,
             dragHandle = dragHandle,
             containerColor = SimpleSheetDefaults.containerColor,
             sheetModifier = Modifier
+                .graphicsLayer {
+                    scaleX = scale
+                    scaleY = scale
+                }
+                .offset {
+                    IntOffset(offsetX.toInt(), offsetY.toInt())
+                }
                 .statusBarsPadding()
                 .offset(y = (settingsState.borderWidth + 1.dp))
                 .autoElevatedBorder(
-                    shape = BottomSheetDefaults.ExpandedShape,
+                    shape = shape,
                     autoElevation = autoElevation
                 )
                 .autoElevatedBorder(
                     height = 0.dp,
-                    shape = BottomSheetDefaults.ExpandedShape,
+                    shape = shape,
                     autoElevation = autoElevation
                 )
+                .clip(shape)
                 .animateContentSize(),
             elevation = 0.dp,
             onDismiss = onDismiss,
             content = {
+                if (sheetState.isVisible) {
+                    PredictiveBackHandler { progress ->
+                        try {
+                            progress.collect { event ->
+                                if (event.progress <= 0.05f) {
+                                    clean()
+                                    initialSwipeOffset = Offset(event.touchX, event.touchY)
+                                }
+
+                                animatedOffsetX = event.touchX - initialSwipeOffset.x
+                                animatedOffsetY = event.touchY - initialSwipeOffset.y
+                                animatedShape = shape
+                                animatedScale = (1f - event.progress * 2f).coerceAtLeast(0.7f)
+                            }
+                            sheetState.hide()
+                        } catch (e: CancellationException) {
+                            clean()
+                        }
+                    }
+                }
                 Column(
                     modifier = Modifier.weight(1f, false),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -322,6 +571,8 @@ fun SimpleSheet(
 }
 
 object SimpleSheetDefaults {
+
+    val shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
 
     val barContainerColor: Color
         @Composable

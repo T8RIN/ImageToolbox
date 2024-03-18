@@ -86,8 +86,32 @@ object ContainerShapeDefaults {
         bottomEnd = 16.dp
     )
     val defaultShape = RoundedCornerShape(16.dp)
+}
 
-    private val CornerSize.dp: Dp
-        @Composable
-        get() = with(LocalDensity.current) { toPx(Size.Unspecified, this).toDp() }
+private val CornerSize.dp: Dp
+    @Composable
+    get() = with(LocalDensity.current) { toPx(Size.Unspecified, this).toDp() }
+
+@Composable
+fun animateShape(
+    shape: RoundedCornerShape
+): RoundedCornerShape {
+    val topStart by animateDpAsState(
+        shape.topStart.dp
+    )
+    val topEnd by animateDpAsState(
+        shape.topEnd.dp
+    )
+    val bottomStart by animateDpAsState(
+        shape.bottomStart.dp
+    )
+    val bottomEnd by animateDpAsState(
+        shape.bottomEnd.dp
+    )
+    return RoundedCornerShape(
+        topStart = topStart,
+        topEnd = topEnd,
+        bottomStart = bottomStart,
+        bottomEnd = bottomEnd
+    )
 }
