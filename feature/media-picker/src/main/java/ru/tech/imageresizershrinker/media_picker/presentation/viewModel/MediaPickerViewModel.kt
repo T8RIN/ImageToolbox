@@ -94,6 +94,7 @@ class MediaPickerViewModel @Inject constructor(
     fun getAlbum(albumId: Long) {
         this.albumId = albumId
         getMedia(albumId, allowedMedia)
+        getAlbums(allowedMedia)
     }
 
     private var allowedMedia: AllowedMedia = AllowedMedia.Photos(null)

@@ -98,7 +98,9 @@ fun MediaPickerScreen(
     val haptics = LocalHapticFeedback.current
 
     Column {
-        AnimatedVisibility(visible = albumsState.albums.isNotEmpty()) {
+        AnimatedVisibility(
+            visible = albumsState.albums.isNotEmpty() && mediaState.media.isNotEmpty()
+        ) {
             LazyRow(
                 modifier = Modifier
                     .fillMaxWidth()
