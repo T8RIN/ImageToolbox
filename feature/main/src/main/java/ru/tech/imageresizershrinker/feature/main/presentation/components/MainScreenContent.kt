@@ -490,7 +490,12 @@ internal fun MainScreenContent(
                                     visible = showClipButton,
                                     modifier = Modifier
                                         .align(Alignment.BottomEnd)
-                                        .padding(16.dp),
+                                        .padding(16.dp)
+                                        .then(
+                                            if (showNavRail) {
+                                                Modifier.navigationBarsPadding()
+                                            } else Modifier
+                                        ),
                                     enter = fadeIn() + scaleIn(),
                                     exit = fadeOut() + scaleOut()
                                 ) {
