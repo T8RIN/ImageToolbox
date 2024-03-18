@@ -19,17 +19,14 @@ package ru.tech.imageresizershrinker.core.data.image
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Matrix
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
-import android.os.Build
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.size.Size
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.toBitmap
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
@@ -160,42 +157,6 @@ internal class AndroidImageTransformer @Inject constructor(
             }
             Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)
         }
-    }
-
-    private fun Drawable.toBitmap(): Bitmap {
-        val drawable = this
-        if (drawable is BitmapDrawable) {
-            if (drawable.bitmap != null) {
-                return drawable.bitmap
-            }
-        }
-        val bitmap: Bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
-            Bitmap.createBitmap(
-                1,
-                1,
-                getSuitableConfig()
-            ) // Single color bitmap will be created of 1x1 pixel
-        } else {
-            Bitmap.createBitmap(
-                drawable.intrinsicWidth,
-                drawable.intrinsicHeight,
-                getSuitableConfig()
-            )
-        }
-        val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, canvas.width, canvas.height)
-        drawable.draw(canvas)
-        return bitmap
-    }
-
-    private fun getSuitableConfig(
-        image: Bitmap? = null
-    ): Bitmap.Config = image?.config ?: if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        Bitmap.Config.RGBA_1010102
-    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        Bitmap.Config.RGBA_F16
-    } else {
-        Bitmap.Config.ARGB_8888
     }
 
 }

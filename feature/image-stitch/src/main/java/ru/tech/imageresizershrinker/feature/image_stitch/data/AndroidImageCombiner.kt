@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.image_stitch.data
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.PorterDuff
-import android.os.Build
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.exifinterface.media.ExifInterface
@@ -29,6 +28,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.aspectRatio
+import ru.tech.imageresizershrinker.core.data.utils.getSuitableConfig
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
@@ -404,17 +405,5 @@ internal class AndroidImageCombiner @Inject constructor(
             )
         }
     }
-
-    private fun getSuitableConfig(
-        image: Bitmap? = null
-    ): Bitmap.Config = image?.config ?: if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        Bitmap.Config.RGBA_1010102
-    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        Bitmap.Config.RGBA_F16
-    } else {
-        Bitmap.Config.ARGB_8888
-    }
-
-    private val Bitmap.aspectRatio: Float get() = width / height.toFloat()
 
 }

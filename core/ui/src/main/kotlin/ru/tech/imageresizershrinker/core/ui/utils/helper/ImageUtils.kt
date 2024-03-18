@@ -19,12 +19,12 @@ package ru.tech.imageresizershrinker.core.ui.utils.helper
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.provider.OpenableColumns
 import androidx.core.graphics.BitmapCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.text.isDigitsOnly
 import androidx.exifinterface.media.ExifInterface
 import com.t8rin.logger.makeLog
@@ -33,31 +33,7 @@ import ru.tech.imageresizershrinker.core.domain.image.Metadata
 
 object ImageUtils {
 
-    fun Drawable.toBitmap(): Bitmap {
-        val drawable = this
-        if (drawable is BitmapDrawable) {
-            if (drawable.bitmap != null) {
-                return drawable.bitmap
-            }
-        }
-        val bitmap: Bitmap = if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
-            Bitmap.createBitmap(
-                1,
-                1,
-                Bitmap.Config.ARGB_8888
-            ) // Single color bitmap will be created of 1x1 pixel
-        } else {
-            Bitmap.createBitmap(
-                drawable.intrinsicWidth,
-                drawable.intrinsicHeight,
-                Bitmap.Config.ARGB_8888
-            )
-        }
-        val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, canvas.width, canvas.height)
-        drawable.draw(canvas)
-        return bitmap
-    }
+    fun Drawable.toBitmap(): Bitmap = toBitmap(config = getSuitableConfig())
 
     fun ExifInterface.toMap(): Map<String, String> {
         val hashMap = HashMap<String, String>()
@@ -65,6 +41,20 @@ object ImageUtils {
             getAttribute(tag)?.let { hashMap[tag] = it }
         }
         return hashMap
+    }
+
+    fun getSuitableConfig(
+        image: Bitmap? = null
+    ): Bitmap.Config = image?.config?.takeIf {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            it != Bitmap.Config.HARDWARE
+        } else true
+    } ?: if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        Bitmap.Config.RGBA_1010102
+    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        Bitmap.Config.RGBA_F16
+    } else {
+        Bitmap.Config.ARGB_8888
     }
 
     fun Uri.fileSize(context: Context): Long? {
