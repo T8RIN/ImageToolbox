@@ -106,7 +106,8 @@ data class UiSettingsState(
     val confettiHarmonizer: Harmonizer,
     val confettiHarmonizationLevel: Float,
     val skipImagePicking: Boolean,
-    val generatePreviews: Boolean
+    val generatePreviews: Boolean,
+    val showSettingsInLandscape: Boolean
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -257,7 +258,8 @@ fun SettingsState.toUiState(
         confettiHarmonizer = confettiHarmonizer,
         confettiHarmonizationLevel = confettiHarmonizationLevel,
         skipImagePicking = skipImagePicking,
-        generatePreviews = generatePreviews
+        generatePreviews = generatePreviews,
+        showSettingsInLandscape = showSettingsInLandscape
     )
 }
 

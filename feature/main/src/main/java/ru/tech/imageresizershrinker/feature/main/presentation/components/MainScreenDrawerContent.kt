@@ -118,9 +118,9 @@ internal fun MainScreenDrawerContent(
                 if (sheetExpanded) configuration.screenWidthDp.dp * 0.55f
                 else min(
                     configuration.screenWidthDp.dp * 0.4f,
-                    270.dp
+                    DrawerDefaults.MaximumDrawerWidth
                 )
-            }.coerceAtLeast(0.dp)
+            }.coerceAtLeast(1.dp)
         }
     }
 
@@ -136,10 +136,10 @@ internal fun MainScreenDrawerContent(
     var animatedShape by remember {
         mutableStateOf(
             RoundedCornerShape(
-                topStart = 16.dp,
-                bottomStart = 16.dp,
-                bottomEnd = 0.dp,
-                topEnd = 0.dp
+                topStart = 0.dp,
+                bottomStart = 0.dp,
+                bottomEnd = 24.dp,
+                topEnd = 24.dp
             )
         )
     }
@@ -162,8 +162,8 @@ internal fun MainScreenDrawerContent(
         initialSwipeOffset = Offset.Zero
     }
 
-    LaunchedEffect(sideSheetState.isOpen) {
-        if (!sideSheetState.isOpen) {
+    LaunchedEffect(sideSheetState.isOpen, isSheetSlideable) {
+        if (!sideSheetState.isOpen || isSheetSlideable) {
             delay(300L)
             clean()
         }

@@ -362,4 +362,9 @@ sealed class Setting(
         title = R.string.generate_previews,
         subtitle = R.string.generate_previews_sub
     )
+
+    data object ShowSettingsInLandscape : Setting(
+        title = R.string.show_settings_in_landscape,
+        subtitle = R.string.show_settings_in_landscape_sub
+    )
 }

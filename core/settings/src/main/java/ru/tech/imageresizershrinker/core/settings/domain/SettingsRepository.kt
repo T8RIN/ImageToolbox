@@ -166,4 +166,6 @@ interface SettingsRepository {
     suspend fun toggleGeneratePreviews()
 
     suspend fun toggleSkipImagePicking()
+
+    suspend fun toggleShowSettingsInLandscape()
 }

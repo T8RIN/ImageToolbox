@@ -765,4 +765,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun toggleShowSettingsInLandscape() {
+        viewModelScope.launch {
+            settingsRepository.toggleShowSettingsInLandscape()
+        }
+    }
+
 }

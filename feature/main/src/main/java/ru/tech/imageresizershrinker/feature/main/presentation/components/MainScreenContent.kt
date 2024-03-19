@@ -296,7 +296,7 @@ internal fun MainScreenContent(
 
                 Row(Modifier.weight(1f)) {
                     val showNavRail =
-                        !isSheetSlideable && settingsState.groupOptionsByTypes && screenSearchKeyword.isEmpty() && !sheetExpanded
+                        isGrid && settingsState.groupOptionsByTypes && screenSearchKeyword.isEmpty() && !sheetExpanded
                     AnimatedVisibility(
                         visible = showNavRail,
                         enter = fadeIn() + expandHorizontally(),
@@ -558,7 +558,7 @@ internal fun MainScreenContent(
                 }
 
                 AnimatedVisibility(
-                    visible = isSheetSlideable || sheetExpanded || (showScreenSearch && canSearchScreens),
+                    visible = !isGrid || sheetExpanded || (showScreenSearch && canSearchScreens),
                     enter = fadeIn() + expandVertically(),
                     exit = fadeOut() + shrinkVertically()
                 ) {

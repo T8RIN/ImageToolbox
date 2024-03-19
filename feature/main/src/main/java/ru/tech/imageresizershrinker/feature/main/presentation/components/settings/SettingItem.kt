@@ -559,6 +559,10 @@ internal fun SettingItem(
             Setting.SkipFilePicking -> {
                 SkipImagePickingSettingItem(onClick = viewModel::toggleSkipImagePicking)
             }
+
+            Setting.ShowSettingsInLandscape -> {
+                ShowSettingsInLandscapeSettingItem(onClick = viewModel::toggleShowSettingsInLandscape)
+            }
         }
     }
 }

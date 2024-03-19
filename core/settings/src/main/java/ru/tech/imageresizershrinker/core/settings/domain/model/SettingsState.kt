@@ -83,7 +83,8 @@ data class SettingsState(
     val confettiHarmonizer: Harmonizer,
     val confettiHarmonizationLevel: Float,
     val skipImagePicking: Boolean,
-    val generatePreviews: Boolean
+    val generatePreviews: Boolean,
+    val showSettingsInLandscape: Boolean
 ) : Domain {
 
     companion object {
@@ -150,7 +151,8 @@ data class SettingsState(
                 confettiHarmonizer = Harmonizer.Primary,
                 confettiHarmonizationLevel = 0.5f,
                 skipImagePicking = false,
-                generatePreviews = true
+                generatePreviews = true,
+                showSettingsInLandscape = true
             )
         }
     }

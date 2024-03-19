@@ -86,4 +86,5 @@ internal object SettingKeys {
     val CONFETTI_HARMONIZATION_LEVEL = floatPreferencesKey("CONFETTI_HARMONIZATION_LEVEL")
     val SKIP_IMAGE_PICKING = booleanPreferencesKey("SKIP_IMAGE_PICKER")
     val GENERATE_PREVIEWS = booleanPreferencesKey("GENERATE_PREVIEWS")
+    val SHOW_SETTINGS_IN_LANDSCAPE = booleanPreferencesKey("SHOW_SETTINGS_IN_LANDSCAPE")
 }

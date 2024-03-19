@@ -82,12 +82,12 @@ fun MainScreen(
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
 
     val sideSheetState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val isSheetSlideable = !isGrid
+    val isSheetSlideable = (isGrid && !settingsState.showSettingsInLandscape) || !isGrid
     val layoutDirection = LocalLayoutDirection.current
 
     var sheetExpanded by rememberSaveable { mutableStateOf(false) }
 
-    val drawerContent = remember {
+    val drawerContent = remember(isSheetSlideable) {
         movableContentOf {
             MainScreenDrawerContent(
                 sideSheetState = sideSheetState,

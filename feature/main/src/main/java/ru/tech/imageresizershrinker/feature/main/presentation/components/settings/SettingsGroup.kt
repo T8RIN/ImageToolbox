@@ -315,6 +315,7 @@ sealed class SettingsGroup(
         titleId = R.string.behavior,
         settingsList = listOf(
             Setting.SkipFilePicking,
+            Setting.ShowSettingsInLandscape,
             Setting.GeneratePreviews
         ),
         initialState = false

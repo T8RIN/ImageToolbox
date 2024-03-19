@@ -87,6 +87,7 @@ import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SCREEN_SEARCH
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SECURE_MODE
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SELECTED_EMOJI_INDEX
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SELECTED_FONT_INDEX
+import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SHOW_SETTINGS_IN_LANDSCAPE
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SHOW_UPDATE_DIALOG
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.SKIP_IMAGE_PICKING
 import ru.tech.imageresizershrinker.core.settings.data.SettingKeys.THEME_CONTRAST_LEVEL
@@ -209,7 +210,9 @@ internal class SettingsRepositoryImpl @Inject constructor(
             skipImagePicking = prefs[SKIP_IMAGE_PICKING]
                 ?: default.skipImagePicking,
             generatePreviews = prefs[GENERATE_PREVIEWS]
-                ?: default.generatePreviews
+                ?: default.generatePreviews,
+            showSettingsInLandscape = prefs[SHOW_SETTINGS_IN_LANDSCAPE]
+                ?: default.showSettingsInLandscape
         )
     }
 
@@ -678,6 +681,13 @@ internal class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[SKIP_IMAGE_PICKING] ?: default.skipImagePicking
             it[SKIP_IMAGE_PICKING] = !v
+        }
+    }
+
+    override suspend fun toggleShowSettingsInLandscape() {
+        dataStore.edit {
+            val v = it[SHOW_SETTINGS_IN_LANDSCAPE] ?: default.showSettingsInLandscape
+            it[SHOW_SETTINGS_IN_LANDSCAPE] = !v
         }
     }
 
