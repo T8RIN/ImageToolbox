@@ -31,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
@@ -61,7 +62,9 @@ fun SettingGroupItem(
                 text = text
             )
         },
-        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        color = MaterialTheme.colorScheme.surfaceContainer.blend(
+            MaterialTheme.colorScheme.surfaceContainerLowest, 0.4f
+        ),
         shape = RoundedCornerShape(cornerSize),
         expandableContent = { content() },
         initialState = initialState,

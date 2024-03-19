@@ -52,6 +52,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaul
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalContainerShape
 import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
 
@@ -66,7 +67,8 @@ internal fun SettingItem(
     val confettiHostState = LocalConfettiHostState.current
 
     ProvideContainerDefaults(
-        color = MaterialTheme.colorScheme.surface
+        color = MaterialTheme.colorScheme.surface,
+        shape = LocalContainerShape.current
     ) {
         when (setting) {
             Setting.AddFileSize -> {

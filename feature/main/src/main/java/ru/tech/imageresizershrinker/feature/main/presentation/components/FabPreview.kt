@@ -71,7 +71,7 @@ fun FabPreview(
             .padding(4.dp)
             .autoElevatedBorder(shape = RoundedCornerShape(12.dp), autoElevation = elevation)
             .clip(RoundedCornerShape(12.dp))
-            .background(colorScheme.background),
+            .background(colorScheme.surfaceContainerLowest),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Column(
