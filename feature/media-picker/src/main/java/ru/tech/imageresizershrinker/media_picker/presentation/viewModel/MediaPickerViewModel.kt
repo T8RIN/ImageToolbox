@@ -43,7 +43,6 @@ import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
-import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.media_picker.data.utils.DateExt
 import ru.tech.imageresizershrinker.media_picker.data.utils.getDate
 import ru.tech.imageresizershrinker.media_picker.data.utils.getDateExt
@@ -70,9 +69,6 @@ class MediaPickerViewModel @Inject constructor(
     private val _settingsState = mutableStateOf(SettingsState.Default)
     val settingsState: SettingsState by _settingsState
 
-    private val _isMediaLoading = mutableStateOf(false)
-    val isMediaLoading by _isMediaLoading
-
     val selectedMedia = mutableStateListOf<Media>()
 
     private val _mediaState = MutableStateFlow(MediaState())
@@ -81,14 +77,10 @@ class MediaPickerViewModel @Inject constructor(
     private val _albumsState = MutableStateFlow(AlbumState())
     val albumsState = _albumsState.asStateFlow()
 
-    private var initialized = false
     fun init(allowedMedia: AllowedMedia) {
-        if (!initialized) {
-            this.allowedMedia = allowedMedia
-            getMedia(albumId, allowedMedia)
-            getAlbums(allowedMedia)
-        }
-        initialized = true
+        this.allowedMedia = allowedMedia
+        getMedia(albumId, allowedMedia)
+        getAlbums(allowedMedia)
     }
 
     fun getAlbum(albumId: Long) {
@@ -110,8 +102,11 @@ class MediaPickerViewModel @Inject constructor(
         relativePath = ""
     )
 
+    private var albumJob: Job? = null
+
     private fun getAlbums(allowedMedia: AllowedMedia) {
-        viewModelScope.launch(dispatcher) {
+        albumJob?.cancel()
+        albumJob = viewModelScope.launch(dispatcher) {
             mediaRepository.getAlbumsWithType(allowedMedia)
                 .flowOn(dispatcher)
                 .collectLatest { result ->
@@ -143,7 +138,7 @@ class MediaPickerViewModel @Inject constructor(
     ) {
         mediaGettingJob?.cancel()
         mediaGettingJob = viewModelScope.launch(dispatcher) {
-            _isMediaLoading.update { true }
+            _mediaState.emit(mediaState.value.copy(isLoading = true))
             mediaRepository.mediaFlowWithType(albumId, allowedMedia)
                 .flowOn(dispatcher)
                 .collectLatest { result ->
@@ -161,7 +156,6 @@ class MediaPickerViewModel @Inject constructor(
                         return@collectLatest _mediaState.emit(MediaState(isLoading = false))
                     }
                     _mediaState.collectMedia(data, error, albumId)
-                    _isMediaLoading.update { false }
                 }
         }
     }
@@ -173,7 +167,6 @@ class MediaPickerViewModel @Inject constructor(
         groupByMonth: Boolean = false,
         withMonthHeader: Boolean = true
     ) {
-        val timeStart = System.currentTimeMillis()
         val mappedData = mutableListOf<MediaItem>()
         val mappedDataWithMonthly = mutableListOf<MediaItem>()
         val monthHeaderList: MutableSet<String> = mutableSetOf()
@@ -225,7 +218,6 @@ class MediaPickerViewModel @Inject constructor(
             }
         }
         withContext(Dispatchers.Main) {
-            println("-->Media mapping took: ${System.currentTimeMillis() - timeStart}ms")
             tryEmit(
                 MediaState(
                     isLoading = false,

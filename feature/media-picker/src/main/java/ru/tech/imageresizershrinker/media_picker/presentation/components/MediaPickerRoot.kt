@@ -89,6 +89,8 @@ internal fun MediaPickerActivity.MediaPickerRoot(
                     arrayOf(permission),
                     0
                 )
+            } else {
+                viewModel.init(allowedMedia)
             }
         }
     }

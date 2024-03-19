@@ -36,8 +36,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -45,6 +47,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.TaskAlt
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.twotone.ImageNotSupported
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
@@ -67,10 +70,13 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButtonType
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
@@ -235,11 +241,11 @@ fun MediaPickerScreen(
                     }
                 }
             }
-            val visible = viewModel.isMediaLoading || mediaState.media.isEmpty()
+            val visible = mediaState.isLoading
 
             val backgroundColor by animateColorAsState(
                 Color.Black.copy(
-                    if (viewModel.isMediaLoading && mediaState.media.isNotEmpty()) 0.5f else 0f
+                    if (mediaState.isLoading && mediaState.media.isNotEmpty()) 0.5f else 0f
                 )
             )
             BoxAnimatedVisibility(
@@ -255,6 +261,41 @@ fun MediaPickerScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Loading()
+                }
+            }
+
+            BoxAnimatedVisibility(
+                visible = mediaState.media.isEmpty() && !mediaState.isLoading,
+                enter = scaleIn() + fadeIn(),
+                exit = scaleOut() + fadeOut()
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Spacer(Modifier.weight(1f))
+                    Icon(
+                        imageVector = Icons.TwoTone.ImageNotSupported,
+                        contentDescription = null,
+                        modifier = Modifier.size(108.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = stringResource(id = R.string.no_data),
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 16.sp
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
+                    EnhancedButton(
+                        onClick = {
+                            viewModel.init(allowedMedia)
+                        }
+                    ) {
+                        Text(stringResource(id = R.string.try_again))
+                    }
+                    Spacer(Modifier.weight(1f))
                 }
             }
         }
