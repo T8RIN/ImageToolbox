@@ -24,7 +24,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalHapticFeedback
+import com.t8rin.dynamic.theme.ColorTuple
+import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tech.imageresizershrinker.core.crash.components.M3Activity
 import ru.tech.imageresizershrinker.core.resources.R
@@ -86,12 +90,20 @@ class MediaPickerActivity : M3Activity() {
                 LocalConfettiHostState provides rememberConfettiHostState(),
             ) {
                 ImageToolboxTheme {
+                    val dynamicTheme = LocalDynamicThemeState.current
                     MediaPickerRoot(
                         title = title,
                         allowedMedia = intent.type.allowedMedia,
                         allowMultiple = allowMultiple
                     )
                     ConfettiHost()
+                    LaunchedEffect(intent) {
+                        intent.getIntExtra("scheme", Color.Transparent.toArgb()).takeIf {
+                            it != Color.Transparent.toArgb()
+                        }?.let {
+                            dynamicTheme.updateColorTuple(ColorTuple(Color(it)))
+                        }
+                    }
                 }
             }
         }

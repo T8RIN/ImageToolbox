@@ -37,8 +37,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.FileProvider
+import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
@@ -54,6 +57,7 @@ import kotlin.random.Random
 class ImagePicker(
     private val context: Context,
     private val mode: ImagePickerMode,
+    private val currentAccent: Color,
     private val photoPickerSingle: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
     private val photoPickerMultiple: ManagedActivityResultLauncher<PickVisualMediaRequest, List<Uri>>,
     private val getContent: ManagedActivityResultLauncher<Intent, ActivityResult>,
@@ -120,6 +124,7 @@ class ImagePicker(
                 if (mode == ImagePickerMode.EmbeddedMultiple) {
                     putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                 }
+                putExtra("scheme", currentAccent.toArgb())
             }
             getContent.launch(intent)
         }
@@ -261,11 +266,13 @@ fun rememberImagePicker(
 
     val scope = rememberCoroutineScope()
     val toastHostState = LocalToastHostState.current
+    val currentAccent = LocalDynamicThemeState.current.colorTuple.value.primary
 
-    return remember(imageExtension) {
+    return remember(imageExtension, currentAccent) {
         ImagePicker(
             context = context,
             mode = mode,
+            currentAccent = currentAccent,
             photoPickerSingle = photoPickerSingle,
             photoPickerMultiple = photoPickerMultiple,
             getContent = getContent,
