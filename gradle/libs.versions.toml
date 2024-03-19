@@ -3,8 +3,8 @@ androidMinSdk = "21"
 androidTargetSdk = "34"
 androidCompileSdk = "34"
 
-versionName = "2.7.1-alpha03"
-versionCode = "127"
+versionName = "2.7.1-beta01"
+versionCode = "128"
 
 jvmTarget = "17"
 compose-compiler = "1.5.10"
@@ -35,7 +35,7 @@ detekt = "1.23.5"
 detektCompose = "0.3.12"
 
 kotlin = "1.9.22"
-agp = "8.3.0"
+agp = "8.3.1"
 hilt = "2.51"
 gms = "4.4.1"
 
