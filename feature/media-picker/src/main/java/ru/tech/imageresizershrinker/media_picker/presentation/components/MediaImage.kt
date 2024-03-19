@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -52,6 +53,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.media_picker.domain.model.Media
 
@@ -186,7 +188,18 @@ fun MediaImage(
                     .fillMaxWidth()
                     .padding(4.dp)
             ) {
-                MediaCheckBox(isChecked = isSelected)
+                MediaCheckBox(
+                    isChecked = isSelected,
+                    uncheckedColor = White.copy(0.8f),
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .background(
+                            animateColorAsState(
+                                if (isSelected) MaterialTheme.colorScheme.surfaceContainer
+                                else Color.Transparent
+                            ).value
+                        )
+                )
             }
         }
     }
