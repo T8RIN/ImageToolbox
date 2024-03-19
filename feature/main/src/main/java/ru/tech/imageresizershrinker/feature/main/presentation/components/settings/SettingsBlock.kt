@@ -41,8 +41,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material3.Icon
@@ -141,6 +140,7 @@ fun SettingsBlock(
         )
 
     val focus = LocalFocusManager.current
+    val settingsState = LocalSettingsState.current
 
     Box {
         AnimatedContent(
@@ -157,33 +157,30 @@ fun SettingsBlock(
             }
         ) { settingsAnimated ->
             if (settingsAnimated == null) {
-                Column(
-                    modifier = Modifier
-                        .verticalScroll(
-                            rememberScrollState()
-                        )
-                        .padding(padding)
+                LazyColumn(
+                    contentPadding = padding
                 ) {
-                    val settingsState = LocalSettingsState.current
                     initialSettingGroups.forEach { group ->
-                        AnimatedVisibility(
-                            visible = if (group is SettingsGroup.Shadows) {
-                                settingsState.borderWidth <= 0.dp
-                            } else true
-                        ) {
-                            SettingGroupItem(
-                                icon = group.icon,
-                                text = stringResource(group.titleId),
-                                initialState = group.initialState
+                        item {
+                            AnimatedVisibility(
+                                visible = if (group is SettingsGroup.Shadows) {
+                                    settingsState.borderWidth <= 0.dp
+                                } else true
                             ) {
-                                Column(
-                                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                                SettingGroupItem(
+                                    icon = group.icon,
+                                    text = stringResource(group.titleId),
+                                    initialState = group.initialState
                                 ) {
-                                    group.settingsList.forEach { setting ->
-                                        SettingItem(
-                                            setting = setting,
-                                            viewModel = viewModel
-                                        )
+                                    Column(
+                                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                                    ) {
+                                        group.settingsList.forEach { setting ->
+                                            SettingItem(
+                                                setting = setting,
+                                                viewModel = viewModel
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -191,28 +188,26 @@ fun SettingsBlock(
                     }
                 }
             } else if (settingsAnimated.isNotEmpty()) {
-                Column(
-                    modifier = Modifier
-                        .verticalScroll(
-                            rememberScrollState()
-                        )
-                        .padding(padding)
+                LazyColumn(
+                    contentPadding = padding
                 ) {
                     settingsAnimated.forEachIndexed { index, (group, setting) ->
-                        SearchableSettingItem(
-                            shape = ContainerShapeDefaults.shapeForIndex(
-                                index = index,
-                                size = settingsAnimated.size
-                            ),
-                            modifier = Modifier
-                                .padding(
-                                    horizontal = 8.dp,
-                                    vertical = 2.dp
+                        item {
+                            SearchableSettingItem(
+                                shape = ContainerShapeDefaults.shapeForIndex(
+                                    index = index,
+                                    size = settingsAnimated.size
                                 ),
-                            group = group,
-                            setting = setting,
-                            viewModel = viewModel
-                        )
+                                modifier = Modifier
+                                    .padding(
+                                        horizontal = 8.dp,
+                                        vertical = 2.dp
+                                    ),
+                                group = group,
+                                setting = setting,
+                                viewModel = viewModel
+                            )
+                        }
                     }
                 }
             } else {
