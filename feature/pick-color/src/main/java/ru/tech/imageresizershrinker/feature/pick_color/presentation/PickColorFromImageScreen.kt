@@ -57,7 +57,6 @@ import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -113,6 +112,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsPaddingOnlyIfTheyAtTheBottom
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsPaddingOnlyIfTheyAtTheEnd
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -212,8 +213,10 @@ fun PickColorFromImageScreen(
                 transitionSpec = { fadeIn() togetherWith fadeOut() }
             ) { noBmp ->
                 if (noBmp) {
-                    LargeTopAppBar(
+                    EnhancedTopAppBar(
+                        type = EnhancedTopAppBarType.Large,
                         scrollBehavior = scrollBehavior,
+                        modifier = Modifier,
                         navigationIcon = {
                             EnhancedIconButton(
                                 containerColor = Color.Transparent,
@@ -231,9 +234,6 @@ fun PickColorFromImageScreen(
                                 Text(stringResource(R.string.pick_color))
                             }
                         },
-                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceContainer
-                        ),
                         actions = {
                             if (viewModel.bitmap == null) {
                                 TopAppBarEmoji()

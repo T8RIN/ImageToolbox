@@ -82,12 +82,10 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
@@ -150,6 +148,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDial
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientation
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -475,8 +475,7 @@ fun DrawScreen(
             }
         ) { drawBehavior ->
             if (drawBehavior !is DrawBehavior.None) {
-                TopAppBar(
-                    modifier = Modifier.drawHorizontalStroke(),
+                EnhancedTopAppBar(
                     title = {
                         Marquee {
                             Text(stringResource(R.string.draw))
@@ -525,9 +524,6 @@ fun DrawScreen(
                             Icon(Icons.Outlined.Delete, null)
                         }
                     },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer
-                    ),
                     navigationIcon = {
                         EnhancedIconButton(
                             containerColor = Color.Transparent,
@@ -540,17 +536,14 @@ fun DrawScreen(
                     }
                 )
             } else {
-                LargeTopAppBar(
+                EnhancedTopAppBar(
+                    type = EnhancedTopAppBarType.Large,
                     scrollBehavior = scrollBehavior,
-                    modifier = Modifier.drawHorizontalStroke(),
                     title = {
                         Marquee {
                             Text(stringResource(R.string.draw))
                         }
                     },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer
-                    ),
                     navigationIcon = {
                         EnhancedIconButton(
                             containerColor = Color.Transparent,

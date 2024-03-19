@@ -45,7 +45,6 @@ import androidx.compose.material.icons.outlined.ImageSearch
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -81,7 +80,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.image.LazyImagesGrid
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
@@ -182,9 +182,9 @@ fun ImagePreviewScreen(
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {
             Column(Modifier.fillMaxSize()) {
-                LargeTopAppBar(
+                EnhancedTopAppBar(
+                    type = EnhancedTopAppBarType.Large,
                     scrollBehavior = scrollBehavior,
-                    modifier = Modifier.drawHorizontalStroke(),
                     title = {
                         Marquee {
                             Text(
@@ -193,9 +193,6 @@ fun ImagePreviewScreen(
                             )
                         }
                     },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer
-                    ),
                     navigationIcon = {
                         EnhancedIconButton(
                             containerColor = Color.Transparent,

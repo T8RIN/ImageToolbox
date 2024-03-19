@@ -28,7 +28,9 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -42,8 +44,6 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -70,9 +70,11 @@ import androidx.compose.ui.unit.min
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.other.SearchBar
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 
@@ -139,7 +141,7 @@ internal fun MainScreenDrawerContent(
                         )
                 } else Modifier
             ),
-        drawerContainerColor = MaterialTheme.colorScheme.surface,
+        drawerContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
         drawerShape = if (isSheetSlideable) DrawerDefaults.shape else RectangleShape,
         windowInsets = WindowInsets(0)
     ) {
@@ -153,10 +155,7 @@ internal fun MainScreenDrawerContent(
         }
 
         CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
-            TopAppBar(
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainer
-                ),
+            EnhancedTopAppBar(
                 title = {
                     AnimatedContent(
                         targetState = showSettingsSearch
@@ -182,7 +181,6 @@ internal fun MainScreenDrawerContent(
                         }
                     }
                 },
-                modifier = Modifier.drawHorizontalStroke(),
                 actions = {
                     AnimatedContent(
                         targetState = showSettingsSearch to settingsSearchKeyword.isNotEmpty(),
@@ -247,7 +245,16 @@ internal fun MainScreenDrawerContent(
                             }
                         }
                     }
-                }
+                },
+                windowInsets = EnhancedTopAppBarDefaults.windowInsets.only(
+                    WindowInsetsSides.End + WindowInsetsSides.Top
+                ),
+                colors = EnhancedTopAppBarDefaults.colors(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer.inverse(
+                        fraction = { 0.7f },
+                        darkMode = !settingsState.isNightMode
+                    )
+                )
             )
             settingsBlock()
         }

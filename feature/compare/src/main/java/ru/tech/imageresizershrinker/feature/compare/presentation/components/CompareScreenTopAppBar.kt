@@ -29,20 +29,17 @@ import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.SwapHoriz
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 
@@ -62,7 +59,8 @@ fun CompareScreenTopAppBar(
     isLabelsEnabled: Boolean
 ) {
     if (imageNotPicked) {
-        LargeTopAppBar(
+        EnhancedTopAppBar(
+            type = EnhancedTopAppBarType.Large,
             scrollBehavior = scrollBehavior,
             navigationIcon = {
                 EnhancedIconButton(
@@ -79,16 +77,12 @@ fun CompareScreenTopAppBar(
                     Text(stringResource(R.string.compare))
                 }
             },
-            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainer
-            ),
             actions = {
                 TopAppBarEmoji()
-            },
-            modifier = Modifier.drawHorizontalStroke()
+            }
         )
     } else {
-        TopAppBar(
+        EnhancedTopAppBar(
             navigationIcon = {
                 EnhancedIconButton(
                     containerColor = Color.Transparent,
@@ -158,11 +152,7 @@ fun CompareScreenTopAppBar(
                         Text(text)
                     }
                 }
-            },
-            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainer
-            ),
-            modifier = Modifier.drawHorizontalStroke()
+            }
         )
     }
 }

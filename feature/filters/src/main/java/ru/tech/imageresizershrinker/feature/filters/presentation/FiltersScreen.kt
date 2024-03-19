@@ -71,7 +71,6 @@ import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.Badge
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -138,6 +137,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.navBarsLandscapePadding
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -744,9 +745,9 @@ fun FiltersScreen(
                 .nestedScroll(scrollBehavior.nestedScrollConnection)
         ) {
             Column(Modifier.fillMaxSize()) {
-                LargeTopAppBar(
+                EnhancedTopAppBar(
+                    type = EnhancedTopAppBarType.Large,
                     scrollBehavior = scrollBehavior,
-                    modifier = Modifier.drawHorizontalStroke(),
                     title = {
                         AnimatedContent(
                             targetState = viewModel.filterType?.let {
@@ -791,9 +792,6 @@ fun FiltersScreen(
                             }
                         }
                     },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer
-                    ),
                     navigationIcon = {
                         EnhancedIconButton(
                             containerColor = Color.Transparent,

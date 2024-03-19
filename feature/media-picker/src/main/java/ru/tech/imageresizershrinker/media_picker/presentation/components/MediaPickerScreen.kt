@@ -34,9 +34,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
@@ -67,6 +73,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -79,6 +86,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButtonType
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.media_picker.domain.model.AllowedMedia
@@ -104,19 +112,29 @@ fun MediaPickerScreen(
     val haptics = LocalHapticFeedback.current
 
     Column {
+        val layoutDirection = LocalLayoutDirection.current
+
         AnimatedVisibility(
-            visible = albumsState.albums.isNotEmpty() && mediaState.media.isNotEmpty()
+            visible = albumsState.albums.size > 1
         ) {
             LazyRow(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .drawHorizontalStroke()
                     .background(MaterialTheme.colorScheme.surfaceContainer)
                     .padding(vertical = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(
                     8.dp,
                     Alignment.CenterHorizontally
                 ),
-                contentPadding = PaddingValues(horizontal = 8.dp)
+                contentPadding = PaddingValues(
+                    start = WindowInsets.displayCutout
+                        .asPaddingValues()
+                        .calculateStartPadding(layoutDirection) + 8.dp,
+                    end = WindowInsets.displayCutout
+                        .asPaddingValues()
+                        .calculateEndPadding(layoutDirection) + 8.dp
+                )
             ) {
                 items(
                     items = albumsState.albums,
@@ -257,7 +275,19 @@ fun MediaPickerScreen(
                 exit = scaleOut() + fadeOut()
             ) {
                 Box(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(
+                            start = WindowInsets.displayCutout
+                                .asPaddingValues()
+                                .calculateStartPadding(layoutDirection),
+                            end = WindowInsets.displayCutout
+                                .asPaddingValues()
+                                .calculateEndPadding(layoutDirection),
+                            bottom = WindowInsets.navigationBars
+                                .asPaddingValues()
+                                .calculateBottomPadding()
+                        ),
                     contentAlignment = Alignment.Center
                 ) {
                     Loading()

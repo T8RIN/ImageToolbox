@@ -80,7 +80,6 @@ import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -139,6 +138,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleSmallImagesToLa
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
@@ -558,7 +559,6 @@ fun PdfToolsScreen(
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
             ) {
                 Column(Modifier.fillMaxSize()) {
-                    val modifier = Modifier.drawHorizontalStroke()
                     val title = @Composable {
                         Marquee {
                             AnimatedContent(
@@ -574,9 +574,6 @@ fun PdfToolsScreen(
                             }
                         }
                     }
-                    val colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer
-                    )
                     val navigationIcon = @Composable {
                         EnhancedIconButton(
                             containerColor = Color.Transparent,
@@ -658,11 +655,10 @@ fun PdfToolsScreen(
                         }
                     }
 
-                    LargeTopAppBar(
+                    EnhancedTopAppBar(
+                        type = EnhancedTopAppBarType.Large,
                         scrollBehavior = scrollBehavior,
-                        modifier = modifier,
                         title = title,
-                        colors = colors,
                         navigationIcon = navigationIcon,
                         actions = actions
                     )

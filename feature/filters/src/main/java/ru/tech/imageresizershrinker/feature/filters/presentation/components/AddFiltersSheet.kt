@@ -77,7 +77,6 @@ import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material.icons.rounded.Slideshow
 import androidx.compose.material.icons.rounded.Speed
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -151,6 +150,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleDragHandle
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
@@ -627,7 +628,9 @@ fun AddFiltersSheet(
     SimpleSheet(
         dragHandle = {
             SimpleDragHandle {
-                CenterAlignedTopAppBar(
+                EnhancedTopAppBar(
+                    type = EnhancedTopAppBarType.Center,
+                    modifier = Modifier,
                     navigationIcon = {
                         EnhancedIconButton(
                             containerColor = Color.Transparent,
@@ -664,7 +667,7 @@ fun AddFiltersSheet(
                             Text(
                                 text = stringResource(
                                     id = previewSheetData?.title ?: R.string.app_name
-                                ),
+                                )
                             )
                         }
                     }

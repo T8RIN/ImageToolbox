@@ -88,7 +88,6 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.DrawerDefaults
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -145,6 +144,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.pulsate
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.rotateAnimation
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
@@ -210,7 +211,8 @@ internal fun MainScreenContent(
                     .fillMaxSize()
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
             ) {
-                LargeTopAppBar(
+                EnhancedTopAppBar(
+                    type = EnhancedTopAppBarType.Large,
                     title = {
                         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                             Marquee {
@@ -224,21 +226,13 @@ internal fun MainScreenContent(
                                     )
                                 }
 
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text(
-                                        text = stringResource(R.string.app_name),
-                                        modifier = Modifier.padding(
-                                            start = WindowInsets
-                                                .displayCutout
-                                                .asPaddingValues()
-                                                .calculateStartPadding(layoutDirection)
-                                        )
-                                    )
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(stringResource(R.string.app_name))
                                     Badge(
                                         content = {
-                                            Text(
-                                                text = titleText
-                                            )
+                                            Text(titleText)
                                         },
                                         containerColor = MaterialTheme.colorScheme.tertiary,
                                         contentColor = MaterialTheme.colorScheme.onTertiary,
@@ -255,9 +249,6 @@ internal fun MainScreenContent(
                             }
                         }
                     },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer
-                    ),
                     actions = {
                         AnimatedVisibility(
                             visible = !showScreenSearch && canSearchScreens,
@@ -300,7 +291,6 @@ internal fun MainScreenContent(
                             }
                         }
                     },
-                    modifier = Modifier.drawHorizontalStroke(),
                     scrollBehavior = scrollBehavior
                 )
 
