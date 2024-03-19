@@ -124,7 +124,7 @@ class ImagePicker(
                 if (mode == ImagePickerMode.EmbeddedMultiple) {
                     putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                 }
-                putExtra("scheme", currentAccent.toArgb())
+                putExtra(ColorSchemeName, currentAccent.toArgb())
             }
             getContent.launch(intent)
         }

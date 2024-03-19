@@ -70,7 +70,7 @@ import androidx.compose.ui.unit.min
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.theme.inverse
+import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
@@ -250,9 +250,9 @@ internal fun MainScreenDrawerContent(
                     WindowInsetsSides.End + WindowInsetsSides.Top
                 ),
                 colors = EnhancedTopAppBarDefaults.colors(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainer.inverse(
-                        fraction = { 0.7f },
-                        darkMode = !settingsState.isNightMode
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh.blend(
+                        color = MaterialTheme.colorScheme.surfaceContainer,
+                        fraction = 0.5f
                     )
                 )
             )

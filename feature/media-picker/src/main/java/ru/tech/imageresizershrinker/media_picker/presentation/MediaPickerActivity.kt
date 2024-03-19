@@ -24,12 +24,16 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalHapticFeedback
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.crash.components.M3Activity
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
@@ -40,6 +44,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.rememberConfettiHostState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ColorSchemeName
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.customHapticFeedback
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
 import ru.tech.imageresizershrinker.media_picker.domain.model.AllowedMedia
@@ -97,11 +102,18 @@ class MediaPickerActivity : M3Activity() {
                         allowMultiple = allowMultiple
                     )
                     ConfettiHost()
-                    LaunchedEffect(intent) {
-                        intent.getIntExtra("scheme", Color.Transparent.toArgb()).takeIf {
+
+                    val scope = rememberCoroutineScope()
+                    SideEffect {
+                        intent.getIntExtra(ColorSchemeName, Color.Transparent.toArgb()).takeIf {
                             it != Color.Transparent.toArgb()
                         }?.let {
-                            dynamicTheme.updateColorTuple(ColorTuple(Color(it)))
+                            scope.launch {
+                                while (dynamicTheme.colorTuple.value.primary != Color(it)) {
+                                    dynamicTheme.updateColorTuple(ColorTuple(Color(it)))
+                                    delay(500L)
+                                }
+                            }
                         }
                     }
                 }

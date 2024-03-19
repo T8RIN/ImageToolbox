@@ -42,6 +42,8 @@ val MediaPickerActivityClass: Class<*> by lazy {
     )
 }
 
+const val ColorSchemeName = "scheme"
+
 fun Activity.failedToSaveImages(
     scope: CoroutineScope,
     results: List<SaveResult>,
