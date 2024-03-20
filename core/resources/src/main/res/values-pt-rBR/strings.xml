@@ -856,4 +856,7 @@
     <string name="no_permissions">Nenhuma permissão</string>
     <string name="request">Solicitação</string>
     <string name="header_today">Hoje</string>
+    <string name="try_again">Tente novamente</string>
+    <string name="show_settings_in_landscape">Mostrar configurações no modo paisagem</string>
+    <string name="show_settings_in_landscape_sub">Se estiver desativado, as configurações do modo paisagem serão abertas no botão da barra superior do aplicativo, como sempre, em vez da opção visível permanente</string>
 </resources>
