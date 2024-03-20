@@ -181,6 +181,7 @@ class RootViewModel @Inject constructor(
         }
     }
 
+    @Suppress("unused")
     private fun isNeedUpdateTest() {
         if (BuildConfig.DEBUG) {
             val updateVersions = listOf(
