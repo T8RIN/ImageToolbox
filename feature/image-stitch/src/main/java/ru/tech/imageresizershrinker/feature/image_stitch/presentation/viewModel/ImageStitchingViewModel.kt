@@ -72,7 +72,7 @@ class ImageStitchingViewModel @Inject constructor(
     private val _previewBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val previewBitmap: Bitmap? by _previewBitmap
 
-    private val _imageInfo = mutableStateOf(ImageInfo(imageFormat = ImageFormat.PngLossless))
+    private val _imageInfo = mutableStateOf(ImageInfo(imageFormat = ImageFormat.Png.Lossless))
     val imageInfo by _imageInfo
 
     private val _combiningParams: MutableState<CombiningParams> = mutableStateOf(CombiningParams())

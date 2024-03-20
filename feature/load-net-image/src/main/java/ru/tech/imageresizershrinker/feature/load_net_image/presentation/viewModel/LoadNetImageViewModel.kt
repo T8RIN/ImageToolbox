@@ -87,7 +87,7 @@ class LoadNetImageViewModel @Inject constructor(
                             sequenceNumber = null,
                             data = imageCompressor.compress(
                                 image = bitmap,
-                                imageFormat = ImageFormat.PngLossless,
+                                imageFormat = ImageFormat.Png.Lossless,
                                 quality = Quality.Base(100)
                             )
                         ),
@@ -126,7 +126,7 @@ class LoadNetImageViewModel @Inject constructor(
                     imageInfo = ImageInfo(
                         width = image.width,
                         height = image.height,
-                        imageFormat = ImageFormat.PngLossless
+                        imageFormat = ImageFormat.Png.Lossless
                     ),
                     image = image,
                     onComplete = {
@@ -155,7 +155,7 @@ class LoadNetImageViewModel @Inject constructor(
                     imageInfo = ImageInfo(
                         width = image.width,
                         height = image.height,
-                        imageFormat = ImageFormat.PngLossless
+                        imageFormat = ImageFormat.Png.Lossless
                     ),
                     name = Random.nextInt().toString()
                 )?.let { uri ->

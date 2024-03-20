@@ -81,7 +81,7 @@ class JxlToolsViewModel @Inject constructor(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 
-    private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.PngLossless)
+    private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.Png.Lossless)
     val imageFormat by _imageFormat
 
     private val _quality: MutableState<Quality> = mutableStateOf(Quality.Base())

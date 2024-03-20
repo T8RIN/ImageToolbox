@@ -35,7 +35,7 @@ sealed class Quality(
                 )
             }
 
-            is ImageFormat.PngLossy -> {
+            is ImageFormat.Png.Lossy -> {
                 val value = this as? PngLossy ?: return PngLossy()
                 value.copy(
                     maxColors = value.maxColors.coerceIn(2..1024),

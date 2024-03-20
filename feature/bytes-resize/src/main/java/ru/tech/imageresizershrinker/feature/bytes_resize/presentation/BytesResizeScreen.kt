@@ -298,7 +298,7 @@ fun BytesResizeScreen(
                             ImageFormatGroup.Custom(
                                 title = "PNG Lossless",
                                 formats = listOf(
-                                    ImageFormat.PngLossless
+                                    ImageFormat.Png.Lossless
                                 )
                             )
                         )

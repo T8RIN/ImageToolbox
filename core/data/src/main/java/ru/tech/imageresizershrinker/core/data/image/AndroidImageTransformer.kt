@@ -114,7 +114,7 @@ internal class AndroidImageTransformer @Inject constructor(
                 currentInfo.copy(
                     width = 512,
                     height = 512,
-                    imageFormat = ImageFormat.PngLossless,
+                    imageFormat = ImageFormat.Png.Lossless,
                     resizeType = ResizeType.Flexible,
                     quality = Quality.Base(100)
                 )

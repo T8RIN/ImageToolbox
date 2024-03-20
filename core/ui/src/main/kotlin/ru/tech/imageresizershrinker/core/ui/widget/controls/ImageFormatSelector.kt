@@ -86,7 +86,7 @@ fun ImageFormatSelector(
     }
 
     LaunchedEffect(value, entries) {
-        if (value !in entries.flatMap { it.formats }) onValueChange(ImageFormat.PngLossless)
+        if (value !in entries.flatMap { it.formats }) onValueChange(ImageFormat.Png.Lossless)
     }
 
     Box {

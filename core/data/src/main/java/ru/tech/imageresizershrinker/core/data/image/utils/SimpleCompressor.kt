@@ -56,13 +56,13 @@ internal abstract class SimpleCompressor {
             ImageFormat.Jpeg,
             ImageFormat.Jpg -> Jpg
 
-            ImageFormat.PngLossless -> PngLossless
+            ImageFormat.Png.Lossless -> PngLossless
             ImageFormat.Webp.Lossless -> WebpLossless
             ImageFormat.Webp.Lossy -> WebpLossy
             ImageFormat.MozJpeg -> MozJpeg
             ImageFormat.Jxl.Lossless -> JxlLossless
             ImageFormat.Jxl.Lossy -> JxlLossy
-            ImageFormat.PngLossy -> PngLossy
+            ImageFormat.Png.Lossy -> PngLossy
             ImageFormat.Jpegli -> Jpegli
         }
 

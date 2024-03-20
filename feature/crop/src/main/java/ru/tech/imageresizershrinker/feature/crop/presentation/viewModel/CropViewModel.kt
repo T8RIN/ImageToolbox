@@ -88,7 +88,7 @@ class CropViewModel @Inject constructor(
 
     val isBitmapChanged get() = internalBitmap.value != _bitmap.value
 
-    private val _imageFormat = mutableStateOf<ImageFormat>(ImageFormat.PngLossless)
+    private val _imageFormat = mutableStateOf<ImageFormat>(ImageFormat.Png.Lossless)
     val imageFormat by _imageFormat
 
     private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)

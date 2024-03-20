@@ -630,7 +630,7 @@ private class AddMaskSheetViewModel @Inject constructor(
                             imageInfo = ImageInfo(
                                 width = it.width,
                                 height = it.height,
-                                imageFormat = ImageFormat.PngLossless
+                                imageFormat = ImageFormat.Png.Lossless
                             ),
                             onGetByteCount = {}
                         )

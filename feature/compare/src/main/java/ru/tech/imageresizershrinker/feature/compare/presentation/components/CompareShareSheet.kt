@@ -73,7 +73,7 @@ internal fun CompareShareSheet(
 
     SimpleSheet(
         sheetContent = {
-            var imageFormat by remember { mutableStateOf<ImageFormat>(ImageFormat.PngLossless) }
+            var imageFormat by remember { mutableStateOf<ImageFormat>(ImageFormat.Png.Lossless) }
             Box {
                 Column(
                     modifier = Modifier.verticalScroll(rememberScrollState()),

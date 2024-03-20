@@ -34,8 +34,8 @@ sealed class ImageFormatGroup(
     data object Png : ImageFormatGroup(
         title = "PNG",
         formats = listOf(
-            ImageFormat.PngLossless,
-            ImageFormat.PngLossy
+            ImageFormat.Png.Lossless,
+            ImageFormat.Png.Lossy
         )
     )
 

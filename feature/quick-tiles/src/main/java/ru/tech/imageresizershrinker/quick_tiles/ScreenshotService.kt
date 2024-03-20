@@ -167,7 +167,7 @@ class ScreenshotService : Service() {
                                 FileSaveTarget(
                                     filename = "screenshot-$timeStamp.png",
                                     originalUri = "screenshot",
-                                    imageFormat = ImageFormat.PngLossless,
+                                    imageFormat = ImageFormat.Png.Lossless,
                                     data = stream.toByteArray()
                                 ),
                                 true

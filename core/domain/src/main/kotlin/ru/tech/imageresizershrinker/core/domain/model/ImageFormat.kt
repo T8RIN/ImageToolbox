@@ -27,24 +27,33 @@ sealed class ImageFormat(
     val canWriteExif: Boolean = false,
     val compressionTypes: List<CompressionType> = listOf(CompressionType.Quality(0..100))
 ) : Domain {
-    data object PngLossless : ImageFormat(
-        title = "PNG Lossless",
-        extension = "png",
-        type = "image/png",
-        canChangeCompressionValue = false,
-        canWriteExif = true
-    )
 
-    data object PngLossy : ImageFormat(
-        title = "PNG Lossy",
+    sealed class Png(
+        title: String,
+        compressionTypes: List<CompressionType>,
+        canChangeCompressionValue: Boolean
+    ) : ImageFormat(
         extension = "png",
         type = "image/png",
-        canChangeCompressionValue = true,
+        canChangeCompressionValue = canChangeCompressionValue,
+        title = title,
         canWriteExif = true,
-        compressionTypes = listOf(
-            CompressionType.Effort(0..9)
+        compressionTypes = compressionTypes
+    ) {
+        data object Lossless : Png(
+            title = "PNG Lossless",
+            compressionTypes = emptyList(),
+            canChangeCompressionValue = false
         )
-    )
+
+        data object Lossy : Png(
+            title = "PNG Lossy",
+            compressionTypes = listOf(
+                CompressionType.Effort(0..9)
+            ),
+            canChangeCompressionValue = true
+        )
+    }
 
     data object Jpg : ImageFormat(
         title = "JPG",
@@ -211,7 +220,7 @@ sealed class ImageFormat(
         operator fun get(typeString: String?): ImageFormat = when {
             typeString == null -> Default()
             typeString.contains("jxl") -> Jxl.Lossless
-            typeString.contains("png") -> PngLossless
+            typeString.contains("png") -> Png.Lossless
             typeString.contains("bmp") -> Bmp
             typeString.contains("jpeg") -> Jpeg
             typeString.contains("jpg") -> Jpg
@@ -239,8 +248,8 @@ sealed class ImageFormat(
                 Jpeg,
                 MozJpeg,
                 Jpegli,
-                PngLossless,
-                PngLossy,
+                Png.Lossless,
+                Png.Lossy,
                 Bmp,
                 Webp.Lossless,
                 Webp.Lossy,

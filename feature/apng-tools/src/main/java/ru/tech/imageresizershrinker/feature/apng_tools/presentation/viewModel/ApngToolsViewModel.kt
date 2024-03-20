@@ -83,7 +83,7 @@ class ApngToolsViewModel @Inject constructor(
     private val _convertedImageUris: MutableState<List<String>> = mutableStateOf(emptyList())
     val convertedImageUris by _convertedImageUris
 
-    private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.PngLossless)
+    private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.Png.Lossless)
     val imageFormat by _imageFormat
 
     private val _imageFrames: MutableState<ImageFrames> = mutableStateOf(ImageFrames.All)

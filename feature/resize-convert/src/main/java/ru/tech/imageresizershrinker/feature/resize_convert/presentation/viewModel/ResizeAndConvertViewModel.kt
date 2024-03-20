@@ -250,7 +250,7 @@ class ResizeAndConvertViewModel @Inject constructor(
                 height = size.second
             )
             checkBitmapAndUpdate(
-                resetPreset = _presetSelected.value == Preset.Telegram && imageData.imageInfo.imageFormat != ImageFormat.PngLossless
+                resetPreset = _presetSelected.value == Preset.Telegram && imageData.imageInfo.imageFormat != ImageFormat.Png.Lossless
             )
             _isImageLoading.value = false
         }
@@ -321,7 +321,7 @@ class ResizeAndConvertViewModel @Inject constructor(
             _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
             debouncedImageCalculation {
                 checkBitmapAndUpdate(
-                    resetPreset = _presetSelected.value == Preset.Telegram && imageFormat != ImageFormat.PngLossless
+                    resetPreset = _presetSelected.value == Preset.Telegram && imageFormat != ImageFormat.Png.Lossless
                 )
             }
         }

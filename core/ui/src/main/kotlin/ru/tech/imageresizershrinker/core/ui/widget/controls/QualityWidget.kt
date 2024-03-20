@@ -72,7 +72,7 @@ fun QualityWidget(
                     qualityValue = quality.qualityValue
                 ).coerceIn(imageFormat)
             )
-        } else if (imageFormat is ImageFormat.PngLossy && quality !is Quality.PngLossy) {
+        } else if (imageFormat is ImageFormat.Png.Lossy && quality !is Quality.PngLossy) {
             onQualityChange(
                 Quality.PngLossy(
                     compressionLevel = quality.qualityValue
@@ -252,7 +252,7 @@ fun QualityWidget(
                         )
                     }
                 }
-                AnimatedVisibility(imageFormat is ImageFormat.PngLossy) {
+                AnimatedVisibility(imageFormat is ImageFormat.Png.Lossy) {
                     val pngLossyQuality = quality as? Quality.PngLossy
                     EnhancedSliderItem(
                         value = pngLossyQuality?.maxColors ?: 0,
