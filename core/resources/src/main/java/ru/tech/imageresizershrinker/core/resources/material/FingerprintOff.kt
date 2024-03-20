@@ -102,7 +102,13 @@ val Icons.Rounded.FingerprintOff: ImageVector by lazy {
             curveTo(10.34f, 4.04f, 14.14f, 4.1f, 17.15f, 5.65f)
             moveTo(12.0f, 9.27f)
             curveTo(15.12f, 9.27f, 17.66f, 11.69f, 17.66f, 14.66f)
-            arcTo(0.5f, 0.5f, 0.0f, false, true, 17.16f, 15.16f)
+            arcTo(
+                0.5f, 0.5f, 0.0f,
+                isMoreThanHalf = false,
+                isPositiveArc = true,
+                x1 = 17.16f,
+                y1 = 15.16f
+            )
             lineTo(16.93f, 15.11f)
             lineTo(16.72f, 14.89f)
             lineTo(16.66f, 14.66f)

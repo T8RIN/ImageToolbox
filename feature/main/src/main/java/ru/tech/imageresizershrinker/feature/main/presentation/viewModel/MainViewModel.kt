@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:Suppress("SameParameterValue", "UNUSED_PARAMETER")
+@file:Suppress("SameParameterValue", "unused")
 
 package ru.tech.imageresizershrinker.feature.main.presentation.viewModel
 
@@ -23,8 +23,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.ViewModel
@@ -45,19 +43,13 @@ import org.w3c.dom.Element
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.APP_RELEASES
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
-import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
-import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
-import ru.tech.imageresizershrinker.core.settings.domain.model.Harmonizer
-import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
-import java.io.OutputStream
 import java.net.URL
 import javax.inject.Inject
 import javax.xml.parsers.DocumentBuilderFactory
@@ -66,7 +58,7 @@ import javax.xml.parsers.DocumentBuilderFactory
 class MainViewModel @Inject constructor(
     val imageLoader: ImageLoader,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val fileController: FileController,
+    fileController: FileController,
     private val settingsRepository: SettingsRepository,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
@@ -105,7 +97,7 @@ class MainViewModel @Inject constructor(
     val toastHostState = ToastHostState()
 
     init {
-        if (settingsState.clearCacheOnLaunch) clearCache()
+        if (settingsState.clearCacheOnLaunch) fileController.clearCache()
 
         runBlocking {
             settingsRepository.registerAppOpen()
@@ -116,71 +108,9 @@ class MainViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun getReadableCacheSize(): String = fileController.getReadableCacheSize()
-
-    fun clearCache(onComplete: (String) -> Unit = {}) = fileController.clearCache(onComplete)
-
-    fun toggleAddSequenceNumber() {
-        viewModelScope.launch {
-            settingsRepository.toggleAddSequenceNumber()
-        }
-    }
-
-    fun toggleAddOriginalFilename() {
-        viewModelScope.launch {
-            settingsRepository.toggleAddOriginalFilename()
-        }
-    }
-
-    fun setEmojisCount(count: Int) {
-        viewModelScope.launch {
-            settingsRepository.setEmojisCount(count)
-        }
-    }
-
-    fun setImagePickerMode(mode: Int) {
-        viewModelScope.launch {
-            settingsRepository.setImagePickerMode(mode)
-        }
-    }
-
-    fun toggleAddFileSize() {
-        viewModelScope.launch {
-            settingsRepository.toggleAddFileSize()
-        }
-    }
-
-    fun setEmoji(emoji: Int) {
-        viewModelScope.launch {
-            settingsRepository.setEmoji(emoji)
-        }
-    }
-
-    fun setFilenamePrefix(name: String) {
-        viewModelScope.launch {
-            settingsRepository.setFilenamePrefix(name)
-        }
-    }
-
-    fun setFilenameSuffix(name: String) {
-        viewModelScope.launch {
-            settingsRepository.setFilenameSuffix(name)
-        }
-    }
-
     fun toggleShowUpdateDialog() {
         viewModelScope.launch {
             settingsRepository.toggleShowDialog()
-        }
-    }
-
-    fun setColorTuple(colorTuple: ColorTuple) {
-        viewModelScope.launch {
-            settingsRepository.setColorTuple(
-                colorTuple.run {
-                    "${primary.toArgb()}*${secondary?.toArgb()}*${tertiary?.toArgb()}*${surface?.toArgb()}"
-                }
-            )
         }
     }
 
@@ -189,42 +119,6 @@ class MainViewModel @Inject constructor(
             settingsRepository.setPresets(
                 newPresets.joinToString("*")
             )
-        }
-    }
-
-    fun toggleDynamicColors() {
-        viewModelScope.launch {
-            settingsRepository.toggleDynamicColors()
-        }
-    }
-
-    fun toggleLockDrawOrientation() {
-        viewModelScope.launch {
-            settingsRepository.toggleLockDrawOrientation()
-        }
-    }
-
-    fun setBorderWidth(width: Float) {
-        viewModelScope.launch {
-            settingsRepository.setBorderWidth(width)
-        }
-    }
-
-    fun toggleAllowImageMonet() {
-        viewModelScope.launch {
-            settingsRepository.toggleAllowImageMonet()
-        }
-    }
-
-    fun toggleAmoledMode() {
-        viewModelScope.launch {
-            settingsRepository.toggleAmoledMode()
-        }
-    }
-
-    fun setNightMode(nightMode: NightMode) {
-        viewModelScope.launch {
-            settingsRepository.setNightMode(nightMode)
         }
     }
 
@@ -405,112 +299,6 @@ class MainViewModel @Inject constructor(
         _shouldShowDialog.value = b
     }
 
-    fun updateSaveFolderUri(uri: Uri?) {
-        viewModelScope.launch {
-            settingsRepository.setSaveFolderUri(uri?.toString())
-        }
-    }
-
-    private fun List<ColorTuple>.asString(): String = joinToString(separator = "*") {
-        "${it.primary.toArgb()}/${it.secondary?.toArgb()}/${it.tertiary?.toArgb()}/${it.surface?.toArgb()}"
-    }
-
-    fun updateColorTuples(colorTuples: List<ColorTuple>) {
-        viewModelScope.launch {
-            settingsRepository.setColorTuples(colorTuples.asString())
-        }
-    }
-
-    fun setAlignment(align: Float) {
-        viewModelScope.launch {
-            settingsRepository.setAlignment(align.toInt())
-        }
-    }
-
-    fun updateOrder(data: List<Screen>) {
-        viewModelScope.launch {
-            settingsRepository.setScreenOrder(data.joinToString("/") { it.id.toString() })
-        }
-    }
-
-    fun toggleClearCacheOnLaunch() {
-        viewModelScope.launch {
-            settingsRepository.toggleClearCacheOnLaunch()
-        }
-    }
-
-    fun toggleGroupOptionsByType() {
-        viewModelScope.launch {
-            settingsRepository.toggleGroupOptionsByTypes()
-        }
-    }
-
-    fun toggleRandomizeFilename() {
-        viewModelScope.launch {
-            settingsRepository.toggleRandomizeFilename()
-        }
-    }
-
-    fun createBackup(
-        outputStream: OutputStream?,
-        onSuccess: () -> Unit
-    ) {
-        viewModelScope.launch {
-            outputStream?.use {
-                it.write(settingsRepository.createBackupFile())
-            }
-            onSuccess()
-        }
-    }
-
-    fun restoreBackupFrom(
-        uri: Uri,
-        onSuccess: () -> Unit,
-        onFailure: (Throwable) -> Unit
-    ) {
-        viewModelScope.launch {
-            withContext(dispatcher) {
-                settingsRepository.restoreFromBackupFile(
-                    backupFileUri = uri.toString(),
-                    onSuccess = onSuccess,
-                    onFailure = onFailure
-                )
-            }
-        }
-    }
-
-    fun resetSettings() {
-        viewModelScope.launch {
-            settingsRepository.resetSettings()
-        }
-    }
-
-    fun createBackupFilename(): String = settingsRepository.createBackupFilename()
-
-    fun setFont(font: FontFam) {
-        viewModelScope.launch {
-            settingsRepository.setFont(font)
-        }
-    }
-
-    fun onUpdateFontScale(scale: Float) {
-        viewModelScope.launch {
-            settingsRepository.setFontScale(scale)
-        }
-    }
-
-    fun toggleAllowCollectCrashlytics() {
-        viewModelScope.launch {
-            settingsRepository.toggleAllowCrashlytics()
-        }
-    }
-
-    fun toggleAllowCollectAnalytics() {
-        viewModelScope.launch {
-            settingsRepository.toggleAllowAnalytics()
-        }
-    }
-
     fun toggleAllowBetas(installedFromMarket: Boolean) {
         viewModelScope.launch {
             settingsRepository.toggleAllowBetas()
@@ -521,153 +309,12 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun toggleDrawContainerShadows() {
-        viewModelScope.launch {
-            settingsRepository.toggleDrawContainerShadows()
-        }
-    }
-
-    fun toggleDrawSwitchShadows() {
-        viewModelScope.launch {
-            settingsRepository.toggleDrawSwitchShadows()
-        }
-    }
-
-    fun toggleDrawSliderShadows() {
-        viewModelScope.launch {
-            settingsRepository.toggleDrawSliderShadows()
-        }
-    }
-
-    fun toggleDrawButtonShadows() {
-        viewModelScope.launch {
-            settingsRepository.toggleDrawButtonShadows()
-        }
-    }
-
-    fun toggleDrawFabShadows() {
-        viewModelScope.launch {
-            settingsRepository.toggleDrawFabShadows()
-        }
-    }
-
     suspend fun getColorTupleFromEmoji(
         emojiUri: String
     ): ColorTuple? = imageGetter
         .getImage(data = emojiUri)
         ?.extractPrimaryColor()
         ?.let { ColorTuple(it) }
-
-    fun addColorTupleFromEmoji(
-        getEmoji: (Int?) -> String,
-        showShoeDescription: ((String) -> Unit)? = null
-    ) {
-        viewModelScope.launch {
-            val emojiUri = getEmoji(settingsState.selectedEmoji)
-            if (emojiUri.contains("shoe", true) && showShoeDescription != null) {
-                showShoeDescription(emojiUri)
-                setFont(FontFam.DejaVu)
-                val colorTuple = ColorTuple(
-                    primary = Color(0xFF6D216D),
-                    secondary = Color(0xFF240A95),
-                    tertiary = Color(0xFFFFFFA0),
-                    surface = Color(0xFF1D2D3D)
-                )
-                val colorTupleS = listOf(colorTuple).asString()
-                setColorTuple(colorTuple)
-                settingsRepository.setColorTuples(settingsState.colorTupleList + "*" + colorTupleS)
-                updateThemeContrast(0f)
-                setThemeStyle(0)
-                if (settingsState.useEmojiAsPrimaryColor) toggleUseEmojiAsPrimaryColor()
-                if (settingsState.isInvertThemeColors) toggleInvertColors()
-            } else {
-                imageGetter.getImage(data = emojiUri)
-                    ?.extractPrimaryColor()
-                    ?.let { primary ->
-                        val colorTuple = ColorTuple(primary)
-                        setColorTuple(colorTuple)
-                        settingsRepository.setColorTuples(
-                            settingsState.colorTupleList + "*" + listOf(
-                                colorTuple
-                            ).asString()
-                        )
-                    }
-            }
-            if (settingsState.isDynamicColors) toggleDynamicColors()
-        }
-    }
-
-    fun updateThemeContrast(value: Float) {
-        viewModelScope.launch {
-            settingsRepository.setThemeContrast(value.toDouble())
-        }
-    }
-
-    fun setThemeStyle(value: Int) {
-        viewModelScope.launch {
-            settingsRepository.setThemeStyle(value)
-        }
-    }
-
-    fun toggleInvertColors() {
-        viewModelScope.launch {
-            settingsRepository.toggleInvertColors()
-        }
-    }
-
-    fun toggleScreenSearchEnabled() {
-        viewModelScope.launch {
-            settingsRepository.toggleScreensSearchEnabled()
-        }
-    }
-
-    fun toggleDrawAppBarShadows() {
-        viewModelScope.launch {
-            settingsRepository.toggleDrawAppBarShadows()
-        }
-    }
-
-    fun setCopyToClipboardMode(copyToClipboardMode: CopyToClipboardMode) {
-        viewModelScope.launch {
-            settingsRepository.setCopyToClipboardMode(copyToClipboardMode)
-        }
-    }
-
-    fun setVibrationStrength(strength: Int) {
-        viewModelScope.launch {
-            settingsRepository.setVibrationStrength(strength)
-        }
-    }
-
-    fun toggleOverwriteFiles() {
-        viewModelScope.launch {
-            settingsRepository.toggleOverwriteFiles()
-        }
-    }
-
-    fun setDefaultImageScaleMode(imageScaleMode: ImageScaleMode) {
-        viewModelScope.launch {
-            settingsRepository.setDefaultImageScaleMode(imageScaleMode)
-        }
-    }
-
-    fun toggleUsePixelSwitch() {
-        viewModelScope.launch {
-            settingsRepository.toggleUsePixelSwitch()
-        }
-    }
-
-    fun toggleMagnifierEnabled() {
-        viewModelScope.launch {
-            settingsRepository.toggleMagnifierEnabled()
-        }
-    }
-
-    fun toggleExifWidgetInitialState() {
-        viewModelScope.launch {
-            settingsRepository.toggleExifWidgetInitialState()
-        }
-    }
 
     private val _showGithubReviewSheet = mutableStateOf(false)
     val showGithubReviewSheet by _showGithubReviewSheet
@@ -678,97 +325,6 @@ class MainViewModel @Inject constructor(
 
     fun hideReviewSheet() {
         _showGithubReviewSheet.update { false }
-    }
-
-    fun updateBrightnessEnforcementScreens(screen: Screen) {
-        viewModelScope.launch {
-            val screens = settingsState.screenListWithMaxBrightnessEnforcement.let {
-                if (screen.id in it) it - screen.id
-                else it + screen.id
-            }
-
-            settingsRepository.setScreensWithBrightnessEnforcement(
-                screens.joinToString("/") { it.toString() }
-            )
-        }
-    }
-
-    fun toggleConfettiEnabled(value: Boolean) {
-        viewModelScope.launch {
-            settingsRepository.toggleConfettiEnabled()
-        }
-    }
-
-    fun toggleSecureMode(value: Boolean) {
-        viewModelScope.launch {
-            settingsRepository.toggleSecureMode()
-        }
-    }
-
-    fun toggleUseEmojiAsPrimaryColor() {
-        viewModelScope.launch {
-            settingsRepository.toggleUseEmojiAsPrimaryColor()
-        }
-    }
-
-    fun toggleUseRandomEmojis(value: Boolean) {
-        viewModelScope.launch {
-            settingsRepository.toggleUseRandomEmojis()
-        }
-    }
-
-    fun setIconShape(iconShape: Int) {
-        viewModelScope.launch {
-            settingsRepository.setIconShape(iconShape)
-        }
-    }
-
-    fun setDragHandleWidth(width: Int) {
-        viewModelScope.launch {
-            settingsRepository.setDragHandleWidth(width)
-        }
-    }
-
-    fun setConfettiType(type: Int) {
-        viewModelScope.launch {
-            settingsRepository.setConfettiType(type)
-        }
-    }
-
-    fun toggleAllowAutoClipboardPaste() {
-        viewModelScope.launch {
-            settingsRepository.toggleAllowAutoClipboardPaste()
-        }
-    }
-
-    fun setConfettiHarmonizer(harmonizer: Harmonizer) {
-        viewModelScope.launch {
-            settingsRepository.setConfettiHarmonizer(harmonizer)
-        }
-    }
-
-    fun setConfettiHarmonizationLevel(level: Float) {
-        viewModelScope.launch {
-            settingsRepository.setConfettiHarmonizationLevel(level)
-        }
-    }
-
-    fun toggleGeneratePreviews() {
-        viewModelScope.launch {
-            settingsRepository.toggleGeneratePreviews()
-        }
-    }
-
-    fun toggleSkipImagePicking() {
-        viewModelScope.launch {
-            settingsRepository.toggleSkipImagePicking()
-        }
-    }
-
-    fun toggleShowSettingsInLandscape() {
-        viewModelScope.launch {
-            settingsRepository.toggleShowSettingsInLandscape()
-        }
     }
 
 }

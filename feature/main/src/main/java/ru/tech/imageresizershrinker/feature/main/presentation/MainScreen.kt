@@ -71,8 +71,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.feature.main.presentation.components.MainScreenContent
 import ru.tech.imageresizershrinker.feature.main.presentation.components.MainScreenDrawerContent
-import ru.tech.imageresizershrinker.feature.main.presentation.components.settings.SettingsBlock
 import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
+import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsScreen
 
 @Composable
 fun MainScreen(
@@ -96,9 +96,10 @@ fun MainScreen(
                 onToggleSheetExpanded = { sheetExpanded = it },
                 layoutDirection = layoutDirection,
                 settingsBlockContent = { settingsSearchKeyword ->
-                    SettingsBlock(
+                    SettingsScreen(
                         searchKeyword = settingsSearchKeyword,
-                        viewModel = viewModel
+                        onTryGetUpdate = viewModel::tryGetUpdate,
+                        updateAvailable = viewModel.updateAvailable
                     )
                 }
             )

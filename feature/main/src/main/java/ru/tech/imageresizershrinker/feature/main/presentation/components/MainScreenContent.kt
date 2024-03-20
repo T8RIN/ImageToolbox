@@ -50,6 +50,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -381,9 +382,7 @@ internal fun MainScreenContent(
                         }
                     }
 
-                    val cutout = if (!showNavRail) {
-                        WindowInsets.displayCutout.asPaddingValues()
-                    } else PaddingValues()
+                    val cutout = WindowInsets.displayCutout.asPaddingValues()
 
                     AnimatedContent(
                         modifier = Modifier
@@ -423,10 +422,16 @@ internal fun MainScreenContent(
                                         } + if (showClipButton) 76.dp
                                         else 0.dp,
                                         top = 12.dp,
-                                        end = 12.dp,
-                                        start = 12.dp + cutout.calculateStartPadding(
-                                            LocalLayoutDirection.current
-                                        )
+                                        end = 12.dp + if (isSheetSlideable) {
+                                            cutout.calculateEndPadding(
+                                                LocalLayoutDirection.current
+                                            )
+                                        } else 0.dp,
+                                        start = 12.dp + if (!showNavRail) {
+                                            cutout.calculateStartPadding(
+                                                LocalLayoutDirection.current
+                                            )
+                                        } else 0.dp
                                     ),
                                     content = {
                                         items(currentScreenList) { screen ->
