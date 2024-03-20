@@ -107,26 +107,65 @@ sealed class ImageFormat(
         canChangeCompressionValue = false
     )
 
-    data object Avif : ImageFormat(
-        title = "AVIF",
+    sealed class Avif(
+        title: String,
+        canChangeCompressionValue: Boolean
+    ) : ImageFormat(
+        title = title,
         extension = "avif",
         type = "image/avif",
-        canChangeCompressionValue = true
-    )
+        canChangeCompressionValue = canChangeCompressionValue
+    ) {
+        data object Lossless : Avif(
+            title = "AVIF Lossless",
+            canChangeCompressionValue = false
+        )
 
-    data object Heif : ImageFormat(
-        title = "HEIF",
+        data object Lossy : Avif(
+            title = "AVIF Lossy",
+            canChangeCompressionValue = true
+        )
+    }
+
+    sealed class Heif(
+        title: String,
+        canChangeCompressionValue: Boolean
+    ) : ImageFormat(
+        title = title,
         extension = "heif",
         type = "image/heif",
-        canChangeCompressionValue = true
-    )
+        canChangeCompressionValue = canChangeCompressionValue
+    ) {
+        data object Lossless : Heif(
+            title = "HEIF Lossless",
+            canChangeCompressionValue = false
+        )
 
-    data object Heic : ImageFormat(
-        title = "HEIC",
+        data object Lossy : Heif(
+            title = "HEIF Lossy",
+            canChangeCompressionValue = true
+        )
+    }
+
+    sealed class Heic(
+        title: String,
+        canChangeCompressionValue: Boolean
+    ) : ImageFormat(
+        title = title,
         extension = "heic",
         type = "image/heic",
-        canChangeCompressionValue = true
-    )
+        canChangeCompressionValue = canChangeCompressionValue
+    ) {
+        data object Lossless : Heif(
+            title = "HEIC Lossless",
+            canChangeCompressionValue = false
+        )
+
+        data object Lossy : Heif(
+            title = "HEIC Lossy",
+            canChangeCompressionValue = true
+        )
+    }
 
     sealed class Jxl(
         title: String,
@@ -177,17 +216,20 @@ sealed class ImageFormat(
             typeString.contains("jpeg") -> Jpeg
             typeString.contains("jpg") -> Jpg
             typeString.contains("webp") -> Webp.Lossless
-            typeString.contains("avif") -> Avif
-            typeString.contains("heif") -> Heif
-            typeString.contains("heic") -> Heic
+            typeString.contains("avif") -> Avif.Lossless
+            typeString.contains("heif") -> Heif.Lossless
+            typeString.contains("heic") -> Heic.Lossless
             else -> Default()
         }
 
         val highLevelFormats by lazy {
             listOf(
-                Avif,
-                Heic,
-                Heif
+                Avif.Lossy,
+                Avif.Lossless,
+                Heic.Lossy,
+                Heic.Lossless,
+                Heif.Lossy,
+                Heif.Lossless
             )
         }
 
@@ -200,11 +242,14 @@ sealed class ImageFormat(
                 PngLossless,
                 PngLossy,
                 Bmp,
-                Webp.Lossy,
                 Webp.Lossless,
-                Avif,
-                Heic,
-                Heif,
+                Webp.Lossy,
+                Avif.Lossless,
+                Avif.Lossy,
+                Heic.Lossless,
+                Heic.Lossy,
+                Heif.Lossless,
+                Heif.Lossy,
                 Jxl.Lossless,
                 Jxl.Lossy
             )

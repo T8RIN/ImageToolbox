@@ -30,6 +30,7 @@ import com.awxkee.jxlcoder.JxlCompressionOption
 import com.awxkee.jxlcoder.JxlDecodingSpeed
 import com.awxkee.jxlcoder.JxlEffort
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
+import com.radzivon.bartoshyk.avif.coder.PreciseMode
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.Quality
 import java.io.ByteArrayOutputStream
@@ -43,10 +44,14 @@ internal abstract class SimpleCompressor {
             imageFormat: ImageFormat,
             context: Context
         ): SimpleCompressor = when (imageFormat) {
-            ImageFormat.Avif -> Avif(context)
+            ImageFormat.Avif.Lossless -> AvifLossless(context)
+            ImageFormat.Avif.Lossy -> AvifLossy(context)
             ImageFormat.Bmp -> Bmp
-            ImageFormat.Heic,
-            ImageFormat.Heif -> Heic(context)
+            ImageFormat.Heic.Lossless,
+            ImageFormat.Heif.Lossless -> HeicLossless(context)
+
+            ImageFormat.Heic.Lossy,
+            ImageFormat.Heif.Lossy -> HeicLossy(context)
 
             ImageFormat.Jpeg,
             ImageFormat.Jpg -> Jpg
@@ -299,7 +304,7 @@ internal abstract class SimpleCompressor {
 
     }
 
-    data class Heic(
+    data class HeicLossless(
         private val context: Context
     ) : SimpleCompressor() {
 
@@ -308,12 +313,28 @@ internal abstract class SimpleCompressor {
             quality: Quality
         ): ByteArray = HeifCoder(context).encodeHeic(
             bitmap = image,
-            quality = quality.qualityValue
+            quality = quality.qualityValue,
+            preciseMode = PreciseMode.LOSSLESS
         )
 
     }
 
-    data class Avif(
+    data class HeicLossy(
+        private val context: Context
+    ) : SimpleCompressor() {
+
+        override fun compress(
+            image: Bitmap,
+            quality: Quality
+        ): ByteArray = HeifCoder(context).encodeHeic(
+            bitmap = image,
+            quality = quality.qualityValue,
+            preciseMode = PreciseMode.LOSSY
+        )
+
+    }
+
+    data class AvifLossless(
         private val context: Context
     ) : SimpleCompressor() {
 
@@ -322,7 +343,23 @@ internal abstract class SimpleCompressor {
             quality: Quality
         ): ByteArray = HeifCoder(context).encodeAvif(
             bitmap = image,
-            quality = quality.qualityValue
+            quality = quality.qualityValue,
+            preciseMode = PreciseMode.LOSSLESS
+        )
+
+    }
+
+    data class AvifLossy(
+        private val context: Context
+    ) : SimpleCompressor() {
+
+        override fun compress(
+            image: Bitmap,
+            quality: Quality
+        ): ByteArray = HeifCoder(context).encodeAvif(
+            bitmap = image,
+            quality = quality.qualityValue,
+            preciseMode = PreciseMode.LOSSY
         )
 
     }

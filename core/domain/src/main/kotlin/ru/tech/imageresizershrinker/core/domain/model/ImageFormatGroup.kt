@@ -57,15 +57,18 @@ sealed class ImageFormatGroup(
     data object Avif : ImageFormatGroup(
         title = "AVIF",
         formats = listOf(
-            ImageFormat.Avif
+            ImageFormat.Avif.Lossless,
+            ImageFormat.Avif.Lossy
         )
     )
 
     data object Heic : ImageFormatGroup(
         title = "HEIC",
         formats = listOf(
-            ImageFormat.Heic,
-            ImageFormat.Heif
+            ImageFormat.Heic.Lossless,
+            ImageFormat.Heic.Lossy,
+            ImageFormat.Heif.Lossless,
+            ImageFormat.Heif.Lossy
         )
     )
 
