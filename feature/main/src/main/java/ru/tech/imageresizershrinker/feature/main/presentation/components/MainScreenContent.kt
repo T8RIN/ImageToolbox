@@ -125,10 +125,10 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.APP_LINK
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.material.Github
+import ru.tech.imageresizershrinker.core.resources.material.GooglePlay
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.isFirstLaunch
-import ru.tech.imageresizershrinker.core.ui.icons.material.Github
-import ru.tech.imageresizershrinker.core.ui.icons.material.GooglePlay
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.helper.clipList

@@ -22,7 +22,8 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.media_picker"
+android.namespace = "ru.tech.imageresizershrinker.feature.media_picker"
+
 dependencies {
     implementation(projects.core.crash)
 }

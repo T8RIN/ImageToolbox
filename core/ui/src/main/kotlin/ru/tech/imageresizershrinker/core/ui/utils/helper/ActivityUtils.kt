@@ -32,13 +32,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
 
 val AppActivityClass: Class<*> by lazy {
     Class.forName(
-        "ru.tech.imageresizershrinker.presentation.AppActivity"
+        "ru.tech.imageresizershrinker.app.presentation.AppActivity"
     )
 }
 
 val MediaPickerActivityClass: Class<*> by lazy {
     Class.forName(
-        "ru.tech.imageresizershrinker.media_picker.presentation.MediaPickerActivity"
+        "ru.tech.imageresizershrinker.feature.media_picker.presentation.MediaPickerActivity"
     )
 }
 

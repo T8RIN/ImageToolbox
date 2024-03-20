@@ -27,7 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.icons.material.Dots
+import ru.tech.imageresizershrinker.core.resources.material.Dots
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 
 @Composable

@@ -17,6 +17,7 @@
 
 plugins {
     alias(libs.plugins.image.toolbox.library)
+    alias(libs.plugins.image.toolbox.compose)
 }
 
 android {
@@ -42,4 +43,5 @@ dependencies {
     implementation(libs.androidxCore)
     implementation(libs.appCompat)
     implementation(libs.splashScreen)
+    implementation(libs.kotlinx.collections.immutable)
 }

@@ -33,7 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.APP_LINK
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.icons.material.Github
+import ru.tech.imageresizershrinker.core.resources.material.Github
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
 

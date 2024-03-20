@@ -52,9 +52,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.icons.material.Cube
-import ru.tech.imageresizershrinker.core.ui.icons.material.Highlighter
-import ru.tech.imageresizershrinker.core.ui.icons.material.Laser
+import ru.tech.imageresizershrinker.core.resources.material.Cube
+import ru.tech.imageresizershrinker.core.resources.material.Highlighter
+import ru.tech.imageresizershrinker.core.resources.material.Laser
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton

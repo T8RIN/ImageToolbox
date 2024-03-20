@@ -39,8 +39,8 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.AUTHOR_LINK
 import ru.tech.imageresizershrinker.core.domain.AUTHOR_TG
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.icons.material.Github
-import ru.tech.imageresizershrinker.core.ui.icons.material.Telegram
+import ru.tech.imageresizershrinker.core.resources.material.Github
+import ru.tech.imageresizershrinker.core.resources.material.Telegram
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults.bottomShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults.centerShape

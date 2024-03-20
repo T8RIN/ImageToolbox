@@ -68,6 +68,7 @@ include(":feature:zip")
 include(":feature:jxl-tools")
 include(":feature:media-picker")
 include(":feature:quick-tiles")
+include(":feature:settings")
 
 include(":core:settings")
 include(":core:resources")
