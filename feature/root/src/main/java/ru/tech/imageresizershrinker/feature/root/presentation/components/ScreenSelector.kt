@@ -25,9 +25,6 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalConfiguration
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
@@ -86,7 +83,7 @@ internal fun ScreenSelector(
             if (backstack.entries.size > 1) pop()
         }
         scope.launch {
-            delay(350L)
+            delay(350L) //delay for screen anim
             themeState.updateColorTuple(appColorTuple)
         }
     }
@@ -303,10 +300,6 @@ internal fun ScreenSelector(
             }
         }
     }
-    val currentScreen by remember(navController.backstack.entries) {
-        derivedStateOf {
-            navController.backstack.entries.lastOrNull()?.destination
-        }
-    }
-    ScreenBasedMaxBrightnessEnforcement(currentScreen)
+
+    ScreenBasedMaxBrightnessEnforcement()
 }
