@@ -17,7 +17,7 @@
 
 @file:Suppress("ConstPropertyName")
 
-package ru.tech.imageresizershrinker.feature.main.presentation.components
+package ru.tech.imageresizershrinker.core.ui.widget.other
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState

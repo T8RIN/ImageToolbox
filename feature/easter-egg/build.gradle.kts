@@ -18,12 +18,7 @@
 plugins {
     alias(libs.plugins.image.toolbox.library)
     alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "ru.tech.imageresizershrinker.feature.main"
-
-dependencies {
-    implementation(projects.feature.settings)
-}
+android.namespace = "ru.tech.imageresizershrinker.feature.easter_egg"

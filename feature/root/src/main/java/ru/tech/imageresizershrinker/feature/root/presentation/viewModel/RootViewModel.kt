@@ -15,9 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:Suppress("SameParameterValue", "unused")
-
-package ru.tech.imageresizershrinker.feature.main.presentation.viewModel
+package ru.tech.imageresizershrinker.feature.root.presentation.viewModel
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -44,6 +42,7 @@ import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.APP_RELEASES
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
+import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
@@ -55,8 +54,9 @@ import javax.inject.Inject
 import javax.xml.parsers.DocumentBuilderFactory
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class RootViewModel @Inject constructor(
     val imageLoader: ImageLoader,
+    val favoriteFiltersInteractor: FavoriteFiltersInteractor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     fileController: FileController,
     private val settingsRepository: SettingsRepository,

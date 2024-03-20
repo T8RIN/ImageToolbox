@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.main.presentation.components
+package ru.tech.imageresizershrinker.feature.root.presentation.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
@@ -66,7 +66,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun EditPresetsSheet(
+internal fun EditPresetsSheet(
     editPresetsState: MutableState<Boolean>,
     updatePresets: (List<Int>) -> Unit
 ) {

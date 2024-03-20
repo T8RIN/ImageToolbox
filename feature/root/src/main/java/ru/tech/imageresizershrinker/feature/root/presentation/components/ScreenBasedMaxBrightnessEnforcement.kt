@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.main.presentation.components
+package ru.tech.imageresizershrinker.feature.root.presentation.components
 
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
@@ -27,7 +27,9 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 
 @Composable
-fun ScreenBasedMaxBrightnessEnforcement(screen: Screen?) {
+internal fun ScreenBasedMaxBrightnessEnforcement(
+    screen: Screen?
+) {
     val context = LocalContext.current as ComponentActivity
 
     val listToForceBrightness = LocalSettingsState.current.screenListWithMaxBrightnessEnforcement

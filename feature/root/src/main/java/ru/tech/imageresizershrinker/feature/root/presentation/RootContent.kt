@@ -15,12 +15,13 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.app.presentation.components
+package ru.tech.imageresizershrinker.feature.root.presentation
 
 import android.content.ClipData
 import android.content.res.Configuration
 import android.os.Build
 import android.view.WindowManager
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -45,7 +46,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
-import ru.tech.imageresizershrinker.app.presentation.AppActivity
 import ru.tech.imageresizershrinker.core.crash.components.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
@@ -66,19 +66,19 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
-import ru.tech.imageresizershrinker.feature.main.presentation.components.AppExitDialog
-import ru.tech.imageresizershrinker.feature.main.presentation.components.EditPresetsSheet
-import ru.tech.imageresizershrinker.feature.main.presentation.components.FirstLaunchSetupDialog
-import ru.tech.imageresizershrinker.feature.main.presentation.components.GithubReviewDialog
-import ru.tech.imageresizershrinker.feature.main.presentation.components.PermissionDialog
-import ru.tech.imageresizershrinker.feature.main.presentation.components.ScreenSelector
-import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
+import ru.tech.imageresizershrinker.feature.root.presentation.components.AppExitDialog
+import ru.tech.imageresizershrinker.feature.root.presentation.components.EditPresetsSheet
+import ru.tech.imageresizershrinker.feature.root.presentation.components.FirstLaunchSetupDialog
+import ru.tech.imageresizershrinker.feature.root.presentation.components.GithubReviewDialog
+import ru.tech.imageresizershrinker.feature.root.presentation.components.PermissionDialog
+import ru.tech.imageresizershrinker.feature.root.presentation.components.ScreenSelector
+import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootViewModel
 
 @Composable
-internal fun AppContent(
-    viewModel: MainViewModel
+fun RootContent(
+    viewModel: RootViewModel
 ) {
-    val context = LocalContext.current as AppActivity
+    val context = LocalContext.current as ComponentActivity
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
     val editPresetsState = rememberSaveable { mutableStateOf(false) }
@@ -134,7 +134,7 @@ internal fun AppContent(
         LocalConfettiHostState provides rememberConfettiHostState(),
         LocalImageLoader provides viewModel.imageLoader,
         LocalHapticFeedback provides customHapticFeedback(viewModel.settingsState.hapticsStrength),
-        LocalFavoriteFiltersInteractor provides context.favoriteFiltersInteractor
+        LocalFavoriteFiltersInteractor provides viewModel.favoriteFiltersInteractor
     ) {
         val showSelectSheet = rememberSaveable(viewModel.showSelectDialog) {
             mutableStateOf(viewModel.showSelectDialog)

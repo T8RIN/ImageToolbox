@@ -69,6 +69,8 @@ include(":feature:jxl-tools")
 include(":feature:media-picker")
 include(":feature:quick-tiles")
 include(":feature:settings")
+include(":feature:easter-egg")
+include(":feature:root")
 
 include(":core:settings")
 include(":core:resources")

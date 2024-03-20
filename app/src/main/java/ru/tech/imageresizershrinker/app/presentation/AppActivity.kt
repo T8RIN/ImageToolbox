@@ -18,26 +18,20 @@
 package ru.tech.imageresizershrinker.app.presentation
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.olshevski.navigation.reimagined.navigate
-import ru.tech.imageresizershrinker.app.presentation.components.AppContent
 import ru.tech.imageresizershrinker.core.crash.components.M3Activity
-import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.parseImageFromIntent
 import ru.tech.imageresizershrinker.core.ui.widget.utils.setContentWithWindowSizeClass
-import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
-import javax.inject.Inject
+import ru.tech.imageresizershrinker.feature.root.presentation.RootContent
+import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootViewModel
 
 @AndroidEntryPoint
 class AppActivity : M3Activity() {
 
-    private val viewModel by viewModels<MainViewModel>()
-
-    @Inject
-    lateinit var favoriteFiltersInteractor: FavoriteFiltersInteractor<Bitmap>
+    private val viewModel by viewModels<RootViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +39,7 @@ class AppActivity : M3Activity() {
         parseImage(intent)
 
         setContentWithWindowSizeClass {
-            AppContent(viewModel = viewModel)
+            RootContent(viewModel = viewModel)
         }
     }
 

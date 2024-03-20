@@ -17,7 +17,7 @@
 
 @file:Suppress("KotlinConstantConditions")
 
-package ru.tech.imageresizershrinker.feature.main.presentation.components
+package ru.tech.imageresizershrinker.feature.easter_egg.presentation
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.animateFloatAsState

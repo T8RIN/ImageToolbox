@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.main.presentation.components
+package ru.tech.imageresizershrinker.feature.root.presentation.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -59,7 +59,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Suppress("KotlinConstantConditions")
 @Composable
-fun FirstLaunchSetupDialog(
+internal fun FirstLaunchSetupDialog(
     toggleAllowBetas: (Boolean) -> Unit,
     toggleShowUpdateDialog: () -> Unit
 ) {

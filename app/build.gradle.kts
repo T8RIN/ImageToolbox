@@ -135,7 +135,7 @@ dependencies {
     implementation(projects.core.filters)
     implementation(projects.core.crash)
 
-    implementation(projects.feature.main)
+    implementation(projects.feature.root)
     implementation(projects.feature.mediaPicker)
     implementation(projects.feature.quickTiles)
 }

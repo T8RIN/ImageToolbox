@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.main.presentation
 
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -71,13 +72,24 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.feature.main.presentation.components.MainScreenContent
 import ru.tech.imageresizershrinker.feature.main.presentation.components.MainScreenDrawerContent
-import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsScreen
 
 @Composable
 fun MainScreen(
-    viewModel: MainViewModel
+    onTryGetUpdate: (
+        newRequest: Boolean,
+        installedFromMarket: Boolean,
+        onNoUpdates: () -> Unit
+    ) -> Unit,
+    updateAvailable: Boolean,
+    updateUris: (List<Uri>) -> Unit
 ) {
+    fun tryGetUpdate(
+        newRequest: Boolean,
+        installedFromMarket: Boolean,
+        onNoUpdates: () -> Unit
+    ) = onTryGetUpdate(newRequest, installedFromMarket, onNoUpdates)
+
     val settingsState = LocalSettingsState.current
     val isGrid = LocalWindowSizeClass.current.widthSizeClass != WindowWidthSizeClass.Compact
 
@@ -98,8 +110,8 @@ fun MainScreen(
                 settingsBlockContent = { settingsSearchKeyword ->
                     SettingsScreen(
                         searchKeyword = settingsSearchKeyword,
-                        onTryGetUpdate = viewModel::tryGetUpdate,
-                        updateAvailable = viewModel.updateAvailable
+                        onTryGetUpdate = ::tryGetUpdate,
+                        updateAvailable = updateAvailable
                     )
                 }
             )
@@ -121,9 +133,9 @@ fun MainScreen(
             onShowSnowfall = {
                 showSnowfall = true
             },
-            onGetClipList = viewModel::updateUris,
+            onGetClipList = updateUris,
             onTryGetUpdate = {
-                viewModel.tryGetUpdate(
+                tryGetUpdate(
                     newRequest = true,
                     installedFromMarket = context.isInstalledFromPlayStore(),
                     onNoUpdates = {
@@ -136,7 +148,7 @@ fun MainScreen(
                     }
                 )
             },
-            updateAvailable = viewModel.updateAvailable
+            updateAvailable = updateAvailable
         )
     }
 

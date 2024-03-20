@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.main.presentation.components
+package ru.tech.imageresizershrinker.feature.root.presentation.components
 
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.feature.compare.presentation.CompareScreen
 import ru.tech.imageresizershrinker.feature.crop.presentation.CropScreen
 import ru.tech.imageresizershrinker.feature.delete_exif.presentation.DeleteExifScreen
 import ru.tech.imageresizershrinker.feature.draw.presentation.DrawScreen
+import ru.tech.imageresizershrinker.feature.easter_egg.presentation.EasterEggScreen
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.EraseBackgroundScreen
 import ru.tech.imageresizershrinker.feature.filters.presentation.FiltersScreen
 import ru.tech.imageresizershrinker.feature.generate_palette.presentation.GeneratePaletteScreen
@@ -57,18 +58,18 @@ import ru.tech.imageresizershrinker.feature.jxl_tools.presentation.JxlToolsScree
 import ru.tech.imageresizershrinker.feature.limits_resize.presentation.LimitsResizeScreen
 import ru.tech.imageresizershrinker.feature.load_net_image.presentation.LoadNetImageScreen
 import ru.tech.imageresizershrinker.feature.main.presentation.MainScreen
-import ru.tech.imageresizershrinker.feature.main.presentation.viewModel.MainViewModel
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.PdfToolsScreen
 import ru.tech.imageresizershrinker.feature.pick_color.presentation.PickColorFromImageScreen
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.RecognizeTextScreen
 import ru.tech.imageresizershrinker.feature.resize_convert.presentation.ResizeAndConvertScreen
+import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootViewModel
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.SingleEditScreen
 import ru.tech.imageresizershrinker.feature.watermarking.presentation.WatermarkingScreen
 import ru.tech.imageresizershrinker.feature.zip.presentation.ZipScreen
 
 @Composable
-fun ScreenSelector(
-    viewModel: MainViewModel
+internal fun ScreenSelector(
+    viewModel: RootViewModel
 ) {
     val scope = rememberCoroutineScope()
     val navController = viewModel.navController
@@ -125,7 +126,9 @@ fun ScreenSelector(
 
             is Screen.Main -> {
                 MainScreen(
-                    viewModel = viewModel
+                    onTryGetUpdate = viewModel::tryGetUpdate,
+                    updateAvailable = viewModel.updateAvailable,
+                    updateUris = viewModel::updateUris
                 )
             }
 

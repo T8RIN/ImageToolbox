@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.main.presentation.components
+package ru.tech.imageresizershrinker.feature.root.presentation.components
 
 import android.Manifest
 import android.app.Activity
@@ -48,7 +48,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 
 @Composable
-fun PermissionDialog() {
+internal fun PermissionDialog() {
     val context = LocalContext.current as Activity
     val settingsState = LocalSettingsState.current
 

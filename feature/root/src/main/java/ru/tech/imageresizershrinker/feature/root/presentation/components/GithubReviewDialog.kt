@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.main.presentation.components
+package ru.tech.imageresizershrinker.feature.root.presentation.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.StarRate
@@ -33,7 +33,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
 
 @Composable
-fun GithubReviewDialog(
+internal fun GithubReviewDialog(
     onDismiss: () -> Unit,
     showNotShowAgainButton: Boolean,
     onNotShowAgain: () -> Unit
