@@ -143,7 +143,7 @@ class MainViewModel @Inject constructor(
             if (!_cancelledUpdate.value || newRequest) {
                 viewModelScope.launch {
                     withContext(dispatcher) {
-                        kotlin.runCatching {
+                        runCatching {
                             val nodes =
                                 DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
                                     URL("$APP_RELEASES.atom").openConnection().getInputStream()
