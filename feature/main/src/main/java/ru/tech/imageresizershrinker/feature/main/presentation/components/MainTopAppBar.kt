@@ -69,7 +69,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 internal fun MainTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     showScreenSearch: Boolean,
-    canSearchScreens: Boolean,
     onChangeShowScreenSearch: (Boolean) -> Unit,
     onShowSnowfall: () -> Unit,
     sideSheetState: DrawerState,
@@ -77,6 +76,7 @@ internal fun MainTopAppBar(
 ) {
     val scope = rememberCoroutineScope()
     val settingsState = LocalSettingsState.current
+    val canSearchScreens = settingsState.screensSearchEnabled
 
     EnhancedTopAppBar(
         type = EnhancedTopAppBarType.Large,

@@ -96,7 +96,6 @@ internal fun RowScope.ScreenPreferenceSelection(
     currentScreenList: List<Screen>,
     showScreenSearch: Boolean,
     screenSearchKeyword: String,
-    canSearchScreens: Boolean,
     isGrid: Boolean,
     isSheetSlideable: Boolean,
     onGetClipList: (List<Uri>) -> Unit,
@@ -107,6 +106,7 @@ internal fun RowScope.ScreenPreferenceSelection(
     val navController = LocalNavController.current
     val settingsState = LocalSettingsState.current
     val cutout = WindowInsets.displayCutout.asPaddingValues()
+    val canSearchScreens = settingsState.screensSearchEnabled
 
     val compactHeight =
         LocalWindowSizeClass.current.heightSizeClass == WindowHeightSizeClass.Compact
