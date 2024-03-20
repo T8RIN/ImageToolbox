@@ -15,87 +15,24 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:Suppress("KotlinConstantConditions")
-
 package ru.tech.imageresizershrinker.feature.main.presentation.components
 
-import android.content.ActivityNotFoundException
-import android.content.ClipboardManager
-import android.content.Intent
 import android.net.Uri
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
-import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.automirrored.rounded.ManageSearch
-import androidx.compose.material.icons.outlined.ContentPasteOff
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.ContentPaste
-import androidx.compose.material.icons.rounded.SearchOff
-import androidx.compose.material.icons.rounded.Settings
-import androidx.compose.material3.Badge
-import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.DrawerDefaults
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
@@ -103,57 +40,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.core.content.getSystemService
-import dev.olshevski.navigation.reimagined.navigate
-import dev.olshevski.navigation.reimagined.popUpTo
-import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.APP_LINK
-import ru.tech.imageresizershrinker.core.resources.BuildConfig
-import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.material.Github
-import ru.tech.imageresizershrinker.core.resources.material.GooglePlay
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.settings.presentation.isFirstLaunch
-import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
-import ru.tech.imageresizershrinker.core.ui.utils.helper.clipList
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberClipboardData
-import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.pulsate
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.rotateAnimation
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.scaleOnTap
-import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
-import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
-import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
-import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
-import ru.tech.imageresizershrinker.core.ui.widget.other.NavigationItem
-import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
-import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
-import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 
 @Composable
 internal fun MainScreenContent(
@@ -168,7 +63,6 @@ internal fun MainScreenContent(
     updateAvailable: Boolean
 ) {
     val settingsState = LocalSettingsState.current
-    val navController = LocalNavController.current
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val screenList by remember(settingsState.screenList) {
@@ -178,10 +72,8 @@ internal fun MainScreenContent(
             }.takeIf { it.isNotEmpty() } ?: Screen.entries
         }
     }
-    val scope = rememberCoroutineScope()
-    val compactHeight =
-        LocalWindowSizeClass.current.heightSizeClass == WindowHeightSizeClass.Compact
-    var currentPage by rememberSaveable { mutableIntStateOf(0) }
+
+    var selectedNavigationItem by rememberSaveable { mutableIntStateOf(0) }
     CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
         Box {
             val canSearchScreens = settingsState.screensSearchEnabled
@@ -194,7 +86,7 @@ internal fun MainScreenContent(
             ) {
                 derivedStateOf {
                     if (settingsState.groupOptionsByTypes && (screenSearchKeyword.isEmpty() && !showScreenSearch)) {
-                        Screen.typedEntries[currentPage].first
+                        Screen.typedEntries[selectedNavigationItem].first
                     } else {
                         screenList
                     }.let { screens ->
@@ -213,354 +105,47 @@ internal fun MainScreenContent(
                     .fillMaxSize()
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
             ) {
-                EnhancedTopAppBar(
-                    type = EnhancedTopAppBarType.Large,
-                    title = {
-                        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-                            Marquee {
-                                val titleText = remember {
-                                    "${Screen.FEATURES_COUNT}".plus(
-                                        if (BuildConfig.FLAVOR == "market") {
-                                            versionPreRelease
-                                        } else {
-                                            " ${BuildConfig.FLAVOR.uppercase()} $versionPreRelease"
-                                        }
-                                    )
-                                }
-
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(stringResource(R.string.app_name))
-                                    Badge(
-                                        content = {
-                                            Text(titleText)
-                                        },
-                                        containerColor = MaterialTheme.colorScheme.tertiary,
-                                        contentColor = MaterialTheme.colorScheme.onTertiary,
-                                        modifier = Modifier
-                                            .padding(horizontal = 2.dp)
-                                            .padding(bottom = 12.dp)
-                                            .scaleOnTap {
-                                                onShowSnowfall()
-                                            }
-                                    )
-                                    Spacer(Modifier.width(12.dp))
-                                    TopAppBarEmoji()
-                                }
-                            }
-                        }
+                MainTopAppBar(
+                    scrollBehavior = scrollBehavior,
+                    showScreenSearch = showScreenSearch,
+                    canSearchScreens = canSearchScreens,
+                    onChangeShowScreenSearch = {
+                        showScreenSearch = it
                     },
-                    actions = {
-                        AnimatedVisibility(
-                            visible = !showScreenSearch && canSearchScreens,
-                            enter = fadeIn() + scaleIn(),
-                            exit = fadeOut() + scaleOut()
-                        ) {
-                            EnhancedIconButton(
-                                containerColor = Color.Transparent,
-                                contentColor = LocalContentColor.current,
-                                enableAutoShadowAndBorder = false,
-                                onClick = { showScreenSearch = true && canSearchScreens }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Rounded.ManageSearch,
-                                    contentDescription = null
-                                )
-                            }
-                        }
-                        if (isSheetSlideable) {
-                            EnhancedIconButton(
-                                containerColor = Color.Transparent,
-                                contentColor = LocalContentColor.current,
-                                enableAutoShadowAndBorder = false,
-                                onClick = {
-                                    scope.launch {
-                                        sideSheetState.open()
-                                    }
-                                },
-                                modifier = Modifier
-                                    .pulsate(
-                                        range = 0.95f..1.2f,
-                                        enabled = settingsState.isFirstLaunch()
-                                    )
-                                    .rotateAnimation(enabled = settingsState.isFirstLaunch())
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Settings,
-                                    contentDescription = null
-                                )
-                            }
-                        }
-                    },
-                    scrollBehavior = scrollBehavior
+                    onShowSnowfall = onShowSnowfall,
+                    sideSheetState = sideSheetState,
+                    isSheetSlideable = isSheetSlideable
                 )
 
-                Row(Modifier.weight(1f)) {
+                Row(
+                    modifier = Modifier.weight(1f)
+                ) {
                     val showNavRail =
                         isGrid && settingsState.groupOptionsByTypes && screenSearchKeyword.isEmpty() && !sheetExpanded
+
                     AnimatedVisibility(
                         visible = showNavRail,
                         enter = fadeIn() + expandHorizontally(),
                         exit = fadeOut() + shrinkHorizontally()
                     ) {
-                        Row {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .widthIn(min = 80.dp)
-                                    .container(
-                                        shape = RectangleShape,
-                                        autoShadowElevation = 10.dp,
-                                        resultPadding = 0.dp
-                                    )
-                            ) {
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxHeight()
-                                        .padding(horizontal = 8.dp)
-                                        .verticalScroll(rememberScrollState())
-                                        .navigationBarsPadding()
-                                        .padding(
-                                            start = WindowInsets
-                                                .statusBars
-                                                .asPaddingValues()
-                                                .calculateStartPadding(LocalLayoutDirection.current)
-                                        )
-                                        .padding(
-                                            start = WindowInsets
-                                                .displayCutout
-                                                .asPaddingValues()
-                                                .calculateStartPadding(LocalLayoutDirection.current)
-                                        ),
-                                    verticalArrangement = Arrangement.spacedBy(
-                                        4.dp,
-                                        Alignment.CenterVertically
-                                    ),
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    Spacer(Modifier.height(8.dp))
-                                    Screen.typedEntries.forEachIndexed { index, (_, data) ->
-                                        val selected = index == currentPage
-                                        NavigationItem(
-                                            modifier = Modifier
-                                                .height(height = 56.dp)
-                                                .width(100.dp),
-                                            selected = selected,
-                                            onClick = { currentPage = index },
-                                            icon = {
-                                                AnimatedContent(
-                                                    targetState = selected,
-                                                    transitionSpec = {
-                                                        fadeIn() togetherWith fadeOut()
-                                                    }
-                                                ) { selected ->
-                                                    Icon(
-                                                        imageVector = if (selected) data.second else data.third,
-                                                        contentDescription = null
-                                                    )
-                                                }
-                                            },
-                                            label = {
-                                                Text(stringResource(data.first))
-                                            }
-                                        )
-                                    }
-                                    Spacer(Modifier.height(8.dp))
-                                }
+                        MainNavigationRail(
+                            selectedIndex = selectedNavigationItem,
+                            onValueChange = {
+                                selectedNavigationItem = it
                             }
-                            Box(
-                                Modifier
-                                    .fillMaxHeight()
-                                    .width(settingsState.borderWidth)
-                                    .background(
-                                        MaterialTheme.colorScheme.outlineVariant(
-                                            0.3f,
-                                            DrawerDefaults.standardContainerColor
-                                        )
-                                    )
-                            )
-                        }
+                        )
                     }
 
-                    val cutout = WindowInsets.displayCutout.asPaddingValues()
-
-                    AnimatedContent(
-                        modifier = Modifier
-                            .weight(1f)
-                            .widthIn(min = 1.dp),
-                        targetState = currentScreenList.isNotEmpty(),
-                        transitionSpec = {
-                            fadeIn() togetherWith fadeOut()
-                        }
-                    ) { hasScreens ->
-                        if (hasScreens) {
-                            Box(
-                                modifier = Modifier.fillMaxSize()
-                            ) {
-                                val clipboardData by rememberClipboardData()
-                                val allowAutoPaste = settingsState.allowAutoClipboardPaste
-                                val showClipButton = clipboardData.isNotEmpty() || !allowAutoPaste
-                                LazyVerticalStaggeredGrid(
-                                    reverseLayout = showScreenSearch && screenSearchKeyword.isNotEmpty() && canSearchScreens,
-                                    modifier = Modifier.fillMaxSize(),
-                                    columns = StaggeredGridCells.Adaptive(220.dp),
-                                    verticalItemSpacing = 12.dp,
-                                    horizontalArrangement = Arrangement.spacedBy(
-                                        12.dp,
-                                        Alignment.CenterHorizontally
-                                    ),
-                                    contentPadding = PaddingValues(
-                                        bottom = 12.dp + if (isGrid) {
-                                            WindowInsets
-                                                .navigationBars
-                                                .asPaddingValues()
-                                                .calculateBottomPadding() + if (!compactHeight) {
-                                                128.dp
-                                            } else 0.dp
-                                        } else {
-                                            0.dp
-                                        } + if (showClipButton) 76.dp
-                                        else 0.dp,
-                                        top = 12.dp,
-                                        end = 12.dp + if (isSheetSlideable) {
-                                            cutout.calculateEndPadding(
-                                                LocalLayoutDirection.current
-                                            )
-                                        } else 0.dp,
-                                        start = 12.dp + if (!showNavRail) {
-                                            cutout.calculateStartPadding(
-                                                LocalLayoutDirection.current
-                                            )
-                                        } else 0.dp
-                                    ),
-                                    content = {
-                                        items(currentScreenList) { screen ->
-                                            val interactionSource = remember {
-                                                MutableInteractionSource()
-                                            }
-                                            val pressed by interactionSource.collectIsPressedAsState()
-
-                                            val cornerSize by animateDpAsState(
-                                                if (pressed) 6.dp
-                                                else 18.dp
-                                            )
-                                            PreferenceItemOverload(
-                                                onClick = {
-                                                    navController.popUpTo { it == Screen.Main }
-                                                    navController.navigate(screen)
-                                                },
-                                                color = MaterialTheme.colorScheme.surfaceContainerLow,
-                                                modifier = Modifier
-                                                    .widthIn(min = 1.dp)
-                                                    .fillMaxWidth()
-                                                    .animateItemPlacement(),
-                                                shape = RoundedCornerShape(cornerSize),
-                                                title = stringResource(screen.title),
-                                                subtitle = stringResource(screen.subtitle),
-                                                startIcon = {
-                                                    AnimatedContent(
-                                                        targetState = screen.icon,
-                                                        transitionSpec = {
-                                                            (slideInVertically() + fadeIn() + scaleIn())
-                                                                .togetherWith(slideOutVertically { it / 2 } + fadeOut() + scaleOut())
-                                                                .using(SizeTransform(false))
-                                                        }
-                                                    ) { icon ->
-                                                        Icon(
-                                                            imageVector = icon!!,
-                                                            contentDescription = null
-                                                        )
-                                                    }
-                                                },
-                                                interactionSource = interactionSource
-                                            )
-                                        }
-                                    }
-                                )
-                                val toastHostState = LocalToastHostState.current
-                                val clipboardManager = remember(context) {
-                                    context.getSystemService<ClipboardManager>()
-                                }
-                                BoxAnimatedVisibility(
-                                    visible = showClipButton,
-                                    modifier = Modifier
-                                        .align(Alignment.BottomEnd)
-                                        .padding(16.dp)
-                                        .then(
-                                            if (showNavRail) {
-                                                Modifier.navigationBarsPadding()
-                                            } else Modifier
-                                        ),
-                                    enter = fadeIn() + scaleIn(),
-                                    exit = fadeOut() + scaleOut()
-                                ) {
-                                    BadgedBox(
-                                        badge = {
-                                            if (clipboardData.isNotEmpty()) {
-                                                Badge(
-                                                    containerColor = MaterialTheme.colorScheme.primary
-                                                ) {
-                                                    Text(clipboardData.size.toString())
-                                                }
-                                            }
-                                        }
-                                    ) {
-                                        EnhancedFloatingActionButton(
-                                            onClick = {
-                                                if (!allowAutoPaste) {
-                                                    val list = clipboardManager.clipList()
-                                                    if (list.isEmpty()) {
-                                                        scope.launch {
-                                                            toastHostState.showToast(
-                                                                message = context.getString(R.string.clipboard_paste_invalid_empty),
-                                                                icon = Icons.Outlined.ContentPasteOff
-                                                            )
-                                                        }
-                                                    } else onGetClipList(list)
-                                                } else onGetClipList(clipboardData)
-                                            },
-                                            containerColor = MaterialTheme.colorScheme.tertiaryContainer
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Rounded.ContentPaste,
-                                                contentDescription = stringResource(R.string.copy)
-                                            )
-                                        }
-                                    }
-                                }
-
-                            }
-                        } else {
-                            Column(
-                                modifier = Modifier.fillMaxSize(),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                Spacer(Modifier.weight(1f))
-                                Text(
-                                    text = stringResource(R.string.nothing_found_by_search),
-                                    fontSize = 18.sp,
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier.padding(
-                                        start = 24.dp,
-                                        end = 24.dp,
-                                        top = 8.dp,
-                                        bottom = 8.dp
-                                    )
-                                )
-                                Icon(
-                                    imageVector = Icons.Rounded.SearchOff,
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .weight(2f)
-                                        .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
-                                        .fillMaxSize()
-                                )
-                                Spacer(Modifier.weight(1f))
-                            }
-                        }
-                    }
+                    ScreenPreferenceSelection(
+                        currentScreenList = currentScreenList,
+                        showScreenSearch = showScreenSearch,
+                        screenSearchKeyword = screenSearchKeyword,
+                        canSearchScreens = canSearchScreens,
+                        isGrid = isGrid,
+                        isSheetSlideable = isSheetSlideable,
+                        showNavRail = showNavRail,
+                        onGetClipList = onGetClipList
+                    )
                 }
 
                 AnimatedVisibility(
@@ -573,179 +158,21 @@ internal fun MainScreenContent(
                         transitionSpec = { fadeIn() togetherWith fadeOut() }
                     ) { (groupOptionsByTypes, searching) ->
                         if (groupOptionsByTypes && !searching) {
-                            NavigationBar(
-                                modifier = Modifier
-                                    .drawHorizontalStroke(top = true)
-                                    .height(
-                                        80.dp + WindowInsets.systemBars
-                                            .asPaddingValues()
-                                            .calculateBottomPadding()
-                                    ),
-                            ) {
-                                Screen.typedEntries.forEachIndexed { index, (_, data) ->
-                                    val selected = index == currentPage
-                                    NavigationItem(
-                                        modifier = Modifier.weight(1f),
-                                        selected = selected,
-                                        onClick = { currentPage = index },
-                                        icon = {
-                                            AnimatedContent(
-                                                targetState = selected,
-                                                transitionSpec = {
-                                                    fadeIn() togetherWith fadeOut()
-                                                }
-                                            ) { selected ->
-                                                Icon(
-                                                    imageVector = if (selected) data.second else data.third,
-                                                    contentDescription = null
-                                                )
-                                            }
-                                        },
-                                        label = {
-                                            Text(stringResource(data.first))
-                                        }
-                                    )
-                                }
-                            }
+                            MainNavigationBar(
+                                selectedIndex = selectedNavigationItem,
+                                onValueChange = { selectedNavigationItem = it }
+                            )
                         } else {
-                            BottomAppBar(
-                                modifier = Modifier.drawHorizontalStroke(top = true),
-                                actions = {
-                                    if (!searching) {
-                                        EnhancedButton(
-                                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                                alpha = 0.5f
-                                            ),
-                                            borderColor = MaterialTheme.colorScheme.outlineVariant(
-                                                onTopOf = MaterialTheme.colorScheme.secondaryContainer
-                                            ),
-                                            modifier = Modifier
-                                                .padding(horizontal = 16.dp)
-                                                .pulsate(enabled = updateAvailable),
-                                            onClick = onTryGetUpdate
-                                        ) {
-                                            Text(
-                                                stringResource(R.string.version) + " ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
-                                            )
-                                        }
-                                    } else {
-                                        if (searching) {
-                                            BackHandler {
-                                                screenSearchKeyword = ""
-                                                showScreenSearch = false
-                                            }
-                                            ProvideTextStyle(value = MaterialTheme.typography.bodyLarge) {
-                                                RoundedTextField(
-                                                    maxLines = 1,
-                                                    hint = { Text(stringResource(id = R.string.search_here)) },
-                                                    modifier = Modifier
-                                                        .padding(start = 6.dp)
-                                                        .offset(2.dp, (-2).dp),
-                                                    keyboardOptions = KeyboardOptions.Default.copy(
-                                                        imeAction = ImeAction.Search
-                                                    ),
-                                                    value = screenSearchKeyword,
-                                                    onValueChange = {
-                                                        screenSearchKeyword = it
-                                                    },
-                                                    startIcon = {
-                                                        EnhancedIconButton(
-                                                            containerColor = Color.Transparent,
-                                                            contentColor = LocalContentColor.current,
-                                                            enableAutoShadowAndBorder = false,
-                                                            onClick = {
-                                                                screenSearchKeyword = ""
-                                                                showScreenSearch = false
-                                                            },
-                                                            modifier = Modifier.padding(start = 4.dp)
-                                                        ) {
-                                                            Icon(
-                                                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                                                contentDescription = null,
-                                                                tint = MaterialTheme.colorScheme.onSurface
-                                                            )
-                                                        }
-                                                    },
-                                                    endIcon = {
-                                                        AnimatedVisibility(
-                                                            visible = screenSearchKeyword.isNotEmpty(),
-                                                            enter = fadeIn() + scaleIn(),
-                                                            exit = fadeOut() + scaleOut()
-                                                        ) {
-                                                            EnhancedIconButton(
-                                                                containerColor = Color.Transparent,
-                                                                contentColor = LocalContentColor.current,
-                                                                enableAutoShadowAndBorder = false,
-                                                                onClick = {
-                                                                    screenSearchKeyword = ""
-                                                                },
-                                                                modifier = Modifier.padding(end = 4.dp)
-                                                            ) {
-                                                                Icon(
-                                                                    imageVector = Icons.Rounded.Close,
-                                                                    contentDescription = null,
-                                                                    tint = MaterialTheme.colorScheme.onSurface
-                                                                )
-                                                            }
-                                                        }
-                                                    },
-                                                    shape = CircleShape
-                                                )
-                                            }
-                                        } else {
-                                            screenSearchKeyword = ""
-                                            showScreenSearch = false
-                                        }
-                                    }
+                            SearchableBottomBar(
+                                searching = searching,
+                                updateAvailable = updateAvailable,
+                                onTryGetUpdate = onTryGetUpdate,
+                                screenSearchKeyword = screenSearchKeyword,
+                                onUpdateSearch = {
+                                    screenSearchKeyword = it
                                 },
-                                floatingActionButton = {
-                                    if (!searching) {
-                                        EnhancedFloatingActionButton(
-                                            onClick = {
-                                                if (context.isInstalledFromPlayStore()) {
-                                                    try {
-                                                        context.startActivity(
-                                                            Intent(
-                                                                Intent.ACTION_VIEW,
-                                                                Uri.parse("market://details?id=${context.packageName}")
-                                                            )
-                                                        )
-                                                    } catch (e: ActivityNotFoundException) {
-                                                        context.startActivity(
-                                                            Intent(
-                                                                Intent.ACTION_VIEW,
-                                                                Uri.parse("https://play.google.com/store/apps/details?id=${context.packageName}")
-                                                            )
-                                                        )
-                                                    }
-                                                } else {
-                                                    context.startActivity(
-                                                        Intent(
-                                                            Intent.ACTION_VIEW,
-                                                            Uri.parse(APP_LINK)
-                                                        )
-                                                    )
-                                                }
-                                            },
-                                            modifier = Modifier
-                                                .requiredSize(size = 56.dp),
-                                            content = {
-                                                if (context.isInstalledFromPlayStore()) {
-                                                    Icon(
-                                                        imageVector = Icons.Rounded.GooglePlay,
-                                                        contentDescription = null,
-                                                        modifier = Modifier.offset(1.5.dp)
-                                                    )
-                                                } else {
-                                                    Icon(
-                                                        imageVector = Icons.Rounded.Github,
-                                                        contentDescription = null
-                                                    )
-                                                }
-                                            }
-                                        )
-                                    }
+                                onCloseSearch = {
+                                    showScreenSearch = false
                                 }
                             )
                         }
@@ -754,16 +181,4 @@ internal fun MainScreenContent(
             }
         }
     }
-}
-
-private val versionPreRelease: String by lazy {
-    BuildConfig.VERSION_NAME
-        .replace(BuildConfig.FLAVOR, "")
-        .split("-")
-        .takeIf { it.size > 1 }
-        ?.drop(1)?.first()
-        ?.takeWhile { it.isLetter() }
-        ?.uppercase()?.takeIf { it.isNotEmpty() }?.let {
-            " $it"
-        } ?: ""
 }

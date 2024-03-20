@@ -24,6 +24,7 @@ import androidx.compose.material.icons.rounded.Save
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.saving.SaveResult
+import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
@@ -40,6 +41,18 @@ val MediaPickerActivityClass: Class<*> by lazy {
     Class.forName(
         "ru.tech.imageresizershrinker.feature.media_picker.presentation.MediaPickerActivity"
     )
+}
+
+val AppVersionPreRelease: String by lazy {
+    BuildConfig.VERSION_NAME
+        .replace(BuildConfig.FLAVOR, "")
+        .split("-")
+        .takeIf { it.size > 1 }
+        ?.drop(1)?.first()
+        ?.takeWhile { it.isLetter() }
+        ?.uppercase()?.takeIf { it.isNotEmpty() }?.let {
+            " $it"
+        } ?: ""
 }
 
 const val ColorSchemeName = "scheme"
