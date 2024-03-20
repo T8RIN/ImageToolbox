@@ -28,6 +28,7 @@ import ru.tech.imageresizershrinker.core.di.DecodingDispatcher
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.di.EncodingDispatcher
 import ru.tech.imageresizershrinker.core.di.IoDispatcher
+import ru.tech.imageresizershrinker.core.di.UiDispatcher
 import java.util.concurrent.Executors
 import javax.inject.Singleton
 
@@ -60,5 +61,10 @@ internal object CoroutinesModule {
     @Singleton
     @Provides
     fun ioDispatcher(): CoroutineDispatcher = Dispatchers.IO
+
+    @UiDispatcher
+    @Singleton
+    @Provides
+    fun uiDispatcher(): CoroutineDispatcher = Dispatchers.Main.immediate
 
 }

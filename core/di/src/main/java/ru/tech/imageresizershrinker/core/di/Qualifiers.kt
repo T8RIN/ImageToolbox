@@ -34,3 +34,7 @@ annotation class DecodingDispatcher
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 annotation class IoDispatcher
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class UiDispatcher
