@@ -40,6 +40,7 @@ fun ShowSettingsInLandscapeSettingItem(
     PreferenceRowSwitch(
         modifier = modifier,
         shape = shape,
+        enabled = !settingsState.useFullscreenSettings,
         title = stringResource(R.string.show_settings_in_landscape),
         subtitle = stringResource(R.string.show_settings_in_landscape_sub),
         checked = settingsState.showSettingsInLandscape,

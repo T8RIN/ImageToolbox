@@ -75,6 +75,13 @@ object IconShapeDefaults {
             )
         }
 
+    val containerColor: Color
+        @Composable
+        get() = takeColorFromScheme {
+            if (it) primary.blend(primaryContainer).copy(0.2f)
+            else primaryContainer.blend(primary).copy(0.35f)
+        }
+
 }
 
 @Composable
@@ -83,6 +90,7 @@ fun IconShapeContainer(
     modifier: Modifier = Modifier,
     iconShape: IconShape? = LocalSettingsState.current.iconShape,
     contentColor: Color = IconShapeDefaults.contentColor,
+    containerColor: Color = IconShapeDefaults.containerColor,
     content: @Composable (Boolean) -> Unit = {}
 ) {
     CompositionLocalProvider(
@@ -104,14 +112,9 @@ fun IconShapeContainer(
         ) { iconShapeAnimated ->
             Box(
                 modifier = if (enabled && iconShapeAnimated != null) {
-                    val color = takeColorFromScheme {
-                        if (it) primary.blend(primaryContainer).copy(0.2f)
-                        else primaryContainer.blend(primary).copy(0.35f)
-                    }
-
                     Modifier.container(
                         shape = iconShapeAnimated.shape,
-                        color = color,
+                        color = containerColor,
                         autoShadowElevation = 0.5.dp,
                         resultPadding = iconShapeAnimated.padding,
                         composeColorOnTopOfBackground = false,

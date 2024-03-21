@@ -84,7 +84,8 @@ data class SettingsState(
     val confettiHarmonizationLevel: Float,
     val skipImagePicking: Boolean,
     val generatePreviews: Boolean,
-    val showSettingsInLandscape: Boolean
+    val showSettingsInLandscape: Boolean,
+    val useFullscreenSettings: Boolean
 ) : Domain {
 
     companion object {
@@ -152,7 +153,8 @@ data class SettingsState(
                 confettiHarmonizationLevel = 0.5f,
                 skipImagePicking = false,
                 generatePreviews = true,
-                showSettingsInLandscape = true
+                showSettingsInLandscape = true,
+                useFullscreenSettings = false
             )
         }
     }

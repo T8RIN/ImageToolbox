@@ -202,46 +202,50 @@ fun MainScreen(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        if (isSheetSlideable) {
-            CompositionLocalProvider(
-                LocalLayoutDirection provides if (layoutDirection == LayoutDirection.Ltr) LayoutDirection.Rtl
-                else LayoutDirection.Ltr
-            ) {
-                ModalNavigationDrawer(
-                    drawerState = sideSheetState,
-                    drawerContent = drawerContent,
-                    content = content
-                )
-            }
+        if (settingsState.useFullscreenSettings) {
+            content()
         } else {
-            Row {
-                content.withModifier(
-                    modifier = Modifier.weight(1f)
-                )
-                if (settingsState.borderWidth > 0.dp) {
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .width(settingsState.borderWidth)
-                            .background(
-                                MaterialTheme.colorScheme.outlineVariant(
-                                    0.3f,
-                                    DrawerDefaults.standardContainerColor
-                                )
-                            )
+            if (isSheetSlideable) {
+                CompositionLocalProvider(
+                    LocalLayoutDirection provides if (layoutDirection == LayoutDirection.Ltr) LayoutDirection.Rtl
+                    else LayoutDirection.Ltr
+                ) {
+                    ModalNavigationDrawer(
+                        drawerState = sideSheetState,
+                        drawerContent = drawerContent,
+                        content = content
                     )
                 }
-                drawerContent.withModifier(
-                    modifier = Modifier.container(
-                        shape = RectangleShape,
-                        borderColor = MaterialTheme.colorScheme.outlineVariant(
-                            0.3f,
-                            DrawerDefaults.standardContainerColor
-                        ),
-                        autoShadowElevation = 2.dp,
-                        resultPadding = 0.dp
+            } else {
+                Row {
+                    content.withModifier(
+                        modifier = Modifier.weight(1f)
                     )
-                )
+                    if (settingsState.borderWidth > 0.dp) {
+                        Spacer(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .width(settingsState.borderWidth)
+                                .background(
+                                    MaterialTheme.colorScheme.outlineVariant(
+                                        0.3f,
+                                        DrawerDefaults.standardContainerColor
+                                    )
+                                )
+                        )
+                    }
+                    drawerContent.withModifier(
+                        modifier = Modifier.container(
+                            shape = RectangleShape,
+                            borderColor = MaterialTheme.colorScheme.outlineVariant(
+                                0.3f,
+                                DrawerDefaults.standardContainerColor
+                            ),
+                            autoShadowElevation = 2.dp,
+                            resultPadding = 0.dp
+                        )
+                    )
+                }
             }
         }
 

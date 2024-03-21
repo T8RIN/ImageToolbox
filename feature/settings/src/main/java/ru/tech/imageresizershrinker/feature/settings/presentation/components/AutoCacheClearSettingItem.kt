@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun AutoCacheClearSettingItem(
-    onClick: (Boolean) -> Unit,
+    onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.bottomShape,
     modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
 ) {
@@ -44,6 +44,8 @@ fun AutoCacheClearSettingItem(
         subtitle = stringResource(R.string.auto_cache_clearing_sub),
         checked = settingsState.clearCacheOnLaunch,
         startIcon = Icons.Outlined.AutoDelete,
-        onClick = onClick
+        onClick = {
+            onClick()
+        }
     )
 }

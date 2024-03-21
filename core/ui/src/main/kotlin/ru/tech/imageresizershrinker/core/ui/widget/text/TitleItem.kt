@@ -28,10 +28,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
+import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 
 @Composable
 fun TitleItem(
@@ -72,6 +74,8 @@ fun TitleItem(
     text: String,
     @SuppressLint("ModifierParameter")
     modifier: Modifier = Modifier.padding(16.dp),
+    iconContainerColor: Color = IconShapeDefaults.containerColor,
+    iconContentColor: Color = IconShapeDefaults.contentColor
 ) {
     Row(
         modifier = modifier,
@@ -85,7 +89,9 @@ fun TitleItem(
                         imageVector = icon,
                         contentDescription = null
                     )
-                }
+                },
+                containerColor = iconContainerColor,
+                contentColor = iconContentColor
             )
             Spacer(Modifier.width(8.dp))
         }

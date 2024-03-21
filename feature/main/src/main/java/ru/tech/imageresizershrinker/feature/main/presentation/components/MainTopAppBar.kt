@@ -49,12 +49,14 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.isFirstLaunch
 import ru.tech.imageresizershrinker.core.ui.utils.helper.AppVersionPreRelease
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.pulsate
@@ -134,14 +136,21 @@ internal fun MainTopAppBar(
                     )
                 }
             }
-            if (isSheetSlideable) {
+            if (isSheetSlideable || settingsState.useFullscreenSettings) {
+                val navController = LocalNavController.current
                 EnhancedIconButton(
                     containerColor = Color.Transparent,
                     contentColor = LocalContentColor.current,
                     enableAutoShadowAndBorder = false,
                     onClick = {
-                        scope.launch {
-                            sideSheetState.open()
+                        if (settingsState.useFullscreenSettings) {
+                            if (navController.backstack.entries.lastOrNull()?.destination !is Screen.Settings) {
+                                navController.navigate(Screen.Settings)
+                            }
+                        } else {
+                            scope.launch {
+                                sideSheetState.open()
+                            }
                         }
                     },
                     modifier = Modifier

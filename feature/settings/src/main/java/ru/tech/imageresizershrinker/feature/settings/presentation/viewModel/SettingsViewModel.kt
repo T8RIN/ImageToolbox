@@ -520,4 +520,10 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun toggleUseFullscreenSettings() {
+        viewModelScope.launch {
+            settingsRepository.toggleUseFullscreenSettings()
+        }
+    }
+
 }

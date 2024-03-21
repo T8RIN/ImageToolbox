@@ -24,9 +24,14 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
@@ -34,6 +39,7 @@ import dev.olshevski.navigation.reimagined.NavAction
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.ApngToolsScreen
@@ -60,6 +66,7 @@ import ru.tech.imageresizershrinker.feature.pick_color.presentation.PickColorFro
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.RecognizeTextScreen
 import ru.tech.imageresizershrinker.feature.resize_convert.presentation.ResizeAndConvertScreen
 import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootViewModel
+import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsScreen
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.SingleEditScreen
 import ru.tech.imageresizershrinker.feature.watermarking.presentation.WatermarkingScreen
 import ru.tech.imageresizershrinker.feature.zip.presentation.ZipScreen
@@ -117,6 +124,23 @@ internal fun ScreenSelector(
         }
     ) { screen ->
         when (screen) {
+            is Screen.Settings -> {
+                SettingsScreen(
+                    onTryGetUpdate = viewModel::tryGetUpdate,
+                    updateAvailable = viewModel.updateAvailable,
+                    onGoBack = onGoBack,
+                    isStandaloneScreen = true,
+                    appBarNavigationIcon = { _, _ ->
+                        IconButton(onClick = onGoBack) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                contentDescription = stringResource(R.string.exit)
+                            )
+                        }
+                    }
+                )
+            }
+
             is Screen.EasterEgg -> {
                 EasterEggScreen(onGoBack = onGoBack)
             }

@@ -72,6 +72,13 @@ sealed class Screen(
     @StringRes val subtitle: Int
 ) : Parcelable {
 
+    data object Settings : Screen(
+        id = -3,
+        icon = null,
+        title = 0,
+        subtitle = 0
+    )
+
     data object EasterEgg : Screen(
         id = -2,
         icon = null,

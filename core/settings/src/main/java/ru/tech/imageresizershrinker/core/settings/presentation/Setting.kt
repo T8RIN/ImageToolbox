@@ -367,4 +367,9 @@ sealed class Setting(
         title = R.string.show_settings_in_landscape,
         subtitle = R.string.show_settings_in_landscape_sub
     )
+
+    data object UseFullscreenSettings : Setting(
+        title = R.string.fullscreen_settings,
+        subtitle = R.string.fullscreen_settings_sub
+    )
 }

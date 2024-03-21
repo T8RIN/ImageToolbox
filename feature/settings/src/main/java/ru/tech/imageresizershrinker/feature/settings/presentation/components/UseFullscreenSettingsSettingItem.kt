@@ -19,34 +19,49 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.NewReleases
+import androidx.compose.material.icons.outlined.Fullscreen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.olshevski.navigation.reimagined.navigate
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
+import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 
+@OptIn(DelicateCoroutinesApi::class)
 @Composable
-fun AutoCheckUpdatesSettingItem(
+fun UseFullscreenSettingsSettingItem(
     onClick: () -> Unit,
-    shape: Shape = ContainerShapeDefaults.topShape,
+    shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
+    val navController = LocalNavController.current
     val settingsState = LocalSettingsState.current
 
     PreferenceRowSwitch(
-        shape = shape,
         modifier = modifier,
-        title = stringResource(R.string.check_updates),
-        subtitle = stringResource(R.string.check_updates_sub),
-        checked = settingsState.showUpdateDialogOnStartup,
+        shape = shape,
+        title = stringResource(R.string.fullscreen_settings),
+        subtitle = stringResource(R.string.fullscreen_settings_sub),
+        checked = settingsState.useFullscreenSettings,
         onClick = {
-            onClick()
+            if (it && navController.backstack.entries.lastOrNull()?.destination !is Screen.Settings) {
+                navController.navigate(Screen.Settings)
+                GlobalScope.launch {
+                    delay(1000)
+                    onClick()
+                }
+            } else onClick()
         },
-        startIcon = Icons.Outlined.NewReleases
+        startIcon = Icons.Outlined.Fullscreen
     )
 }

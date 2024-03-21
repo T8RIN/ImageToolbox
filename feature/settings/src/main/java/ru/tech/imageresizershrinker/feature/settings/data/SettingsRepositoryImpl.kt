@@ -99,6 +99,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SKIP_IMAGE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.THEME_CONTRAST_LEVEL
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.THEME_STYLE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_EMOJI_AS_PRIMARY_COLOR
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_FULLSCREEN_SETTINGS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_PIXEL_SWITCH
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_RANDOM_EMOJIS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.VIBRATION_STRENGTH
@@ -212,7 +213,9 @@ internal class SettingsRepositoryImpl @Inject constructor(
             generatePreviews = prefs[GENERATE_PREVIEWS]
                 ?: default.generatePreviews,
             showSettingsInLandscape = prefs[SHOW_SETTINGS_IN_LANDSCAPE]
-                ?: default.showSettingsInLandscape
+                ?: default.showSettingsInLandscape,
+            useFullscreenSettings = prefs[USE_FULLSCREEN_SETTINGS]
+                ?: default.useFullscreenSettings,
         )
     }
 
@@ -688,6 +691,13 @@ internal class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[SHOW_SETTINGS_IN_LANDSCAPE] ?: default.showSettingsInLandscape
             it[SHOW_SETTINGS_IN_LANDSCAPE] = !v
+        }
+    }
+
+    override suspend fun toggleUseFullscreenSettings() {
+        dataStore.edit {
+            val v = it[USE_FULLSCREEN_SETTINGS] ?: default.useFullscreenSettings
+            it[USE_FULLSCREEN_SETTINGS] = !v
         }
     }
 

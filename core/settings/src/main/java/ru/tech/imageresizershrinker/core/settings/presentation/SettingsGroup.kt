@@ -316,6 +316,7 @@ sealed class SettingsGroup(
         settingsList = listOf(
             Setting.SkipFilePicking,
             Setting.ShowSettingsInLandscape,
+            Setting.UseFullscreenSettings,
             Setting.GeneratePreviews
         ),
         initialState = false

@@ -48,6 +48,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
@@ -78,7 +79,18 @@ fun PreferenceRow(
 ) {
     val internalColor = contentColor
         ?: contentColorFor(backgroundColor = color)
-    CompositionLocalProvider(LocalContentColor provides internalColor) {
+    CompositionLocalProvider(
+        LocalContentColor provides internalColor,
+        LocalSettingsState provides LocalSettingsState.current.let {
+            if (!enabled) it.copy(
+                drawButtonShadows = false,
+                drawContainerShadows = false,
+                drawFabShadows = false,
+                drawSwitchShadows = false,
+                drawSliderShadows = false
+            ) else it
+        }
+    ) {
         Row(
             modifier = modifier
                 .then(
@@ -89,8 +101,7 @@ fun PreferenceRow(
                 .container(
                     color = color,
                     shape = shape,
-                    resultPadding = 0.dp,
-                    autoShadowElevation = if (enabled) autoShadowElevation else 0.dp
+                    resultPadding = 0.dp
                 )
                 .then(
                     onClick

@@ -19,10 +19,10 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import android.app.Activity
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.BrowserUpdated
 import androidx.compose.material.icons.rounded.FileDownloadOff
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.MaterialTheme
@@ -33,8 +33,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -44,15 +44,16 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.presentation.Setting
+import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
+import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
-import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalContainerShape
 import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.SettingsViewModel
@@ -66,7 +67,8 @@ internal fun SettingItem(
         installedFromMarket: Boolean,
         onNoUpdates: () -> Unit
     ) -> Unit,
-    updateAvailable: Boolean
+    updateAvailable: Boolean,
+    color: Color = MaterialTheme.colorScheme.surface
 ) {
     fun tryGetUpdate(
         newRequest: Boolean = false,
@@ -80,7 +82,7 @@ internal fun SettingItem(
     val confettiHostState = LocalConfettiHostState.current
 
     ProvideContainerDefaults(
-        color = MaterialTheme.colorScheme.surface,
+        color = color,
         shape = LocalContainerShape.current
     ) {
         when (setting) {
@@ -130,15 +132,11 @@ internal fun SettingItem(
             }
 
             Setting.AutoCacheClear -> {
-                AutoCacheClearSettingItem(
-                    onClick = { viewModel.toggleClearCacheOnLaunch() }
-                )
+                AutoCacheClearSettingItem(onClick = viewModel::toggleClearCacheOnLaunch)
             }
 
             Setting.AutoCheckUpdates -> {
-                AutoCheckUpdatesSettingItem(
-                    onClick = { viewModel.toggleShowUpdateDialog() }
-                )
+                AutoCheckUpdatesSettingItem(onClick = viewModel::toggleShowUpdateDialog)
             }
 
             Setting.Backup -> {
@@ -423,36 +421,29 @@ internal fun SettingItem(
             }
 
             Setting.CheckUpdatesButton -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    EnhancedButton(
-                        modifier = Modifier.fillMaxWidth(),
-                        containerColor = MaterialTheme.colorScheme.tertiary,
-                        onClick = {
-                            tryGetUpdate(
-                                newRequest = true,
-                                installedFromMarket = context.isInstalledFromPlayStore(),
-                                onNoUpdates = {
-                                    scope.launch {
-                                        toastHostState.showToast(
-                                            icon = Icons.Rounded.FileDownloadOff,
-                                            message = context.getString(R.string.no_updates)
-                                        )
-                                    }
+                PreferenceItem(
+                    title = stringResource(R.string.check_for_updates),
+                    color = MaterialTheme.colorScheme.mixedContainer,
+                    contentColor = MaterialTheme.colorScheme.onMixedContainer,
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    shape = ContainerShapeDefaults.bottomShape,
+                    startIcon = Icons.Outlined.BrowserUpdated,
+                    overrideIconShapeContentColor = true,
+                    onClick = {
+                        tryGetUpdate(
+                            newRequest = true,
+                            installedFromMarket = context.isInstalledFromPlayStore(),
+                            onNoUpdates = {
+                                scope.launch {
+                                    toastHostState.showToast(
+                                        icon = Icons.Rounded.FileDownloadOff,
+                                        message = context.getString(R.string.no_updates)
+                                    )
                                 }
-                            )
-                        }
-                    ) {
-                        AutoSizeText(
-                            text = stringResource(R.string.check_for_updates),
-                            maxLines = 1
+                            }
                         )
                     }
-                }
+                )
             }
 
             Setting.ContainerShadows -> {
@@ -580,6 +571,10 @@ internal fun SettingItem(
 
             Setting.ShowSettingsInLandscape -> {
                 ShowSettingsInLandscapeSettingItem(onClick = viewModel::toggleShowSettingsInLandscape)
+            }
+
+            Setting.UseFullscreenSettings -> {
+                UseFullscreenSettingsSettingItem(onClick = viewModel::toggleUseFullscreenSettings)
             }
         }
     }

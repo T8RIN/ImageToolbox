@@ -87,4 +87,5 @@ internal object SettingKeys {
     val SKIP_IMAGE_PICKING = booleanPreferencesKey("SKIP_IMAGE_PICKER")
     val GENERATE_PREVIEWS = booleanPreferencesKey("GENERATE_PREVIEWS")
     val SHOW_SETTINGS_IN_LANDSCAPE = booleanPreferencesKey("SHOW_SETTINGS_IN_LANDSCAPE")
+    val USE_FULLSCREEN_SETTINGS = booleanPreferencesKey("USE_FULLSCREEN_SETTINGS")
 }

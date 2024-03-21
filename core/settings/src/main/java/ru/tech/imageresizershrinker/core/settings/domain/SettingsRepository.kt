@@ -168,4 +168,6 @@ interface SettingsRepository {
     suspend fun toggleSkipImagePicking()
 
     suspend fun toggleShowSettingsInLandscape()
+
+    suspend fun toggleUseFullscreenSettings()
 }
