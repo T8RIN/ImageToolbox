@@ -73,6 +73,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
+import ru.tech.imageresizershrinker.core.domain.utils.Lambda
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
@@ -102,10 +103,10 @@ fun SettingsScreen(
     onTryGetUpdate: (
         newRequest: Boolean,
         installedFromMarket: Boolean,
-        onNoUpdates: () -> Unit
+        onNoUpdates: Lambda
     ) -> Unit,
     updateAvailable: Boolean,
-    appBarNavigationIcon: @Composable (Boolean, () -> Unit) -> Unit
+    appBarNavigationIcon: @Composable (Boolean, Lambda) -> Unit
 ) {
     val layoutDirection = LocalLayoutDirection.current
     val initialSettingGroups = remember {
@@ -235,10 +236,13 @@ fun SettingsScreen(
                 }
             },
             navigationIcon = {
-                appBarNavigationIcon(showSearch) {
-                    showSearch = false
-                    searchKeyword = ""
-                }
+                appBarNavigationIcon(
+                    showSearch,
+                    Lambda {
+                        showSearch = false
+                        searchKeyword = ""
+                    }
+                )
             },
             windowInsets = EnhancedTopAppBarDefaults.windowInsets.only(
                 WindowInsetsSides.End + WindowInsetsSides.Top
