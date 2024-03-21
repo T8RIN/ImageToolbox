@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -40,7 +39,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
@@ -84,27 +82,21 @@ fun ScreenOrderSettingItem(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val enabled = !settingsState.groupOptionsByTypes
     PreferenceItem(
         shape = shape,
-        modifier = modifier
-            .alpha(
-                animateFloatAsState(
-                    if (enabled) 1f
-                    else 0.5f
-                ).value
-            ),
-        autoShadowElevation = if (enabled) 1.dp else 0.dp,
+        modifier = modifier,
         onClick = {
-            if (enabled) {
-                showArrangementSheet.value = true
-            } else scope.launch {
+            showArrangementSheet.value = true
+        },
+        onDisabledClick = {
+            scope.launch {
                 toastHostState.showToast(
                     icon = Icons.Rounded.Stacks,
                     message = context.getString(R.string.cannot_change_arrangement_while_options_grouping_enabled)
                 )
             }
         },
+        enabled = !settingsState.groupOptionsByTypes,
         startIcon = Icons.Outlined.DataArray,
         title = stringResource(R.string.order),
         subtitle = stringResource(R.string.order_sub),

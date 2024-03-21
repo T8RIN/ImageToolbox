@@ -43,6 +43,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -77,6 +79,7 @@ fun PreferenceRow(
     onDisabledClick: (() -> Unit)? = null,
     autoShadowElevation: Dp = 1.dp,
 ) {
+    val haptics = LocalHapticFeedback.current
     val internalColor = contentColor
         ?: contentColorFor(backgroundColor = color)
     CompositionLocalProvider(
@@ -107,10 +110,21 @@ fun PreferenceRow(
                     onClick
                         ?.let {
                             if (enabled) {
-                                Modifier.clickable { onClick() }
+                                Modifier.clickable {
+                                    haptics.performHapticFeedback(
+                                        HapticFeedbackType.LongPress
+                                    )
+                                    onClick()
+                                }
                             } else Modifier.then(
-                                if (onDisabledClick != null) Modifier.clickable { onDisabledClick() }
-                                else Modifier
+                                if (onDisabledClick != null) {
+                                    Modifier.clickable {
+                                        haptics.performHapticFeedback(
+                                            HapticFeedbackType.LongPress
+                                        )
+                                        onDisabledClick()
+                                    }
+                                } else Modifier
                             )
                         } ?: Modifier
                 )

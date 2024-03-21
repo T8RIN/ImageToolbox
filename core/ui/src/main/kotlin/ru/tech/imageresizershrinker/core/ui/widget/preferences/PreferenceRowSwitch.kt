@@ -30,8 +30,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.theme.blend
@@ -59,7 +57,6 @@ fun PreferenceRowSwitch(
     onDisabledClick: (() -> Unit)? = null,
     onClick: (Boolean) -> Unit
 ) {
-    val haptics = LocalHapticFeedback.current
     PreferenceRow(
         autoShadowElevation = autoShadowElevation,
         enabled = enabled,
@@ -75,9 +72,6 @@ fun PreferenceRowSwitch(
         startContent = startContent,
         onDisabledClick = onDisabledClick,
         onClick = {
-            haptics.performHapticFeedback(
-                HapticFeedbackType.LongPress
-            )
             onClick(!checked)
         },
         drawStartIconContainer = drawStartIconContainer,

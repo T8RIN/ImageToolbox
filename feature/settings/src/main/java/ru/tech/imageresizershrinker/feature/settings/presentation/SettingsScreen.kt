@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -49,13 +50,16 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SearchOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -67,6 +71,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -84,6 +89,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.settings.presentation.Setting
 import ru.tech.imageresizershrinker.core.settings.presentation.SettingsGroup
 import ru.tech.imageresizershrinker.core.ui.theme.blend
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringLocalized
 import ru.tech.imageresizershrinker.core.ui.utils.helper.plus
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -91,8 +97,10 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaul
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
 import ru.tech.imageresizershrinker.core.ui.widget.other.SearchBar
+import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.SearchableSettingItem
@@ -112,8 +120,8 @@ fun SettingsScreen(
     ) -> Unit,
     updateAvailable: Boolean,
     onGoBack: Lambda? = null,
-    isStandaloneScreen: Boolean = false,
-    appBarNavigationIcon: @Composable (Boolean, Lambda) -> Unit
+    isStandaloneScreen: Boolean = true,
+    appBarNavigationIcon: (@Composable (Boolean, Lambda) -> Unit)? = null
 ) {
     val layoutDirection = LocalLayoutDirection.current
     val initialSettingGroups = remember {
@@ -192,18 +200,27 @@ fun SettingsScreen(
         }
     }
 
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
     Column {
         EnhancedTopAppBar(
+            type = if (isStandaloneScreen) EnhancedTopAppBarType.Large
+            else EnhancedTopAppBarType.Normal,
             title = {
                 AnimatedContent(
                     targetState = showSearch
                 ) { searching ->
                     if (!searching) {
                         Marquee {
-                            Text(
-                                text = stringResource(R.string.settings),
-                                style = MaterialTheme.typography.titleLarge
-                            )
+                            Row {
+                                Text(
+                                    text = stringResource(R.string.settings),
+                                    style = if (isStandaloneScreen) {
+                                        MaterialTheme.typography.titleLarge
+                                    } else LocalTextStyle.current
+                                )
+                                if (isStandaloneScreen) TopAppBarEmoji()
+                            }
                         }
                     } else {
                         BackHandler {
@@ -245,13 +262,25 @@ fun SettingsScreen(
                 }
             },
             navigationIcon = {
-                appBarNavigationIcon(
-                    showSearch,
-                    Lambda {
-                        showSearch = false
-                        searchKeyword = ""
+                if (appBarNavigationIcon != null) {
+                    appBarNavigationIcon(
+                        showSearch,
+                        Lambda {
+                            showSearch = false
+                            searchKeyword = ""
+                        }
+                    )
+                } else if (onGoBack != null) {
+                    EnhancedIconButton(
+                        onClick = onGoBack,
+                        containerColor = Color.Transparent
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                            contentDescription = stringResource(R.string.exit)
+                        )
                     }
-                )
+                }
             },
             windowInsets = if (isStandaloneScreen) {
                 EnhancedTopAppBarDefaults.windowInsets
@@ -267,9 +296,16 @@ fun SettingsScreen(
                         fraction = 0.5f
                     )
                 )
-            }
+            },
+            scrollBehavior = if (isStandaloneScreen) {
+                scrollBehavior
+            } else null
         )
-        Box {
+        Box(
+            modifier = Modifier.nestedScroll(
+                scrollBehavior.nestedScrollConnection
+            )
+        ) {
             AnimatedContent(
                 targetState = settings,
                 modifier = Modifier
@@ -317,8 +353,12 @@ fun SettingsScreen(
                                                 ),
                                                 icon = group.icon,
                                                 text = stringResource(group.titleId),
-                                                iconContainerColor = MaterialTheme.colorScheme.tertiary,
-                                                iconContentColor = MaterialTheme.colorScheme.onTertiary
+                                                iconContainerColor = takeColorFromScheme {
+                                                    primary.blend(tertiary, 0.5f)
+                                                },
+                                                iconContentColor = takeColorFromScheme {
+                                                    onPrimary.blend(onTertiary, 0.5f)
+                                                }
                                             )
                                             group.settingsList.forEach { setting ->
                                                 SettingItem(

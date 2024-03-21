@@ -62,6 +62,7 @@ fun PreferenceItem(
         fontWeight = FontWeight.Medium,
         lineHeight = 18.sp
     ),
+    onDisabledClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp)
@@ -106,6 +107,7 @@ fun PreferenceItem(
         color = color,
         modifier = modifier,
         titleFontStyle = titleFontStyle,
+        onDisabledClick = onDisabledClick,
         drawStartIconContainer = drawStartIconContainer
     )
 }

@@ -122,7 +122,8 @@ fun MainScreen(
                 settingsBlockContent = {
                     SettingsScreen(
                         onTryGetUpdate = ::tryGetUpdate,
-                        updateAvailable = updateAvailable
+                        updateAvailable = updateAvailable,
+                        isStandaloneScreen = false
                     ) { showSettingsSearch, onCloseSearch ->
                         AnimatedContent(
                             targetState = !isSheetSlideable to showSettingsSearch,

@@ -24,6 +24,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
@@ -38,10 +39,10 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,10 +53,10 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -85,43 +86,62 @@ fun PreferenceItemOverload(
         fontWeight = FontWeight.Medium,
         lineHeight = 18.sp
     ),
+    onDisabledClick: (() -> Unit)? = null,
     drawStartIconContainer: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
     val haptics = LocalHapticFeedback.current
-    ProvideTextStyle(value = LocalTextStyle.current.copy(textAlign = TextAlign.Start)) {
+    CompositionLocalProvider(
+        LocalSettingsState provides LocalSettingsState.current.let {
+            if (!enabled) it.copy(
+                drawButtonShadows = false,
+                drawContainerShadows = false,
+                drawFabShadows = false,
+                drawSwitchShadows = false,
+                drawSliderShadows = false
+            ) else it
+        }
+    ) {
         Card(
             shape = shape,
             modifier = modifier
                 .container(
                     shape = shape,
                     resultPadding = 0.dp,
-                    color = color,
-                    autoShadowElevation = if (enabled) autoShadowElevation else 0.dp
+                    color = color
                 )
                 .then(
                     onClick
-                        ?.takeIf { enabled }
                         ?.let {
-                            Modifier.combinedClickable(
-                                interactionSource = interactionSource,
-                                indication = LocalIndication.current,
-                                onClick = {
-                                    haptics.performHapticFeedback(
-                                        HapticFeedbackType.LongPress
-                                    )
-                                    onClick()
-                                },
-                                onLongClick = onLongClick?.let {
-                                    {
+                            if (enabled) {
+                                Modifier.combinedClickable(
+                                    interactionSource = interactionSource,
+                                    indication = LocalIndication.current,
+                                    onClick = {
                                         haptics.performHapticFeedback(
                                             HapticFeedbackType.LongPress
                                         )
-                                        onLongClick()
+                                        onClick()
+                                    },
+                                    onLongClick = onLongClick?.let {
+                                        {
+                                            haptics.performHapticFeedback(
+                                                HapticFeedbackType.LongPress
+                                            )
+                                            onLongClick()
+                                        }
                                     }
-                                }
-                            )
-
+                                )
+                            } else {
+                                if (onDisabledClick != null) {
+                                    Modifier.clickable {
+                                        haptics.performHapticFeedback(
+                                            HapticFeedbackType.LongPress
+                                        )
+                                        onDisabledClick()
+                                    }
+                                } else Modifier
+                            }
                         } ?: Modifier
                 )
                 .alpha(animateFloatAsState(targetValue = if (enabled) 1f else 0.5f).value),

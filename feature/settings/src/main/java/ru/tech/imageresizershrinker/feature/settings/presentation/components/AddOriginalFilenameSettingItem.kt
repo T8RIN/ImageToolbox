@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Difference
@@ -25,7 +24,6 @@ import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -47,22 +45,14 @@ fun AddOriginalFilenameSettingItem(
     val toastHostState = LocalToastHostState.current
     val context = LocalContext.current
     val settingsState = LocalSettingsState.current
-    val enabled = settingsState.imagePickerModeInt != 0
     PreferenceRowSwitch(
         shape = shape,
-        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles,
-        modifier = modifier
-            .alpha(
-                animateFloatAsState(
-                    if (enabled) 1f
-                    else 0.5f
-                ).value
-            ),
-        autoShadowElevation = if (enabled) 1.dp else 0.dp,
+        enabled = !settingsState.randomizeFilename && !settingsState.overwriteFiles && settingsState.imagePickerModeInt != 1,
+        modifier = modifier,
         startIcon = Icons.Outlined.Difference,
-        onClick = {
-            if (enabled) onClick(it)
-            else scope.launch {
+        onClick = onClick,
+        onDisabledClick = {
+            scope.launch {
                 toastHostState.showToast(
                     message = context.getString(R.string.filename_not_work_with_photopicker),
                     icon = Icons.Outlined.ErrorOutline
@@ -71,6 +61,6 @@ fun AddOriginalFilenameSettingItem(
         },
         title = stringResource(R.string.add_original_filename),
         subtitle = stringResource(R.string.add_original_filename_sub),
-        checked = settingsState.addOriginalFilename && enabled
+        checked = settingsState.addOriginalFilename
     )
 }
