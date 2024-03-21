@@ -857,4 +857,7 @@
     <string name="embedded_picker_sub">使用 Image Toolbox 自带的图像拾取器，而不是系统预定义的图像拾取器</string>
     <string name="no_permissions">未获许可</string>
     <string name="request">请求</string>
+    <string name="show_settings_in_landscape">横向显示设置</string>
+    <string name="try_again">再试一次</string>
+    <string name="show_settings_in_landscape_sub">如果禁用，那么在横向模式下，设置将一如既往地在顶部应用栏的按钮上打开，而不是永久可见选项</string>
 </resources>

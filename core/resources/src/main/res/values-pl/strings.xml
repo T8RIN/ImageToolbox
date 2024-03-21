@@ -857,4 +857,7 @@
     <string name="sort_by_date_reversed">Sortuj według daty (odwrócone)</string>
     <string name="sort_by_name">Sortuj według nazwy</string>
     <string name="sort_by_name_reversed">Sortuj według nazwy (odwrócone)</string>
+    <string name="try_again">Spróbuj ponownie</string>
+    <string name="show_settings_in_landscape">Pokaż ustawienia w orientacji poziomej</string>
+    <string name="show_settings_in_landscape_sub">Jeśli ta opcja jest wyłączona, to w trybie poziomym ustawienia będą otwierane na przycisku w górnym pasku aplikacji, jak zawsze, zamiast stałej, widocznej opcji.</string>
 </resources>
