@@ -857,4 +857,7 @@
     <string name="pick_single_media">एकल मीडिया चुनें</string>
     <string name="pick">चुनें</string>
     <string name="no_permissions">आज्ञा नहीं है</string>
+    <string name="try_again">पुनः प्रयास करें</string>
+    <string name="show_settings_in_landscape">लैंडस्केप में सेटिंग्स दिखाएँ</string>
+    <string name="show_settings_in_landscape_sub">यदि यह अक्षम हो जाता है तो लैंडस्केप मोड में स्थायी दृश्यमान विकल्प के बजाय सेटिंग्स हमेशा की तरह शीर्ष ऐप बार में बटन पर खोली जाएंगी</string>
 </resources>
