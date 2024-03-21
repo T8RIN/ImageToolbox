@@ -857,4 +857,7 @@
     <string name="pick_multiple_media">اختر وسائط متعددة</string>
     <string name="pick">اختر</string>
     <string name="pick_single_media">اختر الوسائط المفردة</string>
+    <string name="show_settings_in_landscape">عرض الإعدادات في الوضع الأفقي</string>
+    <string name="try_again">حاول مرة أخرى</string>
+    <string name="show_settings_in_landscape_sub">إذا تم تعطيل هذا الخيار، فسيتم فتح إعدادات الوضع الأفقي على الزر الموجود في شريط التطبيقات العلوي كما هو الحال دائمًا، بدلاً من الخيار المرئي الدائم</string>
 </resources>
