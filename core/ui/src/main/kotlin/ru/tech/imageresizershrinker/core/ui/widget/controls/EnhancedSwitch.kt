@@ -45,7 +45,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.M3Switch
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.PixelSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -109,23 +109,23 @@ fun EnhancedSwitch(
             }
         ) { usePixelSwitch ->
             if (usePixelSwitch) {
-                M3Switch(
-                    modifier = modifier,
-                    internalModifier = switchModifier,
-                    colors = switchColors,
-                    checked = checked,
-                    enabled = enabled,
-                    onCheckedChange = switchOnCheckedChange,
-                    interactionSource = interactionSource
-                )
-//                PixelSwitch(
-//                    modifier = switchModifier,
+//                M3Switch(
+//                    modifier = modifier,
+//                    internalModifier = switchModifier,
 //                    colors = switchColors,
 //                    checked = checked,
 //                    enabled = enabled,
 //                    onCheckedChange = switchOnCheckedChange,
 //                    interactionSource = interactionSource
 //                )
+                PixelSwitch(
+                    modifier = switchModifier,
+                    colors = switchColors,
+                    checked = checked,
+                    enabled = enabled,
+                    onCheckedChange = switchOnCheckedChange,
+                    interactionSource = interactionSource
+                )
             } else {
                 Switch(
                     modifier = switchModifier,
