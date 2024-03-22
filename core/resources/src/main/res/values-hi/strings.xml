@@ -860,4 +860,8 @@
     <string name="try_again">पुनः प्रयास करें</string>
     <string name="show_settings_in_landscape">लैंडस्केप में सेटिंग्स दिखाएँ</string>
     <string name="show_settings_in_landscape_sub">यदि यह अक्षम हो जाता है तो लैंडस्केप मोड में स्थायी दृश्यमान विकल्प के बजाय सेटिंग्स हमेशा की तरह शीर्ष ऐप बार में बटन पर खोली जाएंगी</string>
+    <string name="switch_type">स्विच प्रकार</string>
+    <string name="compose">लिखें</string>
+    <string name="fullscreen_settings">फ़ुलस्क्रीन सेटिंग्स</string>
+    <string name="fullscreen_settings_sub">इसे सक्षम करें और सेटिंग पेज हमेशा स्लाइड करने योग्य ड्रॉअर शीट के बजाय फ़ुलस्क्रीन के रूप में खोला जाएगा</string>
 </resources>

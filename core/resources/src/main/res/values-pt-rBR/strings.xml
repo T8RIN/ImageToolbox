@@ -859,4 +859,8 @@
     <string name="try_again">Tente novamente</string>
     <string name="show_settings_in_landscape">Mostrar configurações no modo paisagem</string>
     <string name="show_settings_in_landscape_sub">Se estiver desativado, as configurações do modo paisagem serão abertas no botão da barra superior do aplicativo, como sempre, em vez da opção visível permanente</string>
+    <string name="fullscreen_settings">Configurações de tela cheia</string>
+    <string name="compose">Compor</string>
+    <string name="switch_type">Tipo de interruptor</string>
+    <string name="fullscreen_settings_sub">Ative-o e a página de configurações será sempre aberta em tela cheia, em vez da folha de gaveta deslizante</string>
 </resources>
