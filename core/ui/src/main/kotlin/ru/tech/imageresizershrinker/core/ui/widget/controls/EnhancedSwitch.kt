@@ -44,7 +44,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.M3Switch
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PixelSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
@@ -103,39 +105,46 @@ fun EnhancedSwitch(
         }
 
         AnimatedContent(
-            targetState = settingsState.usePixelSwitch,
+            targetState = settingsState.switchType,
             transitionSpec = {
                 fadeIn() togetherWith fadeOut() using SizeTransform(false)
             }
-        ) { usePixelSwitch ->
-            if (usePixelSwitch) {
-//                M3Switch(
-//                    modifier = modifier,
-//                    internalModifier = switchModifier,
-//                    colors = switchColors,
-//                    checked = checked,
-//                    enabled = enabled,
-//                    onCheckedChange = switchOnCheckedChange,
-//                    interactionSource = interactionSource
-//                )
-                PixelSwitch(
-                    modifier = switchModifier,
-                    colors = switchColors,
-                    checked = checked,
-                    enabled = enabled,
-                    onCheckedChange = switchOnCheckedChange,
-                    interactionSource = interactionSource
-                )
-            } else {
-                Switch(
-                    modifier = switchModifier,
-                    colors = switchColors,
-                    checked = checked,
-                    enabled = enabled,
-                    onCheckedChange = switchOnCheckedChange,
-                    interactionSource = interactionSource,
-                    thumbContent = thumbContent
-                )
+        ) { switchType ->
+            when (switchType) {
+                is SwitchType.MaterialYou -> {
+                    M3Switch(
+                        modifier = modifier,
+                        internalModifier = switchModifier,
+                        colors = switchColors,
+                        checked = checked,
+                        enabled = enabled,
+                        onCheckedChange = switchOnCheckedChange,
+                        interactionSource = interactionSource
+                    )
+                }
+
+                is SwitchType.Compose -> {
+                    Switch(
+                        modifier = switchModifier,
+                        colors = switchColors,
+                        checked = checked,
+                        enabled = enabled,
+                        onCheckedChange = switchOnCheckedChange,
+                        interactionSource = interactionSource,
+                        thumbContent = thumbContent
+                    )
+                }
+
+                SwitchType.Pixel -> {
+                    PixelSwitch(
+                        modifier = switchModifier,
+                        colors = switchColors,
+                        checked = checked,
+                        enabled = enabled,
+                        onCheckedChange = switchOnCheckedChange,
+                        interactionSource = interactionSource
+                    )
+                }
             }
         }
     }

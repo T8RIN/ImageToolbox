@@ -17,8 +17,12 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.buttons
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.view.MotionEvent
+import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchColors
@@ -28,14 +32,18 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.material.materialswitch.MaterialSwitch
+import kotlinx.coroutines.launch
 
 
+@SuppressLint("ClickableViewAccessibility")
 @Composable
 fun M3Switch(
     checked: Boolean,
@@ -50,10 +58,14 @@ fun M3Switch(
         mutableStateOf<MaterialSwitch?>(null)
     }
 
+    val scope = rememberCoroutineScope()
+
     DisposableEffect(view, checked) {
         view?.isChecked = checked
         view?.setOnCheckedChangeListener { _, value ->
-            onCheckedChange?.let { onCheckedChange(value) }
+            onCheckedChange?.let {
+                onCheckedChange(value)
+            }
         }
 
         onDispose {
@@ -85,11 +97,71 @@ fun M3Switch(
                 Transparent
             )
         )
+
+        var press by remember {
+            mutableStateOf<PressInteraction.Press?>(null)
+        }
+        var drag by remember {
+            mutableStateOf<DragInteraction.Start?>(null)
+        }
+
         AndroidView(
             modifier = modifier,
-            factory = {
-                MaterialSwitch(it).apply {
+            factory = { context ->
+                MaterialSwitch(context).apply {
                     view = this
+                    isHapticFeedbackEnabled = false
+                    setOnTouchListener { _, event ->
+                        when (event.actionMasked) {
+                            MotionEvent.ACTION_DOWN -> {
+                                press = PressInteraction.Press(
+                                    Offset(event.x, event.y)
+                                ).also {
+                                    scope.launch {
+                                        interactionSource?.emit(it)
+                                    }
+                                }
+                            }
+
+                            MotionEvent.ACTION_MOVE -> {
+                                drag = DragInteraction.Start().also {
+                                    scope.launch {
+                                        interactionSource?.emit(it)
+                                    }
+                                }
+                            }
+
+                            MotionEvent.ACTION_UP -> {
+                                scope.launch {
+                                    press?.let {
+                                        interactionSource?.emit(PressInteraction.Release(it))
+                                    }
+                                    drag?.let {
+                                        interactionSource?.emit(DragInteraction.Stop(it))
+                                    }
+                                    press = null
+                                    drag = null
+                                }
+                            }
+
+                            MotionEvent.ACTION_CANCEL -> {
+                                scope.launch {
+                                    press?.let {
+                                        interactionSource?.emit(PressInteraction.Cancel(it))
+                                    }
+                                    drag?.let {
+                                        interactionSource?.emit(DragInteraction.Cancel(it))
+                                    }
+                                    press = null
+                                    drag = null
+                                }
+                            }
+
+                            else -> Unit
+                        }
+
+                        false
+                    }
                 }
             },
             update = {

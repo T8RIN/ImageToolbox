@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.core.settings.domain.model
 import ru.tech.imageresizershrinker.core.domain.Domain
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.Preset
+import ru.tech.imageresizershrinker.core.domain.model.SwitchType
 
 data class SettingsState(
     val nightMode: NightMode,
@@ -67,7 +68,6 @@ data class SettingsState(
     val overwriteFiles: Boolean,
     val filenameSuffix: String,
     val defaultImageScaleMode: ImageScaleMode,
-    val usePixelSwitch: Boolean,
     val magnifierEnabled: Boolean,
     val exifWidgetInitialState: Boolean,
     val initialOcrCodes: List<String>,
@@ -85,7 +85,8 @@ data class SettingsState(
     val skipImagePicking: Boolean,
     val generatePreviews: Boolean,
     val showSettingsInLandscape: Boolean,
-    val useFullscreenSettings: Boolean
+    val useFullscreenSettings: Boolean,
+    val switchType: SwitchType
 ) : Domain {
 
     companion object {
@@ -136,7 +137,6 @@ data class SettingsState(
                 filenameSuffix = "",
                 defaultImageScaleMode = ImageScaleMode.Default,
                 copyToClipboardMode = CopyToClipboardMode.Disabled,
-                usePixelSwitch = false,
                 magnifierEnabled = false,
                 exifWidgetInitialState = false,
                 initialOcrCodes = listOf("eng"),
@@ -154,7 +154,8 @@ data class SettingsState(
                 skipImagePicking = false,
                 generatePreviews = true,
                 showSettingsInLandscape = true,
-                useFullscreenSettings = false
+                useFullscreenSettings = false,
+                switchType = SwitchType.MaterialYou
             )
         }
     }

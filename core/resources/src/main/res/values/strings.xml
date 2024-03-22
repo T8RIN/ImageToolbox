@@ -880,4 +880,6 @@
     <string name="show_settings_in_landscape_sub">If this disabled then in landscape mode settings will be opened on the button in top app bar as always, instead of permanent visible option</string>
     <string name="fullscreen_settings">Fullscreen Settings</string>
     <string name="fullscreen_settings_sub">Enable it and settings page will be always opened as fullscreen instead of slideable drawer sheet</string>
+    <string name="switch_type">Switch Type</string>
+    <string name="compose">Compose</string>
 </resources>

@@ -504,8 +504,8 @@ internal fun SettingItem(
                 )
             }
 
-            Setting.UsePixelSwitch -> {
-                UsePixelSwitchSettingItem(onClick = { viewModel.toggleUsePixelSwitch() })
+            Setting.SwitchType -> {
+                SwitchTypeSettingItem(onValueChange = viewModel::setSwitchType)
             }
 
             Setting.Magnifier -> {

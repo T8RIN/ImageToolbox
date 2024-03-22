@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.core.settings.domain
 
 import kotlinx.coroutines.flow.Flow
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
 import ru.tech.imageresizershrinker.core.settings.domain.model.Harmonizer
@@ -131,8 +132,6 @@ interface SettingsRepository {
 
     suspend fun setDefaultImageScaleMode(imageScaleMode: ImageScaleMode)
 
-    suspend fun toggleUsePixelSwitch()
-
     suspend fun toggleMagnifierEnabled()
 
     suspend fun toggleExifWidgetInitialState()
@@ -170,4 +169,6 @@ interface SettingsRepository {
     suspend fun toggleShowSettingsInLandscape()
 
     suspend fun toggleUseFullscreenSettings()
+
+    suspend fun setSwitchType(type: SwitchType)
 }

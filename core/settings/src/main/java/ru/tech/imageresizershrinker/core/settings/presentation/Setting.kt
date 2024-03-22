@@ -288,9 +288,9 @@ sealed class Setting(
         subtitle = null
     )
 
-    data object UsePixelSwitch : Setting(
-        title = R.string.use_pixel_switch,
-        subtitle = R.string.use_pixel_switch_sub
+    data object SwitchType : Setting(
+        title = R.string.switch_type,
+        subtitle = null
     )
 
     data object Magnifier : Setting(

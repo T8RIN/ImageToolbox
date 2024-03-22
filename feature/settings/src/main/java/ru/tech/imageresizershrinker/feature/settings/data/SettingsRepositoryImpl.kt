@@ -33,6 +33,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.model.Preset
+import ru.tech.imageresizershrinker.core.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
@@ -100,7 +101,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.THEME_CONT
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.THEME_STYLE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_EMOJI_AS_PRIMARY_COLOR
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_FULLSCREEN_SETTINGS
-import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_PIXEL_SWITCH
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SWITCH_TYPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_RANDOM_EMOJIS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.VIBRATION_STRENGTH
 import java.io.ByteArrayInputStream
@@ -184,7 +185,6 @@ internal class SettingsRepositoryImpl @Inject constructor(
             defaultImageScaleMode = prefs[IMAGE_SCALE_MODE]?.let {
                 ImageScaleMode.fromInt(it)
             } ?: default.defaultImageScaleMode,
-            usePixelSwitch = prefs[USE_PIXEL_SWITCH] ?: default.usePixelSwitch,
             magnifierEnabled = prefs[MAGNIFIER_ENABLED] ?: default.magnifierEnabled,
             exifWidgetInitialState = prefs[EXIF_WIDGET_INITIAL_STATE]
                 ?: default.exifWidgetInitialState,
@@ -216,6 +216,9 @@ internal class SettingsRepositoryImpl @Inject constructor(
                 ?: default.showSettingsInLandscape,
             useFullscreenSettings = prefs[USE_FULLSCREEN_SETTINGS]
                 ?: default.useFullscreenSettings,
+            switchType = prefs[SWITCH_TYPE]?.let {
+                SwitchType.fromInt(it)
+            } ?: default.switchType
         )
     }
 
@@ -569,13 +572,6 @@ internal class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun toggleUsePixelSwitch() {
-        dataStore.edit {
-            val v = it[USE_PIXEL_SWITCH] ?: default.usePixelSwitch
-            it[USE_PIXEL_SWITCH] = !v
-        }
-    }
-
     override suspend fun toggleMagnifierEnabled() {
         dataStore.edit {
             val v = it[MAGNIFIER_ENABLED] ?: default.magnifierEnabled
@@ -698,6 +694,12 @@ internal class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit {
             val v = it[USE_FULLSCREEN_SETTINGS] ?: default.useFullscreenSettings
             it[USE_FULLSCREEN_SETTINGS] = !v
+        }
+    }
+
+    override suspend fun setSwitchType(type: SwitchType) {
+        dataStore.edit {
+            it[SWITCH_TYPE] = type.ordinal
         }
     }
 

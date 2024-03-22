@@ -38,6 +38,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.di.IoDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
@@ -411,9 +412,9 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun toggleUsePixelSwitch() {
+    fun setSwitchType(type: SwitchType) {
         viewModelScope.launch {
-            settingsRepository.toggleUsePixelSwitch()
+            settingsRepository.setSwitchType(type)
         }
     }
 

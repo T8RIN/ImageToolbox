@@ -64,7 +64,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
 import kotlin.coroutines.cancellation.CancellationException
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleSheet(
     nestedScrollEnabled: Boolean = false,
@@ -175,7 +174,6 @@ fun SimpleSheet(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleSheet(
     nestedScrollEnabled: Boolean = false,
@@ -309,7 +307,6 @@ fun SimpleSheet(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleSheet(
     nestedScrollEnabled: Boolean = false,

@@ -38,6 +38,7 @@ import com.t8rin.dynamic.theme.PaletteStyle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.settings.domain.model.Harmonizer
@@ -91,7 +92,6 @@ data class UiSettingsState(
     val overwriteFiles: Boolean,
     val filenameSuffix: String,
     val defaultImageScaleMode: ImageScaleMode,
-    val usePixelSwitch: Boolean,
     val magnifierEnabled: Boolean,
     val exifWidgetInitialState: Boolean,
     val screenListWithMaxBrightnessEnforcement: List<Int>,
@@ -108,7 +108,8 @@ data class UiSettingsState(
     val skipImagePicking: Boolean,
     val generatePreviews: Boolean,
     val showSettingsInLandscape: Boolean,
-    val useFullscreenSettings: Boolean
+    val useFullscreenSettings: Boolean,
+    val switchType: SwitchType
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -238,7 +239,6 @@ fun SettingsState.toUiState(
         overwriteFiles = overwriteFiles,
         filenameSuffix = filenameSuffix,
         defaultImageScaleMode = defaultImageScaleMode,
-        usePixelSwitch = usePixelSwitch,
         magnifierEnabled = magnifierEnabled,
         exifWidgetInitialState = exifWidgetInitialState,
         screenListWithMaxBrightnessEnforcement = screenListWithMaxBrightnessEnforcement,
@@ -261,7 +261,8 @@ fun SettingsState.toUiState(
         skipImagePicking = skipImagePicking,
         generatePreviews = generatePreviews,
         showSettingsInLandscape = showSettingsInLandscape,
-        useFullscreenSettings = useFullscreenSettings
+        useFullscreenSettings = useFullscreenSettings,
+        switchType = switchType
     )
 }
 

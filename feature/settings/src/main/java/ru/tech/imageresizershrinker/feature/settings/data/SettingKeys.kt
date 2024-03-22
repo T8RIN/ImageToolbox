@@ -68,7 +68,6 @@ internal object SettingKeys {
     val OVERWRITE_FILE = booleanPreferencesKey("OVERWRITE_FILE")
     val FILENAME_SUFFIX = stringPreferencesKey("FILENAME_SUFFIX")
     val IMAGE_SCALE_MODE = intPreferencesKey("IMAGE_SCALE_MODE")
-    val USE_PIXEL_SWITCH = booleanPreferencesKey("USE_PIXEL_SWITCH")
     val MAGNIFIER_ENABLED = booleanPreferencesKey("MAGNIFIER_ENABLED")
     val EXIF_WIDGET_INITIAL_STATE = booleanPreferencesKey("EXIF_WIDGET_INITIAL_STATE")
     val INITIAL_OCR_CODES = stringPreferencesKey("INITIAL_OCR_CODES")
@@ -88,4 +87,5 @@ internal object SettingKeys {
     val GENERATE_PREVIEWS = booleanPreferencesKey("GENERATE_PREVIEWS")
     val SHOW_SETTINGS_IN_LANDSCAPE = booleanPreferencesKey("SHOW_SETTINGS_IN_LANDSCAPE")
     val USE_FULLSCREEN_SETTINGS = booleanPreferencesKey("USE_FULLSCREEN_SETTINGS")
+    val SWITCH_TYPE = intPreferencesKey("SWITCH_TYPE")
 }

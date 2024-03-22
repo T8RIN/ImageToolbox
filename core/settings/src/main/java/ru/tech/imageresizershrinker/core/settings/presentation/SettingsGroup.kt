@@ -80,7 +80,7 @@ sealed class SettingsGroup(
         titleId = R.string.secondary_customization,
         settingsList = listOf(
             Setting.BorderThickness,
-            Setting.UsePixelSwitch,
+            Setting.SwitchType,
             Setting.DragHandleWidth,
             Setting.FabAlignment
         ),
