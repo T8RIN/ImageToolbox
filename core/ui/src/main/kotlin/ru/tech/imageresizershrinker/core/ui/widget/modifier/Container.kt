@@ -42,8 +42,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.takeOrElse
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalContainerShape
+import ru.tech.imageresizershrinker.core.ui.widget.utils.SafeLocalContainerColor
 
 fun Modifier.container(
     shape: Shape = RoundedCornerShape(16.dp),
@@ -68,7 +68,7 @@ fun Modifier.container(
 
     val colorScheme = MaterialTheme.colorScheme
     val containerColor = if (color.isUnspecified) {
-        LocalContainerColor.current ?: colorScheme.surfaceContainerLow
+        SafeLocalContainerColor
     } else {
         if (composeColorOnTopOfBackground) color.compositeOver(colorScheme.background)
         else color

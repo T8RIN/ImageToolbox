@@ -29,6 +29,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Android
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.ToggleOff
+import androidx.compose.material.icons.outlined.ToggleOn
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material3.MaterialTheme
@@ -71,7 +72,7 @@ fun SwitchTypeSettingItem(
     PreferenceItem(
         modifier = modifier,
         title = stringResource(id = R.string.switch_type),
-        startIcon = Icons.Outlined.ToggleOff,
+        startIcon = Icons.Outlined.ToggleOn,
         subtitle = settingsState.switchType.name,
         onClick = {
             showSheet = true

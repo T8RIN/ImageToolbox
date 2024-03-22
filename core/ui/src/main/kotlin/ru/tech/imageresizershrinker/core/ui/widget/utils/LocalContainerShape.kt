@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.utils
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -26,6 +27,10 @@ import androidx.compose.ui.graphics.Shape
 val LocalContainerShape = compositionLocalOf<Shape?> { null }
 
 val LocalContainerColor = compositionLocalOf<Color?> { null }
+
+val SafeLocalContainerColor
+    @Composable
+    get() = LocalContainerColor.current ?: MaterialTheme.colorScheme.surfaceContainerLow
 
 @Composable
 fun ProvideContainerDefaults(

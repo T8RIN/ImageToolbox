@@ -43,6 +43,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.utils.SafeLocalContainerColor
 
 @Composable
 fun ImagePickerModeSettingItemGroup(
@@ -59,7 +60,7 @@ fun ImagePickerModeSettingItemGroup(
             subtitle = stringResource(R.string.embedded_picker_sub),
             color = takeColorFromScheme {
                 if (settingsState.imagePickerModeInt == 0) secondaryContainer.copy(0.7f)
-                else Color.Unspecified
+                else SafeLocalContainerColor
             },
             endIcon = if (settingsState.imagePickerModeInt == 0) {
                 Icons.Rounded.RadioButtonChecked
@@ -86,7 +87,7 @@ fun ImagePickerModeSettingItemGroup(
             subtitle = stringResource(R.string.photo_picker_sub),
             color = takeColorFromScheme {
                 if (settingsState.imagePickerModeInt == 1) secondaryContainer.copy(0.7f)
-                else Color.Unspecified
+                else SafeLocalContainerColor
             },
             endIcon = if (settingsState.imagePickerModeInt == 1) {
                 Icons.Rounded.RadioButtonChecked
@@ -113,7 +114,7 @@ fun ImagePickerModeSettingItemGroup(
             subtitle = stringResource(R.string.gallery_picker_sub),
             color = takeColorFromScheme {
                 if (settingsState.imagePickerModeInt == 2) secondaryContainer.copy(0.7f)
-                else Color.Unspecified
+                else SafeLocalContainerColor
             },
             endIcon = if (settingsState.imagePickerModeInt == 2) {
                 Icons.Rounded.RadioButtonChecked
@@ -140,7 +141,7 @@ fun ImagePickerModeSettingItemGroup(
             startIcon = Icons.Rounded.FolderOpen,
             color = takeColorFromScheme {
                 if (settingsState.imagePickerModeInt == 3) secondaryContainer.copy(0.7f)
-                else Color.Unspecified
+                else SafeLocalContainerColor
             },
             endIcon = if (settingsState.imagePickerModeInt == 3) {
                 Icons.Rounded.RadioButtonChecked
@@ -167,7 +168,7 @@ fun ImagePickerModeSettingItemGroup(
             subtitle = stringResource(R.string.camera_sub),
             color = takeColorFromScheme {
                 if (settingsState.imagePickerModeInt == 4) secondaryContainer.copy(0.7f)
-                else Color.Unspecified
+                else SafeLocalContainerColor
             },
             endIcon = if (settingsState.imagePickerModeInt == 4) {
                 Icons.Rounded.RadioButtonChecked

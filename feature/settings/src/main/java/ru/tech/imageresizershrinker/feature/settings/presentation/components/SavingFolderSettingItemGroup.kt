@@ -49,6 +49,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaul
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.utils.SafeLocalContainerColor
 
 @Composable
 fun SavingFolderSettingItemGroup(
@@ -81,7 +82,7 @@ fun SavingFolderSettingItemGroup(
             subtitle = stringResource(R.string.default_folder),
             color = takeColorFromScheme {
                 if (currentFolderUri == null) secondaryContainer.copy(0.7f)
-                else Color.Unspecified
+                else SafeLocalContainerColor
             },
             startIcon = Icons.Outlined.FolderSpecial,
             modifier = Modifier

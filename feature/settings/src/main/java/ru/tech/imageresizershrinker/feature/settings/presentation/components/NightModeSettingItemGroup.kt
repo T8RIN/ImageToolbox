@@ -41,6 +41,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsStat
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.utils.SafeLocalContainerColor
 
 @Composable
 fun NightModeSettingItemGroup(
@@ -77,7 +78,7 @@ fun NightModeSettingItemGroup(
                 title = title,
                 color = takeColorFromScheme {
                     if (selected) secondaryContainer.copy(0.7f)
-                    else Color.Unspecified
+                    else SafeLocalContainerColor
                 },
                 shape = shape,
                 startIcon = icon,
@@ -94,7 +95,9 @@ fun NightModeSettingItemGroup(
                         ).value,
                         shape = shape
                     ),
-                endIcon = if (selected) Icons.Rounded.RadioButtonChecked else Icons.Rounded.RadioButtonUnchecked
+                endIcon = if (selected) {
+                    Icons.Rounded.RadioButtonChecked
+                } else Icons.Rounded.RadioButtonUnchecked
             )
         }
     }
