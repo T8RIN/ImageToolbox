@@ -17,82 +17,111 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.buttons
 
-import androidx.compose.animation.animateColorAsState
+import android.content.res.ColorStateList
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchColors
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Transparent
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.material.materialswitch.MaterialSwitch
+
 
 @Composable
 fun M3Switch(
     checked: Boolean,
     modifier: Modifier = Modifier,
+    internalModifier: Modifier = modifier,
     onCheckedChange: ((Boolean) -> Unit)?,
     enabled: Boolean = true,
     colors: SwitchColors = SwitchDefaults.colors(),
     interactionSource: MutableInteractionSource? = null,
 ) {
-    val trackColor by animateColorAsState(trackColor(enabled, checked, colors))
-    val thumbColor by animateColorAsState(thumbColor(enabled, checked, colors))
-    val borderColor by animateColorAsState(borderColor(enabled, checked, colors))
+    var view by remember {
+        mutableStateOf<MaterialSwitch?>(null)
+    }
 
-    AndroidView(
-        modifier = modifier,
-        factory = {
-            MaterialSwitch(it).apply {
-                setOnCheckedChangeListener { _, value ->
-                    onCheckedChange?.let { onCheckedChange(value) }
-                }
-            }
-        },
-        update = {
-            it.isEnabled = enabled
-            it.isChecked = checked
-//            it.trackTintList = ColorStateList.valueOf(trackColor.toArgb())
-//            it.thumbTintList = ColorStateList.valueOf(thumbColor.toArgb())
-//            it.trackDecorationTintList = ColorStateList.valueOf(borderColor.toArgb())
+    DisposableEffect(view, checked) {
+        view?.isChecked = checked
+        view?.setOnCheckedChangeListener { _, value ->
+            onCheckedChange?.let { onCheckedChange(value) }
         }
-    )
+
+        onDispose {
+            view?.setOnCheckedChangeListener(null)
+        }
+    }
+
+    Box {
+        Switch(
+            checked = false,
+            onCheckedChange = {},
+            modifier = internalModifier,
+            colors = SwitchColors(
+                Transparent,
+                Transparent,
+                Transparent,
+                Transparent,
+                Transparent,
+                Transparent,
+                Transparent,
+                Transparent,
+                Transparent,
+                Transparent,
+                Transparent,
+                Transparent,
+                Transparent,
+                Transparent,
+                Transparent,
+                Transparent
+            )
+        )
+        AndroidView(modifier = modifier, factory = {
+            MaterialSwitch(it).apply {
+                view = this
+            }
+        }, update = {
+            it.isEnabled = enabled
+            val states = arrayOf(
+                intArrayOf(-android.R.attr.state_checked),
+                intArrayOf(-android.R.attr.state_enabled),
+                intArrayOf(android.R.attr.state_checked)
+            )
+            val trackColors = intArrayOf(
+                colors.uncheckedTrackColor.toArgb(), if (checked) {
+                    colors.disabledCheckedTrackColor
+                } else {
+                    colors.disabledUncheckedTrackColor
+                }.toArgb(), colors.checkedTrackColor.toArgb()
+            )
+            it.trackTintList = ColorStateList(states, trackColors)
+
+            val thumbColors = intArrayOf(
+                colors.uncheckedThumbColor.toArgb(), if (checked) {
+                    colors.disabledCheckedThumbColor
+                } else {
+                    colors.disabledUncheckedThumbColor
+                }.toArgb(), colors.checkedThumbColor.toArgb()
+            )
+            it.thumbTintList = ColorStateList(states, thumbColors)
+
+            val borderColors = intArrayOf(
+                colors.uncheckedBorderColor.toArgb(), if (checked) {
+                    colors.disabledCheckedBorderColor
+                } else {
+                    colors.disabledUncheckedBorderColor
+                }.toArgb(), colors.checkedBorderColor.toArgb()
+            )
+            it.trackDecorationTintList = ColorStateList(states, borderColors)
+        })
+    }
 }
-
-@Stable
-private fun trackColor(
-    enabled: Boolean,
-    checked: Boolean,
-    colors: SwitchColors
-): Color =
-    if (enabled) {
-        if (checked) colors.checkedTrackColor else colors.uncheckedTrackColor
-    } else {
-        if (checked) colors.disabledCheckedTrackColor else colors.disabledUncheckedTrackColor
-    }
-
-@Stable
-private fun thumbColor(
-    enabled: Boolean,
-    checked: Boolean,
-    colors: SwitchColors
-): Color =
-    if (enabled) {
-        if (checked) colors.checkedThumbColor else colors.uncheckedThumbColor
-    } else {
-        if (checked) colors.disabledCheckedThumbColor else colors.disabledUncheckedThumbColor
-    }
-
-@Stable
-private fun borderColor(
-    enabled: Boolean,
-    checked: Boolean,
-    colors: SwitchColors
-): Color =
-    if (enabled) {
-        if (checked) colors.checkedBorderColor else colors.uncheckedBorderColor
-    } else {
-        if (checked) colors.disabledCheckedBorderColor else colors.disabledUncheckedBorderColor
-    }

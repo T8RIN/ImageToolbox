@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -36,7 +35,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.luminance
@@ -82,21 +80,17 @@ fun ColorSchemeSettingItem(
 
     val showPickColorSheet = rememberSaveable { mutableStateOf(false) }
     PreferenceRow(
-        modifier = modifier
-            .alpha(
-                animateFloatAsState(
-                    if (enabled) 1f
-                    else 0.5f
-                ).value
-            ),
-        autoShadowElevation = if (enabled) 1.dp else 0.dp,
+        modifier = modifier,
+        enabled = enabled,
         shape = shape,
         title = stringResource(R.string.color_scheme),
         startIcon = Icons.Outlined.Theme,
         subtitle = stringResource(R.string.pick_accent_color),
         onClick = {
-            if (enabled) showPickColorSheet.value = true
-            else scope.launch {
+            showPickColorSheet.value = true
+        },
+        onDisabledClick = {
+            scope.launch {
                 toastHostState.showToast(
                     icon = Icons.Rounded.Palette,
                     message = context.getString(R.string.cannot_change_palette_while_dynamic_colors_applied)

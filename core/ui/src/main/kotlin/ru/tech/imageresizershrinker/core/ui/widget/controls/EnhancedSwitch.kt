@@ -110,7 +110,8 @@ fun EnhancedSwitch(
         ) { usePixelSwitch ->
             if (usePixelSwitch) {
                 M3Switch(
-                    modifier = switchModifier,
+                    modifier = modifier,
+                    internalModifier = switchModifier,
                     colors = switchColors,
                     checked = checked,
                     enabled = enabled,
