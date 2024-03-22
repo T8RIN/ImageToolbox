@@ -282,7 +282,12 @@ fun SettingsScreen(
                     )
                 } else if (onGoBack != null) {
                     EnhancedIconButton(
-                        onClick = onGoBack,
+                        onClick = {
+                            if (showSearch) {
+                                showSearch = false
+                                searchKeyword = ""
+                            } else onGoBack()
+                        },
                         containerColor = Color.Transparent
                     ) {
                         Icon(
