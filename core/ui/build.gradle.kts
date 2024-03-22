@@ -61,6 +61,7 @@ dependencies {
     api(libs.scrollbar)
 
     implementation(libs.datastore.preferences.android)
+    implementation(libs.material)
 
     "marketImplementation"(libs.mlkit.segmentation.selfie)
     "marketImplementation"(libs.firebase.crashlytics.ktx)

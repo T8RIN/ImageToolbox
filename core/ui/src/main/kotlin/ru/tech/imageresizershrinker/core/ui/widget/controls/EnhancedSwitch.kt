@@ -37,7 +37,6 @@ import androidx.compose.material3.SwitchColors
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
@@ -46,7 +45,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.PixelSwitch
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.M3Switch
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,7 +57,7 @@ fun EnhancedSwitch(
     thumbIcon: ImageVector? = null,
     enabled: Boolean = true,
     colors: SwitchColors? = null,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    interactionSource: MutableInteractionSource? = null,
 ) {
     val switchColors = colors ?: SwitchDefaults.colors(
         disabledUncheckedThumbColor = MaterialTheme.colorScheme.onSurface
@@ -110,7 +109,7 @@ fun EnhancedSwitch(
             }
         ) { usePixelSwitch ->
             if (usePixelSwitch) {
-                PixelSwitch(
+                M3Switch(
                     modifier = switchModifier,
                     colors = switchColors,
                     checked = checked,
@@ -118,6 +117,14 @@ fun EnhancedSwitch(
                     onCheckedChange = switchOnCheckedChange,
                     interactionSource = interactionSource
                 )
+//                PixelSwitch(
+//                    modifier = switchModifier,
+//                    colors = switchColors,
+//                    checked = checked,
+//                    enabled = enabled,
+//                    onCheckedChange = switchOnCheckedChange,
+//                    interactionSource = interactionSource
+//                )
             } else {
                 Switch(
                     modifier = switchModifier,

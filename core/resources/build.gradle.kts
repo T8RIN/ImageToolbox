@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.material)
     implementation(libs.androidxCore)
     implementation(libs.appCompat)
     implementation(libs.splashScreen)

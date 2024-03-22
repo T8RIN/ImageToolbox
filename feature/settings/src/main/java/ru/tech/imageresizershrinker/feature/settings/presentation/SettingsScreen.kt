@@ -31,7 +31,6 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -47,8 +46,8 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
@@ -202,7 +201,13 @@ fun SettingsScreen(
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    Column {
+    Column(
+        modifier = if (isStandaloneScreen) {
+            Modifier.nestedScroll(
+                scrollBehavior.nestedScrollConnection
+            )
+        } else Modifier
+    ) {
         EnhancedTopAppBar(
             type = if (isStandaloneScreen) EnhancedTopAppBarType.Large
             else EnhancedTopAppBarType.Normal,
@@ -212,14 +217,19 @@ fun SettingsScreen(
                 ) { searching ->
                     if (!searching) {
                         Marquee {
-                            Row {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
                                 Text(
                                     text = stringResource(R.string.settings),
-                                    style = if (isStandaloneScreen) {
+                                    style = if (!isStandaloneScreen) {
                                         MaterialTheme.typography.titleLarge
                                     } else LocalTextStyle.current
                                 )
-                                if (isStandaloneScreen) TopAppBarEmoji()
+                                if (isStandaloneScreen) {
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    TopAppBarEmoji()
+                                }
                             }
                         }
                     } else {
@@ -301,11 +311,7 @@ fun SettingsScreen(
                 scrollBehavior
             } else null
         )
-        Box(
-            modifier = Modifier.nestedScroll(
-                scrollBehavior.nestedScrollConnection
-            )
-        ) {
+        Box {
             AnimatedContent(
                 targetState = settings,
                 modifier = Modifier
@@ -319,15 +325,9 @@ fun SettingsScreen(
                     )
                 }
             ) { settingsAnimated ->
-
-                @Composable
-                fun ColumnScope.item(content: @Composable ColumnScope.() -> Unit) = content()
-
                 if (settingsAnimated == null) {
-                    Column(
-                        modifier = Modifier
-                            .verticalScroll(rememberScrollState())
-                            .padding(padding)
+                    LazyColumn(
+                        contentPadding = padding
                     ) {
                         initialSettingGroups.forEachIndexed { index, group ->
                             item {
@@ -398,10 +398,8 @@ fun SettingsScreen(
                         }
                     }
                 } else if (settingsAnimated.isNotEmpty()) {
-                    Column(
-                        modifier = Modifier
-                            .verticalScroll(rememberScrollState())
-                            .padding(padding)
+                    LazyColumn(
+                        contentPadding = padding
                     ) {
                         settingsAnimated.forEachIndexed { index, (group, setting) ->
                             item {

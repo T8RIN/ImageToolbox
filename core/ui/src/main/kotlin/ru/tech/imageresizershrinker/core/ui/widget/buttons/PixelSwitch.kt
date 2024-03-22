@@ -49,7 +49,7 @@ fun PixelSwitch(
     onCheckedChange: ((Boolean) -> Unit)?,
     enabled: Boolean = true,
     colors: SwitchColors = SwitchDefaults.colors(),
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    interactionSource: MutableInteractionSource? = null,
 ) {
     val trackColor by animateColorAsState(targetValue = trackColor(enabled, checked, colors))
     val thumbColor by animateColorAsState(targetValue = thumbColor(enabled, checked, colors))
@@ -79,7 +79,8 @@ fun PixelSwitch(
             modifier = Modifier
                 .offset { IntOffset(x = thumbOffset.roundToPx(), y = 0) }
                 .indication(
-                    interactionSource = interactionSource,
+                    interactionSource = interactionSource
+                        ?: remember { MutableInteractionSource() },
                     indication = rememberRipple(
                         bounded = false,
                         radius = 16.dp
