@@ -860,4 +860,8 @@
     <string name="try_again">Spróbuj ponownie</string>
     <string name="show_settings_in_landscape">Pokaż ustawienia w orientacji poziomej</string>
     <string name="show_settings_in_landscape_sub">Jeśli ta opcja jest wyłączona, to w trybie poziomym ustawienia będą otwierane na przycisku w górnym pasku aplikacji, jak zawsze, zamiast stałej, widocznej opcji.</string>
+    <string name="switch_type">Rodzaj przełącznika</string>
+    <string name="compose">Skomponuj</string>
+    <string name="fullscreen_settings">Ustawienia trybu pełnoekranowego</string>
+    <string name="fullscreen_settings_sub">Włączenie tej opcji spowoduje, że strona ustawień będzie zawsze otwierana jako pełnoekranowa zamiast wysuwanego arkusza szuflady</string>
 </resources>
