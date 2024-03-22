@@ -85,43 +85,53 @@ fun M3Switch(
                 Transparent
             )
         )
-        AndroidView(modifier = modifier, factory = {
-            MaterialSwitch(it).apply {
-                view = this
+        AndroidView(
+            modifier = modifier,
+            factory = {
+                MaterialSwitch(it).apply {
+                    view = this
+                }
+            },
+            update = {
+                it.isEnabled = enabled
+                val states = arrayOf(
+                    intArrayOf(-android.R.attr.state_checked),
+                    intArrayOf(-android.R.attr.state_enabled),
+                    intArrayOf(android.R.attr.state_checked)
+                )
+                val trackColors = intArrayOf(
+                    colors.uncheckedTrackColor.toArgb(),
+                    if (checked) {
+                        colors.disabledCheckedTrackColor
+                    } else {
+                        colors.disabledUncheckedTrackColor
+                    }.toArgb(),
+                    colors.checkedTrackColor.toArgb()
+                )
+                it.trackTintList = ColorStateList(states, trackColors)
+
+                val thumbColors = intArrayOf(
+                    colors.uncheckedThumbColor.toArgb(),
+                    if (checked) {
+                        colors.disabledCheckedThumbColor
+                    } else {
+                        colors.disabledUncheckedThumbColor
+                    }.toArgb(),
+                    colors.checkedThumbColor.toArgb()
+                )
+                it.thumbTintList = ColorStateList(states, thumbColors)
+
+                val borderColors = intArrayOf(
+                    colors.uncheckedBorderColor.toArgb(),
+                    if (checked) {
+                        colors.disabledCheckedBorderColor
+                    } else {
+                        colors.disabledUncheckedBorderColor
+                    }.toArgb(),
+                    colors.checkedBorderColor.toArgb()
+                )
+                it.trackDecorationTintList = ColorStateList(states, borderColors)
             }
-        }, update = {
-            it.isEnabled = enabled
-            val states = arrayOf(
-                intArrayOf(-android.R.attr.state_checked),
-                intArrayOf(-android.R.attr.state_enabled),
-                intArrayOf(android.R.attr.state_checked)
-            )
-            val trackColors = intArrayOf(
-                colors.uncheckedTrackColor.toArgb(), if (checked) {
-                    colors.disabledCheckedTrackColor
-                } else {
-                    colors.disabledUncheckedTrackColor
-                }.toArgb(), colors.checkedTrackColor.toArgb()
-            )
-            it.trackTintList = ColorStateList(states, trackColors)
-
-            val thumbColors = intArrayOf(
-                colors.uncheckedThumbColor.toArgb(), if (checked) {
-                    colors.disabledCheckedThumbColor
-                } else {
-                    colors.disabledUncheckedThumbColor
-                }.toArgb(), colors.checkedThumbColor.toArgb()
-            )
-            it.thumbTintList = ColorStateList(states, thumbColors)
-
-            val borderColors = intArrayOf(
-                colors.uncheckedBorderColor.toArgb(), if (checked) {
-                    colors.disabledCheckedBorderColor
-                } else {
-                    colors.disabledUncheckedBorderColor
-                }.toArgb(), colors.checkedBorderColor.toArgb()
-            )
-            it.trackDecorationTintList = ColorStateList(states, borderColors)
-        })
+        )
     }
 }
