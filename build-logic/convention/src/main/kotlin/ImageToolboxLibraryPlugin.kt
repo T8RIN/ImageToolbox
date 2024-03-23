@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+import com.android.build.api.dsl.LibraryExtension
 import com.t8rin.imagetoolbox.configureDetekt
 import com.t8rin.imagetoolbox.configureKotlinAndroid
 import com.t8rin.imagetoolbox.libs
@@ -40,7 +41,7 @@ class ImageToolboxLibraryPlugin : Plugin<Project> {
             )
             configureDetekt(extensions.getByType<DetektExtension>())
 
-            extensions.configure<com.android.build.api.dsl.LibraryExtension> {
+            extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
                 defaultConfig.minSdk =
                     libs.findVersion("androidMinSdk").get().toString().toIntOrNull()
