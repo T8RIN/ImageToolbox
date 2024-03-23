@@ -857,4 +857,8 @@
     <string name="sort_by_date_reversed">Nach Datum sortieren (umgekehrt)</string>
     <string name="sort_by_name">Nach Name sortieren</string>
     <string name="sort_by_name_reversed">Nach Name sortieren (umgekehrt)</string>
+    <string name="try_again">Nochmal versuchen</string>
+    <string name="show_settings_in_landscape">Zeige die Einstellungen im Querformat</string>
+    <string name="show_settings_in_landscape_sub">Wenn deaktiviert, werden die Einstellungen im Querformat über die Taste in der oberen App-Leiste aufgerufen, anstatt immer sichtbar zu sein</string>
+    <string name="fullscreen_settings">Vollbild-Einstellungen</string>
 </resources>
