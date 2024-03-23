@@ -38,13 +38,13 @@ import androidx.compose.material.icons.rounded.Vibration
 import androidx.compose.material.icons.twotone.Palette
 import androidx.compose.ui.graphics.vector.ImageVector
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.material.Exif
-import ru.tech.imageresizershrinker.core.resources.material.Firebase
-import ru.tech.imageresizershrinker.core.resources.material.FolderOpen
-import ru.tech.imageresizershrinker.core.resources.material.ImageSearch
-import ru.tech.imageresizershrinker.core.resources.material.LabelPercent
-import ru.tech.imageresizershrinker.core.resources.material.Shadow
-import ru.tech.imageresizershrinker.core.resources.material.Stacks
+import ru.tech.imageresizershrinker.core.resources.icons.Exif
+import ru.tech.imageresizershrinker.core.resources.icons.Firebase
+import ru.tech.imageresizershrinker.core.resources.icons.FolderOpen
+import ru.tech.imageresizershrinker.core.resources.icons.ImageSearch
+import ru.tech.imageresizershrinker.core.resources.icons.LabelPercent
+import ru.tech.imageresizershrinker.core.resources.icons.Shadow
+import ru.tech.imageresizershrinker.core.resources.icons.Stacks
 
 sealed class SettingsGroup(
     val titleId: Int,

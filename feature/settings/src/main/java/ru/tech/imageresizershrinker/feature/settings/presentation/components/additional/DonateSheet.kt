@@ -47,9 +47,9 @@ import ru.tech.imageresizershrinker.core.domain.TONSpaceWallet
 import ru.tech.imageresizershrinker.core.domain.TONWallet
 import ru.tech.imageresizershrinker.core.domain.USDTWallet
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.material.Bitcoin
-import ru.tech.imageresizershrinker.core.resources.material.Ton
-import ru.tech.imageresizershrinker.core.resources.material.USDT
+import ru.tech.imageresizershrinker.core.resources.icons.Bitcoin
+import ru.tech.imageresizershrinker.core.resources.icons.Ton
+import ru.tech.imageresizershrinker.core.resources.icons.USDT
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.BitcoinColor
 import ru.tech.imageresizershrinker.core.ui.theme.TONColor

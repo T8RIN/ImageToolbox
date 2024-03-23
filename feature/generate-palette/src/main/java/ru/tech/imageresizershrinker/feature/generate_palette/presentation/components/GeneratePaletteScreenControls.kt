@@ -74,9 +74,9 @@ import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.material.MiniEdit
-import ru.tech.imageresizershrinker.core.resources.material.PaletteSwatch
-import ru.tech.imageresizershrinker.core.resources.material.Swatch
+import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
+import ru.tech.imageresizershrinker.core.resources.icons.PaletteSwatch
+import ru.tech.imageresizershrinker.core.resources.icons.Swatch
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.shapes.SmallMaterialStarShape

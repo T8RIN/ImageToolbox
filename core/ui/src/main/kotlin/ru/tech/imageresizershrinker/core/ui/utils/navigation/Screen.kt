@@ -45,24 +45,24 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.material.Apng
-import ru.tech.imageresizershrinker.core.resources.material.ApngBox
-import ru.tech.imageresizershrinker.core.resources.material.CropSmall
-import ru.tech.imageresizershrinker.core.resources.material.Encrypted
-import ru.tech.imageresizershrinker.core.resources.material.Exif
-import ru.tech.imageresizershrinker.core.resources.material.ImageCombine
-import ru.tech.imageresizershrinker.core.resources.material.ImageDownload
-import ru.tech.imageresizershrinker.core.resources.material.ImageEdit
-import ru.tech.imageresizershrinker.core.resources.material.ImageLimit
-import ru.tech.imageresizershrinker.core.resources.material.ImageSync
-import ru.tech.imageresizershrinker.core.resources.material.ImageText
-import ru.tech.imageresizershrinker.core.resources.material.ImageWeight
-import ru.tech.imageresizershrinker.core.resources.material.Jpg
-import ru.tech.imageresizershrinker.core.resources.material.Jxl
-import ru.tech.imageresizershrinker.core.resources.material.MultipleImageEdit
-import ru.tech.imageresizershrinker.core.resources.material.PaletteSwatch
-import ru.tech.imageresizershrinker.core.resources.material.Toolbox
-import ru.tech.imageresizershrinker.core.resources.material.Transparency
+import ru.tech.imageresizershrinker.core.resources.icons.Apng
+import ru.tech.imageresizershrinker.core.resources.icons.ApngBox
+import ru.tech.imageresizershrinker.core.resources.icons.CropSmall
+import ru.tech.imageresizershrinker.core.resources.icons.Encrypted
+import ru.tech.imageresizershrinker.core.resources.icons.Exif
+import ru.tech.imageresizershrinker.core.resources.icons.ImageCombine
+import ru.tech.imageresizershrinker.core.resources.icons.ImageDownload
+import ru.tech.imageresizershrinker.core.resources.icons.ImageEdit
+import ru.tech.imageresizershrinker.core.resources.icons.ImageLimit
+import ru.tech.imageresizershrinker.core.resources.icons.ImageSync
+import ru.tech.imageresizershrinker.core.resources.icons.ImageText
+import ru.tech.imageresizershrinker.core.resources.icons.ImageWeight
+import ru.tech.imageresizershrinker.core.resources.icons.Jpg
+import ru.tech.imageresizershrinker.core.resources.icons.Jxl
+import ru.tech.imageresizershrinker.core.resources.icons.MultipleImageEdit
+import ru.tech.imageresizershrinker.core.resources.icons.PaletteSwatch
+import ru.tech.imageresizershrinker.core.resources.icons.Toolbox
+import ru.tech.imageresizershrinker.core.resources.icons.Transparency
 
 @Parcelize
 sealed class Screen(

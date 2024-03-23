@@ -81,9 +81,9 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
-import ru.tech.imageresizershrinker.core.resources.material.Github
-import ru.tech.imageresizershrinker.core.resources.material.Robot
-import ru.tech.imageresizershrinker.core.resources.material.Telegram
+import ru.tech.imageresizershrinker.core.resources.icons.Github
+import ru.tech.imageresizershrinker.core.resources.icons.Robot
+import ru.tech.imageresizershrinker.core.resources.icons.Telegram
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.toUiState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults

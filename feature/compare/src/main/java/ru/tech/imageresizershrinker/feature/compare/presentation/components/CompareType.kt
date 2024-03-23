@@ -24,7 +24,7 @@ import androidx.compose.material.icons.rounded.TouchApp
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.ui.graphics.vector.ImageVector
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.material.Transparency
+import ru.tech.imageresizershrinker.core.resources.icons.Transparency
 
 sealed class CompareType(
     val icon: ImageVector,

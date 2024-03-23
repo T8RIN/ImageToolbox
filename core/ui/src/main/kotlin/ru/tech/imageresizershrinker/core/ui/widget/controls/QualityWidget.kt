@@ -50,9 +50,9 @@ import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.model.Quality
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.material.QualityHigh
-import ru.tech.imageresizershrinker.core.resources.material.QualityLow
-import ru.tech.imageresizershrinker.core.resources.material.QualityMedium
+import ru.tech.imageresizershrinker.core.resources.icons.QualityHigh
+import ru.tech.imageresizershrinker.core.resources.icons.QualityLow
+import ru.tech.imageresizershrinker.core.resources.icons.QualityMedium
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 

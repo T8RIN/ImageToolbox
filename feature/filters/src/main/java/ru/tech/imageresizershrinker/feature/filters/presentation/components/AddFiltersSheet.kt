@@ -132,9 +132,9 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.getFavoriteFiltersAsUiState
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.material.BookmarkOff
-import ru.tech.imageresizershrinker.core.resources.material.BookmarkRemove
-import ru.tech.imageresizershrinker.core.resources.material.Cube
+import ru.tech.imageresizershrinker.core.resources.icons.BookmarkOff
+import ru.tech.imageresizershrinker.core.resources.icons.BookmarkRemove
+import ru.tech.imageresizershrinker.core.resources.icons.Cube
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.StrongBlack
 import ru.tech.imageresizershrinker.core.ui.theme.White

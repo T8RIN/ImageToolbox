@@ -51,7 +51,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.material.MiniEdit
+import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils
 import ru.tech.imageresizershrinker.core.ui.utils.helper.LocaleConfigCompat
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toList
