@@ -862,6 +862,6 @@
     <string name="show_settings_in_landscape_sub">如果禁用，则在横向模式下，设置将始终在顶部应用栏的按钮上打开，而不是永久可见选项</string>
     <string name="switch_type">开关类型</string>
     <string name="fullscreen_settings">全屏设置</string>
-    <string name="compose">构成</string>
-    <string name="fullscreen_settings_sub">将“启用”设置为“总是全屏打开设置页面，而不是可滑动抽屉页”。</string>
+    <string name="compose">Compose</string>
+    <string name="fullscreen_settings_sub">将“启用”设置为“总是以全屏打开设置页面，而不是可滑动抽屉页”。</string>
 </resources>
