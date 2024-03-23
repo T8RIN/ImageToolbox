@@ -863,4 +863,5 @@
     <string name="switch_type">开关类型</string>
     <string name="fullscreen_settings">全屏设置</string>
     <string name="compose">构成</string>
+    <string name="fullscreen_settings_sub">将“启用”设置为“总是全屏打开设置页面，而不是可滑动抽屉页”。</string>
 </resources>
