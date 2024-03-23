@@ -132,7 +132,7 @@ internal fun MainTopAppBar(
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Rounded.ManageSearch,
-                        contentDescription = null
+                        contentDescription = stringResource(R.string.search_here)
                     )
                 }
             }
@@ -162,7 +162,7 @@ internal fun MainTopAppBar(
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Settings,
-                        contentDescription = null
+                        contentDescription = stringResource(R.string.settings)
                     )
                 }
             }

@@ -119,7 +119,7 @@ fun WatermarkDataSelector(
             endIcon = {
                 Icon(
                     imageVector = Icons.Rounded.MiniEdit,
-                    contentDescription = null
+                    contentDescription = stringResource(R.string.edit)
                 )
             },
             modifier = Modifier.fillMaxWidth(),

@@ -308,7 +308,10 @@ fun ApngToolsScreen(
                     enableAutoShadowAndBorder = false,
                     onClick = viewModel::selectAllConvertedImages
                 ) {
-                    Icon(Icons.Outlined.SelectAll, null)
+                    Icon(
+                        imageVector = Icons.Outlined.SelectAll,
+                        contentDescription = "Select All"
+                    )
                 }
             }
             AnimatedVisibility(
@@ -340,7 +343,10 @@ fun ApngToolsScreen(
                         enableAutoShadowAndBorder = false,
                         onClick = viewModel::clearConvertedImagesSelection
                     ) {
-                        Icon(Icons.Rounded.Close, null)
+                        Icon(
+                            imageVector = Icons.Rounded.Close,
+                            contentDescription = stringResource(R.string.close)
+                        )
                     }
                 }
             }
@@ -355,7 +361,10 @@ fun ApngToolsScreen(
                 },
                 enabled = !viewModel.isLoading && viewModel.type != null
             ) {
-                Icon(Icons.Rounded.Share, null)
+                Icon(
+                    imageVector = Icons.Rounded.Share,
+                    contentDescription = stringResource(R.string.share)
+                )
             }
         },
         imagePreview = {

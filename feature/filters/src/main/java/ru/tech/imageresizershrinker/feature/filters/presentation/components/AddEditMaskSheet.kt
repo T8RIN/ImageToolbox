@@ -214,7 +214,10 @@ fun AddEditMaskSheet(
                             else showExitDialog = true
                         }
                     ) {
-                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                            contentDescription = stringResource(R.string.exit)
+                        )
                     }
                 }
             },
@@ -350,7 +353,10 @@ fun AddEditMaskSheet(
                                 onClick = viewModel::undo,
                                 enabled = (viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty())
                             ) {
-                                Icon(Icons.AutoMirrored.Rounded.Undo, null)
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Rounded.Undo,
+                                    contentDescription = "Undo"
+                                )
                             }
                             EnhancedIconButton(
                                 containerColor = Color.Transparent,
@@ -360,7 +366,10 @@ fun AddEditMaskSheet(
                                 onClick = viewModel::redo,
                                 enabled = viewModel.undonePaths.isNotEmpty()
                             ) {
-                                Icon(Icons.AutoMirrored.Rounded.Redo, null)
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Rounded.Redo,
+                                    contentDescription = "Redo"
+                                )
                             }
                             EraseModeButton(
                                 selected = isEraserOn,

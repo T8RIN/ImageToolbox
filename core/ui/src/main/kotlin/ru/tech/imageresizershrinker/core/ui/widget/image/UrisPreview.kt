@@ -48,10 +48,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -127,7 +129,7 @@ fun UrisPreview(
                         )
                         Icon(
                             imageVector = Icons.Rounded.RemoveCircleOutline,
-                            contentDescription = null,
+                            contentDescription = stringResource(R.string.remove),
                             modifier = Modifier
                                 .padding(4.dp)
                                 .clip(CircleShape)
@@ -179,7 +181,7 @@ fun UrisPreview(
                 ) {
                     Icon(
                         imageVector = addUrisIcon,
-                        contentDescription = null,
+                        contentDescription = stringResource(R.string.add),
                         modifier = Modifier.size(width / 3f)
                     )
                 }

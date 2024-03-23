@@ -223,8 +223,8 @@ class CrashActivity : CrashHandler() {
                                             horizontalArrangement = Arrangement.Center
                                         ) {
                                             Icon(
-                                                Icons.Rounded.Telegram,
-                                                null
+                                                imageVector = Icons.Rounded.Telegram,
+                                                contentDescription = stringResource(R.string.telegram)
                                             )
                                             Spacer(modifier = Modifier.width(8.dp))
                                             AutoSizeText(
@@ -257,7 +257,10 @@ class CrashActivity : CrashHandler() {
                                             verticalAlignment = Alignment.CenterVertically,
                                             horizontalArrangement = Arrangement.Center
                                         ) {
-                                            Icon(Icons.Rounded.Github, null)
+                                            Icon(
+                                                imageVector = Icons.Rounded.Github,
+                                                contentDescription = stringResource(R.string.github)
+                                            )
                                             Spacer(modifier = Modifier.width(8.dp))
                                             AutoSizeText(
                                                 text = stringResource(id = R.string.create_issue),
@@ -338,7 +341,7 @@ class CrashActivity : CrashHandler() {
                                         Spacer(Modifier.width(16.dp))
                                         Icon(
                                             imageVector = Icons.Rounded.RestartAlt,
-                                            contentDescription = null
+                                            contentDescription = stringResource(R.string.restart_app)
                                         )
                                         Spacer(Modifier.width(16.dp))
                                         AutoSizeText(
@@ -357,7 +360,7 @@ class CrashActivity : CrashHandler() {
                                 ) {
                                     Icon(
                                         imageVector = Icons.Rounded.ContentCopy,
-                                        contentDescription = null
+                                        contentDescription = stringResource(R.string.copy)
                                     )
                                 }
                             }

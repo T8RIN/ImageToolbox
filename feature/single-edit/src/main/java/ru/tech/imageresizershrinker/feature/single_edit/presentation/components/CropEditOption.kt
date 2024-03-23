@@ -122,7 +122,10 @@ fun CropEditOption(
                     },
                     containerColor = MaterialTheme.colorScheme.primaryContainer
                 ) {
-                    Icon(Icons.Rounded.CropSmall, null)
+                    Icon(
+                        imageVector = Icons.Rounded.CropSmall,
+                        contentDescription = stringResource(R.string.crop)
+                    )
                 }
             },
             actions = {},
@@ -139,7 +142,10 @@ fun CropEditOption(
                                     onDismiss()
                                 }
                             ) {
-                                Icon(Icons.Rounded.Done, null)
+                                Icon(
+                                    imageVector = Icons.Rounded.Done,
+                                    contentDescription = "Done"
+                                )
                             }
                         }
                     },

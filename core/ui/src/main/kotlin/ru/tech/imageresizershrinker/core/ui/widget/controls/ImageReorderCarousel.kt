@@ -141,7 +141,7 @@ fun ImageReorderCarousel(
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Add,
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.add),
                     modifier = Modifier.size(20.dp)
                 )
             }
@@ -163,7 +163,7 @@ fun ImageReorderCarousel(
             ) {
                 Icon(
                     imageVector = Icons.Rounded.FilterAlt,
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.filter),
                     modifier = Modifier.size(20.dp)
                 )
             }

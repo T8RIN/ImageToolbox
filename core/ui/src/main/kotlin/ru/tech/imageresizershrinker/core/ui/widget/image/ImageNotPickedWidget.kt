@@ -55,8 +55,8 @@ fun ImageNotPickedWidget(
     ) {
         Spacer(Modifier.height(16.dp))
         Icon(
-            Icons.TwoTone.Image,
-            null,
+            imageVector = Icons.TwoTone.Image,
+            contentDescription = null,
             modifier = Modifier
                 .size(100.dp)
                 .container(

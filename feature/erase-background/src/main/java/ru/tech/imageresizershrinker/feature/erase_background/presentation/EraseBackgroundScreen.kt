@@ -293,7 +293,10 @@ fun EraseBackgroundScreen(
             onClick = { viewModel.undo() },
             enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
         ) {
-            Icon(Icons.AutoMirrored.Rounded.Undo, null)
+            Icon(
+                imageVector = Icons.AutoMirrored.Rounded.Undo,
+                contentDescription = "Undo"
+            )
         }
         EnhancedIconButton(
             containerColor = Color.Transparent,
@@ -303,7 +306,10 @@ fun EraseBackgroundScreen(
             onClick = { viewModel.redo() },
             enabled = viewModel.undonePaths.isNotEmpty()
         ) {
-            Icon(Icons.AutoMirrored.Rounded.Redo, null)
+            Icon(
+                imageVector = Icons.AutoMirrored.Rounded.Redo,
+                contentDescription = "Redo"
+            )
         }
     }
 
@@ -372,7 +378,10 @@ fun EraseBackgroundScreen(
                             enableAutoShadowAndBorder = false,
                             onClick = onBack
                         ) {
-                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                contentDescription = stringResource(R.string.exit)
+                            )
                         }
                     },
                     actions = {
@@ -402,7 +411,10 @@ fun EraseBackgroundScreen(
                                     }
                                 },
                             ) {
-                                Icon(Icons.Rounded.Tune, null)
+                                Icon(
+                                    imageVector = Icons.Rounded.Tune,
+                                    contentDescription = stringResource(R.string.properties)
+                                )
                             }
                         }
                         ShareButton(
@@ -424,7 +436,10 @@ fun EraseBackgroundScreen(
                             onClick = { viewModel.clearDrawing() },
                             enabled = viewModel.paths.isNotEmpty()
                         ) {
-                            Icon(Icons.Outlined.Delete, null)
+                            Icon(
+                                imageVector = Icons.Outlined.Delete,
+                                contentDescription = stringResource(R.string.delete)
+                            )
                         }
                     },
                     navigationIcon = {
@@ -434,7 +449,10 @@ fun EraseBackgroundScreen(
                             enableAutoShadowAndBorder = false,
                             onClick = onBack
                         ) {
-                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                contentDescription = stringResource(R.string.exit)
+                            )
                         }
                     }
                 )
@@ -555,7 +573,10 @@ fun EraseBackgroundScreen(
                         .padding(16.dp),
                     content = {
                         Spacer(Modifier.width(16.dp))
-                        Icon(Icons.Rounded.AddPhotoAlternate, null)
+                        Icon(
+                            imageVector = Icons.Rounded.AddPhotoAlternate,
+                            contentDescription = stringResource(R.string.pick_image_alt)
+                        )
                         Spacer(Modifier.width(16.dp))
                         Text(stringResource(R.string.pick_image_alt))
                         Spacer(Modifier.width(16.dp))
@@ -590,7 +611,7 @@ fun EraseBackgroundScreen(
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Rounded.AddPhotoAlternate,
-                                                contentDescription = null
+                                                contentDescription = stringResource(R.string.pick_image_alt)
                                             )
                                         }
                                         Spacer(modifier = Modifier.width(8.dp))
@@ -599,7 +620,7 @@ fun EraseBackgroundScreen(
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Rounded.Save,
-                                                contentDescription = null
+                                                contentDescription = stringResource(R.string.save)
                                             )
                                         }
                                     }
@@ -682,14 +703,17 @@ fun EraseBackgroundScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.AddPhotoAlternate,
-                                    contentDescription = null
+                                    contentDescription = stringResource(R.string.pick_image_alt)
                                 )
                             }
                             Spacer(modifier = Modifier.height(16.dp))
                             EnhancedFloatingActionButton(
                                 onClick = saveBitmap
                             ) {
-                                Icon(imageVector = Icons.Rounded.Save, contentDescription = null)
+                                Icon(
+                                    imageVector = Icons.Rounded.Save,
+                                    contentDescription = stringResource(R.string.save)
+                                )
                             }
                         }
                     }

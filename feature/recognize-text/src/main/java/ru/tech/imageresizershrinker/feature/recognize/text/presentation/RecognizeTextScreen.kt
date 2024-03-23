@@ -245,7 +245,7 @@ fun RecognizeTextScreen(
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Share,
-                    contentDescription = null
+                    contentDescription = stringResource(R.string.share)
                 )
             }
         },
@@ -288,7 +288,10 @@ fun RecognizeTextScreen(
                         showCropper = true
                     }
                 ) {
-                    Icon(Icons.Rounded.CropSmall, null)
+                    Icon(
+                        imageVector = Icons.Rounded.CropSmall,
+                        contentDescription = stringResource(R.string.crop)
+                    )
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))

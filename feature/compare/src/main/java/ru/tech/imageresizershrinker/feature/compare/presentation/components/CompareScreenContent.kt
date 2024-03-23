@@ -160,7 +160,7 @@ fun CompareScreenContent(
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.AddPhotoAlternate,
-                                    contentDescription = null
+                                    contentDescription = stringResource(R.string.pick_image_alt)
                                 )
                             }
                         },
@@ -329,7 +329,7 @@ fun CompareScreenContent(
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.AddPhotoAlternate,
-                                contentDescription = null
+                                contentDescription = stringResource(R.string.pick_image_alt)
                             )
                         }
                     }

@@ -381,7 +381,7 @@ fun JxlToolsScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Share,
-                        contentDescription = null
+                        contentDescription = stringResource(R.string.share)
                     )
                 }
             }
@@ -401,7 +401,10 @@ fun JxlToolsScreen(
                     enableAutoShadowAndBorder = false,
                     onClick = viewModel::selectAllConvertedImages
                 ) {
-                    Icon(Icons.Outlined.SelectAll, null)
+                    Icon(
+                        imageVector = Icons.Outlined.SelectAll,
+                        contentDescription = "Select All"
+                    )
                 }
             }
             AnimatedVisibility(
@@ -433,7 +436,10 @@ fun JxlToolsScreen(
                         enableAutoShadowAndBorder = false,
                         onClick = viewModel::clearConvertedImagesSelection
                     ) {
-                        Icon(Icons.Rounded.Close, null)
+                        Icon(
+                            imageVector = Icons.Rounded.Close,
+                            contentDescription = stringResource(R.string.close)
+                        )
                     }
                 }
             }
@@ -454,7 +460,7 @@ fun JxlToolsScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Share,
-                        contentDescription = null
+                        contentDescription = stringResource(R.string.share)
                     )
                 }
             }

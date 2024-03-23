@@ -172,9 +172,12 @@ fun FilterEditOption(
                                 onClick = { showFilterSheet.value = true },
                                 modifier = Modifier.padding(horizontal = 16.dp)
                             ) {
-                                Icon(Icons.Rounded.AutoFixHigh, null)
+                                Icon(
+                                    imageVector = Icons.Rounded.AutoFixHigh,
+                                    contentDescription = null
+                                )
                                 Spacer(Modifier.width(8.dp))
-                                Text(stringResource(id = R.string.add_filter))
+                                Text(stringResource(R.string.add_filter))
                             }
                         }
                     }
@@ -187,7 +190,10 @@ fun FilterEditOption(
                     },
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                 ) {
-                    Icon(Icons.Rounded.AutoFixHigh, null)
+                    Icon(
+                        imageVector = Icons.Rounded.AutoFixHigh,
+                        contentDescription = stringResource(R.string.add_filter)
+                    )
                 }
             },
             scaffoldState = scaffoldState,
@@ -212,7 +218,10 @@ fun FilterEditOption(
                             showColorPicker.value = true
                         },
                     ) {
-                        Icon(Icons.Outlined.Colorize, null)
+                        Icon(
+                            imageVector = Icons.Outlined.Colorize,
+                            contentDescription = stringResource(R.string.pipette)
+                        )
                     }
                 }
             },
@@ -233,7 +242,10 @@ fun FilterEditOption(
                                     onDismiss()
                                 }
                             ) {
-                                Icon(Icons.Rounded.Done, null)
+                                Icon(
+                                    imageVector = Icons.Rounded.Done,
+                                    contentDescription = "Done"
+                                )
                             }
                         }
                     },

@@ -247,9 +247,15 @@ fun LazyListScope.imageStickyHeader(
                             ) {
                                 AnimatedContent(targetState = imageState.isBlocked) { blocked ->
                                     if (blocked) {
-                                        Icon(Icons.Rounded.Lock, null)
+                                        Icon(
+                                            imageVector = Icons.Rounded.Lock,
+                                            contentDescription = "Lock Image"
+                                        )
                                     } else {
-                                        Icon(Icons.Rounded.LockOpen, null)
+                                        Icon(
+                                            imageVector = Icons.Rounded.LockOpen,
+                                            contentDescription = "Unlock Image"
+                                        )
                                     }
                                 }
                             }

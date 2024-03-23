@@ -119,7 +119,10 @@ fun EmojiSheet(
                         }
                     },
                 ) {
-                    Icon(Icons.Rounded.Shuffle, null)
+                    Icon(
+                        imageVector = Icons.Rounded.Shuffle,
+                        contentDescription = stringResource(R.string.shuffle)
+                    )
                 }
                 EnhancedButton(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -197,7 +200,11 @@ fun EmojiSheet(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.Center
                             ) {
-                                Icon(icon, null, modifier = Modifier.padding(end = 16.dp))
+                                Icon(
+                                    imageVector = icon,
+                                    contentDescription = null,
+                                    modifier = Modifier.padding(end = 16.dp)
+                                )
                                 Text(title)
                             }
                         }

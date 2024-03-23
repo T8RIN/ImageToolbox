@@ -40,11 +40,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.ColorTupleItem
 import com.t8rin.dynamic.theme.PaletteStyle
 import com.t8rin.dynamic.theme.rememberColorScheme
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
@@ -124,7 +126,7 @@ fun ColorTuplePreview(
                     )
                     Icon(
                         imageVector = Icons.Rounded.Done,
-                        contentDescription = null,
+                        contentDescription = stringResource(R.string.ok),
                         tint = colorTuple.primary,
                         modifier = Modifier.size(maxWidth * (1 / 3f))
                     )

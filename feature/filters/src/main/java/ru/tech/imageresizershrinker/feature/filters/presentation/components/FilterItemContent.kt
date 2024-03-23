@@ -161,11 +161,16 @@ internal fun <T> FilterItemContent(
                                 onFilterChange(matrix)
                             }
                         ) {
-                            Icon(Icons.Rounded.Done, null)
+                            Icon(
+                                imageVector = Icons.Rounded.Done,
+                                contentDescription = "Done"
+                            )
                         }
                     },
                     value = text,
-                    label = { Text(stringResource(R.string.float_array_of)) }
+                    label = {
+                        Text(stringResource(R.string.float_array_of))
+                    }
                 )
             }
 

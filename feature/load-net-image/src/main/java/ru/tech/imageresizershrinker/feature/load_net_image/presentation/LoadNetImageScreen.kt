@@ -240,8 +240,8 @@ fun LoadNetImageScreen(
                             verticalArrangement = Arrangement.Center
                         ) {
                             Icon(
-                                Icons.Rounded.BrokenImage,
-                                null,
+                                imageVector = Icons.Rounded.BrokenImage,
+                                contentDescription = null,
                                 modifier = Modifier
                                     .padding(vertical = 8.dp, horizontal = 16.dp)
                                     .size(64.dp)
@@ -303,8 +303,8 @@ fun LoadNetImageScreen(
                             modifier = Modifier.padding(end = 4.dp)
                         ) {
                             Icon(
-                                Icons.Outlined.Cancel,
-                                null,
+                                imageVector = Icons.Outlined.Cancel,
+                                contentDescription = stringResource(R.string.cancel),
                                 tint = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                         }

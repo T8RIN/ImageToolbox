@@ -123,7 +123,7 @@ internal fun SearchableBottomBar(
                             ) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                    contentDescription = null,
+                                    contentDescription = stringResource(R.string.exit),
                                     tint = MaterialTheme.colorScheme.onSurface
                                 )
                             }
@@ -145,7 +145,7 @@ internal fun SearchableBottomBar(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Rounded.Close,
-                                        contentDescription = null,
+                                        contentDescription = stringResource(R.string.close),
                                         tint = MaterialTheme.colorScheme.onSurface
                                     )
                                 }
@@ -192,13 +192,13 @@ internal fun SearchableBottomBar(
                         if (context.isInstalledFromPlayStore()) {
                             Icon(
                                 imageVector = Icons.Rounded.GooglePlay,
-                                contentDescription = null,
+                                contentDescription = "Google Play",
                                 modifier = Modifier.offset(1.5.dp)
                             )
                         } else {
                             Icon(
                                 imageVector = Icons.Rounded.Github,
-                                contentDescription = null
+                                contentDescription = stringResource(R.string.github)
                             )
                         }
                     }

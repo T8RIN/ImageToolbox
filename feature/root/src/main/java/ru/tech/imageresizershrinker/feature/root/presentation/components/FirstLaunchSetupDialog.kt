@@ -81,7 +81,10 @@ internal fun FirstLaunchSetupDialog(
             modifier = Modifier.alertDialogBorder(),
             onDismissRequest = {},
             icon = {
-                Icon(Icons.Rounded.SystemSecurityUpdate, null)
+                Icon(
+                    imageVector = Icons.Rounded.SystemSecurityUpdate,
+                    contentDescription = null
+                )
             },
             title = {
                 Text(stringResource(R.string.updates))

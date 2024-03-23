@@ -200,7 +200,10 @@ fun ImagePreviewScreen(
                             enableAutoShadowAndBorder = false,
                             onClick = onGoBack
                         ) {
-                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                contentDescription = stringResource(R.string.exit)
+                            )
                         }
                     },
                     actions = {
@@ -258,7 +261,10 @@ fun ImagePreviewScreen(
                     onClick = pickImage,
                     content = {
                         Spacer(Modifier.width(16.dp))
-                        Icon(Icons.Rounded.AddPhotoAlternate, null)
+                        Icon(
+                            imageVector = Icons.Rounded.AddPhotoAlternate,
+                            contentDescription = stringResource(R.string.pick_image_alt)
+                        )
                         Spacer(Modifier.width(16.dp))
                         Text(stringResource(R.string.pick_image_alt))
                         Spacer(Modifier.width(16.dp))
@@ -271,7 +277,7 @@ fun ImagePreviewScreen(
                     content = {
                         Icon(
                             imageVector = Icons.Rounded.FolderOpen,
-                            contentDescription = null
+                            contentDescription = stringResource(R.string.folder)
                         )
                     }
                 )

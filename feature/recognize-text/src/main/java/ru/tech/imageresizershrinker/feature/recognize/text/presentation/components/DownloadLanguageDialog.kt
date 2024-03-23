@@ -64,7 +64,12 @@ fun DownloadLanguageDialog(
     if (!downloadStarted) {
         AlertDialog(
             modifier = Modifier.alertDialogBorder(),
-            icon = { Icon(Icons.Outlined.Download, null) },
+            icon = {
+                Icon(
+                    imageVector = Icons.Outlined.Download,
+                    contentDescription = null
+                )
+            },
             title = { Text(stringResource(id = R.string.no_data)) },
             text = {
                 Text(

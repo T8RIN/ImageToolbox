@@ -37,7 +37,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.resources.R
 
 @Composable
 fun ShowOriginalButton(
@@ -75,8 +77,8 @@ fun ShowOriginalButton(
             }
     ) {
         Icon(
-            Icons.Rounded.History,
-            null,
+            imageVector = Icons.Rounded.History,
+            contentDescription = stringResource(R.string.original),
             tint = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier
                 .align(Alignment.Center)

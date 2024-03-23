@@ -104,7 +104,7 @@ fun ExpandableItem(
             ) {
                 Icon(
                     imageVector = Icons.Rounded.KeyboardArrowDown,
-                    contentDescription = null,
+                    contentDescription = "Expand",
                     modifier = Modifier.rotate(rotation)
                 )
             }

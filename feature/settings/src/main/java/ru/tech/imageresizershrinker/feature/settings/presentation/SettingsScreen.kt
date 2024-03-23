@@ -264,9 +264,15 @@ fun SettingsScreen(
                         }
                     ) {
                         if (searching && hasSearchKey) {
-                            Icon(Icons.Rounded.Close, null)
+                            Icon(
+                                imageVector = Icons.Rounded.Close,
+                                contentDescription = stringResource(R.string.close)
+                            )
                         } else if (!searching) {
-                            Icon(Icons.Rounded.Search, null)
+                            Icon(
+                                imageVector = Icons.Rounded.Search,
+                                contentDescription = stringResource(R.string.search_here)
+                            )
                         }
                     }
                 }

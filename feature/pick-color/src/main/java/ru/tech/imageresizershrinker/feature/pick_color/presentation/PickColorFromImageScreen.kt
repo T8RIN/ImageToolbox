@@ -226,7 +226,10 @@ fun PickColorFromImageScreen(
                                     onGoBack()
                                 }
                             ) {
-                                Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                    contentDescription = stringResource(R.string.exit)
+                                )
                             }
                         },
                         title = {
@@ -260,7 +263,10 @@ fun PickColorFromImageScreen(
                                         },
                                         modifier = Modifier.statusBarsPadding()
                                     ) {
-                                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                            contentDescription = stringResource(R.string.exit)
+                                        )
                                     }
                                     if (!portrait) {
                                         ProvideTextStyle(
@@ -537,7 +543,7 @@ fun PickColorFromImageScreen(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Rounded.AddPhotoAlternate,
-                                        contentDescription = null
+                                        contentDescription = stringResource(R.string.pick_image_alt)
                                     )
                                 }
                             }
@@ -577,7 +583,7 @@ fun PickColorFromImageScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.AddPhotoAlternate,
-                                contentDescription = null
+                                contentDescription = stringResource(R.string.pick_image_alt)
                             )
                         }
                     }
@@ -591,15 +597,17 @@ fun PickColorFromImageScreen(
                 modifier = Modifier
                     .navigationBarsPadding()
                     .padding(16.dp)
-                    .align(settingsState.fabAlignment),
-                content = {
-                    Spacer(Modifier.width(16.dp))
-                    Icon(Icons.Rounded.AddPhotoAlternate, null)
-                    Spacer(Modifier.width(16.dp))
-                    Text(stringResource(R.string.pick_image_alt))
-                    Spacer(Modifier.width(16.dp))
-                }
-            )
+                    .align(settingsState.fabAlignment)
+            ) {
+                Spacer(Modifier.width(16.dp))
+                Icon(
+                    imageVector = Icons.Rounded.AddPhotoAlternate,
+                    contentDescription = stringResource(R.string.pick_image_alt)
+                )
+                Spacer(Modifier.width(16.dp))
+                Text(stringResource(R.string.pick_image_alt))
+                Spacer(Modifier.width(16.dp))
+            }
         }
     }
 

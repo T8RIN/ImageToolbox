@@ -207,7 +207,7 @@ fun MediaPickerScreen(
                                 content = {
                                     Icon(
                                         imageVector = Icons.Rounded.Close,
-                                        contentDescription = null
+                                        contentDescription = stringResource(R.string.close)
                                     )
                                 },
                                 modifier = Modifier.padding(bottom = 8.dp)

@@ -224,7 +224,10 @@ internal fun GeneratePaletteScreenControls(
                             enabled = true,
                             modifier = Modifier.padding(top = 16.dp, start = 16.dp)
                         ) {
-                            Icon(Icons.Rounded.Swatch, null)
+                            Icon(
+                                imageVector = Icons.Rounded.Swatch,
+                                contentDescription = null
+                            )
                         }
                         Text(
                             fontWeight = FontWeight.Medium,
@@ -342,8 +345,8 @@ internal fun GeneratePaletteScreenControls(
                                 )
                             ) {
                                 Icon(
-                                    Icons.Rounded.PaletteSwatch,
-                                    null,
+                                    imageVector = Icons.Rounded.PaletteSwatch,
+                                    contentDescription = null,
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .padding(12.dp),

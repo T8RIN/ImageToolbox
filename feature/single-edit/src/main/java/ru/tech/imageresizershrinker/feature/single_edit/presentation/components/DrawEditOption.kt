@@ -157,7 +157,10 @@ fun DrawEditOption(
                     onClick = undo,
                     enabled = lastPaths.isNotEmpty() || paths.isNotEmpty()
                 ) {
-                    Icon(Icons.AutoMirrored.Rounded.Undo, null)
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Rounded.Undo,
+                        contentDescription = "Undo"
+                    )
                 }
                 EnhancedIconButton(
                     containerColor = Color.Transparent,
@@ -167,7 +170,10 @@ fun DrawEditOption(
                     onClick = redo,
                     enabled = undonePaths.isNotEmpty()
                 ) {
-                    Icon(Icons.AutoMirrored.Rounded.Redo, null)
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Rounded.Redo,
+                        contentDescription = "Redo"
+                    )
                 }
                 EraseModeButton(
                     selected = isEraserOn,
@@ -278,7 +284,10 @@ fun DrawEditOption(
                                     onDismiss()
                                 }
                             ) {
-                                Icon(Icons.Rounded.Done, null)
+                                Icon(
+                                    imageVector = Icons.Rounded.Done,
+                                    contentDescription = "Done"
+                                )
                             }
                         }
                     },

@@ -176,7 +176,7 @@ fun AvailableColorTuplesSheet(
                     icon = {
                         Icon(
                             imageVector = Icons.Outlined.Delete,
-                            contentDescription = null
+                            contentDescription = stringResource(R.string.delete)
                         )
                     },
                     text = {
@@ -227,7 +227,10 @@ fun AvailableColorTuplesSheet(
                                 onTopOf = MaterialTheme.colorScheme.errorContainer
                             )
                         ) {
-                            Icon(Icons.Rounded.Delete, null)
+                            Icon(
+                                imageVector = Icons.Rounded.Delete,
+                                contentDescription = stringResource(R.string.delete)
+                            )
                         }
                         Spacer(Modifier.width(8.dp))
                     }
@@ -238,7 +241,10 @@ fun AvailableColorTuplesSheet(
                         showEditColorPicker.value = true
                     }
                 ) {
-                    Icon(Icons.Rounded.EditAlt, null)
+                    Icon(
+                        imageVector = Icons.Rounded.EditAlt,
+                        contentDescription = stringResource(R.string.edit)
+                    )
                 }
             }
         },
@@ -461,7 +467,7 @@ fun AvailableColorTuplesSheet(
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.AddCircleOutline,
-                                    contentDescription = null,
+                                    contentDescription = stringResource(R.string.add),
                                     tint = MaterialTheme.colorScheme.onSecondary,
                                     modifier = Modifier.size(24.dp)
                                 )

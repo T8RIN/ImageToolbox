@@ -59,7 +59,7 @@ fun OpenColorPickerCard(
         )
         Icon(
             imageVector = Icons.Rounded.Colorize,
-            contentDescription = null,
+            contentDescription = stringResource(R.string.pipette),
             tint = MaterialTheme.colorScheme.onMixedContainer
         )
     }

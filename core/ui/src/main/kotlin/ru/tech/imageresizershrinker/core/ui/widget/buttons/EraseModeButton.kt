@@ -24,6 +24,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.material.Eraser
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
@@ -53,6 +55,9 @@ fun EraseModeButton(
         ),
         onClick = onClick
     ) {
-        Icon(Icons.Rounded.Eraser, null)
+        Icon(
+            imageVector = Icons.Rounded.Eraser,
+            contentDescription = stringResource(R.string.erase_mode)
+        )
     }
 }

@@ -117,7 +117,7 @@ internal fun MainNavigationRail(
                             ) { selected ->
                                 Icon(
                                     imageVector = if (selected) data.second else data.third,
-                                    contentDescription = null
+                                    contentDescription = stringResource(data.first)
                                 )
                             }
                         },

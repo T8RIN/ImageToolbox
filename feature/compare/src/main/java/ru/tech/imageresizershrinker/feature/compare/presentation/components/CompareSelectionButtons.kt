@@ -29,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
@@ -56,7 +57,7 @@ fun CompareSelectionButtons(
             ) {
                 Icon(
                     imageVector = compareType.icon,
-                    contentDescription = null
+                    contentDescription = stringResource(compareType.title)
                 )
             }
         }

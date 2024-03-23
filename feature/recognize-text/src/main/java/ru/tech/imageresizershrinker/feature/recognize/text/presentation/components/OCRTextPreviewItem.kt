@@ -137,7 +137,7 @@ fun OCRTextPreviewItem(
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.KeyboardArrowDown,
-                                    contentDescription = null,
+                                    contentDescription = "Expand",
                                     modifier = Modifier.rotate(rotation)
                                 )
                             }

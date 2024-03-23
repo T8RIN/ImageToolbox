@@ -25,6 +25,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 
 @Composable
@@ -48,6 +50,9 @@ fun PanModeButton(
         ),
         onClick = onClick
     ) {
-        Icon(Icons.Rounded.FrontHand, null)
+        Icon(
+            imageVector = Icons.Rounded.FrontHand,
+            contentDescription = stringResource(R.string.draw)
+        )
     }
 }

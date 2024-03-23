@@ -72,7 +72,7 @@ fun ShareButton(
     ) {
         Icon(
             imageVector = Icons.Rounded.Share,
-            contentDescription = null
+            contentDescription = stringResource(R.string.share)
         )
     }
 

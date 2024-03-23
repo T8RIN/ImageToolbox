@@ -85,7 +85,10 @@ fun ImageCounter(
                     contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.9f),
                     isShadowClip = true
                 ) {
-                    Icon(Icons.Rounded.ChangeCircle, null)
+                    Icon(
+                        imageVector = Icons.Rounded.ChangeCircle,
+                        contentDescription = stringResource(R.string.change_preview)
+                    )
                 }
             }
             Spacer(Modifier.height(16.dp))

@@ -247,7 +247,7 @@ fun SingleEditScreen(
             ) {
                 Icon(
                     imageVector = Icons.Rounded.ImageReset,
-                    contentDescription = null
+                    contentDescription = stringResource(R.string.reset_image)
                 )
             }
             if (viewModel.bitmap != null) {
@@ -267,7 +267,7 @@ fun SingleEditScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.History,
-                        contentDescription = null
+                        contentDescription = stringResource(R.string.original)
                     )
                 }
             }

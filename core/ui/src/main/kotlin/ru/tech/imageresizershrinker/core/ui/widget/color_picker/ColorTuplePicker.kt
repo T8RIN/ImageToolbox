@@ -156,7 +156,10 @@ fun ColorTuplePicker(
                                 .container(RoundedCornerShape(24.dp))
                                 .padding(16.dp)
                         ) {
-                            Icon(Icons.Rounded.FormatColorFill, null)
+                            Icon(
+                                imageVector = Icons.Rounded.FormatColorFill,
+                                contentDescription = null
+                            )
                             Spacer(Modifier.width(8.dp))
                             Text(stringResource(R.string.monet_colors))
                             Spacer(Modifier.width(8.dp))
@@ -174,7 +177,10 @@ fun ColorTuplePicker(
                                     }
                                 },
                             ) {
-                                Icon(Icons.Rounded.ContentPaste, null)
+                                Icon(
+                                    imageVector = Icons.Rounded.ContentPaste,
+                                    contentDescription = stringResource(R.string.pastel)
+                                )
                             }
                         }
                     }

@@ -47,7 +47,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.outlined.RestartAlt
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Tune
@@ -92,6 +91,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.model.ImageFormatGroup
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.material.CropSmall
+import ru.tech.imageresizershrinker.core.resources.material.ImageReset
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -279,7 +279,10 @@ fun CropScreen(
                                 enableAutoShadowAndBorder = false,
                                 onClick = onBack
                             ) {
-                                Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                    contentDescription = stringResource(R.string.exit)
+                                )
                             }
                         },
                         actions = {
@@ -300,7 +303,10 @@ fun CropScreen(
                                 enableAutoShadowAndBorder = false,
                                 onClick = onBack
                             ) {
-                                Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                    contentDescription = stringResource(R.string.exit)
+                                )
                             }
                         },
                         actions = {
@@ -319,7 +325,10 @@ fun CropScreen(
                                         }
                                     },
                                 ) {
-                                    Icon(Icons.Rounded.Tune, null)
+                                    Icon(
+                                        imageVector = Icons.Rounded.Tune,
+                                        contentDescription = stringResource(R.string.properties)
+                                    )
                                 }
                             }
                             EnhancedIconButton(
@@ -331,7 +340,10 @@ fun CropScreen(
                                 },
                                 enabled = viewModel.bitmap != null && viewModel.isBitmapChanged
                             ) {
-                                Icon(Icons.Outlined.RestartAlt, null)
+                                Icon(
+                                    imageVector = Icons.Rounded.ImageReset,
+                                    contentDescription = stringResource(R.string.reset_image)
+                                )
                             }
                             ShareButton(
                                 enabled = viewModel.bitmap != null,
@@ -413,7 +425,7 @@ fun CropScreen(
                                     content = {
                                         Icon(
                                             imageVector = Icons.Rounded.AddPhotoAlternate,
-                                            contentDescription = null
+                                            contentDescription = stringResource(R.string.pick_image_alt)
                                         )
                                     }
                                 )
@@ -431,7 +443,7 @@ fun CropScreen(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Rounded.CropSmall,
-                                        contentDescription = null
+                                        contentDescription = stringResource(R.string.crop)
                                     )
                                 }
                                 AnimatedVisibility(viewModel.isBitmapChanged) {
@@ -444,7 +456,7 @@ fun CropScreen(
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Rounded.Save,
-                                                contentDescription = null
+                                                contentDescription = stringResource(R.string.save)
                                             )
                                         }
                                     }
@@ -473,7 +485,10 @@ fun CropScreen(
                         onClick = pickImage,
                         content = {
                             Spacer(Modifier.width(16.dp))
-                            Icon(Icons.Rounded.AddPhotoAlternate, null)
+                            Icon(
+                                imageVector = Icons.Rounded.AddPhotoAlternate,
+                                contentDescription = stringResource(R.string.pick_image_alt)
+                            )
                             Spacer(Modifier.width(16.dp))
                             Text(stringResource(R.string.pick_image_alt))
                             Spacer(Modifier.width(16.dp))
@@ -527,7 +542,7 @@ fun CropScreen(
                                     ) {
                                         Icon(
                                             imageVector = Icons.Rounded.AddPhotoAlternate,
-                                            contentDescription = null
+                                            contentDescription = stringResource(R.string.pick_image_alt)
                                         )
                                         AnimatedVisibility(visible = expanded) {
                                             Row {
@@ -547,7 +562,7 @@ fun CropScreen(
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Rounded.Save,
-                                                contentDescription = null
+                                                contentDescription = stringResource(R.string.save)
                                             )
                                         }
                                     }

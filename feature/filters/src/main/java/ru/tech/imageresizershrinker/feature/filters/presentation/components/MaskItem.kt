@@ -113,7 +113,10 @@ fun MaskItem(
         ) {
             if (showDragHandle) {
                 Spacer(Modifier.width(8.dp))
-                Icon(Icons.Rounded.DragHandle, null)
+                Icon(
+                    imageVector = Icons.Rounded.DragHandle,
+                    contentDescription = stringResource(R.string.drag_handle_width)
+                )
                 Spacer(Modifier.width(8.dp))
                 Box(
                     Modifier
@@ -157,7 +160,10 @@ fun MaskItem(
                                 showMaskRemoveDialog = true
                             }
                         ) {
-                            Icon(Icons.Rounded.RemoveCircleOutline, null)
+                            Icon(
+                                imageVector = Icons.Rounded.RemoveCircleOutline,
+                                contentDescription = stringResource(R.string.remove)
+                            )
                         }
                         EnhancedIconButton(
                             containerColor = Color.Transparent,
@@ -165,7 +171,10 @@ fun MaskItem(
                             enableAutoShadowAndBorder = false,
                             onClick = { showEditMaskSheet = true }
                         ) {
-                            Icon(Icons.Rounded.EditAlt, null)
+                            Icon(
+                                imageVector = Icons.Rounded.EditAlt,
+                                contentDescription = stringResource(R.string.edit)
+                            )
                         }
                     }
                     if (showMaskRemoveDialog) {
@@ -196,7 +205,7 @@ fun MaskItem(
                             icon = {
                                 Icon(
                                     imageVector = Icons.Outlined.Delete,
-                                    contentDescription = null
+                                    contentDescription = stringResource(R.string.delete)
                                 )
                             },
                             text = {

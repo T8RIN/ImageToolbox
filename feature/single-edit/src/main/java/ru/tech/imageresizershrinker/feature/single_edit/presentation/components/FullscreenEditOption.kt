@@ -61,8 +61,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -108,7 +110,10 @@ fun FullscreenEditOption(
                                     enableAutoShadowAndBorder = false,
                                     onClick = internalOnDismiss
                                 ) {
-                                    Icon(Icons.Rounded.Close, null)
+                                    Icon(
+                                        imageVector = Icons.Rounded.Close,
+                                        contentDescription = stringResource(R.string.close)
+                                    )
                                 }
                             }
                         },
@@ -140,7 +145,10 @@ fun FullscreenEditOption(
                                                     }
                                                 }
                                             ) {
-                                                Icon(Icons.Rounded.Tune, null)
+                                                Icon(
+                                                    imageVector = Icons.Rounded.Tune,
+                                                    contentDescription = stringResource(R.string.properties)
+                                                )
                                             }
                                         }
                                     },
@@ -184,7 +192,10 @@ fun FullscreenEditOption(
                             enableAutoShadowAndBorder = false,
                             onClick = internalOnDismiss
                         ) {
-                            Icon(Icons.Rounded.Close, null)
+                            Icon(
+                                imageVector = Icons.Rounded.Close,
+                                contentDescription = stringResource(R.string.close)
+                            )
                         }
                     }
                     Row(

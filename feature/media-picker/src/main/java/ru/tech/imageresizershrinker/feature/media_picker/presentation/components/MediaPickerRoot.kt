@@ -109,7 +109,7 @@ internal fun MediaPickerActivity.MediaPickerRoot(
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                            contentDescription = getString(R.string.close)
+                            contentDescription = stringResource(R.string.close)
                         )
                     }
                 },

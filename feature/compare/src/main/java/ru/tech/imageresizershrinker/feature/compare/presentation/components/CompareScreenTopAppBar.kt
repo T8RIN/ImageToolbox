@@ -69,7 +69,10 @@ fun CompareScreenTopAppBar(
                     enableAutoShadowAndBorder = false,
                     onClick = onNavigationIconClick
                 ) {
-                    Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                        contentDescription = stringResource(R.string.exit)
+                    )
                 }
             },
             title = {
@@ -90,7 +93,10 @@ fun CompareScreenTopAppBar(
                     enableAutoShadowAndBorder = false,
                     onClick = onNavigationIconClick
                 ) {
-                    Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                        contentDescription = stringResource(R.string.exit)
+                    )
                 }
             },
             actions = {
@@ -103,7 +109,7 @@ fun CompareScreenTopAppBar(
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.Share,
-                            contentDescription = null
+                            contentDescription = stringResource(R.string.share)
                         )
                     }
                 }
@@ -113,7 +119,10 @@ fun CompareScreenTopAppBar(
                     enableAutoShadowAndBorder = false,
                     onClick = onSwapImagesClick
                 ) {
-                    Icon(Icons.Rounded.SwapHoriz, null)
+                    Icon(
+                        imageVector = Icons.Rounded.SwapHoriz,
+                        contentDescription = "Swap"
+                    )
                 }
                 EnhancedIconButton(
                     containerColor = Color.Transparent,
@@ -125,7 +134,7 @@ fun CompareScreenTopAppBar(
                         Icon(
                             imageVector = if (rotated) Icons.AutoMirrored.Rounded.RotateLeft
                             else Icons.AutoMirrored.Rounded.RotateRight,
-                            contentDescription = null
+                            contentDescription = "Rotate"
                         )
                     }
                 }
@@ -140,7 +149,7 @@ fun CompareScreenTopAppBar(
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Rounded.Label,
-                        contentDescription = null
+                        contentDescription = "Label"
                     )
                 }
             },

@@ -142,7 +142,7 @@ fun PickImageFromUrisSheet(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Rounded.RemoveCircleOutline,
-                                        contentDescription = null
+                                        contentDescription = stringResource(R.string.remove)
                                     )
                                 }
                             }

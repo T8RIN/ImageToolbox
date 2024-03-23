@@ -225,7 +225,10 @@ fun CompareScreen(
                     .align(settingsState.fabAlignment),
                 content = {
                     Spacer(Modifier.width(16.dp))
-                    Icon(Icons.Rounded.AddPhotoAlternate, null)
+                    Icon(
+                        imageVector = Icons.Rounded.AddPhotoAlternate,
+                        contentDescription = stringResource(R.string.pick_image_alt)
+                    )
                     Spacer(Modifier.width(16.dp))
                     Text(stringResource(R.string.pick_image_alt))
                     Spacer(Modifier.width(16.dp))

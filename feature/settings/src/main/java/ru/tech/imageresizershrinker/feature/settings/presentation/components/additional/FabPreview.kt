@@ -146,7 +146,11 @@ fun FabPreview(
                         .clickable { },
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(Icons.Rounded.AddPhotoAlternate, null, Modifier.size(10.dp))
+                    Icon(
+                        imageVector = Icons.Rounded.AddPhotoAlternate,
+                        contentDescription = null,
+                        modifier = Modifier.size(10.dp)
+                    )
                 }
                 Spacer(modifier = Modifier.weight(1.01f - weight))
             }

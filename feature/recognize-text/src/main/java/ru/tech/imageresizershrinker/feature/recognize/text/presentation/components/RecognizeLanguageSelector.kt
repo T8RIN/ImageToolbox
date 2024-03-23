@@ -316,7 +316,7 @@ fun RecognizeLanguageSelector(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Rounded.DeleteOutline,
-                                        contentDescription = null,
+                                        contentDescription = stringResource(R.string.delete),
                                         modifier = Modifier
                                             .padding(16.dp)
                                             .padding(end = 8.dp)
@@ -508,7 +508,12 @@ fun RecognizeLanguageSelector(
     if (deleteDialogData != null) {
         AlertDialog(
             modifier = Modifier.alertDialogBorder(),
-            icon = { Icon(Icons.Outlined.DeleteOutline, null) },
+            icon = {
+                Icon(
+                    imageVector = Icons.Outlined.DeleteOutline,
+                    contentDescription = null
+                )
+            },
             title = { Text(stringResource(id = R.string.delete)) },
             text = {
                 Text(

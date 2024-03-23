@@ -144,7 +144,7 @@ fun ColorInfo(
                 ) {
                     Icon(
                         imageVector = supportButtonIcon,
-                        contentDescription = null,
+                        contentDescription = stringResource(R.string.edit),
                         tint = animateColorAsState(
                             Color(color).inverse(
                                 fraction = { cond ->
@@ -219,7 +219,10 @@ fun ColorInfo(
                                 enableAutoShadowAndBorder = false,
                                 onClick = onCopyCustomColor
                             ) {
-                                Icon(Icons.Rounded.ContentCopy, null)
+                                Icon(
+                                    imageVector = Icons.Rounded.ContentCopy,
+                                    contentDescription = stringResource(R.string.copy)
+                                )
                             }
                             EnhancedIconButton(
                                 containerColor = Color.Transparent,
@@ -227,7 +230,10 @@ fun ColorInfo(
                                 enableAutoShadowAndBorder = false,
                                 onClick = onPasteCustomColor
                             ) {
-                                Icon(Icons.Rounded.ContentPaste, null)
+                                Icon(
+                                    imageVector = Icons.Rounded.ContentPaste,
+                                    contentDescription = stringResource(R.string.pastel)
+                                )
                             }
                         }
                     }
@@ -238,7 +244,10 @@ fun ColorInfo(
                         modifier = Modifier.alertDialogBorder(),
                         onDismissRequest = { expanded = false },
                         icon = {
-                            Icon(Icons.Outlined.Palette, null)
+                            Icon(
+                                imageVector = Icons.Outlined.Palette,
+                                contentDescription = null
+                            )
                         },
                         title = {
                             Text(stringResource(R.string.color))

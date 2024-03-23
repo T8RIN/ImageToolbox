@@ -166,7 +166,10 @@ fun PresetSelector(
                                     selectedColor = MaterialTheme.colorScheme.primary,
                                     shape = MaterialTheme.shapes.medium
                                 ) {
-                                    Icon(Icons.Rounded.Telegram, null)
+                                    Icon(
+                                        imageVector = Icons.Rounded.Telegram,
+                                        contentDescription = stringResource(R.string.telegram)
+                                    )
                                 }
                             }
                         }
@@ -205,7 +208,10 @@ fun PresetSelector(
                         .padding(16.dp)
                         .align(Alignment.CenterEnd)
                 ) {
-                    Icon(Icons.Rounded.EditAlt, null)
+                    Icon(
+                        imageVector = Icons.Rounded.EditAlt,
+                        contentDescription = stringResource(R.string.edit)
+                    )
                 }
             }
         }
@@ -229,7 +235,7 @@ fun PresetSelector(
             icon = {
                 Icon(
                     imageVector = Icons.Outlined.Info,
-                    contentDescription = null
+                    contentDescription = stringResource(R.string.about_app)
                 )
             },
             text = {

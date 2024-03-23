@@ -66,6 +66,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.idapgroup.snowfall.snowfall
@@ -138,7 +139,7 @@ fun MainScreen(
                                 ) {
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                        contentDescription = null
+                                        contentDescription = stringResource(R.string.exit)
                                     )
                                 }
                             } else if (expanded) {
@@ -151,8 +152,8 @@ fun MainScreen(
                                     }
                                 ) {
                                     Icon(
-                                        Icons.AutoMirrored.Rounded.MenuOpen,
-                                        null,
+                                        imageVector = Icons.AutoMirrored.Rounded.MenuOpen,
+                                        contentDescription = "Expand",
                                         modifier = Modifier.rotate(
                                             animateFloatAsState(if (!sheetExpanded) 0f else 180f).value
                                         )

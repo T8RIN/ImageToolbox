@@ -165,7 +165,12 @@ fun Toast(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            toastData.visuals.icon?.let { Icon(it, null) }
+            toastData.visuals.icon?.let {
+                Icon(
+                    imageVector = it,
+                    contentDescription = null
+                )
+            }
             Spacer(modifier = Modifier.size(8.dp))
             Text(
                 style = MaterialTheme.typography.bodySmall,

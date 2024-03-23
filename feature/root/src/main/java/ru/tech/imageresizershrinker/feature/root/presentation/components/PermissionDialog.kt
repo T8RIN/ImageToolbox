@@ -91,7 +91,10 @@ internal fun PermissionDialog() {
             modifier = Modifier.alertDialogBorder(),
             onDismissRequest = { },
             icon = {
-                Icon(Icons.Rounded.Storage, null)
+                Icon(
+                    imageVector = Icons.Rounded.Storage,
+                    contentDescription = null
+                )
             },
             title = { Text(stringResource(R.string.permission)) },
             text = {

@@ -63,12 +63,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.material.ImageEdit
 import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
@@ -192,7 +194,7 @@ fun ImagePager(
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.Share,
-                                    contentDescription = null,
+                                    contentDescription = stringResource(R.string.share),
                                     tint = White
                                 )
                             }
@@ -208,7 +210,7 @@ fun ImagePager(
                             ) {
                                 Icon(
                                     imageVector = Icons.Outlined.ImageEdit,
-                                    contentDescription = null,
+                                    contentDescription = stringResource(R.string.edit),
                                     tint = White
                                 )
                             }
@@ -235,7 +237,7 @@ fun ImagePager(
                         ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                contentDescription = null,
+                                contentDescription = stringResource(R.string.exit),
                                 tint = White
                             )
                         }

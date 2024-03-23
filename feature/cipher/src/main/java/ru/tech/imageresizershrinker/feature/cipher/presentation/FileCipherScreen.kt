@@ -271,7 +271,10 @@ fun FileCipherScreen(
                                 enableAutoShadowAndBorder = false,
                                 onClick = onGoBack
                             ) {
-                                Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                    contentDescription = stringResource(R.string.exit)
+                                )
                             }
                         },
                         actions = {
@@ -382,7 +385,10 @@ fun FileCipherScreen(
                                                     showTip.value = true
                                                 }
                                             ) {
-                                                Icon(Icons.AutoMirrored.Rounded.HelpOutline, null)
+                                                Icon(
+                                                    imageVector = Icons.AutoMirrored.Rounded.HelpOutline,
+                                                    contentDescription = "Info"
+                                                )
                                             }
                                         }
 
@@ -431,7 +437,10 @@ fun FileCipherScreen(
                                                     verticalAlignment = Alignment.CenterVertically,
                                                     horizontalArrangement = Arrangement.Center
                                                 ) {
-                                                    Icon(Icons.Rounded.FolderOpen, null)
+                                                    Icon(
+                                                        imageVector = Icons.Rounded.FolderOpen,
+                                                        contentDescription = null
+                                                    )
                                                     Spacer(modifier = Modifier.width(8.dp))
                                                     Text(text = stringResource(id = R.string.pick_file))
                                                 }
@@ -455,8 +464,8 @@ fun FileCipherScreen(
                                                         modifier = Modifier.padding(start = 4.dp)
                                                     ) {
                                                         Icon(
-                                                            Icons.Rounded.Shuffle,
-                                                            null,
+                                                            imageVector = Icons.Rounded.Shuffle,
+                                                            contentDescription = stringResource(R.string.shuffle),
                                                             tint = MaterialTheme.colorScheme.onSecondaryContainer
                                                         )
                                                     }
@@ -473,8 +482,8 @@ fun FileCipherScreen(
                                                         modifier = Modifier.padding(end = 4.dp)
                                                     ) {
                                                         Icon(
-                                                            Icons.Outlined.Cancel,
-                                                            null,
+                                                            imageVector = Icons.Outlined.Cancel,
+                                                            contentDescription = stringResource(R.string.cancel),
                                                             tint = MaterialTheme.colorScheme.onSecondaryContainer
                                                         )
                                                     }
@@ -535,15 +544,24 @@ fun FileCipherScreen(
                                                 ) {
                                                     when {
                                                         uri == null -> {
-                                                            Icon(Icons.Rounded.FileOpen, null)
+                                                            Icon(
+                                                                imageVector = Icons.Rounded.FileOpen,
+                                                                contentDescription = null
+                                                            )
                                                         }
 
                                                         isEncrypt -> {
-                                                            Icon(Icons.Rounded.ShieldKey, null)
+                                                            Icon(
+                                                                imageVector = Icons.Rounded.ShieldKey,
+                                                                contentDescription = null
+                                                            )
                                                         }
 
                                                         else -> {
-                                                            Icon(Icons.Rounded.ShieldOpen, null)
+                                                            Icon(
+                                                                imageVector = Icons.Rounded.ShieldOpen,
+                                                                contentDescription = null
+                                                            )
                                                         }
                                                     }
                                                     Spacer(Modifier.width(8.dp))
@@ -591,8 +609,8 @@ fun FileCipherScreen(
                                             ) {
                                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                                     Icon(
-                                                        Icons.Rounded.CheckCircle,
-                                                        null,
+                                                        imageVector = Icons.Rounded.CheckCircle,
+                                                        contentDescription = null,
                                                         tint = Green,
                                                         modifier = Modifier
                                                             .size(36.dp)
@@ -678,8 +696,8 @@ fun FileCipherScreen(
                                                             horizontalArrangement = Arrangement.Center
                                                         ) {
                                                             Icon(
-                                                                Icons.Rounded.FileDownload,
-                                                                null
+                                                                imageVector = Icons.Rounded.FileDownload,
+                                                                contentDescription = null
                                                             )
                                                             Spacer(modifier = Modifier.width(8.dp))
                                                             AutoSizeText(
@@ -711,7 +729,12 @@ fun FileCipherScreen(
                                                             verticalAlignment = Alignment.CenterVertically,
                                                             horizontalArrangement = Arrangement.Center
                                                         ) {
-                                                            Icon(Icons.Rounded.Share, null)
+                                                            Icon(
+                                                                imageVector = Icons.Rounded.Share,
+                                                                contentDescription = stringResource(
+                                                                    R.string.share
+                                                                )
+                                                            )
                                                             Spacer(modifier = Modifier.width(8.dp))
                                                             AutoSizeText(
                                                                 text = stringResource(id = R.string.share),
@@ -764,7 +787,10 @@ fun FileCipherScreen(
                     modifier = Modifier.padding(horizontal = horizontalPadding),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(imageVector = Icons.Rounded.FileOpen, contentDescription = null)
+                    Icon(
+                        imageVector = Icons.Rounded.FileOpen,
+                        contentDescription = null
+                    )
                     AnimatedVisibility(visible = expanded) {
                         Row {
                             Spacer(Modifier.width(8.dp))

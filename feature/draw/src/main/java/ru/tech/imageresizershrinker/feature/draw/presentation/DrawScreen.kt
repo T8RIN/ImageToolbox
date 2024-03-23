@@ -437,7 +437,10 @@ fun DrawScreen(
             onClick = viewModel::undo,
             enabled = viewModel.lastPaths.isNotEmpty() || viewModel.paths.isNotEmpty()
         ) {
-            Icon(Icons.AutoMirrored.Rounded.Undo, null)
+            Icon(
+                imageVector = Icons.AutoMirrored.Rounded.Undo,
+                contentDescription = "Undo"
+            )
         }
         EnhancedIconButton(
             containerColor = Color.Transparent,
@@ -447,7 +450,10 @@ fun DrawScreen(
             onClick = viewModel::redo,
             enabled = viewModel.undonePaths.isNotEmpty()
         ) {
-            Icon(Icons.AutoMirrored.Rounded.Redo, null)
+            Icon(
+                imageVector = Icons.AutoMirrored.Rounded.Redo,
+                contentDescription = "Redo"
+            )
         }
         EraseModeButton(
             selected = isEraserOn,
@@ -497,7 +503,10 @@ fun DrawScreen(
                                     }
                                 },
                             ) {
-                                Icon(Icons.Rounded.Tune, null)
+                                Icon(
+                                    imageVector = Icons.Rounded.Tune,
+                                    contentDescription = stringResource(R.string.properties)
+                                )
                             }
                         }
                         ShareButton(
@@ -521,7 +530,10 @@ fun DrawScreen(
                             },
                             enabled = viewModel.drawBehavior !is DrawBehavior.None && viewModel.isBitmapChanged
                         ) {
-                            Icon(Icons.Outlined.Delete, null)
+                            Icon(
+                                imageVector = Icons.Outlined.Delete,
+                                contentDescription = stringResource(R.string.delete)
+                            )
                         }
                     },
                     navigationIcon = {
@@ -531,7 +543,10 @@ fun DrawScreen(
                             enableAutoShadowAndBorder = false,
                             onClick = onBack
                         ) {
-                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                contentDescription = stringResource(R.string.exit)
+                            )
                         }
                     }
                 )
@@ -551,7 +566,10 @@ fun DrawScreen(
                             enableAutoShadowAndBorder = false,
                             onClick = onBack
                         ) {
-                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                contentDescription = stringResource(R.string.exit)
+                            )
                         }
                     },
                     actions = {
@@ -697,7 +715,10 @@ fun DrawScreen(
                                 .padding(16.dp),
                             content = {
                                 Spacer(Modifier.width(16.dp))
-                                Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                Icon(
+                                    imageVector = Icons.Rounded.AddPhotoAlternate,
+                                    contentDescription = stringResource(R.string.pick_image_alt)
+                                )
                                 Spacer(Modifier.width(16.dp))
                                 Text(stringResource(R.string.pick_image_alt))
                                 Spacer(Modifier.width(16.dp))
@@ -821,7 +842,7 @@ fun DrawScreen(
                                             ) {
                                                 Icon(
                                                     imageVector = Icons.Rounded.AddPhotoAlternate,
-                                                    contentDescription = null
+                                                    contentDescription = stringResource(R.string.pick_image_alt)
                                                 )
                                             }
                                             Spacer(modifier = Modifier.width(8.dp))
@@ -829,7 +850,10 @@ fun DrawScreen(
                                         EnhancedFloatingActionButton(
                                             onClick = saveBitmap
                                         ) {
-                                            Icon(Icons.Rounded.Save, null)
+                                            Icon(
+                                                imageVector = Icons.Rounded.Save,
+                                                contentDescription = stringResource(R.string.save)
+                                            )
                                         }
                                     }
                                 }
@@ -920,14 +944,17 @@ fun DrawScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.AddPhotoAlternate,
-                                    contentDescription = null
+                                    contentDescription = stringResource(R.string.pick_image_alt)
                                 )
                             }
                             Spacer(modifier = Modifier.height(16.dp))
                             EnhancedFloatingActionButton(
                                 onClick = saveBitmap
                             ) {
-                                Icon(imageVector = Icons.Rounded.Save, contentDescription = null)
+                                Icon(
+                                    imageVector = Icons.Rounded.Save,
+                                    contentDescription = stringResource(R.string.save)
+                                )
                             }
                         }
                     }

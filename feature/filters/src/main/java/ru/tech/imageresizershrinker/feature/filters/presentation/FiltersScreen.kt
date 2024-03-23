@@ -285,7 +285,10 @@ fun FiltersScreen(
                 enableAutoShadowAndBorder = false,
                 onClick = { showReorderSheet.value = true }
             ) {
-                Icon(Icons.Rounded.Tune, null)
+                Icon(
+                    imageVector = Icons.Rounded.Tune,
+                    contentDescription = stringResource(R.string.properties)
+                )
             }
         }
     }
@@ -352,11 +355,17 @@ fun FiltersScreen(
                 ) {
                     when (filterType) {
                         is Screen.Filter.Type.Basic -> {
-                            Icon(imageVector = Icons.Rounded.AutoFixHigh, contentDescription = null)
+                            Icon(
+                                imageVector = Icons.Rounded.AutoFixHigh,
+                                contentDescription = null
+                            )
                         }
 
                         is Screen.Filter.Type.Masking -> {
-                            Icon(imageVector = Icons.Rounded.Texture, contentDescription = null)
+                            Icon(
+                                imageVector = Icons.Rounded.Texture,
+                                contentDescription = null
+                            )
                         }
                     }
                 }
@@ -583,7 +592,7 @@ fun FiltersScreen(
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Rounded.Texture,
-                                                contentDescription = null
+                                                contentDescription = stringResource(R.string.add_mask)
                                             )
                                             Spacer(Modifier.width(8.dp))
                                             Text(stringResource(id = R.string.add_mask))
@@ -602,7 +611,7 @@ fun FiltersScreen(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Rounded.Texture,
-                                        contentDescription = null
+                                        contentDescription = stringResource(R.string.add_mask)
                                     )
                                     Spacer(Modifier.width(8.dp))
                                     Text(stringResource(id = R.string.add_mask))
@@ -799,7 +808,10 @@ fun FiltersScreen(
                             enableAutoShadowAndBorder = false,
                             onClick = onBack
                         ) {
-                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                contentDescription = stringResource(R.string.exit)
+                            )
                         }
                     },
                     actions = {
@@ -813,7 +825,10 @@ fun FiltersScreen(
                                 },
                                 enabled = viewModel.previewBitmap != null
                             ) {
-                                Icon(Icons.Outlined.Colorize, null)
+                                Icon(
+                                    imageVector = Icons.Outlined.Colorize,
+                                    contentDescription = stringResource(R.string.pipette)
+                                )
                             }
                             ShareButton(
                                 enabled = viewModel.canSave,
@@ -839,7 +854,10 @@ fun FiltersScreen(
                                         containerColor = MaterialTheme.colorScheme.mixedContainer,
                                         onClick = { showAddFilterSheet.value = true }
                                     ) {
-                                        Icon(Icons.Rounded.AutoFixHigh, null)
+                                        Icon(
+                                            imageVector = Icons.Rounded.AutoFixHigh,
+                                            contentDescription = stringResource(R.string.add_filter)
+                                        )
                                     }
                                 }
 
@@ -848,7 +866,10 @@ fun FiltersScreen(
                                         containerColor = MaterialTheme.colorScheme.mixedContainer,
                                         onClick = { showAddMaskSheet = true }
                                     ) {
-                                        Icon(Icons.Rounded.Texture, null)
+                                        Icon(
+                                            imageVector = Icons.Rounded.Texture,
+                                            contentDescription = stringResource(R.string.add_mask)
+                                        )
                                     }
                                 }
 
@@ -947,7 +968,10 @@ fun FiltersScreen(
                                             .padding(16.dp),
                                         content = {
                                             Spacer(Modifier.width(16.dp))
-                                            Icon(Icons.Rounded.AddPhotoAlternate, null)
+                                            Icon(
+                                                imageVector = Icons.Rounded.AddPhotoAlternate,
+                                                contentDescription = stringResource(R.string.pick_image_alt)
+                                            )
                                             Spacer(Modifier.width(16.dp))
                                             Text(stringResource(R.string.pick_image_alt))
                                             Spacer(Modifier.width(16.dp))

@@ -53,6 +53,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.ImageColorDetector
@@ -175,7 +176,7 @@ fun PickColorFromImageSheet(
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.ContentCopy,
-                                    contentDescription = null,
+                                    contentDescription = stringResource(R.string.copy),
                                     tint = animateColorAsState(
                                         color.inverse(
                                             fraction = { cond ->

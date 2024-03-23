@@ -259,8 +259,8 @@ fun ZipScreen(
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
-                            Icons.Rounded.CheckCircle,
-                            null,
+                            imageVector = Icons.Rounded.CheckCircle,
+                            contentDescription = null,
                             tint = Green,
                             modifier = Modifier
                                 .size(36.dp)
@@ -347,8 +347,8 @@ fun ZipScreen(
                                 horizontalArrangement = Arrangement.Center
                             ) {
                                 Icon(
-                                    Icons.Rounded.FileDownload,
-                                    null
+                                    imageVector = Icons.Rounded.FileDownload,
+                                    contentDescription = null
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 AutoSizeText(
@@ -380,7 +380,10 @@ fun ZipScreen(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.Center
                             ) {
-                                Icon(Icons.Rounded.Share, null)
+                                Icon(
+                                    imageVector = Icons.Rounded.Share,
+                                    contentDescription = stringResource(R.string.share)
+                                )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 AutoSizeText(
                                     text = stringResource(id = R.string.share),

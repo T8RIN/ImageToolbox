@@ -66,7 +66,12 @@ internal fun AppExitDialog(
                     textAlign = TextAlign.Center
                 )
             },
-            icon = { Icon(Icons.Outlined.DoorBack, null) }
+            icon = {
+                Icon(
+                    imageVector = Icons.Outlined.DoorBack,
+                    contentDescription = null
+                )
+            }
         )
     }
 }

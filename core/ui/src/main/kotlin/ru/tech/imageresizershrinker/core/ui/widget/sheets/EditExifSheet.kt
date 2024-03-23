@@ -136,133 +136,139 @@ fun EditExifSheet(
                 }
             }
         },
-        visible = visible,
-        sheetContent = {
-            val data by remember(exifMap) {
-                derivedStateOf {
-                    exifMap!!.toList()
-                }
+        visible = visible
+    ) {
+        val data by remember(exifMap) {
+            derivedStateOf {
+                exifMap!!.toList()
             }
-            if (exifMap?.isEmpty() == false) {
-                Box {
-                    LazyColumn(
-                        contentPadding = PaddingValues(8.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        itemsIndexed(data) { index, (tag, value) ->
-                            Column(
-                                Modifier
-                                    .fillMaxWidth()
-                                    .container(
-                                        color = SimpleSheetDefaults.contentContainerColor,
-                                        shape = ContainerShapeDefaults.shapeForIndex(
-                                            index = index,
-                                            size = data.size
-                                        ),
-                                    )
-                            ) {
-                                Row {
-                                    Text(
-                                        text = tag,
-                                        fontSize = 16.sp,
-                                        modifier = Modifier
-                                            .padding(12.dp)
-                                            .weight(1f),
-                                        textAlign = TextAlign.Start
-                                    )
-                                    EnhancedIconButton(
-                                        containerColor = Color.Transparent,
-                                        contentColor = LocalContentColor.current,
-                                        enableAutoShadowAndBorder = false,
-                                        onClick = {
-                                            onRemoveTag(tag)
-                                            exifMap = exifMap?.toMutableMap()
-                                                ?.apply { remove(tag) }
-                                        }
-                                    ) {
-                                        Icon(
-                                            Icons.Rounded.RemoveCircleOutline,
-                                            null
-                                        )
-                                    }
-                                }
-                                OutlinedTextField(
-                                    onValueChange = {
-                                        onUpdateTag(tag, it)
-                                        exifMap = exifMap?.toMutableMap()
-                                            ?.apply {
-                                                this[tag] = it
-                                            }
-                                    },
-                                    value = value,
-                                    textStyle = LocalTextStyle.current.copy(
-                                        fontSize = 16.sp,
-                                        fontWeight = FontWeight.Bold
+        }
+        if (exifMap?.isEmpty() == false) {
+            Box {
+                LazyColumn(
+                    contentPadding = PaddingValues(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    itemsIndexed(data) { index, (tag, value) ->
+                        Column(
+                            Modifier
+                                .fillMaxWidth()
+                                .container(
+                                    color = SimpleSheetDefaults.contentContainerColor,
+                                    shape = ContainerShapeDefaults.shapeForIndex(
+                                        index = index,
+                                        size = data.size
                                     ),
-                                    keyboardOptions = KeyboardOptions.Default.copy(
-                                        imeAction = ImeAction.Next
-                                    ),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(8.dp)
                                 )
+                        ) {
+                            Row {
+                                Text(
+                                    text = tag,
+                                    fontSize = 16.sp,
+                                    modifier = Modifier
+                                        .padding(12.dp)
+                                        .weight(1f),
+                                    textAlign = TextAlign.Start
+                                )
+                                EnhancedIconButton(
+                                    containerColor = Color.Transparent,
+                                    contentColor = LocalContentColor.current,
+                                    enableAutoShadowAndBorder = false,
+                                    onClick = {
+                                        onRemoveTag(tag)
+                                        exifMap = exifMap?.toMutableMap()
+                                            ?.apply { remove(tag) }
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.RemoveCircleOutline,
+                                        contentDescription = stringResource(R.string.remove)
+                                    )
+                                }
                             }
+                            OutlinedTextField(
+                                onValueChange = {
+                                    onUpdateTag(tag, it)
+                                    exifMap = exifMap?.toMutableMap()
+                                        ?.apply {
+                                            this[tag] = it
+                                        }
+                                },
+                                value = value,
+                                textStyle = LocalTextStyle.current.copy(
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Bold
+                                ),
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    imeAction = ImeAction.Next
+                                ),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp)
+                            )
                         }
                     }
-                }
-            } else {
-                Box {
-                    Text(
-                        stringResource(R.string.no_exif),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(12.dp),
-                        textAlign = TextAlign.Center
-                    )
                 }
             }
-            AddExifSheet(
-                visible = showAddExifDialog.value,
-                onDismiss = {
-                    showAddExifDialog.value = it
-                },
-                selectedTags = (exifMap?.keys?.toList() ?: emptyList()),
-                onTagSelected = { tag ->
-                    onRemoveTag(tag)
-                    exifMap = exifMap?.toMutableMap()
-                        ?.apply { this[tag] = "" }
-                }
-            )
-            if (showClearExifDialog) {
-                AlertDialog(
-                    modifier = Modifier.alertDialogBorder(),
-                    onDismissRequest = { showClearExifDialog = false },
-                    title = { Text(stringResource(R.string.clear_exif)) },
-                    icon = { Icon(Icons.Rounded.Delete, null) },
-                    confirmButton = {
-                        EnhancedButton(
-                            onClick = { showClearExifDialog = false }
-                        ) {
-                            Text(stringResource(R.string.cancel))
-                        }
-                    },
-                    dismissButton = {
-                        EnhancedButton(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            onClick = {
-                                showClearExifDialog = false
-                                onClearExif()
-                                exifMap = emptyMap()
-                            }
-                        ) {
-                            Text(stringResource(R.string.clear))
-                        }
-                    },
-                    text = {
-                        Text(stringResource(R.string.clear_exif_sub))
-                    }
+        } else {
+            Box {
+                Text(
+                    stringResource(R.string.no_exif),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp),
+                    textAlign = TextAlign.Center
                 )
             }
         }
-    )
+        AddExifSheet(
+            visible = showAddExifDialog.value,
+            onDismiss = {
+                showAddExifDialog.value = it
+            },
+            selectedTags = (exifMap?.keys?.toList() ?: emptyList()),
+            onTagSelected = { tag ->
+                onRemoveTag(tag)
+                exifMap = exifMap?.toMutableMap()
+                    ?.apply { this[tag] = "" }
+            }
+        )
+        if (showClearExifDialog) {
+            AlertDialog(
+                modifier = Modifier.alertDialogBorder(),
+                onDismissRequest = { showClearExifDialog = false },
+                title = {
+                    Text(stringResource(R.string.clear_exif))
+                },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Rounded.Delete,
+                        contentDescription = null
+                    )
+                },
+                confirmButton = {
+                    EnhancedButton(
+                        onClick = { showClearExifDialog = false }
+                    ) {
+                        Text(stringResource(R.string.cancel))
+                    }
+                },
+                dismissButton = {
+                    EnhancedButton(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        onClick = {
+                            showClearExifDialog = false
+                            onClearExif()
+                            exifMap = emptyMap()
+                        }
+                    ) {
+                        Text(stringResource(R.string.clear))
+                    }
+                },
+                text = {
+                    Text(stringResource(R.string.clear_exif_sub))
+                }
+            )
+        }
+    }
 }

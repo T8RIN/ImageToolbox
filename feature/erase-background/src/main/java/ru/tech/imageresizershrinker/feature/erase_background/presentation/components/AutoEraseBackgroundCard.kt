@@ -75,7 +75,7 @@ fun AutoEraseBackgroundCard(
                 )
                 Icon(
                     imageVector = Icons.Rounded.AutoFixHigh,
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.auto_erase_background),
                     tint = MaterialTheme.colorScheme.onMixedContainer
                 )
             }
@@ -89,7 +89,10 @@ fun AutoEraseBackgroundCard(
             shape = RoundedCornerShape(16.dp),
             isShadowClip = true
         ) {
-            Icon(Icons.Rounded.SettingsBackupRestore, null)
+            Icon(
+                imageVector = Icons.Rounded.SettingsBackupRestore,
+                contentDescription = null
+            )
             Spacer(Modifier.width(8.dp))
             Text(stringResource(id = R.string.restore_image))
         }

@@ -225,7 +225,7 @@ private fun ColorStopSelectionItem(
             ) {
                 Icon(
                     imageVector = Icons.Rounded.DeleteOutline,
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.delete),
                     modifier = Modifier
                         .padding(16.dp)
                         .padding(end = 8.dp)

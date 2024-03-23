@@ -168,7 +168,10 @@ fun EraseBackgroundEditOption(
                     onClick = undo,
                     enabled = lastPaths.isNotEmpty() || paths.isNotEmpty()
                 ) {
-                    Icon(Icons.AutoMirrored.Rounded.Undo, null)
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Rounded.Undo,
+                        contentDescription = "Undo"
+                    )
                 }
                 EnhancedIconButton(
                     containerColor = Color.Transparent,
@@ -178,7 +181,10 @@ fun EraseBackgroundEditOption(
                     onClick = redo,
                     enabled = undonePaths.isNotEmpty()
                 ) {
-                    Icon(Icons.AutoMirrored.Rounded.Redo, null)
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Rounded.Redo,
+                        contentDescription = "Redo"
+                    )
                 }
                 RecoverModeButton(
                     selected = isRecoveryOn,
@@ -303,7 +309,10 @@ fun EraseBackgroundEditOption(
                                     onDismiss()
                                 }
                             ) {
-                                Icon(Icons.Rounded.Done, null)
+                                Icon(
+                                    imageVector = Icons.Rounded.Done,
+                                    contentDescription = "Done"
+                                )
                             }
                         }
                     },

@@ -370,7 +370,7 @@ fun PdfToolsScreen(
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Share,
-                    contentDescription = null
+                    contentDescription = stringResource(R.string.share)
                 )
             }
         }
@@ -407,7 +407,7 @@ fun PdfToolsScreen(
                     is Screen.PdfTools.Type.ImagesToPdf -> Icons.Rounded.AddPhotoAlternate
                     else -> Icons.Rounded.FileOpen
                 },
-                contentDescription = null
+                contentDescription = stringResource(R.string.pick)
             )
         }
         if (pdfType !is Screen.PdfTools.Type.Preview) {
@@ -464,7 +464,10 @@ fun PdfToolsScreen(
                         }
                     }
                 ) {
-                    Icon(imageVector = Icons.Rounded.Save, contentDescription = null)
+                    Icon(
+                        imageVector = Icons.Rounded.Save,
+                        contentDescription = stringResource(R.string.save)
+                    )
                 }
             }
         }
@@ -581,7 +584,10 @@ fun PdfToolsScreen(
                             enableAutoShadowAndBorder = false,
                             onClick = onBack
                         ) {
-                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, null)
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                contentDescription = stringResource(R.string.exit)
+                            )
                         }
                     }
                     val actions: @Composable RowScope.() -> Unit = {
@@ -614,7 +620,10 @@ fun PdfToolsScreen(
                                     },
                                     enabled = viewModel.pdfType != null
                                 ) {
-                                    Icon(Icons.Outlined.SelectAll, null)
+                                    Icon(
+                                        imageVector = Icons.Outlined.SelectAll,
+                                        contentDescription = "Select All"
+                                    )
                                 }
                             }
                             AnimatedVisibility(
@@ -648,7 +657,10 @@ fun PdfToolsScreen(
                                             deselectAllToggle.value = true
                                         }
                                     ) {
-                                        Icon(Icons.Rounded.Close, null)
+                                        Icon(
+                                            imageVector = Icons.Rounded.Close,
+                                            contentDescription = stringResource(R.string.close)
+                                        )
                                     }
                                 }
                             }
@@ -788,7 +800,10 @@ fun PdfToolsScreen(
                                                 .padding(16.dp),
                                             content = {
                                                 Spacer(Modifier.width(16.dp))
-                                                Icon(Icons.Rounded.FileOpen, null)
+                                                Icon(
+                                                    imageVector = Icons.Rounded.FileOpen,
+                                                    contentDescription = stringResource(R.string.pick_file)
+                                                )
                                                 Spacer(Modifier.width(16.dp))
                                                 Text(stringResource(R.string.pick_file))
                                                 Spacer(Modifier.width(16.dp))

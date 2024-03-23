@@ -80,6 +80,9 @@ fun RecoverModeButton(
         ),
         onClick = onClick
     ) {
-        Icon(Icons.Rounded.Brush, null)
+        Icon(
+            imageVector = Icons.Rounded.Brush,
+            contentDescription = "Brush"
+        )
     }
 }

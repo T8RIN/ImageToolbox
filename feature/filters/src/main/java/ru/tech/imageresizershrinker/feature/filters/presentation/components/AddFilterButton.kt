@@ -46,7 +46,7 @@ fun AddFilterButton(
     ) {
         Icon(
             imageVector = Icons.Rounded.AutoFixHigh,
-            contentDescription = null
+            contentDescription = stringResource(R.string.add_filter)
         )
         Spacer(Modifier.width(8.dp))
         Text(stringResource(id = R.string.add_filter))

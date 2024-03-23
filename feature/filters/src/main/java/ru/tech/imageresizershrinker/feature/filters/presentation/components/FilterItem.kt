@@ -59,6 +59,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
+import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -131,7 +132,10 @@ fun <T> FilterItem(
                             enableAutoShadowAndBorder = false,
                             onClick = onRemove
                         ) {
-                            Icon(Icons.Rounded.RemoveCircleOutline, null)
+                            Icon(
+                                imageVector = Icons.Rounded.RemoveCircleOutline,
+                                contentDescription = stringResource(R.string.remove)
+                            )
                         }
                     }
                     Row(
@@ -162,7 +166,7 @@ fun <T> FilterItem(
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.KeyboardArrowDown,
-                                contentDescription = null,
+                                contentDescription = "Expand",
                                 modifier = Modifier.rotate(
                                     animateFloatAsState(
                                         if (isControlsExpanded) 180f
@@ -212,7 +216,7 @@ fun <T> FilterItem(
                 Spacer(Modifier.width(8.dp))
                 Icon(
                     imageVector = Icons.Rounded.DragHandle,
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.drag_handle_width),
                     modifier = Modifier
                         .size(48.dp)
                         .padding(12.dp)

@@ -121,7 +121,10 @@ internal fun EditPresetsSheet(
                             selectedColor = MaterialTheme.colorScheme.primary,
                             shape = MaterialTheme.shapes.medium,
                             label = {
-                                Icon(Icons.Rounded.AddCircle, null)
+                                Icon(
+                                    imageVector = Icons.Rounded.AddCircle,
+                                    contentDescription = stringResource(R.string.add)
+                                )
                             }
                         )
                         if (expanded) {
@@ -131,8 +134,8 @@ internal fun EditPresetsSheet(
                                 onDismissRequest = { expanded = false },
                                 icon = {
                                     Icon(
-                                        Icons.Outlined.PhotoSizeSelectSmall,
-                                        null
+                                        imageVector = Icons.Outlined.PhotoSizeSelectSmall,
+                                        contentDescription = null
                                     )
                                 },
                                 title = {

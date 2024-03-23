@@ -228,7 +228,7 @@ fun ResizeAndConvertScreen(
             ) {
                 Icon(
                     imageVector = Icons.Rounded.ImageReset,
-                    contentDescription = null
+                    contentDescription = stringResource(R.string.reset_image)
                 )
             }
             if (viewModel.bitmap != null) {
@@ -246,7 +246,10 @@ fun ResizeAndConvertScreen(
                     enabled = false,
                     onClick = {}
                 ) {
-                    Icon(Icons.Rounded.History, null)
+                    Icon(
+                        imageVector = Icons.Rounded.History,
+                        contentDescription = stringResource(R.string.original)
+                    )
                 }
             }
         },

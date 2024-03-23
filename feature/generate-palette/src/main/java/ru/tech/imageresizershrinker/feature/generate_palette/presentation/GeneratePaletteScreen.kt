@@ -305,7 +305,10 @@ fun GeneratePaletteScreen(
                         showColorPickerSheet.value = true
                     }
                 ) {
-                    Icon(Icons.Rounded.Colorize, null)
+                    Icon(
+                        imageVector = Icons.Rounded.Colorize,
+                        contentDescription = stringResource(R.string.pipette)
+                    )
                 }
             }
         },

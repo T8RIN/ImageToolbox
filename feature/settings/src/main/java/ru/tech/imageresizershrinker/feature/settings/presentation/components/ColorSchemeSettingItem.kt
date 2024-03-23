@@ -144,7 +144,7 @@ fun ColorSchemeSettingItem(
                 )
                 Icon(
                     imageVector = Icons.Rounded.MiniEdit,
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.edit),
                     tint = settingsState.appColorTuple.primary
                 )
             }

@@ -36,7 +36,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.resources.R
 
 @Composable
 fun SupportingButton(
@@ -49,7 +51,7 @@ fun SupportingButton(
     val haptics = LocalHapticFeedback.current
     Icon(
         imageVector = icon,
-        contentDescription = null,
+        contentDescription = stringResource(R.string.about_app),
         tint = contentColor,
         modifier = modifier
             .background(

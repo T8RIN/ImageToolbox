@@ -531,7 +531,7 @@ fun AddFiltersSheet(
                                     ) {
                                         Icon(
                                             imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                            contentDescription = null,
+                                            contentDescription = stringResource(R.string.exit),
                                             tint = MaterialTheme.colorScheme.onSurface
                                         )
                                     }
@@ -553,7 +553,7 @@ fun AddFiltersSheet(
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Rounded.Close,
-                                                contentDescription = null,
+                                                contentDescription = stringResource(R.string.close),
                                                 tint = MaterialTheme.colorScheme.onSurface
                                             )
                                         }
@@ -585,7 +585,7 @@ fun AddFiltersSheet(
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Search,
-                                contentDescription = null
+                                contentDescription = stringResource(R.string.search_here)
                             )
                         }
                         EnhancedButton(
@@ -640,7 +640,10 @@ fun AddFiltersSheet(
                                 previewSheetData = null
                             }
                         ) {
-                            Icon(Icons.Rounded.Close, null)
+                            Icon(
+                                imageVector = Icons.Rounded.Close,
+                                contentDescription = stringResource(R.string.close)
+                            )
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -659,7 +662,10 @@ fun AddFiltersSheet(
                                 visible.value = false
                             }
                         ) {
-                            Icon(Icons.Rounded.Done, null)
+                            Icon(
+                                imageVector = Icons.Rounded.Done,
+                                contentDescription = "Done"
+                            )
                         }
                     },
                     title = {
@@ -852,14 +858,14 @@ private fun FilterSelectionItem(
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Slideshow,
-                                contentDescription = null,
+                                contentDescription = stringResource(R.string.image_preview),
                                 tint = if (isBitmapDark) StrongBlack
                                 else White,
                                 modifier = Modifier.scale(1.2f)
                             )
                             Icon(
                                 imageVector = Icons.Rounded.Slideshow,
-                                contentDescription = null,
+                                contentDescription = stringResource(R.string.image_preview),
                                 tint = if (isBitmapDark) White
                                 else StrongBlack
                             )

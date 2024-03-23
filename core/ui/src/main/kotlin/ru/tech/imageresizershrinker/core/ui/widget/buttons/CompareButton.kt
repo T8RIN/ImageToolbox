@@ -28,6 +28,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import ru.tech.imageresizershrinker.core.resources.R
 
 @Composable
 fun CompareButton(
@@ -45,7 +47,10 @@ fun CompareButton(
             enableAutoShadowAndBorder = false,
             onClick = onClick
         ) {
-            Icon(Icons.Rounded.Compare, null)
+            Icon(
+                imageVector = Icons.Rounded.Compare,
+                contentDescription = stringResource(R.string.compare)
+            )
         }
     }
 }

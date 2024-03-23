@@ -70,8 +70,13 @@ object IconShapeDefaults {
     val contentColor: Color
         @Composable
         get() = takeColorFromScheme {
+            val settingsState = LocalSettingsState.current
+
             onPrimaryContainer.inverse(
-                fraction = { 0.65f }
+                fraction = {
+                    if (it && settingsState.isAmoledMode) 0.35f
+                    else 0.65f
+                }
             )
         }
 
