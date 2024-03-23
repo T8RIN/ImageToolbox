@@ -72,6 +72,37 @@ sealed class Screen(
     @StringRes val subtitle: Int
 ) : Parcelable {
 
+    val simpleName: String?
+        get() = when (this) {
+            is ApngTools -> "APNG_Tools"
+            is Cipher -> "Cipher"
+            is Compare -> "Compare"
+            is Crop -> "Crop"
+            is DeleteExif -> "Delete_Exif"
+            is Draw -> "Draw"
+            EasterEgg -> "Easter_Egg"
+            is EraseBackground -> "Erase_Background"
+            is Filter -> "Filter"
+            is GeneratePalette -> "Generate_Palette"
+            is GifTools -> "GIF_Tools"
+            is GradientMaker -> "Gradient_Maker"
+            is ImagePreview -> "Image_Preview"
+            is ImageStitching -> "Image_Stitching"
+            is JxlTools -> "JXL_Tools"
+            is LimitResize -> "Limit_Resize"
+            is LoadNetImage -> "Load_Net_Image"
+            Main -> null
+            is PdfTools -> "PDF_Tools"
+            is PickColorFromImage -> "Pick_Color_From_Image"
+            is RecognizeText -> "Recognize_Text"
+            is ResizeAndConvert -> "Resize_And_Convert"
+            is ResizeByBytes -> "Resize_By_Bytes"
+            Settings -> "Settings"
+            is SingleEdit -> "Single_Edit"
+            is Watermarking -> "Watermarking"
+            is Zip -> "Zip"
+        }
+
     data object Settings : Screen(
         id = -3,
         icon = null,

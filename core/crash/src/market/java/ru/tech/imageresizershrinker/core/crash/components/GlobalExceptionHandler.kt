@@ -93,10 +93,11 @@ class GlobalExceptionHandler<T : CrashHandler> private constructor(
         }
 
         fun registerScreenOpen(screen: Screen) {
-            if (allowCollectAnalytics) {
-                Log.d("SCREEN_OPEN", screen::class.simpleName.toString())
-                Firebase.analytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT) {
-                    param(FirebaseAnalytics.Param.CONTENT_TYPE, screen::class.simpleName.toString())
+            val screenName = screen.simpleName
+            if (allowCollectAnalytics && screenName != null) {
+                Log.d("SCREEN_OPEN", screenName)
+                Firebase.analytics.logEvent("SCREEN_OPEN") {
+                    param(FirebaseAnalytics.Param.CONTENT_TYPE, screenName)
                 }
             }
         }
