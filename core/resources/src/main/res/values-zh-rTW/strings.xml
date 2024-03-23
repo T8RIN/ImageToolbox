@@ -857,4 +857,11 @@
     <string name="sort_by_date_reversed">按日期排序（反向）</string>
     <string name="sort_by_name">按名稱排序</string>
     <string name="sort_by_name_reversed">按名稱排序（反向）</string>
+    <string name="try_again">再試一次</string>
+    <string name="show_settings_in_landscape">橫向顯示設定</string>
+    <string name="show_settings_in_landscape_sub">如果停用此選項，則在橫向模式下，設定將始终在顶部應用栏中的按钮上打开，而不是始终可见的选项。</string>
+    <string name="fullscreen_settings">全螢幕設定</string>
+    <string name="switch_type">開關類型</string>
+    <string name="compose">撰寫</string>
+    <string name="fullscreen_settings_sub">將「啟用」設定為「設定頁面總是全螢幕開啟，而不是可滑動抽屜頁」。</string>
 </resources>
