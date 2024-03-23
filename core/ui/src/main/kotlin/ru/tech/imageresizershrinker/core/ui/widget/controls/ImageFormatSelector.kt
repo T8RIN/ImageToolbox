@@ -85,8 +85,18 @@ fun ImageFormatSelector(
         }
     }
 
-    LaunchedEffect(value, entries) {
-        if (value !in entries.flatMap { it.formats }) onValueChange(ImageFormat.Png.Lossless)
+    val allFormats by remember {
+        derivedStateOf {
+            entries.flatMap { it.formats }
+        }
+    }
+
+    LaunchedEffect(value, allFormats) {
+        if (value !in allFormats) onValueChange(
+            if (ImageFormat.Png.Lossless in allFormats) {
+                ImageFormat.Png.Lossless
+            } else allFormats.first()
+        )
     }
 
     Box {
@@ -147,9 +157,9 @@ fun ImageFormatSelector(
 
             val formats by remember(value) {
                 derivedStateOf {
-                    entries.first {
+                    entries.firstOrNull {
                         value in it.formats
-                    }.formats
+                    }?.formats ?: emptyList()
                 }
             }
             AnimatedContent(formats.filteredFormats()) { items ->

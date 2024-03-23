@@ -36,11 +36,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.material.materialswitch.MaterialSwitch
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.ui.widget.controls.transparentColors
 
 
 @SuppressLint("ClickableViewAccessibility")
@@ -78,24 +78,7 @@ fun M3Switch(
             checked = false,
             onCheckedChange = {},
             modifier = internalModifier,
-            colors = SwitchColors(
-                Transparent,
-                Transparent,
-                Transparent,
-                Transparent,
-                Transparent,
-                Transparent,
-                Transparent,
-                Transparent,
-                Transparent,
-                Transparent,
-                Transparent,
-                Transparent,
-                Transparent,
-                Transparent,
-                Transparent,
-                Transparent
-            )
+            colors = SwitchDefaults.transparentColors()
         )
 
         var press by remember {

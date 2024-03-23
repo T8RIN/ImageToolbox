@@ -149,3 +149,22 @@ fun EnhancedSwitch(
         }
     }
 }
+
+fun SwitchDefaults.transparentColors() = SwitchColors(
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent,
+    Color.Transparent
+)
