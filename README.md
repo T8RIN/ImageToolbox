@@ -470,6 +470,10 @@ or click one of the badges below.
   - Side
   - Corners
   - ImageToolbox
+- Switch Type selection:
+  - Material You
+  - Compose
+  - Pixel Switch
 
 (Yes, the app supports dynamic coloring based on wallpapers for every android version)
 
