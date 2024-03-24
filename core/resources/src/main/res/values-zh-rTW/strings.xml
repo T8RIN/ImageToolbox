@@ -864,4 +864,6 @@
     <string name="switch_type">開關類型</string>
     <string name="compose">撰寫</string>
     <string name="fullscreen_settings_sub">將「啟用」設定為「設定頁面總是全螢幕開啟，而不是可滑動抽屜頁」。</string>
+    <string name="compose_switch_sub">使用您切換的 Jetpack Compose 材質，但它不如基於視圖的漂亮</string>
+    <string name="material_you_switch_sub">使用您切換的基於視圖的材質，這個看起來比其他材質更好並且有漂亮的動畫</string>
 </resources>
