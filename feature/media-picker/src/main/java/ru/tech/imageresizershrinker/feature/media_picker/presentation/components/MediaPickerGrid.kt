@@ -157,7 +157,6 @@ fun MediaPickerGrid(
                         modifier = Modifier.animateItemPlacement(),
                         media = item.media,
                         selectionState = selectionState,
-                        selectedMedia = selectedMedia,
                         canClick = true,
                         onItemClick = {
                             hapticFeedback.performHapticFeedback(

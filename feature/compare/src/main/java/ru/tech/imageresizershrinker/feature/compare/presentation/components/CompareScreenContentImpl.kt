@@ -43,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -120,9 +121,11 @@ internal fun CompareScreenContentImpl(
                 val second = bitmapPair.second?.second
 
                 val zoomState = rememberZoomState(30f)
-                val zoomModifier = Modifier.zoomable(
-                    zoomState = zoomState
-                )
+                val zoomModifier = Modifier
+                    .clipToBounds()
+                    .zoomable(
+                        zoomState = zoomState
+                    )
 
 
                 Box(modifier) {

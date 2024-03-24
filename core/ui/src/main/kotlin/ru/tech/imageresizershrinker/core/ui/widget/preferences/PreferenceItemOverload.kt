@@ -108,7 +108,8 @@ fun PreferenceItemOverload(
                 .container(
                     shape = shape,
                     resultPadding = 0.dp,
-                    color = color
+                    color = color,
+                    autoShadowElevation = autoShadowElevation
                 )
                 .then(
                     onClick

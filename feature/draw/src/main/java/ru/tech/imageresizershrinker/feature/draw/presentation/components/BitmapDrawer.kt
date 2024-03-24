@@ -41,6 +41,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.isSpecified
@@ -150,11 +151,10 @@ fun BitmapDrawer(
                     )
                 } else Modifier
             )
+            .clipToBounds()
             .zoomable(
                 zoomState = zoomState,
-                enabled = { _, _ ->
-                    (globalTouchPointersCount >= 2 || panEnabled)
-                },
+                zoomEnabled = (globalTouchPointersCount >= 2 || panEnabled),
                 enableOneFingerZoom = panEnabled,
                 onDoubleTap = { pos ->
                     if (panEnabled) zoomState.defaultZoomOnDoubleTap(pos)

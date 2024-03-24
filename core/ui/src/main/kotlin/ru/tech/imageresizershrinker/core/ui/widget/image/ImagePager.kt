@@ -59,6 +59,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.pointer.pointerInput
@@ -140,6 +141,7 @@ fun ImagePager(
                         model = uris?.getOrNull(page),
                         modifier = Modifier
                             .fillMaxSize()
+                            .clipToBounds()
                             .zoomable(rememberZoomState(8f))
                             .systemBarsPadding()
                             .displayCutoutPadding(),

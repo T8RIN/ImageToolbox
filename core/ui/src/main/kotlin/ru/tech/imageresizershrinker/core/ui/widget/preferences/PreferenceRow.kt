@@ -104,7 +104,8 @@ fun PreferenceRow(
                 .container(
                     color = color,
                     shape = shape,
-                    resultPadding = 0.dp
+                    resultPadding = 0.dp,
+                    autoShadowElevation = autoShadowElevation
                 )
                 .then(
                     onClick

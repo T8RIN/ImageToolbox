@@ -280,6 +280,7 @@ fun FilterEditOption(
                         .fillMaxSize()
                         .clipToBounds()
                         .transparencyChecker()
+                        .clipToBounds()
                         .zoomable(rememberZoomState())
                         .padding(
                             start = WindowInsets

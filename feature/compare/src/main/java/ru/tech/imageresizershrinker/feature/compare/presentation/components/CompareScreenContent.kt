@@ -51,6 +51,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.TransformOrigin
@@ -87,18 +88,18 @@ fun CompareScreenContent(
         bitmapData.takeIf { !nil }?.let { bitmapPair ->
             val zoomEnabled = compareType != CompareType.SideBySide
             val zoomState = rememberZoomState(30f, key = compareType)
-            val zoomModifier = Modifier.zoomable(
-                zoomState = zoomState,
-                onDoubleTap = {
-                    if (zoomEnabled) {
-                        zoomState.defaultZoomOnDoubleTap(it)
-                    }
-                },
-                enableOneFingerZoom = zoomEnabled,
-                enabled = { _, _ ->
-                    zoomEnabled
-                }
-            )
+            val zoomModifier = Modifier
+                .clipToBounds()
+                .zoomable(
+                    zoomState = zoomState,
+                    onDoubleTap = {
+                        if (zoomEnabled) {
+                            zoomState.defaultZoomOnDoubleTap(it)
+                        }
+                    },
+                    enableOneFingerZoom = zoomEnabled,
+                    zoomEnabled = zoomEnabled
+                )
 
             if (isPortrait) {
                 Column {

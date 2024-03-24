@@ -62,7 +62,6 @@ internal fun MainScreenDrawerContent(
     sideSheetState: DrawerState,
     isSheetSlideable: Boolean,
     sheetExpanded: Boolean,
-    onToggleSheetExpanded: (Boolean) -> Unit,
     layoutDirection: LayoutDirection,
     settingsBlockContent: @Composable () -> Unit
 ) {

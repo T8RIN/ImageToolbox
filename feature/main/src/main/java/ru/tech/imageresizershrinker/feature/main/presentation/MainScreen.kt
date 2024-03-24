@@ -118,7 +118,6 @@ fun MainScreen(
                 sideSheetState = sideSheetState,
                 isSheetSlideable = isSheetSlideable,
                 sheetExpanded = sheetExpanded,
-                onToggleSheetExpanded = { sheetExpanded = it },
                 layoutDirection = layoutDirection,
                 settingsBlockContent = {
                     SettingsScreen(
