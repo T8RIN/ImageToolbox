@@ -102,7 +102,7 @@ fun ImagePickerModeSettingItemGroup(
                             MaterialTheme.colorScheme.onSecondaryContainer.copy(0.5f)
                         } else Color.Transparent
                     ).value,
-                    shape = ContainerShapeDefaults.topShape
+                    shape = ContainerShapeDefaults.centerShape
                 )
         )
         Spacer(modifier = Modifier.height(4.dp))
@@ -156,7 +156,7 @@ fun ImagePickerModeSettingItemGroup(
                             MaterialTheme.colorScheme.onSecondaryContainer.copy(0.5f)
                         } else Color.Transparent
                     ).value,
-                    shape = ContainerShapeDefaults.bottomShape
+                    shape = ContainerShapeDefaults.centerShape
                 )
         )
         Spacer(modifier = Modifier.height(4.dp))
@@ -183,7 +183,7 @@ fun ImagePickerModeSettingItemGroup(
                             MaterialTheme.colorScheme.onSecondaryContainer.copy(0.5f)
                         } else Color.Transparent
                     ).value,
-                    shape = ContainerShapeDefaults.topShape
+                    shape = ContainerShapeDefaults.bottomShape
                 )
         )
     }
