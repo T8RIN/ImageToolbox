@@ -864,4 +864,6 @@
     <string name="compose">लिखें</string>
     <string name="fullscreen_settings">फ़ुलस्क्रीन सेटिंग्स</string>
     <string name="fullscreen_settings_sub">इसे सक्षम करें और सेटिंग पेज हमेशा स्लाइड करने योग्य ड्रॉअर शीट के बजाय फ़ुलस्क्रीन के रूप में खोला जाएगा</string>
+    <string name="compose_switch_sub">Jetpack Compose Material You स्विच का उपयोग करें, यह दृश्य आधारित जितना सुंदर नहीं है</string>
+    <string name="material_you_switch_sub">दृश्य आधारित Material You स्विच का उपयोग करता है, यह दूसरों की तुलना में बेहतर दिखता है और इसमें अच्छे एनिमेशन हैं</string>
 </resources>
