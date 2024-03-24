@@ -26,7 +26,8 @@ import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionTyp
 data class UiDownloadData(
     val type: RecognitionType,
     val languageCode: String,
-    val name: String
+    val name: String,
+    val localizedName: String
 ) : Parcelable
 
-fun DownloadData.toUi() = UiDownloadData(type, languageCode, name)
+fun DownloadData.toUi() = UiDownloadData(type, languageCode, name, localizedName)

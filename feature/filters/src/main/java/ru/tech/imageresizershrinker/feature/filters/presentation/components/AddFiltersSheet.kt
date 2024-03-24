@@ -47,7 +47,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -147,7 +146,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.SimplePicture
 import ru.tech.imageresizershrinker.core.ui.widget.image.imageStickyHeader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
@@ -490,6 +488,8 @@ fun AddFiltersSheet(
                     }
                 }
             }
+        },
+        title = {
             AnimatedContent(
                 targetState = isSearching
             ) { searching ->
@@ -498,80 +498,63 @@ fun AddFiltersSheet(
                         searchKeyword = ""
                         isSearching = false
                     }
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .drawHorizontalStroke(true, autoElevation = 6.dp)
-                            .background(SimpleSheetDefaults.barContainerColor)
-                            .padding(16.dp)
-                            .navigationBarsPadding(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        ProvideTextStyle(value = MaterialTheme.typography.bodyLarge) {
-                            RoundedTextField(
-                                maxLines = 1,
-                                hint = { Text(stringResource(id = R.string.search_here)) },
-                                keyboardOptions = KeyboardOptions.Default.copy(
-                                    imeAction = ImeAction.Search
-                                ),
-                                value = searchKeyword,
-                                onValueChange = {
-                                    searchKeyword = it
-                                },
-                                startIcon = {
+                    ProvideTextStyle(value = MaterialTheme.typography.bodyLarge) {
+                        RoundedTextField(
+                            maxLines = 1,
+                            hint = { Text(stringResource(id = R.string.search_here)) },
+                            keyboardOptions = KeyboardOptions.Default.copy(
+                                imeAction = ImeAction.Search
+                            ),
+                            value = searchKeyword,
+                            onValueChange = {
+                                searchKeyword = it
+                            },
+                            startIcon = {
+                                EnhancedIconButton(
+                                    containerColor = Color.Transparent,
+                                    contentColor = LocalContentColor.current,
+                                    enableAutoShadowAndBorder = false,
+                                    onClick = {
+                                        searchKeyword = ""
+                                        isSearching = false
+                                    },
+                                    modifier = Modifier.padding(start = 4.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                        contentDescription = stringResource(R.string.exit),
+                                        tint = MaterialTheme.colorScheme.onSurface
+                                    )
+                                }
+                            },
+                            endIcon = {
+                                AnimatedVisibility(
+                                    visible = searchKeyword.isNotEmpty(),
+                                    enter = fadeIn() + scaleIn(),
+                                    exit = fadeOut() + scaleOut()
+                                ) {
                                     EnhancedIconButton(
                                         containerColor = Color.Transparent,
                                         contentColor = LocalContentColor.current,
                                         enableAutoShadowAndBorder = false,
                                         onClick = {
                                             searchKeyword = ""
-                                            isSearching = false
                                         },
-                                        modifier = Modifier.padding(start = 4.dp)
+                                        modifier = Modifier.padding(end = 4.dp)
                                     ) {
                                         Icon(
-                                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                            contentDescription = stringResource(R.string.exit),
+                                            imageVector = Icons.Rounded.Close,
+                                            contentDescription = stringResource(R.string.close),
                                             tint = MaterialTheme.colorScheme.onSurface
                                         )
                                     }
-                                },
-                                endIcon = {
-                                    AnimatedVisibility(
-                                        visible = searchKeyword.isNotEmpty(),
-                                        enter = fadeIn() + scaleIn(),
-                                        exit = fadeOut() + scaleOut()
-                                    ) {
-                                        EnhancedIconButton(
-                                            containerColor = Color.Transparent,
-                                            contentColor = LocalContentColor.current,
-                                            enableAutoShadowAndBorder = false,
-                                            onClick = {
-                                                searchKeyword = ""
-                                            },
-                                            modifier = Modifier.padding(end = 4.dp)
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Rounded.Close,
-                                                contentDescription = stringResource(R.string.close),
-                                                tint = MaterialTheme.colorScheme.onSurface
-                                            )
-                                        }
-                                    }
-                                },
-                                shape = CircleShape
-                            )
-                        }
+                                }
+                            },
+                            shape = CircleShape
+                        )
                     }
                 } else {
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .drawHorizontalStroke(true, autoElevation = 6.dp)
-                            .background(SimpleSheetDefaults.barContainerColor)
-                            .padding(16.dp)
-                            .navigationBarsPadding()
-                            .padding(end = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         TitleItem(
@@ -598,7 +581,12 @@ fun AddFiltersSheet(
                 }
             }
         },
-        visible = visible
+        confirmButton = {},
+        enableBottomContentWeight = false,
+        visible = visible.value,
+        onDismiss = {
+            visible.value = it
+        }
     )
 
     var transformedBitmap by remember(previewBitmap) {

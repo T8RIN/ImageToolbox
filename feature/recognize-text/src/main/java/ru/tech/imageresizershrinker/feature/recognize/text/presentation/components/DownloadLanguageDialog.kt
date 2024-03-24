@@ -76,7 +76,7 @@ fun DownloadLanguageDialog(
                     stringResource(
                         id = R.string.download_description,
                         downloadDialogData.firstOrNull()?.type?.displayName ?: "",
-                        downloadDialogData.joinToString(separator = ", ") { it.name }
+                        downloadDialogData.joinToString(separator = ", ") { it.localizedName }
                     )
                 )
             },

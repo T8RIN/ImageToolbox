@@ -313,10 +313,11 @@ fun SimpleSheet(
     cancelable: Boolean = true,
     confirmButton: (@Composable RowScope.() -> Unit)? = null,
     dragHandle: @Composable ColumnScope.() -> Unit = { SimpleDragHandle() },
-    title: (@Composable () -> Unit)? = null,
+    title: (@Composable RowScope.() -> Unit)? = null,
     visible: Boolean,
     onDismiss: (Boolean) -> Unit,
     enableBackHandler: Boolean = true,
+    enableBottomContentWeight: Boolean = true,
     sheetContent: @Composable ColumnScope.() -> Unit,
 ) {
     val settingsState = LocalSettingsState.current
@@ -427,11 +428,16 @@ fun SimpleSheet(
                             .background(SimpleSheetDefaults.barContainerColor)
                             .navigationBarsPadding()
                             .padding(16.dp)
-                            .padding(end = 16.dp),
+                            .then(
+                                if (enableBottomContentWeight) Modifier.padding(end = 16.dp)
+                                else Modifier
+                            ),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         title()
-                        Spacer(modifier = Modifier.weight(1f))
+                        if (enableBottomContentWeight) {
+                            Spacer(modifier = Modifier.weight(1f))
+                        }
                         confirmButton()
                     }
                 }

@@ -15,7 +15,7 @@ aire = "0.9.90"
 jxlCoderCoil = "2.1.8"
 jxlCoder = "2.1.8"
 
-tesseract = "4.3.0"
+tesseract = "4.7.0"
 composeVersion = "1.7.0-alpha05"
 androidx-datastorePreferencesAndroid = "1.1.0-beta02"
 appUpdateKtx = "2.1.0"
