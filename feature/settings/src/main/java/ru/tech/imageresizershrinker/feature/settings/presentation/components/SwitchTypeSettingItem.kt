@@ -26,10 +26,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Android
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.ToggleOff
 import androidx.compose.material.icons.outlined.ToggleOn
+import androidx.compose.material.icons.rounded.Android
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material3.MaterialTheme
@@ -42,6 +42,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.SwitchType
@@ -73,7 +74,7 @@ fun SwitchTypeSettingItem(
         modifier = modifier,
         title = stringResource(id = R.string.switch_type),
         startIcon = Icons.Outlined.ToggleOn,
-        subtitle = settingsState.switchType.name,
+        subtitle = settingsState.switchType.title,
         onClick = {
             showSheet = true
         },
@@ -107,33 +108,18 @@ fun SwitchTypeSettingItem(
                 .verticalScroll(rememberScrollState())
                 .padding(8.dp)
         ) {
-            listOf(
-                Triple(
-                    stringResource(R.string.material_you),
-                    Icons.Outlined.AutoAwesome,
-                    SwitchType.MaterialYou
-                ),
-                Triple(
-                    stringResource(R.string.compose),
-                    Icons.Rounded.Cube,
-                    SwitchType.Compose
-                ),
-                Triple(
-                    stringResource(R.string.use_pixel_switch),
-                    Icons.Outlined.Android,
-                    SwitchType.Pixel
-                ),
-            ).forEachIndexed { index, (title, icon, switch) ->
-                val selected = switch == settingsState.switchType
+            SwitchType.entries.forEachIndexed { index, type ->
+                val selected = type == settingsState.switchType
                 PreferenceItem(
-                    onClick = { onValueChange(switch) },
-                    title = title,
+                    onClick = { onValueChange(type) },
+                    title = type.title,
+                    subtitle = type.subtitle,
                     color = takeColorFromScheme {
                         if (selected) secondaryContainer.copy(0.7f)
                         else SimpleSheetDefaults.contentContainerColor
                     },
                     shape = ContainerShapeDefaults.shapeForIndex(index, 3),
-                    startIcon = icon,
+                    startIcon = type.icon,
                     modifier = Modifier
                         .fillMaxWidth()
                         .border(
@@ -155,10 +141,26 @@ fun SwitchTypeSettingItem(
     }
 }
 
-private val SwitchType.name: String
+private val SwitchType.title: String
     @Composable
     get() = when (this) {
         SwitchType.MaterialYou -> stringResource(R.string.material_you)
         SwitchType.Compose -> stringResource(R.string.compose)
         SwitchType.Pixel -> stringResource(R.string.use_pixel_switch)
+    }
+
+private val SwitchType.subtitle: String
+    @Composable
+    get() = when (this) {
+        SwitchType.MaterialYou -> stringResource(R.string.material_you_switch_sub)
+        SwitchType.Compose -> stringResource(R.string.compose_switch_sub)
+        SwitchType.Pixel -> stringResource(R.string.use_pixel_switch_sub)
+    }
+
+
+private val SwitchType.icon: ImageVector
+    get() = when (this) {
+        SwitchType.MaterialYou -> Icons.Outlined.AutoAwesome
+        SwitchType.Compose -> Icons.Rounded.Cube
+        SwitchType.Pixel -> Icons.Rounded.Android
     }
