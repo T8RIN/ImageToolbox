@@ -212,7 +212,9 @@ internal abstract class SimpleCompressor {
             quality: Quality
         ): ByteArray = ByteArrayOutputStream().apply {
             use { out ->
-                image.compress(
+                image.copy(
+                    Bitmap.Config.ARGB_8888, false
+                ).compress(
                     Bitmap.CompressFormat.JPEG,
                     quality.qualityValue,
                     out
