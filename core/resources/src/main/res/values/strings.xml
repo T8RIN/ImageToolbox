@@ -886,4 +886,7 @@
     <string name="material_you_switch_sub">Uses View based material you switch, this one looks greater than others and have nice animations</string>
     <string name="max">Max</string>
     <string name="resize_anchor">Resize Anchor</string>
+    <string name="pixel_switch">Pixel</string>
+    <string name="fluent_switch">Fluent</string>
+    <string name="fluent_switch_sub">Uses Windows 11 styled switch based on \"Fluent\" design system</string>
 </resources>

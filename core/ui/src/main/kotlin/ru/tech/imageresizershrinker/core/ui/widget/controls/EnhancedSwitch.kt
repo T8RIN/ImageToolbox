@@ -46,6 +46,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.FluentSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.M3Switch
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PixelSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -145,11 +146,23 @@ fun EnhancedSwitch(
                         interactionSource = interactionSource
                     )
                 }
+
+                SwitchType.Fluent -> {
+                    FluentSwitch(
+                        modifier = switchModifier,
+                        colors = switchColors,
+                        checked = checked,
+                        enabled = enabled,
+                        onCheckedChange = switchOnCheckedChange,
+                        interactionSource = interactionSource
+                    )
+                }
             }
         }
     }
 }
 
+@Suppress("UnusedReceiverParameter")
 fun SwitchDefaults.transparentColors() = SwitchColors(
     Color.Transparent,
     Color.Transparent,

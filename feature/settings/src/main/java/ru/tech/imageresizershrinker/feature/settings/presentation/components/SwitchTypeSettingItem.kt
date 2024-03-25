@@ -26,10 +26,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.ToggleOff
 import androidx.compose.material.icons.outlined.ToggleOn
 import androidx.compose.material.icons.rounded.Android
+import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material3.MaterialTheme
@@ -37,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -49,6 +50,7 @@ import ru.tech.imageresizershrinker.core.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
+import ru.tech.imageresizershrinker.core.resources.icons.Windows
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -108,7 +110,11 @@ fun SwitchTypeSettingItem(
                 .verticalScroll(rememberScrollState())
                 .padding(8.dp)
         ) {
-            SwitchType.entries.forEachIndexed { index, type ->
+            val entries = remember {
+                SwitchType.entries
+            }
+
+            entries.forEachIndexed { index, type ->
                 val selected = type == settingsState.switchType
                 PreferenceItem(
                     onClick = { onValueChange(type) },
@@ -118,7 +124,7 @@ fun SwitchTypeSettingItem(
                         if (selected) secondaryContainer.copy(0.7f)
                         else SimpleSheetDefaults.contentContainerColor
                     },
-                    shape = ContainerShapeDefaults.shapeForIndex(index, 3),
+                    shape = ContainerShapeDefaults.shapeForIndex(index, entries.size),
                     startIcon = type.icon,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -146,7 +152,8 @@ private val SwitchType.title: String
     get() = when (this) {
         SwitchType.MaterialYou -> stringResource(R.string.material_you)
         SwitchType.Compose -> stringResource(R.string.compose)
-        SwitchType.Pixel -> stringResource(R.string.use_pixel_switch)
+        SwitchType.Pixel -> stringResource(R.string.pixel_switch)
+        SwitchType.Fluent -> stringResource(R.string.fluent_switch)
     }
 
 private val SwitchType.subtitle: String
@@ -155,12 +162,14 @@ private val SwitchType.subtitle: String
         SwitchType.MaterialYou -> stringResource(R.string.material_you_switch_sub)
         SwitchType.Compose -> stringResource(R.string.compose_switch_sub)
         SwitchType.Pixel -> stringResource(R.string.use_pixel_switch_sub)
+        SwitchType.Fluent -> stringResource(R.string.fluent_switch_sub)
     }
 
 
 private val SwitchType.icon: ImageVector
     get() = when (this) {
-        SwitchType.MaterialYou -> Icons.Outlined.AutoAwesome
+        SwitchType.MaterialYou -> Icons.Rounded.AutoAwesome
         SwitchType.Compose -> Icons.Rounded.Cube
         SwitchType.Pixel -> Icons.Rounded.Android
+        SwitchType.Fluent -> Icons.Rounded.Windows
     }
