@@ -475,6 +475,7 @@ or click one of the badges below.
   - Compose
   - Pixel
   - Fluent
+  - Cupertino
 
 (Yes, the app supports dynamic coloring based on wallpapers for every android version)
 
