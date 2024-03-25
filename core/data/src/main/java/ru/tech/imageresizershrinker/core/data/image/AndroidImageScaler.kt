@@ -238,14 +238,14 @@ internal class AndroidImageScaler @Inject constructor(
             val aspectRatio = image.aspectRatio
 
             if (aspectRatio <= 1f) {
-                scaleImage(
+                createScaledBitmap(
                     image = image,
                     width = width,
                     height = (width / aspectRatio).toInt(),
                     imageScaleMode = ImageScaleMode.NotPresent
                 )
             } else {
-                scaleImage(
+                createScaledBitmap(
                     image = image,
                     width = width,
                     height = (width * aspectRatio).toInt(),
@@ -258,14 +258,14 @@ internal class AndroidImageScaler @Inject constructor(
             val aspectRatio = image.aspectRatio
 
             if (aspectRatio <= 1f) {
-                scaleImage(
+                createScaledBitmap(
                     image = image,
                     width = (height * aspectRatio).toInt(),
                     height = height,
                     imageScaleMode = ImageScaleMode.NotPresent
                 )
             } else {
-                scaleImage(
+                createScaledBitmap(
                     image = image,
                     width = (height / aspectRatio).toInt(),
                     height = height,

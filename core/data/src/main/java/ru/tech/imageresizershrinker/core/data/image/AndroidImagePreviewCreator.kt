@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.data.image
 
-import android.annotation.TargetApi
 import android.graphics.Bitmap
 import android.os.Build
 import androidx.exifinterface.media.ExifInterface
@@ -119,7 +118,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
             )
         }
 
-        imageGetter.getImage(bytes) ?: image
+        imageScaler.scaleUntilCanShow(imageGetter.getImage(bytes) ?: image)
     }
 
     override fun canShow(
@@ -130,13 +129,18 @@ internal class AndroidImagePreviewCreator @Inject constructor(
         return size < 3096 * 3096 * 3
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
-    private fun Bitmap.size(): Int {
-        return width * height * when (config) {
+    private val Bitmap.configSize: Int
+        get() = when (config) {
             Bitmap.Config.RGB_565 -> 2
-            Bitmap.Config.RGBA_F16 -> 8
-            else -> 4
+            else -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    if (config == Bitmap.Config.RGBA_F16) 8 else 4
+                } else 4
+            }
         }
+
+    private fun Bitmap.size(): Int {
+        return width * height * configSize
     }
 
     private suspend fun compressCenterCrop(
