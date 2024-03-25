@@ -200,11 +200,12 @@ class CupertinoSwitchColors internal constructor(
     @Composable
     internal fun thumbColor(enabled: Boolean): State<Color> {
         return animateColorAsState(
-            if (enabled) {
+            targetValue = if (enabled) {
                 thumbColor
             } else {
                 disabledThumbColor
-            }
+            },
+            animationSpec = ColorAnimationSpec
         )
     }
 
@@ -220,11 +221,12 @@ class CupertinoSwitchColors internal constructor(
         checked: Boolean
     ): State<Color> {
         return animateColorAsState(
-            if (enabled) {
+            targetValue = if (enabled) {
                 if (checked) checkedTrackColor else uncheckedTrackColor
             } else {
                 if (checked) disabledCheckedTrackColor else disabledUncheckedTrackColor
-            }
+            },
+            animationSpec = ColorAnimationSpec
         )
     }
 
@@ -240,11 +242,12 @@ class CupertinoSwitchColors internal constructor(
         checked: Boolean
     ): State<Color> {
         return animateColorAsState(
-            if (enabled) {
+            targetValue = if (enabled) {
                 if (checked) checkedIconColor else uncheckedIconColor
             } else {
                 if (checked) disabledCheckedIconColor else disabledUncheckedIconColor
-            }
+            },
+            animationSpec = ColorAnimationSpec
         )
     }
 
