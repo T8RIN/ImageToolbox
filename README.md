@@ -473,7 +473,8 @@ or click one of the badges below.
 - Switch Type selection:
   - Material You
   - Compose
-  - Pixel Switch
+  - Pixel
+  - Fluent
 
 (Yes, the app supports dynamic coloring based on wallpapers for every android version)
 
