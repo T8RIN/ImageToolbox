@@ -111,9 +111,7 @@ fun CupertinoSwitch(
     }
 
     val state = rememberDraggableState {
-        alignment = with(density) {
-            (alignment + it).coerceIn(-1f, 1f)
-        }
+        alignment = (alignment + it).coerceIn(-1f, 1f)
     }
 
     val animatedAlignment by animateFloatAsState(
