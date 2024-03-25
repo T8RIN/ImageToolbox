@@ -48,7 +48,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
@@ -202,7 +201,7 @@ class CupertinoSwitchColors internal constructor(
      */
     @Composable
     internal fun thumbColor(enabled: Boolean): State<Color> {
-        return rememberUpdatedState(
+        return animateColorAsState(
             if (enabled) {
                 thumbColor
             } else {
@@ -222,7 +221,7 @@ class CupertinoSwitchColors internal constructor(
         enabled: Boolean,
         checked: Boolean
     ): State<Color> {
-        return rememberUpdatedState(
+        return animateColorAsState(
             if (enabled) {
                 if (checked) checkedTrackColor else uncheckedTrackColor
             } else {
@@ -242,7 +241,7 @@ class CupertinoSwitchColors internal constructor(
         enabled: Boolean,
         checked: Boolean
     ): State<Color> {
-        return rememberUpdatedState(
+        return animateColorAsState(
             if (enabled) {
                 if (checked) checkedIconColor else uncheckedIconColor
             } else {
