@@ -884,4 +884,6 @@
     <string name="compose">Compose</string>
     <string name="compose_switch_sub">Uses Jetpack Compose material you switch, it\'s not so beatyful as view based</string>
     <string name="material_you_switch_sub">Uses View based material you switch, this one looks greater than others and have nice animations</string>
+    <string name="max">Max</string>
+    <string name="resize_anchor">Resize Anchor</string>
 </resources>

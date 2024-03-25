@@ -18,10 +18,14 @@
 package ru.tech.imageresizershrinker.core.domain.model
 
 import ru.tech.imageresizershrinker.core.domain.Domain
+import ru.tech.imageresizershrinker.core.domain.ResizeAnchor
 
 sealed class ResizeType : Domain {
     data object Explicit : ResizeType()
-    data object Flexible : ResizeType()
+
+    data class Flexible(
+        val resizeAnchor: ResizeAnchor = ResizeAnchor.Default
+    ) : ResizeType()
 
     data class CenterCrop(
         val canvasColor: Int? = 0,
@@ -37,10 +41,12 @@ sealed class ResizeType : Domain {
     } else this
 
     companion object {
+        val Flexible = Flexible()
+
         val entries by lazy {
             listOf(
                 Explicit,
-                Flexible,
+                Flexible(),
                 CenterCrop()
             )
         }

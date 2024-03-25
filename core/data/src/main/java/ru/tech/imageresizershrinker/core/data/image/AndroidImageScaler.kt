@@ -27,8 +27,10 @@ import com.awxkee.aire.Aire
 import com.awxkee.aire.BitmapScaleMode
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.aspectRatio
 import ru.tech.imageresizershrinker.core.data.utils.toSoftware
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.domain.ResizeAnchor
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
@@ -62,17 +64,19 @@ internal class AndroidImageScaler @Inject constructor(
         when (resizeType) {
             ResizeType.Explicit -> {
                 createScaledBitmap(
-                    image,
+                    image = image,
                     width = widthInternal,
                     height = heightInternal,
                     imageScaleMode = imageScaleMode
                 )
             }
 
-            ResizeType.Flexible -> {
+            is ResizeType.Flexible -> {
                 flexibleResize(
                     image = image,
-                    max = max(widthInternal, heightInternal),
+                    width = widthInternal,
+                    height = heightInternal,
+                    resizeAnchor = resizeType.resizeAnchor,
                     imageScaleMode = imageScaleMode
                 )
             }
@@ -223,20 +227,78 @@ internal class AndroidImageScaler @Inject constructor(
 
     private suspend fun flexibleResize(
         image: Bitmap,
-        max: Int,
+        width: Int,
+        height: Int,
+        resizeAnchor: ResizeAnchor,
         imageScaleMode: ImageScaleMode
     ): Bitmap = withContext(dispatcher) {
-        runCatching {
-            if (image.height >= image.width) {
-                val aspectRatio = image.width.toDouble() / image.height.toDouble()
-                val targetWidth = (max * aspectRatio).toInt()
-                createScaledBitmap(image, targetWidth, max, imageScaleMode)
+        val max = max(width, height)
+
+        val scaleByWidth = suspend {
+            val aspectRatio = image.aspectRatio
+
+            if (aspectRatio <= 1f) {
+                scaleImage(
+                    image = image,
+                    width = width,
+                    height = (width / aspectRatio).toInt(),
+                    imageScaleMode = ImageScaleMode.NotPresent
+                )
             } else {
-                val aspectRatio = image.height.toDouble() / image.width.toDouble()
-                val targetHeight = (max * aspectRatio).toInt()
-                createScaledBitmap(image, max, targetHeight, imageScaleMode)
+                scaleImage(
+                    image = image,
+                    width = width,
+                    height = (width * aspectRatio).toInt(),
+                    imageScaleMode = ImageScaleMode.NotPresent
+                )
             }
-        }.getOrNull() ?: image
+        }
+
+        val scaleByHeight = suspend {
+            val aspectRatio = image.aspectRatio
+
+            if (aspectRatio <= 1f) {
+                scaleImage(
+                    image = image,
+                    width = (height * aspectRatio).toInt(),
+                    height = height,
+                    imageScaleMode = ImageScaleMode.NotPresent
+                )
+            } else {
+                scaleImage(
+                    image = image,
+                    width = (height / aspectRatio).toInt(),
+                    height = height,
+                    imageScaleMode = ImageScaleMode.NotPresent
+                )
+            }
+        }
+
+        when (resizeAnchor) {
+            ResizeAnchor.Max -> {
+                if (width >= height) {
+                    scaleByWidth()
+                } else scaleByHeight()
+            }
+
+            ResizeAnchor.Width -> scaleByWidth()
+
+            ResizeAnchor.Height -> scaleByHeight()
+
+            ResizeAnchor.Default -> {
+                runCatching {
+                    if (image.height >= image.width) {
+                        val aspectRatio = image.width.toDouble() / image.height.toDouble()
+                        val targetWidth = (max * aspectRatio).toInt()
+                        createScaledBitmap(image, targetWidth, max, imageScaleMode)
+                    } else {
+                        val aspectRatio = image.height.toDouble() / image.width.toDouble()
+                        val targetHeight = (max * aspectRatio).toInt()
+                        createScaledBitmap(image, max, targetHeight, imageScaleMode)
+                    }
+                }.getOrNull() ?: image
+            }
+        }
     }
 
 }

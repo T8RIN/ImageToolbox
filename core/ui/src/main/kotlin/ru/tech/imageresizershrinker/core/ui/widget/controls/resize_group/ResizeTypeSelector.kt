@@ -54,6 +54,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.tech.imageresizershrinker.core.domain.ResizeAnchor
 import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -110,24 +111,26 @@ fun ResizeTypeSelector(
             modifier = Modifier.padding(start = 3.dp, end = 2.dp),
             enabled = enabled,
             title = {
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = stringResource(R.string.resize_type),
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Medium
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    SupportingButton(
-                        onClick = {
-                            state.value = true
-                        }
-                    )
+                Column {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = stringResource(R.string.resize_type),
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Medium
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        SupportingButton(
+                            onClick = {
+                                state.value = true
+                            }
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
-                Spacer(modifier = Modifier.height(8.dp))
             },
             items = listOf(
                 stringResource(R.string.explicit),
@@ -135,10 +138,9 @@ fun ResizeTypeSelector(
                 stringResource(R.string.crop)
             ),
             selectedIndex = when (value) {
-                ResizeType.Explicit -> 0
-                ResizeType.Flexible -> 1
+                is ResizeType.Explicit -> 0
+                is ResizeType.Flexible -> 1
                 is ResizeType.CenterCrop -> 2
-                else -> throw IllegalStateException()
             },
             indexChanged = {
                 onValueChange(
@@ -151,6 +153,52 @@ fun ResizeTypeSelector(
                 )
             }
         )
+        AnimatedVisibility(
+            visible = value is ResizeType.Flexible,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
+            val entries = remember {
+                ResizeAnchor.entries
+            }
+            val selectedIndex by remember(entries, value) {
+                derivedStateOf {
+                    entries.indexOfFirst {
+                        it == (value as? ResizeType.Flexible)?.resizeAnchor
+                    }
+                }
+            }
+            ToggleGroupButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+                    .container(
+                        shape = RoundedCornerShape(16.dp),
+                        color = MaterialTheme.colorScheme.surface
+                    ),
+                itemCount = entries.size,
+                selectedIndex = selectedIndex,
+                itemContent = {
+                    Text(entries[it].title)
+                },
+                indexChanged = {
+                    onValueChange(
+                        ResizeType.Flexible(entries[it])
+                    )
+                },
+                title = {
+                    Text(
+                        text = stringResource(R.string.resize_anchor),
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(8.dp)
+                    )
+                },
+                inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer
+            )
+        }
         AnimatedVisibility(
             visible = value is ResizeType.CenterCrop,
             enter = fadeIn() + expandVertically(),
@@ -250,16 +298,23 @@ fun ResizeTypeSelector(
     )
 }
 
+private val ResizeAnchor.title: String
+    @Composable
+    get() = when (this) {
+        ResizeAnchor.Max -> stringResource(R.string.max)
+        ResizeAnchor.Width -> stringResource(R.string.width, "")
+        ResizeAnchor.Height -> stringResource(R.string.height, "")
+        ResizeAnchor.Default -> stringResource(R.string.basic, "")
+    }
+
 private fun ResizeType.getTitle(): Int = when (this) {
     is ResizeType.CenterCrop -> R.string.crop
     is ResizeType.Explicit -> R.string.explicit
     is ResizeType.Flexible -> R.string.flexible
-    else -> 0
 }
 
 private fun ResizeType.getSubtitle(): Int = when (this) {
     is ResizeType.CenterCrop -> R.string.crop_description
     is ResizeType.Explicit -> R.string.explicit_description
     is ResizeType.Flexible -> R.string.flexible_description
-    else -> 0
 }
