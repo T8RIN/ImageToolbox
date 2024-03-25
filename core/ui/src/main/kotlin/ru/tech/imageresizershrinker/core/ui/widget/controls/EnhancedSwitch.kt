@@ -46,6 +46,8 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.CupertinoSwitch
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.CupertinoSwitchDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.FluentSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.M3Switch
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PixelSwitch
@@ -155,6 +157,17 @@ fun EnhancedSwitch(
                         enabled = enabled,
                         onCheckedChange = switchOnCheckedChange,
                         interactionSource = interactionSource
+                    )
+                }
+
+                is SwitchType.Cupertino -> {
+                    CupertinoSwitch(
+                        checked = checked,
+                        onCheckedChange = switchOnCheckedChange,
+                        modifier = switchModifier,
+                        enabled = enabled,
+                        interactionSource = interactionSource,
+                        colors = CupertinoSwitchDefaults.colors()
                     )
                 }
             }

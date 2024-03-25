@@ -889,4 +889,6 @@
     <string name="pixel_switch">Pixel</string>
     <string name="fluent_switch">Fluent</string>
     <string name="fluent_switch_sub">Uses Windows 11 styled switch based on \"Fluent\" design system</string>
+    <string name="cupertino_switch">Cupertino</string>
+    <string name="cupertino_switch_sub">Uses IOS like switch based on cupertino design system</string>
 </resources>

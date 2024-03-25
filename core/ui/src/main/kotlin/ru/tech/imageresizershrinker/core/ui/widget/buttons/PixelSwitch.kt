@@ -195,11 +195,11 @@ private fun borderColor(
     if (checked) colors.disabledCheckedBorderColor else colors.disabledUncheckedBorderColor
 }
 
-internal val TrackWidth = 56.0.dp
-internal val TrackHeight = 28.0.dp
-internal val TrackOutlineWidth = 1.8.dp
-internal val SelectedHandleSize = 20.0.dp
-internal val UnselectedHandleSize = 20.0.dp
+private val TrackWidth = 56.0.dp
+private val TrackHeight = 28.0.dp
+private val TrackOutlineWidth = 1.8.dp
+private val SelectedHandleSize = 20.0.dp
+private val UnselectedHandleSize = 20.0.dp
 
-internal val ThumbPaddingStart = (TrackHeight - UnselectedHandleSize) / 2
-internal val ThumbPaddingEnd = TrackWidth - SelectedHandleSize / 2 - TrackHeight / 2
+private val ThumbPaddingStart = (TrackHeight - UnselectedHandleSize) / 2
+private val ThumbPaddingEnd = TrackWidth - SelectedHandleSize / 2 - TrackHeight / 2

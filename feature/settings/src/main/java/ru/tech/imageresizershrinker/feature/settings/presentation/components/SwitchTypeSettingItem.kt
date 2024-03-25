@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
+import ru.tech.imageresizershrinker.core.resources.icons.IOS
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.resources.icons.Windows
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
@@ -154,6 +155,7 @@ private val SwitchType.title: String
         SwitchType.Compose -> stringResource(R.string.compose)
         SwitchType.Pixel -> stringResource(R.string.pixel_switch)
         SwitchType.Fluent -> stringResource(R.string.fluent_switch)
+        SwitchType.Cupertino -> stringResource(R.string.cupertino_switch)
     }
 
 private val SwitchType.subtitle: String
@@ -163,6 +165,7 @@ private val SwitchType.subtitle: String
         SwitchType.Compose -> stringResource(R.string.compose_switch_sub)
         SwitchType.Pixel -> stringResource(R.string.use_pixel_switch_sub)
         SwitchType.Fluent -> stringResource(R.string.fluent_switch_sub)
+        SwitchType.Cupertino -> stringResource(R.string.cupertino_switch_sub)
     }
 
 
@@ -172,4 +175,5 @@ private val SwitchType.icon: ImageVector
         SwitchType.Compose -> Icons.Rounded.Cube
         SwitchType.Pixel -> Icons.Rounded.Android
         SwitchType.Fluent -> Icons.Rounded.Windows
+        SwitchType.Cupertino -> Icons.Rounded.IOS
     }
