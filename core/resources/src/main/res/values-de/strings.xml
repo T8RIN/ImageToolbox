@@ -32,7 +32,7 @@
     <string name="smth_went_wrong">Etwas ging schief: %1$s</string>
     <string name="image_too_large_preview">Bild ist zu groß für die Vorschau, es wird aber trotzdem versucht es zu speichern</string>
     <string name="loading">Lade…</string>
-    <string name="pick_image">Wähle Bild zum Starten</string>
+    <string name="pick_image">Wähle ein Bild zum Starten</string>
     <string name="width">Breite %1$s</string>
     <string name="reset_image">Bild zurücksetzen</string>
     <string name="something_went_wrong">Irgendetwas ging schief</string>
@@ -41,7 +41,7 @@
     <string name="stay">Bleiben</string>
     <string name="add_tag">Tag hinzufügen</string>
     <string name="flexible">Flexibel</string>
-    <string name="pick_image_alt">Wähle Bild</string>
+    <string name="pick_image_alt">Bild auswählen</string>
     <string name="app_closing">Schließe App</string>
     <string name="reset">Zurücksetzen</string>
     <string name="app_closing_sub">Möchtest du die App wirklich schließen\?</string>
@@ -861,4 +861,5 @@
     <string name="show_settings_in_landscape">Zeige die Einstellungen im Querformat</string>
     <string name="show_settings_in_landscape_sub">Wenn deaktiviert, werden die Einstellungen im Querformat über die Taste in der oberen App-Leiste aufgerufen, anstatt immer sichtbar zu sein</string>
     <string name="fullscreen_settings">Vollbild-Einstellungen</string>
+    <string name="switch_type">Schalter Typ</string>
 </resources>
