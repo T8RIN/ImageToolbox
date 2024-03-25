@@ -136,7 +136,7 @@ fun EnhancedSwitch(
                     )
                 }
 
-                SwitchType.Pixel -> {
+                is SwitchType.Pixel -> {
                     PixelSwitch(
                         modifier = switchModifier,
                         colors = switchColors,
@@ -147,7 +147,7 @@ fun EnhancedSwitch(
                     )
                 }
 
-                SwitchType.Fluent -> {
+                is SwitchType.Fluent -> {
                     FluentSwitch(
                         modifier = switchModifier,
                         colors = switchColors,
