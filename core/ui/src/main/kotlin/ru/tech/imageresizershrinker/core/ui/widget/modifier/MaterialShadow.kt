@@ -19,7 +19,6 @@ package ru.tech.imageresizershrinker.core.ui.widget.modifier
 
 import android.os.Build
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -37,14 +36,13 @@ import androidx.compose.ui.unit.dp
 import com.gigamole.composeshadowsplus.rsblur.rsBlurShadow
 import com.zedalpha.shadowgadgets.compose.clippedShadow
 
-@Composable
 fun Modifier.materialShadow(
     shape: Shape,
     elevation: Dp,
     enabled: Boolean = true,
     isClipped: Boolean = true,
     color: Color = Color.Black
-) = this.composed {
+) = composed {
     val isConcavePath by remember(shape) {
         derivedStateOf {
             shape.createOutline(

@@ -32,18 +32,16 @@ import androidx.compose.material.icons.outlined.Draw
 import androidx.compose.material.icons.outlined.FilterHdr
 import androidx.compose.material.icons.outlined.FolderZip
 import androidx.compose.material.icons.outlined.GifBox
+import androidx.compose.material.icons.outlined.Gradient
 import androidx.compose.material.icons.outlined.Photo
 import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.rounded.Animation
 import androidx.compose.material.icons.rounded.Compare
 import androidx.compose.material.icons.rounded.Gif
-import androidx.compose.material.icons.rounded.Gradient
 import androidx.compose.material.icons.rounded.Preview
 import androidx.compose.material.icons.rounded.Texture
 import androidx.compose.ui.graphics.vector.ImageVector
-import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Apng
 import ru.tech.imageresizershrinker.core.resources.icons.ApngBox
@@ -67,7 +65,6 @@ import ru.tech.imageresizershrinker.core.resources.icons.Transparency
 @Parcelize
 sealed class Screen(
     open val id: Int,
-    val icon: @RawValue ImageVector?,
     @StringRes val title: Int,
     @StringRes val subtitle: Int
 ) : Parcelable {
@@ -103,23 +100,51 @@ sealed class Screen(
             is Zip -> "Zip"
         }
 
+    val icon: ImageVector?
+        get() = when (this) {
+            is SingleEdit -> Icons.Outlined.ImageEdit
+            is ApngTools -> Icons.Rounded.ApngBox
+            is Cipher -> Icons.Outlined.Encrypted
+            is Compare -> Icons.Rounded.Compare
+            is Crop -> Icons.Rounded.CropSmall
+            is DeleteExif -> Icons.Outlined.Exif
+            is Draw -> Icons.Outlined.Draw
+            is EraseBackground -> Icons.Filled.Transparency
+            is Filter -> Icons.Outlined.AutoFixHigh
+            is GeneratePalette -> Icons.Outlined.PaletteSwatch
+            is GifTools -> Icons.Outlined.GifBox
+            is GradientMaker -> Icons.Outlined.Gradient
+            is ImagePreview -> Icons.Outlined.Photo
+            is ImageStitching -> Icons.Rounded.ImageCombine
+            is JxlTools -> Icons.Filled.Jxl
+            is LimitResize -> Icons.Outlined.ImageLimit
+            is LoadNetImage -> Icons.Outlined.ImageDownload
+            is PdfTools -> Icons.Outlined.PictureAsPdf
+            is PickColorFromImage -> Icons.Outlined.Colorize
+            is RecognizeText -> Icons.Outlined.ImageText
+            is ResizeAndConvert -> Icons.Rounded.MultipleImageEdit
+            is ResizeByBytes -> Icons.Rounded.ImageWeight
+            is Watermarking -> Icons.AutoMirrored.Outlined.BrandingWatermark
+            is Zip -> Icons.Outlined.FolderZip
+            EasterEgg,
+            Main,
+            Settings -> null
+        }
+
     data object Settings : Screen(
         id = -3,
-        icon = null,
         title = 0,
         subtitle = 0
     )
 
     data object EasterEgg : Screen(
         id = -2,
-        icon = null,
         title = 0,
         subtitle = 0
     )
 
     data object Main : Screen(
         id = -1,
-        icon = null,
         title = 0,
         subtitle = 0
     )
@@ -128,7 +153,6 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 0,
-        icon = Icons.Outlined.ImageEdit,
         title = R.string.single_edit,
         subtitle = R.string.single_edit_sub
     )
@@ -137,7 +161,6 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 1,
-        icon = Icons.Rounded.MultipleImageEdit,
         title = R.string.resize_and_convert,
         subtitle = R.string.resize_and_convert_sub
     )
@@ -146,7 +169,6 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 2,
-        icon = Icons.Rounded.ImageWeight,
         title = R.string.by_bytes_resize,
         subtitle = R.string.by_bytes_resize_sub
     )
@@ -155,7 +177,6 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 3,
-        icon = Icons.Rounded.CropSmall,
         title = R.string.crop,
         subtitle = R.string.crop_sub
     )
@@ -164,31 +185,33 @@ sealed class Screen(
         val type: Type? = null
     ) : Screen(
         id = 4,
-        icon = Icons.Outlined.AutoFixHigh,
         title = R.string.filter,
         subtitle = R.string.filter_sub
     ) {
         @Parcelize
         sealed class Type(
             @StringRes val title: Int,
-            @StringRes val subtitle: Int,
-            @IgnoredOnParcel val icon: ImageVector? = null
+            @StringRes val subtitle: Int
         ) : Parcelable {
+
+            val icon: ImageVector
+                get() = when (this) {
+                    is Masking -> Icons.Rounded.Texture
+                    is Basic -> Icons.Outlined.AutoFixHigh
+                }
 
             data class Masking(
                 val uri: Uri? = null
             ) : Type(
                 title = R.string.mask_filter,
-                subtitle = R.string.mask_filter_sub,
-                icon = Icons.Rounded.Texture
+                subtitle = R.string.mask_filter_sub
             )
 
             data class Basic(
                 val uris: List<Uri>? = null
             ) : Type(
                 title = R.string.full_filter,
-                subtitle = R.string.full_filter_sub,
-                icon = Icons.Outlined.AutoFixHigh
+                subtitle = R.string.full_filter_sub
             )
 
             companion object {
@@ -206,7 +229,6 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 5,
-        icon = Icons.Outlined.Draw,
         title = R.string.draw,
         subtitle = R.string.draw_sub
     )
@@ -215,7 +237,6 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 6,
-        icon = Icons.Outlined.Encrypted,
         title = R.string.cipher,
         subtitle = R.string.cipher_sub
     )
@@ -224,7 +245,6 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 7,
-        icon = Icons.Filled.Transparency,
         title = R.string.background_remover,
         subtitle = R.string.background_remover_sub
     )
@@ -233,7 +253,6 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 8,
-        icon = Icons.Outlined.Photo,
         title = R.string.image_preview,
         subtitle = R.string.image_preview_sub
     )
@@ -242,7 +261,6 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 9,
-        icon = Icons.Rounded.ImageCombine,
         title = R.string.image_stitching,
         subtitle = R.string.image_stitching_sub
     )
@@ -251,7 +269,6 @@ sealed class Screen(
         val url: String = ""
     ) : Screen(
         id = 10,
-        icon = Icons.Outlined.ImageDownload,
         title = R.string.load_image_from_net,
         subtitle = R.string.load_image_from_net_sub
     )
@@ -260,7 +277,6 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 11,
-        icon = Icons.Outlined.Colorize,
         title = R.string.pick_color,
         subtitle = R.string.pick_color_sub
     )
@@ -269,7 +285,6 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 12,
-        icon = Icons.Outlined.PaletteSwatch,
         title = R.string.generate_palette,
         subtitle = R.string.palette_sub
     )
@@ -278,7 +293,6 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 13,
-        icon = Icons.Outlined.Exif,
         title = R.string.delete_exif,
         subtitle = R.string.delete_exif_sub
     )
@@ -287,7 +301,6 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 14,
-        icon = Icons.Rounded.Compare,
         title = R.string.compare,
         subtitle = R.string.compare_sub
     )
@@ -296,7 +309,6 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 15,
-        icon = Icons.Outlined.ImageLimit,
         title = R.string.limits_resize,
         subtitle = R.string.limits_resize_sub
     )
@@ -305,38 +317,41 @@ sealed class Screen(
         val type: Type? = null
     ) : Screen(
         id = 16,
-        icon = Icons.Outlined.PictureAsPdf,
         title = R.string.pdf_tools,
         subtitle = R.string.pdf_tools_sub
     ) {
         @Parcelize
         sealed class Type(
             @StringRes val title: Int,
-            @StringRes val subtitle: Int,
-            @IgnoredOnParcel val icon: ImageVector? = null
+            @StringRes val subtitle: Int
         ) : Parcelable {
+
+            val icon: ImageVector
+                get() = when (this) {
+                    is ImagesToPdf -> Icons.Outlined.PictureAsPdf
+                    is PdfToImages -> Icons.Outlined.Collections
+                    is Preview -> Icons.Rounded.Preview
+                }
+
             data class Preview(
                 val pdfUri: Uri? = null
             ) : Type(
                 title = R.string.preview_pdf,
-                subtitle = R.string.preview_pdf_sub,
-                icon = Icons.Rounded.Preview
+                subtitle = R.string.preview_pdf_sub
             )
 
             data class PdfToImages(
                 val pdfUri: Uri? = null
             ) : Type(
                 title = R.string.pdf_to_images,
-                subtitle = R.string.pdf_to_images_sub,
-                icon = Icons.Outlined.Collections
+                subtitle = R.string.pdf_to_images_sub
             )
 
             data class ImagesToPdf(
                 val imageUris: List<Uri>? = null
             ) : Type(
                 title = R.string.images_to_pdf,
-                subtitle = R.string.images_to_pdf_sub,
-                icon = Icons.Outlined.PictureAsPdf
+                subtitle = R.string.images_to_pdf_sub
             )
 
             companion object {
@@ -355,7 +370,6 @@ sealed class Screen(
         val uri: Uri? = null
     ) : Screen(
         id = 17,
-        icon = Icons.Outlined.ImageText,
         title = R.string.recognize_text,
         subtitle = R.string.recognize_text_sub
     )
@@ -364,7 +378,6 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 18,
-        icon = Icons.Rounded.Gradient,
         title = R.string.gradient_maker,
         subtitle = R.string.gradient_maker_sub,
     )
@@ -373,7 +386,6 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 19,
-        icon = Icons.AutoMirrored.Outlined.BrandingWatermark,
         title = R.string.watermarking,
         subtitle = R.string.watermarking_sub,
     )
@@ -382,39 +394,41 @@ sealed class Screen(
         val type: Type? = null
     ) : Screen(
         id = 20,
-        icon = Icons.Outlined.GifBox,
         title = R.string.gif_tools,
         subtitle = R.string.gif_tools_sub
     ) {
         @Parcelize
         sealed class Type(
             @StringRes val title: Int,
-            @StringRes val subtitle: Int,
-            @IgnoredOnParcel val icon: ImageVector? = null
+            @StringRes val subtitle: Int
         ) : Parcelable {
+
+            val icon: ImageVector
+                get() = when (this) {
+                    is GifToImage -> Icons.Outlined.Collections
+                    is GifToJxl -> Icons.Filled.Jxl
+                    is ImageToGif -> Icons.Rounded.Gif
+                }
 
             data class GifToImage(
                 val gifUri: Uri? = null
             ) : Type(
                 title = R.string.gif_type_to_image,
-                subtitle = R.string.gif_type_to_image_sub,
-                icon = Icons.Outlined.Collections
+                subtitle = R.string.gif_type_to_image_sub
             )
 
             data class ImageToGif(
                 val imageUris: List<Uri>? = null
             ) : Type(
                 title = R.string.gif_type_to_gif,
-                subtitle = R.string.gif_type_to_gif_sub,
-                icon = Icons.Rounded.Gif
+                subtitle = R.string.gif_type_to_gif_sub
             )
 
             data class GifToJxl(
                 val gifUris: List<Uri>? = null
             ) : Type(
                 title = R.string.gif_type_to_jxl,
-                subtitle = R.string.gif_type_to_jxl_sub,
-                icon = Icons.Filled.Jxl
+                subtitle = R.string.gif_type_to_jxl_sub
             )
 
             companion object {
@@ -433,39 +447,41 @@ sealed class Screen(
         val type: Type? = null
     ) : Screen(
         id = 21,
-        icon = Icons.Rounded.ApngBox,
         title = R.string.apng_tools,
         subtitle = R.string.apng_tools_sub
     ) {
         @Parcelize
         sealed class Type(
             @StringRes val title: Int,
-            @StringRes val subtitle: Int,
-            @IgnoredOnParcel val icon: ImageVector? = null
+            @StringRes val subtitle: Int
         ) : Parcelable {
+
+            val icon: ImageVector
+                get() = when (this) {
+                    is ApngToImage -> Icons.Outlined.Collections
+                    is ApngToJxl -> Icons.Filled.Jxl
+                    is ImageToApng -> Icons.Rounded.Apng
+                }
 
             data class ApngToImage(
                 val apngUri: Uri? = null
             ) : Type(
                 title = R.string.apng_type_to_image,
-                subtitle = R.string.apng_type_to_image_sub,
-                icon = Icons.Outlined.Collections
+                subtitle = R.string.apng_type_to_image_sub
             )
 
             data class ImageToApng(
                 val imageUris: List<Uri>? = null
             ) : Type(
                 title = R.string.apng_type_to_apng,
-                subtitle = R.string.apng_type_to_apng_sub,
-                icon = Icons.Rounded.Apng
+                subtitle = R.string.apng_type_to_apng_sub
             )
 
             data class ApngToJxl(
                 val apngUris: List<Uri>? = null
             ) : Type(
                 title = R.string.apng_type_to_jxl,
-                subtitle = R.string.apng_type_to_jxl_sub,
-                icon = Icons.Filled.Jxl
+                subtitle = R.string.apng_type_to_jxl_sub
             )
 
             companion object {
@@ -484,7 +500,6 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 22,
-        icon = Icons.Outlined.FolderZip,
         title = R.string.zip,
         subtitle = R.string.zip_sub
     )
@@ -492,48 +507,50 @@ sealed class Screen(
     data class JxlTools(
         val type: Type? = null
     ) : Screen(
-        id = 20,
-        icon = Icons.Filled.Jxl,
+        id = 23,
         title = R.string.jxl_tools,
         subtitle = R.string.jxl_tools_sub
     ) {
         @Parcelize
         sealed class Type(
             @StringRes val title: Int,
-            @StringRes val subtitle: Int,
-            @IgnoredOnParcel val icon: ImageVector? = null
+            @StringRes val subtitle: Int
         ) : Parcelable {
+
+            val icon: ImageVector
+                get() = when (this) {
+                    is ImageToJxl -> Icons.Rounded.Animation
+                    is JpegToJxl -> Icons.Filled.Jxl
+                    is JxlToImage -> Icons.Outlined.Collections
+                    is JxlToJpeg -> Icons.Outlined.Jpg
+                }
 
             data class JxlToJpeg(
                 val jxlImageUris: List<Uri>? = null
             ) : Type(
                 title = R.string.jxl_type_to_jpeg,
-                subtitle = R.string.jxl_type_to_jpeg_sub,
-                icon = Icons.Outlined.Jpg
+                subtitle = R.string.jxl_type_to_jpeg_sub
             )
 
             data class JpegToJxl(
                 val jpegImageUris: List<Uri>? = null
             ) : Type(
                 title = R.string.jpeg_type_to_jxl,
-                subtitle = R.string.jpeg_type_to_jxl_sub,
-                icon = Icons.Filled.Jxl
+                subtitle = R.string.jpeg_type_to_jxl_sub
             )
 
             data class JxlToImage(
                 val jxlUri: Uri? = null
             ) : Type(
                 title = R.string.jxl_type_to_images,
-                subtitle = R.string.jxl_type_to_images_sub,
-                icon = Icons.Outlined.Collections
+                subtitle = R.string.jxl_type_to_images_sub
             )
 
             data class ImageToJxl(
                 val imageUris: List<Uri>? = null
             ) : Type(
                 title = R.string.jxl_type_to_jxl,
-                subtitle = R.string.jxl_type_to_jxl_sub,
-                icon = Icons.Rounded.Animation
+                subtitle = R.string.jxl_type_to_jxl_sub
             )
 
             companion object {

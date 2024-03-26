@@ -20,6 +20,7 @@
 package ru.tech.imageresizershrinker.core.ui.widget.buttons
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -53,7 +54,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
@@ -61,6 +61,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.blend
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 /**
  * Cupertino Design Switch.
@@ -157,18 +158,21 @@ fun CupertinoSwitch(
         Box(
             Modifier
                 .fillMaxHeight()
-                .clip(CupertinoSwitchDefaults.Shape)
                 .aspectRatio(animatedAspectRatio)
                 .align(BiasAlignment.Horizontal(animatedAlignment))
-                .let {
-                    if (enabled) {
-                        it.shadow(
-                            elevation = CupertinoSwitchDefaults.EnabledThumbElevation,
-                            shape = CupertinoSwitchDefaults.Shape
-                        )
-                    } else it.clip(CupertinoSwitchDefaults.Shape)
-                }
-                .background(colors.thumbColor(enabled).value)
+                .container(
+                    shape = CupertinoSwitchDefaults.Shape,
+                    resultPadding = 0.dp,
+                    autoShadowElevation = animateDpAsState(
+                        if (enabled && LocalSettingsState.current.drawSwitchShadows) {
+                            CupertinoSwitchDefaults.EnabledThumbElevation
+                        } else 0.dp
+                    ).value,
+                    borderColor = Color.Transparent,
+                    isShadowClip = true,
+                    isStandaloneContainer = false,
+                    color = colors.thumbColor(enabled).value
+                )
         )
     }
 }
