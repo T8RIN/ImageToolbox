@@ -79,7 +79,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -353,9 +352,7 @@ fun GeneratePaletteScreen(
         isPortrait = isPortrait
     )
 
-    var colorPickerValue by rememberSaveable(
-        stateSaver = ColorSaver
-    ) {
+    var colorPickerValue by rememberSaveable {
         mutableStateOf(Color.Black)
     }
     PickColorFromImageSheet(

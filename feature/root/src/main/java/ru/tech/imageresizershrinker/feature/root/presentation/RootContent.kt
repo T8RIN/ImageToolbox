@@ -64,6 +64,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.UpdateSheet
 import ru.tech.imageresizershrinker.core.ui.widget.haptics.customHapticFeedback
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
+import ru.tech.imageresizershrinker.core.ui.widget.saver.EnhancedAutoSaverInit
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
 import ru.tech.imageresizershrinker.feature.root.presentation.components.AppExitDialog
@@ -78,6 +79,8 @@ import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootView
 fun RootContent(
     viewModel: RootViewModel
 ) {
+    EnhancedAutoSaverInit()
+
     val context = LocalContext.current as ComponentActivity
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }

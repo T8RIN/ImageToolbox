@@ -155,7 +155,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -313,10 +312,7 @@ fun DrawScreen(
         stateSaver = PtSaver
     ) { mutableStateOf(20.pt) }
 
-    var drawColor by rememberSaveable(
-        stateSaver = ColorSaver,
-        inputs = arrayOf(viewModel.drawBehavior)
-    ) { mutableStateOf(Color.Black) }
+    var drawColor by rememberSaveable(arrayOf(viewModel.drawBehavior)) { mutableStateOf(Color.Black) }
     var isEraserOn by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(false) }
     var drawMode by rememberSaveable(
         stateSaver = DrawModeSaver,
@@ -969,7 +965,7 @@ fun DrawScreen(
         }
     }
 
-    var colorPickerColor by rememberSaveable(stateSaver = ColorSaver) { mutableStateOf(Color.Black) }
+    var colorPickerColor by rememberSaveable { mutableStateOf(Color.Black) }
     PickColorFromImageSheet(
         visible = showPickColorSheet,
         bitmap = viewModel.colorPickerBitmap,

@@ -67,9 +67,7 @@ internal fun FirstLaunchSetupDialog(
 
     val settingsState = LocalSettingsState.current
     var updateOnFirstOpen by rememberSaveable(settingsState.appOpenCount) {
-        mutableStateOf(
-            true
-        )
+        mutableStateOf(true)
     }
     if (settingsState.isFirstLaunch(false) && updateOnFirstOpen) {
         LaunchedEffect(Unit) {

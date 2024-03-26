@@ -72,7 +72,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientation
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
-import ru.tech.imageresizershrinker.core.ui.widget.saver.ColorSaver
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
@@ -123,9 +122,7 @@ fun DrawEditOption(
         var isEraserOn by rememberSaveable { mutableStateOf(false) }
 
         var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(20.pt) }
-        var drawColor by rememberSaveable(
-            stateSaver = ColorSaver
-        ) { mutableStateOf(Color.Black) }
+        var drawColor by rememberSaveable { mutableStateOf(Color.Black) }
         var drawMode by rememberSaveable(stateSaver = DrawModeSaver) { mutableStateOf(DrawMode.Pen) }
         var alpha by rememberSaveable(drawMode) {
             mutableFloatStateOf(if (drawMode is DrawMode.Highlighter) 0.4f else 1f)
@@ -339,7 +336,7 @@ fun DrawEditOption(
                 }
             }
         }
-        var color by rememberSaveable(stateSaver = ColorSaver) {
+        var color by rememberSaveable {
             mutableStateOf(Color.Black)
         }
         PickColorFromImageSheet(

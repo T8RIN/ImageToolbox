@@ -15,14 +15,16 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.widget.saver
+package ru.tech.imageresizershrinker.core.di
 
-import androidx.compose.runtime.saveable.Saver
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
+import android.content.Context
+import dagger.hilt.android.EntryPointAccessors
 
-
-val ColorSaver: Saver<Color, Int> = Saver(
-    save = { it.toArgb() },
-    restore = { Color(it) }
+inline fun <reified T> Context.entryPoint(
+    action: T.() -> Unit = {}
+) = action(
+    EntryPointAccessors.fromApplication(
+        context = this,
+        entryPoint = T::class.java
+    )
 )

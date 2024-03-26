@@ -186,10 +186,11 @@ fun ColorTuplePicker(
                     }
                     item(
                         span = {
-                            if (settingsState.themeStyle == PaletteStyle.TonalSpot) GridItemSpan(
-                                maxCurrentLineSpan
-                            )
-                            else GridItemSpan(1)
+                            if (settingsState.themeStyle != PaletteStyle.TonalSpot) {
+                                GridItemSpan(
+                                    maxCurrentLineSpan
+                                )
+                            } else GridItemSpan(1)
                         }
                     ) {
                         Column(

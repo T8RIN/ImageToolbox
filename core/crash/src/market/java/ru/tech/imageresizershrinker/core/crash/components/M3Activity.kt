@@ -28,28 +28,28 @@ import androidx.lifecycle.lifecycleScope
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import ru.tech.imageresizershrinker.core.crash.CrashActivity
 import ru.tech.imageresizershrinker.core.crash.SettingsStateEntryPoint
+import ru.tech.imageresizershrinker.core.di.entryPoint
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.adjustFontSize
 
 @AndroidEntryPoint
 open class M3Activity : AppCompatActivity() {
-
     private val settingsState = mutableStateOf(SettingsState.Default)
 
     fun getSettingsState(): SettingsState = settingsState.value
 
     override fun attachBaseContext(newBase: Context) {
-        settingsState.value = runBlocking {
-            EntryPointAccessors
-                .fromApplication(newBase, SettingsStateEntryPoint::class.java)
-                .settingsRepository.getSettingsState()
+        newBase.entryPoint<SettingsStateEntryPoint> {
+            runBlocking {
+                settingsState.value = settingsRepository.getSettingsState()
+            }
         }
         val newOverride = Configuration(newBase.resources?.configuration)
         settingsState.value.fontScale?.let { newOverride.fontScale = it }
@@ -69,22 +69,19 @@ open class M3Activity : AppCompatActivity() {
         )
         Firebase.analytics.setAnalyticsCollectionEnabled(settingsState.value.allowCollectCrashlytics)
         lifecycleScope.launch {
-            EntryPointAccessors
-                .fromApplication(
-                    this@M3Activity.applicationContext,
-                    SettingsStateEntryPoint::class.java
-                )
-                .settingsRepository
-                .getSettingsStateFlow()
-                .collect {
-                    settingsState.value = it
-                }
+            entryPoint<SettingsStateEntryPoint> {
+                settingsRepository
+                    .getSettingsStateFlow()
+                    .collect {
+                        settingsState.value = it
+                    }
+            }
         }
     }
 
     override fun recreate() {
         CoroutineScope(Dispatchers.Main.immediate).launch {
-            kotlinx.coroutines.delay(10L)
+            delay(10L)
             super.recreate()
         }
     }
