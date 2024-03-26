@@ -43,7 +43,7 @@ fun SettingGroupItem(
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(2.dp),
-    content: @Composable ColumnScope.() -> Unit
+    content: @Composable ColumnScope.(Boolean) -> Unit
 ) {
     val interactionSource = remember {
         MutableInteractionSource()
@@ -67,7 +67,7 @@ fun SettingGroupItem(
             MaterialTheme.colorScheme.surfaceContainerLowest, 0.4f
         ),
         shape = RoundedCornerShape(cornerSize),
-        expandableContent = { content() },
+        expandableContent = content,
         initialState = initialState,
         interactionSource = interactionSource
     )
