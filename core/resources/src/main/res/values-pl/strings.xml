@@ -864,4 +864,13 @@
     <string name="compose">Skomponuj</string>
     <string name="fullscreen_settings">Ustawienia trybu pełnoekranowego</string>
     <string name="fullscreen_settings_sub">Włączenie tej opcji spowoduje, że strona ustawień będzie zawsze otwierana jako pełnoekranowa zamiast wysuwanego arkusza szuflady</string>
+    <string name="material_you_switch_sub">Używa przełącznika typu \"View based material you\", ten wygląda lepiej niż inne i ma ładne animacje</string>
+    <string name="compose_switch_sub">Używa przełącznika w stylu \"Jetpack Compose material you\", nie jest tak piękny, jak \" view based\"</string>
+    <string name="max">Maks.</string>
+    <string name="resize_anchor">Zmiana rozmiaru zakotwiczenia</string>
+    <string name="pixel_switch">Pixel</string>
+    <string name="fluent_switch">Fluent</string>
+    <string name="fluent_switch_sub">Wykorzystuje przełącznik w stylu Windows 11, oparty na systemie projektowania \"Fluent\"</string>
+    <string name="cupertino_switch">Cupertino</string>
+    <string name="cupertino_switch_sub">Używa przełącznika podobnego do IOS opartego na systemie projektowania Cupertino</string>
 </resources>
