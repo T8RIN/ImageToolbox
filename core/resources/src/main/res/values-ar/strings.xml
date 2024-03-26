@@ -866,4 +866,11 @@
     <string name="compose">تركيب</string>
     <string name="compose_switch_sub">يستخدم مادة Jetpack Compose التي تقوم بتبديلها، فهي ليست جميلة بقدر ما تعتمد على طريقة العرض</string>
     <string name="material_you_switch_sub">الاستخدامات تعتمد على عرض المواد التي تقوم بتبديلها، وهذه المادة تبدو أفضل من غيرها وتحتوي على رسوم متحركة رائعة</string>
+    <string name="resize_anchor">تغيير حجم الارتساء</string>
+    <string name="fluent_switch">طلِق</string>
+    <string name="max">الأعلى</string>
+    <string name="pixel_switch">بكسل</string>
+    <string name="fluent_switch_sub">يستخدم مفتاح Windows 11 المصمم على أساس نظام التصميم \"الطلاقة\".</string>
+    <string name="cupertino_switch">كوبرتينو</string>
+    <string name="cupertino_switch_sub">يستخدم ازرار التبديل المشابهة لتصميم IOS لنظام تصميم كوبرتينو</string>
 </resources>
