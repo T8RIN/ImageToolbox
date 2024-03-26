@@ -864,6 +864,6 @@
     <string name="fullscreen_settings">全屏设置</string>
     <string name="compose">Compose</string>
     <string name="fullscreen_settings_sub">将“启用”设置为“总是以全屏打开设置页面，而不是可滑动抽屉页”。</string>
-    <string name="material_you_switch_sub">使用您切换的基于视图的材质，这个看起来比其他材质更好并且有漂亮的动画</string>
-    <string name="compose_switch_sub">使用您切换的 Jetpack Compose 材质，但它不如基于视图的漂亮</string>
+    <string name="material_you_switch_sub">使用基于视图的 Material You 开关，这个看起来比其他开关更棒并且有漂亮的动画</string>
+    <string name="compose_switch_sub">使用 Jetpack Compose Material You 开关，但它没有基于视图的材质美观</string>
 </resources>

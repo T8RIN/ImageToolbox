@@ -863,4 +863,13 @@
     <string name="compose">Compor</string>
     <string name="switch_type">Tipo de interruptor</string>
     <string name="fullscreen_settings_sub">Ative-o e a página de configurações será sempre aberta em tela cheia, em vez da folha de gaveta deslizante</string>
+    <string name="material_you_switch_sub">Usa material baseado em visualização que você alterna, este parece melhor que os outros e tem ótimas animações</string>
+    <string name="compose_switch_sub">Usa o material \"Jetpack Compose\" que você alterna, não é tão bonito quanto baseado em visualização</string>
+    <string name="max">Máx</string>
+    <string name="cupertino_switch">Cupertino</string>
+    <string name="resize_anchor">Redimensionar âncora</string>
+    <string name="pixel_switch">Pixel</string>
+    <string name="fluent_switch">Fluent</string>
+    <string name="fluent_switch_sub">Usa o interruptor estilo \"Windows 11\" baseado no sistema de design \"Fluent\"</string>
+    <string name="cupertino_switch_sub">Usa o \"iOS\" como um interruptor baseado no sistema de design \"Cupertino\"</string>
 </resources>
