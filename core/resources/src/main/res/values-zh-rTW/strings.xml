@@ -866,4 +866,11 @@
     <string name="fullscreen_settings_sub">將「啟用」設定為「設定頁面總是全螢幕開啟，而不是可滑動抽屜頁」。</string>
     <string name="compose_switch_sub">使用您切換的 Jetpack Compose 材質，但它不如基於視圖的漂亮</string>
     <string name="material_you_switch_sub">使用您切換的基於視圖的材質，這個看起來比其他材質更好並且有漂亮的動畫</string>
+    <string name="max">最大</string>
+    <string name="pixel_switch">像素</string>
+    <string name="fluent_switch">Fluent</string>
+    <string name="cupertino_switch">Cupertino</string>
+    <string name="cupertino_switch_sub">使用基於Cupertino設計系統的類IOS開關</string>
+    <string name="resize_anchor">調整錨點大小</string>
+    <string name="fluent_switch_sub">採用基於「Fluent」設計系統的Windows 11風格開關</string>
 </resources>
