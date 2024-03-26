@@ -866,4 +866,11 @@
     <string name="fullscreen_settings_sub">इसे सक्षम करें और सेटिंग पेज हमेशा स्लाइड करने योग्य ड्रॉअर शीट के बजाय फ़ुलस्क्रीन के रूप में खोला जाएगा</string>
     <string name="compose_switch_sub">Jetpack Compose Material You स्विच का उपयोग करें, यह दृश्य आधारित जितना सुंदर नहीं है</string>
     <string name="material_you_switch_sub">दृश्य आधारित Material You स्विच का उपयोग करता है, यह दूसरों की तुलना में बेहतर दिखता है और इसमें अच्छे एनिमेशन हैं</string>
+    <string name="pixel_switch">पिक्सेल</string>
+    <string name="cupertino_switch_sub">Cupertino डिज़ाइन सिस्टम पर आधारित iOS जैसे स्विच का उपयोग करता है</string>
+    <string name="max">अधि</string>
+    <string name="resize_anchor">एंकर का आकार बदलें</string>
+    <string name="fluent_switch">Fluent</string>
+    <string name="fluent_switch_sub">\"Fluent\" डिज़ाइन सिस्टम पर आधारित Windows 11 स्टाइल स्विच का उपयोग करता है</string>
+    <string name="cupertino_switch">Cupertino</string>
 </resources>
