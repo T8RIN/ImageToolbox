@@ -40,6 +40,9 @@ fun SettingGroupItem(
     icon: ImageVector,
     text: String,
     initialState: Boolean = false,
+    modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(2.dp),
     content: @Composable ColumnScope.() -> Unit
 ) {
     val interactionSource = remember {
@@ -52,9 +55,7 @@ fun SettingGroupItem(
         else 20.dp
     )
     ExpandableItem(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 4.dp),
+        modifier = modifier,
         visibleContent = {
             TitleItem(
                 modifier = Modifier.padding(start = 8.dp),

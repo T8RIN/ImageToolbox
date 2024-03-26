@@ -41,13 +41,14 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
@@ -72,6 +73,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -93,6 +95,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringL
 import ru.tech.imageresizershrinker.core.ui.utils.helper.plus
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarDefaults
@@ -181,9 +184,9 @@ fun SettingsScreen(
                     PaddingValues(
                         top = 8.dp,
                         bottom = calculateBottomPadding() + 8.dp,
-                        end = calculateEndPadding(layoutDirection),
-                        start = if (isStandaloneScreen) calculateStartPadding(layoutDirection)
-                        else 0.dp
+                        end = calculateEndPadding(layoutDirection) + 8.dp,
+                        start = if (isStandaloneScreen) calculateStartPadding(layoutDirection) + 8.dp
+                        else 8.dp
                     )
                 }
         )
@@ -336,11 +339,19 @@ fun SettingsScreen(
                     )
                 }
             ) { settingsAnimated ->
+                val oneColumn = LocalConfiguration.current.screenWidthDp.dp < 600.dp
+                val spacing = if (searchKeyword.isNotEmpty()) 4.dp
+                else if (isStandaloneScreen) 8.dp
+                else 2.dp
+
                 if (settingsAnimated == null) {
-                    LazyColumn(
-                        contentPadding = padding
+                    LazyVerticalStaggeredGrid(
+                        contentPadding = padding,
+                        columns = StaggeredGridCells.Adaptive(300.dp),
+                        verticalItemSpacing = spacing,
+                        horizontalArrangement = Arrangement.spacedBy(spacing)
                     ) {
-                        initialSettingGroups.forEachIndexed { index, group ->
+                        initialSettingGroups.forEach { group ->
                             item {
                                 BoxAnimatedVisibility(
                                     visible = if (group is SettingsGroup.Shadows) {
@@ -350,17 +361,20 @@ fun SettingsScreen(
                                     if (isStandaloneScreen) {
                                         Column(
                                             verticalArrangement = Arrangement.spacedBy(4.dp),
-                                            modifier = Modifier.padding(horizontal = 8.dp)
+                                            modifier = if (!oneColumn) {
+                                                Modifier.container(
+                                                    shape = RoundedCornerShape(20.dp),
+                                                    resultPadding = 0.dp,
+                                                    color = MaterialTheme.colorScheme.surfaceContainerLowest
+                                                )
+                                            } else Modifier
                                         ) {
-                                            if (index != 0) {
-                                                Spacer(modifier = Modifier.height(12.dp))
-                                            }
                                             TitleItem(
                                                 modifier = Modifier.padding(
                                                     start = 8.dp,
                                                     end = 8.dp,
                                                     top = 12.dp,
-                                                    bottom = 20.dp
+                                                    bottom = 12.dp
                                                 ),
                                                 icon = group.icon,
                                                 text = stringResource(group.titleId),
@@ -371,17 +385,19 @@ fun SettingsScreen(
                                                     onPrimary.blend(onTertiary, 0.5f)
                                                 }
                                             )
-                                            group.settingsList.forEach { setting ->
-                                                SettingItem(
-                                                    setting = setting,
-                                                    viewModel = viewModel,
-                                                    onTryGetUpdate = onTryGetUpdate,
-                                                    updateAvailable = updateAvailable,
-                                                    color = MaterialTheme.colorScheme.surfaceContainerLow
-                                                )
-                                            }
-                                            if (index == initialSettingGroups.lastIndex) {
-                                                Spacer(modifier = Modifier.height(4.dp))
+                                            Column(
+                                                verticalArrangement = Arrangement.spacedBy(4.dp),
+                                                modifier = Modifier.padding(bottom = 8.dp)
+                                            ) {
+                                                group.settingsList.forEach { setting ->
+                                                    SettingItem(
+                                                        setting = setting,
+                                                        viewModel = viewModel,
+                                                        onTryGetUpdate = onTryGetUpdate,
+                                                        updateAvailable = updateAvailable,
+                                                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                                                    )
+                                                }
                                             }
                                         }
                                     } else {
@@ -409,21 +425,19 @@ fun SettingsScreen(
                         }
                     }
                 } else if (settingsAnimated.isNotEmpty()) {
-                    LazyColumn(
-                        contentPadding = padding
+                    LazyVerticalStaggeredGrid(
+                        contentPadding = padding,
+                        columns = StaggeredGridCells.Adaptive(300.dp),
+                        verticalItemSpacing = spacing,
+                        horizontalArrangement = Arrangement.spacedBy(spacing)
                     ) {
                         settingsAnimated.forEachIndexed { index, (group, setting) ->
                             item {
                                 SearchableSettingItem(
                                     shape = ContainerShapeDefaults.shapeForIndex(
-                                        index = index,
+                                        index = if (oneColumn) index else -1,
                                         size = settingsAnimated.size
                                     ),
-                                    modifier = Modifier
-                                        .padding(
-                                            horizontal = 8.dp,
-                                            vertical = 2.dp
-                                        ),
                                     group = group,
                                     setting = setting,
                                     viewModel = viewModel,
