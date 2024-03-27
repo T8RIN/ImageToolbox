@@ -22,7 +22,9 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,6 +39,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -52,8 +55,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
 fun PreferenceRow(
@@ -78,6 +81,7 @@ fun PreferenceRow(
     onClick: (() -> Unit)?,
     onDisabledClick: (() -> Unit)? = null,
     autoShadowElevation: Dp = 1.dp,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
     val haptics = LocalHapticFeedback.current
     val internalColor = contentColor
@@ -111,20 +115,28 @@ fun PreferenceRow(
                     onClick
                         ?.let {
                             if (enabled) {
-                                Modifier.clickable {
-                                    haptics.performHapticFeedback(
-                                        HapticFeedbackType.LongPress
-                                    )
-                                    onClick()
-                                }
-                            } else Modifier.then(
-                                if (onDisabledClick != null) {
-                                    Modifier.clickable {
+                                Modifier.combinedClickable(
+                                    interactionSource = interactionSource,
+                                    indication = LocalIndication.current,
+                                    onClick = {
                                         haptics.performHapticFeedback(
                                             HapticFeedbackType.LongPress
                                         )
-                                        onDisabledClick()
+                                        onClick()
                                     }
+                                )
+                            } else Modifier.then(
+                                if (onDisabledClick != null) {
+                                    Modifier.combinedClickable(
+                                        interactionSource = interactionSource,
+                                        indication = LocalIndication.current,
+                                        onClick = {
+                                            haptics.performHapticFeedback(
+                                                HapticFeedbackType.LongPress
+                                            )
+                                            onDisabledClick()
+                                        }
+                                    )
                                 } else Modifier
                             )
                         } ?: Modifier

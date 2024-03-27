@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.preferences
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -25,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -57,6 +59,7 @@ fun PreferenceRowSwitch(
     onDisabledClick: (() -> Unit)? = null,
     onClick: (Boolean) -> Unit
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     PreferenceRow(
         autoShadowElevation = autoShadowElevation,
         enabled = enabled,
@@ -94,9 +97,11 @@ fun PreferenceRowSwitch(
                 ),
                 enabled = enabled,
                 checked = checked,
-                onCheckedChange = onClick
+                onCheckedChange = onClick,
+                interactionSource = interactionSource
             )
-        }
+        },
+        interactionSource = interactionSource
     )
 }
 
