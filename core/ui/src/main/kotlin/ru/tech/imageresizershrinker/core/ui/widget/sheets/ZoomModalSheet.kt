@@ -57,6 +57,7 @@ import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -106,9 +107,7 @@ fun ZoomModalSheet(
                         model = data,
                         contentDescription = null,
                         onSuccess = {
-                            aspectRatio = it.result.drawable.run {
-                                intrinsicWidth / intrinsicHeight.toFloat()
-                            }
+                            aspectRatio = it.result.drawable.safeAspectRatio
                         },
                         contentScale = ContentScale.FillBounds,
                         showTransparencyChecker = false,

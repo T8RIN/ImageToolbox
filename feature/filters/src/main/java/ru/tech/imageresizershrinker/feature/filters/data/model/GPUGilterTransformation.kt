@@ -24,8 +24,9 @@ import coil.size.pxOrElse
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import ru.tech.imageresizershrinker.core.data.utils.asCoil
-import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
+import ru.tech.imageresizershrinker.core.data.utils.aspectRatio
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import java.lang.Integer.max
 import coil.transform.Transformation as CoilTransformation
 
@@ -68,11 +69,11 @@ private fun flexibleResize(
 ): Bitmap {
     return runCatching {
         if (image.height >= image.width) {
-            val aspectRatio = image.width.toDouble() / image.height.toDouble()
+            val aspectRatio = image.aspectRatio
             val targetWidth = (max * aspectRatio).toInt()
             Bitmap.createScaledBitmap(image, targetWidth, max, true)
         } else {
-            val aspectRatio = image.height.toDouble() / image.width.toDouble()
+            val aspectRatio = 1f / image.aspectRatio
             val targetHeight = (max * aspectRatio).toInt()
             Bitmap.createScaledBitmap(image, max, targetHeight, true)
         }

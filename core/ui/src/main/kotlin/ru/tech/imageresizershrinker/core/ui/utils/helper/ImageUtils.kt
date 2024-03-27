@@ -23,6 +23,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.provider.OpenableColumns
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.core.graphics.BitmapCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.text.isDigitsOnly
@@ -115,5 +116,26 @@ object ImageUtils {
         if (original == null) return false
         return quality.qualityValue != 100 || rotationDegrees != 0f || isFlipped || width != original.width || height != original.height
     }
+
+    val Bitmap.aspectRatio: Float get() = width / height.toFloat()
+
+    val ImageBitmap.aspectRatio: Float get() = width / height.toFloat()
+
+    val Drawable.aspectRatio: Float get() = intrinsicWidth / intrinsicHeight.toFloat()
+
+    val Bitmap.safeAspectRatio: Float
+        get() = aspectRatio
+            .coerceAtLeast(0.005f)
+            .coerceAtMost(1000f)
+
+    val ImageBitmap.safeAspectRatio: Float
+        get() = aspectRatio
+            .coerceAtLeast(0.005f)
+            .coerceAtMost(1000f)
+
+    val Drawable.safeAspectRatio: Float
+        get() = aspectRatio
+            .coerceAtLeast(0.005f)
+            .coerceAtMost(1000f)
 
 }

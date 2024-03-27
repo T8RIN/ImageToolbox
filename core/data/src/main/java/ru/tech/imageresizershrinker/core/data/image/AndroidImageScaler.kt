@@ -288,11 +288,11 @@ internal class AndroidImageScaler @Inject constructor(
             ResizeAnchor.Default -> {
                 runCatching {
                     if (image.height >= image.width) {
-                        val aspectRatio = image.width.toDouble() / image.height.toDouble()
+                        val aspectRatio = image.aspectRatio
                         val targetWidth = (max * aspectRatio).toInt()
                         createScaledBitmap(image, targetWidth, max, imageScaleMode)
                     } else {
-                        val aspectRatio = image.height.toDouble() / image.width.toDouble()
+                        val aspectRatio = 1f / image.aspectRatio
                         val targetHeight = (max * aspectRatio).toInt()
                         createScaledBitmap(image, max, targetHeight, imageScaleMode)
                     }

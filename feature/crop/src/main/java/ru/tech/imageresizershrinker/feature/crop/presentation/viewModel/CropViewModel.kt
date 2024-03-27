@@ -47,6 +47,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
 import kotlin.random.Random
@@ -170,7 +171,7 @@ class CropViewModel @Inject constructor(
             aspectRatio = aspectRatio.takeIf {
                 domainAspectRatio != DomainAspectRatio.Original
             } ?: _bitmap.value?.let {
-                AspectRatio(it.width.toFloat() / it.height)
+                AspectRatio(it.safeAspectRatio)
             } ?: aspectRatio,
             fixedAspectRatio = domainAspectRatio != DomainAspectRatio.Free
         )

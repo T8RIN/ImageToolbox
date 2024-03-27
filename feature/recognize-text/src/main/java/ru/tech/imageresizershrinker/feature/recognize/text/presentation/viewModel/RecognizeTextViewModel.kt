@@ -50,6 +50,7 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiSharpenFil
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiThresholdFilter
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.DownloadData
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.ImageTextReader
@@ -379,7 +380,7 @@ class RecognizeTextViewModel @Inject constructor(
             aspectRatio = aspectRatio.takeIf {
                 domainAspectRatio != DomainAspectRatio.Original
             } ?: _previewBitmap.value?.let {
-                AspectRatio(it.width.toFloat() / it.height)
+                AspectRatio(it.safeAspectRatio)
             } ?: aspectRatio,
             fixedAspectRatio = domainAspectRatio != DomainAspectRatio.Free
         )

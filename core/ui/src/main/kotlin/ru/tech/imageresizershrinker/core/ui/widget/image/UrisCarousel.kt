@@ -42,6 +42,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import kotlin.math.roundToInt
 
@@ -89,9 +90,7 @@ internal fun UrisCarousel(uris: List<Uri>) {
             Picture(
                 model = uri,
                 onSuccess = {
-                    aspectRatio = it.result.drawable.run {
-                        intrinsicWidth.toFloat() / intrinsicHeight
-                    }
+                    aspectRatio = it.result.drawable.safeAspectRatio
                 },
                 modifier = Modifier
                     .animateContentSize()

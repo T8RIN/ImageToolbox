@@ -65,6 +65,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.shareText
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
@@ -261,9 +262,7 @@ fun RecognizeTextScreen(
                     model = viewModel.previewBitmap,
                     contentScale = ContentScale.FillBounds,
                     modifier = Modifier.aspectRatio(
-                        viewModel.previewBitmap?.let {
-                            it.width.toFloat() / it.height
-                        } ?: 1f
+                        viewModel.previewBitmap?.safeAspectRatio ?: 1f
                     ),
                     transformations = viewModel.getTransformations(),
                     shape = MaterialTheme.shapes.medium,

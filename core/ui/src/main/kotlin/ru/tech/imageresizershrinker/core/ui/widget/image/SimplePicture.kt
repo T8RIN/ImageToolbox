@@ -30,6 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
@@ -57,7 +58,9 @@ fun SimplePicture(
                     contentScale = scale,
                     contentDescription = null,
                     modifier = modifier
-                        .aspectRatio((it.width / it.height.toFloat()).coerceAtLeast(0.005f))
+                        .aspectRatio(
+                            it.safeAspectRatio
+                        )
                         .clip(MaterialTheme.shapes.medium)
                         .transparencyChecker()
                         .shimmer(loading)

@@ -47,8 +47,9 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
-import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientMaker
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientType
@@ -340,9 +341,7 @@ class GradientMakerViewModel @Inject constructor(
                 originalSize = false,
                 onGetImage = { imageData ->
                     _imageAspectRatio.update {
-                        imageData.image.let {
-                            it.width.toFloat() / it.height
-                        }
+                        imageData.image.safeAspectRatio
                     }
                     _isImageLoading.value = false
                     setImageFormat(imageData.imageInfo.imageFormat)

@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.feature.limits_resize.data
 import android.graphics.Bitmap
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.aspectRatio
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
@@ -50,8 +51,6 @@ internal class AndroidLimitsImageScaler @Inject constructor(
             imageScaleMode = imageScaleMode
         )
     }
-
-    private val Bitmap.aspectRatio: Float get() = width / height.toFloat()
 
     private suspend fun LimitsResizeType.resizeWithLimits(
         image: Bitmap,
