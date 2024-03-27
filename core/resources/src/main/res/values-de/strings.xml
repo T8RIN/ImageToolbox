@@ -714,7 +714,7 @@
     <string name="only_clip_sub">Das Speichern im Speicher wird nicht durchgeführt und es wird versucht, das Bild nur in die Zwischenablage zu legen</string>
     <string name="icon_shape_sub">Fügt einen Container mit ausgewählter Form unter den führenden Kartensymbolen hinzu</string>
     <string name="icon_shape">Symbolform</string>
-    <string name="brightness_enforcement">Durchsetzung der Helligkeit</string>
+    <string name="brightness_enforcement">Hohe Bildschirmhelligkeit</string>
     <string name="screen">Bildschirm</string>
     <string name="gradient_maker_type_image">Verlaufsüberlagerung</string>
     <string name="gradient_maker_type_image_sub">Erstellen Sie einen beliebigen Farbverlauf am oberen Rand des angegebenen Bildes</string>
@@ -862,4 +862,14 @@
     <string name="show_settings_in_landscape_sub">Wenn deaktiviert, werden die Einstellungen im Querformat über die Taste in der oberen App-Leiste aufgerufen, anstatt immer sichtbar zu sein</string>
     <string name="fullscreen_settings">Vollbild-Einstellungen</string>
     <string name="switch_type">Schalter Typ</string>
+    <string name="compose">Compose</string>
+    <string name="material_you_switch_sub">Benutze View based Material You Schalter, dieser sieht hübscher aus als andere und hat schöne Animationen</string>
+    <string name="compose_switch_sub">Benutze Jetpack Compose Material You Schalter, nicht so hübsch wie View based Schalter</string>
+    <string name="fluent_switch_sub">Benutze Windows 11 Style Schalter basierend auf dem \"Fluent\" Design</string>
+    <string name="pixel_switch">Pixel</string>
+    <string name="fluent_switch">Fluent</string>
+    <string name="cupertino_switch">Cupertino</string>
+    <string name="cupertino_switch_sub">Benutze einen IOS-ähnlichen Schalter basierend auf dem \"Cupertino\" Design</string>
+    <string name="fullscreen_settings_sub">Wenn aktiviert, werden die Einstellungen immer im Vollbild angezeigt, anstatt einer ausfahrbaren Seitenleiste</string>
+    <string name="max">Max</string>
 </resources>
