@@ -36,7 +36,6 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchColors
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
@@ -46,6 +45,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.invoke
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.CupertinoSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.CupertinoSwitchDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.FluentSwitch
@@ -72,7 +72,7 @@ fun EnhancedSwitch(
     val settingsState = LocalSettingsState.current
     val haptics = LocalHapticFeedback.current
 
-    CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
+    LocalMinimumInteractiveComponentEnforcement(false) {
         val switchModifier = modifier
             .minimumInteractiveComponentSize()
             .container(
