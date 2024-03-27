@@ -37,7 +37,7 @@ fun getSuitableConfig(
     Bitmap.Config.ARGB_8888
 }
 
-fun Bitmap.toSoftware() = copy(getSuitableConfig(this), false)
+fun Bitmap.toSoftware(): Bitmap = copy(getSuitableConfig(this), false) ?: this
 
 val Bitmap.aspectRatio: Float get() = width / height.toFloat()
 
