@@ -24,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.olshevski.navigation.reimagined.navigate
 import ru.tech.imageresizershrinker.core.crash.components.M3Activity
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.parseImageFromIntent
-import ru.tech.imageresizershrinker.core.ui.utils.helper.setContentWithWindowSizeClass
+import ru.tech.imageresizershrinker.core.ui.utils.provider.setContentWithWindowSizeClass
 import ru.tech.imageresizershrinker.feature.root.presentation.RootContent
 import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootViewModel
 
