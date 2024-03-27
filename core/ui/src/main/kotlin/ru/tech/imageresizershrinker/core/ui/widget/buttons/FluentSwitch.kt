@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.core.ui.widget.buttons
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -54,7 +53,9 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberRipple
+import ru.tech.imageresizershrinker.core.ui.utils.animation.FastInvokeEasing
+import ru.tech.imageresizershrinker.core.ui.utils.animation.PointToPointEasing
+import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberRipple
 
 @Composable
 fun FluentSwitch(
@@ -191,9 +192,6 @@ fun FluentSwitch(
         }
     }
 }
-
-private val PointToPointEasing = CubicBezierEasing(0.55f, 0.55f, 0f, 1f)
-private val FastInvokeEasing = CubicBezierEasing(0f, 0f, 0f, 1f)
 
 private const val Duration = 600
 

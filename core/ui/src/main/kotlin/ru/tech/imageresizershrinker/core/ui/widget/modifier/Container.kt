@@ -40,10 +40,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.takeOrElse
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalContainerShape
-import ru.tech.imageresizershrinker.core.ui.widget.utils.SafeLocalContainerColor
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerShape
+import ru.tech.imageresizershrinker.core.ui.utils.provider.SafeLocalContainerColor
 
 fun Modifier.container(
     shape: Shape = RoundedCornerShape(16.dp),

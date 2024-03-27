@@ -30,7 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.UiFontFam
+import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.other.FontSelectionItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
@@ -40,7 +40,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 @Composable
 fun PickFontFamilySheet(
     visible: MutableState<Boolean>,
-    onFontSelected: (UiFontFam) -> Unit
+    onFontSelected: (UiFontFamily) -> Unit
 ) {
     SimpleSheet(
         visible = visible,
@@ -54,7 +54,7 @@ fun PickFontFamilySheet(
                     space = 8.dp
                 )
             ) {
-                items(UiFontFam.entries) { font ->
+                items(UiFontFamily.entries) { font ->
                     FontSelectionItem(
                         font = font,
                         onClick = {

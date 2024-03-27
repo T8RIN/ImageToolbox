@@ -28,7 +28,8 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.text.isDigitsOnly
 import androidx.exifinterface.media.ExifInterface
 import com.t8rin.logger.makeLog
-import ru.tech.imageresizershrinker.core.domain.image.Metadata
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.image.model.Metadata
 
 
 object ImageUtils {
@@ -108,6 +109,11 @@ object ImageUtils {
                 this, width, height, true
             )
         }
+    }
+
+    fun ImageInfo.haveChanges(original: Bitmap?): Boolean {
+        if (original == null) return false
+        return quality.qualityValue != 100 || rotationDegrees != 0f || isFlipped || width != original.width || height != original.height
     }
 
 }

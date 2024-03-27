@@ -18,9 +18,9 @@
 package ru.tech.imageresizershrinker.core.domain.image
 
 import android.graphics.Bitmap
-import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
-import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.core.domain.model.Quality
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 
 interface ImageCompressor<Image> {
 

@@ -18,11 +18,11 @@
 package ru.tech.imageresizershrinker.core.settings.domain
 
 import kotlinx.coroutines.flow.Flow
-import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
-import ru.tech.imageresizershrinker.core.domain.model.SwitchType
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
-import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
-import ru.tech.imageresizershrinker.core.settings.domain.model.Harmonizer
+import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
+import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 
@@ -88,7 +88,7 @@ interface SettingsRepository {
 
     fun createBackupFilename(): String
 
-    suspend fun setFont(font: FontFam)
+    suspend fun setFont(font: DomainFontFamily)
 
     suspend fun setFontScale(scale: Float)
 
@@ -158,7 +158,7 @@ interface SettingsRepository {
 
     suspend fun toggleAllowAutoClipboardPaste()
 
-    suspend fun setConfettiHarmonizer(harmonizer: Harmonizer)
+    suspend fun setConfettiHarmonizer(colorHarmonizer: ColorHarmonizer)
 
     suspend fun setConfettiHarmonizationLevel(level: Float)
 

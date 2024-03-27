@@ -31,14 +31,14 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
-import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
-import ru.tech.imageresizershrinker.core.domain.model.Preset
-import ru.tech.imageresizershrinker.core.domain.model.SwitchType
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.image.model.Preset
+import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
-import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
-import ru.tech.imageresizershrinker.core.settings.domain.model.Harmonizer
+import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
+import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.ADD_ORIGINAL_NAME_TO_FILENAME
@@ -152,7 +152,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
             addOriginalFilename = prefs[ADD_ORIGINAL_NAME_TO_FILENAME]
                 ?: default.addOriginalFilename,
             randomizeFilename = prefs[RANDOMIZE_FILENAME] ?: default.randomizeFilename,
-            font = FontFam.fromOrdinal(prefs[SELECTED_FONT_INDEX]),
+            font = DomainFontFamily.fromOrdinal(prefs[SELECTED_FONT_INDEX]),
             fontScale = (prefs[FONT_SCALE] ?: 1f).takeIf { it > 0f },
             allowCollectCrashlytics = prefs[ALLOW_CRASHLYTICS] ?: default.allowCollectCrashlytics,
             allowCollectAnalytics = prefs[ALLOW_ANALYTICS] ?: default.allowCollectAnalytics,
@@ -203,9 +203,9 @@ internal class SettingsRepositoryImpl @Inject constructor(
             dragHandleWidth = prefs[DRAG_HANDLE_WIDTH] ?: default.dragHandleWidth,
             confettiType = prefs[CONFETTI_TYPE] ?: default.confettiType,
             allowAutoClipboardPaste = prefs[ALLOW_AUTO_PASTE] ?: default.allowAutoClipboardPaste,
-            confettiHarmonizer = prefs[CONFETTI_HARMONIZER]?.let {
-                Harmonizer.fromInt(it)
-            } ?: default.confettiHarmonizer,
+            confettiColorHarmonizer = prefs[CONFETTI_HARMONIZER]?.let {
+                ColorHarmonizer.fromInt(it)
+            } ?: default.confettiColorHarmonizer,
             confettiHarmonizationLevel = prefs[CONFETTI_HARMONIZATION_LEVEL]
                 ?: default.confettiHarmonizationLevel,
             skipImagePicking = prefs[SKIP_IMAGE_PICKING]
@@ -424,7 +424,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
         return "image_toolbox_$timeStamp.imtbx_backup"
     }
 
-    override suspend fun setFont(font: FontFam) {
+    override suspend fun setFont(font: DomainFontFamily) {
         dataStore.edit {
             it[SELECTED_FONT_INDEX] = font.ordinal
         }
@@ -657,9 +657,9 @@ internal class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun setConfettiHarmonizer(harmonizer: Harmonizer) {
+    override suspend fun setConfettiHarmonizer(colorHarmonizer: ColorHarmonizer) {
         dataStore.edit {
-            it[CONFETTI_HARMONIZER] = harmonizer.ordinal
+            it[CONFETTI_HARMONIZER] = colorHarmonizer.ordinal
         }
     }
 

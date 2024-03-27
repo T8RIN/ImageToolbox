@@ -49,8 +49,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
 
 @Composable
 fun EmojiItem(

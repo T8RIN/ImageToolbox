@@ -40,10 +40,10 @@ import ru.tech.imageresizershrinker.core.data.utils.getSuitableConfig
 import ru.tech.imageresizershrinker.core.data.utils.toBitmap
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
-import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.image.model.Preset
+import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.domain.model.Preset
-import ru.tech.imageresizershrinker.core.domain.model.ResizeType
 import ru.tech.imageresizershrinker.feature.pdf_tools.domain.PdfManager
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject

@@ -109,8 +109,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.dragHandler
 import ru.tech.imageresizershrinker.core.ui.widget.other.Loading
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
+import ru.tech.imageresizershrinker.core.ui.utils.helper.LocalWindowSizeClass
 import kotlin.math.max
 import kotlin.math.sqrt
 

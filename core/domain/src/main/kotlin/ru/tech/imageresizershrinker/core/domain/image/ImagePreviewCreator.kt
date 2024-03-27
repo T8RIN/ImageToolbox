@@ -17,7 +17,8 @@
 
 package ru.tech.imageresizershrinker.core.domain.image
 
-import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 
 interface ImagePreviewCreator<I> {
 

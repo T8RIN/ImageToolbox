@@ -34,14 +34,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.persistentListOf
-import ru.tech.imageresizershrinker.core.settings.presentation.IconShape
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.model.IconShape
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalContainerColor
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalContainerShape
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerColor
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerShape
 
 object IconShapeDefaults {
 

@@ -51,7 +51,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.UiFontFam
+import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
 import ru.tech.imageresizershrinker.core.ui.theme.Typography
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
@@ -247,7 +247,7 @@ fun WatermarkParamsSelectionGroup(
                             )
                             val listState = rememberLazyListState()
                             val fonts = remember {
-                                UiFontFam.entries
+                                UiFontFamily.entries
                             }
                             LazyRow(
                                 state = listState,
@@ -261,7 +261,7 @@ fun WatermarkParamsSelectionGroup(
                                 items(fonts) {
                                     val selected by remember(it, type) {
                                         derivedStateOf {
-                                            if (it == UiFontFam.System) type.font == 0
+                                            if (it == UiFontFamily.System) type.font == 0
                                             else type.font == it.fontRes
                                         }
                                     }

@@ -102,7 +102,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberRipple
+import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberRipple
 import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.max

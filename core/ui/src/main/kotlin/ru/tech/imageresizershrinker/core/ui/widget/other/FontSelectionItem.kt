@@ -34,14 +34,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.settings.presentation.UiFontFam
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
 import ru.tech.imageresizershrinker.core.ui.theme.Typography
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 
 @Composable
 fun FontSelectionItem(
-    font: UiFontFam,
+    font: UiFontFamily,
     onClick: () -> Unit
 ) {
     val settingsState = LocalSettingsState.current

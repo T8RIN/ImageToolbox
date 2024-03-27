@@ -17,24 +17,17 @@
 
 package ru.tech.imageresizershrinker.feature.root.presentation.components
 
-import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalConfiguration
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import com.t8rin.dynamic.theme.rememberAppColorTuple
 import dev.olshevski.navigation.reimagined.AnimatedNavHost
-import dev.olshevski.navigation.reimagined.NavAction
+import dev.olshevski.navigation.reimagined.NavTransitionQueueing
 import dev.olshevski.navigation.reimagined.pop
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.animation.NavigationTransition
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.feature.apng_tools.presentation.ApngToolsScreen
 import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.BytesResizeScreen
@@ -88,34 +81,11 @@ internal fun ScreenSelector(
             themeState.updateColorTuple(appColorTuple)
         }
     }
-    val screenWidth = LocalConfiguration.current.screenWidthDp
-    val easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
 
     AnimatedNavHost(
         controller = navController,
-        transitionSpec = { action, _, _ ->
-            if (action != NavAction.Pop) {
-                slideInHorizontally(
-                    animationSpec = tween(600, easing = easing),
-                    initialOffsetX = { screenWidth }) + fadeIn(
-                    tween(300, 100)
-                ) togetherWith slideOutHorizontally(
-                    animationSpec = tween(600, easing = easing),
-                    targetOffsetX = { -screenWidth }) + fadeOut(
-                    tween(300, 100)
-                )
-            } else {
-                slideInHorizontally(
-                    animationSpec = tween(600, easing = easing),
-                    initialOffsetX = { -screenWidth }) + fadeIn(
-                    tween(300, 100)
-                ) togetherWith slideOutHorizontally(
-                    animationSpec = tween(600, easing = easing),
-                    targetOffsetX = { screenWidth }) + fadeOut(
-                    tween(300, 100)
-                )
-            }
-        }
+        transitionQueueing = NavTransitionQueueing.ConflateQueued,
+        transitionSpec = NavigationTransition
     ) { screen ->
         when (screen) {
             is Screen.Settings -> {

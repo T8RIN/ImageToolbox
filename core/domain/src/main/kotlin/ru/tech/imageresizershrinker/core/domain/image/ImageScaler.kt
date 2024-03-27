@@ -17,8 +17,8 @@
 
 package ru.tech.imageresizershrinker.core.domain.image
 
-import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
-import ru.tech.imageresizershrinker.core.domain.model.ResizeType
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 
 interface ImageScaler<I> {
 

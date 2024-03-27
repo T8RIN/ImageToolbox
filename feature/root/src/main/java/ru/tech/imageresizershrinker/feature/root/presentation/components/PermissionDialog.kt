@@ -40,7 +40,7 @@ import androidx.core.app.ActivityCompat
 import com.t8rin.dynamic.theme.observeAsState
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.needToShowStoragePermissionRequest
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.requestStoragePermission
 import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.hasPermissionAllowed

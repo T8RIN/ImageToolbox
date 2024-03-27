@@ -18,7 +18,7 @@
 package ru.tech.imageresizershrinker.feature.gif_tools.domain
 
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.domain.model.Quality
+import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 
 data class GifParams(
     val size: IntegerSize?,

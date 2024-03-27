@@ -22,15 +22,10 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -107,9 +102,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
+import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.failedToSaveImages
@@ -150,7 +147,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.sheets.ZoomModalSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.utils.isExpanded
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberAvailableHeight
 import ru.tech.imageresizershrinker.core.ui.widget.utils.rememberImageState
@@ -880,30 +876,13 @@ fun FiltersScreen(
                 )
 
                 val screenWidth = LocalConfiguration.current.screenWidthDp
-                val easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
+
                 AnimatedContent(
                     transitionSpec = {
-                        if (targetState != null) {
-                            slideInHorizontally(
-                                animationSpec = tween(600, easing = easing),
-                                initialOffsetX = { screenWidth }) + fadeIn(
-                                tween(300, 100)
-                            ) togetherWith slideOutHorizontally(
-                                animationSpec = tween(600, easing = easing),
-                                targetOffsetX = { -screenWidth }) + fadeOut(
-                                tween(300, 100)
-                            )
-                        } else {
-                            slideInHorizontally(
-                                animationSpec = tween(600, easing = easing),
-                                initialOffsetX = { -screenWidth }) + fadeIn(
-                                tween(300, 100)
-                            ) togetherWith slideOutHorizontally(
-                                animationSpec = tween(600, easing = easing),
-                                targetOffsetX = { screenWidth }) + fadeOut(
-                                tween(300, 100)
-                            )
-                        } using SizeTransform(false)
+                        fancySlideTransition(
+                            isForward = targetState != null,
+                            screenWidthDp = screenWidth
+                        )
                     },
                     targetState = viewModel.filterType
                 ) { filterType ->

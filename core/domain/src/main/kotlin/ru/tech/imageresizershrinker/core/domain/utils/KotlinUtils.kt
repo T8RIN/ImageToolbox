@@ -22,3 +22,8 @@ typealias Lambda = () -> Unit
 fun Lambda(
     action: Lambda
 ): Lambda = action
+
+inline fun <reified T> T?.notNullAnd(
+    predicate: (T) -> Boolean
+): Boolean = if (this != null) predicate(this)
+else false

@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import ru.tech.imageresizershrinker.core.ui.utils.animation.AlphaEasing
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
@@ -61,7 +62,7 @@ typealias RevealState = SwipeableState<RevealValue>
 fun SwipeToReveal(
     modifier: Modifier = Modifier,
     enableSwipe: Boolean = true,
-    alphaEasing: Easing = CubicBezierEasing(0.4f, 0.4f, 0.17f, 0.9f),
+    alphaEasing: Easing = AlphaEasing,
     maxRevealDp: Dp = 75.dp,
     maxAmountOfOverflow: Dp = 250.dp,
     directions: Set<RevealDirection> = setOf(

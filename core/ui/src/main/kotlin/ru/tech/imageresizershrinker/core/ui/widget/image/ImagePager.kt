@@ -20,14 +20,10 @@ package ru.tech.imageresizershrinker.core.ui.widget.image
 import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -74,6 +70,8 @@ import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageEdit
 import ru.tech.imageresizershrinker.core.ui.theme.White
+import ru.tech.imageresizershrinker.core.ui.utils.animation.PageCloseTransition
+import ru.tech.imageresizershrinker.core.ui.utils.animation.PageOpenTransition
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
@@ -95,16 +93,8 @@ fun ImagePager(
     AnimatedVisibility(
         visible = visible,
         modifier = Modifier.fillMaxSize(),
-        enter = slideInHorizontally(
-            animationSpec()
-        ) { -it / 3 } + fadeIn(
-            animationSpec(500)
-        ),
-        exit = slideOutHorizontally(
-            animationSpec()
-        ) { -it / 3 } + fadeOut(
-            animationSpec(500)
-        )
+        enter = PageOpenTransition,
+        exit = PageCloseTransition
     ) {
         val wantToEdit = rememberSaveable { mutableStateOf(false) }
         val state = rememberPagerState(
@@ -121,7 +111,7 @@ fun ImagePager(
             )
         }
         Box(
-            Modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f))
                 .pointerInput(Unit) {
@@ -268,12 +258,3 @@ fun ImagePager(
         }
     }
 }
-
-private fun <T> animationSpec(
-    duration: Int = 500,
-    delay: Int = 0
-) = tween<T>(
-    durationMillis = duration,
-    delayMillis = delay,
-    easing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
-)

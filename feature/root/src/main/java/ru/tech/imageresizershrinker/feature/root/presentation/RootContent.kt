@@ -49,9 +49,9 @@ import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.crash.components.GlobalExceptionHandler
 import ru.tech.imageresizershrinker.core.filters.presentation.utils.LocalFavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.resources.emoji.Emoji
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalEditPresetsState
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.settings.presentation.toUiState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEditPresetsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.model.toUiState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.theme.ImageToolboxTheme
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.ConfettiHost
@@ -66,7 +66,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.saver.EnhancedAutoSaverInit
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.ProcessImagesPreferenceSheet
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.feature.root.presentation.components.AppExitDialog
 import ru.tech.imageresizershrinker.feature.root.presentation.components.EditPresetsSheet
 import ru.tech.imageresizershrinker.feature.root.presentation.components.FirstLaunchSetupDialog

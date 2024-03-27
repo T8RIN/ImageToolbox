@@ -34,8 +34,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import nl.dionsegijn.konfetti.compose.KonfettiView
 import nl.dionsegijn.konfetti.core.Party
-import ru.tech.imageresizershrinker.core.settings.domain.model.Harmonizer
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHost
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
@@ -66,12 +66,12 @@ fun ConfettiHost(
             val colorScheme = MaterialTheme.colorScheme
             val confettiHarmonizationLevel = settingsState.confettiHarmonizationLevel
             val harmonizationColor = when (
-                val harmonizer = settingsState.confettiHarmonizer
+                val harmonizer = settingsState.confettiColorHarmonizer
             ) {
-                is Harmonizer.Custom -> Color(harmonizer.color)
-                Harmonizer.Primary -> colorScheme.primary
-                Harmonizer.Secondary -> colorScheme.secondary
-                Harmonizer.Tertiary -> colorScheme.tertiary
+                is ColorHarmonizer.Custom -> Color(harmonizer.color)
+                ColorHarmonizer.Primary -> colorScheme.primary
+                ColorHarmonizer.Secondary -> colorScheme.secondary
+                ColorHarmonizer.Tertiary -> colorScheme.tertiary
             }
             KonfettiView(
                 modifier = Modifier.fillMaxSize(),

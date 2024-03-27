@@ -50,7 +50,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Bitcoin
 import ru.tech.imageresizershrinker.core.resources.icons.Ton
 import ru.tech.imageresizershrinker.core.resources.icons.USDT
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.BitcoinColor
 import ru.tech.imageresizershrinker.core.ui.theme.TONColor
 import ru.tech.imageresizershrinker.core.ui.theme.TONSpaceColor

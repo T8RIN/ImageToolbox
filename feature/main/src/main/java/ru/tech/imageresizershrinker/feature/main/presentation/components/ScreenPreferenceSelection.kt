@@ -80,7 +80,7 @@ import dev.olshevski.navigation.reimagined.navigate
 import dev.olshevski.navigation.reimagined.popUpTo
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.clipList
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberClipboardData
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
@@ -89,7 +89,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActio
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.core.ui.utils.helper.LocalWindowSizeClass
 
 @Composable
 internal fun RowScope.ScreenPreferenceSelection(

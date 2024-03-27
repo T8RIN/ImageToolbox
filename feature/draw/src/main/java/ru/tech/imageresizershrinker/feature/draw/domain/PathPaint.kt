@@ -17,10 +17,9 @@
 
 package ru.tech.imageresizershrinker.feature.draw.domain
 
-import ru.tech.imageresizershrinker.core.domain.Domain
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 
-interface PathPaint<Path, Color> : Domain {
+interface PathPaint<Path, Color> {
     operator fun component1() = path
     operator fun component2() = strokeWidth
     operator fun component3() = brushSoftness

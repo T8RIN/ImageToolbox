@@ -18,7 +18,7 @@
 package ru.tech.imageresizershrinker.feature.limits_resize.domain
 
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
-import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 
 interface LimitsImageScaler<I> : ImageScaler<I> {
 

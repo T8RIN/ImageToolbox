@@ -19,10 +19,8 @@ package ru.tech.imageresizershrinker.core.ui.widget.sheets
 
 import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -57,11 +55,12 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.modalsheet.ModalSheet
 import com.t8rin.modalsheet.ModalSheetState
 import kotlinx.coroutines.delay
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.animation.ModalSheetAnimationSpec
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.autoElevatedBorder
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
+import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import kotlin.coroutines.cancellation.CancellationException
 
 @Composable
@@ -117,10 +116,7 @@ fun SimpleSheet(
         ModalSheet(
             cancelable = cancelable,
             nestedScrollEnabled = nestedScrollEnabled,
-            animationSpec = tween(
-                durationMillis = 600,
-                easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
-            ),
+            animationSpec = ModalSheetAnimationSpec,
             dragHandle = dragHandle,
             containerColor = SimpleSheetDefaults.containerColor,
             sheetModifier = Modifier
@@ -232,10 +228,7 @@ fun SimpleSheet(
         ModalSheet(
             cancelable = cancelable,
             nestedScrollEnabled = nestedScrollEnabled,
-            animationSpec = tween(
-                durationMillis = 600,
-                easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
-            ),
+            animationSpec = ModalSheetAnimationSpec,
             dragHandle = dragHandle,
             containerColor = SimpleSheetDefaults.containerColor,
             sheetModifier = Modifier
@@ -364,10 +357,7 @@ fun SimpleSheet(
         ModalSheet(
             cancelable = cancelable,
             nestedScrollEnabled = nestedScrollEnabled,
-            animationSpec = tween(
-                durationMillis = 600,
-                easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
-            ),
+            animationSpec = ModalSheetAnimationSpec,
             dragHandle = dragHandle,
             containerColor = SimpleSheetDefaults.containerColor,
             sheetModifier = Modifier

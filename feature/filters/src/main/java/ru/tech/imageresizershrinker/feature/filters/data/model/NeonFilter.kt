@@ -20,8 +20,8 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
-import ru.tech.imageresizershrinker.core.domain.image.ChainTransformation
-import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.transformation.ChainTransformation
+import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.wrap
 

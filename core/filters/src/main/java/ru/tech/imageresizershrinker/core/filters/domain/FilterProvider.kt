@@ -17,7 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.filters.domain
 
-import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 
 interface FilterProvider<Image> {

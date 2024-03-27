@@ -34,15 +34,16 @@ import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
-import android.os.Parcelable
 import android.widget.Toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
-import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.AppActivityClass
+import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
+import ru.tech.imageresizershrinker.core.ui.utils.helper.mainLooperDelayedAction
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -118,80 +119,71 @@ class ScreenshotService : Service() {
         mediaProjection: MediaProjection,
         intent: Intent?
     ) {
-        Handler(
-            Looper.getMainLooper()
-        ).postDelayed(
-            {
-                ScreenshotMaker(
-                    mMediaProjection = mediaProjection,
-                    displayMetrics = resources.displayMetrics
-                ).takeScreenshot { bitmap ->
-                    val uri: Uri? = runBlocking {
-                        File(filesDir, "screenshots").let { dir ->
-                            dir.deleteRecursively()
-                            dir.mkdirs()
-                            val file = File(dir, "screenshot.png")
-                            file.createNewFile()
+        mainLooperDelayedAction(1000) {
+            ScreenshotMaker(
+                mMediaProjection = mediaProjection,
+                displayMetrics = resources.displayMetrics
+            ).takeScreenshot { bitmap ->
+                val uri: Uri? = runBlocking {
+                    File(filesDir, "screenshots").let { dir ->
+                        dir.deleteRecursively()
+                        dir.mkdirs()
+                        val file = File(dir, "screenshot.png")
+                        file.createNewFile()
 
-                            FileOutputStream(file).use {
-                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
-                            }
-                            Uri.fromFile(file)
+                        FileOutputStream(file).use {
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
                         }
-                    }
-
-                    if (intent?.getStringExtra("screen") != "shot") {
-                        applicationContext.startActivity(
-                            Intent(
-                                applicationContext,
-                                AppActivityClass
-                            ).apply {
-                                putExtra("screen", intent?.getStringExtra("screen"))
-                                type = "image/png"
-                                putExtra(Intent.EXTRA_STREAM, uri)
-                                action = Intent.ACTION_SEND
-                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            }
-                        )
-                    } else {
-                        runBlocking {
-                            val timeStamp = SimpleDateFormat(
-                                "yyyy-MM-dd_HH-mm-ss",
-                                Locale.getDefault()
-                            ).format(Date())
-                            val stream = ByteArrayOutputStream()
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-                            bitmap.recycle()
-
-                            fileController.save(
-                                FileSaveTarget(
-                                    filename = "screenshot-$timeStamp.png",
-                                    originalUri = "screenshot",
-                                    imageFormat = ImageFormat.Png.Lossless,
-                                    data = stream.toByteArray()
-                                ),
-                                true
-                            )
-                            Toast.makeText(
-                                this@ScreenshotService,
-                                this@ScreenshotService.getString(
-                                    R.string.saved_to_without_filename,
-                                    fileController.savingPath
-                                ),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                        Uri.fromFile(file)
                     }
                 }
-            }, 1000
-        )
+
+                if (intent?.getStringExtra("screen") != "shot") {
+                    applicationContext.startActivity(
+                        Intent(
+                            applicationContext,
+                            AppActivityClass
+                        ).apply {
+                            putExtra("screen", intent?.getStringExtra("screen"))
+                            type = "image/png"
+                            putExtra(Intent.EXTRA_STREAM, uri)
+                            action = Intent.ACTION_SEND
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                    )
+                } else {
+                    runBlocking {
+                        val timeStamp = SimpleDateFormat(
+                            "yyyy-MM-dd_HH-mm-ss",
+                            Locale.getDefault()
+                        ).format(Date())
+                        val stream = ByteArrayOutputStream()
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                        bitmap.recycle()
+
+                        fileController.save(
+                            FileSaveTarget(
+                                filename = "screenshot-$timeStamp.png",
+                                originalUri = "screenshot",
+                                imageFormat = ImageFormat.Png.Lossless,
+                                data = stream.toByteArray()
+                            ),
+                            true
+                        )
+                        Toast.makeText(
+                            this@ScreenshotService,
+                            this@ScreenshotService.getString(
+                                R.string.saved_to_without_filename,
+                                fileController.savingPath
+                            ),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+        }
     }
 
     override fun onBind(intent: Intent): IBinder = Binder()
-
-    private inline fun <reified T : Parcelable> Intent.parcelable(key: String): T? = when {
-        Build.VERSION.SDK_INT >= 33 -> getParcelableExtra(key, T::class.java)
-        else -> @Suppress("DEPRECATION") getParcelableExtra(key) as? T
-    }
 
 }

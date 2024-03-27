@@ -17,8 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.domain.saving.model
 
-import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
-import ru.tech.imageresizershrinker.core.domain.saving.SaveTarget
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 
 data class FileSaveTarget(
     override val originalUri: String,

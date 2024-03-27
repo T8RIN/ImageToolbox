@@ -17,7 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.domain.image
 
-import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 
 interface ShareProvider<I> {
 

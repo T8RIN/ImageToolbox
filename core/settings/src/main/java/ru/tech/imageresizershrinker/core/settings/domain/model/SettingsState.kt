@@ -17,10 +17,8 @@
 
 package ru.tech.imageresizershrinker.core.settings.domain.model
 
-import ru.tech.imageresizershrinker.core.domain.Domain
-import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
-import ru.tech.imageresizershrinker.core.domain.model.Preset
-import ru.tech.imageresizershrinker.core.domain.model.SwitchType
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 
 data class SettingsState(
     val nightMode: NightMode,
@@ -46,7 +44,7 @@ data class SettingsState(
     val addSizeInFilename: Boolean,
     val addOriginalFilename: Boolean,
     val randomizeFilename: Boolean,
-    val font: FontFam,
+    val font: DomainFontFamily,
     val fontScale: Float?,
     val allowCollectCrashlytics: Boolean,
     val allowCollectAnalytics: Boolean,
@@ -80,14 +78,14 @@ data class SettingsState(
     val dragHandleWidth: Int,
     val confettiType: Int,
     val allowAutoClipboardPaste: Boolean,
-    val confettiHarmonizer: Harmonizer,
+    val confettiColorHarmonizer: ColorHarmonizer,
     val confettiHarmonizationLevel: Float,
     val skipImagePicking: Boolean,
     val generatePreviews: Boolean,
     val showSettingsInLandscape: Boolean,
     val useFullscreenSettings: Boolean,
     val switchType: SwitchType
-) : Domain {
+) {
 
     companion object {
         val Default by lazy {
@@ -114,7 +112,7 @@ data class SettingsState(
                 addSizeInFilename = false,
                 addOriginalFilename = false,
                 randomizeFilename = false,
-                font = FontFam.Montserrat,
+                font = DomainFontFamily.Montserrat,
                 fontScale = 1f,
                 allowCollectCrashlytics = true,
                 allowCollectAnalytics = true,
@@ -149,7 +147,7 @@ data class SettingsState(
                 dragHandleWidth = 64,
                 confettiType = 0,
                 allowAutoClipboardPaste = false,
-                confettiHarmonizer = Harmonizer.Primary,
+                confettiColorHarmonizer = ColorHarmonizer.Primary,
                 confettiHarmonizationLevel = 0.5f,
                 skipImagePicking = false,
                 generatePreviews = true,

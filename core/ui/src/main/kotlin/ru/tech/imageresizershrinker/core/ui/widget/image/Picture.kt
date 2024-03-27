@@ -44,7 +44,7 @@ import coil.request.ImageRequest
 import coil.transform.Transformation
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.shimmer
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalImageLoader
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 
 @Composable
 fun Picture(

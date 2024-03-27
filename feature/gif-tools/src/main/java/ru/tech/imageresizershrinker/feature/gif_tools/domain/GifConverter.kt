@@ -18,9 +18,9 @@
 package ru.tech.imageresizershrinker.feature.gif_tools.domain
 
 import kotlinx.coroutines.flow.Flow
-import ru.tech.imageresizershrinker.core.domain.image.ImageFrames
-import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
-import ru.tech.imageresizershrinker.core.domain.model.Quality
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 
 interface GifConverter {
 

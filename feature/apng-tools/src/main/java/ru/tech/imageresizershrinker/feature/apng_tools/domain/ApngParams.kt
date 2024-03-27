@@ -17,8 +17,8 @@
 
 package ru.tech.imageresizershrinker.feature.apng_tools.domain
 
+import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.domain.model.Quality
 
 data class ApngParams(
     val size: IntegerSize?,

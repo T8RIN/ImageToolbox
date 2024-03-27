@@ -17,8 +17,9 @@
 
 package ru.tech.imageresizershrinker.core.domain.image
 
-import ru.tech.imageresizershrinker.core.domain.model.ImageData
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 
 interface ImageGetter<I, M> {
 

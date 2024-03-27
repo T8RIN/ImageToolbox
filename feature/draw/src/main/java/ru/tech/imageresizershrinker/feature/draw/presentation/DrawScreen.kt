@@ -29,14 +29,10 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -125,15 +121,18 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageTooltip
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.restrict
+import ru.tech.imageresizershrinker.core.ui.utils.helper.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
+import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -161,8 +160,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
-import ru.tech.imageresizershrinker.core.ui.widget.utils.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
@@ -617,30 +614,13 @@ fun DrawScreen(
 
 
     val screenWidth = LocalConfiguration.current.screenWidthDp
-    val easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
+
     AnimatedContent(
         transitionSpec = {
-            if (this.targetState !is DrawBehavior.None) {
-                slideInHorizontally(
-                    animationSpec = tween(600, easing = easing),
-                    initialOffsetX = { screenWidth }) + fadeIn(
-                    tween(300, 100)
-                ) togetherWith slideOutHorizontally(
-                    animationSpec = tween(600, easing = easing),
-                    targetOffsetX = { -screenWidth }) + fadeOut(
-                    tween(300, 100)
-                )
-            } else {
-                slideInHorizontally(
-                    animationSpec = tween(600, easing = easing),
-                    initialOffsetX = { -screenWidth }) + fadeIn(
-                    tween(300, 100)
-                ) togetherWith slideOutHorizontally(
-                    animationSpec = tween(600, easing = easing),
-                    targetOffsetX = { screenWidth }) + fadeOut(
-                    tween(300, 100)
-                )
-            }
+            fancySlideTransition(
+                isForward = targetState !is DrawBehavior.None,
+                screenWidthDp = screenWidth
+            )
         },
         targetState = viewModel.drawBehavior
     ) { drawBehavior ->

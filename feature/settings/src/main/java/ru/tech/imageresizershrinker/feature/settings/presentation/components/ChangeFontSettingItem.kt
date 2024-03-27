@@ -30,15 +30,15 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.FontFamily
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
-import ru.tech.imageresizershrinker.core.settings.presentation.UiFontFam
+import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.feature.settings.presentation.components.additional.PickFontFamilySheet
 
 @Composable
 fun ChangeFontSettingItem(
-    onFontSelected: (UiFontFam) -> Unit,
+    onFontSelected: (UiFontFamily) -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier
         .fillMaxWidth()

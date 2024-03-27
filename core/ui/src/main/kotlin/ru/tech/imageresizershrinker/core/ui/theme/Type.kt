@@ -25,10 +25,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import ru.tech.imageresizershrinker.core.settings.presentation.UiFontFam
+import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
 
 fun Typography(
-    fontRes: UiFontFam = UiFontFam.Montserrat
+    fontRes: UiFontFamily = UiFontFamily.Montserrat
 ): Typography = Typography(
     displayLarge = TextStyle(
         fontFamily = fontRes.fontFamily,

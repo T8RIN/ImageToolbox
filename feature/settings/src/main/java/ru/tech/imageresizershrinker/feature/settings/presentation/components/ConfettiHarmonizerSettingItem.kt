@@ -59,8 +59,8 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.domain.model.Harmonizer
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
@@ -76,13 +76,13 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 
 @Composable
 fun ConfettiHarmonizerSettingItem(
-    onValueChange: (Harmonizer) -> Unit,
+    onValueChange: (ColorHarmonizer) -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
     val items = remember {
-        Harmonizer.entries
+        ColorHarmonizer.entries
     }
 
     val enabled = settingsState.isConfettiEnabled
@@ -145,23 +145,23 @@ fun ConfettiHarmonizerSettingItem(
                     .fillMaxWidth()
                     .padding(start = 8.dp, bottom = 8.dp, end = 8.dp)
             ) {
-                val value = settingsState.confettiHarmonizer
+                val value = settingsState.confettiColorHarmonizer
                 items.forEach { harmonizer ->
                     val colorScheme = MaterialTheme.colorScheme
                     val selectedColor = when (harmonizer) {
-                        is Harmonizer.Custom -> Color(value.ordinal)
+                        is ColorHarmonizer.Custom -> Color(value.ordinal)
                             .blend(
                                 color = colorScheme.surface,
                                 fraction = 0.1f
                             )
 
-                        Harmonizer.Primary -> colorScheme.primary
-                        Harmonizer.Secondary -> colorScheme.secondary
-                        Harmonizer.Tertiary -> colorScheme.tertiary
+                        ColorHarmonizer.Primary -> colorScheme.primary
+                        ColorHarmonizer.Secondary -> colorScheme.secondary
+                        ColorHarmonizer.Tertiary -> colorScheme.tertiary
                     }
                     EnhancedChip(
                         onClick = {
-                            if (harmonizer !is Harmonizer.Custom) {
+                            if (harmonizer !is ColorHarmonizer.Custom) {
                                 confettiHostState.currentToastData?.dismiss()
                                 onValueChange(harmonizer)
                                 scope.launch {
@@ -179,7 +179,7 @@ fun ConfettiHarmonizerSettingItem(
                         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp),
                         selectedColor = selectedColor,
                         selectedContentColor = when (harmonizer) {
-                            is Harmonizer.Custom -> selectedColor.inverse(
+                            is ColorHarmonizer.Custom -> selectedColor.inverse(
                                 fraction = {
                                     if (it) 0.9f
                                     else 0.6f
@@ -203,8 +203,10 @@ fun ConfettiHarmonizerSettingItem(
         }
     }
 
-    var tempColor by remember(settingsState.confettiHarmonizer) {
-        mutableIntStateOf((settingsState.confettiHarmonizer as? Harmonizer.Custom)?.color ?: 0)
+    var tempColor by remember(settingsState.confettiColorHarmonizer) {
+        mutableIntStateOf(
+            (settingsState.confettiColorHarmonizer as? ColorHarmonizer.Custom)?.color ?: 0
+        )
     }
     SimpleSheet(
         sheetContent = {
@@ -238,7 +240,7 @@ fun ConfettiHarmonizerSettingItem(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = {
                     confettiHostState.currentToastData?.dismiss()
-                    onValueChange(Harmonizer.Custom(tempColor))
+                    onValueChange(ColorHarmonizer.Custom(tempColor))
                     scope.launch {
                         delay(200L)
                         confettiHostState.showConfetti()
@@ -252,11 +254,11 @@ fun ConfettiHarmonizerSettingItem(
     )
 }
 
-private val Harmonizer.title: String
+private val ColorHarmonizer.title: String
     @Composable
     get() = when (this) {
-        is Harmonizer.Custom -> stringResource(R.string.custom)
-        Harmonizer.Primary -> stringResource(R.string.primary)
-        Harmonizer.Secondary -> stringResource(R.string.secondary)
-        Harmonizer.Tertiary -> stringResource(R.string.tertiary)
+        is ColorHarmonizer.Custom -> stringResource(R.string.custom)
+        ColorHarmonizer.Primary -> stringResource(R.string.primary)
+        ColorHarmonizer.Secondary -> stringResource(R.string.secondary)
+        ColorHarmonizer.Tertiary -> stringResource(R.string.tertiary)
     }

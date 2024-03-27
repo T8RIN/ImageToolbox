@@ -20,8 +20,8 @@ package ru.tech.imageresizershrinker.core.ui.utils.helper
 import android.graphics.Bitmap
 import coil.size.Size
 import coil.size.pxOrElse
-import ru.tech.imageresizershrinker.core.domain.image.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import coil.transform.Transformation as CoilTransformation
 
 fun Size.asDomain(): IntegerSize = if (this == Size.ORIGINAL) IntegerSize.Undefined

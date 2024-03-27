@@ -18,6 +18,8 @@
 package ru.tech.imageresizershrinker.core.domain.saving
 
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
 
 interface FileController {
     val savingPath: String

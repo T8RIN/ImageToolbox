@@ -44,7 +44,7 @@ import androidx.core.content.FileProvider
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelableArrayList
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState

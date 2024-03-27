@@ -24,7 +24,7 @@ import coil.size.pxOrElse
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import ru.tech.imageresizershrinker.core.data.utils.asCoil
-import ru.tech.imageresizershrinker.core.domain.image.Transformation
+import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import java.lang.Integer.max
 import coil.transform.Transformation as CoilTransformation

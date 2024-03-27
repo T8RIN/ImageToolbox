@@ -37,13 +37,13 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.di.IoDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.model.ImageScaleMode
-import ru.tech.imageresizershrinker.core.domain.model.SwitchType
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
-import ru.tech.imageresizershrinker.core.settings.domain.model.FontFam
-import ru.tech.imageresizershrinker.core.settings.domain.model.Harmonizer
+import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
+import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -259,7 +259,7 @@ class SettingsViewModel @Inject constructor(
 
     fun createBackupFilename(): String = settingsRepository.createBackupFilename()
 
-    fun setFont(font: FontFam) {
+    fun setFont(font: DomainFontFamily) {
         viewModelScope.launch {
             settingsRepository.setFont(font)
         }
@@ -327,7 +327,7 @@ class SettingsViewModel @Inject constructor(
             val emojiUri = getEmoji(settingsState.selectedEmoji)
             if (emojiUri.contains("shoe", true) && showShoeDescription != null) {
                 showShoeDescription(emojiUri)
-                setFont(FontFam.DejaVu)
+                setFont(DomainFontFamily.DejaVu)
                 val colorTuple = ColorTuple(
                     primary = Color(0xFF6D216D),
                     secondary = Color(0xFF240A95),
@@ -491,9 +491,9 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun setConfettiHarmonizer(harmonizer: Harmonizer) {
+    fun setConfettiHarmonizer(colorHarmonizer: ColorHarmonizer) {
         viewModelScope.launch {
-            settingsRepository.setConfettiHarmonizer(harmonizer)
+            settingsRepository.setConfettiHarmonizer(colorHarmonizer)
         }
     }
 

@@ -27,9 +27,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
@@ -38,8 +35,6 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.shrinkOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -118,8 +113,9 @@ import com.t8rin.dynamic.theme.observeAsState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.model.Preset
+import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -149,7 +145,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
-import ru.tech.imageresizershrinker.core.ui.widget.utils.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.core.ui.utils.helper.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfToImagesPreference
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfViewer
 import ru.tech.imageresizershrinker.feature.pdf_tools.presentation.components.PdfViewerOrientation
@@ -676,30 +672,13 @@ fun PdfToolsScreen(
                     )
 
                     val screenWidth = LocalConfiguration.current.screenWidthDp
-                    val easing = CubicBezierEasing(0.48f, 0.19f, 0.05f, 1.03f)
+
                     AnimatedContent(
                         transitionSpec = {
-                            if (targetState != null) {
-                                slideInHorizontally(
-                                    animationSpec = tween(600, easing = easing),
-                                    initialOffsetX = { screenWidth }) + fadeIn(
-                                    tween(300, 100)
-                                ) togetherWith slideOutHorizontally(
-                                    animationSpec = tween(600, easing = easing),
-                                    targetOffsetX = { -screenWidth }) + fadeOut(
-                                    tween(300, 100)
-                                )
-                            } else {
-                                slideInHorizontally(
-                                    animationSpec = tween(600, easing = easing),
-                                    initialOffsetX = { -screenWidth }) + fadeIn(
-                                    tween(300, 100)
-                                ) togetherWith slideOutHorizontally(
-                                    animationSpec = tween(600, easing = easing),
-                                    targetOffsetX = { screenWidth }) + fadeOut(
-                                    tween(300, 100)
-                                )
-                            } using SizeTransform(false)
+                            fancySlideTransition(
+                                isForward = targetState != null,
+                                screenWidthDp = screenWidth
+                            )
                         },
                         targetState = viewModel.pdfType
                     ) { pdfType ->

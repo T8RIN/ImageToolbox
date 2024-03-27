@@ -17,9 +17,8 @@
 
 package ru.tech.imageresizershrinker.core.domain.saving.model
 
-import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
-import ru.tech.imageresizershrinker.core.domain.model.ImageInfo
-import ru.tech.imageresizershrinker.core.domain.saving.SaveTarget
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 
 data class ImageSaveTarget<M>(
     val imageInfo: ImageInfo,

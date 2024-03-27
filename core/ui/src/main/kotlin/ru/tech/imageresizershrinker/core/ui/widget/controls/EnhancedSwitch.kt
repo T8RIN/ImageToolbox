@@ -44,8 +44,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.core.domain.model.SwitchType
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.CupertinoSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.CupertinoSwitchDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.FluentSwitch

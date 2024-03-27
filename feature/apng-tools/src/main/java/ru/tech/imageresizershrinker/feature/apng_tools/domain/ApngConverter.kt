@@ -18,8 +18,8 @@
 package ru.tech.imageresizershrinker.feature.apng_tools.domain
 
 import kotlinx.coroutines.flow.Flow
-import ru.tech.imageresizershrinker.core.domain.model.ImageFormat
-import ru.tech.imageresizershrinker.core.domain.model.Quality
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 
 interface ApngConverter {
 

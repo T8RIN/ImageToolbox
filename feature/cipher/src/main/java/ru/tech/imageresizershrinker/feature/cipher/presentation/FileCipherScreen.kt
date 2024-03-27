@@ -109,7 +109,7 @@ import ru.tech.imageresizershrinker.core.domain.utils.toInt
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ShieldKey
 import ru.tech.imageresizershrinker.core.resources.icons.ShieldOpen
-import ru.tech.imageresizershrinker.core.settings.presentation.LocalSettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
 import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
@@ -117,6 +117,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostStat
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isScrollingUp
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -135,7 +136,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
-import ru.tech.imageresizershrinker.core.ui.widget.utils.isScrollingUp
 import ru.tech.imageresizershrinker.feature.cipher.presentation.components.CipherTipSheet
 import ru.tech.imageresizershrinker.feature.cipher.presentation.viewModel.FileCipherViewModel
 import java.security.InvalidKeyException
