@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.applyCanvas
 import com.awxkee.aire.Aire
 import com.awxkee.aire.BitmapScaleMode
+import com.t8rin.logger.makeLog
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
@@ -247,42 +248,22 @@ internal class AndroidImageScaler @Inject constructor(
 
         val scaleByWidth = suspend {
             val aspectRatio = image.aspectRatio
-
-            if (aspectRatio <= 1f) {
-                createScaledBitmap(
-                    image = image,
-                    width = width,
-                    height = (width / aspectRatio).toInt(),
-                    imageScaleMode = ImageScaleMode.NotPresent
-                )
-            } else {
-                createScaledBitmap(
-                    image = image,
-                    width = width,
-                    height = (width * aspectRatio).toInt(),
-                    imageScaleMode = ImageScaleMode.NotPresent
-                )
-            }
+            createScaledBitmap(
+                image = image,
+                width = width,
+                height = (width / aspectRatio).toInt(),
+                imageScaleMode = ImageScaleMode.NotPresent
+            )
         }
 
         val scaleByHeight = suspend {
-            val aspectRatio = image.aspectRatio
-
-            if (aspectRatio <= 1f) {
-                createScaledBitmap(
-                    image = image,
-                    width = (height * aspectRatio).toInt(),
-                    height = height,
-                    imageScaleMode = ImageScaleMode.NotPresent
-                )
-            } else {
-                createScaledBitmap(
-                    image = image,
-                    width = (height / aspectRatio).toInt(),
-                    height = height,
-                    imageScaleMode = ImageScaleMode.NotPresent
-                )
-            }
+            val aspectRatio = image.aspectRatio.makeLog()
+            createScaledBitmap(
+                image = image,
+                width = (height * aspectRatio).toInt(),
+                height = height,
+                imageScaleMode = ImageScaleMode.NotPresent
+            )
         }
 
         when (resizeAnchor) {
