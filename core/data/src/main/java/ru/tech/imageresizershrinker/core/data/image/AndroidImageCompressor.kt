@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.image.utils.SimpleCompressor
 import ru.tech.imageresizershrinker.core.data.utils.fileSize
+import ru.tech.imageresizershrinker.core.data.utils.toSoftware
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.di.EncodingDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
@@ -85,7 +86,7 @@ internal class AndroidImageCompressor @Inject constructor(
                 context = context
             )
             .compress(
-                image = image,
+                image = image.toSoftware(),
                 quality = quality.coerceIn(imageFormat)
             )
     }
