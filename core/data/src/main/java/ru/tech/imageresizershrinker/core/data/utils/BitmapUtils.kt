@@ -23,12 +23,21 @@ import android.os.Build
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.core.graphics.drawable.toBitmap
 
+private val possibleConfigs = mutableListOf<Bitmap.Config>().apply {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        add(Bitmap.Config.RGBA_1010102)
+    }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        add(Bitmap.Config.RGBA_F16)
+    }
+    add(Bitmap.Config.ARGB_8888)
+    add(Bitmap.Config.RGB_565)
+}
+
 fun getSuitableConfig(
     image: Bitmap? = null
 ): Bitmap.Config = image?.config?.takeIf {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        it != Bitmap.Config.HARDWARE
-    } else true
+    it in possibleConfigs
 } ?: if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
     Bitmap.Config.RGBA_1010102
 } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

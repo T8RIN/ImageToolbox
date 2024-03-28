@@ -31,6 +31,7 @@ import com.awxkee.jxlcoder.JxlDecodingSpeed
 import com.awxkee.jxlcoder.JxlEffort
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
 import com.radzivon.bartoshyk.avif.coder.PreciseMode
+import ru.tech.imageresizershrinker.core.data.utils.toSoftware
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import java.io.ByteArrayOutputStream
@@ -295,7 +296,7 @@ internal abstract class SimpleCompressor {
         ): ByteArray {
             val pngLossyQuality = quality as? Quality.PngLossy ?: Quality.PngLossy()
             return Aire.toPNG(
-                bitmap = image,
+                bitmap = image.toSoftware(),
                 maxColors = pngLossyQuality.maxColors,
                 quantize = AireQuantize.XIAOLING_WU,
                 dithering = AirePaletteDithering.JARVIS_JUDICE_NINKE,
@@ -372,7 +373,7 @@ internal abstract class SimpleCompressor {
             image: Bitmap,
             quality: Quality
         ): ByteArray = Aire.mozjpeg(
-            bitmap = image,
+            bitmap = image.toSoftware(),
             quality = quality.qualityValue
         )
 
@@ -384,7 +385,7 @@ internal abstract class SimpleCompressor {
             image: Bitmap,
             quality: Quality
         ): ByteArray = Aire.jpegli(
-            bitmap = image,
+            bitmap = image.toSoftware(),
             quality = quality.qualityValue
         )
 
@@ -399,7 +400,7 @@ internal abstract class SimpleCompressor {
             val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl(quality.qualityValue)
             return JxlCoder.encode(
                 bitmap = if (jxlQuality.channels is Quality.Channels.Monochrome) {
-                    Aire.grayscale(image)
+                    Aire.grayscale(image.toSoftware())
                 } else image,
                 channelsConfiguration = when (jxlQuality.channels) {
                     Quality.Channels.RGBA -> JxlChannelsConfiguration.RGBA
@@ -424,7 +425,7 @@ internal abstract class SimpleCompressor {
             val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl(quality.qualityValue)
             return JxlCoder.encode(
                 bitmap = if (jxlQuality.channels is Quality.Channels.Monochrome) {
-                    Aire.grayscale(image)
+                    Aire.grayscale(image.toSoftware())
                 } else image,
                 channelsConfiguration = when (jxlQuality.channels) {
                     Quality.Channels.RGBA -> JxlChannelsConfiguration.RGBA
