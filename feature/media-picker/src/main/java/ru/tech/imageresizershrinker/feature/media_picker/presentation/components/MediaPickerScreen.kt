@@ -299,6 +299,7 @@ fun MediaPickerScreen(
                 enter = scaleIn() + fadeIn(),
                 exit = scaleOut() + fadeOut()
             ) {
+                val errorMessage = albumsState.error + "\n" + mediaState.error
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -312,7 +313,9 @@ fun MediaPickerScreen(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = stringResource(id = R.string.no_data),
+                        text = errorMessage.ifEmpty {
+                            stringResource(id = R.string.no_data)
+                        },
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 16.sp
                     )
