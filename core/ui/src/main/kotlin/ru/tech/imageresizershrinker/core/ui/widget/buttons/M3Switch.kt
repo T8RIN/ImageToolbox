@@ -23,12 +23,14 @@ import android.view.MotionEvent
 import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchColors
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,6 +56,10 @@ fun M3Switch(
     colors: SwitchColors = SwitchDefaults.colors(),
     interactionSource: MutableInteractionSource? = null,
 ) {
+    val realInteractionSource = interactionSource ?: remember {
+        MutableInteractionSource()
+    }
+    val isPressed by realInteractionSource.collectIsPressedAsState()
     var view by remember {
         mutableStateOf<MaterialSwitch?>(null)
     }
@@ -71,6 +77,9 @@ fun M3Switch(
         onDispose {
             view?.setOnCheckedChangeListener(null)
         }
+    }
+    LaunchedEffect(view, isPressed) {
+        view?.isPressed = isPressed
     }
 
     Box {
@@ -101,7 +110,7 @@ fun M3Switch(
                                     Offset(event.x, event.y)
                                 ).also {
                                     scope.launch {
-                                        interactionSource?.emit(it)
+                                        realInteractionSource.emit(it)
                                     }
                                 }
                             }
@@ -109,7 +118,7 @@ fun M3Switch(
                             MotionEvent.ACTION_MOVE -> {
                                 drag = DragInteraction.Start().also {
                                     scope.launch {
-                                        interactionSource?.emit(it)
+                                        realInteractionSource.emit(it)
                                     }
                                 }
                             }
@@ -117,10 +126,10 @@ fun M3Switch(
                             MotionEvent.ACTION_UP -> {
                                 scope.launch {
                                     press?.let {
-                                        interactionSource?.emit(PressInteraction.Release(it))
+                                        realInteractionSource.emit(PressInteraction.Release(it))
                                     }
                                     drag?.let {
-                                        interactionSource?.emit(DragInteraction.Stop(it))
+                                        realInteractionSource.emit(DragInteraction.Stop(it))
                                     }
                                     press = null
                                     drag = null
@@ -130,10 +139,10 @@ fun M3Switch(
                             MotionEvent.ACTION_CANCEL -> {
                                 scope.launch {
                                     press?.let {
-                                        interactionSource?.emit(PressInteraction.Cancel(it))
+                                        realInteractionSource.emit(PressInteraction.Cancel(it))
                                     }
                                     drag?.let {
-                                        interactionSource?.emit(DragInteraction.Cancel(it))
+                                        realInteractionSource.emit(DragInteraction.Cancel(it))
                                     }
                                     press = null
                                     drag = null

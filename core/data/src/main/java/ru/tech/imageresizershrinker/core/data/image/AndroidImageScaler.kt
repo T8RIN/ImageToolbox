@@ -28,7 +28,6 @@ import com.awxkee.aire.BitmapScaleMode
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.aspectRatio
-import ru.tech.imageresizershrinker.core.data.utils.toSoftware
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
@@ -217,7 +216,7 @@ internal class AndroidImageScaler @Inject constructor(
         } ?: settingsRepository.getSettingsState().defaultImageScaleMode
 
         Aire.scale(
-            bitmap = image.toSoftware(),
+            bitmap = image.copy(Bitmap.Config.ARGB_8888, false),
             dstWidth = width,
             dstHeight = height,
             scaleMode = BitmapScaleMode.entries.first { e -> e.ordinal == mode.value },
