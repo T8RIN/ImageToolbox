@@ -38,13 +38,7 @@ fun getSuitableConfig(
     image: Bitmap? = null
 ): Bitmap.Config = image?.config?.takeIf {
     it in possibleConfigs
-} ?: if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-    Bitmap.Config.RGBA_1010102
-} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-    Bitmap.Config.RGBA_F16
-} else {
-    Bitmap.Config.ARGB_8888
-}
+} ?: Bitmap.Config.ARGB_8888
 
 fun Bitmap.toSoftware(): Bitmap = copy(getSuitableConfig(this), false) ?: this
 
