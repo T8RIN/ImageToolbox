@@ -35,7 +35,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -46,13 +46,13 @@ internal class AndroidImagePreviewCreator @Inject constructor(
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-    settingsRepository: SettingsRepository
+    settingsProvider: SettingsProvider
 ) : ImagePreviewCreator<Bitmap> {
 
     private var generatePreviews = SettingsState.Default.generatePreviews
 
     init {
-        settingsRepository
+        settingsProvider
             .getSettingsStateFlow()
             .onEach {
                 generatePreviews = it.generatePreviews

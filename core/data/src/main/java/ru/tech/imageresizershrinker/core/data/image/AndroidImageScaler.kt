@@ -26,6 +26,9 @@ import androidx.core.graphics.applyCanvas
 import com.awxkee.aire.Aire
 import com.awxkee.aire.BitmapScaleMode
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.aspectRatio
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
@@ -37,17 +40,26 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.roundToInt
 
 internal class AndroidImageScaler @Inject constructor(
-    private val settingsRepository: SettingsRepository,
+    settingsProvider: SettingsProvider,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : ImageScaler<Bitmap> {
+
+    private var defaultImageScaleMode: ImageScaleMode = ImageScaleMode.Default
+
+    init {
+        settingsProvider
+            .getSettingsStateFlow().onEach {
+                defaultImageScaleMode = it.defaultImageScaleMode
+            }.launchIn(CoroutineScope(dispatcher))
+    }
 
     override suspend fun scaleImage(
         image: Bitmap,
@@ -213,7 +225,7 @@ internal class AndroidImageScaler @Inject constructor(
 
         val mode = imageScaleMode.takeIf {
             it != ImageScaleMode.NotPresent
-        } ?: settingsRepository.getSettingsState().defaultImageScaleMode
+        } ?: defaultImageScaleMode
 
         Aire.scale(
             bitmap = image.copy(Bitmap.Config.ARGB_8888, false),

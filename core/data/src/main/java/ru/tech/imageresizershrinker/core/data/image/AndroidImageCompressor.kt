@@ -47,7 +47,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.model.sizeTo
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
@@ -60,13 +60,13 @@ internal class AndroidImageCompressor @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     @EncodingDispatcher private val processingDispatcher: CoroutineDispatcher,
-    settingsRepository: SettingsRepository
+    settingsProvider: SettingsProvider
 ) : ImageCompressor<Bitmap> {
 
     private var overwriteFiles: Boolean = false
 
     init {
-        settingsRepository
+        settingsProvider
             .getSettingsStateFlow()
             .onEach {
                 overwriteFiles = it.overwriteFiles

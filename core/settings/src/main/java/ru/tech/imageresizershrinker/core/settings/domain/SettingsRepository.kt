@@ -19,18 +19,18 @@ package ru.tech.imageresizershrinker.core.settings.domain
 
 import kotlinx.coroutines.flow.Flow
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
-import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
+import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
-import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
+import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 
-interface SettingsRepository {
+interface SettingsRepository : SettingsProvider {
 
-    suspend fun getSettingsState(): SettingsState
+    override suspend fun getSettingsState(): SettingsState
 
-    fun getSettingsStateFlow(): Flow<SettingsState>
+    override fun getSettingsStateFlow(): Flow<SettingsState>
 
     suspend fun toggleAddSequenceNumber()
 

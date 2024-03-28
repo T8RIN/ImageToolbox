@@ -47,7 +47,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.FadeSide
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.domain.model.SideFadeParams
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.CombiningParams
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.ImageCombiner
@@ -65,13 +65,13 @@ internal class AndroidImageCombiner @Inject constructor(
     private val filterProvider: FilterProvider<Bitmap>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-    settingsRepository: SettingsRepository
+    settingsProvider: SettingsProvider
 ) : ImageCombiner<Bitmap> {
 
     private var generatePreviews = SettingsState.Default.generatePreviews
 
     init {
-        settingsRepository
+        settingsProvider
             .getSettingsStateFlow()
             .onEach {
                 generatePreviews = it.generatePreviews
