@@ -37,7 +37,6 @@ import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -54,6 +53,7 @@ import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberRipple
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 
@@ -130,7 +130,7 @@ fun EnhancedSlider(
     }
 
     val settingsState = LocalSettingsState.current
-    CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
+    LocalMinimumInteractiveComponentEnforcement.ProvidesValue(false) {
         CustomSlider(
             interactionSource = interactionSource,
             thumb = thumb,

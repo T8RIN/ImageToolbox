@@ -22,7 +22,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
 
 @Composable
-operator fun <T> ProvidableCompositionLocal<T>.invoke(
+fun <T> ProvidableCompositionLocal<T>.ProvidesValue(
     value: T,
     content: @Composable () -> Unit
 ) = CompositionLocalProvider(value = this provides value, content)

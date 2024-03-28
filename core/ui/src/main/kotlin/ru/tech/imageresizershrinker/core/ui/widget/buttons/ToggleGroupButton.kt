@@ -40,7 +40,6 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -55,6 +54,7 @@ import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -172,9 +172,7 @@ fun ToggleGroupButton(
                     )
                     .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
             ) {
-                CompositionLocalProvider(
-                    LocalMinimumInteractiveComponentEnforcement provides false
-                ) {
+                LocalMinimumInteractiveComponentEnforcement.ProvidesValue(false) {
                     repeat(itemCount) { index ->
                         val shape = SegmentedButtonDefaults.itemShape(index, itemCount)
                         val activeContainerColor = if (enabled) {

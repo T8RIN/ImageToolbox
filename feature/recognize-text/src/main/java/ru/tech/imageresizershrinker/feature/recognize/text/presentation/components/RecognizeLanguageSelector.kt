@@ -76,7 +76,6 @@ import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -109,6 +108,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.Red
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
@@ -584,8 +584,8 @@ fun RecognizeLanguageSelector(
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
                                             AnimatedVisibility(visible = value.size > 1) {
-                                                CompositionLocalProvider(
-                                                    LocalMinimumInteractiveComponentEnforcement provides false
+                                                LocalMinimumInteractiveComponentEnforcement.ProvidesValue(
+                                                    false
                                                 ) {
                                                     Checkbox(
                                                         checked = selected,

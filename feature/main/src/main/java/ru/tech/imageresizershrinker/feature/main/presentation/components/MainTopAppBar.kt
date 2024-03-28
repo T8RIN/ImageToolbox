@@ -39,7 +39,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -53,9 +52,10 @@ import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.settings.presentation.model.isFirstLaunch
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.AppVersionPreRelease
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -83,7 +83,7 @@ internal fun MainTopAppBar(
     EnhancedTopAppBar(
         type = EnhancedTopAppBarType.Large,
         title = {
-            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+            LocalLayoutDirection.ProvidesValue(LayoutDirection.Ltr) {
                 Marquee {
                     val titleText = remember {
                         "${Screen.FEATURES_COUNT}".plus(

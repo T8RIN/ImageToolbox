@@ -32,7 +32,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,6 +48,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.ui.shapes.IconShapeContainer
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.value.ValueDialog
 import ru.tech.imageresizershrinker.core.ui.widget.value.ValueText
@@ -84,7 +84,7 @@ fun EnhancedSliderItem(
     var showValueDialog by rememberSaveable { mutableStateOf(false) }
     var internalState by remember(value) { mutableStateOf(value) }
     AnimatedVisibility(visible = visible) {
-        CompositionLocalProvider(LocalContentColor provides internalColor) {
+        LocalContentColor.ProvidesValue(internalColor) {
             Column(
                 modifier = modifier
                     .then(

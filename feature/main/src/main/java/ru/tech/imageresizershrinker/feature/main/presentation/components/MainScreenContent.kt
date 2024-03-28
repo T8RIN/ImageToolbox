@@ -33,7 +33,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -44,6 +43,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 
 @Composable
 internal fun MainScreenContent(
@@ -69,9 +69,7 @@ internal fun MainScreenContent(
         showScreenSearch = showScreenSearch
     )
 
-    CompositionLocalProvider(
-        value = LocalLayoutDirection provides layoutDirection
-    ) {
+    LocalLayoutDirection.ProvidesValue(layoutDirection) {
         val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
         Column(
             modifier = Modifier

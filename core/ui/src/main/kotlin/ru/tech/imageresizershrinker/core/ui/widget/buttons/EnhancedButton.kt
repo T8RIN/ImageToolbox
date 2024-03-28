@@ -36,7 +36,6 @@ import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,6 +48,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -80,7 +80,7 @@ fun EnhancedButton(
     val settingsState = LocalSettingsState.current
     val haptics = LocalHapticFeedback.current
 
-    CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
+    LocalMinimumInteractiveComponentEnforcement.ProvidesValue(false) {
         Box {
             OutlinedButton(
                 onClick = {
@@ -138,7 +138,7 @@ fun EnhancedIconButton(
     val settingsState = LocalSettingsState.current
     val haptics = LocalHapticFeedback.current
 
-    CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
+    LocalMinimumInteractiveComponentEnforcement.ProvidesValue(false) {
         OutlinedIconButton(
             onClick = {
                 onClick()

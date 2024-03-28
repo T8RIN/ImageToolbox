@@ -30,7 +30,6 @@ import androidx.compose.material3.DrawerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -54,6 +53,7 @@ import androidx.compose.ui.unit.min
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import kotlin.coroutines.cancellation.CancellationException
 
@@ -185,7 +185,7 @@ internal fun MainScreenDrawerContent(
         drawerShape = if (isSheetSlideable) shape else RectangleShape,
         windowInsets = WindowInsets(0)
     ) {
-        CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
+        LocalLayoutDirection.ProvidesValue(layoutDirection) {
             settingsBlock()
         }
     }

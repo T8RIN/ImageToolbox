@@ -54,7 +54,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconToggleButton
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -76,6 +75,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSlider
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
@@ -213,7 +213,7 @@ fun LazyListScope.imageStickyHeader(
                             steps = 3,
                             valueRange = 0f..4f
                         )
-                        CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
+                        LocalMinimumInteractiveComponentEnforcement.ProvidesValue(false) {
                             OutlinedIconToggleButton(
                                 checked = imageState.isBlocked,
                                 onCheckedChange = {

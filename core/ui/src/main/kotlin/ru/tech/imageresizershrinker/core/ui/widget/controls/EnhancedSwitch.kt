@@ -45,7 +45,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.utils.helper.invoke
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.CupertinoSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.CupertinoSwitchDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.FluentSwitch
@@ -72,7 +72,7 @@ fun EnhancedSwitch(
     val settingsState = LocalSettingsState.current
     val haptics = LocalHapticFeedback.current
 
-    LocalMinimumInteractiveComponentEnforcement(false) {
+    LocalMinimumInteractiveComponentEnforcement.ProvidesValue(false) {
         val switchModifier = modifier
             .minimumInteractiveComponentSize()
             .container(

@@ -29,7 +29,6 @@ import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -43,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.containerFabBorder
 
 @Composable
@@ -60,9 +60,7 @@ fun EnhancedFloatingActionButton(
     val size by animateDpAsState(type.size)
     val haptics = LocalHapticFeedback.current
 
-    CompositionLocalProvider(
-        LocalMinimumInteractiveComponentEnforcement provides false
-    ) {
+    LocalMinimumInteractiveComponentEnforcement.ProvidesValue(false) {
         FloatingActionButton(
             onClick = {
                 onClick()
