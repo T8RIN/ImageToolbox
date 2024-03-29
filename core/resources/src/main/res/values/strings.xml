@@ -891,4 +891,6 @@
     <string name="fluent_switch_sub">Uses Windows 11 styled switch based on \"Fluent\" design system</string>
     <string name="cupertino_switch">Cupertino</string>
     <string name="cupertino_switch_sub">Uses IOS like switch based on cupertino design system</string>
+    <string name="images_to_svg">Images To Svg</string>
+    <string name="images_to_svg_sub">Trace given images to SVG images</string>
 </resources>

@@ -52,4 +52,5 @@ dependencies {
     implementation(projects.feature.jxlTools)
     implementation(projects.feature.settings)
     implementation(projects.feature.easterEgg)
+    implementation(projects.feature.svg)
 }

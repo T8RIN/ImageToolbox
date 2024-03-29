@@ -15,12 +15,25 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.saving.model
+package ru.tech.imageresizershrinker.feature.svg.di
 
-interface SaveTarget {
-    val originalUri: String
-    val data: ByteArray
-    val filename: String?
-    val mimeType: String
-    val extension: String
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ru.tech.imageresizershrinker.feature.svg.data.SvgManagerImpl
+import ru.tech.imageresizershrinker.feature.svg.domain.SvgManager
+import javax.inject.Singleton
+
+
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface SvgModule {
+
+    @Singleton
+    @Binds
+    fun provideSvgManager(
+        manager: SvgManagerImpl
+    ): SvgManager
+
 }

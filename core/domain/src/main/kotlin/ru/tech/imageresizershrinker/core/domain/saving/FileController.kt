@@ -36,6 +36,12 @@ interface FileController {
         forceNotAddSizeInFilename: Boolean = false
     ): String
 
+    fun constructImageFilename(
+        saveTarget: ImageSaveTarget<*>,
+        extension: String,
+        forceNotAddSizeInFilename: Boolean = false
+    ): String
+
     fun clearCache(onComplete: (String) -> Unit = {})
 
     fun getReadableCacheSize(): String

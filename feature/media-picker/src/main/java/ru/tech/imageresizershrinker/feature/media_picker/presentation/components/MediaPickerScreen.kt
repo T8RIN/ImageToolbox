@@ -313,7 +313,7 @@ fun MediaPickerScreen(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = errorMessage.ifEmpty {
+                        text = errorMessage.trim().ifEmpty {
                             stringResource(id = R.string.no_data)
                         },
                         fontWeight = FontWeight.SemiBold,

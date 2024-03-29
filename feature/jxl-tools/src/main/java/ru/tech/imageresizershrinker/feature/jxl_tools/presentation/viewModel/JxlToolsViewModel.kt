@@ -35,18 +35,18 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
-import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
-import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
-import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
+import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.jxl_tools.domain.JxlConverter
@@ -380,7 +380,7 @@ class JxlToolsViewModel @Inject constructor(
                     _left.value = jpegUris.size
                     jxlConverter.jpegToJxl(
                         jpegUris = jpegUris,
-                        onError = {}
+                        onError = onError
                     ) { uri, jxlBytes ->
                         results.add(
                             shareProvider.cacheByteArray(
@@ -404,7 +404,7 @@ class JxlToolsViewModel @Inject constructor(
                     _left.value = jxlUris.size
                     jxlConverter.jxlToJpeg(
                         jxlUris = jxlUris,
-                        onError = {}
+                        onError = onError
                     ) { uri, jpegBytes ->
                         results.add(
                             shareProvider.cacheByteArray(

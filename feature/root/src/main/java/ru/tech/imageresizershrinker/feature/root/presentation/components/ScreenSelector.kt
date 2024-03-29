@@ -55,6 +55,7 @@ import ru.tech.imageresizershrinker.feature.resize_convert.presentation.ResizeAn
 import ru.tech.imageresizershrinker.feature.root.presentation.viewModel.RootViewModel
 import ru.tech.imageresizershrinker.feature.settings.presentation.SettingsScreen
 import ru.tech.imageresizershrinker.feature.single_edit.presentation.SingleEditScreen
+import ru.tech.imageresizershrinker.feature.svg.presentation.SvgScreen
 import ru.tech.imageresizershrinker.feature.watermarking.presentation.WatermarkingScreen
 import ru.tech.imageresizershrinker.feature.zip.presentation.ZipScreen
 
@@ -274,6 +275,13 @@ internal fun ScreenSelector(
             is Screen.JxlTools -> {
                 JxlToolsScreen(
                     typeState = screen.type,
+                    onGoBack = onGoBack
+                )
+            }
+
+            is Screen.Svg -> {
+                SvgScreen(
+                    uriState = screen.uris,
                     onGoBack = onGoBack
                 )
             }

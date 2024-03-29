@@ -59,6 +59,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.Jpg
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
 import ru.tech.imageresizershrinker.core.resources.icons.MultipleImageEdit
 import ru.tech.imageresizershrinker.core.resources.icons.PaletteSwatch
+import ru.tech.imageresizershrinker.core.resources.icons.Svg
 import ru.tech.imageresizershrinker.core.resources.icons.Toolbox
 import ru.tech.imageresizershrinker.core.resources.icons.Transparency
 
@@ -98,6 +99,7 @@ sealed class Screen(
             is SingleEdit -> "Single_Edit"
             is Watermarking -> "Watermarking"
             is Zip -> "Zip"
+            is Svg -> "Svg"
         }
 
     val icon: ImageVector?
@@ -126,6 +128,7 @@ sealed class Screen(
             is ResizeByBytes -> Icons.Rounded.ImageWeight
             is Watermarking -> Icons.AutoMirrored.Outlined.BrandingWatermark
             is Zip -> Icons.Outlined.FolderZip
+            is Svg -> Icons.Outlined.Svg
             EasterEgg,
             Main,
             Settings -> null
@@ -566,6 +569,14 @@ sealed class Screen(
         }
     }
 
+    data class Svg(
+        val uris: List<Uri>? = null
+    ) : Screen(
+        id = 24,
+        title = R.string.images_to_svg,
+        subtitle = R.string.images_to_svg_sub
+    )
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -598,6 +609,7 @@ sealed class Screen(
                     RecognizeText(),
                     Compare(),
                     ImagePreview(),
+                    Svg(),
                     GeneratePalette(),
                     LoadNetImage(),
                 ) to Triple(
@@ -623,6 +635,6 @@ sealed class Screen(
             typedEntries.flatMap { it.first }.sortedBy { it.id }
         }
 
-        const val FEATURES_COUNT = 37
+        const val FEATURES_COUNT = 38
     }
 }

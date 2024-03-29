@@ -26,8 +26,10 @@ data class ImageSaveTarget<M>(
     val sequenceNumber: Int?,
     val metadata: M? = null,
     override val filename: String? = null,
-    override val imageFormat: ImageFormat = imageInfo.imageFormat,
-    override val data: ByteArray
+    val imageFormat: ImageFormat = imageInfo.imageFormat,
+    override val data: ByteArray,
+    override val mimeType: String = imageFormat.type,
+    override val extension: String = imageFormat.extension
 ) : SaveTarget {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -38,18 +40,27 @@ data class ImageSaveTarget<M>(
         if (imageInfo != other.imageInfo) return false
         if (originalUri != other.originalUri) return false
         if (sequenceNumber != other.sequenceNumber) return false
+        if (metadata != other.metadata) return false
         if (filename != other.filename) return false
         if (imageFormat != other.imageFormat) return false
-        return data.contentEquals(other.data)
+        if (!data.contentEquals(other.data)) return false
+        if (mimeType != other.mimeType) return false
+        if (extension != other.extension) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
         var result = imageInfo.hashCode()
         result = 31 * result + originalUri.hashCode()
         result = 31 * result + (sequenceNumber ?: 0)
+        result = 31 * result + (metadata?.hashCode() ?: 0)
         result = 31 * result + (filename?.hashCode() ?: 0)
         result = 31 * result + imageFormat.hashCode()
         result = 31 * result + data.contentHashCode()
+        result = 31 * result + mimeType.hashCode()
+        result = 31 * result + extension.hashCode()
         return result
     }
+
 }

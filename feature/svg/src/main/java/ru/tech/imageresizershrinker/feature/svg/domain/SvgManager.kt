@@ -15,12 +15,14 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.domain.saving.model
+package ru.tech.imageresizershrinker.feature.svg.domain
 
-interface SaveTarget {
-    val originalUri: String
-    val data: ByteArray
-    val filename: String?
-    val mimeType: String
-    val extension: String
+interface SvgManager {
+
+    suspend fun convertToSvg(
+        imageUris: List<String>,
+        onError: (Throwable) -> Unit,
+        onProgress: suspend (originalUri: String, data: ByteArray) -> Unit
+    )
+
 }

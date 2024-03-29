@@ -162,7 +162,7 @@ internal class FileControllerImpl @Inject constructor(
 
                 shareProvider.cacheByteArray(
                     byteArray = saveTarget.data,
-                    filename = "${randomStringGenerator.generate(32)}.${saveTarget.imageFormat.extension}"
+                    filename = "${randomStringGenerator.generate(32)}.${saveTarget.extension}"
                 )?.toUri()?.let { uri ->
                     clipboardManager?.setPrimaryClip(
                         ClipData.newUri(
@@ -392,6 +392,56 @@ internal class FileControllerImpl @Inject constructor(
         }$suffix.$extension"
     }
 
+    override fun constructImageFilename(
+        saveTarget: ImageSaveTarget<*>,
+        extension: String,
+        forceNotAddSizeInFilename: Boolean
+    ): String {
+        if (settingsState.randomizeFilename) return "${randomStringGenerator.generate(32)}.$extension"
+
+        val wh =
+            "(" + (if (saveTarget.originalUri.toUri() == Uri.EMPTY) context.getString(R.string.width)
+                .split(" ")[0] else saveTarget.imageInfo.width) + ")x(" + (if (saveTarget.originalUri.toUri() == Uri.EMPTY) context.getString(
+                R.string.height
+            ).split(" ")[0] else saveTarget.imageInfo.height) + ")"
+
+        var prefix = settingsState.filenamePrefix
+        var suffix = settingsState.filenameSuffix
+
+        if (prefix.isNotEmpty()) prefix = "${prefix}_"
+        if (suffix.isNotEmpty()) suffix = "_$suffix"
+
+        if (settingsState.addOriginalFilename) {
+            prefix += if (saveTarget.originalUri.toUri() != Uri.EMPTY) {
+                saveTarget.originalUri.toUri()
+                    .getFilename()
+                    ?.dropLastWhile { it != '.' }
+                    ?.removeSuffix(".") ?: ""
+            } else {
+                context.getString(R.string.original_filename)
+            }
+        }
+        if (settingsState.addSizeInFilename && !forceNotAddSizeInFilename) prefix += wh
+
+        val timeStamp = SimpleDateFormat(
+            "yyyy-MM-dd_HH-mm-ss",
+            Locale.getDefault()
+        ).format(Date()) + "_${Random(Random.nextInt()).hashCode().toString().take(4)}"
+
+        return "$prefix${
+            if (settingsState.addSequenceNumber && saveTarget.sequenceNumber != null) {
+                if (settingsState.addOriginalFilename) {
+                    saveTarget.sequenceNumber.toString()
+                } else {
+                    SimpleDateFormat(
+                        "yyyy-MM-dd_HH-mm-ss",
+                        Locale.getDefault()
+                    ).format(Date()) + "_" + saveTarget.sequenceNumber
+                }
+            } else timeStamp
+        }$suffix.$extension"
+    }
+
     override fun clearCache(onComplete: (String) -> Unit) = context.clearCache(onComplete)
 
     override fun getReadableCacheSize(): String = context.cacheSize()
@@ -438,7 +488,7 @@ internal class FileControllerImpl @Inject constructor(
     ): SavingFolder = withContext(defaultDispatcher) {
         if (treeUri == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                val type = saveTarget.imageFormat.type
+                val type = saveTarget.mimeType
                 val path = "${Environment.DIRECTORY_DOCUMENTS}/ResizedImages"
                 val contentValues = ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, saveTarget.filename)
@@ -482,7 +532,7 @@ internal class FileControllerImpl @Inject constructor(
             }
 
             val file =
-                documentFile.createFile(saveTarget.imageFormat.type, saveTarget.filename!!)
+                documentFile.createFile(saveTarget.mimeType, saveTarget.filename!!)
 
             val imageUri = file!!.uri
             SavingFolder(
