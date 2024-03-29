@@ -57,7 +57,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
-fun QualityWidget(
+fun QualitySelector(
     imageFormat: ImageFormat,
     enabled: Boolean,
     quality: Quality,

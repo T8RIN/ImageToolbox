@@ -15,28 +15,22 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.jxl_tools.domain
+package ru.tech.imageresizershrinker.feature.svg.domain
 
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
-import ru.tech.imageresizershrinker.core.domain.image.model.Quality
-
-
-data class JxlParams(
-    val size: IntegerSize?,
-    val repeatCount: Int,
-    val delay: Int,
-    val quality: Quality.Jxl,
-    val isLossy: Boolean
+data class SvgParams(
+    val colorsCount: Int,
+    val isPaletteSampled: Boolean,
+    val quantizationCyclesCount: Int,
+    val blurRadius: Int,
+    val blurDelta: Int
 ) {
     companion object {
-        val Default by lazy {
-            JxlParams(
-                size = null,
-                repeatCount = 1,
-                delay = 1000,
-                quality = Quality.Jxl(),
-                isLossy = true
-            )
-        }
+        val Default = SvgParams(
+            colorsCount = 16,
+            isPaletteSampled = true,
+            quantizationCyclesCount = 3,
+            blurRadius = 0,
+            blurDelta = 20
+        )
     }
 }

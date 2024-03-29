@@ -15,15 +15,28 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.svg.domain
+package ru.tech.imageresizershrinker.feature.jxl_tools.domain
 
-interface SvgManager {
+import ru.tech.imageresizershrinker.core.domain.image.model.Quality
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 
-    suspend fun convertToSvg(
-        imageUris: List<String>,
-        params: SvgParams,
-        onError: (Throwable) -> Unit,
-        onProgress: suspend (originalUri: String, data: ByteArray) -> Unit
-    )
 
+data class AnimatedJxlParams(
+    val size: IntegerSize?,
+    val repeatCount: Int,
+    val delay: Int,
+    val quality: Quality,
+    val isLossy: Boolean
+) {
+    companion object {
+        val Default by lazy {
+            AnimatedJxlParams(
+                size = null,
+                repeatCount = 1,
+                delay = 1000,
+                quality = Quality.Jxl(),
+                isLossy = true
+            )
+        }
+    }
 }

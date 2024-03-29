@@ -893,4 +893,6 @@
     <string name="cupertino_switch_sub">Uses IOS like switch based on cupertino design system</string>
     <string name="images_to_svg">Images To Svg</string>
     <string name="images_to_svg_sub">Trace given images to SVG images</string>
+    <string name="use_sampled_palette">Use Sampled Palette</string>
+    <string name="use_sampled_palette_sub">Quantization palette will be sampled if this option enabled</string>
 </resources>

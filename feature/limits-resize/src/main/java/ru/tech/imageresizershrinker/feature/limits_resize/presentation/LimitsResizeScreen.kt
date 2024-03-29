@@ -55,7 +55,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
+import ru.tech.imageresizershrinker.core.ui.widget.controls.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleModeSelector
@@ -226,7 +226,7 @@ fun LimitsResizeScreen(
             if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) Spacer(
                 Modifier.size(8.dp)
             )
-            QualityWidget(
+            QualitySelector(
                 imageFormat = viewModel.imageInfo.imageFormat,
                 enabled = viewModel.bitmap != null,
                 quality = viewModel.imageInfo.quality,

@@ -17,8 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
-import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -52,17 +50,7 @@ fun BackupSettingItem(
     val toastHostState = LocalToastHostState.current
 
     val backupSavingLauncher = rememberLauncherForActivityResult(
-        contract = object : ActivityResultContracts.CreateDocument("*/*") {
-            override fun createIntent(
-                context: Context,
-                input: String
-            ): Intent {
-                return super.createIntent(
-                    context = context,
-                    input = input.split("#")[0]
-                ).putExtra(Intent.EXTRA_TITLE, input.split("#")[1])
-            }
-        },
+        contract = ActivityResultContracts.CreateDocument("*/*"),
         onResult = {
             it?.let { uri ->
                 createBackup(uri)
@@ -72,7 +60,7 @@ fun BackupSettingItem(
     PreferenceItem(
         onClick = {
             runCatching {
-                backupSavingLauncher.launch("*/*#${createBackupFilename()}")
+                backupSavingLauncher.launch(createBackupFilename())
             }.onFailure {
                 scope.launch {
                     toastHostState.showToast(

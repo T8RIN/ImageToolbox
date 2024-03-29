@@ -106,7 +106,7 @@ class ZipViewModel @Inject constructor(
         savingJob = viewModelScope.launch {
             withContext(dispatcher) {
                 _isSaving.value = true
-                kotlin.runCatching {
+                runCatching {
                     outputStream?.use {
                         it.write(_byteArray.value)
                     }

@@ -18,8 +18,8 @@
 package ru.tech.imageresizershrinker.feature.jxl_tools.domain
 
 import kotlinx.coroutines.flow.Flow
-import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 
 interface JxlConverter {
@@ -38,7 +38,7 @@ interface JxlConverter {
 
     suspend fun createJxlAnimation(
         imageUris: List<String>,
-        params: JxlParams,
+        params: AnimatedJxlParams,
         onError: (Throwable) -> Unit,
         onProgress: () -> Unit
     ): ByteArray

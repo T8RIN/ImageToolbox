@@ -64,6 +64,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
+import ru.tech.imageresizershrinker.feature.svg.presentation.components.SvgParamsSelector
 import ru.tech.imageresizershrinker.feature.svg.presentation.viewModel.SvgViewModel
 
 
@@ -150,14 +151,7 @@ fun SvgScreen(
                 )
             }
         },
-        imagePreview = {},
-        showImagePreviewAsStickyHeader = false,
-        placeImagePreview = false,
-        noDataControls = {
-            ImageNotPickedWidget(onPickImage = pickImagesLauncher::pickImage)
-        },
-        controls = {
-            Spacer(modifier = Modifier.height(20.dp))
+        imagePreview = {
             UrisPreview(
                 uris = viewModel.uris,
                 isPortrait = isPortrait,
@@ -176,6 +170,18 @@ fun SvgScreen(
                     }
                 }
             )
+        },
+        showImagePreviewAsStickyHeader = false,
+        noDataControls = {
+            ImageNotPickedWidget(onPickImage = pickImagesLauncher::pickImage)
+        },
+        controls = {
+            Spacer(modifier = Modifier.height(16.dp))
+            SvgParamsSelector(
+                value = viewModel.params,
+                onValueChange = viewModel::updateParams
+            )
+            Spacer(modifier = Modifier.height(16.dp))
         },
         buttons = {
             BottomButtonsBlock(

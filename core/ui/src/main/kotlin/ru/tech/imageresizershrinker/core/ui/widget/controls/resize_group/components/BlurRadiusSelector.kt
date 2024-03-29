@@ -25,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
@@ -37,7 +38,8 @@ fun BlurRadiusSelector(
     value: Int,
     color: Color = MaterialTheme.colorScheme.surfaceContainer,
     valueRange: ClosedFloatingPointRange<Float> = 5f..100f,
-    onValueChange: (Int) -> Unit
+    onValueChange: (Int) -> Unit,
+    shape: Shape = RoundedCornerShape(16.dp)
 ) {
     EnhancedSliderItem(
         modifier = modifier,
@@ -58,7 +60,7 @@ fun BlurRadiusSelector(
         onValueChange = {
             onValueChange(it.roundToInt())
         },
-        shape = RoundedCornerShape(16.dp),
+        shape = shape,
         color = color
     )
 }

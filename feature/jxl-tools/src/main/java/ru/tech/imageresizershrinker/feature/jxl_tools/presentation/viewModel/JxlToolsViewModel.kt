@@ -40,8 +40,6 @@ import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
-import ru.tech.imageresizershrinker.core.domain.image.model.Quality
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
@@ -49,8 +47,8 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import ru.tech.imageresizershrinker.feature.jxl_tools.domain.AnimatedJxlParams
 import ru.tech.imageresizershrinker.feature.jxl_tools.domain.JxlConverter
-import ru.tech.imageresizershrinker.feature.jxl_tools.domain.JxlParams
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -84,16 +82,13 @@ class JxlToolsViewModel @Inject constructor(
     private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.Png.Lossless)
     val imageFormat by _imageFormat
 
-    private val _quality: MutableState<Quality> = mutableStateOf(Quality.Base())
-    val quality by _quality
-
     private val _imageFrames: MutableState<ImageFrames> = mutableStateOf(ImageFrames.All)
     val imageFrames by _imageFrames
 
     private val _isLoadingJxlImages: MutableState<Boolean> = mutableStateOf(false)
     val isLoadingJxlImages by _isLoadingJxlImages
 
-    private val _params: MutableState<JxlParams> = mutableStateOf(JxlParams.Default)
+    private val _params: MutableState<AnimatedJxlParams> = mutableStateOf(AnimatedJxlParams.Default)
     val params by _params
 
     private val _convertedImageUris: MutableState<List<String>> = mutableStateOf(emptyList())
@@ -119,6 +114,13 @@ class JxlToolsViewModel @Inject constructor(
             }
 
             else -> _type.update { type }
+        }
+        if (_type.value == null) {
+            clearAll()
+        } else {
+            if (!_type.value!!::class.isInstance(type)) {
+                clearAll()
+            }
         }
     }
 
@@ -473,7 +475,7 @@ class JxlToolsViewModel @Inject constructor(
         _convertedImageUris.update { emptyList() }
         savingJob?.cancel()
         savingJob = null
-        updateParams(JxlParams.Default)
+        updateParams(AnimatedJxlParams.Default)
     }
 
     fun removeUri(uri: Uri) {
@@ -492,28 +494,16 @@ class JxlToolsViewModel @Inject constructor(
         _imageFormat.update { imageFormat }
     }
 
-    fun setQuality(quality: Quality) {
-        _quality.update { quality }
-    }
-
     fun updateJxlFrames(imageFrames: ImageFrames) {
         _imageFrames.update { imageFrames }
     }
 
-    fun updateParams(params: JxlParams) {
+    fun updateParams(params: AnimatedJxlParams) {
         _params.update { params }
-    }
-
-    fun setUseOriginalSize(value: Boolean) {
-        updateParams(params.copy(size = if (value) null else IntegerSize(1000, 1000)))
     }
 
     fun clearConvertedImagesSelection() = updateJxlFrames(ImageFrames.ManualSelection(emptyList()))
 
     fun selectAllConvertedImages() = updateJxlFrames(ImageFrames.All)
-
-    fun setUseLossyJxl(value: Boolean) {
-        updateParams(params.copy(isLossy = value))
-    }
 
 }

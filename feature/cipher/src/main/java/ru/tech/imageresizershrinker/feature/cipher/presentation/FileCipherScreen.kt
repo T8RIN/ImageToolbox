@@ -17,8 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.cipher.presentation
 
-import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -173,7 +171,7 @@ fun FileCipherScreen(
     }
 
     val saveLauncher = rememberLauncherForActivityResult(
-        contract = CreateDocument(),
+        contract = ActivityResultContracts.CreateDocument("*/*"),
         onResult = {
             it?.let { uri ->
                 viewModel.saveCryptographyTo(
@@ -672,7 +670,7 @@ fun FileCipherScreen(
                                                     EnhancedButton(
                                                         onClick = {
                                                             runCatching {
-                                                                saveLauncher.launch("*/*#$name")
+                                                                saveLauncher.launch(name)
                                                             }.onFailure {
                                                                 scope.launch {
                                                                     toastHostState.showToast(
@@ -812,16 +810,4 @@ fun FileCipherScreen(
 
     BackHandler(onBack = onBack)
 
-}
-
-private class CreateDocument : ActivityResultContracts.CreateDocument("*/*") {
-    override fun createIntent(
-        context: Context,
-        input: String
-    ): Intent {
-        return super.createIntent(
-            context = context,
-            input = input.split("#")[0]
-        ).putExtra(Intent.EXTRA_TITLE, input.split("#")[1])
-    }
 }

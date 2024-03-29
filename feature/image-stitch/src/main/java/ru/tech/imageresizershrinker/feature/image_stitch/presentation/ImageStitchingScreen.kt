@@ -64,7 +64,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.BackgroundColorSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
-import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
+import ru.tech.imageresizershrinker.core.ui.widget.controls.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleSmallImagesToLargeToggle
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
@@ -271,7 +271,7 @@ fun ImageStitchingScreen(
                         )
                     )
                 )
-                QualityWidget(
+                QualitySelector(
                     imageFormat = viewModel.imageInfo.imageFormat,
                     enabled = !viewModel.uris.isNullOrEmpty(),
                     quality = viewModel.imageInfo.quality,

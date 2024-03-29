@@ -18,8 +18,6 @@
 package ru.tech.imageresizershrinker.feature.pdf_tools.presentation
 
 import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.compose.BackHandler
@@ -130,7 +128,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
+import ru.tech.imageresizershrinker.core.ui.widget.controls.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleSmallImagesToLargeToggle
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -201,7 +199,7 @@ fun PdfToolsScreen(
     }
 
     val savePdfLauncher = rememberLauncherForActivityResult(
-        contract = CreateDocument(),
+        contract = ActivityResultContracts.CreateDocument("application/pdf"),
         onResult = {
             it?.let { uri ->
                 viewModel.savePdfTo(
@@ -431,7 +429,7 @@ fun PdfToolsScreen(
                             val name = viewModel.generatePdfFilename()
                             viewModel.convertImagesToPdf {
                                 runCatching {
-                                    savePdfLauncher.launch("application/pdf#$name.pdf")
+                                    savePdfLauncher.launch("$name.pdf")
                                 }.onFailure {
                                     scope.launch {
                                         toastHostState.showToast(
@@ -524,7 +522,7 @@ fun PdfToolsScreen(
                         Modifier.height(8.dp)
                     )
                 }
-                QualityWidget(
+                QualitySelector(
                     imageFormat = viewModel.imageInfo.imageFormat,
                     enabled = true,
                     quality = viewModel.imageInfo.quality,
@@ -967,16 +965,4 @@ fun PdfToolsScreen(
     )
 
     BackHandler(onBack = onBack)
-}
-
-private class CreateDocument : ActivityResultContracts.CreateDocument("*/*") {
-    override fun createIntent(
-        context: Context,
-        input: String
-    ): Intent {
-        return super.createIntent(
-            context = context,
-            input = input.split("#")[0]
-        ).putExtra(Intent.EXTRA_TITLE, input.split("#")[1])
-    }
 }

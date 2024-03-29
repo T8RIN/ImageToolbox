@@ -17,30 +17,27 @@
 
 package ru.tech.imageresizershrinker.feature.svg.data
 
-import android.content.Context
 import android.graphics.Bitmap
 import androidx.exifinterface.media.ExifInterface
 import com.t8rin.image.toolbox.svg.ImageTracerAndroid
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
 import ru.tech.imageresizershrinker.feature.svg.domain.SvgManager
-import java.io.File
+import ru.tech.imageresizershrinker.feature.svg.domain.SvgParams
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 
 internal class SvgManagerImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val randomStringGenerator: RandomStringGenerator,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>
 ) : SvgManager {
 
     override suspend fun convertToSvg(
         imageUris: List<String>,
+        params: SvgParams,
         onError: (Throwable) -> Unit,
         onProgress: suspend (originalUri: String, data: ByteArray) -> Unit
     ) = withContext(dispatcher) {
@@ -48,19 +45,24 @@ internal class SvgManagerImpl @Inject constructor(
             runCatching {
                 val svgText = ImageTracerAndroid.imageToSVG(
                     imageGetter.getImage(data = uri),
-                    ImageTracerAndroid.checkoptions(HashMap()),
-                    null
+                    params.toOptions(), null
                 )
-                val folder = File(context.cacheDir, "svg").apply { mkdirs() }
-                val file = File(folder, randomStringGenerator.generate(10) + ".svg")
-
-                val svgData = file.apply {
-                    writeText(svgText)
-                }.readBytes()
+                val svgData = ByteArrayOutputStream().use {
+                    it.write(svgText.toByteArray())
+                    it.toByteArray()
+                }
 
                 onProgress(uri, svgData)
             }.onFailure(onError)
         }
+    }
+
+    private fun SvgParams.toOptions(): HashMap<String, Float> = HashMap<String, Float>().apply {
+        put("numberofcolors", colorsCount.toFloat())
+        put("colorquantcycles", quantizationCyclesCount.toFloat())
+        put("colorsampling", if (isPaletteSampled) 1f else 0f)
+        put("blurradius", blurRadius.toFloat())
+        put("blurdelta", blurDelta.toFloat())
     }
 
 //val options = HashMap<String, Array<Float>>().apply {
@@ -68,18 +70,10 @@ internal class SvgManagerImpl @Inject constructor(
 //    this["qtres"] = arrayOf(1f, 0f, 10f)
 //    this["pathomit"] = arrayOf(8f, 0f, 64f) // int
 //
-//    this["colorsampling"] =
-//        arrayOf(1f, 0f, 1f) // 0 = off else on
-//
-//    this["numberofcolors"] = arrayOf(16f, 2f, 64f) // int
-//
 //    this["mincolorratio"] = arrayOf(0.02f, 0f, 0.1f)
-//    this["colorquantcycles"] = arrayOf(3f, 1f, 10f) // int
 //
 //    this["scale"] = arrayOf(1f, 0.01f, 100f)
 //    this["roundcoords"] = arrayOf(1f, 0f, 8f)
-//    this["blurradius"] = arrayOf(0f, 0f, 5f)
-//    this["blurdelta"] = arrayOf(20f, 0f, 255f)
 //}
 
 }

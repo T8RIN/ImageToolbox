@@ -72,7 +72,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageTransformBar
 import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
+import ru.tech.imageresizershrinker.core.ui.widget.controls.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleModeSelector
@@ -328,7 +328,7 @@ fun ResizeAndConvertScreen(
             if (imageInfo.imageFormat.canChangeCompressionValue) {
                 Spacer(Modifier.height(8.dp))
             }
-            QualityWidget(
+            QualitySelector(
                 imageFormat = imageInfo.imageFormat,
                 enabled = viewModel.bitmap != null,
                 quality = imageInfo.quality,

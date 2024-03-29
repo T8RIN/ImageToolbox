@@ -42,6 +42,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.svg.domain.SvgManager
+import ru.tech.imageresizershrinker.feature.svg.domain.SvgParams
 import javax.inject.Inject
 
 @HiltViewModel
@@ -64,6 +65,9 @@ class SvgViewModel @Inject constructor(
     private val _left: MutableState<Int> = mutableIntStateOf(-1)
     val left by _left
 
+    private val _params = mutableStateOf<SvgParams>(SvgParams.Default)
+    val params by _params
+
     fun setUris(newUris: List<Uri>) {
         _uris.update { newUris.distinct() }
     }
@@ -84,6 +88,7 @@ class SvgViewModel @Inject constructor(
 
             svgManager.convertToSvg(
                 imageUris = uris.map { it.toString() },
+                params = params,
                 onError = {
                     onResult(
                         listOf(SaveResult.Error.Exception(it)), ""
@@ -118,6 +123,7 @@ class SvgViewModel @Inject constructor(
 
             svgManager.convertToSvg(
                 imageUris = uris.map { it.toString() },
+                params = params,
                 onError = onError
             ) { uri, jxlBytes ->
                 results.add(
@@ -174,5 +180,9 @@ class SvgViewModel @Inject constructor(
     }
 
     fun addUris(list: List<Uri>) = setUris(uris + list)
+
+    fun updateParams(newParams: SvgParams) {
+        _params.update { newParams }
+    }
 
 }

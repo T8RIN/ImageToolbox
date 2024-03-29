@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.gif_tools.presentation
 
 import android.content.Context
-import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.ComponentActivity
@@ -50,13 +49,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.FilterFrames
 import androidx.compose.material.icons.outlined.FolderOff
-import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
-import androidx.compose.material.icons.outlined.RepeatOne
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Gif
@@ -91,8 +86,6 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
-import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Jxl
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -108,11 +101,9 @@ import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
-import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
-import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
-import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
+import ru.tech.imageresizershrinker.core.ui.widget.controls.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImagesPreviewWithSelection
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
@@ -125,10 +116,9 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.text.TopAppBarTitle
+import ru.tech.imageresizershrinker.feature.gif_tools.presentation.components.GifParamsSelector
 import ru.tech.imageresizershrinker.feature.gif_tools.presentation.viewModel.GifToolsViewModel
-import kotlin.math.roundToInt
 
 @Composable
 fun GifToolsScreen(
@@ -221,7 +211,7 @@ fun GifToolsScreen(
     }
 
     val saveGifLauncher = rememberLauncherForActivityResult(
-        contract = CreateDocument(),
+        contract = ActivityResultContracts.CreateDocument("image/gif"),
         onResult = {
             it?.let { uri ->
                 viewModel.saveGifTo(
@@ -438,7 +428,7 @@ fun GifToolsScreen(
                         onValueChange = viewModel::setImageFormat
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    QualityWidget(
+                    QualitySelector(
                         imageFormat = viewModel.imageFormat,
                         enabled = true,
                         quality = viewModel.params.quality,
@@ -461,84 +451,15 @@ fun GifToolsScreen(
                         onNeedToRemoveImageAt = viewModel::removeImageAt
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    val size = viewModel.params.size ?: IntegerSize.Undefined
-                    AnimatedVisibility(size.isDefined()) {
-                        ResizeImageField(
-                            imageInfo = ImageInfo(size.width, size.height),
-                            originalSize = null,
-                            onWidthChange = {
-                                viewModel.updateParams(
-                                    viewModel.params.copy(
-                                        size = size.copy(width = it)
-                                    )
-                                )
-                            },
-                            onHeightChange = {
-                                viewModel.updateParams(
-                                    viewModel.params.copy(
-                                        size = size.copy(height = it)
-                                    )
-                                )
-                            }
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    PreferenceRowSwitch(
-                        title = stringResource(id = R.string.use_size_of_first_frame),
-                        subtitle = stringResource(id = R.string.use_size_of_first_frame_sub),
-                        checked = viewModel.params.size == null,
-                        onClick = viewModel::setUseOriginalSize,
-                        startIcon = Icons.Outlined.PhotoSizeSelectLarge,
-                        modifier = Modifier.fillMaxWidth(),
-                        color = Color.Unspecified,
-                        shape = RoundedCornerShape(24.dp)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    QualityWidget(
-                        imageFormat = ImageFormat.Jpeg,
-                        enabled = true,
-                        quality = viewModel.params.quality,
-                        onQualityChange = viewModel::setQuality
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    EnhancedSliderItem(
-                        value = viewModel.params.repeatCount,
-                        icon = Icons.Outlined.RepeatOne,
-                        title = stringResource(id = R.string.repeat_count),
-                        valueRange = 1f..10f,
-                        steps = 9,
-                        internalStateTransformation = { it.roundToInt() },
-                        onValueChange = {
-                            viewModel.updateParams(
-                                viewModel.params.copy(
-                                    repeatCount = it.roundToInt()
-                                )
-                            )
-                        },
-                        shape = RoundedCornerShape(24.dp)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    EnhancedSliderItem(
-                        value = viewModel.params.fps,
-                        icon = Icons.Outlined.FilterFrames,
-                        title = stringResource(id = R.string.fps),
-                        valueRange = 1f..120f,
-                        steps = 119,
-                        internalStateTransformation = { it.roundToInt() },
-                        onValueChange = {
-                            viewModel.updateParams(
-                                viewModel.params.copy(
-                                    fps = it.roundToInt()
-                                )
-                            )
-                        },
-                        shape = RoundedCornerShape(24.dp)
+                    GifParamsSelector(
+                        value = viewModel.params,
+                        onValueChange = viewModel::updateParams
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
 
                 is Screen.GifTools.Type.GifToJxl -> {
-                    QualityWidget(
+                    QualitySelector(
                         imageFormat = ImageFormat.Jxl.Lossy,
                         enabled = true,
                         quality = viewModel.jxlQuality,
@@ -570,7 +491,7 @@ fun GifToolsScreen(
                         onGifSaveResult = { name ->
                             runCatching {
                                 runCatching {
-                                    saveGifLauncher.launch("image/gif#$name.gif")
+                                    saveGifLauncher.launch("$name.gif")
                                 }.onFailure {
                                     scope.launch {
                                         toastHostState.showToast(
@@ -703,18 +624,6 @@ fun GifToolsScreen(
 private fun Uri.isGif(context: Context): Boolean {
     return context.getFilename(this).toString().endsWith(".gif")
         .or(context.contentResolver.getType(this)?.contains("gif") == true)
-}
-
-private class CreateDocument : ActivityResultContracts.CreateDocument("*/*") {
-    override fun createIntent(
-        context: Context,
-        input: String
-    ): Intent {
-        return super.createIntent(
-            context = context,
-            input = input.split("#")[0]
-        ).putExtra(Intent.EXTRA_TITLE, input.split("#")[1])
-    }
 }
 
 private val GifToolsViewModel.canSave: Boolean

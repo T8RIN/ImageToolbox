@@ -123,7 +123,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShowOriginalButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
+import ru.tech.imageresizershrinker.core.ui.widget.controls.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
@@ -501,7 +501,7 @@ fun FiltersScreen(
                         if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) Spacer(
                             Modifier.size(8.dp)
                         )
-                        QualityWidget(
+                        QualitySelector(
                             imageFormat = viewModel.imageInfo.imageFormat,
                             enabled = viewModel.bitmap != null,
                             quality = viewModel.imageInfo.quality,
@@ -624,7 +624,7 @@ fun FiltersScreen(
                         if (viewModel.imageInfo.imageFormat.canChangeCompressionValue) Spacer(
                             Modifier.size(8.dp)
                         )
-                        QualityWidget(
+                        QualitySelector(
                             imageFormat = viewModel.imageInfo.imageFormat,
                             enabled = viewModel.bitmap != null,
                             quality = viewModel.imageInfo.quality,

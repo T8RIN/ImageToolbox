@@ -66,7 +66,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageExtraTransformB
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageTransformBar
 import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetSelector
-import ru.tech.imageresizershrinker.core.ui.widget.controls.QualityWidget
+import ru.tech.imageresizershrinker.core.ui.widget.controls.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleModeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.ResizeTypeSelector
@@ -316,7 +316,7 @@ fun SingleEditScreen(
             if (imageInfo.imageFormat.canChangeCompressionValue) Spacer(
                 Modifier.height(8.dp)
             )
-            QualityWidget(
+            QualitySelector(
                 imageFormat = imageInfo.imageFormat,
                 enabled = viewModel.bitmap != null,
                 quality = imageInfo.quality,

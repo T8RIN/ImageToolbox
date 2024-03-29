@@ -17,8 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.zip.presentation
 
-import android.content.Context
-import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -81,6 +79,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -96,7 +95,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.feature.zip.presentation.viewModel.ZipViewModel
 import java.security.InvalidKeyException
 import java.text.SimpleDateFormat
@@ -131,7 +129,7 @@ fun ZipScreen(
     }
 
     val saveLauncher = rememberLauncherForActivityResult(
-        contract = CreateDocument(),
+        contract = ActivityResultContracts.CreateDocument("application/zip"),
         onResult = {
             it?.let { uri ->
                 viewModel.saveResultTo(
@@ -323,7 +321,7 @@ fun ZipScreen(
                         EnhancedButton(
                             onClick = {
                                 runCatching {
-                                    saveLauncher.launch("*/*#$name")
+                                    saveLauncher.launch(name)
                                 }.onFailure {
                                     scope.launch {
                                         toastHostState.showToast(
@@ -479,16 +477,4 @@ fun ZipScreen(
         )
     }
 
-}
-
-private class CreateDocument : ActivityResultContracts.CreateDocument("*/*") {
-    override fun createIntent(
-        context: Context,
-        input: String
-    ): Intent {
-        return super.createIntent(
-            context = context,
-            input = input.split("#")[0]
-        ).putExtra(Intent.EXTRA_TITLE, input.split("#")[1])
-    }
 }

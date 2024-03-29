@@ -48,8 +48,8 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.feature.jxl_tools.domain.AnimatedJxlParams
 import ru.tech.imageresizershrinker.feature.jxl_tools.domain.JxlConverter
-import ru.tech.imageresizershrinker.feature.jxl_tools.domain.JxlParams
 import javax.inject.Inject
 
 
@@ -87,58 +87,70 @@ internal class AndroidJxlConverter @Inject constructor(
 
     override suspend fun createJxlAnimation(
         imageUris: List<String>,
-        params: JxlParams,
+        params: AnimatedJxlParams,
         onError: (Throwable) -> Unit,
         onProgress: () -> Unit
     ): ByteArray = withContext(dispatcher) {
-        val size = params.size ?: imageGetter.getImage(data = imageUris[0])!!.run {
-            IntegerSize(width, height)
-        }
-        val (quality, compressionOption) = if (params.isLossy) {
-            params.quality.qualityValue to JxlCompressionOption.LOSSY
-        } else 100 to JxlCompressionOption.LOSSLESS
+        val jxlQuality = params.quality as? Quality.Jxl
 
-        val encoder = JxlAnimatedEncoder(
-            width = size.width,
-            height = size.height,
-            numLoops = params.repeatCount,
-            channelsConfiguration = when (params.quality.channels) {
-                Quality.Channels.RGBA -> JxlChannelsConfiguration.RGBA
-                Quality.Channels.RGB -> JxlChannelsConfiguration.RGB
-                Quality.Channels.Monochrome -> JxlChannelsConfiguration.MONOCHROME
-            },
-            compressionOption = compressionOption,
-            effort = params.quality.effort.coerceAtLeast(1),
-            quality = quality,
-            decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == params.quality.speed }
-        )
-        imageUris.forEach { uri ->
-            imageGetter.getImage(
-                data = uri,
-                size = params.size
-            )?.let {
-                encoder.addFrame(
-                    bitmap = imageScaler.scaleImage(
-                        image = imageScaler.scaleImage(
-                            image = it,
+        if (jxlQuality == null) {
+            onError(IllegalArgumentException("Quality Must be Jxl"))
+            return@withContext ByteArray(0)
+        }
+
+        runCatching {
+            val size = params.size ?: imageGetter.getImage(data = imageUris[0])!!.run {
+                IntegerSize(width, height)
+            }
+            val (quality, compressionOption) = if (params.isLossy) {
+                params.quality.qualityValue to JxlCompressionOption.LOSSY
+            } else 100 to JxlCompressionOption.LOSSLESS
+
+            val encoder = JxlAnimatedEncoder(
+                width = size.width,
+                height = size.height,
+                numLoops = params.repeatCount,
+                channelsConfiguration = when (params.quality.channels) {
+                    Quality.Channels.RGBA -> JxlChannelsConfiguration.RGBA
+                    Quality.Channels.RGB -> JxlChannelsConfiguration.RGB
+                    Quality.Channels.Monochrome -> JxlChannelsConfiguration.MONOCHROME
+                },
+                compressionOption = compressionOption,
+                effort = params.quality.effort.coerceAtLeast(1),
+                quality = quality,
+                decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == params.quality.speed }
+            )
+            imageUris.forEach { uri ->
+                imageGetter.getImage(
+                    data = uri,
+                    size = params.size
+                )?.let {
+                    encoder.addFrame(
+                        bitmap = imageScaler.scaleImage(
+                            image = imageScaler.scaleImage(
+                                image = it,
+                                width = size.width,
+                                height = size.height,
+                                resizeType = ResizeType.Flexible
+                            ),
                             width = size.width,
                             height = size.height,
-                            resizeType = ResizeType.Flexible
-                        ),
-                        width = size.width,
-                        height = size.height,
-                        resizeType = ResizeType.CenterCrop(
-                            canvasColor = Color.Transparent.toArgb()
-                        )
-                    ).apply {
-                        setHasAlpha(true)
-                    },
-                    duration = params.delay
-                )
+                            resizeType = ResizeType.CenterCrop(
+                                canvasColor = Color.Transparent.toArgb()
+                            )
+                        ).apply {
+                            setHasAlpha(true)
+                        },
+                        duration = params.delay
+                    )
+                }
+                onProgress()
             }
-            onProgress()
-        }
-        encoder.encode()
+            encoder.encode()
+        }.onFailure {
+            onError(it)
+            return@withContext ByteArray(0)
+        }.getOrNull() ?: ByteArray(0)
     }
 
     override fun extractFramesFromJxl(

@@ -42,7 +42,6 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFrames
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
@@ -377,10 +376,6 @@ class ApngToolsViewModel @Inject constructor(
 
     fun updateParams(params: ApngParams) {
         _params.update { params }
-    }
-
-    fun setUseOriginalSize(value: Boolean) {
-        updateParams(params.copy(size = if (value) null else IntegerSize(1000, 1000)))
     }
 
     fun performSharing(onComplete: () -> Unit) {
