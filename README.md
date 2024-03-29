@@ -35,8 +35,8 @@
   <a href="https://github.com/t8rin/imageresizer/releases/latest">
       <img src="https://img.shields.io/github/v/release/t8rin/imageresizer?color=purple&include_prereleases&logo=github&style=for-the-badge"/>
   </a>
-  <a href="https://play.google.com/store/apps/details?id=ru.tech.imageresizershrinker">
-      <img src="https://img.shields.io/badge/Play%20store-v2.7.0-purple?style=for-the-badge&logo=google-play"/>
+   <a href="https://play.google.com/store/apps/details?id=ru.tech.imageresizershrinker">
+      <img src="https://img.shields.io/endpoint?color=purple&logo=google-play&style=for-the-badge&label=Play%20store&url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fplay%3Fi%3Dru.tech.imageresizershrinker%26l%3DAndroid%26m%3D%24version"/>
   </a>
   <a href="https://f-droid.org/packages/ru.tech.imageresizershrinker">
       <img src="https://img.shields.io/f-droid/v/ru.tech.imageresizershrinker?color=purple&include_prereleases&logo=FDROID&style=for-the-badge"/>
