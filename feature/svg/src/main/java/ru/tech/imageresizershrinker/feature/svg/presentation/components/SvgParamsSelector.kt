@@ -63,7 +63,7 @@ fun SvgParamsSelector(
             value = value.colorsCount,
             title = stringResource(R.string.max_colors_count),
             icon = Icons.Rounded.ColorLens,
-            valueRange = 2f..256f,
+            valueRange = 2f..64f,
             internalStateTransformation = {
                 it.roundToInt()
             },

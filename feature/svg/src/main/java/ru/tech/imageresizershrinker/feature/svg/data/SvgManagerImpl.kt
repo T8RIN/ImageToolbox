@@ -15,23 +15,35 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("FunctionName")
+
 package ru.tech.imageresizershrinker.feature.svg.data
 
+import android.content.Context
 import android.graphics.Bitmap
 import androidx.exifinterface.media.ExifInterface
 import com.t8rin.image.toolbox.svg.ImageTracerAndroid
+import com.t8rin.image.toolbox.svg.ImageTracerAndroid.SvgListener
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.di.IoDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
 import ru.tech.imageresizershrinker.feature.svg.domain.SvgManager
 import ru.tech.imageresizershrinker.feature.svg.domain.SvgParams
-import java.io.ByteArrayOutputStream
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileWriter
 import javax.inject.Inject
 
 
 internal class SvgManagerImpl @Inject constructor(
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
+    @ApplicationContext private val context: Context,
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val randomStringGenerator: RandomStringGenerator,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>
 ) : SvgManager {
 
@@ -40,21 +52,42 @@ internal class SvgManagerImpl @Inject constructor(
         params: SvgParams,
         onError: (Throwable) -> Unit,
         onProgress: suspend (originalUri: String, data: ByteArray) -> Unit
-    ) = withContext(dispatcher) {
+    ) = withContext(defaultDispatcher) {
         imageUris.forEach { uri ->
             runCatching {
-                val svgText = ImageTracerAndroid.imageToSVG(
-                    imageGetter.getImage(data = uri),
-                    params.toOptions(), null
-                )
-                val svgData = ByteArrayOutputStream().use {
-                    it.write(svgText.toByteArray())
-                    it.toByteArray()
+                val folder = File(context.cacheDir, "svg").apply { mkdirs() }
+                val file = File(folder, "${randomStringGenerator.generate(10)}.svg")
+
+                withContext(ioDispatcher) {
+                    BufferedWriter(
+                        FileWriter(file)
+                    ).use { writer ->
+                        ImageTracerAndroid.imageToSVG(
+                            imageGetter.getImage(data = uri)!!,
+                            params.toOptions(),
+                            null,
+                            SvgTracer {
+                                writer.write(it)
+                            }
+                        )
+                    }
                 }
 
-                onProgress(uri, svgData)
+                onProgress(uri, file.readBytes())
             }.onFailure(onError)
         }
+    }
+
+    private fun SvgTracer(
+        onProgress: (String) -> Unit
+    ): SvgListener = object : SvgListener {
+        override fun onProgress(
+            part: String?
+        ): SvgListener = apply { onProgress(part ?: "") }
+
+        override fun onProgress(
+            part: Double
+        ): SvgListener = apply { onProgress(part.toString()) }
     }
 
     private fun SvgParams.toOptions(): HashMap<String, Float> = HashMap<String, Float>().apply {

@@ -90,8 +90,8 @@ class SvgViewModel @Inject constructor(
                 imageUris = uris.map { it.toString() },
                 params = params,
                 onError = {
-                    onResult(
-                        listOf(SaveResult.Error.Exception(it)), ""
+                    results.add(
+                        SaveResult.Error.Exception(it)
                     )
                 }
             ) { uri, svgBytes ->
@@ -104,6 +104,7 @@ class SvgViewModel @Inject constructor(
                 _done.update { it + 1 }
             }
 
+            _isSaving.value = false
             onResult(results, fileController.savingPath)
         }
     }

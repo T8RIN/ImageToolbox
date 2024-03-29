@@ -91,7 +91,8 @@ fun AdaptiveLayoutScreen(
     contentPadding: Dp = 20.dp,
     showImagePreviewAsStickyHeader: Boolean = true,
     autoClearFocus: Boolean = true,
-    placeImagePreview: Boolean = true
+    placeImagePreview: Boolean = true,
+    showActionsInTopAppBar: Boolean = true
 ) {
     val settingsState = LocalSettingsState.current
 
@@ -149,7 +150,7 @@ fun AdaptiveLayoutScreen(
                         }
                     },
                     actions = {
-                        if (!isPortrait && canShowScreenData) actions()
+                        if (!isPortrait && canShowScreenData && showActionsInTopAppBar) actions()
                         topAppBarPersistentActions()
                     }
                 )

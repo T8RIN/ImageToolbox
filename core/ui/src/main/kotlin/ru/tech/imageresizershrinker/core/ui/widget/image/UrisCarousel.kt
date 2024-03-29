@@ -62,7 +62,7 @@ internal fun UrisCarousel(uris: List<Uri>) {
                         maxWidth = constraints.maxWidth + 32.dp.roundToPx(),
                         maxHeight = (constraints.maxWidth * 0.5f)
                             .coerceAtLeast(100f)
-                            .coerceAtMost(300.dp.toPx())
+                            .coerceAtMost(constraints.maxHeight * 0.5f)
                             .roundToInt()
                     )
                 )
