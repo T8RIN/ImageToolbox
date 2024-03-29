@@ -120,6 +120,7 @@ internal fun List<Uri>.screenList(
                 Screen.JxlTools(
                     Screen.JxlTools.Type.ImageToJxl(uris)
                 ),
+                Screen.Svg(uris),
                 Screen.Zip(uris),
                 Screen.DeleteExif(uris),
                 Screen.LimitResize(uris)
@@ -166,6 +167,7 @@ internal fun List<Uri>.screenList(
                 add(Screen.ImagePreview(uris))
                 add(Screen.LimitResize(uris))
                 add(Screen.Zip(uris))
+                add(Screen.Svg(uris))
 
                 var haveJpeg = false
                 var haveJxl = false

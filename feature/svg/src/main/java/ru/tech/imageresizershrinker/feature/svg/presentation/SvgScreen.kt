@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -58,6 +59,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
@@ -66,6 +68,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
+import ru.tech.imageresizershrinker.feature.svg.domain.SvgParams
 import ru.tech.imageresizershrinker.feature.svg.presentation.components.SvgParamsSelector
 import ru.tech.imageresizershrinker.feature.svg.presentation.viewModel.SvgViewModel
 
@@ -126,12 +129,16 @@ fun SvgScreen(
     val isPortrait =
         LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
 
+    var showResetDialog by rememberSaveable { mutableStateOf(false) }
+
     AdaptiveLayoutScreen(
         title = {
             Text(stringResource(R.string.images_to_svg))
         },
         topAppBarPersistentActions = {
-            TopAppBarEmoji()
+            if (isPortrait) {
+                TopAppBarEmoji()
+            }
         },
         onGoBack = onBack,
         actions = {
@@ -152,8 +159,19 @@ fun SvgScreen(
                     contentDescription = stringResource(R.string.share)
                 )
             }
+            EnhancedIconButton(
+                containerColor = Color.Transparent,
+                contentColor = LocalContentColor.current,
+                enableAutoShadowAndBorder = false,
+                enabled = viewModel.params != SvgParams.Default,
+                onClick = { showResetDialog = true }
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.ImageReset,
+                    contentDescription = stringResource(R.string.reset_image)
+                )
+            }
         },
-        showActionsInTopAppBar = false,
         imagePreview = {
             UrisPreview(
                 modifier = Modifier
@@ -232,12 +250,22 @@ fun SvgScreen(
                     }
                 },
                 actions = {
-                    it()
+                    if (isPortrait) it()
                 }
             )
         },
         canShowScreenData = viewModel.uris.isNotEmpty(),
         isPortrait = isPortrait
+    )
+
+    ResetDialog(
+        visible = showResetDialog,
+        onDismiss = { showResetDialog = false },
+        title = stringResource(R.string.reset_properties),
+        text = stringResource(R.string.reset_properties_sub),
+        onReset = {
+            viewModel.updateParams(SvgParams.Default)
+        }
     )
 
     ExitWithoutSavingDialog(

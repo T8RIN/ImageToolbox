@@ -895,4 +895,15 @@
     <string name="images_to_svg_sub">Trace given images to SVG images</string>
     <string name="use_sampled_palette">Use Sampled Palette</string>
     <string name="use_sampled_palette_sub">Quantization palette will be sampled if this option enabled</string>
+    <string name="path_omit">Path Omit</string>
+    <string name="svg_warning">Usage of this tool for tracing large images without downscaling are not recommended, it can cause crash and increase processing time</string>
+    <string name="downscale_image">Downscale image</string>
+    <string name="downscale_image_sub">Image will be downscaled to lower dimensions before processing, this helps tool to work faster and safer</string>
+    <string name="min_color_ratio">Minimum Color Ratio</string>
+    <string name="lines_threshold">Lines Threshold</string>
+    <string name="quadratic_threshold">Quadratic Threshold</string>
+    <string name="coordinates_rounding_tolerance">Coordinates Rounding Tolerance</string>
+    <string name="path_scale">Path Scale</string>
+    <string name="reset_properties">Reset properties</string>
+    <string name="reset_properties_sub">All properties will be set to default values</string>
 </resources>

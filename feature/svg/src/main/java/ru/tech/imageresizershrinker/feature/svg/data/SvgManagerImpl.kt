@@ -30,6 +30,7 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.di.IoDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
 import ru.tech.imageresizershrinker.feature.svg.domain.SvgManager
 import ru.tech.imageresizershrinker.feature.svg.domain.SvgParams
@@ -63,7 +64,12 @@ internal class SvgManagerImpl @Inject constructor(
                         FileWriter(file)
                     ).use { writer ->
                         ImageTracerAndroid.imageToSVG(
-                            imageGetter.getImage(data = uri)!!,
+                            imageGetter.getImage(
+                                data = uri,
+                                size = if (params.isImageSampled) {
+                                    IntegerSize(1000, 1000)
+                                } else null
+                            )!!,
                             params.toOptions(),
                             null,
                             SvgTracer {
@@ -96,17 +102,12 @@ internal class SvgManagerImpl @Inject constructor(
         put("colorsampling", if (isPaletteSampled) 1f else 0f)
         put("blurradius", blurRadius.toFloat())
         put("blurdelta", blurDelta.toFloat())
+        put("pathomit", pathOmit.toFloat())
+        put("ltres", linesThreshold)
+        put("qtres", quadraticThreshold)
+        put("roundcoords", coordinatesRoundingAmount.toFloat())
+        put("mincolorratio", minColorRatio)
+        put("scale", svgPathsScale)
     }
-
-//val options = HashMap<String, Array<Float>>().apply {
-//    this["ltres"] = arrayOf(1f, 0f, 10f)
-//    this["qtres"] = arrayOf(1f, 0f, 10f)
-//    this["pathomit"] = arrayOf(8f, 0f, 64f) // int
-//
-//    this["mincolorratio"] = arrayOf(0.02f, 0f, 0.1f)
-//
-//    this["scale"] = arrayOf(1f, 0.01f, 100f)
-//    this["roundcoords"] = arrayOf(1f, 0f, 8f)
-//}
 
 }

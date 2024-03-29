@@ -323,6 +323,8 @@ fun WatermarkingScreen(
     ResetDialog(
         visible = showResetDialog,
         onDismiss = { showResetDialog = false },
+        title = stringResource(R.string.reset_properties),
+        text = stringResource(R.string.reset_properties_sub),
         onReset = {
             viewModel.updateWatermarkParams(WatermarkParams.Default)
         }

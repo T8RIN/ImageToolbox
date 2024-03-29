@@ -27,7 +27,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ColorLens
+import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material.icons.rounded.Speed
 import androidx.compose.material.icons.rounded.Stream
 import androidx.compose.material3.LocalContentColor
@@ -257,7 +257,7 @@ fun QualitySelector(
                     EnhancedSliderItem(
                         value = pngLossyQuality?.maxColors ?: 0,
                         title = stringResource(R.string.max_colors_count),
-                        icon = Icons.Rounded.ColorLens,
+                        icon = Icons.Outlined.ColorLens,
                         valueRange = 2f..1024f,
                         internalStateTransformation = {
                             it.toInt().coerceIn(2..1024).toFloat()

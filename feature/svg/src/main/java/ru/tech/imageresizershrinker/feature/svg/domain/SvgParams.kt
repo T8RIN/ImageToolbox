@@ -22,15 +22,31 @@ data class SvgParams(
     val isPaletteSampled: Boolean,
     val quantizationCyclesCount: Int,
     val blurRadius: Int,
-    val blurDelta: Int
+    val blurDelta: Int,
+    val pathOmit: Int,
+    val linesThreshold: Float,
+    val quadraticThreshold: Float,
+    val minColorRatio: Float,
+    val coordinatesRoundingAmount: Int,
+    val svgPathsScale: Float, // 0.01f, 100f
+    val isImageSampled: Boolean
 ) {
     companion object {
-        val Default = SvgParams(
-            colorsCount = 16,
-            isPaletteSampled = true,
-            quantizationCyclesCount = 3,
-            blurRadius = 0,
-            blurDelta = 20
-        )
+        val Default by lazy {
+            SvgParams(
+                colorsCount = 16,
+                isPaletteSampled = true,
+                quantizationCyclesCount = 3,
+                blurRadius = 0,
+                blurDelta = 20,
+                pathOmit = 8,
+                linesThreshold = 1f,
+                quadraticThreshold = 1f,
+                minColorRatio = 0.02f,
+                coordinatesRoundingAmount = 1,
+                svgPathsScale = 1f,
+                isImageSampled = true
+            )
+        }
     }
 }
