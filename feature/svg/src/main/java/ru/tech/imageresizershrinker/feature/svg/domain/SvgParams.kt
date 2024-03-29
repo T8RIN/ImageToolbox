@@ -48,5 +48,22 @@ data class SvgParams(
                 isImageSampled = true
             )
         }
+        val Detailed by lazy {
+            Default.copy(
+                pathOmit = 0,
+                linesThreshold = 0.5f,
+                quadraticThreshold = 0.5f,
+                coordinatesRoundingAmount = 3,
+                colorsCount = 64,
+                quantizationCyclesCount = 1
+            )
+        }
+        val Grayscale by lazy {
+            Default.copy(
+                isPaletteSampled = false,
+                quantizationCyclesCount = 1,
+                colorsCount = 7
+            )
+        }
     }
 }
