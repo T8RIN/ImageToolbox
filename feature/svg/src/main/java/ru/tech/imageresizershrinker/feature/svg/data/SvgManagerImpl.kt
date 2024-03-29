@@ -19,9 +19,8 @@ package ru.tech.imageresizershrinker.feature.svg.data
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.net.Uri
-import androidx.documentfile.provider.DocumentFile
 import androidx.exifinterface.media.ExifInterface
+import com.t8rin.image.toolbox.svg.ImageTracerAndroid
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -47,26 +46,6 @@ internal class SvgManagerImpl @Inject constructor(
     ) = withContext(dispatcher) {
         imageUris.forEach { uri ->
             runCatching {
-//                val options = HashMap<String, Array<Float>>().apply {
-//                    this["ltres"] = arrayOf(1f, 0f, 10f)
-//                    this["qtres"] = arrayOf(1f, 0f, 10f)
-//                    this["pathomit"] = arrayOf(8f, 0f, 64f) // int
-//
-//                    this["colorsampling"] =
-//                        arrayOf(1f, 0f, 1f) // 0 = off else on
-//
-//                    this["numberofcolors"] = arrayOf(16f, 2f, 64f) // int
-//
-//                    this["mincolorratio"] = arrayOf(0.02f, 0f, 0.1f)
-//                    this["colorquantcycles"] = arrayOf(3f, 1f, 10f) // int
-//
-//                    this["scale"] = arrayOf(1f, 0.01f, 100f)
-//                    this["roundcoords"] = arrayOf(1f, 0f, 8f)
-//                    this["blurradius"] = arrayOf(0f, 0f, 5f)
-//                    this["blurdelta"] = arrayOf(20f, 0f, 255f)
-//                }
-
-
                 val svgText = ImageTracerAndroid.imageToSVG(
                     imageGetter.getImage(data = uri),
                     ImageTracerAndroid.checkoptions(HashMap()),
@@ -84,6 +63,23 @@ internal class SvgManagerImpl @Inject constructor(
         }
     }
 
-    private fun Uri.getFilename(): String = DocumentFile.fromSingleUri(context, this)?.name ?: ""
+//val options = HashMap<String, Array<Float>>().apply {
+//    this["ltres"] = arrayOf(1f, 0f, 10f)
+//    this["qtres"] = arrayOf(1f, 0f, 10f)
+//    this["pathomit"] = arrayOf(8f, 0f, 64f) // int
+//
+//    this["colorsampling"] =
+//        arrayOf(1f, 0f, 1f) // 0 = off else on
+//
+//    this["numberofcolors"] = arrayOf(16f, 2f, 64f) // int
+//
+//    this["mincolorratio"] = arrayOf(0.02f, 0f, 0.1f)
+//    this["colorquantcycles"] = arrayOf(3f, 1f, 10f) // int
+//
+//    this["scale"] = arrayOf(1f, 0.01f, 100f)
+//    this["roundcoords"] = arrayOf(1f, 0f, 8f)
+//    this["blurradius"] = arrayOf(0f, 0f, 5f)
+//    this["blurdelta"] = arrayOf(20f, 0f, 255f)
+//}
 
 }
