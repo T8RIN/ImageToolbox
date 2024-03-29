@@ -359,6 +359,7 @@ or click one of the badges below.
     - Enhanced Heart
     - Star
     - Image Mask
+- Tracing raster images to SVG
 - Format Conversion
   - HEIF
   - HEIC
