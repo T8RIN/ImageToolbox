@@ -18,6 +18,7 @@
 package ru.tech.imageresizershrinker.core.ui.widget.image
 
 import android.net.Uri
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -133,13 +134,21 @@ fun UrisPreview(
                             modifier = Modifier
                                 .padding(4.dp)
                                 .clip(CircleShape)
-                                .background(Color.Black.copy(0.2f))
-                                .clickable {
+                                .background(
+                                    Color.Black.copy(
+                                        animateFloatAsState(if (uris.size > 1) 0.2f else 0f).value
+                                    )
+                                )
+                                .clickable(
+                                    enabled = uris.size > 1
+                                ) {
                                     onRemoveUri(uri)
                                 }
                                 .padding(4.dp)
                                 .align(Alignment.TopEnd),
-                            tint = Color.White.copy(0.7f),
+                            tint = Color.White.copy(
+                                animateFloatAsState(if (uris.size > 1) 0.7f else 0f).value
+                            ),
                         )
                         val filename by remember(uri) {
                             derivedStateOf {
