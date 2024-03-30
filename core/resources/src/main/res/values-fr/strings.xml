@@ -802,7 +802,7 @@
     <string name="motion_blur">Flou de mouvement</string>
     <string name="select_apng_image_to_start">Choisissez l\'image APNG pour commencer</string>
     <string name="zip_sub">Créer un fichier Zip à partir de fichiers ou d\'images donnés</string>
-    <string name="zip">Fermeture éclair</string>
+    <string name="zip">Zip</string>
     <string name="drag_handle_width">Largeur de la poignée de déplacement</string>
     <string name="confetti_type">Type de confetti</string>
     <string name="festive">Célébration</string>
