@@ -905,6 +905,6 @@
     <string name="coordinates_rounding_tolerance">Coordinates Rounding Tolerance</string>
     <string name="path_scale">Path Scale</string>
     <string name="reset_properties">Reset properties</string>
-    <string name="reset_properties_sub">All properties will be set to default values</string>
+    <string name="reset_properties_sub">All properties will be set to default values, notice that this action cannot be undone</string>
     <string name="detailed">Detailed</string>
 </resources>

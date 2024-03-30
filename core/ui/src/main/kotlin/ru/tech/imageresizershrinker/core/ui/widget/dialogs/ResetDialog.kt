@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.dialogs
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DoneOutline
 import androidx.compose.material3.AlertDialog
@@ -59,7 +60,12 @@ fun ResetDialog(
                 )
             },
             title = { Text(title) },
-            text = { Text(text) },
+            text = {
+                Text(
+                    text = text,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            },
             onDismissRequest = onDismiss,
             confirmButton = {
                 EnhancedButton(
