@@ -906,4 +906,5 @@
     <string name="path_scale">Path Scale</string>
     <string name="reset_properties">Reset properties</string>
     <string name="reset_properties_sub">All properties will be set to default values</string>
+    <string name="detailed">Detailed</string>
 </resources>

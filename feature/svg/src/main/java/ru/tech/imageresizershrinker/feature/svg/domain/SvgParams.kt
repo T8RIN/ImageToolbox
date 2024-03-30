@@ -65,5 +65,9 @@ data class SvgParams(
                 colorsCount = 7
             )
         }
+
+        val presets by lazy {
+            listOf(Default, Detailed, Grayscale)
+        }
     }
 }

@@ -18,12 +18,18 @@
 package ru.tech.imageresizershrinker.feature.svg.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Calculate
@@ -38,6 +44,7 @@ import androidx.compose.material.icons.rounded.Colorize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,9 +58,12 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.FreeDraw
 import ru.tech.imageresizershrinker.core.resources.icons.Line
 import ru.tech.imageresizershrinker.core.resources.icons.Resize
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
+import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.feature.svg.domain.SvgParams
 import kotlin.math.pow
 import kotlin.math.roundToInt
@@ -63,7 +73,60 @@ fun SvgParamsSelector(
     value: SvgParams,
     onValueChange: (SvgParams) -> Unit
 ) {
-    Column {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Column(
+            modifier = Modifier
+                .container(shape = RoundedCornerShape(24.dp)),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(Modifier.height(8.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = stringResource(R.string.presets),
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Medium
+                )
+            }
+            Spacer(Modifier.height(12.dp))
+
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.padding(bottom = 8.dp)
+            ) {
+                val listState = rememberLazyListState()
+                val data = remember {
+                    SvgParams.presets
+                }
+                LazyRow(
+                    state = listState,
+                    modifier = Modifier
+                        .fadingEdges(listState)
+                        .padding(vertical = 1.dp),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        8.dp, Alignment.CenterHorizontally
+                    ),
+                    contentPadding = PaddingValues(horizontal = 8.dp)
+                ) {
+                    items(data) {
+                        val selected = value == it
+                        EnhancedChip(
+                            selected = selected,
+                            onClick = { onValueChange(it) },
+                            selectedColor = MaterialTheme.colorScheme.primary,
+                            shape = MaterialTheme.shapes.medium
+                        ) {
+                            AutoSizeText(it.name)
+                        }
+                    }
+                }
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
         PreferenceRowSwitch(
             title = stringResource(id = R.string.downscale_image),
             subtitle = stringResource(id = R.string.downscale_image_sub),
@@ -308,3 +371,12 @@ private fun Float.roundTo(
 ) = digits?.let {
     (this * 10f.pow(digits)).roundToInt() / (10f.pow(digits))
 } ?: this
+
+private val SvgParams.name: String
+    @Composable
+    get() = when (this) {
+        SvgParams.Default -> stringResource(R.string.defaultt)
+        SvgParams.Detailed -> stringResource(R.string.detailed)
+        SvgParams.Grayscale -> stringResource(R.string.gray_scale)
+        else -> ""
+    }
