@@ -887,5 +887,6 @@
     <string name="images_to_svg">الصور إلى Svg</string>
     <string name="use_sampled_palette_sub">سيتم أخذ عينات من لوحة القياس إذا تم تمكين هذا الخيار</string>
     <string name="svg_warning">لا يُنصح باستخدام هذه الأداة لتتبع الصور الكبيرة دون تصغير حجمها، حيث يمكن أن تتسبب في حدوث اخطاء وزيادة وقت المعالجة</string>
-    <string name="reset_properties_sub">سيتم تعيين كافة الخصائص إلى القيم الافتراضية</string>
+    <string name="reset_properties_sub">سيتم تعيين كافة الخصائص إلى القيم الافتراضية، لاحظ أنه لا يمكن التراجع عن هذا الإجراء</string>
+    <string name="detailed">‬مفصلة</string>
 </resources>
