@@ -66,9 +66,9 @@ fun CompareSheet(
     data: Pair<Bitmap?, Bitmap?>?,
     visible: MutableState<Boolean>
 ) {
-    var progress by rememberSaveable { mutableFloatStateOf(50f) }
-
     var showSheet by visible
+
+    var progress by rememberSaveable(showSheet) { mutableFloatStateOf(50f) }
 
     if (data != null) {
         SimpleSheet(
@@ -153,9 +153,9 @@ fun CompareSheet(
     visible: MutableState<Boolean>,
     shape: Shape = RoundedCornerShape(4.dp)
 ) {
-    var progress by rememberSaveable { mutableFloatStateOf(50f) }
-
     var showSheet by visible
+
+    var progress by rememberSaveable(showSheet) { mutableFloatStateOf(50f) }
 
     SimpleSheet(
         sheetContent = {
