@@ -130,6 +130,8 @@ internal fun RowScope.ScreenPreferenceSelection(
                 val clipboardData by rememberClipboardData()
                 val allowAutoPaste = settingsState.allowAutoClipboardPaste
                 val showClipButton = clipboardData.isNotEmpty() || !allowAutoPaste
+                val showSearchButton = !showScreenSearch && canSearchScreens
+
                 LazyVerticalStaggeredGrid(
                     reverseLayout = showScreenSearch && screenSearchKeyword.isNotEmpty() && canSearchScreens,
                     modifier = Modifier.fillMaxSize(),
@@ -149,8 +151,11 @@ internal fun RowScope.ScreenPreferenceSelection(
                             } else 0.dp
                         } else {
                             0.dp
-                        } + if (showClipButton) 76.dp
-                        else 0.dp,
+                        } + showClipButton.let {
+                            if (it) 76.dp else 0.dp
+                        } + showSearchButton.let {
+                            if (it && showClipButton) 48.dp else if (!showClipButton) 76.dp else 0.dp
+                        },
                         top = 12.dp,
                         end = 12.dp + if (isSheetSlideable) {
                             cutout.calculateEndPadding(
@@ -259,23 +264,34 @@ internal fun RowScope.ScreenPreferenceSelection(
                     }
                 }
                 BoxAnimatedVisibility(
-                    visible = !showScreenSearch && canSearchScreens,
+                    visible = showSearchButton,
                     enter = fadeIn() + scaleIn(),
                     exit = fadeOut() + scaleOut(),
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
-                        .padding(16.dp)
                         .then(
-                            if (showNavRail && !showClipButton) {
+                            if (showClipButton) {
+                                Modifier.padding(start = 32.dp, end = 24.dp, bottom = 4.dp)
+                            } else Modifier.padding(16.dp)
+                        )
+                        .then(
+                            if (showNavRail) {
                                 Modifier.navigationBarsPadding()
-                            } else if (showClipButton) {
+                            } else Modifier
+                        )
+                        .then(
+                            if (showClipButton) {
                                 Modifier.padding(bottom = 76.dp)
                             } else Modifier
                         )
                 ) {
                     EnhancedFloatingActionButton(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        type = EnhancedFloatingActionButtonType.Small,
+                        containerColor = if (showClipButton) {
+                            MaterialTheme.colorScheme.secondaryContainer
+                        } else MaterialTheme.colorScheme.tertiaryContainer,
+                        type = if (showClipButton) {
+                            EnhancedFloatingActionButtonType.Small
+                        } else EnhancedFloatingActionButtonType.Primary,
                         onClick = { onChangeShowScreenSearch(canSearchScreens) }
                     ) {
                         Icon(

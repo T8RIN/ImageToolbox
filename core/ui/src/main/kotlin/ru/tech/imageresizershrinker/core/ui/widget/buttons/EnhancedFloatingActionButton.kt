@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.buttons
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
@@ -78,9 +79,9 @@ fun EnhancedFloatingActionButton(
                     ).value
                 ),
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            contentColor = contentColor,
+            contentColor = animateColorAsState(contentColor).value,
             shape = type.shape,
-            containerColor = containerColor,
+            containerColor = animateColorAsState(containerColor).value,
             interactionSource = interactionSource,
             content = {
                 Row(
