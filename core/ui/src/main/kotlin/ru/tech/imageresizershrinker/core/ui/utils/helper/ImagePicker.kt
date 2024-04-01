@@ -44,6 +44,7 @@ import androidx.core.content.FileProvider
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.model.PicturePickerMode
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelableArrayList
@@ -183,17 +184,17 @@ enum class Picker {
 @Composable
 fun localImagePickerMode(
     picker: Picker = Picker.Single,
-    modeInt: Int = LocalSettingsState.current.imagePickerModeInt
+    mode: PicturePickerMode = LocalSettingsState.current.picturePickerMode
 ): ImagePickerMode {
     val multiple = picker == Picker.Multiple
-    return remember(modeInt) {
+    return remember(mode) {
         derivedStateOf {
-            when (modeInt) {
-                0 -> if (multiple) ImagePickerMode.EmbeddedMultiple else ImagePickerMode.Embedded
-                1 -> if (multiple) ImagePickerMode.PhotoPickerMultiple else ImagePickerMode.PhotoPickerSingle
-                2 -> if (multiple) ImagePickerMode.GalleryMultiple else ImagePickerMode.GallerySingle
-                3 -> if (multiple) ImagePickerMode.GetContentMultiple else ImagePickerMode.GetContentSingle
-                else -> ImagePickerMode.CameraCapture
+            when (mode) {
+                PicturePickerMode.Embedded -> if (multiple) ImagePickerMode.EmbeddedMultiple else ImagePickerMode.Embedded
+                PicturePickerMode.PhotoPicker -> if (multiple) ImagePickerMode.PhotoPickerMultiple else ImagePickerMode.PhotoPickerSingle
+                PicturePickerMode.Gallery -> if (multiple) ImagePickerMode.GalleryMultiple else ImagePickerMode.GallerySingle
+                PicturePickerMode.GetContent -> if (multiple) ImagePickerMode.GetContentMultiple else ImagePickerMode.GetContentSingle
+                PicturePickerMode.CameraCapture -> ImagePickerMode.CameraCapture
             }
         }
     }.value

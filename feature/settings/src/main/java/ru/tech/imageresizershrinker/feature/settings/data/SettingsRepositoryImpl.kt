@@ -33,14 +33,14 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
-import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
-import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
+import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.ADD_ORIGINAL_NAME_TO_FILENAME
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.ADD_SEQ_NUM_TO_FILENAME
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.ADD_SIZE_TO_FILENAME
@@ -97,11 +97,11 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SELECTED_F
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SHOW_SETTINGS_IN_LANDSCAPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SHOW_UPDATE_DIALOG
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SKIP_IMAGE_PICKING
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SWITCH_TYPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.THEME_CONTRAST_LEVEL
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.THEME_STYLE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_EMOJI_AS_PRIMARY_COLOR
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_FULLSCREEN_SETTINGS
-import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.SWITCH_TYPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.USE_RANDOM_EMOJIS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.VIBRATION_STRENGTH
 import java.io.ByteArrayInputStream
@@ -145,7 +145,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
             presets = Preset.createListFromInts(prefs[PRESETS]),
             colorTupleList = prefs[COLOR_TUPLES],
             allowChangeColorByImage = prefs[ALLOW_IMAGE_MONET] ?: default.allowChangeColorByImage,
-            imagePickerModeInt = prefs[IMAGE_PICKER_MODE] ?: default.imagePickerModeInt,
+            picturePickerModeInt = prefs[IMAGE_PICKER_MODE] ?: default.picturePickerModeInt,
             fabAlignment = prefs[FAB_ALIGNMENT] ?: default.fabAlignment,
             filenamePrefix = prefs[FILENAME_PREFIX] ?: default.filenamePrefix,
             addSizeInFilename = prefs[ADD_SIZE_TO_FILENAME] ?: default.addSizeInFilename,

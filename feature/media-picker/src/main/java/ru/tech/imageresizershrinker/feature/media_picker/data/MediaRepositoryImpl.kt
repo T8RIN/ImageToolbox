@@ -122,22 +122,24 @@ internal class MediaRepositoryImpl @Inject constructor(
         MediaStore.Video.Media.EXTERNAL_CONTENT_URI
     )
 
-    private fun Context.retrieveMedia(dataBody: suspend (ContentResolver) -> List<Media>) =
-        contentFlowObserver(uris).map {
-            try {
-                Result.success(dataBody.invoke(contentResolver))
-            } catch (e: Exception) {
-                Result.failure(e)
-            }
-        }.conflate()
+    private fun Context.retrieveMedia(
+        dataBody: suspend (ContentResolver) -> List<Media>
+    ) = contentFlowObserver(uris).map {
+        try {
+            Result.success(dataBody.invoke(contentResolver))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }.conflate()
 
-    private fun Context.retrieveAlbums(dataBody: suspend (ContentResolver) -> List<Album>) =
-        contentFlowObserver(uris).map {
-            try {
-                Result.success(dataBody.invoke(contentResolver))
-            } catch (e: Exception) {
-                Result.failure(e)
-            }
-        }.conflate()
+    private fun Context.retrieveAlbums(
+        dataBody: suspend (ContentResolver) -> List<Album>
+    ) = contentFlowObserver(uris).map {
+        try {
+            Result.success(dataBody.invoke(contentResolver))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }.conflate()
 
 }

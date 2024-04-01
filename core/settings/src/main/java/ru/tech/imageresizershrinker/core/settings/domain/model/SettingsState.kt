@@ -17,6 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.settings.domain.model
 
+import android.os.Build
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 
@@ -32,7 +33,7 @@ data class SettingsState(
     val aspectRatios: List<DomainAspectRatio>,
     val fabAlignment: Int,
     val selectedEmoji: Int?,
-    val imagePickerModeInt: Int,
+    val picturePickerModeInt: Int,
     val clearCacheOnLaunch: Boolean,
     val showUpdateDialogOnStartup: Boolean,
     val groupOptionsByTypes: Boolean,
@@ -100,7 +101,7 @@ data class SettingsState(
                 presets = emptyList(),
                 fabAlignment = 1,
                 selectedEmoji = 0,
-                imagePickerModeInt = 0,
+                picturePickerModeInt = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) 0 else 1,
                 clearCacheOnLaunch = false,
                 showUpdateDialogOnStartup = true,
                 groupOptionsByTypes = true,
