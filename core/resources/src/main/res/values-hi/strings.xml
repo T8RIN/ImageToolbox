@@ -873,4 +873,20 @@
     <string name="fluent_switch">Fluent</string>
     <string name="fluent_switch_sub">\"Fluent\" डिज़ाइन सिस्टम पर आधारित Windows 11 स्टाइल स्विच का उपयोग करता है</string>
     <string name="cupertino_switch">Cupertino</string>
+    <string name="use_sampled_palette">नमूनाकृत पैलेट का प्रयोग करें</string>
+    <string name="path_omit">पथ छोड़ें</string>
+    <string name="downscale_image">छवि आकार घटाये</string>
+    <string name="downscale_image_sub">प्रसंस्करण से पहले छवि को छोटे आयामों तक छोटा कर दिया जाएगा, इससे औजार को तेजी से और सुरक्षित रूप से काम करने में मदद मिलती है</string>
+    <string name="min_color_ratio">न्यूनतम रंग अनुपात</string>
+    <string name="lines_threshold">रेखाएँ दहलीज</string>
+    <string name="coordinates_rounding_tolerance">निर्देशांक गोलाई सहिष्णुता</string>
+    <string name="path_scale">पथ पैमाना</string>
+    <string name="reset_properties">गुण रीसेट करें</string>
+    <string name="images_to_svg">छवियाँ को SVG में</string>
+    <string name="images_to_svg_sub">दी गई छवियों को SVG छवियों में ट्रेस करें</string>
+    <string name="use_sampled_palette_sub">यदि यह विकल्प सक्षम है तो परिमाणीकरण पैलेट का नमूना लिया जाएगा</string>
+    <string name="svg_warning">इस औजार का उपयोग बड़ी छवियों का अनुरेखण बिना आकार घटाये करने के लिए अनुशंसित नहीं है, इससे क्रैश हो सकता है और प्रसंस्करण समय बढ़ सकता है</string>
+    <string name="quadratic_threshold">द्विघात दहलीज</string>
+    <string name="reset_properties_sub">सभी गुण को डिफ़ॉल्ट मानों पर सेट किया जाएगा, ध्यान दें कि इस क्रिया को पूर्ववत नहीं किया जा सकता है</string>
+    <string name="detailed">विस्तृत</string>
 </resources>

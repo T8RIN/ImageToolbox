@@ -873,4 +873,20 @@
     <string name="fluent_switch_sub">Wykorzystuje przełącznik w stylu Windows 11, oparty na systemie projektowania \"Fluent\"</string>
     <string name="cupertino_switch">Cupertino</string>
     <string name="cupertino_switch_sub">Używa przełącznika podobnego do IOS opartego na systemie projektowania Cupertino</string>
+    <string name="images_to_svg">Obrazy do Svg</string>
+    <string name="images_to_svg_sub">Śledzenie podanych obrazów do obrazów SVG</string>
+    <string name="use_sampled_palette">Użyj próbkowanej palety</string>
+    <string name="use_sampled_palette_sub">Jeśli ta opcja jest włączona, próbkowana będzie paleta kwantyzacji</string>
+    <string name="path_omit">Pomiń ścieżkę</string>
+    <string name="downscale_image">Obniżanie skali obrazu</string>
+    <string name="downscale_image_sub">Obraz zostanie zmniejszony do niższych wymiarów przed przetworzeniem, co pomoże narzędziu pracować szybciej i bezpieczniej</string>
+    <string name="min_color_ratio">Minimalny współczynnik kolorów</string>
+    <string name="lines_threshold">Próg linii</string>
+    <string name="quadratic_threshold">Próg kwadratowy</string>
+    <string name="coordinates_rounding_tolerance">Tolerancja zaokrąglania współrzędnych</string>
+    <string name="path_scale">Skala ścieżki</string>
+    <string name="reset_properties">Zresetuj właściwości</string>
+    <string name="reset_properties_sub">Wszystkie właściwości zostaną ustawione na wartości domyślne, zauważ, że tej akcji nie można cofnąć</string>
+    <string name="detailed">Szczegółowy</string>
+    <string name="svg_warning">Nie zaleca się używania tego narzędzia do śledzenia dużych obrazów bez skalowania w dół, ponieważ może to spowodować awarię i wydłużyć czas przetwarzania</string>
 </resources>

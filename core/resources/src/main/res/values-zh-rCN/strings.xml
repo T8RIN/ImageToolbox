@@ -873,4 +873,20 @@
     <string name="cupertino_switch">Cupertino</string>
     <string name="cupertino_switch_sub">使用基于 Cupertino 设计系统的类似 IOS 的开关</string>
     <string name="fluent_switch_sub">使用基于 \"Fluent \"设计系统的 Windows 11 风格开关</string>
+    <string name="images_to_svg_sub">将给定图像追踪为 SVG 图像</string>
+    <string name="use_sampled_palette_sub">如果启用该选项，将对量化调色板进行采样</string>
+    <string name="path_omit">路径省略</string>
+    <string name="downscale_image">缩放图像</string>
+    <string name="downscale_image_sub">图像将在处理前缩放为较小的尺寸，这有助于工具更快、更安全地工作</string>
+    <string name="min_color_ratio">最小色比</string>
+    <string name="lines_threshold">线条阈值</string>
+    <string name="path_scale">路径标度</string>
+    <string name="reset_properties">重置属性</string>
+    <string name="images_to_svg">图片转 SVG</string>
+    <string name="use_sampled_palette">使用采样调色板</string>
+    <string name="svg_warning">不建议使用该工具在不缩放的情况下追踪大型图像，否则会导致崩溃并增加处理时间</string>
+    <string name="reset_properties_sub">所有属性都将设置为默认值，注意此操作无法撤销</string>
+    <string name="coordinates_rounding_tolerance">协调宽容</string>
+    <string name="quadratic_threshold">二次阈值</string>
+    <string name="detailed">详细</string>
 </resources>

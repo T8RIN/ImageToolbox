@@ -873,4 +873,20 @@
     <string name="fluent_switch_sub">يستخدم مفتاح Windows 11 المصمم على أساس نظام التصميم \"الطلاقة\".</string>
     <string name="cupertino_switch">كوبرتينو</string>
     <string name="cupertino_switch_sub">يستخدم ازرار التبديل المشابهة لتصميم IOS لنظام تصميم كوبرتينو</string>
+    <string name="images_to_svg_sub">تتبع الصور المعطاة إلى صور SVG</string>
+    <string name="use_sampled_palette">استخدم لوحة العينات</string>
+    <string name="path_omit">إهمال المسار</string>
+    <string name="downscale_image">تصير حجم الصور</string>
+    <string name="downscale_image_sub">سيتم تصغير حجم الصورة إلى أبعاد أقل قبل معالجتها، مما يساعد الأداة على العمل بشكل أسرع وأكثر أمانًا</string>
+    <string name="min_color_ratio">الحد الأدنى لنسبة اللون</string>
+    <string name="lines_threshold">عتبة الخطوط</string>
+    <string name="quadratic_threshold">العتبة التربيعية</string>
+    <string name="coordinates_rounding_tolerance">إحداثيات التقريب التسامح</string>
+    <string name="path_scale">مقياس المسار</string>
+    <string name="reset_properties">إعادة تعيين الخصائص</string>
+    <string name="images_to_svg">الصور إلى Svg</string>
+    <string name="use_sampled_palette_sub">سيتم أخذ عينات من لوحة القياس إذا تم تمكين هذا الخيار</string>
+    <string name="svg_warning">لا يُنصح باستخدام هذه الأداة لتتبع الصور الكبيرة دون تصغير حجمها، حيث يمكن أن تتسبب في حدوث اخطاء وزيادة وقت المعالجة</string>
+    <string name="reset_properties_sub">سيتم تعيين كافة الخصائص إلى القيم الافتراضية، لاحظ أنه لا يمكن التراجع عن هذا الإجراء</string>
+    <string name="detailed">‬مفصلة</string>
 </resources>
