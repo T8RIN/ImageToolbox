@@ -887,5 +887,6 @@
     <string name="use_sampled_palette_sub">यदि यह विकल्प सक्षम है तो परिमाणीकरण पैलेट का नमूना लिया जाएगा</string>
     <string name="svg_warning">इस औजार का उपयोग बड़ी छवियों का अनुरेखण बिना आकार घटाये करने के लिए अनुशंसित नहीं है, इससे क्रैश हो सकता है और प्रसंस्करण समय बढ़ सकता है</string>
     <string name="quadratic_threshold">द्विघात दहलीज</string>
-    <string name="reset_properties_sub">सभी संपत्तियों को डिफ़ॉल्ट मानों पर निर्धारित किया जाएगा</string>
+    <string name="reset_properties_sub">सभी गुण को डिफ़ॉल्ट मानों पर सेट किया जाएगा, ध्यान दें कि इस क्रिया को पूर्ववत नहीं किया जा सकता है</string>
+    <string name="detailed">विस्तृत</string>
 </resources>

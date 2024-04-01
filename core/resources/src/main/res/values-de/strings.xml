@@ -873,4 +873,5 @@
     <string name="fullscreen_settings_sub">Wenn aktiviert, werden die Einstellungen immer im Vollbild angezeigt, anstatt einer ausfahrbaren Seitenleiste</string>
     <string name="max">Max</string>
     <string name="detailed">Detailliert</string>
+    <string name="images_to_svg">Bilder zu SVG</string>
 </resources>
