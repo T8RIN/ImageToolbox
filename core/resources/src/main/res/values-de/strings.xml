@@ -776,7 +776,7 @@
     <string name="privacy_blur_sub">Verwischt das Bild unter dem gezeichneten Pfad, um alles zu sichern, was Sie verbergen möchten</string>
     <string name="fabs_shadow">Fabs</string>
     <string name="fabs_shadow_sub">Ermöglicht das Zeichnen von Schatten hinter schwebenden Aktionsschaltflächen</string>
-    <string name="exit">Beenden</string>
+    <string name="exit">Verlassen</string>
     <string name="preview_closing">Wenn Sie die Vorschau jetzt verlassen, müssen Sie die Bilder erneut hinzufügen</string>
     <string name="image_format">Bildformat</string>
     <string name="noise">Lärm</string>
