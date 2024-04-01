@@ -19,17 +19,11 @@
 
 package ru.tech.imageresizershrinker.feature.main.presentation.components
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ManageSearch
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Badge
 import androidx.compose.material3.DrawerState
@@ -70,15 +64,12 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.Marquee
 @Composable
 internal fun MainTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
-    showScreenSearch: Boolean,
-    onChangeShowScreenSearch: (Boolean) -> Unit,
     onShowSnowfall: () -> Unit,
     sideSheetState: DrawerState,
     isSheetSlideable: Boolean
 ) {
     val scope = rememberCoroutineScope()
     val settingsState = LocalSettingsState.current
-    val canSearchScreens = settingsState.screensSearchEnabled
 
     EnhancedTopAppBar(
         type = EnhancedTopAppBarType.Large,
@@ -119,23 +110,6 @@ internal fun MainTopAppBar(
             }
         },
         actions = {
-            AnimatedVisibility(
-                visible = !showScreenSearch && canSearchScreens,
-                enter = fadeIn() + scaleIn(),
-                exit = fadeOut() + scaleOut()
-            ) {
-                EnhancedIconButton(
-                    containerColor = Color.Transparent,
-                    contentColor = LocalContentColor.current,
-                    enableAutoShadowAndBorder = false,
-                    onClick = { onChangeShowScreenSearch(canSearchScreens) }
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Rounded.ManageSearch,
-                        contentDescription = stringResource(R.string.search_here)
-                    )
-                }
-            }
             if (isSheetSlideable || settingsState.useFullscreenSettings) {
                 val navController = LocalNavController.current
                 EnhancedIconButton(

@@ -54,6 +54,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ManageSearch
 import androidx.compose.material.icons.outlined.ContentPasteOff
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material.icons.rounded.SearchOff
@@ -87,6 +88,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButtonType
 import ru.tech.imageresizershrinker.core.ui.widget.other.BoxAnimatedVisibility
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
@@ -99,6 +101,7 @@ internal fun RowScope.ScreenPreferenceSelection(
     isGrid: Boolean,
     isSheetSlideable: Boolean,
     onGetClipList: (List<Uri>) -> Unit,
+    onChangeShowScreenSearch: (Boolean) -> Unit,
     showNavRail: Boolean,
 ) {
     val scope = rememberCoroutineScope()
@@ -255,7 +258,32 @@ internal fun RowScope.ScreenPreferenceSelection(
                         }
                     }
                 }
-
+                BoxAnimatedVisibility(
+                    visible = !showScreenSearch && canSearchScreens,
+                    enter = fadeIn() + scaleIn(),
+                    exit = fadeOut() + scaleOut(),
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(16.dp)
+                        .then(
+                            if (showNavRail && !showClipButton) {
+                                Modifier.navigationBarsPadding()
+                            } else if (showClipButton) {
+                                Modifier.padding(bottom = 76.dp)
+                            } else Modifier
+                        )
+                ) {
+                    EnhancedFloatingActionButton(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        type = EnhancedFloatingActionButtonType.Small,
+                        onClick = { onChangeShowScreenSearch(canSearchScreens) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Rounded.ManageSearch,
+                            contentDescription = stringResource(R.string.search_here)
+                        )
+                    }
+                }
             }
         } else {
             Column(

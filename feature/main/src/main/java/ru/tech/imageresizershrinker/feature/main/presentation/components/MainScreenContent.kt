@@ -78,10 +78,6 @@ internal fun MainScreenContent(
         ) {
             MainTopAppBar(
                 scrollBehavior = scrollBehavior,
-                showScreenSearch = showScreenSearch,
-                onChangeShowScreenSearch = {
-                    showScreenSearch = it
-                },
                 onShowSnowfall = onShowSnowfall,
                 sideSheetState = sideSheetState,
                 isSheetSlideable = isSheetSlideable
@@ -113,6 +109,9 @@ internal fun MainScreenContent(
                     isGrid = isGrid,
                     isSheetSlideable = isSheetSlideable,
                     showNavRail = showNavRail,
+                    onChangeShowScreenSearch = {
+                        showScreenSearch = it
+                    },
                     onGetClipList = onGetClipList
                 )
             }
