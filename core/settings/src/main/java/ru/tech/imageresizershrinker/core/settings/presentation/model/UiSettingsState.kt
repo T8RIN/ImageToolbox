@@ -109,7 +109,8 @@ data class UiSettingsState(
     val generatePreviews: Boolean,
     val showSettingsInLandscape: Boolean,
     val useFullscreenSettings: Boolean,
-    val switchType: SwitchType
+    val switchType: SwitchType,
+    val defaultDrawLineWidth: Float
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -262,7 +263,8 @@ fun SettingsState.toUiState(
         generatePreviews = generatePreviews,
         showSettingsInLandscape = showSettingsInLandscape,
         useFullscreenSettings = useFullscreenSettings,
-        switchType = switchType
+        switchType = switchType,
+        defaultDrawLineWidth = defaultDrawLineWidth
     )
 }
 

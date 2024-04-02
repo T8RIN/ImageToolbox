@@ -20,9 +20,16 @@ package ru.tech.imageresizershrinker.core.ui.utils.helper
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidableCompositionLocal
+import kotlin.reflect.KProperty
 
 @Composable
 fun <T> ProvidableCompositionLocal<T>.ProvidesValue(
     value: T,
     content: @Composable () -> Unit
 ) = CompositionLocalProvider(value = this provides value, content)
+
+@Composable
+operator fun <T> ProvidableCompositionLocal<T>.getValue(
+    t: T?,
+    property: KProperty<*>
+): T = current

@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun FabShadowsSettingItem(
-    onClick: (Boolean) -> Unit,
+    onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
@@ -44,7 +44,9 @@ fun FabShadowsSettingItem(
         title = stringResource(R.string.fabs_shadow),
         subtitle = stringResource(R.string.fabs_shadow_sub),
         checked = settingsState.drawFabShadows,
-        onClick = onClick,
+        onClick = {
+            onClick()
+        },
         startIcon = Icons.Rounded.FloatingActionButton
     )
 }

@@ -66,6 +66,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -134,7 +135,8 @@ fun EraseBackgroundEditOption(
 
         var isRecoveryOn by rememberSaveable { mutableStateOf(false) }
 
-        var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(20.pt) }
+        val settingsState = LocalSettingsState.current
+        var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(settingsState.defaultDrawLineWidth.pt) }
         var brushSoftness by rememberSaveable(stateSaver = PtSaver) {
             mutableStateOf(0.pt)
         }

@@ -85,7 +85,8 @@ data class SettingsState(
     val generatePreviews: Boolean,
     val showSettingsInLandscape: Boolean,
     val useFullscreenSettings: Boolean,
-    val switchType: SwitchType
+    val switchType: SwitchType,
+    val defaultDrawLineWidth: Float
 ) {
 
     companion object {
@@ -154,7 +155,8 @@ data class SettingsState(
                 generatePreviews = true,
                 showSettingsInLandscape = true,
                 useFullscreenSettings = false,
-                switchType = SwitchType.MaterialYou
+                switchType = SwitchType.MaterialYou,
+                defaultDrawLineWidth = 20f
             )
         }
     }

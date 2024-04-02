@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun ButtonShadowsSettingItem(
-    onClick: (Boolean) -> Unit,
+    onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
@@ -44,7 +44,9 @@ fun ButtonShadowsSettingItem(
         title = stringResource(R.string.buttons_shadow),
         subtitle = stringResource(R.string.buttons_shadow_sub),
         checked = settingsState.drawButtonShadows,
-        onClick = onClick,
+        onClick = {
+            onClick()
+        },
         startIcon = Icons.Outlined.Gamepad
     )
 }

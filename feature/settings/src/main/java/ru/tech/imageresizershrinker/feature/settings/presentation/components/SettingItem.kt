@@ -50,12 +50,12 @@ import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostStat
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerShape
+import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerShape
-import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.feature.settings.presentation.viewModel.SettingsViewModel
 
 @Composable
@@ -447,27 +447,27 @@ internal fun SettingItem(
             }
 
             Setting.ContainerShadows -> {
-                ContainerShadowsSettingItem(onClick = { viewModel.toggleDrawContainerShadows() })
+                ContainerShadowsSettingItem(onClick = viewModel::toggleDrawContainerShadows)
             }
 
             Setting.ButtonShadows -> {
-                ButtonShadowsSettingItem(onClick = { viewModel.toggleDrawButtonShadows() })
+                ButtonShadowsSettingItem(onClick = viewModel::toggleDrawButtonShadows)
             }
 
             Setting.FABShadows -> {
-                FabShadowsSettingItem(onClick = { viewModel.toggleDrawFabShadows() })
+                FabShadowsSettingItem(onClick = viewModel::toggleDrawFabShadows)
             }
 
             Setting.SliderShadows -> {
-                SliderShadowsSettingItem(onClick = { viewModel.toggleDrawSliderShadows() })
+                SliderShadowsSettingItem(onClick = viewModel::toggleDrawSliderShadows)
             }
 
             Setting.SwitchShadows -> {
-                SwitchShadowsSettingItem(onClick = { viewModel.toggleDrawSwitchShadows() })
+                SwitchShadowsSettingItem(onClick = viewModel::toggleDrawSwitchShadows)
             }
 
             Setting.AppBarShadows -> {
-                AppBarShadowsSettingItem(onClick = { viewModel.toggleDrawAppBarShadows() })
+                AppBarShadowsSettingItem(onClick = viewModel::toggleDrawAppBarShadows)
             }
 
             Setting.AutoPinClipboard -> {
@@ -575,6 +575,10 @@ internal fun SettingItem(
 
             Setting.UseFullscreenSettings -> {
                 UseFullscreenSettingsSettingItem(onClick = viewModel::toggleUseFullscreenSettings)
+            }
+
+            Setting.DefaultDrawLineWidth -> {
+                DefaultDrawLineWidthSettingItem(onValueChange = viewModel::setDefaultDrawLineWidth)
             }
         }
     }

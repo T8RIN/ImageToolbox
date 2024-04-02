@@ -907,4 +907,5 @@
     <string name="reset_properties">Reset properties</string>
     <string name="reset_properties_sub">All properties will be set to default values, notice that this action cannot be undone</string>
     <string name="detailed">Detailed</string>
+    <string name="default_line_width">Default Line Width</string>
 </resources>

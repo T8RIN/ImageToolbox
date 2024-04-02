@@ -88,4 +88,5 @@ internal object SettingKeys {
     val SHOW_SETTINGS_IN_LANDSCAPE = booleanPreferencesKey("SHOW_SETTINGS_IN_LANDSCAPE")
     val USE_FULLSCREEN_SETTINGS = booleanPreferencesKey("USE_FULLSCREEN_SETTINGS")
     val SWITCH_TYPE = intPreferencesKey("SWITCH_TYPE")
+    val DEFAULT_DRAW_LINE_WIDTH = floatPreferencesKey("DEFAULT_DRAW_LINE_WIDTH")
 }

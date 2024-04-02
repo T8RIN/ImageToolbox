@@ -97,6 +97,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.toUiFilter
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -162,8 +163,9 @@ fun AddEditMaskSheet(
 
         val showReorderSheet = rememberSaveable { mutableStateOf(false) }
 
+        val settingsState = LocalSettingsState.current
         var isEraserOn by rememberSaveable { mutableStateOf(false) }
-        var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(20.pt) }
+        var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(settingsState.defaultDrawLineWidth.pt) }
         var brushSoftness by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(20.pt) }
         var panEnabled by rememberSaveable { mutableStateOf(false) }
         var drawPathMode by rememberSaveable(stateSaver = DrawPathModeSaver) {

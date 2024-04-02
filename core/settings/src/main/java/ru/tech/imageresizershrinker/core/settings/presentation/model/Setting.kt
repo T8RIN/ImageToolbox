@@ -372,4 +372,9 @@ sealed class Setting(
         title = R.string.fullscreen_settings,
         subtitle = R.string.fullscreen_settings_sub
     )
+
+    data object DefaultDrawLineWidth : Setting(
+        title = R.string.default_line_width,
+        subtitle = null
+    )
 }

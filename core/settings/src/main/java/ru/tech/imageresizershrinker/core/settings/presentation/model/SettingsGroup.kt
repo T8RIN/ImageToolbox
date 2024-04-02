@@ -155,6 +155,7 @@ sealed class SettingsGroup(
         titleId = R.string.draw,
         settingsList = listOf(
             Setting.LockDrawOrientation,
+            Setting.DefaultDrawLineWidth,
             Setting.Magnifier
         ),
         initialState = false

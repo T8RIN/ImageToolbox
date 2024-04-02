@@ -38,14 +38,14 @@ import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.di.IoDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
-import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
-import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
+import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import java.io.OutputStream
 import javax.inject.Inject
@@ -524,6 +524,12 @@ class SettingsViewModel @Inject constructor(
     fun toggleUseFullscreenSettings() {
         viewModelScope.launch {
             settingsRepository.toggleUseFullscreenSettings()
+        }
+    }
+
+    fun setDefaultDrawLineWidth(value: Float) {
+        viewModelScope.launch {
+            settingsRepository.setDefaultDrawLineWidth(value)
         }
     }
 

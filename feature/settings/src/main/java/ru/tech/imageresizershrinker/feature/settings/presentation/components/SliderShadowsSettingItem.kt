@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun SliderShadowsSettingItem(
-    onClick: (Boolean) -> Unit,
+    onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.bottomShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
@@ -44,7 +44,9 @@ fun SliderShadowsSettingItem(
         title = stringResource(R.string.sliders_shadow),
         subtitle = stringResource(R.string.sliders_shadow_sub),
         checked = settingsState.drawSliderShadows,
-        onClick = onClick,
+        onClick = {
+            onClick()
+        },
         startIcon = Icons.Rounded.Slider
     )
 }

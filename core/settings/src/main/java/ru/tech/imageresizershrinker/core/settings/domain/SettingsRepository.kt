@@ -171,4 +171,6 @@ interface SettingsRepository : SettingsProvider {
     suspend fun toggleUseFullscreenSettings()
 
     suspend fun setSwitchType(type: SwitchType)
+
+    suspend fun setDefaultDrawLineWidth(value: Float)
 }

@@ -307,7 +307,7 @@ fun DrawScreen(
     var strokeWidth by rememberSaveable(
         viewModel.drawBehavior,
         stateSaver = PtSaver
-    ) { mutableStateOf(20.pt) }
+    ) { mutableStateOf(settingsState.defaultDrawLineWidth.pt) }
 
     var drawColor by rememberSaveable(arrayOf(viewModel.drawBehavior)) { mutableStateOf(Color.Black) }
     var isEraserOn by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(false) }

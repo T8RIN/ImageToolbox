@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun AppBarShadowsSettingItem(
-    onClick: (Boolean) -> Unit,
+    onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.centerShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
@@ -44,7 +44,9 @@ fun AppBarShadowsSettingItem(
         title = stringResource(R.string.app_bars_shadow),
         subtitle = stringResource(R.string.app_bars_shadow_sub),
         checked = settingsState.drawAppBarShadows,
-        onClick = onClick,
+        onClick = {
+            onClick()
+        },
         startIcon = Icons.Outlined.HorizontalSplit
     )
 }

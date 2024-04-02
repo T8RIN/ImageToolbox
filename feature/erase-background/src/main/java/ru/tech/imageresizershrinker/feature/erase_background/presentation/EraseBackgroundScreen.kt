@@ -246,7 +246,7 @@ fun EraseBackgroundScreen(
 
     var strokeWidth by rememberSaveable(stateSaver = PtSaver) {
         mutableStateOf(
-            20.pt
+            settingsState.defaultDrawLineWidth.pt
         )
     }
     var brushSoftness by rememberSaveable(stateSaver = PtSaver) {

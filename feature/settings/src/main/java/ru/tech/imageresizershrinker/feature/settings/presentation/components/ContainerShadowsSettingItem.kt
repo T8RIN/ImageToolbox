@@ -32,7 +32,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwit
 
 @Composable
 fun ContainerShadowsSettingItem(
-    onClick: (Boolean) -> Unit,
+    onClick: () -> Unit,
     shape: Shape = ContainerShapeDefaults.topShape,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
@@ -44,7 +44,9 @@ fun ContainerShadowsSettingItem(
         title = stringResource(R.string.containers_shadow),
         subtitle = stringResource(R.string.containers_shadow_sub),
         checked = settingsState.drawContainerShadows,
-        onClick = onClick,
+        onClick = {
+            onClick()
+        },
         startIcon = Icons.Outlined.Dashboard
     )
 }

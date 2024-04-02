@@ -60,6 +60,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CONFETTI_H
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CONFETTI_HARMONIZER
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CONFETTI_TYPE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.COPY_TO_CLIPBOARD_MODE
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DEFAULT_DRAW_LINE_WIDTH
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DRAG_HANDLE_WIDTH
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DRAW_APPBAR_SHADOWS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.DRAW_BUTTON_SHADOWS
@@ -218,7 +219,9 @@ internal class SettingsRepositoryImpl @Inject constructor(
                 ?: default.useFullscreenSettings,
             switchType = prefs[SWITCH_TYPE]?.let {
                 SwitchType.fromInt(it)
-            } ?: default.switchType
+            } ?: default.switchType,
+            defaultDrawLineWidth = prefs[DEFAULT_DRAW_LINE_WIDTH]
+                ?: default.defaultDrawLineWidth
         )
     }
 
@@ -700,6 +703,12 @@ internal class SettingsRepositoryImpl @Inject constructor(
     override suspend fun setSwitchType(type: SwitchType) {
         dataStore.edit {
             it[SWITCH_TYPE] = type.ordinal
+        }
+    }
+
+    override suspend fun setDefaultDrawLineWidth(value: Float) {
+        dataStore.edit {
+            it[DEFAULT_DRAW_LINE_WIDTH] = value
         }
     }
 
