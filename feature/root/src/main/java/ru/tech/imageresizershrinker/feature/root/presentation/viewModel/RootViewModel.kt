@@ -44,6 +44,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -327,5 +328,7 @@ class RootViewModel @Inject constructor(
     fun hideReviewSheet() {
         _showGithubReviewSheet.update { false }
     }
+
+    fun getSettingsInteractor(): SettingsInteractor = settingsRepository
 
 }

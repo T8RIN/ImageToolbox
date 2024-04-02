@@ -103,7 +103,7 @@ fun BitmapEraser(
     val scope = rememberCoroutineScope()
 
     val settingsState = LocalSettingsState.current
-    val magnifierEnabled by remember(zoomState.scale) {
+    val magnifierEnabled by remember(zoomState.scale, settingsState.magnifierEnabled) {
         derivedStateOf {
             zoomState.scale <= 3f && !panEnabled && settingsState.magnifierEnabled
         }

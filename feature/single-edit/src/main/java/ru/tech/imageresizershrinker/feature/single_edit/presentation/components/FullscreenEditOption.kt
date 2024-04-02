@@ -45,6 +45,7 @@ import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberBottomSheetScaffoldState
@@ -65,6 +66,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.ui.utils.provider.ProvideContainerDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -173,7 +175,11 @@ fun FullscreenEditOption(
                                             .navigationBarsPadding(),
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
-                                        controls(scaffoldState)
+                                        ProvideContainerDefaults(
+                                            color = MaterialTheme.colorScheme.surfaceContainerLowest
+                                        ) {
+                                            controls(scaffoldState)
+                                        }
                                     }
                                 }
                             }
@@ -230,7 +236,11 @@ fun FullscreenEditOption(
                                     ),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                controls(null)
+                                ProvideContainerDefaults(
+                                    color = MaterialTheme.colorScheme.surfaceContainerLowest
+                                ) {
+                                    controls(null)
+                                }
                             }
                         }
                         fabButtons?.let {

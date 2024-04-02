@@ -47,6 +47,9 @@ fun LineWidthSelector(
         sliderModifier = Modifier
             .padding(top = 14.dp, start = 12.dp, end = 12.dp, bottom = 10.dp),
         valueRange = 1f..100f,
+        internalStateTransformation = {
+            it.roundToTwoDigits()
+        },
         onValueChange = {
             onValueChange(it.roundToTwoDigits())
         },

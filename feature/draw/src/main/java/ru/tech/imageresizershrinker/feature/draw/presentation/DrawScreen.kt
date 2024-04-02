@@ -70,6 +70,7 @@ import androidx.compose.material.icons.automirrored.rounded.Redo
 import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.FormatPaint
+import androidx.compose.material.icons.outlined.ZoomIn
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Save
@@ -121,6 +122,7 @@ import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.ImageTooltip
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.animation.fancySlideTransition
@@ -154,6 +156,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheetDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
@@ -398,6 +401,26 @@ fun DrawScreen(
             ),
             value = drawPathMode,
             onValueChange = { drawPathMode = it }
+        )
+        val settingsInteractor = LocalSettingsInteractor.current
+        PreferenceRowSwitch(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 16.dp
+                ),
+            shape = RoundedCornerShape(24.dp),
+            title = stringResource(R.string.magnifier),
+            subtitle = stringResource(R.string.magnifier_sub),
+            checked = settingsState.magnifierEnabled,
+            onClick = {
+                scope.launch {
+                    settingsInteractor.toggleMagnifierEnabled()
+                }
+            },
+            startIcon = Icons.Outlined.ZoomIn
         )
         SaveExifWidget(
             modifier = Modifier.padding(horizontal = 16.dp),

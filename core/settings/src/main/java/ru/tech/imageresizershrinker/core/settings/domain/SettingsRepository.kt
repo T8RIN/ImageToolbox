@@ -26,151 +26,151 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 
-interface SettingsRepository : SettingsProvider {
+interface SettingsRepository : SettingsProvider, SettingsInteractor {
 
     override suspend fun getSettingsState(): SettingsState
 
     override fun getSettingsStateFlow(): Flow<SettingsState>
 
-    suspend fun toggleAddSequenceNumber()
+    override suspend fun toggleAddSequenceNumber()
 
-    suspend fun toggleAddOriginalFilename()
+    override suspend fun toggleAddOriginalFilename()
 
-    suspend fun setEmojisCount(count: Int)
+    override suspend fun setEmojisCount(count: Int)
 
-    suspend fun setImagePickerMode(mode: Int)
+    override suspend fun setImagePickerMode(mode: Int)
 
-    suspend fun toggleAddFileSize()
+    override suspend fun toggleAddFileSize()
 
-    suspend fun setEmoji(emoji: Int)
+    override suspend fun setEmoji(emoji: Int)
 
-    suspend fun setFilenamePrefix(name: String)
+    override suspend fun setFilenamePrefix(name: String)
 
-    suspend fun toggleShowDialog()
+    override suspend fun toggleShowDialog()
 
-    suspend fun setColorTuple(colorTuple: String)
+    override suspend fun setColorTuple(colorTuple: String)
 
-    suspend fun setPresets(newPresets: String)
+    override suspend fun setPresets(newPresets: String)
 
-    suspend fun toggleDynamicColors()
+    override suspend fun toggleDynamicColors()
 
-    suspend fun setBorderWidth(width: Float)
+    override suspend fun setBorderWidth(width: Float)
 
-    suspend fun toggleAllowImageMonet()
+    override suspend fun toggleAllowImageMonet()
 
-    suspend fun toggleAmoledMode()
+    override suspend fun toggleAmoledMode()
 
-    suspend fun setNightMode(nightMode: NightMode)
+    override suspend fun setNightMode(nightMode: NightMode)
 
-    suspend fun setSaveFolderUri(uri: String?)
+    override suspend fun setSaveFolderUri(uri: String?)
 
-    suspend fun setColorTuples(colorTuples: String)
+    override suspend fun setColorTuples(colorTuples: String)
 
-    suspend fun setAlignment(align: Int)
+    override suspend fun setAlignment(align: Int)
 
-    suspend fun setScreenOrder(data: String)
+    override suspend fun setScreenOrder(data: String)
 
-    suspend fun toggleClearCacheOnLaunch()
+    override suspend fun toggleClearCacheOnLaunch()
 
-    suspend fun toggleGroupOptionsByTypes()
+    override suspend fun toggleGroupOptionsByTypes()
 
-    suspend fun toggleRandomizeFilename()
+    override suspend fun toggleRandomizeFilename()
 
-    suspend fun createBackupFile(): ByteArray
+    override suspend fun createBackupFile(): ByteArray
 
-    suspend fun restoreFromBackupFile(
+    override suspend fun restoreFromBackupFile(
         backupFileUri: String,
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit
     )
 
-    suspend fun resetSettings()
+    override suspend fun resetSettings()
 
-    fun createBackupFilename(): String
+    override fun createBackupFilename(): String
 
-    suspend fun setFont(font: DomainFontFamily)
+    override suspend fun setFont(font: DomainFontFamily)
 
-    suspend fun setFontScale(scale: Float)
+    override suspend fun setFontScale(scale: Float)
 
-    suspend fun toggleAllowCrashlytics()
+    override suspend fun toggleAllowCrashlytics()
 
-    suspend fun toggleAllowAnalytics()
+    override suspend fun toggleAllowAnalytics()
 
-    suspend fun toggleAllowBetas()
+    override suspend fun toggleAllowBetas()
 
-    suspend fun toggleDrawContainerShadows()
+    override suspend fun toggleDrawContainerShadows()
 
-    suspend fun toggleDrawButtonShadows()
+    override suspend fun toggleDrawButtonShadows()
 
-    suspend fun toggleDrawSliderShadows()
+    override suspend fun toggleDrawSliderShadows()
 
-    suspend fun toggleDrawSwitchShadows()
+    override suspend fun toggleDrawSwitchShadows()
 
-    suspend fun toggleDrawFabShadows()
+    override suspend fun toggleDrawFabShadows()
 
-    suspend fun registerAppOpen()
+    override suspend fun registerAppOpen()
 
-    suspend fun toggleLockDrawOrientation()
+    override suspend fun toggleLockDrawOrientation()
 
-    suspend fun setThemeStyle(value: Int)
+    override suspend fun setThemeStyle(value: Int)
 
-    suspend fun setThemeContrast(value: Double)
+    override suspend fun setThemeContrast(value: Double)
 
-    suspend fun toggleInvertColors()
+    override suspend fun toggleInvertColors()
 
-    suspend fun toggleScreensSearchEnabled()
+    override suspend fun toggleScreensSearchEnabled()
 
-    suspend fun toggleDrawAppBarShadows()
+    override suspend fun toggleDrawAppBarShadows()
 
-    suspend fun setCopyToClipboardMode(copyToClipboardMode: CopyToClipboardMode)
+    override suspend fun setCopyToClipboardMode(copyToClipboardMode: CopyToClipboardMode)
 
-    suspend fun setVibrationStrength(strength: Int)
+    override suspend fun setVibrationStrength(strength: Int)
 
-    suspend fun toggleOverwriteFiles()
+    override suspend fun toggleOverwriteFiles()
 
-    suspend fun setFilenameSuffix(name: String)
+    override suspend fun setFilenameSuffix(name: String)
 
-    suspend fun setDefaultImageScaleMode(imageScaleMode: ImageScaleMode)
+    override suspend fun setDefaultImageScaleMode(imageScaleMode: ImageScaleMode)
 
-    suspend fun toggleMagnifierEnabled()
+    override suspend fun toggleMagnifierEnabled()
 
-    suspend fun toggleExifWidgetInitialState()
+    override suspend fun toggleExifWidgetInitialState()
 
-    suspend fun setInitialOCRLanguageCodes(list: List<String>)
+    override suspend fun setInitialOCRLanguageCodes(list: List<String>)
 
-    suspend fun getInitialOCRLanguageCodes(): List<String>
+    override suspend fun getInitialOCRLanguageCodes(): List<String>
 
-    suspend fun setScreensWithBrightnessEnforcement(data: String)
+    override suspend fun setScreensWithBrightnessEnforcement(data: String)
 
-    suspend fun toggleConfettiEnabled()
+    override suspend fun toggleConfettiEnabled()
 
-    suspend fun toggleSecureMode()
+    override suspend fun toggleSecureMode()
 
-    suspend fun toggleUseRandomEmojis()
+    override suspend fun toggleUseRandomEmojis()
 
-    suspend fun setIconShape(iconShape: Int)
+    override suspend fun setIconShape(iconShape: Int)
 
-    suspend fun toggleUseEmojiAsPrimaryColor()
+    override suspend fun toggleUseEmojiAsPrimaryColor()
 
-    suspend fun setDragHandleWidth(width: Int)
+    override suspend fun setDragHandleWidth(width: Int)
 
-    suspend fun setConfettiType(type: Int)
+    override suspend fun setConfettiType(type: Int)
 
-    suspend fun toggleAllowAutoClipboardPaste()
+    override suspend fun toggleAllowAutoClipboardPaste()
 
-    suspend fun setConfettiHarmonizer(colorHarmonizer: ColorHarmonizer)
+    override suspend fun setConfettiHarmonizer(colorHarmonizer: ColorHarmonizer)
 
-    suspend fun setConfettiHarmonizationLevel(level: Float)
+    override suspend fun setConfettiHarmonizationLevel(level: Float)
 
-    suspend fun toggleGeneratePreviews()
+    override suspend fun toggleGeneratePreviews()
 
-    suspend fun toggleSkipImagePicking()
+    override suspend fun toggleSkipImagePicking()
 
-    suspend fun toggleShowSettingsInLandscape()
+    override suspend fun toggleShowSettingsInLandscape()
 
-    suspend fun toggleUseFullscreenSettings()
+    override suspend fun toggleUseFullscreenSettings()
 
-    suspend fun setSwitchType(type: SwitchType)
+    override suspend fun setSwitchType(type: SwitchType)
 
-    suspend fun setDefaultDrawLineWidth(value: Float)
+    override suspend fun setDefaultDrawLineWidth(value: Float)
 }

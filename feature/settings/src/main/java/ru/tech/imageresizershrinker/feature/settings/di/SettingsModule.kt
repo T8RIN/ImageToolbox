@@ -28,6 +28,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.feature.settings.data.BorderWidthMigration
@@ -50,6 +51,12 @@ internal interface SettingsModule {
     fun provideSettingsProvider(
         repository: SettingsRepository
     ): SettingsProvider
+
+    @Singleton
+    @Binds
+    fun provideSettingsInteractor(
+        repository: SettingsRepository
+    ): SettingsInteractor
 
     companion object {
 
