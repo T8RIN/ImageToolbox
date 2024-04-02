@@ -30,8 +30,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.isUnspecified
 import androidx.compose.ui.zIndex
-import com.gigamole.composeshadowsplus.common.ShadowsPlusType
-import com.gigamole.composeshadowsplus.common.shadowsPlus
+import com.gigamole.composeshadowsplus.rsblur.rsBlurShadow
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 
@@ -56,8 +55,7 @@ fun Modifier.drawHorizontalStroke(
 
 
     val shadow = Modifier
-        .shadowsPlus(
-            type = ShadowsPlusType.SoftLayer,
+        .rsBlurShadow(
             spread = (-2).dp,
             shape = RectangleShape,
             radius = animateDpAsState(
