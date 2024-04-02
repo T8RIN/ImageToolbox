@@ -42,67 +42,42 @@ sealed class Query(
     var bundle: Bundle? = null
 ) {
     class MediaQuery : Query(
-        projection = arrayOf(
+        projection = listOfNotNull(
             MediaStore.MediaColumns._ID,
             MediaStore.MediaColumns.DATA,
-            MediaStore.MediaColumns.RELATIVE_PATH,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                MediaStore.MediaColumns.RELATIVE_PATH
+            } else MediaStore.MediaColumns.DATA,
             MediaStore.MediaColumns.DISPLAY_NAME,
             MediaStore.MediaColumns.BUCKET_ID,
             MediaStore.MediaColumns.DATE_MODIFIED,
             MediaStore.MediaColumns.DATE_TAKEN,
             MediaStore.MediaColumns.BUCKET_DISPLAY_NAME,
-            MediaStore.MediaColumns.DURATION,
-            MediaStore.MediaColumns.MIME_TYPE,
-            MediaStore.MediaColumns.IS_FAVORITE,
-            MediaStore.MediaColumns.IS_TRASHED
-        ),
-    )
-
-    @SuppressLint("InlinedApi")
-    class TrashQuery : Query(
-        projection = arrayOf(
-            MediaStore.MediaColumns._ID,
-            MediaStore.MediaColumns.DATA,
-            MediaStore.MediaColumns.RELATIVE_PATH,
-            MediaStore.MediaColumns.DISPLAY_NAME,
-            MediaStore.MediaColumns.BUCKET_ID,
-            MediaStore.MediaColumns.DATE_MODIFIED,
-            MediaStore.MediaColumns.DATE_EXPIRES,
-            MediaStore.MediaColumns.BUCKET_DISPLAY_NAME,
-            MediaStore.MediaColumns.DURATION,
-            MediaStore.MediaColumns.MIME_TYPE,
-            MediaStore.MediaColumns.IS_FAVORITE,
-            MediaStore.MediaColumns.IS_TRASHED
-        ),
-        bundle = Bundle().apply {
-            putStringArray(
-                ContentResolver.QUERY_ARG_SORT_COLUMNS,
-                arrayOf(MediaStore.MediaColumns.DATE_EXPIRES)
-            )
-            putInt(
-                ContentResolver.QUERY_ARG_SQL_SORT_ORDER,
-                ContentResolver.QUERY_SORT_DIRECTION_DESCENDING
-            )
-            putInt(MediaStore.QUERY_ARG_MATCH_TRASHED, MediaStore.MATCH_ONLY)
-        }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                MediaStore.MediaColumns.DURATION
+            } else null,
+            MediaStore.MediaColumns.MIME_TYPE
+        ).toTypedArray(),
     )
 
     @SuppressLint("InlinedApi")
     class PhotoQuery : Query(
-        projection = arrayOf(
+        projection = listOfNotNull(
             MediaStore.MediaColumns._ID,
             MediaStore.MediaColumns.DATA,
-            MediaStore.MediaColumns.RELATIVE_PATH,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                MediaStore.MediaColumns.RELATIVE_PATH
+            } else MediaStore.MediaColumns.DATA,
             MediaStore.MediaColumns.DISPLAY_NAME,
             MediaStore.MediaColumns.BUCKET_ID,
             MediaStore.MediaColumns.DATE_MODIFIED,
             MediaStore.MediaColumns.DATE_TAKEN,
             MediaStore.MediaColumns.BUCKET_DISPLAY_NAME,
-            MediaStore.MediaColumns.DURATION,
-            MediaStore.MediaColumns.MIME_TYPE,
-            MediaStore.MediaColumns.IS_FAVORITE,
-            MediaStore.MediaColumns.IS_TRASHED
-        ),
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                MediaStore.MediaColumns.DURATION
+            } else null,
+            MediaStore.MediaColumns.MIME_TYPE
+        ).toTypedArray(),
         bundle = defaultBundle.apply {
             putString(
                 ContentResolver.QUERY_ARG_SQL_SELECTION,
@@ -117,20 +92,22 @@ sealed class Query(
 
     @SuppressLint("InlinedApi")
     class VideoQuery : Query(
-        projection = arrayOf(
+        projection = listOfNotNull(
             MediaStore.MediaColumns._ID,
             MediaStore.MediaColumns.DATA,
-            MediaStore.MediaColumns.RELATIVE_PATH,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                MediaStore.MediaColumns.RELATIVE_PATH
+            } else MediaStore.MediaColumns.DATA,
             MediaStore.MediaColumns.DISPLAY_NAME,
             MediaStore.MediaColumns.BUCKET_ID,
             MediaStore.MediaColumns.DATE_MODIFIED,
             MediaStore.MediaColumns.BUCKET_DISPLAY_NAME,
-            MediaStore.MediaColumns.DURATION,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                MediaStore.MediaColumns.DURATION
+            } else null,
             MediaStore.MediaColumns.MIME_TYPE,
-            MediaStore.MediaColumns.ORIENTATION,
-            MediaStore.MediaColumns.IS_FAVORITE,
-            MediaStore.MediaColumns.IS_TRASHED
-        ),
+            MediaStore.MediaColumns.ORIENTATION
+        ).toTypedArray(),
         bundle = defaultBundle.apply {
             putString(
                 ContentResolver.QUERY_ARG_SQL_SELECTION,
@@ -149,7 +126,9 @@ sealed class Query(
             MediaStore.MediaColumns.BUCKET_DISPLAY_NAME,
             MediaStore.MediaColumns.DISPLAY_NAME,
             MediaStore.MediaColumns.DATA,
-            MediaStore.MediaColumns.RELATIVE_PATH,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                MediaStore.MediaColumns.RELATIVE_PATH
+            } else MediaStore.MediaColumns.DATA,
             MediaStore.MediaColumns._ID,
             MediaStore.MediaColumns.MIME_TYPE,
             MediaStore.MediaColumns.DATE_MODIFIED,
@@ -211,14 +190,24 @@ suspend fun ContentResolver.getAlbums(
                             getLong(getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_ID))
                         val id = getLong(getColumnIndexOrThrow(MediaStore.MediaColumns._ID))
                         val label: String? = try {
-                            getString(getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME))
+                            getString(
+                                getColumnIndexOrThrow(
+                                    MediaStore.MediaColumns.BUCKET_DISPLAY_NAME
+                                )
+                            )
                         } catch (e: Exception) {
                             Build.MODEL
                         }
                         val thumbnailPath =
                             getString(getColumnIndexOrThrow(MediaStore.MediaColumns.DATA))
                         val thumbnailRelativePath =
-                            getString(getColumnIndexOrThrow(MediaStore.MediaColumns.RELATIVE_PATH))
+                            getString(
+                                getColumnIndexOrThrow(
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                        MediaStore.MediaColumns.RELATIVE_PATH
+                                    } else MediaStore.MediaColumns.DATA
+                                )
+                            )
                         val thumbnailDate =
                             getLong(getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_MODIFIED))
                         val mimeType =

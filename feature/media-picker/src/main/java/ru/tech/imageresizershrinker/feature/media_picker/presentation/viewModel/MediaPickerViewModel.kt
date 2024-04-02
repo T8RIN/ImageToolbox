@@ -26,6 +26,7 @@ import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
+import com.t8rin.logger.makeLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -111,7 +112,7 @@ class MediaPickerViewModel @Inject constructor(
                 .flowOn(dispatcher)
                 .collectLatest { result ->
                     val data = result.getOrNull() ?: emptyList()
-                    val error = if (result.isFailure) result.exceptionOrNull()?.message
+                    val error = if (result.isFailure) result.exceptionOrNull().makeLog()?.message
                         ?: "An error occurred" else ""
                     if (data.isEmpty()) {
                         return@collectLatest _albumsState.emit(
@@ -150,7 +151,7 @@ class MediaPickerViewModel @Inject constructor(
                             } else true
                         } else true
                     } ?: emptyList()
-                    val error = if (result.isFailure) result.exceptionOrNull()?.message
+                    val error = if (result.isFailure) result.exceptionOrNull().makeLog()?.message
                         ?: "An error occurred" else ""
                     if (data.isEmpty()) {
                         return@collectLatest _mediaState.emit(MediaState(isLoading = false))

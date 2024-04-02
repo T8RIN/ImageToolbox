@@ -93,13 +93,23 @@ fun Cursor.getMediaFromCursor(): Media {
     val path: String =
         getString(getColumnIndexOrThrow(MediaStore.MediaColumns.DATA))
     val relativePath: String =
-        getString(getColumnIndexOrThrow(MediaStore.MediaColumns.RELATIVE_PATH))
+        getString(
+            getColumnIndexOrThrow(
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    MediaStore.MediaColumns.RELATIVE_PATH
+                } else MediaStore.MediaColumns.DATA
+            )
+        )
     val title: String =
         getString(getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME))
     val albumID: Long =
         getLong(getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_ID))
     val albumLabel: String = try {
-        getString(getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME))
+        getString(
+            getColumnIndexOrThrow(
+                MediaStore.MediaColumns.BUCKET_DISPLAY_NAME
+            )
+        )
     } catch (_: Exception) {
         Build.MODEL
     }
@@ -117,10 +127,7 @@ fun Cursor.getMediaFromCursor(): Media {
     }
     val mimeType: String =
         getString(getColumnIndexOrThrow(MediaStore.MediaColumns.MIME_TYPE))
-    val isFavorite: Int =
-        getInt(getColumnIndexOrThrow(MediaStore.MediaColumns.IS_FAVORITE))
-    val isTrashed: Int =
-        getInt(getColumnIndexOrThrow(MediaStore.MediaColumns.IS_TRASHED))
+
     val expiryTimestamp: Long? = try {
         getLong(getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_EXPIRES))
     } catch (_: Exception) {
@@ -145,8 +152,8 @@ fun Cursor.getMediaFromCursor(): Media {
         expiryTimestamp = expiryTimestamp,
         fullDate = formattedDate,
         duration = duration,
-        favorite = isFavorite,
-        trashed = isTrashed,
+        favorite = 0,
+        trashed = 0,
         mimeType = mimeType
     )
 }
