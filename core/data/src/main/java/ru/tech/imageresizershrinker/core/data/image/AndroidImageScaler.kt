@@ -226,14 +226,16 @@ internal class AndroidImageScaler @Inject constructor(
         if (width == image.width && height == image.height) return@withContext image
 
         val mode = imageScaleMode.takeIf {
-            it != ImageScaleMode.NotPresent
+            it != ImageScaleMode.NotPresent && it.value >= 0
         } ?: defaultImageScaleMode
 
         Aire.scale(
             bitmap = image.toSoftware(),
             dstWidth = width,
             dstHeight = height,
-            scaleMode = BitmapScaleMode.entries.first { e -> e.ordinal == mode.value },
+            scaleMode = BitmapScaleMode.entries.firstOrNull {
+                it.ordinal == mode.value
+            } ?: BitmapScaleMode.Bilinear,
             antialias = true
         )
     }
