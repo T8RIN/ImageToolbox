@@ -39,9 +39,9 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerColor
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerShape
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 object IconShapeDefaults {
 

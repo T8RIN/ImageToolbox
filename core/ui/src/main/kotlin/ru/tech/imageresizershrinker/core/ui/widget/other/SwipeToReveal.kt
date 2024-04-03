@@ -19,7 +19,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.other
 
-import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.Easing
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.interaction.MutableInteractionSource

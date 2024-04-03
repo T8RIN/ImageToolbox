@@ -18,8 +18,8 @@
 package ru.tech.imageresizershrinker.feature.pdf_tools.domain
 
 import kotlinx.coroutines.Job
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 
 interface PdfManager<I> {
 

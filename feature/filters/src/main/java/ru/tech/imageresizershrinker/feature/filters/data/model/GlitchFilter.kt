@@ -20,8 +20,8 @@ package ru.tech.imageresizershrinker.feature.filters.data.model
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import kotlinx.coroutines.coroutineScope
-import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
+import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.feature.filters.data.utils.Glitcher
 import java.io.ByteArrayOutputStream

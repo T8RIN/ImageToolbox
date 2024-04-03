@@ -20,8 +20,8 @@ package ru.tech.imageresizershrinker.feature.image_stitch.domain
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageWithSize
-import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
+import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 
 interface ImageCombiner<I> {
 
