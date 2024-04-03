@@ -271,7 +271,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                         .align(Alignment.BottomEnd)
                         .then(
                             if (showClipButton) {
-                                Modifier.padding(start = 32.dp, end = 24.dp, bottom = 4.dp)
+                                Modifier.padding(start = 16.dp, end = 16.dp, bottom = 4.dp)
                             } else Modifier.padding(16.dp)
                         )
                         .then(
