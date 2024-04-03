@@ -253,7 +253,8 @@ fun RecognizeLanguageSelector(
                             maxLines = 1,
                             hint = { Text(stringResource(id = R.string.search_here)) },
                             keyboardOptions = KeyboardOptions.Default.copy(
-                                imeAction = ImeAction.Search
+                                imeAction = ImeAction.Search,
+                                autoCorrectEnabled = null
                             ),
                             value = searchKeyword,
                             onValueChange = {
@@ -394,7 +395,7 @@ fun RecognizeLanguageSelector(
                                             size = languagesForSearch.size
                                         ),
                                         modifier = Modifier
-                                            .animateItemPlacement()
+                                            .animateItem()
                                             .fillMaxWidth()
                                     )
                                 }
@@ -515,7 +516,7 @@ fun RecognizeLanguageSelector(
                                 )
                                 SwipeToReveal(
                                     state = state,
-                                    modifier = Modifier.animateItemPlacement(),
+                                    modifier = Modifier.animateItem(),
                                     revealedContentEnd = {
                                         Box(
                                             Modifier
@@ -733,7 +734,7 @@ fun RecognizeLanguageSelector(
                                         size = notDownloadedLanguages.size
                                     ),
                                     modifier = Modifier
-                                        .animateItemPlacement()
+                                        .animateItem()
                                         .fillMaxWidth()
                                 )
                             }

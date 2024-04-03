@@ -3628,11 +3628,11 @@ HSPLandroidx/compose/foundation/lazy/staggeredgrid/LazyStaggeredGridItemProvider
 HSPLandroidx/compose/foundation/lazy/staggeredgrid/LazyStaggeredGridItemProviderKt$rememberStaggeredGridItemProviderLambda$1$itemProviderState$1;->invoke()Landroidx/compose/foundation/lazy/staggeredgrid/LazyStaggeredGridItemProviderImpl;
 HSPLandroidx/compose/foundation/lazy/staggeredgrid/LazyStaggeredGridItemProviderKt$rememberStaggeredGridItemProviderLambda$1$itemProviderState$1;->invoke()Ljava/lang/Object;
 Landroidx/compose/foundation/lazy/staggeredgrid/LazyStaggeredGridItemScope;
-HSPLandroidx/compose/foundation/lazy/staggeredgrid/LazyStaggeredGridItemScope;->animateItemPlacement$default(Landroidx/compose/foundation/lazy/staggeredgrid/LazyStaggeredGridItemScope;Landroidx/compose/ui/Modifier;Landroidx/compose/animation/core/FiniteAnimationSpec;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
+HSPLandroidx/compose/foundation/lazy/staggeredgrid/LazyStaggeredGridItemScope;->animateItem$default(Landroidx/compose/foundation/lazy/staggeredgrid/LazyStaggeredGridItemScope;Landroidx/compose/ui/Modifier;Landroidx/compose/animation/core/FiniteAnimationSpec;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
 Landroidx/compose/foundation/lazy/staggeredgrid/LazyStaggeredGridItemScopeImpl;
 HSPLandroidx/compose/foundation/lazy/staggeredgrid/LazyStaggeredGridItemScopeImpl;-><clinit>()V
 HSPLandroidx/compose/foundation/lazy/staggeredgrid/LazyStaggeredGridItemScopeImpl;-><init>()V
-HSPLandroidx/compose/foundation/lazy/staggeredgrid/LazyStaggeredGridItemScopeImpl;->animateItemPlacement(Landroidx/compose/ui/Modifier;Landroidx/compose/animation/core/FiniteAnimationSpec;)Landroidx/compose/ui/Modifier;
+HSPLandroidx/compose/foundation/lazy/staggeredgrid/LazyStaggeredGridItemScopeImpl;->animateItem(Landroidx/compose/ui/Modifier;Landroidx/compose/animation/core/FiniteAnimationSpec;)Landroidx/compose/ui/Modifier;
 Landroidx/compose/foundation/lazy/staggeredgrid/LazyStaggeredGridKt;
 HSPLandroidx/compose/foundation/lazy/staggeredgrid/LazyStaggeredGridKt;->LazyStaggeredGrid-LJWHXA8(Landroidx/compose/foundation/lazy/staggeredgrid/LazyStaggeredGridState;Landroidx/compose/foundation/gestures/Orientation;Landroidx/compose/foundation/lazy/staggeredgrid/LazyGridStaggeredGridSlotsProvider;Landroidx/compose/ui/Modifier;Landroidx/compose/foundation/layout/PaddingValues;ZLandroidx/compose/foundation/gestures/FlingBehavior;ZFFLkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;III)V
 Landroidx/compose/foundation/lazy/staggeredgrid/LazyStaggeredGridLaneInfo;

@@ -347,7 +347,7 @@ fun AddFiltersSheet(
                                             index = index,
                                             size = filtersForSearch.size
                                         ),
-                                        modifier = Modifier.animateItemPlacement()
+                                        modifier = Modifier.animateItem()
                                     )
                                 }
                             }
@@ -386,7 +386,7 @@ fun AddFiltersSheet(
                 } else {
                     HorizontalPager(
                         state = pagerState,
-                        outOfBoundsPageCount = 2
+                        beyondViewportPageCount = 2
                     ) { page ->
                         val filters by remember(page) {
                             derivedStateOf {
@@ -417,7 +417,7 @@ fun AddFiltersSheet(
                                             size = filters.size
                                         ),
                                         isFavoritePage = false,
-                                        modifier = Modifier.animateItemPlacement()
+                                        modifier = Modifier.animateItem()
                                     )
                                 }
                             }
@@ -478,7 +478,7 @@ fun AddFiltersSheet(
                                                     index = index,
                                                     size = favoriteFilters.size
                                                 ),
-                                                modifier = Modifier.animateItemPlacement()
+                                                modifier = Modifier.animateItem()
                                             )
                                         }
                                     }
@@ -503,7 +503,8 @@ fun AddFiltersSheet(
                             maxLines = 1,
                             hint = { Text(stringResource(id = R.string.search_here)) },
                             keyboardOptions = KeyboardOptions.Default.copy(
-                                imeAction = ImeAction.Search
+                                imeAction = ImeAction.Search,
+                                autoCorrectEnabled = null
                             ),
                             value = searchKeyword,
                             onValueChange = {

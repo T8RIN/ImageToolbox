@@ -200,7 +200,8 @@ fun EditExifSheet(
                                     fontWeight = FontWeight.Bold
                                 ),
                                 keyboardOptions = KeyboardOptions.Default.copy(
-                                    imeAction = ImeAction.Next
+                                    imeAction = ImeAction.Next,
+                                    autoCorrectEnabled = null
                                 ),
                                 modifier = Modifier
                                     .fillMaxWidth()

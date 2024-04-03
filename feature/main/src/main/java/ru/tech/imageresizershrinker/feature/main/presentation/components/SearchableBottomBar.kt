@@ -104,7 +104,8 @@ internal fun SearchableBottomBar(
                             .padding(start = 6.dp)
                             .offset(2.dp, (-2).dp),
                         keyboardOptions = KeyboardOptions.Default.copy(
-                            imeAction = ImeAction.Search
+                            imeAction = ImeAction.Search,
+                            autoCorrectEnabled = null
                         ),
                         value = screenSearchKeyword,
                         onValueChange = {
