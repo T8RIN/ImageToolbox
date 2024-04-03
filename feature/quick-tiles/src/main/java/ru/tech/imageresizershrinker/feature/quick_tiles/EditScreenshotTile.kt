@@ -20,12 +20,9 @@ package ru.tech.imageresizershrinker.feature.quick_tiles
 import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Intent
-import android.graphics.drawable.Icon
 import android.os.Build
-import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
-import ru.tech.imageresizershrinker.core.resources.R
 
 @RequiresApi(Build.VERSION_CODES.N)
 class EditScreenshotTile : TileService() {
@@ -54,14 +51,4 @@ class EditScreenshotTile : TileService() {
         }
     }
 
-    override fun onStartListening() {
-        qsTile?.apply {
-            label = getString(R.string.edit_screenshot)
-            icon =
-                Icon.createWithResource(applicationContext, R.drawable.outline_app_registration_24)
-            state = Tile.STATE_ACTIVE
-            updateTile()
-        }
-        super.onStartListening()
-    }
 }

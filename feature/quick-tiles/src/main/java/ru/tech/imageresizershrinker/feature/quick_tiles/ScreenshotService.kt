@@ -29,7 +29,6 @@ import android.graphics.Bitmap
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
 import android.net.Uri
-import android.os.Binder
 import android.os.Build
 import android.os.Handler
 import android.os.IBinder
@@ -184,6 +183,6 @@ class ScreenshotService : Service() {
         }
     }
 
-    override fun onBind(intent: Intent): IBinder = Binder()
+    override fun onBind(intent: Intent): IBinder? = null
 
 }

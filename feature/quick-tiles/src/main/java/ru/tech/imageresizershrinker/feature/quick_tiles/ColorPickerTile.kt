@@ -20,12 +20,9 @@ package ru.tech.imageresizershrinker.feature.quick_tiles
 import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Intent
-import android.graphics.drawable.Icon
 import android.os.Build
-import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
-import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 
 @RequiresApi(Build.VERSION_CODES.N)
@@ -54,16 +51,6 @@ class ColorPickerTile : TileService() {
                 startActivityAndCollapse(intent)
             }
         }
-    }
-
-    override fun onStartListening() {
-        qsTile?.apply {
-            label = getString(R.string.pick_color)
-            icon = Icon.createWithResource(applicationContext, R.drawable.outline_colorize_24)
-            state = Tile.STATE_ACTIVE
-            updateTile()
-        }
-        super.onStartListening()
     }
 
 }
