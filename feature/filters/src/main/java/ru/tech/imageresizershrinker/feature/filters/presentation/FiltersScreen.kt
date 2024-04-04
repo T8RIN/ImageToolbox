@@ -972,42 +972,36 @@ fun FiltersScreen(
                                     }
                                 },
                                 sheetContent = {
-                                    if (tempSelectionUris == null) showSelectionFilterPicker.value =
-                                        false
+                                    if (tempSelectionUris == null) {
+                                        showSelectionFilterPicker.value = false
+                                    }
 
-                                    if (tempSelectionUris?.size == 1) {
-                                        LaunchedEffect(tempSelectionUris) {
-                                            viewModel.setMaskFilter(tempSelectionUris?.firstOrNull())
-                                            showSelectionFilterPicker.value = false
+                                    LazyVerticalStaggeredGrid(
+                                        columns = StaggeredGridCells.Adaptive(250.dp),
+                                        horizontalArrangement = Arrangement.spacedBy(
+                                            space = 12.dp,
+                                            alignment = Alignment.CenterHorizontally
+                                        ),
+                                        verticalItemSpacing = 12.dp,
+                                        contentPadding = PaddingValues(12.dp),
+                                    ) {
+                                        item {
+                                            BasicFilterPreference(
+                                                onClick = {
+                                                    viewModel.setBasicFilter(tempSelectionUris)
+                                                    showSelectionFilterPicker.value = false
+                                                },
+                                                modifier = Modifier.fillMaxWidth()
+                                            )
                                         }
-                                    } else {
-                                        LazyVerticalStaggeredGrid(
-                                            columns = StaggeredGridCells.Adaptive(250.dp),
-                                            horizontalArrangement = Arrangement.spacedBy(
-                                                space = 12.dp,
-                                                alignment = Alignment.CenterHorizontally
-                                            ),
-                                            verticalItemSpacing = 12.dp,
-                                            contentPadding = PaddingValues(12.dp),
-                                        ) {
-                                            item {
-                                                BasicFilterPreference(
-                                                    onClick = {
-                                                        viewModel.setBasicFilter(tempSelectionUris)
-                                                        showSelectionFilterPicker.value = false
-                                                    },
-                                                    modifier = Modifier.fillMaxWidth()
-                                                )
-                                            }
-                                            item {
-                                                MaskFilterPreference(
-                                                    onClick = {
-                                                        viewModel.setMaskFilter(tempSelectionUris?.firstOrNull())
-                                                        showSelectionFilterPicker.value = false
-                                                    },
-                                                    modifier = Modifier.fillMaxWidth()
-                                                )
-                                            }
+                                        item {
+                                            MaskFilterPreference(
+                                                onClick = {
+                                                    viewModel.setMaskFilter(tempSelectionUris?.firstOrNull())
+                                                    showSelectionFilterPicker.value = false
+                                                },
+                                                modifier = Modifier.fillMaxWidth()
+                                            )
                                         }
                                     }
                                 },
