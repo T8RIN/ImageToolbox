@@ -872,4 +872,20 @@
     <string name="fluent_switch">Fluent</string>
     <string name="fluent_switch_sub">Usa o interruptor estilo \"Windows 11\" baseado no sistema de design \"Fluent\"</string>
     <string name="cupertino_switch_sub">Usa o \"iOS\" como um interruptor baseado no sistema de design \"Cupertino\"</string>
+    <string name="images_to_svg">Imagens para SVG</string>
+    <string name="images_to_svg_sub">Rastrear imagens fornecidas em imagens SVG</string>
+    <string name="use_sampled_palette">Usar paleta de amostra</string>
+    <string name="use_sampled_palette_sub">A paleta de quantização será amostrada se esta opção estiver habilitada</string>
+    <string name="path_omit">Caminho omitido</string>
+    <string name="svg_warning">O uso desta ferramenta para rastrear imagens grandes sem redução de escala não é recomendado, pois pode causar travamento e aumentar o tempo de processamento</string>
+    <string name="downscale_image">Imagem em escala reduzida</string>
+    <string name="downscale_image_sub">A imagem será reduzida para dimensões inferiores antes do processamento, o que ajuda a ferramenta a trabalhar de forma mais rápida e confiável</string>
+    <string name="min_color_ratio">Proporção mínima de cores</string>
+    <string name="lines_threshold">Limite de linhas</string>
+    <string name="quadratic_threshold">Limite de quadros</string>
+    <string name="coordinates_rounding_tolerance">Tolerância de arredondamento de coordenadas</string>
+    <string name="path_scale">Caminho de escala</string>
+    <string name="reset_properties">Redefinir propriedades</string>
+    <string name="reset_properties_sub">Todas as propriedades serão definidas com valores padrão, observe que esta ação não pode ser desfeita</string>
+    <string name="detailed">Detalhado</string>
 </resources>
