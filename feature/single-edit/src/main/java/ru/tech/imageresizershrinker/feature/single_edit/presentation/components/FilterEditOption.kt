@@ -47,6 +47,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -121,6 +122,12 @@ fun FilterEditOption(
 
         val showColorPicker = remember { mutableStateOf(false) }
         var tempColor by remember { mutableStateOf(Color.Black) }
+
+        LaunchedEffect(visible) {
+            if (visible && filterList.isEmpty()) {
+                showFilterSheet.value = true
+            }
+        }
 
         FullscreenEditOption(
             showControls = filterList.isNotEmpty(),
