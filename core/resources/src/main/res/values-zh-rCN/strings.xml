@@ -889,4 +889,5 @@
     <string name="coordinates_rounding_tolerance">协调宽容</string>
     <string name="quadratic_threshold">二次阈值</string>
     <string name="detailed">详细</string>
+    <string name="default_line_width">默认线宽</string>
 </resources>
