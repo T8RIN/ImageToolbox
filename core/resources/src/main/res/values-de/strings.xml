@@ -874,4 +874,19 @@
     <string name="max">Max</string>
     <string name="detailed">Detailliert</string>
     <string name="images_to_svg">Bilder zu SVG</string>
+    <string name="path_omit">Pfad auslassen</string>
+    <string name="svg_warning">Die Verwendung dieses Tools für die Umwandlung großer Bilder ohne Herunterskalierung wird nicht empfohlen, da dies zu Abstürzen führen und die Verarbeitungszeit verlängern kann.</string>
+    <string name="downscale_image">Bild herunterskalieren</string>
+    <string name="default_line_width">Standardlinienbreite</string>
+    <string name="resize_anchor">Ankergröße ändern</string>
+    <string name="images_to_svg_sub">Vorgegebene Bilder in SVG-Bilder umwandeln</string>
+    <string name="use_sampled_palette">Gesampelte Palette verwenden</string>
+    <string name="use_sampled_palette_sub">Die Quantisierungspalette wird gesampelt., wenn diese Option aktiviert ist.</string>
+    <string name="downscale_image_sub">Das Bild wird vor der Verarbeitung auf eine geringere Größe herunterskaliert, damit das Werkzeug schneller und sicherer arbeiten kann.</string>
+    <string name="min_color_ratio">Minimales Farbverhältnis</string>
+    <string name="lines_threshold">Schwellenwert für Linien</string>
+    <string name="coordinates_rounding_tolerance">Rundungstoleranz für Koordinaten</string>
+    <string name="path_scale">Pfadskalierung</string>
+    <string name="reset_properties">Eigenschaften zurücksetzen</string>
+    <string name="reset_properties_sub">Alle Eigenschaften werden auf ihre Standardwerte zurückgesetzt. Beachten Sie, dass dies nicht rückgängig gemacht werden kann.</string>
 </resources>
