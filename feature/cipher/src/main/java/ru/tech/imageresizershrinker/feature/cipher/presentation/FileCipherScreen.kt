@@ -113,6 +113,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.Green
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.openWriteableStream
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isScrollingUp
@@ -170,12 +171,17 @@ fun FileCipherScreen(
         else onGoBack()
     }
 
+    val writeDenied: (Throwable) -> Unit = {
+        scope.launch {
+            toastHostState.showError(context, it)
+        }
+    }
     val saveLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument("*/*"),
         onResult = {
             it?.let { uri ->
                 viewModel.saveCryptographyTo(
-                    outputStream = context.contentResolver.openOutputStream(uri, "rw")
+                    outputStream = context.openWriteableStream(uri, writeDenied)
                 ) { t ->
                     if (t != null) {
                         scope.launch {

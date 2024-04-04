@@ -48,6 +48,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.isInstalledFromPlayStore
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.openWriteableStream
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.LocalNavController
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalContainerShape
@@ -140,14 +141,16 @@ internal fun SettingItem(
             }
 
             Setting.Backup -> {
+                val writeDenied: (Throwable) -> Unit = {
+                    scope.launch {
+                        toastHostState.showError(context, it)
+                    }
+                }
                 BackupSettingItem(
                     createBackupFilename = viewModel::createBackupFilename,
-                    createBackup = {
+                    createBackup = { uri ->
                         viewModel.createBackup(
-                            outputStream = context.contentResolver.openOutputStream(
-                                it,
-                                "rw"
-                            ),
+                            outputStream = context.openWriteableStream(uri, writeDenied),
                             onSuccess = {
                                 scope.launch {
                                     confettiHostState.showConfetti()

@@ -92,6 +92,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.Jxl
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilename
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.openWriteableStream
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
 import ru.tech.imageresizershrinker.core.ui.utils.helper.failedToSaveImages
@@ -211,12 +212,17 @@ fun ApngToolsScreen(
         }
     }
 
+    val writeDenied: (Throwable) -> Unit = {
+        scope.launch {
+            toastHostState.showError(context, it)
+        }
+    }
     val saveApngLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument("image/apng"),
         onResult = {
             it?.let { uri ->
                 viewModel.saveApngTo(
-                    outputStream = context.contentResolver.openOutputStream(uri, "rw")
+                    outputStream = context.openWriteableStream(uri, writeDenied)
                 ) { t ->
                     if (t != null) {
                         scope.launch {

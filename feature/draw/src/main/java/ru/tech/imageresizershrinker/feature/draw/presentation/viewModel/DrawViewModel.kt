@@ -79,7 +79,7 @@ class DrawViewModel @Inject constructor(
     private val _colorPickerBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val colorPickerBitmap by _colorPickerBitmap
 
-    val navController = navController<DrawBehavior>(DrawBehavior.None)
+    private val navController = navController<DrawBehavior>(DrawBehavior.None)
 
     val drawBehavior get() = navController.backstack.entries.last().destination
 

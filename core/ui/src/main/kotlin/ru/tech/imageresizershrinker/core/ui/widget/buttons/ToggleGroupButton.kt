@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -122,7 +121,6 @@ fun ToggleGroupButton(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ToggleGroupButton(
     @SuppressLint("ModifierParameter")
@@ -161,19 +159,19 @@ fun ToggleGroupButton(
                 content = title
             )
             val scrollState = rememberScrollState()
-            SingleChoiceSegmentedButtonRow(
-                space = max(settingsState.borderWidth, 1.dp),
-                modifier = Modifier
-                    .then(
-                        if (isScrollable) {
-                            Modifier
-                                .fadingEdges(scrollState)
-                                .horizontalScroll(scrollState)
-                        } else Modifier.fillMaxWidth()
-                    )
-                    .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
-            ) {
-                LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
+            LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
+                SingleChoiceSegmentedButtonRow(
+                    space = max(settingsState.borderWidth, 1.dp),
+                    modifier = Modifier
+                        .then(
+                            if (isScrollable) {
+                                Modifier
+                                    .fadingEdges(scrollState)
+                                    .horizontalScroll(scrollState)
+                            } else Modifier.fillMaxWidth()
+                        )
+                        .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
+                ) {
                     repeat(itemCount) { index ->
                         val shape = SegmentedButtonDefaults.itemShape(index, itemCount)
                         val activeContainerColor = if (enabled) {

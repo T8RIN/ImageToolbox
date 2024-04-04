@@ -34,5 +34,5 @@ fun BoxAnimatedVisibility(
     enter: EnterTransition = fadeIn() + expandIn(),
     exit: ExitTransition = shrinkOut() + fadeOut(),
     label: String = "AnimatedVisibility",
-    content: @Composable() AnimatedVisibilityScope.() -> Unit
+    content: @Composable AnimatedVisibilityScope.() -> Unit
 ) = androidx.compose.animation.AnimatedVisibility(visible, modifier, enter, exit, label, content)

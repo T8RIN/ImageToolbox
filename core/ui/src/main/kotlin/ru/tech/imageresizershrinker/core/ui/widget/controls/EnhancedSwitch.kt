@@ -28,7 +28,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.minimumInteractiveComponentSize
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
@@ -54,7 +53,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.M3Switch
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PixelSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EnhancedSwitch(
     checked: Boolean,

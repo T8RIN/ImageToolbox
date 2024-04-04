@@ -80,19 +80,19 @@ class MediaPickerViewModel @Inject constructor(
 
     fun init(allowedMedia: AllowedMedia) {
         this.allowedMedia = allowedMedia
-        getMedia(albumId, allowedMedia)
+        getMedia(selectedAlbumId, allowedMedia)
         getAlbums(allowedMedia)
     }
 
     fun getAlbum(albumId: Long) {
-        this.albumId = albumId
+        this.selectedAlbumId = albumId
         getMedia(albumId, allowedMedia)
         getAlbums(allowedMedia)
     }
 
     private var allowedMedia: AllowedMedia = AllowedMedia.Photos(null)
 
-    var albumId: Long = -1L
+    private var selectedAlbumId: Long = -1L
 
     private val emptyAlbum = Album(
         id = -1,

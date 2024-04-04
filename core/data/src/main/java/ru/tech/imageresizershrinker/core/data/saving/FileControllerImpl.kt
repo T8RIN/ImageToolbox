@@ -476,11 +476,11 @@ internal class FileControllerImpl @Inject constructor(
 
     private fun getFileDescriptorFor(
         uri: Uri?
-    ): ParcelFileDescriptor? = runCatching {
-        uri?.let {
+    ): ParcelFileDescriptor? = uri?.let {
+        runCatching {
             context.contentResolver.openFileDescriptor(uri, "rw")
-        }
-    }.getOrNull()
+        }.getOrNull()
+    }
 
     private suspend fun Context.getSavingFolder(
         treeUri: Uri?,

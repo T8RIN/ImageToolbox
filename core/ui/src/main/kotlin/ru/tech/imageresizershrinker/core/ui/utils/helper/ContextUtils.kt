@@ -47,6 +47,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.has
 import ru.tech.imageresizershrinker.core.ui.utils.permission.PermissionUtils.setPermissionsAllowed
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.io.OutputStream
 import java.util.Locale
 
 
@@ -303,4 +304,18 @@ object ContextUtils {
             }
         }.getOrNull()
     }
+
+    fun Context.openWriteableStream(
+        uri: Uri?,
+        onError: (Throwable) -> Unit
+    ): OutputStream? = uri?.let {
+        runCatching {
+            contentResolver.openOutputStream(uri, "rw")
+        }.getOrElse {
+            runCatching {
+                contentResolver.openOutputStream(uri, "w")
+            }.onFailure(onError).getOrNull()
+        }
+    }
+
 }

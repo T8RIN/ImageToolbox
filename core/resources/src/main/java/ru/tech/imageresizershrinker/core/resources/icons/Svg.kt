@@ -42,7 +42,13 @@ val Icons.Outlined.Svg: ImageVector by lazy {
             horizontalLineTo(8.87f)
             lineTo(6.22f, 8.06f)
             curveTo(5.21f, 8.06f, 4.39f, 7.24f, 4.39f, 6.22f)
-            arcTo(1.83f, 1.83f, 0.0f, false, true, 6.22f, 4.39f)
+            arcTo(
+                1.83f, 1.83f, 0.0f,
+                isMoreThanHalf = false,
+                isPositiveArc = true,
+                x1 = 6.22f,
+                y1 = 4.39f
+            )
             curveTo(7.24f, 4.39f, 8.06f, 5.21f, 8.06f, 6.22f)
             lineTo(10.71f, 8.87f)
             verticalLineTo(5.13f)
@@ -62,7 +68,13 @@ val Icons.Outlined.Svg: ImageVector by lazy {
             horizontalLineTo(15.13f)
             lineTo(17.78f, 15.95f)
             curveTo(18.79f, 15.95f, 19.61f, 16.76f, 19.61f, 17.78f)
-            arcTo(1.83f, 1.83f, 0.0f, false, true, 17.78f, 19.61f)
+            arcTo(
+                1.83f, 1.83f, 0.0f,
+                isMoreThanHalf = false,
+                isPositiveArc = true,
+                x1 = 17.78f,
+                y1 = 19.61f
+            )
             curveTo(16.76f, 19.61f, 15.95f, 18.79f, 15.95f, 17.78f)
             lineTo(13.29f, 15.13f)
             verticalLineTo(18.87f)

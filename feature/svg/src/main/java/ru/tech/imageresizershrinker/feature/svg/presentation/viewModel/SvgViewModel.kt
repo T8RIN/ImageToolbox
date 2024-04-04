@@ -65,7 +65,7 @@ class SvgViewModel @Inject constructor(
     private val _left: MutableState<Int> = mutableIntStateOf(-1)
     val left by _left
 
-    private val _params = mutableStateOf<SvgParams>(SvgParams.Default)
+    private val _params = mutableStateOf(SvgParams.Default)
     val params by _params
 
     fun setUris(newUris: List<Uri>) {
