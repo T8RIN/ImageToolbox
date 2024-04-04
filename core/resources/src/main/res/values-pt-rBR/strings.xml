@@ -888,4 +888,5 @@
     <string name="reset_properties">Redefinir propriedades</string>
     <string name="reset_properties_sub">Todas as propriedades serão definidas com valores padrão, observe que esta ação não pode ser desfeita</string>
     <string name="detailed">Detalhado</string>
+    <string name="default_line_width">Largura de linha padrão</string>
 </resources>
