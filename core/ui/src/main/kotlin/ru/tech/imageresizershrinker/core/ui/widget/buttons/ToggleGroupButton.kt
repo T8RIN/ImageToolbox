@@ -52,11 +52,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
+import com.gigamole.composeshadowsplus.rsblur.rsBlurShadow
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ProvidesValue
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
-import ru.tech.imageresizershrinker.core.ui.widget.modifier.materialShadow
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 
 @Composable
@@ -217,9 +217,12 @@ fun ToggleGroupButton(
                                     )
                                 ).value,
                             ),
-                            modifier = Modifier.materialShadow(
-                                shape = shape,
-                                elevation = animateDpAsState(
+                            modifier = Modifier.rsBlurShadow(
+                                shape = SegmentedButtonDefaults.itemShape(
+                                    itemCount - 1 - index,
+                                    itemCount
+                                ),
+                                radius = animateDpAsState(
                                     if (settingsState.borderWidth >= 0.dp || !settingsState.drawButtonShadows) 0.dp
                                     else if (selected) 2.dp
                                     else 1.dp
