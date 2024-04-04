@@ -29,7 +29,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
@@ -43,6 +43,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
@@ -80,7 +81,7 @@ fun EnhancedButton(
     val settingsState = LocalSettingsState.current
     val haptics = LocalHapticFeedback.current
 
-    LocalMinimumInteractiveComponentEnforcement.ProvidesValue(false) {
+    LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
         Box {
             OutlinedButton(
                 onClick = {
@@ -138,7 +139,7 @@ fun EnhancedIconButton(
     val settingsState = LocalSettingsState.current
     val haptics = LocalHapticFeedback.current
 
-    LocalMinimumInteractiveComponentEnforcement.ProvidesValue(false) {
+    LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
         OutlinedIconButton(
             onClick = {
                 onClick()

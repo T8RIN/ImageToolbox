@@ -153,14 +153,11 @@ fun FilterEditOption(
                                 FilterItem(
                                     filter = filter,
                                     onFilterChange = {
-                                        updateFilter(
-                                            it,
-                                            index
-                                        ) {
+                                        updateFilter(it, index) {
                                             scope.launch {
                                                 toastHostState.showError(
-                                                    context,
-                                                    it
+                                                    context = context,
+                                                    error = it
                                                 )
                                             }
                                         }
@@ -168,6 +165,7 @@ fun FilterEditOption(
                                     onLongPress = {
                                         showReorderSheet.value = true
                                     },
+                                    backgroundColor = MaterialTheme.colorScheme.surface,
                                     showDragHandle = false,
                                     onRemove = {
                                         removeAt(index)

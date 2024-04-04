@@ -30,7 +30,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.minimumInteractiveComponentSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchColors
@@ -42,6 +42,7 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -72,7 +73,7 @@ fun EnhancedSwitch(
     val settingsState = LocalSettingsState.current
     val haptics = LocalHapticFeedback.current
 
-    LocalMinimumInteractiveComponentEnforcement.ProvidesValue(false) {
+    LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
         val switchModifier = modifier
             .minimumInteractiveComponentSize()
             .container(

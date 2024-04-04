@@ -31,7 +31,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SliderDefaults
@@ -48,6 +48,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
@@ -130,7 +131,7 @@ fun EnhancedSlider(
     }
 
     val settingsState = LocalSettingsState.current
-    LocalMinimumInteractiveComponentEnforcement.ProvidesValue(false) {
+    LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
         CustomSlider(
             interactionSource = interactionSource,
             thumb = thumb,

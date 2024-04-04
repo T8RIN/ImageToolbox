@@ -49,7 +49,7 @@ import androidx.compose.material.icons.rounded.LockOpen
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconToggleButton
 import androidx.compose.material3.SliderDefaults
@@ -213,7 +213,7 @@ fun LazyListScope.imageStickyHeader(
                             steps = 3,
                             valueRange = 0f..4f
                         )
-                        LocalMinimumInteractiveComponentEnforcement.ProvidesValue(false) {
+                        LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
                             OutlinedIconToggleButton(
                                 checked = imageState.isBlocked,
                                 onCheckedChange = {

@@ -26,7 +26,7 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
@@ -61,7 +61,7 @@ fun EnhancedFloatingActionButton(
     val size by animateDpAsState(type.size)
     val haptics = LocalHapticFeedback.current
 
-    LocalMinimumInteractiveComponentEnforcement.ProvidesValue(false) {
+    LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
         FloatingActionButton(
             onClick = {
                 onClick()

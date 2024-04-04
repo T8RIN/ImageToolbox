@@ -69,7 +69,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
@@ -97,6 +97,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
@@ -585,8 +586,8 @@ fun RecognizeLanguageSelector(
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
                                             AnimatedVisibility(visible = value.size > 1) {
-                                                LocalMinimumInteractiveComponentEnforcement.ProvidesValue(
-                                                    false
+                                                LocalMinimumInteractiveComponentSize.ProvidesValue(
+                                                    Dp.Unspecified
                                                 ) {
                                                     Checkbox(
                                                         checked = selected,

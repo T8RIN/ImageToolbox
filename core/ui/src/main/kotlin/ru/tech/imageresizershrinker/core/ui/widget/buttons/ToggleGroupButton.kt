@@ -30,7 +30,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
@@ -49,6 +49,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
@@ -172,7 +173,7 @@ fun ToggleGroupButton(
                     )
                     .padding(start = 6.dp, end = 6.dp, bottom = 8.dp, top = 8.dp)
             ) {
-                LocalMinimumInteractiveComponentEnforcement.ProvidesValue(false) {
+                LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
                     repeat(itemCount) { index ->
                         val shape = SegmentedButtonDefaults.itemShape(index, itemCount)
                         val activeContainerColor = if (enabled) {
