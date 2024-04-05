@@ -53,8 +53,6 @@ reorderable = "0.9.6"
 reviewKtx = "2.0.1"
 splashScreen = "1.0.1"
 
-uCrop = "2.2.9-native"
-
 espresso = "3.5.1"
 ksp = "1.9.23-1.0.19"
 
@@ -115,7 +113,6 @@ androidx-documentfile = { group = "androidx.documentfile", name = "documentfile"
 uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "androidxMacroBenchmark" }
 tesseract = { module = "cz.adaptech.tesseract4android:tesseract4android-openmp", version.ref = "tesseract" }
-uCrop = { module = "com.github.yalantis:ucrop", version.ref = "uCrop" } # Will be possible added
 
 firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
 baselineprofile-gradle = { group = "androidx.benchmark", name = "benchmark-baseline-profile-gradle-plugin", version.ref = "androidxMacroBenchmark" }
