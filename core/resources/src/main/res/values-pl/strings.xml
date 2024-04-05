@@ -889,4 +889,5 @@
     <string name="reset_properties_sub">Wszystkie właściwości zostaną ustawione na wartości domyślne, zauważ, że tej akcji nie można cofnąć</string>
     <string name="detailed">Szczegółowy</string>
     <string name="svg_warning">Nie zaleca się używania tego narzędzia do śledzenia dużych obrazów bez skalowania w dół, ponieważ może to spowodować awarię i wydłużyć czas przetwarzania</string>
+    <string name="default_line_width">Domyślna szerokość wiersza</string>
 </resources>
