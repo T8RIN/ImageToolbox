@@ -889,4 +889,5 @@
     <string name="svg_warning">لا يُنصح باستخدام هذه الأداة لتتبع الصور الكبيرة دون تصغير حجمها، حيث يمكن أن تتسبب في حدوث اخطاء وزيادة وقت المعالجة</string>
     <string name="reset_properties_sub">سيتم تعيين كافة الخصائص إلى القيم الافتراضية، لاحظ أنه لا يمكن التراجع عن هذا الإجراء</string>
     <string name="detailed">‬مفصلة</string>
+    <string name="default_line_width">عرض الخط الافتراضي</string>
 </resources>
