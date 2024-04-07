@@ -116,21 +116,27 @@ sealed class ImageFormat(
 
     sealed class Avif(
         title: String,
-        canChangeCompressionValue: Boolean
+        compressionTypes: List<CompressionType>
     ) : ImageFormat(
         title = title,
         extension = "avif",
         type = "image/avif",
-        canChangeCompressionValue = canChangeCompressionValue
+        canChangeCompressionValue = true,
+        compressionTypes = compressionTypes
     ) {
         data object Lossless : Avif(
             title = "AVIF Lossless",
-            canChangeCompressionValue = false
+            compressionTypes = listOf(
+                CompressionType.Effort(0..9)
+            )
         )
 
         data object Lossy : Avif(
             title = "AVIF Lossy",
-            canChangeCompressionValue = true
+            compressionTypes = listOf(
+                CompressionType.Quality(1..100),
+                CompressionType.Effort(0..9)
+            )
         )
     }
 

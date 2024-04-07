@@ -61,6 +61,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
+import ru.tech.imageresizershrinker.core.ui.utils.helper.debouncedImageCalculation
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
@@ -176,15 +177,16 @@ class SingleEditViewModel @Inject constructor(
         delay: Long = 600L,
         action: suspend () -> Unit
     ) {
-        job?.cancel()
-        _isImageLoading.value = false
-        job = viewModelScope.launch {
-            _isImageLoading.value = true
-            delay(delay)
-            action()
-            _isImageLoading.value = false
-            onFinish()
-        }
+        debouncedImageCalculation(
+            job = job,
+            onNewJob = { job = it },
+            onLoadingChange = {
+                _isImageLoading.value = it
+            },
+            onFinish = onFinish,
+            delay = delay,
+            action = action
+        )
     }
 
     private var savingJob: Job? = null

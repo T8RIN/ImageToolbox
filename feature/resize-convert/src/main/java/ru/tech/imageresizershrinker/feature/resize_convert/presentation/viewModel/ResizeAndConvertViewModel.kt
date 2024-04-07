@@ -30,7 +30,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
@@ -53,6 +52,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
+import ru.tech.imageresizershrinker.core.ui.utils.helper.debouncedImageCalculation
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
 import kotlin.random.Random
@@ -180,15 +180,16 @@ class ResizeAndConvertViewModel @Inject constructor(
         delay: Long = 600L,
         action: suspend () -> Unit
     ) {
-        job?.cancel()
-        _isImageLoading.value = false
-        job = viewModelScope.launch {
-            _isImageLoading.value = true
-            delay(delay)
-            action()
-            _isImageLoading.value = false
-            onFinish()
-        }
+        debouncedImageCalculation(
+            job = job,
+            onNewJob = { job = it },
+            onLoadingChange = {
+                _isImageLoading.value = it
+            },
+            onFinish = onFinish,
+            delay = delay,
+            action = action
+        )
     }
 
     private suspend fun updatePreview(

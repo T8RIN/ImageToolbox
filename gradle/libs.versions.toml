@@ -11,8 +11,8 @@ compose-compiler = "1.5.11"
 
 imageToolboxLibs = "1.4.1"
 
-avifCoderCoil = "1.7.4"
-avifCoder = "1.7.4"
+avifCoderCoil = "1.7.5"
+avifCoder = "1.7.5"
 aire = "0.9.90"
 jxlCoderCoil = "2.1.10"
 jxlCoder = "2.1.10"

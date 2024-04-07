@@ -29,6 +29,7 @@ import com.awxkee.jxlcoder.JxlCoder
 import com.awxkee.jxlcoder.JxlCompressionOption
 import com.awxkee.jxlcoder.JxlDecodingSpeed
 import com.awxkee.jxlcoder.JxlEffort
+import com.radzivon.bartoshyk.avif.coder.AvifSpeed
 import com.radzivon.bartoshyk.avif.coder.HeifCoder
 import com.radzivon.bartoshyk.avif.coder.PreciseMode
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
@@ -343,11 +344,18 @@ internal abstract class SimpleCompressor {
         override fun compress(
             image: Bitmap,
             quality: Quality
-        ): ByteArray = HeifCoder(context).encodeAvif(
-            bitmap = image,
-            quality = quality.qualityValue,
-            preciseMode = PreciseMode.LOSSLESS
-        )
+        ): ByteArray {
+            val heifQuality = quality as? Quality.Heif ?: Quality.Heif(quality.qualityValue)
+
+            return HeifCoder(context).encodeAvif(
+                bitmap = image,
+                quality = heifQuality.qualityValue,
+                preciseMode = PreciseMode.LOSSLESS,
+                speed = AvifSpeed.entries.firstOrNull {
+                    it.ordinal == 9 - heifQuality.effort
+                } ?: AvifSpeed.SIX
+            )
+        }
 
     }
 
@@ -358,11 +366,18 @@ internal abstract class SimpleCompressor {
         override fun compress(
             image: Bitmap,
             quality: Quality
-        ): ByteArray = HeifCoder(context).encodeAvif(
-            bitmap = image,
-            quality = quality.qualityValue,
-            preciseMode = PreciseMode.LOSSY
-        )
+        ): ByteArray {
+            val heifQuality = quality as? Quality.Heif ?: Quality.Heif(quality.qualityValue)
+
+            return HeifCoder(context).encodeAvif(
+                bitmap = image,
+                quality = heifQuality.qualityValue,
+                preciseMode = PreciseMode.LOSSY,
+                speed = AvifSpeed.entries.firstOrNull {
+                    it.ordinal == 9 - heifQuality.effort
+                } ?: AvifSpeed.SIX
+            )
+        }
 
     }
 

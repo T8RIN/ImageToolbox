@@ -51,6 +51,7 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiThresholdF
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
+import ru.tech.imageresizershrinker.core.ui.utils.helper.debouncedImageCalculation
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.DownloadData
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.ImageTextReader
@@ -361,15 +362,16 @@ class RecognizeTextViewModel @Inject constructor(
         delay: Long = 600L,
         action: suspend () -> Unit
     ) {
-        job?.cancel()
-        _isImageLoading.value = false
-        job = viewModelScope.launch {
-            _isImageLoading.value = true
-            delay(delay)
-            action()
-            _isImageLoading.value = false
-            onFinish()
-        }
+        debouncedImageCalculation(
+            job = job,
+            onNewJob = { job = it },
+            onLoadingChange = {
+                _isImageLoading.value = it
+            },
+            onFinish = onFinish,
+            delay = delay,
+            action = action
+        )
     }
 
     fun setCropAspectRatio(

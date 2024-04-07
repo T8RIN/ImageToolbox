@@ -66,19 +66,9 @@ fun QualitySelector(
     val visible = imageFormat.canChangeCompressionValue
 
     LaunchedEffect(imageFormat, quality) {
-        if (imageFormat is ImageFormat.Jxl && quality !is Quality.Jxl) {
-            onQualityChange(
-                Quality.Jxl(
-                    qualityValue = quality.qualityValue
-                ).coerceIn(imageFormat)
-            )
-        } else if (imageFormat is ImageFormat.Png.Lossy && quality !is Quality.PngLossy) {
-            onQualityChange(
-                Quality.PngLossy(
-                    compressionLevel = quality.qualityValue
-                ).coerceIn(imageFormat)
-            )
-        }
+        onQualityChange(
+            quality.coerceIn(imageFormat)
+        )
     }
 
     AnimatedVisibility(
@@ -121,6 +111,7 @@ fun QualitySelector(
                                     is Quality.Base -> quality.qualityValue
                                     is Quality.Jxl -> quality.effort
                                     is Quality.PngLossy -> quality.compressionLevel
+                                    is Quality.Heif -> quality.effort
                                 }
                             }
 
@@ -143,6 +134,7 @@ fun QualitySelector(
                                             is Quality.Base -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Jxl -> quality.copy(effort = it.toInt())
                                             is Quality.PngLossy -> quality.copy(compressionLevel = it.toInt())
+                                            is Quality.Heif -> quality.copy(effort = it.toInt())
                                         }.coerceIn(imageFormat)
                                     )
                                 }
@@ -153,6 +145,7 @@ fun QualitySelector(
                                             is Quality.Base -> quality.copy(qualityValue = it.toInt())
                                             is Quality.Jxl -> quality.copy(qualityValue = it.toInt())
                                             is Quality.PngLossy -> quality.copy(compressionLevel = it.toInt())
+                                            is Quality.Heif -> quality.copy(qualityValue = it.toInt())
                                         }.coerceIn(imageFormat)
                                     )
                                 }
