@@ -56,7 +56,6 @@ fun SaveExifWidget(
         },
         checked = checked,
         enabled = imageFormat.canWriteExif,
-        changeAlphaWhenDisabled = false,
         shape = RoundedCornerShape(24.dp),
         color = backgroundColor,
         onClick = onCheckedChange,

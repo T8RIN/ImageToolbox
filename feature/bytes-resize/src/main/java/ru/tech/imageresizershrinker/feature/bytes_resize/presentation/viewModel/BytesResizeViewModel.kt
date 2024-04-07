@@ -49,7 +49,6 @@ import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformati
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.bytes_resize.domain.BytesImageScaler
 import javax.inject.Inject
-import kotlin.random.Random
 
 
 @HiltViewModel
@@ -217,26 +216,15 @@ class BytesResizeViewModel @Inject constructor(
                                 imageScaleMode = imageScaleMode
                             )
                         }
-                    }.getOrNull()?.let { scaled ->
-                        val localBitmap = scaled.first
+                    }.getOrNull()?.let { (data, imageInfo) ->
 
                         results.add(
                             fileController.save(
                                 ImageSaveTarget<ExifInterface>(
-                                    imageInfo = ImageInfo(
-                                        imageFormat = imageFormat,
-                                        width = localBitmap.width,
-                                        height = localBitmap.height
-                                    ),
+                                    imageInfo = imageInfo,
                                     originalUri = uri.toString(),
                                     sequenceNumber = _done.value + 1,
-                                    data = imageCompressor.compressAndTransform(
-                                        image = localBitmap,
-                                        imageInfo = ImageInfo(
-                                            imageFormat = imageFormat,
-                                            quality = scaled.second.quality
-                                        )
-                                    )
+                                    data = data
                                 ),
                                 keepOriginalMetadata = keepExif
                             )
@@ -317,8 +305,8 @@ class BytesResizeViewModel @Inject constructor(
                                 imageScaleMode = imageScaleMode
                             )
                         }
-                    }?.let { scaled ->
-                        scaled.first to scaled.second.copy(imageFormat = imageFormat)
+                    }?.let { (data, imageInfo) ->
+                        imageGetter.getImage(data)!! to imageInfo
                     }
                 },
                 onProgressChange = {
@@ -396,10 +384,16 @@ class BytesResizeViewModel @Inject constructor(
                 }?.let { scaled ->
                     scaled.first to scaled.second.copy(imageFormat = imageFormat)
                 }?.let { (image, imageInfo) ->
-                    shareProvider.cacheImage(
-                        image = image,
-                        imageInfo = imageInfo.copy(originalUri = uri),
-                        name = Random.nextInt().toString()
+                    shareProvider.cacheByteArray(
+                        byteArray = image,
+                        filename = fileController.constructImageFilename(
+                            ImageSaveTarget<ExifInterface>(
+                                imageInfo = imageInfo,
+                                originalUri = uri,
+                                sequenceNumber = _done.value + 1,
+                                data = image
+                            )
+                        )
                     )?.let { uri ->
                         onComplete(uri.toUri())
                     }

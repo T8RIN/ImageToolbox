@@ -29,6 +29,6 @@ interface BytesImageScaler<I> : ImageScaler<I> {
         imageFormat: ImageFormat,
         imageScaleMode: ImageScaleMode,
         maxBytes: Long
-    ): Pair<I, ImageInfo>?
+    ): Pair<ByteArray, ImageInfo>?
 
 }

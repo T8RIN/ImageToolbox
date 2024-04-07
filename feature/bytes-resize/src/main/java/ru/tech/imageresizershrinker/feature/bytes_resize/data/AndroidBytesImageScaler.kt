@@ -18,12 +18,10 @@
 package ru.tech.imageresizershrinker.feature.bytes_resize.data
 
 import android.graphics.Bitmap
-import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
-import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
@@ -31,12 +29,12 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.feature.bytes_resize.domain.BytesImageScaler
 import javax.inject.Inject
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 internal class AndroidBytesImageScaler @Inject constructor(
     imageScaler: ImageScaler<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : BytesImageScaler<Bitmap>, ImageScaler<Bitmap> by imageScaler {
 
@@ -45,8 +43,10 @@ internal class AndroidBytesImageScaler @Inject constructor(
         imageFormat: ImageFormat,
         imageScaleMode: ImageScaleMode,
         maxBytes: Long
-    ): Pair<Bitmap, ImageInfo>? = withContext(dispatcher) {
+    ): Pair<ByteArray, ImageInfo>? = withContext(dispatcher) {
         runCatching {
+            val targetSize = maxBytes - 2048
+            var initialSize: Long
             if (
                 imageCompressor.calculateImageSize(
                     image = image,
@@ -55,51 +55,53 @@ internal class AndroidBytesImageScaler @Inject constructor(
                         height = image.height,
                         imageFormat = imageFormat
                     )
-                ) > maxBytes
+                ).also { initialSize = it } > targetSize
             ) {
-                var outArray = ByteArray(maxBytes.toInt())
-                var compressQuality: Int
-                var lowQuality = 15
-                var highQuality = 100
+                var outArray = ByteArray(initialSize.toInt())
+                var compressQuality = 100
                 var newSize = image.width to image.height
 
-                while (lowQuality <= highQuality) {
-                    compressQuality = (lowQuality + highQuality) / 2
-
-                    outArray = imageCompressor.compressAndTransform(
-                        image = image,
-                        imageInfo = ImageInfo(
-                            quality = if (imageFormat is ImageFormat.Jxl) {
-                                Quality.Jxl(compressQuality)
-                            } else Quality.Base(compressQuality),
-                            imageFormat = imageFormat
+                if (imageFormat.canChangeCompressionValue) {
+                    while (outArray.size > targetSize) {
+                        outArray = imageCompressor.compressAndTransform(
+                            image = image,
+                            imageInfo = ImageInfo(
+                                width = newSize.first,
+                                height = newSize.second,
+                                quality = Quality.Base(compressQuality),
+                                imageFormat = imageFormat
+                            )
                         )
-                    )
+                        compressQuality -= 1
 
-                    if (outArray.size < maxBytes) {
-                        lowQuality = compressQuality + 1
-                    } else {
-                        highQuality = compressQuality - 1
+                        if (compressQuality < 15) break
                     }
+
+                    compressQuality = 15
                 }
 
-                compressQuality = 15
-
-                while (outArray.size > maxBytes) {
-                    val temp = scaleImage(
-                        image = image,
-                        width = (newSize.first * 0.9f).roundToInt(),
-                        height = (newSize.second * 0.9f).roundToInt(),
-                        imageScaleMode = imageScaleMode
-                    )
+                while (abs(outArray.size - targetSize) > 2048) {
+                    val temp = if (outArray.size > targetSize) {
+                        scaleImage(
+                            image = image,
+                            width = (newSize.first * 0.9f).roundToInt(),
+                            height = (newSize.second * 0.9f).roundToInt(),
+                            imageScaleMode = imageScaleMode
+                        )
+                    } else {
+                        scaleImage(
+                            image = image,
+                            width = (newSize.first * 1.01f).roundToInt(),
+                            height = (newSize.second * 1.01f).roundToInt(),
+                            imageScaleMode = imageScaleMode
+                        )
+                    }
                     newSize = temp.width to temp.height
 
                     outArray = imageCompressor.compressAndTransform(
                         image = image,
                         imageInfo = ImageInfo(
-                            quality = if (imageFormat is ImageFormat.Jxl) {
-                                Quality.Jxl(compressQuality)
-                            } else Quality.Base(compressQuality),
+                            quality = Quality.Base(compressQuality),
                             imageFormat = imageFormat,
                             width = newSize.first,
                             height = newSize.second
@@ -107,17 +109,13 @@ internal class AndroidBytesImageScaler @Inject constructor(
                     )
                 }
 
-                imageGetter.getImage(outArray)!! to compressQuality
+                outArray to ImageInfo(
+                    width = newSize.first,
+                    height = newSize.second,
+                    imageFormat = imageFormat
+                )
             } else null
-        }.getOrNull()?.let { (bitmap, compressQuality) ->
-            bitmap to ImageInfo(
-                width = bitmap.width,
-                height = bitmap.height,
-                quality = if (imageFormat is ImageFormat.Jxl) {
-                    Quality.Jxl(compressQuality)
-                } else Quality.Base(compressQuality)
-            )
-        }
+        }.getOrNull()
     }
 
 
