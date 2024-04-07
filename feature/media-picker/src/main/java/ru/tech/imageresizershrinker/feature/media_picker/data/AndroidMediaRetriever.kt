@@ -23,17 +23,16 @@ import android.content.Context
 import android.os.Bundle
 import android.provider.MediaStore
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import ru.tech.imageresizershrinker.core.di.IoDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.feature.media_picker.data.utils.Query
 import ru.tech.imageresizershrinker.feature.media_picker.data.utils.contentFlowObserver
 import ru.tech.imageresizershrinker.feature.media_picker.data.utils.getAlbums
 import ru.tech.imageresizershrinker.feature.media_picker.data.utils.getMedia
-import ru.tech.imageresizershrinker.feature.media_picker.domain.MediaRepository
+import ru.tech.imageresizershrinker.feature.media_picker.domain.MediaRetriever
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Album
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
@@ -41,10 +40,10 @@ import ru.tech.imageresizershrinker.feature.media_picker.domain.model.MediaOrder
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.OrderType
 import javax.inject.Inject
 
-internal class MediaRepositoryImpl @Inject constructor(
+internal class AndroidMediaRetriever @Inject constructor(
     @ApplicationContext private val context: Context,
-    @IoDispatcher private val dispatcher: CoroutineDispatcher
-) : MediaRepository {
+    dispatchersHolder: DispatchersHolder
+) : DispatchersHolder by dispatchersHolder, MediaRetriever {
 
     @SuppressLint("InlinedApi")
     override fun getAlbumsWithType(
@@ -73,49 +72,48 @@ internal class MediaRepositoryImpl @Inject constructor(
     override fun mediaFlowWithType(
         albumId: Long,
         allowedMedia: AllowedMedia
-    ): Flow<Result<List<Media>>> =
-        (if (albumId != -1L) {
-            getMediaByAlbumIdWithType(albumId, allowedMedia)
-        } else {
-            getMediaByType(allowedMedia)
-        }).flowOn(dispatcher).conflate()
+    ): Flow<Result<List<Media>>> = if (albumId != -1L) {
+        getMediaByAlbumIdWithType(albumId, allowedMedia)
+    } else {
+        getMediaByType(allowedMedia)
+    }.flowOn(defaultDispatcher).conflate()
 
     @SuppressLint("InlinedApi")
     override fun getMediaByAlbumIdWithType(
         albumId: Long,
         allowedMedia: AllowedMedia
-    ): Flow<Result<List<Media>>> =
-        context.retrieveMedia {
-            val query = Query.MediaQuery().copy(
-                bundle = Bundle().apply {
-                    val mimeType = when (allowedMedia) {
-                        is AllowedMedia.Photos -> "image%"
-                        AllowedMedia.Videos -> "video%"
-                        AllowedMedia.Both -> "%/%"
-                    }
-                    putString(
-                        ContentResolver.QUERY_ARG_SQL_SELECTION,
-                        MediaStore.MediaColumns.BUCKET_ID + "= ? and " + MediaStore.MediaColumns.MIME_TYPE + " like ?"
-                    )
-                    putStringArray(
-                        ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS,
-                        arrayOf(albumId.toString(), mimeType)
-                    )
+    ): Flow<Result<List<Media>>> = context.retrieveMedia {
+        val query = Query.MediaQuery().copy(
+            bundle = Bundle().apply {
+                val mimeType = when (allowedMedia) {
+                    is AllowedMedia.Photos -> "image%"
+                    AllowedMedia.Videos -> "video%"
+                    AllowedMedia.Both -> "%/%"
                 }
-            )
-            /** return@retrieveMedia */
-            it.getMedia(query)
-        }
-
-    override fun getMediaByType(allowedMedia: AllowedMedia): Flow<Result<List<Media>>> =
-        context.retrieveMedia {
-            val query = when (allowedMedia) {
-                is AllowedMedia.Photos -> Query.PhotoQuery()
-                AllowedMedia.Videos -> Query.VideoQuery()
-                AllowedMedia.Both -> Query.MediaQuery()
+                putString(
+                    ContentResolver.QUERY_ARG_SQL_SELECTION,
+                    MediaStore.MediaColumns.BUCKET_ID + "= ? and " + MediaStore.MediaColumns.MIME_TYPE + " like ?"
+                )
+                putStringArray(
+                    ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS,
+                    arrayOf(albumId.toString(), mimeType)
+                )
             }
-            it.getMedia(mediaQuery = query)
+        )
+        /** return@retrieveMedia */
+        it.getMedia(query)
+    }
+
+    override fun getMediaByType(
+        allowedMedia: AllowedMedia
+    ): Flow<Result<List<Media>>> = context.retrieveMedia {
+        val query = when (allowedMedia) {
+            is AllowedMedia.Photos -> Query.PhotoQuery()
+            AllowedMedia.Videos -> Query.VideoQuery()
+            AllowedMedia.Both -> Query.MediaQuery()
         }
+        it.getMedia(mediaQuery = query)
+    }
 
     private val uris = arrayOf(
         MediaStore.Images.Media.EXTERNAL_CONTENT_URI,

@@ -20,13 +20,12 @@ package ru.tech.imageresizershrinker.core.data.image
 import android.graphics.Bitmap
 import android.os.Build
 import androidx.exifinterface.media.ExifInterface
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
@@ -45,9 +44,9 @@ internal class AndroidImagePreviewCreator @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-    settingsProvider: SettingsProvider
-) : ImagePreviewCreator<Bitmap> {
+    settingsProvider: SettingsProvider,
+    dispatchersHolder: DispatchersHolder
+) : DispatchersHolder by dispatchersHolder, ImagePreviewCreator<Bitmap> {
 
     private var generatePreviews = SettingsState.Default.generatePreviews
 
@@ -56,7 +55,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
             .getSettingsStateFlow()
             .onEach {
                 generatePreviews = it.generatePreviews
-            }.launchIn(CoroutineScope(dispatcher))
+            }.launchIn(CoroutineScope(defaultDispatcher))
     }
 
     override suspend fun createPreview(
@@ -64,7 +63,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
         imageInfo: ImageInfo,
         transformations: List<Transformation<Bitmap>>,
         onGetByteCount: (Int) -> Unit
-    ): Bitmap? = withContext(dispatcher) {
+    ): Bitmap? = withContext(defaultDispatcher) {
         launch {
             onGetByteCount(
                 imageCompressor.calculateImageSize(
@@ -148,7 +147,7 @@ internal class AndroidImagePreviewCreator @Inject constructor(
         onImageReadyToCompressInterceptor: suspend (Bitmap) -> Bitmap,
         image: Bitmap,
         imageInfo: ImageInfo
-    ): ByteArray = withContext(dispatcher) {
+    ): ByteArray = withContext(defaultDispatcher) {
         val currentImage = imageScaler.scaleImage(
             image = image,
             width = (imageInfo.width * scaleFactor).roundToInt(),

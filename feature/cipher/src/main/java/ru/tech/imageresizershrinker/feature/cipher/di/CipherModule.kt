@@ -23,8 +23,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
-import ru.tech.imageresizershrinker.feature.cipher.data.CipherRepositoryImpl
-import ru.tech.imageresizershrinker.feature.cipher.domain.CipherRepository
+import ru.tech.imageresizershrinker.feature.cipher.data.AndroidCryptographyManager
+import ru.tech.imageresizershrinker.feature.cipher.domain.CryptographyManager
 import javax.inject.Singleton
 
 
@@ -34,18 +34,18 @@ internal interface CipherModule {
 
     @Singleton
     @Binds
-    fun provideCipherRepository(
-        repository: CipherRepositoryImpl
-    ): CipherRepository
+    fun cryptographyManager(
+        repository: AndroidCryptographyManager
+    ): CryptographyManager
 
     companion object {
 
         @Singleton
         @Provides
         fun provideRandomStringGenerator(
-            cipherRepository: CipherRepository
+            cryptographyManager: CryptographyManager
         ): RandomStringGenerator = RandomStringGenerator {
-            cipherRepository.generateRandomString(it)
+            cryptographyManager.generateRandomString(it)
         }
 
     }

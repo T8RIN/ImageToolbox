@@ -23,14 +23,13 @@ import android.graphics.PorterDuff
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.exifinterface.media.ExifInterface
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.aspectRatio
 import ru.tech.imageresizershrinker.core.data.utils.getSuitableConfig
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImagePreviewCreator
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
@@ -64,9 +63,9 @@ internal class AndroidImageCombiner @Inject constructor(
     private val shareProvider: ShareProvider<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-    settingsProvider: SettingsProvider
-) : ImageCombiner<Bitmap> {
+    settingsProvider: SettingsProvider,
+    dispatchersHolder: DispatchersHolder
+) : DispatchersHolder by dispatchersHolder, ImageCombiner<Bitmap> {
 
     private var generatePreviews = SettingsState.Default.generatePreviews
 
@@ -75,14 +74,14 @@ internal class AndroidImageCombiner @Inject constructor(
             .getSettingsStateFlow()
             .onEach {
                 generatePreviews = it.generatePreviews
-            }.launchIn(CoroutineScope(dispatcher))
+            }.launchIn(CoroutineScope(defaultDispatcher))
     }
 
     override suspend fun combineImages(
         imageUris: List<String>,
         combiningParams: CombiningParams,
         imageScale: Float
-    ): Pair<Bitmap, ImageInfo> = withContext(dispatcher) {
+    ): Pair<Bitmap, ImageInfo> = withContext(defaultDispatcher) {
         suspend fun getImageData(
             imagesUris: List<String>,
             isHorizontal: Boolean
@@ -262,7 +261,7 @@ internal class AndroidImageCombiner @Inject constructor(
         isHorizontal: Boolean,
         scaleSmallImagesToLarge: Boolean,
         imageSpacing: Int,
-    ): Pair<IntegerSize, List<Bitmap>> = withContext(dispatcher) {
+    ): Pair<IntegerSize, List<Bitmap>> = withContext(defaultDispatcher) {
         var w = 0
         var h = 0
         var maxHeight = 0
@@ -352,7 +351,7 @@ internal class AndroidImageCombiner @Inject constructor(
         imageFormat: ImageFormat,
         quality: Quality,
         onGetByteCount: (Int) -> Unit
-    ): ImageWithSize<Bitmap?> = withContext(dispatcher) {
+    ): ImageWithSize<Bitmap?> = withContext(defaultDispatcher) {
         val imageSize = calculateCombinedImageDimensions(
             imageUris = imageUris,
             combiningParams = combiningParams

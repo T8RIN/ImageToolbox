@@ -19,7 +19,7 @@
 
 package ru.tech.imageresizershrinker.feature.cipher.data
 
-import ru.tech.imageresizershrinker.feature.cipher.domain.CipherRepository
+import ru.tech.imageresizershrinker.feature.cipher.domain.CryptographyManager
 import java.security.MessageDigest
 import java.security.SecureRandom
 import javax.crypto.Cipher
@@ -27,7 +27,7 @@ import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 import javax.inject.Inject
 
-internal class CipherRepositoryImpl @Inject constructor() : CipherRepository {
+internal class AndroidCryptographyManager @Inject constructor() : CryptographyManager {
 
     private val HASHING_ALGORITHM = "SHA-256"
     private val ENCRYPTION_STANDARD = "AES/GCM/NoPadding"

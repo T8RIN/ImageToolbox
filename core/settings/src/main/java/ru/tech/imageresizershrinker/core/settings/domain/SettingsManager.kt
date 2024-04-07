@@ -26,7 +26,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 
-interface SettingsRepository : SettingsProvider, SettingsInteractor {
+interface SettingsManager : SettingsProvider, SettingsInteractor {
 
     override suspend fun getSettingsState(): SettingsState
 

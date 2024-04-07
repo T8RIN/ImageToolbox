@@ -27,14 +27,13 @@ import com.awxkee.jxlcoder.JxlEffort
 import com.t8rin.gif_converter.GifDecoder
 import com.t8rin.gif_converter.GifEncoder
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
@@ -51,8 +50,8 @@ internal class AndroidGifConverter @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageShareProvider: ShareProvider<Bitmap>,
     @ApplicationContext private val context: Context,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-) : GifConverter {
+    dispatchersHolder: DispatchersHolder
+) : DispatchersHolder by dispatchersHolder, GifConverter {
 
     override fun extractFramesFromGif(
         gifUri: String,
@@ -96,7 +95,7 @@ internal class AndroidGifConverter @Inject constructor(
         imageUris: List<String>,
         params: GifParams,
         onProgress: () -> Unit
-    ): ByteArray = withContext(dispatcher) {
+    ): ByteArray = withContext(defaultDispatcher) {
         val out = ByteArrayOutputStream()
         val encoder = GifEncoder().apply {
             params.size?.let { size ->
@@ -128,7 +127,7 @@ internal class AndroidGifConverter @Inject constructor(
         gifUris: List<String>,
         quality: Quality.Jxl,
         onProgress: suspend (String, ByteArray) -> Unit
-    ) = withContext(dispatcher) {
+    ) = withContext(defaultDispatcher) {
         gifUris.forEach { uri ->
             uri.bytes?.let { gifData ->
                 runCatching {

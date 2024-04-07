@@ -17,7 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.cipher.domain
 
-interface CipherRepository {
+interface CryptographyManager {
 
     fun generateRandomString(len: Int): String
 

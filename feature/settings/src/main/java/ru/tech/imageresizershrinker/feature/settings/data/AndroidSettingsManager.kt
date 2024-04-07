@@ -25,16 +25,15 @@ import androidx.datastore.preferences.PreferencesMapCompat
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
@@ -113,15 +112,15 @@ import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
-internal class SettingsRepositoryImpl @Inject constructor(
+internal class AndroidSettingsManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val dataStore: DataStore<Preferences>,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-) : SettingsRepository {
+    dispatchersHolder: DispatchersHolder
+) : DispatchersHolder by dispatchersHolder, SettingsManager {
 
     private val default = SettingsState.Default
 
-    override suspend fun getSettingsState(): SettingsState = withContext(dispatcher) {
+    override suspend fun getSettingsState(): SettingsState = withContext(defaultDispatcher) {
         getSettingsStateFlow().first()
     }
 
@@ -381,7 +380,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
         backupFileUri: String,
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit
-    ) = withContext(dispatcher) {
+    ) = withContext(defaultDispatcher) {
         runCatching {
             val uri = backupFileUri.toUri()
             context.contentResolver.openInputStream(uri)?.use { input ->
@@ -407,7 +406,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
         toggleClearCacheOnLaunch()
     }
 
-    override suspend fun resetSettings(): Unit = withContext(dispatcher) {
+    override suspend fun resetSettings(): Unit = withContext(defaultDispatcher) {
         File(
             context.filesDir,
             "datastore/image_resizer.preferences_pb"

@@ -18,10 +18,9 @@
 package ru.tech.imageresizershrinker.feature.limits_resize.data
 
 import android.graphics.Bitmap
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.aspectRatio
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
@@ -31,8 +30,10 @@ import javax.inject.Inject
 
 internal class AndroidLimitsImageScaler @Inject constructor(
     private val imageScaler: ImageScaler<Bitmap>,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-) : LimitsImageScaler<Bitmap>, ImageScaler<Bitmap> by imageScaler {
+    dispatchersHolder: DispatchersHolder
+) : DispatchersHolder by dispatchersHolder,
+    LimitsImageScaler<Bitmap>,
+    ImageScaler<Bitmap> by imageScaler {
 
     override suspend fun scaleImage(
         image: Bitmap,
@@ -40,7 +41,7 @@ internal class AndroidLimitsImageScaler @Inject constructor(
         height: Int,
         resizeType: LimitsResizeType,
         imageScaleMode: ImageScaleMode
-    ): Bitmap? = withContext(dispatcher) {
+    ): Bitmap? = withContext(defaultDispatcher) {
         val widthInternal = width.takeIf { it > 0 } ?: image.width
         val heightInternal = height.takeIf { it > 0 } ?: image.height
 

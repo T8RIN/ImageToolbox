@@ -30,7 +30,6 @@ import com.awxkee.jxlcoder.JxlCoder
 import com.awxkee.jxlcoder.JxlCompressionOption
 import com.awxkee.jxlcoder.JxlDecodingSpeed
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
@@ -38,7 +37,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
@@ -58,14 +57,14 @@ internal class AndroidJxlConverter @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageShareProvider: ShareProvider<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-) : JxlConverter {
+    dispatchersHolder: DispatchersHolder
+) : DispatchersHolder by dispatchersHolder, JxlConverter {
 
     override suspend fun jpegToJxl(
         jpegUris: List<String>,
         onError: (Throwable) -> Unit,
         onProgress: suspend (String, ByteArray) -> Unit
-    ) = withContext(dispatcher) {
+    ) = withContext(defaultDispatcher) {
         jpegUris.forEach { uri ->
             runCatching {
                 uri.jxl?.let { onProgress(uri, it) }
@@ -77,7 +76,7 @@ internal class AndroidJxlConverter @Inject constructor(
         jxlUris: List<String>,
         onError: (Throwable) -> Unit,
         onProgress: suspend (String, ByteArray) -> Unit
-    ) = withContext(dispatcher) {
+    ) = withContext(defaultDispatcher) {
         jxlUris.forEach { uri ->
             runCatching {
                 uri.jpeg?.let { onProgress(uri, it) }
@@ -90,7 +89,7 @@ internal class AndroidJxlConverter @Inject constructor(
         params: AnimatedJxlParams,
         onError: (Throwable) -> Unit,
         onProgress: () -> Unit
-    ): ByteArray = withContext(dispatcher) {
+    ): ByteArray = withContext(defaultDispatcher) {
         val jxlQuality = params.quality as? Quality.Jxl
 
         if (jxlQuality == null) {

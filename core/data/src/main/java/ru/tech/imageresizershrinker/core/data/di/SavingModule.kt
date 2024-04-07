@@ -22,7 +22,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.core.data.saving.FileControllerImpl
+import ru.tech.imageresizershrinker.core.data.saving.AndroidFileController
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.ImageFilenameProvider
 import javax.inject.Singleton
@@ -34,7 +34,7 @@ internal interface SavingModule {
     @Singleton
     @Binds
     fun provideFileController(
-        controller: FileControllerImpl
+        controller: AndroidFileController
     ): FileController
 
     companion object {

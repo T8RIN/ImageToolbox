@@ -39,7 +39,7 @@ import ru.tech.imageresizershrinker.core.di.IoDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
@@ -54,7 +54,7 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
-    private val settingsRepository: SettingsRepository,
+    private val settingsManager: SettingsManager,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
@@ -65,10 +65,10 @@ class SettingsViewModel @Inject constructor(
         if (settingsState.clearCacheOnLaunch) clearCache()
 
         runBlocking {
-            settingsRepository.registerAppOpen()
-            _settingsState.value = settingsRepository.getSettingsState()
+            settingsManager.registerAppOpen()
+            _settingsState.value = settingsManager.getSettingsState()
         }
-        settingsRepository.getSettingsStateFlow().onEach {
+        settingsManager.getSettingsStateFlow().onEach {
             _settingsState.value = it
         }.launchIn(viewModelScope)
     }
@@ -79,61 +79,61 @@ class SettingsViewModel @Inject constructor(
 
     fun toggleAddSequenceNumber() {
         viewModelScope.launch {
-            settingsRepository.toggleAddSequenceNumber()
+            settingsManager.toggleAddSequenceNumber()
         }
     }
 
     fun toggleAddOriginalFilename() {
         viewModelScope.launch {
-            settingsRepository.toggleAddOriginalFilename()
+            settingsManager.toggleAddOriginalFilename()
         }
     }
 
     fun setEmojisCount(count: Int) {
         viewModelScope.launch {
-            settingsRepository.setEmojisCount(count)
+            settingsManager.setEmojisCount(count)
         }
     }
 
     fun setImagePickerMode(mode: Int) {
         viewModelScope.launch {
-            settingsRepository.setImagePickerMode(mode)
+            settingsManager.setImagePickerMode(mode)
         }
     }
 
     fun toggleAddFileSize() {
         viewModelScope.launch {
-            settingsRepository.toggleAddFileSize()
+            settingsManager.toggleAddFileSize()
         }
     }
 
     fun setEmoji(emoji: Int) {
         viewModelScope.launch {
-            settingsRepository.setEmoji(emoji)
+            settingsManager.setEmoji(emoji)
         }
     }
 
     fun setFilenamePrefix(name: String) {
         viewModelScope.launch {
-            settingsRepository.setFilenamePrefix(name)
+            settingsManager.setFilenamePrefix(name)
         }
     }
 
     fun setFilenameSuffix(name: String) {
         viewModelScope.launch {
-            settingsRepository.setFilenameSuffix(name)
+            settingsManager.setFilenameSuffix(name)
         }
     }
 
     fun toggleShowUpdateDialog() {
         viewModelScope.launch {
-            settingsRepository.toggleShowDialog()
+            settingsManager.toggleShowDialog()
         }
     }
 
     fun setColorTuple(colorTuple: ColorTuple) {
         viewModelScope.launch {
-            settingsRepository.setColorTuple(
+            settingsManager.setColorTuple(
                 colorTuple.run {
                     "${primary.toArgb()}*${secondary?.toArgb()}*${tertiary?.toArgb()}*${surface?.toArgb()}"
                 }
@@ -143,43 +143,43 @@ class SettingsViewModel @Inject constructor(
 
     fun toggleDynamicColors() {
         viewModelScope.launch {
-            settingsRepository.toggleDynamicColors()
+            settingsManager.toggleDynamicColors()
         }
     }
 
     fun toggleLockDrawOrientation() {
         viewModelScope.launch {
-            settingsRepository.toggleLockDrawOrientation()
+            settingsManager.toggleLockDrawOrientation()
         }
     }
 
     fun setBorderWidth(width: Float) {
         viewModelScope.launch {
-            settingsRepository.setBorderWidth(width)
+            settingsManager.setBorderWidth(width)
         }
     }
 
     fun toggleAllowImageMonet() {
         viewModelScope.launch {
-            settingsRepository.toggleAllowImageMonet()
+            settingsManager.toggleAllowImageMonet()
         }
     }
 
     fun toggleAmoledMode() {
         viewModelScope.launch {
-            settingsRepository.toggleAmoledMode()
+            settingsManager.toggleAmoledMode()
         }
     }
 
     fun setNightMode(nightMode: NightMode) {
         viewModelScope.launch {
-            settingsRepository.setNightMode(nightMode)
+            settingsManager.setNightMode(nightMode)
         }
     }
 
     fun updateSaveFolderUri(uri: Uri?) {
         viewModelScope.launch {
-            settingsRepository.setSaveFolderUri(uri?.toString())
+            settingsManager.setSaveFolderUri(uri?.toString())
         }
     }
 
@@ -189,37 +189,37 @@ class SettingsViewModel @Inject constructor(
 
     fun updateColorTuples(colorTuples: List<ColorTuple>) {
         viewModelScope.launch {
-            settingsRepository.setColorTuples(colorTuples.asString())
+            settingsManager.setColorTuples(colorTuples.asString())
         }
     }
 
     fun setAlignment(align: Float) {
         viewModelScope.launch {
-            settingsRepository.setAlignment(align.toInt())
+            settingsManager.setAlignment(align.toInt())
         }
     }
 
     fun updateOrder(data: List<Screen>) {
         viewModelScope.launch {
-            settingsRepository.setScreenOrder(data.joinToString("/") { it.id.toString() })
+            settingsManager.setScreenOrder(data.joinToString("/") { it.id.toString() })
         }
     }
 
     fun toggleClearCacheOnLaunch() {
         viewModelScope.launch {
-            settingsRepository.toggleClearCacheOnLaunch()
+            settingsManager.toggleClearCacheOnLaunch()
         }
     }
 
     fun toggleGroupOptionsByType() {
         viewModelScope.launch {
-            settingsRepository.toggleGroupOptionsByTypes()
+            settingsManager.toggleGroupOptionsByTypes()
         }
     }
 
     fun toggleRandomizeFilename() {
         viewModelScope.launch {
-            settingsRepository.toggleRandomizeFilename()
+            settingsManager.toggleRandomizeFilename()
         }
     }
 
@@ -229,7 +229,7 @@ class SettingsViewModel @Inject constructor(
     ) {
         viewModelScope.launch(ioDispatcher) {
             outputStream?.use {
-                it.write(settingsRepository.createBackupFile())
+                it.write(settingsManager.createBackupFile())
             }
             onSuccess()
         }
@@ -242,7 +242,7 @@ class SettingsViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             withContext(ioDispatcher) {
-                settingsRepository.restoreFromBackupFile(
+                settingsManager.restoreFromBackupFile(
                     backupFileUri = uri.toString(),
                     onSuccess = onSuccess,
                     onFailure = onFailure
@@ -253,69 +253,69 @@ class SettingsViewModel @Inject constructor(
 
     fun resetSettings() {
         viewModelScope.launch {
-            settingsRepository.resetSettings()
+            settingsManager.resetSettings()
         }
     }
 
-    fun createBackupFilename(): String = settingsRepository.createBackupFilename()
+    fun createBackupFilename(): String = settingsManager.createBackupFilename()
 
     fun setFont(font: DomainFontFamily) {
         viewModelScope.launch {
-            settingsRepository.setFont(font)
+            settingsManager.setFont(font)
         }
     }
 
     fun onUpdateFontScale(scale: Float) {
         viewModelScope.launch {
-            settingsRepository.setFontScale(scale)
+            settingsManager.setFontScale(scale)
         }
     }
 
     fun toggleAllowCollectCrashlytics() {
         viewModelScope.launch {
-            settingsRepository.toggleAllowCrashlytics()
+            settingsManager.toggleAllowCrashlytics()
         }
     }
 
     fun toggleAllowCollectAnalytics() {
         viewModelScope.launch {
-            settingsRepository.toggleAllowAnalytics()
+            settingsManager.toggleAllowAnalytics()
         }
     }
 
     fun toggleAllowBetas() {
         viewModelScope.launch {
-            settingsRepository.toggleAllowBetas()
+            settingsManager.toggleAllowBetas()
         }
     }
 
     fun toggleDrawContainerShadows() {
         viewModelScope.launch {
-            settingsRepository.toggleDrawContainerShadows()
+            settingsManager.toggleDrawContainerShadows()
         }
     }
 
     fun toggleDrawSwitchShadows() {
         viewModelScope.launch {
-            settingsRepository.toggleDrawSwitchShadows()
+            settingsManager.toggleDrawSwitchShadows()
         }
     }
 
     fun toggleDrawSliderShadows() {
         viewModelScope.launch {
-            settingsRepository.toggleDrawSliderShadows()
+            settingsManager.toggleDrawSliderShadows()
         }
     }
 
     fun toggleDrawButtonShadows() {
         viewModelScope.launch {
-            settingsRepository.toggleDrawButtonShadows()
+            settingsManager.toggleDrawButtonShadows()
         }
     }
 
     fun toggleDrawFabShadows() {
         viewModelScope.launch {
-            settingsRepository.toggleDrawFabShadows()
+            settingsManager.toggleDrawFabShadows()
         }
     }
 
@@ -336,7 +336,7 @@ class SettingsViewModel @Inject constructor(
                 )
                 val colorTupleS = listOf(colorTuple).asString()
                 setColorTuple(colorTuple)
-                settingsRepository.setColorTuples(settingsState.colorTupleList + "*" + colorTupleS)
+                settingsManager.setColorTuples(settingsState.colorTupleList + "*" + colorTupleS)
                 updateThemeContrast(0f)
                 setThemeStyle(0)
                 if (settingsState.useEmojiAsPrimaryColor) toggleUseEmojiAsPrimaryColor()
@@ -347,7 +347,7 @@ class SettingsViewModel @Inject constructor(
                     ?.let { primary ->
                         val colorTuple = ColorTuple(primary)
                         setColorTuple(colorTuple)
-                        settingsRepository.setColorTuples(
+                        settingsManager.setColorTuples(
                             settingsState.colorTupleList + "*" + listOf(
                                 colorTuple
                             ).asString()
@@ -360,73 +360,73 @@ class SettingsViewModel @Inject constructor(
 
     fun updateThemeContrast(value: Float) {
         viewModelScope.launch {
-            settingsRepository.setThemeContrast(value.toDouble())
+            settingsManager.setThemeContrast(value.toDouble())
         }
     }
 
     fun setThemeStyle(value: Int) {
         viewModelScope.launch {
-            settingsRepository.setThemeStyle(value)
+            settingsManager.setThemeStyle(value)
         }
     }
 
     fun toggleInvertColors() {
         viewModelScope.launch {
-            settingsRepository.toggleInvertColors()
+            settingsManager.toggleInvertColors()
         }
     }
 
     fun toggleScreenSearchEnabled() {
         viewModelScope.launch {
-            settingsRepository.toggleScreensSearchEnabled()
+            settingsManager.toggleScreensSearchEnabled()
         }
     }
 
     fun toggleDrawAppBarShadows() {
         viewModelScope.launch {
-            settingsRepository.toggleDrawAppBarShadows()
+            settingsManager.toggleDrawAppBarShadows()
         }
     }
 
     fun setCopyToClipboardMode(copyToClipboardMode: CopyToClipboardMode) {
         viewModelScope.launch {
-            settingsRepository.setCopyToClipboardMode(copyToClipboardMode)
+            settingsManager.setCopyToClipboardMode(copyToClipboardMode)
         }
     }
 
     fun setVibrationStrength(strength: Int) {
         viewModelScope.launch {
-            settingsRepository.setVibrationStrength(strength)
+            settingsManager.setVibrationStrength(strength)
         }
     }
 
     fun toggleOverwriteFiles() {
         viewModelScope.launch {
-            settingsRepository.toggleOverwriteFiles()
+            settingsManager.toggleOverwriteFiles()
         }
     }
 
     fun setDefaultImageScaleMode(imageScaleMode: ImageScaleMode) {
         viewModelScope.launch {
-            settingsRepository.setDefaultImageScaleMode(imageScaleMode)
+            settingsManager.setDefaultImageScaleMode(imageScaleMode)
         }
     }
 
     fun setSwitchType(type: SwitchType) {
         viewModelScope.launch {
-            settingsRepository.setSwitchType(type)
+            settingsManager.setSwitchType(type)
         }
     }
 
     fun toggleMagnifierEnabled() {
         viewModelScope.launch {
-            settingsRepository.toggleMagnifierEnabled()
+            settingsManager.toggleMagnifierEnabled()
         }
     }
 
     fun toggleExifWidgetInitialState() {
         viewModelScope.launch {
-            settingsRepository.toggleExifWidgetInitialState()
+            settingsManager.toggleExifWidgetInitialState()
         }
     }
 
@@ -437,7 +437,7 @@ class SettingsViewModel @Inject constructor(
                 else it + screen.id
             }
 
-            settingsRepository.setScreensWithBrightnessEnforcement(
+            settingsManager.setScreensWithBrightnessEnforcement(
                 screens.joinToString("/") { it.toString() }
             )
         }
@@ -445,91 +445,91 @@ class SettingsViewModel @Inject constructor(
 
     fun toggleConfettiEnabled() {
         viewModelScope.launch {
-            settingsRepository.toggleConfettiEnabled()
+            settingsManager.toggleConfettiEnabled()
         }
     }
 
     fun toggleSecureMode() {
         viewModelScope.launch {
-            settingsRepository.toggleSecureMode()
+            settingsManager.toggleSecureMode()
         }
     }
 
     fun toggleUseEmojiAsPrimaryColor() {
         viewModelScope.launch {
-            settingsRepository.toggleUseEmojiAsPrimaryColor()
+            settingsManager.toggleUseEmojiAsPrimaryColor()
         }
     }
 
     fun toggleUseRandomEmojis() {
         viewModelScope.launch {
-            settingsRepository.toggleUseRandomEmojis()
+            settingsManager.toggleUseRandomEmojis()
         }
     }
 
     fun setIconShape(iconShape: Int) {
         viewModelScope.launch {
-            settingsRepository.setIconShape(iconShape)
+            settingsManager.setIconShape(iconShape)
         }
     }
 
     fun setDragHandleWidth(width: Int) {
         viewModelScope.launch {
-            settingsRepository.setDragHandleWidth(width)
+            settingsManager.setDragHandleWidth(width)
         }
     }
 
     fun setConfettiType(type: Int) {
         viewModelScope.launch {
-            settingsRepository.setConfettiType(type)
+            settingsManager.setConfettiType(type)
         }
     }
 
     fun toggleAllowAutoClipboardPaste() {
         viewModelScope.launch {
-            settingsRepository.toggleAllowAutoClipboardPaste()
+            settingsManager.toggleAllowAutoClipboardPaste()
         }
     }
 
     fun setConfettiHarmonizer(colorHarmonizer: ColorHarmonizer) {
         viewModelScope.launch {
-            settingsRepository.setConfettiHarmonizer(colorHarmonizer)
+            settingsManager.setConfettiHarmonizer(colorHarmonizer)
         }
     }
 
     fun setConfettiHarmonizationLevel(level: Float) {
         viewModelScope.launch {
-            settingsRepository.setConfettiHarmonizationLevel(level)
+            settingsManager.setConfettiHarmonizationLevel(level)
         }
     }
 
     fun toggleGeneratePreviews() {
         viewModelScope.launch {
-            settingsRepository.toggleGeneratePreviews()
+            settingsManager.toggleGeneratePreviews()
         }
     }
 
     fun toggleSkipImagePicking() {
         viewModelScope.launch {
-            settingsRepository.toggleSkipImagePicking()
+            settingsManager.toggleSkipImagePicking()
         }
     }
 
     fun toggleShowSettingsInLandscape() {
         viewModelScope.launch {
-            settingsRepository.toggleShowSettingsInLandscape()
+            settingsManager.toggleShowSettingsInLandscape()
         }
     }
 
     fun toggleUseFullscreenSettings() {
         viewModelScope.launch {
-            settingsRepository.toggleUseFullscreenSettings()
+            settingsManager.toggleUseFullscreenSettings()
         }
     }
 
     fun setDefaultDrawLineWidth(value: Float) {
         viewModelScope.launch {
-            settingsRepository.setDefaultDrawLineWidth(value)
+            settingsManager.setDefaultDrawLineWidth(value)
         }
     }
 

@@ -15,24 +15,14 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.media_picker.di
+package ru.tech.imageresizershrinker.core.domain.dispatchers
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.feature.media_picker.data.AndroidMediaRetriever
-import ru.tech.imageresizershrinker.feature.media_picker.domain.MediaRetriever
-import javax.inject.Singleton
+import kotlinx.coroutines.CoroutineDispatcher
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface MediaPickerModule {
-
-    @Binds
-    @Singleton
-    fun mediaRetriever(
-        impl: AndroidMediaRetriever
-    ): MediaRetriever
-
+interface DispatchersHolder {
+    val uiDispatcher: CoroutineDispatcher
+    val ioDispatcher: CoroutineDispatcher
+    val encodingDispatcher: CoroutineDispatcher
+    val decodingDispatcher: CoroutineDispatcher
+    val defaultDispatcher: CoroutineDispatcher
 }

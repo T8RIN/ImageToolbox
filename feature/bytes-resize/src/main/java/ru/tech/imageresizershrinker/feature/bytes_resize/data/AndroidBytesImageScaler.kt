@@ -18,9 +18,8 @@
 package ru.tech.imageresizershrinker.feature.bytes_resize.data
 
 import android.graphics.Bitmap
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
@@ -35,15 +34,17 @@ import kotlin.math.roundToInt
 internal class AndroidBytesImageScaler @Inject constructor(
     imageScaler: ImageScaler<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-) : BytesImageScaler<Bitmap>, ImageScaler<Bitmap> by imageScaler {
+    dispatchersHolder: DispatchersHolder
+) : DispatchersHolder by dispatchersHolder,
+    ImageScaler<Bitmap> by imageScaler,
+    BytesImageScaler<Bitmap> {
 
     override suspend fun scaleByMaxBytes(
         image: Bitmap,
         imageFormat: ImageFormat,
         imageScaleMode: ImageScaleMode,
         maxBytes: Long
-    ): Pair<ByteArray, ImageInfo>? = withContext(dispatcher) {
+    ): Pair<ByteArray, ImageInfo>? = withContext(defaultDispatcher) {
         runCatching {
             val targetSize = maxBytes - 2048
             var initialSize: Long

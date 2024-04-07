@@ -15,24 +15,24 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.media_picker.di
+package ru.tech.imageresizershrinker.core.data.di
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.feature.media_picker.data.AndroidMediaRetriever
-import ru.tech.imageresizershrinker.feature.media_picker.domain.MediaRetriever
+import ru.tech.imageresizershrinker.core.data.dispatchers.DispatchersHolderImpl
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal interface MediaPickerModule {
+internal interface DispatchersModule {
 
     @Binds
     @Singleton
-    fun mediaRetriever(
-        impl: AndroidMediaRetriever
-    ): MediaRetriever
+    fun dispatchersHolder(
+        dispatchers: DispatchersHolderImpl
+    ): DispatchersHolder
 
 }

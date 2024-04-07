@@ -23,10 +23,9 @@ import androidx.compose.ui.util.fastAll
 import androidx.exifinterface.media.ExifInterface
 import com.googlecode.tesseract.android.TessBaseAPI
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants
@@ -51,8 +50,8 @@ import javax.inject.Inject
 internal class AndroidImageTextReader @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     @ApplicationContext private val context: Context,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-) : ImageTextReader<Bitmap> {
+    dispatchersHolder: DispatchersHolder
+) : DispatchersHolder by dispatchersHolder, ImageTextReader<Bitmap> {
 
     init {
         RecognitionType.entries.forEach {
@@ -80,7 +79,7 @@ internal class AndroidImageTextReader @Inject constructor(
         segmentationMode: SegmentationMode,
         image: Bitmap?,
         onProgress: (Int) -> Unit
-    ): TextRecognitionResult = withContext(dispatcher) {
+    ): TextRecognitionResult = withContext(defaultDispatcher) {
 
         if (image == null) return@withContext TextRecognitionResult.Success(RecognitionData("", 0))
 
@@ -167,16 +166,14 @@ internal class AndroidImageTextReader @Inject constructor(
     override fun isLanguageDataExists(
         type: RecognitionType,
         languageCode: String
-    ): Boolean {
-        return File(
-            "${getPathFromMode(type)}/tessdata",
-            format(Constants.LANGUAGE_CODE, languageCode)
-        ).exists()
-    }
+    ): Boolean = File(
+        "${getPathFromMode(type)}/tessdata",
+        format(Constants.LANGUAGE_CODE, languageCode)
+    ).exists()
 
     override suspend fun getLanguages(
         type: RecognitionType
-    ): List<OCRLanguage> = withContext(dispatcher) {
+    ): List<OCRLanguage> = withContext(ioDispatcher) {
 
         val codes = context.resources.getStringArray(R.array.key_ocr_engine_language_value)
 
@@ -210,7 +207,7 @@ internal class AndroidImageTextReader @Inject constructor(
     override suspend fun deleteLanguage(
         language: OCRLanguage,
         types: List<RecognitionType>
-    ) {
+    ) = withContext(ioDispatcher) {
         types.forEach { type ->
             File(
                 "${getPathFromMode(type)}/tessdata",
@@ -243,7 +240,7 @@ internal class AndroidImageTextReader @Inject constructor(
         type: RecognitionType,
         lang: String,
         onProgress: (Float, Long) -> Unit
-    ): Boolean = withContext(dispatcher) {
+    ): Boolean = withContext(defaultDispatcher) {
         var location: String
         var downloadURL = when (type) {
             RecognitionType.Best -> format(Constants.TESSERACT_DATA_DOWNLOAD_URL_BEST, lang)

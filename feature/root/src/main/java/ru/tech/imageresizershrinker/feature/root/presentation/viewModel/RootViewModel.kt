@@ -45,7 +45,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsInteractor
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -60,7 +60,7 @@ class RootViewModel @Inject constructor(
     val favoriteFiltersInteractor: FavoriteFiltersInteractor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     fileController: FileController,
-    private val settingsRepository: SettingsRepository,
+    private val settingsManager: SettingsManager,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
@@ -101,23 +101,23 @@ class RootViewModel @Inject constructor(
         if (settingsState.clearCacheOnLaunch) fileController.clearCache()
 
         runBlocking {
-            settingsRepository.registerAppOpen()
-            _settingsState.value = settingsRepository.getSettingsState()
+            settingsManager.registerAppOpen()
+            _settingsState.value = settingsManager.getSettingsState()
         }
-        settingsRepository.getSettingsStateFlow().onEach {
+        settingsManager.getSettingsStateFlow().onEach {
             _settingsState.value = it
         }.launchIn(viewModelScope)
     }
 
     fun toggleShowUpdateDialog() {
         viewModelScope.launch {
-            settingsRepository.toggleShowDialog()
+            settingsManager.toggleShowDialog()
         }
     }
 
     fun setPresets(newPresets: List<Int>) {
         viewModelScope.launch {
-            settingsRepository.setPresets(
+            settingsManager.setPresets(
                 newPresets.joinToString("*")
             )
         }
@@ -303,7 +303,7 @@ class RootViewModel @Inject constructor(
 
     fun toggleAllowBetas(installedFromMarket: Boolean) {
         viewModelScope.launch {
-            settingsRepository.toggleAllowBetas()
+            settingsManager.toggleAllowBetas()
             tryGetUpdate(
                 newRequest = true,
                 installedFromMarket = installedFromMarket
@@ -329,6 +329,6 @@ class RootViewModel @Inject constructor(
         _showGithubReviewSheet.update { false }
     }
 
-    fun getSettingsInteractor(): SettingsInteractor = settingsRepository
+    fun getSettingsInteractor(): SettingsInteractor = settingsManager
 
 }

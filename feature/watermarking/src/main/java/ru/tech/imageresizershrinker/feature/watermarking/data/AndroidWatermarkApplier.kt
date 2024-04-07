@@ -26,9 +26,8 @@ import com.watermark.androidwm.WatermarkBuilder
 import com.watermark.androidwm.bean.WatermarkImage
 import com.watermark.androidwm.bean.WatermarkText
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkApplier
@@ -40,14 +39,14 @@ import kotlin.math.roundToInt
 internal class AndroidWatermarkApplier @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-) : WatermarkApplier<Bitmap> {
+    dispatchersHolder: DispatchersHolder
+) : DispatchersHolder by dispatchersHolder, WatermarkApplier<Bitmap> {
 
     override suspend fun applyWatermark(
         image: Bitmap,
         originalSize: Boolean,
         params: WatermarkParams
-    ): Bitmap? = withContext(dispatcher) {
+    ): Bitmap? = withContext(defaultDispatcher) {
         val builder: WatermarkBuilder? = when (val type = params.watermarkingType) {
             is WatermarkingType.Text -> {
                 WatermarkBuilder

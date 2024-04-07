@@ -28,10 +28,8 @@ import androidx.exifinterface.media.ExifInterface
 import com.t8rin.logger.makeLog
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
-import ru.tech.imageresizershrinker.core.di.IoDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
@@ -48,9 +46,8 @@ internal class AndroidShareProvider @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageFilenameProvider: Lazy<ImageFilenameProvider>,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-) : ShareProvider<Bitmap> {
+    dispatchersHolder: DispatchersHolder
+) : DispatchersHolder by dispatchersHolder, ShareProvider<Bitmap> {
 
     override suspend fun shareImages(
         uris: List<String>,

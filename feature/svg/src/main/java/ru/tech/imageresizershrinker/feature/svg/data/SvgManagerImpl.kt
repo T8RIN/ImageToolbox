@@ -25,10 +25,8 @@ import androidx.exifinterface.media.ExifInterface
 import com.t8rin.image.toolbox.svg.ImageTracerAndroid
 import com.t8rin.image.toolbox.svg.ImageTracerAndroid.SvgListener
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
-import ru.tech.imageresizershrinker.core.di.IoDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
@@ -42,11 +40,10 @@ import javax.inject.Inject
 
 internal class SvgManagerImpl @Inject constructor(
     @ApplicationContext private val context: Context,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     private val randomStringGenerator: RandomStringGenerator,
-    private val imageGetter: ImageGetter<Bitmap, ExifInterface>
-) : SvgManager {
+    private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    dispatchersHolder: DispatchersHolder
+) : DispatchersHolder by dispatchersHolder, SvgManager {
 
     override suspend fun convertToSvg(
         imageUris: List<String>,

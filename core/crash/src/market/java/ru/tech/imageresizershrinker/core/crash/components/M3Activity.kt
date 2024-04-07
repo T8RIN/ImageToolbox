@@ -48,7 +48,7 @@ open class M3Activity : AppCompatActivity() {
     override fun attachBaseContext(newBase: Context) {
         newBase.entryPoint<SettingsStateEntryPoint> {
             runBlocking {
-                settingsState.value = settingsRepository.getSettingsState()
+                settingsState.value = settingsManager.getSettingsState()
             }
         }
         val newOverride = Configuration(newBase.resources?.configuration)
@@ -70,7 +70,7 @@ open class M3Activity : AppCompatActivity() {
         Firebase.analytics.setAnalyticsCollectionEnabled(settingsState.value.allowCollectCrashlytics)
         lifecycleScope.launch {
             entryPoint<SettingsStateEntryPoint> {
-                settingsRepository
+                settingsManager
                     .getSettingsStateFlow()
                     .collect {
                         settingsState.value = it

@@ -48,7 +48,7 @@ import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiContrastFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiSharpenFilter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiThresholdFilter
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.helper.debouncedImageCalculation
@@ -68,7 +68,7 @@ import coil.transform.Transformation as CoilTransformation
 class RecognizeTextViewModel @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageTextReader: ImageTextReader<Bitmap>,
-    private val settingsRepository: SettingsRepository,
+    private val settingsManager: SettingsManager,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>
@@ -171,7 +171,7 @@ class RecognizeTextViewModel @Inject constructor(
     init {
         loadLanguages()
         viewModelScope.launch {
-            val languageCodes = settingsRepository.getInitialOCRLanguageCodes().map {
+            val languageCodes = settingsManager.getInitialOCRLanguageCodes().map {
                 imageTextReader.getLanguageForCode(it)
             }
             _selectedLanguages.update { languageCodes }
@@ -279,7 +279,7 @@ class RecognizeTextViewModel @Inject constructor(
                     onProgress = onProgress
                 )
                 loadLanguages {
-                    settingsRepository.setInitialOCRLanguageCodes(
+                    settingsManager.setInitialOCRLanguageCodes(
                         selectedLanguages.filter {
                             it.downloaded.isNotEmpty()
                         }.map { it.code }
@@ -293,7 +293,7 @@ class RecognizeTextViewModel @Inject constructor(
     fun onLanguagesSelected(ocrLanguages: List<OCRLanguage>) {
         if (ocrLanguages.isNotEmpty()) {
             viewModelScope.launch {
-                settingsRepository.setInitialOCRLanguageCodes(
+                settingsManager.setInitialOCRLanguageCodes(
                     ocrLanguages.filter {
                         it.downloaded.isNotEmpty()
                     }.map { it.code }

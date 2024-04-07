@@ -38,7 +38,6 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.exifinterface.media.ExifInterface
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
@@ -46,8 +45,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okio.use
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
-import ru.tech.imageresizershrinker.core.di.IoDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.Metadata
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
@@ -57,7 +55,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
 import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import java.io.File
@@ -70,21 +68,20 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 
-internal class FileControllerImpl @Inject constructor(
+internal class AndroidFileController @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val settingsRepository: SettingsRepository,
+    private val settingsManager: SettingsManager,
     private val randomStringGenerator: RandomStringGenerator,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val shareProvider: ShareProvider<Bitmap>
-) : FileController {
+    private val shareProvider: ShareProvider<Bitmap>,
+    dispatchersHolder: DispatchersHolder
+) : DispatchersHolder by dispatchersHolder, FileController {
 
     private var _settingsState: SettingsState = SettingsState.Default
 
     private val settingsState get() = _settingsState
 
     init {
-        settingsRepository
+        settingsManager
             .getSettingsStateFlow()
             .onEach { state ->
                 _settingsState = state
@@ -189,7 +186,7 @@ internal class FileControllerImpl @Inject constructor(
 
                     context.contentResolver.openFileDescriptor(originalUri, "wt")
                 }.onFailure {
-                    settingsRepository.setImagePickerMode(3)
+                    settingsManager.setImagePickerMode(3)
                     return@withContext SaveResult.Error.Exception(
                         Exception(
                             context.getString(
@@ -228,7 +225,7 @@ internal class FileControllerImpl @Inject constructor(
                     }.getOrNull() == true
 
                     if (!hasDir) {
-                        settingsRepository.setSaveFolderUri(null)
+                        settingsManager.setSaveFolderUri(null)
                         return@withContext SaveResult.Error.Exception(
                             Exception(
                                 context.getString(

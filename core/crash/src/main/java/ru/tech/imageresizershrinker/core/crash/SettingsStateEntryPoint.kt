@@ -20,10 +20,10 @@ package ru.tech.imageresizershrinker.core.crash
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 
 @EntryPoint
 @InstallIn(SingletonComponent::class)
 interface SettingsStateEntryPoint {
-    val settingsRepository: SettingsRepository
+    val settingsManager: SettingsManager
 }

@@ -29,10 +29,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsInteractor
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+import ru.tech.imageresizershrinker.feature.settings.data.AndroidSettingsManager
 import ru.tech.imageresizershrinker.feature.settings.data.BorderWidthMigration
-import ru.tech.imageresizershrinker.feature.settings.data.SettingsRepositoryImpl
 import javax.inject.Singleton
 
 
@@ -42,20 +42,20 @@ internal interface SettingsModule {
 
     @Singleton
     @Binds
-    fun provideSettingsRepository(
-        repository: SettingsRepositoryImpl
-    ): SettingsRepository
+    fun provideSettingsManager(
+        repository: AndroidSettingsManager
+    ): SettingsManager
 
     @Singleton
     @Binds
     fun provideSettingsProvider(
-        repository: SettingsRepository
+        repository: SettingsManager
     ): SettingsProvider
 
     @Singleton
     @Binds
     fun provideSettingsInteractor(
-        repository: SettingsRepository
+        repository: SettingsManager
     ): SettingsInteractor
 
     companion object {

@@ -26,14 +26,13 @@ import androidx.core.graphics.applyCanvas
 import com.awxkee.aire.Aire
 import com.awxkee.aire.BitmapScaleMode
 import com.t8rin.logger.makeLog
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.aspectRatio
 import ru.tech.imageresizershrinker.core.data.utils.toSoftware
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
@@ -51,8 +50,8 @@ internal class AndroidImageScaler @Inject constructor(
     settingsProvider: SettingsProvider,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val filterProvider: FilterProvider<Bitmap>,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-) : ImageScaler<Bitmap> {
+    dispatchersHolder: DispatchersHolder
+) : DispatchersHolder by dispatchersHolder, ImageScaler<Bitmap> {
 
     private var defaultImageScaleMode: ImageScaleMode = ImageScaleMode.Default
 
@@ -60,7 +59,7 @@ internal class AndroidImageScaler @Inject constructor(
         settingsProvider
             .getSettingsStateFlow().onEach {
                 defaultImageScaleMode = it.defaultImageScaleMode
-            }.launchIn(CoroutineScope(dispatcher))
+            }.launchIn(CoroutineScope(defaultDispatcher))
     }
 
     override suspend fun scaleImage(
@@ -69,7 +68,7 @@ internal class AndroidImageScaler @Inject constructor(
         height: Int,
         resizeType: ResizeType,
         imageScaleMode: ImageScaleMode
-    ): Bitmap = withContext(dispatcher) {
+    ): Bitmap = withContext(defaultDispatcher) {
 
         val widthInternal = width.takeIf { it > 0 } ?: image.width
         val heightInternal = height.takeIf { it > 0 } ?: image.height
@@ -108,7 +107,7 @@ internal class AndroidImageScaler @Inject constructor(
 
     override suspend fun scaleUntilCanShow(
         image: Bitmap?
-    ): Bitmap? = withContext(dispatcher) {
+    ): Bitmap? = withContext(defaultDispatcher) {
         if (image == null) return@withContext null
 
         var (height, width) = image.run { height to width }
@@ -139,7 +138,7 @@ internal class AndroidImageScaler @Inject constructor(
         targetHeight: Int,
         scaleFactor: Float,
         imageScaleMode: ImageScaleMode
-    ): Bitmap = withContext(dispatcher) {
+    ): Bitmap = withContext(defaultDispatcher) {
         val mTargetWidth = (targetWidth / scaleFactor).roundToInt()
         val mTargetHeight = (targetHeight / scaleFactor).roundToInt()
 
@@ -222,7 +221,7 @@ internal class AndroidImageScaler @Inject constructor(
         width: Int,
         height: Int,
         imageScaleMode: ImageScaleMode
-    ): Bitmap = withContext(dispatcher) {
+    ): Bitmap = withContext(defaultDispatcher) {
         if (width == image.width && height == image.height) return@withContext image
 
         val mode = imageScaleMode.takeIf {
@@ -246,7 +245,7 @@ internal class AndroidImageScaler @Inject constructor(
         height: Int,
         resizeAnchor: ResizeAnchor,
         imageScaleMode: ImageScaleMode
-    ): Bitmap = withContext(dispatcher) {
+    ): Bitmap = withContext(defaultDispatcher) {
         val max = max(width, height)
 
         val scaleByWidth = suspend {

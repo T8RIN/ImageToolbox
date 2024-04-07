@@ -22,14 +22,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.asCoroutineDispatcher
 import ru.tech.imageresizershrinker.core.di.DecodingDispatcher
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.di.EncodingDispatcher
 import ru.tech.imageresizershrinker.core.di.IoDispatcher
 import ru.tech.imageresizershrinker.core.di.UiDispatcher
-import java.util.concurrent.Executors
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import javax.inject.Singleton
 
 
@@ -40,31 +38,39 @@ internal object CoroutinesModule {
     @DefaultDispatcher
     @Singleton
     @Provides
-    fun defaultDispatcher(): CoroutineDispatcher =
-        Executors.newCachedThreadPool().asCoroutineDispatcher()
+    fun defaultDispatcher(
+        holder: DispatchersHolder
+    ): CoroutineDispatcher = holder.defaultDispatcher
 
     @DecodingDispatcher
     @Singleton
     @Provides
-    fun decodingDispatcher(): CoroutineDispatcher =
-        Executors.newFixedThreadPool(
-            2 * Runtime.getRuntime().availableProcessors() + 1
-        ).asCoroutineDispatcher()
+    fun decodingDispatcher(
+        holder: DispatchersHolder
+    ): CoroutineDispatcher = holder.decodingDispatcher
+
 
     @EncodingDispatcher
     @Singleton
     @Provides
-    fun encodingDispatcher(): CoroutineDispatcher =
-        Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+    fun encodingDispatcher(
+        holder: DispatchersHolder
+    ): CoroutineDispatcher = holder.encodingDispatcher
+
 
     @IoDispatcher
     @Singleton
     @Provides
-    fun ioDispatcher(): CoroutineDispatcher = Dispatchers.IO
+    fun ioDispatcher(
+        holder: DispatchersHolder
+    ): CoroutineDispatcher = holder.ioDispatcher
 
     @UiDispatcher
     @Singleton
     @Provides
-    fun uiDispatcher(): CoroutineDispatcher = Dispatchers.Main.immediate
+    fun uiDispatcher(
+        holder: DispatchersHolder
+    ): CoroutineDispatcher = holder.uiDispatcher
 
 }
+

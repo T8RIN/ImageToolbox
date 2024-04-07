@@ -42,14 +42,14 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
-import ru.tech.imageresizershrinker.core.settings.domain.SettingsRepository
+import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.feature.media_picker.data.utils.DateExt
 import ru.tech.imageresizershrinker.feature.media_picker.data.utils.getDate
 import ru.tech.imageresizershrinker.feature.media_picker.data.utils.getDateExt
 import ru.tech.imageresizershrinker.feature.media_picker.data.utils.getDateHeader
 import ru.tech.imageresizershrinker.feature.media_picker.data.utils.getMonth
-import ru.tech.imageresizershrinker.feature.media_picker.domain.MediaRepository
+import ru.tech.imageresizershrinker.feature.media_picker.domain.MediaRetriever
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Album
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AlbumState
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
@@ -62,8 +62,8 @@ import javax.inject.Inject
 class MediaPickerViewModel @Inject constructor(
     val imageLoader: ImageLoader,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val settingsRepository: SettingsRepository,
-    private val mediaRepository: MediaRepository,
+    private val settingsManager: SettingsManager,
+    private val mediaRetriever: MediaRetriever,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -108,7 +108,7 @@ class MediaPickerViewModel @Inject constructor(
     private fun getAlbums(allowedMedia: AllowedMedia) {
         albumJob?.cancel()
         albumJob = viewModelScope.launch(dispatcher) {
-            mediaRepository.getAlbumsWithType(allowedMedia)
+            mediaRetriever.getAlbumsWithType(allowedMedia)
                 .flowOn(dispatcher)
                 .collectLatest { result ->
                     val data = result.getOrNull() ?: emptyList()
@@ -140,7 +140,7 @@ class MediaPickerViewModel @Inject constructor(
         mediaGettingJob?.cancel()
         mediaGettingJob = viewModelScope.launch(dispatcher) {
             _mediaState.emit(mediaState.value.copy(isLoading = true))
-            mediaRepository.mediaFlowWithType(albumId, allowedMedia)
+            mediaRetriever.mediaFlowWithType(albumId, allowedMedia)
                 .flowOn(dispatcher)
                 .collectLatest { result ->
                     val data = result.getOrNull()?.filter {
@@ -248,9 +248,9 @@ class MediaPickerViewModel @Inject constructor(
 
     init {
         runBlocking {
-            _settingsState.value = settingsRepository.getSettingsState()
+            _settingsState.value = settingsManager.getSettingsState()
         }
-        settingsRepository.getSettingsStateFlow().onEach {
+        settingsManager.getSettingsStateFlow().onEach {
             _settingsState.value = it
         }.launchIn(viewModelScope)
     }

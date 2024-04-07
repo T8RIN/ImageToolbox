@@ -22,7 +22,7 @@ import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Album
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.AllowedMedia
 import ru.tech.imageresizershrinker.feature.media_picker.domain.model.Media
 
-interface MediaRepository {
+interface MediaRetriever {
 
     fun getAlbumsWithType(
         allowedMedia: AllowedMedia

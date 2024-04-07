@@ -31,14 +31,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
-import ru.tech.imageresizershrinker.feature.cipher.domain.CipherRepository
+import ru.tech.imageresizershrinker.feature.cipher.domain.CryptographyManager
 import java.io.OutputStream
 import java.security.InvalidKeyException
 import javax.inject.Inject
 
 @HiltViewModel
 class FileCipherViewModel @Inject constructor(
-    private val cipherRepository: CipherRepository,
+    private val cryptographyManager: CryptographyManager,
     private val shareProvider: ShareProvider<Bitmap>,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
@@ -79,9 +79,9 @@ class FileCipherViewModel @Inject constructor(
                 val file = onFileRequest(_uri.value!!)
                 runCatching {
                     if (isEncrypt) {
-                        _byteArray.value = file?.let { cipherRepository.encrypt(it, key) }
+                        _byteArray.value = file?.let { cryptographyManager.encrypt(it, key) }
                     } else {
-                        _byteArray.value = file?.let { cipherRepository.decrypt(it, key) }
+                        _byteArray.value = file?.let { cryptographyManager.decrypt(it, key) }
                     }
                 }.exceptionOrNull().let {
                     onComplete(
@@ -123,7 +123,7 @@ class FileCipherViewModel @Inject constructor(
         }
     }
 
-    fun generateRandomPassword(): String = cipherRepository.generateRandomString(18)
+    fun generateRandomPassword(): String = cryptographyManager.generateRandomString(18)
 
     fun shareFile(
         it: ByteArray,
