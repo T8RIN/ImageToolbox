@@ -873,4 +873,21 @@
     <string name="cupertino_switch_sub">使用基於Cupertino設計系統的類IOS開關</string>
     <string name="resize_anchor">調整錨點大小</string>
     <string name="fluent_switch_sub">採用基於「Fluent」設計系統的Windows 11風格開關</string>
+    <string name="default_line_width">預設線寬</string>
+    <string name="images_to_svg">影像轉Svg</string>
+    <string name="images_to_svg_sub">將給定圖像追蹤為 SVG 圖像</string>
+    <string name="use_sampled_palette">使用取樣調色板</string>
+    <string name="use_sampled_palette_sub">如果啟用此選項，將對量化調色板進行取樣</string>
+    <string name="path_omit">路徑省略</string>
+    <string name="svg_warning">不建議使用此工具在不縮小尺寸的情況下追蹤大圖像，它可能會導致崩潰並增加處理時間</string>
+    <string name="downscale_image">縮小影像</string>
+    <string name="downscale_image_sub">在處理之前圖像將被縮小到較低的尺寸，這有助於工具更快、更安全地工作</string>
+    <string name="min_color_ratio">最小色彩比例</string>
+    <string name="lines_threshold">線路閾值</string>
+    <string name="quadratic_threshold">二次閾值</string>
+    <string name="coordinates_rounding_tolerance">座標捨入容限</string>
+    <string name="path_scale">路徑比例</string>
+    <string name="reset_properties">重置屬性</string>
+    <string name="reset_properties_sub">所有屬性將設定為預設值，請注意此操作無法撤銷</string>
+    <string name="detailed">詳細</string>
 </resources>
