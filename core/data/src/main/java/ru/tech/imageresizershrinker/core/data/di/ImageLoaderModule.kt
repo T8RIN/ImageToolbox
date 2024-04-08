@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.core.data.di
 
 import android.content.Context
 import android.os.Build
+import coil.Coil
 import coil.ComponentRegistry
 import coil.ImageLoader
 import coil.decode.GifDecoder
@@ -34,12 +35,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineDispatcher
 import oupson.apng.coil.AnimatedPngDecoder
-import ru.tech.imageresizershrinker.core.data.utils.TimeMeasureInterceptor
-import ru.tech.imageresizershrinker.core.di.DecodingDispatcher
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
-import ru.tech.imageresizershrinker.core.di.IoDispatcher
+import ru.tech.imageresizershrinker.core.data.coil.TimeMeasureInterceptor
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 
 @Module
@@ -51,17 +49,16 @@ internal object ImageLoaderModule {
         @ApplicationContext context: Context,
         logger: Logger?,
         componentRegistry: ComponentRegistry,
-        @DecodingDispatcher decodingDispatcher: CoroutineDispatcher,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher,
-        @DefaultDispatcher defaultDispatcher: CoroutineDispatcher
+        dispatchersHolder: DispatchersHolder
     ): ImageLoader = context.imageLoader.newBuilder()
         .components(componentRegistry)
-        .decoderDispatcher(decodingDispatcher)
-        .fetcherDispatcher(ioDispatcher)
-        .transformationDispatcher(defaultDispatcher)
+        .decoderDispatcher(dispatchersHolder.decodingDispatcher)
+        .fetcherDispatcher(dispatchersHolder.ioDispatcher)
+        .transformationDispatcher(dispatchersHolder.defaultDispatcher)
         .allowHardware(false)
         .logger(logger)
         .build()
+        .also(Coil::setImageLoader)
 
     @Provides
     fun provideCoilLogger(): Logger? = if (BuildConfig.DEBUG) DebugLogger()
