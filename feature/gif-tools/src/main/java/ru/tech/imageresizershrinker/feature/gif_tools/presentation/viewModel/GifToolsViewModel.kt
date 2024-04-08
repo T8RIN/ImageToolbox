@@ -35,6 +35,7 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
@@ -47,6 +48,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
+import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.gif_tools.domain.GifConverter
@@ -64,8 +66,8 @@ class GifToolsViewModel @Inject constructor(
     private val fileController: FileController,
     private val gifConverter: GifConverter,
     private val shareProvider: ShareProvider<Bitmap>,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-) : ViewModel() {
+    dispatchersHolder: DispatchersHolder
+) : BaseViewModel(dispatchersHolder) {
 
     private val _type: MutableState<Screen.GifTools.Type?> = mutableStateOf(null)
     val type by _type
@@ -133,7 +135,7 @@ class GifToolsViewModel @Inject constructor(
         }
         updateGifFrames(ImageFrames.All)
         collectionJob?.cancel()
-        collectionJob = viewModelScope.launch(dispatcher) {
+        collectionJob = viewModelScope.launch(defaultDispatcher) {
             _isLoading.update { true }
             _isLoadingGifImages.update { true }
             gifConverter.extractFramesFromGif(
@@ -181,7 +183,7 @@ class GifToolsViewModel @Inject constructor(
         _isSaving.value = false
         savingJob?.cancel()
         savingJob = viewModelScope.launch {
-            withContext(dispatcher) {
+            withContext(defaultDispatcher) {
                 _isSaving.value = true
                 kotlin.runCatching {
                     outputStream?.use {
@@ -200,7 +202,7 @@ class GifToolsViewModel @Inject constructor(
     ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch(dispatcher) {
+        savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
             _left.value = 1
             _done.value = 0
@@ -390,7 +392,7 @@ class GifToolsViewModel @Inject constructor(
     fun performSharing(onComplete: () -> Unit) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch(dispatcher) {
+        savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
             _left.value = 1
             _done.value = 0

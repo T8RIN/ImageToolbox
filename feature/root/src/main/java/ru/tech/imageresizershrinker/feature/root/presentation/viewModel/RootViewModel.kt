@@ -23,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
 import com.t8rin.dynamic.theme.ColorTuple
@@ -31,15 +30,14 @@ import com.t8rin.dynamic.theme.extractPrimaryColor
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olshevski.navigation.reimagined.navController
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.w3c.dom.Element
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.APP_RELEASES
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.filters.domain.FavoriteFiltersInteractor
@@ -47,6 +45,7 @@ import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
@@ -59,10 +58,10 @@ class RootViewModel @Inject constructor(
     val imageLoader: ImageLoader,
     val favoriteFiltersInteractor: FavoriteFiltersInteractor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    fileController: FileController,
     private val settingsManager: SettingsManager,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-) : ViewModel() {
+    fileController: FileController,
+    dispatchersHolder: DispatchersHolder
+) : BaseViewModel(dispatchersHolder) {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
     val settingsState: SettingsState by _settingsState
@@ -143,41 +142,46 @@ class RootViewModel @Inject constructor(
         } else {
             if (!_cancelledUpdate.value || newRequest) {
                 viewModelScope.launch {
-                    withContext(dispatcher) {
-                        runCatching {
-                            val nodes =
-                                DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
-                                    URL("$APP_RELEASES.atom").openConnection().getInputStream()
-                                )?.getElementsByTagName("feed")
-
-                            if (nodes != null) {
-                                for (i in 0 until nodes.length) {
-                                    val element = nodes.item(i) as Element
-                                    val title = element.getElementsByTagName("entry")
-                                    val line = (title.item(0) as Element)
-                                    _tag.value = (line.getElementsByTagName("title")
-                                        .item(0) as Element).textContent
-                                    _changelog.value = (line.getElementsByTagName("content")
-                                        .item(0) as Element).textContent
-                                }
-                            }
-
-                            if (
-                                isNeedUpdate(
-                                    currentName = BuildConfig.VERSION_NAME,
-                                    updateName = tag
-                                )
-                            ) {
-                                _updateAvailable.value = true
-                                if (showDialog) {
-                                    _showUpdateDialog.value = true
-                                }
-                            } else {
-                                onNoUpdates()
-                            }
-                        }
-                    }
+                    checkForUpdates(showDialog, onNoUpdates)
                 }
+            }
+        }
+    }
+
+    private suspend fun checkForUpdates(
+        showDialog: Boolean,
+        onNoUpdates: () -> Unit
+    ) = withContext(defaultDispatcher) {
+        runCatching {
+            val nodes =
+                DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
+                    URL("$APP_RELEASES.atom").openConnection().getInputStream()
+                )?.getElementsByTagName("feed")
+
+            if (nodes != null) {
+                for (i in 0 until nodes.length) {
+                    val element = nodes.item(i) as Element
+                    val title = element.getElementsByTagName("entry")
+                    val line = (title.item(0) as Element)
+                    _tag.value = (line.getElementsByTagName("title")
+                        .item(0) as Element).textContent
+                    _changelog.value = (line.getElementsByTagName("content")
+                        .item(0) as Element).textContent
+                }
+            }
+
+            if (
+                isNeedUpdate(
+                    currentName = BuildConfig.VERSION_NAME,
+                    updateName = tag
+                )
+            ) {
+                _updateAvailable.value = true
+                if (showDialog) {
+                    _showUpdateDialog.value = true
+                }
+            } else {
+                onNoUpdates()
             }
         }
     }

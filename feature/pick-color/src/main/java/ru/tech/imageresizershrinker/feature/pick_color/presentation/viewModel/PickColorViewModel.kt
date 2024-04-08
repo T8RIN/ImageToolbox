@@ -24,19 +24,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
+import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class PickColorViewModel @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val imageScaler: ImageScaler<Bitmap>
-) : ViewModel() {
+    private val imageScaler: ImageScaler<Bitmap>,
+    dispatchersHolder: DispatchersHolder
+) : BaseViewModel(dispatchersHolder) {
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap

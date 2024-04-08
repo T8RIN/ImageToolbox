@@ -26,14 +26,12 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
@@ -46,6 +44,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
+import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.bytes_resize.domain.BytesImageScaler
 import javax.inject.Inject
@@ -58,9 +57,9 @@ class BytesResizeViewModel @Inject constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageScaler: BytesImageScaler<Bitmap>,
     private val shareProvider: ShareProvider<Bitmap>,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
     val imageInfoTransformationFactory: ImageInfoTransformation.Factory,
-) : ViewModel() {
+    dispatchersHolder: DispatchersHolder
+) : BaseViewModel(dispatchersHolder) {
 
     private val _imageScaleMode: MutableState<ImageScaleMode> =
         mutableStateOf(ImageScaleMode.Default)
@@ -147,7 +146,7 @@ class BytesResizeViewModel @Inject constructor(
 
     fun updateUrisSilently(removedUri: Uri) {
         viewModelScope.launch {
-            withContext(dispatcher) {
+            withContext(defaultDispatcher) {
                 _uris.value = uris
                 if (_selectedUri.value == removedUri) {
                     val index = uris?.indexOf(removedUri) ?: -1
@@ -190,7 +189,7 @@ class BytesResizeViewModel @Inject constructor(
     fun saveBitmaps(
         onResult: (List<SaveResult>, String) -> Unit
     ) = viewModelScope.launch {
-        withContext(dispatcher) {
+        withContext(defaultDispatcher) {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -246,7 +245,7 @@ class BytesResizeViewModel @Inject constructor(
 
     fun setBitmap(uri: Uri) {
         viewModelScope.launch {
-            withContext(dispatcher) {
+            withContext(defaultDispatcher) {
                 updateBitmap(
                     imageGetter.getImage(
                         uri = uri.toString(),

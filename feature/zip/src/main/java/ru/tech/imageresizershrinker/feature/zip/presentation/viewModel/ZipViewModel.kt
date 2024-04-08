@@ -23,15 +23,14 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.zip.domain.ZipManager
 import java.io.OutputStream
@@ -41,8 +40,8 @@ import javax.inject.Inject
 class ZipViewModel @Inject constructor(
     private val zipManager: ZipManager,
     private val shareProvider: ShareProvider<Bitmap>,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-) : ViewModel() {
+    dispatchersHolder: DispatchersHolder
+) : BaseViewModel(dispatchersHolder) {
 
     private val _uris = mutableStateOf<List<Uri>>(emptyList())
     val uris by _uris
@@ -72,7 +71,7 @@ class ZipViewModel @Inject constructor(
         _isSaving.value = false
         savingJob?.cancel()
         savingJob = viewModelScope.launch {
-            withContext(dispatcher) {
+            withContext(defaultDispatcher) {
                 _isSaving.value = true
                 if (uris.isEmpty()) {
                     onComplete(null)
@@ -103,16 +102,14 @@ class ZipViewModel @Inject constructor(
     ) {
         _isSaving.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch {
-            withContext(dispatcher) {
-                _isSaving.value = true
-                runCatching {
-                    outputStream?.use {
-                        it.write(_byteArray.value)
-                    }
-                }.exceptionOrNull().let(onComplete)
-                _isSaving.value = false
-            }
+        savingJob = viewModelScope.launch(defaultDispatcher) {
+            _isSaving.value = true
+            runCatching {
+                outputStream?.use {
+                    it.write(_byteArray.value)
+                }
+            }.exceptionOrNull().let(onComplete)
+            _isSaving.value = false
         }
     }
 

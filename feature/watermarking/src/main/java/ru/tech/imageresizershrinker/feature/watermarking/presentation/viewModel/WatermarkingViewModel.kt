@@ -36,6 +36,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
@@ -46,6 +47,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.debouncedImageCalculation
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkApplier
@@ -62,8 +64,8 @@ class WatermarkingViewModel @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val watermarkApplier: WatermarkApplier<Bitmap>,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-) : ViewModel() {
+    dispatchersHolder: DispatchersHolder
+) : BaseViewModel(dispatchersHolder) {
 
     private val _internalBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val internalBitmap: Bitmap? by _internalBitmap
@@ -145,7 +147,7 @@ class WatermarkingViewModel @Inject constructor(
         onResult: (List<SaveResult>, String) -> Unit
     ) = viewModelScope.launch {
         _left.value = -1
-        withContext(dispatcher) {
+        withContext(defaultDispatcher) {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -193,7 +195,7 @@ class WatermarkingViewModel @Inject constructor(
     private suspend fun getWatermarkedBitmap(
         data: Any,
         originalSize: Boolean = false
-    ): Bitmap? = withContext(dispatcher) {
+    ): Bitmap? = withContext(defaultDispatcher) {
         imageGetter.getImage(data, originalSize)?.let { image ->
             watermarkApplier.applyWatermark(
                 image = image,
@@ -281,7 +283,7 @@ class WatermarkingViewModel @Inject constructor(
 
     fun updateUrisSilently(removedUri: Uri) {
         viewModelScope.launch {
-            withContext(dispatcher) {
+            withContext(defaultDispatcher) {
                 if (selectedUri == removedUri) {
                     val index = uris.indexOf(removedUri)
                     if (index == 0) {

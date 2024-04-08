@@ -18,27 +18,18 @@
 package ru.tech.imageresizershrinker.core.data.dispatchers
 
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.asCoroutineDispatcher
+import ru.tech.imageresizershrinker.core.di.DecodingDispatcher
+import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.di.EncodingDispatcher
+import ru.tech.imageresizershrinker.core.di.IoDispatcher
+import ru.tech.imageresizershrinker.core.di.UiDispatcher
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
-import java.util.concurrent.Executors
 import javax.inject.Inject
 
-internal class DispatchersHolderImpl @Inject constructor() : DispatchersHolder {
-
-    override val uiDispatcher: CoroutineDispatcher = Dispatchers.Main.immediate
-
-    override val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-
-    override val encodingDispatcher: CoroutineDispatcher = Executors
-        .newSingleThreadExecutor().asCoroutineDispatcher()
-
-    override val decodingDispatcher: CoroutineDispatcher = Executors
-        .newFixedThreadPool(
-            2 * Runtime.getRuntime().availableProcessors() + 1
-        ).asCoroutineDispatcher()
-
-    override val defaultDispatcher: CoroutineDispatcher =
-        Executors.newCachedThreadPool().asCoroutineDispatcher()
-
-}
+internal data class DispatchersHolderImpl @Inject constructor(
+    @UiDispatcher override val uiDispatcher: CoroutineDispatcher,
+    @IoDispatcher override val ioDispatcher: CoroutineDispatcher,
+    @EncodingDispatcher override val encodingDispatcher: CoroutineDispatcher,
+    @DecodingDispatcher override val decodingDispatcher: CoroutineDispatcher,
+    @DefaultDispatcher override val defaultDispatcher: CoroutineDispatcher
+) : DispatchersHolder

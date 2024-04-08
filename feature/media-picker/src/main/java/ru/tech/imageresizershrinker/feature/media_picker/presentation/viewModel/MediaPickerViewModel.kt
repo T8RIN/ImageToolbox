@@ -21,14 +21,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
 import com.t8rin.dynamic.theme.ColorTuple
 import com.t8rin.dynamic.theme.extractPrimaryColor
 import com.t8rin.logger.makeLog
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,10 +38,11 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
+import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.feature.media_picker.data.utils.DateExt
 import ru.tech.imageresizershrinker.feature.media_picker.data.utils.getDate
 import ru.tech.imageresizershrinker.feature.media_picker.data.utils.getDateExt
@@ -64,8 +63,8 @@ class MediaPickerViewModel @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val settingsManager: SettingsManager,
     private val mediaRetriever: MediaRetriever,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher
-) : ViewModel() {
+    dispatchersHolder: DispatchersHolder
+) : BaseViewModel(dispatchersHolder) {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
     val settingsState: SettingsState by _settingsState
@@ -107,9 +106,9 @@ class MediaPickerViewModel @Inject constructor(
 
     private fun getAlbums(allowedMedia: AllowedMedia) {
         albumJob?.cancel()
-        albumJob = viewModelScope.launch(dispatcher) {
+        albumJob = viewModelScope.launch(defaultDispatcher) {
             mediaRetriever.getAlbumsWithType(allowedMedia)
-                .flowOn(dispatcher)
+                .flowOn(defaultDispatcher)
                 .collectLatest { result ->
                     val data = result.getOrNull() ?: emptyList()
                     val error = if (result.isFailure) result.exceptionOrNull().makeLog()?.message
@@ -138,10 +137,10 @@ class MediaPickerViewModel @Inject constructor(
         allowedMedia: AllowedMedia
     ) {
         mediaGettingJob?.cancel()
-        mediaGettingJob = viewModelScope.launch(dispatcher) {
+        mediaGettingJob = viewModelScope.launch(defaultDispatcher) {
             _mediaState.emit(mediaState.value.copy(isLoading = true))
             mediaRetriever.mediaFlowWithType(albumId, allowedMedia)
-                .flowOn(dispatcher)
+                .flowOn(defaultDispatcher)
                 .collectLatest { result ->
                     val data = result.getOrNull()?.filter {
                         if (allowedMedia is AllowedMedia.Photos) {
@@ -171,7 +170,7 @@ class MediaPickerViewModel @Inject constructor(
         val mappedData = mutableListOf<MediaItem>()
         val mappedDataWithMonthly = mutableListOf<MediaItem>()
         val monthHeaderList: MutableSet<String> = mutableSetOf()
-        withContext(dispatcher) {
+        withContext(defaultDispatcher) {
             val groupedData = data.groupBy {
                 if (groupByMonth) {
                     it.timestamp.getMonth()

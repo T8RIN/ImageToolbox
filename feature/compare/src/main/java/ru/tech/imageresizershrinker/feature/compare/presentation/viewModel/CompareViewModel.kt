@@ -32,6 +32,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
@@ -41,6 +42,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareType
@@ -55,8 +57,8 @@ class CompareViewModel @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
     private val fileController: FileController,
     private val shareProvider: ShareProvider<Bitmap>,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-) : ViewModel() {
+    dispatchersHolder: DispatchersHolder
+) : BaseViewModel(dispatchersHolder) {
 
     private val _bitmapData: MutableState<Pair<Pair<Uri, Bitmap>?, Pair<Uri, Bitmap>?>?> =
         mutableStateOf(null)
@@ -77,7 +79,7 @@ class CompareViewModel @Inject constructor(
             if (it == 90f) 0f
             else 90f
         }
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch(defaultDispatcher) {
             _bitmapData.value?.let { (f, s) ->
                 if (f != null && s != null) {
                     _isImageLoading.value = true
@@ -107,7 +109,7 @@ class CompareViewModel @Inject constructor(
     }
 
     fun swap() {
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch(defaultDispatcher) {
             _isImageLoading.value = true
             _bitmapData.value = _bitmapData.value?.run { second to first }
             _isImageLoading.value = false
@@ -119,7 +121,7 @@ class CompareViewModel @Inject constructor(
         onError: () -> Unit,
         onSuccess: () -> Unit
     ) {
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch(defaultDispatcher) {
             val data = getBitmapByUri(uris.first) to getBitmapByUri(uris.second)
             if (data.first == null || data.second == null) onError()
             else {
@@ -142,7 +144,7 @@ class CompareViewModel @Inject constructor(
     ) {
         _isImageLoading.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch(dispatcher) {
+        savingJob = viewModelScope.launch(defaultDispatcher) {
             _isImageLoading.value = true
             getOverlappedImage(percent)?.let {
                 shareProvider.shareImage(
@@ -166,7 +168,7 @@ class CompareViewModel @Inject constructor(
     ) {
         _isImageLoading.value = false
         savingJob?.cancel()
-        savingJob = viewModelScope.launch(dispatcher) {
+        savingJob = viewModelScope.launch(defaultDispatcher) {
             _isImageLoading.value = true
             getOverlappedImage(percent)?.let { localBitmap ->
                 onComplete(
