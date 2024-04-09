@@ -23,6 +23,7 @@ interface ImageTextReader<Image> {
         type: RecognitionType,
         languageCode: String,
         segmentationMode: SegmentationMode,
+        ocrEngineMode: OcrEngineMode,
         imageUri: String,
         onProgress: (Int) -> Unit
     ): TextRecognitionResult
@@ -31,6 +32,7 @@ interface ImageTextReader<Image> {
         type: RecognitionType,
         languageCode: String,
         segmentationMode: SegmentationMode,
+        ocrEngineMode: OcrEngineMode,
         image: Image?,
         onProgress: (Int) -> Unit
     ): TextRecognitionResult

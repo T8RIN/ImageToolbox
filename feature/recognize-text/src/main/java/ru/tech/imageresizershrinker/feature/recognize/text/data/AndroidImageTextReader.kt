@@ -32,6 +32,7 @@ import ru.tech.imageresizershrinker.feature.recognize.text.domain.Constants
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.DownloadData
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.ImageTextReader
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.OCRLanguage
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.OcrEngineMode
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionData
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.SegmentationMode
@@ -63,12 +64,14 @@ internal class AndroidImageTextReader @Inject constructor(
         type: RecognitionType,
         languageCode: String,
         segmentationMode: SegmentationMode,
+        ocrEngineMode: OcrEngineMode,
         imageUri: String,
         onProgress: (Int) -> Unit
     ): TextRecognitionResult = getTextFromImage(
         type = type,
         languageCode = languageCode,
         segmentationMode = segmentationMode,
+        ocrEngineMode = ocrEngineMode,
         image = imageGetter.getImage(imageUri)?.image,
         onProgress = onProgress
     )
@@ -77,6 +80,7 @@ internal class AndroidImageTextReader @Inject constructor(
         type: RecognitionType,
         languageCode: String,
         segmentationMode: SegmentationMode,
+        ocrEngineMode: OcrEngineMode,
         image: Bitmap?,
         onProgress: (Int) -> Unit
     ): TextRecognitionResult = withContext(defaultDispatcher) {
@@ -94,8 +98,9 @@ internal class AndroidImageTextReader @Inject constructor(
         return@withContext runCatching {
             val api = TessBaseAPI {
                 if (isActive) onProgress(it.percent)
+                else return@TessBaseAPI
             }.apply {
-                val success = init(path, languageCode)
+                val success = init(path, languageCode, ocrEngineMode.ordinal)
                 if (!success) {
                     return@withContext TextRecognitionResult.NoData(
                         getNeedToDownloadLanguages(

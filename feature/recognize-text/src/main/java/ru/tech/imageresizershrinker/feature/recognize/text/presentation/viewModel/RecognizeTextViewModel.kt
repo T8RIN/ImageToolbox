@@ -25,7 +25,6 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smarttoolfactory.cropper.model.AspectRatio
 import com.smarttoolfactory.cropper.model.OutlineType
@@ -58,6 +57,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.DownloadData
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.ImageTextReader
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.OCRLanguage
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.OcrEngineMode
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionData
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.RecognitionType
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.SegmentationMode
@@ -80,6 +80,10 @@ class RecognizeTextViewModel @Inject constructor(
     private val _segmentationMode: MutableState<SegmentationMode> =
         mutableStateOf(SegmentationMode.PSM_AUTO_OSD)
     val segmentationMode by _segmentationMode
+
+    private val _ocrEngineMode: MutableState<OcrEngineMode> = mutableStateOf(OcrEngineMode.DEFAULT)
+    val ocrEngineMode by _ocrEngineMode
+    //TODO: Add selection
 
     private val _selectedLanguages = mutableStateOf(listOf(OCRLanguage.Default))
     val selectedLanguages by _selectedLanguages
@@ -240,6 +244,7 @@ class RecognizeTextViewModel @Inject constructor(
                         image = bitmap
                     )
                 },
+                ocrEngineMode = ocrEngineMode,
                 onProgress = { progress ->
                     _textLoadingProgress.update { progress }
                 }
