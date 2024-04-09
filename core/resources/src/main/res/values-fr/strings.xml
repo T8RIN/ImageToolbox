@@ -819,4 +819,26 @@
     <string name="fast_gaussian_blur_3d">Flou gaussien rapide modèle 3D</string>
     <string name="fast_gaussian_blur_4d">Flou gaussien rapide 4D</string>
     <string name="jxl_type_to_jpeg">JXL en JPEG</string>
+    <string name="lanczos_bessel_sub">Méthode de ré-échantillonnage qui conserve une haute qualité d\'interpolation en appliquant une fontion Bessel (jinc) aux valeurs de pixels</string>
+    <string name="gif_type_to_jxl">GIF en JXL</string>
+    <string name="apng_type_to_jxl_sub">Converti les images APNG en images animées JXL</string>
+    <string name="jxl_type_to_images_sub">Converti une animation JXL en un lot d\'images</string>
+    <string name="jxl_type_to_jxl_sub">Converti un lot d\'images en animation JXL</string>
+    <string name="behavior">Comportement</string>
+    <string name="skip_file_picking_sub">Si possible la sélection de fichier sera affichée immédiatement sur l\'écran choisi</string>
+    <string name="generate_previews">Générer les Aperçus</string>
+    <string name="sorting">Classement</string>
+    <string name="default_line_width">Largeur de ligne par défaut</string>
+    <string name="header_today">Aujourd\'hui</string>
+    <string name="header_yesterday">Hier</string>
+    <string name="gif_type_to_jxl_sub">Converti les images GIF en images JXL animées</string>
+    <string name="apng_type_to_jxl">APNG vers JXL</string>
+    <string name="jxl_type_to_images">JXL vers Images</string>
+    <string name="jxl_type_to_jxl">Images en JXL</string>
+    <string name="generate_previews_sub">"Activer la génération  d\'aperçu, ce qui peut permettre d\'éviter des crashs sur certains appareils. Cela désactive quelques fonctions d\'édition dans la fonction d\'édition simple"</string>
+    <string name="compression_type">Type de compression</string>
+    <string name="sort_by_date">Classer par date</string>
+    <string name="sort_by_date_reversed">Classer par date (le plus ancien)</string>
+    <string name="sort_by_name">Classer par Nom</string>
+    <string name="sort_by_name_reversed">Classer par Nom (inverse)</string>
 </resources>
