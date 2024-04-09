@@ -29,9 +29,25 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
+        google {
+            content {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
+            }
+        }
+        maven("https://androidx.dev/storage/compose-compiler/repository") {
+            name = "Compose Compiler Snapshots"
+            content { includeGroup("androidx.compose.compiler") }
+        }
         mavenCentral()
-        maven { setUrl("https://jitpack.io") }
+        maven("https://jitpack.io") { name = "JitPack" }
+        maven("https://oss.sonatype.org/content/repositories/snapshots/") {
+            name = "Sonatype Snapshots"
+            mavenContent {
+                snapshotsOnly()
+            }
+        }
     }
 }
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
