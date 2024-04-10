@@ -83,7 +83,6 @@ class RecognizeTextViewModel @Inject constructor(
 
     private val _ocrEngineMode: MutableState<OcrEngineMode> = mutableStateOf(OcrEngineMode.DEFAULT)
     val ocrEngineMode by _ocrEngineMode
-    //TODO: Add selection
 
     private val _selectedLanguages = mutableStateOf(listOf(OCRLanguage.Default))
     val selectedLanguages by _selectedLanguages
@@ -423,6 +422,10 @@ class RecognizeTextViewModel @Inject constructor(
             if (sharpenFilterInstance in it) it - sharpenFilterInstance
             else it + sharpenFilterInstance
         }
+    }
+
+    fun setOcrEngineMode(mode: OcrEngineMode) {
+        _ocrEngineMode.update { mode }
     }
 
 }

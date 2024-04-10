@@ -908,4 +908,8 @@
     <string name="reset_properties_sub">All properties will be set to default values, notice that this action cannot be undone</string>
     <string name="detailed">Detailed</string>
     <string name="default_line_width">Default Line Width</string>
+    <string name="engine_mode">Engine Mode</string>
+    <string name="legacy">Legacy</string>
+    <string name="lstm_network">LSTM network</string>
+    <string name="legacy_and_lstm"><![CDATA[Legacy & LSTM]]></string>
 </resources>

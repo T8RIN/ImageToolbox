@@ -92,6 +92,7 @@ import ru.tech.imageresizershrinker.feature.recognize.text.presentation.componen
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.FilterSelectionBar
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.ModelTypeSelector
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.OCRTextPreviewItem
+import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.OcrEngineModeSelector
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.RecognitionTypeSelector
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.RecognizeLanguageSelector
 import ru.tech.imageresizershrinker.feature.recognize.text.presentation.components.UiDownloadData
@@ -336,6 +337,14 @@ fun RecognizeTextScreen(
                 value = viewModel.segmentationMode,
                 onValueChange = {
                     viewModel.setSegmentationMode(it)
+                    startRecognition()
+                }
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            OcrEngineModeSelector(
+                value = viewModel.ocrEngineMode,
+                onValueChange = {
+                    viewModel.setOcrEngineMode(it)
                     startRecognition()
                 }
             )

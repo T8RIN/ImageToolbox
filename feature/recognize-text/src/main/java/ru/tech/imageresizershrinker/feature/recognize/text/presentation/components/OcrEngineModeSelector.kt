@@ -25,7 +25,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.Segment
+import androidx.compose.material.icons.outlined.Engineering
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,12 +45,12 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaul
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
-import ru.tech.imageresizershrinker.feature.recognize.text.domain.SegmentationMode
+import ru.tech.imageresizershrinker.feature.recognize.text.domain.OcrEngineMode
 
 @Composable
-fun ModelTypeSelector(
-    value: SegmentationMode,
-    onValueChange: (SegmentationMode) -> Unit
+fun OcrEngineModeSelector(
+    value: OcrEngineMode,
+    onValueChange: (OcrEngineMode) -> Unit
 ) {
     val haptics = LocalHapticFeedback.current
 
@@ -59,13 +59,13 @@ fun ModelTypeSelector(
     }
     PreferenceItem(
         modifier = Modifier.fillMaxWidth(),
-        title = stringResource(id = R.string.segmentation_mode),
+        title = stringResource(id = R.string.engine_mode),
         subtitle = stringResource(id = value.title),
         onClick = {
             showSelectionSheet = true
         },
         shape = RoundedCornerShape(24.dp),
-        startIcon = Icons.AutoMirrored.Outlined.Segment,
+        startIcon = Icons.Outlined.Engineering,
         endIcon = Icons.Rounded.MiniEdit
     )
 
@@ -86,8 +86,8 @@ fun ModelTypeSelector(
         },
         title = {
             TitleItem(
-                text = stringResource(id = R.string.segmentation_mode),
-                icon = Icons.AutoMirrored.Outlined.Segment
+                text = stringResource(id = R.string.engine_mode),
+                icon = Icons.Outlined.Engineering
             )
         }
     ) {
@@ -95,7 +95,7 @@ fun ModelTypeSelector(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            itemsIndexed(SegmentationMode.entries) { index, mode ->
+            itemsIndexed(OcrEngineMode.entries) { index, mode ->
                 PreferenceItem(
                     modifier = Modifier.fillMaxWidth(),
                     title = stringResource(id = mode.title),
@@ -111,7 +111,7 @@ fun ModelTypeSelector(
                     ).value,
                     shape = ContainerShapeDefaults.shapeForIndex(
                         index = index,
-                        size = SegmentationMode.entries.size
+                        size = OcrEngineMode.entries.size
                     )
                 )
             }
@@ -119,20 +119,10 @@ fun ModelTypeSelector(
     }
 }
 
-private inline val SegmentationMode.title: Int
+private inline val OcrEngineMode.title: Int
     get() = when (this) {
-        SegmentationMode.PSM_OSD_ONLY -> R.string.segmentation_mode_osd_only
-        SegmentationMode.PSM_AUTO_OSD -> R.string.segmentation_mode_auto_osd
-        SegmentationMode.PSM_AUTO_ONLY -> R.string.segmentation_mode_auto_only
-        SegmentationMode.PSM_AUTO -> R.string.segmentation_mode_auto
-        SegmentationMode.PSM_SINGLE_COLUMN -> R.string.segmentation_mode_single_column
-        SegmentationMode.PSM_SINGLE_BLOCK_VERT_TEXT -> R.string.segmentation_mode_single_block_vert_text
-        SegmentationMode.PSM_SINGLE_BLOCK -> R.string.segmentation_mode_single_block
-        SegmentationMode.PSM_SINGLE_LINE -> R.string.segmentation_mode_single_line
-        SegmentationMode.PSM_SINGLE_WORD -> R.string.segmentation_mode_single_word
-        SegmentationMode.PSM_CIRCLE_WORD -> R.string.segmentation_mode_circle_word
-        SegmentationMode.PSM_SINGLE_CHAR -> R.string.segmentation_mode_single_char
-        SegmentationMode.PSM_SPARSE_TEXT -> R.string.segmentation_mode_sparse_text
-        SegmentationMode.PSM_SPARSE_TEXT_OSD -> R.string.segmentation_mode_sparse_text_osd
-        SegmentationMode.PSM_RAW_LINE -> R.string.segmentation_mode_raw_line
+        OcrEngineMode.TESSERACT_ONLY -> R.string.legacy
+        OcrEngineMode.LSTM_ONLY -> R.string.lstm_network
+        OcrEngineMode.TESSERACT_LSTM_COMBINED -> R.string.legacy_and_lstm
+        OcrEngineMode.DEFAULT -> R.string.defaultt
     }
