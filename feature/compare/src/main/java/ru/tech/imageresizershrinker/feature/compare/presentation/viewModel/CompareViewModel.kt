@@ -25,13 +25,10 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -63,9 +60,6 @@ class CompareViewModel @Inject constructor(
     private val _bitmapData: MutableState<Pair<Pair<Uri, Bitmap>?, Pair<Uri, Bitmap>?>?> =
         mutableStateOf(null)
     val bitmapData by _bitmapData
-
-    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isImageLoading: Boolean by _isImageLoading
 
     private val _rotation: MutableState<Float> = mutableFloatStateOf(0f)
     val rotation by _rotation

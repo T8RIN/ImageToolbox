@@ -100,9 +100,6 @@ class DrawViewModel @Inject constructor(
     private val _imageFormat = mutableStateOf(ImageFormat.Default())
     val imageFormat by _imageFormat
 
-    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isImageLoading: Boolean by _isImageLoading
-
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 

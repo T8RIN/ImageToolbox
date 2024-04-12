@@ -52,7 +52,6 @@ import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
-import ru.tech.imageresizershrinker.core.ui.utils.helper.debouncedImageCalculation
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.DownloadData
 import ru.tech.imageresizershrinker.feature.recognize.text.domain.ImageTextReader
@@ -125,9 +124,6 @@ class RecognizeTextViewModel @Inject constructor(
     private val _rotation: MutableState<Float> = mutableFloatStateOf(0f)
 
     private val _isFlipped: MutableState<Boolean> = mutableStateOf(false)
-
-    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isImageLoading: Boolean by _isImageLoading
 
     private val _selectedAspectRatio: MutableState<DomainAspectRatio> =
         mutableStateOf(DomainAspectRatio.Free)
@@ -362,23 +358,6 @@ class RecognizeTextViewModel @Inject constructor(
                 isFlipped = _isFlipped.value
             )
         }
-    }
-
-    private fun debouncedImageCalculation(
-        onFinish: suspend () -> Unit = {},
-        delay: Long = 600L,
-        action: suspend () -> Unit
-    ) {
-        debouncedImageCalculation(
-            job = job,
-            onNewJob = { job = it },
-            onLoadingChange = {
-                _isImageLoading.value = it
-            },
-            onFinish = onFinish,
-            delay = delay,
-            action = action
-        )
     }
 
     fun setCropAspectRatio(

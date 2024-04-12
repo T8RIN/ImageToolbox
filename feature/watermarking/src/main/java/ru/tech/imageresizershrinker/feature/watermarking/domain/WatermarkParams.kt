@@ -17,9 +17,7 @@
 
 package ru.tech.imageresizershrinker.feature.watermarking.domain
 
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import androidx.core.net.toUri
+import ru.tech.imageresizershrinker.core.domain.image.model.BlendingMode
 
 data class WatermarkParams(
     val positionX: Float,
@@ -27,7 +25,7 @@ data class WatermarkParams(
     val rotation: Int,
     val alpha: Float,
     val isRepeated: Boolean,
-    val overlayMode: Int,
+    val overlayMode: BlendingMode,
     val watermarkingType: WatermarkingType
 ) {
     companion object {
@@ -38,7 +36,7 @@ data class WatermarkParams(
                 rotation = 45,
                 alpha = 0.5f,
                 isRepeated = true,
-                overlayMode = 3,
+                overlayMode = BlendingMode.SrcOver,
                 watermarkingType = WatermarkingType.Text.Default
             )
         }
@@ -57,11 +55,11 @@ sealed interface WatermarkingType {
         companion object {
             val Default by lazy {
                 Text(
-                    color = Color.Black.toArgb(),
+                    color = -16777216,
                     style = 0,
                     size = 10f,
                     font = 0,
-                    backgroundColor = Color.Transparent.toArgb(),
+                    backgroundColor = 0,
                     text = "Watermark"
                 )
             }
@@ -76,7 +74,7 @@ sealed interface WatermarkingType {
             val Default by lazy {
                 Image(
                     size = 0.1f,
-                    imageData = "file:///android_asset/svg/emotions/aasparkles.svg".toUri()
+                    imageData = "file:///android_asset/svg/emotions/aasparkles.svg"
                 )
             }
         }

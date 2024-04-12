@@ -62,9 +62,6 @@ class DeleteExifViewModel @Inject constructor(
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
 
-    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isImageLoading: Boolean by _isImageLoading
-
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 

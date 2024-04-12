@@ -92,9 +92,6 @@ class GradientMakerViewModel @Inject constructor(
     private val _imageAspectRatio: MutableState<Float> = mutableFloatStateOf(1f)
     val imageAspectRatio by _imageAspectRatio
 
-    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isImageLoading: Boolean by _isImageLoading
-
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 

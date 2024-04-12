@@ -86,9 +86,6 @@ class BytesResizeViewModel @Inject constructor(
     private val _keepExif = mutableStateOf(false)
     val keepExif by _keepExif
 
-    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isImageLoading: Boolean by _isImageLoading
-
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 

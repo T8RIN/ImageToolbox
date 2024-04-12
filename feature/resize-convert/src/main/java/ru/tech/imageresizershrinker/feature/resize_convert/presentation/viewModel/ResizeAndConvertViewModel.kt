@@ -51,7 +51,6 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
-import ru.tech.imageresizershrinker.core.ui.utils.helper.debouncedImageCalculation
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
 import kotlin.random.Random
@@ -86,9 +85,6 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     private val _imageInfo: MutableState<ImageInfo> = mutableStateOf(ImageInfo())
     val imageInfo: ImageInfo by _imageInfo
-
-    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isImageLoading: Boolean by _isImageLoading
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
@@ -172,23 +168,6 @@ class ResizeAndConvertViewModel @Inject constructor(
             _shouldShowPreview.value = imagePreviewCreator.canShow(preview)
             if (shouldShowPreview) _previewBitmap.value = preview
         }
-    }
-
-    private fun debouncedImageCalculation(
-        onFinish: suspend () -> Unit = {},
-        delay: Long = 600L,
-        action: suspend () -> Unit
-    ) {
-        debouncedImageCalculation(
-            job = job,
-            onNewJob = { job = it },
-            onLoadingChange = {
-                _isImageLoading.value = it
-            },
-            onFinish = onFinish,
-            delay = delay,
-            action = action
-        )
     }
 
     private suspend fun updatePreview(

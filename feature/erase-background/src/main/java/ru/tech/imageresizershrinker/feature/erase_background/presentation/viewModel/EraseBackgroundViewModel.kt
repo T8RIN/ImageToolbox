@@ -90,9 +90,6 @@ class EraseBackgroundViewModel @Inject constructor(
     private val _isErasingBG: MutableState<Boolean> = mutableStateOf(false)
     val isErasingBG: Boolean by _isErasingBG
 
-    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isImageLoading: Boolean by _isImageLoading
-
     private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.Default())
     val imageFormat: ImageFormat by _imageFormat
 

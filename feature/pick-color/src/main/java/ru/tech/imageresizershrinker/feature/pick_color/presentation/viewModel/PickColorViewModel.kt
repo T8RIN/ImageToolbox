@@ -46,9 +46,6 @@ class PickColorViewModel @Inject constructor(
     private val _color: MutableState<Color> = mutableStateOf(Color.Unspecified)
     val color: Color by _color
 
-    private val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
-    val isImageLoading: Boolean by _isImageLoading
-
     private val _uri = mutableStateOf<Uri?>(null)
     val uri by _uri
 

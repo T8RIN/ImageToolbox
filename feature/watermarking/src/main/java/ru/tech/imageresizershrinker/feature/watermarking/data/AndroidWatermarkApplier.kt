@@ -20,13 +20,15 @@ package ru.tech.imageresizershrinker.feature.watermarking.data
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Paint
-import android.graphics.PorterDuff
+import android.os.Build
 import androidx.exifinterface.media.ExifInterface
 import com.watermark.androidwm.WatermarkBuilder
 import com.watermark.androidwm.bean.WatermarkImage
 import com.watermark.androidwm.bean.WatermarkText
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.image.utils.toAndroidBlendMode
+import ru.tech.imageresizershrinker.core.data.image.utils.toPorterDuffMode
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -68,9 +70,17 @@ internal class AndroidWatermarkApplier @Inject constructor(
                             )
                     )
                     .setTileMode(params.isRepeated)
-                    .setPorterDuffMode(
-                        PorterDuff.Mode.entries.first { it.ordinal == params.overlayMode }
-                    )
+                    .apply {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            setBlendMode(
+                                params.overlayMode.toAndroidBlendMode()
+                            )
+                        } else {
+                            setPorterDuffMode(
+                                params.overlayMode.toPorterDuffMode()
+                            )
+                        }
+                    }
             }
 
             is WatermarkingType.Image -> {
@@ -94,9 +104,17 @@ internal class AndroidWatermarkApplier @Inject constructor(
                                 .setSize(type.size.toDouble())
                         )
                         .setTileMode(params.isRepeated)
-                        .setPorterDuffMode(
-                            PorterDuff.Mode.entries.first { it.ordinal == params.overlayMode }
-                        )
+                        .apply {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                setBlendMode(
+                                    params.overlayMode.toAndroidBlendMode()
+                                )
+                            } else {
+                                setPorterDuffMode(
+                                    params.overlayMode.toPorterDuffMode()
+                                )
+                            }
+                        }
                 }
             }
         }

@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.watermarking.presentation.components
 
-import android.graphics.PorterDuff
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -50,10 +49,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
+import ru.tech.imageresizershrinker.core.domain.image.model.BlendingMode
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
 import ru.tech.imageresizershrinker.core.ui.theme.Typography
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
+import ru.tech.imageresizershrinker.core.ui.utils.helper.entries
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRow
 import ru.tech.imageresizershrinker.core.ui.widget.controls.AlphaSelector
@@ -176,18 +177,18 @@ fun WatermarkParamsSelectionGroup(
                         modifier = Modifier.padding(top = 16.dp, start = 16.dp)
                     )
                     val listState = rememberLazyListState()
-                    val modes: List<PorterDuff.Mode> = remember {
-                        mutableListOf<PorterDuff.Mode>().apply {
-                            add(PorterDuff.Mode.SRC_OVER)
+                    val modes: List<BlendingMode> = remember {
+                        mutableListOf<BlendingMode>().apply {
+                            add(BlendingMode.SrcOver)
                             addAll(
-                                PorterDuff.Mode
+                                BlendingMode
                                     .entries
                                     .toList() - listOf(
-                                    PorterDuff.Mode.SRC_OVER,
-                                    PorterDuff.Mode.CLEAR,
-                                    PorterDuff.Mode.SRC,
-                                    PorterDuff.Mode.DST
-                                )
+                                    BlendingMode.SrcOver,
+                                    BlendingMode.Clear,
+                                    BlendingMode.Src,
+                                    BlendingMode.Dst
+                                ).toSet()
                             )
                         }
                     }
@@ -203,14 +204,14 @@ fun WatermarkParamsSelectionGroup(
                         items(modes) {
                             val selected by remember(it, value) {
                                 derivedStateOf {
-                                    value.overlayMode == it.ordinal
+                                    value.overlayMode == it
                                 }
                             }
                             EnhancedChip(
                                 selected = selected,
                                 onClick = {
                                     onValueChange(
-                                        value.copy(overlayMode = it.ordinal)
+                                        value.copy(overlayMode = it)
                                     )
                                 },
                                 selectedColor = MaterialTheme.colorScheme.tertiary,
@@ -221,7 +222,7 @@ fun WatermarkParamsSelectionGroup(
                                 modifier = Modifier.height(36.dp)
                             ) {
                                 AutoSizeText(
-                                    text = it.name.replace("_", " "),
+                                    text = it.toString(),
                                     maxLines = 1
                                 )
                             }
