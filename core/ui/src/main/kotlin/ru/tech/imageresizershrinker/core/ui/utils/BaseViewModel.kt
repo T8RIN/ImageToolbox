@@ -17,9 +17,45 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
+import ru.tech.imageresizershrinker.core.ui.utils.state.update
 
 abstract class BaseViewModel(
     private val dispatchersHolder: DispatchersHolder
-) : ViewModel(), DispatchersHolder by dispatchersHolder
+) : ViewModel(), DispatchersHolder by dispatchersHolder {
+
+    protected open val _isImageLoading: MutableState<Boolean> = mutableStateOf(false)
+    open val isImageLoading: Boolean
+        get() = _isImageLoading.value
+
+    private var imageCalculationJob: Job? = null
+
+    protected open fun debouncedImageCalculation(
+        onFinish: suspend () -> Unit = {},
+        delay: Long = 600L,
+        action: suspend () -> Unit
+    ) {
+        _isImageLoading.update { false }
+        imageCalculationJob?.cancel()
+        imageCalculationJob = viewModelScope.launch {
+            _isImageLoading.update { true }
+            delay(delay)
+            action()
+            if (!isActive) {
+                _isImageLoading.update { false }
+                return@launch
+            }
+            _isImageLoading.update { false }
+            onFinish()
+        }
+    }
+
+}
