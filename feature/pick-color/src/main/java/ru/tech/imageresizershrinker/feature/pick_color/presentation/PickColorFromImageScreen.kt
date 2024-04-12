@@ -52,6 +52,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.outlined.ZoomIn
 import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.ContentPaste
 import androidx.compose.material3.BottomAppBar
@@ -95,8 +96,10 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
+import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
@@ -200,6 +203,34 @@ fun PickColorFromImageScreen(
         )
     }
 
+    val magnifierButton = @Composable {
+        val settingsInteractor = LocalSettingsInteractor.current
+        EnhancedIconButton(
+            containerColor = takeColorFromScheme {
+                if (settingsState.magnifierEnabled) {
+                    secondary
+                } else surfaceContainer
+            },
+            contentColor = takeColorFromScheme {
+                if (settingsState.magnifierEnabled) {
+                    onSecondary
+                } else onSurface
+            },
+            enableAutoShadowAndBorder = false,
+            onClick = {
+                scope.launch {
+                    settingsInteractor.toggleMagnifierEnabled()
+                }
+            },
+            modifier = Modifier.statusBarsPadding()
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.ZoomIn,
+                contentDescription = stringResource(R.string.magnifier)
+            )
+        }
+    }
+
     Box(
         Modifier
             .fillMaxSize()
@@ -254,19 +285,26 @@ fun PickColorFromImageScreen(
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    EnhancedIconButton(
-                                        containerColor = Color.Transparent,
-                                        contentColor = LocalContentColor.current,
-                                        enableAutoShadowAndBorder = false,
-                                        onClick = {
-                                            onGoBack()
-                                        },
-                                        modifier = Modifier.statusBarsPadding()
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                            contentDescription = stringResource(R.string.exit)
-                                        )
+                                    Row {
+                                        EnhancedIconButton(
+                                            containerColor = Color.Transparent,
+                                            contentColor = LocalContentColor.current,
+                                            enableAutoShadowAndBorder = false,
+                                            onClick = {
+                                                onGoBack()
+                                            },
+                                            modifier = Modifier.statusBarsPadding()
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                                                contentDescription = stringResource(R.string.exit)
+                                            )
+                                        }
+                                        if (portrait) {
+                                            Spacer(modifier = Modifier.weight(1f))
+                                            magnifierButton()
+                                            Spacer(modifier = Modifier.width(4.dp))
+                                        }
                                     }
                                     if (!portrait) {
                                         ProvideTextStyle(
@@ -536,6 +574,8 @@ fun PickColorFromImageScreen(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
                             ) {
+                                magnifierButton()
+                                Spacer(modifier = Modifier.height(8.dp))
                                 switch()
                                 Spacer(modifier = Modifier.height(16.dp))
                                 EnhancedFloatingActionButton(
