@@ -891,7 +891,7 @@
     <string name="detailed">详细</string>
     <string name="default_line_width">默认线宽</string>
     <string name="engine_mode">引擎模式</string>
-    <string name="legacy">遗产</string>
+    <string name="legacy">传统</string>
     <string name="lstm_network">LSTM 网络</string>
     <string name="legacy_and_lstm">Legacy &amp; LSTM</string>
 </resources>
