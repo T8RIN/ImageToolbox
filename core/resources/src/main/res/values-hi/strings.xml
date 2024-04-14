@@ -890,4 +890,8 @@
     <string name="reset_properties_sub">सभी गुण को डिफ़ॉल्ट मानों पर सेट किया जाएगा, ध्यान दें कि इस क्रिया को पूर्ववत नहीं किया जा सकता है</string>
     <string name="detailed">विस्तृत</string>
     <string name="default_line_width">मानक रेखा चौड़ाई</string>
+    <string name="engine_mode">इंजन मोड</string>
+    <string name="lstm_network">LSTM नेटवर्क</string>
+    <string name="legacy">विरासत</string>
+    <string name="legacy_and_lstm">विरासत और LSTM</string>
 </resources>
