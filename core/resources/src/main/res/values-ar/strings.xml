@@ -890,4 +890,8 @@
     <string name="reset_properties_sub">سيتم تعيين كافة الخصائص إلى القيم الافتراضية، لاحظ أنه لا يمكن التراجع عن هذا الإجراء</string>
     <string name="detailed">‬مفصلة</string>
     <string name="default_line_width">عرض الخط الافتراضي</string>
+    <string name="engine_mode">وضع المحرك</string>
+    <string name="legacy">قياسي</string>
+    <string name="lstm_network">شبكة LSTM</string>
+    <string name="legacy_and_lstm">قياسي &amp; LSTM</string>
 </resources>
