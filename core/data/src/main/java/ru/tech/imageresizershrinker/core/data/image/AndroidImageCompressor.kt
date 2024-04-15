@@ -21,12 +21,8 @@ package ru.tech.imageresizershrinker.core.data.image
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import coil.ImageLoader
-import coil.request.ImageRequest
-import coil.size.Size
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -51,7 +47,6 @@ import javax.inject.Inject
 
 internal class AndroidImageCompressor @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val imageLoader: ImageLoader,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
@@ -97,12 +92,10 @@ internal class AndroidImageCompressor @Inject constructor(
         val currentImage: Bitmap
         if (applyImageTransformations) {
             val size = imageInfo.originalUri?.let {
-                imageLoader.execute(
-                    ImageRequest.Builder(context)
-                        .data(it)
-                        .size(Size.ORIGINAL)
-                        .build()
-                ).drawable?.run { intrinsicWidth sizeTo intrinsicHeight }
+                imageGetter.getImage(
+                    data = it,
+                    originalSize = true
+                )?.run { width sizeTo height }
             }
             currentImage = imageScaler
                 .scaleImage(
@@ -126,12 +119,7 @@ internal class AndroidImageCompressor @Inject constructor(
                 }
         } else currentImage = onImageReadyToCompressInterceptor(image)
 
-        val extension = MimeTypeMap.getSingleton()
-            .getMimeTypeFromExtension(
-                imageInfo.originalUri?.let {
-                    imageGetter.getExtension(it)
-                }
-            )
+        val extension = imageInfo.originalUri?.let { imageGetter.getExtension(it) }
 
         val imageFormat = if (overwriteFiles && extension != null) {
             ImageFormat[extension]

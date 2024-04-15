@@ -53,17 +53,10 @@ internal class AndroidImageGetter @Inject constructor(
         uri: String,
         originalSize: Boolean
     ): ImageData<Bitmap, ExifInterface>? = withContext(defaultDispatcher) {
-        runCatching {
-            imageLoader.execute(
-                ImageRequest
-                    .Builder(context)
-                    .data(uri)
-                    .apply {
-                        if (originalSize) size(Size.ORIGINAL)
-                    }
-                    .build()
-            ).drawable?.toBitmap()
-        }.getOrNull()?.let { bitmap ->
+        getImage(
+            data = uri,
+            originalSize = originalSize
+        )?.let { bitmap ->
             val newUri = uri.toUri().tryGetLocation(context)
 
             val fd = context.contentResolver.openFileDescriptor(newUri, "r")
