@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - '*'
-    branches:
-      - ci_test
 
 jobs:
   build_and_release_foss:
