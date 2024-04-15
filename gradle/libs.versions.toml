@@ -92,8 +92,8 @@ coilGif = { module = "io.coil-kt:coil-gif", version.ref = "coil" }
 coilSvg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebaseAnalyticsKtx" }
-jxl-coder-coil = { module = "com.github.awxkee:jxl-coder-coil", version.ref = "jxlCoderCoil" }
-jxl-coder = { module = "com.github.awxkee:jxl-coder", version.ref = "jxlCoder" }
+jxl-coder-coil = { module = "io.github.awxkee:jxl-coder-coil", version.ref = "jxlCoderCoil" }
+jxl-coder = { module = "io.github.awxkee:jxl-coder", version.ref = "jxlCoder" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 appCompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
 androidxCore = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
