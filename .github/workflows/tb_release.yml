@@ -24,13 +24,9 @@ jobs:
       - name: Set version variable
         run: echo "GITHUB_REF_NAME=$GITHUB_REF_NAME" >> $GITHUB_ENV
 
-      - name: Bump version
-        uses: chkfung/android-version-actions@v1.2.2
-        with:
-          gradlePath: app/build.gradle.kts
-          versionName: ${{ env.GITHUB_REF_NAME }} # There is the version name from TAG/BRANCH short ref name
-
       - name: Assemble release
+        env:
+          VERSION_NAME: ${{ env.GITHUB_REF_NAME }}
         run: bash ./gradlew assembleRelease
 
       - uses: iota9star/sign-android-release@v1.0.5
@@ -54,7 +50,6 @@ jobs:
           mv "app/build/outputs/apk/foss/release/image-toolbox-foss-$GITHUB_REF_NAME-armeabi-v7a-release-unsigned-signed.apk" "image-toolbox-foss-$GITHUB_REF_NAME-armeabi-v7a.apk"
           mv "app/build/outputs/apk/foss/release/image-toolbox-foss-$GITHUB_REF_NAME-x86_64-release-unsigned-signed.apk" "image-toolbox-foss-$GITHUB_REF_NAME-x86_64.apk"
 
-
       - uses: actions/upload-artifact@v3
         with:
           name: Signed apks Foss
@@ -74,13 +69,9 @@ jobs:
       - name: Set version variable
         run: echo "GITHUB_REF_NAME=$GITHUB_REF_NAME" >> $GITHUB_ENV
 
-      - name: Bump version
-        uses: chkfung/android-version-actions@v1.2.2
-        with:
-          gradlePath: app/build.gradle.kts
-          versionName: ${{ env.GITHUB_REF_NAME }} # There is the version name from TAG/BRANCH short ref name
-
       - name: Assemble release
+        env:
+          VERSION_NAME: ${{ env.GITHUB_REF_NAME }}
         run: bash ./gradlew assembleRelease
 
       - uses: iota9star/sign-android-release@v1.0.5
@@ -98,11 +89,13 @@ jobs:
           BUILD_TOOLS_VERSION: "34.0.0"
 
       - name: Rename market file stage
+        env:
+          VERSION_NAME: ${{ env.GITHUB_REF_NAME }}
         run: |
-          mv "app/build/outputs/apk/market/release/image-toolbox-market-$GITHUB_REF_NAME-arm64-v8a-release-unsigned-signed.apk" "image-toolbox-$GITHUB_REF_NAME-arm64-v8a.apk"
-          mv "app/build/outputs/apk/market/release/image-toolbox-market-$GITHUB_REF_NAME-universal-release-unsigned-signed.apk" "image-toolbox-$GITHUB_REF_NAME-universal.apk"
-          mv "app/build/outputs/apk/market/release/image-toolbox-market-$GITHUB_REF_NAME-armeabi-v7a-release-unsigned-signed.apk" "image-toolbox-$GITHUB_REF_NAME-armeabi-v7a.apk"
-          mv "app/build/outputs/apk/market/release/image-toolbox-market-$GITHUB_REF_NAME-x86_64-release-unsigned-signed.apk" "image-toolbox-$GITHUB_REF_NAME-x86_64.apk"
+          mv "app/build/outputs/apk/market/release/image-toolbox-market-$VERSION_NAME-arm64-v8a-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-arm64-v8a.apk"
+          mv "app/build/outputs/apk/market/release/image-toolbox-market-$VERSION_NAME-universal-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-universal.apk"
+          mv "app/build/outputs/apk/market/release/image-toolbox-market-$VERSION_NAME-armeabi-v7a-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-armeabi-v7a.apk"
+          mv "app/build/outputs/apk/market/release/image-toolbox-market-$VERSION_NAME-x86_64-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-x86_64.apk"
 
       - uses: actions/upload-artifact@v3
         with:
