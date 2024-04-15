@@ -1,0 +1,127 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - '*'
+    branches:
+      - ci_test
+
+jobs:
+  build_and_release_foss:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          cache: gradle
+
+      - name: Set version variable
+        run: echo "GITHUB_REF_NAME=$GITHUB_REF_NAME" >> $GITHUB_ENV
+
+      - name: Assemble release
+        env:
+          VERSION_NAME: ${{ env.GITHUB_REF_NAME }}
+        run: bash ./gradlew assembleRelease
+
+      - uses: iota9star/sign-android-release@v1.0.5
+        name: Sign FOSS APK
+        # ID used to access action output
+        id: sign_app_foss
+        with:
+          releaseDirectory: app/build/outputs/apk/foss/release
+          fileRex: .*apk
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASS }}
+          keyPassword: ${{ secrets.KEY_STORE_PASS }}
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
+
+      - name: Rename foss file stage
+        run: |
+          ls -la app/build/outputs/apk/market/release
+          mv "app/build/outputs/apk/foss/release/image-toolbox-$GITHUB_REF_NAME-foss-arm64-v8a-release-unsigned-signed.apk" "image-toolbox-$GITHUB_REF_NAME-foss-arm64-v8a.apk"
+          mv "app/build/outputs/apk/foss/release/image-toolbox-$GITHUB_REF_NAME-foss-universal-release-unsigned-signed.apk" "image-toolbox-$GITHUB_REF_NAME-foss-universal.apk"
+          mv "app/build/outputs/apk/foss/release/image-toolbox-$GITHUB_REF_NAME-foss-armeabi-v7a-release-unsigned-signed.apk" "image-toolbox-$GITHUB_REF_NAME-foss-armeabi-v7a.apk"
+          mv "app/build/outputs/apk/foss/release/image-toolbox-$GITHUB_REF_NAME-foss-x86_64-release-unsigned-signed.apk" "image-toolbox-$GITHUB_REF_NAME-foss-x86_64.apk"
+
+      - uses: actions/upload-artifact@v4
+        id: signed-foss-apk
+        with:
+          name: Signed apks Foss
+          path: "*.apk"
+
+  build_and_release_gp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          cache: gradle
+
+      - name: Set version variable
+        run: echo "GITHUB_REF_NAME=$GITHUB_REF_NAME" >> $GITHUB_ENV
+
+      - name: Assemble release
+        env:
+          VERSION_NAME: ${{ env.GITHUB_REF_NAME }}
+        run: bash ./gradlew assembleRelease
+
+      - uses: iota9star/sign-android-release@v1.0.5
+        name: Sign Market APK
+        # ID used to access action output
+        id: sign_app_market
+        with:
+          releaseDirectory: app/build/outputs/apk/market/release
+          fileRex: .*apk
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASS }}
+          keyPassword: ${{ secrets.KEY_STORE_PASS }}
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
+
+      - name: Rename market file stage
+        env:
+          VERSION_NAME: ${{ env.GITHUB_REF_NAME }}
+        run: |
+          ls -la app/build/outputs/apk/market/release
+          mv "app/build/outputs/apk/market/release/image-toolbox-$VERSION_NAME-market-arm64-v8a-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-arm64-v8a.apk"
+          mv "app/build/outputs/apk/market/release/image-toolbox-$VERSION_NAME-market-universal-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-universal.apk"
+          mv "app/build/outputs/apk/market/release/image-toolbox-$VERSION_NAME-market-armeabi-v7a-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-armeabi-v7a.apk"
+          mv "app/build/outputs/apk/market/release/image-toolbox-$VERSION_NAME-market-x86_64-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-x86_64.apk"
+
+      - uses: actions/upload-artifact@v4
+        id: signed-market-apk
+        with:
+          name: Signed apks Market
+          path: "*.apk"
+
+  create_release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs:
+      - build_and_release_foss
+      - build_and_release_gp
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Download All Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+      - name: Display all downloaded files
+        run: ls -la
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "*.apk"

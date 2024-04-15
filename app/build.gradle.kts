@@ -40,7 +40,7 @@ android {
         minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
         targetSdk = libs.versions.androidTargetSdk.get().toIntOrNull()
         versionCode = libs.versions.versionCode.get().toIntOrNull()
-        versionName = libs.versions.versionName.get()
+        versionName = System.getenv("VERSION_NAME") ?: libs.versions.versionName.get()
 
         archivesName.set("image-toolbox-$versionName${if (isFoss) "-foss" else ""}")
     }
