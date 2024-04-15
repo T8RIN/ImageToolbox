@@ -20,7 +20,13 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
           cache: gradle
-          
+
+      - name: Bump version
+        uses: chkfung/android-version-actions@v1.2.2
+        with:
+          gradlePath: app/build.gradle.kts
+          versionName: ${{ env.GITHUB_REF_NAME }} # There is the version name from TAG/BRANCH short ref name
+
       - name: Assemble release
         run: bash ./gradlew assembleRelease
 
@@ -61,6 +67,12 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
           cache: gradle
+
+      - name: Bump version
+        uses: chkfung/android-version-actions@v1.2.2
+        with:
+          gradlePath: app/build.gradle.kts
+          versionName: ${{ env.GITHUB_REF_NAME }} # There is the version name from TAG/BRANCH short ref name
 
       - name: Assemble release
         run: bash ./gradlew assembleRelease
