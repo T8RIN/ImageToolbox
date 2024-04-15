@@ -48,6 +48,10 @@ abstract class BaseViewModel(
         imageCalculationJob = viewModelScope.launch {
             _isImageLoading.update { true }
             delay(delay)
+            if (!isActive) {
+                _isImageLoading.update { false }
+                return@launch
+            }
             action()
             if (!isActive) {
                 _isImageLoading.update { false }
