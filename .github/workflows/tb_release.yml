@@ -1,0 +1,126 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - '*'
+    branches:
+      - ci_test
+
+jobs:
+  build_and_release_foss:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          cache: gradle
+
+      - name: Bump version
+        uses: chkfung/android-version-actions@v1.2.2
+        with:
+          gradlePath: app/build.gradle.kts
+          versionCode: ${{ github.run_number }} # There is auto increment version code number
+          versionName: ${{ env.GITHUB_REF_NAME }} # There is the version name from TAG/BRANCH short ref name
+
+      - name: Assemble release
+        run: bash ./gradlew assembleRelease
+
+      - uses: iota9star/sign-android-release@v1.0.5
+        name: Sign FOSS APK
+        # ID used to access action output
+        id: sign_app_foss
+        with:
+          releaseDirectory: app/build/outputs/apk/foss/release
+          fileRex: .*apk
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASS }}
+          keyPassword: ${{ secrets.KEY_STORE_PASS }}
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
+
+      - name: Rename foss file stage
+        run: |
+          mv app/build/outputs/apk/foss/release/image-toolbox-foss-$GITHUB_REF_NAME-arm64-v8a-release-unsigned-signed.apk image-toolbox-foss-$GITHUB_REF_NAME-arm64-v8a.apk
+          mv app/build/outputs/apk/foss/release/image-toolbox-foss-$GITHUB_REF_NAME-universal-release-unsigned-signed.apk image-toolbox-foss-$GITHUB_REF_NAME-universal.apk
+          mv app/build/outputs/apk/foss/release/image-toolbox-foss-$GITHUB_REF_NAME-armeabi-v7a-release-unsigned-signed.apk image-toolbox-foss-$GITHUB_REF_NAME-armeabi-v7a.apk
+          mv app/build/outputs/apk/foss/release/image-toolbox-foss-$GITHUB_REF_NAME-x86_64-release-unsigned-signed.apk image-toolbox-foss-$GITHUB_REF_NAME-x86_64.apk
+
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Signed apks Foss
+          path: "*.apk"
+
+  build_and_release_gp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          cache: gradle
+
+      - name: Bump version
+        uses: chkfung/android-version-actions@v1.2.2
+        with:
+          gradlePath: app/build.gradle.kts
+          versionCode: ${{ github.run_number }} # There is auto increment version code number
+          versionName: ${{ env.GITHUB_REF_NAME }} # There is the version name from TAG/BRANCH short ref name
+
+      - name: Assemble release
+        run: bash ./gradlew assembleRelease
+
+      - uses: iota9star/sign-android-release@v1.0.5
+        name: Sign Market APK
+        # ID used to access action output
+        id: sign_app_market
+        with:
+          releaseDirectory: app/build/outputs/apk/market/release
+          fileRex: .*apk
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASS }}
+          keyPassword: ${{ secrets.KEY_STORE_PASS }}
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
+
+      - name: Rename market file stage
+        run: |
+          mv app/build/outputs/apk/market/release/image-toolbox-market-$GITHUB_REF_NAME-arm64-v8a-release-unsigned-signed.apk image-toolbox-$GITHUB_REF_NAME-arm64-v8a.apk
+          mv app/build/outputs/apk/market/release/image-toolbox-market-$GITHUB_REF_NAME-universal-release-unsigned-signed.apk image-toolbox-$GITHUB_REF_NAME-universal.apk
+          mv app/build/outputs/apk/market/release/image-toolbox-market-$GITHUB_REF_NAME-armeabi-v7a-release-unsigned-signed.apk image-toolbox-$GITHUB_REF_NAME-armeabi-v7a.apk
+          mv app/build/outputs/apk/market/release/image-toolbox-market-$GITHUB_REF_NAME-x86_64-release-unsigned-signed.apk image-toolbox-$GITHUB_REF_NAME-x86_64.apk
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Signed apks Market
+          path: "*.apk"
+
+  create_release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs:
+      - build_and_release_foss
+      - build_and_release_gp
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Download All Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+      - name: Display all downloaded files
+        run: ls -la
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "*.apk"
