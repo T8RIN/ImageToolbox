@@ -20,7 +20,10 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
           cache: gradle
-
+          
+      - name: Set version variable
+        run: echo "GITHUB_REF_NAME=$GITHUB_REF_NAME" >> $GITHUB_ENV
+        
       - name: Bump version
         uses: chkfung/android-version-actions@v1.2.2
         with:
