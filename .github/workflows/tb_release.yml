@@ -45,6 +45,7 @@ jobs:
 
       - name: Rename foss file stage
         run: |
+          ls -la app/build/outputs/apk/market/release
           mv "app/build/outputs/apk/foss/release/image-toolbox-$GITHUB_REF_NAME-foss-arm64-v8a-release-unsigned-signed.apk" "image-toolbox-$GITHUB_REF_NAME-foss-arm64-v8a.apk"
           mv "app/build/outputs/apk/foss/release/image-toolbox-$GITHUB_REF_NAME-foss-universal-release-unsigned-signed.apk" "image-toolbox-$GITHUB_REF_NAME-foss-universal.apk"
           mv "app/build/outputs/apk/foss/release/image-toolbox-$GITHUB_REF_NAME-foss-armeabi-v7a-release-unsigned-signed.apk" "image-toolbox-$GITHUB_REF_NAME-foss-armeabi-v7a.apk"
@@ -92,6 +93,7 @@ jobs:
         env:
           VERSION_NAME: ${{ env.GITHUB_REF_NAME }}
         run: |
+          ls -la app/build/outputs/apk/market/release
           mv "app/build/outputs/apk/market/release/image-toolbox-$VERSION_NAME-market-arm64-v8a-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-arm64-v8a.apk"
           mv "app/build/outputs/apk/market/release/image-toolbox-$VERSION_NAME-market-universal-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-universal.apk"
           mv "app/build/outputs/apk/market/release/image-toolbox-$VERSION_NAME-market-armeabi-v7a-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-armeabi-v7a.apk"
