@@ -64,7 +64,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class SingleEditViewModel @Inject constructor(
@@ -426,8 +425,7 @@ class SingleEditViewModel @Inject constructor(
             bitmap?.let { image ->
                 shareProvider.cacheImage(
                     image = image,
-                    imageInfo = imageInfo.copy(originalUri = uri.toString()),
-                    name = Random.nextInt().toString()
+                    imageInfo = imageInfo.copy(originalUri = uri.toString())
                 )?.let { uri ->
                     onComplete(uri.toUri())
                 }

@@ -45,7 +45,6 @@ import ru.tech.imageresizershrinker.feature.image_stitch.domain.CombiningParams
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.ImageCombiner
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.StitchMode
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class ImageStitchingViewModel @Inject constructor(
@@ -276,8 +275,7 @@ class ImageStitchingViewModel @Inject constructor(
             }.let { (image, imageInfo) ->
                 shareProvider.cacheImage(
                     image = image,
-                    imageInfo = imageInfo,
-                    name = Random.nextInt().toString()
+                    imageInfo = imageInfo
                 )?.let { uri ->
                     onComplete(uri.toUri())
                 }

@@ -25,7 +25,6 @@ import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
-import com.t8rin.logger.makeLog
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
@@ -54,33 +53,25 @@ internal class AndroidShareProvider @Inject constructor(
         imageLoader: suspend (String) -> Pair<Bitmap, ImageInfo>?,
         onProgressChange: (Int) -> Unit
     ) = withContext(ioDispatcher) {
-        var cnt = 0
-        val uriList: MutableList<Uri> = mutableListOf()
-        uris.forEach { uri ->
+        val cachedUris = uris.mapIndexedNotNull { index, uri ->
             imageLoader(uri)?.let { (image, imageInfo) ->
                 cacheImage(
                     image = image,
                     imageInfo = imageInfo
-                )?.let { uri ->
-                    cnt += 1
-                    uriList.add(uri.toUri())
+                )?.also {
+                    onProgressChange(index + 1)
                 }
             }
-            onProgressChange(cnt)
         }
         onProgressChange(-1)
-        shareImageUris(uriList)
+        shareUris(cachedUris)
     }
 
     override suspend fun cacheImage(
         image: Bitmap,
-        imageInfo: ImageInfo,
-        name: String
+        imageInfo: ImageInfo
     ): String? = withContext(ioDispatcher) {
-        val imagesFolder = File(context.cacheDir, "images")
-
         runCatching {
-            imagesFolder.mkdirs()
             val saveTarget = ImageSaveTarget<ExifInterface>(
                 imageInfo = imageInfo,
                 originalUri = "share",
@@ -88,27 +79,21 @@ internal class AndroidShareProvider @Inject constructor(
                 data = byteArrayOf()
             )
 
-            val file =
-                File(imagesFolder, imageFilenameProvider.get().constructImageFilename(saveTarget))
-            FileOutputStream(file).use {
-                it.write(imageCompressor.compressAndTransform(image, imageInfo))
-            }
-            FileProvider.getUriForFile(context, context.getString(R.string.file_provider), file)
-                .also {
-                    context.grantUriPermission(
-                        context.packageName,
-                        it,
-                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    )
-                }
-        }.getOrNull()?.toString()
+            val filename = imageFilenameProvider.get().constructImageFilename(saveTarget)
+            val byteArray = imageCompressor.compressAndTransform(image, imageInfo)
+
+            cacheByteArray(
+                byteArray = byteArray,
+                filename = filename
+            )
+
+        }.getOrNull()
     }
 
     override suspend fun shareImage(
         imageInfo: ImageInfo,
         image: Bitmap,
-        onComplete: () -> Unit,
-        name: String
+        onComplete: () -> Unit
     ) = withContext(ioDispatcher) {
         cacheImage(
             image = image,
@@ -175,13 +160,16 @@ internal class AndroidShareProvider @Inject constructor(
             FileOutputStream(file).use {
                 it.write(byteArray)
             }
-            FileProvider.getUriForFile(
-                context,
-                context.getString(R.string.file_provider),
-                file
-            )
-        }.onFailure {
-            it.makeLog()
+            FileProvider.getUriForFile(context, context.getString(R.string.file_provider), file)
+                .also { uri ->
+                    runCatching {
+                        context.grantUriPermission(
+                            context.packageName,
+                            uri,
+                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        )
+                    }
+                }
         }.getOrNull()?.toString()
     }
 

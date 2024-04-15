@@ -44,8 +44,8 @@ import java.util.Locale
 import javax.inject.Inject
 
 internal class AndroidImageGetter @Inject constructor(
-    private val imageLoader: ImageLoader,
     @ApplicationContext private val context: Context,
+    private val imageLoader: ImageLoader,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, ImageGetter<Bitmap, ExifInterface> {
 

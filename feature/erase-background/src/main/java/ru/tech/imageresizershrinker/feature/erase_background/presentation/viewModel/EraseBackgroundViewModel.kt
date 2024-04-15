@@ -46,7 +46,6 @@ import ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.UiPathPaint
 import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class EraseBackgroundViewModel @Inject constructor(
@@ -321,8 +320,7 @@ class EraseBackgroundViewModel @Inject constructor(
                         imageFormat = imageFormat,
                         width = image.width,
                         height = image.height
-                    ),
-                    name = Random.nextInt().toString()
+                    )
                 )?.let { uri ->
                     onComplete(uri.toUri())
                 }

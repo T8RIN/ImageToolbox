@@ -51,7 +51,6 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.CombiningParams
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.ImageCombiner
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.StitchMode
-import java.util.UUID
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 import kotlin.math.max
@@ -195,8 +194,7 @@ internal class AndroidImageCombiner @Inject constructor(
                     )
                     shareProvider.cacheImage(
                         image = data.first,
-                        imageInfo = data.second,
-                        name = UUID.randomUUID().toString()
+                        imageInfo = data.second
                     )
                 },
                 combiningParams = combiningParams.copy(

@@ -43,7 +43,6 @@ import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformati
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class DeleteExifViewModel @Inject constructor(
@@ -238,8 +237,7 @@ class DeleteExifViewModel @Inject constructor(
             )?.let { (image, imageInfo) ->
                 shareProvider.cacheImage(
                     image = image,
-                    imageInfo = imageInfo.copy(originalUri = selectedUri.toString()),
-                    name = Random.nextInt().toString()
+                    imageInfo = imageInfo.copy(originalUri = selectedUri.toString())
                 )?.let { uri ->
                     onComplete(uri.toUri())
                 }

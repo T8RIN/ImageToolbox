@@ -45,7 +45,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.compare.presentation.components.CompareType
 import javax.inject.Inject
 import kotlin.math.roundToInt
-import kotlin.random.Random
 
 @HiltViewModel
 class CompareViewModel @Inject constructor(
@@ -244,8 +243,7 @@ class CompareViewModel @Inject constructor(
                         imageFormat = imageFormat,
                         width = it.width,
                         height = it.height
-                    ),
-                    name = Random.nextInt().toString()
+                    )
                 )
             }?.let { uri ->
                 onComplete(uri.toUri())

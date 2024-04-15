@@ -24,14 +24,12 @@ interface ShareProvider<I> {
     suspend fun shareImage(
         imageInfo: ImageInfo,
         image: I,
-        onComplete: () -> Unit,
-        name: String = "shared_image",
+        onComplete: () -> Unit
     )
 
     suspend fun cacheImage(
         image: I,
-        imageInfo: ImageInfo,
-        name: String = "shared_image"
+        imageInfo: ImageInfo
     ): String?
 
     suspend fun shareImages(

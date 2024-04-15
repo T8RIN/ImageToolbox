@@ -54,7 +54,6 @@ import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientMaker
 import ru.tech.imageresizershrinker.feature.gradient_maker.domain.GradientType
 import ru.tech.imageresizershrinker.feature.gradient_maker.presentation.components.UiGradientState
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class GradientMakerViewModel @Inject constructor(
@@ -422,8 +421,7 @@ class GradientMakerViewModel @Inject constructor(
                         imageFormat = imageFormat,
                         width = image.width,
                         height = image.height
-                    ),
-                    name = Random.nextInt().toString()
+                    )
                 )?.let { uri ->
                     onComplete(uri.toUri())
                 }

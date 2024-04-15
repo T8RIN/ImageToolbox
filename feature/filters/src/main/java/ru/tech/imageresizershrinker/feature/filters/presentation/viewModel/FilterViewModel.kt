@@ -61,7 +61,6 @@ import ru.tech.imageresizershrinker.feature.filters.presentation.components.Basi
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.MaskingFilterState
 import ru.tech.imageresizershrinker.feature.filters.presentation.components.UiFilterMask
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class FilterViewModel @Inject constructor(
@@ -586,8 +585,7 @@ class FilterViewModel @Inject constructor(
                     )?.let { (image, imageInfo) ->
                         shareProvider.cacheImage(
                             image = image,
-                            imageInfo = imageInfo,
-                            name = Random.nextInt().toString()
+                            imageInfo = imageInfo
                         )?.let {
                             onComplete(it.toUri())
                         }
@@ -615,8 +613,7 @@ class FilterViewModel @Inject constructor(
                                 imageInfo = imageInfo.copy(
                                     width = bitmap.width,
                                     height = bitmap.height
-                                ),
-                                name = Random.nextInt().toString()
+                                )
                             )?.let {
                                 onComplete(it.toUri())
                             }

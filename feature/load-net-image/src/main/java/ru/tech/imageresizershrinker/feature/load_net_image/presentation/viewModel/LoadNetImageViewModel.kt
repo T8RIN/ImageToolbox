@@ -42,7 +42,6 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class LoadNetImageViewModel @Inject constructor(
@@ -155,8 +154,7 @@ class LoadNetImageViewModel @Inject constructor(
                         width = image.width,
                         height = image.height,
                         imageFormat = ImageFormat.Png.Lossless
-                    ),
-                    name = Random.nextInt().toString()
+                    )
                 )?.let { uri ->
                     onComplete(uri.toUri())
                 }

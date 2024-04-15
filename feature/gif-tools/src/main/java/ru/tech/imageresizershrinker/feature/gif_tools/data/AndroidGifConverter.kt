@@ -82,8 +82,7 @@ internal class AndroidGifConverter @Inject constructor(
                         height = frame.height,
                         imageFormat = imageFormat,
                         quality = quality
-                    ),
-                    name = "gif_image"
+                    )
                 )
             }?.takeIf {
                 pos in indexes

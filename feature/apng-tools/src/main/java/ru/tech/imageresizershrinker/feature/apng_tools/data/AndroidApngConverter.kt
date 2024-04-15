@@ -78,8 +78,7 @@ internal class AndroidApngConverter @Inject constructor(
                     height = frame.height,
                     imageFormat = imageFormat,
                     quality = quality
-                ),
-                name = "apng_image"
+                )
             )?.let { send(it) }
         }
     }

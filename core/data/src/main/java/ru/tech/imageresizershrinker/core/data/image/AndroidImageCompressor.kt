@@ -22,12 +22,12 @@ package ru.tech.imageresizershrinker.core.data.image
 import android.content.Context
 import android.graphics.Bitmap
 import android.webkit.MimeTypeMap
-import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.size.Size
+import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
@@ -41,14 +41,12 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.model.sizeTo
-import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
-import java.io.File
-import java.io.FileOutputStream
 import javax.inject.Inject
 
 internal class AndroidImageCompressor @Inject constructor(
@@ -57,6 +55,7 @@ internal class AndroidImageCompressor @Inject constructor(
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
+    private val shareProvider: Lazy<ShareProvider<Bitmap>>,
     settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, ImageCompressor<Bitmap> {
@@ -161,33 +160,12 @@ internal class AndroidImageCompressor @Inject constructor(
             image = image,
             imageInfo = newInfo
         ).let {
-            cacheByteArray(
+            shareProvider.get().cacheByteArray(
                 byteArray = it,
                 filename = "temp.${newInfo.imageFormat.extension}"
             )?.toUri()
                 ?.fileSize(context)?.toLong() ?: it.size.toLong()
         }
-    }
-
-    private suspend fun cacheByteArray(
-        byteArray: ByteArray,
-        filename: String
-    ): String? = withContext(defaultDispatcher) {
-        val imagesFolder = File(context.cacheDir, "files")
-
-        runCatching {
-            imagesFolder.mkdirs()
-            val file = File(imagesFolder, filename)
-            FileOutputStream(file).use {
-                it.write(byteArray)
-            }
-            FileProvider.getUriForFile(
-                context,
-                context.getString(R.string.file_provider),
-                file
-            )
-        }.getOrNull()
-            ?.toString()
     }
 
 }

@@ -69,7 +69,7 @@ internal abstract class SimpleCompressor {
 
     }
 
-    abstract fun compress(
+    abstract suspend fun compress(
         image: Bitmap,
         quality: Quality
     ): ByteArray
@@ -94,7 +94,7 @@ internal abstract class SimpleCompressor {
             return b
         }
 
-        override fun compress(
+        override suspend fun compress(
             image: Bitmap,
             quality: Quality
         ): ByteArray {
@@ -208,7 +208,7 @@ internal abstract class SimpleCompressor {
 
     data object Jpg : SimpleCompressor() {
 
-        override fun compress(
+        override suspend fun compress(
             image: Bitmap,
             quality: Quality
         ): ByteArray = ByteArrayOutputStream().apply {
@@ -227,7 +227,7 @@ internal abstract class SimpleCompressor {
 
     data object WebpLossless : SimpleCompressor() {
 
-        override fun compress(
+        override suspend fun compress(
             image: Bitmap,
             quality: Quality
         ): ByteArray = ByteArrayOutputStream().apply {
@@ -251,7 +251,7 @@ internal abstract class SimpleCompressor {
 
     data object WebpLossy : SimpleCompressor() {
 
-        override fun compress(
+        override suspend fun compress(
             image: Bitmap,
             quality: Quality
         ): ByteArray = ByteArrayOutputStream().apply {
@@ -274,7 +274,7 @@ internal abstract class SimpleCompressor {
     }
 
     data object PngLossless : SimpleCompressor() {
-        override fun compress(
+        override suspend fun compress(
             image: Bitmap,
             quality: Quality
         ): ByteArray = ByteArrayOutputStream().apply {
@@ -290,7 +290,7 @@ internal abstract class SimpleCompressor {
     }
 
     data object PngLossy : SimpleCompressor() {
-        override fun compress(
+        override suspend fun compress(
             image: Bitmap,
             quality: Quality
         ): ByteArray {
@@ -311,7 +311,7 @@ internal abstract class SimpleCompressor {
         private val context: Context
     ) : SimpleCompressor() {
 
-        override fun compress(
+        override suspend fun compress(
             image: Bitmap,
             quality: Quality
         ): ByteArray = HeifCoder(context).encodeHeic(
@@ -326,7 +326,7 @@ internal abstract class SimpleCompressor {
         private val context: Context
     ) : SimpleCompressor() {
 
-        override fun compress(
+        override suspend fun compress(
             image: Bitmap,
             quality: Quality
         ): ByteArray = HeifCoder(context).encodeHeic(
@@ -341,7 +341,7 @@ internal abstract class SimpleCompressor {
         private val context: Context
     ) : SimpleCompressor() {
 
-        override fun compress(
+        override suspend fun compress(
             image: Bitmap,
             quality: Quality
         ): ByteArray {
@@ -363,7 +363,7 @@ internal abstract class SimpleCompressor {
         private val context: Context
     ) : SimpleCompressor() {
 
-        override fun compress(
+        override suspend fun compress(
             image: Bitmap,
             quality: Quality
         ): ByteArray {
@@ -383,7 +383,7 @@ internal abstract class SimpleCompressor {
 
     data object MozJpeg : SimpleCompressor() {
 
-        override fun compress(
+        override suspend fun compress(
             image: Bitmap,
             quality: Quality
         ): ByteArray = Aire.mozjpeg(
@@ -395,7 +395,7 @@ internal abstract class SimpleCompressor {
 
     data object Jpegli : SimpleCompressor() {
 
-        override fun compress(
+        override suspend fun compress(
             image: Bitmap,
             quality: Quality
         ): ByteArray = Aire.jpegli(
@@ -407,7 +407,7 @@ internal abstract class SimpleCompressor {
 
     data object JxlLossy : SimpleCompressor() {
 
-        override fun compress(
+        override suspend fun compress(
             image: Bitmap,
             quality: Quality
         ): ByteArray {
@@ -432,7 +432,7 @@ internal abstract class SimpleCompressor {
 
     data object JxlLossless : SimpleCompressor() {
 
-        override fun compress(
+        override suspend fun compress(
             image: Bitmap,
             quality: Quality
         ): ByteArray {

@@ -181,8 +181,7 @@ internal class AndroidJxlConverter @Inject constructor(
                         height = frame.height,
                         imageFormat = imageFormat,
                         quality = quality
-                    ),
-                    name = "jxl_image"
+                    )
                 )
             }?.takeIf {
                 pos in indexes
