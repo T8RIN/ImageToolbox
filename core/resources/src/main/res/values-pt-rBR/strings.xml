@@ -889,4 +889,8 @@
     <string name="reset_properties_sub">Todas as propriedades serão definidas com valores padrão, observe que esta ação não pode ser desfeita</string>
     <string name="detailed">Detalhado</string>
     <string name="default_line_width">Largura de linha padrão</string>
+    <string name="engine_mode">Modo de Mecanismo</string>
+    <string name="legacy">Legado</string>
+    <string name="lstm_network">Rede LSTM</string>
+    <string name="legacy_and_lstm">Legado &amp; LSTM</string>
 </resources>
