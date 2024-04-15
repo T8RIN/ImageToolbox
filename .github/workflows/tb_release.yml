@@ -45,10 +45,10 @@ jobs:
 
       - name: Rename foss file stage
         run: |
-          mv "app/build/outputs/apk/foss/release/image-toolbox-foss-$GITHUB_REF_NAME-arm64-v8a-release-unsigned-signed.apk" "image-toolbox-foss-$GITHUB_REF_NAME-arm64-v8a.apk"
-          mv "app/build/outputs/apk/foss/release/image-toolbox-foss-$GITHUB_REF_NAME-universal-release-unsigned-signed.apk" "image-toolbox-foss-$GITHUB_REF_NAME-universal.apk"
-          mv "app/build/outputs/apk/foss/release/image-toolbox-foss-$GITHUB_REF_NAME-armeabi-v7a-release-unsigned-signed.apk" "image-toolbox-foss-$GITHUB_REF_NAME-armeabi-v7a.apk"
-          mv "app/build/outputs/apk/foss/release/image-toolbox-foss-$GITHUB_REF_NAME-x86_64-release-unsigned-signed.apk" "image-toolbox-foss-$GITHUB_REF_NAME-x86_64.apk"
+          mv "app/build/outputs/apk/foss/release/image-toolbox-$GITHUB_REF_NAME-foss-arm64-v8a-release-unsigned-signed.apk" "image-toolbox-$GITHUB_REF_NAME-foss-arm64-v8a.apk"
+          mv "app/build/outputs/apk/foss/release/image-toolbox-$GITHUB_REF_NAME-foss-universal-release-unsigned-signed.apk" "image-toolbox-$GITHUB_REF_NAME-foss-universal.apk"
+          mv "app/build/outputs/apk/foss/release/image-toolbox-$GITHUB_REF_NAME-foss-armeabi-v7a-release-unsigned-signed.apk" "image-toolbox-$GITHUB_REF_NAME-foss-armeabi-v7a.apk"
+          mv "app/build/outputs/apk/foss/release/image-toolbox-$GITHUB_REF_NAME-foss-x86_64-release-unsigned-signed.apk" "image-toolbox-$GITHUB_REF_NAME-foss-x86_64.apk"
 
       - uses: actions/upload-artifact@v3
         with:
@@ -92,10 +92,10 @@ jobs:
         env:
           VERSION_NAME: ${{ env.GITHUB_REF_NAME }}
         run: |
-          mv "app/build/outputs/apk/market/release/image-toolbox-market-$VERSION_NAME-arm64-v8a-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-arm64-v8a.apk"
-          mv "app/build/outputs/apk/market/release/image-toolbox-market-$VERSION_NAME-universal-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-universal.apk"
-          mv "app/build/outputs/apk/market/release/image-toolbox-market-$VERSION_NAME-armeabi-v7a-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-armeabi-v7a.apk"
-          mv "app/build/outputs/apk/market/release/image-toolbox-market-$VERSION_NAME-x86_64-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-x86_64.apk"
+          mv "app/build/outputs/apk/market/release/image-toolbox-$VERSION_NAME-market-arm64-v8a-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-arm64-v8a.apk"
+          mv "app/build/outputs/apk/market/release/image-toolbox-$VERSION_NAME-market-universal-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-universal.apk"
+          mv "app/build/outputs/apk/market/release/image-toolbox-$VERSION_NAME-market-armeabi-v7a-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-armeabi-v7a.apk"
+          mv "app/build/outputs/apk/market/release/image-toolbox-$VERSION_NAME-market-x86_64-release-unsigned-signed.apk" "image-toolbox-$VERSION_NAME-x86_64.apk"
 
       - uses: actions/upload-artifact@v3
         with:
