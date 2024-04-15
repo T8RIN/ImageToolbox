@@ -22,7 +22,6 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.graphics.Bitmap
@@ -34,18 +33,20 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.widget.Toast
+import androidx.core.content.getSystemService
+import androidx.core.net.toUri
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
+import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
+import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
+import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
+import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.AppActivityClass
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
-import ru.tech.imageresizershrinker.core.ui.utils.helper.mainLooperDelayedAction
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -57,27 +58,33 @@ class ScreenshotService : Service() {
     @Inject
     lateinit var fileController: FileController
 
+    @Inject
+    lateinit var shareProvider: ShareProvider<Bitmap>
+
+    @Inject
+    lateinit var imageCompressor: ImageCompressor<Bitmap>
+
     override fun onStartCommand(
         intent: Intent?,
         flags: Int,
         startId: Int
     ): Int {
         runCatching {
-            val mediaProjectionManager =
-                getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+            val mediaProjectionManager = getSystemService<MediaProjectionManager>()
 
             val resultCode = intent?.getIntExtra("resultCode", RESULT_CANCELED) ?: RESULT_CANCELED
             val data = intent?.parcelable<Intent>("data")
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val notificationManager =
-                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                notificationManager.createNotificationChannel(
-                    NotificationChannel(
-                        "1",
-                        "screenshot",
-                        NotificationManager.IMPORTANCE_DEFAULT
+                getSystemService<NotificationManager>()
+                    ?.createNotificationChannel(
+                        NotificationChannel(
+                            "1",
+                            "screenshot",
+                            NotificationManager.IMPORTANCE_DEFAULT
+                        )
                     )
-                )
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     startForeground(
                         1,
@@ -97,12 +104,10 @@ class ScreenshotService : Service() {
             }
             val callback = object : MediaProjection.Callback() {}
 
-            mediaProjectionManager.getMediaProjection(resultCode, data!!).apply {
+            mediaProjectionManager?.getMediaProjection(resultCode, data!!)?.apply {
                 registerCallback(
                     callback,
-                    Handler(
-                        Looper.getMainLooper()
-                    )
+                    Handler(Looper.getMainLooper())
                 )
                 startCapture(
                     mediaProjection = this,
@@ -117,71 +122,66 @@ class ScreenshotService : Service() {
     private fun startCapture(
         mediaProjection: MediaProjection,
         intent: Intent?
-    ) {
-        mainLooperDelayedAction(1000) {
-            ScreenshotMaker(
-                mMediaProjection = mediaProjection,
-                displayMetrics = resources.displayMetrics
-            ).takeScreenshot { bitmap ->
-                val uri: Uri? = runBlocking {
-                    File(filesDir, "screenshots").let { dir ->
-                        dir.deleteRecursively()
-                        dir.mkdirs()
-                        val file = File(dir, "screenshot.png")
-                        file.createNewFile()
-
-                        FileOutputStream(file).use {
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
-                        }
-                        Uri.fromFile(file)
-                    }
-                }
-
-                if (intent?.getStringExtra("screen") != "shot") {
-                    applicationContext.startActivity(
-                        Intent(
-                            applicationContext,
-                            AppActivityClass
-                        ).apply {
-                            putExtra("screen", intent?.getStringExtra("screen"))
-                            type = "image/png"
-                            putExtra(Intent.EXTRA_STREAM, uri)
-                            action = Intent.ACTION_SEND
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        }
+    ) = ScreenshotMaker(
+        mediaProjection = mediaProjection,
+        displayMetrics = resources.displayMetrics,
+        onSuccess = { bitmap ->
+            val uri: Uri? = runBlocking {
+                shareProvider.cacheImage(
+                    image = bitmap,
+                    imageInfo = ImageInfo(
+                        width = bitmap.width,
+                        height = bitmap.height,
+                        imageFormat = ImageFormat.Png.Lossless
                     )
-                } else {
-                    runBlocking {
-                        val timeStamp = SimpleDateFormat(
-                            "yyyy-MM-dd_HH-mm-ss",
-                            Locale.getDefault()
-                        ).format(Date())
-                        val stream = ByteArrayOutputStream()
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-                        bitmap.recycle()
+                )?.toUri()
+            }
 
-                        fileController.save(
-                            FileSaveTarget(
-                                filename = "screenshot-$timeStamp.png",
-                                originalUri = "screenshot",
-                                imageFormat = ImageFormat.Png.Lossless,
-                                data = stream.toByteArray()
-                            ),
-                            true
-                        )
-                        Toast.makeText(
-                            this@ScreenshotService,
-                            this@ScreenshotService.getString(
-                                R.string.saved_to_without_filename,
-                                fileController.savingPath
-                            ),
-                            Toast.LENGTH_SHORT
-                        ).show()
+            if (intent?.getStringExtra("screen") != "shot") {
+                applicationContext.startActivity(
+                    Intent(
+                        applicationContext,
+                        AppActivityClass
+                    ).apply {
+                        putExtra("screen", intent?.getStringExtra("screen"))
+                        type = "image/png"
+                        putExtra(Intent.EXTRA_STREAM, uri)
+                        action = Intent.ACTION_SEND
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     }
+                )
+            } else {
+                runBlocking {
+                    val timeStamp = SimpleDateFormat(
+                        "yyyy-MM-dd_HH-mm-ss",
+                        Locale.getDefault()
+                    ).format(Date())
+
+                    fileController.save(
+                        FileSaveTarget(
+                            filename = "screenshot-$timeStamp.png",
+                            originalUri = "screenshot",
+                            imageFormat = ImageFormat.Png.Lossless,
+                            data = imageCompressor.compress(
+                                image = bitmap,
+                                imageFormat = ImageFormat.Png.Lossless,
+                                quality = Quality.Base()
+                            )
+                        ),
+                        true
+                    )
+                    Toast.makeText(
+                        this@ScreenshotService,
+                        this@ScreenshotService.getString(
+                            R.string.saved_to_without_filename,
+                            fileController.savingPath
+                        ),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
-    }
+    ).takeScreenshot(1000)
 
     override fun onBind(intent: Intent): IBinder? = null
 

@@ -25,39 +25,41 @@ import android.media.ImageReader
 import android.media.ImageReader.OnImageAvailableListener
 import android.media.projection.MediaProjection
 import android.util.DisplayMetrics
+import ru.tech.imageresizershrinker.core.ui.utils.helper.mainLooperDelayedAction
 
 
 class ScreenshotMaker(
-    private var mMediaProjection: MediaProjection?,
-    private val displayMetrics: DisplayMetrics
+    private val mediaProjection: MediaProjection,
+    private val displayMetrics: DisplayMetrics,
+    private val onSuccess: (Bitmap) -> Unit
 ) : OnImageAvailableListener {
 
     private var virtualDisplay: VirtualDisplay? = null
 
-    private var callback: (Bitmap) -> Unit = {}
-    private var mImageReader: ImageReader? = null
+    private var imageReader: ImageReader? = null
 
 
-    fun takeScreenshot(callback: (Bitmap) -> Unit) {
-        this.callback = callback
-        mImageReader = ImageReader.newInstance(
-            displayMetrics.widthPixels,
-            displayMetrics.heightPixels,
-            PixelFormat.RGBA_8888,
-            1
-        )
-        runCatching {
-            virtualDisplay = mMediaProjection!!.createVirtualDisplay(
-                "screenshot",
+    fun takeScreenshot(delay: Long) {
+        mainLooperDelayedAction(delay) {
+            imageReader = ImageReader.newInstance(
                 displayMetrics.widthPixels,
                 displayMetrics.heightPixels,
-                displayMetrics.densityDpi,
-                DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
-                mImageReader!!.surface,
-                null,
-                null
+                PixelFormat.RGBA_8888,
+                1
             )
-            mImageReader!!.setOnImageAvailableListener(this@ScreenshotMaker, null)
+            runCatching {
+                virtualDisplay = mediaProjection.createVirtualDisplay(
+                    "screenshot",
+                    displayMetrics.widthPixels,
+                    displayMetrics.heightPixels,
+                    displayMetrics.densityDpi,
+                    DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                    imageReader?.surface,
+                    null,
+                    null
+                )
+                imageReader?.setOnImageAvailableListener(this@ScreenshotMaker, null)
+            }
         }
     }
 
@@ -74,16 +76,15 @@ class ScreenshotMaker(
             Bitmap.Config.ARGB_8888
         )
         bitmap.copyPixelsFromBuffer(buffer)
-        tearDown()
+        finish()
         image.close()
-        callback(bitmap)
+        onSuccess(bitmap)
     }
 
-    private fun tearDown() {
-        virtualDisplay!!.release()
-        if (mMediaProjection != null) mMediaProjection!!.stop()
-        mMediaProjection = null
-        mImageReader = null
+    private fun finish() {
+        virtualDisplay?.release()
+        mediaProjection.stop()
+        imageReader = null
     }
 
 }
