@@ -6,7 +6,7 @@ on:
       - '*'
 
 jobs:
-  build_and_release_foss:
+  build_and_release:
 
     runs-on: ubuntu-latest
 
@@ -49,31 +49,6 @@ jobs:
           mv "app/build/outputs/apk/foss/release/image-toolbox-$GITHUB_REF_NAME-foss-armeabi-v7a-release-unsigned-signed.apk" "image-toolbox-$GITHUB_REF_NAME-foss-armeabi-v7a.apk"
           mv "app/build/outputs/apk/foss/release/image-toolbox-$GITHUB_REF_NAME-foss-x86_64-release-unsigned-signed.apk" "image-toolbox-$GITHUB_REF_NAME-foss-x86_64.apk"
 
-      - uses: actions/upload-artifact@v4
-        id: signed-foss-apk
-        with:
-          name: Signed apks Foss
-          path: "*.apk"
-
-  build_and_release_gp:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'adopt'
-          cache: gradle
-
-      - name: Set version variable
-        run: echo "GITHUB_REF_NAME=$GITHUB_REF_NAME" >> $GITHUB_ENV
-
-      - name: Assemble release
-        env:
-          VERSION_NAME: ${{ env.GITHUB_REF_NAME }}
-        run: bash ./gradlew assembleRelease
-
       - uses: iota9star/sign-android-release@v1.0.5
         name: Sign Market APK
         # ID used to access action output
@@ -109,8 +84,7 @@ jobs:
     permissions:
       contents: write
     needs:
-      - build_and_release_foss
-      - build_and_release_gp
+      - build_and_release
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
