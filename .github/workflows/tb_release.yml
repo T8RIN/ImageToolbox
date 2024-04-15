@@ -21,6 +21,15 @@ jobs:
 
       - name: Set version variable
         run: echo "GITHUB_REF_NAME=$GITHUB_REF_NAME" >> $GITHUB_ENV
+      - name: Set Pre-release flag
+        run: |
+          if [[ "$GITHUB_REF_NAME" == *-* ]]; then
+              # If GITHUB_REF_NAME contains a hyphen, set GITHUB_OTHER_ENV to true
+              echo "PRE_RELEASE_FLAG=true" >> $GITHUB_ENV
+          else
+              # If GITHUB_REF_NAME does not contain a hyphen, set GITHUB_OTHER_ENV to false
+              echo "PRE_RELEASE_FLAG=false" >> $GITHUB_ENV
+          fi
 
       - name: Assemble release
         env:
@@ -97,3 +106,4 @@ jobs:
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "*.apk"
+          prerelease: ${{ env.PRE_RELEASE_FLAG }}
