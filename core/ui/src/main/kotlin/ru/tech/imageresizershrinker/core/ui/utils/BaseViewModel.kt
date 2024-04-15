@@ -22,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -44,6 +45,7 @@ abstract class BaseViewModel(
         action: suspend () -> Unit
     ) {
         _isImageLoading.update { false }
+        imageCalculationJob?.cancelChildren()
         imageCalculationJob?.cancel()
         imageCalculationJob = viewModelScope.launch {
             _isImageLoading.update { true }
