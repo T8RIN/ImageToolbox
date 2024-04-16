@@ -94,6 +94,8 @@ jobs:
           merge-multiple: true
       - name: Display all downloaded files
         run: ls -la
+      - name: Set version variable
+        run: echo "GITHUB_REF_NAME=$GITHUB_REF_NAME" >> $GITHUB_ENV
       - name: Set Pre-release flag
         run: |
           if [[ "$GITHUB_REF_NAME" == *-* ]]; then
