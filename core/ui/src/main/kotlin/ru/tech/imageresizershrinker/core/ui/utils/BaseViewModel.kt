@@ -22,11 +22,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 
 abstract class BaseViewModel(
@@ -37,7 +37,7 @@ abstract class BaseViewModel(
     open val isImageLoading: Boolean
         get() = _isImageLoading.value
 
-    private var imageCalculationJob: Job? = null
+    private var imageCalculationJob: Job? by smartJob()
 
     protected open fun debouncedImageCalculation(
         onFinish: suspend () -> Unit = {},
@@ -45,8 +45,6 @@ abstract class BaseViewModel(
         action: suspend () -> Unit
     ) {
         _isImageLoading.update { false }
-        imageCalculationJob?.cancelChildren()
-        imageCalculationJob?.cancel()
         imageCalculationJob = viewModelScope.launch {
             _isImageLoading.update { true }
             delay(delay)
