@@ -873,4 +873,11 @@
     <string name="embedded_picker_sub">Использует собственный инструмент выбора изображения Image Toolbox вместо предопределенных системой</string>
     <string name="no_permissions">Нет разрешений</string>
     <string name="request">Запросить</string>
+    <string name="svg_warning">Использование этого инструмента для отслеживания больших изображений без уменьшения масштаба не рекомендуется, это может привести к сбою и увеличению времени обработки</string>
+    <string name="images_to_svg">Изображения в SVG</string>
+    <string name="images_to_svg_sub">Трассировка данных изображений в изображения SVG</string>
+    <string name="use_sampled_palette">Использовать выборочную палитру</string>
+    <string name="use_sampled_palette_sub">Палитра квантования будет выбрана, если эта опция включена</string>
+    <string name="path_omit">Пропуск пути</string>
+    <string name="downscale_image">Уменьшение изображения</string>
 </resources>

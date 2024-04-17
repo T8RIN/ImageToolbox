@@ -890,4 +890,8 @@
     <string name="detailed">Szczegółowy</string>
     <string name="svg_warning">Nie zaleca się używania tego narzędzia do śledzenia dużych obrazów bez skalowania w dół, ponieważ może to spowodować awarię i wydłużyć czas przetwarzania</string>
     <string name="default_line_width">Domyślna szerokość wiersza</string>
+    <string name="engine_mode">Tryb silnika</string>
+    <string name="legacy">Starszy</string>
+    <string name="lstm_network">Sieć LSTM</string>
+    <string name="legacy_and_lstm">Starszy oraz LSTM</string>
 </resources>
