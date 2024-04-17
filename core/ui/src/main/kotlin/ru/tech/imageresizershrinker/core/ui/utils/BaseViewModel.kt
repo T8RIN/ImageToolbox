@@ -22,13 +22,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
+import kotlinx.coroutines.launch as internalLaunch
 
 abstract class BaseViewModel(
     private val dispatchersHolder: DispatchersHolder
@@ -47,16 +51,12 @@ abstract class BaseViewModel(
         delay: Long = 600L,
         action: suspend () -> Unit
     ) {
-        _isImageLoading.update { false }
         imageCalculationJob = viewModelScope.launch(
             CoroutineExceptionHandler { _, _ ->
                 _isImageLoading.update { false }
             }
         ) {
             _isImageLoading.update { true }
-
-            ensureActive()
-
             delay(delay)
 
             ensureActive()
@@ -69,6 +69,15 @@ abstract class BaseViewModel(
 
             onFinish()
         }
+    }
+
+    fun CoroutineScope.launch(
+        context: CoroutineContext = EmptyCoroutineContext,
+        start: CoroutineStart = CoroutineStart.DEFAULT,
+        block: suspend CoroutineScope.() -> Unit
+    ): Job = internalLaunch(context, start) {
+        delay(50L)
+        block()
     }
 
 }

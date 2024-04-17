@@ -39,9 +39,9 @@ internal class SmartJob<T>(
         value: Job?
     ) {
         job?.apply {
+            onCancelled(this)
             cancelChildren()
             cancel()
-            onCancelled(this)
         }
         job = value
     }
