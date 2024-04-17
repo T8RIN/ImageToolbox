@@ -880,4 +880,18 @@
     <string name="use_sampled_palette_sub">Палитра квантования будет выбрана, если эта опция включена</string>
     <string name="path_omit">Пропуск пути</string>
     <string name="downscale_image">Уменьшение изображения</string>
+    <string name="default_line_width">Толщина линии по умолчанию</string>
+    <string name="engine_mode">Режим двигателя</string>
+    <string name="legacy">Старый</string>
+    <string name="lstm_network">Сеть LSTM</string>
+    <string name="legacy_and_lstm">Старый &amp; LSTM</string>
+    <string name="reset_properties">Сбросить свойства</string>
+    <string name="downscale_image_sub">Перед обработкой изображение будет уменьшено до меньших размеров, это поможет инструменту работать быстрее и безопаснее</string>
+    <string name="min_color_ratio">Минимальное соотношение цветов</string>
+    <string name="lines_threshold">Порог линий</string>
+    <string name="quadratic_threshold">Квадратичный порог</string>
+    <string name="coordinates_rounding_tolerance">Допуск округления координат</string>
+    <string name="path_scale">Масштаб пути</string>
+    <string name="reset_properties_sub">Для всех свойств будут установлены значения по умолчанию. Обратите внимание, что это действие невозможно отменить</string>
+    <string name="detailed">Подробный</string>
 </resources>
