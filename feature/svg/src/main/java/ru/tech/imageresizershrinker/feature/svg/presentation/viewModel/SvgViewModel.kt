@@ -38,6 +38,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.svg.domain.SvgManager
@@ -71,13 +72,13 @@ class SvgViewModel @Inject constructor(
         _uris.update { newUris.distinct() }
     }
 
-    private var savingJob: Job? = null
+    private var savingJob: Job? by smartJob {
+        _isSaving.update { false }
+    }
 
     fun save(
         onResult: (List<SaveResult>, String) -> Unit
     ) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch(defaultDispatcher) {
             val results = mutableListOf<SaveResult>()
 
@@ -112,8 +113,6 @@ class SvgViewModel @Inject constructor(
         onError: (Throwable) -> Unit,
         onComplete: () -> Unit
     ) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _done.update { 0 }
             _left.update { uris.size }

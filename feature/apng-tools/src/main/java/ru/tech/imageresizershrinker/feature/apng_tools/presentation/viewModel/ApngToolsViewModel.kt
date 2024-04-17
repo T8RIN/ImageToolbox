@@ -31,7 +31,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -45,6 +44,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -124,14 +124,16 @@ class ApngToolsViewModel @Inject constructor(
         }
     }
 
-    private var collectionJob: Job? = null
+    private var collectionJob: Job? by smartJob {
+        _isLoading.update { false }
+    }
+
     fun setApngUri(uri: Uri) {
         clearAll()
         _type.update {
             Screen.ApngTools.Type.ApngToImage(uri)
         }
         updateApngFrames(ImageFrames.All)
-        collectionJob?.cancel()
         collectionJob = viewModelScope.launch(defaultDispatcher) {
             _isLoading.update { true }
             _isLoadingApngImages.update { true }
@@ -152,12 +154,10 @@ class ApngToolsViewModel @Inject constructor(
     }
 
     fun clearAll() {
-        collectionJob?.cancel()
         collectionJob = null
         _type.update { null }
         _convertedImageUris.update { emptyList() }
         apngData = null
-        savingJob?.cancel()
         savingJob = null
         updateParams(ApngParams.Default)
     }
@@ -170,25 +170,23 @@ class ApngToolsViewModel @Inject constructor(
 
     fun selectAllConvertedImages() = updateApngFrames(ImageFrames.All)
 
-    private var savingJob: Job? = null
+    private var savingJob: Job? by smartJob {
+        _isSaving.update { false }
+    }
 
     fun saveApngTo(
         outputStream: OutputStream?,
         onComplete: (Throwable?) -> Unit
     ) {
-        _isSaving.value = false
-        savingJob?.cancel()
-        savingJob = viewModelScope.launch {
-            withContext(defaultDispatcher) {
-                _isSaving.value = true
-                kotlin.runCatching {
-                    outputStream?.use {
-                        it.write(apngData)
-                    }
-                }.exceptionOrNull().let(onComplete)
-                _isSaving.value = false
-                apngData = null
-            }
+        savingJob = viewModelScope.launch(defaultDispatcher) {
+            _isSaving.value = true
+            kotlin.runCatching {
+                outputStream?.use {
+                    it.write(apngData)
+                }
+            }.exceptionOrNull().let(onComplete)
+            _isSaving.value = false
+            apngData = null
         }
     }
 

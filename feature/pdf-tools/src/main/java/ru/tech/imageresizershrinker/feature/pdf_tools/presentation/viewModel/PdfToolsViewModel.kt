@@ -23,13 +23,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.di.IoDispatcher
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
@@ -41,6 +38,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -92,7 +90,9 @@ class PdfToolsViewModel @Inject constructor(
     private val _showOOMWarning: MutableState<Boolean> = mutableStateOf(false)
     val showOOMWarning by _showOOMWarning
 
-    private var savingJob: Job? = null
+    private var savingJob: Job? by smartJob {
+        _isSaving.update { false }
+    }
 
     private fun resetCalculatedData() {
         _byteArray.value = null
@@ -102,8 +102,6 @@ class PdfToolsViewModel @Inject constructor(
         outputStream: OutputStream?,
         onComplete: (Throwable?) -> Unit
     ) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch(ioDispatcher) {
             _isSaving.value = true
             kotlin.runCatching {
@@ -200,10 +198,8 @@ class PdfToolsViewModel @Inject constructor(
     fun savePdfToImage(
         onComplete: (path: String) -> Unit
     ) {
-        savingJob?.cancel()
         _done.value = 0
         _left.value = 1
-        _isSaving.value = false
         savingJob = pdfManager.convertPdfToImages(
             pdfUri = _pdfToImageState.value?.uri.toString(),
             pages = _pdfToImageState.value?.pages,
@@ -247,8 +243,6 @@ class PdfToolsViewModel @Inject constructor(
     }
 
     fun convertImagesToPdf(onComplete: () -> Unit) {
-        savingJob?.cancel()
-        _isSaving.value = false
         _done.value = 0
         _left.value = 0
         savingJob = viewModelScope.launch {
@@ -278,8 +272,6 @@ class PdfToolsViewModel @Inject constructor(
     fun preformSharing(
         onComplete: () -> Unit
     ) {
-        savingJob?.cancel()
-        _isSaving.value = false
         savingJob = viewModelScope.launch {
             _isSaving.value = true
             when (val type = _pdfType.value) {
@@ -380,11 +372,10 @@ class PdfToolsViewModel @Inject constructor(
         _scaleSmallImagesToLarge.update { !it }
     }
 
-    private var presetSelectionJob: Job? = null
+    private var presetSelectionJob: Job? by smartJob()
 
     private fun checkForOOM() {
         val preset = _presetSelected.value
-        presetSelectionJob?.cancel()
         presetSelectionJob = viewModelScope.launch {
             runCatching {
                 _pdfToImageState.value?.let { (uri, pages) ->

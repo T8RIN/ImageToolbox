@@ -39,6 +39,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -125,12 +126,14 @@ class DeleteExifViewModel @Inject constructor(
         }
     }
 
-    private var savingJob: Job? = null
+    private var savingJob: Job? by smartJob {
+        _isSaving.update { false }
+    }
 
     fun saveBitmaps(
         onResult: (List<SaveResult>, String) -> Unit
-    ) = viewModelScope.launch {
-        withContext(defaultDispatcher) {
+    ) {
+        savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -167,38 +170,28 @@ class DeleteExifViewModel @Inject constructor(
             onResult(results, fileController.savingPath)
             _isSaving.value = false
         }
-    }.also {
-        _isSaving.value = false
-        savingJob?.cancel()
-        savingJob = it
     }
 
     fun setUri(
         uri: Uri,
         onError: (Throwable) -> Unit
-    ) {
-        viewModelScope.launch {
-            withContext(defaultDispatcher) {
-                _isImageLoading.value = true
-                _selectedUri.value = uri
-                imageGetter.getImageAsync(
-                    uri = uri.toString(),
-                    originalSize = false,
-                    onGetImage = {
-                        updateBitmap(it.image)
-                    },
-                    onError = {
-                        _isImageLoading.value = false
-                        onError(it)
-                    }
-                )
+    ) = viewModelScope.launch(defaultDispatcher) {
+        _isImageLoading.value = true
+        _selectedUri.value = uri
+        imageGetter.getImageAsync(
+            uri = uri.toString(),
+            originalSize = false,
+            onGetImage = {
+                updateBitmap(it.image)
+            },
+            onError = {
+                _isImageLoading.value = false
+                onError(it)
             }
-        }
+        )
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _isSaving.value = true
             shareProvider.shareImages(
@@ -228,8 +221,6 @@ class DeleteExifViewModel @Inject constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _isSaving.value = true
             imageGetter.getImage(

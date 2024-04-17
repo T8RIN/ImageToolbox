@@ -40,6 +40,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
@@ -102,10 +103,9 @@ class MediaPickerViewModel @Inject constructor(
         relativePath = ""
     )
 
-    private var albumJob: Job? = null
+    private var albumJob: Job? by smartJob()
 
     private fun getAlbums(allowedMedia: AllowedMedia) {
-        albumJob?.cancel()
         albumJob = viewModelScope.launch(defaultDispatcher) {
             mediaRetriever.getAlbumsWithType(allowedMedia)
                 .flowOn(defaultDispatcher)
@@ -130,13 +130,12 @@ class MediaPickerViewModel @Inject constructor(
         }
     }
 
-    private var mediaGettingJob: Job? = null
+    private var mediaGettingJob: Job? by smartJob()
 
     private fun getMedia(
         albumId: Long,
         allowedMedia: AllowedMedia
     ) {
-        mediaGettingJob?.cancel()
         mediaGettingJob = viewModelScope.launch(defaultDispatcher) {
             _mediaState.emit(mediaState.value.copy(isLoading = true))
             mediaRetriever.mediaFlowWithType(albumId, allowedMedia)

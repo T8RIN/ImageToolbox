@@ -26,15 +26,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -48,6 +44,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -127,14 +124,17 @@ class GifToolsViewModel @Inject constructor(
         }
     }
 
-    private var collectionJob: Job? = null
+    private var collectionJob: Job? by smartJob {
+        _isLoading.update { false }
+    }
+
     fun setGifUri(uri: Uri) {
         clearAll()
         _type.update {
             Screen.GifTools.Type.GifToImage(uri)
         }
         updateGifFrames(ImageFrames.All)
-        collectionJob?.cancel()
+
         collectionJob = viewModelScope.launch(defaultDispatcher) {
             _isLoading.update { true }
             _isLoadingGifImages.update { true }
@@ -174,25 +174,23 @@ class GifToolsViewModel @Inject constructor(
 
     fun selectAllConvertedImages() = updateGifFrames(ImageFrames.All)
 
-    private var savingJob: Job? = null
+    private var savingJob: Job? by smartJob {
+        _isSaving.update { false }
+    }
 
     fun saveGifTo(
         outputStream: OutputStream?,
         onComplete: (Throwable?) -> Unit
     ) {
-        _isSaving.value = false
-        savingJob?.cancel()
-        savingJob = viewModelScope.launch {
-            withContext(defaultDispatcher) {
-                _isSaving.value = true
-                kotlin.runCatching {
-                    outputStream?.use {
-                        it.write(gifData)
-                    }
-                }.exceptionOrNull().let(onComplete)
-                _isSaving.value = false
-                gifData = null
-            }
+        savingJob = viewModelScope.launch(defaultDispatcher) {
+            _isSaving.value = true
+            runCatching {
+                outputStream?.use {
+                    it.write(gifData)
+                }
+            }.exceptionOrNull().let(onComplete)
+            _isSaving.value = false
+            gifData = null
         }
     }
 
@@ -200,8 +198,6 @@ class GifToolsViewModel @Inject constructor(
         onGifSaveResult: (String) -> Unit,
         onResult: (List<SaveResult>, String) -> Unit
     ) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
             _left.value = 1
@@ -390,8 +386,6 @@ class GifToolsViewModel @Inject constructor(
     }
 
     fun performSharing(onComplete: () -> Unit) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
             _left.value = 1

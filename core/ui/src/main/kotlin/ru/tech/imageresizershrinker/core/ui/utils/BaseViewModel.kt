@@ -21,9 +21,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
@@ -37,7 +38,9 @@ abstract class BaseViewModel(
     open val isImageLoading: Boolean
         get() = _isImageLoading.value
 
-    private var imageCalculationJob: Job? by smartJob()
+    private var imageCalculationJob: Job? by smartJob {
+        _isImageLoading.update { false }
+    }
 
     protected open fun debouncedImageCalculation(
         onFinish: suspend () -> Unit = {},
@@ -45,19 +48,25 @@ abstract class BaseViewModel(
         action: suspend () -> Unit
     ) {
         _isImageLoading.update { false }
-        imageCalculationJob = viewModelScope.launch {
+        imageCalculationJob = viewModelScope.launch(
+            CoroutineExceptionHandler { _, _ ->
+                _isImageLoading.update { false }
+            }
+        ) {
             _isImageLoading.update { true }
+
+            ensureActive()
+
             delay(delay)
-            if (!isActive) {
-                _isImageLoading.update { false }
-                return@launch
-            }
+
+            ensureActive()
+
             action()
-            if (!isActive) {
-                _isImageLoading.update { false }
-                return@launch
-            }
+
+            ensureActive()
+
             _isImageLoading.update { false }
+
             onFinish()
         }
     }

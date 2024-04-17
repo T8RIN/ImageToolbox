@@ -26,13 +26,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.viewModelScope
-import coil.size.Size
-import coil.size.pxOrElse
 import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -44,6 +43,8 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.transformation.GenericTransformation
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkApplier
@@ -116,13 +117,15 @@ class WatermarkingViewModel @Inject constructor(
         }
     }
 
-    private var savingJob: Job? = null
+    private var savingJob: Job? by smartJob {
+        _isSaving.update { false }
+    }
 
     fun saveBitmaps(
         onResult: (List<SaveResult>, String) -> Unit
-    ) = viewModelScope.launch {
-        _left.value = -1
-        withContext(defaultDispatcher) {
+    ) {
+        savingJob = viewModelScope.launch(defaultDispatcher) {
+            _left.value = -1
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -161,10 +164,6 @@ class WatermarkingViewModel @Inject constructor(
             onResult(results, fileController.savingPath)
             _isSaving.value = false
         }
-    }.also {
-        _isSaving.value = false
-        savingJob?.cancel()
-        savingJob = it
     }
 
     private suspend fun getWatermarkedBitmap(
@@ -181,8 +180,6 @@ class WatermarkingViewModel @Inject constructor(
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {
-        savingJob?.cancel()
-        _isSaving.value = false
         _left.value = -1
         savingJob = viewModelScope.launch {
             _isSaving.value = true
@@ -289,21 +286,14 @@ class WatermarkingViewModel @Inject constructor(
     }
 
     fun getWatermarkTransformation(): Transformation {
-        return object : Transformation {
-            override val cacheKey: String
-                get() = watermarkParams.hashCode().toString()
-
-            override suspend fun transform(
-                input: Bitmap,
-                size: Size
-            ): Bitmap = imageScaler.scaleImage(
+        return GenericTransformation<Bitmap>(watermarkParams) { input, size ->
+            imageScaler.scaleImage(
                 getWatermarkedBitmap(input) ?: input,
-                size.width.pxOrElse { 1 },
-                size.height.pxOrElse { 1 },
+                size.width,
+                size.height,
                 resizeType = ResizeType.Flexible
             )
-
-        }
+        }.toCoil()
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {

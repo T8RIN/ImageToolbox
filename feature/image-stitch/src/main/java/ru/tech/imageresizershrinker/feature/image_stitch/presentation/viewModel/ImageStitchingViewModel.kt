@@ -39,6 +39,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.image_stitch.domain.CombiningParams
@@ -91,10 +92,11 @@ class ImageStitchingViewModel @Inject constructor(
         }
     }
 
-    private var calculationPreviewJob: Job? = null
+    private var calculationPreviewJob: Job? by smartJob {
+        _isImageLoading.update { false }
+    }
 
     private fun calculatePreview() {
-        calculationPreviewJob?.cancel()
         calculationPreviewJob = viewModelScope.launch {
             delay(300L)
             _isImageLoading.value = true
@@ -116,13 +118,13 @@ class ImageStitchingViewModel @Inject constructor(
         }
     }
 
-    private var savingJob: Job? = null
+    private var savingJob: Job? by smartJob {
+        _isSaving.update { false }
+    }
 
     fun saveBitmaps(
         onComplete: (result: SaveResult) -> Unit,
     ) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
             imageCombiner.combineImages(
@@ -155,8 +157,7 @@ class ImageStitchingViewModel @Inject constructor(
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
-        _isSaving.value = false
-        viewModelScope.launch {
+        savingJob = viewModelScope.launch {
             _isSaving.value = true
             imageCombiner.combineImages(
                 imageUris = uris?.map { it.toString() } ?: emptyList(),
@@ -177,9 +178,6 @@ class ImageStitchingViewModel @Inject constructor(
                 )
             }
             _isSaving.value = false
-        }.also {
-            savingJob?.cancel()
-            savingJob = it
         }
     }
 
@@ -257,8 +255,6 @@ class ImageStitchingViewModel @Inject constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _isSaving.value = true
             imageCombiner.combineImages(

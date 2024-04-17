@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
@@ -109,12 +110,14 @@ class DrawViewModel @Inject constructor(
         _imageFormat.value = imageFormat
     }
 
-    private var savingJob: Job? = null
+    private var savingJob: Job? by smartJob {
+        _isSaving.update { false }
+    }
 
     fun saveBitmap(
         onComplete: (saveResult: SaveResult) -> Unit
-    ) = viewModelScope.launch {
-        withContext(defaultDispatcher) {
+    ) {
+        savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
             getDrawingBitmap()?.let { localBitmap ->
                 onComplete(
@@ -141,10 +144,6 @@ class DrawViewModel @Inject constructor(
             }
             _isSaving.value = false
         }
-    }.also {
-        _isSaving.value = false
-        savingJob?.cancel()
-        savingJob = it
     }
 
     private suspend fun calculateScreenOrientationBasedOnUri(uri: Uri): Int {
@@ -258,9 +257,8 @@ class DrawViewModel @Inject constructor(
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
-        savingJob?.cancel()
-        _isSaving.value = true
         savingJob = viewModelScope.launch {
+            _isSaving.value = true
             getDrawingBitmap()?.let {
                 shareProvider.shareImage(
                     image = it,
@@ -330,8 +328,6 @@ class DrawViewModel @Inject constructor(
     )
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _isSaving.value = true
             getDrawingBitmap()?.let { image ->

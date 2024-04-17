@@ -36,7 +36,7 @@ import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -47,6 +47,8 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.transformation.GenericTransformation
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -130,14 +132,16 @@ class GradientMakerViewModel @Inject constructor(
     private val _left: MutableState<Int> = mutableIntStateOf(-1)
     val left by _left
 
-    private var savingJob: Job? = null
+    private var savingJob: Job? by smartJob {
+        _isSaving.update { false }
+    }
 
     fun saveBitmaps(
         onStandaloneGradientSaveResult: (SaveResult) -> Unit,
         onResult: (List<SaveResult>, String) -> Unit
-    ) = viewModelScope.launch {
-        _left.value = -1
-        withContext(defaultDispatcher) {
+    ) {
+        savingJob = viewModelScope.launch(defaultDispatcher) {
+            _left.value = -1
             _isSaving.value = true
             if (uris.isEmpty()) {
                 createGradientBitmap(
@@ -200,17 +204,11 @@ class GradientMakerViewModel @Inject constructor(
             }
             _isSaving.value = false
         }
-    }.also {
-        _isSaving.value = false
-        savingJob?.cancel()
-        savingJob = it
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {
-        savingJob?.cancel()
-        _isSaving.value = false
-        _left.value = -1
         savingJob = viewModelScope.launch {
+            _left.value = -1
             _isSaving.value = true
             if (uris.isEmpty()) {
                 createGradientBitmap(
@@ -261,7 +259,6 @@ class GradientMakerViewModel @Inject constructor(
     }
 
     fun cancelSaving() {
-        savingJob?.cancel()
         savingJob = null
         _isSaving.value = false
         _left.value = -1
@@ -327,26 +324,24 @@ class GradientMakerViewModel @Inject constructor(
     fun setUri(
         uri: Uri,
         onError: (Throwable) -> Unit = {}
-    ) {
-        viewModelScope.launch {
-            _selectedUri.value = uri
-            _isImageLoading.value = true
-            imageGetter.getImageAsync(
-                uri = uri.toString(),
-                originalSize = false,
-                onGetImage = { imageData ->
-                    _imageAspectRatio.update {
-                        imageData.image.safeAspectRatio
-                    }
-                    _isImageLoading.value = false
-                    setImageFormat(imageData.imageInfo.imageFormat)
-                },
-                onError = {
-                    _isImageLoading.value = false
-                    onError(it)
+    ) = viewModelScope.launch {
+        _selectedUri.value = uri
+        _isImageLoading.value = true
+        imageGetter.getImageAsync(
+            uri = uri.toString(),
+            originalSize = false,
+            onGetImage = { imageData ->
+                _imageAspectRatio.update {
+                    imageData.image.safeAspectRatio
                 }
-            )
-        }
+                _isImageLoading.value = false
+                setImageFormat(imageData.imageInfo.imageFormat)
+            },
+            onError = {
+                _isImageLoading.value = false
+                onError(it)
+            }
+        )
     }
 
     fun updateGradientAlpha(value: Float) {
@@ -360,22 +355,20 @@ class GradientMakerViewModel @Inject constructor(
         _gradientState = UiGradientState()
     }
 
-    fun updateUrisSilently(removedUri: Uri) {
-        viewModelScope.launch {
-            withContext(defaultDispatcher) {
-                if (selectedUri == removedUri) {
-                    val index = uris.indexOf(removedUri)
-                    if (index == 0) {
-                        uris.getOrNull(1)?.let(::setUri)
-                    } else {
-                        uris.getOrNull(index - 1)?.let(::setUri)
-                    }
-                }
-                _uris.update {
-                    it.toMutableList().apply {
-                        remove(removedUri)
-                    }
-                }
+    fun updateUrisSilently(
+        removedUri: Uri
+    ) = viewModelScope.launch(defaultDispatcher) {
+        if (selectedUri == removedUri) {
+            val index = uris.indexOf(removedUri)
+            if (index == 0) {
+                uris.getOrNull(1)?.let(::setUri)
+            } else {
+                uris.getOrNull(index - 1)?.let(::setUri)
+            }
+        }
+        _uris.update {
+            it.toMutableList().apply {
+                remove(removedUri)
             }
         }
     }
@@ -388,19 +381,13 @@ class GradientMakerViewModel @Inject constructor(
         uris.firstOrNull()?.let { setUri(it, onError) }
     }
 
-    fun getGradientTransformation(): Transformation = object : Transformation {
-        override val cacheKey: String
-            get() = brush.hashCode().toString()
-
-        override suspend fun transform(
-            input: Bitmap,
-            size: coil.size.Size
-        ): Bitmap = createGradientBitmap(
+    fun getGradientTransformation(): Transformation =
+        GenericTransformation<Bitmap>(brush) { input ->
+            createGradientBitmap(
             data = input,
             useBitmapOriginalSizeIfAvailable = false
         ) ?: input
-
-    }
+        }.toCoil()
 
     fun toggleKeepExif(value: Boolean) {
         _keepExif.update { value }

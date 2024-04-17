@@ -26,14 +26,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.exifinterface.media.ExifInterface
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.di.DefaultDispatcher
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -46,6 +43,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -126,7 +124,10 @@ class JxlToolsViewModel @Inject constructor(
         }
     }
 
-    private var collectionJob: Job? = null
+    private var collectionJob: Job? by smartJob {
+        _isLoading.update { false }
+    }
+
     private fun setJxlUri(
         uri: Uri,
         onError: (Throwable) -> Unit,
@@ -136,7 +137,6 @@ class JxlToolsViewModel @Inject constructor(
             Screen.JxlTools.Type.JxlToImage(uri)
         }
         updateJxlFrames(ImageFrames.All)
-        collectionJob?.cancel()
         collectionJob = viewModelScope.launch(defaultDispatcher) {
             _isLoading.update { true }
             _isLoadingJxlImages.update { true }
@@ -158,13 +158,13 @@ class JxlToolsViewModel @Inject constructor(
         }
     }
 
-    private var savingJob: Job? = null
+    private var savingJob: Job? by smartJob {
+        _isSaving.update { false }
+    }
 
     fun save(
         onResult: (List<SaveResult>, String) -> Unit
     ) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
             _left.value = 1
@@ -368,8 +368,6 @@ class JxlToolsViewModel @Inject constructor(
         onError: (Throwable) -> Unit,
         onComplete: () -> Unit
     ) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
             _left.value = 1

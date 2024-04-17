@@ -27,9 +27,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.zip.domain.ZipManager
@@ -63,32 +63,30 @@ class ZipViewModel @Inject constructor(
         resetCalculatedData()
     }
 
-    private var savingJob: Job? = null
+    private var savingJob: Job? by smartJob {
+        _isSaving.update { false }
+    }
 
     fun startCompression(
         onComplete: (Throwable?) -> Unit
     ) {
-        _isSaving.value = false
-        savingJob?.cancel()
-        savingJob = viewModelScope.launch {
-            withContext(defaultDispatcher) {
-                _isSaving.value = true
-                if (uris.isEmpty()) {
-                    onComplete(null)
-                    return@withContext
-                }
-                runCatching {
-                    _done.update { 0 }
-                    _left.update { uris.size }
-                    _byteArray.value = zipManager.zip(
-                        files = uris.map { it.toString() },
-                        onProgress = {
-                            _done.update { it + 1 }
-                        }
-                    )
-                }.onFailure(onComplete)
-                _isSaving.value = false
+        savingJob = viewModelScope.launch(defaultDispatcher) {
+            _isSaving.value = true
+            if (uris.isEmpty()) {
+                onComplete(null)
+                return@launch
             }
+            runCatching {
+                _done.update { 0 }
+                _left.update { uris.size }
+                _byteArray.value = zipManager.zip(
+                    files = uris.map { it.toString() },
+                    onProgress = {
+                        _done.update { it + 1 }
+                    }
+                )
+            }.onFailure(onComplete)
+            _isSaving.value = false
         }
     }
 
@@ -100,8 +98,6 @@ class ZipViewModel @Inject constructor(
         outputStream: OutputStream?,
         onComplete: (Throwable?) -> Unit
     ) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
             runCatching {
@@ -118,8 +114,6 @@ class ZipViewModel @Inject constructor(
         filename: String,
         onComplete: () -> Unit
     ) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _done.update { 0 }
             _left.update { 0 }

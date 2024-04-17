@@ -55,6 +55,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
@@ -152,7 +153,9 @@ class SingleEditViewModel @Inject constructor(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
 
-    private var job: Job? = null
+    private var job: Job? by smartJob {
+        _isImageLoading.update { false }
+    }
 
     private suspend fun checkBitmapAndUpdate(resetPreset: Boolean = false) {
         if (resetPreset) {
@@ -166,11 +169,14 @@ class SingleEditViewModel @Inject constructor(
         }
     }
 
-    private var savingJob: Job? = null
+    private var savingJob: Job? by smartJob {
+        _isSaving.update { false }
+    }
+
     fun saveBitmap(
         onComplete: (result: SaveResult) -> Unit,
-    ) = viewModelScope.launch {
-        withContext(defaultDispatcher) {
+    ) {
+        savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
             bitmap?.let { bitmap ->
                 onComplete(
@@ -193,10 +199,6 @@ class SingleEditViewModel @Inject constructor(
             }
             _isSaving.value = false
         }
-    }.also {
-        _isSaving.value = false
-        savingJob?.cancel()
-        savingJob = it
     }
 
     private suspend fun updatePreview(
@@ -378,8 +380,6 @@ class SingleEditViewModel @Inject constructor(
     }
 
     private fun setImageData(imageData: ImageData<Bitmap, ExifInterface>) {
-        job?.cancel()
-        _isImageLoading.value = false
         job = viewModelScope.launch {
             _isImageLoading.value = true
             updateExif(imageData.metadata)
@@ -402,8 +402,6 @@ class SingleEditViewModel @Inject constructor(
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _isSaving.value = true
             bitmap?.let { image ->
@@ -418,8 +416,6 @@ class SingleEditViewModel @Inject constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _isSaving.value = true
             bitmap?.let { image ->
@@ -480,14 +476,16 @@ class SingleEditViewModel @Inject constructor(
         domainAspectRatio: DomainAspectRatio,
         aspectRatio: AspectRatio
     ) {
-        _cropProperties.value = _cropProperties.value.copy(
-            aspectRatio = aspectRatio.takeIf {
-                domainAspectRatio != DomainAspectRatio.Original
-            } ?: _bitmap.value?.let {
-                AspectRatio(it.safeAspectRatio)
-            } ?: aspectRatio,
-            fixedAspectRatio = domainAspectRatio != DomainAspectRatio.Free
-        )
+        _cropProperties.update { properties ->
+            properties.copy(
+                aspectRatio = aspectRatio.takeIf {
+                    domainAspectRatio != DomainAspectRatio.Original
+                } ?: _bitmap.value?.let {
+                    AspectRatio(it.safeAspectRatio)
+                } ?: aspectRatio,
+                fixedAspectRatio = domainAspectRatio != DomainAspectRatio.Free
+            )
+        }
         _selectedAspectRatio.update { domainAspectRatio }
     }
 
@@ -506,10 +504,10 @@ class SingleEditViewModel @Inject constructor(
         showError: (Throwable) -> Unit
     ) {
         val list = _filterList.value.toMutableList()
-        kotlin.runCatching {
+        runCatching {
             list[index] = list[index].copy(value)
             _filterList.value = list
-        }.exceptionOrNull()?.let {
+        }.onFailure {
             showError(it)
             list[index] = list[index].newInstance()
             _filterList.value = list

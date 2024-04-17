@@ -43,6 +43,7 @@ import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiContrastFilter
@@ -146,12 +147,12 @@ class RecognizeTextViewModel @Inject constructor(
     val isTextLoading: Boolean
         get() = textLoadingProgress in 0..100
 
-    private var longsJob: Job? = null
+    private var loadingJob: Job? by smartJob()
+
     private fun loadLanguages(
         onComplete: suspend () -> Unit = {}
     ) {
-        longsJob?.cancel()
-        longsJob = viewModelScope.launch {
+        loadingJob = viewModelScope.launch {
             delay(200L)
             val data = imageTextReader.getLanguages(recognitionType)
             _selectedLanguages.update { ocrLanguages ->
@@ -215,15 +216,15 @@ class RecognizeTextViewModel @Inject constructor(
         }
     }
 
-    private var job: Job? = null
+    private var recognitionJob: Job? by smartJob {
+        _textLoadingProgress.update { -1 }
+    }
 
     fun startRecognition(
         onError: (Throwable) -> Unit,
         onRequestDownload: (List<DownloadData>) -> Unit
     ) {
-        _textLoadingProgress.update { -1 }
-        job?.cancel()
-        job = viewModelScope.launch {
+        recognitionJob = viewModelScope.launch {
             if (uri == null) return@launch
             delay(400L)
             _textLoadingProgress.update { 0 }
@@ -304,7 +305,7 @@ class RecognizeTextViewModel @Inject constructor(
             }
             _selectedLanguages.update { ocrLanguages }
             _recognitionData.update { null }
-            job?.cancel()
+            recognitionJob?.cancel()
             _textLoadingProgress.update { -1 }
         }
     }

@@ -21,13 +21,22 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import kotlin.random.Random
 
 class GenericTransformation<T>(
-    val action: suspend (T) -> T
+    val key: Any? = Random.nextInt(),
+    val action: suspend (T, IntegerSize) -> T
 ) : Transformation<T> {
+
+    constructor(
+        key: Any? = Random.nextInt(),
+        action: suspend (T) -> T
+    ) : this(
+        key, { t, _ -> action(t) }
+    )
+
     override val cacheKey: String
-        get() = (action to Random.nextInt()).hashCode().toString()
+        get() = (action to key).hashCode().toString()
 
     override suspend fun transform(
         input: T,
         size: IntegerSize
-    ): T = action(input)
+    ): T = action(input, size)
 }

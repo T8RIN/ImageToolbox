@@ -43,6 +43,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -181,63 +182,59 @@ class BytesResizeViewModel @Inject constructor(
         _keepExif.value = boolean
     }
 
-    private var savingJob: Job? = null
+    private var savingJob: Job? by smartJob {
+        _isSaving.update { false }
+    }
 
     fun saveBitmaps(
         onResult: (List<SaveResult>, String) -> Unit
-    ) = viewModelScope.launch {
-        withContext(defaultDispatcher) {
-            _isSaving.value = true
-            val results = mutableListOf<SaveResult>()
-            _done.value = 0
-            uris?.forEach { uri ->
-                runCatching {
-                    imageGetter.getImage(uri.toString())
-                }.getOrNull()?.image?.let { bitmap ->
-                    kotlin.runCatching {
-                        if (handMode) {
-                            imageScaler.scaleByMaxBytes(
-                                image = bitmap,
-                                maxBytes = maxBytes,
-                                imageFormat = imageFormat,
-                                imageScaleMode = imageScaleMode
-                            )
-                        } else {
-                            imageScaler.scaleByMaxBytes(
-                                image = bitmap,
-                                maxBytes = (fileController.getSize(uri.toString()) ?: 0)
-                                    .times(_presetSelected.value / 100f)
-                                    .toLong(),
-                                imageFormat = imageFormat,
-                                imageScaleMode = imageScaleMode
-                            )
-                        }
-                    }.getOrNull()?.let { (data, imageInfo) ->
-
-                        results.add(
-                            fileController.save(
-                                ImageSaveTarget<ExifInterface>(
-                                    imageInfo = imageInfo,
-                                    originalUri = uri.toString(),
-                                    sequenceNumber = _done.value + 1,
-                                    data = data
-                                ),
-                                keepOriginalMetadata = keepExif
-                            )
+    ) = viewModelScope.launch(defaultDispatcher) {
+        _isSaving.value = true
+        val results = mutableListOf<SaveResult>()
+        _done.value = 0
+        uris?.forEach { uri ->
+            runCatching {
+                imageGetter.getImage(uri.toString())
+            }.getOrNull()?.image?.let { bitmap ->
+                kotlin.runCatching {
+                    if (handMode) {
+                        imageScaler.scaleByMaxBytes(
+                            image = bitmap,
+                            maxBytes = maxBytes,
+                            imageFormat = imageFormat,
+                            imageScaleMode = imageScaleMode
+                        )
+                    } else {
+                        imageScaler.scaleByMaxBytes(
+                            image = bitmap,
+                            maxBytes = (fileController.getSize(uri.toString()) ?: 0)
+                                .times(_presetSelected.value / 100f)
+                                .toLong(),
+                            imageFormat = imageFormat,
+                            imageScaleMode = imageScaleMode
                         )
                     }
-                } ?: results.add(
-                    SaveResult.Error.Exception(Throwable())
-                )
-                _done.value += 1
-            }
-            onResult(results, fileController.savingPath)
-            _isSaving.value = false
+                }.getOrNull()?.let { (data, imageInfo) ->
+
+                    results.add(
+                        fileController.save(
+                            ImageSaveTarget<ExifInterface>(
+                                imageInfo = imageInfo,
+                                originalUri = uri.toString(),
+                                sequenceNumber = _done.value + 1,
+                                data = data
+                            ),
+                            keepOriginalMetadata = keepExif
+                        )
+                    )
+                }
+            } ?: results.add(
+                SaveResult.Error.Exception(Throwable())
+            )
+            _done.value += 1
         }
-    }.also {
+        onResult(results, fileController.savingPath)
         _isSaving.value = false
-        savingJob?.cancel()
-        savingJob = it
     }
 
     fun setBitmap(uri: Uri) {
@@ -318,11 +315,11 @@ class BytesResizeViewModel @Inject constructor(
         }
     }
 
-    private var job: Job? = null
+    private var job: Job? by smartJob {
+        _isImageLoading.update { false }
+    }
 
     private fun setImageData(imageData: ImageData<Bitmap, ExifInterface>) {
-        job?.cancel()
-        _isImageLoading.value = false
         job = viewModelScope.launch {
             _isImageLoading.value = true
             imageScaler.scaleUntilCanShow(imageData.image)?.let {

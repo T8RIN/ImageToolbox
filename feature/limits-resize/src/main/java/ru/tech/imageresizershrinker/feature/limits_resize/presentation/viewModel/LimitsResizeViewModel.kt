@@ -43,6 +43,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -165,12 +166,14 @@ class LimitsResizeViewModel @Inject constructor(
         _keepExif.value = boolean
     }
 
-    private var savingJob: Job? = null
+    private var savingJob: Job? by smartJob {
+        _isSaving.update { false }
+    }
 
     fun saveBitmaps(
         onResult: (List<SaveResult>, String) -> Unit
-    ) = viewModelScope.launch {
-        withContext(defaultDispatcher) {
+    ) {
+        savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -214,20 +217,14 @@ class LimitsResizeViewModel @Inject constructor(
             onResult(results, fileController.savingPath)
             _isSaving.value = false
         }
-    }.also {
-        _isSaving.value = false
-        savingJob?.cancel()
-        savingJob = it
     }
 
     fun setBitmap(uri: Uri) {
-        viewModelScope.launch {
-            withContext(defaultDispatcher) {
-                _isImageLoading.value = true
-                updateBitmap(imageGetter.getImage(uri.toString())?.image)
-                _selectedUri.value = uri
-                _isImageLoading.value = false
-            }
+        viewModelScope.launch(defaultDispatcher) {
+            _isImageLoading.value = true
+            updateBitmap(imageGetter.getImage(uri.toString())?.image)
+            _selectedUri.value = uri
+            _isImageLoading.value = false
         }
     }
 
@@ -249,7 +246,7 @@ class LimitsResizeViewModel @Inject constructor(
 
     fun shareBitmaps(onComplete: () -> Unit) {
         _isSaving.value = false
-        viewModelScope.launch {
+        savingJob = viewModelScope.launch {
             _isSaving.value = true
             shareProvider.shareImages(
                 uris = uris?.map { it.toString() } ?: emptyList(),
@@ -279,9 +276,6 @@ class LimitsResizeViewModel @Inject constructor(
                     }
                 }
             )
-        }.also {
-            savingJob?.cancel()
-            savingJob = it
         }
     }
 
@@ -312,8 +306,6 @@ class LimitsResizeViewModel @Inject constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _isSaving.value = true
             imageGetter.getImage(

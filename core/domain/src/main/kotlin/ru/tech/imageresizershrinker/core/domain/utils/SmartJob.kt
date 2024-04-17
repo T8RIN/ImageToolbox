@@ -22,7 +22,9 @@ import kotlinx.coroutines.cancelChildren
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-internal class SmartJob<T> : ReadWriteProperty<T, Job?> {
+internal class SmartJob<T>(
+    private val onCancelled: (Job) -> Unit = {}
+) : ReadWriteProperty<T, Job?> {
 
     private var job: Job? = null
 
@@ -39,9 +41,12 @@ internal class SmartJob<T> : ReadWriteProperty<T, Job?> {
         job?.apply {
             cancelChildren()
             cancel()
+            onCancelled(this)
         }
         job = value
     }
 }
 
-fun <T> smartJob(): ReadWriteProperty<T, Job?> = SmartJob()
+fun <T> smartJob(
+    onCancelled: (Job) -> Unit = {}
+): ReadWriteProperty<T, Job?> = SmartJob(onCancelled)

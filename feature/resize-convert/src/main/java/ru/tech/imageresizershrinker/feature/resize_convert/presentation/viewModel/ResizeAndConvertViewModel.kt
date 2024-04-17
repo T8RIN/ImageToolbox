@@ -49,6 +49,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -106,7 +107,9 @@ class ResizeAndConvertViewModel @Inject constructor(
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
 
-    private var job: Job? = null
+    private var job: Job? by smartJob {
+        _isImageLoading.update { false }
+    }
 
     fun updateUris(
         uris: List<Uri>?,
@@ -132,26 +135,24 @@ class ResizeAndConvertViewModel @Inject constructor(
     }
 
     fun updateUrisSilently(removedUri: Uri) {
-        viewModelScope.launch {
-            withContext(defaultDispatcher) {
-                _uris.value = uris
-                if (_selectedUri.value == removedUri) {
-                    val index = uris?.indexOf(removedUri) ?: -1
-                    if (index == 0) {
-                        uris?.getOrNull(1)?.let {
-                            setBitmap(it)
-                        }
-                    } else {
-                        uris?.getOrNull(index - 1)?.let {
-                            setBitmap(it)
-                        }
+        viewModelScope.launch(defaultDispatcher) {
+            _uris.value = uris
+            if (_selectedUri.value == removedUri) {
+                val index = uris?.indexOf(removedUri) ?: -1
+                if (index == 0) {
+                    uris?.getOrNull(1)?.let {
+                        setBitmap(it)
+                    }
+                } else {
+                    uris?.getOrNull(index - 1)?.let {
+                        setBitmap(it)
                     }
                 }
-                val u = _uris.value?.toMutableList()?.apply {
-                    remove(removedUri)
-                }
-                _uris.value = u
             }
+            val u = _uris.value?.toMutableList()?.apply {
+                remove(removedUri)
+            }
+            _uris.value = u
         }
     }
 
@@ -213,8 +214,6 @@ class ResizeAndConvertViewModel @Inject constructor(
     }
 
     private fun setImageData(imageData: ImageData<Bitmap, ExifInterface>) {
-        job?.cancel()
-        _isImageLoading.value = false
         job = viewModelScope.launch {
             _isImageLoading.value = true
             updateExif(imageData.metadata)
@@ -322,12 +321,14 @@ class ResizeAndConvertViewModel @Inject constructor(
         _keepExif.value = boolean
     }
 
-    private var savingJob: Job? = null
+    private var savingJob: Job? by smartJob {
+        _isSaving.update { false }
+    }
 
     fun saveBitmaps(
         onComplete: (List<SaveResult>, path: String) -> Unit
-    ) = viewModelScope.launch {
-        withContext(defaultDispatcher) {
+    ) {
+        savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
             val results = mutableListOf<SaveResult>()
             _done.value = 0
@@ -369,37 +370,31 @@ class ResizeAndConvertViewModel @Inject constructor(
             onComplete(results, fileController.savingPath)
             _isSaving.value = false
         }
-    }.also {
-        _isSaving.value = false
-        savingJob?.cancel()
-        savingJob = it
     }
 
     fun setBitmap(uri: Uri) {
         _selectedUri.value = uri
-        viewModelScope.launch {
-            withContext(defaultDispatcher) {
-                _isImageLoading.update { true }
-                val bitmap = imageGetter.getImage(
-                    uri = uri.toString(),
-                    originalSize = true
-                )?.image
-                val size = bitmap?.let { it.width to it.height }
-                _originalSize.value = size?.run { IntegerSize(width = first, height = second) }
-                _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
-                _imageInfo.value = _imageInfo.value.copy(
-                    width = size?.first ?: 0,
-                    height = size?.second ?: 0,
-                    originalUri = uri.toString()
-                )
-                _imageInfo.value = imageTransformer.applyPresetBy(
-                    image = _bitmap.value,
-                    preset = _presetSelected.value,
-                    currentInfo = _imageInfo.value
-                )
-                checkBitmapAndUpdate()
-                _isImageLoading.update { false }
-            }
+        viewModelScope.launch(defaultDispatcher) {
+            _isImageLoading.update { true }
+            val bitmap = imageGetter.getImage(
+                uri = uri.toString(),
+                originalSize = true
+            )?.image
+            val size = bitmap?.let { it.width to it.height }
+            _originalSize.value = size?.run { IntegerSize(width = first, height = second) }
+            _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
+            _imageInfo.value = _imageInfo.value.copy(
+                width = size?.first ?: 0,
+                height = size?.second ?: 0,
+                originalUri = uri.toString()
+            )
+            _imageInfo.value = imageTransformer.applyPresetBy(
+                image = _bitmap.value,
+                preset = _presetSelected.value,
+                currentInfo = _imageInfo.value
+            )
+            checkBitmapAndUpdate()
+            _isImageLoading.update { false }
         }
     }
 
@@ -417,8 +412,6 @@ class ResizeAndConvertViewModel @Inject constructor(
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _isSaving.value = true
             shareProvider.shareImages(
@@ -496,8 +489,6 @@ class ResizeAndConvertViewModel @Inject constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _isSaving.value = true
             imageGetter.getImage(selectedUri.toString())?.image?.let { bmp ->

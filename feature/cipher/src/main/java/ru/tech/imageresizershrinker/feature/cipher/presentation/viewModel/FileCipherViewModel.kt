@@ -29,7 +29,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
+import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.feature.cipher.domain.CryptographyManager
 import java.io.OutputStream
 import java.security.InvalidKeyException
@@ -59,15 +61,15 @@ class FileCipherViewModel @Inject constructor(
         resetCalculatedData()
     }
 
-    private var savingJob: Job? = null
+    private var savingJob: Job? by smartJob {
+        _isSaving.update { false }
+    }
 
     fun startCryptography(
         key: String,
         onFileRequest: suspend (Uri) -> ByteArray?,
         onComplete: (Throwable?) -> Unit
     ) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch {
             withContext(defaultDispatcher) {
                 _isSaving.value = true
@@ -107,8 +109,6 @@ class FileCipherViewModel @Inject constructor(
         outputStream: OutputStream?,
         onComplete: (Throwable?) -> Unit
     ) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch {
             withContext(defaultDispatcher) {
                 _isSaving.value = true
@@ -129,8 +129,6 @@ class FileCipherViewModel @Inject constructor(
         filename: String,
         onComplete: () -> Unit
     ) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _isSaving.value = true
             shareProvider.shareByteArray(
