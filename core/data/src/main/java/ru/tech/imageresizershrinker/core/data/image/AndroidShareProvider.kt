@@ -74,7 +74,7 @@ internal class AndroidShareProvider @Inject constructor(
         runCatching {
             val saveTarget = ImageSaveTarget<ExifInterface>(
                 imageInfo = imageInfo,
-                originalUri = "share",
+                originalUri = imageInfo.originalUri ?: "share",
                 sequenceNumber = null,
                 data = byteArrayOf()
             )

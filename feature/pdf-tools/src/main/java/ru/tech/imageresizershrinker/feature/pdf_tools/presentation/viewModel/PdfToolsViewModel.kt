@@ -215,7 +215,7 @@ class PdfToolsViewModel @Inject constructor(
                         ImageSaveTarget(
                             imageInfo = this,
                             metadata = null,
-                            originalUri = "pdf",
+                            originalUri = _pdfToImageState.value?.uri.toString(),
                             sequenceNumber = _done.value + 1,
                             data = imageCompressor.compressAndTransform(
                                 image = bitmap,
@@ -304,7 +304,9 @@ class PdfToolsViewModel @Inject constructor(
                         pdfUri = _pdfToImageState.value?.uri.toString(),
                         pages = _pdfToImageState.value?.pages,
                         onProgressChange = { _, bitmap ->
-                            imageInfo.let {
+                            imageInfo.copy(
+                                originalUri = _pdfToImageState.value?.uri?.toString()
+                            ).let {
                                 imageTransformer.applyPresetBy(
                                     image = bitmap,
                                     preset = _presetSelected.value,
