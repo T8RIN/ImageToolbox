@@ -29,7 +29,6 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -123,25 +122,25 @@ class LimitsResizeViewModel @Inject constructor(
 
     fun updateUrisSilently(removedUri: Uri) {
         viewModelScope.launch(defaultDispatcher) {
-                _uris.value = uris
-                if (_selectedUri.value == removedUri) {
-                    val index = uris?.indexOf(removedUri) ?: -1
-                    if (index == 0) {
-                        uris?.getOrNull(1)?.let {
-                            _selectedUri.value = it
-                            _bitmap.value = imageGetter.getImage(it.toString())?.image
-                        }
-                    } else {
-                        uris?.getOrNull(index - 1)?.let {
-                            _selectedUri.value = it
-                            _bitmap.value = imageGetter.getImage(it.toString())?.image
-                        }
+            _uris.value = uris
+            if (_selectedUri.value == removedUri) {
+                val index = uris?.indexOf(removedUri) ?: -1
+                if (index == 0) {
+                    uris?.getOrNull(1)?.let {
+                        _selectedUri.value = it
+                        _bitmap.value = imageGetter.getImage(it.toString())?.image
+                    }
+                } else {
+                    uris?.getOrNull(index - 1)?.let {
+                        _selectedUri.value = it
+                        _bitmap.value = imageGetter.getImage(it.toString())?.image
                     }
                 }
-                val u = _uris.value?.toMutableList()?.apply {
-                    remove(removedUri)
-                }
-                _uris.value = u
+            }
+            val u = _uris.value?.toMutableList()?.apply {
+                remove(removedUri)
+            }
+            _uris.value = u
         }
     }
 

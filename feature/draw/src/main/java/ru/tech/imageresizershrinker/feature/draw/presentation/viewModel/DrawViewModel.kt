@@ -33,7 +33,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olshevski.navigation.reimagined.navController
 import dev.olshevski.navigation.reimagined.navigate
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor

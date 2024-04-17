@@ -81,7 +81,6 @@ import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.viewModelScope
 import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder

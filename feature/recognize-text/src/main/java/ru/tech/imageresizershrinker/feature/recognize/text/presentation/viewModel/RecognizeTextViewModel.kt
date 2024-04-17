@@ -34,7 +34,6 @@ import com.smarttoolfactory.cropper.settings.CropOutlineProperty
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import ru.tech.imageresizershrinker.core.data.utils.asDomain

@@ -35,7 +35,6 @@ import androidx.lifecycle.viewModelScope
 import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
@@ -384,9 +383,9 @@ class GradientMakerViewModel @Inject constructor(
     fun getGradientTransformation(): Transformation =
         GenericTransformation<Bitmap>(brush) { input ->
             createGradientBitmap(
-            data = input,
-            useBitmapOriginalSizeIfAvailable = false
-        ) ?: input
+                data = input,
+                useBitmapOriginalSizeIfAvailable = false
+            ) ?: input
         }.toCoil()
 
     fun toggleKeepExif(value: Boolean) {

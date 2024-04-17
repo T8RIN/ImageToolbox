@@ -25,7 +25,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
@@ -70,26 +69,26 @@ class FileCipherViewModel @Inject constructor(
         onComplete: (Throwable?) -> Unit
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
-                _isSaving.value = true
-                if (_uri.value == null) {
-                    onComplete(null)
-                    return@launch
+            _isSaving.value = true
+            if (_uri.value == null) {
+                onComplete(null)
+                return@launch
+            }
+            val file = onFileRequest(_uri.value!!)
+            runCatching {
+                if (isEncrypt) {
+                    _byteArray.value = file?.let { cryptographyManager.encrypt(it, key) }
+                } else {
+                    _byteArray.value = file?.let { cryptographyManager.decrypt(it, key) }
                 }
-                val file = onFileRequest(_uri.value!!)
-                runCatching {
-                    if (isEncrypt) {
-                        _byteArray.value = file?.let { cryptographyManager.encrypt(it, key) }
-                    } else {
-                        _byteArray.value = file?.let { cryptographyManager.decrypt(it, key) }
-                    }
-                }.exceptionOrNull().let {
-                    onComplete(
-                        if (it?.message?.contains("mac") == true && it.message?.contains("failed") == true) {
-                            InvalidKeyException()
-                        } else it
-                    )
-                }
-                _isSaving.value = false
+            }.exceptionOrNull().let {
+                onComplete(
+                    if (it?.message?.contains("mac") == true && it.message?.contains("failed") == true) {
+                        InvalidKeyException()
+                    } else it
+                )
+            }
+            _isSaving.value = false
         }
     }
 
@@ -107,13 +106,13 @@ class FileCipherViewModel @Inject constructor(
         onComplete: (Throwable?) -> Unit
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
-                _isSaving.value = true
+            _isSaving.value = true
             runCatching {
-                    outputStream?.use {
-                        it.write(_byteArray.value)
-                    }
-                }.exceptionOrNull().let(onComplete)
-                _isSaving.value = false
+                outputStream?.use {
+                    it.write(_byteArray.value)
+                }
+            }.exceptionOrNull().let(onComplete)
+            _isSaving.value = false
         }
     }
 

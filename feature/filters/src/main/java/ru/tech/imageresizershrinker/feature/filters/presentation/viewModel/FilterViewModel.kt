@@ -33,7 +33,6 @@ import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
@@ -139,33 +138,33 @@ class FilterViewModel @Inject constructor(
 
     fun updateUrisSilently(removedUri: Uri) {
         viewModelScope.launch(defaultDispatcher) {
-                val state = _basicFilterState.value
-                if (state.selectedUri == removedUri) {
-                    val index = state.uris?.indexOf(removedUri) ?: -1
-                    if (index == 0) {
-                        state.uris?.getOrNull(1)?.let {
-                            _basicFilterState.update { f ->
-                                f.copy(selectedUri = it)
-                            }
-                            setBitmap(it)
+            val state = _basicFilterState.value
+            if (state.selectedUri == removedUri) {
+                val index = state.uris?.indexOf(removedUri) ?: -1
+                if (index == 0) {
+                    state.uris?.getOrNull(1)?.let {
+                        _basicFilterState.update { f ->
+                            f.copy(selectedUri = it)
                         }
-                    } else {
-                        state.uris?.getOrNull(index - 1)?.let {
-                            _basicFilterState.update { f ->
-                                f.copy(selectedUri = it)
-                            }
-                            setBitmap(it)
+                        setBitmap(it)
+                    }
+                } else {
+                    state.uris?.getOrNull(index - 1)?.let {
+                        _basicFilterState.update { f ->
+                            f.copy(selectedUri = it)
                         }
+                        setBitmap(it)
                     }
                 }
-                _basicFilterState.update {
-                    it.copy(
-                        uris = it.uris?.toMutableList()?.apply {
-                            remove(removedUri)
-                        }
-                    )
-                }
             }
+            _basicFilterState.update {
+                it.copy(
+                    uris = it.uris?.toMutableList()?.apply {
+                        remove(removedUri)
+                    }
+                )
+            }
+        }
     }
 
     fun setKeepExif(boolean: Boolean) {

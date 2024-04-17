@@ -32,7 +32,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.olshevski.navigation.reimagined.navController
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.w3c.dom.Element

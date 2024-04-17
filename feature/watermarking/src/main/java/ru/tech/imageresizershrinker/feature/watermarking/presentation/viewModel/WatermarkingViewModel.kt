@@ -29,7 +29,6 @@ import androidx.lifecycle.viewModelScope
 import coil.transform.Transformation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
@@ -255,20 +254,20 @@ class WatermarkingViewModel @Inject constructor(
 
     fun updateUrisSilently(removedUri: Uri) {
         viewModelScope.launch(defaultDispatcher) {
-                if (selectedUri == removedUri) {
-                    val index = uris.indexOf(removedUri)
-                    if (index == 0) {
-                        uris.getOrNull(1)?.let(::setUri)
-                    } else {
-                        uris.getOrNull(index - 1)?.let(::setUri)
-                    }
-                }
-                _uris.update {
-                    it.toMutableList().apply {
-                        remove(removedUri)
-                    }
+            if (selectedUri == removedUri) {
+                val index = uris.indexOf(removedUri)
+                if (index == 0) {
+                    uris.getOrNull(1)?.let(::setUri)
+                } else {
+                    uris.getOrNull(index - 1)?.let(::setUri)
                 }
             }
+            _uris.update {
+                it.toMutableList().apply {
+                    remove(removedUri)
+                }
+            }
+        }
     }
 
     fun setUris(
