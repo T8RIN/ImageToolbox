@@ -34,7 +34,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.data.utils.toCoil
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
@@ -139,8 +138,7 @@ class FilterViewModel @Inject constructor(
     }
 
     fun updateUrisSilently(removedUri: Uri) {
-        viewModelScope.launch {
-            withContext(defaultDispatcher) {
+        viewModelScope.launch(defaultDispatcher) {
                 val state = _basicFilterState.value
                 if (state.selectedUri == removedUri) {
                     val index = state.uris?.indexOf(removedUri) ?: -1
@@ -168,7 +166,6 @@ class FilterViewModel @Inject constructor(
                     )
                 }
             }
-        }
     }
 
     fun setKeepExif(boolean: Boolean) {

@@ -254,8 +254,7 @@ class WatermarkingViewModel @Inject constructor(
     }
 
     fun updateUrisSilently(removedUri: Uri) {
-        viewModelScope.launch {
-            withContext(defaultDispatcher) {
+        viewModelScope.launch(defaultDispatcher) {
                 if (selectedUri == removedUri) {
                     val index = uris.indexOf(removedUri)
                     if (index == 0) {
@@ -270,7 +269,6 @@ class WatermarkingViewModel @Inject constructor(
                     }
                 }
             }
-        }
     }
 
     fun setUris(

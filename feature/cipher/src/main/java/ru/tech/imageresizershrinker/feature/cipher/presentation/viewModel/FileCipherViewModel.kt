@@ -26,7 +26,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
@@ -70,12 +69,11 @@ class FileCipherViewModel @Inject constructor(
         onFileRequest: suspend (Uri) -> ByteArray?,
         onComplete: (Throwable?) -> Unit
     ) {
-        savingJob = viewModelScope.launch {
-            withContext(defaultDispatcher) {
+        savingJob = viewModelScope.launch(defaultDispatcher) {
                 _isSaving.value = true
                 if (_uri.value == null) {
                     onComplete(null)
-                    return@withContext
+                    return@launch
                 }
                 val file = onFileRequest(_uri.value!!)
                 runCatching {
@@ -92,7 +90,6 @@ class FileCipherViewModel @Inject constructor(
                     )
                 }
                 _isSaving.value = false
-            }
         }
     }
 
@@ -109,16 +106,14 @@ class FileCipherViewModel @Inject constructor(
         outputStream: OutputStream?,
         onComplete: (Throwable?) -> Unit
     ) {
-        savingJob = viewModelScope.launch {
-            withContext(defaultDispatcher) {
+        savingJob = viewModelScope.launch(defaultDispatcher) {
                 _isSaving.value = true
-                kotlin.runCatching {
+            runCatching {
                     outputStream?.use {
                         it.write(_byteArray.value)
                     }
                 }.exceptionOrNull().let(onComplete)
                 _isSaving.value = false
-            }
         }
     }
 

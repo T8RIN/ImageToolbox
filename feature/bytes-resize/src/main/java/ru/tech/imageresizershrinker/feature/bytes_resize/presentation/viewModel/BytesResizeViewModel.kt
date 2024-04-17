@@ -30,7 +30,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -143,28 +142,26 @@ class BytesResizeViewModel @Inject constructor(
     }
 
     fun updateUrisSilently(removedUri: Uri) {
-        viewModelScope.launch {
-            withContext(defaultDispatcher) {
-                _uris.value = uris
-                if (_selectedUri.value == removedUri) {
-                    val index = uris?.indexOf(removedUri) ?: -1
-                    if (index == 0) {
-                        uris?.getOrNull(1)?.let {
-                            _selectedUri.value = it
-                            _bitmap.value = imageGetter.getImage(it.toString())?.image
-                        }
-                    } else {
-                        uris?.getOrNull(index - 1)?.let {
-                            _selectedUri.value = it
-                            _bitmap.value = imageGetter.getImage(it.toString())?.image
-                        }
+        viewModelScope.launch(defaultDispatcher) {
+            _uris.value = uris
+            if (_selectedUri.value == removedUri) {
+                val index = uris?.indexOf(removedUri) ?: -1
+                if (index == 0) {
+                    uris?.getOrNull(1)?.let {
+                        _selectedUri.value = it
+                        _bitmap.value = imageGetter.getImage(it.toString())?.image
+                    }
+                } else {
+                    uris?.getOrNull(index - 1)?.let {
+                        _selectedUri.value = it
+                        _bitmap.value = imageGetter.getImage(it.toString())?.image
                     }
                 }
-                val u = _uris.value?.toMutableList()?.apply {
-                    remove(removedUri)
-                }
-                _uris.value = u
             }
+            val u = _uris.value?.toMutableList()?.apply {
+                remove(removedUri)
+            }
+            _uris.value = u
         }
     }
 
@@ -188,66 +185,66 @@ class BytesResizeViewModel @Inject constructor(
 
     fun saveBitmaps(
         onResult: (List<SaveResult>, String) -> Unit
-    ) = viewModelScope.launch(defaultDispatcher) {
-        _isSaving.value = true
-        val results = mutableListOf<SaveResult>()
-        _done.value = 0
-        uris?.forEach { uri ->
-            runCatching {
-                imageGetter.getImage(uri.toString())
-            }.getOrNull()?.image?.let { bitmap ->
-                kotlin.runCatching {
-                    if (handMode) {
-                        imageScaler.scaleByMaxBytes(
-                            image = bitmap,
-                            maxBytes = maxBytes,
-                            imageFormat = imageFormat,
-                            imageScaleMode = imageScaleMode
-                        )
-                    } else {
-                        imageScaler.scaleByMaxBytes(
-                            image = bitmap,
-                            maxBytes = (fileController.getSize(uri.toString()) ?: 0)
-                                .times(_presetSelected.value / 100f)
-                                .toLong(),
-                            imageFormat = imageFormat,
-                            imageScaleMode = imageScaleMode
+    ) {
+        savingJob = viewModelScope.launch(defaultDispatcher) {
+            _isSaving.value = true
+            val results = mutableListOf<SaveResult>()
+            _done.value = 0
+            uris?.forEach { uri ->
+                runCatching {
+                    imageGetter.getImage(uri.toString())
+                }.getOrNull()?.image?.let { bitmap ->
+                    runCatching {
+                        if (handMode) {
+                            imageScaler.scaleByMaxBytes(
+                                image = bitmap,
+                                maxBytes = maxBytes,
+                                imageFormat = imageFormat,
+                                imageScaleMode = imageScaleMode
+                            )
+                        } else {
+                            imageScaler.scaleByMaxBytes(
+                                image = bitmap,
+                                maxBytes = (fileController.getSize(uri.toString()) ?: 0)
+                                    .times(_presetSelected.value / 100f)
+                                    .toLong(),
+                                imageFormat = imageFormat,
+                                imageScaleMode = imageScaleMode
+                            )
+                        }
+                    }.getOrNull()?.let { (data, imageInfo) ->
+
+                        results.add(
+                            fileController.save(
+                                ImageSaveTarget<ExifInterface>(
+                                    imageInfo = imageInfo,
+                                    originalUri = uri.toString(),
+                                    sequenceNumber = _done.value + 1,
+                                    data = data
+                                ),
+                                keepOriginalMetadata = keepExif
+                            )
                         )
                     }
-                }.getOrNull()?.let { (data, imageInfo) ->
-
-                    results.add(
-                        fileController.save(
-                            ImageSaveTarget<ExifInterface>(
-                                imageInfo = imageInfo,
-                                originalUri = uri.toString(),
-                                sequenceNumber = _done.value + 1,
-                                data = data
-                            ),
-                            keepOriginalMetadata = keepExif
-                        )
-                    )
-                }
-            } ?: results.add(
-                SaveResult.Error.Exception(Throwable())
-            )
-            _done.value += 1
+                } ?: results.add(
+                    SaveResult.Error.Exception(Throwable())
+                )
+                _done.value += 1
+            }
+            onResult(results, fileController.savingPath)
+            _isSaving.value = false
         }
-        onResult(results, fileController.savingPath)
-        _isSaving.value = false
     }
 
     fun setBitmap(uri: Uri) {
-        viewModelScope.launch {
-            withContext(defaultDispatcher) {
-                updateBitmap(
-                    imageGetter.getImage(
-                        uri = uri.toString(),
-                        originalSize = false
-                    )?.image
-                )
-                _selectedUri.value = uri
-            }
+        viewModelScope.launch(defaultDispatcher) {
+            updateBitmap(
+                imageGetter.getImage(
+                    uri = uri.toString(),
+                    originalSize = false
+                )?.image
+            )
+            _selectedUri.value = uri
         }
     }
 
@@ -273,8 +270,6 @@ class BytesResizeViewModel @Inject constructor(
     }
 
     fun shareBitmaps(onComplete: () -> Unit) {
-        _isSaving.value = false
-        savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _isSaving.value = true
             shareProvider.shareImages(

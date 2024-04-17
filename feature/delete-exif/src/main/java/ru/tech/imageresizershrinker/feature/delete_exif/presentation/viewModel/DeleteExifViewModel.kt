@@ -30,7 +30,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -89,30 +88,28 @@ class DeleteExifViewModel @Inject constructor(
     }
 
     fun updateUrisSilently(removedUri: Uri) {
-        viewModelScope.launch {
-            withContext(defaultDispatcher) {
-                _uris.value = uris
-                if (_selectedUri.value == removedUri) {
-                    val index = uris?.indexOf(removedUri) ?: -1
-                    if (index == 0) {
-                        uris?.getOrNull(1)?.let {
-                            _selectedUri.value = it
-                            _bitmap.value =
-                                imageGetter.getImage(it.toString(), originalSize = false)?.image
-                        }
-                    } else {
-                        uris?.getOrNull(index - 1)?.let {
-                            _selectedUri.value = it
-                            _bitmap.value =
-                                imageGetter.getImage(it.toString(), originalSize = false)?.image
-                        }
+        viewModelScope.launch(defaultDispatcher) {
+            _uris.value = uris
+            if (_selectedUri.value == removedUri) {
+                val index = uris?.indexOf(removedUri) ?: -1
+                if (index == 0) {
+                    uris?.getOrNull(1)?.let {
+                        _selectedUri.value = it
+                        _bitmap.value =
+                            imageGetter.getImage(it.toString(), originalSize = false)?.image
+                    }
+                } else {
+                    uris?.getOrNull(index - 1)?.let {
+                        _selectedUri.value = it
+                        _bitmap.value =
+                            imageGetter.getImage(it.toString(), originalSize = false)?.image
                     }
                 }
-                val u = _uris.value?.toMutableList()?.apply {
-                    remove(removedUri)
-                }
-                _uris.value = u
             }
+            val u = _uris.value?.toMutableList()?.apply {
+                remove(removedUri)
+            }
+            _uris.value = u
         }
     }
 

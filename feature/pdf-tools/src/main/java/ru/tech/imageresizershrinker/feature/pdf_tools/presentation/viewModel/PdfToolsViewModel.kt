@@ -104,7 +104,7 @@ class PdfToolsViewModel @Inject constructor(
     ) {
         savingJob = viewModelScope.launch(ioDispatcher) {
             _isSaving.value = true
-            kotlin.runCatching {
+            runCatching {
                 outputStream?.use {
                     it.write(_byteArray.value)
                 }

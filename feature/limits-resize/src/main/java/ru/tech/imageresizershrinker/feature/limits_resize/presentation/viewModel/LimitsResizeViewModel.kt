@@ -30,7 +30,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
@@ -123,8 +122,7 @@ class LimitsResizeViewModel @Inject constructor(
     }
 
     fun updateUrisSilently(removedUri: Uri) {
-        viewModelScope.launch {
-            withContext(defaultDispatcher) {
+        viewModelScope.launch(defaultDispatcher) {
                 _uris.value = uris
                 if (_selectedUri.value == removedUri) {
                     val index = uris?.indexOf(removedUri) ?: -1
@@ -144,7 +142,6 @@ class LimitsResizeViewModel @Inject constructor(
                     remove(removedUri)
                 }
                 _uris.value = u
-            }
         }
     }
 
