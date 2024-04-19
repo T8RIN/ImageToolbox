@@ -104,7 +104,6 @@ review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "rev
 splashScreen = { module = "androidx.core:core-splashscreen", version.ref = "splashScreen" }
 activityCompose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
-
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
 
