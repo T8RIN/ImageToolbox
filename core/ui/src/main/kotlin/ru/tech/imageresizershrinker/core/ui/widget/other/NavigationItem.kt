@@ -48,7 +48,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.colorspace.ColorSpaces
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.MeasureResult
@@ -64,7 +64,6 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.map
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
-import ru.tech.imageresizershrinker.core.ui.theme.inverse
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberRipple
 import kotlin.math.roundToInt
@@ -159,11 +158,9 @@ fun NavigationItem(
             Box(
                 Modifier
                     .layoutId(IndicatorLayoutIdTag)
+                    .graphicsLayer { alpha = animationProgress }
                     .background(
-                        color = MaterialTheme.colorScheme.secondaryContainer
-                            .inverse({ 0.05f })
-                            .copy(alpha = animationProgress.coerceIn(0f, 1f))
-                            .convert(ColorSpaces.Srgb),
+                        color = MaterialTheme.colorScheme.secondaryContainer,
                         shape = CircleShape,
                     )
                     .border(
