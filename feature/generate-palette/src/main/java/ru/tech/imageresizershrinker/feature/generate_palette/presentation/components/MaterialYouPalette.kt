@@ -46,7 +46,7 @@ import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
-import ru.tech.imageresizershrinker.core.ui.utils.helper.plus
+import ru.tech.imageresizershrinker.core.ui.utils.helper.minus
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
@@ -137,8 +137,8 @@ internal fun MaterialYouPalette(
             }
         },
         containerColor = MaterialTheme.colorScheme.tertiary,
-        contentPadding = ButtonDefaults.ContentPadding + PaddingValues(
-            start = (-4).dp
+        contentPadding = ButtonDefaults.ContentPadding - PaddingValues(
+            start = 4.dp
         )
     ) {
         Icon(
