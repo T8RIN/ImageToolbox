@@ -43,6 +43,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DrawerDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -55,7 +56,6 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.other.NavigationItem
 
 @Composable
 internal fun MainNavigationRail(
@@ -102,7 +102,7 @@ internal fun MainNavigationRail(
                 Spacer(Modifier.height(8.dp))
                 Screen.typedEntries.forEachIndexed { index, (_, data) ->
                     val selected = index == selectedIndex
-                    NavigationItem(
+                    NavigationRailItem(
                         modifier = Modifier
                             .height(height = 56.dp)
                             .width(100.dp),

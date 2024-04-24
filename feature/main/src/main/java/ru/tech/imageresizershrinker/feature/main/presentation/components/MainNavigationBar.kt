@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -34,7 +35,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
-import ru.tech.imageresizershrinker.core.ui.widget.other.NavigationItem
 
 @Composable
 internal fun MainNavigationBar(
@@ -52,7 +52,7 @@ internal fun MainNavigationBar(
     ) {
         Screen.typedEntries.forEachIndexed { index, (_, data) ->
             val selected = index == selectedIndex
-            NavigationItem(
+            NavigationBarItem(
                 modifier = Modifier.weight(1f),
                 selected = selected,
                 onClick = { onValueChange(index) },
