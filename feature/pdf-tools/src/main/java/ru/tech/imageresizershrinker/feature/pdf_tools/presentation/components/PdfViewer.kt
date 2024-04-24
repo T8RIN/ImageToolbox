@@ -101,6 +101,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import my.nanihadesuka.compose.LazyColumnScrollbar
 import my.nanihadesuka.compose.ScrollbarSelectionMode
+import my.nanihadesuka.compose.ScrollbarSettings
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -209,17 +210,19 @@ fun PdfViewer(
 
                 if (orientation == PdfViewerOrientation.Vertical) {
                     LazyColumnScrollbar(
-                        listState = listState,
-                        thumbColor = MaterialTheme.colorScheme.primary,
-                        thumbSelectedColor = MaterialTheme.colorScheme.primary,
-                        padding = 0.dp,
-                        thickness = 10.dp,
-                        selectionMode = ScrollbarSelectionMode.Full,
-                        thumbShape = RoundedCornerShape(
-                            topStartPercent = 100,
-                            bottomStartPercent = 100
+                        state = listState,
+                        settings = ScrollbarSettings(
+                            thumbUnselectedColor = MaterialTheme.colorScheme.primary,
+                            thumbSelectedColor = MaterialTheme.colorScheme.primary,
+                            scrollbarPadding = 0.dp,
+                            thumbThickness = 10.dp,
+                            selectionMode = ScrollbarSelectionMode.Full,
+                            thumbShape = RoundedCornerShape(
+                                topStartPercent = 100,
+                                bottomStartPercent = 100
+                            ),
+                            hideDelayMillis = 1500
                         ),
-                        hideDelayMillis = 1500,
                         indicatorContent = { index, _ ->
                             val text by remember(index, pageCount, listState) {
                                 derivedStateOf {
