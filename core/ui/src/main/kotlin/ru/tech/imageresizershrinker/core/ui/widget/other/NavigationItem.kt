@@ -48,6 +48,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.colorspace.ColorSpaces
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.MeasureResult
@@ -161,7 +162,8 @@ fun NavigationItem(
                     .background(
                         color = MaterialTheme.colorScheme.secondaryContainer
                             .inverse({ 0.05f })
-                            .copy(alpha = animationProgress.coerceIn(0f, 1f)),
+                            .copy(alpha = animationProgress.coerceIn(0f, 1f))
+                            .convert(ColorSpaces.Srgb),
                         shape = CircleShape,
                     )
                     .border(
