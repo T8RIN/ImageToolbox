@@ -161,7 +161,7 @@ fun NavigationItem(
                     .background(
                         color = MaterialTheme.colorScheme.secondaryContainer
                             .inverse({ 0.05f })
-                            .copy(alpha = animationProgress),
+                            .copy(alpha = animationProgress.coerceIn(0f, 1f)),
                         shape = CircleShape,
                     )
                     .border(
