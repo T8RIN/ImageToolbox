@@ -14,7 +14,7 @@
     <string name="smth_went_wrong">حدث خطأ ما: %1$s</string>
     <string name="size">الحجم %1$s</string>
     <string name="loading">تحميل…</string>
-    <string name="image_too_large_preview">الصورة كبيرة جدًا بحيث لا يمكن معاينتها ، ولكن ستتم محاولة حفظها على أي حال</string>
+    <string name="image_too_large_preview">الصورة كبيرة جدًا لا يمكن معاينتها ، ولكن ستتم محاولة حفظها على أي حال</string>
     <string name="pick_image">اختر صورة للبدء</string>
     <string name="width">العرض %1$s</string>
     <string name="height">الارتفاع %1$s</string>
