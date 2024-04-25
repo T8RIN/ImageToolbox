@@ -188,7 +188,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                                 modifier = Modifier
                                     .widthIn(min = 1.dp)
                                     .fillMaxWidth()
-                                    .animateItem(),
+                                    .animateItemPlacement(),
                                 shape = RoundedCornerShape(cornerSize),
                                 title = stringResource(screen.title),
                                 subtitle = stringResource(screen.subtitle),
