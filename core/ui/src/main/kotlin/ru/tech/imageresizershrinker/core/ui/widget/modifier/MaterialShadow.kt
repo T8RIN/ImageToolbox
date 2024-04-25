@@ -56,30 +56,38 @@ fun Modifier.materialShadow(
     }
     val elev = animateDpAsState(if (enabled) elevation else 0.dp).value
 
-    val api29Shadow = if (isClipped) {
-        Modifier.clippedShadow(
-            shape = shape,
-            elevation = elev,
-            ambientColor = color,
-            spotColor = color
-        )
-    } else {
-        Modifier.shadow(
-            shape = shape,
-            elevation = elev,
-            ambientColor = color,
-            spotColor = color
-        )
-    }
+    if (elev > 0.dp) {
+        when {
+            isConcavePath && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
+                val api21Shadow = Modifier.rsBlurShadow(
+                    shape = shape,
+                    radius = elev,
+                    isAlphaContentClip = isClipped,
+                    color = color
+                )
 
-    val api21shadow = Modifier.rsBlurShadow(
-        shape = shape,
-        radius = elev,
-        isAlphaContentClip = isClipped,
-        color = color
-    )
-    when {
-        isConcavePath && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> api21shadow
-        else -> api29Shadow
-    }
+                api21Shadow
+            }
+
+            else -> {
+                val api29Shadow = if (isClipped) {
+                    Modifier.clippedShadow(
+                        shape = shape,
+                        elevation = elev,
+                        ambientColor = color,
+                        spotColor = color
+                    )
+                } else {
+                    Modifier.shadow(
+                        shape = shape,
+                        elevation = elev,
+                        ambientColor = color,
+                        spotColor = color
+                    )
+                }
+
+                api29Shadow
+            }
+        }
+    } else Modifier
 }
