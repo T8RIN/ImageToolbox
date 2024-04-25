@@ -41,12 +41,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import ru.tech.imageresizershrinker.core.domain.APP_LINK
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
 import ru.tech.imageresizershrinker.core.resources.R
@@ -92,6 +97,13 @@ internal fun SearchableBottomBar(
                     )
                 }
             } else {
+                val focus = remember {
+                    FocusRequester()
+                }
+                LaunchedEffect(Unit) {
+                    delay(100)
+                    focus.requestFocus()
+                }
                 BackHandler {
                     onUpdateSearch("")
                     onCloseSearch()
@@ -101,6 +113,7 @@ internal fun SearchableBottomBar(
                         maxLines = 1,
                         hint = { Text(stringResource(id = R.string.search_here)) },
                         modifier = Modifier
+                            .focusRequester(focus)
                             .padding(start = 6.dp)
                             .offset(2.dp, (-2).dp),
                         keyboardOptions = KeyboardOptions.Default.copy(
