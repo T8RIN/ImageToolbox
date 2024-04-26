@@ -31,10 +31,12 @@ import android.net.Uri
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.app.ActivityCompat
+import androidx.core.os.LocaleListCompat
 import androidx.documentfile.provider.DocumentFile
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.utils.helper.IntentUtils.parcelable
@@ -296,8 +298,15 @@ object ContextUtils {
         return !getSystemProperty("ro.miui.ui.version.name").isNullOrBlank()
     }
 
+    fun isRedMagic(): Boolean {
+        val osName = System.getProperty("os.name")?.lowercase() ?: ""
+        return listOf("redmagic", "magic", "red").all {
+            it !in osName
+        }
+    }
+
     private fun getSystemProperty(name: String): String? {
-        return kotlin.runCatching {
+        return runCatching {
             val p = Runtime.getRuntime().exec("getprop $name")
             BufferedReader(InputStreamReader(p.inputStream), 1024).use {
                 return@runCatching it.readLine()
@@ -316,6 +325,43 @@ object ContextUtils {
                 contentResolver.openOutputStream(uri, "w")
             }.onFailure(onError).getOrNull()
         }
+    }
+
+    fun Context.getLanguages(): Map<String, String> {
+        val languages = mutableListOf("" to getString(R.string.system)).apply {
+            addAll(
+                LocaleConfigCompat(this@getLanguages)
+                    .supportedLocales!!.toList()
+                    .map {
+                        it.toLanguageTag() to it.getDisplayName(it)
+                            .replaceFirstChar(Char::uppercase)
+                    }
+            )
+        }
+
+        return languages.let { tags ->
+            listOf(tags.first()) + tags.drop(1).sortedBy { it.second }
+        }.toMap()
+    }
+
+    fun Context.getCurrentLocaleString(): String {
+        val locales = AppCompatDelegate.getApplicationLocales()
+        if (locales == LocaleListCompat.getEmptyLocaleList()) {
+            return getString(R.string.system)
+        }
+        return getDisplayName(locales.toLanguageTags())
+    }
+
+    private fun getDisplayName(lang: String?): String {
+        if (lang == null) {
+            return ""
+        }
+
+        val locale = when (lang) {
+            "" -> LocaleListCompat.getAdjustedDefault()[0]
+            else -> Locale.forLanguageTag(lang)
+        }
+        return locale!!.getDisplayName(locale).replaceFirstChar { it.uppercase(locale) }
     }
 
 }

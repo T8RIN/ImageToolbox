@@ -177,7 +177,7 @@ fun PresetSelector(
                             val selected = value.value() == it
                             EnhancedChip(
                                 selected = selected,
-                                onClick = { onValueChange(Preset.Numeric(it)) },
+                                onClick = { onValueChange(Preset.Percentage(it)) },
                                 selectedColor = MaterialTheme.colorScheme.primary,
                                 shape = MaterialTheme.shapes.medium
                             ) {

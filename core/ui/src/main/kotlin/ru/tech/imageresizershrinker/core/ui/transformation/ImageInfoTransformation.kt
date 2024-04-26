@@ -37,8 +37,8 @@ import coil.transform.Transformation as CoilTransformation
 
 class ImageInfoTransformation @AssistedInject constructor(
     @Assisted private val imageInfo: ImageInfo,
-    @Assisted private val preset: Preset = Preset.Numeric(100),
-    @Assisted private val transformations: List<Transformation<Bitmap>> = emptyList(),
+    @Assisted private val preset: Preset,
+    @Assisted private val transformations: List<Transformation<Bitmap>>,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageScaler: ImageScaler<Bitmap>,
     private val imagePreviewCreator: ImagePreviewCreator<Bitmap>
@@ -111,7 +111,7 @@ class ImageInfoTransformation @AssistedInject constructor(
     interface Factory {
         operator fun invoke(
             imageInfo: ImageInfo,
-            preset: Preset = Preset.Numeric(100),
+            preset: Preset = Preset.Original,
             transformations: List<Transformation<Bitmap>> = emptyList(),
         ): ImageInfoTransformation
     }

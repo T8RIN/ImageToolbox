@@ -36,8 +36,8 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoadingDialog(
-    canCancel: Boolean = true,
-    onCancelLoading: () -> Unit = {}
+    onCancelLoading: () -> Unit = {},
+    canCancel: Boolean = true
 ) {
     var showWantDismissDialog by remember(canCancel) { mutableStateOf(false) }
     BasicAlertDialog(onDismissRequest = { showWantDismissDialog = canCancel }) {
@@ -67,8 +67,8 @@ fun LoadingDialog(
 fun LoadingDialog(
     done: Int,
     left: Int,
+    onCancelLoading: () -> Unit,
     canCancel: Boolean = true,
-    onCancelLoading: () -> Unit
 ) {
     var showWantDismissDialog by remember(canCancel) { mutableStateOf(false) }
     BasicAlertDialog(onDismissRequest = { showWantDismissDialog = canCancel }) {

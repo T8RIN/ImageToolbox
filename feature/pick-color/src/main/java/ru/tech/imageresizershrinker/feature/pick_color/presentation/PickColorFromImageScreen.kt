@@ -651,7 +651,7 @@ fun PickColorFromImageScreen(
         }
     }
 
-    if (viewModel.isImageLoading) LoadingDialog(false) {}
+    if (viewModel.isImageLoading) LoadingDialog(canCancel = false)
 
     BackHandler {
         onGoBack()

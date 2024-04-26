@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -53,8 +52,8 @@ import androidx.core.os.LocaleListCompat
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils
-import ru.tech.imageresizershrinker.core.ui.utils.helper.LocaleConfigCompat
-import ru.tech.imageresizershrinker.core.ui.utils.helper.toList
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getCurrentLocaleString
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getLanguages
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
@@ -62,7 +61,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOve
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
-import java.util.Locale
 
 @Composable
 fun ChangeLanguageSettingItem(
@@ -70,29 +68,31 @@ fun ChangeLanguageSettingItem(
     shape: Shape = RoundedCornerShape(16.dp)
 ) {
     val context = LocalContext.current
-    val showDialog = rememberSaveable { mutableStateOf(false) }
+    val showEmbeddedLanguagePicker = rememberSaveable { mutableStateOf(false) }
     Column(Modifier.animateContentSize()) {
         PreferenceItem(
             shape = shape,
             modifier = modifier.padding(bottom = 1.dp),
             title = stringResource(R.string.language),
-            subtitle = context.getCurrentLocaleString(),
+            subtitle = remember {
+                context.getCurrentLocaleString()
+            },
             startIcon = Icons.Outlined.Language,
             endIcon = Icons.Rounded.MiniEdit,
             onClick = {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !ContextUtils.isMiUi()) {
-                    kotlin.runCatching {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !ContextUtils.isMiUi() && !ContextUtils.isRedMagic()) {
+                    runCatching {
                         context.startActivity(
                             Intent(
                                 Settings.ACTION_APP_LOCALE_SETTINGS,
                                 Uri.parse("package:${context.packageName}")
                             )
                         )
-                    }.getOrNull().let {
-                        if (it == null) showDialog.value = true
+                    }.onFailure {
+                        showEmbeddedLanguagePicker.value = true
                     }
                 } else {
-                    showDialog.value = true
+                    showEmbeddedLanguagePicker.value = true
                 }
             }
         )
@@ -102,7 +102,9 @@ fun ChangeLanguageSettingItem(
         entries = remember {
             context.getLanguages()
         },
-        selected = context.getCurrentLocaleString(),
+        selected = remember {
+            context.getCurrentLocaleString()
+        },
         onSelect = {
             val locale = if (it == "") {
                 LocaleListCompat.getEmptyLocaleList()
@@ -111,7 +113,7 @@ fun ChangeLanguageSettingItem(
             }
             AppCompatDelegate.setApplicationLocales(locale)
         },
-        visible = showDialog
+        visible = showEmbeddedLanguagePicker
     )
 }
 
@@ -188,40 +190,4 @@ private fun PickLanguageSheet(
         },
         visible = visible
     )
-}
-
-private fun Context.getLanguages(): Map<String, String> {
-    val languages = mutableListOf("" to getString(R.string.system)).apply {
-        addAll(
-            LocaleConfigCompat(this@getLanguages)
-                .supportedLocales!!.toList()
-                .map {
-                    it.toLanguageTag() to it.getDisplayName(it).replaceFirstChar(Char::uppercase)
-                }
-        )
-    }
-
-    return languages.let { tags ->
-        listOf(tags.first()) + tags.drop(1).sortedBy { it.second }
-    }.toMap()
-}
-
-private fun Context.getCurrentLocaleString(): String {
-    val locales = AppCompatDelegate.getApplicationLocales()
-    if (locales == LocaleListCompat.getEmptyLocaleList()) {
-        return getString(R.string.system)
-    }
-    return getDisplayName(locales.toLanguageTags())
-}
-
-private fun getDisplayName(lang: String?): String {
-    if (lang == null) {
-        return ""
-    }
-
-    val locale = when (lang) {
-        "" -> LocaleListCompat.getAdjustedDefault()[0]
-        else -> Locale.forLanguageTag(lang)
-    }
-    return locale!!.getDisplayName(locale).replaceFirstChar { it.uppercase(locale) }
 }

@@ -33,6 +33,7 @@ import ru.tech.imageresizershrinker.feature.apng_tools.presentation.ApngToolsScr
 import ru.tech.imageresizershrinker.feature.bytes_resize.presentation.BytesResizeScreen
 import ru.tech.imageresizershrinker.feature.cipher.presentation.FileCipherScreen
 import ru.tech.imageresizershrinker.feature.compare.presentation.CompareScreen
+import ru.tech.imageresizershrinker.feature.convert.presentation.ConvertScreen
 import ru.tech.imageresizershrinker.feature.crop.presentation.CropScreen
 import ru.tech.imageresizershrinker.feature.delete_exif.presentation.DeleteExifScreen
 import ru.tech.imageresizershrinker.feature.draw.presentation.DrawScreen
@@ -281,6 +282,13 @@ internal fun ScreenSelector(
 
             is Screen.Svg -> {
                 SvgScreen(
+                    uriState = screen.uris,
+                    onGoBack = onGoBack
+                )
+            }
+
+            is Screen.Convert -> {
+                ConvertScreen(
                     uriState = screen.uris,
                     onGoBack = onGoBack
                 )

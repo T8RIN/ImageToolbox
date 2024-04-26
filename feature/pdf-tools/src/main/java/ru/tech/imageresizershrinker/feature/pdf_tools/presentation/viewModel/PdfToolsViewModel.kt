@@ -80,7 +80,8 @@ class PdfToolsViewModel @Inject constructor(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
 
-    private val _presetSelected: MutableState<Preset.Numeric> = mutableStateOf(Preset.Numeric(100))
+    private val _presetSelected: MutableState<Preset.Percentage> =
+        mutableStateOf(Preset.Percentage(100))
     val presetSelected by _presetSelected
 
     private val _scaleSmallImagesToLarge: MutableState<Boolean> = mutableStateOf(false)
@@ -182,7 +183,7 @@ class PdfToolsViewModel @Inject constructor(
         _pdfPreviewUri.update { null }
         _imagesToPdfState.update { null }
         _pdfToImageState.update { null }
-        _presetSelected.update { Preset.Numeric(100) }
+        _presetSelected.update { Preset.Original }
         _showOOMWarning.value = false
         _imageInfo.value = ImageInfo()
         resetCalculatedData()
@@ -392,7 +393,7 @@ class PdfToolsViewModel @Inject constructor(
         }
     }
 
-    fun selectPreset(preset: Preset.Numeric) {
+    fun selectPreset(preset: Preset.Percentage) {
         _presetSelected.update { preset }
         preset.value()?.takeIf { it <= 100f }?.let { quality ->
             _imageInfo.update {

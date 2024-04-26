@@ -264,7 +264,7 @@ fun BytesResizeScreen(
                 } else {
                     PresetSelector(
                         value = viewModel.presetSelected.let {
-                            Preset.Numeric(it)
+                            Preset.Percentage(it)
                         },
                         includeTelegramOption = false,
                         onValueChange = viewModel::selectPreset
@@ -334,9 +334,11 @@ fun BytesResizeScreen(
     )
 
     if (viewModel.isSaving) {
-        LoadingDialog(viewModel.done, viewModel.uris?.size ?: 1) {
-            viewModel.cancelSaving()
-        }
+        LoadingDialog(
+            done = viewModel.done,
+            left = viewModel.uris?.size ?: 1,
+            onCancelLoading = viewModel::cancelSaving
+        )
     }
 
     PickImageFromUrisSheet(

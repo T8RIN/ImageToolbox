@@ -49,6 +49,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.CropSmall
 import ru.tech.imageresizershrinker.core.resources.icons.Encrypted
 import ru.tech.imageresizershrinker.core.resources.icons.Exif
 import ru.tech.imageresizershrinker.core.resources.icons.ImageCombine
+import ru.tech.imageresizershrinker.core.resources.icons.ImageConvert
 import ru.tech.imageresizershrinker.core.resources.icons.ImageDownload
 import ru.tech.imageresizershrinker.core.resources.icons.ImageEdit
 import ru.tech.imageresizershrinker.core.resources.icons.ImageLimit
@@ -70,6 +71,7 @@ sealed class Screen(
     @StringRes val subtitle: Int
 ) : Parcelable {
 
+    @Suppress("unused")
     val simpleName: String?
         get() = when (this) {
             is ApngTools -> "APNG_Tools"
@@ -100,10 +102,15 @@ sealed class Screen(
             is Watermarking -> "Watermarking"
             is Zip -> "Zip"
             is Svg -> "Svg"
+            is Convert -> "Convert"
         }
 
     val icon: ImageVector?
         get() = when (this) {
+            EasterEgg,
+            Main,
+            Settings -> null
+
             is SingleEdit -> Icons.Outlined.ImageEdit
             is ApngTools -> Icons.Rounded.ApngBox
             is Cipher -> Icons.Outlined.Encrypted
@@ -129,9 +136,7 @@ sealed class Screen(
             is Watermarking -> Icons.AutoMirrored.Outlined.BrandingWatermark
             is Zip -> Icons.Outlined.FolderZip
             is Svg -> Icons.Outlined.Svg
-            EasterEgg,
-            Main,
-            Settings -> null
+            is Convert -> Icons.Outlined.ImageConvert
         }
 
     data object Settings : Screen(
@@ -577,12 +582,21 @@ sealed class Screen(
         subtitle = R.string.images_to_svg_sub
     )
 
+    data class Convert(
+        val uris: List<Uri>? = null
+    ) : Screen(
+        id = 25,
+        title = R.string.convert,
+        subtitle = R.string.convert_sub
+    )
+
     companion object {
         val typedEntries by lazy {
             listOf(
                 listOf(
                     SingleEdit(),
                     ResizeAndConvert(),
+                    Convert(),
                     Crop(),
                     ResizeByBytes(),
                     LimitResize(),
@@ -635,6 +649,6 @@ sealed class Screen(
             typedEntries.flatMap { it.first }.sortedBy { it.id }
         }
 
-        const val FEATURES_COUNT = 38
+        const val FEATURES_COUNT = 39
     }
 }

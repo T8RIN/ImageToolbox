@@ -490,7 +490,7 @@ fun PdfToolsScreen(
                     value = viewModel.presetSelected,
                     includeTelegramOption = false,
                     onValueChange = {
-                        if (it is Preset.Numeric) {
+                        if (it is Preset.Percentage) {
                             viewModel.selectPreset(it)
                         }
                     },
@@ -517,7 +517,7 @@ fun PdfToolsScreen(
                     value = viewModel.presetSelected,
                     includeTelegramOption = false,
                     onValueChange = {
-                        if (it is Preset.Numeric) {
+                        if (it is Preset.Percentage) {
                             viewModel.selectPreset(it)
                         }
                     },
@@ -947,13 +947,13 @@ fun PdfToolsScreen(
 
                 if (viewModel.isSaving) {
                     if (viewModel.left != 0) {
-                        LoadingDialog(viewModel.done, viewModel.left) {
-                            viewModel.cancelSaving()
-                        }
+                        LoadingDialog(
+                            done = viewModel.done,
+                            left = viewModel.left,
+                            onCancelLoading = viewModel::cancelSaving
+                        )
                     } else {
-                        LoadingDialog {
-                            viewModel.cancelSaving()
-                        }
+                        LoadingDialog(viewModel::cancelSaving)
                     }
                 }
             }

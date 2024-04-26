@@ -277,7 +277,9 @@ fun CompareScreen(
         previewBitmap = previewBitmap
     )
 
-    if (viewModel.isImageLoading) LoadingDialog { viewModel.cancelSaving() }
+    if (viewModel.isImageLoading) {
+        LoadingDialog(viewModel::cancelSaving)
+    }
 
     BackHandler(onBack = onGoBack)
 }

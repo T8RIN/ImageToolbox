@@ -61,7 +61,7 @@ internal class AndroidPdfManager @Inject constructor(
         imageUris: List<String>,
         onProgressChange: suspend (Int) -> Unit,
         scaleSmallImagesToLarge: Boolean,
-        preset: Preset.Numeric
+        preset: Preset.Percentage
     ): ByteArray = withContext(encodingDispatcher) {
         val pdfDocument = PdfDocument()
 
@@ -111,7 +111,7 @@ internal class AndroidPdfManager @Inject constructor(
     override fun convertPdfToImages(
         pdfUri: String,
         pages: List<Int>?,
-        preset: Preset.Numeric,
+        preset: Preset.Percentage,
         onGetPagesCount: suspend (Int) -> Unit,
         onProgressChange: suspend (Int, Bitmap) -> Unit,
         onComplete: suspend () -> Unit

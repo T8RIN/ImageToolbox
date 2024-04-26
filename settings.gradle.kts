@@ -87,6 +87,7 @@ include(":feature:quick-tiles")
 include(":feature:settings")
 include(":feature:easter-egg")
 include(":feature:svg")
+include(":feature:convert")
 
 include(":feature:root")
 

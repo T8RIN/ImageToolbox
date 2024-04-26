@@ -281,10 +281,10 @@ fun LimitsResizeScreen(
 
     if (viewModel.isSaving) {
         LoadingDialog(
-            done = viewModel.done, left = viewModel.uris?.size ?: 1
-        ) {
-            viewModel.cancelSaving()
-        }
+            done = viewModel.done,
+            left = viewModel.uris?.size ?: 1,
+            onCancelLoading = viewModel::cancelSaving
+        )
     }
 
     PickImageFromUrisSheet(

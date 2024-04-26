@@ -304,9 +304,7 @@ fun ImageStitchingScreen(
     )
 
     if (viewModel.isSaving) {
-        LoadingDialog {
-            viewModel.cancelSaving()
-        }
+        LoadingDialog(viewModel::cancelSaving)
     }
 
     ExitWithoutSavingDialog(

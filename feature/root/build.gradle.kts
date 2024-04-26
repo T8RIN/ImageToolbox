@@ -53,4 +53,5 @@ dependencies {
     implementation(projects.feature.settings)
     implementation(projects.feature.easterEgg)
     implementation(projects.feature.svg)
+    implementation(projects.feature.convert)
 }

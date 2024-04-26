@@ -31,13 +31,13 @@ interface PdfManager<I> {
         imageUris: List<String>,
         onProgressChange: suspend (Int) -> Unit,
         scaleSmallImagesToLarge: Boolean,
-        preset: Preset.Numeric
+        preset: Preset.Percentage
     ): ByteArray
 
     fun convertPdfToImages(
         pdfUri: String,
         pages: List<Int>?,
-        preset: Preset.Numeric,
+        preset: Preset.Percentage,
         onGetPagesCount: suspend (Int) -> Unit,
         onProgressChange: suspend (Int, I) -> Unit,
         onComplete: suspend () -> Unit = {}

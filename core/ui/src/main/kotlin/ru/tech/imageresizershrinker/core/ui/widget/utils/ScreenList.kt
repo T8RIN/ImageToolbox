@@ -90,6 +90,7 @@ internal fun List<Uri>.screenList(
             listOf(
                 Screen.SingleEdit(uris.firstOrNull()),
                 Screen.ResizeAndConvert(uris),
+                Screen.Convert(uris),
                 Screen.ResizeByBytes(uris),
                 Screen.Crop(uris.firstOrNull()),
                 Screen.Filter(
@@ -150,6 +151,7 @@ internal fun List<Uri>.screenList(
             mutableListOf(
                 Screen.ResizeAndConvert(uris),
                 Screen.ResizeByBytes(uris),
+                Screen.Convert(uris),
                 Screen.Filter(
                     type = Screen.Filter.Type.Basic(uris)
                 )
@@ -226,7 +228,7 @@ internal fun List<Uri>.screenList(
                 extraImageType == "pdf" -> pdfAvailableScreens
                 extraImageType == "gif" -> gifAvailableScreens
                 extraImageType == "file" -> filesAvailableScreens
-                uris.size <= 1 -> singleImageScreens
+                uris.size < 2 -> singleImageScreens
                 else -> multipleImagesScreens
             }
         }

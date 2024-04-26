@@ -201,10 +201,12 @@ internal fun RowScope.ScreenPreferenceSelection(
                                                 .using(SizeTransform(false))
                                         }
                                     ) { icon ->
-                                        Icon(
-                                            imageVector = icon!!,
-                                            contentDescription = null
-                                        )
+                                        icon?.let {
+                                            Icon(
+                                                imageVector = icon,
+                                                contentDescription = null
+                                            )
+                                        }
                                     }
                                 },
                                 interactionSource = interactionSource

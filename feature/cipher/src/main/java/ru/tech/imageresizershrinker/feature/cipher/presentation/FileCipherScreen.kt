@@ -756,9 +756,7 @@ fun FileCipherScreen(
                     }
                 }
 
-                if (viewModel.isSaving) LoadingDialog {
-                    viewModel.cancelSaving()
-                }
+                if (viewModel.isSaving) LoadingDialog(viewModel::cancelSaving)
             }
         }
 

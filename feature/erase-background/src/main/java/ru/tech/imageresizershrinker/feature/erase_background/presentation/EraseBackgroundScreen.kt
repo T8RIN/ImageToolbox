@@ -749,9 +749,7 @@ fun EraseBackgroundScreen(
 
 
     if (viewModel.isSaving || viewModel.isImageLoading || viewModel.isErasingBG) {
-        LoadingDialog(viewModel.isSaving) {
-            viewModel.cancelSaving()
-        }
+        LoadingDialog(viewModel::cancelSaving, viewModel.isSaving)
     }
 
     ExitWithoutSavingDialog(

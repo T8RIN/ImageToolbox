@@ -263,9 +263,11 @@ fun DeleteExifScreen(
     )
 
     if (viewModel.isSaving) {
-        LoadingDialog(viewModel.done, viewModel.uris?.size ?: 1) {
-            viewModel.cancelSaving()
-        }
+        LoadingDialog(
+            done = viewModel.done,
+            left = viewModel.uris?.size ?: 1,
+            onCancelLoading = viewModel::cancelSaving
+        )
     }
 
     PickImageFromUrisSheet(

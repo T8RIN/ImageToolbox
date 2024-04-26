@@ -963,9 +963,10 @@ fun DrawScreen(
     }
 
     if (viewModel.isSaving || viewModel.isImageLoading) {
-        LoadingDialog(viewModel.isSaving) {
-            viewModel.cancelSaving()
-        }
+        LoadingDialog(
+            onCancelLoading = viewModel::cancelSaving,
+            canCancel = viewModel.isSaving
+        )
     }
 
     var colorPickerColor by rememberSaveable { mutableStateOf(Color.Black) }

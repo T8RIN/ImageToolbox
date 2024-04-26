@@ -15,12 +15,15 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.utils.state
+plugins {
+    alias(libs.plugins.image.toolbox.library)
+    alias(libs.plugins.image.toolbox.feature)
+    alias(libs.plugins.image.toolbox.hilt)
+    alias(libs.plugins.image.toolbox.compose)
+}
 
-import androidx.compose.runtime.MutableState
+android.namespace = "ru.tech.imageresizershrinker.feature.convert"
 
-inline fun <T> MutableState<T>.update(
-    transform: (T) -> T
-): MutableState<T> = apply {
-    this.value = transform(this.value)
+dependencies {
+    implementation(projects.feature.compare)
 }
