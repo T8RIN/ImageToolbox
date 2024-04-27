@@ -893,4 +893,6 @@
     <string name="legacy">Legado</string>
     <string name="lstm_network">Rede LSTM</string>
     <string name="legacy_and_lstm">Legado &amp; LSTM</string>
+    <string name="convert_sub">Converter lotes de imagens para determinado formato</string>
+    <string name="convert">Converter</string>
 </resources>
