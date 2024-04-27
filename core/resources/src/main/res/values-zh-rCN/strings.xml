@@ -894,4 +894,6 @@
     <string name="legacy">传统</string>
     <string name="lstm_network">LSTM 网络</string>
     <string name="legacy_and_lstm">Legacy &amp; LSTM</string>
+    <string name="convert">转换</string>
+    <string name="convert_sub">将批量图像转换为给定格式</string>
 </resources>
