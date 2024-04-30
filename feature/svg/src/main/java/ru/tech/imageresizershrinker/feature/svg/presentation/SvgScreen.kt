@@ -101,9 +101,8 @@ fun SvgScreen(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.uris.isNotEmpty()) {
-            showExitDialog = true
-        } else onGoBack()
+        if (viewModel.haveChanges) showExitDialog = true
+        else onGoBack()
     }
 
     val pickImagesLauncher = rememberImagePicker(

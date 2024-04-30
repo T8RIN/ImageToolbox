@@ -37,6 +37,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
+import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
@@ -66,10 +67,6 @@ class SvgViewModel @Inject constructor(
 
     private val _params = mutableStateOf(SvgParams.Default)
     val params by _params
-
-    fun setUris(newUris: List<Uri>) {
-        _uris.update { newUris.distinct() }
-    }
 
     private var savingJob: Job? by smartJob {
         _isSaving.update { false }
@@ -104,7 +101,7 @@ class SvgViewModel @Inject constructor(
             }
 
             _isSaving.value = false
-            onResult(results, fileController.savingPath)
+            onResult(results.onSuccess(::registerSave), fileController.savingPath)
         }
     }
 
@@ -173,14 +170,23 @@ class SvgViewModel @Inject constructor(
         _isSaving.value = false
     }
 
-    fun removeUri(uri: Uri) {
-        _uris.update { it - uri }
+    fun setUris(newUris: List<Uri>) {
+        _uris.update { newUris.distinct() }
     }
 
-    fun addUris(list: List<Uri>) = setUris(uris + list)
+    fun removeUri(uri: Uri) {
+        _uris.update { it - uri }
+        registerChanges()
+    }
+
+    fun addUris(list: List<Uri>) {
+        setUris(uris + list)
+        registerChanges()
+    }
 
     fun updateParams(newParams: SvgParams) {
         _params.update { newParams }
+        registerChanges()
     }
 
 }
