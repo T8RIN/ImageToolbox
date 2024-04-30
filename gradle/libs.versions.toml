@@ -33,7 +33,7 @@ firebaseAnalyticsKtx = "21.6.2"
 firebaseCrashlyticsGradle = "2.9.9"
 google-segmentationSelfie = "16.0.0-beta5"
 detekt = "1.23.6"
-detektCompose = "0.3.17"
+detektCompose = "0.3.18"
 
 kotlin = "1.9.23"
 agp = "8.3.2"

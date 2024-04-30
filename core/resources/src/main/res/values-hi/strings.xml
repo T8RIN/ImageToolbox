@@ -894,4 +894,6 @@
     <string name="lstm_network">LSTM नेटवर्क</string>
     <string name="legacy">विरासत</string>
     <string name="legacy_and_lstm">विरासत और LSTM</string>
+    <string name="convert">बदलें</string>
+    <string name="convert_sub">छवि बैचों को दिए गए प्रारूप में बदलें</string>
 </resources>
