@@ -48,6 +48,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
@@ -190,6 +191,7 @@ class ResizeAndConvertViewModel @Inject constructor(
             debouncedImageCalculation {
                 checkBitmapAndUpdate()
             }
+            registerChanges()
         }
     }
 
@@ -215,7 +217,7 @@ class ResizeAndConvertViewModel @Inject constructor(
     private fun setImageData(imageData: ImageData<Bitmap, ExifInterface>) {
         job = viewModelScope.launch {
             _isImageLoading.value = true
-            updateExif(imageData.metadata)
+            _exif.update { imageData.metadata }
             val bitmap = imageData.image
             val size = bitmap.width to bitmap.height
             _originalSize.value = size.run { IntegerSize(width = first, height = second) }
@@ -243,6 +245,7 @@ class ResizeAndConvertViewModel @Inject constructor(
         debouncedImageCalculation {
             checkBitmapAndUpdate()
         }
+        registerChanges()
     }
 
     fun rotateRight() {
@@ -256,6 +259,7 @@ class ResizeAndConvertViewModel @Inject constructor(
         debouncedImageCalculation {
             checkBitmapAndUpdate()
         }
+        registerChanges()
     }
 
     fun flip() {
@@ -263,6 +267,7 @@ class ResizeAndConvertViewModel @Inject constructor(
         debouncedImageCalculation {
             checkBitmapAndUpdate()
         }
+        registerChanges()
     }
 
     fun updateWidth(width: Int) {
@@ -271,6 +276,7 @@ class ResizeAndConvertViewModel @Inject constructor(
             debouncedImageCalculation {
                 checkBitmapAndUpdate(true)
             }
+            registerChanges()
         }
     }
 
@@ -280,6 +286,7 @@ class ResizeAndConvertViewModel @Inject constructor(
             debouncedImageCalculation {
                 checkBitmapAndUpdate(true)
             }
+            registerChanges()
         }
     }
 
@@ -289,6 +296,7 @@ class ResizeAndConvertViewModel @Inject constructor(
             debouncedImageCalculation {
                 checkBitmapAndUpdate()
             }
+            registerChanges()
         }
     }
 
@@ -300,6 +308,7 @@ class ResizeAndConvertViewModel @Inject constructor(
                     resetPreset = _presetSelected.value == Preset.Telegram && imageFormat != ImageFormat.Png.Lossless
                 )
             }
+            registerChanges()
         }
     }
 
@@ -313,11 +322,13 @@ class ResizeAndConvertViewModel @Inject constructor(
             debouncedImageCalculation {
                 checkBitmapAndUpdate()
             }
+            registerChanges()
         }
     }
 
     fun setKeepExif(boolean: Boolean) {
         _keepExif.value = boolean
+        registerChanges()
     }
 
     private var savingJob: Job? by smartJob {
@@ -366,7 +377,7 @@ class ResizeAndConvertViewModel @Inject constructor(
 
                 _done.value += 1
             }
-            onComplete(results, fileController.savingPath)
+            onComplete(results.onSuccess(::registerSave), fileController.savingPath)
             _isSaving.value = false
         }
     }
@@ -453,6 +464,7 @@ class ResizeAndConvertViewModel @Inject constructor(
 
     fun updateExif(exifInterface: ExifInterface?) {
         _exif.value = exifInterface
+        registerChanges()
     }
 
     fun removeExifTag(tag: String) {
@@ -485,6 +497,7 @@ class ResizeAndConvertViewModel @Inject constructor(
         debouncedImageCalculation {
             checkBitmapAndUpdate()
         }
+        registerChanges()
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {

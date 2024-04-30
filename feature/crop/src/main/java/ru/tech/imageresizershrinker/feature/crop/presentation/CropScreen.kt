@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.crop.presentation
 
 
-import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.ComponentActivity
@@ -61,7 +60,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -96,11 +94,11 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isScrollingUp
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -204,8 +202,7 @@ fun CropScreen(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val scrollState = rememberScrollState()
 
-    val portrait =
-        LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
+    val isPortrait by isPortraitOrientationAsState()
 
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(
@@ -310,7 +307,7 @@ fun CropScreen(
                             }
                         },
                         actions = {
-                            if (portrait) {
+                            if (isPortrait) {
                                 EnhancedIconButton(
                                     containerColor = Color.Transparent,
                                     contentColor = LocalContentColor.current,
@@ -362,7 +359,7 @@ fun CropScreen(
                 }
 
                 viewModel.bitmap?.let { bitmap ->
-                    if (portrait) {
+                    if (isPortrait) {
                         Cropper(
                             bitmap = bitmap,
                             crop = crop,
@@ -499,7 +496,7 @@ fun CropScreen(
         }
     }
 
-    if (portrait && viewModel.bitmap != null) {
+    if (isPortrait && viewModel.bitmap != null) {
         val screenHeight = LocalConfiguration.current.screenHeightDp.dp
         BottomSheetScaffold(
             scaffoldState = scaffoldState,

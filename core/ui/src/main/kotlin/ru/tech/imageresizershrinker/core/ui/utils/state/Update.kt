@@ -24,3 +24,17 @@ inline fun <T> MutableState<T>.update(
 ): MutableState<T> = apply {
     this.value = transform(this.value)
 }
+
+inline fun <T> MutableState<T>.updateIf(
+    predicate: (T) -> Boolean,
+    transform: (T) -> T
+): MutableState<T> = apply {
+    if (predicate(this.value)) {
+        this.value = transform(this.value)
+    }
+}
+
+//fun <T> T.asFun(): Function1<T, T> {
+//    val value = this
+//    return { value }
+//}

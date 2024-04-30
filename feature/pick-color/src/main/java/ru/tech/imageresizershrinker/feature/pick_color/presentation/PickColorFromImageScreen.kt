@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.pick_color.presentation
 
-import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
@@ -65,7 +64,6 @@ import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -83,7 +81,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.isUnspecified
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -102,10 +99,10 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.copyToClipboard
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toHex
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.PanModeButton
@@ -193,8 +190,7 @@ fun PickColorFromImageScreen(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val scrollState = rememberScrollState()
 
-    val portrait =
-        LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
+    val isPortrait by isPortraitOrientationAsState()
 
     val switch = @Composable {
         PanModeButton(
@@ -300,13 +296,13 @@ fun PickColorFromImageScreen(
                                                 contentDescription = stringResource(R.string.exit)
                                             )
                                         }
-                                        if (portrait) {
+                                        if (isPortrait) {
                                             Spacer(modifier = Modifier.weight(1f))
                                             magnifierButton()
                                             Spacer(modifier = Modifier.width(4.dp))
                                         }
                                     }
-                                    if (!portrait) {
+                                    if (!isPortrait) {
                                         ProvideTextStyle(
                                             value = LocalTextStyle.current.merge(
                                                 MaterialTheme.typography.headlineSmall
@@ -408,7 +404,7 @@ fun PickColorFromImageScreen(
                                             .padding(start = 8.dp)
                                     )
                                 }
-                                if (portrait) {
+                                if (isPortrait) {
                                     Spacer(modifier = Modifier.height(8.dp))
                                     ProvideTextStyle(
                                         value = LocalTextStyle.current.merge(
@@ -504,7 +500,7 @@ fun PickColorFromImageScreen(
                 modifier = Modifier.weight(1f)
             ) {
                 viewModel.bitmap?.let {
-                    if (portrait) {
+                    if (isPortrait) {
                         AnimatedContent(
                             targetState = it
                         ) { bitmap ->
@@ -598,7 +594,7 @@ fun PickColorFromImageScreen(
                     )
                 }
             }
-            if (viewModel.bitmap != null && portrait) {
+            if (viewModel.bitmap != null && isPortrait) {
                 BottomAppBar(
                     modifier = Modifier
                         .drawHorizontalStroke(true),

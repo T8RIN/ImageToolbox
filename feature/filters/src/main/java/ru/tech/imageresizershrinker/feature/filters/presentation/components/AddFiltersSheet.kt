@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.filters.presentation.components
 
-import android.content.res.Configuration
 import android.graphics.Bitmap
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
@@ -87,7 +86,6 @@ import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -109,7 +107,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -139,7 +136,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.White
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getStringLocalized
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.image.SimplePicture
@@ -685,15 +682,14 @@ fun AddFiltersSheet(
                         modifier = Modifier
                     )
                 }
-                val imageInside =
-                    LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
+                val isPortrait by isPortraitOrientationAsState()
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
                 ) {
                     val isUnit = previewSheetData?.value == Unit
-                    if (!imageInside) {
+                    if (!isPortrait) {
                         Box(
                             modifier = Modifier
                                 .container(RectangleShape)
@@ -711,13 +707,13 @@ fun AddFiltersSheet(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
                             .then(
-                                if (!imageInside && !isUnit) Modifier.weight(1f)
+                                if (!isPortrait && !isUnit) Modifier.weight(1f)
                                 else Modifier
                             )
                             .clipToBounds()
                     ) {
                         imageStickyHeader(
-                            visible = imageInside,
+                            visible = isPortrait,
                             imageState = imageState,
                             internalHeight = internalHeight,
                             onStateChange = { imageState = it },

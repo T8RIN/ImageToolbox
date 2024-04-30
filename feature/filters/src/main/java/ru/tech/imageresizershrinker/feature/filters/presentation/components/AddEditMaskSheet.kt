@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.filters.presentation.components
 
-import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.ComponentActivity
@@ -54,7 +53,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -72,7 +70,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -97,7 +94,7 @@ import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.state.update
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
@@ -148,8 +145,7 @@ fun AddEditMaskSheet(
             viewModel.setMask(mask = mask, bitmapUri = targetBitmapUri, masks = masks)
         }
 
-        val portrait =
-            LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
+        val isPortrait by isPortraitOrientationAsState()
 
         val showAddFilterSheet = rememberSaveable { mutableStateOf(false) }
 
@@ -253,7 +249,10 @@ fun AddEditMaskSheet(
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(
-                            if (portrait) RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)
+                            if (isPortrait) RoundedCornerShape(
+                                bottomStart = 24.dp,
+                                bottomEnd = 24.dp
+                            )
                             else RectangleShape
                         )
                         .background(
@@ -286,7 +285,7 @@ fun AddEditMaskSheet(
                             drawMode = DrawMode.Pen,
                             modifier = Modifier
                                 .padding(16.dp)
-                                .aspectRatio(aspectRatio, portrait)
+                                .aspectRatio(aspectRatio, isPortrait)
                                 .fillMaxSize(),
                             panEnabled = panEnabled,
                             onDrawStart = {
@@ -304,7 +303,7 @@ fun AddEditMaskSheet(
             }
             Row {
                 val backgroundColor = MaterialTheme.colorScheme.surfaceContainerLow
-                if (!portrait) {
+                if (!isPortrait) {
                     Box(modifier = Modifier.weight(1.3f)) {
                         drawPreview()
                     }
@@ -315,7 +314,7 @@ fun AddEditMaskSheet(
                     modifier = Modifier.weight(1f)
                 ) {
                     imageStickyHeader(
-                        visible = portrait,
+                        visible = isPortrait,
                         internalHeight = internalHeight,
                         imageState = imageState,
                         onStateChange = {
@@ -330,7 +329,7 @@ fun AddEditMaskSheet(
                         Row(
                             Modifier
                                 .then(
-                                    if (imageState.isBlocked && portrait) Modifier.padding(
+                                    if (imageState.isBlocked && isPortrait) Modifier.padding(
                                         start = 16.dp,
                                         end = 16.dp,
                                         bottom = 16.dp

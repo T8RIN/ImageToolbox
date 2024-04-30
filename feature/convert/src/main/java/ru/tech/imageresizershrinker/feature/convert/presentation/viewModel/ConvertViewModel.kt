@@ -45,6 +45,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
@@ -105,17 +106,15 @@ class ConvertViewModel @Inject constructor(
         _uris.value = uris
         _selectedUri.value = uris?.firstOrNull()
         uris?.firstOrNull()?.let { uri ->
-            viewModelScope.launch {
-                _imageInfo.update {
-                    it.copy(originalUri = uri.toString())
-                }
-                imageGetter.getImageAsync(
-                    uri = uri.toString(),
-                    originalSize = true,
-                    onGetImage = ::setImageData,
-                    onError = onError
-                )
+            _imageInfo.update {
+                it.copy(originalUri = uri.toString())
             }
+            imageGetter.getImageAsync(
+                uri = uri.toString(),
+                originalSize = false,
+                onGetImage = ::setImageData,
+                onError = onError
+            )
         }
     }
 
@@ -141,6 +140,8 @@ class ConvertViewModel @Inject constructor(
                 remove(removedUri)
             }
             _uris.value = u
+
+            registerChanges()
         }
     }
 
@@ -156,7 +157,7 @@ class ConvertViewModel @Inject constructor(
     private suspend fun updatePreview(
         bitmap: Bitmap
     ): Bitmap? = withContext(defaultDispatcher) {
-        return@withContext imageInfo.run {
+        imageInfo.run {
             imagePreviewCreator.createPreview(
                 image = bitmap,
                 imageInfo = this,
@@ -208,6 +209,7 @@ class ConvertViewModel @Inject constructor(
             debouncedImageCalculation {
                 checkBitmapAndUpdate()
             }
+            registerChanges()
         }
     }
 
@@ -217,11 +219,13 @@ class ConvertViewModel @Inject constructor(
             debouncedImageCalculation {
                 checkBitmapAndUpdate()
             }
+            registerChanges()
         }
     }
 
     fun setKeepExif(boolean: Boolean) {
         _keepExif.value = boolean
+        registerChanges()
     }
 
     private var savingJob: Job? by smartJob {
@@ -270,7 +274,7 @@ class ConvertViewModel @Inject constructor(
 
                 _done.value += 1
             }
-            onComplete(results, fileController.savingPath)
+            onComplete(results.onSuccess(::registerSave), fileController.savingPath)
             _isSaving.value = false
         }
     }

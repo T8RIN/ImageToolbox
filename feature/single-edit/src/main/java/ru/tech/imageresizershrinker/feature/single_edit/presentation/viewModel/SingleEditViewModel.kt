@@ -193,7 +193,7 @@ class SingleEditViewModel @Inject constructor(
                             )
                         ),
                         keepOriginalMetadata = true
-                    )
+                    ).onSuccess(::registerSave)
                 )
             }
             _isSaving.value = false
@@ -262,6 +262,7 @@ class SingleEditViewModel @Inject constructor(
                     resetPreset = true
                 )
             }
+            registerChanges()
         }
     }
 
@@ -276,6 +277,7 @@ class SingleEditViewModel @Inject constructor(
         debouncedImageCalculation {
             checkBitmapAndUpdate()
         }
+        registerChanges()
     }
 
     fun rotateBitmapRight() {
@@ -289,6 +291,7 @@ class SingleEditViewModel @Inject constructor(
         debouncedImageCalculation {
             checkBitmapAndUpdate()
         }
+        registerChanges()
     }
 
     fun flipImage() {
@@ -296,6 +299,7 @@ class SingleEditViewModel @Inject constructor(
         debouncedImageCalculation {
             checkBitmapAndUpdate()
         }
+        registerChanges()
     }
 
     fun updateWidth(width: Int) {
@@ -306,6 +310,7 @@ class SingleEditViewModel @Inject constructor(
                     resetPreset = true
                 )
             }
+            registerChanges()
         }
     }
 
@@ -317,6 +322,7 @@ class SingleEditViewModel @Inject constructor(
                     resetPreset = true
                 )
             }
+            registerChanges()
         }
     }
 
@@ -326,6 +332,7 @@ class SingleEditViewModel @Inject constructor(
             debouncedImageCalculation {
                 checkBitmapAndUpdate()
             }
+            registerChanges()
         }
     }
 
@@ -337,6 +344,7 @@ class SingleEditViewModel @Inject constructor(
                     resetPreset = _presetSelected.value == Preset.Telegram && imageFormat != ImageFormat.Png.Lossless
                 )
             }
+            registerChanges()
         }
     }
 
@@ -352,6 +360,7 @@ class SingleEditViewModel @Inject constructor(
                     resetPreset = false
                 )
             }
+            registerChanges()
         }
     }
 
@@ -381,7 +390,7 @@ class SingleEditViewModel @Inject constructor(
     private fun setImageData(imageData: ImageData<Bitmap, ExifInterface>) {
         job = viewModelScope.launch {
             _isImageLoading.value = true
-            updateExif(imageData.metadata)
+            _exif.update { imageData.metadata }
             val bitmap = imageData.image
             val size = bitmap.width to bitmap.height
             _originalSize.value = size.run { IntegerSize(width = first, height = second) }
@@ -441,6 +450,7 @@ class SingleEditViewModel @Inject constructor(
                 )
             )
             _presetSelected.value = preset
+            registerChanges()
         }
     }
 
@@ -450,10 +460,12 @@ class SingleEditViewModel @Inject constructor(
             t?.setAttribute(it, null)
         }
         _exif.value = t
+        registerChanges()
     }
 
     private fun updateExif(exifInterface: ExifInterface?) {
         _exif.value = exifInterface
+        registerChanges()
     }
 
     fun removeExifTag(tag: String) {
@@ -616,6 +628,7 @@ class SingleEditViewModel @Inject constructor(
         debouncedImageCalculation {
             checkBitmapAndUpdate()
         }
+        registerChanges()
     }
 
     suspend fun filter(

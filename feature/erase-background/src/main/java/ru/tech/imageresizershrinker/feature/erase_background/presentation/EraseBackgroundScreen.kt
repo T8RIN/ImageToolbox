@@ -172,18 +172,11 @@ fun EraseBackgroundScreen(
 
     LaunchedEffect(uriState) {
         uriState?.let {
-            viewModel.setUri(it)
-            viewModel.decodeBitmapByUri(
-                uri = it,
-                onGetMimeType = viewModel::setMime,
-                onGetExif = {},
-                onGetBitmap = viewModel::updateBitmap,
-                onError = {
-                    scope.launch {
-                        toastHostState.showError(context, it)
-                    }
+            viewModel.setUri(it) {
+                scope.launch {
+                    toastHostState.showError(context, it)
                 }
-            )
+            }
         }
     }
 
@@ -203,18 +196,11 @@ fun EraseBackgroundScreen(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
-                viewModel.setUri(it)
-                viewModel.decodeBitmapByUri(
-                    uri = it,
-                    onGetMimeType = viewModel::setMime,
-                    onGetExif = {},
-                    onGetBitmap = viewModel::updateBitmap,
-                    onError = {
-                        scope.launch {
-                            toastHostState.showError(context, it)
-                        }
+                viewModel.setUri(it) {
+                    scope.launch {
+                        toastHostState.showError(context, it)
                     }
-                )
+                }
             }
         }
 

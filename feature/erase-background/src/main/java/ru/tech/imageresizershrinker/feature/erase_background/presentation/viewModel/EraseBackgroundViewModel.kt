@@ -79,9 +79,6 @@ class EraseBackgroundViewModel @Inject constructor(
     private val _undonePaths = mutableStateOf(listOf<UiPathPaint>())
     val undonePaths: List<UiPathPaint> by _undonePaths
 
-    val haveChanges: Boolean
-        get() = paths.isNotEmpty() || lastPaths.isNotEmpty() || undonePaths.isNotEmpty()
-
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 
@@ -97,7 +94,7 @@ class EraseBackgroundViewModel @Inject constructor(
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap
 
-    fun updateBitmap(bitmap: Bitmap?) {
+    private fun updateBitmap(bitmap: Bitmap?) {
         viewModelScope.launch {
             _isImageLoading.value = true
             _bitmap.value = imageScaler.scaleUntilCanShow(bitmap)
@@ -106,39 +103,35 @@ class EraseBackgroundViewModel @Inject constructor(
         }
     }
 
-    fun setUri(uri: Uri) {
+    fun setUri(
+        uri: Uri,
+        onError: (Throwable) -> Unit
+    ) {
         _uri.value = uri
         autoEraseCount = 0
+        _isImageLoading.value = true
         viewModelScope.launch {
             _paths.value = listOf()
             _lastPaths.value = listOf()
             _undonePaths.value = listOf()
-        }
-    }
 
-    fun decodeBitmapByUri(
-        uri: Uri,
-        originalSize: Boolean = true,
-        onGetMimeType: (ImageFormat) -> Unit,
-        onGetExif: (ExifInterface?) -> Unit,
-        onGetBitmap: (Bitmap) -> Unit,
-        onError: (Throwable) -> Unit
-    ) {
-        _isImageLoading.value = true
-        imageGetter.getImageAsync(
-            uri = uri.toString(),
-            originalSize = originalSize,
-            onGetImage = {
-                onGetBitmap(it.image)
-                onGetExif(it.metadata)
-                onGetMimeType(it.imageInfo.imageFormat)
-            },
-            onError = onError
-        )
+            imageGetter.getImageAsync(
+                uri = uri.toString(),
+                originalSize = true,
+                onGetImage = { data ->
+                    updateBitmap(data.image)
+                    _imageFormat.update {
+                        data.imageInfo.imageFormat
+                    }
+                },
+                onError = onError
+            )
+        }
     }
 
     fun setMime(imageFormat: ImageFormat) {
         _imageFormat.value = imageFormat
+        registerChanges()
     }
 
     private var savingJob: Job? = null
@@ -170,7 +163,7 @@ class EraseBackgroundViewModel @Inject constructor(
                                 )
                             )
                         ), keepOriginalMetadata = _saveExif.value
-                    )
+                    ).onSuccess(::registerSave)
                 )
             }
             _isSaving.value = false
@@ -229,6 +222,7 @@ class EraseBackgroundViewModel @Inject constructor(
 
         _paths.update { it - lastPath }
         _undonePaths.update { it + lastPath }
+        registerChanges()
     }
 
     fun redo() {
@@ -237,11 +231,13 @@ class EraseBackgroundViewModel @Inject constructor(
         val lastPath = undonePaths.last()
         _paths.update { it + lastPath }
         _undonePaths.update { it - lastPath }
+        registerChanges()
     }
 
     fun addPath(pathPaint: UiPathPaint) {
         _paths.update { it + pathPaint }
         _undonePaths.value = listOf()
+        registerChanges()
     }
 
     fun clearDrawing() {
@@ -249,15 +245,18 @@ class EraseBackgroundViewModel @Inject constructor(
             _lastPaths.value = paths
             _paths.value = listOf()
             _undonePaths.value = listOf()
+            registerChanges()
         }
     }
 
     fun setSaveExif(bool: Boolean) {
         _saveExif.value = bool
+        registerChanges()
     }
 
     fun setTrimImage(boolean: Boolean) {
         _trimImage.value = boolean
+        registerChanges()
     }
 
     private var autoEraseCount: Int = 0
@@ -278,6 +277,7 @@ class EraseBackgroundViewModel @Inject constructor(
                         _isErasingBG.value = false
                         onSuccess()
                         autoEraseCount++
+                        registerChanges()
                     },
                     onFailure = {
                         _isErasingBG.value = false

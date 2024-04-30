@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.core.ui.widget.color_picker
 
-import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -57,7 +56,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -71,7 +69,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -90,7 +87,7 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.shapes.MaterialStarShape
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ListUtils.nearestFor
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
@@ -247,8 +244,7 @@ fun AvailableColorTuplesSheet(
             }
         },
         sheetContent = {
-            val portrait =
-                LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
+            val isPortrait by isPortraitOrientationAsState()
 
             val isPickersEnabled = !settingsState.useEmojiAsPrimaryColor
 
@@ -383,7 +379,7 @@ fun AvailableColorTuplesSheet(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (!portrait) {
+                if (!isPortrait) {
                     Column(
                         modifier = Modifier
                             .verticalScroll(rememberScrollState())
@@ -407,7 +403,7 @@ fun AvailableColorTuplesSheet(
                     ),
                     verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically)
                 ) {
-                    if (portrait) {
+                    if (isPortrait) {
                         item(
                             span = { GridItemSpan(maxLineSpan) }
                         ) {

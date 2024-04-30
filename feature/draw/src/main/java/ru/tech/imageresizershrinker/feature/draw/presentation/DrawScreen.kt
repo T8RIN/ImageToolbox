@@ -211,9 +211,9 @@ fun DrawScreen(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.drawBehavior !is DrawBehavior.None && viewModel.isBitmapChanged) showExitDialog =
-            true
-        else if (viewModel.drawBehavior !is DrawBehavior.None) {
+        if (viewModel.drawBehavior !is DrawBehavior.None && viewModel.haveChanges) {
+            showExitDialog = true
+        } else if (viewModel.drawBehavior !is DrawBehavior.None) {
             viewModel.resetDrawBehavior()
             themeState.updateColorTuple(appColorTuple)
         } else onGoBack()
@@ -221,18 +221,11 @@ fun DrawScreen(
 
     LaunchedEffect(uriState) {
         uriState?.let {
-            viewModel.setUri(it)
-            viewModel.decodeBitmapByUri(
-                uri = it,
-                onGetMimeType = viewModel::updateMimeType,
-                onGetExif = {},
-                onGetBitmap = viewModel::updateBitmap,
-                onError = {
-                    scope.launch {
-                        toastHostState.showError(context, it)
-                    }
+            viewModel.setUri(it) {
+                scope.launch {
+                    toastHostState.showError(context, it)
                 }
-            )
+            }
         }
     }
     LaunchedEffect(viewModel.bitmap) {
@@ -248,18 +241,11 @@ fun DrawScreen(
             mode = localImagePickerMode(Picker.Single)
         ) { uris ->
             uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
-                viewModel.setUri(it)
-                viewModel.decodeBitmapByUri(
-                    uri = it,
-                    onGetMimeType = viewModel::updateMimeType,
-                    onGetExif = {},
-                    onGetBitmap = viewModel::updateBitmap,
-                    onError = {
-                        scope.launch {
-                            toastHostState.showError(context, it)
-                        }
+                viewModel.setUri(it) {
+                    scope.launch {
+                        toastHostState.showError(context, it)
                     }
-                )
+                }
             }
         }
 
@@ -434,7 +420,7 @@ fun DrawScreen(
                 .navigationBarsPadding(),
             forceEnabled = viewModel.drawBehavior is DrawBehavior.Background,
             value = viewModel.imageFormat,
-            onValueChange = viewModel::updateMimeType
+            onValueChange = viewModel::setImageFormat
         )
     }
 
@@ -541,10 +527,8 @@ fun DrawScreen(
                             containerColor = Color.Transparent,
                             contentColor = LocalContentColor.current,
                             enableAutoShadowAndBorder = false,
-                            onClick = {
-                                viewModel.clearDrawing()
-                            },
-                            enabled = viewModel.drawBehavior !is DrawBehavior.None && viewModel.isBitmapChanged
+                            onClick = viewModel::clearDrawing,
+                            enabled = viewModel.drawBehavior !is DrawBehavior.None && viewModel.havePaths
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Delete,

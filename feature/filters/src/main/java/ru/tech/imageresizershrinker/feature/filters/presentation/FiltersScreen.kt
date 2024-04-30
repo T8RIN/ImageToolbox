@@ -17,7 +17,6 @@
 
 package ru.tech.imageresizershrinker.feature.filters.presentation
 
-import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -72,7 +71,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -109,11 +107,11 @@ import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostStat
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.failedToSaveImages
+import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
-import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
@@ -233,8 +231,7 @@ fun FiltersScreen(
 
     val showCompareSheet = rememberSaveable { mutableStateOf(false) }
 
-    val imageInside =
-        LocalConfiguration.current.orientation != Configuration.ORIENTATION_LANDSCAPE || LocalWindowSizeClass.current.widthSizeClass == WindowWidthSizeClass.Compact
+    val isPortrait by isPortraitOrientationAsState()
 
     val focus = LocalFocusManager.current
     val showPickImageFromUrisSheet = rememberSaveable { mutableStateOf(false) }
@@ -291,7 +288,7 @@ fun FiltersScreen(
 
     val imageBlock = @Composable {
         ImageContainer(
-            imageInside = imageInside,
+            imageInside = isPortrait,
             showOriginal = showOriginal,
             previewBitmap = viewModel.previewBitmap,
             originalBitmap = viewModel.bitmap,
@@ -303,7 +300,7 @@ fun FiltersScreen(
 
     val buttons: @Composable (filterType: Screen.Filter.Type) -> Unit = { filterType ->
         BottomButtonsBlock(
-            targetState = (viewModel.basicFilterState.uris.isNullOrEmpty() && viewModel.maskingFilterState.uri == null) to imageInside,
+            targetState = (viewModel.basicFilterState.uris.isNullOrEmpty() && viewModel.maskingFilterState.uri == null) to isPortrait,
             onSecondaryButtonClick = {
                 when (filterType) {
                     is Screen.Filter.Type.Basic -> pickImagesLauncher.pickImage()
@@ -368,7 +365,7 @@ fun FiltersScreen(
 
             },
             actions = {
-                if (imageInside) actions()
+                if (isPortrait) actions()
             }
         )
     }
@@ -383,8 +380,8 @@ fun FiltersScreen(
                         .asPaddingValues()
                         .calculateBottomPadding() + WindowInsets.ime
                         .asPaddingValues()
-                        .calculateBottomPadding() + (if (!imageInside && viewModel.bitmap != null) 20.dp else 100.dp),
-                    top = if (viewModel.bitmap == null || !imageInside) 20.dp else 0.dp,
+                        .calculateBottomPadding() + (if (!isPortrait && viewModel.bitmap != null) 20.dp else 100.dp),
+                    top = if (viewModel.bitmap == null || !isPortrait) 20.dp else 0.dp,
                     start = 20.dp,
                     end = 20.dp
                 ),
@@ -393,7 +390,7 @@ fun FiltersScreen(
                     .clipToBounds()
             ) {
                 imageStickyHeader(
-                    visible = imageInside && viewModel.bitmap != null,
+                    visible = isPortrait && viewModel.bitmap != null,
                     internalHeight = internalHeight,
                     imageState = imageState,
                     onStateChange = { imageState = it },
@@ -417,7 +414,7 @@ fun FiltersScreen(
             is Screen.Filter.Type.Basic -> {
                 baseControls {
                     val filterList = viewModel.basicFilterState.filters
-                    if (imageInside && viewModel.bitmap == null) imageBlock()
+                    if (isPortrait && viewModel.bitmap == null) imageBlock()
                     if (viewModel.bitmap != null) {
                         ImageCounter(
                             imageCount = viewModel.basicFilterState.uris?.size?.takeIf { it > 1 },
@@ -522,7 +519,7 @@ fun FiltersScreen(
             is Screen.Filter.Type.Masking -> {
                 baseControls {
                     val maskList = viewModel.maskingFilterState.masks
-                    if (imageInside && viewModel.bitmap == null) imageBlock()
+                    if (isPortrait && viewModel.bitmap == null) imageBlock()
                     if (viewModel.bitmap != null) {
                         AnimatedContent(
                             targetState = maskList.isNotEmpty(),
@@ -649,7 +646,7 @@ fun FiltersScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
-            if (!imageInside) {
+            if (!isPortrait) {
                 val direction = LocalLayoutDirection.current
                 Box(
                     Modifier
@@ -674,12 +671,12 @@ fun FiltersScreen(
                 controls(filterType)
             }
 
-            if (!imageInside && viewModel.bitmap != null) {
+            if (!isPortrait && viewModel.bitmap != null) {
                 buttons(filterType)
             }
         }
 
-        if (imageInside || viewModel.bitmap == null) {
+        if (isPortrait || viewModel.bitmap == null) {
             Box(
                 modifier = Modifier.align(settingsState.fabAlignment)
             ) {
@@ -842,8 +839,8 @@ fun FiltersScreen(
                         if (viewModel.bitmap == null) {
                             TopAppBarEmoji()
                         }
-                        if (viewModel.bitmap != null && !imageInside) actions()
-                        if (viewModel.bitmap != null && imageInside) {
+                        if (viewModel.bitmap != null && !isPortrait) actions()
+                        if (viewModel.bitmap != null && isPortrait) {
                             when (viewModel.filterType) {
                                 is Screen.Filter.Type.Basic -> {
                                     EnhancedIconButton(
@@ -1053,7 +1050,7 @@ fun FiltersScreen(
                                         onUriRemoved = { uri ->
                                             viewModel.updateUrisSilently(removedUri = uri)
                                         },
-                                        columns = if (imageInside) 2 else 4,
+                                        columns = if (isPortrait) 2 else 4,
                                     )
 
                                     AddFiltersSheet(
@@ -1079,7 +1076,7 @@ fun FiltersScreen(
 
                                     content(filterType)
 
-                                    if (imageInside || viewModel.bitmap == null) {
+                                    if (isPortrait || viewModel.bitmap == null) {
                                         Box(
                                             modifier = Modifier.align(settingsState.fabAlignment)
                                         ) {

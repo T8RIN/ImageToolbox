@@ -46,6 +46,18 @@ abstract class BaseViewModel(
         _isImageLoading.update { false }
     }
 
+    protected open val _haveChanges: MutableState<Boolean> = mutableStateOf(true)
+    open val haveChanges: Boolean
+        get() = _haveChanges.value
+
+    protected fun registerSave() {
+        _haveChanges.update { false }
+    }
+
+    protected fun registerChanges() {
+        _haveChanges.update { true }
+    }
+
     protected open fun debouncedImageCalculation(
         onFinish: suspend () -> Unit = {},
         delay: Long = 600L,

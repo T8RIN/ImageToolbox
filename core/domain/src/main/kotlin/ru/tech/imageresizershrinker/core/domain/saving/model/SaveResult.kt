@@ -25,4 +25,16 @@ sealed interface SaveResult {
         data object MissingPermissions : Error
         data class Exception(val throwable: Throwable) : Error
     }
+
+    fun onSuccess(
+        action: () -> Unit
+    ): SaveResult = apply {
+        if (this is Success) action()
+    }
+}
+
+fun List<SaveResult>.onSuccess(
+    action: () -> Unit
+): List<SaveResult> = apply {
+    if (this.any { it is SaveResult.Success }) action()
 }
