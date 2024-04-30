@@ -147,7 +147,7 @@ fun ImageStitchingScreen(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.previewBitmap != null) showExitDialog = true
+        if (viewModel.haveChanges) showExitDialog = true
         else onGoBack()
     }
 
@@ -275,7 +275,7 @@ fun ImageStitchingScreen(
                 )
                 ImageFormatSelector(
                     value = viewModel.imageInfo.imageFormat,
-                    onValueChange = viewModel::setMime
+                    onValueChange = viewModel::setImageFormat
                 )
             }
         },

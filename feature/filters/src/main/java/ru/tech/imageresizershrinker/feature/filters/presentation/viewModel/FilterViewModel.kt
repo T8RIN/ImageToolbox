@@ -223,21 +223,25 @@ class FilterViewModel @Inject constructor(
 
     fun setBitmap(uri: Uri) {
         viewModelScope.launch(defaultDispatcher) {
-            _isImageLoading.value = true
+            _isImageLoading.update { true }
             val req = imageGetter.getImage(uri = uri.toString())
             val tempBitmap = req?.image
             val size = tempBitmap?.let { it.width to it.height }
-            _bitmap.value = imageScaler.scaleUntilCanShow(tempBitmap)
-            _imageInfo.value = _imageInfo.value.copy(
-                width = size?.first ?: 0,
-                height = size?.second ?: 0,
-                imageFormat = req?.imageInfo?.imageFormat ?: ImageFormat.Default()
-            )
-            updatePreview()
-            _basicFilterState.update { f ->
-                f.copy(selectedUri = uri)
+            _bitmap.update {
+                imageScaler.scaleUntilCanShow(tempBitmap)
             }
-            _isImageLoading.value = false
+            _imageInfo.update {
+                it.copy(
+                    width = size?.first ?: 0,
+                    height = size?.second ?: 0,
+                    imageFormat = req?.imageInfo?.imageFormat ?: ImageFormat.Default()
+                )
+            }
+            updatePreview()
+            _basicFilterState.update {
+                it.copy(selectedUri = uri)
+            }
+            _isImageLoading.update { false }
         }
     }
 

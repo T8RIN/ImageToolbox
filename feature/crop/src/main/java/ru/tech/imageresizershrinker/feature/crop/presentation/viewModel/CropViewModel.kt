@@ -107,7 +107,7 @@ class CropViewModel @Inject constructor(
         }
     }
 
-    fun updateMimeType(imageFormat: ImageFormat) {
+    fun setImageFormat(imageFormat: ImageFormat) {
         _imageFormat.value = imageFormat
     }
 
@@ -197,7 +197,7 @@ class CropViewModel @Inject constructor(
             originalSize = true,
             onGetImage = {
                 updateBitmap(it.image, true)
-                updateMimeType(it.imageInfo.imageFormat)
+                setImageFormat(it.imageInfo.imageFormat)
             },
             onError = onError
         )

@@ -79,7 +79,7 @@ class ImageStitchingViewModel @Inject constructor(
     private val _imageByteSize: MutableState<Int?> = mutableStateOf(null)
     val imageByteSize by _imageByteSize
 
-    fun setMime(imageFormat: ImageFormat) {
+    fun setImageFormat(imageFormat: ImageFormat) {
         _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
         calculatePreview()
     }
@@ -100,6 +100,7 @@ class ImageStitchingViewModel @Inject constructor(
             delay(300L)
             _isImageLoading.value = true
             uris?.let { uris ->
+                registerChanges()
                 imageCombiner.createCombinedImagesPreview(
                     imageUris = uris.map { it.toString() },
                     combiningParams = combiningParams,
@@ -148,7 +149,7 @@ class ImageStitchingViewModel @Inject constructor(
                             )
                         ),
                         keepOriginalMetadata = true
-                    )
+                    ).onSuccess(::registerSave)
                 )
             }
             _isSaving.value = false
@@ -193,6 +194,7 @@ class ImageStitchingViewModel @Inject constructor(
 
     fun updateImageScale(newScale: Float) {
         _imageScale.value = newScale
+        registerChanges()
     }
 
     fun setStitchMode(value: StitchMode) {

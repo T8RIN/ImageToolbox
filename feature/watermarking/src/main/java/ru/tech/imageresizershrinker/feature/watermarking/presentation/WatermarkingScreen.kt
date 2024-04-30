@@ -168,8 +168,8 @@ fun WatermarkingScreen(
             )
         },
         onGoBack = {
-            if (viewModel.uris.isEmpty()) onGoBack()
-            else showExitDialog = true
+            if (viewModel.haveChanges) showExitDialog = true
+            else onGoBack()
         },
         topAppBarPersistentActions = {
             if (viewModel.previewBitmap == null) TopAppBarEmoji()

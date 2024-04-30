@@ -101,7 +101,7 @@ fun BoxScope.Loading(
     left: Int
 ) {
     val progress = done / left.toFloat()
-    if (progress.isFinite() && progress >= 0 && left > 0) {
+    if (progress.isFinite() && progress >= 0 && left > 1) {
         Loading(progress = progress) {
             AutoSizeText(
                 text = "$done / $left",

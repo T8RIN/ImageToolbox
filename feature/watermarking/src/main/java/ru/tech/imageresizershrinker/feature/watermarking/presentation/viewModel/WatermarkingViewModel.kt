@@ -42,6 +42,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.transformation.GenericTransformation
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
@@ -160,7 +161,7 @@ class WatermarkingViewModel @Inject constructor(
 
                 _done.value += 1
             }
-            onResult(results, fileController.savingPath)
+            onResult(results.onSuccess(::registerSave), fileController.savingPath)
             _isSaving.value = false
         }
     }
@@ -222,10 +223,12 @@ class WatermarkingViewModel @Inject constructor(
 
     fun setImageFormat(imageFormat: ImageFormat) {
         _imageFormat.update { imageFormat }
+        registerChanges()
     }
 
     fun updateWatermarkParams(watermarkParams: WatermarkParams) {
         _watermarkParams.update { watermarkParams }
+        registerChanges()
         checkBitmapAndUpdate()
     }
 
@@ -280,6 +283,7 @@ class WatermarkingViewModel @Inject constructor(
 
     fun toggleKeepExif(value: Boolean) {
         _keepExif.update { value }
+        registerChanges()
     }
 
     fun getWatermarkTransformation(): Transformation {

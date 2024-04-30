@@ -95,7 +95,7 @@ class LimitsResizeViewModel @Inject constructor(
         mutableStateOf(LimitsResizeType.Recode())
     val resizeType by _resizeType
 
-    fun setMime(imageFormat: ImageFormat) {
+    fun setImageFormat(imageFormat: ImageFormat) {
         _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
     }
 
@@ -113,7 +113,7 @@ class LimitsResizeViewModel @Inject constructor(
                     originalSize = true,
                     onGetImage = {
                         updateBitmap(it.image)
-                        setMime(it.imageInfo.imageFormat)
+                        setImageFormat(it.imageInfo.imageFormat)
                     },
                     onError = onError
                 )

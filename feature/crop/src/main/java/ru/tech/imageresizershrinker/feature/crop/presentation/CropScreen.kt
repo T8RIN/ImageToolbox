@@ -244,7 +244,7 @@ fun CropScreen(
                 } else ImageFormatGroup.alphaContainedEntries,
                 value = viewModel.imageFormat,
                 onValueChange = {
-                    viewModel.updateMimeType(it)
+                    viewModel.setImageFormat(it)
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))

@@ -214,8 +214,8 @@ fun GradientMakerScreen(
             )
         },
         onGoBack = {
-            if (allowPickingImage == null) onGoBack()
-            else showExitDialog = true
+            if (viewModel.haveChanges) showExitDialog = true
+            else onGoBack()
         },
         actions = {
             if (viewModel.uris.isNotEmpty()) {

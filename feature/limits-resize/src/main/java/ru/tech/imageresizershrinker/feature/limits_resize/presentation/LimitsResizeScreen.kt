@@ -232,7 +232,7 @@ fun LimitsResizeScreen(
             Spacer(Modifier.size(8.dp))
             ImageFormatSelector(
                 value = viewModel.imageInfo.imageFormat,
-                onValueChange = viewModel::setMime
+                onValueChange = viewModel::setImageFormat
             )
             Spacer(Modifier.size(8.dp))
             AutoRotateLimitBoxToggle(

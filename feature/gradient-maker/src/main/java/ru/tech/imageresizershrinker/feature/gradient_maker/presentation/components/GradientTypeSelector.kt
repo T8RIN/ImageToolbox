@@ -78,7 +78,7 @@ fun GradientTypeSelector(
                 }
             },
             modifier = Modifier.padding(end = 8.dp, start = 8.dp, bottom = 8.dp),
-            color = MaterialTheme.colorScheme.surfaceContainerLow
+            color = MaterialTheme.colorScheme.surface
         )
     }
 }

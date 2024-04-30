@@ -129,7 +129,7 @@ class EraseBackgroundViewModel @Inject constructor(
         }
     }
 
-    fun setMime(imageFormat: ImageFormat) {
+    fun setImageFormat(imageFormat: ImageFormat) {
         _imageFormat.value = imageFormat
         registerChanges()
     }

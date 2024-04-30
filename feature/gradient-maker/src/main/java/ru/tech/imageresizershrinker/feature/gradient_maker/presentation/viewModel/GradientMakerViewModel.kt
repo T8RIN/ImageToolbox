@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.transformation.GenericTransformation
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
@@ -162,8 +163,9 @@ class GradientMakerViewModel @Inject constructor(
                                     image = localBitmap,
                                     imageInfo = imageInfo
                                 )
-                            ), keepOriginalMetadata = false
-                        )
+                            ),
+                            keepOriginalMetadata = false
+                        ).onSuccess(::registerSave)
                     )
                 }
             } else {
@@ -178,7 +180,8 @@ class GradientMakerViewModel @Inject constructor(
                         val imageInfo = ImageInfo(
                             imageFormat = imageFormat,
                             width = localBitmap.width,
-                            height = localBitmap.height
+                            height = localBitmap.height,
+                            originalUri = uri.toString()
                         )
                         results.add(
                             fileController.save(
@@ -199,7 +202,7 @@ class GradientMakerViewModel @Inject constructor(
 
                     _done.value += 1
                 }
-                onResult(results, fileController.savingPath)
+                onResult(results.onSuccess(::registerSave), fileController.savingPath)
             }
             _isSaving.value = false
         }
@@ -267,16 +270,19 @@ class GradientMakerViewModel @Inject constructor(
         _gradientSize.update {
             it.copy(height = value)
         }
+        registerChanges()
     }
 
     fun updateWidth(value: Int) {
         _gradientSize.update {
             it.copy(width = value)
         }
+        registerChanges()
     }
 
     fun setGradientType(gradientType: GradientType) {
         gradientState.gradientType = gradientType
+        registerChanges()
     }
 
     fun setPreviewSize(size: Size) {
@@ -285,10 +291,12 @@ class GradientMakerViewModel @Inject constructor(
 
     fun setImageFormat(imageFormat: ImageFormat) {
         _imageFormat.update { imageFormat }
+        registerChanges()
     }
 
     fun updateLinearAngle(angle: Float) {
         gradientState.linearGradientAngle = angle
+        registerChanges()
     }
 
     fun setRadialProperties(
@@ -297,14 +305,17 @@ class GradientMakerViewModel @Inject constructor(
     ) {
         gradientState.centerFriction = center
         gradientState.radiusFriction = radius
+        registerChanges()
     }
 
     fun setTileMode(tileMode: TileMode) {
         gradientState.tileMode = tileMode
+        registerChanges()
     }
 
     fun addColorStop(pair: Pair<Float, Color>) {
         gradientState.colorStops.add(pair)
+        registerChanges()
     }
 
     fun updateColorStop(
@@ -312,11 +323,13 @@ class GradientMakerViewModel @Inject constructor(
         pair: Pair<Float, Color>
     ) {
         gradientState.colorStops[index] = pair.copy()
+        registerChanges()
     }
 
     fun removeColorStop(index: Int) {
         if (gradientState.colorStops.size > 2) {
             gradientState.colorStops.removeAt(index)
+            registerChanges()
         }
     }
 
@@ -345,6 +358,7 @@ class GradientMakerViewModel @Inject constructor(
 
     fun updateGradientAlpha(value: Float) {
         _gradientAlpha.update { value }
+        registerChanges()
     }
 
     fun clearState() {
@@ -352,6 +366,7 @@ class GradientMakerViewModel @Inject constructor(
         _uris.update { emptyList() }
         _gradientAlpha.update { 1f }
         _gradientState = UiGradientState()
+        registerChangesCleared()
     }
 
     fun updateUrisSilently(
@@ -390,6 +405,7 @@ class GradientMakerViewModel @Inject constructor(
 
     fun toggleKeepExif(value: Boolean) {
         _keepExif.update { value }
+        registerChanges()
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
