@@ -220,7 +220,7 @@ fun FiltersScreen(
     val showAddFilterSheet = rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.canSave) showExitDialog = true
+        if (viewModel.haveChanges) showExitDialog = true
         else if (viewModel.filterType != null) {
             viewModel.clearType()
             themeState.updateColorTuple(appColorTuple)
@@ -457,14 +457,11 @@ fun FiltersScreen(
                                                     )
                                                 },
                                                 onLongPress = {
-                                                    showReorderSheet.value =
-                                                        true
+                                                    showReorderSheet.value = true
                                                 },
                                                 showDragHandle = false,
                                                 onRemove = {
-                                                    viewModel.removeFilterAtIndex(
-                                                        index
-                                                    )
+                                                    viewModel.removeFilterAtIndex(index)
                                                 }
                                             )
                                         }
@@ -789,7 +786,7 @@ fun FiltersScreen(
                                     title = title,
                                     input = viewModel.bitmap,
                                     isLoading = viewModel.isImageLoading,
-                                    size = viewModel.bitmapSize ?: 0L
+                                    size = viewModel.imageInfo.sizeInBytes.toLong()
                                 )
                             }
                         }

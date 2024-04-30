@@ -183,12 +183,10 @@ fun GeneratePaletteScreen(
             }
     }
 
-    val pickImage = {
-        when (useMaterialYouPalette) {
-            true -> materialYouImageLauncher.pickImage()
-            false -> paletteImageLauncher.pickImage()
-            null -> pickImageLauncher.pickImage()
-        }
+    val pickImage = when (useMaterialYouPalette) {
+        true -> materialYouImageLauncher::pickImage
+        false -> paletteImageLauncher::pickImage
+        null -> pickImageLauncher::pickImage
     }
 
     val isPortrait by isPortraitOrientationAsState()

@@ -161,8 +161,8 @@ class ConvertViewModel @Inject constructor(
             imagePreviewCreator.createPreview(
                 image = bitmap,
                 imageInfo = this,
-                onGetByteCount = {
-                    _imageInfo.value = _imageInfo.value.copy(sizeInBytes = it)
+                onGetByteCount = { size ->
+                    _imageInfo.update { it.copy(sizeInBytes = size) }
                 }
             )
         }

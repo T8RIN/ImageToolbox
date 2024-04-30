@@ -41,6 +41,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
@@ -160,6 +161,7 @@ class LimitsResizeViewModel @Inject constructor(
 
     fun setKeepExif(boolean: Boolean) {
         _keepExif.value = boolean
+        registerChanges()
     }
 
     private var savingJob: Job? by smartJob {
@@ -210,7 +212,7 @@ class LimitsResizeViewModel @Inject constructor(
 
                 _done.value += 1
             }
-            onResult(results, fileController.savingPath)
+            onResult(results.onSuccess(::registerSave), fileController.savingPath)
             _isSaving.value = false
         }
     }
@@ -226,8 +228,11 @@ class LimitsResizeViewModel @Inject constructor(
 
 
     private fun updateCanSave() {
-        _canSave.value =
+        _canSave.update {
             _bitmap.value != null && (_imageInfo.value.height != 0 && _imageInfo.value.width != 0)
+        }
+
+        registerChanges()
     }
 
     fun updateWidth(i: Int) {
@@ -277,10 +282,12 @@ class LimitsResizeViewModel @Inject constructor(
 
     fun setQuality(quality: Quality) {
         _imageInfo.value = _imageInfo.value.copy(quality = quality)
+        registerChanges()
     }
 
     fun setResizeType(resizeType: LimitsResizeType) {
         _resizeType.value = resizeType
+        registerChanges()
     }
 
     fun cancelSaving() {
@@ -291,6 +298,7 @@ class LimitsResizeViewModel @Inject constructor(
 
     fun toggleAutoRotateLimitBox() {
         _resizeType.update { it.copy(!it.autoRotateLimitBox) }
+        registerChanges()
     }
 
     fun setImageScaleMode(imageScaleMode: ImageScaleMode) {
@@ -299,6 +307,7 @@ class LimitsResizeViewModel @Inject constructor(
                 imageScaleMode = imageScaleMode
             )
         }
+        registerChanges()
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {

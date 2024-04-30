@@ -36,29 +36,53 @@ fun <T : Any> TopAppBarTitle(
     updateOnSizeChange: Boolean = true
 ) {
     Marquee {
-        AnimatedContent(
-            targetState = Triple(
-                input,
-                isLoading,
-                if (updateOnSizeChange) size else Unit
-            ),
-            transitionSpec = { fadeIn() togetherWith fadeOut() }
-        ) { (inp, loading, _) ->
-            if (loading) {
-                Text(
-                    stringResource(R.string.loading)
-                )
-            } else if (inp == null || size == null) {
-                AnimatedContent(targetState = title) {
-                    Text(it)
-                }
-            } else {
-                Text(
-                    stringResource(
-                        R.string.size,
-                        readableByteCount(size)
+        if (updateOnSizeChange) {
+            AnimatedContent(
+                targetState = Triple(
+                    input,
+                    isLoading,
+                    size
+                ),
+                transitionSpec = { fadeIn() togetherWith fadeOut() }
+            ) { (inp, loading, size) ->
+                if (loading) {
+                    Text(
+                        stringResource(R.string.loading)
                     )
-                )
+                } else if (inp == null || size == null || size <= 0) {
+                    AnimatedContent(targetState = title) {
+                        Text(it)
+                    }
+                } else {
+                    Text(
+                        stringResource(
+                            R.string.size,
+                            readableByteCount(size)
+                        )
+                    )
+                }
+            }
+        } else {
+            AnimatedContent(
+                targetState = input to isLoading,
+                transitionSpec = { fadeIn() togetherWith fadeOut() }
+            ) { (inp, loading) ->
+                if (loading) {
+                    Text(
+                        stringResource(R.string.loading)
+                    )
+                } else if (inp == null || size == null || size <= 0) {
+                    AnimatedContent(targetState = title) {
+                        Text(it)
+                    }
+                } else {
+                    Text(
+                        stringResource(
+                            R.string.size,
+                            readableByteCount(size)
+                        )
+                    )
+                }
             }
         }
     }

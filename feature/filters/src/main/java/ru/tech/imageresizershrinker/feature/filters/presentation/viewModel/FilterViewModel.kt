@@ -48,6 +48,7 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
@@ -75,9 +76,6 @@ class FilterViewModel @Inject constructor(
     private val shareProvider: ShareProvider<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : BaseViewModel(dispatchersHolder) {
-
-    private val _bitmapSize = mutableStateOf<Long?>(null)
-    val bitmapSize by _bitmapSize
 
     private val _canSave = mutableStateOf(false)
     val canSave by _canSave
@@ -120,6 +118,7 @@ class FilterViewModel @Inject constructor(
     fun setImageFormat(imageFormat: ImageFormat) {
         _imageInfo.value = _imageInfo.value.copy(imageFormat = imageFormat)
         updatePreview()
+        registerChanges()
     }
 
     fun setBasicFilter(uris: List<Uri>?) {
@@ -169,6 +168,7 @@ class FilterViewModel @Inject constructor(
 
     fun setKeepExif(boolean: Boolean) {
         _keepExif.value = boolean
+        registerChanges()
     }
 
     private var savingJob: Job? by smartJob {
@@ -216,7 +216,7 @@ class FilterViewModel @Inject constructor(
 
                 _done.value += 1
             }
-            onResult(results, fileController.savingPath)
+            onResult(results.onSuccess(::registerSave), fileController.savingPath)
             _isSaving.value = false
         }
     }
@@ -244,6 +244,7 @@ class FilterViewModel @Inject constructor(
     private fun updateCanSave() {
         _canSave.value =
             _bitmap.value != null && ((_filterType.value is Screen.Filter.Type.Basic && _basicFilterState.value.filters.isNotEmpty()) || (_filterType.value is Screen.Filter.Type.Masking && _maskingFilterState.value.masks.isNotEmpty()))
+        registerChanges()
     }
 
     private var filterJob: Job? by smartJob()
@@ -356,7 +357,7 @@ class FilterViewModel @Inject constructor(
                                     height = bitmap.height
                                 ),
                                 onComplete = {
-                                    _isSaving.value = true
+                                    _isSaving.value = false
                                     onComplete()
                                 }
                             )
@@ -387,7 +388,9 @@ class FilterViewModel @Inject constructor(
                             transformations = _basicFilterState.value.filters.map {
                                 filterProvider.filterToTransformation(it)
                             },
-                            onGetByteCount = { _bitmapSize.value = it.toLong() }
+                            onGetByteCount = { size ->
+                                _imageInfo.update { it.copy(sizeInBytes = size) }
+                            }
                         )
                     }
 
@@ -399,7 +402,9 @@ class FilterViewModel @Inject constructor(
                             imagePreviewCreator.createPreview(
                                 image = bmp,
                                 imageInfo = imageInfo,
-                                onGetByteCount = { _bitmapSize.value = it.toLong() }
+                                onGetByteCount = { size ->
+                                    _imageInfo.update { it.copy(sizeInBytes = size) }
+                                }
                             )
                         }
                     }
@@ -445,6 +450,7 @@ class FilterViewModel @Inject constructor(
         _previewBitmap.value = null
         _imageInfo.update { ImageInfo() }
         updateCanSave()
+        registerChangesCleared()
     }
 
     fun saveMaskedBitmap(
@@ -483,8 +489,9 @@ class FilterViewModel @Inject constructor(
                                         height = localBitmap.height
                                     )
                                 )
-                            ), keepOriginalMetadata = keepExif
-                        )
+                            ),
+                            keepOriginalMetadata = keepExif
+                        ).onSuccess(::registerSave)
                     )
                 }
             }
@@ -515,7 +522,7 @@ class FilterViewModel @Inject constructor(
             }
             _needToApplyFilters.value = true
             updateCanSave()
-        }.exceptionOrNull()?.let(showError)
+        }.onFailure(showError)
     }
 
     fun removeMaskAtIndex(index: Int) {

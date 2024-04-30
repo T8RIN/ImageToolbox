@@ -46,11 +46,15 @@ abstract class BaseViewModel(
         _isImageLoading.update { false }
     }
 
-    protected open val _haveChanges: MutableState<Boolean> = mutableStateOf(true)
+    protected open val _haveChanges: MutableState<Boolean> = mutableStateOf(false)
     open val haveChanges: Boolean
         get() = _haveChanges.value
 
     protected fun registerSave() {
+        _haveChanges.update { false }
+    }
+
+    protected fun registerChangesCleared() {
         _haveChanges.update { false }
     }
 

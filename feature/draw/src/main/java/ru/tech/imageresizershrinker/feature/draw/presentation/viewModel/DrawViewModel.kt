@@ -222,6 +222,7 @@ class DrawViewModel @Inject constructor(
         navController.navigate(DrawBehavior.None)
         _uri.value = Uri.EMPTY
         _backgroundColor.value = Color.Transparent
+        registerChangesCleared()
     }
 
     fun startDrawOnBackground(

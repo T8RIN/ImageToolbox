@@ -149,7 +149,7 @@ fun BytesResizeScreen(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.canSave) showExitDialog = true
+        if (viewModel.haveChanges) showExitDialog = true
         else onGoBack()
     }
 

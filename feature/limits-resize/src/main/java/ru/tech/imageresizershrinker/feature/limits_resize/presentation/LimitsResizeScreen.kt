@@ -132,7 +132,7 @@ fun LimitsResizeScreen(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.canSave) showExitDialog = true
+        if (viewModel.haveChanges) showExitDialog = true
         else onGoBack()
     }
 
@@ -157,7 +157,8 @@ fun LimitsResizeScreen(
     val showZoomSheet = rememberSaveable { mutableStateOf(false) }
 
     ZoomModalSheet(
-        data = viewModel.previewBitmap, visible = showZoomSheet
+        data = viewModel.previewBitmap,
+        visible = showZoomSheet
     )
 
     AdaptiveLayoutScreen(
@@ -308,6 +309,8 @@ fun LimitsResizeScreen(
     )
 
     ExitWithoutSavingDialog(
-        onExit = onGoBack, onDismiss = { showExitDialog = false }, visible = showExitDialog
+        onExit = onGoBack,
+        onDismiss = { showExitDialog = false },
+        visible = showExitDialog
     )
 }

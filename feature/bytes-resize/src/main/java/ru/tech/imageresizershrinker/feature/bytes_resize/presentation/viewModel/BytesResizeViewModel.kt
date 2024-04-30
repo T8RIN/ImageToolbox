@@ -41,6 +41,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.transformation.ImageInfoTransformation
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
@@ -116,6 +117,7 @@ class BytesResizeViewModel @Inject constructor(
                     _isImageLoading.value = false
                 }
             }
+            registerChanges()
         }
     }
 
@@ -176,6 +178,7 @@ class BytesResizeViewModel @Inject constructor(
 
     fun setKeepExif(boolean: Boolean) {
         _keepExif.value = boolean
+        registerChanges()
     }
 
     private var savingJob: Job? by smartJob {
@@ -230,7 +233,7 @@ class BytesResizeViewModel @Inject constructor(
                 )
                 _done.value += 1
             }
-            onResult(results, fileController.savingPath)
+            onResult(results.onSuccess(::registerSave), fileController.savingPath)
             _isSaving.value = false
         }
     }
@@ -250,6 +253,8 @@ class BytesResizeViewModel @Inject constructor(
     private fun updateCanSave() {
         _canSave.value =
             _bitmap.value != null && (_maxBytes.value != 0L && _handMode.value || !_handMode.value && _presetSelected.value != -1)
+
+        registerChanges()
     }
 
     fun updateMaxBytes(newBytes: String) {
