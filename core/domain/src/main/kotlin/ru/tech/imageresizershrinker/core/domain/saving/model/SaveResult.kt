@@ -17,13 +17,18 @@
 
 package ru.tech.imageresizershrinker.core.domain.saving.model
 
-sealed interface SaveResult {
+sealed class SaveResult(
+    open val savingPath: String
+) {
 
-    data class Success(val message: String? = null) : SaveResult
+    data class Success(
+        val message: String? = null,
+        override val savingPath: String
+    ) : SaveResult(savingPath)
 
-    sealed interface Error : SaveResult {
-        data object MissingPermissions : Error
-        data class Exception(val throwable: Throwable) : Error
+    sealed class Error : SaveResult("") {
+        data object MissingPermissions : Error()
+        data class Exception(val throwable: Throwable) : Error()
     }
 
     fun onSuccess(

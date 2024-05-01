@@ -65,6 +65,7 @@ fun BottomButtonsBlock(
     secondaryButtonIcon: ImageVector = Icons.Rounded.AddPhotoAlternate,
     secondaryButtonText: String = stringResource(R.string.pick_image_alt),
     onPrimaryButtonClick: () -> Unit,
+    onPrimaryButtonLongClick: (() -> Unit)? = null,
     primaryButtonIcon: ImageVector = Icons.Rounded.Save,
     isPrimaryButtonVisible: Boolean = true,
     isSecondaryButtonVisible: Boolean = true,
@@ -128,7 +129,8 @@ fun BottomButtonsBlock(
                             Row {
                                 Spacer(Modifier.width(8.dp))
                                 EnhancedFloatingActionButton(
-                                    onClick = onPrimaryButtonClick
+                                    onClick = onPrimaryButtonClick,
+                                    onLongClick = onPrimaryButtonLongClick
                                 ) {
                                     Icon(
                                         imageVector = primaryButtonIcon,
@@ -181,7 +183,8 @@ fun BottomButtonsBlock(
                     Column {
                         Spacer(Modifier.height(8.dp))
                         EnhancedFloatingActionButton(
-                            onClick = onPrimaryButtonClick
+                            onClick = onPrimaryButtonClick,
+                            onLongClick = onPrimaryButtonLongClick
                         ) {
                             Icon(
                                 imageVector = primaryButtonIcon,

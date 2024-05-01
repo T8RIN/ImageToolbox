@@ -26,7 +26,8 @@ interface FileController {
 
     suspend fun save(
         saveTarget: SaveTarget,
-        keepOriginalMetadata: Boolean
+        keepOriginalMetadata: Boolean,
+        oneTimeSaveLocationUri: String? = null
     ): SaveResult
 
     fun getSize(uri: String): Long?

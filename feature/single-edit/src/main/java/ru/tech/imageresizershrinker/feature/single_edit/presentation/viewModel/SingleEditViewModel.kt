@@ -173,6 +173,7 @@ class SingleEditViewModel @Inject constructor(
     }
 
     fun saveBitmap(
+        temporaryPath: String? = null,
         onComplete: (result: SaveResult) -> Unit,
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {

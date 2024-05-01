@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.core.ui.widget.buttons
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.sizeIn
@@ -30,6 +31,7 @@ import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,8 +40,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.mixedContainer
 import ru.tech.imageresizershrinker.core.ui.theme.onMixedContainer
@@ -49,6 +54,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.containerFabBorder
 @Composable
 fun EnhancedFloatingActionButton(
     onClick: () -> Unit,
+    onLongClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     type: EnhancedFloatingActionButtonType = EnhancedFloatingActionButtonType.Primary,
     containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
@@ -62,12 +68,50 @@ fun EnhancedFloatingActionButton(
     val haptics = LocalHapticFeedback.current
 
     LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
+        if (onLongClick != null) {
+            val viewConfiguration = LocalViewConfiguration.current
+
+
+            LaunchedEffect(interactionSource) {
+                var isLongClick = false
+
+                interactionSource.interactions.collectLatest { interaction ->
+                    when (interaction) {
+                        is PressInteraction.Press -> {
+                            isLongClick = false
+                            delay(viewConfiguration.longPressTimeoutMillis)
+                            isLongClick = true
+                            onLongClick()
+                            haptics.performHapticFeedback(
+                                HapticFeedbackType.LongPress
+                            )
+                        }
+
+                        is PressInteraction.Release -> {
+                            if (!isLongClick) {
+                                onClick()
+                                haptics.performHapticFeedback(
+                                    HapticFeedbackType.TextHandleMove
+                                )
+                            }
+                        }
+
+                        is PressInteraction.Cancel -> {
+                            isLongClick = false
+                        }
+                    }
+                }
+            }
+        }
+
         FloatingActionButton(
             onClick = {
-                onClick()
-                haptics.performHapticFeedback(
-                    HapticFeedbackType.LongPress
-                )
+                if (onLongClick == null) {
+                    onClick()
+                    haptics.performHapticFeedback(
+                        HapticFeedbackType.LongPress
+                    )
+                }
             },
             modifier = modifier
                 .sizeIn(minWidth = size, minHeight = size)

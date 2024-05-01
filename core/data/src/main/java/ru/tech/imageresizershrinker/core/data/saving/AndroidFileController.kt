@@ -112,11 +112,13 @@ internal class AndroidFileController @Inject constructor(
         return null
     }
 
+    private fun String?.getPath() = this?.takeIf { it.isNotEmpty() }?.toUri().toUiPath(
+        context = context,
+        default = context.getString(R.string.default_folder)
+    )
+
     override val savingPath: String
-        get() = settingsState.saveFolderUri?.takeIf { it.isNotEmpty() }?.toUri().toUiPath(
-            context = context,
-            default = context.getString(R.string.default_folder)
-        )
+        get() = settingsState.saveFolderUri.getPath()
 
     private fun Uri?.toUiPath(
         context: Context,
@@ -147,11 +149,14 @@ internal class AndroidFileController @Inject constructor(
     @SuppressLint("StringFormatInvalid")
     override suspend fun save(
         saveTarget: SaveTarget,
-        keepOriginalMetadata: Boolean
+        keepOriginalMetadata: Boolean,
+        oneTimeSaveLocationUri: String?
     ): SaveResult = withContext(ioDispatcher) {
         if (!context.isExternalStorageWritable()) {
             return@withContext SaveResult.Error.MissingPermissions
         }
+
+        val savingPath = oneTimeSaveLocationUri?.getPath() ?: savingPath
 
         runCatching {
             if (settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled) {
@@ -172,7 +177,10 @@ internal class AndroidFileController @Inject constructor(
             }
 
             if (settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled.WithoutSaving) {
-                return@withContext SaveResult.Success(context.getString(R.string.copied))
+                return@withContext SaveResult.Success(
+                    message = context.getString(R.string.copied),
+                    savingPath = savingPath
+                )
             }
 
             val originalUri = saveTarget.originalUri.toUri()
@@ -211,7 +219,8 @@ internal class AndroidFileController @Inject constructor(
                         message = context.getString(
                             R.string.saved_to_original,
                             originalUri.getFilename().toString()
-                        )
+                        ),
+                        savingPath = savingPath
                     )
                 }
             } else {
@@ -248,7 +257,9 @@ internal class AndroidFileController @Inject constructor(
                 } else saveTarget
 
                 val savingFolder = context.getSavingFolder(
-                    treeUri = settingsState.saveFolderUri?.takeIf { it.isNotEmpty() }?.toUri(),
+                    treeUri = (oneTimeSaveLocationUri ?: settingsState.saveFolderUri)?.takeIf {
+                        it.isNotEmpty()
+                    }?.toUri(),
                     saveTarget = newSaveTarget
                 )
 
@@ -268,7 +279,7 @@ internal class AndroidFileController @Inject constructor(
                 val filename = newSaveTarget.filename ?: ""
 
                 return@withContext SaveResult.Success(
-                    if (savingPath.isNotEmpty()) {
+                    message = if (savingPath.isNotEmpty()) {
                         if (filename.isNotEmpty()) {
                             context.getString(
                                 R.string.saved_to,
@@ -281,7 +292,8 @@ internal class AndroidFileController @Inject constructor(
                                 savingPath
                             )
                         }
-                    } else null
+                    } else null,
+                    savingPath = savingPath
                 )
             }
         }.onFailure {
