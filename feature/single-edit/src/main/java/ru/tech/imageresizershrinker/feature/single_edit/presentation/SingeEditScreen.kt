@@ -22,15 +22,10 @@ import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material.icons.rounded.History
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -47,7 +42,6 @@ import com.t8rin.dynamic.theme.LocalDynamicThemeState
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.icons.FolderOpen
 import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
@@ -60,7 +54,6 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.CompareButton
-import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShowOriginalButton
@@ -75,6 +68,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleModeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.ResizeTypeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.TempFolderSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
@@ -164,8 +158,8 @@ fun SingleEditScreen(
         isPickedAlready = uriState != null
     )
 
-    val saveBitmap: () -> Unit = {
-        viewModel.saveBitmap { saveResult ->
+    val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
+        viewModel.saveBitmap(it) { saveResult ->
             parseSaveResult(
                 saveResult = saveResult,
                 onSuccess = showConfetti,
@@ -356,7 +350,9 @@ fun SingleEditScreen(
             BottomButtonsBlock(
                 targetState = (viewModel.uri == Uri.EMPTY) to isPortrait,
                 onSecondaryButtonClick = pickImage,
-                onPrimaryButtonClick = saveBitmap,
+                onPrimaryButtonClick = {
+                    saveBitmap(null)
+                },
                 onPrimaryButtonLongClick = {
                     showFolderSelectionDialog = true
                 },
@@ -365,34 +361,10 @@ fun SingleEditScreen(
                 }
             )
             if (showFolderSelectionDialog) {
-                AlertDialog(
-                    onDismissRequest = { showFolderSelectionDialog = false },
-                    confirmButton = {
-                        EnhancedButton(
-                            onClick = { TODO() },
-                            containerColor = MaterialTheme.colorScheme.primary
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Save,
-                                contentDescription = stringResource(id = R.string.save)
-                            )
-                            Spacer(modifier = Modifier.width(12.dp))
-                            Text(text = stringResource(id = R.string.save))
-                        }
-                    },
-                    dismissButton = {
-                        EnhancedButton(
-                            onClick = { showFolderSelectionDialog = false },
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer
-                        ) {
-                            Text(text = stringResource(id = R.string.close))
-                        }
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Rounded.FolderOpen,
-                            contentDescription = stringResource(id = R.string.folder)
-                        )
+                TempFolderSelectionDialog(
+                    onDismiss = { showFolderSelectionDialog = false },
+                    onSaveRequest = { saveFolderUri ->
+                        saveBitmap(saveFolderUri)
                     }
                 )
             }

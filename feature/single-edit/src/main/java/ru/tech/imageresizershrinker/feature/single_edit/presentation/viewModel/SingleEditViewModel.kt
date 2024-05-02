@@ -173,7 +173,7 @@ class SingleEditViewModel @Inject constructor(
     }
 
     fun saveBitmap(
-        temporaryPath: String? = null,
+        oneTimeSaveLocationUri: String?,
         onComplete: (result: SaveResult) -> Unit,
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
@@ -193,7 +193,8 @@ class SingleEditViewModel @Inject constructor(
                                 )
                             )
                         ),
-                        keepOriginalMetadata = true
+                        keepOriginalMetadata = true,
+                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
                     ).onSuccess(::registerSave)
                 )
             }
