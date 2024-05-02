@@ -854,4 +854,13 @@
     <string name="sort_by_date_reversed">Сартаваць па даце (зваротна)</string>
     <string name="sort_by_name_reversed">Сартаваць па назве (зваротна)</string>
     <string name="sort_by_name">Сартаваць па назве</string>
+    <string name="show_settings_in_landscape_sub">Калі гэта адключана, то ў ландшафтным рэжыме налады будуць адчыняцца па кнопцы ў верхняй панэлі прыкладання, як заўсёды, замест сталай бачнай опцыі</string>
+    <string name="fullscreen_settings_sub">Ўключыце яго, і старонка настроек заўсёды будзе адкрывацца ў поўнаэкранным рэжыме, а не ў высоўнай скрыні</string>
+    <string name="try_again">Паспрабаваць зноў</string>
+    <string name="show_settings_in_landscape">Паказаць налады ў альбомнай арыентацыі</string>
+    <string name="pick">Выбраць</string>
+    <string name="fullscreen_settings">Поўнаэкранныя налады</string>
+    <string name="switch_type">Тып пераключальніка</string>
+    <string name="pick_multiple_media">Множны выбар медыя</string>
+    <string name="pick_single_media">Выбар медыя</string>
 </resources>
