@@ -374,10 +374,10 @@ fun SingleEditScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Save,
-                                contentDescription = null
+                                contentDescription = stringResource(id = R.string.save)
                             )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(text = stringResource(id = R.string.close))
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Text(text = stringResource(id = R.string.save))
                         }
                     },
                     dismissButton = {
@@ -391,7 +391,7 @@ fun SingleEditScreen(
                     icon = {
                         Icon(
                             imageVector = Icons.Rounded.FolderOpen,
-                            contentDescription = null
+                            contentDescription = stringResource(id = R.string.folder)
                         )
                     }
                 )

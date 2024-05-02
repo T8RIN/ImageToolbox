@@ -205,7 +205,7 @@ internal class AndroidFileController @Inject constructor(
                 }.getOrNull()?.use { parcel ->
                     FileOutputStream(parcel.fileDescriptor).use { out ->
                         out.write(saveTarget.data)
-                        kotlin.runCatching {
+                        runCatching {
                             copyMetadata(
                                 initialExif = (saveTarget as? ImageSaveTarget<*>)?.metadata as ExifInterface?,
                                 fileUri = originalUri,
