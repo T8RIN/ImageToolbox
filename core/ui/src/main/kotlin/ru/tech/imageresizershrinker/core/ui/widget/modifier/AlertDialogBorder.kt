@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.core.ui.widget.modifier
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.MaterialTheme
@@ -31,6 +32,7 @@ import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 
 fun Modifier.alertDialogBorder() = this.composed {
     Modifier
+        .padding(vertical = 16.dp)
         .navigationBarsPadding()
         .statusBarsPadding()
         .displayCutoutPadding()

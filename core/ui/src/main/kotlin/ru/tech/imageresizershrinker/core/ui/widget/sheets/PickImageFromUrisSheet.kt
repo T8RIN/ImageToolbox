@@ -108,7 +108,7 @@ fun PickImageFromUrisSheet(
                                         resultPadding = 0.dp,
                                         color = color
                                     )
-                                    .animateItemPlacement()
+                                    .animateItem()
                             ) {
                                 Picture(
                                     transformations = transformations,

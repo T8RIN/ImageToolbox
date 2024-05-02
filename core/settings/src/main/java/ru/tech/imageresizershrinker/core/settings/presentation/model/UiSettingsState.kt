@@ -42,6 +42,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
+import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 
@@ -110,7 +111,8 @@ data class UiSettingsState(
     val showSettingsInLandscape: Boolean,
     val useFullscreenSettings: Boolean,
     val switchType: SwitchType,
-    val defaultDrawLineWidth: Float
+    val defaultDrawLineWidth: Float,
+    val oneTimeSaveLocations: List<OneTimeSaveLocation>
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -264,7 +266,8 @@ fun SettingsState.toUiState(
         showSettingsInLandscape = showSettingsInLandscape,
         useFullscreenSettings = useFullscreenSettings,
         switchType = switchType,
-        defaultDrawLineWidth = defaultDrawLineWidth
+        defaultDrawLineWidth = defaultDrawLineWidth,
+        oneTimeSaveLocations = oneTimeSaveLocations
     )
 }
 

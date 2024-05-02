@@ -28,9 +28,9 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.Rounded.FolderOpen: ImageVector by lazy {
+val Icons.Rounded.FolderOpened: ImageVector by lazy {
     Builder(
-        name = "Folder Open", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
+        name = "Folder Opened", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp,
         viewportWidth = 960.0f, viewportHeight = 960.0f
     ).apply {
         path(

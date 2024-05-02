@@ -117,7 +117,7 @@ fun MediaPickerGrid(
                         showAsBig = item.key.contains("big"),
                         isCheckVisible = isCheckVisible,
                         isChecked = isChecked,
-                        modifier = Modifier.animateItemPlacement()
+                        modifier = Modifier.animateItem()
                     ) {
                         if (allowSelection) {
                             hapticFeedback.performHapticFeedback(
@@ -154,7 +154,7 @@ fun MediaPickerGrid(
                     }
 
                     MediaImage(
-                        modifier = Modifier.animateItemPlacement(),
+                        modifier = Modifier.animateItem(),
                         media = item.media,
                         selectionState = selectionState,
                         canClick = true,

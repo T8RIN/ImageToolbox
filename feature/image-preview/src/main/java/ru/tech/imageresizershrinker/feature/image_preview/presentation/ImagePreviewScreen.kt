@@ -68,7 +68,7 @@ import androidx.compose.ui.unit.dp
 import dev.olshevski.navigation.reimagined.hilt.hiltViewModel
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.icons.FolderOpen
+import ru.tech.imageresizershrinker.core.resources.icons.FolderOpened
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
@@ -276,7 +276,7 @@ fun ImagePreviewScreen(
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     content = {
                         Icon(
-                            imageVector = Icons.Rounded.FolderOpen,
+                            imageVector = Icons.Rounded.FolderOpened,
                             contentDescription = stringResource(R.string.folder)
                         )
                     }

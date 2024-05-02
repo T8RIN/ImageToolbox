@@ -57,6 +57,7 @@ import ru.tech.imageresizershrinker.core.domain.utils.readableByteCount
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.SettingsManager
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
+import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import java.io.File
 import java.io.FileOutputStream
@@ -277,6 +278,33 @@ internal class AndroidFileController @Inject constructor(
                 }
 
                 val filename = newSaveTarget.filename ?: ""
+
+                oneTimeSaveLocationUri?.let {
+                    val currentLocation =
+                        settingsState.oneTimeSaveLocations.find { it.uri == oneTimeSaveLocationUri }
+
+                    settingsManager.setOneTimeSaveLocations(
+                        currentLocation?.let {
+                            settingsState.oneTimeSaveLocations.toMutableList().apply {
+                                remove(currentLocation)
+                                add(
+                                    currentLocation.copy(
+                                        uri = oneTimeSaveLocationUri,
+                                        date = System.currentTimeMillis(),
+                                        count = currentLocation.count + 1
+                                    )
+                                )
+                            }
+                        } ?: settingsState.oneTimeSaveLocations.plus(
+                            OneTimeSaveLocation(
+                                uri = oneTimeSaveLocationUri,
+                                date = System.currentTimeMillis(),
+                                count = 1
+                            )
+                        )
+                    )
+                }
+
 
                 return@withContext SaveResult.Success(
                     message = if (savingPath.isNotEmpty()) {

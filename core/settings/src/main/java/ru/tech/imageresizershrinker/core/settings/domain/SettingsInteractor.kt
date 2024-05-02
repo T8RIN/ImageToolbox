@@ -22,6 +22,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
+import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 
 interface SettingsInteractor {
@@ -167,5 +168,7 @@ interface SettingsInteractor {
     suspend fun setSwitchType(type: SwitchType)
 
     suspend fun setDefaultDrawLineWidth(value: Float)
+
+    suspend fun setOneTimeSaveLocations(value: List<OneTimeSaveLocation>)
 
 }

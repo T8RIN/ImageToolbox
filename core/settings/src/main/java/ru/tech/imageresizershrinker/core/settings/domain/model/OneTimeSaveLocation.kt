@@ -15,6 +15,29 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.settings.domain
+package ru.tech.imageresizershrinker.core.settings.domain.model
 
-interface SettingsManager : SettingsProvider, SettingsInteractor
+data class OneTimeSaveLocation(
+    val uri: String,
+    val date: Long?,
+    val count: Int
+) {
+
+    override fun toString(): String {
+        return listOf(uri, date, count).joinToString(delimiter)
+    }
+
+    companion object {
+        fun fromString(string: String): OneTimeSaveLocation? {
+            val data = string.split(delimiter)
+            val uri = data.getOrNull(0) ?: return null
+            val date = data.getOrNull(1)?.toLongOrNull()
+            val count = data.getOrNull(2)?.toIntOrNull() ?: 0
+
+            return OneTimeSaveLocation(uri, date, count)
+        }
+    }
+
+}
+
+private const val delimiter = "\n"

@@ -38,6 +38,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainFontFamily
 import ru.tech.imageresizershrinker.core.settings.domain.model.NightMode
+import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
 import ru.tech.imageresizershrinker.core.settings.domain.model.SwitchType
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.ADD_ORIGINAL_NAME_TO_FILENAME
@@ -84,6 +85,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.INVERT_THE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.LOCK_DRAW_ORIENTATION
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.MAGNIFIER_ENABLED
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.NIGHT_MODE
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.ONE_TIME_SAVE_LOCATIONS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.OVERWRITE_FILE
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.PRESETS
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.RANDOMIZE_FILENAME
@@ -220,7 +222,12 @@ internal class AndroidSettingsManager @Inject constructor(
                 SwitchType.fromInt(it)
             } ?: default.switchType,
             defaultDrawLineWidth = prefs[DEFAULT_DRAW_LINE_WIDTH]
-                ?: default.defaultDrawLineWidth
+                ?: default.defaultDrawLineWidth,
+            oneTimeSaveLocations = prefs[ONE_TIME_SAVE_LOCATIONS]?.let { s ->
+                s.split(", ")
+                    .mapNotNull { OneTimeSaveLocation.fromString(it) }
+                    .sortedByDescending { it.count }
+            } ?: default.oneTimeSaveLocations
         )
     }
 
@@ -708,6 +715,12 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun setDefaultDrawLineWidth(value: Float) {
         dataStore.edit {
             it[DEFAULT_DRAW_LINE_WIDTH] = value
+        }
+    }
+
+    override suspend fun setOneTimeSaveLocations(value: List<OneTimeSaveLocation>) {
+        dataStore.edit {
+            it[ONE_TIME_SAVE_LOCATIONS] = value.joinToString(", ")
         }
     }
 
