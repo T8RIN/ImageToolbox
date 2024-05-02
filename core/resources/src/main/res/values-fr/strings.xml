@@ -870,4 +870,16 @@
     <string name="reset_properties">Réinitialiser les propriétés</string>
     <string name="reset_properties_sub">Toutes les propriétés vont être réinitialisés aux valeurs par défaut, notez que cette action est irréversible</string>
     <string name="detailed">Détaillé.e</string>
+    <string name="svg_warning">L’utilisation de cet outil pour tracer de grandes images sans réduction d’échelle n’est pas recommandée, il peut provoquer un crash et augmenter le temps de traitement</string>
+    <string name="use_sampled_palette">Utiliser la palette échantillonnée</string>
+    <string name="fullscreen_settings_sub">Activez-le et la page de paramètres sera toujours ouverte en plein écran au lieu de la fenêtre coulissante</string>
+    <string name="switch_type">Type de bouton à bascule</string>
+    <string name="compose">Composer</string>
+    <string name="harmonization_level">Niveau d\'harmonisation</string>
+    <string name="convert">Convertir</string>
+    <string name="downscale_image_sub">L’image sera réduite à des dimensions inférieures avant le traitement, ce qui aide l’outil à travailler plus rapidement et en toute sécurité</string>
+    <string name="downscale_image">Réduire l\'image</string>
+    <string name="lines_threshold">Seuil des lignes</string>
+    <string name="quadratic_threshold">Seuil quadratique</string>
+    <string name="coordinates_rounding_tolerance">Tolérance d’arrondissement des coordonnées</string>
 </resources>
