@@ -79,8 +79,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
@@ -242,7 +242,7 @@ fun AddFiltersSheet(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        PrimaryScrollableTabRow(
+                        ScrollableTabRow(
                             divider = {},
                             edgePadding = 16.dp,
                             containerColor = SimpleSheetDefaults.barContainerColor,
