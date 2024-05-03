@@ -47,7 +47,7 @@ import kotlinx.coroutines.withContext
 import okio.use
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
-import ru.tech.imageresizershrinker.core.domain.image.model.Metadata
+import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.RandomStringGenerator
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
@@ -374,8 +374,8 @@ internal class AndroidFileController @Inject constructor(
     private suspend infix fun ExifInterface.copyTo(
         newExif: ExifInterface
     ) = withContext(defaultDispatcher) {
-        Metadata.metaTags.forEach { attr ->
-            getAttribute(attr)?.let { newExif.setAttribute(attr, it) }
+        MetadataTag.entries.forEach { attr ->
+            getAttribute(attr.key)?.let { newExif.setAttribute(attr.key, it) }
         }
         newExif.saveAttributes()
     }

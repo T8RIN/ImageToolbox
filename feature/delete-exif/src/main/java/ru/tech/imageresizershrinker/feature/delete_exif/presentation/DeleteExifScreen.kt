@@ -48,6 +48,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.localizedName
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
@@ -211,7 +212,9 @@ fun DeleteExifScreen(
             val subtitle by remember(selectedTags) {
                 derivedStateOf {
                     if (selectedTags.isEmpty()) context.getString(R.string.all)
-                    else selectedTags.joinToString(", ")
+                    else selectedTags.joinToString(", ") {
+                        it.localizedName(context)
+                    }
                 }
             }
             ImageCounter(

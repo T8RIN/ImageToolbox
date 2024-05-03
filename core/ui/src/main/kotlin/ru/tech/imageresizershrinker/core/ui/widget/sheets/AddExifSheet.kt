@@ -45,38 +45,41 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import ru.tech.imageresizershrinker.core.domain.image.model.Metadata
+import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Exif
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.localizedName
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
+import java.util.Locale
 
 @Composable
 fun AddExifSheet(
     visible: Boolean,
     onDismiss: (Boolean) -> Unit,
-    selectedTags: List<String>,
-    onTagSelected: (String) -> Unit,
+    selectedTags: List<MetadataTag>,
+    onTagSelected: (MetadataTag) -> Unit,
     isTagsRemovable: Boolean = false
 ) {
     val tags by remember(selectedTags, isTagsRemovable) {
         derivedStateOf {
             if (isTagsRemovable) {
-                val addedTags = Metadata.metaTags.filter {
+                val addedTags = MetadataTag.entries.filter {
                     it in selectedTags
                 }.sorted()
-                val notAddedTags = (Metadata.metaTags - addedTags.toSet()).sorted()
+                val notAddedTags = (MetadataTag.entries - addedTags.toSet()).sorted()
 
                 addedTags + notAddedTags
             } else {
-                Metadata.metaTags.filter {
+                MetadataTag.entries.filter {
                     it !in selectedTags
                 }.sorted()
             }
@@ -87,11 +90,13 @@ fun AddExifSheet(
             onDismiss(false)
         }
     }
+    val context = LocalContext.current
     var query by rememberSaveable { mutableStateOf("") }
     val list by remember(tags, query) {
         derivedStateOf {
             tags.filter {
-                query.lowercase() in it.lowercase()
+                query.lowercase() in it.localizedName(context)
+                        || query.lowercase() in it.localizedName(context, Locale.ENGLISH)
             }
         }
     }
@@ -155,7 +160,7 @@ fun AddExifSheet(
                             }
                         }
                         PreferenceItem(
-                            title = tag,
+                            title = tag.localizedName,
                             modifier = Modifier.padding(horizontal = 8.dp),
                             endIcon = endIcon,
                             color = MaterialTheme.colorScheme.secondaryContainer.copy(

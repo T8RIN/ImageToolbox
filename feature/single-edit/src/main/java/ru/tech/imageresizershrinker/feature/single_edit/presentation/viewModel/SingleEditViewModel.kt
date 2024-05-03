@@ -45,7 +45,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageData
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageInfo
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
-import ru.tech.imageresizershrinker.core.domain.image.model.Metadata
+import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
@@ -458,8 +458,8 @@ class SingleEditViewModel @Inject constructor(
 
     fun clearExif() {
         val t = _exif.value
-        Metadata.metaTags.forEach {
-            t?.setAttribute(it, null)
+        MetadataTag.entries.forEach {
+            t?.setAttribute(it.key, null)
         }
         _exif.value = t
         registerChanges()
@@ -470,18 +470,18 @@ class SingleEditViewModel @Inject constructor(
         registerChanges()
     }
 
-    fun removeExifTag(tag: String) {
+    fun removeExifTag(tag: MetadataTag) {
         val exifInterface = _exif.value
-        exifInterface?.setAttribute(tag, null)
+        exifInterface?.setAttribute(tag.key, null)
         updateExif(exifInterface)
     }
 
     fun updateExifByTag(
-        tag: String,
+        tag: MetadataTag,
         value: String
     ) {
         val exifInterface = _exif.value
-        exifInterface?.setAttribute(tag, value)
+        exifInterface?.setAttribute(tag.key, value)
         updateExif(exifInterface)
     }
 

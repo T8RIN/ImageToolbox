@@ -34,6 +34,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageCompressor
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageScaler
 import ru.tech.imageresizershrinker.core.domain.image.ShareProvider
+import ru.tech.imageresizershrinker.core.domain.image.model.MetadataTag
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
@@ -72,7 +73,7 @@ class DeleteExifViewModel @Inject constructor(
     private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
     val selectedUri by _selectedUri
 
-    private val _selectedTags: MutableState<List<String>> = mutableStateOf(emptyList())
+    private val _selectedTags: MutableState<List<MetadataTag>> = mutableStateOf(emptyList())
     val selectedTags by _selectedTags
 
     fun updateUris(
@@ -141,7 +142,7 @@ class DeleteExifViewModel @Inject constructor(
                     val metadata: ExifInterface? = if (selectedTags.isNotEmpty()) {
                         it.metadata?.apply {
                             selectedTags.forEach { tag ->
-                                setAttribute(tag, null)
+                                setAttribute(tag.key, null)
                             }
                         }
                     } else null
@@ -235,7 +236,7 @@ class DeleteExifViewModel @Inject constructor(
         }
     }
 
-    fun addTag(tag: String) {
+    fun addTag(tag: MetadataTag) {
         if (tag in selectedTags) {
             _selectedTags.update { it - tag }
         } else {
