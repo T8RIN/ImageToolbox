@@ -122,7 +122,7 @@ fun WatermarkDataSelector(
                     contentDescription = stringResource(R.string.edit)
                 )
             },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth(),
             shape = RoundedCornerShape(20.dp),
             color = MaterialTheme.colorScheme.surfaceContainerLow,
             drawStartIconContainer = false

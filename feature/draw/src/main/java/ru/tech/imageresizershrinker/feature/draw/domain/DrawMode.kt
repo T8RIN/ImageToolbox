@@ -32,10 +32,16 @@ sealed class DrawMode(open val ordinal: Int) {
         ) : PathEffect(4)
     }
 
+    data class Text(
+        val text: String = "Text",
+        val font: Int = 0
+    ) : DrawMode(5)
+
     companion object {
         val entries by lazy {
             listOf(
                 Pen,
+                Text(),
                 PathEffect.PrivacyBlur(),
                 Neon,
                 Highlighter,

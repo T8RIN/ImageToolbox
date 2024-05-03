@@ -51,14 +51,13 @@ import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.core.domain.image.model.BlendingMode
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.model.UiFontFamily
-import ru.tech.imageresizershrinker.core.ui.theme.Typography
 import ru.tech.imageresizershrinker.core.ui.theme.toColor
 import ru.tech.imageresizershrinker.core.ui.utils.helper.entries
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedChip
 import ru.tech.imageresizershrinker.core.ui.widget.color_picker.ColorSelectionRow
 import ru.tech.imageresizershrinker.core.ui.widget.controls.AlphaSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
+import ru.tech.imageresizershrinker.core.ui.widget.controls.FontResSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
 import ru.tech.imageresizershrinker.core.ui.widget.other.ExpandableItem
@@ -174,7 +173,7 @@ fun WatermarkParamsSelectionGroup(
                     Text(
                         fontWeight = FontWeight.Medium,
                         text = stringResource(R.string.overlay_mode),
-                        modifier = Modifier.padding(top = 16.dp, start = 16.dp)
+                        modifier = Modifier.padding(top = 8.dp, start = 16.dp, bottom = 8.dp)
                     )
                     val listState = rememberLazyListState()
                     val modes: List<BlendingMode> = remember {
@@ -235,68 +234,18 @@ fun WatermarkParamsSelectionGroup(
                         ?: return@AnimatedVisibility
 
                     Column {
-                        Column(
-                            modifier = Modifier.container(
-                                shape = RoundedCornerShape(20.dp),
-                                color = MaterialTheme.colorScheme.surface
-                            )
-                        ) {
-                            Text(
-                                fontWeight = FontWeight.Medium,
-                                text = stringResource(R.string.font),
-                                modifier = Modifier.padding(top = 16.dp, start = 16.dp)
-                            )
-                            val listState = rememberLazyListState()
-                            val fonts = remember {
-                                UiFontFamily.entries
+                        FontResSelector(
+                            fontRes = type.font,
+                            onValueChange = {
+                                onValueChange(
+                                    value.copy(
+                                        watermarkingType = type.copy(
+                                            font = it.fontRes ?: 0
+                                        )
+                                    )
+                                )
                             }
-                            LazyRow(
-                                state = listState,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .fadingEdges(listState),
-                                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                                contentPadding = PaddingValues(8.dp)
-                            ) {
-                                items(fonts) {
-                                    val selected by remember(it, type) {
-                                        derivedStateOf {
-                                            if (it == UiFontFamily.System) type.font == 0
-                                            else type.font == it.fontRes
-                                        }
-                                    }
-                                    MaterialTheme(
-                                        typography = Typography(it)
-                                    ) {
-                                        EnhancedChip(
-                                            selected = selected,
-                                            onClick = {
-                                                onValueChange(
-                                                    value.copy(
-                                                        watermarkingType = type.copy(
-                                                            font = it.fontRes ?: 0
-                                                        )
-                                                    )
-                                                )
-                                            },
-                                            selectedColor = MaterialTheme.colorScheme.tertiary,
-                                            contentPadding = PaddingValues(
-                                                horizontal = 12.dp,
-                                                vertical = 8.dp
-                                            ),
-                                            modifier = Modifier.height(36.dp)
-                                        ) {
-                                            AutoSizeText(
-                                                text = it.name
-                                                    ?: stringResource(id = R.string.system),
-                                                maxLines = 1
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        )
                         Spacer(modifier = Modifier.height(4.dp))
                         EnhancedSliderItem(
                             value = type.size,

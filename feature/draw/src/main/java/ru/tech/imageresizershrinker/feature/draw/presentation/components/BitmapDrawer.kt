@@ -64,8 +64,10 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.core.content.res.ResourcesCompat
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import kotlinx.coroutines.launch
@@ -114,6 +116,7 @@ fun BitmapDrawer(
     panEnabled: Boolean,
     drawColor: Color
 ) {
+    val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
     val settingsState = LocalSettingsState.current
@@ -308,16 +311,18 @@ fun BitmapDrawer(
                             strokeCap = StrokeCap.Round
                             strokeJoin = StrokeJoin.Round
                         } else {
-                            if (isFilled) {
-                                style = PaintingStyle.Fill
-                            } else {
-                                style = PaintingStyle.Stroke
-                                this.strokeWidth = strokeWidth.toPx(canvasSize)
-                                if (drawMode is DrawMode.Highlighter || isRect) {
-                                    strokeCap = StrokeCap.Square
+                            if (drawMode !is DrawMode.Text) {
+                                if (isFilled) {
+                                    style = PaintingStyle.Fill
                                 } else {
-                                    strokeCap = StrokeCap.Round
-                                    strokeJoin = StrokeJoin.Round
+                                    style = PaintingStyle.Stroke
+                                    this.strokeWidth = strokeWidth.toPx(canvasSize)
+                                    if (drawMode is DrawMode.Highlighter || isRect) {
+                                        strokeCap = StrokeCap.Square
+                                    } else {
+                                        strokeCap = StrokeCap.Round
+                                        strokeJoin = StrokeJoin.Round
+                                    }
                                 }
                             }
                         }
@@ -325,7 +330,6 @@ fun BitmapDrawer(
                             Color.Transparent
                         } else drawColor
                         alpha = drawColor.alpha
-
                     }.asFrameworkPaint().apply {
                         if (drawMode is DrawMode.Neon && !isEraserOn) {
                             this.color = Color.White.toArgb()
@@ -342,6 +346,13 @@ fun BitmapDrawer(
                                 brushSoftness.toPx(canvasSize),
                                 BlurMaskFilter.Blur.NORMAL
                             )
+                        }
+                        if (drawMode is DrawMode.Text && !isEraserOn) {
+                            isAntiAlias = true
+                            textSize = strokeWidth.toPx(canvasSize)
+                            if (drawMode.font != 0) {
+                                typeface = ResourcesCompat.getFont(context, drawMode.font)
+                            }
                         }
                     }
                 }
@@ -743,16 +754,18 @@ fun BitmapDrawer(
                                             strokeCap = StrokeCap.Round
                                             strokeJoin = StrokeJoin.Round
                                         } else {
-                                            if (isFilled) {
-                                                style = PaintingStyle.Fill
-                                            } else {
-                                                style = PaintingStyle.Stroke
-                                                this.strokeWidth = stroke
-                                                if (effect is DrawMode.Highlighter || isRect) {
-                                                    strokeCap = StrokeCap.Square
+                                            if (effect !is DrawMode.Text) {
+                                                if (isFilled) {
+                                                    style = PaintingStyle.Fill
                                                 } else {
-                                                    strokeCap = StrokeCap.Round
-                                                    strokeJoin = StrokeJoin.Round
+                                                    style = PaintingStyle.Stroke
+                                                    this.strokeWidth = stroke
+                                                    if (effect is DrawMode.Highlighter || isRect) {
+                                                        strokeCap = StrokeCap.Square
+                                                    } else {
+                                                        strokeCap = StrokeCap.Round
+                                                        strokeJoin = StrokeJoin.Round
+                                                    }
                                                 }
                                             }
                                         }
@@ -776,10 +789,22 @@ fun BitmapDrawer(
                                                     BlurMaskFilter.Blur.NORMAL
                                                 )
                                         }
+                                        if (effect is DrawMode.Text && !isErasing) {
+                                            isAntiAlias = true
+                                            textSize = strokeWidth.toPx(canvasSize)
+                                            if (effect.font != 0) {
+                                                typeface =
+                                                    ResourcesCompat.getFont(context, effect.font)
+                                            }
+                                        }
                                     }
                                 }
                             }
-                            drawPath(path, pathPaint)
+                            if (effect is DrawMode.Text && !isErasing) {
+                                drawTextOnPath(effect.text, path, 0f, 0f, pathPaint)
+                            } else {
+                                drawPath(path, pathPaint)
+                            }
                         }
                     }
 
@@ -789,7 +814,11 @@ fun BitmapDrawer(
                                 drawPath.asAndroidPath()
                             }
                         }
-                        drawPath(androidPath, drawPaint)
+                        if (drawMode is DrawMode.Text && !isEraserOn) {
+                            drawTextOnPath(drawMode.text, androidPath, 0f, 0f, drawPaint)
+                        } else {
+                            drawPath(androidPath, drawPaint)
+                        }
                     }
                 }
             }

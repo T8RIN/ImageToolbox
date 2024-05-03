@@ -1054,4 +1054,5 @@
     <string name="tag_rw2_sensor_right_border">Sensor Right Border</string>
     <string name="tag_rw2_sensor_top_border">Sensor Top Border</string>
     <string name="tag_rw2_iso">ISO</string>
+    <string name="draw_text_sub">Draw Text on path with given font and color</string>
 </resources>

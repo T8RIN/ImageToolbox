@@ -298,11 +298,11 @@ fun DrawScreen(
         stateSaver = PtSaver
     ) { mutableStateOf(settingsState.defaultDrawLineWidth.pt) }
 
-    var drawColor by rememberSaveable(arrayOf(viewModel.drawBehavior)) { mutableStateOf(Color.Black) }
+    var drawColor by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(Color.Black) }
     var isEraserOn by rememberSaveable(viewModel.drawBehavior) { mutableStateOf(false) }
     var drawMode by rememberSaveable(
-        stateSaver = DrawModeSaver,
-        inputs = arrayOf(viewModel.drawBehavior)
+        viewModel.drawBehavior,
+        stateSaver = DrawModeSaver
     ) { mutableStateOf(DrawMode.Pen) }
     var alpha by rememberSaveable(viewModel.drawBehavior, drawMode) {
         mutableFloatStateOf(if (drawMode is DrawMode.Highlighter) 0.4f else 1f)

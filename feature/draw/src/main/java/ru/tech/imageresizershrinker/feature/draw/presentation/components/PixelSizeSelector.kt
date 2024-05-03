@@ -20,9 +20,9 @@ package ru.tech.imageresizershrinker.feature.draw.presentation.components
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
@@ -34,7 +34,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 fun PixelSizeSelector(
     modifier: Modifier,
     value: Float,
-    onValueChange: (Float) -> Unit
+    onValueChange: (Float) -> Unit,
+    color: Color = Color.Unspecified
 ) {
     EnhancedSliderItem(
         modifier = modifier,
@@ -53,6 +54,6 @@ fun PixelSizeSelector(
             onValueChange(it.roundToTwoDigits())
         },
         shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.surfaceContainer
+        color = color
     )
 }

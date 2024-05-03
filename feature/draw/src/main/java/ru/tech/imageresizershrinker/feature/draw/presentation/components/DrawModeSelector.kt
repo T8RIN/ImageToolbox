@@ -26,21 +26,22 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material.icons.rounded.Brush
+import androidx.compose.material.icons.rounded.TextFormat
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,11 +58,13 @@ import ru.tech.imageresizershrinker.core.resources.icons.Laser
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.FontResSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 
@@ -94,13 +97,9 @@ fun DrawModeSelector(
                     }
                 )
             },
-            selectedIndex = remember(value) {
-                derivedStateOf {
-                    DrawMode.entries.indexOfFirst {
-                        value::class.isInstance(it)
-                    }
-                }
-            }.value,
+            selectedIndex = DrawMode.entries.indexOfFirst {
+                value::class.isInstance(it)
+            },
             buttonIcon = {},
             itemContent = {
                 Icon(
@@ -123,7 +122,8 @@ fun DrawModeSelector(
                 valueRange = 5f..50f,
                 onValueChange = {
                     onValueChange(DrawMode.PathEffect.PrivacyBlur(it))
-                }
+                },
+                color = MaterialTheme.colorScheme.surface
             )
         }
         AnimatedVisibility(
@@ -136,8 +136,54 @@ fun DrawModeSelector(
                 value = (value as? DrawMode.PathEffect.Pixelation)?.pixelSize ?: 0f,
                 onValueChange = {
                     onValueChange(DrawMode.PathEffect.Pixelation(it))
-                }
+                },
+                color = MaterialTheme.colorScheme.surface
             )
+        }
+        AnimatedVisibility(
+            visible = value is DrawMode.Text,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
+            Column {
+                RoundedTextField(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .container(
+                            shape = ContainerShapeDefaults.topShape,
+                            color = MaterialTheme.colorScheme.surface
+                        )
+                        .padding(8.dp),
+                    value = (value as? DrawMode.Text)?.text ?: "",
+                    singleLine = false,
+                    onValueChange = {
+                        onValueChange(
+                            (value as? DrawMode.Text)?.copy(
+                                text = it
+                            ) ?: value
+                        )
+                    },
+                    label = {
+                        Text(stringResource(R.string.text))
+                    },
+                    keyboardOptions = KeyboardOptions()
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                FontResSelector(
+                    fontRes = (value as? DrawMode.Text)?.font ?: 0,
+                    onValueChange = {
+                        onValueChange(
+                            (value as? DrawMode.Text)?.copy(
+                                font = it.fontRes ?: 0
+                            ) ?: value
+                        )
+                    },
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .padding(bottom = 8.dp),
+                    shape = ContainerShapeDefaults.bottomShape
+                )
+            }
         }
     }
     SimpleSheet(
@@ -196,6 +242,7 @@ private fun DrawMode.getSubtitle(): Int = when (this) {
     is DrawMode.Pen -> R.string.pen_sub
     is DrawMode.PathEffect.PrivacyBlur -> R.string.privacy_blur_sub
     is DrawMode.PathEffect.Pixelation -> R.string.pixelation_sub
+    is DrawMode.Text -> R.string.draw_text_sub
 }
 
 private fun DrawMode.getTitle(): Int = when (this) {
@@ -204,6 +251,7 @@ private fun DrawMode.getTitle(): Int = when (this) {
     is DrawMode.Pen -> R.string.pen
     is DrawMode.PathEffect.PrivacyBlur -> R.string.privacy_blur
     is DrawMode.PathEffect.Pixelation -> R.string.pixelation
+    is DrawMode.Text -> R.string.text
 }
 
 private fun DrawMode.getIcon(): ImageVector = when (this) {
@@ -212,4 +260,5 @@ private fun DrawMode.getIcon(): ImageVector = when (this) {
     is DrawMode.Pen -> Icons.Rounded.Brush
     is DrawMode.PathEffect.PrivacyBlur -> Icons.Rounded.BlurCircular
     is DrawMode.PathEffect.Pixelation -> Icons.Rounded.Cube
+    is DrawMode.Text -> Icons.Rounded.TextFormat
 }
