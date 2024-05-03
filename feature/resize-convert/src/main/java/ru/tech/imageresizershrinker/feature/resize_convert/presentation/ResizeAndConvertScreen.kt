@@ -54,9 +54,9 @@ import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSet
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
-import ru.tech.imageresizershrinker.core.ui.utils.helper.failedToSaveImages
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
@@ -74,6 +74,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleModeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.ResizeTypeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
@@ -148,13 +149,12 @@ fun ResizeAndConvertScreen(
         isPickedAlready = !uriState.isNullOrEmpty()
     )
 
-    val saveBitmaps: () -> Unit = {
-        viewModel.saveBitmaps { results, savingPath ->
-            context.failedToSaveImages(
+    val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
+        viewModel.saveBitmaps(it) { results ->
+            context.parseSaveResults(
                 scope = scope,
                 results = results,
                 toastHostState = toastHostState,
-                savingPathString = savingPath,
                 isOverwritten = settingsState.overwriteFiles,
                 showConfetti = showConfetti
             )
@@ -347,14 +347,28 @@ fun ResizeAndConvertScreen(
             )
         },
         buttons = { actions ->
+            var showFolderSelectionDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
                 targetState = (viewModel.uris.isNullOrEmpty()) to isPortrait,
                 onSecondaryButtonClick = pickImage,
-                onPrimaryButtonClick = saveBitmaps,
+                onPrimaryButtonClick = {
+                    saveBitmaps(null)
+                },
+                onPrimaryButtonLongClick = {
+                    showFolderSelectionDialog = true
+                },
                 actions = {
                     if (isPortrait) actions()
                 }
             )
+            if (showFolderSelectionDialog) {
+                OneTimeSaveLocationSelectionDialog(
+                    onDismiss = { showFolderSelectionDialog = false },
+                    onSaveRequest = saveBitmaps
+                )
+            }
         },
         topAppBarPersistentActions = {
             if (viewModel.bitmap == null) TopAppBarEmoji()

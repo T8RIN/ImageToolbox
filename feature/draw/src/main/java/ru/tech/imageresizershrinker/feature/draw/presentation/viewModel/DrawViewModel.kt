@@ -110,6 +110,7 @@ class DrawViewModel @Inject constructor(
     }
 
     fun saveBitmap(
+        oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
@@ -133,7 +134,9 @@ class DrawViewModel @Inject constructor(
                                     height = localBitmap.height
                                 )
                             )
-                        ), keepOriginalMetadata = _saveExif.value
+                        ),
+                        keepOriginalMetadata = _saveExif.value,
+                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
                     ).onSuccess(::registerSave)
                 )
             }

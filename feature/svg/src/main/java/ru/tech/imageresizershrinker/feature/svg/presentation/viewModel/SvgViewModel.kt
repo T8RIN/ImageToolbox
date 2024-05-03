@@ -73,7 +73,8 @@ class SvgViewModel @Inject constructor(
     }
 
     fun save(
-        onResult: (List<SaveResult>, String) -> Unit
+        oneTimeSaveLocationUri: String?,
+        onResult: (List<SaveResult>) -> Unit
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
             val results = mutableListOf<SaveResult>()
@@ -94,14 +95,15 @@ class SvgViewModel @Inject constructor(
                 results.add(
                     fileController.save(
                         saveTarget = SvgSaveTarget(uri, svgBytes),
-                        keepOriginalMetadata = true
+                        keepOriginalMetadata = true,
+                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
                     )
                 )
                 _done.update { it + 1 }
             }
 
             _isSaving.value = false
-            onResult(results.onSuccess(::registerSave), fileController.savingPath)
+            onResult(results.onSuccess(::registerSave))
         }
     }
 

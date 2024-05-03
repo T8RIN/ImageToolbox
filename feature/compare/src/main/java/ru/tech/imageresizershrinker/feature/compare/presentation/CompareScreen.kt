@@ -243,14 +243,17 @@ fun CompareScreen(
         onVisibleChange = {
             showShareSheet = it
         },
-        onSaveBitmap = { imageFormat ->
-            viewModel.saveBitmap(compareProgress, imageFormat) { saveResult ->
-                parseSaveResult(
+        onSaveBitmap = { imageFormat, oneTimeSaveLocationUri ->
+            viewModel.saveBitmap(
+                percent = compareProgress,
+                imageFormat = imageFormat,
+                oneTimeSaveLocationUri = oneTimeSaveLocationUri
+            ) { saveResult ->
+                context.parseSaveResult(
                     saveResult = saveResult,
                     onSuccess = showConfetti,
                     toastHostState = toastHostState,
-                    scope = scope,
-                    context = context
+                    scope = scope
                 )
             }
             showShareSheet = false

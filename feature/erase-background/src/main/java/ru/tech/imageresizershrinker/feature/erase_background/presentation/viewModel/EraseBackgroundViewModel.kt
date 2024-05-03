@@ -137,6 +137,7 @@ class EraseBackgroundViewModel @Inject constructor(
     private var savingJob: Job? = null
 
     fun saveBitmap(
+        oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit
     ) {
         _isSaving.value = false
@@ -162,7 +163,9 @@ class EraseBackgroundViewModel @Inject constructor(
                                     height = localBitmap.height
                                 )
                             )
-                        ), keepOriginalMetadata = _saveExif.value
+                        ),
+                        keepOriginalMetadata = _saveExif.value,
+                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
                     ).onSuccess(::registerSave)
                 )
             }

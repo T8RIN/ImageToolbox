@@ -122,7 +122,8 @@ class WatermarkingViewModel @Inject constructor(
     }
 
     fun saveBitmaps(
-        onResult: (List<SaveResult>, String) -> Unit
+        oneTimeSaveLocationUri: String?,
+        onResult: (List<SaveResult>) -> Unit
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _left.value = -1
@@ -151,7 +152,9 @@ class WatermarkingViewModel @Inject constructor(
                                     image = localBitmap,
                                     imageInfo = imageInfo
                                 )
-                            ), keepOriginalMetadata = keepExif
+                            ),
+                            keepOriginalMetadata = keepExif,
+                            oneTimeSaveLocationUri = oneTimeSaveLocationUri
                         )
                     )
 
@@ -161,7 +164,7 @@ class WatermarkingViewModel @Inject constructor(
 
                 _done.value += 1
             }
-            onResult(results.onSuccess(::registerSave), fileController.savingPath)
+            onResult(results.onSuccess(::registerSave))
             _isSaving.value = false
         }
     }

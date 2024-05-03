@@ -127,7 +127,8 @@ class DeleteExifViewModel @Inject constructor(
     }
 
     fun saveBitmaps(
-        onResult: (List<SaveResult>, String) -> Unit
+        oneTimeSaveLocationUri: String?,
+        onResult: (List<SaveResult>) -> Unit
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
@@ -154,7 +155,8 @@ class DeleteExifViewModel @Inject constructor(
                                 metadata = metadata,
                                 data = imageCompressor.compressAndTransform(it.image, it.imageInfo)
                             ),
-                            keepOriginalMetadata = false
+                            keepOriginalMetadata = false,
+                            oneTimeSaveLocationUri = oneTimeSaveLocationUri
                         )
                     )
                 } ?: results.add(
@@ -163,7 +165,7 @@ class DeleteExifViewModel @Inject constructor(
 
                 _done.value += 1
             }
-            onResult(results, fileController.savingPath)
+            onResult(results)
             _isSaving.value = false
         }
     }

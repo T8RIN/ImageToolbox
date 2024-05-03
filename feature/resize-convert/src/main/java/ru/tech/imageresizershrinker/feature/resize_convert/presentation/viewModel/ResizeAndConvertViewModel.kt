@@ -336,7 +336,8 @@ class ResizeAndConvertViewModel @Inject constructor(
     }
 
     fun saveBitmaps(
-        onComplete: (List<SaveResult>, path: String) -> Unit
+        oneTimeSaveLocationUri: String?,
+        onComplete: (List<SaveResult>) -> Unit
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
@@ -367,7 +368,8 @@ class ResizeAndConvertViewModel @Inject constructor(
                                         imageInfo = imageInfo
                                     )
                                 ),
-                                keepOriginalMetadata = if (uris!!.size == 1) true else keepExif
+                                keepOriginalMetadata = if (uris!!.size == 1) true else keepExif,
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
                             )
                         )
                     }
@@ -377,7 +379,7 @@ class ResizeAndConvertViewModel @Inject constructor(
 
                 _done.value += 1
             }
-            onComplete(results.onSuccess(::registerSave), fileController.savingPath)
+            onComplete(results.onSuccess(::registerSave))
             _isSaving.value = false
         }
     }

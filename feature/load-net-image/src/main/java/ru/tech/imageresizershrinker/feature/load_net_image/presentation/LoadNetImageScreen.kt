@@ -80,6 +80,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
@@ -152,16 +153,15 @@ fun LoadNetImageScreen(
 
     val wantToEdit = rememberSaveable { mutableStateOf(false) }
 
-    val saveBitmap: () -> Unit = {
-        viewModel.saveBitmap(link) { saveResult ->
-            parseSaveResult(
+    val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
+        viewModel.saveBitmap(link, it) { saveResult ->
+            context.parseSaveResult(
                 saveResult = saveResult,
                 onSuccess = {
                     confettiHostState.showConfetti()
                 },
                 toastHostState = toastHostState,
-                scope = scope,
-                context = context
+                scope = scope
             )
         }
     }
@@ -313,6 +313,9 @@ fun LoadNetImageScreen(
             )
         },
         buttons = { actions ->
+            var showFolderSelectionDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
                 targetState = (false) to !isLandscape,
                 onSecondaryButtonClick = {
@@ -330,11 +333,22 @@ fun LoadNetImageScreen(
                 isPrimaryButtonVisible = imageState is AsyncImagePainter.State.Success,
                 isSecondaryButtonVisible = imageState is AsyncImagePainter.State.Success,
                 secondaryButtonIcon = Icons.Outlined.ImageEdit,
-                onPrimaryButtonClick = saveBitmap,
+                onPrimaryButtonClick = {
+                    saveBitmap(null)
+                },
+                onPrimaryButtonLongClick = {
+                    showFolderSelectionDialog = true
+                },
                 actions = {
                     if (!isLandscape) actions()
                 }
             )
+            if (showFolderSelectionDialog) {
+                OneTimeSaveLocationSelectionDialog(
+                    onDismiss = { showFolderSelectionDialog = false },
+                    onSaveRequest = saveBitmap
+                )
+            }
         },
         canShowScreenData = true,
         isPortrait = !isLandscape

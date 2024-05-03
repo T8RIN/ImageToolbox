@@ -169,7 +169,8 @@ class LimitsResizeViewModel @Inject constructor(
     }
 
     fun saveBitmaps(
-        onResult: (List<SaveResult>, String) -> Unit
+        oneTimeSaveLocationUri: String?,
+        onResult: (List<SaveResult>) -> Unit
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
@@ -203,7 +204,9 @@ class LimitsResizeViewModel @Inject constructor(
                                         height = localBitmap.height
                                     )
                                 )
-                            ), keepOriginalMetadata = keepExif
+                            ),
+                            keepOriginalMetadata = keepExif,
+                            oneTimeSaveLocationUri = oneTimeSaveLocationUri
                         )
                     )
                 } ?: results.add(
@@ -212,7 +215,7 @@ class LimitsResizeViewModel @Inject constructor(
 
                 _done.value += 1
             }
-            onResult(results.onSuccess(::registerSave), fileController.savingPath)
+            onResult(results.onSuccess(::registerSave))
             _isSaving.value = false
         }
     }

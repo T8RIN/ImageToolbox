@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun PreferenceItem(
     onClick: (() -> Unit)? = null,
+    onLongClick: (() -> Unit)? = null,
     title: String,
     enabled: Boolean = true,
     subtitle: String? = null,
@@ -97,6 +98,7 @@ fun PreferenceItem(
         autoShadowElevation = autoShadowElevation,
         contentColor = contentColor,
         onClick = onClick,
+        onLongClick = onLongClick,
         enabled = enabled,
         title = title,
         subtitle = subtitle,

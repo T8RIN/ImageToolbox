@@ -43,6 +43,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
+import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -159,10 +160,12 @@ class ApngToolsViewModel @Inject constructor(
         apngData = null
         savingJob = null
         updateParams(ApngParams.Default)
+        registerChangesCleared()
     }
 
     fun updateApngFrames(imageFrames: ImageFrames) {
         _imageFrames.update { imageFrames }
+        registerChanges()
     }
 
     fun clearConvertedImagesSelection() = updateApngFrames(ImageFrames.ManualSelection(emptyList()))
@@ -190,8 +193,9 @@ class ApngToolsViewModel @Inject constructor(
     }
 
     fun saveBitmaps(
+        oneTimeSaveLocationUri: String?,
         onApngSaveResult: (String) -> Unit,
-        onResult: (List<SaveResult>, String) -> Unit
+        onResult: (List<SaveResult>) -> Unit
     ) {
         _isSaving.value = false
         savingJob?.cancel()
@@ -209,7 +213,7 @@ class ApngToolsViewModel @Inject constructor(
                             imageFormat = imageFormat,
                             quality = params.quality
                         ).onCompletion {
-                            onResult(results, fileController.savingPath)
+                            onResult(results.onSuccess(::registerSave))
                         }.collect { uri ->
                             imageGetter.getImage(
                                 data = uri,
@@ -238,7 +242,8 @@ class ApngToolsViewModel @Inject constructor(
                                                     )
                                                 )
                                             ),
-                                            keepOriginalMetadata = false
+                                            keepOriginalMetadata = false,
+                                            oneTimeSaveLocationUri = oneTimeSaveLocationUri
                                         )
                                     )
                                 }
@@ -265,6 +270,7 @@ class ApngToolsViewModel @Inject constructor(
                                 Locale.getDefault()
                             ).format(Date())
                             onApngSaveResult("APNG_$timeStamp")
+                            registerSave()
                         }
                     }
                 }
@@ -283,13 +289,14 @@ class ApngToolsViewModel @Inject constructor(
                         results.add(
                             fileController.save(
                                 saveTarget = JxlSaveTarget(uri, jxlBytes),
-                                keepOriginalMetadata = true
+                                keepOriginalMetadata = true,
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
                             )
                         )
                         _done.update { it + 1 }
                     }
 
-                    onResult(results, fileController.savingPath)
+                    onResult(results.onSuccess(::registerSave))
                 }
 
                 null -> Unit
@@ -336,6 +343,7 @@ class ApngToolsViewModel @Inject constructor(
                 Screen.ApngTools.Type.ImageToApng(uris)
             }
         }
+        registerChanges()
     }
 
     fun addImageToUris(uris: List<Uri>) {
@@ -347,6 +355,7 @@ class ApngToolsViewModel @Inject constructor(
                 Screen.ApngTools.Type.ImageToApng(newUris)
             }
         }
+        registerChanges()
     }
 
     fun removeImageAt(index: Int) {
@@ -360,10 +369,12 @@ class ApngToolsViewModel @Inject constructor(
                 Screen.ApngTools.Type.ImageToApng(newUris)
             }
         }
+        registerChanges()
     }
 
     fun setImageFormat(imageFormat: ImageFormat) {
         _imageFormat.update { imageFormat }
+        registerChanges()
     }
 
     fun setQuality(quality: Quality) {
@@ -372,6 +383,7 @@ class ApngToolsViewModel @Inject constructor(
 
     fun updateParams(params: ApngParams) {
         _params.update { params }
+        registerChanges()
     }
 
     fun performSharing(onComplete: () -> Unit) {
@@ -450,6 +462,7 @@ class ApngToolsViewModel @Inject constructor(
         _jxlQuality.update {
             (quality as? Quality.Jxl) ?: Quality.Jxl()
         }
+        registerChanges()
     }
 
 }

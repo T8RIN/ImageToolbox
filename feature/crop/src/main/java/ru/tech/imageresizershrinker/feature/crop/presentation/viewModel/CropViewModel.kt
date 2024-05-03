@@ -116,7 +116,7 @@ class CropViewModel @Inject constructor(
     }
 
     fun saveBitmap(
-        bitmap: Bitmap? = _bitmap.value,
+        oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
@@ -147,7 +147,8 @@ class CropViewModel @Inject constructor(
                             sequenceNumber = null,
                             data = byteArray
                         ),
-                        keepOriginalMetadata = false
+                        keepOriginalMetadata = false,
+                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
                     )
                 )
             }

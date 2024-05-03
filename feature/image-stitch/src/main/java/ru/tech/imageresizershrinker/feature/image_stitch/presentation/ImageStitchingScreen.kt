@@ -64,6 +64,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleSmallImagesToLargeToggle
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
@@ -151,14 +152,13 @@ fun ImageStitchingScreen(
         else onGoBack()
     }
 
-    val saveBitmaps: () -> Unit = {
-        viewModel.saveBitmaps { saveResult ->
-            parseSaveResult(
+    val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
+        viewModel.saveBitmaps(it) { saveResult ->
+            context.parseSaveResult(
                 saveResult = saveResult,
                 onSuccess = showConfetti,
                 toastHostState = toastHostState,
-                scope = scope,
-                context = context
+                scope = scope
             )
         }
     }
@@ -280,15 +280,29 @@ fun ImageStitchingScreen(
             }
         },
         buttons = { actions ->
+            var showFolderSelectionDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
                 isPrimaryButtonVisible = viewModel.previewBitmap != null,
                 targetState = (viewModel.uris.isNullOrEmpty()) to isPortrait,
                 onSecondaryButtonClick = pickImage,
-                onPrimaryButtonClick = saveBitmaps,
+                onPrimaryButtonClick = {
+                    saveBitmaps(null)
+                },
+                onPrimaryButtonLongClick = {
+                    showFolderSelectionDialog = true
+                },
                 actions = {
                     if (isPortrait) actions()
                 }
             )
+            if (showFolderSelectionDialog) {
+                OneTimeSaveLocationSelectionDialog(
+                    onDismiss = { showFolderSelectionDialog = false },
+                    onSaveRequest = saveBitmaps
+                )
+            }
         },
         noDataControls = {
             if (!viewModel.isImageLoading) {

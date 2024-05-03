@@ -65,10 +65,10 @@ import ru.tech.imageresizershrinker.core.ui.theme.blend
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
-import ru.tech.imageresizershrinker.core.ui.utils.helper.failedToSaveImages
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
 import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResult
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -80,6 +80,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.AlphaSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -379,24 +380,23 @@ fun GradientMakerScreen(
             }
         },
         buttons = { actions ->
-            val saveBitmap: () -> Unit = {
+            val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
                 if (viewModel.brush != null) {
                     viewModel.saveBitmaps(
+                        oneTimeSaveLocationUri = it,
                         onStandaloneGradientSaveResult = { saveResult ->
-                            parseSaveResult(
+                            context.parseSaveResult(
                                 saveResult = saveResult,
                                 onSuccess = showConfetti,
                                 toastHostState = toastHostState,
-                                scope = scope,
-                                context = context
+                                scope = scope
                             )
                         },
-                        onResult = { results, savingPath ->
-                            context.failedToSaveImages(
+                        onResult = { results ->
+                            context.parseSaveResults(
                                 scope = scope,
                                 results = results,
                                 toastHostState = toastHostState,
-                                savingPathString = savingPath,
                                 isOverwritten = settingsState.overwriteFiles,
                                 showConfetti = showConfetti
                             )
@@ -404,17 +404,31 @@ fun GradientMakerScreen(
                     )
                 }
             }
+            var showFolderSelectionDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
                 targetState = (allowPickingImage == null) to isPortrait,
                 onSecondaryButtonClick = pickImage,
                 isSecondaryButtonVisible = allowPickingImage == true,
                 isPrimaryButtonVisible = viewModel.brush != null,
                 showNullDataButtonAsContainer = true,
-                onPrimaryButtonClick = saveBitmap,
+                onPrimaryButtonClick = {
+                    saveBitmap(null)
+                },
+                onPrimaryButtonLongClick = {
+                    showFolderSelectionDialog = true
+                },
                 actions = {
                     if (isPortrait) actions()
                 }
             )
+            if (showFolderSelectionDialog) {
+                OneTimeSaveLocationSelectionDialog(
+                    onDismiss = { showFolderSelectionDialog = false },
+                    onSaveRequest = saveBitmap
+                )
+            }
         },
         forceImagePreviewToMax = showOriginal,
         contentPadding = animateDpAsState(

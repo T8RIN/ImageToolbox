@@ -123,6 +123,7 @@ class ImageStitchingViewModel @Inject constructor(
     }
 
     fun saveBitmaps(
+        oneTimeSaveLocationUri: String?,
         onComplete: (result: SaveResult) -> Unit,
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
@@ -131,8 +132,8 @@ class ImageStitchingViewModel @Inject constructor(
                 imageUris = uris?.map { it.toString() } ?: emptyList(),
                 combiningParams = combiningParams,
                 imageScale = imageScale
-            ).let { (image, ii) ->
-                val imageInfo = ii.copy(
+            ).let { (image, info) ->
+                val imageInfo = info.copy(
                     quality = imageInfo.quality,
                     imageFormat = imageInfo.imageFormat
                 )
@@ -148,7 +149,8 @@ class ImageStitchingViewModel @Inject constructor(
                                 imageInfo = imageInfo
                             )
                         ),
-                        keepOriginalMetadata = true
+                        keepOriginalMetadata = true,
+                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
                     ).onSuccess(::registerSave)
                 )
             }

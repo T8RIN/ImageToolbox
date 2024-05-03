@@ -122,6 +122,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -223,14 +224,13 @@ fun EraseBackgroundScreen(
         else onGoBack()
     }
 
-    val saveBitmap: () -> Unit = {
-        viewModel.saveBitmap { saveResult ->
-            parseSaveResult(
+    val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
+        viewModel.saveBitmap(it) { saveResult ->
+            context.parseSaveResult(
                 saveResult = saveResult,
                 onSuccess = showConfetti,
                 toastHostState = toastHostState,
-                scope = scope,
-                context = context
+                scope = scope
             )
         }
     }
@@ -616,6 +616,9 @@ fun EraseBackgroundScreen(
                                 },
                                 floatingActionButton = {
                                     Row {
+                                        var showFolderSelectionDialog by rememberSaveable {
+                                            mutableStateOf(false)
+                                        }
                                         EnhancedFloatingActionButton(
                                             onClick = pickImage,
                                             containerColor = MaterialTheme.colorScheme.tertiaryContainer
@@ -627,11 +630,22 @@ fun EraseBackgroundScreen(
                                         }
                                         Spacer(modifier = Modifier.width(8.dp))
                                         EnhancedFloatingActionButton(
-                                            onClick = saveBitmap
+                                            onClick = {
+                                                saveBitmap(null)
+                                            },
+                                            onLongClick = {
+                                                showFolderSelectionDialog = true
+                                            }
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Rounded.Save,
                                                 contentDescription = stringResource(R.string.save)
+                                            )
+                                        }
+                                        if (showFolderSelectionDialog) {
+                                            OneTimeSaveLocationSelectionDialog(
+                                                onDismiss = { showFolderSelectionDialog = false },
+                                                onSaveRequest = saveBitmap
                                             )
                                         }
                                     }
@@ -708,6 +722,9 @@ fun EraseBackgroundScreen(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
+                            var showFolderSelectionDialog by rememberSaveable {
+                                mutableStateOf(false)
+                            }
                             EnhancedFloatingActionButton(
                                 onClick = pickImage,
                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer
@@ -719,11 +736,22 @@ fun EraseBackgroundScreen(
                             }
                             Spacer(modifier = Modifier.height(16.dp))
                             EnhancedFloatingActionButton(
-                                onClick = saveBitmap
+                                onClick = {
+                                    saveBitmap(null)
+                                },
+                                onLongClick = {
+                                    showFolderSelectionDialog = true
+                                }
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.Save,
                                     contentDescription = stringResource(R.string.save)
+                                )
+                            }
+                            if (showFolderSelectionDialog) {
+                                OneTimeSaveLocationSelectionDialog(
+                                    onDismiss = { showFolderSelectionDialog = false },
+                                    onSaveRequest = saveBitmap
                                 )
                             }
                         }

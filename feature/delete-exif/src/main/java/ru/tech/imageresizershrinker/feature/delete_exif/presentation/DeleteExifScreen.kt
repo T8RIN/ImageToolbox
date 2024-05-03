@@ -50,15 +50,16 @@ import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostStat
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.fileSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
-import ru.tech.imageresizershrinker.core.ui.utils.helper.failedToSaveImages
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageCounter
@@ -132,13 +133,12 @@ fun DeleteExifScreen(
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
-    val saveBitmaps: () -> Unit = {
-        viewModel.saveBitmaps { results, savingPath ->
-            context.failedToSaveImages(
+    val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
+        viewModel.saveBitmaps(it) { results ->
+            context.parseSaveResults(
                 scope = scope,
                 results = results,
                 toastHostState = toastHostState,
-                savingPathString = savingPath,
                 isOverwritten = settingsState.overwriteFiles,
                 showConfetti = showConfetti
             )
@@ -242,14 +242,28 @@ fun DeleteExifScreen(
             )
         },
         buttons = { actions ->
+            var showFolderSelectionDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
                 targetState = (viewModel.uris.isNullOrEmpty()) to isPortrait,
                 onSecondaryButtonClick = pickImage,
-                onPrimaryButtonClick = saveBitmaps,
+                onPrimaryButtonClick = {
+                    saveBitmaps(null)
+                },
+                onPrimaryButtonLongClick = {
+                    showFolderSelectionDialog = true
+                },
                 actions = {
                     if (isPortrait) actions()
                 }
             )
+            if (showFolderSelectionDialog) {
+                OneTimeSaveLocationSelectionDialog(
+                    onDismiss = { showFolderSelectionDialog = false },
+                    onSaveRequest = saveBitmaps
+                )
+            }
         },
         noDataControls = {
             ImageNotPickedWidget(onPickImage = pickImage)

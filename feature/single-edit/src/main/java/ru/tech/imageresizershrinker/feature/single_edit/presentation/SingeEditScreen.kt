@@ -67,8 +67,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ResizeImageField
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleModeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.ResizeTypeSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
-import ru.tech.imageresizershrinker.core.ui.widget.dialogs.TempFolderSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
@@ -160,12 +160,11 @@ fun SingleEditScreen(
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
         viewModel.saveBitmap(it) { saveResult ->
-            parseSaveResult(
+            context.parseSaveResult(
                 saveResult = saveResult,
                 onSuccess = showConfetti,
                 toastHostState = toastHostState,
-                scope = scope,
-                context = context
+                scope = scope
             )
         }
     }
@@ -361,11 +360,9 @@ fun SingleEditScreen(
                 }
             )
             if (showFolderSelectionDialog) {
-                TempFolderSelectionDialog(
+                OneTimeSaveLocationSelectionDialog(
                     onDismiss = { showFolderSelectionDialog = false },
-                    onSaveRequest = { saveFolderUri ->
-                        saveBitmap(saveFolderUri)
-                    }
+                    onSaveRequest = saveBitmap
                 )
             }
         },

@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.IosShare
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.rounded.Share
@@ -37,6 +38,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,6 +51,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.ImageFormat
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults.bottomShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults.centerShape
@@ -64,7 +67,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 internal fun CompareShareSheet(
     visible: Boolean,
     onVisibleChange: (Boolean) -> Unit,
-    onSaveBitmap: (ImageFormat) -> Unit,
+    onSaveBitmap: (ImageFormat, String?) -> Unit,
     onShare: (ImageFormat) -> Unit,
     onCopy: (ImageFormat, ClipboardManager) -> Unit,
     previewBitmap: Bitmap?
@@ -110,10 +113,16 @@ internal fun CompareShareSheet(
                         onValueChange = { imageFormat = it }
                     )
                     Spacer(Modifier.height(8.dp))
+                    var showFolderSelectionDialog by rememberSaveable(visible) {
+                        mutableStateOf(false)
+                    }
                     PreferenceItem(
                         title = stringResource(id = R.string.save),
                         onClick = {
-                            onSaveBitmap(imageFormat)
+                            onSaveBitmap(imageFormat, null)
+                        },
+                        onLongClick = {
+
                         },
                         shape = topShape,
                         modifier = Modifier
@@ -122,6 +131,14 @@ internal fun CompareShareSheet(
                         color = MaterialTheme.colorScheme.primaryContainer,
                         endIcon = Icons.Rounded.Save
                     )
+                    if (showFolderSelectionDialog) {
+                        OneTimeSaveLocationSelectionDialog(
+                            onDismiss = { showFolderSelectionDialog = false },
+                            onSaveRequest = {
+                                onSaveBitmap(imageFormat, it)
+                            }
+                        )
+                    }
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(
                         title = stringResource(id = R.string.copy),
@@ -133,7 +150,7 @@ internal fun CompareShareSheet(
                             onCopy(imageFormat, clipboardManager)
                         },
                         color = MaterialTheme.colorScheme.secondaryContainer,
-                        endIcon = Icons.Rounded.Share
+                        endIcon = Icons.Rounded.ContentCopy
                     )
                     Spacer(Modifier.height(4.dp))
                     PreferenceItem(

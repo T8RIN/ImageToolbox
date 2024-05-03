@@ -194,8 +194,9 @@ class GifToolsViewModel @Inject constructor(
     }
 
     fun saveBitmaps(
-        onGifSaveResult: (String) -> Unit,
-        onResult: (List<SaveResult>, String) -> Unit
+        oneTimeSaveLocationUri: String?,
+        onGifSaveResult: (filename: String) -> Unit,
+        onResult: (List<SaveResult>) -> Unit
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
@@ -215,13 +216,13 @@ class GifToolsViewModel @Inject constructor(
                                     _isSaving.value = false
                                     savingJob?.cancel()
                                     onResult(
-                                        listOf(SaveResult.Error.MissingPermissions), ""
+                                        listOf(SaveResult.Error.MissingPermissions)
                                     )
                                 }
                                 _left.value = gifFrames.getFramePositions(it).size
                             }
                         ).onCompletion {
-                            onResult(results, fileController.savingPath)
+                            onResult(results)
                         }.collect { uri ->
                             imageGetter.getImage(
                                 data = uri,
@@ -248,7 +249,8 @@ class GifToolsViewModel @Inject constructor(
                                                 )
                                             )
                                         ),
-                                        keepOriginalMetadata = false
+                                        keepOriginalMetadata = false,
+                                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
                                     )
                                 )
                             } ?: results.add(
@@ -293,13 +295,14 @@ class GifToolsViewModel @Inject constructor(
                         results.add(
                             fileController.save(
                                 saveTarget = JxlSaveTarget(uri, jxlBytes),
-                                keepOriginalMetadata = true
+                                keepOriginalMetadata = true,
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
                             )
                         )
                         _done.update { it + 1 }
                     }
 
-                    onResult(results, fileController.savingPath)
+                    onResult(results)
                 }
 
                 null -> Unit

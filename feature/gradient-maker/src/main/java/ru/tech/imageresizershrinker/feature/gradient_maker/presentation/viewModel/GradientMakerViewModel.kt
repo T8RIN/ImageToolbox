@@ -137,8 +137,9 @@ class GradientMakerViewModel @Inject constructor(
     }
 
     fun saveBitmaps(
+        oneTimeSaveLocationUri: String?,
         onStandaloneGradientSaveResult: (SaveResult) -> Unit,
-        onResult: (List<SaveResult>, String) -> Unit
+        onResult: (List<SaveResult>) -> Unit
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _left.value = -1
@@ -164,7 +165,8 @@ class GradientMakerViewModel @Inject constructor(
                                     imageInfo = imageInfo
                                 )
                             ),
-                            keepOriginalMetadata = false
+                            keepOriginalMetadata = false,
+                            oneTimeSaveLocationUri = oneTimeSaveLocationUri
                         ).onSuccess(::registerSave)
                     )
                 }
@@ -193,7 +195,9 @@ class GradientMakerViewModel @Inject constructor(
                                         image = localBitmap,
                                         imageInfo = imageInfo
                                     )
-                                ), keepOriginalMetadata = keepExif
+                                ),
+                                keepOriginalMetadata = keepExif,
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
                             )
                         )
                     } ?: results.add(
@@ -202,7 +206,7 @@ class GradientMakerViewModel @Inject constructor(
 
                     _done.value += 1
                 }
-                onResult(results.onSuccess(::registerSave), fileController.savingPath)
+                onResult(results.onSuccess(::registerSave))
             }
             _isSaving.value = false
         }

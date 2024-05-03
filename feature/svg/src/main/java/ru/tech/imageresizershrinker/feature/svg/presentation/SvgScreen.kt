@@ -48,14 +48,15 @@ import ru.tech.imageresizershrinker.core.resources.icons.ImageReset
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.failedToSaveImages
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
@@ -216,6 +217,20 @@ fun SvgScreen(
             )
         },
         buttons = {
+            val save: (oneTimeSaveLocationUri: String?) -> Unit = {
+                viewModel.save(it) { results ->
+                    context.parseSaveResults(
+                        scope = scope,
+                        results = results,
+                        toastHostState = toastHostState,
+                        isOverwritten = settingsState.overwriteFiles,
+                        showConfetti = showConfetti
+                    )
+                }
+            }
+            var showFolderSelectionDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
                 targetState = viewModel.uris.isEmpty() to isPortrait,
                 onSecondaryButtonClick = {
@@ -233,21 +248,21 @@ fun SvgScreen(
                 },
                 isPrimaryButtonVisible = viewModel.uris.isNotEmpty(),
                 onPrimaryButtonClick = {
-                    viewModel.save { results, savingPath ->
-                        context.failedToSaveImages(
-                            scope = scope,
-                            results = results,
-                            toastHostState = toastHostState,
-                            savingPathString = savingPath,
-                            isOverwritten = settingsState.overwriteFiles,
-                            showConfetti = showConfetti
-                        )
-                    }
+                    save(null)
+                },
+                onPrimaryButtonLongClick = {
+                    showFolderSelectionDialog = true
                 },
                 actions = {
                     if (isPortrait) it()
                 }
             )
+            if (showFolderSelectionDialog) {
+                OneTimeSaveLocationSelectionDialog(
+                    onDismiss = { showFolderSelectionDialog = false },
+                    onSaveRequest = save
+                )
+            }
         },
         canShowScreenData = viewModel.uris.isNotEmpty(),
         isPortrait = isPortrait

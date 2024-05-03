@@ -17,19 +17,7 @@
 
 package ru.tech.imageresizershrinker.core.ui.utils.helper
 
-import android.app.Activity
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ErrorOutline
-import androidx.compose.material.icons.rounded.Save
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.resources.BuildConfig
-import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.requestStoragePermission
-import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
-import ru.tech.imageresizershrinker.core.ui.widget.other.ToastDuration
-import ru.tech.imageresizershrinker.core.ui.widget.other.ToastHostState
 
 val AppActivityClass: Class<*> by lazy {
     Class.forName(
@@ -56,79 +44,3 @@ val AppVersionPreRelease: String by lazy {
 }
 
 const val ColorSchemeName = "scheme"
-
-fun Activity.failedToSaveImages(
-    scope: CoroutineScope,
-    results: List<SaveResult>,
-    toastHostState: ToastHostState,
-    savingPathString: String,
-    isOverwritten: Boolean,
-    showConfetti: () -> Unit
-) {
-    val failed = results.count { it is SaveResult.Error }
-    val done = results.count { it is SaveResult.Success }
-
-    if (results.any { it == SaveResult.Error.MissingPermissions }) requestStoragePermission()
-    else if (failed == 0) {
-        if (done == 1) {
-            scope.launch {
-                toastHostState.showToast(
-                    (results.first() as? SaveResult.Success)?.message ?: getString(
-                        R.string.saved_to_without_filename,
-                        savingPathString
-                    ),
-                    Icons.Rounded.Save
-                )
-            }
-        } else {
-            if (isOverwritten) {
-                scope.launch {
-                    toastHostState.showToast(
-                        getString(R.string.images_overwritten),
-                        Icons.Rounded.Save
-                    )
-                }
-            } else {
-                scope.launch {
-                    toastHostState.showToast(
-                        getString(
-                            R.string.saved_to_without_filename,
-                            savingPathString
-                        ),
-                        Icons.Rounded.Save
-                    )
-                }
-            }
-            showReview(this)
-            showConfetti()
-        }
-
-        showReview(this)
-        showConfetti()
-    } else if (failed < done) {
-        scope.launch {
-            showConfetti()
-            toastHostState.showToast(
-                (results.first { it is SaveResult.Success } as SaveResult.Success).message
-                    ?: getString(
-                        R.string.saved_to_without_filename,
-                        savingPathString
-                    ),
-                Icons.Rounded.Save
-            )
-            toastHostState.showToast(
-                getString(R.string.failed_to_save, failed),
-                Icons.Rounded.ErrorOutline,
-                ToastDuration.Long
-            )
-        }
-    } else {
-        scope.launch {
-            toastHostState.showToast(
-                getString(R.string.failed_to_save, failed),
-                Icons.Rounded.ErrorOutline,
-                ToastDuration.Long
-            )
-        }
-    }
-}

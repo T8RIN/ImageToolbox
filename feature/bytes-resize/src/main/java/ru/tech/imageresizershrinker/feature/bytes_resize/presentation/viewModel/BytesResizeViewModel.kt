@@ -186,7 +186,8 @@ class BytesResizeViewModel @Inject constructor(
     }
 
     fun saveBitmaps(
-        onResult: (List<SaveResult>, String) -> Unit
+        oneTimeSaveLocationUri: String?,
+        onResult: (List<SaveResult>) -> Unit
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
@@ -224,7 +225,8 @@ class BytesResizeViewModel @Inject constructor(
                                     sequenceNumber = _done.value + 1,
                                     data = data
                                 ),
-                                keepOriginalMetadata = keepExif
+                                keepOriginalMetadata = keepExif,
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
                             )
                         )
                     }
@@ -233,7 +235,7 @@ class BytesResizeViewModel @Inject constructor(
                 )
                 _done.value += 1
             }
-            onResult(results.onSuccess(::registerSave), fileController.savingPath)
+            onResult(results.onSuccess(::registerSave))
             _isSaving.value = false
         }
     }

@@ -66,7 +66,7 @@ import java.util.Date
 import java.util.Locale
 
 @Composable
-fun TempFolderSelectionDialog(
+fun OneTimeSaveLocationSelectionDialog(
     onDismiss: () -> Unit,
     onSaveRequest: (String?) -> Unit
 ) {

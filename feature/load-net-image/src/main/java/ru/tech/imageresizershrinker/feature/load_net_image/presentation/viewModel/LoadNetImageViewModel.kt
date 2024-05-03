@@ -71,6 +71,7 @@ class LoadNetImageViewModel @Inject constructor(
 
     fun saveBitmap(
         link: String,
+        oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit
     ) {
         savingJob = viewModelScope.launch {
@@ -91,7 +92,8 @@ class LoadNetImageViewModel @Inject constructor(
                                 quality = Quality.Base(100)
                             )
                         ),
-                        keepOriginalMetadata = false
+                        keepOriginalMetadata = false,
+                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
                     )
                 )
             }

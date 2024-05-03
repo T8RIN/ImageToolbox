@@ -18,7 +18,6 @@
 package ru.tech.imageresizershrinker.feature.crop.presentation
 
 
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -105,6 +104,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -186,14 +186,13 @@ fun CropScreen(
         isPickedAlready = uriState != null
     )
 
-    val saveBitmap: (Bitmap) -> Unit = {
-        viewModel.saveBitmap(bitmap = it) { saveResult ->
-            parseSaveResult(
+    val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
+        viewModel.saveBitmap(it) { saveResult ->
+            context.parseSaveResult(
                 saveResult = saveResult,
                 onSuccess = showConfetti,
                 toastHostState = toastHostState,
-                scope = scope,
-                context = context
+                scope = scope
             )
         }
     }
@@ -445,15 +444,27 @@ fun CropScreen(
                                 }
                                 AnimatedVisibility(viewModel.isBitmapChanged) {
                                     Column {
+                                        var showFolderSelectionDialog by rememberSaveable {
+                                            mutableStateOf(false)
+                                        }
                                         Spacer(modifier = Modifier.height(8.dp))
                                         EnhancedFloatingActionButton(
                                             onClick = {
-                                                viewModel.bitmap?.let(saveBitmap)
+                                                saveBitmap(null)
+                                            },
+                                            onLongClick = {
+                                                showFolderSelectionDialog = true
                                             }
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Rounded.Save,
                                                 contentDescription = stringResource(R.string.save)
+                                            )
+                                        }
+                                        if (showFolderSelectionDialog) {
+                                            OneTimeSaveLocationSelectionDialog(
+                                                onDismiss = { showFolderSelectionDialog = false },
+                                                onSaveRequest = saveBitmap
                                             )
                                         }
                                     }
@@ -551,15 +562,27 @@ fun CropScreen(
                                 }
                                 AnimatedVisibility(viewModel.isBitmapChanged) {
                                     Row {
+                                        var showFolderSelectionDialog by rememberSaveable {
+                                            mutableStateOf(false)
+                                        }
                                         Spacer(modifier = Modifier.width(8.dp))
                                         EnhancedFloatingActionButton(
                                             onClick = {
-                                                viewModel.bitmap?.let(saveBitmap)
+                                                saveBitmap(null)
+                                            },
+                                            onLongClick = {
+                                                showFolderSelectionDialog = true
                                             }
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Rounded.Save,
                                                 contentDescription = stringResource(R.string.save)
+                                            )
+                                        }
+                                        if (showFolderSelectionDialog) {
+                                            OneTimeSaveLocationSelectionDialog(
+                                                onDismiss = { showFolderSelectionDialog = false },
+                                                onSaveRequest = saveBitmap
                                             )
                                         }
                                     }

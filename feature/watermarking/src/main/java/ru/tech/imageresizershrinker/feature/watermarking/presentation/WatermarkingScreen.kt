@@ -49,9 +49,9 @@ import ru.tech.imageresizershrinker.core.ui.utils.confetti.LocalConfettiHostStat
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.asClip
-import ru.tech.imageresizershrinker.core.ui.utils.helper.failedToSaveImages
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -64,6 +64,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageContainer
@@ -263,25 +264,39 @@ fun WatermarkingScreen(
             Spacer(modifier = Modifier.height(8.dp))
         },
         buttons = {
+            val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
+                viewModel.saveBitmaps(it) { results ->
+                    context.parseSaveResults(
+                        scope = scope,
+                        results = results,
+                        toastHostState = toastHostState,
+                        isOverwritten = settingsState.overwriteFiles,
+                        showConfetti = showConfetti
+                    )
+                }
+            }
+            var showFolderSelectionDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
                 targetState = (viewModel.uris.isEmpty()) to isPortrait,
                 onSecondaryButtonClick = pickImage,
                 onPrimaryButtonClick = {
-                    viewModel.saveBitmaps { results, savingPath ->
-                        context.failedToSaveImages(
-                            scope = scope,
-                            results = results,
-                            toastHostState = toastHostState,
-                            savingPathString = savingPath,
-                            isOverwritten = settingsState.overwriteFiles,
-                            showConfetti = showConfetti
-                        )
-                    }
+                    saveBitmaps(null)
+                },
+                onPrimaryButtonLongClick = {
+                    showFolderSelectionDialog = true
                 },
                 actions = {
                     if (isPortrait) it()
                 }
             )
+            if (showFolderSelectionDialog) {
+                OneTimeSaveLocationSelectionDialog(
+                    onDismiss = { showFolderSelectionDialog = false },
+                    onSaveRequest = saveBitmaps
+                )
+            }
         },
         noDataControls = {
             ImageNotPickedWidget(onPickImage = pickImage)

@@ -157,6 +157,7 @@ class CompareViewModel @Inject constructor(
     fun saveBitmap(
         percent: Float,
         imageFormat: ImageFormat,
+        oneTimeSaveLocationUri: String?,
         onComplete: (saveResult: SaveResult) -> Unit
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
@@ -180,7 +181,9 @@ class CompareViewModel @Inject constructor(
                                     height = localBitmap.height
                                 )
                             )
-                        ), keepOriginalMetadata = false
+                        ),
+                        keepOriginalMetadata = false,
+                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
                     )
                 )
                 _isImageLoading.value = false

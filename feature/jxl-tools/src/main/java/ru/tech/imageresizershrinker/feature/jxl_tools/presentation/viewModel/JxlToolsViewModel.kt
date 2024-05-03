@@ -162,7 +162,8 @@ class JxlToolsViewModel @Inject constructor(
     }
 
     fun save(
-        onResult: (List<SaveResult>, String) -> Unit
+        oneTimeSaveLocationUri: String?,
+        onResult: (List<SaveResult>) -> Unit
     ) {
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
@@ -185,13 +186,14 @@ class JxlToolsViewModel @Inject constructor(
                         results.add(
                             fileController.save(
                                 saveTarget = JxlSaveTarget(uri, jxlBytes),
-                                keepOriginalMetadata = true
+                                keepOriginalMetadata = true,
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
                             )
                         )
                         _done.update { it + 1 }
                     }
 
-                    onResult(results, fileController.savingPath)
+                    onResult(results)
                 }
 
                 is Screen.JxlTools.Type.JxlToJpeg -> {
@@ -210,13 +212,14 @@ class JxlToolsViewModel @Inject constructor(
                         results.add(
                             fileController.save(
                                 saveTarget = JpegSaveTarget(uri, jpegBytes),
-                                keepOriginalMetadata = true
+                                keepOriginalMetadata = true,
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
                             )
                         )
                         _done.update { it + 1 }
                     }
 
-                    onResult(results, fileController.savingPath)
+                    onResult(results)
                 }
 
                 is Screen.JxlTools.Type.JxlToImage -> {
@@ -236,13 +239,13 @@ class JxlToolsViewModel @Inject constructor(
                                     _isSaving.value = false
                                     savingJob?.cancel()
                                     onResult(
-                                        listOf(SaveResult.Error.MissingPermissions), ""
+                                        listOf(SaveResult.Error.MissingPermissions)
                                     )
                                 }
                                 _left.value = imageFrames.getFramePositions(it).size
                             }
                         ).onCompletion {
-                            onResult(results, fileController.savingPath)
+                            onResult(results)
                         }.collect { uri ->
                             imageGetter.getImage(
                                 data = uri,
@@ -270,7 +273,8 @@ class JxlToolsViewModel @Inject constructor(
                                                 )
                                             )
                                         ),
-                                        keepOriginalMetadata = false
+                                        keepOriginalMetadata = false,
+                                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
                                     )
                                 )
                             } ?: results.add(
@@ -294,16 +298,16 @@ class JxlToolsViewModel @Inject constructor(
                                 onResult(
                                     listOf(
                                         SaveResult.Error.Exception(it)
-                                    ),
-                                    fileController.savingPath
+                                    )
                                 )
                             },
                         ).also { jxlBytes ->
                             val result = fileController.save(
                                 saveTarget = JxlSaveTarget("", jxlBytes),
-                                keepOriginalMetadata = true
+                                keepOriginalMetadata = true,
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
                             )
-                            onResult(listOf(result), fileController.savingPath)
+                            onResult(listOf(result))
                         }
                     }
                 }

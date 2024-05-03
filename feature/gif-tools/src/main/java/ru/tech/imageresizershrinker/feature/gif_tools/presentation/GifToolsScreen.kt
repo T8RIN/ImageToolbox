@@ -91,9 +91,9 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.getFilenam
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.openWriteableStream
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler
-import ru.tech.imageresizershrinker.core.ui.utils.helper.failedToSaveImages
 import ru.tech.imageresizershrinker.core.ui.utils.helper.isPortraitOrientationAsState
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
@@ -103,6 +103,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImagesPreviewWithSelection
 import ru.tech.imageresizershrinker.core.ui.widget.image.UrisPreview
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
@@ -478,6 +479,48 @@ fun GifToolsScreen(
         ).value,
         buttons = {
             val settingsState = LocalSettingsState.current
+
+            val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
+                viewModel.saveBitmaps(
+                    oneTimeSaveLocationUri = it,
+                    onGifSaveResult = { name ->
+                        runCatching {
+                            runCatching {
+                                saveGifLauncher.launch("$name.gif")
+                            }.onFailure {
+                                scope.launch {
+                                    toastHostState.showToast(
+                                        message = context.getString(R.string.activate_files),
+                                        icon = Icons.Outlined.FolderOff,
+                                        duration = ToastDuration.Long
+                                    )
+                                }
+                            }
+                        }.onFailure {
+                            scope.launch {
+                                toastHostState.showToast(
+                                    message = context.getString(R.string.activate_files),
+                                    icon = Icons.Outlined.FolderOff,
+                                    duration = ToastDuration.Long
+                                )
+                            }
+                        }
+                    },
+                    onResult = { results ->
+                        context.parseSaveResults(
+                            scope = scope,
+                            results = results,
+                            toastHostState = toastHostState,
+                            isOverwritten = settingsState.overwriteFiles,
+                            showConfetti = showConfetti
+                        )
+                    }
+                )
+            }
+            var showFolderSelectionDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
+
             BottomButtonsBlock(
                 targetState = (viewModel.type == null) to isPortrait,
                 onSecondaryButtonClick = {
@@ -489,47 +532,25 @@ fun GifToolsScreen(
                 },
                 isPrimaryButtonVisible = viewModel.canSave,
                 onPrimaryButtonClick = {
-                    viewModel.saveBitmaps(
-                        onGifSaveResult = { name ->
-                            runCatching {
-                                runCatching {
-                                    saveGifLauncher.launch("$name.gif")
-                                }.onFailure {
-                                    scope.launch {
-                                        toastHostState.showToast(
-                                            message = context.getString(R.string.activate_files),
-                                            icon = Icons.Outlined.FolderOff,
-                                            duration = ToastDuration.Long
-                                        )
-                                    }
-                                }
-                            }.onFailure {
-                                scope.launch {
-                                    toastHostState.showToast(
-                                        message = context.getString(R.string.activate_files),
-                                        icon = Icons.Outlined.FolderOff,
-                                        duration = ToastDuration.Long
-                                    )
-                                }
-                            }
-                        },
-                        onResult = { results, savingPath ->
-                            context.failedToSaveImages(
-                                scope = scope,
-                                results = results,
-                                toastHostState = toastHostState,
-                                savingPathString = savingPath,
-                                isOverwritten = settingsState.overwriteFiles,
-                                showConfetti = showConfetti
-                            )
-                        }
-                    )
+                    saveBitmaps(null)
+                },
+                onPrimaryButtonLongClick = {
+                    if (viewModel.type is Screen.GifTools.Type.ImageToGif) {
+                        saveBitmaps(null)
+                    } else showFolderSelectionDialog = true
                 },
                 actions = {
                     if (isPortrait) it()
                 },
                 showNullDataButtonAsContainer = true
             )
+
+            if (showFolderSelectionDialog) {
+                OneTimeSaveLocationSelectionDialog(
+                    onDismiss = { showFolderSelectionDialog = false },
+                    onSaveRequest = saveBitmaps
+                )
+            }
         },
         noDataControls = {
             val types = remember {

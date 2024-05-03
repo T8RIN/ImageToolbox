@@ -146,6 +146,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.BackgroundColorSelec
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.SaveExifWidget
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.DrawLockScreenOrientation
@@ -253,14 +254,13 @@ fun DrawScreen(
         pickImageLauncher.pickImage()
     }
 
-    val saveBitmap: () -> Unit = {
-        viewModel.saveBitmap { saveResult ->
-            parseSaveResult(
+    val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
+        viewModel.saveBitmap(it) { saveResult ->
+            context.parseSaveResult(
                 saveResult = saveResult,
                 onSuccess = showConfetti,
                 toastHostState = toastHostState,
-                scope = scope,
-                context = context
+                scope = scope
             )
         }
     }
@@ -830,12 +830,26 @@ fun DrawScreen(
                                             }
                                             Spacer(modifier = Modifier.width(8.dp))
                                         }
+                                        var showFolderSelectionDialog by rememberSaveable {
+                                            mutableStateOf(false)
+                                        }
                                         EnhancedFloatingActionButton(
-                                            onClick = saveBitmap
+                                            onClick = {
+                                                saveBitmap(null)
+                                            },
+                                            onLongClick = {
+                                                showFolderSelectionDialog = true
+                                            }
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Rounded.Save,
                                                 contentDescription = stringResource(R.string.save)
+                                            )
+                                        }
+                                        if (showFolderSelectionDialog) {
+                                            OneTimeSaveLocationSelectionDialog(
+                                                onDismiss = { showFolderSelectionDialog = false },
+                                                onSaveRequest = saveBitmap
                                             )
                                         }
                                     }
@@ -921,6 +935,9 @@ fun DrawScreen(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
+                            var showFolderSelectionDialog by rememberSaveable {
+                                mutableStateOf(false)
+                            }
                             EnhancedFloatingActionButton(
                                 onClick = pickImage,
                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer
@@ -932,11 +949,22 @@ fun DrawScreen(
                             }
                             Spacer(modifier = Modifier.height(16.dp))
                             EnhancedFloatingActionButton(
-                                onClick = saveBitmap
+                                onClick = {
+                                    saveBitmap(null)
+                                },
+                                onLongClick = {
+                                    showFolderSelectionDialog = true
+                                }
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.Save,
                                     contentDescription = stringResource(R.string.save)
+                                )
+                            }
+                            if (showFolderSelectionDialog) {
+                                OneTimeSaveLocationSelectionDialog(
+                                    onDismiss = { showFolderSelectionDialog = false },
+                                    onSaveRequest = saveBitmap
                                 )
                             }
                         }
