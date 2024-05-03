@@ -895,4 +895,23 @@
     <string name="legacy_and_lstm">Legado &amp; LSTM</string>
     <string name="convert_sub">Converter lotes de imagens para determinado formato</string>
     <string name="convert">Converter</string>
+    <string name="tag_bits_per_sample">Bits por amostra</string>
+    <string name="tag_compression">Compressão</string>
+    <string name="tag_planar_configuration">Configuração plana</string>
+    <string name="tag_y_cb_cr_sub_sampling">Subamostragem Y Cb Cr</string>
+    <string name="tag_x_resolution">Resolução X</string>
+    <string name="tag_strip_offsets">Deslocamentos da faixa</string>
+    <string name="tag_rows_per_strip">Linhas por faixa</string>
+    <string name="tag_jpeg_interchange_format">Formato de intercâmbio JPEG</string>
+    <string name="tag_jpeg_interchange_format_length">Comprimento do formato de intercâmbio JPEG</string>
+    <string name="tag_transfer_function">Função de transferência</string>
+    <string name="tag_white_point">Ponto Branco</string>
+    <string name="tag_primary_chromaticities">Cromaticidades Primárias</string>
+    <string name="tag_y_cb_cr_coefficients">Coeficientes Y Cb Cr</string>
+    <string name="add_new_folder">Adicionar nova pasta</string>
+    <string name="tag_photometric_interpretation">Interpretação fotométrica</string>
+    <string name="tag_samples_per_pixel">Amostras por pixel</string>
+    <string name="tag_y_cb_cr_positioning">Posicionamento Y Cb Cr</string>
+    <string name="tag_y_resolution">Resolução Y</string>
+    <string name="tag_resolution_unit">Unidade de Resolução</string>
 </resources>
