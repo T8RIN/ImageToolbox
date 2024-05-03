@@ -895,5 +895,4 @@
     <string name="legacy_and_lstm">Legado &amp; LSTM</string>
     <string name="convert_sub">Converter lotes de imagens para determinado formato</string>
     <string name="convert">Converter</string>
-    <string name="add_path">Adicionar caminho</string>
 </resources>
