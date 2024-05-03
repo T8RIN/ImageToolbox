@@ -299,9 +299,11 @@ object ContextUtils {
     }
 
     fun isRedMagic(): Boolean {
-        val osName = System.getProperty("os.name")?.lowercase() ?: ""
+        val osName = runCatching {
+            System.getProperty("os.name")
+        }.getOrNull() ?: getSystemProperty("os.name")
         return listOf("redmagic", "magic", "red").all {
-            it !in osName
+            osName?.contains(it, true) ?: false
         }
     }
 
