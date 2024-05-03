@@ -248,7 +248,7 @@ fun GifToolsScreen(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (viewModel.type != null) showExitDialog = true
+        if (viewModel.haveChanges) showExitDialog = true
         else onGoBack()
     }
 

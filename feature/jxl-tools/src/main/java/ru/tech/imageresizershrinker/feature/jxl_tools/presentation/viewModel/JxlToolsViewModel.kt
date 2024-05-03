@@ -42,6 +42,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
+import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -114,12 +115,11 @@ class JxlToolsViewModel @Inject constructor(
 
             else -> _type.update { type }
         }
+        registerChanges()
         if (_type.value == null) {
             clearAll()
-        } else {
-            if (!_type.value!!::class.isInstance(type)) {
-                clearAll()
-            }
+        } else if (!_type.value!!::class.isInstance(type)) {
+            clearAll()
         }
     }
 
@@ -193,7 +193,7 @@ class JxlToolsViewModel @Inject constructor(
                         _done.update { it + 1 }
                     }
 
-                    onResult(results)
+                    onResult(results.onSuccess(::registerSave))
                 }
 
                 is Screen.JxlTools.Type.JxlToJpeg -> {
@@ -219,7 +219,7 @@ class JxlToolsViewModel @Inject constructor(
                         _done.update { it + 1 }
                     }
 
-                    onResult(results)
+                    onResult(results.onSuccess(::registerSave))
                 }
 
                 is Screen.JxlTools.Type.JxlToImage -> {
@@ -245,7 +245,7 @@ class JxlToolsViewModel @Inject constructor(
                                 _left.value = imageFrames.getFramePositions(it).size
                             }
                         ).onCompletion {
-                            onResult(results)
+                            onResult(results.onSuccess(::registerSave))
                         }.collect { uri ->
                             imageGetter.getImage(
                                 data = uri,
@@ -306,7 +306,7 @@ class JxlToolsViewModel @Inject constructor(
                                 saveTarget = JxlSaveTarget("", jxlBytes),
                                 keepOriginalMetadata = true,
                                 oneTimeSaveLocationUri = oneTimeSaveLocationUri
-                            )
+                            ).onSuccess(::registerSave)
                             onResult(listOf(result))
                         }
                     }
@@ -479,6 +479,7 @@ class JxlToolsViewModel @Inject constructor(
         savingJob?.cancel()
         savingJob = null
         updateParams(AnimatedJxlParams.Default)
+        registerChangesCleared()
     }
 
     fun removeUri(uri: Uri) {
@@ -495,14 +496,17 @@ class JxlToolsViewModel @Inject constructor(
 
     fun setImageFormat(imageFormat: ImageFormat) {
         _imageFormat.update { imageFormat }
+        registerChanges()
     }
 
     fun updateJxlFrames(imageFrames: ImageFrames) {
         _imageFrames.update { imageFrames }
+        registerChanges()
     }
 
     fun updateParams(params: AnimatedJxlParams) {
         _params.update { params }
+        registerChanges()
     }
 
     fun clearConvertedImagesSelection() = updateJxlFrames(ImageFrames.ManualSelection(emptyList()))

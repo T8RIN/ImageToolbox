@@ -37,6 +37,7 @@ import ru.tech.imageresizershrinker.core.domain.image.model.Quality
 import ru.tech.imageresizershrinker.core.domain.saving.FileController
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
+import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -119,9 +120,8 @@ class PdfToolsViewModel @Inject constructor(
         _isSaving.value = false
     }
 
-    fun canGoBack(): Boolean {
-        return _byteArray.value == null && _imageInfo.value == ImageInfo()
-    }
+    override val haveChanges: Boolean
+        get() = super.haveChanges || _byteArray.value != null
 
     fun setType(type: Screen.PdfTools.Type) {
         when (type) {
@@ -129,6 +129,7 @@ class PdfToolsViewModel @Inject constructor(
             is Screen.PdfTools.Type.PdfToImages -> setPdfToImagesUri(type.pdfUri)
             is Screen.PdfTools.Type.Preview -> setPdfPreview(type.pdfUri)
         }
+        registerChanges()
         resetCalculatedData()
     }
 
@@ -187,6 +188,7 @@ class PdfToolsViewModel @Inject constructor(
         _showOOMWarning.value = false
         _imageInfo.value = ImageInfo()
         resetCalculatedData()
+        registerChangesCleared()
     }
 
     private val _done: MutableState<Int> = mutableIntStateOf(0)
@@ -239,7 +241,7 @@ class PdfToolsViewModel @Inject constructor(
             },
             onComplete = {
                 _isSaving.value = false
-                onComplete(results)
+                onComplete(results.onSuccess(::registerSave))
             }
         )
     }
@@ -358,6 +360,7 @@ class PdfToolsViewModel @Inject constructor(
         _imagesToPdfState.update {
             it?.plus(uris)?.toSet()?.toList()
         }
+        registerChanges()
     }
 
     fun removeImageToPdfAt(index: Int) {
@@ -365,15 +368,18 @@ class PdfToolsViewModel @Inject constructor(
             _imagesToPdfState.update {
                 it?.toMutableList()?.apply { removeAt(index) }
             }
+            registerChanges()
         }
     }
 
     fun reorderImagesToPdf(uris: List<Uri>?) {
         _imagesToPdfState.update { uris }
+        registerChanges()
     }
 
     fun toggleScaleSmallImagesToLarge() {
         _scaleSmallImagesToLarge.update { !it }
+        registerChanges()
     }
 
     private var presetSelectionJob: Job? by smartJob()
@@ -393,6 +399,7 @@ class PdfToolsViewModel @Inject constructor(
                 }
             }.getOrNull() ?: _showOOMWarning.update { false }
         }
+        registerChanges()
     }
 
     fun selectPreset(preset: Preset.Percentage) {
@@ -422,12 +429,14 @@ class PdfToolsViewModel @Inject constructor(
         _imageInfo.update {
             it.copy(imageFormat = imageFormat)
         }
+        registerChanges()
     }
 
     fun setQuality(quality: Quality) {
         _imageInfo.update {
             it.copy(quality = quality)
         }
+        registerChanges()
     }
 
 }

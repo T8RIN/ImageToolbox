@@ -188,7 +188,7 @@ fun PdfToolsScreen(
     val onBack = {
         if (type is Screen.PdfTools.Type.Preview) onGoBack()
         else {
-            if (!viewModel.canGoBack()) showExitDialog = true
+            if (viewModel.haveChanges) showExitDialog = true
             else if (viewModel.pdfType != null) {
                 viewModel.clearType()
             } else onGoBack()

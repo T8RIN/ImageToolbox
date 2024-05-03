@@ -43,6 +43,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.FileSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.ImageSaveTarget
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
+import ru.tech.imageresizershrinker.core.domain.saving.model.onSuccess
 import ru.tech.imageresizershrinker.core.domain.utils.smartJob
 import ru.tech.imageresizershrinker.core.ui.utils.BaseViewModel
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -163,10 +164,12 @@ class GifToolsViewModel @Inject constructor(
         savingJob?.cancel()
         savingJob = null
         updateParams(GifParams.Default)
+        registerChangesCleared()
     }
 
     fun updateGifFrames(imageFrames: ImageFrames) {
         _imageFrames.update { imageFrames }
+        registerChanges()
     }
 
     fun clearConvertedImagesSelection() = updateGifFrames(ImageFrames.ManualSelection(emptyList()))
@@ -222,7 +225,7 @@ class GifToolsViewModel @Inject constructor(
                                 _left.value = gifFrames.getFramePositions(it).size
                             }
                         ).onCompletion {
-                            onResult(results)
+                            onResult(results.onSuccess(::registerSave))
                         }.collect { uri ->
                             imageGetter.getImage(
                                 data = uri,
@@ -302,7 +305,7 @@ class GifToolsViewModel @Inject constructor(
                         _done.update { it + 1 }
                     }
 
-                    onResult(results)
+                    onResult(results.onSuccess(::registerSave))
                 }
 
                 null -> Unit
@@ -348,6 +351,7 @@ class GifToolsViewModel @Inject constructor(
             _type.update {
                 Screen.GifTools.Type.ImageToGif(uris)
             }
+            registerChanges()
         }
     }
 
@@ -359,6 +363,7 @@ class GifToolsViewModel @Inject constructor(
 
                 Screen.GifTools.Type.ImageToGif(newUris)
             }
+            registerChanges()
         }
     }
 
@@ -372,11 +377,13 @@ class GifToolsViewModel @Inject constructor(
 
                 Screen.GifTools.Type.ImageToGif(newUris)
             }
+            registerChanges()
         }
     }
 
     fun setImageFormat(imageFormat: ImageFormat) {
         _imageFormat.update { imageFormat }
+        registerChanges()
     }
 
     fun setQuality(quality: Quality) {
@@ -385,6 +392,7 @@ class GifToolsViewModel @Inject constructor(
 
     fun updateParams(params: GifParams) {
         _params.update { params }
+        registerChanges()
     }
 
     fun performSharing(onComplete: () -> Unit) {
@@ -461,6 +469,7 @@ class GifToolsViewModel @Inject constructor(
         _jxlQuality.update {
             (quality as? Quality.Jxl) ?: Quality.Jxl()
         }
+        registerChanges()
     }
 
 }
