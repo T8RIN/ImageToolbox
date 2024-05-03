@@ -225,7 +225,7 @@ internal class AndroidFileController @Inject constructor(
                     )
                 }
             } else {
-                settingsState.saveFolderUri.takeIf {
+                (oneTimeSaveLocationUri ?: settingsState.saveFolderUri).takeIf {
                     !it.isNullOrEmpty()
                 }?.let { treeUri ->
                     val hasDir: Boolean = runCatching {
@@ -235,7 +235,15 @@ internal class AndroidFileController @Inject constructor(
                     }.getOrNull() == true
 
                     if (!hasDir) {
-                        settingsManager.setSaveFolderUri(null)
+                        if (oneTimeSaveLocationUri == null) {
+                            settingsManager.setSaveFolderUri(null)
+                        } else {
+                            settingsManager.setOneTimeSaveLocations(
+                                settingsState.oneTimeSaveLocations.let { locations ->
+                                    (locations - locations.find { it.uri == oneTimeSaveLocationUri }).filterNotNull()
+                                }
+                            )
+                        }
                         return@withContext SaveResult.Error.Exception(
                             Exception(
                                 context.getString(
