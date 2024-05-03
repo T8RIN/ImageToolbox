@@ -303,6 +303,7 @@ or click one of the badges below.
   - Rect
   - Oval
   - Lasso
+  - Text
 - Image Resizing
   - Width changing
   - Height changing
@@ -313,30 +314,30 @@ or click one of the badges below.
     - Background color changing
     - Background blur drawing
   - Different Scaling Algorhytms
-    * Bilinear
-    * Nearest Neighbour
-    * Bicubic
-    * Mitchell
-    * Lanczos
-    * Catmull
-    * Hermite
-    * Spline
-    * BSpline
-    * Hann
+    - Bilinear
+    - Nearest Neighbour
+    - Bicubic
+    - Mitchell
+    - Lanczos
+    - Catmull
+    - Hermite
+    - Spline
+    - BSpline
+    - Hann
 - GIF conversion
-  * GIF to images
-  * Images to GIF
+  - GIF to images
+  - Images to GIF
 - APNG conversion
-  * APNG to images
-  * Images to APNG
+  - APNG to images
+  - Images to APNG
 - JXL transcoding
-  * JXL to JPEG
-  * JPEG to JXL
+  - JXL to JPEG
+  - JPEG to JXL
 - Animated JXL conversion
-  * Images to JXL
-  * JXL to Images
-  * APNG to JXL
-  * GIF to JXL
+  - Images to JXL
+  - JXL to Images
+  - APNG to JXL
+  - GIF to JXL
 - Image Shrinking
   - Quality compressing
   - Preset shrinking
@@ -393,6 +394,7 @@ or click one of the badges below.
   - Flipping
   - Previewing SVG, GIF and mostly all types of images
   - Saving to any specific folder
+  - Long press on save to choose one time output folder
   - Randomizing output filename
   - Embedded media picker
   
