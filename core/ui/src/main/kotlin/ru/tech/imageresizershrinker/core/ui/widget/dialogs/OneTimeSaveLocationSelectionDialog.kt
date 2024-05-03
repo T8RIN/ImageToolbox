@@ -20,13 +20,18 @@ package ru.tech.imageresizershrinker.core.ui.widget.dialogs
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AddCircleOutline
+import androidx.compose.material.icons.outlined.CreateNewFolder
+import androidx.compose.material.icons.outlined.SaveAs
+import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.FolderOpen
 import androidx.compose.material.icons.rounded.RadioButtonChecked
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
@@ -51,7 +56,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.icons.FolderOpened
 import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
@@ -100,7 +104,7 @@ fun OneTimeSaveLocationSelectionDialog(
         },
         icon = {
             Icon(
-                imageVector = Icons.Rounded.FolderOpened,
+                imageVector = Icons.Outlined.SaveAs,
                 contentDescription = stringResource(id = R.string.folder)
             )
         },
@@ -187,12 +191,17 @@ fun OneTimeSaveLocationSelectionDialog(
                             }
                             selectedSaveFolderUri = item?.uri
                         },
+                        startIconTransitionSpec = {
+                            fadeIn() togetherWith fadeOut()
+                        },
                         modifier = Modifier.fillMaxWidth(),
-                        startIcon = Icons.Rounded.FolderOpen,
+                        startIcon = if (selected) {
+                            Icons.Rounded.Folder
+                        } else Icons.Rounded.FolderOpen,
                         endIcon = if (selected) Icons.Rounded.RadioButtonChecked
                         else Icons.Rounded.RadioButtonUnchecked,
                         color = takeColorFromScheme {
-                            if (selected) surfaceContainerHighest
+                            if (selected) surface
                             else surfaceContainer
                         }
                     )
@@ -213,8 +222,8 @@ fun OneTimeSaveLocationSelectionDialog(
                     }
                 )
                 PreferenceItem(
-                    title = stringResource(id = R.string.add_path),
-                    startIcon = Icons.Rounded.AddCircleOutline,
+                    title = stringResource(id = R.string.add_new_folder),
+                    startIcon = Icons.Outlined.CreateNewFolder,
                     shape = ContainerShapeDefaults.bottomShape,
                     titleFontStyle = LocalTextStyle.current.copy(
                         fontSize = 14.sp,

@@ -20,6 +20,8 @@
 package ru.tech.imageresizershrinker.core.ui.widget.preferences
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -63,6 +65,8 @@ fun PreferenceItem(
         fontWeight = FontWeight.Medium,
         lineHeight = 18.sp
     ),
+    startIconTransitionSpec: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() },
+    endIconTransitionSpec: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() },
     onDisabledClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier
         .fillMaxWidth()
@@ -72,7 +76,7 @@ fun PreferenceItem(
         {
             AnimatedContent(
                 targetState = startIcon,
-                transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
+                transitionSpec = startIconTransitionSpec
             ) { icon ->
                 Icon(
                     imageVector = icon,
@@ -86,7 +90,7 @@ fun PreferenceItem(
             Box {
                 AnimatedContent(
                     targetState = endIcon,
-                    transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
+                    transitionSpec = endIconTransitionSpec
                 ) { endIcon ->
                     Icon(imageVector = endIcon, contentDescription = null)
                 }

@@ -223,11 +223,11 @@ internal class AndroidSettingsManager @Inject constructor(
             } ?: default.switchType,
             defaultDrawLineWidth = prefs[DEFAULT_DRAW_LINE_WIDTH]
                 ?: default.defaultDrawLineWidth,
-            oneTimeSaveLocations = prefs[ONE_TIME_SAVE_LOCATIONS]?.let { s ->
-                s.split(", ")
-                    .mapNotNull { OneTimeSaveLocation.fromString(it) }
-                    .sortedByDescending { it.count }
-            } ?: default.oneTimeSaveLocations
+            oneTimeSaveLocations = prefs[ONE_TIME_SAVE_LOCATIONS]?.split(", ")
+                ?.mapNotNull { OneTimeSaveLocation.fromString(it) }
+                ?.sortedWith(compareBy(OneTimeSaveLocation::count, OneTimeSaveLocation::date))
+                ?.reversed()
+                ?: default.oneTimeSaveLocations
         )
     }
 
@@ -719,8 +719,8 @@ internal class AndroidSettingsManager @Inject constructor(
     }
 
     override suspend fun setOneTimeSaveLocations(value: List<OneTimeSaveLocation>) {
-        dataStore.edit {
-            it[ONE_TIME_SAVE_LOCATIONS] = value.joinToString(", ")
+        dataStore.edit { preferences ->
+            preferences[ONE_TIME_SAVE_LOCATIONS] = value.distinctBy { it.uri }.joinToString(", ")
         }
     }
 

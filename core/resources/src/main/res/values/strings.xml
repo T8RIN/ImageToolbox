@@ -914,5 +914,5 @@
     <string name="legacy_and_lstm"><![CDATA[Legacy & LSTM]]></string>
     <string name="convert">Convert</string>
     <string name="convert_sub">Convert image batches to given format</string>
-    <string name="add_path">Add Path</string>
+    <string name="add_new_folder">Add New Folder</string>
 </resources>
