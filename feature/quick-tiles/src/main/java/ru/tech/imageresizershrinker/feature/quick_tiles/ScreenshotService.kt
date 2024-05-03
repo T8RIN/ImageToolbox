@@ -158,7 +158,7 @@ class ScreenshotService : Service() {
                     ).format(Date())
 
                     fileController.save(
-                        FileSaveTarget(
+                        saveTarget = FileSaveTarget(
                             filename = "screenshot-$timeStamp.png",
                             originalUri = "screenshot",
                             imageFormat = ImageFormat.Png.Lossless,
@@ -168,13 +168,13 @@ class ScreenshotService : Service() {
                                 quality = Quality.Base()
                             )
                         ),
-                        true
+                        keepOriginalMetadata = true
                     )
                     Toast.makeText(
                         this@ScreenshotService,
                         this@ScreenshotService.getString(
                             R.string.saved_to_without_filename,
-                            fileController.savingPath
+                            fileController.defaultSavingPath
                         ),
                         Toast.LENGTH_SHORT
                     ).show()

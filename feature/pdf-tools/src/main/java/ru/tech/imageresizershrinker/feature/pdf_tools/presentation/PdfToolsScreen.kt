@@ -120,6 +120,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.openWritea
 import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ReviewHandler.showReview
 import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
+import ru.tech.imageresizershrinker.core.ui.utils.helper.parseSaveResults
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
@@ -132,6 +133,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualitySelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ScaleSmallImagesToLargeToggle
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
+import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.drawHorizontalStroke
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
@@ -376,8 +378,7 @@ fun PdfToolsScreen(
         }
     }
 
-    val buttons: @Composable (pdfType: Screen.PdfTools.Type?) -> Unit = {
-        val pdfType = it
+    val buttons: @Composable (pdfType: Screen.PdfTools.Type?) -> Unit = { pdfType ->
         EnhancedFloatingActionButton(
             onClick = {
                 runCatching {
@@ -429,6 +430,20 @@ fun PdfToolsScreen(
                 enter = fadeIn() + scaleIn() + expandIn(),
                 exit = fadeOut() + scaleOut() + shrinkOut()
             ) {
+                val savePdfToImages: (oneTimeSaveLocationUri: String?) -> Unit = {
+                    viewModel.savePdfToImages(it) { results ->
+                        context.parseSaveResults(
+                            scope = scope,
+                            results = results,
+                            toastHostState = toastHostState,
+                            isOverwritten = false,
+                            showConfetti = showConfetti
+                        )
+                    }
+                }
+                var showFolderSelectionDialog by rememberSaveable {
+                    mutableStateOf(false)
+                }
                 EnhancedFloatingActionButton(
                     onClick = {
                         if (pdfType is Screen.PdfTools.Type.ImagesToPdf && viewModel.imagesToPdfState != null) {
@@ -447,26 +462,22 @@ fun PdfToolsScreen(
                                 }
                             }
                         } else if (pdfType is Screen.PdfTools.Type.PdfToImages) {
-                            viewModel.savePdfToImage { savingPath ->
-                                if (savingPath.isNotEmpty()) {
-                                    scope.launch {
-                                        toastHostState.showToast(
-                                            context.getString(
-                                                R.string.saved_to_without_filename,
-                                                savingPath
-                                            ),
-                                            Icons.Rounded.Save
-                                        )
-                                    }
-                                    showConfetti()
-                                }
-                            }
+                            savePdfToImages(null)
                         }
-                    }
+                    },
+                    onLongClick = if (pdfType is Screen.PdfTools.Type.PdfToImages) {
+                        { showFolderSelectionDialog = true }
+                    } else null
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Save,
                         contentDescription = stringResource(R.string.save)
+                    )
+                }
+                if (showFolderSelectionDialog) {
+                    OneTimeSaveLocationSelectionDialog(
+                        onDismiss = { showFolderSelectionDialog = false },
+                        onSaveRequest = savePdfToImages
                     )
                 }
             }

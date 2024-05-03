@@ -195,11 +195,13 @@ class PdfToolsViewModel @Inject constructor(
     private val _left: MutableState<Int> = mutableIntStateOf(1)
     val left by _left
 
-    fun savePdfToImage(
-        onComplete: (path: String) -> Unit
+    fun savePdfToImages(
+        oneTimeSaveLocationUri: String?,
+        onComplete: (List<SaveResult>) -> Unit
     ) {
         _done.value = 0
         _left.value = 1
+        val results = mutableListOf<SaveResult>()
         savingJob = pdfManager.convertPdfToImages(
             pdfUri = _pdfToImageState.value?.uri.toString(),
             pages = _pdfToImageState.value?.pages,
@@ -212,22 +214,22 @@ class PdfToolsViewModel @Inject constructor(
                         currentInfo = it
                     )
                 }.apply {
-                    val result = fileController.save(
-                        ImageSaveTarget(
-                            imageInfo = this,
-                            metadata = null,
-                            originalUri = _pdfToImageState.value?.uri.toString(),
-                            sequenceNumber = _done.value + 1,
-                            data = imageCompressor.compressAndTransform(
-                                image = bitmap,
-                                imageInfo = this
-                            )
-                        ), false
+                    results.add(
+                        fileController.save(
+                            saveTarget = ImageSaveTarget(
+                                imageInfo = this,
+                                metadata = null,
+                                originalUri = _pdfToImageState.value?.uri.toString(),
+                                sequenceNumber = _done.value + 1,
+                                data = imageCompressor.compressAndTransform(
+                                    image = bitmap,
+                                    imageInfo = this
+                                )
+                            ),
+                            keepOriginalMetadata = false,
+                            oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                        )
                     )
-                    if (result is SaveResult.Error.MissingPermissions) {
-                        savingJob?.cancel()
-                        return@convertPdfToImages onComplete("")
-                    }
                 }
                 _done.value += 1
             },
@@ -237,7 +239,7 @@ class PdfToolsViewModel @Inject constructor(
             },
             onComplete = {
                 _isSaving.value = false
-                onComplete(fileController.savingPath)
+                onComplete(results)
             }
         )
     }

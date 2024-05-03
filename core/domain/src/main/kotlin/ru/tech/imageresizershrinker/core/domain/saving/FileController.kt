@@ -22,7 +22,7 @@ import ru.tech.imageresizershrinker.core.domain.saving.model.SaveResult
 import ru.tech.imageresizershrinker.core.domain.saving.model.SaveTarget
 
 interface FileController {
-    val savingPath: String
+    val defaultSavingPath: String
 
     suspend fun save(
         saveTarget: SaveTarget,

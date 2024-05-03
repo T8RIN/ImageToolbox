@@ -118,7 +118,7 @@ internal class AndroidFileController @Inject constructor(
         default = context.getString(R.string.default_folder)
     )
 
-    override val savingPath: String
+    override val defaultSavingPath: String
         get() = settingsState.saveFolderUri.getPath()
 
     private fun Uri?.toUiPath(
@@ -157,7 +157,7 @@ internal class AndroidFileController @Inject constructor(
             return@withContext SaveResult.Error.MissingPermissions
         }
 
-        val savingPath = oneTimeSaveLocationUri?.getPath() ?: savingPath
+        val savingPath = oneTimeSaveLocationUri?.getPath() ?: defaultSavingPath
 
         runCatching {
             if (settingsState.copyToClipboardMode is CopyToClipboardMode.Enabled) {

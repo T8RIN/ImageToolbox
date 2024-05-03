@@ -99,7 +99,7 @@ fun OneTimeSaveLocationSelectionDialog(
         mutableStateOf(settingsState.saveFolderUri?.toString())
     }
     var selectedSaveFolderUri by rememberSaveable {
-        mutableStateOf<String?>(settingsState.saveFolderUri?.toString())
+        mutableStateOf(settingsState.saveFolderUri?.toString())
     }
     AlertDialog(
         onDismissRequest = onDismiss,
