@@ -95,8 +95,8 @@ fun AddExifSheet(
     val list by remember(tags, query) {
         derivedStateOf {
             tags.filter {
-                query.lowercase() in it.localizedName(context)
-                        || query.lowercase() in it.localizedName(context, Locale.ENGLISH)
+                it.localizedName(context).contains(query, true)
+                        || it.localizedName(context, Locale.ENGLISH).contains(query, true)
             }
         }
     }
