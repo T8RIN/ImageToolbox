@@ -76,7 +76,7 @@ fun SwipeToReveal(
     revealedContentStart: @Composable BoxScope.() -> Unit = {},
     swipeableContent: @Composable () -> Unit,
 ) {
-    Box {
+    Box(modifier) {
         val maxRevealPx = with(LocalDensity.current) { maxRevealDp.toPx() }
         val draggedRatio =
             (state.offset.value.absoluteValue / maxRevealPx.absoluteValue).coerceIn(0f, 1f)
@@ -112,7 +112,7 @@ fun SwipeToReveal(
         }
 
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .then(
                     if (enableSwipe) {
                         Modifier

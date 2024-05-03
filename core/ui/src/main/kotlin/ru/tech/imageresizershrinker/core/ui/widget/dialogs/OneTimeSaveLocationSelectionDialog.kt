@@ -23,14 +23,22 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CreateNewFolder
 import androidx.compose.material.icons.outlined.SaveAs
+import androidx.compose.material.icons.rounded.DeleteOutline
 import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.FolderOpen
 import androidx.compose.material.icons.rounded.RadioButtonChecked
@@ -45,30 +53,42 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
+import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.domain.model.OneTimeSaveLocation
+import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsInteractor
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.takeColorFromScheme
 import ru.tech.imageresizershrinker.core.ui.utils.helper.toUiPath
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.alertDialogBorder
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.fadingEdges
+import ru.tech.imageresizershrinker.core.ui.widget.other.RevealDirection
+import ru.tech.imageresizershrinker.core.ui.widget.other.RevealValue
+import ru.tech.imageresizershrinker.core.ui.widget.other.SwipeToReveal
+import ru.tech.imageresizershrinker.core.ui.widget.other.rememberRevealState
 import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun OneTimeSaveLocationSelectionDialog(
     onDismiss: () -> Unit,
@@ -172,38 +192,112 @@ fun OneTimeSaveLocationSelectionDialog(
                         }
                     }
                     val selected = selectedSaveFolderUri == item?.uri
-                    PreferenceItem(
-                        title = title,
-                        subtitle = subtitle,
-                        shape = ContainerShapeDefaults.shapeForIndex(
-                            index = index,
-                            size = data.size + 1
-                        ),
-                        titleFontStyle = LocalTextStyle.current.copy(
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Medium,
-                            lineHeight = 16.sp,
-                            textAlign = TextAlign.Start
-                        ),
-                        onClick = {
-                            if (item != null) {
-                                tempSelectedSaveFolderUri = item.uri
-                            }
-                            selectedSaveFolderUri = item?.uri
-                        },
-                        startIconTransitionSpec = {
-                            fadeIn() togetherWith fadeOut()
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        startIcon = if (selected) {
-                            Icons.Rounded.Folder
-                        } else Icons.Rounded.FolderOpen,
-                        endIcon = if (selected) Icons.Rounded.RadioButtonChecked
-                        else Icons.Rounded.RadioButtonUnchecked,
-                        color = takeColorFromScheme {
-                            if (selected) surface
-                            else surfaceContainer
+                    val scope = rememberCoroutineScope()
+                    val state = rememberRevealState()
+                    val interactionSource = remember {
+                        MutableInteractionSource()
+                    }
+                    val isDragged by interactionSource.collectIsDraggedAsState()
+                    val shape = ContainerShapeDefaults.shapeForIndex(
+                        index = index,
+                        size = data.size + 1,
+                        forceDefault = isDragged
+                    )
+                    val settingsInteractor = LocalSettingsInteractor.current
+                    val canDeleteItem by remember(item, settingsState) {
+                        derivedStateOf {
+                            item != null && item in settingsState.oneTimeSaveLocations
                         }
+                    }
+
+                    SwipeToReveal(
+                        state = state,
+                        revealedContentEnd = {
+                            Box(
+                                Modifier
+                                    .fillMaxSize()
+                                    .container(
+                                        color = MaterialTheme.colorScheme.errorContainer,
+                                        shape = shape,
+                                        autoShadowElevation = 0.dp,
+                                        resultPadding = 0.dp
+                                    )
+                                    .clickable {
+                                        scope.launch {
+                                            state.animateTo(RevealValue.Default)
+                                        }
+                                        scope.launch {
+                                            settingsInteractor.setOneTimeSaveLocations((settingsState.oneTimeSaveLocations - item).filterNotNull())
+                                            if (item?.uri == selectedSaveFolderUri) {
+                                                selectedSaveFolderUri = null
+                                                tempSelectedSaveFolderUri = null
+                                            }
+                                        }
+                                    }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.DeleteOutline,
+                                    contentDescription = stringResource(R.string.delete),
+                                    modifier = Modifier
+                                        .padding(16.dp)
+                                        .padding(end = 8.dp)
+                                        .align(Alignment.CenterEnd),
+                                    tint = MaterialTheme.colorScheme.onErrorContainer
+                                )
+                            }
+                        },
+                        directions = setOf(RevealDirection.EndToStart),
+                        swipeableContent = {
+                            val haptics = LocalHapticFeedback.current
+                            PreferenceItem(
+                                title = title,
+                                subtitle = subtitle,
+                                shape = shape,
+                                titleFontStyle = LocalTextStyle.current.copy(
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    lineHeight = 16.sp,
+                                    textAlign = TextAlign.Start
+                                ),
+                                onClick = {
+                                    if (item != null) {
+                                        tempSelectedSaveFolderUri = item.uri
+                                    }
+                                    selectedSaveFolderUri = item?.uri
+                                },
+                                onLongClick = if (item != null) {
+                                    {
+                                        haptics.performHapticFeedback(
+                                            HapticFeedbackType.LongPress
+                                        )
+                                        scope.launch {
+                                            state.animateTo(RevealValue.FullyRevealedStart)
+                                        }
+                                    }
+                                } else null,
+                                startIconTransitionSpec = {
+                                    fadeIn() togetherWith fadeOut()
+                                },
+                                modifier = Modifier.fillMaxWidth(),
+                                startIcon = if (selected) {
+                                    Icons.Rounded.Folder
+                                } else Icons.Rounded.FolderOpen,
+                                endIcon = if (selected) Icons.Rounded.RadioButtonChecked
+                                else Icons.Rounded.RadioButtonUnchecked,
+                                color = takeColorFromScheme {
+                                    if (selected) surface
+                                    else surfaceContainer
+                                }
+                            )
+                        },
+                        enableSwipe = canDeleteItem,
+                        interactionSource = interactionSource,
+                        modifier = Modifier
+                            .fadingEdges(
+                                scrollableState = null,
+                                length = 4.dp
+                            )
+                            .padding(horizontal = 4.dp)
                     )
                 }
                 val currentFolderUri = selectedSaveFolderUri?.toUri() ?: settingsState.saveFolderUri
@@ -234,7 +328,9 @@ fun OneTimeSaveLocationSelectionDialog(
                     onClick = {
                         launcher.launch(currentFolderUri)
                     },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 4.dp),
                     color = MaterialTheme.colorScheme.surfaceContainer
                 )
             }
