@@ -122,7 +122,7 @@ internal fun CompareShareSheet(
                             onSaveBitmap(imageFormat, null)
                         },
                         onLongClick = {
-
+                            showFolderSelectionDialog = true
                         },
                         shape = topShape,
                         modifier = Modifier

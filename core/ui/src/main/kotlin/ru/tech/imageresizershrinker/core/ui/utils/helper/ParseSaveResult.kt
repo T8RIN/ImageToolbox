@@ -41,7 +41,10 @@ fun Context.parseSaveResult(
     when (saveResult) {
         is SaveResult.Error.Exception -> {
             scope.launch {
-                toastHostState.showError(this@parseSaveResult, saveResult.throwable)
+                toastHostState.showError(
+                    context = this@parseSaveResult,
+                    error = saveResult.throwable
+                )
             }
         }
 
@@ -78,31 +81,36 @@ fun Activity.parseSaveResults(
         if (done == 1) {
             scope.launch {
                 val saveResult = results.first { it is SaveResult.Success } as? SaveResult.Success
+                val savingPath = saveResult?.savingPath ?: getString(R.string.default_folder)
                 toastHostState.showToast(
-                    saveResult?.message ?: getString(
+                    message = saveResult?.message ?: getString(
                         R.string.saved_to_without_filename,
-                        saveResult?.savingPath ?: getString(R.string.default_folder)
+                        savingPath
                     ),
-                    Icons.Rounded.Save
+                    icon = Icons.Rounded.Save,
+                    duration = ToastDuration.Long
                 )
             }
         } else {
             if (isOverwritten) {
                 scope.launch {
                     toastHostState.showToast(
-                        getString(R.string.images_overwritten),
-                        Icons.Rounded.Save
+                        message = getString(R.string.images_overwritten),
+                        icon = Icons.Rounded.Save,
+                        duration = ToastDuration.Long
                     )
                 }
             } else {
                 val saveResult = results.first { it is SaveResult.Success } as? SaveResult.Success
+                val savingPath = saveResult?.savingPath ?: getString(R.string.default_folder)
                 scope.launch {
                     toastHostState.showToast(
-                        getString(
+                        message = getString(
                             R.string.saved_to_without_filename,
-                            saveResult?.savingPath ?: getString(R.string.default_folder)
+                            savingPath
                         ),
-                        Icons.Rounded.Save
+                        icon = Icons.Rounded.Save,
+                        duration = ToastDuration.Long
                     )
                 }
             }
@@ -117,25 +125,26 @@ fun Activity.parseSaveResults(
             showConfetti()
             val saveResult = results.first { it is SaveResult.Success } as SaveResult.Success
             toastHostState.showToast(
-                saveResult.message
+                message = saveResult.message
                     ?: getString(
                         R.string.saved_to_without_filename,
                         saveResult.savingPath
                     ),
-                Icons.Rounded.Save
+                icon = Icons.Rounded.Save,
+                duration = ToastDuration.Long
             )
             toastHostState.showToast(
-                getString(R.string.failed_to_save, failed),
-                Icons.Rounded.ErrorOutline,
-                ToastDuration.Long
+                message = getString(R.string.failed_to_save, failed),
+                icon = Icons.Rounded.ErrorOutline,
+                duration = ToastDuration.Long
             )
         }
     } else {
         scope.launch {
             toastHostState.showToast(
-                getString(R.string.failed_to_save, failed),
-                Icons.Rounded.ErrorOutline,
-                ToastDuration.Long
+                message = getString(R.string.failed_to_save, failed),
+                icon = Icons.Rounded.ErrorOutline,
+                duration = ToastDuration.Long
             )
         }
     }
