@@ -891,4 +891,5 @@
     <string name="reset_properties_sub">Alle Eigenschaften werden auf ihre Standardwerte zurückgesetzt. Beachten Sie, dass dies nicht rückgängig gemacht werden kann.</string>
     <string name="lstm_network">LSTM-Netzwerk</string>
     <string name="convert">Konvertieren</string>
+    <string name="add_path">Pfad hinzufügen</string>
 </resources>
