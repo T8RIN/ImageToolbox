@@ -35,6 +35,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -107,9 +108,11 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -313,6 +316,8 @@ fun DrawScreen(
     var drawPathMode by rememberSaveable(viewModel.drawBehavior, stateSaver = DrawPathModeSaver) {
         mutableStateOf(DrawPathMode.Free)
     }
+
+    val focus = LocalFocusManager.current
 
     val controls = @Composable {
         OpenColorPickerCard(
@@ -810,7 +815,13 @@ fun DrawScreen(
                     sheetDragHandle = null,
                     sheetShape = RectangleShape,
                     sheetContent = {
-                        Column(Modifier.fillMaxHeight(0.8f)) {
+                        Column(
+                            Modifier
+                                .fillMaxHeight(0.8f)
+                                .pointerInput(Unit) {
+                                    detectTapGestures { focus.clearFocus() }
+                                }
+                        ) {
                             BottomAppBar(
                                 modifier = Modifier.drawHorizontalStroke(true),
                                 actions = {
@@ -875,7 +886,11 @@ fun DrawScreen(
                     }
                 )
             } else {
-                Column {
+                Column(
+                    modifier = Modifier.pointerInput(Unit) {
+                        detectTapGestures { focus.clearFocus() }
+                    }
+                ) {
                     topAppBar()
                     Row(
                         verticalAlignment = Alignment.CenterVertically,

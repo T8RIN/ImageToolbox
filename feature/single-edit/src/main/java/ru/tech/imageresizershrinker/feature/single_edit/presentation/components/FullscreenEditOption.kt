@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.single_edit.presentation.components
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -60,7 +61,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -96,6 +99,7 @@ fun FullscreenEditOption(
         else onDismiss()
     }
     val direction = LocalLayoutDirection.current
+    val focus = LocalFocusManager.current
     AnimatedVisibility(
         visible = visible
     ) {
@@ -126,7 +130,11 @@ fun FullscreenEditOption(
                         sheetShape = RectangleShape,
                         sheetContent = {
                             Column(
-                                modifier.heightIn(max = screenHeight * 0.7f)
+                                modifier
+                                    .heightIn(max = screenHeight * 0.7f)
+                                    .pointerInput(Unit) {
+                                        detectTapGestures { focus.clearFocus() }
+                                    }
                             ) {
                                 BottomAppBar(
                                     modifier = Modifier.drawHorizontalStroke(true),
@@ -224,6 +232,9 @@ fun FullscreenEditOption(
                             Column(
                                 modifier = Modifier
                                     .weight(0.7f)
+                                    .pointerInput(Unit) {
+                                        detectTapGestures { focus.clearFocus() }
+                                    }
                                     .verticalScroll(rememberScrollState())
                                     .then(
                                         if (fabButtons == null) {

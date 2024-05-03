@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.BlurCircular
@@ -165,8 +164,7 @@ fun DrawModeSelector(
                     },
                     label = {
                         Text(stringResource(R.string.text))
-                    },
-                    keyboardOptions = KeyboardOptions()
+                    }
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 FontResSelector(

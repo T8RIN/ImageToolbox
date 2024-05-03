@@ -18,8 +18,9 @@
 package ru.tech.imageresizershrinker.feature.draw.presentation.components
 
 import androidx.compose.runtime.saveable.Saver
+import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 
-val DrawModeSaver: Saver<ru.tech.imageresizershrinker.feature.draw.domain.DrawMode, Int> = Saver(
+val DrawModeSaver: Saver<DrawMode, Int> = Saver(
     save = { it.ordinal },
-    restore = { ru.tech.imageresizershrinker.feature.draw.domain.DrawMode(it) }
+    restore = { DrawMode(it) }
 )
