@@ -521,7 +521,7 @@ fun EraseBackgroundScreen(
                     .padding(
                         start = 16.dp,
                         end = 16.dp,
-                        bottom = 16.dp
+                        top = 8.dp
                     ),
                 shape = RoundedCornerShape(24.dp),
                 title = stringResource(R.string.magnifier),
