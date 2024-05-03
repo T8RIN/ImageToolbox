@@ -422,7 +422,7 @@ fun BitmapEraser(
                         if (originalImagePreviewAlpha != 0f) {
                             drawContext.canvas.apply {
                                 drawImageRect(
-                                    image = drawImageBitmap,
+                                    image = imageBitmapForShader ?: drawImageBitmap,
                                     dstSize = IntSize(canvasSize.width, canvasSize.height),
                                     paint = Paint().apply {
                                         alpha = originalImagePreviewAlpha
