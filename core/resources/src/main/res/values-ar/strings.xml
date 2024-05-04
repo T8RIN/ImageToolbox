@@ -896,4 +896,6 @@
     <string name="legacy_and_lstm">قياسي &amp; LSTM</string>
     <string name="convert">تحويل</string>
     <string name="convert_sub">تحويل دفعات الصور إلى تنسيق معين</string>
+    <string name="add_new_folder">إضافة مجلد جديد</string>
+    <string name="tag_compression">الضغط</string>
 </resources>
