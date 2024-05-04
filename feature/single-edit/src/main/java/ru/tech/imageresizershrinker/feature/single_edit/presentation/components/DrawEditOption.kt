@@ -48,8 +48,10 @@ import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -62,10 +64,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import ru.tech.imageresizershrinker.core.domain.utils.notNullAnd
 import ru.tech.imageresizershrinker.core.filters.presentation.model.UiFilter
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsInteractor
@@ -197,7 +201,15 @@ fun DrawEditOption(
             visible = visible,
             onDismiss = onDismiss,
             useScaffold = useScaffold,
-            controls = {
+            controls = { scaffoldState ->
+                val focus = LocalFocusManager.current
+                LaunchedEffect(scaffoldState?.bottomSheetState?.currentValue, focus) {
+                    val current = scaffoldState?.bottomSheetState?.currentValue
+                    if (current.notNullAnd { it != SheetValue.Expanded }) {
+                        focus.clearFocus()
+                    }
+                }
+
                 if (!useScaffold) secondaryControls()
                 OpenColorPickerCard(
                     onOpen = {

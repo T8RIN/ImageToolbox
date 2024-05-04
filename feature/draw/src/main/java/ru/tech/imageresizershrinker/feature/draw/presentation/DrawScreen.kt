@@ -319,6 +319,12 @@ fun DrawScreen(
 
     val focus = LocalFocusManager.current
 
+    LaunchedEffect(scaffoldState.bottomSheetState.currentValue) {
+        if (scaffoldState.bottomSheetState.currentValue != SheetValue.Expanded) {
+            focus.clearFocus()
+        }
+    }
+
     val controls = @Composable {
         OpenColorPickerCard(
             onOpen = {
