@@ -74,6 +74,10 @@ value class Pt(val value: Float) {
      * Support comparing Dimensions with comparison operators.
      */
     inline operator fun compareTo(other: Pt) = value.compareTo(other.value)
+
+    companion object {
+        val Zero = Pt(0f)
+    }
 }
 
 inline val Float.pt: Pt get() = Pt(this)

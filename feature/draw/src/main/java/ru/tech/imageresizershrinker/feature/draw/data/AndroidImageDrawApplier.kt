@@ -208,7 +208,16 @@ internal class AndroidImageDrawApplier @Inject constructor(
                         }
                         val androidPath = path.asAndroidPath()
                         if (drawMode is DrawMode.Text && !isErasing) {
-                            drawTextOnPath(drawMode.text, androidPath, 0f, 0f, paint)
+                            if (drawMode.isRepeated) {
+                                drawRepeatedTextOnPath(
+                                    text = drawMode.text,
+                                    path = androidPath,
+                                    paint = paint,
+                                    intervalMultiplier = drawMode.repeatingDashSizeMultiplier
+                                )
+                            } else {
+                                drawTextOnPath(drawMode.text, androidPath, 0f, 0f, paint)
+                            }
                         } else {
                             drawPath(androidPath, paint)
                         }

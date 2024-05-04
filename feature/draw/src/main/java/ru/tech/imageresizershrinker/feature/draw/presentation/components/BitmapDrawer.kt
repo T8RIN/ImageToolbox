@@ -801,7 +801,16 @@ fun BitmapDrawer(
                                 }
                             }
                             if (effect is DrawMode.Text && !isErasing) {
-                                drawTextOnPath(effect.text, path, 0f, 0f, pathPaint)
+                                if (effect.isRepeated) {
+                                    drawRepeatedTextOnPath(
+                                        text = effect.text,
+                                        path = path,
+                                        paint = pathPaint,
+                                        intervalMultiplier = effect.repeatingDashSizeMultiplier
+                                    )
+                                } else {
+                                    drawTextOnPath(effect.text, path, 0f, 0f, pathPaint)
+                                }
                             } else {
                                 drawPath(path, pathPaint)
                             }
@@ -815,7 +824,16 @@ fun BitmapDrawer(
                             }
                         }
                         if (drawMode is DrawMode.Text && !isEraserOn) {
-                            drawTextOnPath(drawMode.text, androidPath, 0f, 0f, drawPaint)
+                            if (drawMode.isRepeated) {
+                                drawRepeatedTextOnPath(
+                                    text = drawMode.text,
+                                    path = androidPath,
+                                    paint = drawPaint,
+                                    intervalMultiplier = drawMode.repeatingDashSizeMultiplier
+                                )
+                            } else {
+                                drawTextOnPath(drawMode.text, androidPath, 0f, 0f, drawPaint)
+                            }
                         } else {
                             drawPath(androidPath, drawPaint)
                         }

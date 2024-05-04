@@ -34,7 +34,9 @@ sealed class DrawMode(open val ordinal: Int) {
 
     data class Text(
         val text: String = "Text",
-        val font: Int = 0
+        val font: Int = 0,
+        val isRepeated: Boolean = false,
+        val repeatingDashSizeMultiplier: Float = 1f
     ) : DrawMode(5)
 
     companion object {

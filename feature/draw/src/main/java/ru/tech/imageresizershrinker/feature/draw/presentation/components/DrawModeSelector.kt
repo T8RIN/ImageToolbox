@@ -50,6 +50,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.Cube
 import ru.tech.imageresizershrinker.core.resources.icons.Highlighter
@@ -57,10 +58,13 @@ import ru.tech.imageresizershrinker.core.resources.icons.Laser
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.controls.FontResSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
@@ -177,10 +181,66 @@ fun DrawModeSelector(
                         )
                     },
                     modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .padding(bottom = 8.dp),
-                    shape = ContainerShapeDefaults.bottomShape
+                        .padding(horizontal = 8.dp),
+                    shape = ContainerShapeDefaults.centerShape
                 )
+                Spacer(modifier = Modifier.height(4.dp))
+                val isDashSizeControlVisible = (value as? DrawMode.Text)?.isRepeated == true
+                PreferenceRowSwitch(
+                    title = stringResource(R.string.repeat_text),
+                    subtitle = stringResource(R.string.repeat_text_sub),
+                    checked = (value as? DrawMode.Text)?.isRepeated == true,
+                    onClick = {
+                        onValueChange(
+                            (value as? DrawMode.Text)?.copy(
+                                isRepeated = it
+                            ) ?: value
+                        )
+                    },
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = animateShape(
+                        if (isDashSizeControlVisible) ContainerShapeDefaults.centerShape
+                        else ContainerShapeDefaults.bottomShape
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    resultModifier = Modifier.padding(16.dp),
+                    applyHorPadding = false
+                )
+                Spacer(
+                    modifier = Modifier.height(
+                        if (isDashSizeControlVisible) 4.dp else 8.dp
+                    )
+                )
+                AnimatedVisibility(
+                    visible = isDashSizeControlVisible,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    EnhancedSliderItem(
+                        value = (value as? DrawMode.Text)?.repeatingDashSizeMultiplier ?: 1f,
+                        title = stringResource(R.string.dash_size_multiplier),
+                        valueRange = 1f..5f,
+                        internalStateTransformation = {
+                            it.roundToTwoDigits()
+                        },
+                        onValueChange = {
+                            onValueChange(
+                                (value as? DrawMode.Text)?.copy(
+                                    repeatingDashSizeMultiplier = it
+                                ) ?: value
+                            )
+                        },
+                        color = MaterialTheme.colorScheme.surface,
+                        valueSuffix = "x",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp)
+                            .padding(bottom = 8.dp),
+                        shape = ContainerShapeDefaults.bottomShape
+                    )
+                }
             }
         }
     }

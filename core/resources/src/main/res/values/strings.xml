@@ -1057,4 +1057,7 @@
     <string name="draw_text_sub">Draw Text on path with given font and color</string>
     <string name="font_size">Font Size</string>
     <string name="watermark_size">Watermark Size</string>
+    <string name="repeat_text">Repeat Text</string>
+    <string name="repeat_text_sub">Current text will be repeated until the path end instead of one time drawing</string>
+    <string name="dash_size_multiplier">Dash Size Multiplier</string>
 </resources>
