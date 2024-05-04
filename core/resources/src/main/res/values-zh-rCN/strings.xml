@@ -896,4 +896,5 @@
     <string name="legacy_and_lstm">Legacy &amp; LSTM</string>
     <string name="convert">转换</string>
     <string name="convert_sub">将批量图像转换为给定格式</string>
+    <string name="add_new_folder">添加新文件夹</string>
 </resources>
