@@ -840,4 +840,5 @@
     <string name="sort_by_name_reversed">Řadit podle názvu (obráceně)</string>
     <string name="no_permissions">Žádná oprávnění</string>
     <string name="request">Požadavek</string>
+    <string name="pick_multiple_media">Vybrat více médií</string>
 </resources>
