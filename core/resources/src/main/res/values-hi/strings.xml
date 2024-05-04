@@ -1037,4 +1037,6 @@
     <string name="tag_rw2_sensor_top_border">सेंसर शीर्ष बॉर्डर</string>
     <string name="tag_rw2_iso">ISO</string>
     <string name="draw_text_sub">दिए गए फ़ॉन्ट और रंग के साथ पथ पर पाठ बनाएं</string>
+    <string name="font_size">फॉन्ट आकार</string>
+    <string name="watermark_size">वॉटरमार्क आकार</string>
 </resources>
