@@ -919,4 +919,15 @@
     <string name="tag_jpeg_interchange_format">JPEG 交互格式</string>
     <string name="tag_jpeg_interchange_format_length">JPEG 交互格式长度</string>
     <string name="tag_reference_black_white">参考黑白</string>
+    <string name="tag_model">型号</string>
+    <string name="tag_exif_version">Exif 版本</string>
+    <string name="tag_color_space">色彩空间</string>
+    <string name="tag_gamma">伽马</string>
+    <string name="tag_make">制造商</string>
+    <string name="tag_compressed_bits_per_pixel">平均比特率</string>
+    <string name="tag_maker_note">制造商信息</string>
+    <string name="tag_user_comment">图片注释</string>
+    <string name="tag_pixel_y_dimension">Y轴像素尺寸</string>
+    <string name="tag_pixel_x_dimension">X轴像素尺寸</string>
+    <string name="watermark_size">水印体积</string>
 </resources>
