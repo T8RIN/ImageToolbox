@@ -210,6 +210,9 @@ fun DrawEditOption(
                         end = 16.dp,
                         top = 16.dp
                     ),
+                    title = if (drawMode is DrawMode.Text) {
+                        stringResource(R.string.font_size)
+                    } else stringResource(R.string.line_width),
                     value = strokeWidth.value,
                     onValueChange = { strokeWidth = it.pt }
                 )

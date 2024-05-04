@@ -1055,4 +1055,6 @@
     <string name="tag_rw2_sensor_top_border">Sensor Top Border</string>
     <string name="tag_rw2_iso">ISO</string>
     <string name="draw_text_sub">Draw Text on path with given font and color</string>
+    <string name="font_size">Font Size</string>
+    <string name="watermark_size">Watermark Size</string>
 </resources>

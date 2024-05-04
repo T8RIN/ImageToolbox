@@ -34,6 +34,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 fun LineWidthSelector(
     modifier: Modifier,
     value: Float,
+    title: String = stringResource(R.string.line_width),
     color: Color = Color.Unspecified,
     onValueChange: (Float) -> Unit
 ) {
@@ -42,7 +43,7 @@ fun LineWidthSelector(
         value = value,
         color = color,
         icon = Icons.Rounded.LineWeight,
-        title = stringResource(R.string.line_width),
+        title = title,
         valueSuffix = " Pt",
         sliderModifier = Modifier
             .padding(top = 14.dp, start = 12.dp, end = 12.dp, bottom = 10.dp),

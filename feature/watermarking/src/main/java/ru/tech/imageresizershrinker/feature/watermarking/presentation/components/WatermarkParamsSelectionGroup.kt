@@ -249,7 +249,7 @@ fun WatermarkParamsSelectionGroup(
                         Spacer(modifier = Modifier.height(4.dp))
                         EnhancedSliderItem(
                             value = type.size,
-                            title = stringResource(id = R.string.size, ""),
+                            title = stringResource(R.string.watermark_size),
                             internalStateTransformation = {
                                 it.roundToInt()
                             },
@@ -327,7 +327,7 @@ fun WatermarkParamsSelectionGroup(
 
                     EnhancedSliderItem(
                         value = type.size,
-                        title = stringResource(id = R.string.size, ""),
+                        title = stringResource(R.string.watermark_size),
                         internalStateTransformation = {
                             it.roundToTwoDigits()
                         },
