@@ -806,7 +806,7 @@ fun BitmapDrawer(
                                         text = effect.text,
                                         path = path,
                                         paint = pathPaint,
-                                        intervalMultiplier = effect.repeatingDashSizeMultiplier
+                                        interval = effect.repeatingDashSize.toPx(canvasSize)
                                     )
                                 } else {
                                     drawTextOnPath(effect.text, path, 0f, 0f, pathPaint)
@@ -829,7 +829,7 @@ fun BitmapDrawer(
                                     text = drawMode.text,
                                     path = androidPath,
                                     paint = drawPaint,
-                                    intervalMultiplier = drawMode.repeatingDashSizeMultiplier
+                                    interval = drawMode.repeatingDashSize.toPx(canvasSize)
                                 )
                             } else {
                                 drawTextOnPath(drawMode.text, androidPath, 0f, 0f, drawPaint)

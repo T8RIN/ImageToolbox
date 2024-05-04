@@ -213,7 +213,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                     text = drawMode.text,
                                     path = androidPath,
                                     paint = paint,
-                                    intervalMultiplier = drawMode.repeatingDashSizeMultiplier
+                                    interval = drawMode.repeatingDashSize.toPx(canvasSize)
                                 )
                             } else {
                                 drawTextOnPath(drawMode.text, androidPath, 0f, 0f, paint)

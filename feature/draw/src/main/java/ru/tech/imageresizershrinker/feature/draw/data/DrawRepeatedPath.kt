@@ -21,35 +21,32 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PathMeasure
-import kotlin.math.atan2
 
 fun Canvas.drawRepeatedTextOnPath(
     text: String,
     path: Path,
     paint: Paint,
-    intervalMultiplier: Float = 1f
+    interval: Float = 0f
 ) {
     val pathMeasure = PathMeasure(path, false)
     val pathLength = pathMeasure.length
 
-    val textLength = paint.measureText(text)
-    val interval = textLength * intervalMultiplier
+    val textWidth = paint.measureText(text)
+
+    val fullRepeats = (pathLength / (textWidth + interval)).toInt()
+
+    val remainingLength = pathLength - fullRepeats * (textWidth + interval)
 
     var distance = 0f
 
-    while (distance < pathLength) {
-        val pos = FloatArray(2)
-        val tan = FloatArray(2)
-        pathMeasure.getPosTan(distance, pos, tan)
+    repeat(fullRepeats) {
+        drawTextOnPath(text, path, distance, 0f, paint)
+        distance += (textWidth + interval)
+    }
 
-        val degree = Math.toDegrees(atan2(tan[1].toDouble(), tan[0].toDouble())).toFloat()
-
-        save()
-        translate(pos[0], pos[1])
-        rotate(degree)
-        drawText(text, -textLength / 2, 0f, paint)
-        restore()
-
-        distance += interval
+    if (remainingLength > 0f) {
+        val ratio = (textWidth + interval - (remainingLength)) / (textWidth + interval)
+        val endOffset = (text.length - (text.length * ratio).toInt()).coerceAtLeast(0)
+        drawTextOnPath(text.substring(0, endOffset), path, distance, 0f, paint)
     }
 }

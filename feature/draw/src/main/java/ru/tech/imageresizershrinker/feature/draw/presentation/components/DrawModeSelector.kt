@@ -70,6 +70,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
+import ru.tech.imageresizershrinker.feature.draw.domain.pt
 
 @Composable
 fun DrawModeSelector(
@@ -219,21 +220,21 @@ fun DrawModeSelector(
                     exit = fadeOut() + shrinkVertically()
                 ) {
                     EnhancedSliderItem(
-                        value = (value as? DrawMode.Text)?.repeatingDashSizeMultiplier ?: 1f,
-                        title = stringResource(R.string.dash_size_multiplier),
-                        valueRange = 1f..5f,
+                        value = (value as? DrawMode.Text)?.repeatingDashSize?.value ?: 0f,
+                        title = stringResource(R.string.dash_size),
+                        valueRange = 0f..100f,
                         internalStateTransformation = {
                             it.roundToTwoDigits()
                         },
                         onValueChange = {
                             onValueChange(
                                 (value as? DrawMode.Text)?.copy(
-                                    repeatingDashSizeMultiplier = it
+                                    repeatingDashSize = it.pt
                                 ) ?: value
                             )
                         },
                         color = MaterialTheme.colorScheme.surface,
-                        valueSuffix = "x",
+                        valueSuffix = " Pt",
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 8.dp)

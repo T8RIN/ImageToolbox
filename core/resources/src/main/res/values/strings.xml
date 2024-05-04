@@ -1059,5 +1059,5 @@
     <string name="watermark_size">Watermark Size</string>
     <string name="repeat_text">Repeat Text</string>
     <string name="repeat_text_sub">Current text will be repeated until the path end instead of one time drawing</string>
-    <string name="dash_size_multiplier">Dash Size Multiplier</string>
+    <string name="dash_size">Dash Size</string>
 </resources>

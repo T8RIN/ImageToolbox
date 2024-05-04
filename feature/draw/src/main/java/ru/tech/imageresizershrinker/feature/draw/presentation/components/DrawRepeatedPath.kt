@@ -26,25 +26,27 @@ fun Canvas.drawRepeatedTextOnPath(
     text: String,
     path: Path,
     paint: Paint,
-    intervalMultiplier: Float = 1f
+    interval: Float = 0f
 ) {
     val pathMeasure = PathMeasure(path, false)
     val pathLength = pathMeasure.length
 
     val textWidth = paint.measureText(text)
 
-    val fullRepeats = (pathLength / textWidth).toInt()
+    val fullRepeats = (pathLength / (textWidth + interval)).toInt()
 
-    val remainingLength = pathLength - fullRepeats * textWidth
+    val remainingLength = pathLength - fullRepeats * (textWidth + interval)
 
     var distance = 0f
 
-    repeat(fullRepeats - 1) {
+    repeat(fullRepeats) {
         drawTextOnPath(text, path, distance, 0f, paint)
-        distance += textWidth * intervalMultiplier
+        distance += (textWidth + interval)
     }
 
     if (remainingLength > 0f) {
-        //drawTextOnPath(text, path, distance, 0f, paint)
+        val ratio = (textWidth + interval - (remainingLength)) / (textWidth + interval)
+        val endOffset = (text.length - (text.length * ratio).toInt()).coerceAtLeast(0)
+        drawTextOnPath(text.substring(0, endOffset), path, distance, 0f, paint)
     }
 }
