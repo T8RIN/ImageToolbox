@@ -33,6 +33,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.rounded.BlurCircular
 import androidx.compose.material.icons.rounded.Brush
 import androidx.compose.material.icons.rounded.TextFormat
@@ -60,6 +61,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.controls.FontResSelector
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.resize_group.components.BlurRadiusSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.animateShape
@@ -220,7 +222,7 @@ fun DrawModeSelector(
                     exit = fadeOut() + shrinkVertically()
                 ) {
                     EnhancedSliderItem(
-                        value = (value as? DrawMode.Text)?.repeatingDashSize?.value ?: 0f,
+                        value = (value as? DrawMode.Text)?.repeatingInterval?.value ?: 0f,
                         title = stringResource(R.string.dash_size),
                         valueRange = 0f..100f,
                         internalStateTransformation = {
@@ -229,7 +231,7 @@ fun DrawModeSelector(
                         onValueChange = {
                             onValueChange(
                                 (value as? DrawMode.Text)?.copy(
-                                    repeatingDashSize = it.pt
+                                    repeatingInterval = it.pt
                                 ) ?: value
                             )
                         },
@@ -242,6 +244,53 @@ fun DrawModeSelector(
                         shape = ContainerShapeDefaults.bottomShape
                     )
                 }
+            }
+        }
+
+        AnimatedVisibility(
+            visible = value is DrawMode.Image,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
+            Column {
+                ImageSelector(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp),
+                    value = (value as? DrawMode.Image)?.imageData ?: "",
+                    onValueChange = {
+                        onValueChange(
+                            (value as? DrawMode.Image)?.copy(
+                                imageData = it
+                            ) ?: value
+                        )
+                    },
+                    subtitle = stringResource(id = R.string.draw_image_sub),
+                    shape = ContainerShapeDefaults.topShape,
+                    color = MaterialTheme.colorScheme.surface
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                EnhancedSliderItem(
+                    value = (value as? DrawMode.Image)?.repeatingInterval?.value ?: 0f,
+                    title = stringResource(R.string.dash_size),
+                    valueRange = 0f..100f,
+                    internalStateTransformation = {
+                        it.roundToTwoDigits()
+                    },
+                    onValueChange = {
+                        onValueChange(
+                            (value as? DrawMode.Image)?.copy(
+                                repeatingInterval = it.pt
+                            ) ?: value
+                        )
+                    },
+                    color = MaterialTheme.colorScheme.surface,
+                    valueSuffix = " Pt",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    shape = ContainerShapeDefaults.bottomShape
+                )
+                Spacer(modifier = Modifier.height(8.dp))
             }
         }
     }
@@ -302,6 +351,7 @@ private fun DrawMode.getSubtitle(): Int = when (this) {
     is DrawMode.PathEffect.PrivacyBlur -> R.string.privacy_blur_sub
     is DrawMode.PathEffect.Pixelation -> R.string.pixelation_sub
     is DrawMode.Text -> R.string.draw_text_sub
+    is DrawMode.Image -> R.string.draw_mode_image_sub
 }
 
 private fun DrawMode.getTitle(): Int = when (this) {
@@ -311,6 +361,7 @@ private fun DrawMode.getTitle(): Int = when (this) {
     is DrawMode.PathEffect.PrivacyBlur -> R.string.privacy_blur
     is DrawMode.PathEffect.Pixelation -> R.string.pixelation
     is DrawMode.Text -> R.string.text
+    is DrawMode.Image -> R.string.image
 }
 
 private fun DrawMode.getIcon(): ImageVector = when (this) {
@@ -320,4 +371,5 @@ private fun DrawMode.getIcon(): ImageVector = when (this) {
     is DrawMode.PathEffect.PrivacyBlur -> Icons.Rounded.BlurCircular
     is DrawMode.PathEffect.Pixelation -> Icons.Rounded.Cube
     is DrawMode.Text -> Icons.Rounded.TextFormat
+    is DrawMode.Image -> Icons.Outlined.Image
 }

@@ -68,6 +68,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.core.content.res.ResourcesCompat
+import coil.request.ImageRequest
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
 import kotlinx.coroutines.launch
@@ -82,17 +83,22 @@ import ru.tech.imageresizershrinker.core.filters.presentation.model.UiStackBlurF
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.theme.outlineVariant
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.createScaledBitmap
+import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.helper.rotateVector
 import ru.tech.imageresizershrinker.core.ui.utils.helper.scaleToFitCanvas
+import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.observePointersCountWithOffset
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.smartDelayAfterDownInMillis
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.transparencyChecker
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.domain.Pt
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.drawRepeatedBitmapOnPath
+import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.drawRepeatedTextOnPath
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.roundToInt
 import android.graphics.Canvas as AndroidCanvas
 
 
@@ -806,10 +812,33 @@ fun BitmapDrawer(
                                         text = effect.text,
                                         path = path,
                                         paint = pathPaint,
-                                        interval = effect.repeatingDashSize.toPx(canvasSize)
+                                        interval = effect.repeatingInterval.toPx(canvasSize)
                                     )
                                 } else {
                                     drawTextOnPath(effect.text, path, 0f, 0f, pathPaint)
+                                }
+                            } else if (effect is DrawMode.Image && !isErasing) {
+                                var pathImage by remember(effect, stroke) {
+                                    mutableStateOf<Bitmap?>(null)
+                                }
+                                val imageLoader = LocalImageLoader.current
+                                LaunchedEffect(pathImage, effect, stroke, canvasSize) {
+                                    if (pathImage == null) {
+                                        pathImage = imageLoader.execute(
+                                            ImageRequest.Builder(context)
+                                                .data(effect.imageData)
+                                                .size(strokeWidth.toPx(canvasSize).roundToInt())
+                                                .build()
+                                        ).drawable?.toBitmap()
+                                    }
+                                }
+                                if (pathImage != null) {
+                                    drawRepeatedBitmapOnPath(
+                                        bitmap = pathImage!!,
+                                        path = path,
+                                        paint = pathPaint,
+                                        interval = effect.repeatingInterval.toPx(canvasSize)
+                                    )
                                 }
                             } else {
                                 drawPath(path, pathPaint)
@@ -829,10 +858,33 @@ fun BitmapDrawer(
                                     text = drawMode.text,
                                     path = androidPath,
                                     paint = drawPaint,
-                                    interval = drawMode.repeatingDashSize.toPx(canvasSize)
+                                    interval = drawMode.repeatingInterval.toPx(canvasSize)
                                 )
                             } else {
                                 drawTextOnPath(drawMode.text, androidPath, 0f, 0f, drawPaint)
+                            }
+                        } else if (drawMode is DrawMode.Image && !isEraserOn) {
+                            var pathImage by remember(drawMode, strokeWidth) {
+                                mutableStateOf<Bitmap?>(null)
+                            }
+                            val imageLoader = LocalImageLoader.current
+                            LaunchedEffect(pathImage, drawMode, strokeWidth, canvasSize) {
+                                if (pathImage == null) {
+                                    pathImage = imageLoader.execute(
+                                        ImageRequest.Builder(context)
+                                            .data(drawMode.imageData)
+                                            .size(strokeWidth.toPx(canvasSize).roundToInt())
+                                            .build()
+                                    ).drawable?.toBitmap()
+                                }
+                            }
+                            if (pathImage != null) {
+                                drawRepeatedBitmapOnPath(
+                                    bitmap = pathImage!!,
+                                    path = androidPath,
+                                    paint = drawPaint,
+                                    interval = drawMode.repeatingInterval.toPx(canvasSize)
+                                )
                             }
                         } else {
                             drawPath(androidPath, drawPaint)

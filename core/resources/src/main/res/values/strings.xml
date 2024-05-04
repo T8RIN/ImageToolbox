@@ -1060,4 +1060,6 @@
     <string name="repeat_text">Repeat Text</string>
     <string name="repeat_text_sub">Current text will be repeated until the path end instead of one time drawing</string>
     <string name="dash_size">Dash Size</string>
+    <string name="draw_mode_image_sub">Use selected image to draw it along given path</string>
+    <string name="draw_image_sub">This image will be used as repetitive entry of drawn path</string>
 </resources>

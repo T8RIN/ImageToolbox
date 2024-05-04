@@ -82,3 +82,8 @@ value class Pt(val value: Float) {
 
 inline val Float.pt: Pt get() = Pt(this)
 inline val Int.pt: Pt get() = Pt(this.toFloat())
+
+inline fun Pt.coerceIn(
+    min: Pt,
+    max: Pt
+) = Pt(value.coerceIn(min.value, max.value))

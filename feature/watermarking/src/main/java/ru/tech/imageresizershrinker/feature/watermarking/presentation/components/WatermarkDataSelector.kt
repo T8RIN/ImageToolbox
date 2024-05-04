@@ -24,26 +24,15 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
-import ru.tech.imageresizershrinker.core.ui.shapes.CloverShape
-import ru.tech.imageresizershrinker.core.ui.utils.helper.Picker
-import ru.tech.imageresizershrinker.core.ui.utils.helper.localImagePickerMode
-import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
-import ru.tech.imageresizershrinker.core.ui.widget.image.Picture
+import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageSelector
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItemOverload
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkParams
 import ru.tech.imageresizershrinker.feature.watermarking.domain.WatermarkingType
@@ -90,42 +79,17 @@ fun WatermarkDataSelector(
         val type = value.watermarkingType as? WatermarkingType.Image
             ?: return@AnimatedVisibility
 
-        val pickImageLauncher = rememberImagePicker(
-            mode = localImagePickerMode(Picker.Single)
-        ) { list ->
-            list.firstOrNull()?.let {
+        ImageSelector(
+            value = type.imageData,
+            subtitle = stringResource(id = R.string.watermarking_image_sub),
+            onValueChange = {
                 onValueChange(
                     value.copy(
                         watermarkingType = type.copy(imageData = it)
                     )
                 )
-            }
-        }
-
-        PreferenceItemOverload(
-            title = stringResource(id = R.string.image),
-            subtitle = stringResource(id = R.string.watermarking_image_sub),
-            onClick = {
-                pickImageLauncher.pickImage()
             },
-            startIcon = {
-                Picture(
-                    contentScale = ContentScale.Inside,
-                    model = type.imageData,
-                    shape = CloverShape,
-                    modifier = Modifier.size(48.dp)
-                )
-            },
-            endIcon = {
-                Icon(
-                    imageVector = Icons.Rounded.MiniEdit,
-                    contentDescription = stringResource(R.string.edit)
-                )
-            },
-            modifier = modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(20.dp),
-            color = MaterialTheme.colorScheme.surfaceContainerLow,
-            drawStartIconContainer = false
+            modifier = modifier.fillMaxWidth()
         )
     }
 }

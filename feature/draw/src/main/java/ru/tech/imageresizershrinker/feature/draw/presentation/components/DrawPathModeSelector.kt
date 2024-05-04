@@ -34,6 +34,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -75,6 +76,12 @@ fun DrawPathModeSelector(
     containerColor: Color = Color.Unspecified
 ) {
     val state = rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(value, values) {
+        if (values.find { it::class.isInstance(value) } == null) {
+            values.firstOrNull()?.let { onValueChange(it) }
+        }
+    }
 
     Column(
         modifier = modifier

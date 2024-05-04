@@ -170,6 +170,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
+import ru.tech.imageresizershrinker.feature.draw.domain.coerceIn
 import ru.tech.imageresizershrinker.feature.draw.domain.pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BitmapDrawer
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.BrushSoftnessSelector
@@ -317,6 +318,14 @@ fun DrawScreen(
         mutableStateOf(DrawPathMode.Free)
     }
 
+    LaunchedEffect(drawMode, strokeWidth) {
+        strokeWidth = if (drawMode is DrawMode.Image) {
+            strokeWidth.coerceIn(10.pt, 120.pt)
+        } else {
+            strokeWidth.coerceIn(1.pt, 100.pt)
+        }
+    }
+
     val focus = LocalFocusManager.current
 
     LaunchedEffect(scaffoldState.bottomSheetState.currentValue) {
@@ -341,6 +350,9 @@ fun DrawScreen(
             title = if (drawMode is DrawMode.Text) {
                 stringResource(R.string.font_size)
             } else stringResource(R.string.line_width),
+            valueRange = if (drawMode is DrawMode.Image) {
+                10f..120f
+            } else 1f..100f,
             value = strokeWidth.value,
             onValueChange = { strokeWidth = it.pt }
         )
@@ -365,7 +377,7 @@ fun DrawScreen(
             Spacer(Modifier.height(16.dp))
         }
         AnimatedVisibility(
-            visible = drawMode !is DrawMode.PathEffect,
+            visible = drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.Image,
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {
@@ -400,7 +412,21 @@ fun DrawScreen(
                 bottom = 16.dp
             ),
             value = drawPathMode,
-            onValueChange = { drawPathMode = it }
+            onValueChange = { drawPathMode = it },
+            values = remember(drawMode) {
+                derivedStateOf {
+                    if (drawMode !is DrawMode.Text && drawMode !is DrawMode.Image) {
+                        DrawPathMode.entries
+                    } else {
+                        listOf(
+                            DrawPathMode.Free,
+                            DrawPathMode.Line,
+                            DrawPathMode.OutlinedRect,
+                            DrawPathMode.OutlinedOval
+                        )
+                    }
+                }
+            }.value
         )
         val settingsInteractor = LocalSettingsInteractor.current
         PreferenceRowSwitch(

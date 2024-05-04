@@ -15,12 +15,15 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.feature.draw.presentation.components
+package ru.tech.imageresizershrinker.feature.draw.data.utils
 
+import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PathMeasure
+import kotlin.math.atan2
 
 fun Canvas.drawRepeatedTextOnPath(
     text: String,
@@ -48,5 +51,43 @@ fun Canvas.drawRepeatedTextOnPath(
         val ratio = (textWidth + interval - (remainingLength)) / (textWidth + interval)
         val endOffset = (text.length - (text.length * ratio).toInt()).coerceAtLeast(0)
         drawTextOnPath(text.substring(0, endOffset), path, distance, 0f, paint)
+    }
+}
+
+
+fun Canvas.drawRepeatedBitmapOnPath(
+    bitmap: Bitmap,
+    path: Path,
+    paint: Paint,
+    interval: Float = 0f
+) {
+    val pathMeasure = PathMeasure(path, false)
+    val pathLength = pathMeasure.length
+
+    val bitmapWidth = bitmap.width.toFloat()
+    val bitmapHeight = bitmap.height.toFloat()
+
+    var distance = 0f
+    val matrix = Matrix()
+
+    while (distance < pathLength) {
+        val pos = FloatArray(2)
+        val tan = FloatArray(2)
+        pathMeasure.getPosTan(distance, pos, tan)
+
+        val degree = Math.toDegrees(atan2(tan[1].toDouble(), tan[0].toDouble())).toFloat()
+
+        save()
+        translate(pos[0], pos[1])
+        rotate(degree)
+
+        matrix.reset()
+        matrix.postTranslate(-bitmapWidth / 2, -bitmapHeight / 2)
+        matrix.postRotate(degree)
+        matrix.postTranslate(bitmapWidth / 2, bitmapHeight / 2)
+        drawBitmap(bitmap, matrix, paint)
+        restore()
+
+        distance += (bitmapWidth + interval)
     }
 }

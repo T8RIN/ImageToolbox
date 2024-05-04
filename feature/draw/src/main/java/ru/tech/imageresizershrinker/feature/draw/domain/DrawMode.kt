@@ -36,18 +36,24 @@ sealed class DrawMode(open val ordinal: Int) {
         val text: String = "Text",
         val font: Int = 0,
         val isRepeated: Boolean = false,
-        val repeatingDashSize: Pt = Pt.Zero
+        val repeatingInterval: Pt = Pt.Zero
     ) : DrawMode(5)
+
+    data class Image(
+        val imageData: Any = "file:///android_asset/svg/emotions/aasparkles.svg",
+        val repeatingInterval: Pt = Pt.Zero
+    ) : DrawMode(6)
 
     companion object {
         val entries by lazy {
             listOf(
                 Pen,
                 Text(),
-                PathEffect.PrivacyBlur(),
                 Neon,
                 Highlighter,
-                PathEffect.Pixelation()
+                PathEffect.PrivacyBlur(),
+                PathEffect.Pixelation(),
+                Image()
             )
         }
 

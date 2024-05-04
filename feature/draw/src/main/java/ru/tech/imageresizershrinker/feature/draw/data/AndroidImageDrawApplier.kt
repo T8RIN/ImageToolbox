@@ -45,12 +45,15 @@ import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.domain.transformation.Transformation
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
+import ru.tech.imageresizershrinker.feature.draw.data.utils.drawRepeatedBitmapOnPath
+import ru.tech.imageresizershrinker.feature.draw.data.utils.drawRepeatedTextOnPath
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawBehavior
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier
 import ru.tech.imageresizershrinker.feature.draw.domain.PathPaint
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 internal class AndroidImageDrawApplier @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -213,10 +216,22 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                     text = drawMode.text,
                                     path = androidPath,
                                     paint = paint,
-                                    interval = drawMode.repeatingDashSize.toPx(canvasSize)
+                                    interval = drawMode.repeatingInterval.toPx(canvasSize)
                                 )
                             } else {
                                 drawTextOnPath(drawMode.text, androidPath, 0f, 0f, paint)
+                            }
+                        } else if (drawMode is DrawMode.Image && !isErasing) {
+                            imageGetter.getImage(
+                                data = drawMode.imageData,
+                                size = stroke.roundToInt()
+                            )?.let {
+                                drawRepeatedBitmapOnPath(
+                                    bitmap = it,
+                                    path = androidPath,
+                                    paint = paint,
+                                    interval = drawMode.repeatingInterval.toPx(canvasSize)
+                                )
                             }
                         } else {
                             drawPath(androidPath, paint)

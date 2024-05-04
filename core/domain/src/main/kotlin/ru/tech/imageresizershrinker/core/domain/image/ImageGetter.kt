@@ -51,6 +51,11 @@ interface ImageGetter<I, M> {
         size: IntegerSize?
     ): I?
 
+    suspend fun getImage(
+        data: Any,
+        size: Int?
+    ): I?
+
     fun getExtension(
         uri: String
     ): String?

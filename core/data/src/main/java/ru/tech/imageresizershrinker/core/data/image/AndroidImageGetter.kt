@@ -113,6 +113,25 @@ internal class AndroidImageGetter @Inject constructor(
         }.getOrNull()
     }
 
+    override suspend fun getImage(
+        data: Any,
+        size: Int?
+    ): Bitmap? = withContext(defaultDispatcher) {
+        runCatching {
+            imageLoader.execute(
+                ImageRequest
+                    .Builder(context)
+                    .data(data)
+                    .apply {
+                        size?.let {
+                            size(it)
+                        } ?: size(Size.ORIGINAL)
+                    }
+                    .build()
+            ).drawable?.toBitmap()
+        }.getOrNull()
+    }
+
     override suspend fun getImageWithTransformations(
         uri: String,
         transformations: List<Transformation<Bitmap>>,
