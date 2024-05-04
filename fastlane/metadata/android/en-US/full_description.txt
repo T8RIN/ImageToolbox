@@ -1,59 +1,81 @@
-Image Toolbox with these ✨ Features: 
+Image Toolbox with these ✨
 
-- Batch processing
-- Applying filter chains (More than 45 various filters)
-- AES-256 GCM No Padding files encryption and decryption
-- EXIF metadata editing/deleting
-- Loading images from internet
-- Background Removing
-  - By drawing
-  - Automatical
-- Drawing on Image/Background
-  - Pen
-  - Neon
-  - Highlighter
-- Image Resizing
-  - Width changing
-  - Height changing
-  - Adaptive resize
-  - Resize retaining aspect ratio
-  - Resize by given limits
-- Image Shrinking
-  - Quality compressing
-  - Preset shrinking
-  - Reducing size by given weight (in KB)
-- Cropping
-  - Regular crop
-  - Crop by aspect ratio
-  - Crop with shape mask
-    - Rounded Corners
-    - Cut Corners
-    - Oval
-    - Squircle
-    - Octagon
-    - Rounded Pentagon
-    - Clover
-    - David Star
-    - Kotlin Logo
-    - Heart
-    - Star
-    - Image Mask
-- Format Convertion
-  - HEIF
-  - HEIC
-  - AVIF
-  - WEBP
-  - JPEG
-  - JPG
-  - PNG
-  - SVG, GIF to WEBP, PNG, JPEG, JPG, HEIF, HEIC, AVIF
-  - Telegram sticker PNG format
-- Color Utils
-  - Palette generation
-  - Picking color from image
-- Additional Features
-  - Rotating
-  - Flipping
-  - Comparing images
-  - Previewing SVG, GIF and msotly all types of images
-  - Saving to any specific folder
+<b>Features:</b>
+
+<ul>
+<li>Batch processing</li>
+<li>Applying filter chains (More than 45 various filters)</li>
+<li>AES-256 GCM No Padding files encryption and decryption</li>
+<li>EXIF metadata editing/deleting</li>
+<li>Loading images from internet</li>
+<li>Background Removing</li>
+  <ul>
+  <li>By drawing</li>
+  <li>Automatically</li>
+  </ul>
+<li>Drawing on Image/Background</li>
+  <ul>
+  <li>Pen</li>
+  <li>Neon</li>
+  <li>Highlighter</li>
+  </ul>
+<li>Image Resizing</li>
+  <ul>
+  <li>Width changing</li>
+  <li>Height changing</li>
+  <li>Adaptive resize</li>
+  <li>Resize retaining aspect ratio</li>
+  <li>Resize by given limits</li>
+  </ul>
+<li>Image Shrinking</li>
+  <ul>
+  <li>Quality compressing</li>
+  <li>Preset shrinking</li>
+  <li>Reducing size by given weight (in KB)</li>
+  </ul>
+<li>Cropping</li>
+  <ul>
+  <li>Regular crop</li>
+  <li>Crop by aspect ratio</li>
+  <li>Crop with shape mask</li>
+    <ul>
+    <li>Rounded Corners</li>
+    <li>Cut Corners</li>
+    <li>Oval</li>
+    <li>Squircle</li>
+    <li>Octagon</li>
+    <li>Rounded Pentagon</li>
+    <li>Clover</li>
+    <li>David Star</li>
+    <li>Kotlin Logo</li>
+    <li>Heart</li>
+    <li>Star</li>
+    <li>Image Mask</li>
+    </ul>
+  </ul>
+<li>Format Conversion</li>
+  <ul>
+  <li>HEIF</li>
+  <li>HEIC</li>
+  <li>AVIF</li>
+  <li>WEBP</li>
+  <li>JPEG</li>
+  <li>JPG</li>
+  <li>PNG</li>
+  <li>SVG, GIF to WEBP, PNG, JPEG, JPG, HEIF, HEIC, AVIF</li>
+  <li>Telegram sticker PNG format</li>
+  </ul>
+<li>Color Utils</li>
+  <ul>
+  <li>Palette generation</li>
+  <li>Picking color from image</li>
+  </ul>
+<li>Additional Features</li>
+  <ul>
+  <li>Rotating</li>
+  <li>Flipping</li>
+  <li>Comparing images</li>
+  <li>Previewing SVG, GIF and almost all types of images</li>
+  <li>Saving to any folder</li>
+  </ul>
+</ul>

@@ -43,7 +43,7 @@
   </a>
 </p>
 
-<h4 align="center">Image Toolbox is an powerful picture editor, which can crop, 
+<h4 align="center">Image Toolbox is a powerful picture editor, which can crop, 
   
   apply filters, add some drawing, erase background, edit EXIF or even create PDF file</h4>
 
@@ -283,7 +283,7 @@ or click one of the badges below.
 - Image Stitching
 - Background Removal
   - By drawing
-  - Automatic
+  - Automatically
 - Watermarking
   - By Text
   - By Image
@@ -313,7 +313,7 @@ or click one of the badges below.
   - Center Crop with
     - Background color changing
     - Background blur drawing
-  - Different Scaling Algorhytms
+  - Different Scaling Algorithms
     - Bilinear
     - Nearest Neighbour
     - Bicubic
@@ -392,7 +392,7 @@ or click one of the badges below.
 - Additional Features
   - Rotating
   - Flipping
-  - Previewing SVG, GIF and mostly all types of images
+  - Previewing SVG, GIF and almost all types of images
   - Saving to any specific folder
   - Long press on save to choose one time output folder
   - Randomizing output filename
@@ -415,9 +415,9 @@ or click one of the badges below.
 - Custom app color scheme
   - Different palette styles
   - Predefined schemes
-  - Color invertion
+  - Color inversion
   - Contrast adjusting
-- Controling borders thickness
+- Controlling borders thickness
 - Enabling and disabling each existing shadow
 - Haptics controls
 - Light/Dark mode
