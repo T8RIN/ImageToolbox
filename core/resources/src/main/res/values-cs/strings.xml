@@ -839,4 +839,5 @@
     <string name="sort_by_name">Řadit podle názvu</string>
     <string name="sort_by_name_reversed">Řadit podle názvu (obráceně)</string>
     <string name="no_permissions">Žádná oprávnění</string>
+    <string name="request">Požadavek</string>
 </resources>
