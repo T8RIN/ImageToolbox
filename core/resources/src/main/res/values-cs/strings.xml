@@ -841,4 +841,15 @@
     <string name="no_permissions">Žádná oprávnění</string>
     <string name="request">Požadavek</string>
     <string name="pick_multiple_media">Vybrat více médií</string>
+    <string name="pick">Vybrat</string>
+    <string name="try_again">Zkusit znovu</string>
+    <string name="show_settings_in_landscape">Zobrazit nastavení na šířku</string>
+    <string name="show_settings_in_landscape_sub">Pokud je toto vypnuto, pak budou v režimu na šířku nastavení jako obvykle otevíraná v tlačítku na horní liště aplikace místo trvale zobrazené volby</string>
+    <string name="images_to_svg_sub">Vykreslení vybraných obrázků do SVG</string>
+    <string name="svg_warning">Použití tohoto nástroje pro vykreslování velkých obrázku bez snížení velikosti není doporučeno, může způsobit pád a prodloužit čas zpracovávání</string>
+    <string name="fullscreen_settings">Možnosti zobrazení na celou obrazovku</string>
+    <string name="max">Max</string>
+    <string name="images_to_svg">Obrázky do SVG</string>
+    <string name="path_omit">Vynechat cestu</string>
+    <string name="downscale_image">Snížit velikost obrázku</string>
 </resources>
