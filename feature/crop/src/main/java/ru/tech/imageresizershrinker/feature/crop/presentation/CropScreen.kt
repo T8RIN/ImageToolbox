@@ -23,6 +23,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -73,8 +74,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -213,6 +216,14 @@ fun CropScreen(
             }
         )
     )
+
+    val focus = LocalFocusManager.current
+
+    LaunchedEffect(scaffoldState.bottomSheetState.currentValue) {
+        if (scaffoldState.bottomSheetState.currentValue != SheetValue.Expanded) {
+            focus.clearFocus()
+        }
+    }
 
     val controls: @Composable () -> Unit = {
         Column(Modifier.verticalScroll(rememberScrollState())) {
@@ -394,7 +405,11 @@ fun CropScreen(
                             }
 
                             Column(
-                                Modifier.weight(0.5f)
+                                Modifier
+                                    .weight(0.5f)
+                                    .pointerInput(Unit) {
+                                        detectTapGestures { focus.clearFocus() }
+                                    }
                             ) {
                                 controls()
                             }
@@ -516,7 +531,12 @@ fun CropScreen(
             sheetDragHandle = null,
             sheetShape = RectangleShape,
             sheetContent = {
-                Column(Modifier.heightIn(max = screenHeight * 0.7f)) {
+                Column(
+                    Modifier
+                        .heightIn(max = screenHeight * 0.7f)
+                        .pointerInput(Unit) {
+                            detectTapGestures { focus.clearFocus() }
+                        }) {
                     BottomAppBar(
                         modifier = Modifier.drawHorizontalStroke(true),
                         actions = {

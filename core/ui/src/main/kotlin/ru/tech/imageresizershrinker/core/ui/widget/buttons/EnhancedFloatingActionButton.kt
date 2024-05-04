@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.unit.Dp
@@ -66,6 +67,7 @@ fun EnhancedFloatingActionButton(
     val settingsState = LocalSettingsState.current
     val size by animateDpAsState(type.size)
     val haptics = LocalHapticFeedback.current
+    val focus = LocalFocusManager.current
 
     LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
         if (onLongClick != null) {
@@ -82,6 +84,7 @@ fun EnhancedFloatingActionButton(
                             delay(viewConfiguration.longPressTimeoutMillis)
                             isLongClick = true
                             onLongClick()
+                            focus.clearFocus()
                             haptics.performHapticFeedback(
                                 HapticFeedbackType.LongPress
                             )
@@ -90,6 +93,7 @@ fun EnhancedFloatingActionButton(
                         is PressInteraction.Release -> {
                             if (!isLongClick) {
                                 onClick()
+                                focus.clearFocus()
                                 haptics.performHapticFeedback(
                                     HapticFeedbackType.TextHandleMove
                                 )
@@ -108,6 +112,7 @@ fun EnhancedFloatingActionButton(
             onClick = {
                 if (onLongClick == null) {
                     onClick()
+                    focus.clearFocus()
                     haptics.performHapticFeedback(
                         HapticFeedbackType.LongPress
                     )

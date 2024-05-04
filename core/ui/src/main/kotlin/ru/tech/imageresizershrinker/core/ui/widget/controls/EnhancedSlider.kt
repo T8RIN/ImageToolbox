@@ -47,6 +47,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -102,6 +103,13 @@ fun EnhancedSlider(
 
     val thumb: @Composable (SliderState) -> Unit = {
         val interaction by interactionSource.interactions.collectAsState(initial = null)
+        val focus = LocalFocusManager.current
+
+        LaunchedEffect(interaction) {
+            if (interaction is PressInteraction.Press) {
+                focus.clearFocus()
+            }
+        }
 
         val elevation = if (interaction is PressInteraction.Press) {
             6.dp

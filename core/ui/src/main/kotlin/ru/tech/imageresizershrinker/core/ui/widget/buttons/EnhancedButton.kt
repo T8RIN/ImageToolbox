@@ -41,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -78,12 +79,14 @@ fun EnhancedButton(
 ) {
     val settingsState = LocalSettingsState.current
     val haptics = LocalHapticFeedback.current
+    val focus = LocalFocusManager.current
 
     LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
         Box {
             OutlinedButton(
                 onClick = {
                     onClick()
+                    focus.clearFocus()
                     haptics.performHapticFeedback(
                         HapticFeedbackType.LongPress
                     )
@@ -135,11 +138,13 @@ fun EnhancedIconButton(
 ) {
     val settingsState = LocalSettingsState.current
     val haptics = LocalHapticFeedback.current
+    val focus = LocalFocusManager.current
 
     LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
         OutlinedIconButton(
             onClick = {
                 onClick()
+                focus.clearFocus()
                 haptics.performHapticFeedback(
                     HapticFeedbackType.LongPress
                 )

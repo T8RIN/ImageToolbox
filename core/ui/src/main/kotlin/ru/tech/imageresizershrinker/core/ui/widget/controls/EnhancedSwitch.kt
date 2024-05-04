@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -70,6 +71,7 @@ fun EnhancedSwitch(
     )
     val settingsState = LocalSettingsState.current
     val haptics = LocalHapticFeedback.current
+    val focus = LocalFocusManager.current
 
     LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
         val switchModifier = modifier
@@ -92,6 +94,7 @@ fun EnhancedSwitch(
                 haptics.performHapticFeedback(
                     HapticFeedbackType.LongPress
                 )
+                focus.clearFocus()
             }
         }
         val thumbContent: (@Composable () -> Unit)? = thumbIcon?.let {

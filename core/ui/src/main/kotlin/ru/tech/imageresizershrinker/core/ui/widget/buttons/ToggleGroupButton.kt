@@ -44,6 +44,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -180,10 +181,12 @@ fun ToggleGroupButton(
                             MaterialTheme.colorScheme.surfaceContainer
                         }
                         val selected = index == selectedIndex
+                        val focus = LocalFocusManager.current
 
                         SegmentedButton(
                             enabled = enabled,
                             onClick = {
+                                focus.clearFocus()
                                 haptics.performHapticFeedback(
                                     HapticFeedbackType.LongPress
                                 )
