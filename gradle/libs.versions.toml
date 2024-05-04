@@ -3,13 +3,13 @@ androidMinSdk = "21"
 androidTargetSdk = "34"
 androidCompileSdk = "34"
 
-versionName = "2.8.2-alpha01"
-versionCode = "137"
+versionName = "2.8.2-alpha02"
+versionCode = "138"
 
 jvmTarget = "17"
 compose-compiler = "1.5.13"
 
-imageToolboxLibs = "1.4.7"
+imageToolboxLibs = "1.4.8"
 
 avifCoderCoil = "1.7.5"
 avifCoder = "1.7.5"
