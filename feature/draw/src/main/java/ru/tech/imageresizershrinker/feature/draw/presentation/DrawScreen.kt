@@ -403,6 +403,7 @@ fun DrawScreen(
                 bottom = 16.dp
             ),
             value = drawMode,
+            strokeWidth = strokeWidth,
             onValueChange = { drawMode = it }
         )
         DrawPathModeSelector(

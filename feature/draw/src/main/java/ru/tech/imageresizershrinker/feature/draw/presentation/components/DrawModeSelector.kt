@@ -41,6 +41,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -72,12 +73,15 @@ import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawMode
+import ru.tech.imageresizershrinker.feature.draw.domain.Pt
+import ru.tech.imageresizershrinker.feature.draw.domain.coerceIn
 import ru.tech.imageresizershrinker.feature.draw.domain.pt
 
 @Composable
 fun DrawModeSelector(
     modifier: Modifier,
     value: DrawMode,
+    strokeWidth: Pt,
     onValueChange: (DrawMode) -> Unit
 ) {
     val state = rememberSaveable { mutableStateOf(false) }
@@ -269,17 +273,30 @@ fun DrawModeSelector(
                     color = MaterialTheme.colorScheme.surface
                 )
                 Spacer(modifier = Modifier.height(4.dp))
+                val dashMinimum = -(strokeWidth.value / 2 - 2).toInt().toFloat()
+                LaunchedEffect(dashMinimum, value) {
+                    if (value is DrawMode.Image && value.repeatingInterval < dashMinimum.pt) {
+                        onValueChange(
+                            (value as? DrawMode.Image)?.copy(
+                                repeatingInterval = value.repeatingInterval.coerceIn(
+                                    dashMinimum.pt,
+                                    100.pt
+                                )
+                            ) ?: value
+                        )
+                    }
+                }
                 EnhancedSliderItem(
                     value = (value as? DrawMode.Image)?.repeatingInterval?.value ?: 0f,
                     title = stringResource(R.string.dash_size),
-                    valueRange = 0f..100f,
+                    valueRange = dashMinimum..100f,
                     internalStateTransformation = {
                         it.roundToTwoDigits()
                     },
                     onValueChange = {
                         onValueChange(
                             (value as? DrawMode.Image)?.copy(
-                                repeatingInterval = it.pt
+                                repeatingInterval = it.pt.coerceIn(dashMinimum.pt, 100.pt)
                             ) ?: value
                         )
                     },

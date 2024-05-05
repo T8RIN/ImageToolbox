@@ -88,6 +88,9 @@ fun Canvas.drawRepeatedBitmapOnPath(
         drawBitmap(bitmap, matrix, paint)
         restore()
 
-        distance += (bitmapWidth + interval)
+        if (interval < 0 && distance + bitmapWidth < 0) break
+        else {
+            distance += (bitmapWidth + interval)
+        }
     }
 }
