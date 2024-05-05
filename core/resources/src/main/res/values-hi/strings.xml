@@ -1044,4 +1044,8 @@
     <string name="repeat_text_sub">वर्तमान पाठ को एक बार की आरेखण के बजाय पथ समाप्त होने तक दोहराया जाएगा</string>
     <string name="dash_size">डैश का आकार</string>
     <string name="draw_image_sub">इस छवि का उपयोग खींचे गए पथ की दोहरावदार प्रविष्टि के रूप में किया जाएगा</string>
+    <string name="outlined_triangle_sub">आरंभ बिंदु से अंत बिंदु तक रेखांकित त्रिभुज बनाता है</string>
+    <string name="triangle_sub">आरंभ बिंदु से अंत बिंदु तक रेखांकित त्रिभुज बनाता है</string>
+    <string name="outlined_triangle">रेखांकित त्रिभुज</string>
+    <string name="triangle">त्रिभुज</string>
 </resources>
