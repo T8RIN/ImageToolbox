@@ -1044,4 +1044,8 @@
     <string name="repeat_text">重复文本</string>
     <string name="repeat_text_sub">当前文本将会沿着路径重复绘制，直到路径结束，而非仅绘制一次。</string>
     <string name="draw_mode_image_sub">使用选中的图像沿给定路径绘制</string>
+    <string name="triangle_sub">绘制从起点到终点的三角形轮廓线</string>
+    <string name="outlined_triangle">三角形轮廓</string>
+    <string name="triangle">三角形</string>
+    <string name="outlined_triangle_sub">绘制从起点到终点的三角形轮廓线</string>
 </resources>
