@@ -310,7 +310,8 @@ fun BitmapDrawer(
                         DrawPathMode.Oval,
                         DrawPathMode.Lasso,
                         DrawPathMode.Triangle,
-                        DrawPathMode.Polygon()
+                        DrawPathMode.Polygon(),
+                        DrawPathMode.Star()
                     ).any { drawPathMode::class.isInstance(it) }
 
                     Paint().apply {
@@ -436,6 +437,46 @@ fun BitmapDrawer(
                             close()
                         }
                         drawPath = newPath
+                    }
+                }
+
+                fun drawStar(
+                    vertices: Int,
+                    innerRadiusRatio: Float,
+                    rotationDegrees: Int
+                ) {
+                    if (drawDownPosition.isSpecified && currentDrawPosition.isSpecified) {
+                        val top = max(drawDownPosition.y, currentDrawPosition.y)
+                        val left = min(drawDownPosition.x, currentDrawPosition.x)
+                        val bottom = min(drawDownPosition.y, currentDrawPosition.y)
+                        val right = max(drawDownPosition.x, currentDrawPosition.x)
+
+                        val centerX = (left + right) / 2f
+                        val centerY = (top + bottom) / 2f
+                        val width = right - left
+                        val height = bottom - top
+
+                        val outerRadius = min(width, height) / 2f
+                        val innerRadius = outerRadius * innerRadiusRatio
+
+                        val angleStep = 360f / (2 * vertices)
+                        val startAngle = rotationDegrees - 180.0
+
+                        val path = Path()
+                        for (i in 0 until (2 * vertices)) {
+                            val radius = if (i % 2 == 0) outerRadius else innerRadius
+                            val angle = startAngle + i * angleStep
+                            val x = centerX + radius * cos(Math.toRadians(angle)).toFloat()
+                            val y = centerY + radius * sin(Math.toRadians(angle)).toFloat()
+                            if (i == 0) {
+                                path.moveTo(x, y)
+                            } else {
+                                path.lineTo(x, y)
+                            }
+                        }
+                        path.close()
+
+                        drawPath = path
                     }
                 }
 
@@ -574,6 +615,22 @@ fun BitmapDrawer(
                                         drawPathMode.vertices,
                                         drawPathMode.rotationDegrees,
                                         drawPathMode.isRegular
+                                    )
+                                }
+
+                                is DrawPathMode.Star -> {
+                                    drawStar(
+                                        drawPathMode.vertices,
+                                        drawPathMode.innerRadiusRatio,
+                                        drawPathMode.rotationDegrees
+                                    )
+                                }
+
+                                is DrawPathMode.OutlinedStar -> {
+                                    drawStar(
+                                        drawPathMode.vertices,
+                                        drawPathMode.innerRadiusRatio,
+                                        drawPathMode.rotationDegrees
                                     )
                                 }
 
@@ -721,6 +778,22 @@ fun BitmapDrawer(
                                         )
                                     }
 
+                                    is DrawPathMode.Star -> {
+                                        drawStar(
+                                            drawPathMode.vertices,
+                                            drawPathMode.innerRadiusRatio,
+                                            drawPathMode.rotationDegrees
+                                        )
+                                    }
+
+                                    is DrawPathMode.OutlinedStar -> {
+                                        drawStar(
+                                            drawPathMode.vertices,
+                                            drawPathMode.innerRadiusRatio,
+                                            drawPathMode.rotationDegrees
+                                        )
+                                    }
+
                                     DrawPathMode.Oval,
                                     DrawPathMode.OutlinedOval -> {
                                         val newPath = Path().apply {
@@ -819,7 +892,8 @@ fun BitmapDrawer(
                                     DrawPathMode.Oval,
                                     DrawPathMode.Lasso,
                                     DrawPathMode.Triangle,
-                                    DrawPathMode.Polygon()
+                                    DrawPathMode.Polygon(),
+                                    DrawPathMode.Star()
                                 ).any { pathMode::class.isInstance(it) }
                             }
                         }
@@ -1061,7 +1135,8 @@ fun BitmapDrawer(
                                     DrawPathMode.Oval,
                                     DrawPathMode.Lasso,
                                     DrawPathMode.Triangle,
-                                    DrawPathMode.Polygon()
+                                    DrawPathMode.Polygon(),
+                                    DrawPathMode.Star()
                                 ).any { drawPathMode::class.isInstance(it) }
                             }
                         }

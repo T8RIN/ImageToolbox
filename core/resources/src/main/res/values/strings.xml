@@ -1073,4 +1073,9 @@
     <string name="vertices">Vertices</string>
     <string name="draw_regular_polygon">Draw Regular Polygon</string>
     <string name="draw_regular_polygon_sub">Draw polygon which will be regular instead of free form</string>
+    <string name="star_sub">Draws star from start point to end point</string>
+    <string name="star">Star</string>
+    <string name="outlined_star">Outlined Star</string>
+    <string name="outlined_star_sub">Draws outlined star from start point to end point</string>
+    <string name="inner_radius_ratio">Inner Radius Ratio</string>
 </resources>

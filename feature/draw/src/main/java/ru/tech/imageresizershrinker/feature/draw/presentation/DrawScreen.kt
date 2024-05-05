@@ -431,7 +431,8 @@ fun DrawScreen(
                             DrawPathMode.OutlinedRect,
                             DrawPathMode.OutlinedOval,
                             DrawPathMode.OutlinedTriangle,
-                            DrawPathMode.OutlinedPolygon()
+                            DrawPathMode.OutlinedPolygon(),
+                            DrawPathMode.OutlinedStar()
                         )
                     }
                 }

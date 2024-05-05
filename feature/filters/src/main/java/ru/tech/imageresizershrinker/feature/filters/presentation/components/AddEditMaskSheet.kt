@@ -432,7 +432,8 @@ fun AddEditMaskSheet(
                                         DrawPathMode.Rect,
                                         DrawPathMode.Oval,
                                         DrawPathMode.Triangle,
-                                        DrawPathMode.Polygon()
+                                        DrawPathMode.Polygon(),
+                                        DrawPathMode.Star()
                                     )
                                 },
                                 value = drawPathMode,

@@ -36,6 +36,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
 import androidx.compose.material.icons.rounded.Circle
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
+import androidx.compose.material.icons.rounded.Star
+import androidx.compose.material.icons.rounded.StarOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -144,7 +146,6 @@ fun DrawPathModeSelector(
             exit = fadeOut() + shrinkVertically()
         ) {
             Column {
-                //TODO: Try to add vertices depth
                 EnhancedSliderItem(
                     value = value.vertices(),
                     title = stringResource(R.string.vertices),
@@ -170,7 +171,7 @@ fun DrawPathModeSelector(
                     title = stringResource(R.string.angle),
                     valueRange = 0f..360f,
                     internalStateTransformation = {
-                        it.roundToTwoDigits()
+                        it.roundToInt()
                     },
                     onValueChange = {
                         onValueChange(
@@ -200,6 +201,73 @@ fun DrawPathModeSelector(
                         .padding(horizontal = 8.dp),
                     resultModifier = Modifier.padding(16.dp),
                     applyHorPadding = false
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
+
+        AnimatedVisibility(
+            visible = value.isStar(),
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
+            Column {
+                EnhancedSliderItem(
+                    value = value.vertices(),
+                    title = stringResource(R.string.vertices),
+                    valueRange = 3f..24f,
+                    steps = 21,
+                    internalStateTransformation = {
+                        it.roundToInt()
+                    },
+                    onValueChange = {
+                        onValueChange(
+                            value.updateStar(vertices = it.toInt())
+                        )
+                    },
+                    color = MaterialTheme.colorScheme.surface,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    shape = ContainerShapeDefaults.topShape
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                EnhancedSliderItem(
+                    value = value.rotationDegrees(),
+                    title = stringResource(R.string.angle),
+                    valueRange = 0f..360f,
+                    internalStateTransformation = {
+                        it.roundToInt()
+                    },
+                    onValueChange = {
+                        onValueChange(
+                            value.updateStar(rotationDegree = it.toInt())
+                        )
+                    },
+                    color = MaterialTheme.colorScheme.surface,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    shape = ContainerShapeDefaults.centerShape
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                EnhancedSliderItem(
+                    value = value.innerRadiusRatio(),
+                    title = stringResource(R.string.inner_radius_ratio),
+                    valueRange = 0f..1f,
+                    internalStateTransformation = {
+                        it.roundToTwoDigits()
+                    },
+                    onValueChange = {
+                        onValueChange(
+                            value.updateStar(innerRadiusRatio = it)
+                        )
+                    },
+                    color = MaterialTheme.colorScheme.surface,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    shape = ContainerShapeDefaults.bottomShape
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -274,18 +342,38 @@ private fun DrawPathMode.saveState(
         )
     }
 
+    value is DrawPathMode.Star && this is DrawPathMode.OutlinedStar -> {
+        copy(
+            vertices = value.vertices,
+            innerRadiusRatio = innerRadiusRatio,
+            rotationDegrees = value.rotationDegrees
+        )
+    }
+
+    value is DrawPathMode.OutlinedStar && this is DrawPathMode.Star -> {
+        copy(
+            vertices = value.vertices,
+            innerRadiusRatio = innerRadiusRatio,
+            rotationDegrees = value.rotationDegrees
+        )
+    }
+
     else -> this
 }
 
 private fun DrawPathMode.vertices(): Int = when (this) {
     is DrawPathMode.Polygon -> vertices
     is DrawPathMode.OutlinedPolygon -> vertices
+    is DrawPathMode.Star -> vertices
+    is DrawPathMode.OutlinedStar -> vertices
     else -> 0
 }
 
 private fun DrawPathMode.rotationDegrees(): Int = when (this) {
     is DrawPathMode.Polygon -> rotationDegrees
     is DrawPathMode.OutlinedPolygon -> rotationDegrees
+    is DrawPathMode.Star -> rotationDegrees
+    is DrawPathMode.OutlinedStar -> rotationDegrees
     else -> 0
 }
 
@@ -293,6 +381,12 @@ private fun DrawPathMode.isRegular(): Boolean = when (this) {
     is DrawPathMode.Polygon -> isRegular
     is DrawPathMode.OutlinedPolygon -> isRegular
     else -> false
+}
+
+private fun DrawPathMode.innerRadiusRatio(): Float = when (this) {
+    is DrawPathMode.Star -> innerRadiusRatio
+    is DrawPathMode.OutlinedStar -> innerRadiusRatio
+    else -> 0.5f
 }
 
 private fun DrawPathMode.updatePolygon(
@@ -319,8 +413,35 @@ private fun DrawPathMode.updatePolygon(
     else -> this
 }
 
+private fun DrawPathMode.updateStar(
+    vertices: Int? = null,
+    innerRadiusRatio: Float? = null,
+    rotationDegree: Int? = null,
+) = when (this) {
+    is DrawPathMode.Star -> {
+        copy(
+            vertices = vertices ?: this.vertices,
+            innerRadiusRatio = innerRadiusRatio ?: this.innerRadiusRatio,
+            rotationDegrees = rotationDegree ?: this.rotationDegrees
+        )
+    }
+
+    is DrawPathMode.OutlinedStar -> {
+        copy(
+            vertices = vertices ?: this.vertices,
+            innerRadiusRatio = innerRadiusRatio ?: this.innerRadiusRatio,
+            rotationDegrees = rotationDegree ?: this.rotationDegrees
+        )
+    }
+
+    else -> this
+}
+
 private fun DrawPathMode.isPolygon(): Boolean =
     this is DrawPathMode.Polygon || this is DrawPathMode.OutlinedPolygon
+
+private fun DrawPathMode.isStar(): Boolean =
+    this is DrawPathMode.Star || this is DrawPathMode.OutlinedStar
 
 private fun DrawPathMode.getSubtitle(): Int = when (this) {
     DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow_sub
@@ -338,6 +459,8 @@ private fun DrawPathMode.getSubtitle(): Int = when (this) {
     DrawPathMode.Triangle -> R.string.triangle_sub
     is DrawPathMode.Polygon -> R.string.polygon_sub
     is DrawPathMode.OutlinedPolygon -> R.string.outlined_polygon_sub
+    is DrawPathMode.OutlinedStar -> R.string.outlined_star_sub
+    is DrawPathMode.Star -> R.string.star_sub
 }
 
 private fun DrawPathMode.getTitle(): Int = when (this) {
@@ -356,6 +479,8 @@ private fun DrawPathMode.getTitle(): Int = when (this) {
     DrawPathMode.Triangle -> R.string.triangle
     is DrawPathMode.Polygon -> R.string.polygon
     is DrawPathMode.OutlinedPolygon -> R.string.outlined_polygon
+    is DrawPathMode.OutlinedStar -> R.string.outlined_star
+    is DrawPathMode.Star -> R.string.star
 }
 
 private fun DrawPathMode.getIcon(): ImageVector = when (this) {
@@ -374,4 +499,6 @@ private fun DrawPathMode.getIcon(): ImageVector = when (this) {
     DrawPathMode.OutlinedTriangle -> Icons.Outlined.Triangle
     is DrawPathMode.Polygon -> Icons.Rounded.Polygon
     is DrawPathMode.OutlinedPolygon -> Icons.Outlined.Polygon
+    is DrawPathMode.OutlinedStar -> Icons.Rounded.StarOutline
+    is DrawPathMode.Star -> Icons.Rounded.Star
 }
