@@ -1057,4 +1057,5 @@
     <string name="draw_regular_polygon_sub">绘制规则多边形，而不是自由形状的多边形</string>
     <string name="star_sub">从起点到终点绘制星形</string>
     <string name="star">星形</string>
+    <string name="outlined_star">星形轮廓</string>
 </resources>
