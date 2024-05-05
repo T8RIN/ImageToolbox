@@ -1039,4 +1039,9 @@
     <string name="draw_text_sub">दिए गए फ़ॉन्ट और रंग के साथ पथ पर पाठ बनाएं</string>
     <string name="font_size">फॉन्ट आकार</string>
     <string name="watermark_size">वॉटरमार्क आकार</string>
+    <string name="draw_mode_image_sub">चयनित छवि को दिए गए पथ पर खींचने के लिए उसका उपयोग करें</string>
+    <string name="repeat_text">पाठ दोहराएँ</string>
+    <string name="repeat_text_sub">वर्तमान पाठ को एक बार की आरेखण के बजाय पथ समाप्त होने तक दोहराया जाएगा</string>
+    <string name="dash_size">डैश का आकार</string>
+    <string name="draw_image_sub">इस छवि का उपयोग खींचे गए पथ की दोहरावदार प्रविष्टि के रूप में किया जाएगा</string>
 </resources>
