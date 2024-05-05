@@ -1048,4 +1048,9 @@
     <string name="outlined_triangle">三角形轮廓</string>
     <string name="triangle">三角形</string>
     <string name="outlined_triangle_sub">绘制从起点到终点的三角形轮廓线</string>
+    <string name="polygon">多边形</string>
+    <string name="outlined_polygon">多边形轮廓</string>
+    <string name="vertices">节点</string>
+    <string name="polygon_sub">绘制从起点到终点的多边形</string>
+    <string name="outlined_polygon_sub">绘制从起点到终点的多边形轮廓</string>
 </resources>
