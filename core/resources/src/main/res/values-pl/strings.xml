@@ -901,4 +901,5 @@
     <string name="tag_bits_per_sample">Bitów na próbkę</string>
     <string name="tag_compression">Kompresja</string>
     <string name="tag_photometric_interpretation">Interpretacja fotometryczna</string>
+    <string name="tag_strip_offsets">Przesunięcie paska</string>
 </resources>
