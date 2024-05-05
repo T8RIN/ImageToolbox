@@ -1053,4 +1053,6 @@
     <string name="vertices">节点</string>
     <string name="polygon_sub">绘制从起点到终点的多边形</string>
     <string name="outlined_polygon_sub">绘制从起点到终点的多边形轮廓</string>
+    <string name="draw_regular_polygon">绘制正多边形</string>
+    <string name="draw_regular_polygon_sub">绘制规则多边形，而不是自由形状的多边形</string>
 </resources>
