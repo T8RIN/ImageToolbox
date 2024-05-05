@@ -17,10 +17,16 @@
 
 package ru.tech.imageresizershrinker.feature.draw.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -48,6 +54,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.smarttoolfactory.colordetector.util.ColorUtil.roundToTwoDigits
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.resources.icons.FreeArrow
 import ru.tech.imageresizershrinker.core.resources.icons.FreeDoubleArrow
@@ -56,17 +63,20 @@ import ru.tech.imageresizershrinker.core.resources.icons.Lasso
 import ru.tech.imageresizershrinker.core.resources.icons.Line
 import ru.tech.imageresizershrinker.core.resources.icons.LineArrow
 import ru.tech.imageresizershrinker.core.resources.icons.LineDoubleArrow
+import ru.tech.imageresizershrinker.core.resources.icons.Polygon
 import ru.tech.imageresizershrinker.core.resources.icons.Square
 import ru.tech.imageresizershrinker.core.resources.icons.Triangle
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
+import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
 import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
+import kotlin.math.roundToInt
 
 @Composable
 fun DrawPathModeSelector(
@@ -127,6 +137,54 @@ fun DrawPathModeSelector(
                 onValueChange(values[it])
             }
         )
+        AnimatedVisibility(
+            visible = value.isPolygon(),
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
+            Column {
+                //TODO: Try to add vertices depth
+                EnhancedSliderItem(
+                    value = value.vertices(),
+                    title = stringResource(R.string.vertices),
+                    valueRange = 3f..24f,
+                    steps = 21,
+                    internalStateTransformation = {
+                        it.roundToInt()
+                    },
+                    onValueChange = {
+                        onValueChange(
+                            value.updatePolygon(vertices = it.toInt())
+                        )
+                    },
+                    color = MaterialTheme.colorScheme.surface,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    shape = ContainerShapeDefaults.topShape
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                EnhancedSliderItem(
+                    value = value.rotationDegrees(),
+                    title = stringResource(R.string.angle),
+                    valueRange = 0f..360f,
+                    internalStateTransformation = {
+                        it.roundToTwoDigits()
+                    },
+                    onValueChange = {
+                        onValueChange(
+                            value.updatePolygon(rotationDegree = it.toInt())
+                        )
+                    },
+                    color = MaterialTheme.colorScheme.surface,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    shape = ContainerShapeDefaults.bottomShape
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
     }
     SimpleSheet(
         sheetContent = {
@@ -178,53 +236,92 @@ fun DrawPathModeSelector(
     )
 }
 
-private fun DrawPathMode.getSubtitle(): Int =
-    when (this) {
-        DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow_sub
-        DrawPathMode.DoublePointingArrow -> R.string.double_arrow_sub
-        DrawPathMode.Free -> R.string.free_drawing_sub
-        DrawPathMode.Line -> R.string.line_sub
-        DrawPathMode.LinePointingArrow -> R.string.line_arrow_sub
-        DrawPathMode.PointingArrow -> R.string.arrow_sub
-        DrawPathMode.OutlinedOval -> R.string.outlined_oval_sub
-        DrawPathMode.OutlinedRect -> R.string.outlined_rect_sub
-        DrawPathMode.Oval -> R.string.oval_sub
-        DrawPathMode.Rect -> R.string.rect_sub
-        DrawPathMode.Lasso -> R.string.lasso_sub
-        DrawPathMode.OutlinedTriangle -> R.string.outlined_triangle_sub
-        DrawPathMode.Triangle -> R.string.triangle_sub
+private fun DrawPathMode.vertices(): Int = when (this) {
+    is DrawPathMode.Polygon -> vertices
+    is DrawPathMode.OutlinedPolygon -> vertices
+    else -> 0
+}
+
+private fun DrawPathMode.rotationDegrees(): Int = when (this) {
+    is DrawPathMode.Polygon -> rotationDegrees
+    is DrawPathMode.OutlinedPolygon -> rotationDegrees
+    else -> 0
+}
+
+private fun DrawPathMode.updatePolygon(
+    vertices: Int? = null,
+    rotationDegree: Int? = null
+) = when (this) {
+    is DrawPathMode.Polygon -> {
+        copy(
+            vertices = vertices ?: this.vertices,
+            rotationDegrees = rotationDegree ?: this.rotationDegrees
+        )
     }
 
-private fun DrawPathMode.getTitle(): Int =
-    when (this) {
-        DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow
-        DrawPathMode.DoublePointingArrow -> R.string.double_arrow
-        DrawPathMode.Free -> R.string.free_drawing
-        DrawPathMode.Line -> R.string.line
-        DrawPathMode.LinePointingArrow -> R.string.line_arrow
-        DrawPathMode.PointingArrow -> R.string.arrow
-        DrawPathMode.OutlinedOval -> R.string.outlined_oval
-        DrawPathMode.OutlinedRect -> R.string.outlined_rect
-        DrawPathMode.Oval -> R.string.oval
-        DrawPathMode.Rect -> R.string.rect
-        DrawPathMode.Lasso -> R.string.lasso
-        DrawPathMode.OutlinedTriangle -> R.string.outlined_triangle
-        DrawPathMode.Triangle -> R.string.triangle
+    is DrawPathMode.OutlinedPolygon -> {
+        copy(
+            vertices = vertices ?: this.vertices,
+            rotationDegrees = rotationDegree ?: this.rotationDegrees
+        )
     }
 
-private fun DrawPathMode.getIcon(): ImageVector =
-    when (this) {
-        DrawPathMode.DoubleLinePointingArrow -> Icons.Rounded.LineDoubleArrow
-        DrawPathMode.DoublePointingArrow -> Icons.Rounded.FreeDoubleArrow
-        DrawPathMode.Free -> Icons.Rounded.FreeDraw
-        DrawPathMode.Line -> Icons.Rounded.Line
-        DrawPathMode.LinePointingArrow -> Icons.Rounded.LineArrow
-        DrawPathMode.PointingArrow -> Icons.Rounded.FreeArrow
-        DrawPathMode.OutlinedOval -> Icons.Rounded.RadioButtonUnchecked
-        DrawPathMode.OutlinedRect -> Icons.Rounded.CheckBoxOutlineBlank
-        DrawPathMode.Oval -> Icons.Rounded.Circle
-        DrawPathMode.Rect -> Icons.Rounded.Square
-        DrawPathMode.Lasso -> Icons.Rounded.Lasso
-        DrawPathMode.Triangle -> Icons.Rounded.Triangle
-        DrawPathMode.OutlinedTriangle -> Icons.Outlined.Triangle
-    }
+    else -> this
+}
+
+private fun DrawPathMode.isPolygon(): Boolean =
+    this is DrawPathMode.Polygon || this is DrawPathMode.OutlinedPolygon
+
+private fun DrawPathMode.getSubtitle(): Int = when (this) {
+    DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow_sub
+    DrawPathMode.DoublePointingArrow -> R.string.double_arrow_sub
+    DrawPathMode.Free -> R.string.free_drawing_sub
+    DrawPathMode.Line -> R.string.line_sub
+    DrawPathMode.LinePointingArrow -> R.string.line_arrow_sub
+    DrawPathMode.PointingArrow -> R.string.arrow_sub
+    DrawPathMode.OutlinedOval -> R.string.outlined_oval_sub
+    DrawPathMode.OutlinedRect -> R.string.outlined_rect_sub
+    DrawPathMode.Oval -> R.string.oval_sub
+    DrawPathMode.Rect -> R.string.rect_sub
+    DrawPathMode.Lasso -> R.string.lasso_sub
+    DrawPathMode.OutlinedTriangle -> R.string.outlined_triangle_sub
+    DrawPathMode.Triangle -> R.string.triangle_sub
+    is DrawPathMode.Polygon -> R.string.polygon_sub
+    is DrawPathMode.OutlinedPolygon -> R.string.outlined_polygon_sub
+}
+
+private fun DrawPathMode.getTitle(): Int = when (this) {
+    DrawPathMode.DoubleLinePointingArrow -> R.string.double_line_arrow
+    DrawPathMode.DoublePointingArrow -> R.string.double_arrow
+    DrawPathMode.Free -> R.string.free_drawing
+    DrawPathMode.Line -> R.string.line
+    DrawPathMode.LinePointingArrow -> R.string.line_arrow
+    DrawPathMode.PointingArrow -> R.string.arrow
+    DrawPathMode.OutlinedOval -> R.string.outlined_oval
+    DrawPathMode.OutlinedRect -> R.string.outlined_rect
+    DrawPathMode.Oval -> R.string.oval
+    DrawPathMode.Rect -> R.string.rect
+    DrawPathMode.Lasso -> R.string.lasso
+    DrawPathMode.OutlinedTriangle -> R.string.outlined_triangle
+    DrawPathMode.Triangle -> R.string.triangle
+    is DrawPathMode.Polygon -> R.string.polygon
+    is DrawPathMode.OutlinedPolygon -> R.string.outlined_polygon
+}
+
+private fun DrawPathMode.getIcon(): ImageVector = when (this) {
+    DrawPathMode.DoubleLinePointingArrow -> Icons.Rounded.LineDoubleArrow
+    DrawPathMode.DoublePointingArrow -> Icons.Rounded.FreeDoubleArrow
+    DrawPathMode.Free -> Icons.Rounded.FreeDraw
+    DrawPathMode.Line -> Icons.Rounded.Line
+    DrawPathMode.LinePointingArrow -> Icons.Rounded.LineArrow
+    DrawPathMode.PointingArrow -> Icons.Rounded.FreeArrow
+    DrawPathMode.OutlinedOval -> Icons.Rounded.RadioButtonUnchecked
+    DrawPathMode.OutlinedRect -> Icons.Rounded.CheckBoxOutlineBlank
+    DrawPathMode.Oval -> Icons.Rounded.Circle
+    DrawPathMode.Rect -> Icons.Rounded.Square
+    DrawPathMode.Lasso -> Icons.Rounded.Lasso
+    DrawPathMode.Triangle -> Icons.Rounded.Triangle
+    DrawPathMode.OutlinedTriangle -> Icons.Outlined.Triangle
+    is DrawPathMode.Polygon -> Icons.Rounded.Polygon
+    is DrawPathMode.OutlinedPolygon -> Icons.Outlined.Polygon
+}

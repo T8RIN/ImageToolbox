@@ -123,7 +123,8 @@ internal class AndroidImageDrawApplier @Inject constructor(
                         DrawPathMode.Rect,
                         DrawPathMode.Oval,
                         DrawPathMode.Lasso,
-                        DrawPathMode.Triangle
+                        DrawPathMode.Triangle,
+                        DrawPathMode.Polygon()
                     ).any { pathMode::class.isInstance(it) }
 
                     if (drawMode is DrawMode.PathEffect && !isErasing) {

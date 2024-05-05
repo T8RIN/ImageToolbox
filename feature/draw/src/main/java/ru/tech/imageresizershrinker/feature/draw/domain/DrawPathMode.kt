@@ -33,6 +33,16 @@ sealed class DrawPathMode(open val ordinal: Int) {
     data object Triangle : DrawPathMode(10)
     data object OutlinedTriangle : DrawPathMode(11)
 
+    data class Polygon(
+        val vertices: Int = 5,
+        val rotationDegrees: Int = 0
+    ) : DrawPathMode(12)
+
+    data class OutlinedPolygon(
+        val vertices: Int = 5,
+        val rotationDegrees: Int = 0
+    ) : DrawPathMode(13)
+
     val isStroke: Boolean
         get() = this !in listOf(Lasso, Rect, Oval, Triangle)
 
@@ -49,9 +59,11 @@ sealed class DrawPathMode(open val ordinal: Int) {
                 OutlinedRect,
                 OutlinedOval,
                 OutlinedTriangle,
+                OutlinedPolygon(),
                 Rect,
                 Oval,
-                Triangle
+                Triangle,
+                Polygon(),
             )
         }
 

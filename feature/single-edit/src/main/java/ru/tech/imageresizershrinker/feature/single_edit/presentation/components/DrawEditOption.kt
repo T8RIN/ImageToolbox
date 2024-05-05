@@ -307,7 +307,8 @@ fun DrawEditOption(
                                     DrawPathMode.Line,
                                     DrawPathMode.OutlinedRect,
                                     DrawPathMode.OutlinedOval,
-                                    DrawPathMode.OutlinedTriangle
+                                    DrawPathMode.OutlinedTriangle,
+                                    DrawPathMode.OutlinedPolygon()
                                 )
                             }
                         }

@@ -1066,4 +1066,9 @@
     <string name="triangle_sub">Draws outlined triangle from start point to end point</string>
     <string name="outlined_triangle">Outlined Triangle</string>
     <string name="triangle">Triangle</string>
+    <string name="polygon_sub">Draws polygon from start point to end point</string>
+    <string name="polygon">Polygon</string>
+    <string name="outlined_polygon">Outlined Polygon</string>
+    <string name="outlined_polygon_sub">Draws outlined polygon from start point to end point</string>
+    <string name="vertices">Vertices</string>
 </resources>

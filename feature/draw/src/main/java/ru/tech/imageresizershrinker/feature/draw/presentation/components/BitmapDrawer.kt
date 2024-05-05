@@ -96,9 +96,11 @@ import ru.tech.imageresizershrinker.feature.draw.domain.Pt
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.drawRepeatedBitmapOnPath
 import ru.tech.imageresizershrinker.feature.draw.presentation.components.utils.drawRepeatedTextOnPath
 import kotlin.math.abs
+import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
+import kotlin.math.sin
 import android.graphics.Canvas as AndroidCanvas
 
 
@@ -307,7 +309,8 @@ fun BitmapDrawer(
                         DrawPathMode.Rect,
                         DrawPathMode.Oval,
                         DrawPathMode.Lasso,
-                        DrawPathMode.Triangle
+                        DrawPathMode.Triangle,
+                        DrawPathMode.Polygon()
                     ).any { drawPathMode::class.isInstance(it) }
 
                     Paint().apply {
@@ -384,6 +387,40 @@ fun BitmapDrawer(
             ) { mutableStateOf(Path()) }
 
             canvas.apply {
+                val drawPolygon: (Int, Int) -> Unit = { vertices, rotationDegrees ->
+                    if (drawDownPosition.isSpecified && currentDrawPosition.isSpecified) {
+                        val top = max(drawDownPosition.y, currentDrawPosition.y)
+                        val left =
+                            min(drawDownPosition.x, currentDrawPosition.x)
+                        val bottom =
+                            min(drawDownPosition.y, currentDrawPosition.y)
+                        val right =
+                            max(drawDownPosition.x, currentDrawPosition.x)
+
+                        val width = right - left
+                        val height = bottom - top
+                        val centerX = (left + right) / 2
+                        val centerY = (top + bottom) / 2
+
+                        val path = Path().apply {
+                            for (i in 0 until vertices) {
+                                val angle = i * (360f / vertices) + rotationDegrees
+                                val x =
+                                    centerX + width / 2 * cos(Math.toRadians(angle.toDouble())).toFloat()
+                                val y =
+                                    centerY + height / 2 * sin(Math.toRadians(angle.toDouble())).toFloat()
+                                if (i == 0) {
+                                    moveTo(x, y)
+                                } else {
+                                    lineTo(x, y)
+                                }
+                            }
+                            close()
+                        }
+                        drawPath = path
+                    }
+                }
+
                 when (motionEvent) {
 
                     MotionEvent.Down -> {
@@ -417,6 +454,7 @@ fun BitmapDrawer(
                             }
                             previousDrawPosition = currentDrawPosition
                         }
+
                         if (!isEraserOn) {
                             when (drawPathMode) {
                                 DrawPathMode.DoubleLinePointingArrow,
@@ -505,6 +543,20 @@ fun BitmapDrawer(
                                     }
                                 }
 
+                                is DrawPathMode.Polygon -> {
+                                    drawPolygon(
+                                        drawPathMode.vertices,
+                                        drawPathMode.rotationDegrees
+                                    )
+                                }
+
+                                is DrawPathMode.OutlinedPolygon -> {
+                                    drawPolygon(
+                                        drawPathMode.vertices,
+                                        drawPathMode.rotationDegrees
+                                    )
+                                }
+
                                 DrawPathMode.Oval,
                                 DrawPathMode.OutlinedOval -> {
                                     if (drawDownPosition.isSpecified && currentDrawPosition.isSpecified) {
@@ -552,6 +604,7 @@ fun BitmapDrawer(
                                 drawPath.lineTo(currentDrawPosition.x, currentDrawPosition.y)
                             }
                         }
+
                         if (currentDrawPosition.isSpecified && drawDownPosition.isSpecified) {
                             if (!isEraserOn) {
                                 when (drawPathMode) {
@@ -630,6 +683,20 @@ fun BitmapDrawer(
                                             }
                                             drawPath = newPath
                                         }
+                                    }
+
+                                    is DrawPathMode.Polygon -> {
+                                        drawPolygon(
+                                            drawPathMode.vertices,
+                                            drawPathMode.rotationDegrees
+                                        )
+                                    }
+
+                                    is DrawPathMode.OutlinedPolygon -> {
+                                        drawPolygon(
+                                            drawPathMode.vertices,
+                                            drawPathMode.rotationDegrees
+                                        )
                                     }
 
                                     DrawPathMode.Oval,
@@ -729,7 +796,8 @@ fun BitmapDrawer(
                                     DrawPathMode.Rect,
                                     DrawPathMode.Oval,
                                     DrawPathMode.Lasso,
-                                    DrawPathMode.Triangle
+                                    DrawPathMode.Triangle,
+                                    DrawPathMode.Polygon()
                                 ).any { pathMode::class.isInstance(it) }
                             }
                         }
