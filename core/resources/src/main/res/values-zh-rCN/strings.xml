@@ -1058,4 +1058,5 @@
     <string name="star_sub">从起点到终点绘制星形</string>
     <string name="star">星形</string>
     <string name="outlined_star">星形轮廓</string>
+    <string name="outlined_star_sub">绘制从起点到终点的星形轮廓图</string>
 </resources>
