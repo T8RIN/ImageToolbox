@@ -1059,4 +1059,5 @@
     <string name="star">星形</string>
     <string name="outlined_star">星形轮廓</string>
     <string name="outlined_star_sub">绘制从起点到终点的星形轮廓图</string>
+    <string name="inner_radius_ratio">内部半径比</string>
 </resources>
