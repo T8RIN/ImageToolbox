@@ -896,4 +896,10 @@
     <string name="legacy_and_lstm">Starszy oraz LSTM</string>
     <string name="convert">Przekonwertuj</string>
     <string name="convert_sub">Konwersja partii obrazów do podanego formatu</string>
+    <string name="tag_samples_per_pixel">Próbek na piksel</string>
+    <string name="add_new_folder">Dodaj nowy folder</string>
+    <string name="tag_bits_per_sample">Bitów na próbkę</string>
+    <string name="tag_compression">Kompresja</string>
+    <string name="tag_photometric_interpretation">Interpretacja fotometryczna</string>
+    <string name="tag_strip_offsets">Przesunięcie paska</string>
 </resources>
