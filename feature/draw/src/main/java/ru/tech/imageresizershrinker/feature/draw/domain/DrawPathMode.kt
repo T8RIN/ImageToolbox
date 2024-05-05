@@ -35,16 +35,18 @@ sealed class DrawPathMode(open val ordinal: Int) {
 
     data class Polygon(
         val vertices: Int = 5,
-        val rotationDegrees: Int = 0
+        val rotationDegrees: Int = 0,
+        val isRegular: Boolean = false
     ) : DrawPathMode(12)
 
     data class OutlinedPolygon(
         val vertices: Int = 5,
-        val rotationDegrees: Int = 0
+        val rotationDegrees: Int = 0,
+        val isRegular: Boolean = false
     ) : DrawPathMode(13)
 
     val isStroke: Boolean
-        get() = this !in listOf(Lasso, Rect, Oval, Triangle)
+        get() = listOf(Lasso, Rect, Oval, Triangle, Polygon()).all { !it::class.isInstance(this) }
 
     companion object {
         val entries by lazy {

@@ -72,6 +72,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.EnhancedSliderItem
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 import ru.tech.imageresizershrinker.core.ui.widget.sheets.SimpleSheet
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.TitleItem
@@ -134,7 +135,7 @@ fun DrawPathModeSelector(
                 )
             },
             indexChanged = {
-                onValueChange(values[it])
+                onValueChange(values[it].saveState(value))
             }
         )
         AnimatedVisibility(
@@ -180,7 +181,25 @@ fun DrawPathModeSelector(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp),
-                    shape = ContainerShapeDefaults.bottomShape
+                    shape = ContainerShapeDefaults.centerShape
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                PreferenceRowSwitch(
+                    title = stringResource(R.string.draw_regular_polygon),
+                    subtitle = stringResource(R.string.draw_regular_polygon_sub),
+                    checked = value.isRegular(),
+                    onClick = {
+                        onValueChange(
+                            value.updatePolygon(isRegular = it)
+                        )
+                    },
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = ContainerShapeDefaults.bottomShape,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    resultModifier = Modifier.padding(16.dp),
+                    applyHorPadding = false
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -236,6 +255,28 @@ fun DrawPathModeSelector(
     )
 }
 
+private fun DrawPathMode.saveState(
+    value: DrawPathMode
+): DrawPathMode = when {
+    value is DrawPathMode.Polygon && this is DrawPathMode.OutlinedPolygon -> {
+        copy(
+            vertices = value.vertices,
+            rotationDegrees = value.rotationDegrees,
+            isRegular = value.isRegular
+        )
+    }
+
+    value is DrawPathMode.OutlinedPolygon && this is DrawPathMode.Polygon -> {
+        copy(
+            vertices = value.vertices,
+            rotationDegrees = value.rotationDegrees,
+            isRegular = value.isRegular
+        )
+    }
+
+    else -> this
+}
+
 private fun DrawPathMode.vertices(): Int = when (this) {
     is DrawPathMode.Polygon -> vertices
     is DrawPathMode.OutlinedPolygon -> vertices
@@ -248,21 +289,30 @@ private fun DrawPathMode.rotationDegrees(): Int = when (this) {
     else -> 0
 }
 
+private fun DrawPathMode.isRegular(): Boolean = when (this) {
+    is DrawPathMode.Polygon -> isRegular
+    is DrawPathMode.OutlinedPolygon -> isRegular
+    else -> false
+}
+
 private fun DrawPathMode.updatePolygon(
     vertices: Int? = null,
-    rotationDegree: Int? = null
+    rotationDegree: Int? = null,
+    isRegular: Boolean? = null
 ) = when (this) {
     is DrawPathMode.Polygon -> {
         copy(
             vertices = vertices ?: this.vertices,
-            rotationDegrees = rotationDegree ?: this.rotationDegrees
+            rotationDegrees = rotationDegree ?: this.rotationDegrees,
+            isRegular = isRegular ?: this.isRegular
         )
     }
 
     is DrawPathMode.OutlinedPolygon -> {
         copy(
             vertices = vertices ?: this.vertices,
-            rotationDegrees = rotationDegree ?: this.rotationDegrees
+            rotationDegrees = rotationDegree ?: this.rotationDegrees,
+            isRegular = isRegular ?: this.isRegular
         )
     }
 

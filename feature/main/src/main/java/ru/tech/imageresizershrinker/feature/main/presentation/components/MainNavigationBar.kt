@@ -31,6 +31,8 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
@@ -52,10 +54,16 @@ internal fun MainNavigationBar(
     ) {
         Screen.typedEntries.forEachIndexed { index, (_, data) ->
             val selected = index == selectedIndex
+            val haptics = LocalHapticFeedback.current
             NavigationBarItem(
                 modifier = Modifier.weight(1f),
                 selected = selected,
-                onClick = { onValueChange(index) },
+                onClick = {
+                    onValueChange(index)
+                    haptics.performHapticFeedback(
+                        HapticFeedbackType.LongPress
+                    )
+                },
                 icon = {
                     AnimatedContent(
                         targetState = selected,

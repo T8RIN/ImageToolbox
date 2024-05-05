@@ -1071,4 +1071,6 @@
     <string name="outlined_polygon">Outlined Polygon</string>
     <string name="outlined_polygon_sub">Draws outlined polygon from start point to end point</string>
     <string name="vertices">Vertices</string>
+    <string name="draw_regular_polygon">Draw Regular Polygon</string>
+    <string name="draw_regular_polygon_sub">Draw polygon which will be regular instead of free form</string>
 </resources>
