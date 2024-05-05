@@ -304,6 +304,7 @@ or click one of the badges below.
   - Oval
   - Lasso
   - Text
+  - Image Brush
 - Image Resizing
   - Width changing
   - Height changing
