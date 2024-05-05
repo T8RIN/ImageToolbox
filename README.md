@@ -300,8 +300,10 @@ or click one of the badges below.
   - Double Line Pointing Arrow
   - Outlined Rect
   - Outlined Oval
+  - Outlined Triangle
   - Rect
   - Oval
+  - Triangle
   - Lasso
   - Text
   - Image Brush
