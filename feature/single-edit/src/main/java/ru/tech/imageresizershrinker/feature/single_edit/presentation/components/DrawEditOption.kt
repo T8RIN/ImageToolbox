@@ -225,21 +225,27 @@ fun DrawEditOption(
                         showPickColorSheet.value = true
                     }
                 )
-                LineWidthSelector(
-                    modifier = Modifier.padding(
-                        start = 16.dp,
-                        end = 16.dp,
-                        top = 16.dp
-                    ),
-                    title = if (drawMode is DrawMode.Text) {
-                        stringResource(R.string.font_size)
-                    } else stringResource(R.string.line_width),
-                    valueRange = if (drawMode is DrawMode.Image) {
-                        10f..120f
-                    } else 1f..100f,
-                    value = strokeWidth.value,
-                    onValueChange = { strokeWidth = it.pt }
-                )
+                AnimatedVisibility(
+                    visible = drawPathMode.isStroke,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    LineWidthSelector(
+                        modifier = Modifier.padding(
+                            start = 16.dp,
+                            end = 16.dp,
+                            top = 16.dp
+                        ),
+                        title = if (drawMode is DrawMode.Text) {
+                            stringResource(R.string.font_size)
+                        } else stringResource(R.string.line_width),
+                        valueRange = if (drawMode is DrawMode.Image) {
+                            10f..120f
+                        } else 1f..100f,
+                        value = strokeWidth.value,
+                        onValueChange = { strokeWidth = it.pt }
+                    )
+                }
                 AnimatedVisibility(
                     visible = drawMode !is DrawMode.Highlighter && drawMode !is DrawMode.PathEffect,
                     enter = fadeIn() + expandVertically(),
@@ -300,7 +306,8 @@ fun DrawEditOption(
                                     DrawPathMode.Free,
                                     DrawPathMode.Line,
                                     DrawPathMode.OutlinedRect,
-                                    DrawPathMode.OutlinedOval
+                                    DrawPathMode.OutlinedOval,
+                                    DrawPathMode.OutlinedTriangle
                                 )
                             }
                         }

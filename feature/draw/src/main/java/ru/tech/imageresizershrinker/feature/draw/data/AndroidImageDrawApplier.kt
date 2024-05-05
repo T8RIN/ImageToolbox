@@ -122,7 +122,8 @@ internal class AndroidImageDrawApplier @Inject constructor(
                     val isFilled = listOf(
                         DrawPathMode.Rect,
                         DrawPathMode.Oval,
-                        DrawPathMode.Lasso
+                        DrawPathMode.Lasso,
+                        DrawPathMode.Triangle
                     ).any { pathMode::class.isInstance(it) }
 
                     if (drawMode is DrawMode.PathEffect && !isErasing) {

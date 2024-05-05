@@ -1062,4 +1062,8 @@
     <string name="dash_size">Dash Size</string>
     <string name="draw_mode_image_sub">Use selected image to draw it along given path</string>
     <string name="draw_image_sub">This image will be used as repetitive entry of drawn path</string>
+    <string name="outlined_triangle_sub">Draws outlined triangle from start point to end point</string>
+    <string name="triangle_sub">Draws outlined triangle from start point to end point</string>
+    <string name="outlined_triangle">Outlined Triangle</string>
+    <string name="triangle">Triangle</string>
 </resources>

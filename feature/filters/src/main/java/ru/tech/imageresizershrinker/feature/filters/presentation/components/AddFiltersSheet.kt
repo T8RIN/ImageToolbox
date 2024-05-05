@@ -725,7 +725,7 @@ fun AddFiltersSheet(
                                 FilterItem(
                                     backgroundColor = MaterialTheme
                                         .colorScheme
-                                        .surfaceContainerHigh,
+                                        .surface,
                                     modifier = Modifier.padding(horizontal = 16.dp),
                                     filter = it,
                                     showDragHandle = false,

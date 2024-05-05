@@ -30,6 +30,11 @@ sealed class DrawPathMode(open val ordinal: Int) {
     data object OutlinedOval : DrawPathMode(7)
     data object Rect : DrawPathMode(8)
     data object Oval : DrawPathMode(9)
+    data object Triangle : DrawPathMode(10)
+    data object OutlinedTriangle : DrawPathMode(11)
+
+    val isStroke: Boolean
+        get() = this !in listOf(Lasso, Rect, Oval, Triangle)
 
     companion object {
         val entries by lazy {
@@ -43,8 +48,10 @@ sealed class DrawPathMode(open val ordinal: Int) {
                 Lasso,
                 OutlinedRect,
                 OutlinedOval,
+                OutlinedTriangle,
                 Rect,
-                Oval
+                Oval,
+                Triangle
             )
         }
 

@@ -57,6 +57,7 @@ import ru.tech.imageresizershrinker.core.resources.icons.Line
 import ru.tech.imageresizershrinker.core.resources.icons.LineArrow
 import ru.tech.imageresizershrinker.core.resources.icons.LineDoubleArrow
 import ru.tech.imageresizershrinker.core.resources.icons.Square
+import ru.tech.imageresizershrinker.core.resources.icons.Triangle
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.SupportingButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ToggleGroupButton
@@ -190,6 +191,8 @@ private fun DrawPathMode.getSubtitle(): Int =
         DrawPathMode.Oval -> R.string.oval_sub
         DrawPathMode.Rect -> R.string.rect_sub
         DrawPathMode.Lasso -> R.string.lasso_sub
+        DrawPathMode.OutlinedTriangle -> R.string.outlined_triangle_sub
+        DrawPathMode.Triangle -> R.string.triangle_sub
     }
 
 private fun DrawPathMode.getTitle(): Int =
@@ -205,6 +208,8 @@ private fun DrawPathMode.getTitle(): Int =
         DrawPathMode.Oval -> R.string.oval
         DrawPathMode.Rect -> R.string.rect
         DrawPathMode.Lasso -> R.string.lasso
+        DrawPathMode.OutlinedTriangle -> R.string.outlined_triangle
+        DrawPathMode.Triangle -> R.string.triangle
     }
 
 private fun DrawPathMode.getIcon(): ImageVector =
@@ -220,4 +225,6 @@ private fun DrawPathMode.getIcon(): ImageVector =
         DrawPathMode.Oval -> Icons.Rounded.Circle
         DrawPathMode.Rect -> Icons.Rounded.Square
         DrawPathMode.Lasso -> Icons.Rounded.Lasso
+        DrawPathMode.Triangle -> Icons.Rounded.Triangle
+        DrawPathMode.OutlinedTriangle -> Icons.Outlined.Triangle
     }

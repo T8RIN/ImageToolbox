@@ -306,7 +306,8 @@ fun BitmapDrawer(
                     val isFilled = listOf(
                         DrawPathMode.Rect,
                         DrawPathMode.Oval,
-                        DrawPathMode.Lasso
+                        DrawPathMode.Lasso,
+                        DrawPathMode.Triangle
                     ).any { drawPathMode::class.isInstance(it) }
 
                     Paint().apply {
@@ -480,6 +481,25 @@ fun BitmapDrawer(
                                             lineTo(right, bottom)
                                             lineTo(left, bottom)
                                             lineTo(left, top)
+                                            close()
+                                        }
+                                        drawPath = newPath
+                                    }
+                                }
+
+                                DrawPathMode.Triangle,
+                                DrawPathMode.OutlinedTriangle -> {
+                                    if (drawDownPosition.isSpecified && currentDrawPosition.isSpecified) {
+                                        val newPath = Path().apply {
+                                            moveTo(drawDownPosition.x, drawDownPosition.y)
+
+                                            lineTo(currentDrawPosition.x, drawDownPosition.y)
+                                            lineTo(
+                                                (drawDownPosition.x + currentDrawPosition.x) / 2,
+                                                currentDrawPosition.y
+                                            )
+                                            lineTo(drawDownPosition.x, drawDownPosition.y)
+                                            close()
                                         }
                                         drawPath = newPath
                                     }
@@ -589,8 +609,27 @@ fun BitmapDrawer(
                                             lineTo(right, bottom)
                                             lineTo(left, bottom)
                                             lineTo(left, top)
+                                            close()
                                         }
                                         drawPath = newPath
+                                    }
+
+                                    DrawPathMode.Triangle,
+                                    DrawPathMode.OutlinedTriangle -> {
+                                        if (drawDownPosition.isSpecified && currentDrawPosition.isSpecified) {
+                                            val newPath = Path().apply {
+                                                moveTo(drawDownPosition.x, drawDownPosition.y)
+
+                                                lineTo(currentDrawPosition.x, drawDownPosition.y)
+                                                lineTo(
+                                                    (drawDownPosition.x + currentDrawPosition.x) / 2,
+                                                    currentDrawPosition.y
+                                                )
+                                                lineTo(drawDownPosition.x, drawDownPosition.y)
+                                                close()
+                                            }
+                                            drawPath = newPath
+                                        }
                                     }
 
                                     DrawPathMode.Oval,
@@ -689,7 +728,8 @@ fun BitmapDrawer(
                                 listOf(
                                     DrawPathMode.Rect,
                                     DrawPathMode.Oval,
-                                    DrawPathMode.Lasso
+                                    DrawPathMode.Lasso,
+                                    DrawPathMode.Triangle
                                 ).any { pathMode::class.isInstance(it) }
                             }
                         }
@@ -929,7 +969,8 @@ fun BitmapDrawer(
                                 listOf(
                                     DrawPathMode.Rect,
                                     DrawPathMode.Oval,
-                                    DrawPathMode.Lasso
+                                    DrawPathMode.Lasso,
+                                    DrawPathMode.Triangle
                                 ).any { drawPathMode::class.isInstance(it) }
                             }
                         }
