@@ -1022,7 +1022,7 @@
     <string name="tag_subject_distance_range">主体距离范围</string>
     <string name="tag_body_serial_number">机身序列号</string>
     <string name="tag_gps_latitude">GPS纬度</string>
-    <string name="tag_gps_longitude_ref">GPS东西经</string>
+    <string name="tag_gps_longitude_ref">GPS经度参考</string>
     <string name="tag_gps_longitude">GPS经度</string>
     <string name="tag_gps_altitude_ref">海拔参照值</string>
     <string name="tag_gps_altitude">GPS海拔</string>
