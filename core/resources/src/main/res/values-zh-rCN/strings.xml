@@ -900,8 +900,8 @@
     <string name="tag_bits_per_sample">每个采样比特</string>
     <string name="tag_samples_per_pixel">每像素样本数</string>
     <string name="tag_planar_configuration">数据排列方式</string>
-    <string name="tag_y_cb_cr_sub_sampling">Y Cb Cr 次采样</string>
-    <string name="tag_y_cb_cr_positioning">Y Cb Cr 定位</string>
+    <string name="tag_y_cb_cr_sub_sampling">色度抽样</string>
+    <string name="tag_y_cb_cr_positioning">色度抽样位置</string>
     <string name="tag_x_resolution">X 分辨率</string>
     <string name="tag_y_resolution">Y 分辨率</string>
     <string name="tag_strip_offsets">带状偏移</string>
