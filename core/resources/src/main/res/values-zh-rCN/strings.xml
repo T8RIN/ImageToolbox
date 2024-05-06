@@ -959,7 +959,7 @@
     <string name="tag_lens_make">镜头制造商</string>
     <string name="tag_lens_serial_number">镜头序列号</string>
     <string name="tag_gps_version_id">GPS版本ID</string>
-    <string name="tag_gps_latitude_ref">GPS南北纬</string>
+    <string name="tag_gps_latitude_ref">GPS纬度参考</string>
     <string name="tag_gps_timestamp">GPS时间戳</string>
     <string name="tag_gps_status">GPS接收器状态</string>
     <string name="tag_gps_measure_mode">GPS测量模式</string>
