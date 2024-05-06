@@ -301,9 +301,13 @@ or click one of the badges below.
   - Outlined Rect
   - Outlined Oval
   - Outlined Triangle
+  - Outlined Polygon
+  - Outlined Star
   - Rect
   - Oval
   - Triangle
+  - Polygon
+  - Star
   - Lasso
   - Text
   - Image Brush
