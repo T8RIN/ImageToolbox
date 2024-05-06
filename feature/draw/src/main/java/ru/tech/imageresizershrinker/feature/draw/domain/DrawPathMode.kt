@@ -48,20 +48,20 @@ sealed class DrawPathMode(open val ordinal: Int) {
     data class Star(
         val vertices: Int = 5,
         val rotationDegrees: Int = 0,
-        val innerRadiusRatio: Float = 0.5f
+        val innerRadiusRatio: Float = 0.5f,
+        val isRegular: Boolean = false
     ) : DrawPathMode(14)
 
     data class OutlinedStar(
         val vertices: Int = 5,
         val rotationDegrees: Int = 0,
-        val innerRadiusRatio: Float = 0.5f
+        val innerRadiusRatio: Float = 0.5f,
+        val isRegular: Boolean = false
     ) : DrawPathMode(15)
 
     val isStroke: Boolean
         get() = listOf(Lasso, Rect, Oval, Triangle, Polygon(), Star()).all {
-            !it::class.isInstance(
-                this
-            )
+            !it::class.isInstance(this)
         }
 
     companion object {

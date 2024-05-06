@@ -1078,4 +1078,6 @@
     <string name="outlined_star">Outlined Star</string>
     <string name="outlined_star_sub">Draws outlined star from start point to end point</string>
     <string name="inner_radius_ratio">Inner Radius Ratio</string>
+    <string name="draw_regular_star">Draw Regular Star</string>
+    <string name="draw_regular_star_sub">Draw star which will be regular instead of free form</string>
 </resources>

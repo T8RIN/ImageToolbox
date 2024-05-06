@@ -267,7 +267,25 @@ fun DrawPathModeSelector(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp),
-                    shape = ContainerShapeDefaults.bottomShape
+                    shape = ContainerShapeDefaults.centerShape
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                PreferenceRowSwitch(
+                    title = stringResource(R.string.draw_regular_star),
+                    subtitle = stringResource(R.string.draw_regular_polygon_sub),
+                    checked = value.isRegular(),
+                    onClick = {
+                        onValueChange(
+                            value.updateStar(isRegular = it)
+                        )
+                    },
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = ContainerShapeDefaults.bottomShape,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                    resultModifier = Modifier.padding(16.dp),
+                    applyHorPadding = false
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -346,7 +364,8 @@ private fun DrawPathMode.saveState(
         copy(
             vertices = value.vertices,
             innerRadiusRatio = innerRadiusRatio,
-            rotationDegrees = value.rotationDegrees
+            rotationDegrees = value.rotationDegrees,
+            isRegular = value.isRegular
         )
     }
 
@@ -354,7 +373,8 @@ private fun DrawPathMode.saveState(
         copy(
             vertices = value.vertices,
             innerRadiusRatio = innerRadiusRatio,
-            rotationDegrees = value.rotationDegrees
+            rotationDegrees = value.rotationDegrees,
+            isRegular = value.isRegular
         )
     }
 
@@ -380,6 +400,8 @@ private fun DrawPathMode.rotationDegrees(): Int = when (this) {
 private fun DrawPathMode.isRegular(): Boolean = when (this) {
     is DrawPathMode.Polygon -> isRegular
     is DrawPathMode.OutlinedPolygon -> isRegular
+    is DrawPathMode.Star -> isRegular
+    is DrawPathMode.OutlinedStar -> isRegular
     else -> false
 }
 
@@ -417,12 +439,14 @@ private fun DrawPathMode.updateStar(
     vertices: Int? = null,
     innerRadiusRatio: Float? = null,
     rotationDegree: Int? = null,
+    isRegular: Boolean? = null
 ) = when (this) {
     is DrawPathMode.Star -> {
         copy(
             vertices = vertices ?: this.vertices,
             innerRadiusRatio = innerRadiusRatio ?: this.innerRadiusRatio,
-            rotationDegrees = rotationDegree ?: this.rotationDegrees
+            rotationDegrees = rotationDegree ?: this.rotationDegrees,
+            isRegular = isRegular ?: this.isRegular
         )
     }
 
@@ -430,7 +454,8 @@ private fun DrawPathMode.updateStar(
         copy(
             vertices = vertices ?: this.vertices,
             innerRadiusRatio = innerRadiusRatio ?: this.innerRadiusRatio,
-            rotationDegrees = rotationDegree ?: this.rotationDegrees
+            rotationDegrees = rotationDegree ?: this.rotationDegrees,
+            isRegular = isRegular ?: this.isRegular
         )
     }
 
