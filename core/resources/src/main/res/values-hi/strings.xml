@@ -1048,4 +1048,16 @@
     <string name="triangle_sub">आरंभ बिंदु से अंत बिंदु तक रेखांकित त्रिभुज बनाता है</string>
     <string name="outlined_triangle">रेखांकित त्रिभुज</string>
     <string name="triangle">त्रिभुज</string>
+    <string name="vertices">शिखर</string>
+    <string name="polygon">बहुभुज</string>
+    <string name="polygon_sub">प्रारंभ बिंदु से अंतिम बिंदु तक बहुभुज बनाता है</string>
+    <string name="outlined_polygon">रेखांकित बहुभुज</string>
+    <string name="outlined_polygon_sub">प्रारंभ बिंदु से अंत बिंदु तक रेखांकित बहुभुज बनाता है</string>
+    <string name="draw_regular_polygon_sub">बहुभुज बनाएं जो मुक्त रूप के बजाय नियमित होगा</string>
+    <string name="star_sub">प्रारंभ बिंदु से अंतिम बिंदु तक तारा खींचता है</string>
+    <string name="star">तारा</string>
+    <string name="draw_regular_polygon">नियमित बहुभुज बनाएं</string>
+    <string name="outlined_star">रेखांकित तारा</string>
+    <string name="inner_radius_ratio">आंतरिक त्रिज्या अनुपात</string>
+    <string name="outlined_star_sub">प्रारंभ बिंदु से अंतिम बिंदु तक रेखांकित तारा बनाता है</string>
 </resources>
