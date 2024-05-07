@@ -1062,4 +1062,6 @@
     <string name="inner_radius_ratio">内部半径比</string>
     <string name="draw_regular_star_sub">绘制规则而非自由形状的星星</string>
     <string name="draw_regular_star">绘制规则星形</string>
+    <string name="antialias">抗锯齿</string>
+    <string name="antialias_sub">启用抗锯齿功能以防止出现尖锐边缘</string>
 </resources>
