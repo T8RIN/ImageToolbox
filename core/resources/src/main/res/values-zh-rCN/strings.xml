@@ -1060,4 +1060,6 @@
     <string name="outlined_star">星形轮廓</string>
     <string name="outlined_star_sub">绘制从起点到终点的星形轮廓图</string>
     <string name="inner_radius_ratio">内部半径比</string>
+    <string name="draw_regular_star_sub">绘制规则而非自由形状的星星</string>
+    <string name="draw_regular_star">绘制规则星形</string>
 </resources>
