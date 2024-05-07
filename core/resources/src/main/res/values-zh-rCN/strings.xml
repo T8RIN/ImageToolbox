@@ -1024,7 +1024,7 @@
     <string name="tag_gps_latitude">GPS纬度</string>
     <string name="tag_gps_longitude_ref">GPS经度参考</string>
     <string name="tag_gps_longitude">GPS经度</string>
-    <string name="tag_gps_altitude_ref">海拔参照值</string>
+    <string name="tag_gps_altitude_ref">GPS海拔参照值</string>
     <string name="tag_gps_altitude">GPS海拔</string>
     <string name="tag_gps_satellites">GPS接收卫星</string>
     <string name="tag_gps_track_ref">GPS移动方位参照</string>
@@ -1060,4 +1060,6 @@
     <string name="outlined_star">星形轮廓</string>
     <string name="outlined_star_sub">绘制从起点到终点的星形轮廓图</string>
     <string name="inner_radius_ratio">内部半径比</string>
+    <string name="draw_regular_star_sub">绘制规则而非自由形状的星星</string>
+    <string name="draw_regular_star">绘制规则星形</string>
 </resources>
