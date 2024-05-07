@@ -42,7 +42,7 @@
     <string name="image">图片</string>
     <string name="color">颜色</string>
     <string name="color_copied">颜色代码已复制</string>
-    <string name="crop_sub">将图片裁剪至任何大小</string>
+    <string name="crop_sub">将图片裁剪至任意大小</string>
     <string name="version">版本号</string>
     <string name="keep_exif">保留 EXIF 信息</string>
     <string name="images">图片数量：%d</string>
@@ -281,7 +281,7 @@
     <string name="group_options_by_type_sub">对主屏幕上的选项按选项类型分组，代替按自定义列表排列</string>
     <string name="cannot_change_arrangement_while_options_grouping_enabled">启用功能分组时无法更改排列</string>
     <string name="create">创作</string>
-    <string name="cipher_sub">基于AES密码算法对任何文件（不仅仅是图像）进行加密和解密</string>
+    <string name="cipher_sub">基于 AES 密码算法对任何文件（不限于图像）进行加密和解密</string>
     <string name="store_file_desc">将此文件存储在您的设备上，或使用共享操作将其传送至任何位置</string>
     <string name="file_size_sub">最大文件大小受 Android 系统和可用内存的限制，这取决于您的设备。
 \n请注意：内存 (RAM) 不是存储 (ROM)。</string>
