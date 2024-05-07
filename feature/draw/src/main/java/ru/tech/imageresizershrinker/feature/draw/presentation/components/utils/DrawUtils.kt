@@ -248,7 +248,7 @@ fun NativeCanvas.drawRepeatedImageOnPath(
     paint: NativePaint,
 ) {
     val context = LocalContext.current
-    var pathImage by remember(drawMode, strokeWidth, canvasSize) {
+    var pathImage by remember(strokeWidth, canvasSize) {
         mutableStateOf<Bitmap?>(null)
     }
     val imageLoader = LocalImageLoader.current

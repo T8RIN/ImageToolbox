@@ -273,7 +273,7 @@ fun DrawModeSelector(
                     color = MaterialTheme.colorScheme.surface
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                val dashMinimum = -(strokeWidth.value / 2 - 2).toInt().toFloat()
+                val dashMinimum = -((strokeWidth.value * 0.9f) / 2).toInt().toFloat()
                 LaunchedEffect(dashMinimum, value) {
                     if (value is DrawMode.Image && value.repeatingInterval < dashMinimum.pt) {
                         onValueChange(
