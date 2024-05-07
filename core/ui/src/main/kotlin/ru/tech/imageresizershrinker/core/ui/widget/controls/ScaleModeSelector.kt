@@ -36,6 +36,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -73,6 +75,9 @@ fun ScaleModeSelector(
     titlePadding: PaddingValues = PaddingValues(top = 8.dp),
     titleArrangement: Arrangement.Horizontal = Arrangement.Center,
     onValueChange: (ImageScaleMode) -> Unit,
+    entries: List<ImageScaleMode> = remember {
+        ImageScaleMode.entries
+    },
     title: @Composable RowScope.() -> Unit = {
         Text(
             text = stringResource(R.string.scale_mode),
@@ -82,9 +87,6 @@ fun ScaleModeSelector(
     }
 ) {
     val state = rememberSaveable { mutableStateOf(false) }
-    val items = remember {
-        ImageScaleMode.entries
-    }
     val settingsState = LocalSettingsState.current
 
     LaunchedEffect(settingsState) {
@@ -141,12 +143,17 @@ fun ScaleModeSelector(
                     } else Modifier.padding(8.dp)
                 )
         ) {
-            items.forEach {
+            entries.forEach {
+                val selected by remember(value, it) {
+                    derivedStateOf {
+                        value::class.isInstance(it)
+                    }
+                }
                 EnhancedChip(
                     onClick = {
-                        onValueChange(it)
+                        onValueChange(it.copy(value.isAntialiasingEnabled))
                     },
-                    selected = it == value,
+                    selected = selected,
                     label = {
                         Text(text = it.title)
                     },
@@ -190,14 +197,14 @@ fun ScaleModeSelector(
                     .padding(8.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                items.forEachIndexed { index, item ->
+                entries.forEachIndexed { index, item ->
                     Column(
                         Modifier
                             .fillMaxWidth()
                             .container(
                                 shape = ContainerShapeDefaults.shapeForIndex(
                                     index,
-                                    items.size
+                                    entries.size
                                 ),
                                 resultPadding = 0.dp
                             )
