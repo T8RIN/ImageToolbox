@@ -1062,4 +1062,6 @@
     <string name="outlined_star_sub">प्रारंभ बिंदु से अंतिम बिंदु तक रेखांकित तारा बनाता है</string>
     <string name="draw_regular_star">नियमित तारा बनाएं</string>
     <string name="draw_regular_star_sub">तारा बनाएं जो मुक्त रूप के बजाय नियमित होगा</string>
+    <string name="antialias">एंटीएलियास</string>
+    <string name="antialias_sub">तेज किनारों को रोकने के लिए एंटीएलियासिंग सक्षम करता है</string>
 </resources>
