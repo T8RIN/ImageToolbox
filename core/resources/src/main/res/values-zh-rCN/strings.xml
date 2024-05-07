@@ -1024,7 +1024,7 @@
     <string name="tag_gps_latitude">GPS纬度</string>
     <string name="tag_gps_longitude_ref">GPS经度参考</string>
     <string name="tag_gps_longitude">GPS经度</string>
-    <string name="tag_gps_altitude_ref">海拔参照值</string>
+    <string name="tag_gps_altitude_ref">GPS海拔参照值</string>
     <string name="tag_gps_altitude">GPS海拔</string>
     <string name="tag_gps_satellites">GPS接收卫星</string>
     <string name="tag_gps_track_ref">GPS移动方位参照</string>
