@@ -35,7 +35,7 @@ google-segmentationSelfie = "16.0.0-beta5"
 detekt = "1.23.6"
 detektCompose = "0.3.20"
 
-kotlin = "1.9.23"
+kotlin = "1.9.24"
 agp = "8.4.0"
 hilt = "2.51.1"
 gms = "4.4.1"
