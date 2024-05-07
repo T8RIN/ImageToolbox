@@ -18,50 +18,156 @@
 package ru.tech.imageresizershrinker.core.domain.image.model
 
 sealed class ImageScaleMode(val value: Int) {
-    data object NotPresent : ImageScaleMode(-2)
-    data object Bilinear : ImageScaleMode(0)
-    data object Nearest : ImageScaleMode(1)
-    data object Spline : ImageScaleMode(2)
-    data object Mitchell : ImageScaleMode(3)
-    data object Lanczos : ImageScaleMode(4)
-    data object Catmull : ImageScaleMode(5)
-    data object Hermite : ImageScaleMode(6)
-    data object BSpline : ImageScaleMode(7)
-    data object Hann : ImageScaleMode(8)
-    data object Bicubic : ImageScaleMode(9)
-    data object LanczosBessel : ImageScaleMode(10)
+
+    abstract val isAntialiasingEnabled: Boolean
+
+    abstract fun copy(
+        isAntialiasingEnabled: Boolean = this.isAntialiasingEnabled
+    ): ImageScaleMode
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as ImageScaleMode
+
+        return isAntialiasingEnabled == other.isAntialiasingEnabled
+    }
+
+    override fun hashCode(): Int {
+        return isAntialiasingEnabled.hashCode()
+    }
+
+    object NotPresent : ImageScaleMode(-2) {
+        override val isAntialiasingEnabled: Boolean
+            get() = false
+
+        override fun copy(
+            isAntialiasingEnabled: Boolean
+        ): ImageScaleMode = NotPresent
+
+        override fun toString(): String = "NotPresent"
+    }
+
+    class Bilinear(
+        override val isAntialiasingEnabled: Boolean = true
+    ) : ImageScaleMode(0) {
+        override fun copy(
+            isAntialiasingEnabled: Boolean
+        ): ImageScaleMode = Bilinear(isAntialiasingEnabled)
+    }
+
+    class Nearest(
+        override val isAntialiasingEnabled: Boolean = true
+    ) : ImageScaleMode(1) {
+        override fun copy(
+            isAntialiasingEnabled: Boolean
+        ): ImageScaleMode = Nearest(isAntialiasingEnabled)
+    }
+
+    class Spline(
+        override val isAntialiasingEnabled: Boolean = true
+    ) : ImageScaleMode(2) {
+        override fun copy(
+            isAntialiasingEnabled: Boolean
+        ): ImageScaleMode = Spline(isAntialiasingEnabled)
+    }
+
+    class Mitchell(
+        override val isAntialiasingEnabled: Boolean = true
+    ) : ImageScaleMode(3) {
+        override fun copy(
+            isAntialiasingEnabled: Boolean
+        ): ImageScaleMode = Mitchell(isAntialiasingEnabled)
+    }
+
+    class Lanczos(
+        override val isAntialiasingEnabled: Boolean = true
+    ) : ImageScaleMode(4) {
+        override fun copy(
+            isAntialiasingEnabled: Boolean
+        ): ImageScaleMode = Lanczos(isAntialiasingEnabled)
+    }
+
+    class Catmull(
+        override val isAntialiasingEnabled: Boolean = true
+    ) : ImageScaleMode(5) {
+        override fun copy(
+            isAntialiasingEnabled: Boolean
+        ): ImageScaleMode = Catmull(isAntialiasingEnabled)
+    }
+
+    class Hermite(
+        override val isAntialiasingEnabled: Boolean = true
+    ) : ImageScaleMode(6) {
+        override fun copy(
+            isAntialiasingEnabled: Boolean
+        ): ImageScaleMode = Hermite(isAntialiasingEnabled)
+    }
+
+    class BSpline(
+        override val isAntialiasingEnabled: Boolean = true
+    ) : ImageScaleMode(7) {
+        override fun copy(
+            isAntialiasingEnabled: Boolean
+        ): ImageScaleMode = BSpline(isAntialiasingEnabled)
+    }
+
+    class Hann(
+        override val isAntialiasingEnabled: Boolean = true
+    ) : ImageScaleMode(8) {
+        override fun copy(
+            isAntialiasingEnabled: Boolean
+        ): ImageScaleMode = Hann(isAntialiasingEnabled)
+    }
+
+    class Bicubic(
+        override val isAntialiasingEnabled: Boolean = true
+    ) : ImageScaleMode(9) {
+        override fun copy(
+            isAntialiasingEnabled: Boolean
+        ): ImageScaleMode = Bicubic(isAntialiasingEnabled)
+    }
+
+    class LanczosBessel(
+        override val isAntialiasingEnabled: Boolean = true
+    ) : ImageScaleMode(10) {
+        override fun copy(
+            isAntialiasingEnabled: Boolean
+        ): ImageScaleMode = LanczosBessel(isAntialiasingEnabled)
+    }
 
     companion object {
-        val Default = Bilinear
+        val Default = Bilinear()
 
         val entries by lazy {
             listOf(
-                Bilinear,
-                Nearest,
-                Spline,
-                Mitchell,
-                Lanczos,
-                Catmull,
-                Hermite,
-                BSpline,
-                Hann,
-                Bicubic,
-                LanczosBessel
+                Bilinear(),
+                Nearest(),
+                Spline(),
+                Mitchell(),
+                Lanczos(),
+                Catmull(),
+                Hermite(),
+                BSpline(),
+                Hann(),
+                Bicubic(),
+                LanczosBessel()
             )
         }
 
         fun fromInt(value: Int): ImageScaleMode = when (value) {
-            0 -> Bilinear
-            1 -> Nearest
-            2 -> Spline
-            3 -> Mitchell
-            4 -> Lanczos
-            5 -> Catmull
-            6 -> Hermite
-            7 -> BSpline
-            8 -> Hann
-            9 -> Bicubic
-            10 -> LanczosBessel
+            0 -> Bilinear()
+            1 -> Nearest()
+            2 -> Spline()
+            3 -> Mitchell()
+            4 -> Lanczos()
+            5 -> Catmull()
+            6 -> Hermite()
+            7 -> BSpline()
+            8 -> Hann()
+            9 -> Bicubic()
+            10 -> LanczosBessel()
 
             else -> NotPresent
         }

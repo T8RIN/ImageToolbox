@@ -124,7 +124,7 @@ internal class AndroidImageScaler @Inject constructor(
             image = image,
             height = height,
             width = width,
-            imageScaleMode = ImageScaleMode.Bicubic
+            imageScaleMode = ImageScaleMode.Bicubic()
         )
     }
 
@@ -235,7 +235,7 @@ internal class AndroidImageScaler @Inject constructor(
             scaleMode = BitmapScaleMode.entries.firstOrNull {
                 it.ordinal == mode.value
             } ?: BitmapScaleMode.Bilinear,
-            antialias = true
+            antialias = mode.isAntialiasingEnabled
         )
     }
 
