@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.res.ResourcesCompat
+import coil.request.ImageRequest
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ImageUtils.toBitmap
 import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
@@ -252,19 +253,19 @@ fun NativeCanvas.drawRepeatedImageOnPath(
         mutableStateOf<Bitmap?>(null)
     }
     val imageLoader = LocalImageLoader.current
-    LaunchedEffect(pathImage, drawMode, strokeWidth, canvasSize, context) {
+    LaunchedEffect(pathImage, drawMode.imageData, strokeWidth, canvasSize) {
         if (pathImage == null) {
             pathImage = imageLoader.execute(
-                coil.request.ImageRequest.Builder(context)
+                ImageRequest.Builder(context)
                     .data(drawMode.imageData)
                     .size(strokeWidth.toPx(canvasSize).roundToInt())
                     .build()
             ).drawable?.toBitmap()
         }
     }
-    if (pathImage != null) {
+    pathImage?.let { bitmap ->
         drawRepeatedBitmapOnPath(
-            bitmap = pathImage!!,
+            bitmap = bitmap,
             path = path,
             paint = paint,
             interval = drawMode.repeatingInterval.toPx(canvasSize)
