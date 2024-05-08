@@ -37,7 +37,6 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.domain.PathPaint
 import ru.tech.imageresizershrinker.feature.filters.domain.FilterMask
 import ru.tech.imageresizershrinker.feature.filters.domain.FilterMaskApplier
@@ -97,19 +96,9 @@ internal class AndroidFilterMaskApplier @Inject constructor(
                     oldSize = pathPaint.canvasSize
                 )
                 val pathMode = pathPaint.drawPathMode
-                val isRect = listOf(
-                    DrawPathMode.OutlinedRect,
-                    DrawPathMode.OutlinedOval,
-                    DrawPathMode.Rect,
-                    DrawPathMode.Oval,
-                    DrawPathMode.Lasso
-                ).any { pathMode::class.isInstance(it) }
+                val isRect = pathMode.isRect
 
-                val isFilled = listOf(
-                    DrawPathMode.Rect,
-                    DrawPathMode.Oval,
-                    DrawPathMode.Lasso
-                ).any { pathMode::class.isInstance(it) }
+                val isFilled = !pathMode.isStroke
 
                 drawPath(
                     path,

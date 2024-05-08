@@ -62,6 +62,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.smarttoolfactory.gesture.MotionEvent
 import com.smarttoolfactory.gesture.pointerMotionEvents
+import jp.co.cyberagent.android.gpuimage.GPUImageNativeLibrary
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.ZoomState
 import net.engawapg.lib.zoomable.ZoomableDefaults.defaultZoomOnDoubleTap
@@ -320,7 +321,9 @@ fun BitmapDrawer(
                     MotionEvent.Down -> {
                         if (currentDrawPosition.isSpecified) {
                             onDrawStart()
-                            drawPath.moveTo(currentDrawPosition.x, currentDrawPosition.y)
+                            if (drawPathMode !is DrawPathMode.FloodFill) {
+                                drawPath.moveTo(currentDrawPosition.x, currentDrawPosition.y)
+                            }
                             previousDrawPosition = currentDrawPosition
                             pathWithoutTransformations = drawPath.copy()
                         } else {
@@ -332,105 +335,135 @@ fun BitmapDrawer(
                     }
 
                     MotionEvent.Move -> {
-                        drawHelper.drawPath(
-                            onDrawFreeArrow = {
-                                if (previousDrawPosition.isUnspecified && currentDrawPosition.isSpecified) {
-                                    drawPath = Path().apply {
-                                        moveTo(
+                        if (drawPathMode !is DrawPathMode.FloodFill) {
+                            drawHelper.drawPath(
+                                onDrawFreeArrow = {
+                                    if (previousDrawPosition.isUnspecified && currentDrawPosition.isSpecified) {
+                                        drawPath = Path().apply {
+                                            moveTo(
+                                                currentDrawPosition.x,
+                                                currentDrawPosition.y
+                                            )
+                                        }
+                                        pathWithoutTransformations = drawPath.copy()
+                                        previousDrawPosition = currentDrawPosition
+                                    }
+                                    if (previousDrawPosition.isSpecified && currentDrawPosition.isSpecified) {
+                                        drawPath = pathWithoutTransformations
+                                        drawPath.quadraticTo(
+                                            previousDrawPosition.x,
+                                            previousDrawPosition.y,
+                                            (previousDrawPosition.x + currentDrawPosition.x) / 2,
+                                            (previousDrawPosition.y + currentDrawPosition.y) / 2
+                                        )
+                                        previousDrawPosition = currentDrawPosition
+
+                                        pathWithoutTransformations = drawPath.copy()
+
+                                        drawArrowsIfNeeded(drawPath)
+                                    }
+                                },
+                                onBaseDraw = {
+                                    if (previousDrawPosition.isUnspecified && currentDrawPosition.isSpecified) {
+                                        drawPath.moveTo(
                                             currentDrawPosition.x,
                                             currentDrawPosition.y
                                         )
+                                        previousDrawPosition = currentDrawPosition
                                     }
-                                    pathWithoutTransformations = drawPath.copy()
+
+                                    if (currentDrawPosition.isSpecified && previousDrawPosition.isSpecified) {
+                                        drawPath.quadraticTo(
+                                            previousDrawPosition.x,
+                                            previousDrawPosition.y,
+                                            (previousDrawPosition.x + currentDrawPosition.x) / 2,
+                                            (previousDrawPosition.y + currentDrawPosition.y) / 2
+                                        )
+                                    }
                                     previousDrawPosition = currentDrawPosition
                                 }
-                                if (previousDrawPosition.isSpecified && currentDrawPosition.isSpecified) {
-                                    drawPath = pathWithoutTransformations
-                                    drawPath.quadraticTo(
-                                        previousDrawPosition.x,
-                                        previousDrawPosition.y,
-                                        (previousDrawPosition.x + currentDrawPosition.x) / 2,
-                                        (previousDrawPosition.y + currentDrawPosition.y) / 2
-                                    )
-                                    previousDrawPosition = currentDrawPosition
-
-                                    pathWithoutTransformations = drawPath.copy()
-
-                                    drawArrowsIfNeeded(drawPath)
-                                }
-                            },
-                            onBaseDraw = {
-                                if (previousDrawPosition.isUnspecified && currentDrawPosition.isSpecified) {
-                                    drawPath.moveTo(currentDrawPosition.x, currentDrawPosition.y)
-                                    previousDrawPosition = currentDrawPosition
-                                }
-
-                                if (currentDrawPosition.isSpecified && previousDrawPosition.isSpecified) {
-                                    drawPath.quadraticTo(
-                                        previousDrawPosition.x,
-                                        previousDrawPosition.y,
-                                        (previousDrawPosition.x + currentDrawPosition.x) / 2,
-                                        (previousDrawPosition.y + currentDrawPosition.y) / 2
-                                    )
-                                }
-                                previousDrawPosition = currentDrawPosition
-                            }
-                        )
+                            )
+                        }
 
                         motionEvent = MotionEvent.Idle
                     }
 
                     MotionEvent.Up -> {
                         if (currentDrawPosition.isSpecified && drawDownPosition.isSpecified) {
-                            drawHelper.drawPath(
-                                onDrawFreeArrow = {
-                                    drawPath = pathWithoutTransformations
-                                    PathMeasure().apply {
-                                        setPath(drawPath, false)
-                                    }.let {
-                                        it.getPosition(it.length)
-                                    }.let { lastPoint ->
-                                        if (!lastPoint.isSpecified) {
-                                            drawPath.moveTo(
+                            if (drawPathMode !is DrawPathMode.FloodFill) {
+                                drawHelper.drawPath(
+                                    onDrawFreeArrow = {
+                                        drawPath = pathWithoutTransformations
+                                        PathMeasure().apply {
+                                            setPath(drawPath, false)
+                                        }.let {
+                                            it.getPosition(it.length)
+                                        }.let { lastPoint ->
+                                            if (!lastPoint.isSpecified) {
+                                                drawPath.moveTo(
+                                                    currentDrawPosition.x,
+                                                    currentDrawPosition.y
+                                                )
+                                            }
+                                            drawPath.lineTo(
                                                 currentDrawPosition.x,
                                                 currentDrawPosition.y
                                             )
                                         }
-                                        drawPath.lineTo(
-                                            currentDrawPosition.x,
-                                            currentDrawPosition.y
-                                        )
-                                    }
 
-                                    drawArrowsIfNeeded(drawPath)
-                                },
-                                onBaseDraw = {
-                                    PathMeasure().apply {
-                                        setPath(drawPath, false)
-                                    }.let {
-                                        it.getPosition(it.length)
-                                    }.takeOrElse { currentDrawPosition }.let { lastPoint ->
-                                        drawPath.moveTo(lastPoint.x, lastPoint.y)
-                                        drawPath.lineTo(
-                                            currentDrawPosition.x,
-                                            currentDrawPosition.y
+                                        drawArrowsIfNeeded(drawPath)
+                                    },
+                                    onBaseDraw = {
+                                        PathMeasure().apply {
+                                            setPath(drawPath, false)
+                                        }.let {
+                                            it.getPosition(it.length)
+                                        }.takeOrElse { currentDrawPosition }.let { lastPoint ->
+                                            drawPath.moveTo(lastPoint.x, lastPoint.y)
+                                            drawPath.lineTo(
+                                                currentDrawPosition.x,
+                                                currentDrawPosition.y
+                                            )
+                                        }
+                                    }
+                                )
+                                onAddPath(
+                                    UiPathPaint(
+                                        path = drawPath,
+                                        strokeWidth = strokeWidth,
+                                        brushSoftness = brushSoftness,
+                                        drawColor = drawColor,
+                                        isErasing = isEraserOn,
+                                        drawMode = drawMode,
+                                        canvasSize = canvasSize,
+                                        drawPathMode = drawPathMode
+                                    )
+                                )
+                            } else {
+                                LaunchedEffect(drawDownPosition) {
+                                    GPUImageNativeLibrary.floodFill(
+                                        srcBitmap = drawImageBitmap.overlay(drawBitmap)
+                                            .asAndroidBitmap(),
+                                        startX = drawDownPosition.x.toInt(),
+                                        startY = drawDownPosition.y.toInt(),
+                                        tolerance = strokeWidth.value,
+                                        fillColor = drawColor.toArgb()
+                                    )?.asComposePath()?.let { path ->
+                                        onAddPath(
+                                            UiPathPaint(
+                                                path = path,
+                                                strokeWidth = strokeWidth,
+                                                brushSoftness = brushSoftness,
+                                                drawColor = drawColor,
+                                                isErasing = isEraserOn,
+                                                drawMode = drawMode,
+                                                canvasSize = canvasSize,
+                                                drawPathMode = drawPathMode
+                                            )
                                         )
                                     }
                                 }
-                            )
-
-                            onAddPath(
-                                UiPathPaint(
-                                    path = drawPath,
-                                    strokeWidth = strokeWidth,
-                                    brushSoftness = brushSoftness,
-                                    drawColor = drawColor,
-                                    isErasing = isEraserOn,
-                                    drawMode = drawMode,
-                                    canvasSize = canvasSize,
-                                    drawPathMode = drawPathMode
-                                )
-                            )
+                            }
                         }
 
                         currentDrawPosition = Offset.Unspecified

@@ -35,6 +35,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CheckBoxOutlineBlank
 import androidx.compose.material.icons.rounded.Circle
+import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.RadioButtonUnchecked
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.StarOutline
@@ -486,6 +487,7 @@ private fun DrawPathMode.getSubtitle(): Int = when (this) {
     is DrawPathMode.OutlinedPolygon -> R.string.outlined_polygon_sub
     is DrawPathMode.OutlinedStar -> R.string.outlined_star_sub
     is DrawPathMode.Star -> R.string.star_sub
+    DrawPathMode.FloodFill -> R.string.flood_fill_sub
 }
 
 private fun DrawPathMode.getTitle(): Int = when (this) {
@@ -506,6 +508,7 @@ private fun DrawPathMode.getTitle(): Int = when (this) {
     is DrawPathMode.OutlinedPolygon -> R.string.outlined_polygon
     is DrawPathMode.OutlinedStar -> R.string.outlined_star
     is DrawPathMode.Star -> R.string.star
+    DrawPathMode.FloodFill -> R.string.flood_fill
 }
 
 private fun DrawPathMode.getIcon(): ImageVector = when (this) {
@@ -526,4 +529,5 @@ private fun DrawPathMode.getIcon(): ImageVector = when (this) {
     is DrawPathMode.OutlinedPolygon -> Icons.Outlined.Polygon
     is DrawPathMode.OutlinedStar -> Icons.Rounded.StarOutline
     is DrawPathMode.Star -> Icons.Rounded.Star
+    is DrawPathMode.FloodFill -> Icons.Rounded.FormatColorFill
 }

@@ -59,15 +59,26 @@ sealed class DrawPathMode(open val ordinal: Int) {
         val isRegular: Boolean = false
     ) : DrawPathMode(15)
 
+    data object FloodFill : DrawPathMode(16)
+
     val isStroke: Boolean
-        get() = listOf(Lasso, Rect, Oval, Triangle, Polygon(), Star()).all {
+        get() = listOf(Lasso, Rect, Oval, Triangle, Polygon(), Star(), FloodFill).all {
             !it::class.isInstance(this)
         }
+
+    val isRect: Boolean
+        get() = listOf(
+            OutlinedRect,
+            OutlinedOval,
+            Rect,
+            Oval
+        ).any { it::class.isInstance(this) }
 
     companion object {
         val entries by lazy {
             listOf(
                 Free,
+                FloodFill,
                 Line,
                 PointingArrow,
                 DoublePointingArrow,

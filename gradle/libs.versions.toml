@@ -9,7 +9,7 @@ versionCode = "138"
 jvmTarget = "17"
 compose-compiler = "1.5.13"
 
-imageToolboxLibs = "1.4.8"
+imageToolboxLibs = "1.5.0"
 
 avifCoderCoil = "1.7.5"
 avifCoder = "1.7.5"

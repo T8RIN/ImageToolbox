@@ -39,6 +39,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.res.ResourcesCompat
 import androidx.exifinterface.media.ExifInterface
 import dagger.hilt.android.qualifiers.ApplicationContext
+import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.core.domain.image.ImageGetter
 import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
@@ -59,8 +60,9 @@ internal class AndroidImageDrawApplier @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageTransformer: ImageTransformer<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap, ExifInterface>,
-    private val filterProvider: FilterProvider<Bitmap>
-) : ImageDrawApplier<Bitmap, Path, Color> {
+    private val filterProvider: FilterProvider<Bitmap>,
+    private val dispatchersHolder: DispatchersHolder
+) : ImageDrawApplier<Bitmap, Path, Color>, DispatchersHolder by dispatchersHolder {
 
     override suspend fun applyDrawToImage(
         drawBehavior: DrawBehavior,
@@ -112,21 +114,9 @@ internal class AndroidImageDrawApplier @Inject constructor(
                         currentSize = canvasSize,
                         oldSize = size
                     )
-                    val isRect = listOf(
-                        DrawPathMode.OutlinedRect,
-                        DrawPathMode.OutlinedOval,
-                        DrawPathMode.Rect,
-                        DrawPathMode.Oval
-                    ).any { pathMode::class.isInstance(it) }
+                    val isRect = pathMode.isRect
 
-                    val isFilled = listOf(
-                        DrawPathMode.Rect,
-                        DrawPathMode.Oval,
-                        DrawPathMode.Lasso,
-                        DrawPathMode.Triangle,
-                        DrawPathMode.Polygon(),
-                        DrawPathMode.Star()
-                    ).any { pathMode::class.isInstance(it) }
+                    val isFilled = !pathMode.isStroke
 
                     if (drawMode is DrawMode.PathEffect && !isErasing) {
                         val shaderSource = imageTransformer.transform(

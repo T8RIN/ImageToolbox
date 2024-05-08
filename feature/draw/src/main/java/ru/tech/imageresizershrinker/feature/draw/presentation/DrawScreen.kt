@@ -342,7 +342,7 @@ fun DrawScreen(
             }
         )
         AnimatedVisibility(
-            visible = drawPathMode.isStroke,
+            visible = drawPathMode.isStroke || drawPathMode is DrawPathMode.FloodFill,
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {
@@ -354,6 +354,8 @@ fun DrawScreen(
                 ),
                 title = if (drawMode is DrawMode.Text) {
                     stringResource(R.string.font_size)
+                } else if (drawPathMode is DrawPathMode.FloodFill) {
+                    stringResource(R.string.tolerance)
                 } else stringResource(R.string.line_width),
                 valueRange = if (drawMode is DrawMode.Image) {
                     10f..120f

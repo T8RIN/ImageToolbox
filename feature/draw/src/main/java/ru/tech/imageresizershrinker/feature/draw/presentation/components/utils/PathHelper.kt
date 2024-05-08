@@ -331,6 +331,8 @@ data class PathHelper(
 
             DrawPathMode.Free,
             DrawPathMode.Lasso -> onBaseDraw()
+
+            DrawPathMode.FloodFill -> Unit
         }
     } else onBaseDraw()
 

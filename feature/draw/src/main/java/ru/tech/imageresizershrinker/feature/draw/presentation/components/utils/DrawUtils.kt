@@ -107,22 +107,9 @@ fun rememberPaint(
         context
     ) {
         derivedStateOf {
-            val isRect = listOf(
-                DrawPathMode.OutlinedRect,
-                DrawPathMode.OutlinedOval,
-                DrawPathMode.Rect,
-                DrawPathMode.Oval,
-                DrawPathMode.Lasso
-            ).any { drawPathMode::class.isInstance(it) }
+            val isRect = drawPathMode.isRect
 
-            val isFilled = listOf(
-                DrawPathMode.Rect,
-                DrawPathMode.Oval,
-                DrawPathMode.Lasso,
-                DrawPathMode.Triangle,
-                DrawPathMode.Polygon(),
-                DrawPathMode.Star()
-            ).any { drawPathMode::class.isInstance(it) }
+            val isFilled = !drawPathMode.isStroke
 
             Paint().apply {
                 blendMode = if (!isEraserOn) blendMode else BlendMode.Clear
@@ -185,22 +172,9 @@ fun pathEffectPaint(
     drawPathMode: DrawPathMode,
     canvasSize: IntegerSize,
 ): NativePaint {
-    val isRect = listOf(
-        DrawPathMode.OutlinedRect,
-        DrawPathMode.OutlinedOval,
-        DrawPathMode.Rect,
-        DrawPathMode.Oval,
-        DrawPathMode.Lasso
-    ).any { drawPathMode::class.isInstance(it) }
+    val isRect = drawPathMode.isRect
 
-    val isFilled = listOf(
-        DrawPathMode.Rect,
-        DrawPathMode.Oval,
-        DrawPathMode.Lasso,
-        DrawPathMode.Triangle,
-        DrawPathMode.Polygon(),
-        DrawPathMode.Star()
-    ).any { drawPathMode::class.isInstance(it) }
+    val isFilled = !drawPathMode.isStroke
 
     return Paint().apply {
         if (isFilled) {

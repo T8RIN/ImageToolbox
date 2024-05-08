@@ -84,19 +84,9 @@ fun PathPaintPreview(
                                 .strokeWidth
                                 .toPx(currentSize)
 
-                            val isRect = listOf(
-                                ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.OutlinedRect,
-                                ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.OutlinedOval,
-                                ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Rect,
-                                ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Oval,
-                                ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Lasso
-                            ).any { pathPaint.drawPathMode::class.isInstance(it) }
+                            val isRect = pathPaint.drawPathMode.isRect
 
-                            val isFilled = listOf(
-                                ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Rect,
-                                ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Oval,
-                                ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Lasso
-                            ).any { pathPaint.drawPathMode::class.isInstance(it) }
+                            val isFilled = !pathPaint.drawPathMode.isStroke
 
                             canvas.drawPath(
                                 pathPaint.path
