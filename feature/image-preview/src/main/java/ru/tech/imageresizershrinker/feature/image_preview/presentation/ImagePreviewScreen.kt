@@ -79,7 +79,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActio
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.image.ImageNotPickedWidget
-import ru.tech.imageresizershrinker.core.ui.widget.image.LazyImagesGrid
+import ru.tech.imageresizershrinker.core.ui.widget.image.ImagePreviewGrid
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.LoadingDialog
@@ -104,9 +104,14 @@ fun ImagePreviewScreen(
         else showExitDialog = true
     }
 
+    var initialShowImagePreviewDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+
     val settingsState = LocalSettingsState.current
     LaunchedEffect(uriState) {
         uriState?.takeIf { it.isNotEmpty() }?.let { uris ->
+            initialShowImagePreviewDialog = true
             viewModel.updateUris(uris)
         }
     }
@@ -237,7 +242,7 @@ fun ImagePreviewScreen(
                             )
                         }
                     } else {
-                        LazyImagesGrid(
+                        ImagePreviewGrid(
                             data = viewModel.uris,
                             onAddImages = viewModel::updateUris,
                             modifier = Modifier.fillMaxSize(),
@@ -245,7 +250,8 @@ fun ImagePreviewScreen(
                                 viewModel.shareImage(it, showConfetti)
                             },
                             state = gridState,
-                            onRemove = viewModel::removeUri
+                            onRemove = viewModel::removeUri,
+                            initialShowImagePreviewDialog = initialShowImagePreviewDialog
                         )
                     }
                 }

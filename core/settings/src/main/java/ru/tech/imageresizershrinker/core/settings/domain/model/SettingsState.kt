@@ -87,7 +87,8 @@ data class SettingsState(
     val useFullscreenSettings: Boolean,
     val switchType: SwitchType,
     val defaultDrawLineWidth: Float,
-    val oneTimeSaveLocations: List<OneTimeSaveLocation>
+    val oneTimeSaveLocations: List<OneTimeSaveLocation>,
+    val openEditInsteadOfPreview: Boolean
 ) {
 
     companion object {
@@ -158,7 +159,8 @@ data class SettingsState(
                 useFullscreenSettings = false,
                 switchType = SwitchType.MaterialYou,
                 defaultDrawLineWidth = 20f,
-                oneTimeSaveLocations = emptyList()
+                oneTimeSaveLocations = emptyList(),
+                openEditInsteadOfPreview = false
             )
         }
     }

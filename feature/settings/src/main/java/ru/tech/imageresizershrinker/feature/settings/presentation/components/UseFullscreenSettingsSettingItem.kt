@@ -19,6 +19,7 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.EditAttributes
 import androidx.compose.material.icons.outlined.Fullscreen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -63,5 +64,24 @@ fun UseFullscreenSettingsSettingItem(
             } else onClick()
         },
         startIcon = Icons.Outlined.Fullscreen
+    )
+}
+
+@Composable
+fun OpenEditInsteadOfPreviewSettingItem(
+    onClick: () -> Unit,
+    shape: Shape = ContainerShapeDefaults.centerShape,
+    modifier: Modifier = Modifier.padding(horizontal = 8.dp)
+) {
+    val settingsState = LocalSettingsState.current
+
+    PreferenceRowSwitch(
+        modifier = modifier,
+        shape = shape,
+        title = stringResource(R.string.open_edit_instead_of_preview),
+        subtitle = stringResource(R.string.open_edit_instead_of_preview_sub),
+        checked = settingsState.openEditInsteadOfPreview,
+        onClick = { onClick() },
+        startIcon = Icons.Outlined.EditAttributes
     )
 }

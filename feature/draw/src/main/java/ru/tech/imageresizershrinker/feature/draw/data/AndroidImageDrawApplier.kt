@@ -54,6 +54,7 @@ import ru.tech.imageresizershrinker.feature.draw.domain.ImageDrawApplier
 import ru.tech.imageresizershrinker.feature.draw.domain.PathPaint
 import javax.inject.Inject
 import kotlin.math.roundToInt
+import android.graphics.Paint as NativePaint
 
 internal class AndroidImageDrawApplier @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -79,7 +80,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                     Bitmap.Config.ARGB_8888
                 ).apply {
                     val canvas = Canvas(this)
-                    val paint = android.graphics.Paint().apply {
+                    val paint = NativePaint().apply {
                         color = drawBehavior.color
                     }
                     canvas.drawRect(
@@ -106,27 +107,14 @@ internal class AndroidImageDrawApplier @Inject constructor(
             canvas.apply {
                 (drawBehavior as? DrawBehavior.Background)?.apply { drawColor(color) }
 
-                pathPaints.forEach { (nonScaledPath, nonScaledStroke, radius, drawColor, isErasing, drawMode, size, pathMode) ->
+                pathPaints.forEach { (nonScaledPath, nonScaledStroke, radius, drawColor, isErasing, drawMode, size, drawPathMode) ->
                     val stroke = nonScaledStroke.toPx(canvasSize)
                     val path = nonScaledPath.scaleToFitCanvas(
                         currentSize = canvasSize,
                         oldSize = size
                     )
-                    val isRect = listOf(
-                        DrawPathMode.OutlinedRect,
-                        DrawPathMode.OutlinedOval,
-                        DrawPathMode.Rect,
-                        DrawPathMode.Oval
-                    ).any { pathMode::class.isInstance(it) }
-
-                    val isFilled = listOf(
-                        DrawPathMode.Rect,
-                        DrawPathMode.Oval,
-                        DrawPathMode.Lasso,
-                        DrawPathMode.Triangle,
-                        DrawPathMode.Polygon(),
-                        DrawPathMode.Star()
-                    ).any { pathMode::class.isInstance(it) }
+                    val isSharpEdge = drawPathMode.isSharpEdge
+                    val isFilled = drawPathMode.isFilled
 
                     if (drawMode is DrawMode.PathEffect && !isErasing) {
                         val shaderSource = imageTransformer.transform(
@@ -140,7 +128,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                 } else {
                                     style = PaintingStyle.Stroke
                                     this.strokeWidth = stroke
-                                    if (isRect) {
+                                    if (isSharpEdge) {
                                         strokeCap = StrokeCap.Square
                                     } else {
                                         strokeCap = StrokeCap.Round
@@ -157,7 +145,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                 shaderSource.asAndroidBitmap(),
                                 0f,
                                 0f,
-                                android.graphics.Paint()
+                                NativePaint()
                             )
                         }
                     } else {
@@ -175,7 +163,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                     } else {
                                         style = PaintingStyle.Stroke
                                         strokeWidth = stroke
-                                        if (drawMode is DrawMode.Highlighter || isRect) {
+                                        if (drawMode is DrawMode.Highlighter || isSharpEdge) {
                                             strokeCap = StrokeCap.Square
                                         } else {
                                             strokeCap = StrokeCap.Round
@@ -270,7 +258,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
             )
             canvas.apply {
                 drawBitmap(
-                    it, 0f, 0f, android.graphics.Paint()
+                    it, 0f, 0f, NativePaint()
                 )
 
                 val recoveryShader = imageGetter.getImage(

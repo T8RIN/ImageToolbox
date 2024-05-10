@@ -1082,4 +1082,6 @@
     <string name="draw_regular_star_sub">Draw star which will be regular instead of free form</string>
     <string name="antialias">Antialias</string>
     <string name="antialias_sub">Enables antialiasing to prevent sharp edges</string>
+    <string name="open_edit_instead_of_preview">Open Edit Instead Of Preview</string>
+    <string name="open_edit_instead_of_preview_sub">When you select image to open (preview) in ImageToolbox, edit selection sheet will be opened instead of previewing</string>
 </resources>

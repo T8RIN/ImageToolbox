@@ -37,7 +37,6 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
-import ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode
 import ru.tech.imageresizershrinker.feature.draw.domain.PathPaint
 import ru.tech.imageresizershrinker.feature.filters.domain.FilterMask
 import ru.tech.imageresizershrinker.feature.filters.domain.FilterMaskApplier
@@ -96,20 +95,9 @@ internal class AndroidFilterMaskApplier @Inject constructor(
                     currentSize = canvasSize,
                     oldSize = pathPaint.canvasSize
                 )
-                val pathMode = pathPaint.drawPathMode
-                val isRect = listOf(
-                    DrawPathMode.OutlinedRect,
-                    DrawPathMode.OutlinedOval,
-                    DrawPathMode.Rect,
-                    DrawPathMode.Oval,
-                    DrawPathMode.Lasso
-                ).any { pathMode::class.isInstance(it) }
-
-                val isFilled = listOf(
-                    DrawPathMode.Rect,
-                    DrawPathMode.Oval,
-                    DrawPathMode.Lasso
-                ).any { pathMode::class.isInstance(it) }
+                val drawPathMode = pathPaint.drawPathMode
+                val isSharpEdge = drawPathMode.isSharpEdge
+                val isFilled = drawPathMode.isFilled
 
                 drawPath(
                     path,
@@ -124,7 +112,7 @@ internal class AndroidFilterMaskApplier @Inject constructor(
                                 style = PaintingStyle.Fill
                             } else {
                                 style = PaintingStyle.Stroke
-                                if (isRect) {
+                                if (isSharpEdge) {
                                     strokeCap = StrokeCap.Square
                                 } else {
                                     strokeCap = StrokeCap.Round
@@ -139,11 +127,10 @@ internal class AndroidFilterMaskApplier @Inject constructor(
                         }
                     }.asFrameworkPaint().apply {
                         if (pathPaint.brushSoftness.value > 0f) {
-                            maskFilter =
-                                BlurMaskFilter(
-                                    pathPaint.brushSoftness.toPx(canvasSize),
-                                    BlurMaskFilter.Blur.NORMAL
-                                )
+                            maskFilter = BlurMaskFilter(
+                                pathPaint.brushSoftness.toPx(canvasSize),
+                                BlurMaskFilter.Blur.NORMAL
+                            )
                         }
                     }
                 )

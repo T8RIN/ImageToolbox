@@ -38,6 +38,7 @@ import com.t8rin.dynamic.theme.PaletteStyle
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
+import ru.tech.imageresizershrinker.core.domain.image.model.Preset
 import ru.tech.imageresizershrinker.core.settings.domain.model.ColorHarmonizer
 import ru.tech.imageresizershrinker.core.settings.domain.model.CopyToClipboardMode
 import ru.tech.imageresizershrinker.core.settings.domain.model.DomainAspectRatio
@@ -112,7 +113,8 @@ data class UiSettingsState(
     val useFullscreenSettings: Boolean,
     val switchType: SwitchType,
     val defaultDrawLineWidth: Float,
-    val oneTimeSaveLocations: List<OneTimeSaveLocation>
+    val oneTimeSaveLocations: List<OneTimeSaveLocation>,
+    val openEditInsteadOfPreview: Boolean
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -178,16 +180,14 @@ fun SettingsState.toUiState(
         borderWidth = animateDpAsState(borderWidth.dp).value,
         presets = remember(presets) {
             derivedStateOf {
-                presets.mapNotNull { it.value() }
+                presets.mapNotNull(Preset::value)
             }
         }.value,
         fabAlignment = fabAlignment.toAlignment(),
         showUpdateDialogOnStartup = showUpdateDialogOnStartup,
         selectedEmoji = remember(selectedEmojiIndex, allEmojis) {
             derivedStateOf {
-                selectedEmojiIndex?.let {
-                    allEmojis.getOrNull(it)
-                }
+                selectedEmojiIndex?.let(allEmojis::getOrNull)
             }
         }.value,
         picturePickerMode = PicturePickerMode.fromInt(picturePickerModeInt),
@@ -250,9 +250,7 @@ fun SettingsState.toUiState(
         useRandomEmojis = useRandomEmojis,
         iconShape = remember(iconShape) {
             derivedStateOf {
-                iconShape?.let {
-                    allIconShapes.getOrNull(it)
-                }
+                iconShape?.let(allIconShapes::getOrNull)
             }
         }.value,
         useEmojiAsPrimaryColor = useEmojiAsPrimaryColor,
@@ -267,7 +265,8 @@ fun SettingsState.toUiState(
         useFullscreenSettings = useFullscreenSettings,
         switchType = switchType,
         defaultDrawLineWidth = defaultDrawLineWidth,
-        oneTimeSaveLocations = oneTimeSaveLocations
+        oneTimeSaveLocations = oneTimeSaveLocations,
+        openEditInsteadOfPreview = openEditInsteadOfPreview
     )
 }
 

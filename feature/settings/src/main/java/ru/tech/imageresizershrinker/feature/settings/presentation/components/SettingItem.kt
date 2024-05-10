@@ -583,6 +583,10 @@ internal fun SettingItem(
             Setting.DefaultDrawLineWidth -> {
                 DefaultDrawLineWidthSettingItem(onValueChange = viewModel::setDefaultDrawLineWidth)
             }
+
+            Setting.OpenEditInsteadOfPreview -> {
+                OpenEditInsteadOfPreviewSettingItem(onClick = viewModel::toggleOpenEditInsteadOfPreview)
+            }
         }
     }
 }

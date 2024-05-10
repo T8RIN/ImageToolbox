@@ -90,4 +90,5 @@ internal object SettingKeys {
     val SWITCH_TYPE = intPreferencesKey("SWITCH_TYPE")
     val DEFAULT_DRAW_LINE_WIDTH = floatPreferencesKey("DEFAULT_DRAW_LINE_WIDTH")
     val ONE_TIME_SAVE_LOCATIONS = stringPreferencesKey("ONE_TIME_SAVE_LOCATIONS")
+    val OPEN_EDIT_INSTEAD_OF_PREVIEW = booleanPreferencesKey("OPEN_EDIT_INSTEAD_OF_PREVIEW")
 }

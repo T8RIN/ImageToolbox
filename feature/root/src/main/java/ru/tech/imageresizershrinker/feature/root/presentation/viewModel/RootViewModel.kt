@@ -109,7 +109,7 @@ class RootViewModel @Inject constructor(
 
     fun toggleShowUpdateDialog() {
         viewModelScope.launch {
-            settingsManager.toggleShowDialog()
+            settingsManager.toggleShowUpdateDialogOnStartup()
         }
     }
 

@@ -125,7 +125,7 @@ class SettingsViewModel @Inject constructor(
 
     fun toggleShowUpdateDialog() {
         viewModelScope.launch {
-            settingsManager.toggleShowDialog()
+            settingsManager.toggleShowUpdateDialogOnStartup()
         }
     }
 
@@ -531,4 +531,9 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun toggleOpenEditInsteadOfPreview() {
+        viewModelScope.launch {
+            settingsManager.toggleOpenEditInsteadOfPreview()
+        }
+    }
 }

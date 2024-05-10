@@ -318,6 +318,7 @@ sealed class SettingsGroup(
             Setting.SkipFilePicking,
             Setting.ShowSettingsInLandscape,
             Setting.UseFullscreenSettings,
+            Setting.OpenEditInsteadOfPreview,
             Setting.GeneratePreviews
         ),
         initialState = false

@@ -107,22 +107,8 @@ fun rememberPaint(
         context
     ) {
         derivedStateOf {
-            val isRect = listOf(
-                DrawPathMode.OutlinedRect,
-                DrawPathMode.OutlinedOval,
-                DrawPathMode.Rect,
-                DrawPathMode.Oval,
-                DrawPathMode.Lasso
-            ).any { drawPathMode::class.isInstance(it) }
-
-            val isFilled = listOf(
-                DrawPathMode.Rect,
-                DrawPathMode.Oval,
-                DrawPathMode.Lasso,
-                DrawPathMode.Triangle,
-                DrawPathMode.Polygon(),
-                DrawPathMode.Star()
-            ).any { drawPathMode::class.isInstance(it) }
+            val isSharpEdge = drawPathMode.isSharpEdge
+            val isFilled = drawPathMode.isFilled
 
             Paint().apply {
                 blendMode = if (!isEraserOn) blendMode else BlendMode.Clear
@@ -138,7 +124,7 @@ fun rememberPaint(
                         } else {
                             style = PaintingStyle.Stroke
                             this.strokeWidth = strokeWidth.toPx(canvasSize)
-                            if (drawMode is DrawMode.Highlighter || isRect) {
+                            if (drawMode is DrawMode.Highlighter || isSharpEdge) {
                                 strokeCap = StrokeCap.Square
                             } else {
                                 strokeCap = StrokeCap.Round
@@ -185,22 +171,8 @@ fun pathEffectPaint(
     drawPathMode: DrawPathMode,
     canvasSize: IntegerSize,
 ): NativePaint {
-    val isRect = listOf(
-        DrawPathMode.OutlinedRect,
-        DrawPathMode.OutlinedOval,
-        DrawPathMode.Rect,
-        DrawPathMode.Oval,
-        DrawPathMode.Lasso
-    ).any { drawPathMode::class.isInstance(it) }
-
-    val isFilled = listOf(
-        DrawPathMode.Rect,
-        DrawPathMode.Oval,
-        DrawPathMode.Lasso,
-        DrawPathMode.Triangle,
-        DrawPathMode.Polygon(),
-        DrawPathMode.Star()
-    ).any { drawPathMode::class.isInstance(it) }
+    val isSharpEdge = drawPathMode.isSharpEdge
+    val isFilled = drawPathMode.isFilled
 
     return Paint().apply {
         if (isFilled) {
@@ -208,7 +180,7 @@ fun pathEffectPaint(
         } else {
             style = PaintingStyle.Stroke
             this.strokeWidth = strokeWidth.toPx(canvasSize)
-            if (isRect) {
+            if (isSharpEdge) {
                 strokeCap = StrokeCap.Square
             } else {
                 strokeCap = StrokeCap.Round

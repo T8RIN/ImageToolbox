@@ -60,8 +60,16 @@ sealed class DrawPathMode(open val ordinal: Int) {
     ) : DrawPathMode(15)
 
     val isStroke: Boolean
-        get() = listOf(Lasso, Rect, Oval, Triangle, Polygon(), Star()).all {
-            !it::class.isInstance(this)
+        get() = !isFilled
+
+    val isFilled: Boolean
+        get() = listOf(Lasso, Rect, Oval, Triangle, Polygon(), Star()).any {
+            this::class.isInstance(it)
+        }
+
+    val isSharpEdge: Boolean
+        get() = listOf(OutlinedRect, OutlinedOval, Rect, Oval, Lasso).any {
+            this::class.isInstance(it)
         }
 
     companion object {

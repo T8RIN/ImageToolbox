@@ -84,19 +84,10 @@ fun PathPaintPreview(
                                 .strokeWidth
                                 .toPx(currentSize)
 
-                            val isRect = listOf(
-                                ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.OutlinedRect,
-                                ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.OutlinedOval,
-                                ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Rect,
-                                ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Oval,
-                                ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Lasso
-                            ).any { pathPaint.drawPathMode::class.isInstance(it) }
+                            val drawPathMode = pathPaint.drawPathMode
 
-                            val isFilled = listOf(
-                                ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Rect,
-                                ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Oval,
-                                ru.tech.imageresizershrinker.feature.draw.domain.DrawPathMode.Lasso
-                            ).any { pathPaint.drawPathMode::class.isInstance(it) }
+                            val isSharpEdge = drawPathMode.isSharpEdge
+                            val isFilled = drawPathMode.isFilled
 
                             canvas.drawPath(
                                 pathPaint.path
@@ -120,9 +111,8 @@ fun PathPaintPreview(
                                             } else {
                                                 style = PaintingStyle.Stroke
                                                 strokeWidth = stroke
-                                                if (isRect) {
+                                                if (isSharpEdge) {
                                                     style = PaintingStyle.Stroke
-                                                    strokeWidth = stroke
                                                 } else {
                                                     strokeCap = StrokeCap.Round
                                                     strokeJoin = StrokeJoin.Round
@@ -133,11 +123,10 @@ fun PathPaintPreview(
                                     .asFrameworkPaint()
                                     .apply {
                                         if (pathPaint.brushSoftness.value > 0f) {
-                                            maskFilter =
-                                                BlurMaskFilter(
-                                                    pathPaint.brushSoftness.toPx(currentSize),
-                                                    BlurMaskFilter.Blur.NORMAL
-                                                )
+                                            maskFilter = BlurMaskFilter(
+                                                pathPaint.brushSoftness.toPx(currentSize),
+                                                BlurMaskFilter.Blur.NORMAL
+                                            )
                                         }
                                     }
                             )

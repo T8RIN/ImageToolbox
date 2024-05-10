@@ -41,7 +41,7 @@ interface SettingsInteractor {
 
     suspend fun setFilenamePrefix(name: String)
 
-    suspend fun toggleShowDialog()
+    suspend fun toggleShowUpdateDialogOnStartup()
 
     suspend fun setColorTuple(colorTuple: String)
 
@@ -170,5 +170,7 @@ interface SettingsInteractor {
     suspend fun setDefaultDrawLineWidth(value: Float)
 
     suspend fun setOneTimeSaveLocations(value: List<OneTimeSaveLocation>)
+
+    suspend fun toggleOpenEditInsteadOfPreview()
 
 }

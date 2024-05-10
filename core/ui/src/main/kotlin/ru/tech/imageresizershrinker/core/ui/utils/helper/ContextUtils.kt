@@ -133,7 +133,8 @@ object ContextUtils {
         onGetUris: (List<Uri>) -> Unit,
         onHasExtraImageType: (String) -> Unit,
         notHasUris: Boolean,
-        onWantGithubReview: () -> Unit
+        onWantGithubReview: () -> Unit,
+        openEditInsteadOfPreview: Boolean
     ) {
         onStart()
         if (intent?.type != null && notHasUris) onColdStart()
@@ -154,11 +155,14 @@ object ContextUtils {
                     Intent.ACTION_VIEW -> {
                         val data = intent.data
                         val clipData = intent.clipData
-                        if (clipData != null) {
-                            navigate(Screen.ImagePreview(intent.clipData!!.clipList()))
-                        } else if (data != null) {
-                            navigate(Screen.ImagePreview(listOf(data)))
-                        } else null
+                        val uris =
+                            clipData?.clipList() ?: data?.let { listOf(it) } ?: return@runCatching
+
+                        if (openEditInsteadOfPreview) {
+                            onGetUris(uris)
+                        } else {
+                            navigate(Screen.ImagePreview(uris))
+                        }
                     }
 
                     Intent.ACTION_SEND -> {

@@ -60,7 +60,8 @@ class AppActivity : M3Activity() {
             navigate = viewModel.navController::navigate,
             notHasUris = viewModel.uris.isNullOrEmpty(),
             intent = intent,
-            onWantGithubReview = viewModel::onWantGithubReview
+            onWantGithubReview = viewModel::onWantGithubReview,
+            openEditInsteadOfPreview = viewModel.settingsState.openEditInsteadOfPreview
         )
     }
 }

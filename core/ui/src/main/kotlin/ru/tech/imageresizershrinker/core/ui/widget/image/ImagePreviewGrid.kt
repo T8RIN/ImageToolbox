@@ -72,17 +72,18 @@ import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
-fun LazyImagesGrid(
+fun ImagePreviewGrid(
     data: List<Uri>?,
     onAddImages: ((List<Uri>) -> Unit)?,
     onShareImage: (Uri) -> Unit,
     onRemove: (Uri) -> Unit,
     modifier: Modifier = Modifier,
     state: LazyStaggeredGridState = rememberLazyStaggeredGridState(),
-    width: Dp = 150.dp,
+    minCellWidth: Dp = 150.dp,
     showTransparencyChecker: Boolean = true,
     color: Color = MaterialTheme.colorScheme.secondaryContainer,
-    contentPadding: PaddingValues? = null
+    contentPadding: PaddingValues? = null,
+    initialShowImagePreviewDialog: Boolean = false
 ) {
     val pickImageLauncher =
         rememberImagePicker(
@@ -97,14 +98,16 @@ fun LazyImagesGrid(
             }
         }
 
-    var showImagePreviewDialog by rememberSaveable { mutableStateOf(false) }
+    var showImagePreviewDialog by rememberSaveable(initialShowImagePreviewDialog) {
+        mutableStateOf(initialShowImagePreviewDialog)
+    }
     var selectedUri by rememberSaveable { mutableStateOf<String?>(null) }
 
     val cutout = WindowInsets.displayCutout.asPaddingValues()
     val direction = LocalLayoutDirection.current
 
     LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Adaptive(width),
+        columns = StaggeredGridCells.Adaptive(minCellWidth),
         modifier = modifier,
         verticalItemSpacing = 8.dp,
         horizontalArrangement = Arrangement.spacedBy(

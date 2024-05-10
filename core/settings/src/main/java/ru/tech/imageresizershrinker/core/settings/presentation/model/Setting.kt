@@ -377,4 +377,9 @@ sealed class Setting(
         title = R.string.default_line_width,
         subtitle = null
     )
+
+    data object OpenEditInsteadOfPreview : Setting(
+        title = R.string.open_edit_instead_of_preview,
+        subtitle = R.string.open_edit_instead_of_preview_sub
+    )
 }
