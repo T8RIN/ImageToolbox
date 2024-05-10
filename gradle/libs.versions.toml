@@ -9,7 +9,7 @@ versionCode = "138"
 jvmTarget = "17"
 compose-compiler = "1.5.13"
 
-imageToolboxLibs = "1.4.8"
+imageToolboxLibs = "1.5.0"
 
 avifCoderCoil = "1.7.5"
 avifCoder = "1.7.5"
@@ -61,7 +61,7 @@ documentfile = "1.0.1"
 uiautomator = "2.3.0"
 androidxMacroBenchmark = "1.3.0-alpha04"
 
-material = "1.13.0-alpha01"
+material = "1.13.0-alpha02"
 
 [libraries]
 imageToolboxLibs = { module = "com.github.T8RIN:ImageToolboxLibs", version.ref = "imageToolboxLibs" }

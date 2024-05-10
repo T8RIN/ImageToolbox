@@ -927,4 +927,10 @@
     <string name="tag_jpeg_interchange_format">Format wymiany JPEG</string>
     <string name="tag_jpeg_interchange_format_length">Długość formatu wymiany JPEG</string>
     <string name="tag_reference_black_white">Referencyjna czerń i biel</string>
+    <string name="tag_shutter_speed_value">Czas otwarcia migawki</string>
+    <string name="tag_brightness_value">Wartość jasności</string>
+    <string name="tag_exposure_bias_value">Wartość odchylenia ekspozycji</string>
+    <string name="tag_max_aperture_value">Maksymalna wartość przysłony</string>
+    <string name="tag_aperture_value">Wartość przysłony</string>
+    <string name="tag_flash">Lampa błyskowa</string>
 </resources>
