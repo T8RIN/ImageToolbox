@@ -82,6 +82,80 @@ data class PathHelper(
                     else -> Unit
                 }
             }
+
+            private fun drawEndArrow(
+                drawPath: Path,
+                strokeWidth: Pt,
+                canvasSize: IntegerSize,
+            ) {
+                val (preLastPoint, lastPoint) = PathMeasure().apply {
+                    setPath(drawPath, false)
+                }.let {
+                    Pair(
+                        it.getPosition(it.length - strokeWidth.toPx(canvasSize) * 3f)
+                            .takeOrElse { Offset.Zero },
+                        it.getPosition(it.length).takeOrElse { Offset.Zero }
+                    )
+                }
+
+                val arrowVector = lastPoint - preLastPoint
+                fun drawArrow() {
+
+                    val (rx1, ry1) = arrowVector.rotateVector(150.0)
+                    val (rx2, ry2) = arrowVector.rotateVector(210.0)
+
+
+                    drawPath.apply {
+                        relativeLineTo(rx1, ry1)
+                        moveTo(lastPoint.x, lastPoint.y)
+                        relativeLineTo(rx2, ry2)
+                    }
+                }
+
+                if (abs(arrowVector.x) < 3f * strokeWidth.toPx(canvasSize) && abs(
+                        arrowVector.y
+                    ) < 3f * strokeWidth.toPx(canvasSize) && preLastPoint != Offset.Zero
+                ) {
+                    drawArrow()
+                }
+            }
+
+            private fun drawStartArrow(
+                drawPath: Path,
+                strokeWidth: Pt,
+                canvasSize: IntegerSize,
+            ) {
+                val (firstPoint, secondPoint) = PathMeasure().apply {
+                    setPath(drawPath, false)
+                }.let {
+                    Pair(
+                        it.getPosition(0f).takeOrElse { Offset.Zero },
+                        it.getPosition(strokeWidth.toPx(canvasSize) * 3f).takeOrElse { Offset.Zero }
+                    )
+                }
+
+                val arrowVector = firstPoint - secondPoint
+                fun drawArrow() {
+
+                    val (rx1, ry1) = arrowVector.rotateVector(150.0)
+                    val (rx2, ry2) = arrowVector.rotateVector(210.0)
+
+
+                    drawPath.apply {
+                        moveTo(firstPoint.x, firstPoint.y)
+                        relativeLineTo(rx1, ry1)
+                        moveTo(firstPoint.x, firstPoint.y)
+                        relativeLineTo(rx2, ry2)
+                    }
+                }
+
+                if (abs(arrowVector.x) < 3f * strokeWidth.toPx(canvasSize) && abs(
+                        arrowVector.y
+                    ) < 3f * strokeWidth.toPx(canvasSize) && secondPoint != Offset.Zero
+                ) {
+                    drawArrow()
+                }
+            }
         }
     }
 
@@ -333,83 +407,6 @@ data class PathHelper(
             DrawPathMode.Lasso -> onBaseDraw()
         }
     } else onBaseDraw()
-
-    companion object {
-        private fun drawEndArrow(
-            drawPath: Path,
-            strokeWidth: Pt,
-            canvasSize: IntegerSize,
-        ) {
-            val (preLastPoint, lastPoint) = PathMeasure().apply {
-                setPath(drawPath, false)
-            }.let {
-                Pair(
-                    it.getPosition(it.length - strokeWidth.toPx(canvasSize) * 3f)
-                        .takeOrElse { Offset.Zero },
-                    it.getPosition(it.length).takeOrElse { Offset.Zero }
-                )
-            }
-
-            val arrowVector = lastPoint - preLastPoint
-            fun drawArrow() {
-
-                val (rx1, ry1) = arrowVector.rotateVector(150.0)
-                val (rx2, ry2) = arrowVector.rotateVector(210.0)
-
-
-                drawPath.apply {
-                    relativeLineTo(rx1, ry1)
-                    moveTo(lastPoint.x, lastPoint.y)
-                    relativeLineTo(rx2, ry2)
-                }
-            }
-
-            if (abs(arrowVector.x) < 3f * strokeWidth.toPx(canvasSize) && abs(
-                    arrowVector.y
-                ) < 3f * strokeWidth.toPx(canvasSize) && preLastPoint != Offset.Zero
-            ) {
-                drawArrow()
-            }
-        }
-
-        private fun drawStartArrow(
-            drawPath: Path,
-            strokeWidth: Pt,
-            canvasSize: IntegerSize,
-        ) {
-            val (firstPoint, secondPoint) = PathMeasure().apply {
-                setPath(drawPath, false)
-            }.let {
-                Pair(
-                    it.getPosition(0f).takeOrElse { Offset.Zero },
-                    it.getPosition(strokeWidth.toPx(canvasSize) * 3f).takeOrElse { Offset.Zero }
-                )
-            }
-
-            val arrowVector = firstPoint - secondPoint
-            fun drawArrow() {
-
-                val (rx1, ry1) = arrowVector.rotateVector(150.0)
-                val (rx2, ry2) = arrowVector.rotateVector(210.0)
-
-
-                drawPath.apply {
-                    moveTo(firstPoint.x, firstPoint.y)
-                    relativeLineTo(rx1, ry1)
-                    moveTo(firstPoint.x, firstPoint.y)
-                    relativeLineTo(rx2, ry2)
-                }
-            }
-
-            if (abs(arrowVector.x) < 3f * strokeWidth.toPx(canvasSize) && abs(
-                    arrowVector.y
-                ) < 3f * strokeWidth.toPx(canvasSize) && secondPoint != Offset.Zero
-            ) {
-                drawArrow()
-            }
-        }
-    }
-
 }
 
 interface DrawArrowsScope {
