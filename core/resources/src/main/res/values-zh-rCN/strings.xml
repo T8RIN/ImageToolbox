@@ -907,7 +907,7 @@
     <string name="tag_strip_offsets">数据块偏移量</string>
     <string name="tag_rows_per_strip">每条带行数</string>
     <string name="tag_strip_byte_counts">条带字节数</string>
-    <string name="tag_transfer_function">传递函数</string>
+    <string name="tag_transfer_function">传输功能</string>
     <string name="tag_white_point">白点</string>
     <string name="tag_primary_chromaticities">主色调</string>
     <string name="tag_y_cb_cr_coefficients">Y Cb Cr 系数</string>
@@ -926,7 +926,7 @@
     <string name="tag_make">制造商</string>
     <string name="tag_compressed_bits_per_pixel">压缩每像素位数</string>
     <string name="tag_maker_note">制造商注释</string>
-    <string name="tag_user_comment">图片注释</string>
+    <string name="tag_user_comment">使用者评论</string>
     <string name="tag_pixel_y_dimension">Y轴像素尺寸</string>
     <string name="tag_pixel_x_dimension">X轴像素尺寸</string>
     <string name="watermark_size">水印体积</string>
