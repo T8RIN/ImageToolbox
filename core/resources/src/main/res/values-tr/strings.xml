@@ -808,4 +808,8 @@
     <string name="confetti_type">Konfeti Tipi</string>
     <string name="explode">Patlama</string>
     <string name="rain">Yağmur</string>
+    <string name="corners">Köşeler</string>
+    <string name="jxl_tools">JXL Araçları</string>
+    <string name="jxl_tools_sub">Kalite kaybı olmadan JXL ~ JPEG kod dönüştürmesi gerçekleştirin veya GIF/APNG\'yi JXL animasyonuna dönüştürün</string>
+    <string name="jxl_type_to_jpeg">JXL\'den JPEG\'ye</string>
 </resources>
