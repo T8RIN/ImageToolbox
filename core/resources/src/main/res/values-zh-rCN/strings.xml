@@ -1064,4 +1064,6 @@
     <string name="draw_regular_star">绘制规则星形</string>
     <string name="antialias">抗锯齿</string>
     <string name="antialias_sub">启用抗锯齿功能以防止出现尖锐边缘</string>
+    <string name="open_edit_instead_of_preview">打开编辑而不是预览</string>
+    <string name="open_edit_instead_of_preview_sub">在 ImageToolbox 中选择要打开（预览）的图像时，将打开编辑选择表，而不是预览</string>
 </resources>
