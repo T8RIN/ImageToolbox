@@ -1064,4 +1064,6 @@
     <string name="draw_regular_star_sub">तारा बनाएं जो मुक्त रूप के बजाय नियमित होगा</string>
     <string name="antialias">एंटीएलियास</string>
     <string name="antialias_sub">तेज किनारों को रोकने के लिए एंटीएलियासिंग सक्षम करता है</string>
+    <string name="open_edit_instead_of_preview">पूर्वावलोकन के बजाय संपादन खोलें</string>
+    <string name="open_edit_instead_of_preview_sub">जब आप ImageToolbox में खोलने (पूर्वावलोकन) के लिए छवि का चयन करते हैं, तो पूर्वावलोकन के बजाय संपादन चयन पत्रक खोला जायेगा</string>
 </resources>

@@ -72,7 +72,7 @@
     <string name="unsupported_type">نوع غير مدعوم: %1$s</string>
     <string name="no_palette">لا يمكن إنشاء لوحة ألوان للصورة المحددة</string>
     <string name="original">الاصلية</string>
-    <string name="folder">مجلد الإخراج</string>
+    <string name="folder">مجلد الحفظ</string>
     <string name="def">الافتراضي</string>
     <string name="custom">مخصص</string>
     <string name="unspecified">غير محدد</string>
