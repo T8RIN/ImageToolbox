@@ -26,11 +26,12 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -157,7 +158,6 @@ fun OneTimeSaveLocationSelectionDialog(
             val context = LocalContext.current
             val scrollState = rememberScrollState()
             Column(
-                verticalArrangement = Arrangement.spacedBy(4.dp),
                 modifier = Modifier
                     .fadingEdges(
                         scrollableState = scrollState,
@@ -165,6 +165,7 @@ fun OneTimeSaveLocationSelectionDialog(
                     )
                     .verticalScroll(scrollState)
             ) {
+                Spacer(Modifier.height(4.dp))
                 data.forEachIndexed { index, item ->
                     val title by remember(item) {
                         derivedStateOf {
@@ -297,7 +298,7 @@ fun OneTimeSaveLocationSelectionDialog(
                                 scrollableState = null,
                                 length = 4.dp
                             )
-                            .padding(horizontal = 4.dp)
+                            .padding(horizontal = 4.dp, vertical = 2.dp)
                     )
                 }
                 val currentFolderUri = selectedSaveFolderUri?.toUri() ?: settingsState.saveFolderUri
@@ -330,7 +331,7 @@ fun OneTimeSaveLocationSelectionDialog(
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 4.dp),
+                        .padding(horizontal = 4.dp, vertical = 2.dp),
                     color = MaterialTheme.colorScheme.surfaceContainer
                 )
             }
