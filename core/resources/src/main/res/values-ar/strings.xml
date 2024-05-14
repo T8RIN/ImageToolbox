@@ -8,7 +8,7 @@
     <string name="color_green">أخضر</string>
     <string name="color_blue">أزرق</string>
     <string name="clipboard_paste_invalid_color_code">قم يلصق كود aRGB صالح.</string>
-    <string name="clipboard_paste_invalid_empty">لا شيء للصقه</string>
+    <string name="clipboard_paste_invalid_empty">لا شيئ للصقه</string>
     <string name="cannot_change_palette_while_dynamic_colors_applied">لا يمكن تغيير نظام ألوان التطبيق أثناء تشغيل الألوان الديناميكية</string>
     <string name="pick_accent_color">سيعتمد مظهر التطبيق على اللون الذي ستختاره</string>
     <string name="smth_went_wrong">حدث خطأ ما: %1$s</string>
@@ -72,7 +72,7 @@
     <string name="unsupported_type">نوع غير مدعوم: %1$s</string>
     <string name="no_palette">لا يمكن إنشاء لوحة ألوان للصورة المحددة</string>
     <string name="original">الاصلية</string>
-    <string name="folder">مجلد الإخراج</string>
+    <string name="folder">مجلد الحفظ</string>
     <string name="def">الافتراضي</string>
     <string name="custom">مخصص</string>
     <string name="unspecified">غير محدد</string>
@@ -94,7 +94,7 @@
     <string name="allow_image_monet">وفقا لالوان الصورة المختارة</string>
     <string name="allow_image_monet_sub">في حالة التمكين ، عند اختيار صورة لتحريرها ، سيتم اعتماد ألوان التطبيق على هذه الصورة</string>
     <string name="about_app">حول التطبيق</string>
-    <string name="issue_tracker">تعقب المشكلة</string>
+    <string name="issue_tracker">متعقب المشاكل</string>
     <string name="help_translate">مساعدة في الترجمة</string>
     <string name="no_updates">لم يتم العثور على تحديثات</string>
     <string name="issue_tracker_sub">أرسل تقرير بمشكلتك وطلباتك من هنا</string>
@@ -111,10 +111,10 @@
     <string name="values">القيم</string>
     <string name="add">أضيف</string>
     <string name="primary">أساسي</string>
-    <string name="tertiary">بعد الثانوي</string>
+    <string name="tertiary">ثالث</string>
     <string name="secondary">ثانوي</string>
     <string name="permission">إذن</string>
-    <string name="grant">منحة</string>
+    <string name="grant">منح</string>
     <string name="permission_sub">يحتاج التطبيق إلى الوصول إلى مساحة التخزين الخاصة بك لحفظ الصور ، فهو ضروري ، وبدون ذلك لا يمكن أن يعمل ، لذا يرجى منح الإذن في مربع الحوار التالي</string>
     <string name="grant_permission_manual">يحتاج التطبيق إلى هذا الإذن للعمل ، يرجى منحه يدويًا</string>
     <string name="border_thickness">سمك الحدود</string>
