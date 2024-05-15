@@ -38,6 +38,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
@@ -92,7 +93,8 @@ fun ColorTuplePreview(
             .combinedClickable(
                 onClick = onClick
             )
-            .padding(3.dp),
+            .padding(3.dp)
+            .clip(CircleShape),
         backgroundColor = Color.Transparent
     ) {
         AnimatedContent(

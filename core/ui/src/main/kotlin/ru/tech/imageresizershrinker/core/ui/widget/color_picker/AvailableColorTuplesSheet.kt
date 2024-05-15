@@ -21,6 +21,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,14 +34,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -67,8 +66,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -198,7 +199,8 @@ fun AvailableColorTuplesSheet(
                                         borderColor = MaterialTheme.colorScheme.outlineVariant(0.2f),
                                         resultPadding = 0.dp
                                     )
-                                    .padding(3.dp),
+                                    .padding(3.dp)
+                                    .clip(CircleShape),
                                 backgroundColor = Color.Transparent
                             )
                             Spacer(modifier = Modifier.height(8.dp))
@@ -305,12 +307,14 @@ fun AvailableColorTuplesSheet(
                 )
             }
             val defaultValues = @Composable {
-                val listState = rememberLazyListState()
+                val listState = rememberScrollState()
                 val defList = ColorTupleDefaults.defaultColorTuples
+                val density = LocalDensity.current
+                val cellSize = 60.dp
                 LaunchedEffect(visible.value, isPickersEnabled) {
                     delay(100) // delay for sheet init
                     if (currentColorTuple in defList) {
-                        listState.animateScrollToItem(defList.indexOf(currentColorTuple))
+                        listState.scrollTo(defList.indexOf(currentColorTuple) * with(density) { cellSize.roundToPx() })
                     }
                 }
                 Column(
@@ -332,15 +336,16 @@ fun AvailableColorTuplesSheet(
                         )
                     }
                     Box {
-                        LazyRow(
-                            state = listState,
-                            contentPadding = PaddingValues(16.dp),
+                        Row(
+                            modifier = Modifier
+                                .horizontalScroll(listState)
+                                .padding(PaddingValues(16.dp)),
                             horizontalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
-                            items(defList) { colorTuple ->
+                            defList.forEach { colorTuple ->
                                 ColorTuplePreview(
                                     isDefaultItem = true,
-                                    modifier = Modifier.size(60.dp),
+                                    modifier = Modifier.size(cellSize),
                                     colorTuple = colorTuple,
                                     appColorTuple = currentColorTuple,
                                     onClick = { onPickTheme(colorTuple) }
@@ -456,7 +461,8 @@ fun AvailableColorTuplesSheet(
                                         resultPadding = 0.dp
                                     )
                                     .clickable { openColorPicker() }
-                                    .padding(3.dp),
+                                    .padding(3.dp)
+                                    .clip(CircleShape),
                                 backgroundColor = Color.Transparent
                             ) {
                                 Icon(
