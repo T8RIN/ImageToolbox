@@ -1028,12 +1028,6 @@ fun FiltersScreen(
                                 if (filterType is Screen.Filter.Type.Basic) {
                                     val filterList = viewModel.basicFilterState.filters
 
-                                    LaunchedEffect(filterList) {
-                                        if (viewModel.needToApplyFilters) {
-                                            viewModel.updatePreview()
-                                        }
-                                    }
-
                                     content(filterType)
 
                                     PickImageFromUrisSheet(
@@ -1080,11 +1074,6 @@ fun FiltersScreen(
                                         updateOrder = viewModel::updateFiltersOrder
                                     )
                                 } else if (filterType is Screen.Filter.Type.Masking) {
-                                    LaunchedEffect(viewModel.maskingFilterState.masks) {
-                                        if (viewModel.needToApplyFilters) {
-                                            viewModel.updatePreview()
-                                        }
-                                    }
 
                                     content(filterType)
 

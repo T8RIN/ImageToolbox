@@ -109,9 +109,6 @@ class FilterViewModel @Inject constructor(
     private val _imageInfo = mutableStateOf(ImageInfo())
     val imageInfo by _imageInfo
 
-    private val _needToApplyFilters = mutableStateOf(true)
-    val needToApplyFilters by _needToApplyFilters
-
     private val _filterType: MutableState<Screen.Filter.Type?> = mutableStateOf(null)
     val filterType: Screen.Filter.Type? by _filterType
 
@@ -275,7 +272,7 @@ class FilterViewModel @Inject constructor(
             }
         }
         updateCanSave()
-        _needToApplyFilters.value = true
+        updatePreview()
     }
 
     fun updateFiltersOrder(value: List<UiFilter<*>>) {
@@ -284,7 +281,7 @@ class FilterViewModel @Inject constructor(
         }
         filterJob = null
         updateCanSave()
-        _needToApplyFilters.value = true
+        updatePreview()
     }
 
     fun addFilter(filter: UiFilter<*>) {
@@ -293,7 +290,7 @@ class FilterViewModel @Inject constructor(
         }
         updateCanSave()
         filterJob = null
-        _needToApplyFilters.value = true
+        updatePreview()
     }
 
     fun removeFilterAtIndex(index: Int) {
@@ -306,7 +303,7 @@ class FilterViewModel @Inject constructor(
         }
         updateCanSave()
         filterJob = null
-        _needToApplyFilters.value = true
+        updatePreview()
     }
 
     fun canShow(): Boolean = bitmap?.let { imagePreviewCreator.canShow(it) } ?: false
@@ -382,7 +379,7 @@ class FilterViewModel @Inject constructor(
         updatePreview()
     }
 
-    fun updatePreview() {
+    private fun updatePreview() {
         _bitmap.value?.let { bitmap ->
             filterJob = viewModelScope.launch(defaultDispatcher) {
                 delay(200L)
@@ -419,7 +416,6 @@ class FilterViewModel @Inject constructor(
                     null -> Unit
                 }
                 _isImageLoading.value = false
-                _needToApplyFilters.value = false
             }
         }
     }
@@ -445,7 +441,7 @@ class FilterViewModel @Inject constructor(
         }
         uri?.let { setBitmap(it) }
         _maskingFilterState.value = MaskingFilterState(uri)
-        _needToApplyFilters.value = true
+        updatePreview()
         updateCanSave()
     }
 
@@ -512,7 +508,7 @@ class FilterViewModel @Inject constructor(
         _maskingFilterState.update {
             it.copy(masks = uiFilterMasks)
         }
-        _needToApplyFilters.value = true
+        updatePreview()
         updateCanSave()
     }
 
@@ -529,7 +525,7 @@ class FilterViewModel @Inject constructor(
                     }
                 )
             }
-            _needToApplyFilters.value = true
+            updatePreview()
             updateCanSave()
         }.onFailure(showError)
     }
@@ -542,7 +538,7 @@ class FilterViewModel @Inject constructor(
                 }
             )
         }
-        _needToApplyFilters.value = true
+        updatePreview()
         updateCanSave()
     }
 
@@ -552,7 +548,7 @@ class FilterViewModel @Inject constructor(
                 masks = it.masks + value
             )
         }
-        _needToApplyFilters.value = true
+        updatePreview()
         updateCanSave()
     }
 
