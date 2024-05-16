@@ -1085,7 +1085,7 @@
     <string name="open_edit_instead_of_preview">Open Edit Instead Of Preview</string>
     <string name="open_edit_instead_of_preview_sub">When you select image to open (preview) in ImageToolbox, edit selection sheet will be opened instead of previewing</string>
     <string name="document_scanner">Document Scanner</string>
-    <string name="document_scanner_sub">Scan documents and create PDF from them</string>
+    <string name="document_scanner_sub">Scan documents and create PDF or separate images from them</string>
     <string name="click_to_start_scanning">Click to start scanning</string>
     <string name="start_scanning">Start Scanning</string>
     <string name="save_as_pdf">Save As Pdf</string>
