@@ -345,6 +345,11 @@ or click one of the badges below.
   - JXL to Images
   - APNG to JXL
   - GIF to JXL
+- PDF tools
+  - PDF to images
+  - Images to PDF
+  - PDF previewing
+- Document Scanning
 - Image Shrinking
   - Quality compressing
   - Preset shrinking
