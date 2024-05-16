@@ -1091,4 +1091,6 @@
     <string name="save_as_pdf">Save As Pdf</string>
     <string name="share_as_pdf">Share As Pdf</string>
     <string name="options_below_is_for_images">Options below is for saving images, not PDF</string>
+    <string name="equalize_histogram_hsv">Equalize Histogram HSV</string>
+    <string name="equalize_histogram">Equalize Histogram</string>
 </resources>

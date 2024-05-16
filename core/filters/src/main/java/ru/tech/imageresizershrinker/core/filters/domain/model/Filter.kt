@@ -22,11 +22,11 @@ interface Filter<Image, Value> {
     val value: Value
 
     interface BilaterialBlur<Image> : Filter<Image, Triple<Float, Float, Float>>
-    interface BlackAndWhite<Image> : Filter<Image, Unit>
+    interface BlackAndWhite<Image> : SimpleFilter<Image>
     interface BoxBlur<Image> : Filter<Image, Float>
     interface Brightness<Image> : Filter<Image, Float>
     interface BulgeDistortion<Image> : Filter<Image, Pair<Float, Float>>
-    interface CGAColorSpace<Image> : Filter<Image, Unit>
+    interface CGAColorSpace<Image> : SimpleFilter<Image>
     interface ColorBalance<Image> : Filter<Image, FloatArray>
     interface Color<Image, Color : Any> : Filter<Image, FilterValueWrapper<Color>>
     interface ColorMatrix4x4<Image> : Filter<Image, FloatArray>
@@ -46,16 +46,16 @@ interface Filter<Image, Value> {
     interface HighlightsAndShadows<Image> : Filter<Image, Pair<Float, Float>>
     interface Hue<Image> : Filter<Image, Float>
     interface Kuwahara<Image> : Filter<Image, Float>
-    interface Laplacian<Image> : Filter<Image, Unit>
+    interface Laplacian<Image> : SimpleFilter<Image>
     interface Lookup<Image> : Filter<Image, Float>
     interface Monochrome<Image, Color> : Filter<Image, Pair<Float, Color>>
-    interface Negative<Image> : Filter<Image, Unit>
-    interface NonMaximumSuppression<Image> : Filter<Image, Unit>
+    interface Negative<Image> : SimpleFilter<Image>
+    interface NonMaximumSuppression<Image> : SimpleFilter<Image>
     interface Opacity<Image> : Filter<Image, Float>
     interface Posterize<Image> : Filter<Image, Float>
     interface RGB<Image, Color : Any> : Filter<Image, FilterValueWrapper<Color>>
     interface Saturation<Image> : Filter<Image, Float>
-    interface Sepia<Image> : Filter<Image, Unit>
+    interface Sepia<Image> : SimpleFilter<Image>
     interface Sharpen<Image> : Filter<Image, Float>
     interface Sketch<Image> : Filter<Image, Float>
     interface SmoothToon<Image> : Filter<Image, Triple<Float, Float, Float>>
@@ -67,7 +67,7 @@ interface Filter<Image, Value> {
     interface Toon<Image> : Filter<Image, Pair<Float, Float>>
     interface Vibrance<Image> : Filter<Image, Float>
     interface Vignette<Image, Color> : Filter<Image, Triple<Float, Float, Color>>
-    interface WeakPixel<Image> : Filter<Image, Unit>
+    interface WeakPixel<Image> : SimpleFilter<Image>
     interface WhiteBalance<Image> : Filter<Image, Pair<Float, Float>>
     interface ZoomBlur<Image> : Filter<Image, Triple<Float, Float, Float>>
     interface Pixelation<Image> : Filter<Image, Float>
@@ -124,52 +124,52 @@ interface Filter<Image, Value> {
     interface Dehaze<Image> : Filter<Image, Pair<Int, Float>>
     interface Threshold<Image> : Filter<Image, Float>
     interface ColorMatrix3x3<Image> : Filter<Image, FloatArray>
-    interface Polaroid<Image> : Filter<Image, Unit>
-    interface Cool<Image> : Filter<Image, Unit>
-    interface Warm<Image> : Filter<Image, Unit>
-    interface NightVision<Image> : Filter<Image, Unit>
-    interface CodaChrome<Image> : Filter<Image, Unit>
-    interface Browni<Image> : Filter<Image, Unit>
-    interface Vintage<Image> : Filter<Image, Unit>
-    interface Protonomaly<Image> : Filter<Image, Unit>
-    interface Deutaromaly<Image> : Filter<Image, Unit>
-    interface Tritonomaly<Image> : Filter<Image, Unit>
-    interface Protanopia<Image> : Filter<Image, Unit>
-    interface Deutaronotopia<Image> : Filter<Image, Unit>
-    interface Tritanopia<Image> : Filter<Image, Unit>
-    interface Achromatopsia<Image> : Filter<Image, Unit>
-    interface Achromatomaly<Image> : Filter<Image, Unit>
+    interface Polaroid<Image> : SimpleFilter<Image>
+    interface Cool<Image> : SimpleFilter<Image>
+    interface Warm<Image> : SimpleFilter<Image>
+    interface NightVision<Image> : SimpleFilter<Image>
+    interface CodaChrome<Image> : SimpleFilter<Image>
+    interface Browni<Image> : SimpleFilter<Image>
+    interface Vintage<Image> : SimpleFilter<Image>
+    interface Protonomaly<Image> : SimpleFilter<Image>
+    interface Deutaromaly<Image> : SimpleFilter<Image>
+    interface Tritonomaly<Image> : SimpleFilter<Image>
+    interface Protanopia<Image> : SimpleFilter<Image>
+    interface Deutaronotopia<Image> : SimpleFilter<Image>
+    interface Tritanopia<Image> : SimpleFilter<Image>
+    interface Achromatopsia<Image> : SimpleFilter<Image>
+    interface Achromatomaly<Image> : SimpleFilter<Image>
     interface Grain<Image> : Filter<Image, Float>
     interface Unsharp<Image> : Filter<Image, Float>
-    interface Pastel<Image> : Filter<Image, Unit>
-    interface OrangeHaze<Image> : Filter<Image, Unit>
-    interface PinkDream<Image> : Filter<Image, Unit>
-    interface GoldenHour<Image> : Filter<Image, Unit>
-    interface HotSummer<Image> : Filter<Image, Unit>
-    interface PurpleMist<Image> : Filter<Image, Unit>
-    interface Sunrise<Image> : Filter<Image, Unit>
-    interface ColorfulSwirl<Image> : Filter<Image, Unit>
-    interface SoftSpringLight<Image> : Filter<Image, Unit>
-    interface AutumnTones<Image> : Filter<Image, Unit>
-    interface LavenderDream<Image> : Filter<Image, Unit>
-    interface Cyberpunk<Image> : Filter<Image, Unit>
-    interface LemonadeLight<Image> : Filter<Image, Unit>
-    interface SpectralFire<Image> : Filter<Image, Unit>
-    interface NightMagic<Image> : Filter<Image, Unit>
-    interface FantasyLandscape<Image> : Filter<Image, Unit>
-    interface ColorExplosion<Image> : Filter<Image, Unit>
-    interface ElectricGradient<Image> : Filter<Image, Unit>
-    interface CaramelDarkness<Image> : Filter<Image, Unit>
-    interface FuturisticGradient<Image> : Filter<Image, Unit>
-    interface GreenSun<Image> : Filter<Image, Unit>
-    interface RainbowWorld<Image> : Filter<Image, Unit>
-    interface DeepPurple<Image> : Filter<Image, Unit>
-    interface SpacePortal<Image> : Filter<Image, Unit>
-    interface RedSwirl<Image> : Filter<Image, Unit>
-    interface DigitalCode<Image> : Filter<Image, Unit>
+    interface Pastel<Image> : SimpleFilter<Image>
+    interface OrangeHaze<Image> : SimpleFilter<Image>
+    interface PinkDream<Image> : SimpleFilter<Image>
+    interface GoldenHour<Image> : SimpleFilter<Image>
+    interface HotSummer<Image> : SimpleFilter<Image>
+    interface PurpleMist<Image> : SimpleFilter<Image>
+    interface Sunrise<Image> : SimpleFilter<Image>
+    interface ColorfulSwirl<Image> : SimpleFilter<Image>
+    interface SoftSpringLight<Image> : SimpleFilter<Image>
+    interface AutumnTones<Image> : SimpleFilter<Image>
+    interface LavenderDream<Image> : SimpleFilter<Image>
+    interface Cyberpunk<Image> : SimpleFilter<Image>
+    interface LemonadeLight<Image> : SimpleFilter<Image>
+    interface SpectralFire<Image> : SimpleFilter<Image>
+    interface NightMagic<Image> : SimpleFilter<Image>
+    interface FantasyLandscape<Image> : SimpleFilter<Image>
+    interface ColorExplosion<Image> : SimpleFilter<Image>
+    interface ElectricGradient<Image> : SimpleFilter<Image>
+    interface CaramelDarkness<Image> : SimpleFilter<Image>
+    interface FuturisticGradient<Image> : SimpleFilter<Image>
+    interface GreenSun<Image> : SimpleFilter<Image>
+    interface RainbowWorld<Image> : SimpleFilter<Image>
+    interface DeepPurple<Image> : SimpleFilter<Image>
+    interface SpacePortal<Image> : SimpleFilter<Image>
+    interface RedSwirl<Image> : SimpleFilter<Image>
+    interface DigitalCode<Image> : SimpleFilter<Image>
     interface Bokeh<Image> : Filter<Image, BokehParams>
     interface Neon<Image, Color : Any> : Filter<Image, Triple<Float, Float, Color>>
-    interface OldTv<Image> : Filter<Image, Unit>
+    interface OldTv<Image> : SimpleFilter<Image>
     interface ShuffleBlur<Image> : Filter<Image, Pair<Int, Float>>
     interface Mobius<Image> : Filter<Image, Triple<Float, Float, Float>>
     interface Uchimura<Image> : Filter<Image, Float>
@@ -187,4 +187,8 @@ interface Filter<Image, Value> {
     interface FastGaussianBlur2D<Image> : Filter<Image, Float>
     interface FastGaussianBlur3D<Image> : Filter<Image, Float>
     interface FastGaussianBlur4D<Image> : Filter<Image, Float>
+    interface EqualizeHistogram<Image> : SimpleFilter<Image>
+    interface EqualizeHistogramHSV<Image> : SimpleFilter<Image>
 }
+
+interface SimpleFilter<Image> : Filter<Image, Unit>

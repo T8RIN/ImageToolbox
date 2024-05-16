@@ -78,6 +78,8 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedCirclePix
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedDiamondPixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedGlitchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedPixelationFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramHSVFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ErodeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ExposureFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.FalseColorFilter
@@ -365,6 +367,8 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.FastGaussianBlur2D -> FastGaussianBlur2DFilter(value)
             is Filter.FastGaussianBlur3D -> FastGaussianBlur3DFilter(value)
             is Filter.FastGaussianBlur4D -> FastGaussianBlur4DFilter(value)
+            is Filter.EqualizeHistogramHSV -> EqualizeHistogramHSVFilter(value)
+            is Filter.EqualizeHistogram -> EqualizeHistogramFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

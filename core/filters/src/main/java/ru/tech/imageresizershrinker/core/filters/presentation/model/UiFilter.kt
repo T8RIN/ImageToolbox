@@ -108,7 +108,9 @@ sealed class UiFilter<T>(
                     UiSpacePortalFilter(),
                     UiRedSwirlFilter(),
                     UiDigitalCodeFilter(),
-                    UiOldTvFilter()
+                    UiOldTvFilter(),
+                    UiEqualizeHistogramFilter(),
+                    UiEqualizeHistogramHSVFilter()
                 ),
                 listOf(
                     UiHueFilter(),
