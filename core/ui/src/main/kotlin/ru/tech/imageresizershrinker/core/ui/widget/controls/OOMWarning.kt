@@ -22,12 +22,9 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,7 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
+import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 
 @Composable
 fun OOMWarning(visible: Boolean) {
@@ -47,21 +44,16 @@ fun OOMWarning(visible: Boolean) {
         enter = fadeIn() + expandVertically(),
         exit = fadeOut() + shrinkVertically()
     ) {
-        Card(
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.errorContainer.copy(
-                    alpha = 0.7f
-                ),
-                contentColor = MaterialTheme.colorScheme.onErrorContainer
-            ),
+        Column(
             modifier = Modifier
-                .padding(8.dp)
-                .border(
-                    width = LocalSettingsState.current.borderWidth,
-                    color = MaterialTheme.colorScheme.onErrorContainer.copy(0.4f),
+                .padding(12.dp)
+                .container(
+                    color = MaterialTheme.colorScheme.errorContainer.copy(
+                        alpha = 0.7f
+                    ),
+                    resultPadding = 0.dp,
                     shape = RoundedCornerShape(16.dp)
-                ),
-            shape = RoundedCornerShape(16.dp)
+                )
         ) {
             Text(
                 text = stringResource(R.string.image_size_warning),
@@ -70,7 +62,7 @@ fun OOMWarning(visible: Boolean) {
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.SemiBold,
                 lineHeight = 14.sp,
-                color = LocalContentColor.current.copy(alpha = 0.5f)
+                color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.5f)
             )
         }
     }

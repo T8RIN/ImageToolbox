@@ -73,7 +73,8 @@ class DocumentScannerViewModel @Inject constructor(
 
     private val _pdfUris = mutableStateOf<List<Uri>>(emptyList())
 
-    private suspend fun getPdfUri(): Uri? = if (_pdfUris.value.size > 1) {
+    private suspend fun getPdfUri(): Uri? =
+        if (_pdfUris.value.size > 1 || _pdfUris.value.isEmpty()) {
         createPdfUri()
     } else _pdfUris.value.firstOrNull()
 

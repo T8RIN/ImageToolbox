@@ -20,7 +20,6 @@ package ru.tech.imageresizershrinker.feature.document_scanner.presentation
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,6 +31,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FolderOff
@@ -42,10 +42,7 @@ import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.DocumentScanner
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.twotone.DocumentScanner
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -269,7 +266,14 @@ fun DocumentScannerScreen(
             )
             Spacer(modifier = Modifier.height(12.dp))
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .container(
+                        resultPadding = 0.dp,
+                        shape = CircleShape,
+                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                    )
+                    .padding(vertical = 6.dp),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -281,8 +285,8 @@ fun DocumentScannerScreen(
                     contentPadding = PaddingValues(
                         top = 8.dp,
                         bottom = 8.dp,
-                        start = 16.dp,
-                        end = 24.dp
+                        start = 12.dp,
+                        end = 20.dp
                     )
                 ) {
                     Icon(
@@ -301,7 +305,7 @@ fun DocumentScannerScreen(
                         top = 8.dp,
                         bottom = 8.dp,
                         start = 16.dp,
-                        end = 24.dp
+                        end = 20.dp
                     )
                 ) {
                     Icon(
@@ -313,25 +317,24 @@ fun DocumentScannerScreen(
                 }
             }
             Spacer(modifier = Modifier.height(24.dp))
-            Card(
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                    contentColor = MaterialTheme.colorScheme.onSurface
-                ),
+            Column(
                 modifier = Modifier
                     .padding(8.dp)
-                    .border(
-                        width = LocalSettingsState.current.borderWidth,
-                        color = MaterialTheme.colorScheme.onSurface.copy(0.4f),
+                    .container(
+                        color = MaterialTheme.colorScheme.secondaryContainer.copy(0.2f),
+                        resultPadding = 0.dp,
                         shape = RoundedCornerShape(16.dp)
-                    ),
-                shape = RoundedCornerShape(16.dp)
+                    )
             ) {
                 Row(
                     modifier = Modifier.padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(imageVector = Icons.Outlined.Info, contentDescription = null)
+                    Icon(
+                        imageVector = Icons.Outlined.Info,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
+                    )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = stringResource(R.string.options_below_is_for_images),
@@ -339,7 +342,7 @@ fun DocumentScannerScreen(
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.SemiBold,
                         lineHeight = 14.sp,
-                        color = LocalContentColor.current.copy(alpha = 0.5f)
+                        color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.5f)
                     )
                 }
             }

@@ -31,7 +31,6 @@ import androidx.core.net.toUri
 import kotlinx.coroutines.launch
 import ru.tech.imageresizershrinker.core.ui.widget.other.LocalToastHostState
 import ru.tech.imageresizershrinker.core.ui.widget.other.showError
-import java.io.File
 import com.websitebeaver.documentscanner.DocumentScanner as DocumentScannerImpl
 
 class DocumentScanner internal constructor(
@@ -59,9 +58,9 @@ fun rememberDocumentScanner(
     val scanner = remember(context) {
         DocumentScannerImpl(
             activity = context,
-            successHandler = { imagePaths ->
+            successHandler = { imageUris ->
                 onSuccess(
-                    ScanResult(imagePaths.map { File(it).toUri() })
+                    ScanResult(imageUris.map { it.toUri() })
                 )
             },
             errorHandler = {
