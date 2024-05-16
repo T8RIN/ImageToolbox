@@ -659,6 +659,6 @@ sealed class Screen(
             typedEntries.flatMap { it.first }.sortedBy { it.id }
         }
 
-        const val FEATURES_COUNT = 39
+        const val FEATURES_COUNT = 40
     }
 }
