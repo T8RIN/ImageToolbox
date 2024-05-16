@@ -23,8 +23,11 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.color.DynamicColors
+import com.google.android.material.color.DynamicColorsOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +38,7 @@ import ru.tech.imageresizershrinker.core.crash.CrashActivity
 import ru.tech.imageresizershrinker.core.crash.SettingsStateEntryPoint
 import ru.tech.imageresizershrinker.core.di.entryPoint
 import ru.tech.imageresizershrinker.core.settings.domain.model.SettingsState
+import ru.tech.imageresizershrinker.core.settings.presentation.model.asColorTuple
 import ru.tech.imageresizershrinker.core.ui.utils.helper.ContextUtils.adjustFontSize
 
 @AndroidEntryPoint
@@ -72,6 +76,14 @@ open class M3Activity : AppCompatActivity() {
                     .getSettingsStateFlow()
                     .collect {
                         settingsState.value = it
+
+                        val colorTuple = it.appColorTuple.asColorTuple()
+                        DynamicColors.applyToActivitiesIfAvailable(
+                            this@M3Activity.application,
+                            DynamicColorsOptions.Builder()
+                                .setContentBasedSource(colorTuple.primary.toArgb())
+                                .build()
+                        )
                     }
             }
         }

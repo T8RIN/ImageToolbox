@@ -229,14 +229,7 @@ fun rememberImagePicker(
             val data = intent?.data
             val clipData = intent?.clipData
             if (clipData != null) {
-                onSuccess(
-                    List(
-                        size = clipData.itemCount,
-                        init = {
-                            clipData.getItemAt(it).uri
-                        }
-                    )
-                )
+                onSuccess(clipData.clipList())
             } else if (data != null) {
                 onSuccess(listOf(data))
             } else if (intent?.action == Intent.ACTION_SEND_MULTIPLE) {
@@ -269,7 +262,14 @@ fun rememberImagePicker(
     val toastHostState = LocalToastHostState.current
     val currentAccent = LocalDynamicThemeState.current.colorTuple.value.primary
 
-    return remember(imageExtension, currentAccent) {
+    return remember(
+        imageExtension,
+        currentAccent,
+        photoPickerSingle,
+        photoPickerMultiple,
+        getContent,
+        takePhoto
+    ) {
         ImagePicker(
             context = context,
             mode = mode,
@@ -283,6 +283,8 @@ fun rememberImagePicker(
             },
             imageExtension = imageExtension,
             onFailure = {
+                onFailure()
+
                 scope.launch {
                     if (it is ActivityNotFoundException) {
                         toastHostState.showToast(

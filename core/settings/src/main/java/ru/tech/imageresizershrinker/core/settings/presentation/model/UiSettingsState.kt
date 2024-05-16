@@ -293,7 +293,7 @@ private fun String?.toColorTupleList(): List<ColorTuple> {
 
 private fun Int.toColor() = Color(this)
 
-private fun String.asColorTuple(): ColorTuple {
+fun String.asColorTuple(): ColorTuple {
     val colorTuple = split("*")
     return ColorTuple(
         primary = colorTuple.getOrNull(0)?.toIntOrNull()?.let { Color(it) }

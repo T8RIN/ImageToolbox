@@ -60,7 +60,7 @@ dependencies {
     api(libs.scrollbar)
 
     implementation(libs.datastore.preferences.android)
-    implementation(libs.material)
+    api(libs.material)
 
     "marketImplementation"(libs.mlkit.segmentation.selfie)
     "marketImplementation"(libs.firebase.crashlytics.ktx)
@@ -72,4 +72,7 @@ dependencies {
     api(projects.core.resources)
 
     implementation(projects.core.settings)
+
+    "marketImplementation"(libs.mlkit.document.scanner)
+    "fossImplementation"(libs.documentscanner)
 }

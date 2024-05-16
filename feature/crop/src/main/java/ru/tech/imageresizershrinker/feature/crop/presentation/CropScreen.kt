@@ -169,18 +169,17 @@ fun CropScreen(
         }
     }
 
-    val pickImageLauncher =
-        rememberImagePicker(
-            mode = localImagePickerMode(Picker.Single)
-        ) { uris ->
-            uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
-                viewModel.setUri(it) { t ->
-                    scope.launch {
-                        toastHostState.showError(context, t)
-                    }
+    val pickImageLauncher = rememberImagePicker(
+        mode = localImagePickerMode(Picker.Single)
+    ) { uris ->
+        uris.takeIf { it.isNotEmpty() }?.firstOrNull()?.let {
+            viewModel.setUri(it) { t ->
+                scope.launch {
+                    toastHostState.showError(context, t)
                 }
             }
         }
+    }
 
     val pickImage = pickImageLauncher::pickImage
 
