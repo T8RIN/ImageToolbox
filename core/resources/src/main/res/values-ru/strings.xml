@@ -318,7 +318,7 @@
     <string name="font">Шрифт</string>
     <string name="defaultt">По умолчанию</string>
     <string name="text">Текст</string>
-    <string name="font_scale">Размер шрифта</string>
+    <string name="font_scale">Масштаб шрифта</string>
     <string name="using_large_fonts_warn">Использование шрифтов большого размера может привести к сбоям и проблемам пользовательского интерфейса, которые не будут устранены. Используйте с осторожностью.</string>
     <string name="alphabet_and_numbers">Аа Бб Вв Гг Дд Её Жж Зз Ии́ Кк Лл Мм Нн Оо Пп Рр Сс Тт Уу Фф Хх Цц Чч Шщ Ъь Ыы Ээ Юю Яя 0123456789 !\?</string>
     <string name="emotions">Эмоции</string>
