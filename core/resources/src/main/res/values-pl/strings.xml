@@ -933,4 +933,8 @@
     <string name="tag_max_aperture_value">Maksymalna wartość przysłony</string>
     <string name="tag_aperture_value">Wartość przysłony</string>
     <string name="tag_flash">Lampa błyskowa</string>
+    <string name="tag_compressed_bits_per_pixel">Skompresowane bity na piksel</string>
+    <string name="tag_maker_note">Uwaga producenta</string>
+    <string name="tag_user_comment">Komentarz użytkownika</string>
+    <string name="tag_related_sound_file">Powiązany plik dźwiękowy</string>
 </resources>
