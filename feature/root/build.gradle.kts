@@ -54,4 +54,5 @@ dependencies {
     implementation(projects.feature.easterEgg)
     implementation(projects.feature.svg)
     implementation(projects.feature.convert)
+    implementation(projects.feature.documentScanner)
 }

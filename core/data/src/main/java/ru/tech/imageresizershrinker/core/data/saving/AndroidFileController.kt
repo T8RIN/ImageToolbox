@@ -491,6 +491,14 @@ internal class AndroidFileController @Inject constructor(
 
     override fun getReadableCacheSize(): String = context.cacheSize()
 
+    override suspend fun readBytes(
+        uri: String
+    ): ByteArray = withContext(ioDispatcher) {
+        context.contentResolver.openInputStream(uri.toUri())?.use {
+            it.buffered().readBytes()
+        } ?: ByteArray(0)
+    }
+
     private fun Context.clearCache(onComplete: (cache: String) -> Unit = {}) {
         CoroutineScope(defaultDispatcher).launch {
             coroutineScope {

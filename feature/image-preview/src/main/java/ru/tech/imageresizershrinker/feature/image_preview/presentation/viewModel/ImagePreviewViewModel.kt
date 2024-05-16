@@ -47,7 +47,7 @@ class ImagePreviewViewModel @Inject constructor(
         uri: Uri,
         onComplete: () -> Unit
     ) = viewModelScope.launch(defaultDispatcher) {
-        shareProvider.shareUri(uri.toString(), null)
+        shareProvider.shareUri(uri.toString())
         onComplete()
     }
 

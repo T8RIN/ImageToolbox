@@ -51,7 +51,7 @@ interface ShareProvider<I> {
 
     suspend fun shareUri(
         uri: String,
-        type: String?
+        type: String? = null
     )
 
     suspend fun shareUris(

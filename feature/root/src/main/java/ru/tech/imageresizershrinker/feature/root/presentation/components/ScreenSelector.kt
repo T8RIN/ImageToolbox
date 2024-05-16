@@ -36,6 +36,7 @@ import ru.tech.imageresizershrinker.feature.compare.presentation.CompareScreen
 import ru.tech.imageresizershrinker.feature.convert.presentation.ConvertScreen
 import ru.tech.imageresizershrinker.feature.crop.presentation.CropScreen
 import ru.tech.imageresizershrinker.feature.delete_exif.presentation.DeleteExifScreen
+import ru.tech.imageresizershrinker.feature.document_scanner.presentation.DocumentScannerScreen
 import ru.tech.imageresizershrinker.feature.draw.presentation.DrawScreen
 import ru.tech.imageresizershrinker.feature.easter_egg.presentation.EasterEggScreen
 import ru.tech.imageresizershrinker.feature.erase_background.presentation.EraseBackgroundScreen
@@ -292,6 +293,10 @@ internal fun ScreenSelector(
                     uriState = screen.uris,
                     onGoBack = onGoBack
                 )
+            }
+
+            Screen.DocumentScanner -> {
+                DocumentScannerScreen(onGoBack = onGoBack)
             }
         }
     }

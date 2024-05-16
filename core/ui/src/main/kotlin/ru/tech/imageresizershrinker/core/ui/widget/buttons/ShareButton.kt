@@ -55,7 +55,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
 fun ShareButton(
     enabled: Boolean = true,
     onShare: () -> Unit,
-    onCopy: (ClipboardManager) -> Unit
+    onCopy: ((ClipboardManager) -> Unit)? = null
 ) {
     var showSelectionDialog by rememberSaveable {
         mutableStateOf(false)
@@ -66,7 +66,11 @@ fun ShareButton(
         contentColor = LocalContentColor.current,
         enableAutoShadowAndBorder = false,
         onClick = {
-            showSelectionDialog = true
+            if (onCopy != null) {
+                showSelectionDialog = true
+            } else {
+                onShare()
+            }
         },
         enabled = enabled
     ) {
@@ -76,7 +80,7 @@ fun ShareButton(
         )
     }
 
-    if (showSelectionDialog) {
+    if (showSelectionDialog && onCopy != null) {
         AlertDialog(
             modifier = Modifier.alertDialogBorder(),
             onDismissRequest = { showSelectionDialog = false },

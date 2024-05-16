@@ -23,6 +23,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.ContextualFlowRow
 import androidx.compose.foundation.layout.aspectRatio
@@ -47,11 +48,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.tech.imageresizershrinker.core.resources.R
@@ -66,7 +67,13 @@ fun UrisPreview(
     isPortrait: Boolean,
     onRemoveUri: (Uri) -> Unit,
     onAddUris: () -> Unit,
-    addUrisIcon: ImageVector = Icons.AutoMirrored.Rounded.NoteAdd
+    addUrisContent: @Composable BoxScope.(width: Dp) -> Unit = { width ->
+        Icon(
+            imageVector = Icons.AutoMirrored.Rounded.NoteAdd,
+            contentDescription = stringResource(R.string.add),
+            modifier = Modifier.size(width / 3f)
+        )
+    }
 ) {
     val context = LocalContext.current
 
@@ -186,14 +193,11 @@ fun UrisPreview(
                         .clickable {
                             onAddUris()
                         },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = addUrisIcon,
-                        contentDescription = stringResource(R.string.add),
-                        modifier = Modifier.size(width / 3f)
-                    )
-                }
+                    contentAlignment = Alignment.Center,
+                    content = {
+                        addUrisContent(width)
+                    }
+                )
             }
         }
     }

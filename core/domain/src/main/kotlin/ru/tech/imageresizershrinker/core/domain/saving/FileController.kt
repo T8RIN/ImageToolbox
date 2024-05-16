@@ -46,4 +46,6 @@ interface FileController {
     fun clearCache(onComplete: (String) -> Unit = {})
 
     fun getReadableCacheSize(): String
+
+    suspend fun readBytes(uri: String): ByteArray
 }

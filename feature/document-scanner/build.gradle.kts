@@ -15,11 +15,15 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package ru.tech.imageresizershrinker.core.ui.utils.helper
+plugins {
+    alias(libs.plugins.image.toolbox.library)
+    alias(libs.plugins.image.toolbox.feature)
+    alias(libs.plugins.image.toolbox.hilt)
+    alias(libs.plugins.image.toolbox.compose)
+}
 
-import android.net.Uri
+android.namespace = "ru.tech.imageresizershrinker.feature.document_scanner"
 
-data class ScanResult(
-    val imageUris: List<Uri> = emptyList(),
-    val pdfUri: Uri? = null
-)
+dependencies {
+    implementation(projects.feature.pdfTools)
+}

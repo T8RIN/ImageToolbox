@@ -39,7 +39,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.rounded.CheckCircle
-import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.Save
@@ -94,7 +93,6 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.showError
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
 import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
 import ru.tech.imageresizershrinker.feature.zip.presentation.viewModel.ZipViewModel
-import java.security.InvalidKeyException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -435,14 +433,7 @@ fun ZipScreen(
                 isPrimaryButtonVisible = viewModel.uris.isNotEmpty(),
                 onPrimaryButtonClick = {
                     viewModel.startCompression {
-                        if (it is InvalidKeyException) {
-                            scope.launch {
-                                toastHostState.showToast(
-                                    context.getString(R.string.invalid_password_or_not_encrypted),
-                                    Icons.Rounded.ErrorOutline
-                                )
-                            }
-                        } else if (it != null) {
+                        if (it != null) {
                             scope.launch {
                                 toastHostState.showError(context, it)
                             }

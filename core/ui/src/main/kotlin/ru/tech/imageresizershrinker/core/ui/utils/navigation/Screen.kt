@@ -28,6 +28,7 @@ import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Collections
 import androidx.compose.material.icons.outlined.Colorize
+import androidx.compose.material.icons.outlined.DocumentScanner
 import androidx.compose.material.icons.outlined.Draw
 import androidx.compose.material.icons.outlined.FilterHdr
 import androidx.compose.material.icons.outlined.FolderZip
@@ -103,6 +104,7 @@ sealed class Screen(
             is Zip -> "Zip"
             is Svg -> "Svg"
             is Convert -> "Convert"
+            is DocumentScanner -> "Document_Scanner"
         }
 
     val icon: ImageVector?
@@ -137,6 +139,7 @@ sealed class Screen(
             is Zip -> Icons.Outlined.FolderZip
             is Svg -> Icons.Outlined.Svg
             is Convert -> Icons.Outlined.ImageConvert
+            is DocumentScanner -> Icons.Outlined.DocumentScanner
         }
 
     data object Settings : Screen(
@@ -590,6 +593,12 @@ sealed class Screen(
         subtitle = R.string.convert_sub
     )
 
+    data object DocumentScanner : Screen(
+        id = 26,
+        title = R.string.document_scanner,
+        subtitle = R.string.document_scanner_sub
+    )
+
     companion object {
         val typedEntries by lazy {
             listOf(
@@ -633,6 +642,7 @@ sealed class Screen(
                 ),
                 listOf(
                     PdfTools(),
+                    DocumentScanner,
                     GifTools(),
                     JxlTools(),
                     ApngTools(),

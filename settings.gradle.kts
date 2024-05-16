@@ -94,6 +94,7 @@ include(":feature:settings")
 include(":feature:easter-egg")
 include(":feature:svg")
 include(":feature:convert")
+include(":feature:document-scanner")
 
 include(":feature:root")
 

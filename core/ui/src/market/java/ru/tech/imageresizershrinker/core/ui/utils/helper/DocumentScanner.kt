@@ -80,7 +80,7 @@ fun rememberDocumentScanner(
                     ScanResult(
                         imageUris = pages?.let { pages ->
                             pages.map { it.imageUri }
-                        },
+                        } ?: emptyList(),
                         pdfUri = pdf?.uri
                     )
                 )

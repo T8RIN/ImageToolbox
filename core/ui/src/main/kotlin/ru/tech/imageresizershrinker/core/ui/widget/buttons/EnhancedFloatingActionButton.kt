@@ -55,8 +55,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.containerFabBorder
 @Composable
 fun EnhancedFloatingActionButton(
     onClick: () -> Unit,
-    onLongClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
+    onLongClick: (() -> Unit)? = null,
     type: EnhancedFloatingActionButtonType = EnhancedFloatingActionButtonType.Primary,
     containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
     contentColor: Color = contentColor(containerColor),

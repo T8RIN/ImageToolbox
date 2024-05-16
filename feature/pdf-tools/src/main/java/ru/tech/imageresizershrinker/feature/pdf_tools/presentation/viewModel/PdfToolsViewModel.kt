@@ -342,10 +342,7 @@ class PdfToolsViewModel @Inject constructor(
 
                 is Screen.PdfTools.Type.Preview -> {
                     type.pdfUri?.toString()?.let {
-                        shareProvider.shareUri(
-                            uri = it,
-                            type = null
-                        )
+                        shareProvider.shareUri(it)
                         onComplete()
                     }
                 }

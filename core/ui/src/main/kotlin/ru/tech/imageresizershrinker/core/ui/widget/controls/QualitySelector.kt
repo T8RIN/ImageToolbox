@@ -59,7 +59,7 @@ import ru.tech.imageresizershrinker.core.ui.widget.modifier.container
 @Composable
 fun QualitySelector(
     imageFormat: ImageFormat,
-    enabled: Boolean,
+    enabled: Boolean = true,
     quality: Quality,
     onQualityChange: (Quality) -> Unit
 ) {
