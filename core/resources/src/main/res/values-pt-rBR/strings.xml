@@ -1060,4 +1060,15 @@
     <string name="tag_reference_black_white">Referência Preto Branco</string>
     <string name="polygon_sub">Desenha o polígono do ponto inicial ao ponto final</string>
     <string name="outlined_polygon_sub">Desenha um polígono delineado do ponto inicial ao ponto final</string>
+    <string name="document_scanner">Digitalizar Documento</string>
+    <string name="click_to_start_scanning">Clique para iniciar a digitalização</string>
+    <string name="start_scanning">Comece a digitalizar</string>
+    <string name="save_as_pdf">Salvar como PDF</string>
+    <string name="share_as_pdf">Compartilhar como PDF</string>
+    <string name="options_below_is_for_images">As opções abaixo servem para salvar imagens, não PDF</string>
+    <string name="equalize_histogram_hsv">Equalizar Histograma HSV</string>
+    <string name="equalize_histogram">Equalizar Histograma</string>
+    <string name="document_scanner_sub">Digitalize documentos e crie PDF ou separe imagens deles</string>
+    <string name="open_edit_instead_of_preview">Abrir editor em vez da visualizar</string>
+    <string name="open_edit_instead_of_preview_sub">Quando você seleciona a imagem para abrir (visualizar) no ImageToolbox, a folha de seleção de edição será aberta em vez de visualizar</string>
 </resources>

@@ -937,4 +937,11 @@
     <string name="tag_maker_note">Uwaga producenta</string>
     <string name="tag_user_comment">Komentarz użytkownika</string>
     <string name="tag_related_sound_file">Powiązany plik dźwiękowy</string>
+    <string name="tag_datetime_original">Data Czas Oryginał</string>
+    <string name="tag_datetime_digitized">Cyfrowa data i godzina</string>
+    <string name="tag_offset_time">Czas przesunięcia</string>
+    <string name="tag_offset_time_original">Czas przesunięcia Oryginał</string>
+    <string name="tag_offset_time_digitized">Cyfrowy czas przesunięcia</string>
+    <string name="tag_subsec_time">Czas sub-sekundowy</string>
+    <string name="tag_subsec_time_original">Czas sub-sekundowy Oryginał</string>
 </resources>

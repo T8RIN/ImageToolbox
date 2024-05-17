@@ -1066,4 +1066,13 @@
     <string name="antialias_sub">तेज किनारों को रोकने के लिए एंटीएलियासिंग सक्षम करता है</string>
     <string name="open_edit_instead_of_preview">पूर्वावलोकन के बजाय संपादन खोलें</string>
     <string name="open_edit_instead_of_preview_sub">जब आप ImageToolbox में खोलने (पूर्वावलोकन) के लिए छवि का चयन करते हैं, तो पूर्वावलोकन के बजाय संपादन चयन पत्रक खोला जायेगा</string>
+    <string name="document_scanner">दस्तावेज़ स्कैनर</string>
+    <string name="save_as_pdf">PDF के रूप में सहेजें</string>
+    <string name="document_scanner_sub">दस्तावेज़ों को स्कैन करें और उनसे PDF बनाएं या चित्र अलग करें</string>
+    <string name="click_to_start_scanning">स्कैनिंग शुरू करने के लिए क्लिक करें</string>
+    <string name="start_scanning">स्कैनिंग शुरू करें</string>
+    <string name="share_as_pdf">PDF के रूप में साझा करें</string>
+    <string name="options_below_is_for_images">नीचे दिया गया विकल्प छवियों को सहेजने के लिए है, PDF के लिए नहीं</string>
+    <string name="equalize_histogram_hsv">हिस्टोग्राम को समान करें HSV</string>
+    <string name="equalize_histogram">हिस्टोग्राम को समान करें</string>
 </resources>
