@@ -88,7 +88,8 @@ data class SettingsState(
     val switchType: SwitchType,
     val defaultDrawLineWidth: Float,
     val oneTimeSaveLocations: List<OneTimeSaveLocation>,
-    val openEditInsteadOfPreview: Boolean
+    val openEditInsteadOfPreview: Boolean,
+    val canEnterPresetsByTextField: Boolean
 ) {
 
     companion object {
@@ -160,7 +161,8 @@ data class SettingsState(
                 switchType = SwitchType.MaterialYou,
                 defaultDrawLineWidth = 20f,
                 oneTimeSaveLocations = emptyList(),
-                openEditInsteadOfPreview = false
+                openEditInsteadOfPreview = false,
+                canEnterPresetsByTextField = false
             )
         }
     }

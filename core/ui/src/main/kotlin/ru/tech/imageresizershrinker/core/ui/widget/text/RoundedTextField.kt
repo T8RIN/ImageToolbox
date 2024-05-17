@@ -172,12 +172,13 @@ fun RoundedTextField(
 
     val colorScheme = MaterialTheme.colorScheme
     val unfocusedColor = if (!enabled) colorScheme.outlineVariant(
-        onTopOf = MaterialTheme.colorScheme.surfaceContainerHigh,
+        onTopOf = colors.focusedContainerColor,
         luminance = 0.2f
-    )
-    else colorScheme.surfaceVariant.inverse({ 0.2f })
+    ) else colors.unfocusedIndicatorColor
 
-    val focusedColor = if (isError) colorScheme.error else colorScheme.primary
+    val focusedColor = if (isError) {
+        colors.errorIndicatorColor
+    } else colors.focusedIndicatorColor
 
     val borderColor by remember(focusedColor, enabled, focused) {
         derivedStateOf {
@@ -270,7 +271,9 @@ fun RoundedTextField(
 @Composable
 fun RoundedTextFieldColors(
     isError: Boolean,
-    containerColor: Color = MaterialTheme.colorScheme.surfaceContainerHigh
+    containerColor: Color = MaterialTheme.colorScheme.surfaceContainerHigh,
+    focusedIndicatorColor: Color = MaterialTheme.colorScheme.primary,
+    unfocusedIndicatorColor: Color = MaterialTheme.colorScheme.surfaceVariant.inverse({ 0.2f })
 ): TextFieldColors =
     MaterialTheme.colorScheme.run {
         val containerColorNew = if (isError) {
@@ -280,14 +283,14 @@ fun RoundedTextFieldColors(
             focusedContainerColor = containerColorNew,
             unfocusedContainerColor = containerColorNew,
             disabledContainerColor = containerColorNew,
-            cursorColor = if (isError) error else primary,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
+            cursorColor = if (isError) error else focusedIndicatorColor,
+            focusedIndicatorColor = focusedIndicatorColor,
+            unfocusedIndicatorColor = unfocusedIndicatorColor,
             focusedLeadingIconColor = if (isError) error else surfaceVariant.inverse(),
             unfocusedLeadingIconColor = if (isError) error else surfaceVariant.inverse(),
             focusedTrailingIconColor = if (isError) error else surfaceVariant.inverse(),
             unfocusedTrailingIconColor = if (isError) error else surfaceVariant.inverse(),
-            focusedLabelColor = if (isError) error else primary,
-            unfocusedLabelColor = if (isError) error else surfaceVariant.inverse(),
+            focusedLabelColor = if (isError) error else focusedIndicatorColor,
+            unfocusedLabelColor = if (isError) error else unfocusedIndicatorColor,
         )
     }

@@ -173,4 +173,6 @@ interface SettingsInteractor {
 
     suspend fun toggleOpenEditInsteadOfPreview()
 
+    suspend fun toggleCanEnterPresetsByTextField()
+
 }

@@ -587,6 +587,10 @@ internal fun SettingItem(
             Setting.OpenEditInsteadOfPreview -> {
                 OpenEditInsteadOfPreviewSettingItem(onClick = viewModel::toggleOpenEditInsteadOfPreview)
             }
+
+            Setting.CanEnterPresetsByTextField -> {
+                CanEnterPresetsByTextFieldSettingItem(onClick = viewModel::toggleCanEnterPresetsByTextField)
+            }
         }
     }
 }

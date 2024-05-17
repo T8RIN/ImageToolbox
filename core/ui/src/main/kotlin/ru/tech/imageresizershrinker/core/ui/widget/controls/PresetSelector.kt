@@ -15,11 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:Suppress("AnimateAsStateLabel")
-
 package ru.tech.imageresizershrinker.core.ui.widget.controls
 
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -35,6 +34,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
@@ -44,6 +44,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,9 +52,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -77,6 +80,8 @@ import ru.tech.imageresizershrinker.core.ui.widget.other.RevealValue
 import ru.tech.imageresizershrinker.core.ui.widget.other.SwipeToReveal
 import ru.tech.imageresizershrinker.core.ui.widget.other.rememberRevealState
 import ru.tech.imageresizershrinker.core.ui.widget.text.AutoSizeText
+import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextField
+import ru.tech.imageresizershrinker.core.ui.widget.text.RoundedTextFieldColors
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -88,7 +93,16 @@ fun PresetSelector(
 ) {
     val settingsState = LocalSettingsState.current
     val editPresetsState = LocalEditPresetsState.current
-    val data = settingsState.presets
+    val data by remember(settingsState.presets, value) {
+        derivedStateOf {
+            settingsState.presets.let {
+                val currentValue = value.value()
+                if (currentValue !in it && !value.isTelegram() && currentValue != null) {
+                    listOf(currentValue) + it
+                } else it
+            }
+        }
+    }
 
     val screen = LocalNavController.current.backstack.entries.last().destination
 
@@ -96,6 +110,8 @@ fun PresetSelector(
     val scope = rememberCoroutineScope()
 
     var showPresetInfoDialog by remember { mutableStateOf(false) }
+
+    val canEnterPresetsByTextField = settingsState.canEnterPresetsByTextField
 
     SwipeToReveal(
         directions = setOf(
@@ -185,6 +201,50 @@ fun PresetSelector(
                             }
                         }
                     }
+                }
+                AnimatedVisibility(canEnterPresetsByTextField) {
+                    var textValue by remember(value) {
+                        mutableStateOf(
+                            value.value()?.toString() ?: ""
+                        )
+                    }
+                    RoundedTextField(
+                        onValueChange = { targetText ->
+                            if (targetText.isEmpty()) {
+                                textValue = ""
+                                onValueChange(Preset.None)
+                            } else {
+                                val newValue = targetText.filter {
+                                    it.isDigit()
+                                }.toIntOrNull()?.coerceIn(0, 500)
+                                textValue = newValue?.toString() ?: ""
+
+                                newValue?.let {
+                                    onValueChange(
+                                        Preset.Percentage(it)
+                                    )
+                                } ?: onValueChange(Preset.None)
+                            }
+                        },
+                        value = textValue,
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number
+                        ),
+                        label = stringResource(R.string.enter_percentage),
+                        modifier = Modifier.padding(bottom = 8.dp, start = 8.dp, end = 8.dp),
+                        colors = RoundedTextFieldColors(
+                            isError = false,
+                            containerColor = MaterialTheme.colorScheme.surface,
+                            focusedIndicatorColor = MaterialTheme.colorScheme.secondary
+                        ).let {
+                            it.copy(
+                                unfocusedIndicatorColor = it.unfocusedIndicatorColor.copy(0.5f)
+                                    .compositeOver(
+                                        it.unfocusedContainerColor
+                                    )
+                            )
+                        }
+                    )
                 }
 
                 OOMWarning(visible = showWarning)

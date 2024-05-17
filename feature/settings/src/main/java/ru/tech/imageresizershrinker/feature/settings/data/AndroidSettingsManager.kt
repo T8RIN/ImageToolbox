@@ -55,6 +55,7 @@ import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.APP_COLOR_
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.APP_OPEN_COUNT
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.AUTO_CACHE_CLEAR
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.BORDER_WIDTH
+import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CAN_ENTER_PRESETS_BY_TEXT_FIELD
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.COLOR_TUPLES
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CONFETTI_ENABLED
 import ru.tech.imageresizershrinker.feature.settings.data.SettingKeys.CONFETTI_HARMONIZATION_LEVEL
@@ -235,7 +236,9 @@ internal class AndroidSettingsManager @Inject constructor(
                 ?.reversed()
                 ?: default.oneTimeSaveLocations,
             openEditInsteadOfPreview = prefs[OPEN_EDIT_INSTEAD_OF_PREVIEW]
-                ?: default.openEditInsteadOfPreview
+                ?: default.openEditInsteadOfPreview,
+            canEnterPresetsByTextField = prefs[CAN_ENTER_PRESETS_BY_TEXT_FIELD]
+                ?: default.canEnterPresetsByTextField
         )
     }
 
@@ -807,6 +810,15 @@ internal class AndroidSettingsManager @Inject constructor(
             it.toggle(
                 key = OPEN_EDIT_INSTEAD_OF_PREVIEW,
                 defaultValue = default.openEditInsteadOfPreview
+            )
+        }
+    }
+
+    override suspend fun toggleCanEnterPresetsByTextField() {
+        dataStore.edit {
+            it.toggle(
+                key = CAN_ENTER_PRESETS_BY_TEXT_FIELD,
+                defaultValue = default.canEnterPresetsByTextField
             )
         }
     }

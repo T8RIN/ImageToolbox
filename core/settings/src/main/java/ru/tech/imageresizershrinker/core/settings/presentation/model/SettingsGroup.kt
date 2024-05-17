@@ -136,7 +136,8 @@ sealed class SettingsGroup(
         icon = Icons.Rounded.LabelPercent,
         titleId = R.string.presets,
         settingsList = listOf(
-            Setting.Presets
+            Setting.Presets,
+            Setting.CanEnterPresetsByTextField
         ),
         initialState = false
     )

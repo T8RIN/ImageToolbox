@@ -536,4 +536,10 @@ class SettingsViewModel @Inject constructor(
             settingsManager.toggleOpenEditInsteadOfPreview()
         }
     }
+
+    fun toggleCanEnterPresetsByTextField() {
+        viewModelScope.launch {
+            settingsManager.toggleCanEnterPresetsByTextField()
+        }
+    }
 }

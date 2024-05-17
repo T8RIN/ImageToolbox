@@ -1093,4 +1093,7 @@
     <string name="options_below_is_for_images">Options below is for saving images, not PDF</string>
     <string name="equalize_histogram_hsv">Equalize Histogram HSV</string>
     <string name="equalize_histogram">Equalize Histogram</string>
+    <string name="enter_percentage">Enter Percentage</string>
+    <string name="allow_enter_by_text_field">Allow enter by Text Field</string>
+    <string name="allow_enter_by_text_field_sub">Enables Text Field behind presets selection, to enter them on the fly</string>
 </resources>

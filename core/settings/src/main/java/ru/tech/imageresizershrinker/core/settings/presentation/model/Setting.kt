@@ -382,4 +382,9 @@ sealed class Setting(
         title = R.string.open_edit_instead_of_preview,
         subtitle = R.string.open_edit_instead_of_preview_sub
     )
+
+    data object CanEnterPresetsByTextField : Setting(
+        title = R.string.allow_enter_by_text_field,
+        subtitle = R.string.allow_enter_by_text_field_sub
+    )
 }

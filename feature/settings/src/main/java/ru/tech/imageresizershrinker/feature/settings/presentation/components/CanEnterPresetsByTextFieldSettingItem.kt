@@ -19,35 +19,32 @@ package ru.tech.imageresizershrinker.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Numbers
+import androidx.compose.material.icons.automirrored.outlined.WrapText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.tech.imageresizershrinker.core.resources.R
-import ru.tech.imageresizershrinker.core.resources.icons.MiniEdit
-import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalEditPresetsState
 import ru.tech.imageresizershrinker.core.settings.presentation.provider.LocalSettingsState
 import ru.tech.imageresizershrinker.core.ui.widget.modifier.ContainerShapeDefaults
-import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceItem
+import ru.tech.imageresizershrinker.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-fun PresetsSettingItem(
-    shape: Shape = ContainerShapeDefaults.topShape,
-    modifier: Modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+fun CanEnterPresetsByTextFieldSettingItem(
+    onClick: () -> Unit,
+    shape: Shape = ContainerShapeDefaults.bottomShape,
+    modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
-    val editPresetsState = LocalEditPresetsState.current
     val settingsState = LocalSettingsState.current
-    PreferenceItem(
+
+    PreferenceRowSwitch(
+        modifier = modifier,
         shape = shape,
-        onClick = {
-            editPresetsState.value = true
-        },
-        title = stringResource(R.string.values),
-        subtitle = settingsState.presets.joinToString(", "),
-        startIcon = Icons.Outlined.Numbers,
-        endIcon = Icons.Rounded.MiniEdit,
-        modifier = modifier
+        title = stringResource(R.string.allow_enter_by_text_field),
+        subtitle = stringResource(R.string.allow_enter_by_text_field_sub),
+        checked = settingsState.canEnterPresetsByTextField,
+        onClick = { onClick() },
+        startIcon = Icons.AutoMirrored.Outlined.WrapText
     )
 }

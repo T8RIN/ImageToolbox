@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -75,6 +76,7 @@ fun EnhancedChip(
         LocalContentColor provides contentColor,
         LocalContainerShape provides null
     ) {
+        val focus = LocalFocusManager.current
         Box(
             modifier = modifier
                 .defaultMinSize(36.dp, 36.dp)
@@ -91,6 +93,7 @@ fun EnhancedChip(
                 .then(
                     onClick?.let {
                         Modifier.clickable {
+                            focus.clearFocus()
                             haptics.performHapticFeedback(
                                 HapticFeedbackType.LongPress
                             )
