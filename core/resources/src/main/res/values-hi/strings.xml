@@ -1075,4 +1075,7 @@
     <string name="options_below_is_for_images">नीचे दिया गया विकल्प छवियों को सहेजने के लिए है, PDF के लिए नहीं</string>
     <string name="equalize_histogram_hsv">हिस्टोग्राम को समान करें HSV</string>
     <string name="equalize_histogram">हिस्टोग्राम को समान करें</string>
+    <string name="enter_percentage">प्रतिशत दर्ज करें</string>
+    <string name="allow_enter_by_text_field">पाठ क्षेत्र द्वारा प्रवेश की अनुमति दें</string>
+    <string name="allow_enter_by_text_field_sub">पूर्व निर्धारित चयन के पीछे पाठ क्षेत्र को तुरंत दर्ज करने के लिए सक्षम करता है</string>
 </resources>
