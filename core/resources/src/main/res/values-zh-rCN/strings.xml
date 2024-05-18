@@ -1075,4 +1075,7 @@
     <string name="options_below_is_for_images">以下选项用于保存图像，而非 PDF 文件</string>
     <string name="start_scanning">开始扫描</string>
     <string name="save_as_pdf">保存为PDF</string>
+    <string name="enter_percentage">输入百分数</string>
+    <string name="allow_enter_by_text_field">允许通过文本字段输入</string>
+    <string name="allow_enter_by_text_field_sub">启用预设选择后面的文本字段，以便即时输入预设</string>
 </resources>
