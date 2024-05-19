@@ -1066,4 +1066,13 @@
     <string name="antialias_sub">启用抗锯齿功能以防止出现尖锐边缘</string>
     <string name="open_edit_instead_of_preview">打开编辑而不是预览</string>
     <string name="open_edit_instead_of_preview_sub">在 ImageToolbox 中选择要打开（预览）的图像时，将打开编辑选择表，而不是预览</string>
+    <string name="document_scanner">文档扫描器</string>
+    <string name="click_to_start_scanning">点击开始扫描</string>
+    <string name="equalize_histogram_hsv">均衡直方图 HSV</string>
+    <string name="equalize_histogram">均衡直方图</string>
+    <string name="document_scanner_sub">扫描文档并创建 PDF 或单独的图片</string>
+    <string name="share_as_pdf">以 PDF 格式分享</string>
+    <string name="options_below_is_for_images">以下选项用于保存图像，而非 PDF 文件</string>
+    <string name="start_scanning">开始扫描</string>
+    <string name="save_as_pdf">保存为PDF</string>
 </resources>
