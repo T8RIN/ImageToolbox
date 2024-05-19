@@ -825,8 +825,6 @@
     <string name="tag_x_resolution">X-resolutie</string>
     <string name="tag_y_resolution">Y-resolutie</string>
     <string name="tag_resolution_unit">Resolutie-eenheid</string>
-    <string name="tag_strip_offsets"></string>
-    <string name="tag_rows_per_strip"></string>
     <string name="tag_white_point">Witpunt</string>
     <string name="tag_primary_chromaticities">Primaire chromaticiteiten</string>
     <string name="tag_y_cb_cr_coefficients">Y Cb Cr coëfficiënten</string>
