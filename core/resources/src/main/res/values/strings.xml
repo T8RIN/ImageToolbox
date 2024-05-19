@@ -1096,4 +1096,6 @@
     <string name="enter_percentage">Enter Percentage</string>
     <string name="allow_enter_by_text_field">Allow enter by Text Field</string>
     <string name="allow_enter_by_text_field_sub">Enables Text Field behind presets selection, to enter them on the fly</string>
+    <string name="scale_color_space">Scale Color Space</string>
+    <string name="linear">Linear</string>
 </resources>

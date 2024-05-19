@@ -25,7 +25,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.applyCanvas
 import com.awxkee.aire.Aire
 import com.awxkee.aire.BitmapScaleMode
-import com.awxkee.aire.ScaleColorSpace
 import com.t8rin.logger.makeLog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
@@ -39,6 +38,7 @@ import ru.tech.imageresizershrinker.core.domain.image.ImageTransformer
 import ru.tech.imageresizershrinker.core.domain.image.model.ImageScaleMode
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeAnchor
 import ru.tech.imageresizershrinker.core.domain.image.model.ResizeType
+import ru.tech.imageresizershrinker.core.domain.image.model.ScaleColorSpace
 import ru.tech.imageresizershrinker.core.domain.model.IntegerSize
 import ru.tech.imageresizershrinker.core.filters.domain.FilterProvider
 import ru.tech.imageresizershrinker.core.filters.domain.model.Filter
@@ -46,6 +46,7 @@ import ru.tech.imageresizershrinker.core.settings.domain.SettingsProvider
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.roundToInt
+import com.awxkee.aire.ScaleColorSpace as AireScaleColorSpace
 
 internal class AndroidImageScaler @Inject constructor(
     settingsProvider: SettingsProvider,
@@ -125,7 +126,7 @@ internal class AndroidImageScaler @Inject constructor(
             image = image,
             height = height,
             width = width,
-            imageScaleMode = ImageScaleMode.Bicubic
+            imageScaleMode = ImageScaleMode.Bicubic()
         )
     }
 
@@ -236,8 +237,14 @@ internal class AndroidImageScaler @Inject constructor(
             scaleMode = BitmapScaleMode.entries.firstOrNull {
                 it.ordinal == mode.value
             } ?: BitmapScaleMode.Bilinear,
-            colorSpace = ScaleColorSpace.LAB
+            colorSpace = mode.scaleColorSpace.toColorSpace()
         )
+    }
+
+    private fun ScaleColorSpace.toColorSpace(): AireScaleColorSpace = when (this) {
+        ScaleColorSpace.LAB -> AireScaleColorSpace.LAB
+        ScaleColorSpace.Linear -> AireScaleColorSpace.LINEAR
+        ScaleColorSpace.SRGB -> AireScaleColorSpace.SRGB
     }
 
     private suspend fun flexibleResize(
