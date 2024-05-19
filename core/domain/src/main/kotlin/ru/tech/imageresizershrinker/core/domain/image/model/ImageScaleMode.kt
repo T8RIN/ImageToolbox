@@ -20,6 +20,7 @@ package ru.tech.imageresizershrinker.core.domain.image.model
 sealed interface ScaleColorSpace {
     data object SRGB : ScaleColorSpace
     data object LAB : ScaleColorSpace
+    data object LUV : ScaleColorSpace
     data object Linear : ScaleColorSpace
 
     companion object {
@@ -63,6 +64,17 @@ sealed class ImageScaleMode(val value: Int) {
         ): ImageScaleMode = NotPresent
 
         override fun toString(): String = "NotPresent"
+    }
+
+    object Base : ImageScaleMode(-3) {
+        override val scaleColorSpace: ScaleColorSpace
+            get() = ScaleColorSpace.Default
+
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = Base
+
+        override fun toString(): String = "Base"
     }
 
     class Bilinear(
@@ -145,19 +157,12 @@ sealed class ImageScaleMode(val value: Int) {
         ): ImageScaleMode = Bicubic(scaleColorSpace)
     }
 
-    class LanczosBessel(
-        override val scaleColorSpace: ScaleColorSpace = ScaleColorSpace.Default
-    ) : ImageScaleMode(10) {
-        override fun copy(
-            scaleColorSpace: ScaleColorSpace
-        ): ImageScaleMode = LanczosBessel(scaleColorSpace)
-    }
-
     companion object {
         val Default = Bilinear()
 
         val entries by lazy {
             listOf(
+                Base,
                 Bilinear(),
                 Nearest(),
                 Spline(),
@@ -167,12 +172,12 @@ sealed class ImageScaleMode(val value: Int) {
                 Hermite(),
                 BSpline(),
                 Hann(),
-                Bicubic(),
-                LanczosBessel()
+                Bicubic()
             )
         }
 
         fun fromInt(value: Int): ImageScaleMode = when (value) {
+            -3 -> Base
             0 -> Bilinear()
             1 -> Nearest()
             2 -> Spline()
@@ -183,7 +188,6 @@ sealed class ImageScaleMode(val value: Int) {
             7 -> BSpline()
             8 -> Hann()
             9 -> Bicubic()
-            10 -> LanczosBessel()
 
             else -> NotPresent
         }

@@ -87,6 +87,7 @@ fun ScaleModeSelector(
         )
     }
 ) {
+    val isColorSpaceSelectionVisible = enableItemsCardBackground && value !is ImageScaleMode.Base
     val showInfoSheet = rememberSaveable { mutableStateOf(false) }
     val settingsState = LocalSettingsState.current
 
@@ -138,7 +139,8 @@ fun ScaleModeSelector(
                             .padding(horizontal = 8.dp)
                             .container(
                                 color = MaterialTheme.colorScheme.surface,
-                                shape = ContainerShapeDefaults.topShape
+                                shape = if (isColorSpaceSelectionVisible) ContainerShapeDefaults.topShape
+                                else ContainerShapeDefaults.defaultShape
                             )
                             .padding(horizontal = 8.dp, vertical = 12.dp)
                     } else Modifier.padding(8.dp)
@@ -169,7 +171,7 @@ fun ScaleModeSelector(
             }
         }
 
-        if (enableItemsCardBackground) {
+        if (isColorSpaceSelectionVisible) {
             Spacer(modifier = Modifier.height(4.dp))
             val items = remember {
                 ScaleColorSpace.entries
@@ -187,6 +189,7 @@ fun ScaleModeSelector(
                     ),
                 title = {
                     Text(
+                        modifier = Modifier.padding(top = 8.dp),
                         text = stringResource(R.string.scale_color_space),
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Medium
@@ -265,6 +268,7 @@ private val ScaleColorSpace.title: String
         is ScaleColorSpace.Linear -> stringResource(R.string.linear)
         is ScaleColorSpace.SRGB -> "SRGB"
         is ScaleColorSpace.LAB -> "LAB"
+        is ScaleColorSpace.LUV -> "LUV"
     }
 
 private val ImageScaleMode.title: String
@@ -280,8 +284,8 @@ private val ImageScaleMode.title: String
         is ImageScaleMode.Nearest -> stringResource(id = R.string.nearest)
         is ImageScaleMode.Bicubic -> stringResource(id = R.string.bicubic)
         is ImageScaleMode.BSpline -> stringResource(id = R.string.b_spline)
-        is ImageScaleMode.LanczosBessel -> stringResource(id = R.string.lanczos_bessel)
         is ImageScaleMode.NotPresent -> stringResource(id = R.string.basic)
+        ImageScaleMode.Base -> stringResource(id = R.string.basic)
     }
 
 private val ImageScaleMode.subtitle: String
@@ -297,6 +301,6 @@ private val ImageScaleMode.subtitle: String
         is ImageScaleMode.Nearest -> stringResource(id = R.string.nearest_sub)
         is ImageScaleMode.Spline -> stringResource(id = R.string.spline_sub)
         is ImageScaleMode.BSpline -> stringResource(id = R.string.b_spline_sub)
-        is ImageScaleMode.LanczosBessel -> stringResource(id = R.string.lanczos_bessel_sub)
         is ImageScaleMode.NotPresent -> stringResource(id = R.string.basic_sub)
+        is ImageScaleMode.Base -> stringResource(id = R.string.basic_sub)
     }

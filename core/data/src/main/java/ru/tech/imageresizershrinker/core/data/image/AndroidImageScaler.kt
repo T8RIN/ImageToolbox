@@ -22,6 +22,7 @@ import android.graphics.PorterDuff
 import android.graphics.RectF
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.graphics.BitmapCompat
 import androidx.core.graphics.applyCanvas
 import com.awxkee.aire.Aire
 import com.awxkee.aire.BitmapScaleMode
@@ -226,6 +227,14 @@ internal class AndroidImageScaler @Inject constructor(
     ): Bitmap = withContext(defaultDispatcher) {
         if (width == image.width && height == image.height) return@withContext image
 
+        if (imageScaleMode is ImageScaleMode.Base) {
+            return@withContext if (width < image.width && height < image.width) {
+                BitmapCompat.createScaledBitmap(image, width, height, null, true)
+            } else {
+                Bitmap.createScaledBitmap(image, width, height, true)
+            }
+        }
+
         val mode = imageScaleMode.takeIf {
             it != ImageScaleMode.NotPresent && it.value >= 0
         } ?: defaultImageScaleMode
@@ -245,6 +254,7 @@ internal class AndroidImageScaler @Inject constructor(
         ScaleColorSpace.LAB -> AireScaleColorSpace.LAB
         ScaleColorSpace.Linear -> AireScaleColorSpace.LINEAR
         ScaleColorSpace.SRGB -> AireScaleColorSpace.SRGB
+        ScaleColorSpace.LUV -> AireScaleColorSpace.LUV
     }
 
     private suspend fun flexibleResize(
