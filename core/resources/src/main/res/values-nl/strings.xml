@@ -419,13 +419,13 @@
     <string name="blur_edges">Randen vervagen</string>
     <string name="blur_edges_sub">Tekent vage randen onder de originele afbeelding om de ruimtes eromheen te vullen in plaats van één kleur, indien ingeschakeld</string>
     <string name="pixelation">Pixelvorming</string>
-    <string name="enhanced_pixelation">Verbeterde pixelatie</string>
+    <string name="enhanced_pixelation">Verbeterde pixelvorming</string>
     <string name="foss_update_checker_warning">Deze updatechecker maakt verbinding met GitHub om te controleren of er een nieuwe update beschikbaar is</string>
-    <string name="stroke_pixelation">Penseel-pixelering</string>
-    <string name="enhanced_diamond_pixelation">Verbeterde diamantpixels</string>
-    <string name="diamond_pixelation">Diamantpixelatie</string>
-    <string name="circle_pixelation">Cirkelpixelatie</string>
-    <string name="enhanced_circle_pixelation">Verbeterde cirkelpixelatie</string>
+    <string name="stroke_pixelation">Penseel-pixelvorming</string>
+    <string name="enhanced_diamond_pixelation">Verbeterde ruit-pixelvorming</string>
+    <string name="diamond_pixelation">Ruit-pixelvorming</string>
+    <string name="circle_pixelation">Cirkel-pixelvorming</string>
+    <string name="enhanced_circle_pixelation">Verbeterde cirkel-pixelvorming</string>
     <string name="replace_color">Kleur vervangen</string>
     <string name="tolerance">Tolerantie</string>
     <string name="color_to_replace">Kleur om te vervangen</string>
@@ -491,7 +491,7 @@
     <string name="neon_sub">Voeg een gloeiend effect toe aan uw tekeningen</string>
     <string name="pen_sub">Standaard één, eenvoudigste: alleen de kleur</string>
     <string name="privacy_blur_sub">Vervaagt het beeld onder het getekende pad om alles wat u wilt verbergen veilig te stellen</string>
-    <string name="pixelation_sub">Vergelijkbaar met privacyvervaging, maar pixelachtig in plaats van vervaging</string>
+    <string name="pixelation_sub">Vergelijkbaar met privacyvervaging, maar met pixelvorming i.p.v. vervaging</string>
     <string name="containers_shadow">Containers</string>
     <string name="containers_shadow_sub">Maakt schaduwtekenen achter containers mogelijk</string>
     <string name="sliders_shadow">Schuifregelaars</string>
@@ -1078,4 +1078,7 @@
     <string name="antialias">Anti-alias</string>
     <string name="open_edit_instead_of_preview_sub">Wanneer u een afbeelding selecteert om te openen (preview) in ImageToolbox, wordt het selectieblad voor bewerken geopend in plaats van een voorbeeld te bekijken</string>
     <string name="open_edit_instead_of_preview">Open Bewerken in plaats van Voorbeeld</string>
+    <string name="scale_color_space">Kleurruimte-schaal</string>
+    <string name="linear">Lineair</string>
+    <string name="equalize_histogram_pixelation">Pixelvorming-histogram vereffenen</string>
 </resources>
