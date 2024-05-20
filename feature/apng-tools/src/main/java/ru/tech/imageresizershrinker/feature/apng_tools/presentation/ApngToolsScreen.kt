@@ -54,7 +54,6 @@ import androidx.compose.material.icons.outlined.FolderOff
 import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Save
-import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -100,6 +99,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.navigation.Screen
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.QualitySelector
@@ -342,20 +342,12 @@ fun ApngToolsScreen(
             }
         },
         actions = {
-            EnhancedIconButton(
-                containerColor = Color.Transparent,
-                contentColor = LocalContentColor.current,
-                enableAutoShadowAndBorder = false,
-                onClick = {
+            ShareButton(
+                enabled = !viewModel.isLoading && viewModel.type != null,
+                onShare = {
                     viewModel.performSharing(showConfetti)
-                },
-                enabled = !viewModel.isLoading && viewModel.type != null
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Share,
-                    contentDescription = stringResource(R.string.share)
-                )
-            }
+                }
+            )
         },
         imagePreview = {
             AnimatedContent(

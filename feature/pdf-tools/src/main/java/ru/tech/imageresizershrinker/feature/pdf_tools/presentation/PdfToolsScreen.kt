@@ -69,7 +69,6 @@ import androidx.compose.material.icons.rounded.AddPhotoAlternate
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.FileOpen
 import androidx.compose.material.icons.rounded.Save
-import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -127,6 +126,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalWindowSizeClass
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedFloatingActionButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageFormatSelector
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageReorderCarousel
 import ru.tech.imageresizershrinker.core.ui.widget.controls.PresetSelector
@@ -362,19 +362,11 @@ fun PdfToolsScreen(
             enter = fadeIn() + scaleIn() + expandHorizontally(),
             exit = fadeOut() + scaleOut() + shrinkHorizontally()
         ) {
-            EnhancedIconButton(
-                containerColor = Color.Transparent,
-                contentColor = LocalContentColor.current,
-                enableAutoShadowAndBorder = false,
-                onClick = {
+            ShareButton(
+                onShare = {
                     viewModel.preformSharing(showConfetti)
                 }
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Share,
-                    contentDescription = stringResource(R.string.share)
-                )
-            }
+            )
         }
     }
 

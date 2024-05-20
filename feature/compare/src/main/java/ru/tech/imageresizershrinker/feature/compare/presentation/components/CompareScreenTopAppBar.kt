@@ -25,7 +25,6 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.Label
 import androidx.compose.material.icons.automirrored.rounded.RotateLeft
 import androidx.compose.material.icons.automirrored.rounded.RotateRight
-import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.SwapHoriz
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -38,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import ru.tech.imageresizershrinker.core.resources.R
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBar
 import ru.tech.imageresizershrinker.core.ui.widget.other.EnhancedTopAppBarType
 import ru.tech.imageresizershrinker.core.ui.widget.other.TopAppBarEmoji
@@ -101,17 +101,7 @@ fun CompareScreenTopAppBar(
             },
             actions = {
                 AnimatedVisibility(visible = isShareButtonVisible) {
-                    EnhancedIconButton(
-                        containerColor = Color.Transparent,
-                        contentColor = LocalContentColor.current,
-                        enableAutoShadowAndBorder = false,
-                        onClick = onShareButtonClick
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Share,
-                            contentDescription = stringResource(R.string.share)
-                        )
-                    }
+                    ShareButton(onShare = onShareButtonClick)
                 }
                 EnhancedIconButton(
                     containerColor = Color.Transparent,

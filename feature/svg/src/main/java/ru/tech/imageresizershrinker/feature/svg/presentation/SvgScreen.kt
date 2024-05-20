@@ -24,7 +24,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FolderOff
-import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
@@ -55,6 +54,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.helper.rememberImagePicker
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import ru.tech.imageresizershrinker.core.ui.widget.dialogs.ResetDialog
@@ -138,23 +138,15 @@ fun SvgScreen(
         },
         onGoBack = onBack,
         actions = {
-            EnhancedIconButton(
-                containerColor = Color.Transparent,
-                contentColor = LocalContentColor.current,
-                enableAutoShadowAndBorder = false,
-                onClick = {
+            ShareButton(
+                onShare = {
                     viewModel.performSharing(
                         onError = onError,
                         onComplete = showConfetti
                     )
                 },
                 enabled = !viewModel.isSaving && viewModel.uris.isNotEmpty()
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Share,
-                    contentDescription = stringResource(R.string.share)
-                )
-            }
+            )
             EnhancedIconButton(
                 containerColor = Color.Transparent,
                 contentColor = LocalContentColor.current,

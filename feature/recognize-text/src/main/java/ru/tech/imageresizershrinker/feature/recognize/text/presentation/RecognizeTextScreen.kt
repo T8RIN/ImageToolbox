@@ -29,9 +29,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.SignalCellularConnectedNoInternet0Bar
 import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.CopyAll
-import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -43,7 +41,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -72,6 +69,7 @@ import ru.tech.imageresizershrinker.core.ui.utils.provider.LocalImageLoader
 import ru.tech.imageresizershrinker.core.ui.widget.AdaptiveLayoutScreen
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.BottomButtonsBlock
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.EnhancedIconButton
+import ru.tech.imageresizershrinker.core.ui.widget.buttons.ShareButton
 import ru.tech.imageresizershrinker.core.ui.widget.buttons.ZoomButton
 import ru.tech.imageresizershrinker.core.ui.widget.controls.ImageTransformBar
 import ru.tech.imageresizershrinker.core.ui.widget.image.AutoFilePicker
@@ -234,18 +232,10 @@ fun RecognizeTextScreen(
             )
         },
         actions = {
-            EnhancedIconButton(
-                containerColor = Color.Transparent,
-                contentColor = LocalContentColor.current,
-                enableAutoShadowAndBorder = false,
-                onClick = shareText,
+            ShareButton(
+                onShare = shareText,
                 enabled = isHaveText
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Share,
-                    contentDescription = stringResource(R.string.share)
-                )
-            }
+            )
         },
         imagePreview = {
             Box(
