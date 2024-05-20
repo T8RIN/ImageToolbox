@@ -48,6 +48,9 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.CGAColorSpaceFilt
 import ru.tech.imageresizershrinker.feature.filters.data.model.CaramelDarknessFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CircleBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CirclePixelationFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheLABFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.ClaheLUVFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CodaChromeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorAnomalyFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ColorBalanceFilter
@@ -78,8 +81,12 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedCirclePix
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedDiamondPixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedGlitchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EnhancedPixelationFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramAdaptiveFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramAdaptiveLABFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramAdaptiveLUVFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramHSVFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.EqualizeHistogramPixelationFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ErodeFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ExposureFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.FalseColorFilter
@@ -369,6 +376,13 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.FastGaussianBlur4D -> FastGaussianBlur4DFilter(value)
             is Filter.EqualizeHistogramHSV -> EqualizeHistogramHSVFilter(value)
             is Filter.EqualizeHistogram -> EqualizeHistogramFilter(value)
+            is Filter.EqualizeHistogramPixelation -> EqualizeHistogramPixelationFilter(value)
+            is Filter.EqualizeHistogramAdaptive -> EqualizeHistogramAdaptiveFilter(value)
+            is Filter.EqualizeHistogramAdaptiveLUV -> EqualizeHistogramAdaptiveLUVFilter(value)
+            is Filter.EqualizeHistogramAdaptiveLAB -> EqualizeHistogramAdaptiveLABFilter(value)
+            is Filter.Clahe -> ClaheFilter(value)
+            is Filter.ClaheLUV -> ClaheLUVFilter(value)
+            is Filter.ClaheLAB -> ClaheLABFilter(value)
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

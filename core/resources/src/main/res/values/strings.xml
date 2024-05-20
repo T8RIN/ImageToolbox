@@ -1099,4 +1099,12 @@
     <string name="scale_color_space">Scale Color Space</string>
     <string name="linear">Linear</string>
     <string name="equalize_histogram_pixelation">Equalize Histogram Pixelation</string>
+    <string name="grid_size_x">Grid Size X</string>
+    <string name="grid_size_y">Grid Size Y</string>
+    <string name="equalize_histogram_adaptive">Equalize Histogram Adaptive</string>
+    <string name="equalize_histogram_adaptive_luv">Equalize Histogram Adaptive LUV</string>
+    <string name="equalize_histogram_adaptive_lab">Equalize Histogram Adaptive LAB</string>
+    <string name="clahe">Clahe</string>
+    <string name="clahe_lab">Clahe LAB</string>
+    <string name="clahe_luv">Clahe LUV</string>
 </resources>

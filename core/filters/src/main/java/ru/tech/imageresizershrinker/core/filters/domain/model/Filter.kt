@@ -189,6 +189,13 @@ interface Filter<Image, Value> {
     interface FastGaussianBlur4D<Image> : Filter<Image, Float>
     interface EqualizeHistogram<Image> : SimpleFilter<Image>
     interface EqualizeHistogramHSV<Image> : SimpleFilter<Image>
+    interface EqualizeHistogramPixelation<Image> : Filter<Image, Pair<Int, Int>>
+    interface EqualizeHistogramAdaptive<Image> : Filter<Image, Pair<Int, Int>>
+    interface EqualizeHistogramAdaptiveLUV<Image> : Filter<Image, Pair<Int, Int>>
+    interface EqualizeHistogramAdaptiveLAB<Image> : Filter<Image, Pair<Int, Int>>
+    interface Clahe<Image> : Filter<Image, Triple<Float, Int, Int>>
+    interface ClaheLUV<Image> : Filter<Image, Triple<Float, Int, Int>>
+    interface ClaheLAB<Image> : Filter<Image, Triple<Float, Int, Int>>
 }
 
 interface SimpleFilter<Image> : Filter<Image, Unit>
