@@ -28,7 +28,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.nio.ByteBuffer
 
-object MlKitBackgroundRemover {
+internal object MlKitBackgroundRemover {
 
     private val segment: Segmenter
     private var buffer = ByteBuffer.allocate(0)
@@ -47,12 +47,12 @@ object MlKitBackgroundRemover {
     /**
      * Process the image to get buffer and image height and width
      * @param bitmap Bitmap which you want to remove background.
-     * @param listener listener for success and failure callback.
+     * @param onFinish listener for success and failure callback.
      **/
-    fun bitmapForProcessing(
+    fun removeBackground(
         bitmap: Bitmap,
         scope: CoroutineScope,
-        listener: suspend (Result<Bitmap>) -> Unit
+        onFinish: suspend (Result<Bitmap>) -> Unit
     ) {
         //Generate a copy of bitmap just in case the if the bitmap is immutable.
         val copyBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
@@ -65,12 +65,12 @@ object MlKitBackgroundRemover {
 
                 scope.launch {
                     val resultBitmap = removeBackgroundFromImage(copyBitmap)
-                    listener(Result.success(resultBitmap))
+                    onFinish(Result.success(resultBitmap))
                 }
             }
             .addOnFailureListener { e ->
                 scope.launch {
-                    listener(Result.failure(e))
+                    onFinish(Result.failure(e))
                 }
             }
     }

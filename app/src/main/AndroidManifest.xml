@@ -20,7 +20,7 @@
 
     <uses-sdk
         android:minSdkVersion="21"
-        tools:overrideLibrary="com.github.awxkee.avifcodercoil, com.github.awxkee.avifcoder" />
+        tools:overrideLibrary="com.github.awxkee.avifcodercoil, com.github.awxkee.avifcoder, com.google.mlkit.vision.segmentation.subject" />
 
     <uses-permission
         android:name="com.google.android.gms.permission.AD_ID"

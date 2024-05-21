@@ -144,7 +144,7 @@ class EraseBackgroundViewModel @Inject constructor(
         savingJob?.cancel()
         savingJob = viewModelScope.launch(defaultDispatcher) {
             _isSaving.value = true
-            getErasedBitmap()?.let { localBitmap ->
+            getErasedBitmap(true)?.let { localBitmap ->
                 onComplete(
                     fileController.save(
                         saveTarget = ImageSaveTarget<ExifInterface>(
@@ -173,7 +173,7 @@ class EraseBackgroundViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getErasedBitmap(): Bitmap? {
+    private suspend fun getErasedBitmap(canTrim: Boolean): Bitmap? {
         return if (autoEraseCount == 0) {
             imageDrawApplier.applyEraseToImage(
                 pathPaints = _paths.value,
@@ -186,14 +186,14 @@ class EraseBackgroundViewModel @Inject constructor(
                 shaderSourceUri = _uri.value.toString()
             )
         }?.let {
-            if (trimImage) autoBackgroundRemover.trimEmptyParts(it)
+            if (trimImage && canTrim) autoBackgroundRemover.trimEmptyParts(it)
             else it
         }
     }
 
     fun shareBitmap(onComplete: () -> Unit) {
         viewModelScope.launch {
-            getErasedBitmap()?.let {
+            getErasedBitmap(true)?.let {
                 _isSaving.value = true
                 shareProvider.shareImage(
                     imageInfo = ImageInfo(
@@ -268,7 +268,7 @@ class EraseBackgroundViewModel @Inject constructor(
         onFailure: (Throwable) -> Unit
     ) {
         viewModelScope.launch(defaultDispatcher) {
-            getErasedBitmap()?.let { bitmap1 ->
+            getErasedBitmap(false)?.let { bitmap1 ->
                 _isErasingBG.value = true
                 autoBackgroundRemover.removeBackgroundFromImage(
                     image = bitmap1,
@@ -315,7 +315,7 @@ class EraseBackgroundViewModel @Inject constructor(
         savingJob?.cancel()
         savingJob = viewModelScope.launch {
             _isSaving.value = true
-            getErasedBitmap()?.let { image ->
+            getErasedBitmap(true)?.let { image ->
                 shareProvider.cacheImage(
                     image = image,
                     imageInfo = ImageInfo(

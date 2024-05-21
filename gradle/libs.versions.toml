@@ -32,11 +32,12 @@ exifinterface = "1.3.7"
 firebaseAnalyticsKtx = "22.0.0"
 firebaseCrashlyticsGradle = "3.0.1"
 google-segmentationSelfie = "16.0.0-beta5"
+google-subjectSegmentation = "16.0.0-beta1"
 detekt = "1.23.6"
 detektCompose = "0.4.1"
 
 kotlin = "1.9.24"
-agp = "8.4.0"
+agp = "8.4.1"
 hilt = "2.51.1"
 gms = "4.4.1"
 
@@ -104,6 +105,7 @@ appCompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat"
 androidxCore = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
 scrollbar = { module = "com.github.nanihadesuka:LazyColumnScrollbar", version.ref = "scrollbar" }
 mlkit-segmentation-selfie = { module = "com.google.mlkit:segmentation-selfie", version.ref = "google-segmentationSelfie" }
+mlkit-subject-segmentation = { module = "com.google.android.gms:play-services-mlkit-subject-segmentation", version.ref = "google-subjectSegmentation" }
 reorderable = { module = "org.burnoutcrew.composereorderable:reorderable", version.ref = "reorderable" }
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "reviewKtx" }
 splashScreen = { module = "androidx.core:core-splashscreen", version.ref = "splashScreen" }

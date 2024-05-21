@@ -62,7 +62,6 @@ dependencies {
     implementation(libs.datastore.preferences.android)
     api(libs.material)
 
-    "marketImplementation"(libs.mlkit.segmentation.selfie)
     "marketImplementation"(libs.firebase.crashlytics.ktx)
     "marketImplementation"(libs.firebase.analytics.ktx)
     "marketImplementation"(libs.review.ktx)

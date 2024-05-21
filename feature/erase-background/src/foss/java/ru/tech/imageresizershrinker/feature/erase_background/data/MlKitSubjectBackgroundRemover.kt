@@ -18,24 +18,21 @@
 package ru.tech.imageresizershrinker.feature.erase_background.data
 
 import android.graphics.Bitmap
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import android.os.Build
+import androidx.annotation.RequiresApi
 
-internal object MlKitBackgroundRemover {
+@RequiresApi(api = Build.VERSION_CODES.N)
+internal object MlKitSubjectBackgroundRemover {
 
     /**
      * Process the image to get buffer and image height and width
      * @param bitmap Bitmap which you want to remove background.
      * @param onFinish listener for success and failure callback.
      **/
+    @RequiresApi(api = Build.VERSION_CODES.N)
     fun removeBackground(
         bitmap: Bitmap,
-        scope: CoroutineScope,
-        onFinish: suspend (Result<Bitmap>) -> Unit
-    ) {
-        scope.launch {
-            onFinish(Result.failure(UnsupportedOperationException("FOSS")))
-        }
-    }
+        onFinish: (Result<Bitmap>) -> Unit
+    ) = onFinish(Result.failure(UnsupportedOperationException("FOSS")))
 
 }

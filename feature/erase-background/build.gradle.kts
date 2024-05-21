@@ -25,6 +25,7 @@ plugins {
 android.namespace = "ru.tech.imageresizershrinker.feature.erase_background"
 
 dependencies {
+    "marketImplementation"(libs.mlkit.subject.segmentation)
     "marketImplementation"(libs.mlkit.segmentation.selfie)
     implementation(projects.feature.draw)
 }

@@ -18,10 +18,12 @@
 package ru.tech.imageresizershrinker.feature.erase_background.data
 
 import android.graphics.Bitmap
+import android.os.Build
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import ru.tech.imageresizershrinker.core.domain.dispatchers.DispatchersHolder
 import ru.tech.imageresizershrinker.feature.erase_background.domain.AutoBackgroundRemover
 import javax.inject.Inject
@@ -32,8 +34,8 @@ internal class AndroidAutoBackgroundRemover @Inject constructor(
 
     override suspend fun trimEmptyParts(
         image: Bitmap
-    ): Bitmap = CoroutineScope(defaultDispatcher)
-        .async {
+    ): Bitmap = coroutineScope {
+        async {
             var firstX = 0
             var firstY = 0
             var lastX = image.width
@@ -73,8 +75,8 @@ internal class AndroidAutoBackgroundRemover @Inject constructor(
                 }
             }
             return@async Bitmap.createBitmap(image, firstX, firstY, lastX - firstX, lastY - firstY)
-        }
-        .await()
+        }.await()
+    }
 
     override fun removeBackgroundFromImage(
         image: Bitmap,
@@ -82,15 +84,24 @@ internal class AndroidAutoBackgroundRemover @Inject constructor(
         onFailure: (Throwable) -> Unit
     ) {
         runCatching {
-            MlKitBackgroundRemover.bitmapForProcessing(
-                bitmap = image,
-                scope = CoroutineScope(defaultDispatcher)
-            ) { result ->
-                if (result.isSuccess) {
-                    result.getOrNull()?.let(onSuccess)
-                } else result.exceptionOrNull()?.let(onFailure)
+            val onFinish: (Result<Bitmap>) -> Unit = {
+                it.onSuccess(onSuccess).onFailure(onFailure)
             }
-        }.exceptionOrNull()?.let(onFailure)
+            val scope = CoroutineScope(defaultDispatcher)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                MlKitSubjectBackgroundRemover.removeBackground(
+                    bitmap = image,
+                    onFinish = onFinish
+                )
+            } else {
+                MlKitBackgroundRemover.removeBackground(
+                    bitmap = image,
+                    scope = scope,
+                    onFinish = onFinish
+                )
+            }
+        }.onFailure(onFailure)
     }
 
 }
