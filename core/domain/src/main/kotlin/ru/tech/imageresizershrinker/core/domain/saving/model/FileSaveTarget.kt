@@ -33,7 +33,7 @@ data class FileSaveTarget(
         filename: String,
         data: ByteArray,
         imageFormat: ImageFormat
-    ) : this(originalUri, filename, data, imageFormat.type, imageFormat.extension)
+    ) : this(originalUri, filename, data, imageFormat.mimeType, imageFormat.extension)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

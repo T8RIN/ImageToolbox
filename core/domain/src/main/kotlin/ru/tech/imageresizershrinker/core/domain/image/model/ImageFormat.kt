@@ -20,7 +20,7 @@ package ru.tech.imageresizershrinker.core.domain.image.model
 sealed class ImageFormat(
     val title: String,
     val extension: String,
-    val type: String,
+    val mimeType: String,
     val canChangeCompressionValue: Boolean,
     val canWriteExif: Boolean = false,
     val compressionTypes: List<CompressionType> = listOf(CompressionType.Quality(0..100))
@@ -32,7 +32,7 @@ sealed class ImageFormat(
         canChangeCompressionValue: Boolean
     ) : ImageFormat(
         extension = "png",
-        type = "image/png",
+        mimeType = "image/png",
         canChangeCompressionValue = canChangeCompressionValue,
         title = title,
         canWriteExif = true,
@@ -56,7 +56,7 @@ sealed class ImageFormat(
     data object Jpg : ImageFormat(
         title = "JPG",
         extension = "jpg",
-        type = "image/jpeg",
+        mimeType = "image/jpeg",
         canChangeCompressionValue = true,
         canWriteExif = true
     )
@@ -64,7 +64,7 @@ sealed class ImageFormat(
     data object Jpeg : ImageFormat(
         title = "JPEG",
         extension = "jpeg",
-        type = "image/jpeg",
+        mimeType = "image/jpeg",
         canChangeCompressionValue = true,
         canWriteExif = true
     )
@@ -72,7 +72,7 @@ sealed class ImageFormat(
     data object MozJpeg : ImageFormat(
         title = "MozJpeg",
         extension = "jpg",
-        type = "image/jpeg",
+        mimeType = "image/jpeg",
         canChangeCompressionValue = true,
         canWriteExif = true
     )
@@ -80,7 +80,7 @@ sealed class ImageFormat(
     data object Jpegli : ImageFormat(
         title = "Jpegli",
         extension = "jpg",
-        type = "image/jpeg",
+        mimeType = "image/jpeg",
         canChangeCompressionValue = true,
         canWriteExif = true
     )
@@ -90,7 +90,7 @@ sealed class ImageFormat(
         compressionTypes: List<CompressionType>
     ) : ImageFormat(
         extension = "webp",
-        type = "image/webp",
+        mimeType = "image/webp",
         canChangeCompressionValue = true,
         title = title,
         canWriteExif = true,
@@ -110,7 +110,7 @@ sealed class ImageFormat(
     data object Bmp : ImageFormat(
         title = "BMP",
         extension = "bmp",
-        type = "image/bmp",
+        mimeType = "image/bmp",
         canChangeCompressionValue = false
     )
 
@@ -120,7 +120,7 @@ sealed class ImageFormat(
     ) : ImageFormat(
         title = title,
         extension = "avif",
-        type = "image/avif",
+        mimeType = "image/avif",
         canChangeCompressionValue = true,
         compressionTypes = compressionTypes
     ) {
@@ -146,7 +146,7 @@ sealed class ImageFormat(
     ) : ImageFormat(
         title = title,
         extension = "heif",
-        type = "image/heif",
+        mimeType = "image/heif",
         canChangeCompressionValue = canChangeCompressionValue
     ) {
         data object Lossless : Heif(
@@ -166,7 +166,7 @@ sealed class ImageFormat(
     ) : ImageFormat(
         title = title,
         extension = "heic",
-        type = "image/heic",
+        mimeType = "image/heic",
         canChangeCompressionValue = canChangeCompressionValue
     ) {
         data object Lossless : Heif(
@@ -185,7 +185,7 @@ sealed class ImageFormat(
         compressionTypes: List<CompressionType>
     ) : ImageFormat(
         extension = "jxl",
-        type = "image/jxl",
+        mimeType = "image/jxl",
         canChangeCompressionValue = true,
         title = title,
         compressionTypes = compressionTypes

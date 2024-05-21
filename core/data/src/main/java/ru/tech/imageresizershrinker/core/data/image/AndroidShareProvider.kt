@@ -101,7 +101,7 @@ internal class AndroidShareProvider @Inject constructor(
         )?.let {
             shareUri(
                 uri = it,
-                type = imageInfo.imageFormat.type
+                type = imageInfo.imageFormat.mimeType
             )
         }
         onComplete()

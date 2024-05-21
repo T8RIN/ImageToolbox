@@ -28,7 +28,7 @@ data class ImageSaveTarget<M>(
     override val filename: String? = null,
     val imageFormat: ImageFormat = imageInfo.imageFormat,
     override val data: ByteArray,
-    override val mimeType: String = imageFormat.type,
+    override val mimeType: String = imageFormat.mimeType,
     override val extension: String = imageFormat.extension
 ) : SaveTarget {
     override fun equals(other: Any?): Boolean {
