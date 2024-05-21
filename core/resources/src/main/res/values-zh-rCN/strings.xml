@@ -1078,4 +1078,7 @@
     <string name="enter_percentage">输入百分数</string>
     <string name="allow_enter_by_text_field">允许通过文本字段输入</string>
     <string name="allow_enter_by_text_field_sub">启用预设选择后面的文本字段，以便即时输入预设</string>
+    <string name="equalize_histogram_pixelation">均衡直方图像素化</string>
+    <string name="scale_color_space">比例色彩空间</string>
+    <string name="linear">线性</string>
 </resources>
