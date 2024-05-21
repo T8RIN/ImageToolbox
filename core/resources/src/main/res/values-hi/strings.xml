@@ -1078,4 +1078,7 @@
     <string name="enter_percentage">प्रतिशत दर्ज करें</string>
     <string name="allow_enter_by_text_field">पाठ क्षेत्र द्वारा प्रवेश की अनुमति दें</string>
     <string name="allow_enter_by_text_field_sub">पूर्व निर्धारित चयन के पीछे पाठ क्षेत्र को तुरंत दर्ज करने के लिए सक्षम करता है</string>
+    <string name="scale_color_space">कलर स्पेस को स्केल करें</string>
+    <string name="linear">रेखीय</string>
+    <string name="equalize_histogram_pixelation">हिस्टोग्राम पिक्सलेशन को समान करें</string>
 </resources>
