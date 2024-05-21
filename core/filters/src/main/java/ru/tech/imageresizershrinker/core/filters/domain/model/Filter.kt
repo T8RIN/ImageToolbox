@@ -196,6 +196,7 @@ interface Filter<Image, Value> {
     interface Clahe<Image> : Filter<Image, Triple<Float, Int, Int>>
     interface ClaheLUV<Image> : Filter<Image, Triple<Float, Int, Int>>
     interface ClaheLAB<Image> : Filter<Image, Triple<Float, Int, Int>>
+    interface CropToContent<Image, Color : Any> : Filter<Image, Pair<Float, Color>>
 }
 
 interface SimpleFilter<Image> : Filter<Image, Unit>

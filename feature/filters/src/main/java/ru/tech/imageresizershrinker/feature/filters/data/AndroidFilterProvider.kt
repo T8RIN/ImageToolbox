@@ -63,6 +63,7 @@ import ru.tech.imageresizershrinker.feature.filters.data.model.ContrastFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.ConvexFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.Convolution3x3Filter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CoolFilter
+import ru.tech.imageresizershrinker.feature.filters.data.model.CropToContentFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CrossBlurFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CrosshatchFilter
 import ru.tech.imageresizershrinker.feature.filters.data.model.CrystallizeFilter
@@ -383,6 +384,7 @@ internal class AndroidFilterProvider @Inject constructor(
             is Filter.Clahe -> ClaheFilter(value)
             is Filter.ClaheLUV -> ClaheLUVFilter(value)
             is Filter.ClaheLAB -> ClaheLABFilter(value)
+            is Filter.CropToContent<*, *> -> CropToContentFilter(value.cast())
 
             else -> throw IllegalArgumentException("No filter implementation for interface ${filter::class.simpleName}")
         }

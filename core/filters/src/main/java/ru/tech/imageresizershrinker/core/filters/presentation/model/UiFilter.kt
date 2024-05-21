@@ -125,7 +125,8 @@ sealed class UiFilter<T>(
                     UiMonochromeFilter(),
                     UiColorMatrix4x4Filter(),
                     UiColorMatrix3x3Filter(),
-                    UiColorBalanceFilter()
+                    UiColorBalanceFilter(),
+                    UiCropToContentFilter()
                 ),
                 listOf(
                     UiBrightnessFilter(),
