@@ -125,8 +125,7 @@ sealed class UiFilter<T>(
                     UiMonochromeFilter(),
                     UiColorMatrix4x4Filter(),
                     UiColorMatrix3x3Filter(),
-                    UiColorBalanceFilter(),
-                    UiCropToContentFilter()
+                    UiColorBalanceFilter()
                 ),
                 listOf(
                     UiBrightnessFilter(),
@@ -168,6 +167,7 @@ sealed class UiFilter<T>(
                     UiDilationFilter(),
                     UiOpacityFilter(),
                     UiSideFadeFilter(),
+                    UiCropToContentFilter(),
                     UiToonFilter(),
                     UiSmoothToonFilter(),
                     UiSketchFilter(),

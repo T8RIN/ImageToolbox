@@ -33,7 +33,7 @@ class UiCropToContentFilter(
             valueRange = 0f..1f
         ),
         FilterParam(
-            title = R.string.frame_color,
+            title = R.string.color_to_ignore,
             valueRange = 0f..0f
         )
     ),

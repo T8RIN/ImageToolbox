@@ -1109,4 +1109,5 @@
     <string name="clahe_luv">Clahe LUV</string>
     <string name="crop_to_content">Crop To Content</string>
     <string name="frame_color">Frame Color</string>
+    <string name="color_to_ignore">Color To Ignore</string>
 </resources>
